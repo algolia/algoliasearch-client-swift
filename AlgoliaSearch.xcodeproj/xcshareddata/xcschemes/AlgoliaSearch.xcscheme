@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5D6683811A8D63DE002A5975"
-               BuildableName = "AlgoliaSearchiOS.framework"
-               BlueprintName = "AlgoliaSearchiOS"
+               BlueprintIdentifier = "5D74957D1A8E25A600B0263F"
+               BuildableName = "AlgoliaSearch.framework"
+               BlueprintName = "AlgoliaSearch"
                ReferencedContainer = "container:AlgoliaSearch.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -28,9 +28,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5D66838B1A8D63DE002A5975"
-               BuildableName = "AlgoliaSearchiOSTests.xctest"
-               BlueprintName = "AlgoliaSearchiOSTests"
+               BlueprintIdentifier = "5D7495881A8E25A600B0263F"
+               BuildableName = "AlgoliaSearchTests.xctest"
+               BlueprintName = "AlgoliaSearchTests"
                ReferencedContainer = "container:AlgoliaSearch.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -46,9 +46,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "5D66838B1A8D63DE002A5975"
-               BuildableName = "AlgoliaSearchiOSTests.xctest"
-               BlueprintName = "AlgoliaSearchiOSTests"
+               BlueprintIdentifier = "5D7495881A8E25A600B0263F"
+               BuildableName = "AlgoliaSearchTests.xctest"
+               BlueprintName = "AlgoliaSearchTests"
                ReferencedContainer = "container:AlgoliaSearch.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -56,9 +56,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5D6683811A8D63DE002A5975"
-            BuildableName = "AlgoliaSearchiOS.framework"
-            BlueprintName = "AlgoliaSearchiOS"
+            BlueprintIdentifier = "5D74957D1A8E25A600B0263F"
+            BuildableName = "AlgoliaSearch.framework"
+            BlueprintName = "AlgoliaSearch"
             ReferencedContainer = "container:AlgoliaSearch.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -75,9 +75,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5D6683811A8D63DE002A5975"
-            BuildableName = "AlgoliaSearchiOS.framework"
-            BlueprintName = "AlgoliaSearchiOS"
+            BlueprintIdentifier = "5D74957D1A8E25A600B0263F"
+            BuildableName = "AlgoliaSearch.framework"
+            BlueprintName = "AlgoliaSearch"
             ReferencedContainer = "container:AlgoliaSearch.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -93,9 +93,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "5D6683811A8D63DE002A5975"
-            BuildableName = "AlgoliaSearchiOS.framework"
-            BlueprintName = "AlgoliaSearchiOS"
+            BlueprintIdentifier = "5D74957D1A8E25A600B0263F"
+            BuildableName = "AlgoliaSearch.framework"
+            BlueprintName = "AlgoliaSearch"
             ReferencedContainer = "container:AlgoliaSearch.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
