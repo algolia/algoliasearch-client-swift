@@ -6,14 +6,15 @@
 //  Copyright (c) 2015 Algolia. All rights reserved.
 //
 
-import Cocoa
 import XCTest
+import AlgoliaSearch
 
 class AlgoliaSearchTests: XCTestCase {
+    var client: Client?
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        client = AlgoliaSearch.Client(appID: "ok", apiKey: "nil")
     }
     
     override func tearDown() {
@@ -32,5 +33,4 @@ class AlgoliaSearchTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
-    
 }
