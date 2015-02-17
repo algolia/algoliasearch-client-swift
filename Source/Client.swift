@@ -20,7 +20,11 @@ public class Client {
     public let userToken: String?
     public let hostnames: [String]
     
-    let timeout = 30
+    public var timeout: NSTimeInterval = 30 {
+        didSet {
+            Alamofire.Manager.sharedInstance.session.configuration.timeoutIntervalForRequest = timeout;
+        }
+    }
     
     /// Algolia Search initialization
     ///
@@ -68,7 +72,6 @@ public class Client {
         }
         
         Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = HTTPHeader
-        // TODO: better header, using URLRequestConvertible
     }
     
     public func setExtraHeader(value: String, forKey key: String) {
@@ -77,6 +80,40 @@ public class Client {
         } else {
             let HTTPHeader = [key: value]
             Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = HTTPHeader
+        }
+    }
+    
+    // MARK: - Network
+    
+    /// Perform an HTTP Query
+    func performHTTPQuery(path: String, method: Alamofire.Method, body: [String: AnyObject]?, index: Int = 0, block: (JSON: AnyObject?, error: NSError?) -> Void) {
+        assert(index < hostnames.count, "\(index) < \(hostnames.count) !")
+        Alamofire.request(method, "https://\(hostnames[index])/\(path)", parameters: body).responseJSON {
+            (request, response, data, error) -> Void in
+            if let statusCode = response?.statusCode {
+                switch(statusCode) {
+                case 200, 201:
+                    block(JSON: data, error: nil)
+                case 400:
+                    block(JSON: nil, error: NSError(domain: "Bad request argument", code: 400, userInfo: nil))
+                case 403:
+                    block(JSON: nil, error: NSError(domain: "Invalid Application-ID or API-Key", code: 403, userInfo: nil))
+                case 404:
+                    block(JSON: nil, error: NSError(domain: "Resource does not exist", code: 404, userInfo: nil))
+                default:
+                    if let errorMessage = (data as [String: String])["message"] {
+                        block(JSON: nil, error: NSError(domain: errorMessage, code: 0, userInfo: nil))
+                    } else {
+                        block(JSON: nil, error: NSError(domain: "No error message", code: 0, userInfo: nil))
+                    }
+                }
+            } else {
+                if (index + 1) < self.hostnames.count {
+                    self.performHTTPQuery(path, method: method, body: body, index: index + 1, block: block)
+                } else {
+                    block(JSON: nil, error: error)
+                }
+            }
         }
     }
 }
