@@ -57,7 +57,7 @@ public class Client {
         }
         self.hostnames.shuffle()
         
-        let version = NSBundle.mainBundle().infoDictionary!["CFBundleShortVersionString"] as String
+        let version = NSBundle(identifier: "com.algolia.AlgoliaSearch")!.infoDictionary!["CFBundleShortVersionString"] as String
         var HTTPHeader = [
             "X-Algolia-API-Key": self.apiKey,
             "X-Algolia-Application-Id": self.appID,
@@ -81,6 +81,14 @@ public class Client {
             let HTTPHeader = [key: value]
             Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = HTTPHeader
         }
+    }
+    
+    // MARK: - Operations
+    
+    public func listIndexes(block: (client: Client, JSON: AnyObject?, error: NSError?) -> Void) {
+        performHTTPQuery("1/indexes", method: .GET, body: nil, block: { (JSON, error) -> Void in
+            block(client: self, JSON: JSON, error: error)
+        })
     }
     
     // MARK: - Network

@@ -8,13 +8,14 @@
 
 import XCTest
 import AlgoliaSearch
+import Alamofire
 
 class AlgoliaSearchTests: XCTestCase {
-    var client: Client?
+    var client: Client!
     
     override func setUp() {
         super.setUp()
-        client = AlgoliaSearch.Client(appID: "ok", apiKey: "nil")
+        client = AlgoliaSearch.Client(appID: "XXX", apiKey: "XXX")
     }
     
     override func tearDown() {
@@ -22,15 +23,13 @@ class AlgoliaSearchTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        XCTAssert(true, "Pass")
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock() {
-            // Put the code you want to measure the time of here.
+    func testListIndexes() {
+        let expectation = expectationWithDescription("List indexes")
+        client.listIndexes { (client, JSON, error) -> Void in
+            expectation.fulfill()
+            XCTAssertNil(error, error!.localizedDescription)
         }
+        
+        waitForExpectationsWithTimeout(100, handler: nil)
     }
 }

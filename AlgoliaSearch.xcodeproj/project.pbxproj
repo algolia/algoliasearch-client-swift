@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5D7495841A8E25A600B0263F /* AlgoliaSearch.h in Headers */ = {isa = PBXBuildFile; fileRef = 5D7495831A8E25A600B0263F /* AlgoliaSearch.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		5D74958A1A8E25A600B0263F /* AlgoliaSearch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D74957E1A8E25A600B0263F /* AlgoliaSearch.framework */; };
 		5D7495911A8E25A600B0263F /* AlgoliaSearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7495901A8E25A600B0263F /* AlgoliaSearchTests.swift */; };
-		5D74959B1A8E265300B0263F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D74959A1A8E265300B0263F /* Alamofire.framework */; };
 		5D7495A11A8E277400B0263F /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D74959F1A8E277400B0263F /* Extension.swift */; };
 		5D7495A21A8E277400B0263F /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7495A01A8E277400B0263F /* Client.swift */; };
-		5D7495A31A8E279A00B0263F /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D74959A1A8E265300B0263F /* Alamofire.framework */; };
 		5D7495A71A8E499B00B0263F /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7495A61A8E499B00B0263F /* Query.swift */; };
+		5D9F70821A93B4BE004B751B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D9F70811A93B4BE004B751B /* Alamofire.framework */; };
+		5D9F70851A93B9C9004B751B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D9F70811A93B4BE004B751B /* Alamofire.framework */; };
+		5D9F70871A93BE2A004B751B /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D9F70811A93B4BE004B751B /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,17 +27,29 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		5D9F70861A93BE1D004B751B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				5D9F70871A93BE2A004B751B /* Alamofire.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		5D74957E1A8E25A600B0263F /* AlgoliaSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlgoliaSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D7495821A8E25A600B0263F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5D7495831A8E25A600B0263F /* AlgoliaSearch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AlgoliaSearch.h; sourceTree = "<group>"; };
 		5D7495891A8E25A600B0263F /* AlgoliaSearchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlgoliaSearchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D74958F1A8E25A600B0263F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D7495901A8E25A600B0263F /* AlgoliaSearchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlgoliaSearchTests.swift; sourceTree = "<group>"; };
-		5D74959A1A8E265300B0263F /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/Mac/Alamofire.framework; sourceTree = "<group>"; };
 		5D74959F1A8E277400B0263F /* Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
 		5D7495A01A8E277400B0263F /* Client.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Client.swift; sourceTree = "<group>"; };
 		5D7495A61A8E499B00B0263F /* Query.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
+		5D9F70811A93B4BE004B751B /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/Mac/Alamofire.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +57,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D74959B1A8E265300B0263F /* Alamofire.framework in Frameworks */,
+				5D9F70821A93B4BE004B751B /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,7 +66,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D74958A1A8E25A600B0263F /* AlgoliaSearch.framework in Frameworks */,
-				5D7495A31A8E279A00B0263F /* Alamofire.framework in Frameworks */,
+				5D9F70851A93B9C9004B751B /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,7 +95,6 @@
 		5D7495801A8E25A600B0263F /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				5D7495831A8E25A600B0263F /* AlgoliaSearch.h */,
 				5D7495A01A8E277400B0263F /* Client.swift */,
 				5D7495A61A8E499B00B0263F /* Query.swift */,
 				5D74959F1A8E277400B0263F /* Extension.swift */,
@@ -120,7 +131,7 @@
 		5D74959C1A8E265C00B0263F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				5D74959A1A8E265300B0263F /* Alamofire.framework */,
+				5D9F70811A93B4BE004B751B /* Alamofire.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -132,7 +143,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5D7495841A8E25A600B0263F /* AlgoliaSearch.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,7 +156,6 @@
 				5D7495791A8E25A600B0263F /* Sources */,
 				5D74957A1A8E25A600B0263F /* Frameworks */,
 				5D74957B1A8E25A600B0263F /* Headers */,
-				5D74957C1A8E25A600B0263F /* Resources */,
 			);
 			buildRules = (
 			);
@@ -164,6 +173,7 @@
 				5D7495851A8E25A600B0263F /* Sources */,
 				5D7495861A8E25A600B0263F /* Frameworks */,
 				5D7495871A8E25A600B0263F /* Resources */,
+				5D9F70861A93BE1D004B751B /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -211,13 +221,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		5D74957C1A8E25A600B0263F /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		5D7495871A8E25A600B0263F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -263,7 +266,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_MODULES = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -307,7 +310,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_MODULES = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -341,6 +344,7 @@
 		5D7495951A8E25A600B0263F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
@@ -364,6 +368,7 @@
 		5D7495961A8E25A600B0263F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
