@@ -9,6 +9,8 @@
 import Foundation
 import Alamofire
 
+// TODO: need to know for which key is the response, sometimes other information needed. Fix this.
+
 public typealias CompletionHandlerType = (JSON: AnyObject?, error: NSError?) -> Void?
 
 /// Entry point in the Swift API.
@@ -89,7 +91,7 @@ public class Client {
     
     /// List all existing indexes
     ///
-    /// :return: JSON Object in the success block in the form:
+    /// :return: JSON Object in the block in the form:
     /// { "items": [ {"name": "contacts", "createdAt": "2013-01-18T15:33:13.556Z"},
     ///              {"name": "notes", "createdAt": "2013-01-18T15:33:13.556Z"}]}
     public func listIndexes(block: CompletionHandlerType?) {
@@ -98,9 +100,9 @@ public class Client {
     
     /// Move an existing index.
     ///
-    /// :param: sourceIndexName the name of index to copy.
-    /// :param: destinationIndexName the new index name that will contains a copy of sourceIndexName (destination will be overriten if it already exist).
-    public func moveIndex(sourceIndexName srcIndexName: String, destinationIndexName dstIndexName: String, block: CompletionHandlerType?) {
+    /// :param: srcIndexName the name of index to move.
+    /// :param: dstIndexName the new index name that will contains sourceIndexName (destination will be overriten if it already exist).
+    public func moveIndex(srcIndexName: String, dstIndexName: String, block: CompletionHandlerType?) {
         let path = "1/indexes/\(srcIndexName.urlEncode())/operation"
         let request = [
             "destination": dstIndexName,
@@ -108,6 +110,125 @@ public class Client {
         ]
         
         performHTTPQuery(path, method: .POST, body: request, block: block)
+    }
+    
+    /// Copy an existing index.
+    ///
+    /// :param: srcIndexName the name of index to copy.
+    /// :param: dstIndexName the new index name that will contains a copy of sourceIndexName (destination will be overriten if it already exist).
+    public func copyIndex(srcIndexName: String, dstIndexName: String, block: CompletionHandlerType?) {
+        let path = "1/indexes/\(srcIndexName.urlEncode())/operation"
+        let request = [
+            "destination": dstIndexName,
+            "operation": "copy"
+        ]
+        
+        performHTTPQuery(path, method: .POST, body: request, block: block)
+    }
+    
+    /// Delete an index
+    ///
+    /// :param: indexName the name of index to delete
+    /// :return: JSON Object in the block in the form: { "deletedAt": "2013-01-18T15:33:13.556Z", "taskID": 721 }
+    public func deleteIndex(indexName: String, block: CompletionHandlerType?) {
+        let path = "1/indexes/\(indexName.urlEncode())"
+        performHTTPQuery(path, method: .DELETE, body: nil, block: block)
+    }
+    
+    /// Return 10 last log entries.
+    public func getLogs(block: CompletionHandlerType) {
+        performHTTPQuery("1/logs", method: .GET, body: nil, block: block)
+    }
+    
+    /// Return last logs entries.
+    ///
+    /// :param: offset Specify the first entry to retrieve (0-based, 0 is the most recent log entry).
+    /// :param: length Specify the maximum number of entries to retrieve starting at offset. Maximum allowed value: 1000.
+    public func getLogsWithOffset(offset: UInt, lenght: UInt, block: CompletionHandlerType) {
+        let path = "1/logs?offset=\(offset)&lenght=\(lenght)"
+        performHTTPQuery(path, method: .GET, body: nil, block: block)
+    }
+    
+    /// Return last logs entries.
+    ///
+    /// :param: offset Specify the first entry to retrieve (0-based, 0 is the most recent log entry).
+    /// :param: length Specify the maximum number of entries to retrieve starting at offset. Maximum allowed value: 1000.
+    public func getLogsWithType(type: String, offset: UInt, lenght: UInt, block: CompletionHandlerType) {
+        let path = "1/logs?offset=\(offset)&lenght=\(lenght)&type=\(type)"
+        performHTTPQuery(path, method: .GET, body: nil, block: block)
+    }
+    
+    public func listUserKeys(block: CompletionHandlerType) {
+        performHTTPQuery("1/keys", method: .GET, body: nil, block: block)
+    }
+    
+    public func getUserKeyACL(key: String, block: CompletionHandlerType) {
+        let path = "1/keys/\(key)"
+        performHTTPQuery(path, method: .GET, body: nil, block: block)
+    }
+    
+    public func deleteUserKey(key: String, block: CompletionHandlerType?) {
+        let path = "1/keys/\(key)"
+        performHTTPQuery(path, method: .DELETE, body: nil, block: block)
+    }
+    
+    public func addUserKey(acls: [String], block: CompletionHandlerType?) {
+        let request = ["acl": acls]
+        performHTTPQuery("1/keys", method: .POST, body: request, block: block)
+    }
+    
+    public func addUserKey(acls: [String], withValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: CompletionHandlerType?) {
+        let request: [String: AnyObject] = [
+            "acl": acls,
+            "validity": validity,
+            "maxQueriesPerIPPerHour": maxQueries,
+            "maxHitsPerQuery": maxHits,
+        ]
+        
+        performHTTPQuery("1/keys", method: .POST, body: request, block: block)
+    }
+    
+    public func addUserKey(acls: [String], withIndexes indexes: [String], withValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: CompletionHandlerType?) {
+        let request: [String: AnyObject] = [
+            "acl": acls,
+            "indexes": indexes,
+            "validity": validity,
+            "maxQueriesPerIPPerHour": maxQueries,
+            "maxHitsPerQuery": maxHits,
+        ]
+        
+        performHTTPQuery("1/keys", method: .POST, body: request, block: block)
+    }
+    
+    public func updateUserKey(key: String, withACL acls: [String], block: CompletionHandlerType?) {
+        let path = "1/keys/\(key)"
+        let request = ["acl": acls]
+        performHTTPQuery(path, method: .PUT, body: request, block: block)
+    }
+    
+    public func updateUserKey(key: String, withACL acls: [String], andValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: CompletionHandlerType?) {
+        let path = "1/keys/\(key)"
+        let request: [String: AnyObject] = [
+            "acl": acls,
+            "validity": validity,
+            "maxQueriesPerIPPerHour": maxQueries,
+            "maxHitsPerQuery": maxHits,
+        ]
+        
+        performHTTPQuery(path, method: .PUT, body: request, block: block)
+    }
+    
+    public func updateUserKey(key: String, withACL acls: [String], withIndexes indexes: [String], andValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: CompletionHandlerType?) {
+        let path = "1/keys/\(key)"
+        let request: [String: AnyObject] = [
+            "acl": acls,
+            "indexes": indexes,
+            "validity": validity,
+            "maxQueriesPerIPPerHour": maxQueries,
+            "maxHitsPerQuery": maxHits,
+        ]
+        
+        performHTTPQuery(path, method: .PUT, body: request, block: block)
     }
     
     // MARK: - Network
