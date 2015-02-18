@@ -85,8 +85,29 @@ public class Client {
     
     // MARK: - Operations
     
+    /// List all existing indexes
+    ///
+    /// :return: JSON Object in the success block in the form:
+    /// { "items": [ {"name": "contacts", "createdAt": "2013-01-18T15:33:13.556Z"},
+    ///              {"name": "notes", "createdAt": "2013-01-18T15:33:13.556Z"}]}
     public func listIndexes(block: (client: Client, JSON: AnyObject?, error: NSError?) -> Void) {
         performHTTPQuery("1/indexes", method: .GET, body: nil, block: { (JSON, error) -> Void in
+            block(client: self, JSON: JSON, error: error)
+        })
+    }
+    
+    /// Move an existing index.
+    ///
+    /// :param: sourceIndexName the name of index to copy.
+    /// :param: destinationIndexName the new index name that will contains a copy of sourceIndexName (destination will be overriten if it already exist).
+    public func moveIndex(sourceIndexName srcIndexName: String, destinationIndexName dstIndexName: String, block: (client: Client, JSON: AnyObject?, error: NSError?) -> Void) {
+        let path = "1/indexes/\(srcIndexName.urlEncode())/operation"
+        let request = [
+            "destination": dstIndexName,
+            "operation": "move"
+        ]
+        
+        performHTTPQuery(path, method: .POST, body: request, block: { (JSON, error) -> Void in
             block(client: self, JSON: JSON, error: error)
         })
     }
