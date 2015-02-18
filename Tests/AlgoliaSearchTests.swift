@@ -15,7 +15,7 @@ class AlgoliaSearchTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        client = AlgoliaSearch.Client(appID: "XXX", apiKey: "XXX")
+        client = AlgoliaSearch.Client(appID: "***REMOVED***", apiKey: "***REMOVED***")
     }
     
     override func tearDown() {
@@ -25,9 +25,9 @@ class AlgoliaSearchTests: XCTestCase {
     
     func testListIndexes() {
         let expectation = expectationWithDescription("List indexes")
-        client.listIndexes { (client, JSON, error) -> Void in
+        client.listIndexes { (JSON, error) -> Void in
             expectation.fulfill()
-            XCTAssertNil(error, error!.localizedDescription)
+            XCTAssertNil(error, error?.localizedDescription ?? "Error")
         }
         
         waitForExpectationsWithTimeout(100, handler: nil)

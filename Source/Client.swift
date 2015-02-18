@@ -9,6 +9,8 @@
 import Foundation
 import Alamofire
 
+public typealias CompletionHandlerType = (JSON: AnyObject?, error: NSError?) -> Void?
+
 /// Entry point in the Swift API.
 ///
 /// You should instantiate a Client object with your AppID, ApiKey and Hosts
@@ -90,57 +92,56 @@ public class Client {
     /// :return: JSON Object in the success block in the form:
     /// { "items": [ {"name": "contacts", "createdAt": "2013-01-18T15:33:13.556Z"},
     ///              {"name": "notes", "createdAt": "2013-01-18T15:33:13.556Z"}]}
-    public func listIndexes(block: (client: Client, JSON: AnyObject?, error: NSError?) -> Void) {
-        performHTTPQuery("1/indexes", method: .GET, body: nil, block: { (JSON, error) -> Void in
-            block(client: self, JSON: JSON, error: error)
-        })
+    public func listIndexes(block: CompletionHandlerType?) {
+        performHTTPQuery("1/indexes", method: .GET, body: nil, block: block)
     }
     
     /// Move an existing index.
     ///
     /// :param: sourceIndexName the name of index to copy.
     /// :param: destinationIndexName the new index name that will contains a copy of sourceIndexName (destination will be overriten if it already exist).
-    public func moveIndex(sourceIndexName srcIndexName: String, destinationIndexName dstIndexName: String, block: (client: Client, JSON: AnyObject?, error: NSError?) -> Void) {
+    public func moveIndex(sourceIndexName srcIndexName: String, destinationIndexName dstIndexName: String, block: CompletionHandlerType?) {
         let path = "1/indexes/\(srcIndexName.urlEncode())/operation"
         let request = [
             "destination": dstIndexName,
             "operation": "move"
         ]
         
-        performHTTPQuery(path, method: .POST, body: request, block: { (JSON, error) -> Void in
-            block(client: self, JSON: JSON, error: error)
-        })
+        performHTTPQuery(path, method: .POST, body: request, block: block)
     }
     
     // MARK: - Network
     
     /// Perform an HTTP Query
-    func performHTTPQuery(path: String, method: Alamofire.Method, body: [String: AnyObject]?, index: Int = 0, block: (JSON: AnyObject?, error: NSError?) -> Void) {
+    func performHTTPQuery(path: String, method: Alamofire.Method, body: [String: AnyObject]?, index: Int = 0, block: CompletionHandlerType?) {
         assert(index < hostnames.count, "\(index) < \(hostnames.count) !")
+        
         Alamofire.request(method, "https://\(hostnames[index])/\(path)", parameters: body).responseJSON {
             (request, response, data, error) -> Void in
             if let statusCode = response?.statusCode {
-                switch(statusCode) {
-                case 200, 201:
-                    block(JSON: data, error: nil)
-                case 400:
-                    block(JSON: nil, error: NSError(domain: "Bad request argument", code: 400, userInfo: nil))
-                case 403:
-                    block(JSON: nil, error: NSError(domain: "Invalid Application-ID or API-Key", code: 403, userInfo: nil))
-                case 404:
-                    block(JSON: nil, error: NSError(domain: "Resource does not exist", code: 404, userInfo: nil))
-                default:
-                    if let errorMessage = (data as [String: String])["message"] {
-                        block(JSON: nil, error: NSError(domain: errorMessage, code: 0, userInfo: nil))
-                    } else {
-                        block(JSON: nil, error: NSError(domain: "No error message", code: 0, userInfo: nil))
+                if let block = block {
+                    switch(statusCode) {
+                    case 200, 201:
+                        block(JSON: data, error: nil)
+                    case 400:
+                        block(JSON: nil, error: NSError(domain: "Bad request argument", code: 400, userInfo: nil))
+                    case 403:
+                        block(JSON: nil, error: NSError(domain: "Invalid Application-ID or API-Key", code: 403, userInfo: nil))
+                    case 404:
+                        block(JSON: nil, error: NSError(domain: "Resource does not exist", code: 404, userInfo: nil))
+                    default:
+                        if let errorMessage = (data as [String: String])["message"] {
+                            block(JSON: nil, error: NSError(domain: errorMessage, code: 0, userInfo: nil))
+                        } else {
+                            block(JSON: nil, error: NSError(domain: "No error message", code: 0, userInfo: nil))
+                        }
                     }
                 }
             } else {
                 if (index + 1) < self.hostnames.count {
                     self.performHTTPQuery(path, method: method, body: body, index: index + 1, block: block)
                 } else {
-                    block(JSON: nil, error: error)
+                    block?(JSON: nil, error: error)
                 }
             }
         }
