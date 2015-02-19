@@ -123,77 +123,77 @@ public class Query : Printable {
     public func buildURL() -> String {
         var url = [String]()
         if let attributesToRetrieve = attributesToRetrieve {
-            url.append(encodeForQuery(attributesToRetrieve, key: "attributes"))
+            url.append(Query.encodeForQuery(attributesToRetrieve, withKey: "attributes"))
         }
         if let attributesToHighlight = attributesToHighlight {
-            url.append(encodeForQuery(attributesToHighlight, key: "attributesToHighlight"))
+            url.append(Query.encodeForQuery(attributesToHighlight, withKey: "attributesToHighlight"))
         }
         if let attributesToSnippet = attributesToSnippet {
-            url.append(encodeForQuery(attributesToSnippet, key: "attributesToSnippet"))
+            url.append(Query.encodeForQuery(attributesToSnippet, withKey: "attributesToSnippet"))
         }
         
         if let facetFilters = facetFilters {
             // TODO: complete code (JSON)
         } else if let facetFiltersRaw = facetFiltersRaw {
-            url.append(encodeForQuery(facetFiltersRaw, key: "facetFilters="))
+            url.append(Query.encodeForQuery(facetFiltersRaw, withKey: "facetFilters="))
         }
         
         if let facets = facets {
-            url.append(encodeForQuery(facets, key: "facets"))
+            url.append(Query.encodeForQuery(facets, withKey: "facets"))
         }
         if let optionalWords = optionalWords {
-            url.append(encodeForQuery(optionalWords, key: "optionalWords"))
+            url.append(Query.encodeForQuery(optionalWords, withKey: "optionalWords"))
         }
         if optionalWordsMinimumMatched > 0 {
-            url.append(encodeForQuery(optionalWordsMinimumMatched, key: "optionalWordsMinimumMatched"))
+            url.append(Query.encodeForQuery(optionalWordsMinimumMatched, withKey: "optionalWordsMinimumMatched"))
         }
         if minWordSizeForApprox1 != 3 {
-            url.append(encodeForQuery(minWordSizeForApprox1, key: "minWordSizefor1Typo"))
+            url.append(Query.encodeForQuery(minWordSizeForApprox1, withKey: "minWordSizefor1Typo"))
         }
         if minWordSizeForApprox2 != 7 {
-            url.append(encodeForQuery(minWordSizeForApprox2, key: "minWordSizefor2Typos"))
+            url.append(Query.encodeForQuery(minWordSizeForApprox2, withKey: "minWordSizefor2Typos"))
         }
         if ignorePlural {
-            url.append(encodeForQuery(ignorePlural, key: "ignorePlural"))
+            url.append(Query.encodeForQuery(ignorePlural, withKey: "ignorePlural"))
         }
         if getRankingInfo {
-            url.append(encodeForQuery(getRankingInfo, key: "getRankingInfo"))
+            url.append(Query.encodeForQuery(getRankingInfo, withKey: "getRankingInfo"))
         }
         if !typosOnNumericTokens { // default True
-            url.append(encodeForQuery(typosOnNumericTokens, key: "allowTyposOnNumericTokens"))
+            url.append(Query.encodeForQuery(typosOnNumericTokens, withKey: "allowTyposOnNumericTokens"))
         }
         if let typoTolerance = typoTolerance {
-            url.append(encodeForQuery(typoTolerance, key: "typoTolerance"))
+            url.append(Query.encodeForQuery(typoTolerance, withKey: "typoTolerance"))
         }
         if distinct {
-            url.append(encodeForQuery(distinct, key: "distinct"))
+            url.append(Query.encodeForQuery(distinct, withKey: "distinct"))
         }
         if !analytics { // default True
-            url.append(encodeForQuery(analytics, key: "analytics"))
+            url.append(Query.encodeForQuery(analytics, withKey: "analytics"))
         }
         if !synonyms { // default True
-            url.append(encodeForQuery(synonyms, key: "synonyms"))
+            url.append(Query.encodeForQuery(synonyms, withKey: "synonyms"))
         }
         if !replaceSynonyms { // default True
-            url.append(encodeForQuery(replaceSynonyms, key: "replaceSynonymsInHighlight"))
+            url.append(Query.encodeForQuery(replaceSynonyms, withKey: "replaceSynonymsInHighlight"))
         }
         if page > 0 {
-            url.append(encodeForQuery(page, key: "page"))
+            url.append(Query.encodeForQuery(page, withKey: "page"))
         }
         if hitsPerPage != 20 && hitsPerPage > 0 {
-            url.append(encodeForQuery(hitsPerPage, key: "hitsPerPage"))
+            url.append(Query.encodeForQuery(hitsPerPage, withKey: "hitsPerPage"))
         }
         if let queryType = queryType {
-            url.append(encodeForQuery(queryType, key: "queryType"))
+            url.append(Query.encodeForQuery(queryType, withKey: "queryType"))
         }
         if let removeWordsIfNoResult = removeWordsIfNoResult {
-            url.append(encodeForQuery(removeWordsIfNoResult, key: "removeWordsIfNoResult"))
+            url.append(Query.encodeForQuery(removeWordsIfNoResult, withKey: "removeWordsIfNoResult"))
         }
         if let tagFilters = tagFilters {
-            url.append(encodeForQuery(tagFilters, key: "tagFilters"))
+            url.append(Query.encodeForQuery(tagFilters, withKey: "tagFilters"))
         }
         if let numericFilters = numericFilters {
-            url.append(encodeForQuery(numericFilters, key: "numericFilters"))
+            url.append(Query.encodeForQuery(numericFilters, withKey: "numericFilters"))
         }
         
         if let insideBoundingBox = insideBoundingBox {
@@ -203,29 +203,29 @@ public class Query : Printable {
         }
         
         if aroundLatLongViaIP {
-            url.append(encodeForQuery(aroundLatLongViaIP, key: "aroundLatLngViaIP"))
+            url.append(Query.encodeForQuery(aroundLatLongViaIP, withKey: "aroundLatLngViaIP"))
         }
         if let fullTextQuery = fullTextQuery {
-            url.append(encodeForQuery(fullTextQuery, key: "query"))
+            url.append(Query.encodeForQuery(fullTextQuery, withKey: "query"))
         }
         if let restrictSearchableAttributes = restrictSearchableAttributes {
-            url.append(encodeForQuery(restrictSearchableAttributes, key: "restrictSearchableAttributes"))
+            url.append(Query.encodeForQuery(restrictSearchableAttributes, withKey: "restrictSearchableAttributes"))
         }
         
         return "&".join(url)
     }
     
-    // MARK: - Private methods
+    // MARK: - Helper methods to build URL
     
-    private func encodeForQuery(elements: [String], key: String) -> String {
+    class func encodeForQuery(elements: [String], withKey key: String) -> String {
         return "\(key)=" + ",".join(elements.map { $0.urlEncode() })
     }
     
-    private func encodeForQuery(element: String, key: String) -> String {
+    class func encodeForQuery(element: String, withKey key: String) -> String {
         return "\(key)=\(element.urlEncode())"
     }
     
-    private func encodeForQuery<T>(element: T, key: String) -> String {
+    class func encodeForQuery<T>(element: T, withKey key: String) -> String {
         return "\(key)=\(element)"
     }
 }
