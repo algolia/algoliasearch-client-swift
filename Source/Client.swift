@@ -33,11 +33,37 @@ public typealias CompletionHandlerType = (JSON: AnyObject?, error: NSError?) -> 
 /// You should instantiate a Client object with your AppID, ApiKey and Hosts
 /// to start using Algolia Search API
 public class Client {
-    public let appID: String
-    public let apiKey: String
-    public let tagFilters: String?
-    public let userToken: String?
-    public let hostnames: [String]
+    public var appID: String {
+        didSet {
+            setExtraHeader(appID, forKey: "X-Algolia-Application-Id")
+        }
+    }
+    
+    public var apiKey: String {
+        didSet {
+            setExtraHeader(apiKey, forKey: "X-Algolia-API-Key")
+        }
+    }
+    
+    public var tagFilters: String? {
+        didSet {
+            if let tagFilters = tagFilters {
+                setExtraHeader(tagFilters, forKey: "X-Algolia-TagFilters")
+            } else {
+                Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders?.removeValueForKey("X-Algolia-TagFilters")
+            }
+        }
+    }
+    
+    public var userToken: String? {
+        didSet {
+            if let userToken = userToken {
+                setExtraHeader(userToken, forKey: "X-Algolia-UserToken")
+            } else {
+                Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders?.removeValueForKey("X-Algolia-UserToken")
+            }
+        }
+    }
     
     public var timeout: NSTimeInterval = 30 {
         didSet {
@@ -45,21 +71,24 @@ public class Client {
         }
     }
     
+    let hostnames: [String]
+    
     /// Algolia Search initialization
     ///
     /// :param: appID the application ID you have in your admin interface
     /// :param: apiKey a valid API key for the service
     /// :param: hostnames the list of hosts that you have received for the service
+    /// :param: dsn set to true if your account has the Distributed Search Option
+    /// :param: dsnHost the host that you have received for the Distributed Search Option
     /// :param: tagFilters value of the header X-Algolia-TagFilters
     /// :param: userToken value of the header X-Algolia-UserToken
-    public init(appID: String, apiKey: String, hostnames: [String]? = nil, tagFilters: String? = nil, userToken: String? = nil) {
+    public init(appID: String, apiKey: String, hostnames: [String]? = nil, dsn: Bool = false, dsnHost: String? = nil, tagFilters: String? = nil, userToken: String? = nil) {
         if countElements(appID) == 0 {
             NSException(name: "InvalidArgument", reason: "Application ID must be set", userInfo: nil).raise()
         } else if countElements(apiKey) == 0 {
             NSException(name: "InvalidArgument", reason: "APIKey must be set", userInfo: nil).raise()
         }
         
-        // TODO: dsn, dsnhost?
         self.appID = appID
         self.apiKey = apiKey
         self.tagFilters = tagFilters
@@ -75,6 +104,12 @@ public class Client {
             self.hostnames = hostnames!
         }
         self.hostnames.shuffle()
+        
+        if let dsnHost = dsnHost {
+            self.hostnames.insert(dsnHost, atIndex: 0)
+        } else {
+            self.hostnames.insert("\(appID)-dsn.algolia.net", atIndex: 0)
+        }
         
         let version = NSBundle(identifier: "com.algolia.AlgoliaSearch")!.infoDictionary!["CFBundleShortVersionString"] as String
         var HTTPHeader = [
@@ -93,7 +128,7 @@ public class Client {
         Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = HTTPHeader
     }
     
-    public func setExtraHeader(value: String, forKey key: String) {
+    func setExtraHeader(value: String, forKey key: String) {
         if (Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders != nil) {
             Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders!.updateValue(value, forKey: key)
         } else {
@@ -244,6 +279,10 @@ public class Client {
         ]
         
         performHTTPQuery(path, method: .PUT, body: request, block: block)
+    }
+    
+    public func getIndex(indexName: String) -> Index {
+        return Index(client: self, indexName: indexName)
     }
     
     // MARK: - Network

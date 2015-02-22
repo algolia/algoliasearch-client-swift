@@ -11,7 +11,7 @@ import Foundation
 /// Contains all the functions related to one index
 ///
 /// You can use Client.getIndex(indexName) to retrieve this object
-public class RemoteIndex {
+public class Index {
     let indexName: String
     let client: Client
     let urlEncodedIndexName: String
@@ -220,7 +220,7 @@ public class RemoteIndex {
         client.performHTTPQuery(path, method: .PUT, body: request, block: block)
     }
     
-    public func updateUserKey(key: Sring, withACL acls: [String], withValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: CompletionHandlerType? = nil) {
+    public func updateUserKey(key: String, withACL acls: [String], withValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: CompletionHandlerType? = nil) {
         let path = "1/indexes/\(urlEncodedIndexName)/keys/\(key.urlEncode())"
         let request: [String: AnyObject] = [
             "acl": acls,
