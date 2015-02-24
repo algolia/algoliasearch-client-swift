@@ -36,6 +36,7 @@ public class Index {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
         
         var requests = [AnyObject]()
+        requests.reserveCapacity(objects.count)
         for object in objects {
             requests.append(["action": "addObject", "body": object])
         }
@@ -48,6 +49,7 @@ public class Index {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
         
         var requests = [AnyObject]()
+        requests.reserveCapacity(objectIDs.count)
         for id in objectIDs {
             requests.append(["action": "deleteObject", "objectID": id])
         }
@@ -71,6 +73,7 @@ public class Index {
         let path = "1/indexes/*/objects"
         
         var requests = [AnyObject]()
+        requests.reserveCapacity(objectIDs.count)
         for id in objectIDs {
             requests.append(["indexName": indexName, "objectID": id])
         }
@@ -88,6 +91,7 @@ public class Index {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
         
         var requests = [AnyObject]()
+        requests.reserveCapacity(objects.count)
         for object in objects {
             if let object = object as? [String: AnyObject] {
                 requests.append([
@@ -111,6 +115,7 @@ public class Index {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
         
         var requests = [AnyObject]()
+        requests.reserveCapacity(objects.count)
         for object in objects {
             if let object = object as? [String: AnyObject] {
                 requests.append([
@@ -136,13 +141,10 @@ public class Index {
         client.performHTTPQuery(path, method: .POST, body: request, block: block)
     }
     
-    //
-    //-(void) cancelPreviousSearches
-    //    {
-    //        NSString *path = [NSString stringWithFormat:@"/1/indexes/%@/query", self.urlEncodedIndexName];
-    //        [self.apiClient cancelQueries:@"POST" path:path];
-    //}
-    
+    public func cancelPreviousSearch() {
+        client.cancelQueries(.POST, path: "1/indexes/\(urlEncodedIndexName)/query")
+    }
+
     //
     //-(void) waitTask:(NSString*)taskID
     //success:(void(^)(ASRemoteIndex *index, NSString *taskID, NSDictionary *result))success

@@ -25,8 +25,7 @@ import Foundation
 import Alamofire
 
 // TODO: need to know for which key is the response, sometimes other information needed. Fix this.
-
-public typealias CompletionHandlerType = (JSON: AnyObject?, error: NSError?) -> Void?
+// TODO: is it really safe to change the appID? I mean, the hostname will not change...
 
 /// Entry point in the Swift API.
 ///
@@ -72,6 +71,8 @@ public class Client {
     }
     
     let hostnames: [String]
+    
+    private var requestBuffer = RingBuffer<Alamofire.Request>(maxCapacity: 10)
     
     /// Algolia Search initialization
     ///
@@ -128,7 +129,11 @@ public class Client {
         Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = HTTPHeader
     }
     
-    func setExtraHeader(value: String, forKey key: String) {
+    /// Allow to set custom extra header
+    ///
+    /// :param: value value of the header
+    /// :param: forKey key of the header
+    public func setExtraHeader(value: String, forKey key: String) {
         if (Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders != nil) {
             Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders!.updateValue(value, forKey: key)
         } else {
@@ -208,15 +213,18 @@ public class Client {
         performHTTPQuery(path, method: .GET, body: nil, block: block)
     }
     
+    /// List all existing user keys with their associated ACLs
     public func listUserKeys(block: CompletionHandlerType) {
         performHTTPQuery("1/keys", method: .GET, body: nil, block: block)
     }
     
+    /// Get ACL of a user key
     public func getUserKeyACL(key: String, block: CompletionHandlerType) {
         let path = "1/keys/\(key)"
         performHTTPQuery(path, method: .GET, body: nil, block: block)
     }
     
+    /// Delete an existing user key
     public func deleteUserKey(key: String, block: CompletionHandlerType? = nil) {
         let path = "1/keys/\(key)"
         performHTTPQuery(path, method: .DELETE, body: nil, block: block)
@@ -281,8 +289,32 @@ public class Client {
         performHTTPQuery(path, method: .PUT, body: request, block: block)
     }
     
+    /// Get the index object initialized (no server call needed for initialization)
+    ///
+    /// :param: indexName the name of index
     public func getIndex(indexName: String) -> Index {
         return Index(client: self, indexName: indexName)
+    }
+    
+    /// Query multiple indexes with one API call
+    ///
+    /// :param: queries An array of queries with the associated index (Array of Dictionnary object ["indexName": "targettedIndex", "query": "theASQuery"]).
+    public func multipleQueries(queries: [AnyObject], block: CompletionHandlerType?) {
+        let path = "1/indexes/*/queries"
+        
+        var convertedQueries = [AnyObject]()
+        convertedQueries.reserveCapacity(queries.count)
+        for query in queries {
+            if let query = query as? [String: String] {
+                convertedQueries.append([
+                    "params": query["query"]!.urlEncode(),
+                    "indexName": query["indexName"]!
+                ])
+            }
+        }
+        
+        let request = ["requests": convertedQueries]
+        performHTTPQuery(path, method: .POST, body: request, block: block)
     }
     
     // MARK: - Network
@@ -291,7 +323,7 @@ public class Client {
     func performHTTPQuery(path: String, method: Alamofire.Method, body: [String: AnyObject]?, index: Int = 0, block: CompletionHandlerType? = nil) {
         assert(index < hostnames.count, "\(index) < \(hostnames.count) !")
         
-        Alamofire.request(method, "https://\(hostnames[index])/\(path)", parameters: body).responseJSON {
+        let request = Alamofire.request(method, "https://\(hostnames[index])/\(path)", parameters: body).responseJSON {
             (request, response, data, error) -> Void in
             if let statusCode = response?.statusCode {
                 if let block = block {
@@ -317,6 +349,18 @@ public class Client {
                     self.performHTTPQuery(path, method: method, body: body, index: index + 1, block: block)
                 } else {
                     block?(JSON: nil, error: error)
+                }
+            }
+        }
+        
+        requestBuffer.append(request)
+    }
+    
+    func cancelQueries(method: Alamofire.Method, path: String) {
+        for request in requestBuffer {
+            if request.request.URL.path == path {
+                if request.request.HTTPMethod == method.rawValue {
+                    request.cancel()
                 }
             }
         }

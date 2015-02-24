@@ -16,6 +16,7 @@
 		5D9F70851A93B9C9004B751B /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D9F70811A93B4BE004B751B /* Alamofire.framework */; };
 		5D9F70871A93BE2A004B751B /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5D9F70811A93B4BE004B751B /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5DECA2DA1A960BC5001A6088 /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DECA2D91A960BC5001A6088 /* Index.swift */; };
+		5DF8C1311A9CA354006E107B /* Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF8C1301A9CA354006E107B /* Type.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +53,7 @@
 		5D7495A61A8E499B00B0263F /* Query.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
 		5D9F70811A93B4BE004B751B /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/Mac/Alamofire.framework; sourceTree = "<group>"; };
 		5DECA2D91A960BC5001A6088 /* Index.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Index.swift; sourceTree = "<group>"; };
+		5DF8C1301A9CA354006E107B /* Type.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Type.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				5D7495A01A8E277400B0263F /* Client.swift */,
 				5D7495A61A8E499B00B0263F /* Query.swift */,
 				5DECA2D91A960BC5001A6088 /* Index.swift */,
+				5DF8C1301A9CA354006E107B /* Type.swift */,
 				5D74959F1A8E277400B0263F /* Extension.swift */,
 				5D7495811A8E25A600B0263F /* Supporting Files */,
 			);
@@ -238,6 +241,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DF8C1311A9CA354006E107B /* Type.swift in Sources */,
 				5DECA2DA1A960BC5001A6088 /* Index.swift in Sources */,
 				5D7495A21A8E277400B0263F /* Client.swift in Sources */,
 				5D7495A71A8E499B00B0263F /* Query.swift in Sources */,
