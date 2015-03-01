@@ -23,37 +23,143 @@
 
 import Foundation
 
-// TODO: rethink attributes. Use for example enum for queryType
-// TODO: add comment for all attributes
-
 /// Describes all parameters of search query.
 public class Query : Printable {
+    /// The type of query.
+    ///
+    /// - PrefixAll: All query words are interpreted as prefixes.
+    /// - PrefixLast: Only the last word is interpreted as a prefix (default behavior).
+    /// - PrefixNone: No query word is interpreted as a prefix. This option is not recommended.
+    public enum QueryType: String {
+        case PrefixAll = "prefixAll"
+        case PrefixLast = "prefixLast"
+        case PrefixNone = "prefixNone"
+    }
+    
+    /// Remove words if no result.
+    ///
+    /// - None: No specific processing is done when a query does not return any result.
+    /// - LastWords: When a query does not return any result, the final word will be removed until there is results.
+    /// - FirstWords: When a query does not return any result, the first word will be removed until there is results.
+    /// - AllOptional: When a query does not return any result, a second trial will be made with all words as optional (which is equivalent to transforming the AND operand between query terms in a OR operand)
+    public enum RemoveWordsIfNoResult: String {
+        case None = "None"
+        case LastWords = "LastWords"
+        case FirstWords = "FirstWords"
+        case AllOptional = "allOptional"
+    }
+    
+    /// Typo tolerance.
+    ///
+    /// - Enabled: The typo-tolerance is enabled and all matching hits are retrieved. (Default behavior)
+    /// - Disabled: The typo-tolerance is disabled.
+    /// - Minimum: Only keep the results with the minimum number of typos.
+    /// - Strict: Hits matching with 2 typos are not retrieved if there are some matching without typos.
+    public enum TypoTolerance: String {
+        case Enabled = "true"
+        case Disabled = "false"
+        case Minimum = "min"
+        case Strict = "strict"
+    }
+    
+    // MARK: - Properties
+    
+    /// The minimum number of characters in a query word to accept one typo in this word.
+    /// Defaults to 3.
     public var minWordSizeForApprox1: UInt = 3
+    
+    /// The minimum number of characters in a query word to accept two typos in this word.
+    /// Defaults to 7.
     public var minWordSizeForApprox2: UInt = 7
+    
+    /// If true, the result hits will contain ranking information in _rankingInfo attribute.
+    /// Default to false.
     public var getRankingInfo = false
+    
+    /// If true, plural won't be considered as a typo (for example car/cars will be considered as equals). 
+    /// Default to false.
     public var ignorePlural = false
+    
+    /// If true, enable the distinct feature (disabled by default) if the attributeForDistinct index setting is set.
+    /// This feature is similar to the SQL "distinct" keyword: when enabled in a query, all hits containing a duplicate value 
+    /// for the attributeForDistinct attribute are removed from results. For example, if the chosen attribute is show_name 
+    /// and several hits have the same value for show_name, then only the best one is kept and others are removed.
     public var distinct = false
+    
+    /// The page to retrieve (zero base). Defaults to 0.
     public var page: UInt = 0
+    
+    /// The number of hits per page. Defaults to 20.
     public var hitsPerPage: UInt = 20
+    
+    /// If false, disable typo-tolerance on numeric tokens. Default to true.
     public var typosOnNumericTokens = true
+    
+    /// If false, this query won't appear in the analytics. Default to true.
     public var analytics = true
+    
+    /// If false, this query will not use synonyms defined in configuration. Default to true.
     public var synonyms = true
+    
+    /// If false, words matched via synonyms expansion will not be replaced by the matched synonym in highlight result. 
+    /// Default to true.
     public var replaceSynonyms = true
-    public var optionalWordsMinimumMatched: UInt = 0
+    
+    /// The list of attribute names to highlight.
+    /// By default indexed attributes are highlighted.
     public var attributesToHighlight: [String]?
+    
+    /// The list of attribute names to retrieve.
+    /// By default all attributes are retrieved.
     public var attributesToRetrieve: [String]?
+    
+    /// Filter the query by a set of tags. You can AND tags by separating them by commas. 
+    /// To OR tags, you must add parentheses. For example tag1,(tag2,tag3) means tag1 AND (tag2 OR tag3).
+    /// At indexing, tags should be added in the _tags attribute of objects (for example {"_tags":["tag1","tag2"]} ).
     public var tagFilters: String?
-    public var numericFilters: String?
+    
+    /// A list of numeric filters.
+    /// The syntax of one filter is `attributeName` followed by `operand` followed by `value. Supported operands are `<`, `<=`, `=`, `>` and `>=`.
+    /// You can have multiple conditions on one attribute like for example `numerics=price>100,price<1000`.
+    public var numericFilters: [String]?
+    
+    /// The full text query.
     public var fullTextQuery: String?
-    public var queryType: String?
-    public var removeWordsIfNoResult: String?
-    public var typoTolerance: String?
+    
+    /// How the query words are interpreted.
+    public var queryType: QueryType?
+    
+    /// The strategy to avoid having an empty result page.
+    public var removeWordsIfNoResult: RemoveWordsIfNoResult?
+    
+    /// Control the number of typo in the results set.
+    public var typoTolerance: TypoTolerance?
+    
+    /// The list of attributes to snippet alongside the number of words to return (syntax is 'attributeName:nbWords').
+    /// By default no snippet is computed.
     public var attributesToSnippet: [String]?
+    
+    /// Filter the query by a list of facets. Each facet is encoded as `attributeName:value`. 
+    /// For example: ["category:Book","author:John%20Doe"].
     public var facetFilters: [String]?
+    
+    /// Filter the query by a list of facets encoded as one string by example "(category:Book,author:John)".
     public var facetFiltersRaw: String?
+    
+    /// List of object attributes that you want to use for faceting.
+    /// Only attributes that have been added in attributesForFaceting index setting can be used in this parameter.
+    /// You can also use `*` to perform faceting on all attributes specified in attributesForFaceting.
     public var facets: [String]?
+    
+    /// The minimum number of optional words that need to match. Defaults to 0.
+    public var optionalWordsMinimumMatched: UInt = 0
+    
+    /// The list of words that should be considered as optional when found in the query.
     public var optionalWords: [String]?
-    public var restrictSearchableAttributes: String?
+    
+    /// List of object attributes you want to use for textual search (must be a subset of the 
+    /// attributesToIndex index setting).
+    public var restrictSearchableAttributes: [String]?
     
     private var aroundLatLongViaIP = false
     private var aroundLatLong: String?
@@ -62,6 +168,8 @@ public class Query : Printable {
     public var description: String {
         get { return "Query = \(buildURL())" }
     }
+    
+    // MARK: - Methods
     
     public init(fullTextQuery: String? = nil) {
         self.fullTextQuery = fullTextQuery
@@ -133,9 +241,16 @@ public class Query : Printable {
         }
         
         if let facetFilters = facetFilters {
-            // TODO: complete code (JSON)
+            var error: NSError?
+            let data = NSJSONSerialization.dataWithJSONObject(facetFilters, options: .PrettyPrinted, error: &error)
+            if error == nil {
+                let json: String = NSString(data: data!, encoding: NSUTF8StringEncoding)!
+                url.append(Query.encodeForQuery(json, withKey: "facetFilters"))
+            } else {
+                NSException(name: "InvalidArgument", reason: "Invalid facetFilters (should be an array of string)", userInfo: nil).raise()
+            }
         } else if let facetFiltersRaw = facetFiltersRaw {
-            url.append(Query.encodeForQuery(facetFiltersRaw, withKey: "facetFilters="))
+            url.append(Query.encodeForQuery(facetFiltersRaw, withKey: "facetFilters"))
         }
         
         if let facets = facets {
