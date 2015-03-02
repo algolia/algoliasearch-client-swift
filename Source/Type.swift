@@ -24,9 +24,13 @@
 import Foundation
 
 public typealias CompletionHandler = (JSON: AnyObject?, error: NSError?) -> Void
+public typealias CompletionHandlerWithClient = (client: Client, JSON: AnyObject?, error: NSError?) -> Void
+public typealias CompletionHandlerWithKey = (client: Client, key: String, JSON: AnyObject?, error: NSError?) -> Void
+public typealias CompletionHandlerWithACLs = (client: Client, acls: [String], JSON: AnyObject?, error: NSError?) -> Void
+public typealias CompletionHandlerWithKeyAndACLs = (client: Client, key: String, acls: [String], JSON: AnyObject?, error: NSError?) -> Void
+
 public typealias CompletionHandlerWithIndex = (index: Index, JSON: AnyObject?, error: NSError?) -> Void
 public typealias CompletionHandlerWithIndexAndPage = (index: Index, page: UInt, hitsPerPage: UInt, JSON: AnyObject?, error: NSError?) -> Void
-public typealias CompletionHandlerWithKey = (key: String, JSON: AnyObject?, error: NSError?) -> Void
 public typealias CompletionHandlerWithTask = (task: String, JSON: AnyObject?, error: NSError?) -> Void
 
 struct RingBuffer<T>: SequenceType {

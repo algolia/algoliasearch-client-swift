@@ -25,25 +25,19 @@ import Foundation
 import Alamofire
 
 // TODO: need to know for which key is the response, sometimes other information needed. Fix this.
-// TODO: is it really safe to change the appID? I mean, the hostname will not change...
 
 /// Entry point in the Swift API.
 ///
 /// You should instantiate a Client object with your AppID, ApiKey and Hosts
-/// to start using Algolia Search API
+/// to start using Algolia Search API.
 public class Client {
-    public var appID: String {
-        didSet {
-            setExtraHeader(appID, forKey: "X-Algolia-Application-Id")
-        }
-    }
-    
     public var apiKey: String {
         didSet {
             setExtraHeader(apiKey, forKey: "X-Algolia-API-Key")
         }
     }
     
+    /// Security tag header (see http://www.algolia.com/doc/guides/objc#SecurityUser for more details).
     public var tagFilters: String? {
         didSet {
             if let tagFilters = tagFilters {
@@ -54,6 +48,7 @@ public class Client {
         }
     }
     
+    /// User-token header (see http://www.algolia.com/doc/guides/objc#SecurityUser for more details).
     public var userToken: String? {
         didSet {
             if let userToken = userToken {
@@ -70,11 +65,12 @@ public class Client {
         }
     }
     
-    let hostnames: [String]
+    public let appID: String
+    public let hostnames: [String]
     
     private var requestBuffer = RingBuffer<Alamofire.Request>(maxCapacity: 10)
     
-    /// Algolia Search initialization
+    /// Algolia Search initialization.
     ///
     /// :param: appID the application ID you have in your admin interface
     /// :param: apiKey a valid API key for the service
@@ -129,7 +125,7 @@ public class Client {
         Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = HTTPHeader
     }
     
-    /// Allow to set custom extra header
+    /// Allow to set custom extra header.
     ///
     /// :param: value value of the header
     /// :param: forKey key of the header
@@ -144,162 +140,247 @@ public class Client {
     
     // MARK: - Operations
     
-    /// List all existing indexes
+    /// List all existing indexes.
     ///
-    /// :return: JSON Object in the block in the form:
-    /// { "items": [ {"name": "contacts", "createdAt": "2013-01-18T15:33:13.556Z"},
-    ///              {"name": "notes", "createdAt": "2013-01-18T15:33:13.556Z"}]}
-    public func listIndexes(block: CompletionHandler? = nil) {
-        performHTTPQuery("1/indexes", method: .GET, body: nil, block: block)
+    /// :return: JSON Object in the handler in the form: { "items": [ {"name": "contacts", "createdAt": "2013-01-18T15:33:13.556Z"}, {"name": "notes", "createdAt": "2013-01-18T15:33:13.556Z"}]}
+    public func listIndexes(block: CompletionHandlerWithClient) {
+        performHTTPQuery("1/indexes", method: .GET, body: nil, block: { (JSON, error) -> Void in
+            block(client: self, JSON: JSON, error: error)
+        })
+    }
+    
+    /// Delete an index.
+    ///
+    /// :param: indexName the name of index to delete
+    /// :return: JSON Object in the handler containing a "deletedAt" attribute
+    public func deleteIndex(indexName: String, block: ((client: Client, indexName: String, JSON: AnyObject?, error: NSError?) -> Void)? = nil) {
+        let path = "1/indexes/\(indexName.urlEncode())"
+        performHTTPQuery(path, method: .DELETE, body: nil, block: { (JSON, error) -> Void in
+            if let block = block {
+                block(client: self, indexName: indexName, JSON: JSON, error: error)
+            }
+        })
     }
     
     /// Move an existing index.
     ///
     /// :param: srcIndexName the name of index to move.
     /// :param: dstIndexName the new index name that will contains sourceIndexName (destination will be overriten if it already exist).
-    public func moveIndex(srcIndexName: String, dstIndexName: String, block: CompletionHandler? = nil) {
+    public func moveIndex(srcIndexName: String, dstIndexName: String, block: ((client: Client, srcIndexName: String, dstIndexName: String, JSON: AnyObject?, error: NSError?) -> Void)? = nil) {
         let path = "1/indexes/\(srcIndexName.urlEncode())/operation"
         let request = [
             "destination": dstIndexName,
             "operation": "move"
         ]
         
-        performHTTPQuery(path, method: .POST, body: request, block: block)
+        performHTTPQuery(path, method: .POST, body: request, block: { (JSON, error) -> Void in
+            if let block = block {
+                block(client: self, srcIndexName: srcIndexName, dstIndexName: dstIndexName, JSON: JSON, error: error)
+            }
+        })
     }
     
     /// Copy an existing index.
     ///
     /// :param: srcIndexName the name of index to copy.
     /// :param: dstIndexName the new index name that will contains a copy of sourceIndexName (destination will be overriten if it already exist).
-    public func copyIndex(srcIndexName: String, dstIndexName: String, block: CompletionHandler? = nil) {
+    public func copyIndex(srcIndexName: String, dstIndexName: String, block: ((client: Client, srcIndexName: String, dstIndexName: String, JSON: AnyObject?, error: NSError?) -> Void)? = nil) {
         let path = "1/indexes/\(srcIndexName.urlEncode())/operation"
         let request = [
             "destination": dstIndexName,
             "operation": "copy"
         ]
         
-        performHTTPQuery(path, method: .POST, body: request, block: block)
-    }
-    
-    /// Delete an index
-    ///
-    /// :param: indexName the name of index to delete
-    /// :return: JSON Object in the block in the form: { "deletedAt": "2013-01-18T15:33:13.556Z", "taskID": 721 }
-    public func deleteIndex(indexName: String, block: CompletionHandler? = nil) {
-        let path = "1/indexes/\(indexName.urlEncode())"
-        performHTTPQuery(path, method: .DELETE, body: nil, block: block)
+        performHTTPQuery(path, method: .POST, body: request, block: { (JSON, error) -> Void in
+            if let block = block {
+                block(client: self, srcIndexName: srcIndexName, dstIndexName: dstIndexName, JSON: JSON, error: error)
+            }
+        })
     }
     
     /// Return 10 last log entries.
-    public func getLogs(block: CompletionHandler) {
-        performHTTPQuery("1/logs", method: .GET, body: nil, block: block)
+    public func getLogs(block: CompletionHandlerWithClient) {
+        performHTTPQuery("1/logs", method: .GET, body: nil, block: { (JSON, error) -> Void in
+            block(client: self, JSON: JSON, error: error)
+        })
     }
     
     /// Return last logs entries.
     ///
     /// :param: offset Specify the first entry to retrieve (0-based, 0 is the most recent log entry).
     /// :param: length Specify the maximum number of entries to retrieve starting at offset. Maximum allowed value: 1000.
-    public func getLogsWithOffset(offset: UInt, lenght: UInt, block: CompletionHandler) {
+    public func getLogsWithOffset(offset: UInt, lenght: UInt, block: CompletionHandlerWithClient) {
         let path = "1/logs?offset=\(offset)&lenght=\(lenght)"
-        performHTTPQuery(path, method: .GET, body: nil, block: block)
+        performHTTPQuery(path, method: .GET, body: nil, block: { (JSON, error) -> Void in
+            block(client: self, JSON: JSON, error: error)
+        })
     }
     
     /// Return last logs entries.
     ///
     /// :param: offset Specify the first entry to retrieve (0-based, 0 is the most recent log entry).
     /// :param: length Specify the maximum number of entries to retrieve starting at offset. Maximum allowed value: 1000.
-    public func getLogsWithType(type: String, offset: UInt, lenght: UInt, block: CompletionHandler) {
+    public func getLogsWithType(type: String, offset: UInt, lenght: UInt, block: CompletionHandlerWithClient) {
         let path = "1/logs?offset=\(offset)&lenght=\(lenght)&type=\(type)"
-        performHTTPQuery(path, method: .GET, body: nil, block: block)
+        performHTTPQuery(path, method: .GET, body: nil, block: { (JSON, error) -> Void in
+            block(client: self, JSON: JSON, error: error)
+        })
     }
     
-    /// List all existing user keys with their associated ACLs
-    public func listUserKeys(block: CompletionHandler) {
-        performHTTPQuery("1/keys", method: .GET, body: nil, block: block)
-    }
-    
-    /// Get ACL of a user key
-    public func getUserKeyACL(key: String, block: CompletionHandler) {
-        let path = "1/keys/\(key)"
-        performHTTPQuery(path, method: .GET, body: nil, block: block)
-    }
-    
-    /// Delete an existing user key
-    public func deleteUserKey(key: String, block: CompletionHandler? = nil) {
-        let path = "1/keys/\(key)"
-        performHTTPQuery(path, method: .DELETE, body: nil, block: block)
-    }
-    
-    public func addUserKey(acls: [String], block: CompletionHandler? = nil) {
-        let request = ["acl": acls]
-        performHTTPQuery("1/keys", method: .POST, body: request, block: block)
-    }
-    
-    public func addUserKey(acls: [String], withValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: CompletionHandler? = nil) {
-        let request: [String: AnyObject] = [
-            "acl": acls,
-            "validity": validity,
-            "maxQueriesPerIPPerHour": maxQueries,
-            "maxHitsPerQuery": maxHits,
-        ]
-        
-        performHTTPQuery("1/keys", method: .POST, body: request, block: block)
-    }
-    
-    public func addUserKey(acls: [String], withIndexes indexes: [String], withValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: CompletionHandler? = nil) {
-        let request: [String: AnyObject] = [
-            "acl": acls,
-            "indexes": indexes,
-            "validity": validity,
-            "maxQueriesPerIPPerHour": maxQueries,
-            "maxHitsPerQuery": maxHits,
-        ]
-        
-        performHTTPQuery("1/keys", method: .POST, body: request, block: block)
-    }
-    
-    public func updateUserKey(key: String, withACL acls: [String], block: CompletionHandler? = nil) {
-        let path = "1/keys/\(key)"
-        let request = ["acl": acls]
-        performHTTPQuery(path, method: .PUT, body: request, block: block)
-    }
-    
-    public func updateUserKey(key: String, withACL acls: [String], andValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: CompletionHandler? = nil) {
-        let path = "1/keys/\(key)"
-        let request: [String: AnyObject] = [
-            "acl": acls,
-            "validity": validity,
-            "maxQueriesPerIPPerHour": maxQueries,
-            "maxHitsPerQuery": maxHits,
-        ]
-        
-        performHTTPQuery(path, method: .PUT, body: request, block: block)
-    }
-    
-    public func updateUserKey(key: String, withACL acls: [String], withIndexes indexes: [String], andValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: CompletionHandler? = nil) {
-        let path = "1/keys/\(key)"
-        let request: [String: AnyObject] = [
-            "acl": acls,
-            "indexes": indexes,
-            "validity": validity,
-            "maxQueriesPerIPPerHour": maxQueries,
-            "maxHitsPerQuery": maxHits,
-        ]
-        
-        performHTTPQuery(path, method: .PUT, body: request, block: block)
-    }
-    
-    /// Get the index object initialized (no server call needed for initialization)
+    /// Get the index object initialized (no server call needed for initialization).
     ///
     /// :param: indexName the name of index
     public func getIndex(indexName: String) -> Index {
         return Index(client: self, indexName: indexName)
     }
     
-    /// Query multiple indexes with one API call
+    /// List all existing user keys with their associated ACLs.
+    public func listUserKeys(block: CompletionHandlerWithClient) {
+        performHTTPQuery("1/keys", method: .GET, body: nil, block: { (JSON, error) -> Void in
+            block(client: self, JSON: JSON, error: error)
+        })
+    }
+    
+    /// Get ACL of a user key.
+    public func getUserKeyACL(key: String, block: CompletionHandlerWithKey) {
+        let path = "1/keys/\(key)"
+        performHTTPQuery(path, method: .GET, body: nil, block: { (JSON, error) -> Void in
+            block(client: self, key: key, JSON: JSON, error: error)
+        })
+    }
+    
+    /// Delete an existing user key.
+    public func deleteUserKey(key: String, block: CompletionHandlerWithKey? = nil) {
+        let path = "1/keys/\(key)"
+        performHTTPQuery(path, method: .DELETE, body: nil, block: { (JSON, error) -> Void in
+            if let block = block {
+                block(client: self, key: key, JSON: JSON, error: error)
+            }
+        })
+    }
+    
+    /// Create a new user key
+    ///
+    /// :param: acls The list of ACL for this key. The list can contains the following values (as String): search, addObject, deleteObject, deleteIndex, settings, editSettings
+    public func addUserKey(acls: [String], block: CompletionHandlerWithACLs? = nil) {
+        let request = ["acl": acls]
+        performHTTPQuery("1/keys", method: .POST, body: request, block: { (JSON, error) -> Void in
+            if let block = block {
+                block(client: self, acls: acls, JSON: JSON, error: error)
+            }
+        })
+    }
+    
+    /// Create a new user key
+    ///
+    /// :param: acls The list of ACL for this key. The list can contains the following values (as String): search, addObject, deleteObject, deleteIndex, settings, editSettings
+    /// :param: withValidity The number of seconds after which the key will be automatically removed (0 means no time limit for this key)
+    /// :param: maxQueriesPerIPPerHour Specify the maximum number of API calls allowed from an IP address per hour.  Defaults to 0 (unlimited).
+    /// :param: maxHitsPerQuery Specify the maximum number of hits this API key can retrieve in one call. Defaults to 0 (unlimited)
+    public func addUserKey(acls: [String], withValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: CompletionHandlerWithACLs? = nil) {
+        let request: [String: AnyObject] = [
+            "acl": acls,
+            "validity": validity,
+            "maxQueriesPerIPPerHour": maxQueries,
+            "maxHitsPerQuery": maxHits,
+        ]
+        
+        performHTTPQuery("1/keys", method: .POST, body: request, block: { (JSON, error) -> Void in
+            if let block = block {
+                block(client: self, acls: acls, JSON: JSON, error: error)
+            }
+        })
+    }
+    
+    /// Create a new user key
+    ///
+    /// :param: acls The list of ACL for this key. The list can contains the following values (as String): search, addObject, deleteObject, deleteIndex, settings, editSettings
+    /// :param: forIndexes restrict this new API key to specific index names
+    /// :param: withValidity The number of seconds after which the key will be automatically removed (0 means no time limit for this key)
+    /// :param: maxQueriesPerIPPerHour Specify the maximum number of API calls allowed from an IP address per hour.  Defaults to 0 (unlimited).
+    /// :param: maxHitsPerQuery Specify the maximum number of hits this API key can retrieve in one call. Defaults to 0 (unlimited)
+    public func addUserKey(acls: [String], forIndexes indexes: [String], withValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: ((client: Client, acls: [String], indexes: [String], JSON: AnyObject?, error: NSError?) -> Void)? = nil) {
+        let request: [String: AnyObject] = [
+            "acl": acls,
+            "indexes": indexes,
+            "validity": validity,
+            "maxQueriesPerIPPerHour": maxQueries,
+            "maxHitsPerQuery": maxHits,
+        ]
+        
+        performHTTPQuery("1/keys", method: .POST, body: request, block: { (JSON, error) -> Void in
+            if let block = block {
+                block(client: self, acls: acls, indexes: indexes, JSON: JSON, error: error)
+            }
+        })
+    }
+    
+    /// Update a user key
+    ///
+    /// :param: key The key to update
+    /// :param: withAcls The list of ACL for this key. The list can contains the following values (as String): search, addObject, deleteObject, deleteIndex, settings, editSettings
+    public func updateUserKey(key: String, withACL acls: [String], block: CompletionHandlerWithKeyAndACLs? = nil) {
+        let path = "1/keys/\(key)"
+        let request = ["acl": acls]
+        performHTTPQuery(path, method: .PUT, body: request, block: { (JSON, error) -> Void in
+            if let block = block {
+                block(client: self, key: key, acls: acls, JSON: JSON, error: error)
+            }
+        })
+    }
+    
+    /// Update a user key
+    ///
+    /// :param: key The key to update
+    /// :param: withAcls The list of ACL for this key. The list can contains the following values (as String): search, addObject, deleteObject, deleteIndex, settings, editSettings
+    /// :param: andValidity The number of seconds after which the key will be automatically removed (0 means no time limit for this key)
+    /// :param: maxQueriesPerIPPerHour Specify the maximum number of API calls allowed from an IP address per hour.  Defaults to 0 (unlimited).
+    /// :param: maxHitsPerQuery Specify the maximum number of hits this API key can retrieve in one call. Defaults to 0 (unlimited)
+    public func updateUserKey(key: String, withACL acls: [String], andValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: CompletionHandlerWithKeyAndACLs? = nil) {
+        let path = "1/keys/\(key)"
+        let request: [String: AnyObject] = [
+            "acl": acls,
+            "validity": validity,
+            "maxQueriesPerIPPerHour": maxQueries,
+            "maxHitsPerQuery": maxHits,
+        ]
+        
+        performHTTPQuery(path, method: .PUT, body: request, block: { (JSON, error) -> Void in
+            if let block = block {
+                block(client: self, key: key, acls: acls, JSON: JSON, error: error)
+            }
+        })
+    }
+    
+    /// Update a user key
+    ///
+    /// :param: key The key to update
+    /// :param: withAcls The list of ACL for this key. The list can contains the following values (as String): search, addObject, deleteObject, deleteIndex, settings, editSettings
+    /// :param: andValidity The number of seconds after which the key will be automatically removed (0 means no time limit for this key)
+    /// :param: forIndexes restrict this API key to specific index names
+    /// :param: maxQueriesPerIPPerHour Specify the maximum number of API calls allowed from an IP address per hour.  Defaults to 0 (unlimited).
+    /// :param: maxHitsPerQuery Specify the maximum number of hits this API key can retrieve in one call. Defaults to 0 (unlimited)
+    public func updateUserKey(key: String, withACL acls: [String], andValidity validity: UInt, forIndexes indexes: [String], maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: ((client: Client, key: String, acls: [String], indexes: [String], JSON: AnyObject?, error: NSError?) -> Void)? = nil) {
+        let path = "1/keys/\(key)"
+        let request: [String: AnyObject] = [
+            "acl": acls,
+            "indexes": indexes,
+            "validity": validity,
+            "maxQueriesPerIPPerHour": maxQueries,
+            "maxHitsPerQuery": maxHits,
+        ]
+        
+        performHTTPQuery(path, method: .PUT, body: request, block: { (JSON, error) -> Void in
+            if let block = block {
+                block(client: self, key: key, acls: acls, indexes: indexes, JSON: JSON, error: error)
+            }
+        })
+    }
+    
+    /// Query multiple indexes with one API call.
     ///
     /// :param: queries An array of queries with the associated index (Array of Dictionnary object ["indexName": "targettedIndex", "query": "theASQuery"]).
-    public func multipleQueries(queries: [AnyObject], block: CompletionHandler?) {
+    public func multipleQueries(queries: [AnyObject], block: ((client: Client, queries: [AnyObject], JSON: AnyObject?, error: NSError?) -> Void)? = nil) {
         let path = "1/indexes/*/queries"
         
         var convertedQueries = [AnyObject]()
@@ -309,17 +390,21 @@ public class Client {
                 convertedQueries.append([
                     "params": query["query"]!.urlEncode(),
                     "indexName": query["indexName"]!
-                ])
+                    ])
             }
         }
         
         let request = ["requests": convertedQueries]
-        performHTTPQuery(path, method: .POST, body: request, block: block)
+        performHTTPQuery(path, method: .POST, body: request, block: { (JSON, error) -> Void in
+            if let block = block {
+                block(client: self, queries: queries, JSON: JSON, error: error)
+            }
+        })
     }
     
     // MARK: - Network
     
-    /// Perform an HTTP Query
+    /// Perform an HTTP Query.
     func performHTTPQuery(path: String, method: Alamofire.Method, body: [String: AnyObject]?, index: Int = 0, block: CompletionHandler? = nil) {
         assert(index < hostnames.count, "\(index) < \(hostnames.count) !")
         
@@ -356,6 +441,7 @@ public class Client {
         requestBuffer.append(request)
     }
     
+    /// Cancel a queries. Only the last ten queries can be cancelled.
     func cancelQueries(method: Alamofire.Method, path: String) {
         for request in requestBuffer {
             if request.request.URL.path == path {
