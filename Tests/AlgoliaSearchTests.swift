@@ -40,7 +40,7 @@ class AlgoliaSearchTests: XCTestCase {
     
     func testListIndexes() {
         let expectation = expectationWithDescription("List indexes")
-        client.listIndexes { (client, JSON, error) -> Void in
+        client.listIndexes { (JSON, error) -> Void in
             expectation.fulfill()
             XCTAssertNil(error, error?.localizedDescription ?? "Error")
         }
