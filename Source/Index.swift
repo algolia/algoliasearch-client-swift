@@ -206,10 +206,10 @@ public class Index {
     /// All server task are asynchronous and you can check with this method that the task is published.
     ///
     /// :param: taskID The ID of the task returned by server
-    public func waitTask(taskID: String, block: CompletionHandler) {
-        let path = "1/indexes/\(urlEncodedIndexName)/task/\(taskID.urlEncode())"
+    public func waitTask(taskID: Int, block: CompletionHandler) {
+        let path = "1/indexes/\(urlEncodedIndexName)/task/\(taskID)"
         client.performHTTPQuery(path, method: .GET, body: nil, block: { (JSON, error) -> Void in
-            if let JSON = JSON as? [String: AnyObject] {
+            if let JSON = JSON {
                 if (JSON["status"] as? String) == "published" {
                     block(JSON: JSON, error: nil)
                 } else {

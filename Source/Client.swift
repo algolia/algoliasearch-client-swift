@@ -101,10 +101,12 @@ public class Client {
         }
         self.hostnames.shuffle()
         
-        if let dsnHost = dsnHost {
-            self.hostnames.insert(dsnHost, atIndex: 0)
-        } else {
-            self.hostnames.insert("\(appID)-dsn.algolia.net", atIndex: 0)
+        if dsn {
+            if let dsnHost = dsnHost {
+                self.hostnames.insert(dsnHost, atIndex: 0)
+            } else {
+                self.hostnames.insert("\(appID)-dsn.algolia.net", atIndex: 0)
+            }
         }
         
         let version = NSBundle(identifier: "com.algolia.AlgoliaSearch")!.infoDictionary!["CFBundleShortVersionString"] as String
@@ -351,13 +353,13 @@ public class Client {
     func performHTTPQuery(path: String, method: Alamofire.Method, body: [String: AnyObject]?, index: Int = 0, block: CompletionHandler? = nil) {
         assert(index < hostnames.count, "\(index) < \(hostnames.count) !")
         
-        let request = Alamofire.request(method, "https://\(hostnames[index])/\(path)", parameters: body).responseJSON {
+        let request = Alamofire.request(method, "https://\(hostnames[index])/\(path)", parameters: body, encoding: .JSON).responseJSON {
             (request, response, data, error) -> Void in
             if let statusCode = response?.statusCode {
                 if let block = block {
                     switch(statusCode) {
                     case 200, 201:
-                        block(JSON: data, error: nil)
+                        block(JSON: (data as [String: AnyObject]), error: nil)
                     case 400:
                         block(JSON: nil, error: NSError(domain: "Bad request argument", code: 400, userInfo: nil))
                     case 403:
