@@ -25,7 +25,7 @@ import XCTest
 import AlgoliaSearch
 import Alamofire
 
-class AlgoliaSearchTests: XCTestCase {
+class IndexTests: XCTestCase {
     let expectationTimeout: NSTimeInterval = 100
     
     var client: Client!
@@ -151,7 +151,7 @@ class AlgoliaSearchTests: XCTestCase {
                                 
                                 self.index.search(Query(), block: { (JSON, error) -> Void in
                                     if let error = error {
-                                        XCTFail("Error during search")
+                                        XCTFail("Error during search: \(error)")
                                     } else {
                                         let nbHits = JSON!["nbHits"] as Int
                                         XCTAssertEqual(nbHits, 0, "Wrong number of object in the index")
@@ -209,24 +209,24 @@ class AlgoliaSearchTests: XCTestCase {
         
         index.addObject(object, block: { (JSON, error) -> Void in
             if let error = error {
-                XCTFail("Error during addObject")
+                XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
                 self.index.partialUpdateObject(["city": "Los Angeles"], objectID: object["objectID"]!, block: { (JSON, error) -> Void in
                     if let error = error {
-                        XCTFail("Error during partialUpdateObject")
+                        XCTFail("Error during partialUpdateObject: \(error)")
                         expectation.fulfill()
                     } else {
                         self.index.waitTask(JSON!["taskID"] as Int, block: { (JSON, error) -> Void in
                             if let error = error {
-                                XCTFail("Error during waitTask")
+                                XCTFail("Error during waitTask: \(error)")
                                 expectation.fulfill()
                             } else {
                                 XCTAssertEqual(JSON!["status"] as String, "published", "Wait task failed")
                                 
                                 self.index.getObject(object["objectID"]!, block: { (JSON, error) -> Void in
                                     if let error = error {
-                                        XCTFail("Error during getObject")
+                                        XCTFail("Error during getObject: \(error)")
                                     } else {
                                         let city = JSON!["city"] as String
                                         let initial = JSON!["initial"] as String
@@ -252,24 +252,24 @@ class AlgoliaSearchTests: XCTestCase {
         
         index.addObject(object, block: { (JSON, error) -> Void in
             if let error = error {
-                XCTFail("Error during addObject")
+                XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
                 self.index.saveObject(["city": "Los Angeles", "objectID": "a/go/?à-6"], block: { (JSON, error) -> Void in
                     if let error = error {
-                        XCTFail("Error during saveObject")
+                        XCTFail("Error during saveObject: \(error)")
                         expectation.fulfill()
                     } else {
                         self.index.waitTask(JSON!["taskID"] as Int, block: { (JSON, error) -> Void in
                             if let error = error {
-                                XCTFail("Error during waitTask")
+                                XCTFail("Error during waitTask: \(error)")
                                 expectation.fulfill()
                             } else {
                                 XCTAssertEqual(JSON!["status"] as String, "published", "Wait task failed")
                                 
                                 self.index.getObject(object["objectID"]!, block: { (JSON, error) -> Void in
                                     if let error = error {
-                                        XCTFail("Error during getObject")
+                                        XCTFail("Error during getObject: \(error)")
                                     } else {
                                         let city = JSON!["city"] as String
                                         let initial: AnyObject? = JSON!["initial"]
@@ -295,24 +295,24 @@ class AlgoliaSearchTests: XCTestCase {
         
         index.addObject(object, block: { (JSON, error) -> Void in
             if let error = error {
-                XCTFail("Error during addObject")
+                XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
                 self.index.clearIndex(block: { (JSON, error) -> Void in
                     if let error = error {
-                        XCTFail("Error during clearIndex")
+                        XCTFail("Error during clearIndex: \(error)")
                         expectation.fulfill()
                     } else {
                         self.index.waitTask(JSON!["taskID"] as Int, block: { (JSON, error) -> Void in
                             if let error = error {
-                                XCTFail("Error during waitTask")
+                                XCTFail("Error during waitTask: \(error)")
                                 expectation.fulfill()
                             } else {
                                 XCTAssertEqual(JSON!["status"] as String, "published", "Wait task failed")
                                 
                                 self.index.search(Query(), block: { (JSON, error) -> Void in
                                     if let error = error {
-                                        XCTFail("Error during search")
+                                        XCTFail("Error during search: \(error)")
                                     } else {
                                         let nbHits = JSON!["nbHits"] as Int
                                         XCTAssertEqual(nbHits, 0, "Clear index failed")
@@ -336,19 +336,19 @@ class AlgoliaSearchTests: XCTestCase {
         
         index.setSettings(settings, block: { (JSON, error) -> Void in
             if let error = error {
-                XCTFail("Error during setSettings")
+                XCTFail("Error during setSettings: \(error)")
                 expectation.fulfill()
             } else {
                 self.index.waitTask(JSON!["taskID"] as Int, block: { (JSON, error) -> Void in
                     if let error = error {
-                        XCTFail("Error during waitTask")
+                        XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
                     } else {
                         XCTAssertEqual(JSON!["status"] as String, "published", "Wait task failed")
                         
                         self.index.getSettings({ (JSON, error) -> Void in
                             if let error = error {
-                                XCTFail("Error during getSettings")
+                                XCTFail("Error during getSettings: \(error)")
                             } else {
                                 let attributesToRetrieve = JSON!["attributesToRetrieve"] as [String]
                                 XCTAssertEqual(attributesToRetrieve, settings["attributesToRetrieve"]!, "Set settings failed")
@@ -370,19 +370,19 @@ class AlgoliaSearchTests: XCTestCase {
         
         index.addObject(object, block: { (JSON, error) -> Void in
             if let error = error {
-                XCTFail("Error during addObject")
+                XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
                 self.index.waitTask(JSON!["taskID"] as Int, block: { (JSON, error) -> Void in
                     if let error = error {
-                        XCTFail("Error during waitTask")
+                        XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
                     } else {
                         XCTAssertEqual(JSON!["status"] as String, "published", "Wait task failed")
                         
                         self.index.browse(page: 0, block: { (JSON, error) -> Void in
                             if let error = error {
-                                XCTFail("Error during browse")
+                                XCTFail("Error during browse: \(error)")
                             } else {
                                 let nbHits = JSON!["nbHits"] as Int
                                 XCTAssertEqual(nbHits, 1, "Wrong number of object in the index")
@@ -407,19 +407,19 @@ class AlgoliaSearchTests: XCTestCase {
         
         index.addObjects(objects, block: { (JSON, error) -> Void in
             if let error = error {
-                XCTFail("Error during addObjects")
+                XCTFail("Error during addObjects: \(error)")
                 expectation.fulfill()
             } else {
                 self.index.waitTask(JSON!["taskID"] as Int, block: { (JSON, error) -> Void in
                     if let error = error {
-                        XCTFail("Error during waitTask")
+                        XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
                     } else {
                         XCTAssertEqual(JSON!["status"] as String, "published", "Wait task failed")
                         
                         self.index.browse(page: 0, hitsPerPage: 1, block: { (JSON, error) -> Void in
                             if let error = error {
-                                XCTFail("Error during browse")
+                                XCTFail("Error during browse: \(error)")
                             } else {
                                 let nbPages = JSON!["nbPages"] as Int
                                 XCTAssertEqual(nbPages, 2, "Wrong number of page")
@@ -432,48 +432,6 @@ class AlgoliaSearchTests: XCTestCase {
             }
         })
 
-        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
-    }
-    
-    func testListIndexes() {
-        let expectation = expectationWithDescription("testListIndexes")
-        let object = ["city": "San Francisco", "objectID": "a/go/?à"]
-        
-        index.addObject(object, block: { (JSON, error) -> Void in
-            if let error = error {
-                XCTFail("Error during addObject")
-                expectation.fulfill()
-            } else {
-                self.index.waitTask(JSON!["taskID"] as Int, block: { (JSON, error) -> Void in
-                    if let error = error {
-                        XCTFail("Error during waitTask")
-                        expectation.fulfill()
-                    } else {
-                        XCTAssertEqual(JSON!["status"] as String, "published", "Wait task failed")
-                        
-                        self.client.listIndexes({ (JSON, error) -> Void in
-                            if let error = error {
-                                XCTFail("Error during listIndexes")
-                            } else {
-                                let items = JSON!["items"] as [[String: AnyObject]]
-                                
-                                var find = false
-                                for item in items {
-                                    if (item["name"] as String) == self.index.indexName {
-                                        find = true
-                                    }
-                                }
-
-                                XCTAssertTrue(find, "List indexes failed")
-                            }
-                            
-                            expectation.fulfill()
-                        })
-                    }
-                })
-            }
-        })
-        
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
 }
