@@ -345,14 +345,6 @@ public class Index {
     /// Browse all index content
     ///
     /// :param: page Pagination parameter used to select the page to retrieve. Page is zero-based and defaults to 0. Thus, to retrieve the 10th page you need to set page=9
-    public func browse(page: UInt = 0, block: CompletionHandler) {
-        let path = "1/indexes/\(urlEncodedIndexName)/browse?page=\(page)"
-        client.performHTTPQuery(path, method: .GET, body: nil, block: block)
-    }
-    
-    /// Browse all index content
-    ///
-    /// :param: page Pagination parameter used to select the page to retrieve. Page is zero-based and defaults to 0. Thus, to retrieve the 10th page you need to set page=9
     /// :param: hitsPerPage Pagination parameter used to select the number of hits per page. Defaults to 1000.
     public func browse(page: UInt = 0, hitsPerPage: UInt = 1000, block: CompletionHandler) {
         let path = "1/indexes/\(urlEncodedIndexName)/browse?page=\(page)&hitsPerPage=\(hitsPerPage)"
