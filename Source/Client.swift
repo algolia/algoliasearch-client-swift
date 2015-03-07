@@ -194,8 +194,8 @@ public class Client {
     ///
     /// :param: offset Specify the first entry to retrieve (0-based, 0 is the most recent log entry).
     /// :param: length Specify the maximum number of entries to retrieve starting at offset. Maximum allowed value: 1000.
-    public func getLogsWithOffset(offset: UInt, lenght: UInt, block: CompletionHandler) {
-        let path = "1/logs?offset=\(offset)&lenght=\(lenght)"
+    public func getLogsWithOffset(offset: UInt, length: UInt, block: CompletionHandler) {
+        let path = "1/logs?offset=\(offset)&length=\(length)"
         performHTTPQuery(path, method: .GET, body: nil, block: block)
     }
     
@@ -203,8 +203,8 @@ public class Client {
     ///
     /// :param: offset Specify the first entry to retrieve (0-based, 0 is the most recent log entry).
     /// :param: length Specify the maximum number of entries to retrieve starting at offset. Maximum allowed value: 1000.
-    public func getLogsWithType(type: String, offset: UInt, lenght: UInt, block: CompletionHandler) {
-        let path = "1/logs?offset=\(offset)&lenght=\(lenght)&type=\(type)"
+    public func getLogsWithType(type: String, offset: UInt, length: UInt, block: CompletionHandler) {
+        let path = "1/logs?offset=\(offset)&length=\(length)&type=\(type)"
         performHTTPQuery(path, method: .GET, body: nil, block: block)
     }
     
@@ -328,17 +328,17 @@ public class Client {
     
     /// Query multiple indexes with one API call.
     ///
-    /// :param: queries An array of queries with the associated index (Array of Dictionnary object ["indexName": "targettedIndex", "query": "theASQuery"]).
+    /// :param: queries An array of queries with the associated index (Array of Dictionnary object ["indexName": "targettedIndex", "query": QueryObject]).
     public func multipleQueries(queries: [AnyObject], block: CompletionHandler? = nil) {
         let path = "1/indexes/*/queries"
         
-        var convertedQueries = [AnyObject]()
+        var convertedQueries = [[String: String]]()
         convertedQueries.reserveCapacity(queries.count)
         for query in queries {
-            if let query = query as? [String: String] {
+            if let query = query as? [String: AnyObject] {
                 convertedQueries.append([
-                    "params": query["query"]!.urlEncode(),
-                    "indexName": query["indexName"]!
+                    "params": (query["query"] as Query).buildURL(),
+                    "indexName": query["indexName"] as String
                     ])
             }
         }

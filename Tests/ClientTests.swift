@@ -73,8 +73,6 @@ class ClientTests: XCTestCase {
                         XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
                     } else {
-                        XCTAssertEqual(JSON!["status"] as String, "published", "Wait task failed")
-                        
                         self.client.listIndexes({ (JSON, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during listIndexes: \(error)")
@@ -127,8 +125,6 @@ class ClientTests: XCTestCase {
                                         XCTFail("Error during waitTask: \(error)")
                                         expecation.fulfill()
                                     } else {
-                                        XCTAssertEqual(JSON!["status"] as String, "published", "Wait task failed")
-                                        
                                         let dstIndex = self.client.getIndex("algol?à-swift2")
                                         dstIndex.search(Query(), block: { (JSON, error) -> Void in
                                             if let error = error {
@@ -187,11 +183,7 @@ class ClientTests: XCTestCase {
                                 self.index.waitTask(JSON!["taskID"] as Int, block: { (JSON, error) -> Void in
                                     if let error = error {
                                         XCTFail("Error during waitTask: \(error)")
-                                        expecation.fulfill()
                                     } else {
-                                        XCTAssertEqual(JSON!["status"] as String, "published", "Wait task failed")
-                                        expecation.fulfill()
-                                        
                                         self.index.search(Query(), block: { (JSON, error) -> Void in
                                             if let error = error {
                                                 XCTFail("Error during search: \(error)")
@@ -215,6 +207,8 @@ class ClientTests: XCTestCase {
                                             dstIndexExpectation.fulfill()
                                         })
                                     }
+                                    
+                                    expecation.fulfill()
                                 })
                             }
                         })
@@ -229,6 +223,137 @@ class ClientTests: XCTestCase {
         client.deleteIndex("algol?à-swift2", block: { (JSON, error) -> Void in
             XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
             deleteExpectation.fulfill()
+        })
+        
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+    }
+    
+    func testGetLogs() {
+        let expecation = expectationWithDescription("testGetLogs")
+        let object = ["city": "San Francisco", "objectID": "a/go/?à"]
+        
+        index.addObject(object, block: { (JSON, error) -> Void in
+            if let error = error {
+                XCTFail("Error during addObject: \(error)")
+                expecation.fulfill()
+            } else {
+                self.index.waitTask(JSON!["taskID"] as Int, block: { (JSON, error) -> Void in
+                    if let error = error {
+                        XCTFail("Error during waitTask: \(error)")
+                        expecation.fulfill()
+                    } else {
+                        self.client.getLogs({ (JSON, error) -> Void in
+                            if let error = error {
+                                XCTFail("Error during getLogs: \(error)")
+                            } else {
+                                let logs = JSON!["logs"] as [AnyObject]
+                                XCTAssertNotEqual(logs.count, 0, "Get logs failed")
+                            }
+                            
+                            expecation.fulfill()
+                        })
+                    }
+                })
+            }
+        })
+        
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+    }
+    
+    func testGetLogsWithOffset() {
+        let expecation = expectationWithDescription("testGetLogsWithOffset")
+        let object = ["city": "San Francisco", "objectID": "a/go/?à"]
+        
+        index.addObject(object, block: { (JSON, error) -> Void in
+            if let error = error {
+                XCTFail("Error during addObject: \(error)")
+                expecation.fulfill()
+            } else {
+                self.index.waitTask(JSON!["taskID"] as Int, block: { (JSON, error) -> Void in
+                    if let error = error {
+                        XCTFail("Error during waitTask: \(error)")
+                        expecation.fulfill()
+                    } else {
+                        self.client.getLogsWithOffset(0, length: 1, block: { (JSON, error) -> Void in
+                            if let error = error {
+                                XCTFail("Error during getLogs: \(error)")
+                            } else {
+                                let logs = JSON!["logs"] as [AnyObject]
+                                XCTAssertEqual(logs.count, 1, "Get logs failed")
+                            }
+                            
+                            expecation.fulfill()
+                        })
+                    }
+                })
+            }
+        })
+        
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+    }
+    
+    func testGetLogsWithType() {
+        let expecation = expectationWithDescription("testGetLogsWithType")
+        let object = ["city": "San Francisco", "objectID": "a/go/?à"]
+        
+        index.addObject(object, block: { (JSON, error) -> Void in
+            if let error = error {
+                XCTFail("Error during addObject: \(error)")
+                expecation.fulfill()
+            } else {
+                self.index.waitTask(JSON!["taskID"] as Int, block: { (JSON, error) -> Void in
+                    if let error = error {
+                        XCTFail("Error during waitTask: \(error)")
+                        expecation.fulfill()
+                    } else {
+                        self.client.getLogsWithType("error", offset: 0, length: 1, block: { (JSON, error) -> Void in
+                            if let error = error {
+                                XCTFail("Error during getLogs: \(error)")
+                            } else {
+                                let logs = JSON!["logs"] as [AnyObject]
+                                XCTAssertEqual(logs.count, 1, "Get logs failed")
+                            }
+                            
+                            expecation.fulfill()
+                        })
+                    }
+                })
+            }
+        })
+        
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+    }
+    
+    func testMultipleQueries() {
+        let expectation = expectationWithDescription("testMultipleQueries")
+        let object = ["city": "San Francisco"]
+        
+        index.addObject(object, block: { (JSON, error) -> Void in
+            if let error = error {
+                XCTFail("Error during addObject: \(error)")
+                expectation.fulfill()
+            } else {
+                self.index.waitTask(JSON!["taskID"] as Int, block: { (JSON, error) -> Void in
+                    if let error = error {
+                        XCTFail("Error during waitTask: \(error)")
+                        expectation.fulfill()
+                    } else {
+                        let queries = [["indexName": self.index.indexName, "query": Query()]]
+                        
+                        self.client.multipleQueries(queries, block: { (JSON, error) -> Void in
+                            if let error = error {
+                                XCTFail("Error during multipleQueries: \(error)")
+                            } else {
+                                let items = JSON!["results"] as [[String: AnyObject]]
+                                let nbHits = items[0]["nbHits"] as Int
+                                XCTAssertEqual(nbHits, 1, "Wrong number of object in the index")
+                            }
+                            
+                            expectation.fulfill()
+                        })
+                    }
+                })
+            }
         })
         
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
