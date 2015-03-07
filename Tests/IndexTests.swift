@@ -649,4 +649,90 @@ class IndexTests: XCTestCase {
 
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
+    
+    func testKeyOperations() {
+        let expectation = expectationWithDescription("testKeyOperations")
+        let object = ["city": "San Francisco", "objectID": "a/go/?à"]
+        
+        index.addObject(object, block: { (JSON, error) -> Void in
+            if let error = error {
+                XCTFail("Error during addObject: \(error)")
+                expectation.fulfill()
+            } else {
+                self.index.waitTask(JSON!["taskID"] as Int, block: { (JSON, error) -> Void in
+                    if let error = error {
+                        XCTFail("Error during waitTask: \(error)")
+                        expectation.fulfill()
+                    } else {
+                        self.index.addUserKey(["search"], block: { (JSON, error) -> Void in
+                            if let error = error {
+                                XCTFail("Error during addUserKey: \(error)")
+                                expectation.fulfill()
+                            } else {
+                                NSThread.sleepForTimeInterval(5) // Wait the backend
+                                self.index.getUserKeyACL(JSON!["key"] as String, block: { (JSON, error) -> Void in
+                                    if let error = error {
+                                        XCTFail("Error during getUserKeyACL: \(error)")
+                                        expectation.fulfill()
+                                    } else {
+                                        let acls = JSON!["acl"] as [String]
+                                        XCTAssertEqual(acls, ["search"], "Add user key failed")
+                                        
+                                        self.index.updateUserKey(JSON!["value"] as String, withACL: ["addObject"], block: { (JSON, error) -> Void in
+                                            if let error = error {
+                                                XCTFail("Error during updateUserKey: \(error)")
+                                                expectation.fulfill()
+                                            } else {
+                                                NSThread.sleepForTimeInterval(5) // Wait the backend
+                                                self.index.getUserKeyACL(JSON!["key"] as String, block: { (JSON, error) -> Void in
+                                                    if let error = error {
+                                                        XCTFail("Error during getUserKeyACL: \(error)")
+                                                        expectation.fulfill()
+                                                    } else {
+                                                        let acls = JSON!["acl"] as [String]
+                                                        XCTAssertEqual(acls, ["addObject"], "Update user key failed")
+                                                        
+                                                        let keyToDelete = JSON!["value"] as String
+                                                        self.index.deleteUserKey(keyToDelete, block: { (JSON, error) -> Void in
+                                                            if let error = error {
+                                                                XCTFail("Error during deleteUserKey: \(error)")
+                                                                expectation.fulfill()
+                                                            } else {
+                                                                NSThread.sleepForTimeInterval(5) // Wait the backend
+                                                                self.index.listUserKeys({ (JSON, error) -> Void in
+                                                                    if let error = error {
+                                                                        XCTFail("Error during listUserKeys: \(error)")
+                                                                    } else {
+                                                                        let keys = JSON!["keys"] as [[String: AnyObject]]
+                                                                        
+                                                                        var found = false
+                                                                        for key in keys {
+                                                                            if (key["value"] as String) == keyToDelete {
+                                                                                found = true
+                                                                                break;
+                                                                            }
+                                                                        }
+                                                                        
+                                                                        XCTAssertTrue(!found, "DeleteUserKey failed")
+                                                                    }
+                                                                    
+                                                                    expectation.fulfill()
+                                                                })
+                                                            }
+                                                        })
+                                                    }
+                                                })
+                                            }
+                                        })
+                                    }
+                                })
+                            }
+                        })
+                    }
+                })
+            }
+        })
+        
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+    }
 }
