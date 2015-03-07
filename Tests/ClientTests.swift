@@ -23,7 +23,6 @@
 
 import XCTest
 import AlgoliaSearch
-import Alamofire
 
 class ClientTests: XCTestCase {
     let expectationTimeout: NSTimeInterval = 100
