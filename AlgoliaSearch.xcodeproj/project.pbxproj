@@ -24,7 +24,7 @@
 		5DB251661AADA6EC00945339 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB251651AADA6EC00945339 /* Alamofire.framework */; };
 		5DB251671AADA6F100945339 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB251651AADA6EC00945339 /* Alamofire.framework */; };
 		5DB2516A1AADA70500945339 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB251681AADA6FE00945339 /* Alamofire.framework */; };
-		5DB2516C1AADF92500945339 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5DB251651AADA6EC00945339 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		5DB2516C1AADF92500945339 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5DB251651AADA6EC00945339 /* Alamofire.framework */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5DB2516F1AADF9C000945339 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB251681AADA6FE00945339 /* Alamofire.framework */; };
 		5DECA2DA1A960BC5001A6088 /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DECA2D91A960BC5001A6088 /* Index.swift */; };
 		5DF8C1311A9CA354006E107B /* Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF8C1301A9CA354006E107B /* Type.swift */; };
