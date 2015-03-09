@@ -9,8 +9,7 @@ before_install:
   - brew install carthage
   - gem install xcpretty -N
 install:
-  - carthage bootstrap
+  - carthage bootstrap --platform macosx
 script:
   - set -o pipefail
   - xcodebuild -project AlgoliaSearch.xcodeproj -scheme "AlgoliaSearch OSX" test | xcpretty -c
-  - xcodebuild -project AlgoliaSearch.xcodeproj -scheme "AlgoliaSearch iOS" -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone 6" ONLY_ACTIVE_ARCH=NO test | xcpretty -c
