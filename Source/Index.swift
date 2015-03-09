@@ -70,6 +70,14 @@ public class Index {
         client.performHTTPQuery(path, method: .POST, body: request, block: block)
     }
     
+    /// Delete an object from the index
+    ///
+    /// :param: objectID The unique identifier of object to delete
+    public func deleteObject(objectID: String, block: CompletionHandler? = nil) {
+        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
+        client.performHTTPQuery(path, method: .DELETE, body: nil, block: block)
+    }
+    
     /// Delete several objects
     ///
     /// :param: objectIDs An array of objectID to delete.
@@ -180,14 +188,6 @@ public class Index {
         let request = ["requests": requests]
         
         client.performHTTPQuery(path, method: .POST, body: request, block: block)
-    }
-    
-    /// Delete an object from the index
-    ///
-    /// :param: objectID The unique identifier of object to delete
-    public func deleteObject(objectID: String, block: CompletionHandler? = nil) {
-        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
-        client.performHTTPQuery(path, method: .DELETE, body: nil, block: block)
     }
     
     /// Search inside the index
