@@ -19,7 +19,11 @@ Algolia's Search API makes it easy to deliver a great search experience in your 
 
 
 
-
+[![Build Status](https://travis-ci.org/algolia/algoliasearch-client-swift.svg?branch=master)](https://travis-ci.org/algolia/algoliasearch-client-swift)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![](http://img.shields.io/badge/OS%20X-10.9%2B-lightgrey.svg)]()
+[![](http://img.shields.io/badge/iOS-8.0%2B-lightgrey.svg)]()
+[![GitHub release](https://img.shields.io/github/release/algolia/algoliasearch-client-swift.svg)](https://github.com/algolia/algoliasearch-client-swift/releases/latest)
 
 
 
@@ -158,30 +162,6 @@ index.search(Query(fullTextQuery: "jim"), block: { (JSON, error) -> Void in
 ```
 
 
-**Notes:** If you are building a web application, you may be more interested in using our [JavaScript client](https://github.com/algolia/algoliasearch-client-js) to perform queries. It brings two benefits:
-  * Your users get a better response time by not going through your servers
-  * It will offload unnecessary tasks from your servers.
-
-```html
-<script type="text/javascript" src="//path/to/algoliasearch.min.js"></script>
-<script type="text/javascript">
-  var client = new AlgoliaSearch("YourApplicationID", "YourSearchOnlyAPIKey");
-  var index = client.initIndex('YourIndexName');
-
-  function searchCallback(success, content) {
-    if (success) {
-      console.log(content);
-    }
-  }
-
-  // perform query "jim"
-  index.search("jim", searchCallback);
-
-  // the last optional argument can be used to add search parameters
-  index.search("jim", searchCallback, { hitsPerPage: 5, facets: '*', maxValuesPerFacet: 10 });
-</script>
-```
-
 
 
 
@@ -192,16 +172,16 @@ index.search(Query(fullTextQuery: "jim"), block: { (JSON, error) -> Void in
 Documentation
 ================
 
-Check our [online documentation](http://www.algolia.com/doc/guides/):
- * [Initial Import](http://www.algolia.com/doc/guides/#InitialImport)
- * [Ranking &amp; Relevance](http://www.algolia.com/doc/guides/#RankingRelevance)
- * [Indexing](http://www.algolia.com/doc/guides/#Indexing)
- * [Search](http://www.algolia.com/doc/guides/#Search)
- * [Sorting](http://www.algolia.com/doc/guides/#Sorting)
- * [Filtering](http://www.algolia.com/doc/guides/#Filtering)
- * [Faceting](http://www.algolia.com/doc/guides/#Faceting)
- * [Geo-Search](http://www.algolia.com/doc/guides/#Geo-Search)
- * [Security](http://www.algolia.com/doc/guides/#Security)
+Check our [online documentation](http://www.algolia.com/doc/guides/swift):
+ * [Initial Import](http://www.algolia.com/doc/guides/swift#InitialImport)
+ * [Ranking &amp; Relevance](http://www.algolia.com/doc/guides/swift#RankingRelevance)
+ * [Indexing](http://www.algolia.com/doc/guides/swift#Indexing)
+ * [Search](http://www.algolia.com/doc/guides/swift#Search)
+ * [Sorting](http://www.algolia.com/doc/guides/swift#Sorting)
+ * [Filtering](http://www.algolia.com/doc/guides/swift#Filtering)
+ * [Faceting](http://www.algolia.com/doc/guides/swift#Faceting)
+ * [Geo-Search](http://www.algolia.com/doc/guides/swift#Geo-Search)
+ * [Security](http://www.algolia.com/doc/guides/swift#Security)
  * [REST API](http://www.algolia.com/doc/rest)
 
 
@@ -353,10 +333,6 @@ index.partialUpdateObject(partialObject, objectID: "myID", block: nil)
 
 Search
 -------------
-
-**Notes:** If you are building a web application, you may be more interested in using our [JavaScript client](https://github.com/algolia/algoliasearch-client-js) to perform queries. It brings two benefits:
-  * Your users get a better response time by not going through your servers
-  * It will offload unnecessary tasks from your servers.
 
 
 To perform a search, you only need to initialize the index and perform a call to the search function.
@@ -566,7 +542,10 @@ Delete by query
 
 You can delete all objects matching a single query with the following code. Internally, the API client performs the query, deletes all matching hits, and waits until the deletions have been applied.
 
-
+```swift
+let query: Query = /* [...] */
+index.deleteByQuery(query, block: nil)
+```
 
 
 Index Settings
@@ -809,8 +788,6 @@ You can also create an API Key with advanced restrictions:
  * Add a validity period. The key will be valid for a specific period of time (in seconds).
  * Specify the maximum number of API calls allowed from an IP address per hour. Each time an API call is performed with this key, a check is performed. If the IP at the source of the call did more than this number of calls in the last hour, a 403 code is returned. Defaults to 0 (no rate limit). This parameter can be used to protect you from attempts at retrieving your entire index contents by massively querying the index.
 
-
-
  * Specify the maximum number of hits this API key can retrieve in one call. Defaults to 0 (unlimited). This parameter can be used to protect you from attempts at retrieving your entire index contents by massively querying the index.
  * Specify the list of targeted indices. You can target all indices starting with a prefix or ending with a suffix using the '*' character. For example, "dev_*" matches all indices starting with "dev_" and "*_dev" matches all indices ending with "_dev". Defaults to all indices if empty or blank.
 
@@ -879,41 +856,6 @@ index.deleteUserKey("myAPIKey", block: { (JSON, error) -> Void in
 		println("Delete error: \(error)")
 	}
 })
-```
-
-
-
-You may have a single index containing per user data. In that case, all records should be tagged with their associated user_id in order to add a `tagFilters=(public,user_42)` filter at query time to retrieve only what a user has access to. If you're using the [JavaScript client](http://github.com/algolia/algoliasearch-client-js), it will result in a security breach since the user is able to modify the `tagFilters` you've set by modifying the code from the browser. To keep using the JavaScript client (recommended for optimal latency) and target secured records, you can generate a secured API key from your backend:
-
-
-
-This public API key must then be used in your JavaScript code as follow:
-
-```javascript
-<script type="text/javascript">
-  var algolia = new AlgoliaSearch('YourApplicationID', '<%= public_api_key %>');
-  algolia.setSecurityTags('(public,user_42)'); // must be same than those used at generation-time
-  algolia.initIndex('YourIndex').search($('#q').val(), function(success, content) {
-    // [...]
-  });
-</script>
-```
-
-You can mix rate limits and secured API keys by setting an extra `user_token` attribute both at API key generation time and query time. When set, a unique user will be identified by her `IP + user_token` instead of only by her `IP`. This allows you to restrict a single user to performing a maximum of `N` API calls per hour, even if she shares her `IP` with another user.
-
-
-
-This public API key must then be used in your JavaScript code as follow:
-
-```javascript
-<script type="text/javascript">
-  var algolia = new AlgoliaSearch('YourApplicationID', '<%= public_api_key %>');
-  algolia.setSecurityTags('(public,user_42)'); // must be same than those used at generation-time
-  algolia.setUserToken('user_42')              // must be same than the one used at generation-time
-  algolia.initIndex('YourIndex').search($('#q').val(), function(success, content) {
-    // [...]
-  });
-</script>
 ```
 
 

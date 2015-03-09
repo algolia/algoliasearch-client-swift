@@ -1,5 +1,4 @@
 language: objective-c
-osx_image: xcode611
 env:
   global:
     - secure: Joz57OiADTS1+vgoLfNoXkSitwuMtytmAEJeVOdzdp2IKKpWnBBitkIQzaFfOEJmudDaR1CZRd0VpZ+Co1KKSBfl3AsLPWYrzoPNIXgXlxLHuPRSl1h3SFE9xJer9P3klDj3M2o/PZX35xM0+J07T1NjIlP0hmBHnXIJMEbOog4=
