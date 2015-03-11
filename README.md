@@ -868,7 +868,7 @@ You can easily copy or rename an existing index using the `copy` and `move` comm
 
 ```swift
 // Rename MyIndex in MyIndexNewName
-client.moveIndex("MyIndex", dstIndexName: "MyIndexNewName", block: { (JSON, error) -> Void in
+client.moveIndex("MyIndex", to: "MyIndexNewName", block: { (JSON, error) -> Void in
 	if let error = error {
 		println("Move failure: \(error)")
 	} else {
@@ -876,7 +876,7 @@ client.moveIndex("MyIndex", dstIndexName: "MyIndexNewName", block: { (JSON, erro
 	}
 })
 // Copy MyIndex in MyIndexCopy
-client.copyIndex("MyIndex", dstIndexName: "MyIndexCopy", block: { (JSON, error) -> Void in
+client.copyIndex("MyIndex", to: "MyIndexCopy", block: { (JSON, error) -> Void in
 	if let error = error {
 		println("Copy failure: \(error)")
 	} else {

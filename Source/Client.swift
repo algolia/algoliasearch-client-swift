@@ -161,7 +161,7 @@ public class Client {
     ///
     /// :param: srcIndexName the name of index to move.
     /// :param: dstIndexName the new index name that will contains sourceIndexName (destination will be overriten if it already exist).
-    public func moveIndex(srcIndexName: String, dstIndexName: String, block: CompletionHandler? = nil) {
+    public func moveIndex(srcIndexName: String, to dstIndexName: String, block: CompletionHandler? = nil) {
         let path = "1/indexes/\(srcIndexName.urlEncode())/operation"
         let request = [
             "destination": dstIndexName,
@@ -175,7 +175,7 @@ public class Client {
     ///
     /// :param: srcIndexName the name of index to copy.
     /// :param: dstIndexName the new index name that will contains a copy of sourceIndexName (destination will be overriten if it already exist).
-    public func copyIndex(srcIndexName: String, dstIndexName: String, block: CompletionHandler? = nil) {
+    public func copyIndex(srcIndexName: String, to dstIndexName: String, block: CompletionHandler? = nil) {
         let path = "1/indexes/\(srcIndexName.urlEncode())/operation"
         let request = [
             "destination": dstIndexName,
@@ -361,7 +361,8 @@ public class Client {
                     case 200, 201:
                         block(JSON: (data as [String: AnyObject]), error: nil)
                     case 400:
-                        block(JSON: nil, error: NSError(domain: "Bad request argument", code: 400, userInfo: nil))
+                        let errorMessage = data!["message"] as String
+                        block(JSON: nil, error: NSError(domain: "Bad request argument: \(errorMessage)", code: 400, userInfo: nil))
                     case 403:
                         block(JSON: nil, error: NSError(domain: "Invalid Application-ID or API-Key", code: 403, userInfo: nil))
                     case 404:

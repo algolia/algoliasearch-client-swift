@@ -115,7 +115,7 @@ class ClientTests: XCTestCase {
                     } else {
                         XCTAssertEqual(JSON!["status"] as String, "published", "Wait task failed")
                         
-                        self.client.moveIndex(self.index.indexName, dstIndexName: "algol?à-swift2", block: { (JSON, error) -> Void in
+                        self.client.moveIndex(self.index.indexName, to: "algol?à-swift2", block: { (JSON, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during moveIndex: \(error)")
                                 expecation.fulfill()
@@ -175,7 +175,7 @@ class ClientTests: XCTestCase {
                     } else {
                         XCTAssertEqual(JSON!["status"] as String, "published", "Wait task failed")
                         
-                        self.client.copyIndex(self.index.indexName, dstIndexName: "algol?à-swift2", block: { (JSON, error) -> Void in
+                        self.client.copyIndex(self.index.indexName, to: "algol?à-swift2", block: { (JSON, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during copyIndex: \(error)")
                                 expecation.fulfill()
