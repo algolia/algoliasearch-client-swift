@@ -181,8 +181,9 @@ public class Query : Printable {
     ///
     /// Note: at indexing, geoloc of an object should be set with _geoloc attribute containing 
     /// lat and lng attributes (for example {"_geoloc":{"lat":48.853409, "lng":2.348800}})
-    public func searchAroundLatitude(latitude: Float, longitude: Float, maxDistance maxDist: UInt) {
+    public func searchAroundLatitude(latitude: Float, longitude: Float, maxDistance maxDist: UInt) -> Query {
         aroundLatLong = "aroundLatLng=\(latitude),\(longitude)&aroundRadius=\(maxDist)"
+        return self
     }
     
     /// Search for entries around a given latitude/longitude.
@@ -192,8 +193,9 @@ public class Query : Printable {
     ///
     /// Note: at indexing, geoloc of an object should be set with _geoloc attribute containing
     /// lat and lng attributes (for example {"_geoloc":{"lat":48.853409, "lng":2.348800}})
-    public func searchAroundLatitude(latitude: Float, longitude: Float, maxDistance maxDist: UInt, precision: UInt) {
+    public func searchAroundLatitude(latitude: Float, longitude: Float, maxDistance maxDist: UInt, precision: UInt) -> Query {
         aroundLatLong = "aroundLatLng=\(latitude),\(longitude)&aroundRadius=\(maxDist)&aroundPrecision=\(precision)"
+        return self
     }
     
     /// Search for entries around a given latitude/longitude (using IP geolocation).
@@ -202,9 +204,10 @@ public class Query : Printable {
     ///
     /// Note: at indexing, geoloc of an object should be set with _geoloc attribute containing
     /// lat and lng attributes (for example {"_geoloc":{"lat":48.853409, "lng":2.348800}})
-    public func searchAroundLatitudeLongitudeViaIP(maxDistance maxDist: UInt) {
+    public func searchAroundLatitudeLongitudeViaIP(maxDistance maxDist: UInt) -> Query {
         aroundLatLong = "aroundRadius=\(maxDist)"
         aroundLatLongViaIP = true
+        return self
     }
     
     /// Search for entries around a given latitude/longitude (using IP geolocation).
@@ -214,17 +217,19 @@ public class Query : Printable {
     ///
     /// Note: at indexing, geoloc of an object should be set with _geoloc attribute containing
     /// lat and lng attributes (for example {"_geoloc":{"lat":48.853409, "lng":2.348800}})
-    public func searchAroundLatitudeLongitudeViaIP(maxDistane maxDist: UInt, precision: UInt) {
+    public func searchAroundLatitudeLongitudeViaIP(maxDistane maxDist: UInt, precision: UInt) -> Query {
         aroundLatLong = "aroundRadius=\(maxDist)&aroundPrecision=\(precision)"
         aroundLatLongViaIP = true
+        return self
     }
     
     /// Search for entries inside a given area defined by the two extreme points of a rectangle.
     ///
     /// Note: at indexing, geoloc of an object should be set with _geoloc attribute containing
     /// lat and lng attributes (for example {"_geoloc":{"lat":48.853409, "lng":2.348800}})
-    public func searchInsideBoundingBoxWithLatitudeP1(latitudeP1: Float, longitudeP1: Float, latitudeP2: Float, longitudeP2: Float) {
+    public func searchInsideBoundingBoxWithLatitudeP1(latitudeP1: Float, longitudeP1: Float, latitudeP2: Float, longitudeP2: Float) -> Query {
         insideBoundingBox = "insideBoundingBox=\(latitudeP1),\(longitudeP1),\(latitudeP2),\(longitudeP2)"
+        return self
     }
     
     /// Return the final query string used in URL.
