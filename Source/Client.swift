@@ -22,8 +22,6 @@
 //
 
 import Foundation
-import Alamofire
-
 
 /// Entry point in the Swift API.
 ///
@@ -42,7 +40,7 @@ public class Client {
             if let tagFilters = tagFilters {
                 setExtraHeader(tagFilters, forKey: "X-Algolia-TagFilters")
             } else {
-                Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders?.removeValueForKey("X-Algolia-TagFilters")
+                //Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders?.removeValueForKey("X-Algolia-TagFilters")
             }
         }
     }
@@ -53,21 +51,22 @@ public class Client {
             if let userToken = userToken {
                 setExtraHeader(userToken, forKey: "X-Algolia-UserToken")
             } else {
-                Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders?.removeValueForKey("X-Algolia-UserToken")
+                //Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders?.removeValueForKey("X-Algolia-UserToken")
             }
         }
     }
     
     public var timeout: NSTimeInterval = 30 {
         didSet {
-            Alamofire.Manager.sharedInstance.session.configuration.timeoutIntervalForRequest = timeout;
+            //Alamofire.Manager.sharedInstance.session.configuration.timeoutIntervalForRequest = timeout;
         }
     }
     
     public let appID: String
     public let hostnames: [String]
     
-    private var requestBuffer = RingBuffer<Alamofire.Request>(maxCapacity: 10)
+    private let manager: Manager
+    private var requestBuffer = RingBuffer<Request>(maxCapacity: 10)
     
     /// Algolia Search initialization.
     ///
@@ -123,7 +122,7 @@ public class Client {
             HTTPHeader["X-Algolia-UserToken"] = userToken
         }
         
-        Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = HTTPHeader
+        manager = Manager(HTTPHeader: HTTPHeader)
     }
     
     /// Allow to set custom extra header.
@@ -131,12 +130,12 @@ public class Client {
     /// :param: value value of the header
     /// :param: forKey key of the header
     public func setExtraHeader(value: String, forKey key: String) {
-        if (Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders != nil) {
-            Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders!.updateValue(value, forKey: key)
-        } else {
-            let HTTPHeader = [key: value]
-            Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = HTTPHeader
-        }
+//        if (Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders != nil) {
+//            Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders!.updateValue(value, forKey: key)
+//        } else {
+//            let HTTPHeader = [key: value]
+//            Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = HTTPHeader
+//        }
     }
     
     // MARK: - Operations
@@ -350,11 +349,10 @@ public class Client {
     // MARK: - Network
     
     /// Perform an HTTP Query.
-    func performHTTPQuery(path: String, method: Alamofire.Method, body: [String: AnyObject]?, index: Int = 0, block: CompletionHandler? = nil) {
+    func performHTTPQuery(path: String, method: HTTPMethod, body: [String: AnyObject]?, index: Int = 0, block: CompletionHandler? = nil) {
         assert(index < hostnames.count, "\(index) < \(hostnames.count) !")
         
-        let request = Alamofire.request(method, "https://\(hostnames[index])/\(path)", parameters: body, encoding: .JSON).responseJSON {
-            (request, response, data, error) -> Void in
+        let request = manager.request(method, "https://\(hostnames[index])/\(path)", parameters: body) { (response, data, error) -> Void in
             if let statusCode = response?.statusCode {
                 if let block = block {
                     switch(statusCode) {
@@ -388,7 +386,7 @@ public class Client {
     }
     
     /// Cancel a queries. Only the last ten queries can be cancelled.
-    func cancelQueries(method: Alamofire.Method, path: String) {
+    func cancelQueries(method: HTTPMethod, path: String) {
         for request in requestBuffer {
             if request.request.URL.path == path {
                 if request.request.HTTPMethod == method.rawValue {

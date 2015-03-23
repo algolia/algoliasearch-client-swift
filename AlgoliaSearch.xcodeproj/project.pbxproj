@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5D09E1DC1AC0773A00B799A6 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D09E1DB1AC0773A00B799A6 /* Network.swift */; };
+		5D09E1DD1AC0773A00B799A6 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D09E1DB1AC0773A00B799A6 /* Network.swift */; };
 		5D74958A1A8E25A600B0263F /* AlgoliaSearch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D74957E1A8E25A600B0263F /* AlgoliaSearch.framework */; };
 		5D7495A11A8E277400B0263F /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D74959F1A8E277400B0263F /* Extension.swift */; };
 		5D7495A21A8E277400B0263F /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7495A01A8E277400B0263F /* Client.swift */; };
@@ -21,11 +23,6 @@
 		5DB2515C1AAD9F3300945339 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D74959F1A8E277400B0263F /* Extension.swift */; };
 		5DB2515D1AAD9F3B00945339 /* IndexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8FFA391AAB0AB80078869E /* IndexTests.swift */; };
 		5DB2515E1AAD9F3F00945339 /* ClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8FFA371AAB08830078869E /* ClientTests.swift */; };
-		5DB251661AADA6EC00945339 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB251651AADA6EC00945339 /* Alamofire.framework */; };
-		5DB251671AADA6F100945339 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB251651AADA6EC00945339 /* Alamofire.framework */; };
-		5DB2516A1AADA70500945339 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB251681AADA6FE00945339 /* Alamofire.framework */; };
-		5DB2516C1AADF92500945339 /* Alamofire.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 5DB251651AADA6EC00945339 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		5DB2516F1AADF9C000945339 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DB251681AADA6FE00945339 /* Alamofire.framework */; };
 		5DECA2DA1A960BC5001A6088 /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DECA2D91A960BC5001A6088 /* Index.swift */; };
 		5DF8C1311A9CA354006E107B /* Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF8C1301A9CA354006E107B /* Type.swift */; };
 /* End PBXBuildFile section */
@@ -47,20 +44,8 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		5D9F70861A93BE1D004B751B /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				5DB2516C1AADF92500945339 /* Alamofire.framework in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
+		5D09E1DB1AC0773A00B799A6 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		5D74957E1A8E25A600B0263F /* AlgoliaSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlgoliaSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D7495821A8E25A600B0263F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D7495891A8E25A600B0263F /* AlgoliaSearch OSX Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AlgoliaSearch OSX Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,8 +57,6 @@
 		5D8FFA391AAB0AB80078869E /* IndexTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexTests.swift; sourceTree = "<group>"; };
 		5DB2513D1AAD9EE300945339 /* AlgoliaSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlgoliaSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DB251471AAD9EE400945339 /* AlgoliaSearch iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AlgoliaSearch iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5DB251651AADA6EC00945339 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/Mac/Alamofire.framework; sourceTree = "<group>"; };
-		5DB251681AADA6FE00945339 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		5DECA2D91A960BC5001A6088 /* Index.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Index.swift; sourceTree = "<group>"; };
 		5DF8C1301A9CA354006E107B /* Type.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Type.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -83,7 +66,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5DB251661AADA6EC00945339 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,7 +74,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D74958A1A8E25A600B0263F /* AlgoliaSearch.framework in Frameworks */,
-				5DB251671AADA6F100945339 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,7 +81,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5DB2516F1AADF9C000945339 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,7 +89,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5DB251481AAD9EE400945339 /* AlgoliaSearch.framework in Frameworks */,
-				5DB2516A1AADA70500945339 /* Alamofire.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,7 +98,6 @@
 		5D7495741A8E25A600B0263F = {
 			isa = PBXGroup;
 			children = (
-				5D74959C1A8E265C00B0263F /* Frameworks */,
 				5D7495801A8E25A600B0263F /* Source */,
 				5D74958D1A8E25A600B0263F /* Tests */,
 				5D74957F1A8E25A600B0263F /* Products */,
@@ -144,6 +122,7 @@
 				5D7495A61A8E499B00B0263F /* Query.swift */,
 				5DECA2D91A960BC5001A6088 /* Index.swift */,
 				5DF8C1301A9CA354006E107B /* Type.swift */,
+				5D09E1DB1AC0773A00B799A6 /* Network.swift */,
 				5D74959F1A8E277400B0263F /* Extension.swift */,
 				5D7495811A8E25A600B0263F /* Supporting Files */,
 			);
@@ -174,15 +153,6 @@
 				5D74958F1A8E25A600B0263F /* Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		5D74959C1A8E265C00B0263F /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				5DB251681AADA6FE00945339 /* Alamofire.framework */,
-				5DB251651AADA6EC00945339 /* Alamofire.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -229,7 +199,6 @@
 				5D7495851A8E25A600B0263F /* Sources */,
 				5D7495861A8E25A600B0263F /* Frameworks */,
 				5D7495871A8E25A600B0263F /* Resources */,
-				5D9F70861A93BE1D004B751B /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -249,7 +218,6 @@
 				5DB251391AAD9EE300945339 /* Frameworks */,
 				5DB2513A1AAD9EE300945339 /* Headers */,
 				5DB2513B1AAD9EE300945339 /* Resources */,
-				5DB251631AADA67800945339 /* Carthage copy */,
 			);
 			buildRules = (
 			);
@@ -267,7 +235,6 @@
 				5DB251431AAD9EE400945339 /* Sources */,
 				5DB251441AAD9EE400945339 /* Frameworks */,
 				5DB251451AAD9EE400945339 /* Resources */,
-				5DB251701AADFB1100945339 /* Carthage copy */,
 			);
 			buildRules = (
 			);
@@ -346,39 +313,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		5DB251631AADA67800945339 /* Carthage copy */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
-			);
-			name = "Carthage copy";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-		5DB251701AADFB1100945339 /* Carthage copy */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
-			);
-			name = "Carthage copy";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		5D7495791A8E25A600B0263F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -386,6 +320,7 @@
 			files = (
 				5DF8C1311A9CA354006E107B /* Type.swift in Sources */,
 				5DECA2DA1A960BC5001A6088 /* Index.swift in Sources */,
+				5D09E1DC1AC0773A00B799A6 /* Network.swift in Sources */,
 				5D7495A21A8E277400B0263F /* Client.swift in Sources */,
 				5D7495A71A8E499B00B0263F /* Query.swift in Sources */,
 				5D7495A11A8E277400B0263F /* Extension.swift in Sources */,
@@ -407,6 +342,7 @@
 			files = (
 				5DB2515C1AAD9F3300945339 /* Extension.swift in Sources */,
 				5DB251591AAD9F2A00945339 /* Query.swift in Sources */,
+				5D09E1DD1AC0773A00B799A6 /* Network.swift in Sources */,
 				5DB251581AAD9F2700945339 /* Client.swift in Sources */,
 				5DB2515A1AAD9F2D00945339 /* Index.swift in Sources */,
 				5DB2515B1AAD9F2F00945339 /* Type.swift in Sources */,
