@@ -40,7 +40,7 @@ public class Client {
             if let tagFilters = tagFilters {
                 setExtraHeader(tagFilters, forKey: "X-Algolia-TagFilters")
             } else {
-                //Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders?.removeValueForKey("X-Algolia-TagFilters")
+                manager.session.configuration.HTTPAdditionalHeaders?.removeValueForKey("X-Algolia-TagFilters")
             }
         }
     }
@@ -51,14 +51,14 @@ public class Client {
             if let userToken = userToken {
                 setExtraHeader(userToken, forKey: "X-Algolia-UserToken")
             } else {
-                //Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders?.removeValueForKey("X-Algolia-UserToken")
+                manager.session.configuration.HTTPAdditionalHeaders?.removeValueForKey("X-Algolia-UserToken")
             }
         }
     }
     
     public var timeout: NSTimeInterval = 30 {
         didSet {
-            //Alamofire.Manager.sharedInstance.session.configuration.timeoutIntervalForRequest = timeout;
+            manager.session.configuration.timeoutIntervalForRequest = timeout;
         }
     }
     
@@ -109,20 +109,20 @@ public class Client {
         }
         
         let version = NSBundle(identifier: "com.algolia.AlgoliaSearch")!.infoDictionary!["CFBundleShortVersionString"] as String
-        var HTTPHeader = [
+        var HTTPHeaders = [
             "X-Algolia-API-Key": self.apiKey,
             "X-Algolia-Application-Id": self.appID,
             "User-Agent": "Algolia for Swift \(version)"
         ]
         
         if let tagFilters = self.tagFilters {
-            HTTPHeader["X-Algolia-TagFilters"] = tagFilters
+            HTTPHeaders["X-Algolia-TagFilters"] = tagFilters
         }
         if let userToken = self.userToken {
-            HTTPHeader["X-Algolia-UserToken"] = userToken
+            HTTPHeaders["X-Algolia-UserToken"] = userToken
         }
         
-        manager = Manager(HTTPHeader: HTTPHeader)
+        manager = Manager(HTTPHeaders: HTTPHeaders)
     }
     
     /// Allow to set custom extra header.
@@ -130,12 +130,12 @@ public class Client {
     /// :param: value value of the header
     /// :param: forKey key of the header
     public func setExtraHeader(value: String, forKey key: String) {
-//        if (Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders != nil) {
-//            Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders!.updateValue(value, forKey: key)
-//        } else {
-//            let HTTPHeader = [key: value]
-//            Alamofire.Manager.sharedInstance.session.configuration.HTTPAdditionalHeaders = HTTPHeader
-//        }
+        if (manager.session.configuration.HTTPAdditionalHeaders != nil) {
+            manager.session.configuration.HTTPAdditionalHeaders!.updateValue(value, forKey: key)
+        } else {
+            let HTTPHeader = [key: value]
+            manager.session.configuration.HTTPAdditionalHeaders = HTTPHeader
+        }
     }
     
     // MARK: - Operations

@@ -34,9 +34,9 @@ enum HTTPMethod: String {
 class Manager {
     let session: NSURLSession
     
-    init(HTTPHeader: [String: String]) {
+    init(HTTPHeaders: [String: String]) {
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        configuration.HTTPAdditionalHeaders = HTTPHeader
+        configuration.HTTPAdditionalHeaders = HTTPHeaders
         
         session = NSURLSession(configuration: configuration)
     }
@@ -50,7 +50,7 @@ class Manager {
     ///
     /// :returns: The created request.
     func request(method: HTTPMethod, _ URLString: String, parameters: [String: AnyObject]? = nil, block: (NSHTTPURLResponse?, AnyObject?, NSError?) -> Void) -> Request {
-        let URLRequest = encodeParameter(CreateURLRequest(method, URLString), parameters: parameters)
+        let URLRequest = encodeParameter(CreateNSURLRequest(method, URLString), parameters: parameters)
         
         var dataTask = session.dataTaskWithRequest(URLRequest, completionHandler: { (data, response, error) -> Void in
             let (JSON: AnyObject?, _) = self.serializeResponse(data)
@@ -140,7 +140,7 @@ class Request {
     }
 }
 
-func CreateURLRequest(method: HTTPMethod, URL: String) -> NSURLRequest {
+func CreateNSURLRequest(method: HTTPMethod, URL: String) -> NSURLRequest {
     let mutableURLRequest = NSMutableURLRequest(URL: NSURL(string: URL)!)
     mutableURLRequest.HTTPMethod = method.rawValue
     
