@@ -54,7 +54,9 @@ class Manager {
         
         var dataTask = session.dataTaskWithRequest(URLRequest, completionHandler: { (data, response, error) -> Void in
             let (JSON: AnyObject?, _) = self.serializeResponse(data)
-            block(response as? NSHTTPURLResponse, JSON, error)
+            dispatch_async(dispatch_get_main_queue()) {
+                block(response as? NSHTTPURLResponse, JSON, error)
+            }
         })
         
         let request = Request(session: session, task: dataTask)

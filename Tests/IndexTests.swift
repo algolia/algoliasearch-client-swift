@@ -93,7 +93,7 @@ class IndexTests: XCTestCase {
     func testAddWithObjectID() {
         let expectation = expectationWithDescription("testAddWithObjectID")
         let object = ["city": "San José"]
-        let objectID = "a/go/?à-2"
+        let objectID = "a/go/?à"
         
         index.addObject(object, withID: objectID, block: { (JSON, error) -> Void in
             if let error = error {
@@ -184,7 +184,7 @@ class IndexTests: XCTestCase {
     
     func testDelete() {
         let expectation = expectationWithDescription("testDelete")
-        let object = ["city": "Las Vegas", "objectID": "a/go/?à-3"]
+        let object = ["city": "Las Vegas", "objectID": "a/go/?à"]
         
         index.addObject(object, block: { (JSON, error) -> Void in
             if let error = error {
@@ -265,7 +265,7 @@ class IndexTests: XCTestCase {
     
     func testGet() {
         let expectation = expectationWithDescription("testGet")
-        let object = ["city": "Los Angeles", "objectID": "a/go/?à-4"]
+        let object = ["city": "Los Angeles", "objectID": "a/go/?à"]
         
         index.addObject(object, block: { (JSON, error) -> Void in
             if let error = error {
@@ -333,7 +333,7 @@ class IndexTests: XCTestCase {
     
     func testPartialUpdateObject() {
         let expectation = expectationWithDescription("testPartialUpdateObject")
-        let object = ["city": "New York", "initial": "NY", "objectID": "a/go/?à-5"]
+        let object = ["city": "New York", "initial": "NY", "objectID": "a/go/?à"]
         
         index.addObject(object, block: { (JSON, error) -> Void in
             if let error = error {
@@ -423,14 +423,14 @@ class IndexTests: XCTestCase {
     
     func testSaveObject() {
         let expectation = expectationWithDescription("testSaveObject")
-        let object = ["city": "New York", "initial": "NY", "objectID": "a/go/?à-6"]
+        let object = ["city": "New York", "initial": "NY", "objectID": "a/go/?à"]
         
         index.addObject(object, block: { (JSON, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.saveObject(["city": "Los Angeles", "objectID": "a/go/?à-6"], block: { (JSON, error) -> Void in
+                self.index.saveObject(["city": "Los Angeles", "objectID": "a/go/?à"], block: { (JSON, error) -> Void in
                     if let error = error {
                         XCTFail("Error during saveObject: \(error)")
                         expectation.fulfill()
@@ -618,7 +618,7 @@ class IndexTests: XCTestCase {
         let expectation = expectationWithDescription("testBrowseWithHitsPerPage")
         let objects = [
             ["city": "San Francisco", "objectID": "a/go/?à"],
-            ["city": "New York", "objectID": "a/go/?à-1"]
+            ["city": "New York", "objectID": "a/go/?à$"]
         ]
         
         index.addObjects(objects, block: { (JSON, error) -> Void in
