@@ -306,7 +306,7 @@ class ClientTests: XCTestCase {
                         XCTFail("Error during waitTask: \(error)")
                         expecation.fulfill()
                     } else {
-                        self.client.getLogsWithType("error", offset: 0, length: 1, block: { (JSON, error) -> Void in
+                        self.client.getLogsWithType("build", offset: 0, length: 1, block: { (JSON, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during getLogs: \(error)")
                             } else {
