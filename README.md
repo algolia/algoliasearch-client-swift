@@ -2,28 +2,18 @@
 
 
 
+
 [Algolia Search](http://www.algolia.com) is a hosted full-text, numerical, and faceted search engine capable of delivering realtime results from the first keystroke.
-Algolia's Search API makes it easy to deliver a great search experience in your websites and mobile applications by providing:
 
- * REST and JSON based API
- * Search against infinite attributes from a single search box
- * Instant search as you type experience
- * Relevance and popularity ranking
- * Global language support
- * Typo tolerance in any language
- * Smart highlighting
- * Facet as you type
- * Geo awareness
- * 99.99% SLA
- * First class data security
-
+Our Swift client lets you easily use the [Algolia Search API](https://www.algolia.com/doc/rest_api) from your backend. It wraps the [Algolia Search REST API](http://www.algolia.com/doc/rest_api).
 
 
 [![Build Status](https://travis-ci.org/algolia/algoliasearch-client-swift.svg?branch=master)](https://travis-ci.org/algolia/algoliasearch-client-swift)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![CocoaPods](https://img.shields.io/cocoapods/v/AlgoliaSearch-Client-Swift.svg)]()
+[![CocoaPods](https://img.shields.io/cocoapods/l/AlgoliaSearch-Client-Swift.svg)]()
 [![](http://img.shields.io/badge/OS%20X-10.9%2B-lightgrey.svg)]()
 [![](http://img.shields.io/badge/iOS-8.0%2B-lightgrey.svg)]()
-[![GitHub release](https://img.shields.io/github/release/algolia/algoliasearch-client-swift.svg)](https://github.com/algolia/algoliasearch-client-swift/releases/latest)
 
 
 
@@ -67,13 +57,16 @@ To setup your project, follow these steps:
 
 
 
- 1. [Download and add sources](https://github.com/algolia/algoliasearch-client-swift/archive/master.zip) to your project (you will also need to add [Alamofire](https://github.com/Alamofire/Alamofire) in your project) or use [Carthage](https://github.com/Carthage/Carthage) by adding `github "algolia/algoliasearch-client-swift"` in your Cartfile.
+ 1. [Download and add sources](https://github.com/algolia/algoliasearch-client-swift/archive/master.zip) to your project or use [Carthage](https://github.com/Carthage/Carthage) by adding `github "algolia/algoliasearch-client-swift"` in your Cartfile or use cocoapods by adding `pod 'AlgoliaSearch-Client-Swift', '~> 1.1'` in your Podfile.
  2. Add the `import AlgoliaSearch` call to your project
  3. Initialize the client with your ApplicationID and API-Key. You can find all of them on [your Algolia account](http://www.algolia.com/users/edit).
 
 ```swift
 let client = AlgoliaSearch.Client(appID: "YourApplicationID", apiKey: "YourAPIKey")
 ```
+
+
+
 
 
 
@@ -438,7 +431,7 @@ index.search(query, block: { (JSON, error) -> Void in
 
 The server response will look like:
 
-```javascript
+```json
 {
   "hits": [
     {
@@ -517,11 +510,13 @@ index.getObject("myID", attributesToRetrieve: ["firstname"], block: { (JSON, err
 
 You can also retrieve a set of objects:
 
+
 ```swift
 index.getObjects(["myID1", "myID2"], block: { (JSON, error) -> {
 	// do something
 })
 ```
+
 
 
 
