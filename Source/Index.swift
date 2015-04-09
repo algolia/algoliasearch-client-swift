@@ -148,7 +148,7 @@ public class Index {
             if let object = object as? [String: AnyObject] {
                 requests.append([
                     "action": "partialUpdateObject",
-                    "objectID": object["objectID"] as String,
+                    "objectID": object["objectID"] as! String,
                     "body": object
                     ])
             }
@@ -180,7 +180,7 @@ public class Index {
             if let object = object as? [String: AnyObject] {
                 requests.append([
                     "action": "updateObject",
-                    "objectID": object["objectID"] as String,
+                    "objectID": object["objectID"] as! String,
                     "body": object
                     ])
             }

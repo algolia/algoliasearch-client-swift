@@ -249,7 +249,7 @@ public class Query : Printable {
             var error: NSError?
             let data = NSJSONSerialization.dataWithJSONObject(facetFilters, options: .PrettyPrinted, error: &error)
             if error == nil {
-                let json: String = NSString(data: data!, encoding: NSUTF8StringEncoding)!
+                let json: String = NSString(data: data!, encoding: NSUTF8StringEncoding)! as String
                 url.append(Query.encodeForQuery(json, withKey: "facetFilters"))
             } else {
                 NSException(name: "InvalidArgument", reason: "Invalid facetFilters (should be an array of string)", userInfo: nil).raise()

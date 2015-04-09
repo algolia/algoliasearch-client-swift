@@ -72,7 +72,7 @@ class Manager {
             return URLRequest
         }
         
-        var mutableURLRequest: NSMutableURLRequest! = URLRequest.mutableCopy() as NSMutableURLRequest
+        var mutableURLRequest: NSMutableURLRequest! = URLRequest.mutableCopy() as! NSMutableURLRequest
         var error: NSError? = nil
         
         if let data = NSJSONSerialization.dataWithJSONObject(parameters!, options: .allZeros, error: &error) {

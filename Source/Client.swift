@@ -63,8 +63,8 @@ public class Client {
     }
     
     public let appID: String
-    public let hostnames: [String]
     
+    private var hostnames: [String]
     private let manager: Manager
     private var requestBuffer = RingBuffer<Request>(maxCapacity: 10)
     
@@ -78,9 +78,9 @@ public class Client {
     /// :param: tagFilters value of the header X-Algolia-TagFilters
     /// :param: userToken value of the header X-Algolia-UserToken
     public init(appID: String, apiKey: String, hostnames: [String]? = nil, dsn: Bool = false, dsnHost: String? = nil, tagFilters: String? = nil, userToken: String? = nil) {
-        if countElements(appID) == 0 {
+        if count(appID) == 0 {
             NSException(name: "InvalidArgument", reason: "Application ID must be set", userInfo: nil).raise()
-        } else if countElements(apiKey) == 0 {
+        } else if count(apiKey) == 0 {
             NSException(name: "InvalidArgument", reason: "APIKey must be set", userInfo: nil).raise()
         }
         
@@ -108,7 +108,7 @@ public class Client {
             }
         }
         
-        let version = NSBundle(identifier: "com.algolia.AlgoliaSearch")!.infoDictionary!["CFBundleShortVersionString"] as String
+        let version = NSBundle(identifier: "com.algolia.AlgoliaSearch")!.infoDictionary!["CFBundleShortVersionString"] as! String
         var HTTPHeaders = [
             "X-Algolia-API-Key": self.apiKey,
             "X-Algolia-Application-Id": self.appID,
@@ -336,8 +336,8 @@ public class Client {
         for query in queries {
             if let query = query as? [String: AnyObject] {
                 convertedQueries.append([
-                    "params": (query["query"] as Query).buildURL(),
-                    "indexName": query["indexName"] as String
+                    "params": (query["query"] as! Query).buildURL(),
+                    "indexName": query["indexName"] as! String
                     ])
             }
         }
@@ -357,16 +357,16 @@ public class Client {
                 if let block = block {
                     switch(statusCode) {
                     case 200, 201:
-                        block(JSON: (data as [String: AnyObject]), error: nil)
+                        block(JSON: (data as! [String: AnyObject]), error: nil)
                     case 400:
-                        let errorMessage = data!["message"] as String
+                        let errorMessage = data!["message"] as! String
                         block(JSON: nil, error: NSError(domain: "Bad request argument: \(errorMessage)", code: 400, userInfo: nil))
                     case 403:
                         block(JSON: nil, error: NSError(domain: "Invalid Application-ID or API-Key", code: 403, userInfo: nil))
                     case 404:
                         block(JSON: nil, error: NSError(domain: "Resource does not exist", code: 404, userInfo: nil))
                     default:
-                        if let errorMessage = (data as [String: String])["message"] {
+                        if let errorMessage = (data as! [String: String])["message"] {
                             block(JSON: nil, error: NSError(domain: errorMessage, code: 0, userInfo: nil))
                         } else {
                             block(JSON: nil, error: NSError(domain: "No error message", code: 0, userInfo: nil))
@@ -388,7 +388,7 @@ public class Client {
     /// Cancel a queries. Only the last ten queries can be cancelled.
     func cancelQueries(method: HTTPMethod, path: String) {
         for request in requestBuffer {
-            if request.request.URL.path == path {
+            if request.request.URL!.path! == path {
                 if request.request.HTTPMethod == method.rawValue {
                     request.cancel()
                 }
