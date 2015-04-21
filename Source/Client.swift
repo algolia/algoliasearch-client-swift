@@ -56,15 +56,15 @@ public class Client {
         }
     }
     
-    public var timeout: NSTimeInterval = 30 {
-        didSet {
-            manager.session.configuration.timeoutIntervalForRequest = timeout;
-        }
-    }
+    private let timeout: NSTimeInterval = 30
+    private let searchTimeout: NSTimeInterval = 5
+    private let incrementTimeout: NSTimeInterval = 10
     
     public let appID: String
     
-    private var hostnames: [String]
+    let readQueryHostnames: [String]
+    let writeQueryHostnames: [String]
+    
     private let manager: Manager
     private var requestBuffer = RingBuffer<Request>(maxCapacity: 10)
     
@@ -72,12 +72,9 @@ public class Client {
     ///
     /// :param: appID the application ID you have in your admin interface
     /// :param: apiKey a valid API key for the service
-    /// :param: hostnames the list of hosts that you have received for the service
-    /// :param: dsn set to true if your account has the Distributed Search Option
-    /// :param: dsnHost the host that you have received for the Distributed Search Option
     /// :param: tagFilters value of the header X-Algolia-TagFilters
     /// :param: userToken value of the header X-Algolia-UserToken
-    public init(appID: String, apiKey: String, hostnames: [String]? = nil, dsn: Bool = false, dsnHost: String? = nil, tagFilters: String? = nil, userToken: String? = nil) {
+    public init(appID: String, apiKey: String, tagFilters: String? = nil, userToken: String? = nil) {
         if count(appID) == 0 {
             NSException(name: "InvalidArgument", reason: "Application ID must be set", userInfo: nil).raise()
         } else if count(apiKey) == 0 {
@@ -89,24 +86,19 @@ public class Client {
         self.tagFilters = tagFilters
         self.userToken = userToken
         
-        if (hostnames == nil || hostnames!.count == 0) {
-            var generateHostname = [String]()
-            for i in 1...3 {
-                generateHostname.append("\(appID)-\(i).algolia.net")
-            }
-            self.hostnames = generateHostname
-        } else {
-            self.hostnames = hostnames!
-        }
-        self.hostnames.shuffle()
+        readQueryHostnames = [
+            "\(appID)-DSN.algolia.net",
+            "\(appID)-1.algolianet.com",
+            "\(appID)-2.algolianet.com",
+            "\(appID)-3.algolianet.com"
+        ]
         
-        if dsn {
-            if let dsnHost = dsnHost {
-                self.hostnames.insert(dsnHost, atIndex: 0)
-            } else {
-                self.hostnames.insert("\(appID)-dsn.algolia.net", atIndex: 0)
-            }
-        }
+        writeQueryHostnames = [
+            "\(appID).algolia.net",
+            "\(appID)-1.algolianet.com",
+            "\(appID)-2.algolianet.com",
+            "\(appID)-3.algolianet.com"
+        ]
         
         let version = NSBundle(identifier: "com.algolia.AlgoliaSearch")!.infoDictionary!["CFBundleShortVersionString"] as! String
         var HTTPHeaders = [
@@ -144,7 +136,7 @@ public class Client {
     ///
     /// :return: JSON Object in the handler in the form: { "items": [ {"name": "contacts", "createdAt": "2013-01-18T15:33:13.556Z"}, {"name": "notes", "createdAt": "2013-01-18T15:33:13.556Z"}]}
     public func listIndexes(block: CompletionHandler) {
-        performHTTPQuery("1/indexes", method: .GET, body: nil, block: block)
+        performHTTPQuery("1/indexes", method: .GET, body: nil, hostnames: readQueryHostnames, block: block)
     }
     
     /// Delete an index.
@@ -153,7 +145,7 @@ public class Client {
     /// :return: JSON Object in the handler containing a "deletedAt" attribute
     public func deleteIndex(indexName: String, block: CompletionHandler? = nil) {
         let path = "1/indexes/\(indexName.urlEncode())"
-        performHTTPQuery(path, method: .DELETE, body: nil, block: block)
+        performHTTPQuery(path, method: .DELETE, body: nil, hostnames: writeQueryHostnames, block: block)
     }
     
     /// Move an existing index.
@@ -167,7 +159,7 @@ public class Client {
             "operation": "move"
         ]
         
-        performHTTPQuery(path, method: .POST, body: request, block: block)
+        performHTTPQuery(path, method: .POST, body: request, hostnames: writeQueryHostnames, block: block)
     }
     
     /// Copy an existing index.
@@ -181,12 +173,12 @@ public class Client {
             "operation": "copy"
         ]
         
-        performHTTPQuery(path, method: .POST, body: request, block: block)
+        performHTTPQuery(path, method: .POST, body: request, hostnames: writeQueryHostnames, block: block)
     }
     
     /// Return 10 last log entries.
     public func getLogs(block: CompletionHandler) {
-        performHTTPQuery("1/logs", method: .GET, body: nil, block: block)
+        performHTTPQuery("1/logs", method: .GET, body: nil, hostnames: readQueryHostnames, block: block)
     }
     
     /// Return last logs entries.
@@ -195,7 +187,7 @@ public class Client {
     /// :param: length Specify the maximum number of entries to retrieve starting at offset. Maximum allowed value: 1000.
     public func getLogsWithOffset(offset: UInt, length: UInt, block: CompletionHandler) {
         let path = "1/logs?offset=\(offset)&length=\(length)"
-        performHTTPQuery(path, method: .GET, body: nil, block: block)
+        performHTTPQuery(path, method: .GET, body: nil, hostnames: readQueryHostnames, block: block)
     }
     
     /// Return last logs entries.
@@ -204,7 +196,7 @@ public class Client {
     /// :param: length Specify the maximum number of entries to retrieve starting at offset. Maximum allowed value: 1000.
     public func getLogsWithType(type: String, offset: UInt, length: UInt, block: CompletionHandler) {
         let path = "1/logs?offset=\(offset)&length=\(length)&type=\(type)"
-        performHTTPQuery(path, method: .GET, body: nil, block: block)
+        performHTTPQuery(path, method: .GET, body: nil, hostnames: readQueryHostnames, block: block)
     }
     
     /// Get the index object initialized (no server call needed for initialization).
@@ -216,19 +208,19 @@ public class Client {
     
     /// List all existing user keys with their associated ACLs.
     public func listUserKeys(block: CompletionHandler) {
-        performHTTPQuery("1/keys", method: .GET, body: nil, block: block)
+        performHTTPQuery("1/keys", method: .GET, body: nil, hostnames: readQueryHostnames, block: block)
     }
     
     /// Get ACL of a user key.
     public func getUserKeyACL(key: String, block: CompletionHandler) {
         let path = "1/keys/\(key)"
-        performHTTPQuery(path, method: .GET, body: nil, block: block)
+        performHTTPQuery(path, method: .GET, body: nil, hostnames: readQueryHostnames, block: block)
     }
     
     /// Delete an existing user key.
     public func deleteUserKey(key: String, block: CompletionHandler? = nil) {
         let path = "1/keys/\(key)"
-        performHTTPQuery(path, method: .DELETE, body: nil, block: block)
+        performHTTPQuery(path, method: .DELETE, body: nil, hostnames: writeQueryHostnames, block: block)
     }
     
     /// Create a new user key
@@ -236,7 +228,7 @@ public class Client {
     /// :param: acls The list of ACL for this key. The list can contains the following values (as String): search, addObject, deleteObject, deleteIndex, settings, editSettings
     public func addUserKey(acls: [String], block: CompletionHandler? = nil) {
         let request = ["acl": acls]
-        performHTTPQuery("1/keys", method: .POST, body: request, block: block)
+        performHTTPQuery("1/keys", method: .POST, body: request, hostnames: writeQueryHostnames, block: block)
     }
     
     /// Create a new user key
@@ -253,7 +245,7 @@ public class Client {
             "maxHitsPerQuery": maxHits,
         ]
         
-        performHTTPQuery("1/keys", method: .POST, body: request, block: block)
+        performHTTPQuery("1/keys", method: .POST, body: request, hostnames: writeQueryHostnames, block: block)
     }
     
     /// Create a new user key
@@ -272,7 +264,7 @@ public class Client {
             "maxHitsPerQuery": maxHits,
         ]
         
-        performHTTPQuery("1/keys", method: .POST, body: request, block: block)
+        performHTTPQuery("1/keys", method: .POST, body: request, hostnames: writeQueryHostnames, block: block)
     }
     
     /// Update a user key
@@ -282,7 +274,7 @@ public class Client {
     public func updateUserKey(key: String, withACL acls: [String], block: CompletionHandler? = nil) {
         let path = "1/keys/\(key)"
         let request = ["acl": acls]
-        performHTTPQuery(path, method: .PUT, body: request, block: block)
+        performHTTPQuery(path, method: .PUT, body: request, hostnames: writeQueryHostnames, block: block)
     }
     
     /// Update a user key
@@ -301,7 +293,7 @@ public class Client {
             "maxHitsPerQuery": maxHits,
         ]
         
-        performHTTPQuery(path, method: .PUT, body: request, block: block)
+        performHTTPQuery(path, method: .PUT, body: request, hostnames: writeQueryHostnames, block: block)
     }
     
     /// Update a user key
@@ -322,7 +314,7 @@ public class Client {
             "maxHitsPerQuery": maxHits,
         ]
         
-        performHTTPQuery(path, method: .PUT, body: request, block: block)
+        performHTTPQuery(path, method: .PUT, body: request, hostnames: writeQueryHostnames, block: block)
     }
     
     /// Query multiple indexes with one API call.
@@ -343,20 +335,26 @@ public class Client {
         }
         
         let request = ["requests": convertedQueries]
-        performHTTPQuery(path, method: .POST, body: request, block: block)
+        performHTTPQuery(path, method: .POST, body: request, hostnames: readQueryHostnames, block: block)
     }
     
     // MARK: - Network
     
     /// Perform an HTTP Query.
-    func performHTTPQuery(path: String, method: HTTPMethod, body: [String: AnyObject]?, index: Int = 0, block: CompletionHandler? = nil) {
+    func performHTTPQuery(path: String, method: HTTPMethod, body: [String: AnyObject]?, hostnames: [String], isSearchQuery: Bool = false, index: Int = 0, block: CompletionHandler? = nil) {
         assert(index < hostnames.count, "\(index) < \(hostnames.count) !")
+        
+        var currentTimeout = (isSearchQuery) ? searchTimeout : timeout
+        if index > 1 {
+            currentTimeout += incrementTimeout
+        }
+        manager.session.configuration.timeoutIntervalForRequest = currentTimeout
         
         let request = manager.request(method, "https://\(hostnames[index])/\(path)", parameters: body) { (response, data, error) -> Void in
             if let statusCode = response?.statusCode {
                 if let block = block {
                     switch(statusCode) {
-                    case 200, 201:
+                    case 200..<300:
                         block(JSON: (data as! [String: AnyObject]), error: nil)
                     case 400:
                         let errorMessage = data!["message"] as! String
@@ -374,8 +372,8 @@ public class Client {
                     }
                 }
             } else {
-                if (index + 1) < self.hostnames.count {
-                    self.performHTTPQuery(path, method: method, body: body, index: index + 1, block: block)
+                if (index + 1) < hostnames.count {
+                    self.performHTTPQuery(path, method: method, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery, index: index + 1, block: block)
                 } else {
                     block?(JSON: nil, error: error)
                 }
