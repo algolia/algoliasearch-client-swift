@@ -29,9 +29,10 @@ Table of Contents
 
 **Commands Reference**
 
-1. [Add a new object](#add-a-new-object-in-the-index)
+1. [Add a new object](#add-a-new-object-to-the-index)
 1. [Update an object](#update-an-existing-object-in-the-index)
 1. [Search](#search)
+1. [Multiple queries](#multiple-queries)
 1. [Get an object](#get-an-object)
 1. [Delete an object](#delete-an-object)
 1. [Delete by query](#delete-by-query)
@@ -43,9 +44,8 @@ Table of Contents
 1. [Batch writes](#batch-writes)
 1. [Security / User API Keys](#security--user-api-keys)
 1. [Copy or rename an index](#copy-or-rename-an-index)
-1. [Backup / Retrieve all index content](#backup--retrieve-all-index-content)
+1. [Backup / Retrieve all index content](#backup--retrieve-of-all-index-content)
 1. [Logs](#logs)
-
 
 
 
@@ -68,14 +68,9 @@ let client = AlgoliaSearch.Client(appID: "YourApplicationID", apiKey: "YourAPIKe
 
 
 
-
-
-
-
-
-
 Quick Start
 -------------
+
 
 In 30 seconds, this quick start tutorial will show you how to index and search objects.
 
@@ -158,13 +153,8 @@ index.search(Query(fullTextQuery: "jim"), block: { (JSON, error) -> Void in
 
 
 
-
-
-
-
 Documentation
 ================
-
 Check our [online documentation](http://www.algolia.com/doc/guides/swift):
  * [Initial Import](http://www.algolia.com/doc/guides/swift#InitialImport)
  * [Ranking &amp; Relevance](http://www.algolia.com/doc/guides/swift#RankingRelevance)
@@ -176,7 +166,6 @@ Check our [online documentation](http://www.algolia.com/doc/guides/swift):
  * [Geo-Search](http://www.algolia.com/doc/guides/swift#Geo-Search)
  * [Security](http://www.algolia.com/doc/guides/swift#Security)
  * [REST API](http://www.algolia.com/doc/rest)
-
 
 Tutorials
 ================
@@ -190,8 +179,6 @@ Check out our [tutorials](http://www.algolia.com/doc/tutorials):
 
 Commands Reference
 ==================
-
-
 
 
 
@@ -321,8 +308,6 @@ let operation = [
 let partialObject = ["price": operation]
 index.partialUpdateObject(partialObject, objectID: "myID", block: nil)
 ```
-
-
 
 Search
 -------------
@@ -486,6 +471,10 @@ client.multipleQueries(queries, block: { (JSON, error) -> Void in
 })
 ```
 
+You can specify a strategy to optimize your multiple queries:
+- **none**: Execute the sequence of queries until the end.
+- **stopIfEnoughMatches**: Execute the sequence of queries until the number of hits is reached by the sum of hits.
+
 
 
 Get an object
@@ -510,17 +499,11 @@ index.getObject("myID", attributesToRetrieve: ["firstname"], block: { (JSON, err
 
 You can also retrieve a set of objects:
 
-
 ```swift
 index.getObjects(["myID1", "myID2"], block: { (JSON, error) -> {
 	// do something
 })
 ```
-
-
-
-
-
 
 Delete an object
 -------------
@@ -553,8 +536,8 @@ You can retrieve all settings using the `` function. The result will contain the
  * **attributesToIndex**: (array of strings) The list of fields you want to index.<br/>If set to null, all textual and numerical attributes of your objects are indexed. Be sure to update it to get optimal results.<br/>This parameter has two important uses:
   * *Limit the attributes to index*.<br/>For example, if you store a binary image in base64, you want to store it and be able to retrieve it, but you don't want to search in the base64 string.
   * *Control part of the ranking*.<br/>(see the ranking parameter for full explanation) Matches in attributes at the beginning of the list will be considered more important than matches in attributes further down the list. In one attribute, matching text at the beginning of the attribute will be considered more important than text after. You can disable this behavior if you add your attribute inside `unordered(AttributeName)`. For example, `attributesToIndex: ["title", "unordered(text)"]`.
-**Notes**: All numerical attributes are automatically indexed as numerical filters. If you don't need filtering on some of your numerical attributes, please consider sending them as strings to speed up the indexing.<br/>
 You can decide to have the same priority for two attributes by passing them in the same string using a comma as a separator. For example `title` and `alternative_title` have the same priority in this example, which is different than text priority: `attributesToIndex:["title,alternative_title", "text"]`.
+* **numericAttributesToIndex**: (array of strings) All numerical attributes are automatically indexed as numerical filters. If you don't need filtering on some of your numerical attributes, you can specify this list to speed up the indexing.<br/> If you only need to filter on a numeric value with the operator '=', you can speed up the indexing by specifying the attribute with `equalOnly(AttributeName)`. The other operators will be disabled.
  * **attributesForFaceting**: (array of strings) The list of fields you want to use for faceting. All strings in the attribute selected for faceting are extracted and added as a facet. If set to null, no attribute is used for faceting.
  * **attributeForDistinct**: The attribute name used for the `Distinct` feature. This feature is similar to the SQL "distinct" keyword. When enabled in queries with the `distinct=1` parameter, all hits containing a duplicate value for this attribute are removed from results. For example, if the chosen attribute is `show_name` and several hits have the same value for `show_name`, then only the best one is kept and others are removed. **Note**: This feature is disabled if the query string is empty and there aren't any `tagFilters`, `facetFilters`, nor `numericFilters` parameters.
  * **ranking**: (array of strings) Controls the way results are sorted.<br/>We have nine available criteria:
@@ -726,6 +709,17 @@ index.partialUpdateObjects([obj1, obj2], block: { (JSON, error) -> Void in
 
 
 
+If you have one index per user, you may want to perform a batch operations across severals indexes.
+We expose a method to perform this type of batch:
+
+
+The attribute **action** can have these values:
+- addObject
+- updateObject
+- partialUpdateObject
+- partialUpdateObjectNoCreate
+- deleteObject
+
 Security / User API Keys
 -------------
 
@@ -778,13 +772,17 @@ index.addUserKey(["search"], block: { (JSON, error) -> Void in
 })
 ```
 
-You can also create an API Key with advanced restrictions:
+You can also create an API Key with advanced settings:
 
  * Add a validity period. The key will be valid for a specific period of time (in seconds).
  * Specify the maximum number of API calls allowed from an IP address per hour. Each time an API call is performed with this key, a check is performed. If the IP at the source of the call did more than this number of calls in the last hour, a 403 code is returned. Defaults to 0 (no rate limit). This parameter can be used to protect you from attempts at retrieving your entire index contents by massively querying the index.
 
  * Specify the maximum number of hits this API key can retrieve in one call. Defaults to 0 (unlimited). This parameter can be used to protect you from attempts at retrieving your entire index contents by massively querying the index.
  * Specify the list of targeted indices. You can target all indices starting with a prefix or ending with a suffix using the '*' character. For example, "dev_*" matches all indices starting with "dev_" and "*_dev" matches all indices ending with "_dev". Defaults to all indices if empty or blank.
+ * Specify the list of referers. You can target all referers starting with a prefix or ending with a suffix using the '*' character. For example, "algolia.com/*" matches all referers starting with "algolia.com/" and "*.algolia.com" matches all referers ending with ".algolia.com". Defaults to all referers if empty or blank.
+ * Specify the list of query parameters. You can force the query parameters for a query using the url string format (param1=X&param2=Y...).
+ * Specify a description to describe where the key is used.
+
 
 ```swift
 // Creates a new global API key that is valid for 300 seconds
@@ -961,7 +959,6 @@ client.getLogsWithOffset(0, length: 100, block: { (JSON, error) -> Void in
 	}
 })
 ```
-
 
 
 
