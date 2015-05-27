@@ -107,8 +107,8 @@ public class Client {
                 self.hostnames.insert("\(appID)-dsn.algolia.net", atIndex: 0)
             }
         }
-        
-        let version = NSBundle(identifier: "com.algolia.AlgoliaSearch")!.infoDictionary!["CFBundleShortVersionString"] as! String
+
+        let version = NSBundle(forClass: self.dynamicType).infoDictionary!["CFBundleShortVersionString"] as! String
         var HTTPHeaders = [
             "X-Algolia-API-Key": self.apiKey,
             "X-Algolia-Application-Id": self.appID,
