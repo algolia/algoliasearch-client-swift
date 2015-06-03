@@ -72,6 +72,10 @@ public class Query : Printable {
     /// Defaults to 7.
     public var minWordSizeForApprox2: UInt = 7
     
+    /// Configure the precision of the proximity ranking criterion. By default, the minimum (and best) proximity value distance between 2 matching words is 1. Setting it to 2 (or 3) would allow 1 (or 2) words to be found between the matching words without degrading the proximity ranking value.
+    /// Considering the query "javascript framework", if you set minProximity=2 the records "JavaScript framework" and "JavaScript charting framework" will get the same proximity score, even if the second one contains a word between the 2 matching words.
+    public var minProximity: UInt = 1
+    
     /// If true, the result hits will contain ranking information in _rankingInfo attribute.
     /// Default to false.
     public var getRankingInfo = false
@@ -157,9 +161,14 @@ public class Query : Printable {
     /// The list of words that should be considered as optional when found in the query.
     public var optionalWords: [String]?
     
-    /// List of object attributes you want to use for textual search (must be a subset of the 
-    /// attributesToIndex index setting).
+    /// List of object attributes you want to use for textual search (must be a subset of the attributesToIndex index setting).
     public var restrictSearchableAttributes: [String]?
+    
+    /// Specify the string that is inserted before the highlighted parts in the query result (default to "<em>").
+    public var highlightPreTag: String?
+    
+    /// Specify the string that is inserted after the highlighted parts in the query result (default to "</em>").
+    public var highlightPostTag: String?
     
     private var aroundLatLongViaIP = false
     private var aroundLatLong: String?
@@ -229,6 +238,14 @@ public class Query : Printable {
     /// lat and lng attributes (for example {"_geoloc":{"lat":48.853409, "lng":2.348800}})
     public func searchInsideBoundingBoxWithLatitudeP1(latitudeP1: Float, longitudeP1: Float, latitudeP2: Float, longitudeP2: Float) -> Query {
         insideBoundingBox = "insideBoundingBox=\(latitudeP1),\(longitudeP1),\(latitudeP2),\(longitudeP2)"
+        return self
+    }
+    
+    /// Reset location parameters (aroundLatLong,insideBoundingBox, aroundLatLongViaIP set to false)
+    public func resetLocationParameters() -> Query {
+        aroundLatLong = nil
+        insideBoundingBox = nil
+        aroundLatLongViaIP = false
         return self
     }
     
@@ -303,6 +320,9 @@ public class Query : Printable {
         if hitsPerPage != 20 && hitsPerPage > 0 {
             url.append(Query.encodeForQuery(hitsPerPage, withKey: "hitsPerPage"))
         }
+        if minProximity > 1 {
+            url.append(Query.encodeForQuery(minProximity, withKey: "minProximity"))
+        }
         if let queryType = queryType {
             url.append(Query.encodeForQuery(queryType, withKey: "queryType"))
         }
@@ -314,6 +334,10 @@ public class Query : Printable {
         }
         if let numericFilters = numericFilters {
             url.append(Query.encodeForQuery(numericFilters, withKey: "numericFilters"))
+        }
+        if let highlightPreTag = highlightPreTag, highlightPostTag = highlightPostTag {
+            url.append(Query.encodeForQuery(highlightPreTag, withKey: "highlightPreTag"))
+            url.append(Query.encodeForQuery(highlightPostTag, withKey: "highlightPostTag"))
         }
         
         if let insideBoundingBox = insideBoundingBox {
