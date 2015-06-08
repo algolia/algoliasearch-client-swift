@@ -74,7 +74,8 @@ public class Client {
     /// :param: apiKey a valid API key for the service
     /// :param: tagFilters value of the header X-Algolia-TagFilters
     /// :param: userToken value of the header X-Algolia-UserToken
-    public init(appID: String, apiKey: String, tagFilters: String? = nil, userToken: String? = nil) {
+    /// :param: hostnames the list of hosts that you have received for the service
+    public init(appID: String, apiKey: String, tagFilters: String? = nil, userToken: String? = nil, hostnames: [String]? = nil) {
         if count(appID) == 0 {
             NSException(name: "InvalidArgument", reason: "Application ID must be set", userInfo: nil).raise()
         } else if count(apiKey) == 0 {
@@ -86,20 +87,25 @@ public class Client {
         self.tagFilters = tagFilters
         self.userToken = userToken
 
-        readQueryHostnames = [
-            "\(appID)-DSN.algolia.net",
-            "\(appID)-1.algolianet.com",
-            "\(appID)-2.algolianet.com",
-            "\(appID)-3.algolianet.com"
-        ]
-
-        writeQueryHostnames = [
-            "\(appID).algolia.net",
-            "\(appID)-1.algolianet.com",
-            "\(appID)-2.algolianet.com",
-            "\(appID)-3.algolianet.com"
-        ]
-
+        if let hostnames = hostnames {
+            readQueryHostnames = hostnames
+            writeQueryHostnames = hostnames
+        } else {
+            readQueryHostnames = [
+                "\(appID)-DSN.algolia.net",
+                "\(appID)-1.algolianet.com",
+                "\(appID)-2.algolianet.com",
+                "\(appID)-3.algolianet.com"
+            ]
+            
+            writeQueryHostnames = [
+                "\(appID).algolia.net",
+                "\(appID)-1.algolianet.com",
+                "\(appID)-2.algolianet.com",
+                "\(appID)-3.algolianet.com"
+            ]
+        }
+        
         let version = NSBundle(forClass: self.dynamicType).infoDictionary!["CFBundleShortVersionString"] as! String
 
         var HTTPHeaders = [
@@ -179,7 +185,7 @@ public class Client {
 
     /// Return 10 last log entries.
     public func getLogs(block: CompletionHandler) {
-        performHTTPQuery("1/logs", method: .GET, body: nil, hostnames: readQueryHostnames, block: block)
+        performHTTPQuery("1/logs", method: .GET, body: nil, hostnames: writeQueryHostnames, block: block)
     }
 
     /// Return last logs entries.
