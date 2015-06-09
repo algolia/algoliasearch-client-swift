@@ -57,7 +57,7 @@ To setup your project, follow these steps:
 
 
 
- 1. [Download and add sources](https://github.com/algolia/algoliasearch-client-swift/archive/master.zip) to your project or use [Carthage](https://github.com/Carthage/Carthage) by adding `github "algolia/algoliasearch-client-swift"` in your Cartfile or use cocoapods by adding `pod 'AlgoliaSearch-Client-Swift', '~> 1.1'` in your Podfile.
+ 1. [Download and add sources](https://github.com/algolia/algoliasearch-client-swift/archive/master.zip) to your project or use [Carthage](https://github.com/Carthage/Carthage) by adding `github "algolia/algoliasearch-client-swift"` in your Cartfile or use cocoapods by adding `pod 'AlgoliaSearch-Client-Swift', '~> 1.2'` in your Podfile.
  2. Add the `import AlgoliaSearch` call to your project
  3. Initialize the client with your ApplicationID and API-Key. You can find all of them on [your Algolia account](http://www.algolia.com/users/edit).
 
@@ -87,25 +87,25 @@ index.addObjects(dict["objects"], block: nil)
 You can now search for contacts using firstname, lastname, company, etc. (even with typos):
 ```swift
 // search by firstname
-index.search(Query(fullTextQuery: "jimmie"), block: { (JSON, error) -> Void in
+index.search(Query(query: "jimmie"), block: { (JSON, error) -> Void in
 	if error == nil {
 		println("Result: \(JSON)")
 	}
 })
 // search a firstname with typo
-index.search(Query(fullTextQuery: "jimie"), block: { (JSON, error) -> Void in
+index.search(Query(query: "jimie"), block: { (JSON, error) -> Void in
 	if error == nil {
 		println("Result: \(JSON)")
 	}
 })
 // search for a company
-index.search(Query(fullTextQuery: "california paint"), block: { (JSON, error) -> Void in
+index.search(Query(query: "california paint"), block: { (JSON, error) -> Void in
 	if error == nil {
 		println("Result: \(JSON)")
 	}
 })
 // search for a firstname & company
-index.search(Query(fullTextQuery: "jimmie paint"), block: { (JSON, error) -> Void in
+index.search(Query(query: "jimmie paint"), block: { (JSON, error) -> Void in
 	if error == nil {
 		println("Result: \(JSON)")
 	}
@@ -136,13 +136,13 @@ index.setSettings(settings, block: { (JSON, error) -> Void in
 
 Since the engine is designed to suggest results as you type, you'll generally search by prefix. In this case the order of attributes is very important to decide which hit is the best:
 ```swift
-index.search(Query(fullTextQuery: "or"), block: { (JSON, error) -> Void in
+index.search(Query(query: "or"), block: { (JSON, error) -> Void in
 	if error == nil {
 		println("Result: \(JSON)")
 	}
 })
 
-index.search(Query(fullTextQuery: "jim"), block: { (JSON, error) -> Void in
+index.search(Query(query: "jim"), block: { (JSON, error) -> Void in
 	if error == nil {
 		println("Result: \(JSON)")
 	}
@@ -230,9 +230,9 @@ Example on how to replace all attributes of an existing object:
 
 ```swift
 let newObject = [
-	"firstname": "Jimmie", 
-	"lastname": "Barninger", 
-	"city": "New York"
+	"firstname": "Jimmie",
+	"lastname": "Barninger",
+	"city": "New York",
 	"objectID": "myID"
 ]
 index.saveObject(newObject, block: nil)
@@ -269,7 +269,7 @@ Example to remove a tag:
 
 ```swift
 let operation = [
-	"value": "MyTag".
+	"value": "MyTag",
 	"_operation": "Remove"
 ]
 let partialObject = ["_tags": operation]
@@ -398,13 +398,13 @@ You can also use a string array encoding (for example `numericFilters: ["price>1
 
 ```swift
 let index = client.getIndex("contacts")
-index.search(Query(fullTextQuery: "s"), block: { (JSON, error) -> Void in
+index.search(Query(query: "s"), block: { (JSON, error) -> Void in
 	if error == nil {
 		println("Result: \(JSON)")
 	}
 })
 
-let query = Query(fullTextQuery: "s")
+let query = Query(query: "s")
 query.attributesToRetrieve = ["firstname", "lastname"]
 query.hitsPerPage = 50
 index.search(query, block: { (JSON, error) -> Void in
@@ -470,6 +470,8 @@ client.multipleQueries(queries, block: { (JSON, error) -> Void in
 	}
 })
 ```
+
+The resulting JSON answer contains a ```results``` array storing the underlying queries answers. The answers order is the same than the requests order.
 
 You can specify a strategy to optimize your multiple queries:
 - **none**: Execute the sequence of queries until the end.
