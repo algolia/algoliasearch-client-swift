@@ -1,5 +1,8 @@
 CHANGELOG
 
+2015-06-09 1.2.1
+  * Rename `fullTextQuery` to `query`
+
 2015-06-08 1.2.0
   * new retry logic
   * add new parameter on the Query: setMinProximity & setHighlightingTags

@@ -128,7 +128,7 @@ public class Query : Printable {
     public var numericFilters: [String]?
     
     /// The full text query.
-    public var fullTextQuery: String?
+    public var query: String?
     
     /// How the query words are interpreted.
     public var queryType: QueryType?
@@ -178,10 +178,25 @@ public class Query : Printable {
         get { return "Query = \(buildURL())" }
     }
     
+    @availability(*, deprecated=1.2.1, message="Use the new API: Query.query: String?")
+    public var fullTextQuery: String? {
+        get {
+            return query
+        }
+        set {
+            query = newValue
+        }
+    }
+    
     // MARK: - Methods
     
-    public init(fullTextQuery: String? = nil) {
-        self.fullTextQuery = fullTextQuery
+    @availability(*, deprecated=1.2.1, message="Use the new API: Query(text: String?)")
+    public init(fullTextQuery: String) {
+        self.query = fullTextQuery
+    }
+    
+    public init(query: String? = nil) {
+        self.query = query
     }
     
     /// Search for entries around a given latitude/longitude.
@@ -349,8 +364,8 @@ public class Query : Printable {
         if aroundLatLongViaIP {
             url.append(Query.encodeForQuery(aroundLatLongViaIP, withKey: "aroundLatLngViaIP"))
         }
-        if let fullTextQuery = fullTextQuery {
-            url.append(Query.encodeForQuery(fullTextQuery, withKey: "query"))
+        if let query = query {
+            url.append(Query.encodeForQuery(query, withKey: "query"))
         }
         if let restrictSearchableAttributes = restrictSearchableAttributes {
             url.append(Query.encodeForQuery(restrictSearchableAttributes, withKey: "restrictSearchableAttributes"))
