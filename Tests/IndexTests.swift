@@ -649,6 +649,48 @@ class IndexTests: XCTestCase {
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
     
+    func testBrowseWithQuery() {
+        let expectation = expectationWithDescription("testBrowseWithQuery")
+        var objects = [AnyObject]()
+        for i in 0...1500 {
+            objects.append(["i": i])
+        }
+        
+        index.addObjects(objects, block: { (JSON, error) -> Void in
+            if let error = error {
+                XCTFail("Error during addObjects: \(error)")
+                expectation.fulfill()
+            } else {
+                self.index.waitTask(JSON!["taskID"] as! Int, block: { (JSON, error) -> Void in
+                    if let error = error {
+                        XCTFail("Error during waitTask: \(error)")
+                        expectation.fulfill()
+                    } else {
+                        let query = Query()
+                        query.hitsPerPage = 10
+                        
+                        var n = 0;
+                        
+                        self.index.browse(query, block: { (iterator, end, error) -> Void in
+                            if let error = error {
+                                XCTFail("Error during browse: \(error)")
+                                expectation.fulfill()
+                            } else if end {
+                                XCTAssertEqual(n, 1500 / 10, "Wrong number of page")
+                                expectation.fulfill()
+                            } else {
+                                ++n
+                                iterator.next()
+                            }
+                        })
+                    }
+                })
+            }
+        })
+        
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+    }
+    
     func testKeyOperations() {
         let expectation = expectationWithDescription("testKeyOperations")
         let object = ["city": "San Francisco", "objectID": "a/go/?à"]

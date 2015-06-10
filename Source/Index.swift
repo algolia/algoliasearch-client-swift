@@ -350,4 +350,59 @@ public class Index {
         let path = "1/indexes/\(urlEncodedIndexName)/browse?page=\(page)&hitsPerPage=\(hitsPerPage)"
         client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
     }
+    
+    public typealias BrowseIteratorHandler = (iterator: BrowseIterator, end: Bool, error: NSError?) -> Void
+    
+    public class BrowseIterator {
+        public let index: Index
+        public let query: Query
+        
+        private let path: String
+        private let queryURL: String
+        private let block: BrowseIteratorHandler
+        private var cursor = ""
+        private var end = false
+        
+        public var result: [String: AnyObject]?
+        
+        init(index: Index, query: Query, block: BrowseIteratorHandler) {
+            self.index = index
+            self.query = query
+            self.block = block
+            
+            queryURL = query.buildURL()
+            path = "1/indexes/\(index.urlEncodedIndexName)/browse?\(queryURL)"
+        }
+        
+        public func next() {
+            var requestPath = path
+            if cursor != "" {
+                if queryURL != "" {
+                    requestPath += "&"
+                }
+                
+                requestPath += "cursor=\(cursor.urlEncode())"
+            }
+            
+            index.client.performHTTPQuery(requestPath, method: .GET, body: nil, hostnames: index.client.readQueryHostnames) { (JSON, error) -> Void in
+                if let error = error {
+                    self.block(iterator: self, end: false, error: error)
+                } else {
+                    self.result = JSON
+                    if let cursor = JSON!["cursor"] as? String {
+                        self.cursor = cursor
+                    } else {
+                        self.end = true
+                    }
+                    
+                    self.block(iterator: self, end: self.end, error: nil)
+                }
+            }
+        }
+    }
+    
+    public func browse(query: Query, block: BrowseIteratorHandler) {
+        let iterator = BrowseIterator(index: self, query: query, block: block)
+        iterator.next() // first call
+    }
 }
