@@ -92,7 +92,7 @@ public class Client {
             writeQueryHostnames = hostnames
         } else {
             readQueryHostnames = [
-                "\(appID)-DSN.algolia.net",
+                "\(appID)-dsn.algolia.net",
                 "\(appID)-1.algolianet.com",
                 "\(appID)-2.algolianet.com",
                 "\(appID)-3.algolianet.com"
@@ -363,16 +363,9 @@ public class Client {
                     switch(statusCode) {
                     case 200..<300:
                         block(JSON: (data as! [String: AnyObject]), error: nil)
-                    case 400:
-                        let errorMessage = data!["message"] as! String
-                        block(JSON: nil, error: NSError(domain: "Bad request argument: \(errorMessage)", code: 400, userInfo: nil))
-                    case 403:
-                        block(JSON: nil, error: NSError(domain: "Invalid Application-ID or API-Key", code: 403, userInfo: nil))
-                    case 404:
-                        block(JSON: nil, error: NSError(domain: "Resource does not exist", code: 404, userInfo: nil))
                     default:
-                        if let errorMessage = (data as! [String: String])["message"] {
-                            block(JSON: nil, error: NSError(domain: errorMessage, code: 0, userInfo: nil))
+                        if let errorMessage = (data as! [String: AnyObject])["message"] as? String {
+                            block(JSON: nil, error: NSError(domain: errorMessage, code: statusCode, userInfo: nil))
                         } else {
                             block(JSON: nil, error: NSError(domain: "No error message", code: 0, userInfo: nil))
                         }
