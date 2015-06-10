@@ -401,6 +401,8 @@ public class Index {
     }
     
     /// Browse all index content.
+    ///
+    /// The iterator object has a parameter `result` that contains the result of the current page.
     /// At the end of the block handler, call the method `next()` of the iterator object to get the next page.
     /// The parameter `end` is set to true when all the index was browsed.
     ///
