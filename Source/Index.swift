@@ -380,7 +380,6 @@ public class Index {
                 if queryURL != "" {
                     requestPath += "&"
                 }
-                
                 requestPath += "cursor=\(cursor.urlEncode())"
             }
             
@@ -401,6 +400,11 @@ public class Index {
         }
     }
     
+    /// Browse all index content.
+    /// At the end of the block handler, call the method `next()` of the iterator object to get the next page.
+    /// The parameter `end` is set to true when all the index was browsed.
+    ///
+    /// :param: query The query parameters for the browse.
     public func browse(query: Query, block: BrowseIteratorHandler) {
         let iterator = BrowseIterator(index: self, query: query, block: block)
         iterator.next() // first call
