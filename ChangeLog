@@ -1,5 +1,8 @@
 CHANGELOG
 
+2015-06-16
+  * new browse method that takes a Query object
+
 2015-06-09 1.2.1
   * Rename `fullTextQuery` to `query`
 
