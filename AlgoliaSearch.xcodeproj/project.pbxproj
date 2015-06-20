@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		5D09E1DC1AC0773A00B799A6 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D09E1DB1AC0773A00B799A6 /* Network.swift */; };
 		5D09E1DD1AC0773A00B799A6 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D09E1DB1AC0773A00B799A6 /* Network.swift */; };
+		5D44D0271B362648008369AC /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D44D0261B362648008369AC /* Helpers.swift */; };
+		5D44D0281B362648008369AC /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D44D0261B362648008369AC /* Helpers.swift */; };
 		5D74958A1A8E25A600B0263F /* AlgoliaSearch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5D74957E1A8E25A600B0263F /* AlgoliaSearch.framework */; };
 		5D7495A11A8E277400B0263F /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D74959F1A8E277400B0263F /* Extension.swift */; };
 		5D7495A21A8E277400B0263F /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7495A01A8E277400B0263F /* Client.swift */; };
@@ -46,6 +48,7 @@
 
 /* Begin PBXFileReference section */
 		5D09E1DB1AC0773A00B799A6 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		5D44D0261B362648008369AC /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		5D74957E1A8E25A600B0263F /* AlgoliaSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlgoliaSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D7495821A8E25A600B0263F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D7495891A8E25A600B0263F /* AlgoliaSearch OSX Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AlgoliaSearch OSX Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -142,6 +145,7 @@
 			children = (
 				5D8FFA391AAB0AB80078869E /* IndexTests.swift */,
 				5D8FFA371AAB08830078869E /* ClientTests.swift */,
+				5D44D0261B362648008369AC /* Helpers.swift */,
 				5D74958E1A8E25A600B0263F /* Supporting Files */,
 			);
 			path = Tests;
@@ -332,6 +336,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D8FFA381AAB08830078869E /* ClientTests.swift in Sources */,
+				5D44D0271B362648008369AC /* Helpers.swift in Sources */,
 				5D8FFA3A1AAB0AB80078869E /* IndexTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -354,6 +359,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5DB2515E1AAD9F3F00945339 /* ClientTests.swift in Sources */,
+				5D44D0281B362648008369AC /* Helpers.swift in Sources */,
 				5DB2515D1AAD9F3B00945339 /* IndexTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -35,7 +35,7 @@ class IndexTests: XCTestCase {
         let appID = NSProcessInfo.processInfo().environment["ALGOLIA_APPLICATION_ID"] as! String
         let apiKey = NSProcessInfo.processInfo().environment["ALGOLIA_API_KEY"] as! String
         client = AlgoliaSearch.Client(appID: appID, apiKey: apiKey)
-        index = client.getIndex("algol?à-swift")
+        index = client.getIndex(safeIndexName("algol?à-swift"))
         
         let expectation = expectationWithDescription("Delete index")
         client.deleteIndex(index.indexName, block: { (JSON, error) -> Void in

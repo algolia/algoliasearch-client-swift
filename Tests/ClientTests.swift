@@ -35,7 +35,7 @@ class ClientTests: XCTestCase {
         let appID = NSProcessInfo.processInfo().environment["ALGOLIA_APPLICATION_ID"] as! String
         let apiKey = NSProcessInfo.processInfo().environment["ALGOLIA_API_KEY"] as! String
         client = AlgoliaSearch.Client(appID: appID, apiKey: apiKey)
-        index = client.getIndex("algol?à-swift")
+        index = client.getIndex(safeIndexName("algol?à-swift"))
         
         let expectation = expectationWithDescription("Delete index")
         client.deleteIndex(index.indexName, block: { (JSON, error) -> Void in
@@ -115,7 +115,7 @@ class ClientTests: XCTestCase {
                     } else {
                         XCTAssertEqual(JSON!["status"] as! String, "published", "Wait task failed")
                         
-                        self.client.moveIndex(self.index.indexName, to: "algol?à-swift2", block: { (JSON, error) -> Void in
+                        self.client.moveIndex(self.index.indexName, to: safeIndexName("algol?à-swift2"), block: { (JSON, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during moveIndex: \(error)")
                                 expecation.fulfill()
@@ -125,7 +125,7 @@ class ClientTests: XCTestCase {
                                         XCTFail("Error during waitTask: \(error)")
                                         expecation.fulfill()
                                     } else {
-                                        let dstIndex = self.client.getIndex("algol?à-swift2")
+                                        let dstIndex = self.client.getIndex(safeIndexName("algol?à-swift2"))
                                         dstIndex.search(Query(), block: { (JSON, error) -> Void in
                                             if let error = error {
                                                 XCTFail("Error during search: \(error)")
@@ -148,7 +148,7 @@ class ClientTests: XCTestCase {
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
         
         let deleteExpectation = expectationWithDescription("Delete index")
-        client.deleteIndex("algol?à-swift2", block: { (JSON, error) -> Void in
+        client.deleteIndex(safeIndexName("algol?à-swift2"), block: { (JSON, error) -> Void in
             XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
             deleteExpectation.fulfill()
         })
@@ -175,7 +175,7 @@ class ClientTests: XCTestCase {
                     } else {
                         XCTAssertEqual(JSON!["status"] as! String, "published", "Wait task failed")
                         
-                        self.client.copyIndex(self.index.indexName, to: "algol?à-swift2", block: { (JSON, error) -> Void in
+                        self.client.copyIndex(self.index.indexName, to: safeIndexName("algol?à-swift2"), block: { (JSON, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during copyIndex: \(error)")
                                 expecation.fulfill()
@@ -195,7 +195,7 @@ class ClientTests: XCTestCase {
                                             srcIndexExpectation.fulfill()
                                         })
                                         
-                                        let dstIndex = self.client.getIndex("algol?à-swift2")
+                                        let dstIndex = self.client.getIndex(safeIndexName("algol?à-swift2"))
                                         dstIndex.search(Query(), block: { (JSON, error) -> Void in
                                             if let error = error {
                                                 XCTFail("Error during search: \(error)")
@@ -220,7 +220,7 @@ class ClientTests: XCTestCase {
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
         
         let deleteExpectation = expectationWithDescription("Delete index")
-        client.deleteIndex("algol?à-swift2", block: { (JSON, error) -> Void in
+        client.deleteIndex(safeIndexName("algol?à-swift2"), block: { (JSON, error) -> Void in
             XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
             deleteExpectation.fulfill()
         })

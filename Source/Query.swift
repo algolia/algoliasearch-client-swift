@@ -170,9 +170,9 @@ public class Query : Printable {
     /// Specify the string that is inserted after the highlighted parts in the query result (default to "</em>").
     public var highlightPostTag: String?
     
-    private var aroundLatLongViaIP = false
-    private var aroundLatLong: String?
-    private var insideBoundingBox: String?
+    var aroundLatLongViaIP = false
+    var aroundLatLong: String?
+    var insideBoundingBox: String?
     
     public var description: String {
         get { return "Query = \(buildURL())" }
@@ -190,13 +190,49 @@ public class Query : Printable {
     
     // MARK: - Methods
     
-    @availability(*, deprecated=1.2.1, message="Use the new API: Query(text: String?)")
+    @availability(*, deprecated=1.2.1, message="Use the new API: Query(query: String?)")
     public init(fullTextQuery: String) {
         self.query = fullTextQuery
     }
     
     public init(query: String? = nil) {
         self.query = query
+    }
+    
+    /// Copy all the attributes and return a new instance
+    public init(copy: Query) {
+        minWordSizeForApprox1 = copy.minWordSizeForApprox1
+        minWordSizeForApprox2 = copy.minWordSizeForApprox2
+        minProximity = copy.minProximity
+        getRankingInfo = copy.getRankingInfo
+        ignorePlural = copy.ignorePlural
+        distinct = copy.distinct
+        page = copy.page
+        hitsPerPage = copy.hitsPerPage
+        typosOnNumericTokens = copy.typosOnNumericTokens
+        analytics = copy.analytics
+        synonyms = copy.synonyms
+        replaceSynonyms = copy.replaceSynonyms
+        attributesToHighlight = copy.attributesToHighlight
+        attributesToRetrieve = copy.attributesToRetrieve
+        tagFilters = copy.tagFilters
+        numericFilters = copy.numericFilters
+        query = copy.query
+        queryType = copy.queryType
+        removeWordsIfNoResult = copy.removeWordsIfNoResult
+        typoTolerance = copy.typoTolerance
+        attributesToSnippet = copy.attributesToSnippet
+        facetFilters = copy.facetFilters
+        facetFiltersRaw = copy.facetFiltersRaw
+        facets = copy.facets
+        optionalWordsMinimumMatched = copy.optionalWordsMinimumMatched
+        optionalWords = copy.optionalWords
+        restrictSearchableAttributes = copy.restrictSearchableAttributes
+        highlightPreTag = copy.highlightPreTag
+        highlightPostTag = copy.highlightPostTag
+        aroundLatLongViaIP = copy.aroundLatLongViaIP
+        aroundLatLong = copy.aroundLatLong
+        insideBoundingBox = copy.insideBoundingBox
     }
     
     /// Search for entries around a given latitude/longitude.

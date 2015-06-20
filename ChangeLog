@@ -1,10 +1,13 @@
 CHANGELOG
 
-2015-06-16
+2015-06-21 1.2.3
+  * add copy constructor for Query
+
+2015-06-16 1.2.2
   * new browse method that takes a Query object
 
 2015-06-09 1.2.1
-  * Rename `fullTextQuery` to `query`
+  * rename `fullTextQuery` to `query`
 
 2015-06-08 1.2.0
   * new retry logic
