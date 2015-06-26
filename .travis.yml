@@ -4,8 +4,13 @@ env:
   global:
     - secure: Joz57OiADTS1+vgoLfNoXkSitwuMtytmAEJeVOdzdp2IKKpWnBBitkIQzaFfOEJmudDaR1CZRd0VpZ+Co1KKSBfl3AsLPWYrzoPNIXgXlxLHuPRSl1h3SFE9xJer9P3klDj3M2o/PZX35xM0+J07T1NjIlP0hmBHnXIJMEbOog4=
     - secure: IYzMbOCeevN07OOK1+wQ74fxPunRSJhyRjXQ8rxq4LO0toWQCt9jD8Atw7bVROVfPLfk72UVvjvcI7hopE2gI8jo3FsjM5hhEfch0KrGUpHxW1Hw/0up1Vh4kf7MPFXOe/1oy1iaYW1P7AK/7ZGQK6s2fqhxVEOQI8uwKdS7luQ=
-before_install:
+  matrix:
+    - IOS="FALSE"
+    - IOS="TRUE" VERSION="OS=8.1,name=iPhone 6" SDK=iphonesimulator8.3
+    - IOS="TRUE" VERSION="OS=8.2,name=iPhone 6" SDK=iphonesimulator8.3
+    - IOS="TRUE" VERSION="OS=8.3,name=iPhone 6" SDK=iphonesimulator8.3
+before_script:
   - gem install xcpretty -N
 script:
   - set -o pipefail
-  - xcodebuild -project AlgoliaSearch.xcodeproj -scheme "AlgoliaSearch OSX" test | xcpretty -c
+  - bash run_test.sh

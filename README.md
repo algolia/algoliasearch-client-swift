@@ -13,7 +13,7 @@ Our Swift client lets you easily use the [Algolia Search API](https://www.algoli
 [![CocoaPods](https://img.shields.io/cocoapods/v/AlgoliaSearch-Client-Swift.svg)]()
 [![CocoaPods](https://img.shields.io/cocoapods/l/AlgoliaSearch-Client-Swift.svg)]()
 [![](http://img.shields.io/badge/OS%20X-10.9%2B-lightgrey.svg)]()
-[![](http://img.shields.io/badge/iOS-8.0%2B-lightgrey.svg)]()
+[![](http://img.shields.io/badge/iOS-7.0%2B-lightgrey.svg)]()
 
 
 
