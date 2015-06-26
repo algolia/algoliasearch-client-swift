@@ -16,5 +16,4 @@ else
     echo "Run OS X test..."
     xcodebuild -project AlgoliaSearch.xcodeproj -scheme "AlgoliaSearch OSX" \
         test | xcpretty -c
-    pod lib lint
 fi
