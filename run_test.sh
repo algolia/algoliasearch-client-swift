@@ -2,7 +2,7 @@
 
 FILE="Tests/Helpers.swift"
 
-if [ $TRAVIS_IOS = "TRUE" ]; then
+if [[ $TRAVIS_IOS = "TRUE" ]]; then
     echo "Run iOS test..."
 
     echo "Replace env variable..."
