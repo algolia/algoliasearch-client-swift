@@ -24,7 +24,7 @@
 import Foundation
 
 let APP_ID = "APP_ID_REPLACE_ME"
-let API_KEY = "API_KEY_TRAVIS_REPLACE_ME"
+let API_KEY = "API_KEY_REPLACE_ME"
 let JOB_NUMBER = "JOB_NUMBER_REPLACE_ME"
 
 func safeIndexName(name: String) -> String {

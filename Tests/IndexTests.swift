@@ -32,8 +32,8 @@ class IndexTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        let appID = NSProcessInfo.processInfo().environment["ALGOLIA_APPLICATION_ID"] as? String ?? APP_ID
-        let apiKey = NSProcessInfo.processInfo().environment["ALGOLIA_API_KEY"] as? String ?? API_KEY
+        let appID = (NSProcessInfo.processInfo().environment["ALGOLIA_APPLICATION_ID"] as? String) ?? APP_ID
+        let apiKey = (NSProcessInfo.processInfo().environment["ALGOLIA_API_KEY"] as? String) ?? API_KEY
         client = AlgoliaSearch.Client(appID: appID, apiKey: apiKey)
         index = client.getIndex(safeIndexName("algol?à-swift"))
         
