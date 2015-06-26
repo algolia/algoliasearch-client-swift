@@ -11,7 +11,7 @@ if [[ $IOS = "TRUE" ]]; then
     sed -iE "s/JOB_NUMBER_REPLACE_ME/${TRAVIS_JOB_NUMBER}/g" $FILE
 
     xcodebuild -project AlgoliaSearch.xcodeproj -scheme "AlgoliaSearch iOS" \
-        -sdk "$SDK" -destination "$VERSION" | xcpretty -c
+        -sdk "$SDK" -destination "$VERSION" test | xcpretty -c
 else
     echo "Run OS X test..."
     xcodebuild -project AlgoliaSearch.xcodeproj -scheme "AlgoliaSearch OSX" \
