@@ -1,5 +1,8 @@
 CHANGELOG
 
+2015-06-30 1.3.0
+  * Added support of grouping (distinct=3 for example keep the 3 best hits for a distinct key)
+
 2015-06-21 1.2.3
   * add copy constructor for Query
 
