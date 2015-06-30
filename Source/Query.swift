@@ -84,11 +84,12 @@ public class Query : Printable {
     /// Default to false.
     public var ignorePlural = false
     
-    /// If true, enable the distinct feature (disabled by default) if the attributeForDistinct index setting is set.
+    /// Enable the distinct feature (disabled by default) if the attributeForDistinct index setting is set.
     /// This feature is similar to the SQL "distinct" keyword: when enabled in a query, all hits containing a duplicate value 
     /// for the attributeForDistinct attribute are removed from results. For example, if the chosen attribute is show_name 
     /// and several hits have the same value for show_name, then only the best one is kept and others are removed.
-    public var distinct = false
+    /// Specify the maximum number of hits to keep for each distinct value.
+    public var distinct: UInt = 0
     
     /// The page to retrieve (zero base). Defaults to 0.
     public var page: UInt = 0
@@ -353,7 +354,7 @@ public class Query : Printable {
         if let typoTolerance = typoTolerance {
             url.append(Query.encodeForQuery(typoTolerance, withKey: "typoTolerance"))
         }
-        if distinct {
+        if distinct > 0 {
             url.append(Query.encodeForQuery(distinct, withKey: "distinct"))
         }
         if !analytics { // default True
