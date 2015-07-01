@@ -27,7 +27,7 @@ import Foundation
 ///
 /// You should instantiate a Client object with your AppID, ApiKey and Hosts
 /// to start using Algolia Search API.
-public class Client {
+public class Client : NSObject {
     public var apiKey: String {
         didSet {
             setExtraHeader(apiKey, forKey: "X-Algolia-API-Key")
@@ -122,6 +122,10 @@ public class Client {
         }
 
         manager = Manager(HTTPHeaders: HTTPHeaders)
+    }
+    
+    public class func clientWithAppID(appID: String, apiKey: String) -> Client {
+        return Client(appID: appID, apiKey: apiKey)
     }
 
     /// Allow to set custom extra header.

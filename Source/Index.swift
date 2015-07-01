@@ -26,7 +26,7 @@ import Foundation
 /// Contains all the functions related to one index
 ///
 /// You can use Client.getIndex(indexName) to retrieve this object
-public class Index {
+public class Index : NSObject {
     public let indexName: String
     public let client: Client
     private let urlEncodedIndexName: String
@@ -107,7 +107,7 @@ public class Index {
     /// :param: objectID The unique identifier of the object to retrieve
     /// :param: attributesToRetrieve The list of attributes to retrieve
     public func getObject(objectID: String, attributesToRetrieve attributes: [String], block: CompletionHandler) {
-        let urlEncodedAttributes = Query.encodeForQuery(attributes, withKey: "attributes")
+        let urlEncodedAttributes = Query.encodeArrayForQuery(attributes, withKey: "attributes")
         let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())?\(urlEncodedAttributes)"
         client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
     }
