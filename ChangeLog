@@ -1,5 +1,9 @@
 CHANGELOG
 
+2015-07-XX X.X.X
+  * Objective-C support
+  * New browseFrom methods
+
 2015-06-30 1.3.0
   * Added support of grouping (distinct=3 for example keep the 3 best hits for a distinct key)
 

@@ -355,32 +355,38 @@ public class Index : NSObject {
     
     public class BrowseIterator {
         public let index: Index
-        public let query: Query
+        public var cursor: String
+        
+        public var result: [String: AnyObject]?
         
         private let path: String
         private let queryURL: String
         private let block: BrowseIteratorHandler
-        private var cursor = ""
         private var end = false
         
-        public var result: [String: AnyObject]?
-        
-        init(index: Index, query: Query, block: BrowseIteratorHandler) {
+        private init(index: Index, query: Query?, cursor: String?, block: BrowseIteratorHandler) {
             self.index = index
-            self.query = query
+            self.cursor = cursor ?? ""
             self.block = block
             
-            queryURL = query.buildURL()
-            path = "1/indexes/\(index.urlEncodedIndexName)/browse?\(queryURL)"
+            queryURL = query?.buildURL() ?? ""
+            path = "1/indexes/\(index.urlEncodedIndexName)/browse?"
+        }
+        
+        convenience init(index: Index, query: Query, block: BrowseIteratorHandler) {
+            self.init(index: index, query: query, cursor: nil, block: block)
+        }
+        
+        convenience init(index: Index, cursor: String, block: BrowseIteratorHandler) {
+            self.init(index: index, query: nil, cursor: cursor, block: block)
         }
         
         public func next() {
-            var requestPath = path
-            if cursor != "" {
-                if queryURL != "" {
-                    requestPath += "&"
-                }
-                requestPath += "cursor=\(cursor.urlEncode())"
+            let requestPath: String
+            if cursor == "" {
+                requestPath = "\(path)\(queryURL)"
+            } else {
+                requestPath = "\(path)cursor=\(cursor.urlEncode())"
             }
             
             index.client.performHTTPQuery(requestPath, method: .GET, body: nil, hostnames: index.client.readQueryHostnames) { (JSON, error) -> Void in
@@ -410,5 +416,17 @@ public class Index : NSObject {
     public func browse(query: Query, block: BrowseIteratorHandler) {
         let iterator = BrowseIterator(index: self, query: query, block: block)
         iterator.next() // first call
+    }
+    
+    /// Browse the index from a cursor.
+    ///
+    /// The iterator object has a parameter `result` that contains the result of the current page.
+    /// At the end of the block handler, call the method `next()` of the iterator object to get the next page.
+    /// The parameter `end` is set to true when all the index was browsed.
+    ///
+    /// :param: cursor The cursor of the next page to retrieve
+    public func browseFrom(cursor: String, block: BrowseIteratorHandler) {
+        let iterator = BrowseIterator(index: self, cursor: cursor, block: block)
+        iterator.next()
     }
 }
