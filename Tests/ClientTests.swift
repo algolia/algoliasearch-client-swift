@@ -38,7 +38,7 @@ class ClientTests: XCTestCase {
         index = client.getIndex(safeIndexName("algol?à-swift"))
         
         let expectation = expectationWithDescription("Delete index")
-        client.deleteIndex(index.indexName, block: { (JSON, error) -> Void in
+        client.deleteIndex(index.indexName, block: { (content, error) -> Void in
             XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
             expectation.fulfill()
         })
@@ -50,7 +50,7 @@ class ClientTests: XCTestCase {
         super.tearDown()
         
         let expectation = expectationWithDescription("Delete index")
-        client.deleteIndex(index.indexName, block: { (JSON, error) -> Void in
+        client.deleteIndex(index.indexName, block: { (content, error) -> Void in
             XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
             expectation.fulfill()
         })
@@ -62,21 +62,21 @@ class ClientTests: XCTestCase {
         let expectation = expectationWithDescription("testListIndexes")
         let object = ["city": "San Francisco", "objectID": "a/go/?à"]
         
-        index.addObject(object, block: { (JSON, error) -> Void in
+        index.addObject(object, block: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.waitTask(JSON!["taskID"] as! Int, block: { (JSON, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
                     } else {
-                        self.client.listIndexes({ (JSON, error) -> Void in
+                        self.client.listIndexes({ (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during listIndexes: \(error)")
                             } else {
-                                let items = JSON!["items"] as! [[String: AnyObject]]
+                                let items = content!["items"] as! [[String: AnyObject]]
                                 
                                 var found = false
                                 for item in items {
@@ -103,34 +103,34 @@ class ClientTests: XCTestCase {
         let expecation = expectationWithDescription("testMoveIndex")
         let object = ["city": "San Francisco", "objectID": "a/go/?à"]
         
-        index.addObject(object, block: { (JSON, error) -> Void in
+        index.addObject(object, block: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expecation.fulfill()
             } else {
-                self.index.waitTask(JSON!["taskID"] as! Int, block: { (JSON, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expecation.fulfill()
                     } else {
-                        XCTAssertEqual(JSON!["status"] as! String, "published", "Wait task failed")
+                        XCTAssertEqual(content!["status"] as! String, "published", "Wait task failed")
                         
-                        self.client.moveIndex(self.index.indexName, to: safeIndexName("algol?à-swift2"), block: { (JSON, error) -> Void in
+                        self.client.moveIndex(self.index.indexName, to: safeIndexName("algol?à-swift2"), block: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during moveIndex: \(error)")
                                 expecation.fulfill()
                             } else {
-                                self.index.waitTask(JSON!["taskID"] as! Int, block: { (JSON, error) -> Void in
+                                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
                                     if let error = error {
                                         XCTFail("Error during waitTask: \(error)")
                                         expecation.fulfill()
                                     } else {
                                         let dstIndex = self.client.getIndex(safeIndexName("algol?à-swift2"))
-                                        dstIndex.search(Query(), block: { (JSON, error) -> Void in
+                                        dstIndex.search(Query(), block: { (content, error) -> Void in
                                             if let error = error {
                                                 XCTFail("Error during search: \(error)")
                                             } else {
-                                                let nbHits = JSON!["nbHits"] as! Int
+                                                let nbHits = content!["nbHits"] as! Int
                                                 XCTAssertEqual(nbHits, 1, "Wrong number of object in the index")
                                             }
                                             
@@ -148,7 +148,7 @@ class ClientTests: XCTestCase {
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
         
         let deleteExpectation = expectationWithDescription("Delete index")
-        client.deleteIndex(safeIndexName("algol?à-swift2"), block: { (JSON, error) -> Void in
+        client.deleteIndex(safeIndexName("algol?à-swift2"), block: { (content, error) -> Void in
             XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
             deleteExpectation.fulfill()
         })
@@ -163,32 +163,32 @@ class ClientTests: XCTestCase {
         
         let object = ["city": "San Francisco", "objectID": "a/go/?à"]
         
-        index.addObject(object, block: { (JSON, error) -> Void in
+        index.addObject(object, block: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expecation.fulfill()
             } else {
-                self.index.waitTask(JSON!["taskID"] as! Int, block: { (JSON, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expecation.fulfill()
                     } else {
-                        XCTAssertEqual(JSON!["status"] as! String, "published", "Wait task failed")
+                        XCTAssertEqual(content!["status"] as! String, "published", "Wait task failed")
                         
-                        self.client.copyIndex(self.index.indexName, to: safeIndexName("algol?à-swift2"), block: { (JSON, error) -> Void in
+                        self.client.copyIndex(self.index.indexName, to: safeIndexName("algol?à-swift2"), block: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during copyIndex: \(error)")
                                 expecation.fulfill()
                             } else {
-                                self.index.waitTask(JSON!["taskID"] as! Int, block: { (JSON, error) -> Void in
+                                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
                                     if let error = error {
                                         XCTFail("Error during waitTask: \(error)")
                                     } else {
-                                        self.index.search(Query(), block: { (JSON, error) -> Void in
+                                        self.index.search(Query(), block: { (content, error) -> Void in
                                             if let error = error {
                                                 XCTFail("Error during search: \(error)")
                                             } else {
-                                                let nbHits = JSON!["nbHits"] as! Int
+                                                let nbHits = content!["nbHits"] as! Int
                                                 XCTAssertEqual(nbHits, 1, "Wrong number of object in the index")
                                             }
                                             
@@ -196,11 +196,11 @@ class ClientTests: XCTestCase {
                                         })
                                         
                                         let dstIndex = self.client.getIndex(safeIndexName("algol?à-swift2"))
-                                        dstIndex.search(Query(), block: { (JSON, error) -> Void in
+                                        dstIndex.search(Query(), block: { (content, error) -> Void in
                                             if let error = error {
                                                 XCTFail("Error during search: \(error)")
                                             } else {
-                                                let nbHits = JSON!["nbHits"] as! Int
+                                                let nbHits = content!["nbHits"] as! Int
                                                 XCTAssertEqual(nbHits, 1, "Wrong number of object in the index")
                                             }
                                             
@@ -220,7 +220,7 @@ class ClientTests: XCTestCase {
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
         
         let deleteExpectation = expectationWithDescription("Delete index")
-        client.deleteIndex(safeIndexName("algol?à-swift2"), block: { (JSON, error) -> Void in
+        client.deleteIndex(safeIndexName("algol?à-swift2"), block: { (content, error) -> Void in
             XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
             deleteExpectation.fulfill()
         })
@@ -232,21 +232,21 @@ class ClientTests: XCTestCase {
         let expecation = expectationWithDescription("testGetLogs")
         let object = ["city": "San Francisco", "objectID": "a/go/?à"]
         
-        index.addObject(object, block: { (JSON, error) -> Void in
+        index.addObject(object, block: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expecation.fulfill()
             } else {
-                self.index.waitTask(JSON!["taskID"] as! Int, block: { (JSON, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expecation.fulfill()
                     } else {
-                        self.client.getLogs({ (JSON, error) -> Void in
+                        self.client.getLogs({ (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during getLogs: \(error)")
                             } else {
-                                let logs = JSON!["logs"] as! [AnyObject]
+                                let logs = content!["logs"] as! [AnyObject]
                                 XCTAssertNotEqual(logs.count, 0, "Get logs failed")
                             }
                             
@@ -264,21 +264,21 @@ class ClientTests: XCTestCase {
         let expecation = expectationWithDescription("testGetLogsWithOffset")
         let object = ["city": "San Francisco", "objectID": "a/go/?à"]
         
-        index.addObject(object, block: { (JSON, error) -> Void in
+        index.addObject(object, block: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expecation.fulfill()
             } else {
-                self.index.waitTask(JSON!["taskID"] as! Int, block: { (JSON, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expecation.fulfill()
                     } else {
-                        self.client.getLogsWithOffset(0, length: 1, block: { (JSON, error) -> Void in
+                        self.client.getLogsWithOffset(0, length: 1, block: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during getLogs: \(error)")
                             } else {
-                                let logs = JSON!["logs"] as! [AnyObject]
+                                let logs = content!["logs"] as! [AnyObject]
                                 XCTAssertEqual(logs.count, 1, "Get logs failed")
                             }
                             
@@ -296,21 +296,21 @@ class ClientTests: XCTestCase {
         let expecation = expectationWithDescription("testGetLogsWithType")
         let object = ["city": "San Francisco", "objectID": "a/go/?à"]
         
-        index.addObject(object, block: { (JSON, error) -> Void in
+        index.addObject(object, block: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expecation.fulfill()
             } else {
-                self.index.waitTask(JSON!["taskID"] as! Int, block: { (JSON, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expecation.fulfill()
                     } else {
-                        self.client.getLogsWithType("build", offset: 0, length: 1, block: { (JSON, error) -> Void in
+                        self.client.getLogsWithType("build", offset: 0, length: 1, block: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during getLogs: \(error)")
                             } else {
-                                let logs = JSON!["logs"] as! [AnyObject]
+                                let logs = content!["logs"] as! [AnyObject]
                                 XCTAssertEqual(logs.count, 1, "Get logs failed")
                             }
                             
@@ -328,23 +328,23 @@ class ClientTests: XCTestCase {
         let expectation = expectationWithDescription("testMultipleQueries")
         let object = ["city": "San Francisco"]
         
-        index.addObject(object, block: { (JSON, error) -> Void in
+        index.addObject(object, block: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.waitTask(JSON!["taskID"] as! Int, block: { (JSON, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
                     } else {
                         let queries = [["indexName": self.index.indexName, "query": Query()]]
                         
-                        self.client.multipleQueries(queries, block: { (JSON, error) -> Void in
+                        self.client.multipleQueries(queries, block: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during multipleQueries: \(error)")
                             } else {
-                                let items = JSON!["results"] as! [[String: AnyObject]]
+                                let items = content!["results"] as! [[String: AnyObject]]
                                 let nbHits = items[0]["nbHits"] as! Int
                                 XCTAssertEqual(nbHits, 1, "Wrong number of object in the index")
                             }
@@ -363,56 +363,56 @@ class ClientTests: XCTestCase {
         let expectation = expectationWithDescription("testKeyOperations")
         let object = ["city": "San Francisco", "objectID": "a/go/?à"]
         
-        index.addObject(object, block: { (JSON, error) -> Void in
+        index.addObject(object, block: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.waitTask(JSON!["taskID"] as! Int, block: { (JSON, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
                     } else {
-                        self.client.addUserKey(["search"], block: { (JSON, error) -> Void in
+                        self.client.addUserKey(["search"], block: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during addUserKey: \(error)")
                                 expectation.fulfill()
                             } else {
                                 NSThread.sleepForTimeInterval(5) // Wait the backend
-                                self.client.getUserKeyACL(JSON!["key"] as! String, block: { (JSON, error) -> Void in
+                                self.client.getUserKeyACL(content!["key"] as! String, block: { (content, error) -> Void in
                                     if let error = error {
                                         XCTFail("Error during getUserKeyACL: \(error)")
                                         expectation.fulfill()
                                     } else {
-                                        let acls = JSON!["acl"] as! [String]
+                                        let acls = content!["acl"] as! [String]
                                         XCTAssertEqual(acls, ["search"], "Add user key failed")
                                         
-                                        self.client.updateUserKey(JSON!["value"] as! String, withACL: ["addObject"], block: { (JSON, error) -> Void in
+                                        self.client.updateUserKey(content!["value"] as! String, withACL: ["addObject"], block: { (content, error) -> Void in
                                             if let error = error {
                                                 XCTFail("Error during updateUserKey: \(error)")
                                                 expectation.fulfill()
                                             } else {
                                                 NSThread.sleepForTimeInterval(5) // Wait the backend
-                                                self.client.getUserKeyACL(JSON!["key"] as! String, block: { (JSON, error) -> Void in
+                                                self.client.getUserKeyACL(content!["key"] as! String, block: { (content, error) -> Void in
                                                     if let error = error {
                                                         XCTFail("Error during getUserKeyACL: \(error)")
                                                         expectation.fulfill()
                                                     } else {
-                                                        let acls = JSON!["acl"] as! [String]
+                                                        let acls = content!["acl"] as! [String]
                                                         XCTAssertEqual(acls, ["addObject"], "Update user key failed")
                                                         
-                                                        let keyToDelete = JSON!["value"] as! String
-                                                        self.client.deleteUserKey(keyToDelete, block: { (JSON, error) -> Void in
+                                                        let keyToDelete = content!["value"] as! String
+                                                        self.client.deleteUserKey(keyToDelete, block: { (content, error) -> Void in
                                                             if let error = error {
                                                                 XCTFail("Error during deleteUserKey: \(error)")
                                                                 expectation.fulfill()
                                                             } else {
                                                                 NSThread.sleepForTimeInterval(5) // Wait the backend
-                                                                self.client.listUserKeys({ (JSON, error) -> Void in
+                                                                self.client.listUserKeys({ (content, error) -> Void in
                                                                     if let error = error {
                                                                         XCTFail("Error during listUserKeys: \(error)")
                                                                     } else {
-                                                                        let keys = JSON!["keys"] as! [[String: AnyObject]]
+                                                                        let keys = content!["keys"] as! [[String: AnyObject]]
                                                                         
                                                                         var found = false
                                                                         for key in keys {

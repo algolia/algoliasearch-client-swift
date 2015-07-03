@@ -23,7 +23,7 @@
 
 import Foundation
 
-public typealias CompletionHandler = (JSON: [String: AnyObject]?, error: NSError?) -> Void
+public typealias CompletionHandler = (content: [String: AnyObject]?, error: NSError?) -> Void
 
 struct RingBuffer<T>: SequenceType {
     typealias Generator = IndexingGenerator<Array<T>>

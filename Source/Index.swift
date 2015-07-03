@@ -208,16 +208,16 @@ public class Index : NSObject {
     /// :param: taskID The ID of the task returned by server
     public func waitTask(taskID: Int, block: CompletionHandler) {
         let path = "1/indexes/\(urlEncodedIndexName)/task/\(taskID)"
-        client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: { (JSON, error) -> Void in
-            if let JSON = JSON {
-                if (JSON["status"] as? String) == "published" {
-                    block(JSON: JSON, error: nil)
+        client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: { (content, error) -> Void in
+            if let content = content {
+                if (content["status"] as? String) == "published" {
+                    block(content: content, error: nil)
                 } else {
                     NSThread.sleepForTimeInterval(0.1)
                     self.waitTask(taskID, block: block)
                 }
             } else {
-                block(JSON: JSON, error: error)
+                block(content: content, error: error)
             }
         })
     }
@@ -389,12 +389,12 @@ public class Index : NSObject {
                 requestPath = "\(path)cursor=\(cursor.urlEncode())"
             }
             
-            index.client.performHTTPQuery(requestPath, method: .GET, body: nil, hostnames: index.client.readQueryHostnames) { (JSON, error) -> Void in
+            index.client.performHTTPQuery(requestPath, method: .GET, body: nil, hostnames: index.client.readQueryHostnames) { (content, error) -> Void in
                 if let error = error {
                     self.block(iterator: self, end: false, error: error)
                 } else {
-                    self.result = JSON
-                    if let cursor = JSON!["cursor"] as? String {
+                    self.result = content
+                    if let cursor = content!["cursor"] as? String {
                         self.cursor = cursor
                     } else {
                         self.end = true

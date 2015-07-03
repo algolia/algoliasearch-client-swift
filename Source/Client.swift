@@ -366,12 +366,12 @@ public class Client : NSObject {
                 if let block = block {
                     switch(statusCode) {
                     case 200..<300:
-                        block(JSON: (data as! [String: AnyObject]), error: nil)
+                        block(content: (data as! [String: AnyObject]), error: nil)
                     default:
                         if let errorMessage = (data as! [String: AnyObject])["message"] as? String {
-                            block(JSON: nil, error: NSError(domain: errorMessage, code: statusCode, userInfo: nil))
+                            block(content: nil, error: NSError(domain: errorMessage, code: statusCode, userInfo: nil))
                         } else {
-                            block(JSON: nil, error: NSError(domain: "No error message", code: 0, userInfo: nil))
+                            block(content: nil, error: NSError(domain: "No error message", code: 0, userInfo: nil))
                         }
                     }
                 }
@@ -379,7 +379,7 @@ public class Client : NSObject {
                 if (index + 1) < hostnames.count {
                     self.performHTTPQuery(path, method: method, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery, index: index + 1, block: block)
                 } else {
-                    block?(JSON: nil, error: error)
+                    block?(content: nil, error: error)
                 }
             }
         }
