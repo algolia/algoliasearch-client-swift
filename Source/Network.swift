@@ -31,7 +31,7 @@ enum HTTPMethod: String {
     case DELETE = "DELETE"
 }
 
-class Manager {
+struct Manager {
     let session: NSURLSession
     
     init(HTTPHeaders: [String: String]) {
@@ -104,7 +104,7 @@ class Manager {
     }
 }
 
-class Request {
+struct Request {
     /// The session belonging to the underlying task.
     let session: NSURLSession
     

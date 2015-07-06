@@ -31,6 +31,8 @@ public class Index : NSObject {
     public let client: Client
     private let urlEncodedIndexName: String
     
+    private var searchCache: ExpiringCache?
+    
     init(client: Client, indexName: String) {
         self.client = client
         self.indexName = indexName
@@ -194,7 +196,7 @@ public class Index : NSObject {
     public func search(query: Query, block: CompletionHandler) {
         let path = "1/indexes/\(urlEncodedIndexName)/query"
         let request = ["params": query.buildURL()]
-        client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.readQueryHostnames, isSearchQuery: true, block: block)
+        performSearchQuery(path, method: .POST, body: request, block: block)
     }
     
     /// Delete all previous search queries
@@ -351,6 +353,8 @@ public class Index : NSObject {
         client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
     }
     
+    // MARK: - Browse
+    
     public typealias BrowseIteratorHandler = (iterator: BrowseIterator, end: Bool, error: NSError?) -> Void
     
     public class BrowseIterator {
@@ -428,5 +432,42 @@ public class Index : NSObject {
     public func browseFrom(cursor: String, block: BrowseIteratorHandler) {
         let iterator = BrowseIterator(index: self, cursor: cursor, block: block)
         iterator.next()
+    }
+    
+    // MARK: - Search Cache
+    
+    /// Enable search cache.
+    ///
+    /// :param: expiringTimeInterval Each cached search will be valid during this interval of time
+    public func enableSearchCache(expiringTimeInterval: NSTimeInterval = 120) {
+        searchCache = ExpiringCache(expiringTimeInterval: expiringTimeInterval)
+    }
+    
+    /// Disable search cache
+    public func disableSearchCache() {
+        searchCache?.clearCache()
+        searchCache = nil
+    }
+    
+    /// Clear search cache
+    public func clearSearchCache() {
+        searchCache?.clearCache()
+    }
+    
+    /// Perform Search Query and cache result
+    func performSearchQuery(path: String, method: HTTPMethod, body: [String: AnyObject]?, block: CompletionHandler) {
+        let cacheKey = "\(path)_body_\(body)"
+        
+        if let content = searchCache?.objectForKey(cacheKey) {
+            block(content: content, error: nil)
+        } else {
+            client.performHTTPQuery(path, method: method, body: body, hostnames: client.readQueryHostnames, isSearchQuery: true) { (content, error) -> Void in
+                if let content = content {
+                    self.searchCache?.setObject(content, forKey: cacheKey)
+                }
+                
+                block(content: content, error: error)
+            }
+        }
     }
 }
