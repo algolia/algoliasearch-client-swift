@@ -1,6 +1,17 @@
 # Algolia Search API Client for Swift
 
 
+**&lt;Welcome Objective-C developers&gt;**
+
+In July 2015, we release a new version of our Swift client able to work with Swift and Objective-C.
+
+If you were using our Objective-C client, [read the migration guide](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-from-Objective-C-to-Swift-API-Client).
+
+The Objective-C API Client is still supported and can be found [here](https://github.com/algolia/algoliasearch-client-objc).
+
+**&lt;/Welcome Objective-C developers&gt;**
+
+
 
 
 [Algolia Search](http://www.algolia.com) is a hosted full-text, numerical, and faceted search engine capable of delivering realtime results from the first keystroke.
@@ -76,10 +87,10 @@ In 30 seconds, this quick start tutorial will show you how to index and search o
 
 Without any prior configuration, you can start indexing [500 contacts](https://github.com/algolia/algoliasearch-client-csharp/blob/master/contacts.json) in the ```contacts``` index using the following code:
 ```swift
-// Load JSON file
+// Load content file
 let jsonPath = NSBundle.mainBundle().pathForResource("contacts", ofType: "json")
 let jsonData = NSData.dataWithContentsOfMappedFile("jsonPath")
-let dict = NSJSONSerialization.JSONObjectWithData(jsonData, options: 0, error: nil)
+let dict = NScontentSerialization.contentObjectWithData(jsonData, options: 0, error: nil)
 // Load all objects of json file in an index named "contacts"
 index.addObjects(dict["objects"], block: nil)
 ```
@@ -87,27 +98,27 @@ index.addObjects(dict["objects"], block: nil)
 You can now search for contacts using firstname, lastname, company, etc. (even with typos):
 ```swift
 // search by firstname
-index.search(Query(query: "jimmie"), block: { (JSON, error) -> Void in
+index.search(Query(query: "jimmie"), block: { (content, error) -> Void in
 	if error == nil {
-		println("Result: \(JSON)")
+		println("Result: \(content)")
 	}
 })
 // search a firstname with typo
-index.search(Query(query: "jimie"), block: { (JSON, error) -> Void in
+index.search(Query(query: "jimie"), block: { (content, error) -> Void in
 	if error == nil {
-		println("Result: \(JSON)")
+		println("Result: \(content)")
 	}
 })
 // search for a company
-index.search(Query(query: "california paint"), block: { (JSON, error) -> Void in
+index.search(Query(query: "california paint"), block: { (content, error) -> Void in
 	if error == nil {
-		println("Result: \(JSON)")
+		println("Result: \(content)")
 	}
 })
 // search for a firstname & company
-index.search(Query(query: "jimmie paint"), block: { (JSON, error) -> Void in
+index.search(Query(query: "jimmie paint"), block: { (content, error) -> Void in
 	if error == nil {
-		println("Result: \(JSON)")
+		println("Result: \(content)")
 	}
 })
 ```
@@ -116,7 +127,7 @@ Settings can be customized to tune the search behavior. For example, you can add
 ```swift
 let customRanking = ["desc(followers)"]
 let settings = ["customRanking": customRanking]
-index.setSettings(settings, block: { (JSON, error) -> Void in
+index.setSettings(settings, block: { (content, error) -> Void in
 	if let error = error {
 		println("Error when applying settings: \(error)")
 	}
@@ -127,7 +138,7 @@ You can also configure the list of attributes you want to index by order of impo
 ```swift
 let customRanking = ["lastname", "firstname", "company", "email", "city", "address"]
 let settings = ["attributesToIndex": customRanking]
-index.setSettings(settings, block: { (JSON, error) -> Void in
+index.setSettings(settings, block: { (content, error) -> Void in
 	if let error = error {
 		println("Error when applying settings: \(error)")
 	}
@@ -136,15 +147,15 @@ index.setSettings(settings, block: { (JSON, error) -> Void in
 
 Since the engine is designed to suggest results as you type, you'll generally search by prefix. In this case the order of attributes is very important to decide which hit is the best:
 ```swift
-index.search(Query(query: "or"), block: { (JSON, error) -> Void in
+index.search(Query(query: "or"), block: { (content, error) -> Void in
 	if error == nil {
-		println("Result: \(JSON)")
+		println("Result: \(content)")
 	}
 })
 
-index.search(Query(query: "jim"), block: { (JSON, error) -> Void in
+index.search(Query(query: "jim"), block: { (content, error) -> Void in
 	if error == nil {
-		println("Result: \(JSON)")
+		println("Result: \(content)")
 	}
 })
 ```
@@ -197,9 +208,9 @@ Example with automatic `objectID` assignment:
 
 ```swift
 let newObject = ["firstname": "Jimmie", "lastname": "Barninger"]
-index.addObject(object, block: { (JSON, error) -> Void in
+index.addObject(object, block: { (content, error) -> Void in
 	if error == nil {
-		let objectID = JSON!["objectID"] as String
+		let objectID = content!["objectID"] as String
 		println("Object ID: \(objectID)")
 	}
 )
@@ -209,9 +220,9 @@ Example with manual `objectID` assignment:
 
 ```swift
 let newObject = ["firstname": "Jimmie", "lastname": "Barninger"]
-index.addObject(object, withID: "myID", block: { (JSON, error) -> Void in
+index.addObject(object, withID: "myID", block: { (content, error) -> Void in
 	if error == nil {
-		let objectID = JSON!["objectID"] as String
+		let objectID = content!["objectID"] as String
 		println("Object ID: \(objectID)")
 	}
 )
@@ -315,6 +326,8 @@ Search
 
 To perform a search, you only need to initialize the index and perform a call to the search function.
 
+The search query allows only to retrieve 1000 hits, if you need to retrieve more than 1000 hits for seo, you can use [Backup / Retrieve all index content](#backup--retrieve-of-all-index-content)
+
 You can use the following optional arguments:
 
 ### Query Parameters
@@ -329,7 +342,7 @@ You can use the following optional arguments:
  * **removeWordsIfNoResults**: This option is used to select a strategy in order to avoid having an empty result page. There are three different options:
   * **lastWords**: When a query does not return any results, the last word will be added as optional. The process is repeated with n-1 word, n-2 word, ... until there are results.
   * **firstWords**: When a query does not return any results, the first word will be added as optional. The process is repeated with second word, third word, ... until there are results.
-  * **allOptional**: When a query does not return any results, a second trial will be made with all words as optional. This is equivalent to transforming the AND operand between query terms to an OR operand. 
+  * **allOptional**: When a query does not return any results, a second trial will be made with all words as optional. This is equivalent to transforming the AND operand between query terms to an OR operand.
   * **none**: No specific processing is done when a query does not return any results (default behavior).
  * **minWordSizefor1Typo**: The minimum number of characters in a query word to accept one typo in this word.<br/>Defaults to 4.
  * **minWordSizefor2Typos**: The minimum number of characters in a query word to accept two typos in this word.<br/>Defaults to 8.
@@ -359,8 +372,7 @@ You can use the following optional arguments:
 
  * **aroundLatLng**: Search for entries around a given latitude/longitude (specified as two floats separated by a comma).<br/>For example, `aroundLatLng=47.316669,5.016670`.<br/>You can specify the maximum distance in meters with the **aroundRadius** parameter and the precision for ranking with **aroundPrecision**. For example, if you set aroundPrecision=100, two objects that are a distance of less than 100 meters will be considered as identical for the "geo" ranking parameter).<br/>At indexing, you should specify the geo location of an object with the `_geoloc` attribute in the form `{"_geoloc":{"lat":48.853409, "lng":2.348800}}`.
 
- * **aroundLatLngViaIP**: Search for entries around a given latitude/longitude automatically computed from user IP address.<br/>For example, `aroundLatLng=47.316669,5.016670`.<br/>You can specify the maximum distance in meters with the **aroundRadius** parameter and the precision for ranking with **aroundPrecision**. For example, if you set aroundPrecision=100, two objects that are a distance of less than 100 meters will be considered as identical for the "geo" ranking parameter.<br/>At indexing, you should specify the geo location of an object with the `_geoloc` attribute in the form `{"_geoloc":{"lat":48.853409, "lng":2.348800}}`.
-
+ * **aroundLatLngViaIP**: Search for entries around a given latitude/longitude automatically computed from user IP address.<br/>For example, `aroundLatLng=47.316669,5.016670`.<br/>You can specify the maximum distance in meters with the **aroundRadius** parameter and the precision for ranking with **aroundPrecision**. For example, if you set aroundPrecision=100, two objects that are in the range 0-99m will be considered as identic in the ranking for the "geo" ranking parameter (same for 100-199, 200-299, ... ranges).<br/>At indexing, you should specify the geo location of an object with the `_geoloc` attribute in the form `{"_geoloc":{"lat":48.853409, "lng":2.348800}}`.
 
  * **insideBoundingBox**: Search entries inside a given area defined by the two extreme points of a rectangle (defined by 4 floats: p1Lat,p1Lng,p2Lat,p2Lng).<br/>For example, `insideBoundingBox=47.3165,4.9665,47.3424,5.0201`).<br/>At indexing, you should specify the geo location of an object with the _geoloc attribute in the form `{"_geoloc":{"lat":48.853409, "lng":2.348800}}`.
 
@@ -398,18 +410,18 @@ You can also use a string array encoding (for example `numericFilters: ["price>1
 
 ```swift
 let index = client.getIndex("contacts")
-index.search(Query(query: "s"), block: { (JSON, error) -> Void in
+index.search(Query(query: "s"), block: { (content, error) -> Void in
 	if error == nil {
-		println("Result: \(JSON)")
+		println("Result: \(content)")
 	}
 })
 
 let query = Query(query: "s")
 query.attributesToRetrieve = ["firstname", "lastname"]
 query.hitsPerPage = 50
-index.search(query, block: { (JSON, error) -> Void in
+index.search(query, block: { (content, error) -> Void in
 	if error == nil {
-		println("Result: \(JSON)")
+		println("Result: \(content)")
 	}
 })
 ```
@@ -464,9 +476,9 @@ let queries = [
 	["indexName": "products", "query": anotherQueryObject],
 	["indexName": "products", "query": anotherQueryObject]
 ]
-client.multipleQueries(queries, block: { (JSON, error) -> Void in
+client.multipleQueries(queries, block: { (content, error) -> Void in
 	if error == nil {
-		println("Result: \(JSON)")
+		println("Result: \(content)")
 	}
 })
 ```
@@ -486,15 +498,15 @@ You can easily retrieve an object using its `objectID` and optionally specify a 
 
 ```swift
 // Retrieves all attributes
-index.getObject("myID", block: { (JSON, error) -> Void in
+index.getObject("myID", block: { (content, error) -> Void in
 	if error == nil {
-		println("Object: \(JSON)")
+		println("Object: \(content)")
 	}
 })
 // Retrieves only the firstname attribute
-index.getObject("myID", attributesToRetrieve: ["firstname"], block: { (JSON, error) -> Void in
+index.getObject("myID", attributesToRetrieve: ["firstname"], block: { (content, error) -> Void in
 	if error == nil {
-		println("Object: \(JSON)")
+		println("Object: \(content)")
 	}
 })
 ```
@@ -502,7 +514,7 @@ index.getObject("myID", attributesToRetrieve: ["firstname"], block: { (JSON, err
 You can also retrieve a set of objects:
 
 ```swift
-index.getObjects(["myID1", "myID2"], block: { (JSON, error) -> {
+index.getObjects(["myID1", "myID2"], block: { (content, error) -> {
 	// do something
 })
 ```
@@ -591,9 +603,9 @@ You can decide to have the same priority for two attributes by passing them in t
 You can easily retrieve settings or update them:
 
 ```swift
-index.getSettings(block: { (JSON, error) -> Void in
+index.getSettings(block: { (content, error) -> Void in
 	if error == nil 
-		println("Settings: \(JSON)")
+		println("Settings: \(content)")
 	}
 })
 ```
@@ -609,9 +621,9 @@ List indices
 You can list all your indices along with their associated information (number of entries, disk size, etc.) with the `` method:
 
 ```swift
-client.listIndexes(block: { (JSON, error) -> Void in
+client.listIndexes(block: { (content, error) -> Void in
 	if error == nil {
-		println("Indexes: \(JSON)")
+		println("Indexes: \(content)")
 	}
 })
 ```
@@ -621,7 +633,7 @@ Delete an index
 You can delete an index using its name:
 
 ```swift
-client.deleteIndex("contacts", block: { (JSON, error) -> Void in
+client.deleteIndex("contacts", block: { (content, error) -> Void in
 	if let error = error {
 		println("Could not delete: \(error)")
 	}
@@ -633,7 +645,7 @@ Clear an index
 You can delete the index contents without removing settings and index specific API keys by using the clearIndex command:
 
 ```swift
-index.clearIndex(block: { (JSON, error) -> Void in
+index.clearIndex(block: { (content, error) -> Void in
 	if let error = error {
 		println("Could not clear index: \(error)")
 	}
@@ -655,9 +667,9 @@ You can wait for a task to complete using the `waitTask` method on the `taskID` 
 
 For example, to wait for indexing of a new object:
 ```swift
-index.addObject(newObject, block: { (JSON, error) -> Void in
+index.addObject(newObject, block: { (content, error) -> Void in
 	if error == nil {
-		self.index.waitTask(JSON!["taskID"] as Int, block: { (JSON, error) -> Void in
+		self.index.waitTask(content!["taskID"] as Int, block: { (content, error) -> Void in
 			if error == nil {
 				println("New object is indexed!")
 			}
@@ -673,7 +685,7 @@ Batch writes
 -------------
 
 You may want to perform multiple operations with one API call to reduce latency.
-We expose three methods to perform batch operations:
+We expose four methods to perform batch operations:
  * ``: Add an array of objects using automatic `objectID` assignment.
  * ``: Add or update an array of objects that contains an `objectID` attribute.
  * ``: Delete an array of objectIDs.
@@ -683,9 +695,9 @@ Example using automatic `objectID` assignment:
 ```swift
 let obj1 = ["firstname": "Jimmie", "lastname": "Barninger"]
 let obj2 = ["firstname": "Warren", "lastname": "Speach"]
-index.addObjects([obj1, obj2], block: { (JSON, error) -> Void in
+index.addObjects([obj1, obj2], block: { (content, error) -> Void in
 	if error == nil {
-		println("Object IDs: \(JSON)")
+		println("Object IDs: \(content)")
 	}
 })
 ```
@@ -694,9 +706,9 @@ Example with user defined `objectID` (add or update):
 ```swift
 let obj1 = ["firstname": "Jimmie", "lastname": "Barninger", "objectID": "myID1"]
 let obj2 = ["firstname": "Warren", "lastname": "Speach", "objectID": "myID2"]
-index.saveObjects([obj1, obj2], block: { (JSON, error) -> Void in
+index.saveObjects([obj1, obj2], block: { (content, error) -> Void in
 	if error == nil {
-		println("Object IDs: \(JSON)")
+		println("Object IDs: \(content)")
 	}
 })
 ```
@@ -710,9 +722,9 @@ Example that updates only the `firstname` attribute:
 ```swift
 let obj1 = ["firstname": "Jimmie", "objectID": "myID1"]
 let obj2 = ["firstname": "Warren", "objectID": "myID2"]
-index.partialUpdateObjects([obj1, obj2], block: { (JSON, error) -> Void in
+index.partialUpdateObjects([obj1, obj2], block: { (content, error) -> Void in
 	if error == nil {
-		println("Object IDs: \(JSON)")
+		println("Object IDs: \(content)")
 	}
 })
 ```
@@ -740,15 +752,15 @@ These API keys can be restricted to a set of operations or/and restricted to a g
 To list existing keys, you can use `listUserKeys` method:
 ```swift
 // Lists global API keys
-client.listUserKeys(block: { (JSON, error) -> Void in
+client.listUserKeys(block: { (content, error) -> Void in
 	if error == nil {
-		println("User keys: \(JSON)")
+		println("User keys: \(content)")
 	}
 })
 // Lists API keys that can access only to this index
-index.listUserKeys(block: { (JSON, error) -> Void in
+index.listUserKeys(block: { (content, error) -> Void in
 	if error == nil {
-		println("User keys: \(JSON)")
+		println("User keys: \(content)")
 	}
 })
 ```
@@ -767,16 +779,16 @@ Each key is defined by a set of permissions that specify the authorized actions.
 Example of API Key creation:
 ```swift
 // Creates a new global API key that can only perform search actions
-client.addUserKey(["search"], block: { (JSON, error) -> Void in
+client.addUserKey(["search"], block: { (content, error) -> Void in
 	if error == nil {
-		let key = JSON!["key"] as String
+		let key = content!["key"] as String
 		println("API key: \(key)")
 	}
 })
 // Creates a new API key that can only perform search action on this index
-index.addUserKey(["search"], block: { (JSON, error) -> Void in
+index.addUserKey(["search"], block: { (content, error) -> Void in
 	if error == nil {
-		let key = JSON!["key"] as String
+		let key = content!["key"] as String
 		println("API key: \(key)")
 	}
 })
@@ -784,29 +796,29 @@ index.addUserKey(["search"], block: { (JSON, error) -> Void in
 
 You can also create an API Key with advanced settings:
 
- * Add a validity period. The key will be valid for a specific period of time (in seconds).
- * Specify the maximum number of API calls allowed from an IP address per hour. Each time an API call is performed with this key, a check is performed. If the IP at the source of the call did more than this number of calls in the last hour, a 403 code is returned. Defaults to 0 (no rate limit). This parameter can be used to protect you from attempts at retrieving your entire index contents by massively querying the index.
+ * **validity**: Add a validity period. The key will be valid for a specific period of time (in seconds).
+ * **maxQueriesPerIPPerHour**: Specify the maximum number of API calls allowed from an IP address per hour. Each time an API call is performed with this key, a check is performed. If the IP at the source of the call did more than this number of calls in the last hour, a 403 code is returned. Defaults to 0 (no rate limit). This parameter can be used to protect you from attempts at retrieving your entire index contents by massively querying the index.
 
- * Specify the maximum number of hits this API key can retrieve in one call. Defaults to 0 (unlimited). This parameter can be used to protect you from attempts at retrieving your entire index contents by massively querying the index.
- * Specify the list of targeted indices. You can target all indices starting with a prefix or ending with a suffix using the '*' character. For example, "dev_*" matches all indices starting with "dev_" and "*_dev" matches all indices ending with "_dev". Defaults to all indices if empty or blank.
- * Specify the list of referers. You can target all referers starting with a prefix or ending with a suffix using the '*' character. For example, "algolia.com/*" matches all referers starting with "algolia.com/" and "*.algolia.com" matches all referers ending with ".algolia.com". Defaults to all referers if empty or blank.
- * Specify the list of query parameters. You can force the query parameters for a query using the url string format (param1=X&param2=Y...).
- * Specify a description to describe where the key is used.
+ * **maxHitsPerQuery**: Specify the maximum number of hits this API key can retrieve in one call. Defaults to 0 (unlimited). This parameter can be used to protect you from attempts at retrieving your entire index contents by massively querying the index.
+ * **indexes**: Specify the list of targeted indices. You can target all indices starting with a prefix or ending with a suffix using the '\*' character. For example, "dev\_\*" matches all indices starting with "dev\_" and "\*\_dev" matches all indices ending with "\_dev". Defaults to all indices if empty or blank.
+ * **referers**: Specify the list of referers. You can target all referers starting with a prefix or ending with a suffix using the '\*' character. For example, "algolia.com/\*" matches all referers starting with "algolia.com/" and "\*.algolia.com" matches all referers ending with ".algolia.com". Defaults to all referers if empty or blank.
+ * **queryParameters**: Specify the list of query parameters. You can force the query parameters for a query using the url string format (param1=X&param2=Y...).
+ * **description**: Specify a description to describe where the key is used.
 
 
 ```swift
 // Creates a new global API key that is valid for 300 seconds
-client.addUserKey(["search"], withValidity: 300, maxQueriesPerIPPerHour: 0, maxHitsPerQuery: 0, block: { (JSON, error) -> Void in
+client.addUserKey(["search"], withValidity: 300, maxQueriesPerIPPerHour: 0, maxHitsPerQuery: 0, block: { (content, error) -> Void in
 	if error == nil {
-		let key = JSON!["key"] as String
+		let key = content!["key"] as String
 		println("API Key: \(key)")
 	}
 })
 
 // Creates a new index specific API key valid for 300 seconds, with a rate limit of 100 calls per hour per IP and a maximum of 20 hits
-client.addUserKey(["search"], withValidity: 300, maxQueriesPerIPPerHour: 100, maxHitsPerQuery: 20, block: { (JSON, error) -> Void in
+client.addUserKey(["search"], withValidity: 300, maxQueriesPerIPPerHour: 100, maxHitsPerQuery: 20, block: { (content, error) -> Void in
 	if error == nil {
-		let key = JSON!["key"] as String
+		let key = content!["key"] as String
 		println("API Key: \(key)")
 	}
 })
@@ -815,16 +827,16 @@ client.addUserKey(["search"], withValidity: 300, maxQueriesPerIPPerHour: 100, ma
 Update the permissions of an existing key:
 ```swift
 // Update an existing global API key that is valid for 300 seconds
-client.updateUserKey("myKey", withACL: ["search"], andValidity: 300, maxQueriesPerIPPerHour: 0, maxHitsPerQuery: 0, block: { (JSON, error) -> Void in
+client.updateUserKey("myKey", withACL: ["search"], andValidity: 300, maxQueriesPerIPPerHour: 0, maxHitsPerQuery: 0, block: { (content, error) -> Void in
 	if error == nil {
-		let key = JSON!["key"] as String
+		let key = content!["key"] as String
 		println("API Key: \(key)")
 	}
 })
 // Update an existing index specific API key valid for 300 seconds, with a rate limit of 100 calls per hour per IP and a maximum of 20 hits
-client.updateUserKey("myKey", withACL: ["search"], andValidity: 300, maxQueriesPerIPPerHour: 100, maxHitsPerQuery: 20, block: { (JSON, error) -> Void in
+client.updateUserKey("myKey", withACL: ["search"], andValidity: 300, maxQueriesPerIPPerHour: 100, maxHitsPerQuery: 20, block: { (content, error) -> Void in
 	if error == nil {
-		let key = JSON!["key"] as String
+		let key = content!["key"] as String
 		println("API Key: \(key)")
 	}
 })
@@ -832,15 +844,15 @@ client.updateUserKey("myKey", withACL: ["search"], andValidity: 300, maxQueriesP
 Get the permissions of a given key:
 ```swift
 // Gets the rights of a global key
-client.getUserKeyACL("myAPIKey", block: { (JSON, error) -> Void in
+client.getUserKeyACL("myAPIKey", block: { (content, error) -> Void in
 	if error == nil {
-		println("Key details: \(JSON)")
+		println("Key details: \(content)")
 	}
 })
 // Gets the rights of an index specific key
-index.getUserKeyACL("myAPIKey", block: { (JSON, error) -> Void in
+index.getUserKeyACL("myAPIKey", block: { (content, error) -> Void in
 	if error == nil {
-		println("Key details: \(JSON)")
+		println("Key details: \(content)")
 	}
 })
 ```
@@ -848,13 +860,13 @@ index.getUserKeyACL("myAPIKey", block: { (JSON, error) -> Void in
 Delete an existing key:
 ```swift
 // Deletes a global key
-client.deleteUserKey("myAPIKey", block: { (JSON, error) -> Void in
+client.deleteUserKey("myAPIKey", block: { (content, error) -> Void in
 	if let error = error {
 		println("Delete error: \(error)")
 	}
 })
 // Deletes an index specific key
-index.deleteUserKey("myAPIKey", block: { (JSON, error) -> Void in
+index.deleteUserKey("myAPIKey", block: { (content, error) -> Void in
 	if let error = error {
 		println("Delete error: \(error)")
 	}
@@ -871,19 +883,19 @@ You can easily copy or rename an existing index using the `copy` and `move` comm
 
 ```swift
 // Rename MyIndex in MyIndexNewName
-client.moveIndex("MyIndex", to: "MyIndexNewName", block: { (JSON, error) -> Void in
+client.moveIndex("MyIndex", to: "MyIndexNewName", block: { (content, error) -> Void in
 	if let error = error {
 		println("Move failure: \(error)")
 	} else {
-		println("Move success: \(JSON)")
+		println("Move success: \(content)")
 	}
 })
 // Copy MyIndex in MyIndexCopy
-client.copyIndex("MyIndex", to: "MyIndexCopy", block: { (JSON, error) -> Void in
+client.copyIndex("MyIndex", to: "MyIndexCopy", block: { (content, error) -> Void in
 	if let error = error {
 		println("Copy failure: \(error)")
 	} else {
-		println("Copy success: \(JSON)")
+		println("Copy success: \(content)")
 	}
 })
 ```
@@ -894,11 +906,11 @@ The move command is particularly useful if you want to update a big index atomic
 
 ```swift
 // Rename MyNewIndex in MyIndex (and overwrite it)
-client.moveIndex("MyNewIndex", dstIndexName: "MyIndex", block: { (JSON, error) -> Void in
+client.moveIndex("MyNewIndex", dstIndexName: "MyIndex", block: { (content, error) -> Void in
 	if let error = error {
 		println("Move failure: \(error)")
 	} else {
-		println("Move success: \(JSON)")
+		println("Move success: \(content)")
 	}
 })
 ```
@@ -907,24 +919,23 @@ Backup / Retrieve of all index content
 -------------
 
 You can retrieve all index content for backup purposes or for SEO using the browse method.
-This method retrieves 1,000 objects via an API call and supports pagination.
+This method can retrieve up to 1,000 objects per call and supports full text search and filters but the distinct feature is not available
+Unlike the search method, the sort by typo, proximity, geo distance and matched words is not applied, the hits are only sorted by numeric attributes specified in the ranking and the custom ranking.
+
+You can browse the index:
 
 ```swift
-// Get first page
-index.browse(0, block: { (JSON, error) -> Void in
-	if let error = error {
-		println("Browse error: \(error)")
-	} else {
-		println("Index content: \(JSON)")
-	}
-})
-// Get second page
-index.browse(1, block: { (JSON, error) -> Void in
-	if let error = error {
-		println("Browse error: \(error)")
-	} else {
-		println("Index content: \(JSON)")
-	}
+index.browse(query, block: { (iterator, end, error) -> Void in
+	// Retrieve the next cursor from the browse method
+	println(iterator.cursor)
+    if let error = error {
+        // Handle errors
+    } else if end {
+        // End of index
+    } else {
+        // Do something
+        iterator.next()
+    }
 })
 ```
 
@@ -953,19 +964,19 @@ You can retrieve the logs of your last 1,000 API calls and browse them using the
 
 ```swift
 // Get last 10 log entries
-client.getLogs(block: { (JSON, error) -> Void in
+client.getLogs(block: { (content, error) -> Void in
 	if let error = error {
 		println("GetLogs failure: \(error)")
 	} else {
-		println("GetLogs success: \(JSON)")
+		println("GetLogs success: \(content)")
 	}
 })
 // Get last 100 log entries
-client.getLogsWithOffset(0, length: 100, block: { (JSON, error) -> Void in
+client.getLogsWithOffset(0, length: 100, block: { (content, error) -> Void in
 	if let error = error {
 		println("GetLogs failure: \(error)")
 	} else {
-		println("GetLogs success: \(JSON)")
+		println("GetLogs success: \(content)")
 	}
 })
 ```
