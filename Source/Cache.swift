@@ -34,8 +34,8 @@ class ExpiringCacheItem {
 }
 
 class ExpiringCache {
-    let cache = NSCache()
-    let expiringTimeInterval: NSTimeInterval
+    private let cache = NSCache()
+    private let expiringTimeInterval: NSTimeInterval
     
     private var cacheKeys = [String]()
     private var timer: NSTimer? = nil

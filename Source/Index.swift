@@ -455,7 +455,7 @@ public class Index : NSObject {
     }
     
     /// Perform Search Query and cache result
-    func performSearchQuery(path: String, method: HTTPMethod, body: [String: AnyObject]?, block: CompletionHandler) {
+    private func performSearchQuery(path: String, method: HTTPMethod, body: [String: AnyObject]?, block: CompletionHandler) {
         let cacheKey = "\(path)_body_\(body)"
         
         if let content = searchCache?.objectForKey(cacheKey) {
