@@ -171,6 +171,9 @@ public class Query : NSObject {
     /// Specify the string that is inserted after the highlighted parts in the query result (default to "</em>").
     public var highlightPostTag: String?
     
+    /// Tags can be used in the Analytics to analyze a subset of searches only.
+    public var analyticsTags: [String]?
+    
     var aroundLatLongViaIP = false
     var aroundLatLong: String?
     var insideBoundingBox: String?
@@ -234,6 +237,7 @@ public class Query : NSObject {
         aroundLatLongViaIP = copy.aroundLatLongViaIP
         aroundLatLong = copy.aroundLatLong
         insideBoundingBox = copy.insideBoundingBox
+        analyticsTags = copy.analyticsTags
     }
     
     /// Search for entries around a given latitude/longitude.
@@ -406,6 +410,9 @@ public class Query : NSObject {
         }
         if let restrictSearchableAttributes = restrictSearchableAttributes {
             url.append(Query.encodeArrayForQuery(restrictSearchableAttributes, withKey: "restrictSearchableAttributes"))
+        }
+        if let analyticsTags = analyticsTags {
+            url.append(Query.encodeArrayForQuery(analyticsTags, withKey: "analyticsTags"))
         }
         
         return "&".join(url)
