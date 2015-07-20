@@ -75,11 +75,7 @@ public class Client : NSObject {
     /// - parameter tagFilters: value of the header X-Algolia-TagFilters
     /// - parameter userToken: value of the header X-Algolia-UserToken
     /// - parameter hostnames: the list of hosts that you have received for the service
-    public init(appID: String, apiKey: String, tagFilters: String? = nil, userToken: String? = nil, hostnames: [String]? = nil) throws {
-        guard appID != "" && apiKey != "" else {
-            throw NSError(domain: "appID and apiKey must be set", code: 403, userInfo: nil)
-        }
-        
+    public init(appID: String, apiKey: String, tagFilters: String? = nil, userToken: String? = nil, hostnames: [String]? = nil) {
         self.appID = appID
         self.apiKey = apiKey
         self.tagFilters = tagFilters
@@ -122,8 +118,8 @@ public class Client : NSObject {
         manager = Manager(HTTPHeaders: HTTPHeaders)
     }
     
-    public class func clientWithAppID(appID: String, apiKey: String) throws -> Client {
-        return try Client(appID: appID, apiKey: apiKey)
+    public class func clientWithAppID(appID: String, apiKey: String) -> Client {
+        return Client(appID: appID, apiKey: apiKey)
     }
 
     /// Allow to set custom extra header.
