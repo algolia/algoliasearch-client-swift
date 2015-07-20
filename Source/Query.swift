@@ -182,7 +182,7 @@ public class Query : NSObject {
         get { return "Query = \(buildURL())" }
     }
     
-    @availability(*, deprecated=1.2.1, message="Use the new API: Query.query: String?")
+    @available(*, deprecated=1.2.1, message="Use the new API: Query.query: String?")
     public var fullTextQuery: String? {
         get {
             return query
@@ -194,7 +194,7 @@ public class Query : NSObject {
     
     // MARK: - Methods
     
-    @availability(*, deprecated=1.2.1, message="Use the new API: Query(query: String?)")
+    @available(*, deprecated=1.2.1, message="Use the new API: Query(query: String?)")
     public init(fullTextQuery: String) {
         self.query = fullTextQuery
     }
@@ -242,7 +242,7 @@ public class Query : NSObject {
     
     /// Search for entries around a given latitude/longitude.
     ///
-    /// :param: maxDistance set the maximum distance in meters.
+    /// - parameter maxDistance: set the maximum distance in meters.
     ///
     /// Note: at indexing, geoloc of an object should be set with _geoloc attribute containing 
     /// lat and lng attributes (for example {"_geoloc":{"lat":48.853409, "lng":2.348800}})
@@ -253,8 +253,8 @@ public class Query : NSObject {
     
     /// Search for entries around a given latitude/longitude.
     ///
-    /// :param: maxDistance set the maximum distance in meters.
-    /// :param: precision set the precision for ranking (for example if you set precision=100, two objects that are distant of less than 100m will be considered as identical for "geo" ranking parameter).
+    /// - parameter maxDistance: set the maximum distance in meters.
+    /// - parameter precision: set the precision for ranking (for example if you set precision=100, two objects that are distant of less than 100m will be considered as identical for "geo" ranking parameter).
     ///
     /// Note: at indexing, geoloc of an object should be set with _geoloc attribute containing
     /// lat and lng attributes (for example {"_geoloc":{"lat":48.853409, "lng":2.348800}})
@@ -265,7 +265,7 @@ public class Query : NSObject {
     
     /// Search for entries around a given latitude/longitude (using IP geolocation).
     ///
-    /// :param: maxDistance set the maximum distance in meters.
+    /// - parameter maxDistance: set the maximum distance in meters.
     ///
     /// Note: at indexing, geoloc of an object should be set with _geoloc attribute containing
     /// lat and lng attributes (for example {"_geoloc":{"lat":48.853409, "lng":2.348800}})
@@ -277,8 +277,8 @@ public class Query : NSObject {
     
     /// Search for entries around a given latitude/longitude (using IP geolocation).
     ///
-    /// :param: maxDistance set the maximum distance in meters.
-    /// :param: precision set the precision for ranking (for example if you set precision=100, two objects that are distant of less than 100m will be considered as identical for "geo" ranking parameter).
+    /// - parameter maxDistance: set the maximum distance in meters.
+    /// - parameter precision: set the precision for ranking (for example if you set precision=100, two objects that are distant of less than 100m will be considered as identical for "geo" ranking parameter).
     ///
     /// Note: at indexing, geoloc of an object should be set with _geoloc attribute containing
     /// lat and lng attributes (for example {"_geoloc":{"lat":48.853409, "lng":2.348800}})
