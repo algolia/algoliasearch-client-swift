@@ -43,12 +43,12 @@ struct Manager {
     
     /// Creates a request for the specified URL.
     ///
-    /// :param: method The HTTP method.
-    /// :param: URLString The URL string.
-    /// :param: parameters The parameters (will be encoding in JSON).
-    /// :param: block A completion handler.
+    /// - parameter method: The HTTP method.
+    /// - parameter URLString: The URL string.
+    /// - parameter parameters: The parameters (will be encoding in JSON).
+    /// - parameter block: A completion handler.
     ///
-    /// :returns: The created request.
+    /// - returns: The created request.
     func request(method: HTTPMethod, _ URLString: String, parameters: [String: AnyObject]? = nil, block: (NSHTTPURLResponse?, AnyObject?, NSError?) -> Void) -> Request {
         let URLRequest = encodeParameter(CreateNSURLRequest(method, URLString), parameters: parameters)
         
