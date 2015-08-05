@@ -59,7 +59,7 @@ struct Manager {
             }
         })
 
-        let request = Request(session: session, task: dataTask!)
+        let request = Request(session: session, task: dataTask)
         request.resume()
         
         return request
