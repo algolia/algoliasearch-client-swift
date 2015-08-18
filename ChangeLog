@@ -1,5 +1,8 @@
 CHANGELOG
 
+2015-08-18 1.4.2
+  * Fix crash when requesting with a poor connection
+
 2015-07-10 1.4.1
   * Add analyticsTags
 
