@@ -365,10 +365,10 @@ public class Client : NSObject {
             if let statusCode = response?.statusCode {
                 if let block = block {
                     switch(statusCode) {
-                    case 200..<300:
+                    case 200..<300 where data is [String: AnyObject]:
                         block(content: (data as! [String: AnyObject]), error: nil)
                     default:
-                        if let errorMessage = (data as! [String: AnyObject])["message"] as? String {
+                        if let data = data as? [String: AnyObject], errorMessage = data["message"] as? String {
                             block(content: nil, error: NSError(domain: errorMessage, code: statusCode, userInfo: nil))
                         } else {
                             block(content: nil, error: NSError(domain: "No error message", code: 0, userInfo: nil))
