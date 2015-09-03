@@ -1,4 +1,4 @@
-osx_image: beta-xcode6.3
+osx_image: xcode6.4
 language: objective-c
 env:
   global:
@@ -6,9 +6,10 @@ env:
     - secure: IYzMbOCeevN07OOK1+wQ74fxPunRSJhyRjXQ8rxq4LO0toWQCt9jD8Atw7bVROVfPLfk72UVvjvcI7hopE2gI8jo3FsjM5hhEfch0KrGUpHxW1Hw/0up1Vh4kf7MPFXOe/1oy1iaYW1P7AK/7ZGQK6s2fqhxVEOQI8uwKdS7luQ=
   matrix:
     - IOS="FALSE"
-    - IOS="TRUE" VERSION="OS=8.1,name=iPhone 6" SDK=iphonesimulator8.3
-    - IOS="TRUE" VERSION="OS=8.2,name=iPhone 6" SDK=iphonesimulator8.3
-    - IOS="TRUE" VERSION="OS=8.3,name=iPhone 6" SDK=iphonesimulator8.3
+    - IOS="TRUE" VERSION="OS=8.1,name=iPhone 6" SDK=iphonesimulator8.4
+    - IOS="TRUE" VERSION="OS=8.2,name=iPhone 6" SDK=iphonesimulator8.4
+    - IOS="TRUE" VERSION="OS=8.3,name=iPhone 6" SDK=iphonesimulator8.4
+    - IOS="TRUE" VERSION="OS=8.4,name=iPhone 6" SDK=iphonesimulator8.4
 before_script:
   - gem install xcpretty -N
 script:
