@@ -410,7 +410,7 @@ public class Query : NSObject {
             url.append(Query.encodeForQuery(analyticsTags, withKey: "analyticsTags"))
         }
         
-        return "&".join(url)
+        return url.joinWithSeparator("&")
     }
     
     // MARK: - Helper methods to build URL
@@ -418,7 +418,7 @@ public class Query : NSObject {
     class func encodeForQuery<T>(element: T, withKey key: String) -> String {
         switch element {
         case let element as [String]:
-            return "\(key)=" + ",".join(element.map { $0.urlEncode() })
+            return "\(key)=" + (element.map { $0.urlEncode() }).joinWithSeparator(",")
         case let element as String:
             return "\(key)=\(element.urlEncode())"
         default:
