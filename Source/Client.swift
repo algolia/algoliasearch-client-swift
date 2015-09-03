@@ -33,8 +33,19 @@ public class Client : NSObject {
             setExtraHeader(apiKey, forKey: "X-Algolia-API-Key")
         }
     }
+    
+    /// Security tag header
+    public var queryParameters: String? {
+        didSet {
+            if let queryParameters = queryParameters {
+                setExtraHeader(queryParameters, forKey: "X-Algolia-QueryParameters")
+            } else {
+                manager.session.configuration.HTTPAdditionalHeaders?.removeValueForKey("X-Algolia-QueryParameters")
+            }
+        }
+    }
 
-    /// Security tag header (see http://www.algolia.com/doc/guides/objc#SecurityUser for more details).
+    /// Security tag header (deprecated)
     public var tagFilters: String? {
         didSet {
             if let tagFilters = tagFilters {
@@ -45,7 +56,7 @@ public class Client : NSObject {
         }
     }
 
-    /// User-token header (see http://www.algolia.com/doc/guides/objc#SecurityUser for more details).
+    /// User-token header
     public var userToken: String? {
         didSet {
             if let userToken = userToken {
@@ -72,14 +83,16 @@ public class Client : NSObject {
     ///
     /// - parameter appID: the application ID you have in your admin interface
     /// - parameter apiKey: a valid API key for the service
-    /// - parameter tagFilters: value of the header X-Algolia-TagFilters
+    /// - parameter queryParameters: value of the header X-Algolia-QueryParameters
+    /// - parameter tagFilters: value of the header X-Algolia-TagFilters (deprecated)
     /// - parameter userToken: value of the header X-Algolia-UserToken
     /// - parameter hostnames: the list of hosts that you have received for the service
-    public init(appID: String, apiKey: String, tagFilters: String? = nil, userToken: String? = nil, hostnames: [String]? = nil) {
+    public init(appID: String, apiKey: String, queryParameters: String? = nil, tagFilters: String? = nil, userToken: String? = nil, hostnames: [String]? = nil) {
         self.appID = appID
         self.apiKey = apiKey
         self.tagFilters = tagFilters
         self.userToken = userToken
+        self.queryParameters = queryParameters
 
         if let hostnames = hostnames {
             readQueryHostnames = hostnames
@@ -108,6 +121,9 @@ public class Client : NSObject {
             "User-Agent": "Algolia for Swift \(version)"
         ]
 
+        if let queryParameters = self.queryParameters {
+            HTTPHeaders["X-Algolia-QueryParameters"] = queryParameters
+        }
         if let tagFilters = self.tagFilters {
             HTTPHeaders["X-Algolia-TagFilters"] = tagFilters
         }
@@ -118,8 +134,14 @@ public class Client : NSObject {
         manager = Manager(HTTPHeaders: HTTPHeaders)
     }
     
+    // Helper for Obj-C
     public class func clientWithAppID(appID: String, apiKey: String) -> Client {
         return Client(appID: appID, apiKey: apiKey)
+    }
+    
+    // Helper for Obj-C
+    public class func clientWithQueryParameters(queryParameters: String, appID: String, apiKey: String) -> Client {
+        return Client(appID: appID, apiKey: apiKey, queryParameters: queryParameters)
     }
 
     /// Allow to set custom extra header.
@@ -359,10 +381,10 @@ public class Client : NSObject {
             if let statusCode = response?.statusCode {
                 if let block = block {
                     switch(statusCode) {
-                    case 200..<300:
+                    case 200..<300 where data is [String: AnyObject]:
                         block(content: (data as! [String: AnyObject]), error: nil)
                     default:
-                        if let errorMessage = (data as! [String: AnyObject])["message"] as? String {
+                        if let data = data as? [String: AnyObject], errorMessage = data["message"] as? String {
                             block(content: nil, error: NSError(domain: errorMessage, code: statusCode, userInfo: nil))
                         } else {
                             block(content: nil, error: NSError(domain: "No error message", code: 0, userInfo: nil))
