@@ -311,6 +311,9 @@ let partialObject = ["price": operation]
 index.partialUpdateObject(partialObject, objectID: "myID", block: nil)
 ```
 
+Note: Here we are incrementing the value by `42`. To increment just by one, put
+`value:1`.
+
 Example to decrement a numeric value:
 
 ```swift
@@ -321,6 +324,9 @@ let operation = [
 let partialObject = ["price": operation]
 index.partialUpdateObject(partialObject, objectID: "myID", block: nil)
 ```
+
+Note: Here we are decrementing the value by `42`. To decrement just by one, put
+`value:1`.
 
 Search
 -------------
