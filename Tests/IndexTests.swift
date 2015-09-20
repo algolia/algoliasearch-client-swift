@@ -32,8 +32,8 @@ class IndexTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        let appID = (NSProcessInfo.processInfo().environment["ALGOLIA_APPLICATION_ID"] as? String) ?? APP_ID
-        let apiKey = (NSProcessInfo.processInfo().environment["ALGOLIA_API_KEY"] as? String) ?? API_KEY
+        let appID = NSProcessInfo.processInfo().environment["ALGOLIA_APPLICATION_ID"] ?? APP_ID
+        let apiKey = NSProcessInfo.processInfo().environment["ALGOLIA_API_KEY"] ?? API_KEY
         client = AlgoliaSearch.Client(appID: appID, apiKey: apiKey)
         index = client.getIndex(safeIndexName("algol?à-swift"))
         
@@ -520,7 +520,7 @@ class IndexTests: XCTestCase {
                 XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.clearIndex(block: { (content, error) -> Void in
+                self.index.clearIndex({ (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during clearIndex: \(error)")
                         expectation.fulfill()
@@ -596,7 +596,7 @@ class IndexTests: XCTestCase {
                         XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
                     } else {
-                        self.index.browse(page: 0, block: { (content, error) -> Void in
+                        self.index.browse(0, block: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during browse: \(error)")
                             } else {
@@ -631,7 +631,7 @@ class IndexTests: XCTestCase {
                         XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
                     } else {
-                        self.index.browse(page: 0, hitsPerPage: 1, block: { (content, error) -> Void in
+                        self.index.browse(0, hitsPerPage: 1, block: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during browse: \(error)")
                             } else {

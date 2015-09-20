@@ -41,7 +41,7 @@ public class Index : NSObject {
     
     /// Add an object in this index
     ///
-    /// :param: object The object to add inside the index.
+    /// - parameter object: The object to add inside the index.
     public func addObject(object: [String: AnyObject], block: CompletionHandler? = nil) {
         let path = "1/indexes/\(urlEncodedIndexName)"
         client.performHTTPQuery(path, method: .POST, body: object, hostnames: client.writeQueryHostnames, block: block)
@@ -49,8 +49,8 @@ public class Index : NSObject {
     
     /// Add an object in this index
     ///
-    /// :param: object The object to add inside the index.
-    /// :param: withID An objectID you want to attribute to this object (if the attribute already exist, the old object will be overwrite)
+    /// - parameter object: The object to add inside the index.
+    /// - parameter withID: An objectID you want to attribute to this object (if the attribute already exist, the old object will be overwrite)
     public func addObject(object: [String: AnyObject], withID objectID: String, block: CompletionHandler? = nil) {
         let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
         client.performHTTPQuery(path, method: .PUT, body: object, hostnames: client.writeQueryHostnames, block: block)
@@ -58,7 +58,7 @@ public class Index : NSObject {
     
     /// Add several objects in this index
     ///
-    /// :param: objects An array of objects to add (Array of Dictionnary object).
+    /// - parameter objects: An array of objects to add (Array of Dictionnary object).
     public func addObjects(objects: [AnyObject], block: CompletionHandler? = nil) {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
         
@@ -74,7 +74,7 @@ public class Index : NSObject {
     
     /// Delete an object from the index
     ///
-    /// :param: objectID The unique identifier of object to delete
+    /// - parameter objectID: The unique identifier of object to delete
     public func deleteObject(objectID: String, block: CompletionHandler? = nil) {
         let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
         client.performHTTPQuery(path, method: .DELETE, body: nil, hostnames: client.writeQueryHostnames, block: block)
@@ -82,7 +82,7 @@ public class Index : NSObject {
     
     /// Delete several objects
     ///
-    /// :param: objectIDs An array of objectID to delete.
+    /// - parameter objectIDs: An array of objectID to delete.
     public func deleteObjects(objectIDs: [String], block: CompletionHandler? = nil) {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
         
@@ -98,7 +98,7 @@ public class Index : NSObject {
     
     /// Get an object from this index
     ///
-    /// :param: objectID The unique identifier of the object to retrieve
+    /// - parameter objectID: The unique identifier of the object to retrieve
     public func getObject(objectID: String, block: CompletionHandler) {
         let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
         client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
@@ -106,17 +106,17 @@ public class Index : NSObject {
     
     /// Get an object from this index
     ///
-    /// :param: objectID The unique identifier of the object to retrieve
-    /// :param: attributesToRetrieve The list of attributes to retrieve
+    /// - parameter objectID: The unique identifier of the object to retrieve
+    /// - parameter attributesToRetrieve: The list of attributes to retrieve
     public func getObject(objectID: String, attributesToRetrieve attributes: [String], block: CompletionHandler) {
-        let urlEncodedAttributes = Query.encodeArrayForQuery(attributes, withKey: "attributes")
+        let urlEncodedAttributes = Query.encodeForQuery(attributes, withKey: "attributes")
         let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())?\(urlEncodedAttributes)"
         client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
     }
     
     /// Get several objects from this index
     ///
-    /// :param: objectIDs The array of unique identifier of objects to retrieve
+    /// - parameter objectIDs: The array of unique identifier of objects to retrieve
     public func getObjects(objectIDs: [String], block: CompletionHandler) {
         let path = "1/indexes/*/objects"
         
@@ -132,7 +132,7 @@ public class Index : NSObject {
     
     /// Update partially an object (only update attributes passed in argument)
     ///
-    /// :param: object The object attributes to override, the object must contains an objectID attribute
+    /// - parameter object: The object attributes to override, the object must contains an objectID attribute
     public func partialUpdateObject(partialObject: [String: AnyObject], objectID: String, block: CompletionHandler? = nil) {
         let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())/partial"
         client.performHTTPQuery(path, method: .POST, body: partialObject, hostnames: client.writeQueryHostnames, block: block)
@@ -140,7 +140,7 @@ public class Index : NSObject {
     
     /// Update partially the content of several objects
     ///
-    /// :param: objects An array of Dictionary to update (each Dictionary must contains an objectID attribute)
+    /// - parameter objects: An array of Dictionary to update (each Dictionary must contains an objectID attribute)
     public func partialUpdateObjects(objects: [AnyObject], block: CompletionHandler? = nil) {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
         
@@ -162,7 +162,7 @@ public class Index : NSObject {
     
     /// Override the content of object
     ///
-    /// :param: object The object to override, the object must contains an objectID attribute
+    /// - parameter object: The object to override, the object must contains an objectID attribute
     public func saveObject(object: [String: AnyObject], block: CompletionHandler? = nil) {
         if let objectID = object["objectID"] as? String {
             let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
@@ -172,7 +172,7 @@ public class Index : NSObject {
     
     /// Override the content of several objects
     ///
-    /// :param: objects An array of Dictionary to save (each Dictionary must contains an objectID attribute)
+    /// - parameter objects: An array of Dictionary to save (each Dictionary must contains an objectID attribute)
     public func saveObjects(objects: [AnyObject], block: CompletionHandler? = nil) {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
         
@@ -207,7 +207,7 @@ public class Index : NSObject {
     /// Wait the publication of a task on the server.
     /// All server task are asynchronous and you can check with this method that the task is published.
     ///
-    /// :param: taskID The ID of the task returned by server
+    /// - parameter taskID: The ID of the task returned by server
     public func waitTask(taskID: Int, block: CompletionHandler) {
         let path = "1/indexes/\(urlEncodedIndexName)/task/\(taskID)"
         client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: { (content, error) -> Void in
@@ -232,7 +232,7 @@ public class Index : NSObject {
     
     /// Set settings for this index
     ///
-    /// :param: settings The settings object
+    /// - parameter settings: The settings object
     ///
     /// NB: The settings object can contains :
     ///
@@ -292,7 +292,7 @@ public class Index : NSObject {
     
     /// Create a new user key associated to this index
     ///
-    /// :param: acls The list of ACL for this key. The list can contains the following values (as String): search, addObject, deleteObject, deleteIndex, settings, editSettings
+    /// - parameter acls: The list of ACL for this key. The list can contains the following values (as String): search, addObject, deleteObject, deleteIndex, settings, editSettings
     public func addUserKey(acls: [String], block: CompletionHandler? = nil) {
         let path = "1/indexes/\(urlEncodedIndexName)/keys"
         let request = ["acl": acls]
@@ -301,10 +301,10 @@ public class Index : NSObject {
     
     /// Create a new user key associated to this index
     ///
-    /// :param: acls The list of ACL for this key. The list can contains the following values (as String): search, addObject, deleteObject, deleteIndex, settings, editSettings
-    /// :param: withValidity The number of seconds after which the key will be automatically removed (0 means no time limit for this key)
-    /// :param: maxQueriesPerIPPerHour Specify the maximum number of API calls allowed from an IP address per hour.  Defaults to 0 (unlimited).
-    /// :param: maxHitsPerQuery Specify the maximum number of hits this API key can retrieve in one call. Defaults to 0 (unlimited)
+    /// - parameter acls: The list of ACL for this key. The list can contains the following values (as String): search, addObject, deleteObject, deleteIndex, settings, editSettings
+    /// - parameter withValidity: The number of seconds after which the key will be automatically removed (0 means no time limit for this key)
+    /// - parameter maxQueriesPerIPPerHour: Specify the maximum number of API calls allowed from an IP address per hour.  Defaults to 0 (unlimited).
+    /// - parameter maxHitsPerQuery: Specify the maximum number of hits this API key can retrieve in one call. Defaults to 0 (unlimited)
     public func addUserKey(acls: [String], withValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: CompletionHandler? = nil) {
         let path = "1/indexes/\(urlEncodedIndexName)/keys"
         let request: [String: AnyObject] = [
@@ -319,7 +319,7 @@ public class Index : NSObject {
     
     /// Update a user key associated to this index
     ///
-    /// :param: withACL The list of ACL for this key. The list can contains the following values (as String): search, addObject, deleteObject, deleteIndex, settings, editSettings
+    /// - parameter withACL: The list of ACL for this key. The list can contains the following values (as String): search, addObject, deleteObject, deleteIndex, settings, editSettings
     public func updateUserKey(key: String, withACL acls: [String], block: CompletionHandler? = nil) {
         let path = "1/indexes/\(urlEncodedIndexName)/keys/\(key.urlEncode())"
         let request = ["acl": acls]
@@ -328,10 +328,10 @@ public class Index : NSObject {
     
     /// Update a user key associated to this index
     ///
-    /// :param: withACL The list of ACL for this key. The list can contains the following values (as String): search, addObject, deleteObject, deleteIndex, settings, editSettings
-    /// :param: andValidity The number of seconds after which the key will be automatically removed (0 means no time limit for this key)
-    /// :param: maxQueriesPerIPPerHour Specify the maximum number of API calls allowed from an IP address per hour.  Defaults to 0 (unlimited).
-    /// :param: maxHitsPerQuery Specify the maximum number of hits this API key can retrieve in one call. Defaults to 0 (unlimited)
+    /// - parameter withACL: The list of ACL for this key. The list can contains the following values (as String): search, addObject, deleteObject, deleteIndex, settings, editSettings
+    /// - parameter andValidity: The number of seconds after which the key will be automatically removed (0 means no time limit for this key)
+    /// - parameter maxQueriesPerIPPerHour: Specify the maximum number of API calls allowed from an IP address per hour.  Defaults to 0 (unlimited).
+    /// - parameter maxHitsPerQuery: Specify the maximum number of hits this API key can retrieve in one call. Defaults to 0 (unlimited)
     public func updateUserKey(key: String, withACL acls: [String], andValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: CompletionHandler? = nil) {
         let path = "1/indexes/\(urlEncodedIndexName)/keys/\(key.urlEncode())"
         let request: [String: AnyObject] = [
@@ -346,8 +346,8 @@ public class Index : NSObject {
     
     /// Browse all index content
     ///
-    /// :param: page Pagination parameter used to select the page to retrieve. Page is zero-based and defaults to 0. Thus, to retrieve the 10th page you need to set page=9
-    /// :param: hitsPerPage Pagination parameter used to select the number of hits per page. Defaults to 1000.
+    /// - parameter page: Pagination parameter used to select the page to retrieve. Page is zero-based and defaults to 0. Thus, to retrieve the 10th page you need to set page=9
+    /// - parameter hitsPerPage: Pagination parameter used to select the number of hits per page. Defaults to 1000.
     public func browse(page: UInt = 0, hitsPerPage: UInt = 1000, block: CompletionHandler) {
         let path = "1/indexes/\(urlEncodedIndexName)/browse?page=\(page)&hitsPerPage=\(hitsPerPage)"
         client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
@@ -416,7 +416,7 @@ public class Index : NSObject {
     /// At the end of the block handler, call the method `next()` of the iterator object to get the next page.
     /// The parameter `end` is set to true when all the index was browsed.
     ///
-    /// :param: query The query parameters for the browse.
+    /// - parameter query: The query parameters for the browse.
     public func browse(query: Query, block: BrowseIteratorHandler) {
         let iterator = BrowseIterator(index: self, query: query, block: block)
         iterator.next() // first call
@@ -428,7 +428,7 @@ public class Index : NSObject {
     /// At the end of the block handler, call the method `next()` of the iterator object to get the next page.
     /// The parameter `end` is set to true when all the index was browsed.
     ///
-    /// :param: cursor The cursor of the next page to retrieve
+    /// - parameter cursor: The cursor of the next page to retrieve
     public func browseFrom(cursor: String, block: BrowseIteratorHandler) {
         let iterator = BrowseIterator(index: self, cursor: cursor, block: block)
         iterator.next()
@@ -438,7 +438,7 @@ public class Index : NSObject {
     
     /// Enable search cache.
     ///
-    /// :param: expiringTimeInterval Each cached search will be valid during this interval of time
+    /// - parameter expiringTimeInterval: Each cached search will be valid during this interval of time
     public func enableSearchCache(expiringTimeInterval: NSTimeInterval = 120) {
         searchCache = ExpiringCache(expiringTimeInterval: expiringTimeInterval)
     }

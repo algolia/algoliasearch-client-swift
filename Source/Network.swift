@@ -43,22 +43,22 @@ struct Manager {
     
     /// Creates a request for the specified URL.
     ///
-    /// :param: method The HTTP method.
-    /// :param: URLString The URL string.
-    /// :param: parameters The parameters (will be encoding in JSON).
-    /// :param: block A completion handler.
+    /// - parameter method: The HTTP method.
+    /// - parameter URLString: The URL string.
+    /// - parameter parameters: The parameters (will be encoding in JSON).
+    /// - parameter block: A completion handler.
     ///
-    /// :returns: The created request.
+    /// - returns: The created request.
     func request(method: HTTPMethod, _ URLString: String, parameters: [String: AnyObject]? = nil, block: (NSHTTPURLResponse?, AnyObject?, NSError?) -> Void) -> Request {
-        let URLRequest = encodeParameter(CreateNSURLRequest(method, URLString), parameters: parameters)
+        let URLRequest = encodeParameter(CreateNSURLRequest(method, URL: URLString), parameters: parameters)
         
-        var dataTask = session.dataTaskWithRequest(URLRequest, completionHandler: { (data, response, error) -> Void in
-            let (JSON: AnyObject?, _) = self.serializeResponse(data)
+        let dataTask = session.dataTaskWithRequest(URLRequest, completionHandler: { (data, response, error) -> Void in
+            let JSON = self.serializeResponse(data)
             dispatch_async(dispatch_get_main_queue()) {
                 block(response as? NSHTTPURLResponse, JSON, error)
             }
         })
-        
+
         let request = Request(session: session, task: dataTask)
         request.resume()
         
@@ -68,39 +68,31 @@ struct Manager {
     // MARK: - JSON
     
     private func encodeParameter(URLRequest: NSURLRequest, parameters: [String: AnyObject]?) -> NSURLRequest {
-        if parameters == nil {
+        guard let parameters = parameters else {
             return URLRequest
         }
         
-        var mutableURLRequest: NSMutableURLRequest! = URLRequest.mutableCopy() as! NSMutableURLRequest
-        var error: NSError? = nil
+        let data = try! NSJSONSerialization.dataWithJSONObject(parameters, options: NSJSONWritingOptions(rawValue: 0))
         
-        if let data = NSJSONSerialization.dataWithJSONObject(parameters!, options: .allZeros, error: &error) {
-            mutableURLRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            mutableURLRequest.HTTPBody = data
-        } else {
-            NSException(name: "InvalidArgument", reason: "JSON Serialization error: \(error)", userInfo: nil).raise()
-        }
+        let mutableURLRequest = URLRequest.mutableCopy() as! NSMutableURLRequest
+        mutableURLRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        mutableURLRequest.HTTPBody = data
         
         return mutableURLRequest
     }
     
-    private func serializeResponse(data: NSData?) -> (AnyObject?, NSError?) {
-        typealias Serializer = (NSData?) -> (AnyObject?, NSError?)
+    private func serializeResponse(data: NSData?) -> (AnyObject?) {
+        typealias Serializer = (NSData?) -> (AnyObject?)
         
         let JSONSerializer: Serializer = { (data) in
-            if data == nil || data?.length == 0 {
-                return (nil, nil)
+            guard let data = data where data.length > 0 else {
+                return nil
             }
-            
-            var serializationError: NSError?
-            let JSON: AnyObject? = NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments, error: &serializationError)
-            
-            return (JSON, serializationError)
+        
+            return try! NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
         }
         
-        let (responseObject: AnyObject?, serializationError: NSError?) = JSONSerializer(data)
-        return (responseObject, serializationError)
+        return JSONSerializer(data)
     }
 }
 
@@ -113,7 +105,7 @@ struct Request {
     
     /// The request sent to the server.
     var request: NSURLRequest {
-        return task.originalRequest
+        return task.originalRequest!
     }
     
     /// The response received from the server, if any.
