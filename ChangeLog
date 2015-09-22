@@ -1,5 +1,8 @@
 CHANGELOG
 
+2015-09-22 2.0.0
+  * Upgrade to Swift 2
+
 2015-08-18 1.4.2
   * Fix crash when requesting with a poor connection
 
