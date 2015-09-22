@@ -171,7 +171,7 @@ class IndexTests: XCTestCase {
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                     } else {
-                        XCTAssertEqual(content!["status"] as! String, "published", "Wait task failed")
+                        XCTAssertEqual((content!["status"] as! String), "published", "Wait task failed")
                     }
                     
                     expectation.fulfill()

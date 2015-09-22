@@ -113,7 +113,7 @@ class ClientTests: XCTestCase {
                         XCTFail("Error during waitTask: \(error)")
                         expecation.fulfill()
                     } else {
-                        XCTAssertEqual(content!["status"] as! String, "published", "Wait task failed")
+                        XCTAssertEqual((content!["status"] as! String), "published", "Wait task failed")
                         
                         self.client.moveIndex(self.index.indexName, to: safeIndexName("algol?à-swift2"), block: { (content, error) -> Void in
                             if let error = error {
@@ -173,7 +173,7 @@ class ClientTests: XCTestCase {
                         XCTFail("Error during waitTask: \(error)")
                         expecation.fulfill()
                     } else {
-                        XCTAssertEqual(content!["status"] as! String, "published", "Wait task failed")
+                        XCTAssertEqual((content!["status"] as! String), "published", "Wait task failed")
                         
                         self.client.copyIndex(self.index.indexName, to: safeIndexName("algol?à-swift2"), block: { (content, error) -> Void in
                             if let error = error {
