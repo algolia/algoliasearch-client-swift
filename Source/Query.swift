@@ -144,6 +144,17 @@ public class Query : NSObject {
     /// By default no snippet is computed.
     public var attributesToSnippet: [String]?
     
+    /// Filter the query with numeric, facet or/and tag filters. The syntax is a SQL like syntax, you can use the OR and AND keywords.
+    /// The syntax for the underlying numeric, facet and tag filters is the same than in the other filters:
+    /// available=1 AND (category:Book OR NOT category:Ebook) AND public
+    /// date: 1441745506 TO 1441755506 AND inStock > 0 AND author:"John Doe"
+    /// The list of keywords is:
+    /// OR: create a disjunctive filter between two filters.
+    /// AND: create a conjunctive filter between two filters.
+    /// TO: used to specify a range for a numeric filter.
+    /// NOT: used to negate a filter. The syntax with the ‘-‘ isn’t allowed.
+    public var filters: [String]?
+
     /// Filter the query by a list of facets. Each facet is encoded as `attributeName:value`. 
     /// For example: ["category:Book","author:John%20Doe"].
     public var facetFilters: [String]?
@@ -226,6 +237,7 @@ public class Query : NSObject {
         removeWordsIfNoResult = copy.removeWordsIfNoResult
         typoTolerance = copy.typoTolerance
         attributesToSnippet = copy.attributesToSnippet
+        filters = copy.filters
         facetFilters = copy.facetFilters
         facetFiltersRaw = copy.facetFiltersRaw
         facets = copy.facets
@@ -318,6 +330,10 @@ public class Query : NSObject {
             url.append(Query.encodeForQuery(attributesToSnippet, withKey: "attributesToSnippet"))
         }
         
+        if let filters = filters {
+            url.append(Query.encodeForQuery(filters, withKey: "filters"))
+        }
+
         if let facetFilters = facetFilters {
             let data = try! NSJSONSerialization.dataWithJSONObject(facetFilters, options: NSJSONWritingOptions(rawValue: 0))
             let json = NSString(data: data, encoding: NSUTF8StringEncoding) as! String
