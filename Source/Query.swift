@@ -185,9 +185,20 @@ public class Query : NSObject {
     /// Tags can be used in the Analytics to analyze a subset of searches only.
     public var analyticsTags: [String]?
     
+    /// Specify the List of attributes on which you want to disable typo tolerance (must be a subset of the attributesToIndex index setting).
+    /// By default this list is empty
+    public var disableTypoToleranceOnAttributes: [String]?
+    
+    /// Change the precision or around latitude/longitude query
+    public var aroundPrecision: UInt?
+    
+    /// Change the radius or around latitude/longitude query
+    public var aroundRadius: UInt?
+    
     var aroundLatLongViaIP = false
     var aroundLatLong: String?
     var insideBoundingBox: String?
+    var insidePolygon: String?
     
     override public var description: String {
         get { return "Query = \(buildURL())" }
@@ -249,17 +260,22 @@ public class Query : NSObject {
         aroundLatLongViaIP = copy.aroundLatLongViaIP
         aroundLatLong = copy.aroundLatLong
         insideBoundingBox = copy.insideBoundingBox
+        disableTypoToleranceOnAttributes = copy.disableTypoToleranceOnAttributes
         analyticsTags = copy.analyticsTags
+        aroundPrecision = copy.aroundPrecision
+        aroundRadius = copy.aroundRadius
+        insidePolygon = copy.insidePolygon
     }
     
     /// Search for entries around a given latitude/longitude.
     ///
-    /// - parameter maxDistance: set the maximum distance in meters.
+    /// - parameter maxDistance: set the maximum distance in meters. If not set, it uses an automatic radius.
     ///
     /// Note: at indexing, geoloc of an object should be set with _geoloc attribute containing 
     /// lat and lng attributes (for example {"_geoloc":{"lat":48.853409, "lng":2.348800}})
-    public func searchAroundLatitude(latitude: Float, longitude: Float, maxDistance maxDist: UInt) -> Query {
-        aroundLatLong = "aroundLatLng=\(latitude),\(longitude)&aroundRadius=\(maxDist)"
+    public func searchAroundLatitude(latitude: Float, longitude: Float, maxDistance maxDist: UInt? = nil) -> Query {
+        aroundLatLong = "aroundLatLng=\(latitude),\(longitude)"
+        aroundRadius = maxDist
         return self
     }
     
@@ -270,19 +286,21 @@ public class Query : NSObject {
     ///
     /// Note: at indexing, geoloc of an object should be set with _geoloc attribute containing
     /// lat and lng attributes (for example {"_geoloc":{"lat":48.853409, "lng":2.348800}})
-    public func searchAroundLatitude(latitude: Float, longitude: Float, maxDistance maxDist: UInt, precision: UInt) -> Query {
-        aroundLatLong = "aroundLatLng=\(latitude),\(longitude)&aroundRadius=\(maxDist)&aroundPrecision=\(precision)"
+    public func searchAroundLatitude(latitude: Float, longitude: Float, maxDistance maxDist: UInt?, precision: UInt?) -> Query {
+        aroundLatLong = "aroundLatLng=\(latitude),\(longitude)"
+        aroundRadius = maxDist
+        aroundPrecision = precision
         return self
     }
     
     /// Search for entries around a given latitude/longitude (using IP geolocation).
     ///
-    /// - parameter maxDistance: set the maximum distance in meters.
+    /// - parameter maxDistance: set the maximum distance in meters. If not set, it uses an automatic radius.
     ///
     /// Note: at indexing, geoloc of an object should be set with _geoloc attribute containing
     /// lat and lng attributes (for example {"_geoloc":{"lat":48.853409, "lng":2.348800}})
-    public func searchAroundLatitudeLongitudeViaIP(maxDistance maxDist: UInt) -> Query {
-        aroundLatLong = "aroundRadius=\(maxDist)"
+    public func searchAroundLatitudeLongitudeViaIP(maxDistance maxDist: UInt? = nil) -> Query {
+        aroundRadius = maxDist
         aroundLatLongViaIP = true
         return self
     }
@@ -294,25 +312,46 @@ public class Query : NSObject {
     ///
     /// Note: at indexing, geoloc of an object should be set with _geoloc attribute containing
     /// lat and lng attributes (for example {"_geoloc":{"lat":48.853409, "lng":2.348800}})
-    public func searchAroundLatitudeLongitudeViaIP(maxDistane maxDist: UInt, precision: UInt) -> Query {
-        aroundLatLong = "aroundRadius=\(maxDist)&aroundPrecision=\(precision)"
+    public func searchAroundLatitudeLongitudeViaIP(maxDistane maxDist: UInt?, precision: UInt?) -> Query {
+        aroundRadius = maxDist
+        aroundPrecision = precision
         aroundLatLongViaIP = true
         return self
     }
     
     /// Search for entries inside a given area defined by the two extreme points of a rectangle.
     ///
-    /// Note: at indexing, geoloc of an object should be set with _geoloc attribute containing
-    /// lat and lng attributes (for example {"_geoloc":{"lat":48.853409, "lng":2.348800}})
+    /// Note: At indexing, you should specify geoloc of an object with the _geoloc attribute (in the form "_geoloc":{"lat":48.853409, "lng":2.348800} or "_geoloc":[{"lat":48.853409, "lng":2.348800},{"lat":48.547456, "lng":2.972075}] if you have several geo-locations in your record). 
+    /// You can use several bounding boxes (OR) by calling this method several times.
     public func searchInsideBoundingBoxWithLatitudeP1(latitudeP1: Float, longitudeP1: Float, latitudeP2: Float, longitudeP2: Float) -> Query {
-        insideBoundingBox = "insideBoundingBox=\(latitudeP1),\(longitudeP1),\(latitudeP2),\(longitudeP2)"
+        if let insideBoundingBox = insideBoundingBox {
+            self.insideBoundingBox = "\(insideBoundingBox),\(latitudeP1),\(longitudeP1),\(latitudeP2),\(longitudeP2)"
+        } else {
+            self.insideBoundingBox = "insideBoundingBox=\(latitudeP1),\(longitudeP1),\(latitudeP2),\(longitudeP2)"
+        }
         return self
+    }
+    
+    /// Add a point to the polygon of geo-search (requires a minimum of three points to define a valid polygon)
+    ///
+    /// Note: At indexing, you should specify geoloc of an object with the _geoloc attribute (in the form "_geoloc":{"lat":48.853409, "lng":2.348800} or "_geoloc":[{"lat":48.853409, "lng":2.348800},{"lat":48.547456, "lng":2.972075}] if you have several geo-locations in your record).
+    public func addInsidePolygon(latitude: Float, longitude: Float) -> Query
+    {
+        if let insidePolygon = insidePolygon {
+            self.insidePolygon = "\(insidePolygon),\(latitude),\(longitude)"
+        } else {
+            self.insidePolygon = "insidePolygon=\(latitude),\(longitude)"
+        }
+        return self;
     }
     
     /// Reset location parameters (aroundLatLong,insideBoundingBox, aroundLatLongViaIP set to false)
     public func resetLocationParameters() -> Query {
+        aroundRadius = nil
+        aroundPrecision = nil
         aroundLatLong = nil
         insideBoundingBox = nil
+        insidePolygon = nil
         aroundLatLongViaIP = false
         return self
     }
@@ -406,13 +445,24 @@ public class Query : NSObject {
             url.append(Query.encodeForQuery(highlightPreTag, withKey: "highlightPreTag"))
             url.append(Query.encodeForQuery(highlightPostTag, withKey: "highlightPostTag"))
         }
+        if let disableTypoToleranceOnAttributes = disableTypoToleranceOnAttributes {
+            url.append(Query.encodeForQuery(disableTypoToleranceOnAttributes, withKey: "disableTypoToleranceOnAttributes"))
+        }
         
         if let insideBoundingBox = insideBoundingBox {
             url.append(insideBoundingBox)
+        } else if let insidePolygon = insidePolygon {
+            url.append(insidePolygon)
         } else if let aroundLatLong = aroundLatLong {
             url.append(aroundLatLong)
         }
         
+        if let aroundPrecision = aroundPrecision {
+            url.append(Query.encodeForQuery(aroundPrecision, withKey: "aroundPrecision"))
+        }
+        if let aroundRadius = aroundRadius {
+            url.append(Query.encodeForQuery(aroundRadius, withKey: "aroundRadius"))
+        }
         if aroundLatLongViaIP {
             url.append(Query.encodeForQuery(aroundLatLongViaIP, withKey: "aroundLatLngViaIP"))
         }
