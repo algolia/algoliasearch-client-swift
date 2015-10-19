@@ -71,14 +71,18 @@ struct Manager {
         guard let parameters = parameters else {
             return URLRequest
         }
-        
-        let data = try! NSJSONSerialization.dataWithJSONObject(parameters, options: NSJSONWritingOptions(rawValue: 0))
-        
-        let mutableURLRequest = URLRequest.mutableCopy() as! NSMutableURLRequest
-        mutableURLRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        mutableURLRequest.HTTPBody = data
-        
-        return mutableURLRequest
+
+        do {
+            let data = try NSJSONSerialization.dataWithJSONObject(parameters, options: NSJSONWritingOptions(rawValue: 0))
+
+            let mutableURLRequest = URLRequest.mutableCopy() as! NSMutableURLRequest
+            mutableURLRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            mutableURLRequest.HTTPBody = data
+
+            return mutableURLRequest
+        } catch {
+            return URLRequest
+        }
     }
     
     private func serializeResponse(data: NSData?) -> (AnyObject?) {
