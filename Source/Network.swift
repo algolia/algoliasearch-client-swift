@@ -89,7 +89,11 @@ struct Manager {
                 return nil
             }
         
-            return try! NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+            do {
+                return try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+            } catch {
+                return nil
+            }
         }
         
         return JSONSerializer(data)
