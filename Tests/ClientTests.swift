@@ -164,11 +164,17 @@ class ClientTests: XCTestCase {
         let object = ["city": "San Francisco", "objectID": "a/go/?à"]
         
         index.addObject(object, block: { (content, error) -> Void in
+            guard let taskID = content?["taskID"] as? Int else {
+                XCTFail("Error fetching taskID")
+                expecation.fulfill()
+                return
+            }
+
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expecation.fulfill()
             } else {
-                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                self.index.waitTask(taskID, block: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expecation.fulfill()

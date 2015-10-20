@@ -53,7 +53,7 @@ struct Manager {
         let URLRequest = encodeParameter(CreateNSURLRequest(method, URL: URLString), parameters: parameters)
         
         let dataTask = session.dataTaskWithRequest(URLRequest, completionHandler: { (data, response, error) -> Void in
-            let JSON = self.serializeResponse(data)
+            let (JSON, error) = self.serializeResponse(data)
             dispatch_async(dispatch_get_main_queue()) {
                 block(response as? NSHTTPURLResponse, JSON, error)
             }
@@ -71,25 +71,33 @@ struct Manager {
         guard let parameters = parameters else {
             return URLRequest
         }
-        
-        let data = try! NSJSONSerialization.dataWithJSONObject(parameters, options: NSJSONWritingOptions(rawValue: 0))
-        
-        let mutableURLRequest = URLRequest.mutableCopy() as! NSMutableURLRequest
-        mutableURLRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        mutableURLRequest.HTTPBody = data
-        
-        return mutableURLRequest
+
+        if let data = try? NSJSONSerialization.dataWithJSONObject(parameters, options: NSJSONWritingOptions(rawValue: 0)) {
+            let mutableURLRequest = URLRequest.mutableCopy() as! NSMutableURLRequest
+            mutableURLRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            mutableURLRequest.HTTPBody = data
+
+            return mutableURLRequest
+        } else {
+            return URLRequest
+        }
     }
     
-    private func serializeResponse(data: NSData?) -> (AnyObject?) {
-        typealias Serializer = (NSData?) -> (AnyObject?)
+    private func serializeResponse(data: NSData?) -> (AnyObject?, NSError?) {
+        typealias Serializer = (NSData?) -> (AnyObject?, NSError?)
         
         let JSONSerializer: Serializer = { (data) in
             guard let data = data where data.length > 0 else {
-                return nil
+                return (nil, nil)
             }
         
-            return try! NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+            do {
+                return (try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments), nil)
+            } catch let error as NSError {
+                return (nil, error)
+            } catch {
+                return (nil, nil)
+            }
         }
         
         return JSONSerializer(data)
