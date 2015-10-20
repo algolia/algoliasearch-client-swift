@@ -1,10 +1,11 @@
 CHANGELOG
 
-2015-09-30 2.X.X
+2015-10-20 2.1.0
   * Added support of multiple bounding box for geo-search
   * Added support of polygon for geo-search
   * Added support of automatic radius computation for geo-search
   * Added support of disableTypoToleranceOnAttributes
+  * Fix NSJSONSerialization crashes
 
 2015-09-22 2.0.0
   * Upgrade to Swift 2
