@@ -118,11 +118,16 @@ public class Query : NSObject {
     /// By default all attributes are retrieved.
     public var attributesToRetrieve: [String]?
     
-    /// Filter the query by a set of tags. You can AND tags by separating them by commas. 
+    /// Filter the query by a set of tags. You can AND tags by separating them by commas.
     /// To OR tags, you must add parentheses. For example tag1,(tag2,tag3) means tag1 AND (tag2 OR tag3).
     /// At indexing, tags should be added in the _tags attribute of objects (for example {"_tags":["tag1","tag2"]} ).
     public var tagFilters: String?
     
+    /// Prioritize the query by a set of tags. You can AND tags by separating them by commas.
+    /// To OR tags, you must add parentheses. For example tag1,(tag2,tag3) means tag1 AND (tag2 OR tag3).
+    /// At indexing, tags should be added in the _tags attribute of objects (for example {"_tags":["tag1","tag2"]} ).
+    public var optionalTagFilters: String?
+  
     /// A list of numeric filters.
     /// The syntax of one filter is `attributeName` followed by `operand` followed by `value. Supported operands are `<`, `<=`, `=`, `>` and `>=`.
     /// You can have multiple conditions on one attribute like for example `numerics=price>100,price<1000`.
@@ -242,6 +247,7 @@ public class Query : NSObject {
         attributesToHighlight = copy.attributesToHighlight
         attributesToRetrieve = copy.attributesToRetrieve
         tagFilters = copy.tagFilters
+        optionalTagFilters = copy.optionalTagFilters
         numericFilters = copy.numericFilters
         query = copy.query
         queryType = copy.queryType
@@ -437,6 +443,9 @@ public class Query : NSObject {
         }
         if let tagFilters = tagFilters {
             url.append(Query.encodeForQuery(tagFilters, withKey: "tagFilters"))
+        }
+        if let optionalTagFilters = optionalTagFilters {
+          url.append(Query.encodeForQuery(optionalTagFilters, withKey: "optionalTagFilters"))
         }
         if let numericFilters = numericFilters {
             url.append(Query.encodeForQuery(numericFilters, withKey: "numericFilters"))
