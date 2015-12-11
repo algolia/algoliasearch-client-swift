@@ -33,7 +33,7 @@ public class Index : NSObject {
     
     private var searchCache: ExpiringCache?
     
-    init(client: Client, indexName: String) {
+    public init(client: Client, indexName: String) {
         self.client = client
         self.indexName = indexName
         urlEncodedIndexName = indexName.urlEncode()

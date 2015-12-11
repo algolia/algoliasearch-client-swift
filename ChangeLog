@@ -1,5 +1,8 @@
 CHANGELOG
 
+2015-12-11 2.2.0
+  * Added support for optional tag filters
+
 2015-10-20 2.1.0
   * Added support of multiple bounding box for geo-search
   * Added support of polygon for geo-search
