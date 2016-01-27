@@ -187,6 +187,9 @@ public class Query : NSObject {
     /// Specify the string that is inserted after the highlighted parts in the query result (default to "</em>").
     public var highlightPostTag: String?
     
+    /// Specify the string that is used as an ellipsis indicator when a snippet is truncated (defaults to the empty string).
+    public var snippetEllipsisText : String?
+    
     /// Tags can be used in the Analytics to analyze a subset of searches only.
     public var analyticsTags: [String]?
     
@@ -263,6 +266,7 @@ public class Query : NSObject {
         restrictSearchableAttributes = copy.restrictSearchableAttributes
         highlightPreTag = copy.highlightPreTag
         highlightPostTag = copy.highlightPostTag
+        snippetEllipsisText = copy.snippetEllipsisText
         aroundLatLongViaIP = copy.aroundLatLongViaIP
         aroundLatLong = copy.aroundLatLong
         insideBoundingBox = copy.insideBoundingBox
@@ -453,6 +457,9 @@ public class Query : NSObject {
         if let highlightPreTag = highlightPreTag, highlightPostTag = highlightPostTag {
             url.append(Query.encodeForQuery(highlightPreTag, withKey: "highlightPreTag"))
             url.append(Query.encodeForQuery(highlightPostTag, withKey: "highlightPostTag"))
+        }
+        if snippetEllipsisText != nil {
+            url.append(Query.encodeForQuery(snippetEllipsisText!, withKey: "snippetEllipsisText"))
         }
         if let disableTypoToleranceOnAttributes = disableTypoToleranceOnAttributes {
             url.append(Query.encodeForQuery(disableTypoToleranceOnAttributes, withKey: "disableTypoToleranceOnAttributes"))
