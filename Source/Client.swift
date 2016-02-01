@@ -23,6 +23,10 @@
 
 import Foundation
 
+#if ALGOLIA_SDK
+    import AlgoliaSearchSDK
+#endif
+
 /// Entry point in the Swift API.
 ///
 /// You should instantiate a Client object with your AppID, ApiKey and Hosts
@@ -413,4 +417,8 @@ public class Client : NSObject {
             }
         }
     }
+    
+    #if ALGOLIA_SDK
+    var sdk: ASSdk = ASSdk.sharedSdk()
+    #endif
 }

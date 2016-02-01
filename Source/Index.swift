@@ -23,6 +23,10 @@
 
 import Foundation
 
+#if ALGOLIA_SDK
+    import AlgoliaSearchSDK
+#endif
+
 /// Contains all the functions related to one index
 ///
 /// You can use Client.getIndex(indexName) to retrieve this object
@@ -470,4 +474,8 @@ public class Index : NSObject {
             }
         }
     }
+    
+    #if ALGOLIA_SDK
+    var localIndex: ASLocalIndex?
+    #endif
 }
