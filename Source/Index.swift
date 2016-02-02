@@ -475,7 +475,171 @@ public class Index : NSObject {
         }
     }
     
-    #if ALGOLIA_SDK
+// ----------------------------------------------------------------------
+// NOTICE: Start of SDK-dependent code
+// ----------------------------------------------------------------------
+
+#if ALGOLIA_SDK
+    /// The local index mirroring this remote index (if mirroring is activated).
     var localIndex: ASLocalIndex?
-    #endif
+
+    /// The mirrored index settings.
+    public let mirrorSettings = MirrorSettings()
+    
+    // Sync status:
+
+    /// Syncing indicator.
+    /// NOTE: To prevent concurrent access to this variable, we always access it from the main thread.
+    private var syncing: Bool = false
+    
+    private var tmpDir : String?
+    private var syncError : Bool = false
+    private var settingsFilePath: String?
+    private var objectsFilePaths: [String]?
+    
+    // TODO: Move to top-level/other file?
+    public class MirrorSettings {
+        /// Data selection queries.
+        var queries : [NSString] = []
+    }
+    
+    /// Add a data selection query to the local mirror.
+    /// The query is not run immediately. It will be run during the subsequent refreshes.
+    public func addDataSelectionQuery(query: Query) {
+        mirrorSettings.queries.append(query.buildURL())
+    }
+    
+    public func syncNow() {
+        assert(NSThread.isMainThread(), "Index.syncNow() should only be called from the main thread")
+        if syncing {
+            return
+        } else {
+            syncing = true
+            dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
+                self.sync()
+            }
+        }
+    }
+    
+    /// Refresh the local mirror.
+    private func sync() {
+        assert(!NSThread.isMainThread()) // make sure it's run in the background
+        assert(client.rootDataDir != nil, "Please enable offline mode in client first")
+    
+        // Lazy instantiate the local index.
+        if localIndex == nil {
+            localIndex = ASLocalIndex(dataDir: self.client.rootDataDir!, appID: self.client.appID, indexName: self.indexName)
+        }
+        assert(localIndex != nil)
+
+        // Create temporary directory.
+        do {
+            self.tmpDir = NSTemporaryDirectory() + "/algolia/" + NSUUID().UUIDString
+            try NSFileManager.defaultManager().createDirectoryAtPath(self.tmpDir!, withIntermediateDirectories: true, attributes: nil)
+        } catch _ {
+            NSLog("ERROR: Could not create temporary directory '%@'", self.tmpDir!)
+        }
+        
+        // NOTE: We use `NSOperation`s to handle dependencies between tasks.
+        syncError = false
+        
+        // Task: Download index settings.
+        // TODO: Set a different timeout.
+        // TODO: Should we use host retry like for realtime queries? Not sure it's necessary.
+        // TODO: Factorize query construction with regular code.
+        let path = "1/indexes/\(urlEncodedIndexName)/settings"
+        let urlString = "https://\(client.readQueryHostnames.first!)/\(path)"
+        let url = NSURL(string: urlString)
+        let request = NSURLRequest(URL: url!)
+        let settingsOperation = URLSessionOperation(session: client.manager.session, request: request) {
+            (data: NSData?, response: NSURLResponse?, error: NSError?) in
+            if (data != nil) {
+                self.settingsFilePath = "\(self.tmpDir!)/settings.json"
+                data!.writeToFile(self.settingsFilePath!, atomically: false)
+            } else {
+                self.syncError = true
+            }
+        }
+        client.buildIndexQueue.addOperation(settingsOperation)
+
+        // Tasks: Perform data selection queries.
+        var queryNo = 0
+        self.objectsFilePaths = []
+        var objectOperations: [NSOperation] = []
+        for query in mirrorSettings.queries {
+            let thisQueryNo = ++queryNo
+            let path = "1/indexes/\(urlEncodedIndexName)/query"
+            let urlString = "https://\(client.readQueryHostnames.first!)/\(path)"
+            let request = client.manager.encodeParameter(CreateNSURLRequest(.POST, URL: urlString), parameters: ["params": query])
+            let operation = URLSessionOperation(session: client.manager.session, request: request) {
+                (data: NSData?, response: NSURLResponse?, error: NSError?) in
+                if (data != nil) {
+                    let objectFilePath = "\(self.tmpDir!)/\(thisQueryNo).json"
+                    self.objectsFilePaths?.append(objectFilePath)
+                    data!.writeToFile(objectFilePath, atomically: false)
+                } else {
+                    self.syncError = true
+                }
+            }
+            objectOperations.append(operation)
+            client.buildIndexQueue.addOperation(operation)
+        }
+        
+        // Task: build the index using the downloaded files.
+        let buildIndexOperation = NSBlockOperation() {
+            if !self.syncError {
+                let status = self.localIndex!.buildFromSettingsFile(self.settingsFilePath!, objectFiles: self.objectsFilePaths!)
+                if status != 200 {
+                    NSLog("Error %d building index %@", status, self.indexName)
+                }
+            }
+            
+            // Mark the sync as finished.
+            dispatch_async(dispatch_get_main_queue()) {
+                self.syncing = false
+            }
+        }
+        // Make sure this task is run after all the download tasks.
+        buildIndexOperation.addDependency(settingsOperation)
+        for operation in objectOperations {
+            buildIndexOperation.addDependency(operation)
+        }
+        client.buildIndexQueue.addOperation(buildIndexOperation)
+    }
+    
+    /// Search the local mirror.
+    // TODO: Should not be public
+    // TODO: Should be called from regular search
+    // TODO: Should be asynchronous
+    public func searchMirror(query: Query, block: CompletionHandler) {
+        var error: NSError?
+        if localIndex == nil {
+            error = NSError(domain: ErrorDomain, code: 500, userInfo: nil)
+        } else {
+            let searchResults = localIndex!.search(query.buildURL())
+            if searchResults.statusCode == 200 && searchResults.result != nil {
+                do {
+                    let json = try NSJSONSerialization.JSONObjectWithData(searchResults.result!, options: NSJSONReadingOptions(rawValue: 0))
+                    if json is [String: AnyObject] {
+                        block(content: json as? [String: AnyObject], error: nil)
+                        return
+                    } else {
+                        // TODO: Report error
+                    }
+                } catch _ {
+                    // TODO: Report error
+                }
+            } else {
+                // TODO: Report error
+            }
+        }
+        block(content: nil, error: error)
+    }
+
+#endif // ALGOLIA_SDK
+
+// ----------------------------------------------------------------------
+// NOTICE: End of SDK-dependent code
+// ----------------------------------------------------------------------
+
 }

@@ -27,6 +27,8 @@ import Foundation
     import AlgoliaSearchSDK
 #endif
 
+let ErrorDomain = "AlgoliaSearch"
+
 /// Entry point in the Swift API.
 ///
 /// You should instantiate a Client object with your AppID, ApiKey and Hosts
@@ -44,6 +46,7 @@ public class Client : NSObject {
             if let queryParameters = queryParameters {
                 setExtraHeader(queryParameters, forKey: "X-Algolia-QueryParameters")
             } else {
+                // FIXME: Should not work (as per the doc).
                 manager.session.configuration.HTTPAdditionalHeaders?.removeValueForKey("X-Algolia-QueryParameters")
             }
         }
@@ -55,6 +58,7 @@ public class Client : NSObject {
             if let tagFilters = tagFilters {
                 setExtraHeader(tagFilters, forKey: "X-Algolia-TagFilters")
             } else {
+                // FIXME: Should not work (as per the doc).
                 manager.session.configuration.HTTPAdditionalHeaders?.removeValueForKey("X-Algolia-TagFilters")
             }
         }
@@ -66,6 +70,7 @@ public class Client : NSObject {
             if let userToken = userToken {
                 setExtraHeader(userToken, forKey: "X-Algolia-UserToken")
             } else {
+                // FIXME: Should not work (as per the doc).
                 manager.session.configuration.HTTPAdditionalHeaders?.removeValueForKey("X-Algolia-UserToken")
             }
         }
@@ -80,7 +85,7 @@ public class Client : NSObject {
     let readQueryHostnames: [String]
     let writeQueryHostnames: [String]
 
-    private let manager: Manager
+    let manager: Manager // FIXME: Make private again?
     private var requestBuffer = RingBuffer<Request>(maxCapacity: 10)
 
     /// Algolia Search initialization.
@@ -153,6 +158,7 @@ public class Client : NSObject {
     /// - parameter value: value of the header
     /// - parameter forKey: key of the header
     public func setExtraHeader(value: String, forKey key: String) {
+        // FIXME: Should not work (as per the doc).
         if (manager.session.configuration.HTTPAdditionalHeaders != nil) {
             manager.session.configuration.HTTPAdditionalHeaders!.updateValue(value, forKey: key)
         } else {
@@ -379,6 +385,9 @@ public class Client : NSObject {
         if index > 1 {
             currentTimeout += incrementTimeout
         }
+        // FIXME: This should not work... at least on iOS >= 9. As per the doc:
+        // > Changing mutable values within the configuration object has no effect on the current session, but you can
+        // > create a new session with the modified configuration object.
         manager.session.configuration.timeoutIntervalForRequest = currentTimeout
 
         let request = manager.request(method, "https://\(hostnames[index])/\(path)", parameters: body) { (response, data, error) -> Void in
@@ -418,7 +427,35 @@ public class Client : NSObject {
         }
     }
     
-    #if ALGOLIA_SDK
+// ----------------------------------------------------------------------
+// NOTICE: Start of SDK-dependent code
+// ----------------------------------------------------------------------
+
+#if ALGOLIA_SDK
     var sdk: ASSdk = ASSdk.sharedSdk()
-    #endif
+    var rootDataDir: String?
+
+    /// Queue used to build local indices in the background.
+    // TODO: Customize queue settings.
+    let buildIndexQueue = NSOperationQueue()
+
+    public func enableOfflineMode(licenseData: NSData) {
+        // Create the cache directory.
+        do {
+            self.rootDataDir = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true).first! + "/algolia"
+            try NSFileManager.defaultManager().createDirectoryAtPath(self.rootDataDir!, withIntermediateDirectories: true, attributes: nil)
+        } catch _ {
+            NSLog("Error: could not create cache directory '%@'", self.rootDataDir!)
+        }
+        
+        // Init the SDK.
+        sdk.initWithLicenseData(licenseData)
+    }
+    
+#endif // ALGOLIA_SDK
+
+// ----------------------------------------------------------------------
+// NOTICE: End of SDK-dependent code
+// ----------------------------------------------------------------------
+
 }

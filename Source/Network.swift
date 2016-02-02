@@ -67,7 +67,7 @@ struct Manager {
     
     // MARK: - JSON
     
-    private func encodeParameter(URLRequest: NSURLRequest, parameters: [String: AnyObject]?) -> NSURLRequest {
+    func encodeParameter(URLRequest: NSURLRequest, parameters: [String: AnyObject]?) -> NSURLRequest {
         guard let parameters = parameters else {
             return URLRequest
         }
