@@ -53,9 +53,16 @@ struct Manager {
         let URLRequest = encodeParameter(CreateNSURLRequest(method, URL: URLString), parameters: parameters)
         
         let dataTask = session.dataTaskWithRequest(URLRequest, completionHandler: { (data, response, error) -> Void in
-            let (JSON, error) = self.serializeResponse(data)
-            dispatch_async(dispatch_get_main_queue()) {
-                block(response as? NSHTTPURLResponse, JSON, error)
+            assert(data != nil || error != nil)
+            if (error != nil) {
+                dispatch_async(dispatch_get_main_queue()) {
+                    block(nil, nil, error)
+                }
+            } else {
+                let (JSON, error) = self.serializeResponse(data)
+                dispatch_async(dispatch_get_main_queue()) {
+                    block(response as? NSHTTPURLResponse, JSON, error)
+                }
             }
         })
 

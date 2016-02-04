@@ -200,7 +200,27 @@ public class Index : NSObject {
     public func search(query: Query, block: CompletionHandler) {
         let path = "1/indexes/\(urlEncodedIndexName)/query"
         let request = ["params": query.buildURL()]
-        performSearchQuery(path, method: .POST, body: request, block: block)
+        
+        // First try the in-memory query cache.
+        let cacheKey = "\(path)_body_\(request)"
+        if let content = searchCache?.objectForKey(cacheKey) {
+            block(content: content, error: nil)
+        }
+        // Otherwise, run an online query.
+        else {
+            client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.readQueryHostnames, isSearchQuery: true) { (content, error) -> Void in
+                assert(content != nil || error != nil)
+                if content != nil {
+                    self.searchCache?.setObject(content!, forKey: cacheKey)
+                    block(content: content, error: error)
+                } else if isErrorTransient(error!) && self.mirrored {
+                    self.searchMirror(query, block: block)
+                }
+                else {
+                    block(content: content, error: error)
+                }
+            }
+        }
     }
     
     /// Delete all previous search queries
@@ -457,34 +477,17 @@ public class Index : NSObject {
     public func clearSearchCache() {
         searchCache?.clearCache()
     }
-    
-    /// Perform Search Query and cache result
-    private func performSearchQuery(path: String, method: HTTPMethod, body: [String: AnyObject]?, block: CompletionHandler) {
-        let cacheKey = "\(path)_body_\(body)"
-        
-        if let content = searchCache?.objectForKey(cacheKey) {
-            block(content: content, error: nil)
-        } else {
-            client.performHTTPQuery(path, method: method, body: body, hostnames: client.readQueryHostnames, isSearchQuery: true) { (content, error) -> Void in
-                if let content = content {
-                    self.searchCache?.setObject(content, forKey: cacheKey)
-                }
-                
-                block(content: content, error: error)
-            }
-        }
-    }
-    
+
 // ----------------------------------------------------------------------
 // NOTICE: Start of SDK-dependent code
 // ----------------------------------------------------------------------
 
 #if ALGOLIA_SDK
-    /// The local index mirroring this remote index (if mirroring is activated).
-    var localIndex: ASLocalIndex?
+    /// The local index mirroring this remote index (lazy instantiated, only if mirroring is activated).
+    lazy var localIndex: ASLocalIndex? = ASLocalIndex(dataDir: self.client.rootDataDir!, appID: self.client.appID, indexName: self.indexName)
 
     /// The mirrored index settings.
-    public let mirrorSettings = MirrorSettings()
+    let mirrorSettings = MirrorSettings()
     
     /// Whether the index is mirrored locally. Default = false.
     public var mirrored: Bool = false {
@@ -499,6 +502,9 @@ public class Index : NSObject {
             }
         }
     }
+    
+    /// Data selection queries.
+    public var queries: [String] { get { return self.mirrorSettings.queries }}
     
     /// Time interval between two syncs. Default = 1 hour.
     public var delayBetweenSyncs : NSTimeInterval = 60 * 60
@@ -523,7 +529,7 @@ public class Index : NSObject {
     }
     
     // TODO: Move to top-level/other file?
-    public class MirrorSettings {
+    class MirrorSettings {
         var lastSyncDate: NSDate = NSDate(timeIntervalSince1970: 0)
         var queries : [String] = [] ///< Data selection queries.
         var queriesModificationDate: NSDate = NSDate(timeIntervalSince1970: 0)
@@ -597,14 +603,9 @@ public class Index : NSObject {
     /// Refresh the local mirror.
     private func _sync() {
         assert(!NSThread.isMainThread()) // make sure it's run in the background
+        assert(self.mirrored, "Mirroring not activated on this index")
         assert(client.rootDataDir != nil, "Please enable offline mode in client first")
     
-        // Lazy instantiate the local index.
-        if localIndex == nil {
-            localIndex = ASLocalIndex(dataDir: self.client.rootDataDir!, appID: self.client.appID, indexName: self.indexName)
-        }
-        assert(localIndex != nil)
-
         // Create temporary directory.
         do {
             self.tmpDir = NSTemporaryDirectory() + "/algolia/" + NSUUID().UUIDString
@@ -700,27 +701,26 @@ public class Index : NSObject {
     
     private func _searchMirror(query: Query, block: CompletionHandler) {
         assert(!NSThread.isMainThread()) // make sure it's run in the background
+        assert(self.mirrored, "Mirroring not activated on this index")
+
         var content: [String: AnyObject]?
         var error: NSError?
-        if localIndex == nil {
-            error = NSError(domain: ErrorDomain, code: 500, userInfo: nil)
-        } else {
-            let searchResults = localIndex!.search(query.buildURL())
-            if searchResults.statusCode == 200 {
-                assert(searchResults.data != nil)
-                do {
-                    let json = try NSJSONSerialization.JSONObjectWithData(searchResults.data!, options: NSJSONReadingOptions(rawValue: 0))
-                    if json is [String: AnyObject] {
-                        content = (json as! [String: AnyObject])
-                    } else {
-                        error = NSError(domain: ErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON returned"])
-                    }
-                } catch let _error as NSError {
-                    error = _error
+
+        let searchResults = localIndex!.search(query.buildURL())
+        if searchResults.statusCode == 200 {
+            assert(searchResults.data != nil)
+            do {
+                let json = try NSJSONSerialization.JSONObjectWithData(searchResults.data!, options: NSJSONReadingOptions(rawValue: 0))
+                if json is [String: AnyObject] {
+                    content = (json as! [String: AnyObject])
+                } else {
+                    error = NSError(domain: AlgoliaSearchErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON returned"])
                 }
-            } else {
-                error = NSError(domain: ErrorDomain, code: Int(searchResults.statusCode), userInfo: nil)
+            } catch let _error as NSError {
+                error = _error
             }
+        } else {
+            error = NSError(domain: AlgoliaSearchErrorDomain, code: Int(searchResults.statusCode), userInfo: nil)
         }
         assert(content != nil || error != nil)
         block(content: content, error: error)
