@@ -141,6 +141,13 @@ public class Client : NSObject {
         }
 
         manager = Manager(HTTPHeaders: HTTPHeaders)
+        
+        #if ALGOLIA_SDK
+            buildQueue.name = "AlgoliaSearch-Build"
+            buildQueue.maxConcurrentOperationCount = 1
+            searchQueue.name = "AlgoliaSearch-Search"
+            searchQueue.maxConcurrentOperationCount = 1
+        #endif
     }
     
     // Helper for Obj-C
@@ -436,8 +443,9 @@ public class Client : NSObject {
     var rootDataDir: String?
 
     /// Queue used to build local indices in the background.
-    // TODO: Customize queue settings.
-    let buildIndexQueue = NSOperationQueue()
+    let buildQueue = NSOperationQueue()
+    /// Queue used to search local indices in the background.
+    let searchQueue = NSOperationQueue()
 
     public func enableOfflineMode(licenseData: NSData) {
         // Create the cache directory.

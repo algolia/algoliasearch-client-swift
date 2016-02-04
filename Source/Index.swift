@@ -560,7 +560,7 @@ public class Index : NSObject {
                 self.syncError = true
             }
         }
-        client.buildIndexQueue.addOperation(settingsOperation)
+        client.buildQueue.addOperation(settingsOperation)
 
         // Tasks: Perform data selection queries.
         var queryNo = 0
@@ -582,7 +582,7 @@ public class Index : NSObject {
                 }
             }
             objectOperations.append(operation)
-            client.buildIndexQueue.addOperation(operation)
+            client.buildQueue.addOperation(operation)
         }
         
         // Task: build the index using the downloaded files.
@@ -604,36 +604,49 @@ public class Index : NSObject {
         for operation in objectOperations {
             buildIndexOperation.addDependency(operation)
         }
-        client.buildIndexQueue.addOperation(buildIndexOperation)
+        client.buildQueue.addOperation(buildIndexOperation)
     }
     
     /// Search the local mirror.
-    // TODO: Should not be public
     // TODO: Should be called from regular search
-    // TODO: Should be asynchronous
     public func searchMirror(query: Query, block: CompletionHandler) {
+        let callingQueue = NSOperationQueue.currentQueue() ?? NSOperationQueue.mainQueue()
+        client.searchQueue.addOperationWithBlock() {
+            self._searchMirror(query) {
+                (content, error) -> Void in
+                callingQueue.addOperationWithBlock() {
+                    block(content: content, error: error)
+                }
+            }
+        }
+    }
+    
+    private func _searchMirror(query: Query, block: CompletionHandler) {
+        assert(!NSThread.isMainThread()) // make sure it's run in the background
+        var content: [String: AnyObject]?
         var error: NSError?
         if localIndex == nil {
             error = NSError(domain: ErrorDomain, code: 500, userInfo: nil)
         } else {
             let searchResults = localIndex!.search(query.buildURL())
-            if searchResults.statusCode == 200 && searchResults.result != nil {
+            if searchResults.statusCode == 200 {
+                assert(searchResults.data != nil)
                 do {
-                    let json = try NSJSONSerialization.JSONObjectWithData(searchResults.result!, options: NSJSONReadingOptions(rawValue: 0))
+                    let json = try NSJSONSerialization.JSONObjectWithData(searchResults.data!, options: NSJSONReadingOptions(rawValue: 0))
                     if json is [String: AnyObject] {
-                        block(content: json as? [String: AnyObject], error: nil)
-                        return
+                        content = (json as! [String: AnyObject])
                     } else {
-                        // TODO: Report error
+                        error = NSError(domain: ErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON returned"])
                     }
-                } catch _ {
-                    // TODO: Report error
+                } catch let _error as NSError {
+                    error = _error
                 }
             } else {
-                // TODO: Report error
+                error = NSError(domain: ErrorDomain, code: Int(searchResults.statusCode), userInfo: nil)
             }
         }
-        block(content: nil, error: error)
+        assert(content != nil || error != nil)
+        block(content: content, error: error)
     }
 
 #endif // ALGOLIA_SDK
