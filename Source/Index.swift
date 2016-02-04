@@ -486,6 +486,23 @@ public class Index : NSObject {
     /// The mirrored index settings.
     public let mirrorSettings = MirrorSettings()
     
+    /// Whether the index is mirrored locally. Default = false.
+    public var mirrored: Bool = false {
+        didSet {
+            if (mirrored) {
+                do {
+                    try NSFileManager.defaultManager().createDirectoryAtPath(self.indexDataDir, withIntermediateDirectories: true, attributes: nil)
+                } catch _ {
+                    // Ignore
+                }
+                mirrorSettings.load(self.mirrorSettingsFilePath)
+            }
+        }
+    }
+    
+    /// Time interval between two syncs. Default = 1 hour.
+    public var delayBetweenSyncs : NSTimeInterval = 60 * 60
+    
     // Sync status:
 
     /// Syncing indicator.
@@ -497,32 +514,88 @@ public class Index : NSObject {
     private var settingsFilePath: String?
     private var objectsFilePaths: [String]?
     
+    private var mirrorSettingsFilePath: String {
+        get { return "\(self.indexDataDir)/mirror.plist" }
+    }
+    
+    private var indexDataDir: String {
+        get { return "\(self.client.rootDataDir!)/\(self.client.appID)/\(self.indexName)" }
+    }
+    
     // TODO: Move to top-level/other file?
     public class MirrorSettings {
-        /// Data selection queries.
-        var queries : [NSString] = []
-    }
-    
-    /// Add a data selection query to the local mirror.
-    /// The query is not run immediately. It will be run during the subsequent refreshes.
-    public func addDataSelectionQuery(query: Query) {
-        mirrorSettings.queries.append(query.buildURL())
-    }
-    
-    public func syncNow() {
-        assert(NSThread.isMainThread(), "Index.syncNow() should only be called from the main thread")
-        if syncing {
-            return
-        } else {
-            syncing = true
-            dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
-                self.sync()
+        var lastSyncDate: NSDate = NSDate(timeIntervalSince1970: 0)
+        var queries : [String] = [] ///< Data selection queries.
+        var queriesModificationDate: NSDate = NSDate(timeIntervalSince1970: 0)
+        
+        func save(filePath: String) {
+            let settings = [
+                "lastSyncDate": lastSyncDate,
+                "queries": queries,
+                "queriesModificationDate": queriesModificationDate
+            ]
+            (settings as NSDictionary).writeToFile(filePath, atomically: true)
+        }
+        
+        func load(filePath: String) {
+            if let settings = NSDictionary(contentsOfFile: filePath) {
+                if let lastSyncDate = settings["lastSyncDate"] as? NSDate {
+                    self.lastSyncDate = lastSyncDate
+                }
+                if let queries = settings["queries"] as? [String] {
+                    self.queries = queries
+                }
+                if let queriesModificationDate = settings["queriesModificationDate"] as? NSDate {
+                    self.queriesModificationDate = queriesModificationDate
+                }
             }
         }
     }
     
+    /// Add a data selection query to the local mirror.
+    /// The query is not run immediately. It will be run during the subsequent refreshes.
+    /// @pre The index must have been marked as mirrored.
+    public func addDataSelectionQuery(query: Query) {
+        assert(mirrored);
+        mirrorSettings.queries.append(query.buildURL())
+        mirrorSettings.queriesModificationDate = NSDate()
+        mirrorSettings.save(self.mirrorSettingsFilePath)
+    }
+
+    /// Add any number of data selection queries to the local mirror.
+    /// The query is not run immediately. It will be run during the subsequent refreshes.
+    /// @pre The index must have been marked as mirrored.
+    public func addDataSelectionQueries(queries: [Query]) {
+        assert(mirrored);
+        for query in queries {
+            mirrorSettings.queries.append(query.buildURL())
+        }
+        mirrorSettings.queriesModificationDate = NSDate()
+        mirrorSettings.save(self.mirrorSettingsFilePath)
+    }
+
+    public func sync() {
+        assert(NSThread.isMainThread(), "Should only be called from the main thread")
+        if syncing {
+            return
+        }
+        syncing = true
+        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
+            self._sync()
+        }
+    }
+    
+    public func syncIfNeeded() {
+        assert(NSThread.isMainThread(), "Should only be called from the main thread")
+        let currentDate = NSDate()
+        if currentDate.timeIntervalSinceDate(mirrorSettings.lastSyncDate) > self.delayBetweenSyncs
+            || mirrorSettings.queriesModificationDate.compare(mirrorSettings.lastSyncDate) == .OrderedDescending {
+            sync()
+        }
+    }
+    
     /// Refresh the local mirror.
-    private func sync() {
+    private func _sync() {
         assert(!NSThread.isMainThread()) // make sure it's run in the background
         assert(client.rootDataDir != nil, "Please enable offline mode in client first")
     
@@ -591,6 +664,10 @@ public class Index : NSObject {
                 let status = self.localIndex!.buildFromSettingsFile(self.settingsFilePath!, objectFiles: self.objectsFilePaths!)
                 if status != 200 {
                     NSLog("Error %d building index %@", status, self.indexName)
+                } else {
+                    // Remember the sync's date
+                    self.mirrorSettings.lastSyncDate = NSDate()
+                    self.mirrorSettings.save(self.mirrorSettingsFilePath)
                 }
             }
             
