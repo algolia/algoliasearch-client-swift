@@ -688,6 +688,16 @@ public class Index : NSObject {
                 }
             }
             
+            // Clean-up.
+            do {
+                try NSFileManager.defaultManager().removeItemAtPath(self.tmpDir!)
+            } catch _ {
+                // Ignore error
+            }
+            self.tmpDir = nil
+            self.settingsFilePath = nil
+            self.objectsFilePaths = nil
+            
             // Mark the sync as finished.
             dispatch_async(dispatch_get_main_queue()) {
                 self.syncing = false
