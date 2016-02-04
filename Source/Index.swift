@@ -504,7 +504,14 @@ public class Index : NSObject {
     }
     
     /// Data selection queries.
-    public var queries: [String] { get { return self.mirrorSettings.queries }}
+    public var queries: [String] {
+        get { return mirrorSettings.queries }
+        set {
+            mirrorSettings.queries = newValue
+            mirrorSettings.queriesModificationDate = NSDate()
+            mirrorSettings.save(mirrorSettingsFilePath)
+        }
+    }
     
     /// Time interval between two syncs. Default = 1 hour.
     public var delayBetweenSyncs : NSTimeInterval = 60 * 60
@@ -563,7 +570,7 @@ public class Index : NSObject {
     /// @pre The index must have been marked as mirrored.
     public func addDataSelectionQuery(query: Query) {
         assert(mirrored);
-        mirrorSettings.queries.append(query.buildURL())
+        _addQuery(query)
         mirrorSettings.queriesModificationDate = NSDate()
         mirrorSettings.save(self.mirrorSettingsFilePath)
     }
@@ -574,10 +581,19 @@ public class Index : NSObject {
     public func addDataSelectionQueries(queries: [Query]) {
         assert(mirrored);
         for query in queries {
-            mirrorSettings.queries.append(query.buildURL())
+            _addQuery(query)
         }
         mirrorSettings.queriesModificationDate = NSDate()
         mirrorSettings.save(self.mirrorSettingsFilePath)
+    }
+    
+    private func _addQuery(originalQuery: Query) {
+        // Make sure we don't retrieve unnecessary information.
+        let query = Query(copy: originalQuery)
+        query.attributesToHighlight = []
+        query.attributesToSnippet = []
+        query.getRankingInfo = false
+        mirrorSettings.queries.append(query.buildURL())
     }
 
     public func sync() {
