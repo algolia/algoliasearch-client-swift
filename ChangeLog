@@ -1,5 +1,8 @@
 CHANGELOG
 
+2016-02-05 2.2.1
+  * Added support of snippet ellipsis query parameter
+	
 2015-12-11 2.2.0
   * Added support for optional tag filters
 
