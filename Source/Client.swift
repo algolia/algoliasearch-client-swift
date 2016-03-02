@@ -23,10 +23,6 @@
 
 import Foundation
 
-#if ALGOLIA_SDK
-    import AlgoliaSearchSDK
-#endif
-
 
 /// Entry point in the Swift API.
 ///
@@ -140,13 +136,6 @@ public class Client : NSObject {
         }
 
         manager = Manager(HTTPHeaders: HTTPHeaders)
-        
-        #if ALGOLIA_SDK
-            buildQueue.name = "AlgoliaSearch-Build"
-            buildQueue.maxConcurrentOperationCount = 1
-            searchQueue.name = "AlgoliaSearch-Search"
-            searchQueue.maxConcurrentOperationCount = 1
-        #endif
     }
     
     // Helper for Obj-C
@@ -432,37 +421,4 @@ public class Client : NSObject {
             }
         }
     }
-    
-// ----------------------------------------------------------------------
-// NOTICE: Start of SDK-dependent code
-// ----------------------------------------------------------------------
-
-#if ALGOLIA_SDK
-    var sdk: ASSdk = ASSdk.sharedSdk()
-    var rootDataDir: String?
-
-    /// Queue used to build local indices in the background.
-    let buildQueue = NSOperationQueue()
-    /// Queue used to search local indices in the background.
-    let searchQueue = NSOperationQueue()
-
-    public func enableOfflineMode(licenseData: NSData) {
-        // Create the cache directory.
-        do {
-            self.rootDataDir = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true).first! + "/algolia"
-            try NSFileManager.defaultManager().createDirectoryAtPath(self.rootDataDir!, withIntermediateDirectories: true, attributes: nil)
-        } catch _ {
-            NSLog("Error: could not create cache directory '%@'", self.rootDataDir!)
-        }
-        
-        // Init the SDK.
-        sdk.initWithLicenseData(licenseData)
-    }
-    
-#endif // ALGOLIA_SDK
-
-// ----------------------------------------------------------------------
-// NOTICE: End of SDK-dependent code
-// ----------------------------------------------------------------------
-
 }

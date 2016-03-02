@@ -31,5 +31,6 @@ Pod::Spec.new do |s|
             'GCC_PREPROCESSOR_DEFINITIONS' => 'ALGOLIA_SDK=1',
             'OTHER_SWIFT_FLAGS' => '-DALGOLIA_SDK'
         }
+        offline.source_files = 'Source/Offline/*.swift'
     end
 end
