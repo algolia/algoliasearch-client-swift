@@ -64,6 +64,11 @@ public class Query : NSObject {
     
     // MARK: - Properties
     
+    /// Extra, untyped parameters.
+    /// Intented as a way to use new parameters not yet supported by this API client.
+    /// WARNING: Any parameter specified here will override its typed counterpart, should they overlap.
+    public var parameters: [String: String] = [:]
+
     /// The minimum number of characters in a query word to accept one typo in this word.
     /// Defaults to 3.
     public var minWordSizeForApprox1: UInt = 3
@@ -271,6 +276,7 @@ public class Query : NSObject {
         aroundPrecision = copy.aroundPrecision
         aroundRadius = copy.aroundRadius
         insidePolygon = copy.insidePolygon
+        parameters = copy.parameters
     }
     
     /// Search for entries around a given latitude/longitude.
@@ -483,6 +489,10 @@ public class Query : NSObject {
         }
         if let analyticsTags = analyticsTags {
             url.append(Query.encodeForQuery(analyticsTags, withKey: "analyticsTags"))
+        }
+        // NOTE: Extra parameters may override any typed parameter: this is wanted.
+        for (key, value) in parameters {
+            url.append(Query.encodeForQuery(value, withKey: key))
         }
         
         return url.joinWithSeparator("&")
