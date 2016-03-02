@@ -25,10 +25,27 @@ import AlgoliaSearchSDK
 import Foundation
 
 
+/// A data selection query.
+public struct DataSelectionQuery {
+    public let query: Query
+    public let maxObjects: Int
+    
+    public init(query: Query, maxObjects: Int) {
+        self.query = query
+        self.maxObjects = maxObjects
+    }
+}
+
+
 /// An index with offline mirroring capabilities.
 /// NOTE: Requires Algolia's SDK.
 ///
 public class MirroredIndex : Index {
+
+    // ----------------------------------------------------------------------
+    // MARK: Properties
+    // ----------------------------------------------------------------------
+    
     /// Getter returning covariant-typed client.
     // TODO: Could not find a way to implement proper covariant properties in Swift.
     public var offlineClient: OfflineClient {
@@ -56,8 +73,10 @@ public class MirroredIndex : Index {
     }
     
     /// Data selection queries.
-    public var queries: [String] {
-        get { return mirrorSettings.queries }
+    public var queries: [DataSelectionQuery] {
+        get {
+            return mirrorSettings.queries
+        }
         set {
             mirrorSettings.queries = newValue
             mirrorSettings.queriesModificationDate = NSDate()
@@ -87,35 +106,9 @@ public class MirroredIndex : Index {
         get { return "\(self.offlineClient.rootDataDir!)/\(self.client.appID)/\(self.indexName)" }
     }
     
-    // TODO: Move to top-level/other file?
-    class MirrorSettings {
-        var lastSyncDate: NSDate = NSDate(timeIntervalSince1970: 0)
-        var queries : [String] = [] ///< Data selection queries.
-        var queriesModificationDate: NSDate = NSDate(timeIntervalSince1970: 0)
-        
-        func save(filePath: String) {
-            let settings = [
-                "lastSyncDate": lastSyncDate,
-                "queries": queries,
-                "queriesModificationDate": queriesModificationDate
-            ]
-            (settings as NSDictionary).writeToFile(filePath, atomically: true)
-        }
-        
-        func load(filePath: String) {
-            if let settings = NSDictionary(contentsOfFile: filePath) {
-                if let lastSyncDate = settings["lastSyncDate"] as? NSDate {
-                    self.lastSyncDate = lastSyncDate
-                }
-                if let queries = settings["queries"] as? [String] {
-                    self.queries = queries
-                }
-                if let queriesModificationDate = settings["queriesModificationDate"] as? NSDate {
-                    self.queriesModificationDate = queriesModificationDate
-                }
-            }
-        }
-    }
+    // ----------------------------------------------------------------------
+    // MARK: Init
+    // ----------------------------------------------------------------------
     
     public override init(client: Client, indexName: String) {
         assert(client is OfflineClient);
@@ -123,15 +116,15 @@ public class MirroredIndex : Index {
     }
     
     // ----------------------------------------------------------------------
-    // Sync
+    // MARK: Sync
     // ----------------------------------------------------------------------
 
     /// Add a data selection query to the local mirror.
     /// The query is not run immediately. It will be run during the subsequent refreshes.
     /// @pre The index must have been marked as mirrored.
-    public func addDataSelectionQuery(query: Query) {
+    public func addDataSelectionQuery(query: DataSelectionQuery) {
         assert(mirrored);
-        _addQuery(query)
+        mirrorSettings.queries.append(query)
         mirrorSettings.queriesModificationDate = NSDate()
         mirrorSettings.save(self.mirrorSettingsFilePath)
     }
@@ -139,22 +132,11 @@ public class MirroredIndex : Index {
     /// Add any number of data selection queries to the local mirror.
     /// The query is not run immediately. It will be run during the subsequent refreshes.
     /// @pre The index must have been marked as mirrored.
-    public func addDataSelectionQueries(queries: [Query]) {
+    public func addDataSelectionQueries(queries: [DataSelectionQuery]) {
         assert(mirrored);
-        for query in queries {
-            _addQuery(query)
-        }
+        mirrorSettings.queries.appendContentsOf(queries)
         mirrorSettings.queriesModificationDate = NSDate()
         mirrorSettings.save(self.mirrorSettingsFilePath)
-    }
-    
-    private func _addQuery(originalQuery: Query) {
-        // Make sure we don't retrieve unnecessary information.
-        let query = Query(copy: originalQuery)
-        query.attributesToHighlight = []
-        query.attributesToSnippet = []
-        query.getRankingInfo = false
-        mirrorSettings.queries.append(query.buildURL())
     }
     
     public func sync() {
@@ -204,7 +186,7 @@ public class MirroredIndex : Index {
         let request = NSURLRequest(URL: url!)
         let settingsOperation = URLSessionOperation(session: client.manager.session, request: request) {
             (data: NSData?, response: NSURLResponse?, error: NSError?) in
-            if (data != nil) {
+            if (data != nil && (response as! NSHTTPURLResponse).statusCode == 200) {
                 self.settingsFilePath = "\(self.tmpDir!)/settings.json"
                 data!.writeToFile(self.settingsFilePath!, atomically: false)
             } else {
@@ -217,23 +199,53 @@ public class MirroredIndex : Index {
         var queryNo = 0
         self.objectsFilePaths = []
         var objectOperations: [NSOperation] = []
+        var cursor: String?
         for query in mirrorSettings.queries {
-            let thisQueryNo = ++queryNo
-            let path = "1/indexes/\(urlEncodedIndexName)/query"
-            let urlString = "https://\(client.readQueryHostnames.first!)/\(path)"
-            let request = client.manager.encodeParameter(CreateNSURLRequest(.POST, URL: urlString), parameters: ["params": query])
-            let operation = URLSessionOperation(session: client.manager.session, request: request) {
-                (data: NSData?, response: NSURLResponse?, error: NSError?) in
-                if (data != nil) {
-                    let objectFilePath = "\(self.tmpDir!)/\(thisQueryNo).json"
-                    self.objectsFilePaths?.append(objectFilePath)
-                    data!.writeToFile(objectFilePath, atomically: false)
-                } else {
+            var objectCount = 0
+            repeat {
+                let thisQueryNo = ++queryNo
+                let path = "1/indexes/\(urlEncodedIndexName)/browse"
+                let urlString = "https://\(client.readQueryHostnames.first!)/\(path)"
+                let newQuery = Query(copy: query.query)
+                newQuery.hitsPerPage = 100 // TODO: Adapt according to perf testing
+                if cursor != nil {
+                    newQuery.parameters["cursor"] = cursor!
+                }
+                let queryString = newQuery.buildURL()
+                let request = client.manager.encodeParameter(CreateNSURLRequest(.POST, URL: urlString), parameters: ["params": queryString])
+                let operation = URLSessionOperation(session: client.manager.session, request: request) {
+                    (data: NSData?, response: NSURLResponse?, error: NSError?) in
+                    if (data != nil && (response as! NSHTTPURLResponse).statusCode == 200) {
+                        do {
+                            // Fetch cursor from data.
+                            // TODO: Is there a way to use SAX parsing for better performance?
+                            let json = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0))
+                            cursor = json["cursor"] as? String
+                            if let hits = json["hits"] as? [[String: AnyObject]] {
+                                if hits.count == 0 {
+                                    throw NSError(domain: AlgoliaSearchErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: "Server returned zero hits"])
+                                }
+                                objectCount += hits.count
+                                
+                                // Write results to disk.
+                                let objectFilePath = "\(self.tmpDir!)/\(thisQueryNo).json"
+                                self.objectsFilePaths?.append(objectFilePath)
+                                data!.writeToFile(objectFilePath, atomically: false)
+                                
+                                return // all other paths go to error
+                            }
+                        } catch {
+                            // TODO: Log the error.
+                        }
+                    }
                     self.syncError = true
                 }
+                objectOperations.append(operation)
+                self.offlineClient.buildQueue.addOperation(operation)
+                // WARNING: Synchronously blocking until the operation finishes.
+                operation.waitUntilFinished()
             }
-            objectOperations.append(operation)
-            self.offlineClient.buildQueue.addOperation(operation)
+            while cursor != nil && objectCount < query.maxObjects
         }
         
         // Task: build the index using the downloaded files.
@@ -273,7 +285,7 @@ public class MirroredIndex : Index {
     }
     
     // ----------------------------------------------------------------------
-    // Search
+    // MARK: Search
     // ----------------------------------------------------------------------
 
     /// Search inside the index
@@ -303,7 +315,6 @@ public class MirroredIndex : Index {
             }
         }
     }
-
     
     /// Search the local mirror.
     public func searchMirror(query: Query, block: CompletionHandler) {
@@ -347,7 +358,7 @@ public class MirroredIndex : Index {
     }
     
     // ----------------------------------------------------------------------
-    // Browse
+    // MARK: Browse
     // ----------------------------------------------------------------------
     
     public func browseMirror(query: Query, block: CompletionHandler) {

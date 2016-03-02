@@ -24,6 +24,7 @@
 import Foundation
 
 /// Describes all parameters of search query.
+// TODO: This class has value semantics; it would better be a struct.
 public class Query : NSObject {
     /// The type of query.
     ///
@@ -68,6 +69,8 @@ public class Query : NSObject {
     /// Intented as a way to use new parameters not yet supported by this API client.
     /// WARNING: Any parameter specified here will override its typed counterpart, should they overlap.
     public var parameters: [String: String] = [:]
+
+    // TODO: All values should be optionals! WARNING: Careful with the consequences on the Objective-C side.
 
     /// The minimum number of characters in a query word to accept one typo in this word.
     /// Defaults to 3.
@@ -497,6 +500,140 @@ public class Query : NSObject {
         
         return url.joinWithSeparator("&")
     }
+
+    public class func parse(queryString: String) -> Query {
+        let query = Query()
+        let components = queryString.componentsSeparatedByString("&")
+        for component in components {
+            let fields = component.componentsSeparatedByString("=")
+            if fields.count < 1 || fields.count > 2 {
+                continue
+            }
+            let name = fields[0].stringByRemovingPercentEncoding
+            if name == nil {
+                continue
+            }
+            let value: String? = fields.count >= 2 ? fields[1].stringByRemovingPercentEncoding : nil
+            switch name! {
+            case "attributesToRetrieve", /* legacy */ "attributes":
+                query.attributesToRetrieve = parseStringArray(value)
+            case "attributesToHighlight":
+                query.attributesToHighlight = parseStringArray(value)
+            case "attributesToSnippet":
+                query.attributesToSnippet = parseStringArray(value)
+            case "filters":
+                query.filters = parseStringArray(value)
+            case "facetFilters":
+                query.facetFilters = parseStringArray(value)
+            case "facets":
+                query.facets = parseStringArray(value)
+            case "optionalWords":
+                query.optionalWords = parseStringArray(value)
+            case "optionalWordsMinimumMatched" where value != nil:
+                if let uintValue = UInt(value!) {
+                    query.optionalWordsMinimumMatched = uintValue
+                }
+            case "minWordSizefor1Typo":
+                if let uintValue = UInt(value!) {
+                    query.minWordSizeForApprox1 = uintValue
+                }
+            case "minWordSizefor2Typos":
+                if let uintValue = UInt(value!) {
+                    query.minWordSizeForApprox2 = uintValue
+                }
+            case "ignorePlural":
+                if let boolValue = parseBool(value) {
+                    query.ignorePlural = boolValue
+                }
+            case "getRankingInfo":
+                if let boolValue = parseBool(value) {
+                    query.getRankingInfo = boolValue
+                }
+            case "allowTyposOnNumericTokens":
+                if let boolValue = parseBool(value) {
+                    query.typosOnNumericTokens = boolValue
+                }
+            case "typoTolerance":
+                if value != nil {
+                    query.typoTolerance = TypoTolerance(rawValue: value!) // TODO: Handle illegal values
+                }
+            case "distinct":
+                if let uintValue = UInt(value!) {
+                    query.distinct = uintValue
+                }
+            case "analytics":
+                if let boolValue = parseBool(value) {
+                    query.analytics = boolValue
+                }
+            case "synonyms":
+                if let boolValue = parseBool(value) {
+                    query.synonyms = boolValue
+                }
+            case "replaceSynonymsInHighlight":
+                if let boolValue = parseBool(value) {
+                    query.replaceSynonyms = boolValue
+                }
+            case "page":
+                if let uintValue = UInt(value!) {
+                    query.page = uintValue
+                }
+            case "hitsPerPage":
+                if let uintValue = UInt(value!) {
+                    query.hitsPerPage = uintValue
+                }
+            case "minProximity":
+                if let uintValue = UInt(value!) {
+                    query.minProximity = uintValue
+                }
+            case "queryType":
+                if value != nil {
+                    query.queryType = QueryType(rawValue: value!) // TODO: Handle illegal values
+                }
+            case "removeWordsIfNoResult":
+                if value != nil {
+                    query.removeWordsIfNoResult = RemoveWordsIfNoResult(rawValue: value!) // TODO: Handle illegal values
+                }
+            case "tagFilters":
+                query.tagFilters = value
+            case "optionalTagFilters":
+                query.optionalTagFilters = value
+            case "numericFilters":
+                query.numericFilters = parseStringArray(value)
+            case "highlightPreTag":
+                query.highlightPreTag = value
+            case "highlightPostTag":
+                query.highlightPostTag = value
+            case "disableTypoToleranceOnAttributes":
+                query.disableTypoToleranceOnAttributes = parseStringArray(value)
+//            case "insideBoundingBox": // TODO: WTH?
+//            case "insidePolygon": // TODO: WTH?
+            case "aroundPrecision":
+                if let uintValue = UInt(value!) {
+                    query.aroundPrecision = uintValue
+                }
+//                case "aroundLatLong": // TODO: WTH?
+            case "aroundRadius":
+                if let uintValue = UInt(value!) {
+                    query.aroundRadius = uintValue
+                }
+            case "aroundLatLngViaIP":
+                if let boolValue = parseBool(value) {
+                    query.aroundLatLongViaIP = boolValue
+                }
+            case "query":
+                query.query = value
+            case "restrictSearchableAttributes":
+                query.restrictSearchableAttributes = parseStringArray(value)
+            case "analyticsTags":
+                query.analyticsTags = parseStringArray(value)
+            default:
+                if value != nil {
+                    query.parameters[name!] = value!
+                }
+            }
+        }
+        return query
+    }
     
     // MARK: - Helper methods to build URL
     
@@ -508,6 +645,35 @@ public class Query : NSObject {
             return "\(key)=\(element.urlEncode())"
         default:
             return "\(key)=\(element)"
+        }
+    }
+    
+    class func parseStringArray(string: String?) -> [String]? {
+        if string == nil {
+            return nil
+        }
+        // First try to parse the JSON notation:
+        do {
+            if let array = try NSJSONSerialization.JSONObjectWithData(string!.dataUsingEncoding(NSUTF8StringEncoding)!, options: NSJSONReadingOptions(rawValue: 0)) as? [String] {
+                return array
+            }
+        } catch {
+        }
+        // Fallback on plain string parsing.
+        return string!.componentsSeparatedByString(",")
+    }
+    
+    class func parseBool(string: String?) -> Bool? {
+        if string == nil {
+            return nil
+        }
+        switch string! {
+        case "true", "1":
+            return true
+        case "false", "0":
+            return false
+        default:
+            return nil
         }
     }
 }
