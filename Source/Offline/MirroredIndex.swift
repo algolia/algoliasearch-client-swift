@@ -121,6 +121,10 @@ public class MirroredIndex : Index {
         assert(client is OfflineClient);
         super.init(client: client, indexName: indexName)
     }
+    
+    // ----------------------------------------------------------------------
+    // Sync
+    // ----------------------------------------------------------------------
 
     /// Add a data selection query to the local mirror.
     /// The query is not run immediately. It will be run during the subsequent refreshes.
@@ -268,6 +272,10 @@ public class MirroredIndex : Index {
         self.offlineClient.buildQueue.addOperation(buildIndexOperation)
     }
     
+    // ----------------------------------------------------------------------
+    // Search
+    // ----------------------------------------------------------------------
+
     /// Search inside the index
     public override func search(query: Query, block: CompletionHandler) {
         // TODO: A lot of code duplication (with `Index`) in this method. See if we can reduce it.
@@ -298,7 +306,6 @@ public class MirroredIndex : Index {
 
     
     /// Search the local mirror.
-    // TODO: Should be called from regular search
     public func searchMirror(query: Query, block: CompletionHandler) {
         let callingQueue = NSOperationQueue.currentQueue() ?? NSOperationQueue.mainQueue()
         self.offlineClient.searchQueue.addOperationWithBlock() {
@@ -311,6 +318,7 @@ public class MirroredIndex : Index {
         }
     }
     
+    /// Search the local mirror synchronously.
     private func _searchMirror(query: Query, block: CompletionHandler) {
         assert(!NSThread.isMainThread()) // make sure it's run in the background
         assert(self.mirrored, "Mirroring not activated on this index")
@@ -337,4 +345,50 @@ public class MirroredIndex : Index {
         assert(content != nil || error != nil)
         block(content: content, error: error)
     }
+    
+    // ----------------------------------------------------------------------
+    // Browse
+    // ----------------------------------------------------------------------
+    
+    public func browseMirror(query: Query, block: CompletionHandler) {
+        let callingQueue = NSOperationQueue.currentQueue() ?? NSOperationQueue.mainQueue()
+        self.offlineClient.searchQueue.addOperationWithBlock() {
+            self._browseMirror(query) {
+                (content, error) -> Void in
+                callingQueue.addOperationWithBlock() {
+                    block(content: content, error: error)
+                }
+            }
+        }
+    }
+
+    /// Browse the local mirror synchronously.
+    private func _browseMirror(query: Query, block: CompletionHandler) {
+        assert(!NSThread.isMainThread()) // make sure it's run in the background
+        assert(self.mirrored, "Mirroring not activated on this index")
+        
+        var content: [String: AnyObject]?
+        var error: NSError?
+        
+        let searchResults = localIndex!.browse(query.buildURL())
+        // TODO: Factorize this code with above and with online requests.
+        if searchResults.statusCode == 200 {
+            assert(searchResults.data != nil)
+            do {
+                let json = try NSJSONSerialization.JSONObjectWithData(searchResults.data!, options: NSJSONReadingOptions(rawValue: 0))
+                if json is [String: AnyObject] {
+                    content = (json as! [String: AnyObject])
+                } else {
+                    error = NSError(domain: AlgoliaSearchErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON returned"])
+                }
+            } catch let _error as NSError {
+                error = _error
+            }
+        } else {
+            error = NSError(domain: AlgoliaSearchErrorDomain, code: Int(searchResults.statusCode), userInfo: nil)
+        }
+        assert(content != nil || error != nil)
+        block(content: content, error: error)
+    }
+
 }
