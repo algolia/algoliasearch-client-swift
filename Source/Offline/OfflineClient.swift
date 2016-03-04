@@ -25,6 +25,11 @@ import AlgoliaSearchSDK
 import Foundation
 
 
+/// An API client that adds offline features on top of the regular online API client.
+///
+/// NOTE: Requires Algolia's SDK. The `enableOfflineMode()` method must be called with a valid license key prior to
+/// calling any offline-related method.
+//
 public class OfflineClient : Client {
     /// Algolia Search initialization.
     ///

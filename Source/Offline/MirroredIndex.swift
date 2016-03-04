@@ -37,8 +37,21 @@ public struct DataSelectionQuery {
 }
 
 
-/// An index with offline mirroring capabilities.
-/// NOTE: Requires Algolia's SDK.
+/// An online index that can also be mirrored locally.
+///
+/// When created, an instance of this class has its <code>mirrored</code> flag set to false, and behaves like a normal,
+/// online `Index`. When the `mirrored` flag is set to true, the index becomes capable of acting upon local data.
+///
+/// It is a programming error to call methods acting on the local data when `mirrored` is false. Doing so
+/// will result in an assertion error being raised.
+///
+/// Native resources are lazily instantiated at the first method call requiring them. They are released when the
+/// object is released. Although the client guards against concurrent accesses, it is strongly discouraged
+/// to create more than one `MirroredIndex` instance pointing to the same index, as that would duplicate
+/// native resources.
+///
+/// NOTE: Requires Algolia's SDK. The `OfflineClient.enableOfflineMode()` method must be called with a valid license
+/// key prior to calling any offline-related method.
 ///
 public class MirroredIndex : Index {
 
