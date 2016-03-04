@@ -49,8 +49,12 @@ public class OfflineClient : Client {
     let buildQueue = NSOperationQueue()
     /// Queue used to search local indices in the background.
     let searchQueue = NSOperationQueue()
-    
-    public func enableOfflineMode(licenseData: NSData) {
+
+    /// Enable the offline mode.
+    ///
+    /// - parameter licenseData: license for Algolia's SDK
+    ///
+    public func enableOfflineMode(licenseData: String) {
         // Create the cache directory.
         do {
             self.rootDataDir = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true).first! + "/algolia"
@@ -61,6 +65,7 @@ public class OfflineClient : Client {
         
         // Init the SDK.
         sdk.initWithLicenseData(licenseData)
+        // TODO: Report any error.
     }
 
     /// Create a new index.
