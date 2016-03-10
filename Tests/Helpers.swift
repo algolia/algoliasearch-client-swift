@@ -36,3 +36,7 @@ func safeIndexName(name: String) -> String {
         return name
     }
 }
+
+func average(values: [Double]) -> Double {
+    return values.reduce(0, combine: +) / Double(values.count)
+}
