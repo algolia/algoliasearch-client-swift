@@ -23,6 +23,7 @@
 
 import Foundation
 
+
 /// Entry point in the Swift API.
 ///
 /// You should instantiate a Client object with your AppID, ApiKey and Hosts
@@ -40,6 +41,7 @@ public class Client : NSObject {
             if let queryParameters = queryParameters {
                 setExtraHeader(queryParameters, forKey: "X-Algolia-QueryParameters")
             } else {
+                // FIXME: Should not work (as per the doc).
                 manager.session.configuration.HTTPAdditionalHeaders?.removeValueForKey("X-Algolia-QueryParameters")
             }
         }
@@ -51,6 +53,7 @@ public class Client : NSObject {
             if let tagFilters = tagFilters {
                 setExtraHeader(tagFilters, forKey: "X-Algolia-TagFilters")
             } else {
+                // FIXME: Should not work (as per the doc).
                 manager.session.configuration.HTTPAdditionalHeaders?.removeValueForKey("X-Algolia-TagFilters")
             }
         }
@@ -62,6 +65,7 @@ public class Client : NSObject {
             if let userToken = userToken {
                 setExtraHeader(userToken, forKey: "X-Algolia-UserToken")
             } else {
+                // FIXME: Should not work (as per the doc).
                 manager.session.configuration.HTTPAdditionalHeaders?.removeValueForKey("X-Algolia-UserToken")
             }
         }
@@ -76,7 +80,7 @@ public class Client : NSObject {
     let readQueryHostnames: [String]
     let writeQueryHostnames: [String]
 
-    private let manager: Manager
+    let manager: Manager // FIXME: Make private again?
     private var requestBuffer = RingBuffer<Request>(maxCapacity: 10)
 
     /// Algolia Search initialization.
@@ -149,6 +153,7 @@ public class Client : NSObject {
     /// - parameter value: value of the header
     /// - parameter forKey: key of the header
     public func setExtraHeader(value: String, forKey key: String) {
+        // FIXME: Should not work (as per the doc).
         if (manager.session.configuration.HTTPAdditionalHeaders != nil) {
             manager.session.configuration.HTTPAdditionalHeaders!.updateValue(value, forKey: key)
         } else {
@@ -375,6 +380,9 @@ public class Client : NSObject {
         if index > 1 {
             currentTimeout += incrementTimeout
         }
+        // FIXME: This should not work... at least on iOS >= 9. As per the doc:
+        // > Changing mutable values within the configuration object has no effect on the current session, but you can
+        // > create a new session with the modified configuration object.
         manager.session.configuration.timeoutIntervalForRequest = currentTimeout
 
         let request = manager.request(method, "https://\(hostnames[index])/\(path)", parameters: body) { (response, data, error) -> Void in
@@ -385,9 +393,9 @@ public class Client : NSObject {
                         block(content: (data as! [String: AnyObject]), error: nil)
                     default:
                         if let data = data as? [String: AnyObject], errorMessage = data["message"] as? String {
-                            block(content: nil, error: NSError(domain: errorMessage, code: statusCode, userInfo: nil))
+                            block(content: nil, error: NSError(domain: AlgoliaSearchErrorDomain, code: statusCode, userInfo: [NSLocalizedDescriptionKey: errorMessage]))
                         } else {
-                            block(content: nil, error: NSError(domain: "No error message", code: 0, userInfo: nil))
+                            block(content: nil, error: NSError(domain: AlgoliaSearchErrorDomain, code: statusCode, userInfo: nil))
                         }
                     }
                 }

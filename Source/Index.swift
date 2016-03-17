@@ -29,9 +29,9 @@ import Foundation
 public class Index : NSObject {
     public let indexName: String
     public let client: Client
-    private let urlEncodedIndexName: String
+    let urlEncodedIndexName: String
     
-    private var searchCache: ExpiringCache?
+    var searchCache: ExpiringCache?
     
     public init(client: Client, indexName: String) {
         self.client = client
@@ -196,7 +196,24 @@ public class Index : NSObject {
     public func search(query: Query, block: CompletionHandler) {
         let path = "1/indexes/\(urlEncodedIndexName)/query"
         let request = ["params": query.buildURL()]
-        performSearchQuery(path, method: .POST, body: request, block: block)
+        
+        // First try the in-memory query cache.
+        let cacheKey = "\(path)_body_\(request)"
+        if let content = searchCache?.objectForKey(cacheKey) {
+            block(content: content, error: nil)
+        }
+        // Otherwise, run an online query.
+        else {
+            client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.readQueryHostnames, isSearchQuery: true) { (content, error) -> Void in
+                assert(content != nil || error != nil)
+                if content != nil {
+                    self.searchCache?.setObject(content!, forKey: cacheKey)
+                    block(content: content, error: error)
+                } else {
+                    block(content: content, error: error)
+                }
+            }
+        }
     }
     
     /// Delete all previous search queries
@@ -452,22 +469,5 @@ public class Index : NSObject {
     /// Clear search cache
     public func clearSearchCache() {
         searchCache?.clearCache()
-    }
-    
-    /// Perform Search Query and cache result
-    private func performSearchQuery(path: String, method: HTTPMethod, body: [String: AnyObject]?, block: CompletionHandler) {
-        let cacheKey = "\(path)_body_\(body)"
-        
-        if let content = searchCache?.objectForKey(cacheKey) {
-            block(content: content, error: nil)
-        } else {
-            client.performHTTPQuery(path, method: method, body: body, hostnames: client.readQueryHostnames, isSearchQuery: true) { (content, error) -> Void in
-                if let content = content {
-                    self.searchCache?.setObject(content, forKey: cacheKey)
-                }
-                
-                block(content: content, error: error)
-            }
-        }
     }
 }
