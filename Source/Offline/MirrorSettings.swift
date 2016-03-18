@@ -19,7 +19,7 @@ class MirrorSettings {
         var queriesJson: [[String: AnyObject]] = []
         for query in queries {
             queriesJson.append([
-                "query": query.query.buildURL(),
+                "query": query.query.build(),
                 "maxObjects": query.maxObjects
             ])
         }

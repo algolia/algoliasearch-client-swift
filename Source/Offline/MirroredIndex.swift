@@ -224,7 +224,7 @@ public class MirroredIndex : Index {
                 if cursor != nil {
                     newQuery["cursor"] = cursor!
                 }
-                let queryString = newQuery.buildURL()
+                let queryString = newQuery.build()
                 let request = client.manager.encodeParameter(CreateNSURLRequest(.POST, URL: urlString), parameters: ["params": queryString])
                 let operation = URLSessionOperation(session: client.manager.session, request: request) {
                     (data: NSData?, response: NSURLResponse?, error: NSError?) in
@@ -306,7 +306,7 @@ public class MirroredIndex : Index {
     public override func search(query: Query, block: CompletionHandler) {
         // TODO: A lot of code duplication (with `Index`) in this method. See if we can reduce it.
         let path = "1/indexes/\(urlEncodedIndexName)/query"
-        let request = ["params": query.buildURL()]
+        let request = ["params": query.build()]
         
         // First try the in-memory query cache.
         let cacheKey = "\(path)_body_\(request)"
@@ -351,7 +351,7 @@ public class MirroredIndex : Index {
         var content: [String: AnyObject]?
         var error: NSError?
         
-        let searchResults = localIndex!.search(query.buildURL())
+        let searchResults = localIndex!.search(query.build())
         if searchResults.statusCode == 200 {
             assert(searchResults.data != nil)
             do {
@@ -395,7 +395,7 @@ public class MirroredIndex : Index {
         var content: [String: AnyObject]?
         var error: NSError?
         
-        let searchResults = localIndex!.browse(query.buildURL())
+        let searchResults = localIndex!.browse(query.build())
         // TODO: Factorize this code with above and with online requests.
         if searchResults.statusCode == 200 {
             assert(searchResults.data != nil)
