@@ -109,8 +109,9 @@ public class Index : NSObject {
     /// - parameter objectID: The unique identifier of the object to retrieve
     /// - parameter attributesToRetrieve: The list of attributes to retrieve
     public func getObject(objectID: String, attributesToRetrieve attributes: [String], block: CompletionHandler) {
-        let urlEncodedAttributes = Query.encodeForQuery(attributes, withKey: "attributes")
-        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())?\(urlEncodedAttributes)"
+        let query = Query()
+        query.attributesToRetrieve = attributes
+        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())?\(query.build())"
         client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
     }
     
@@ -195,7 +196,7 @@ public class Index : NSObject {
     /// Search inside the index
     public func search(query: Query, block: CompletionHandler) {
         let path = "1/indexes/\(urlEncodedIndexName)/query"
-        let request = ["params": query.buildURL()]
+        let request = ["params": query.build()]
         
         // First try the in-memory query cache.
         let cacheKey = "\(path)_body_\(request)"
@@ -390,7 +391,7 @@ public class Index : NSObject {
             self.cursor = cursor ?? ""
             self.block = block
             
-            queryURL = query?.buildURL() ?? ""
+            queryURL = query?.build() ?? ""
             path = "1/indexes/\(index.urlEncodedIndexName)/browse?"
         }
         

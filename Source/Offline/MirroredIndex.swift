@@ -222,7 +222,7 @@ public class MirroredIndex : Index {
                 let newQuery = Query(copy: query.query)
                 newQuery.hitsPerPage = 100 // TODO: Adapt according to perf testing
                 if cursor != nil {
-                    newQuery.parameters["cursor"] = cursor!
+                    newQuery["cursor"] = cursor!
                 }
                 let queryString = newQuery.buildURL()
                 let request = client.manager.encodeParameter(CreateNSURLRequest(.POST, URL: urlString), parameters: ["params": queryString])
@@ -232,20 +232,21 @@ public class MirroredIndex : Index {
                         do {
                             // Fetch cursor from data.
                             // TODO: Is there a way to use SAX parsing for better performance?
-                            let json = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0))
-                            cursor = json["cursor"] as? String
-                            if let hits = json["hits"] as? [[String: AnyObject]] {
-                                if hits.count == 0 {
-                                    throw NSError(domain: AlgoliaSearchErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: "Server returned zero hits"])
+                            if let json = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0)) as? [String: AnyObject] {
+                                cursor = json["cursor"] as? String
+                                if let hits = json["hits"] as? [[String: AnyObject]] {
+                                    if hits.count == 0 {
+                                        throw NSError(domain: AlgoliaSearchErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: "Server returned zero hits"])
+                                    }
+                                    objectCount += hits.count
+                                    
+                                    // Write results to disk.
+                                    let objectFilePath = "\(self.tmpDir!)/\(thisQueryNo).json"
+                                    self.objectsFilePaths?.append(objectFilePath)
+                                    data!.writeToFile(objectFilePath, atomically: false)
+                                    
+                                    return // all other paths go to error
                                 }
-                                objectCount += hits.count
-                                
-                                // Write results to disk.
-                                let objectFilePath = "\(self.tmpDir!)/\(thisQueryNo).json"
-                                self.objectsFilePaths?.append(objectFilePath)
-                                data!.writeToFile(objectFilePath, atomically: false)
-                                
-                                return // all other paths go to error
                             }
                         } catch {
                             // TODO: Log the error.

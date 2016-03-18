@@ -360,7 +360,7 @@ public class Client : NSObject {
         for query in queries {
             if let query = query as? [String: AnyObject] {
                 convertedQueries.append([
-                    "params": (query["query"] as! Query).buildURL(),
+                    "params": (query["query"] as! Query).build(),
                     "indexName": query["indexName"] as! String
                     ])
             }
