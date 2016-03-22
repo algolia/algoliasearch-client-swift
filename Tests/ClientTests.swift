@@ -64,7 +64,17 @@ class ClientTests: XCTestCase {
         let object = ["city": "San Francisco"]
         index.addObject(object, block: { (content, error) -> Void in
             XCTAssertNil(error, "Error during addObject: \(error?.description)")
-            expectationAdd.fulfill()
+            if content != nil {
+                self.index.waitTask(content!["taskID"] as! Int) {
+                    (content, error) -> Void in
+                    if let error = error {
+                        XCTFail("Error during waitTask: \(error)")
+                    } else {
+                        XCTAssertEqual((content!["status"] as! String), "published", "Wait task failed")
+                    }
+                    expectationAdd.fulfill()
+                }
+            }
         })
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
         
