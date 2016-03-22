@@ -28,42 +28,48 @@ import Foundation
 /// You should instantiate a Client object with your AppID, ApiKey and Hosts
 /// to start using Algolia Search API.
 public class Client : NSObject {
+    /// HTTP headers that will be issued with every request.
+    public var httpHeaders = [String:String]()
+    
     public var apiKey: String {
         didSet {
-            setExtraHeader(apiKey, forKey: "X-Algolia-API-Key")
+            httpHeaders["X-Algolia-API-Key"] = apiKey
         }
     }
-    
-    /// Security tag header
+
+    /// Query parameters to be used for every query (passed in HTTP headers).
+    /// Deprecated in favor of secured API keys.
+    @available(*, deprecated)
     public var queryParameters: String? {
-        didSet {
-            if let queryParameters = queryParameters {
-                setExtraHeader(queryParameters, forKey: "X-Algolia-QueryParameters")
-            } else {
-                manager.session.configuration.HTTPAdditionalHeaders?.removeValueForKey("X-Algolia-QueryParameters")
-            }
+        get {
+            return httpHeaders["X-Algolia-QueryParameters"]
+        }
+        set {
+            httpHeaders["X-Algolia-QueryParameters"] = newValue
         }
     }
 
-    /// Security tag header (deprecated)
+    /// Tag filters to be used for every query (passed in HTTP headers).
+    /// Deprecated in favor of secured API keys.
+    @available(*, deprecated)
     public var tagFilters: String? {
-        didSet {
-            if let tagFilters = tagFilters {
-                setExtraHeader(tagFilters, forKey: "X-Algolia-TagFilters")
-            } else {
-                manager.session.configuration.HTTPAdditionalHeaders?.removeValueForKey("X-Algolia-TagFilters")
-            }
+        get {
+            return httpHeaders["X-Algolia-TagFilters"]
+        }
+        set {
+            httpHeaders["X-Algolia-TagFilters"] = newValue
         }
     }
 
-    /// User-token header
+    /// User token to be used for every query (passed in HTTP headers).
+    /// Deprecated in favor of secured API keys.
+    @available(*, deprecated)
     public var userToken: String? {
-        didSet {
-            if let userToken = userToken {
-                setExtraHeader(userToken, forKey: "X-Algolia-UserToken")
-            } else {
-                manager.session.configuration.HTTPAdditionalHeaders?.removeValueForKey("X-Algolia-UserToken")
-            }
+        get {
+            return httpHeaders["X-Algolia-UserToken"]
+        }
+        set {
+            httpHeaders["X-Algolia-UserToken"] = newValue
         }
     }
 
@@ -90,9 +96,6 @@ public class Client : NSObject {
     public init(appID: String, apiKey: String, queryParameters: String? = nil, tagFilters: String? = nil, userToken: String? = nil, hostnames: [String]? = nil) {
         self.appID = appID
         self.apiKey = apiKey
-        self.tagFilters = tagFilters
-        self.userToken = userToken
-        self.queryParameters = queryParameters
 
         if let hostnames = hostnames {
             readQueryHostnames = hostnames
@@ -113,27 +116,23 @@ public class Client : NSObject {
             ]
         }
         
+        // WARNING: Those headers cannot be changed for the lifetime of the session.
         let version = NSBundle(forClass: self.dynamicType).infoDictionary!["CFBundleShortVersionString"] as! String
-
-        var HTTPHeaders = [
-            "X-Algolia-API-Key": self.apiKey,
-            "X-Algolia-Application-Id": self.appID,
-            "User-Agent": "Algolia for Swift \(version)"
+        let fixedHTTPHeaders = [
+            "User-Agent": "Algolia for Swift \(version)",
+            "X-Algolia-Application-Id": self.appID
         ]
-
-        if let queryParameters = self.queryParameters {
-            HTTPHeaders["X-Algolia-QueryParameters"] = queryParameters
-        }
-        if let tagFilters = self.tagFilters {
-            HTTPHeaders["X-Algolia-TagFilters"] = tagFilters
-        }
-        if let userToken = self.userToken {
-            HTTPHeaders["X-Algolia-UserToken"] = userToken
-        }
-
-        manager = Manager(HTTPHeaders: HTTPHeaders)
+        manager = Manager(HTTPHeaders: fixedHTTPHeaders)
+        
+        super.init()
+        
+        // Other headers are likely to change during the lifetime of the session: they will be passed for every request.
+        httpHeaders["X-Algolia-API-Key"] = self.apiKey
+        self.tagFilters = tagFilters
+        self.userToken = userToken
+        self.queryParameters = queryParameters
     }
-    
+
     // Helper for Obj-C
     public class func clientWithAppID(appID: String, apiKey: String) -> Client {
         return Client(appID: appID, apiKey: apiKey)
@@ -145,16 +144,12 @@ public class Client : NSObject {
     }
 
     /// Allow to set custom extra header.
+    /// You may also use the `httpHeaders` property directly.
     ///
     /// - parameter value: value of the header
     /// - parameter forKey: key of the header
     public func setExtraHeader(value: String, forKey key: String) {
-        if (manager.session.configuration.HTTPAdditionalHeaders != nil) {
-            manager.session.configuration.HTTPAdditionalHeaders!.updateValue(value, forKey: key)
-        } else {
-            let HTTPHeader = [key: value]
-            manager.session.configuration.HTTPAdditionalHeaders = HTTPHeader
-        }
+        httpHeaders[key] = value
     }
 
     // MARK: - Operations
@@ -377,7 +372,7 @@ public class Client : NSObject {
         }
         manager.session.configuration.timeoutIntervalForRequest = currentTimeout
 
-        let request = manager.request(method, "https://\(hostnames[index])/\(path)", parameters: body) { (response, data, error) -> Void in
+        let request = manager.request(method, "https://\(hostnames[index])/\(path)", HTTPHeaders: httpHeaders, parameters: body) { (response, data, error) -> Void in
             if let statusCode = response?.statusCode {
                 if let block = block {
                     switch(statusCode) {
