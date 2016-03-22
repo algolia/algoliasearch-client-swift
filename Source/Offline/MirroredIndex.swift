@@ -225,7 +225,7 @@ public class MirroredIndex : Index {
                     newQuery["cursor"] = cursor!
                 }
                 let queryString = newQuery.build()
-                let request = client.manager.encodeParameter(CreateNSURLRequest(.POST, URL: urlString), parameters: ["params": queryString])
+                let request = client.manager.encodeParameter(CreateNSURLRequest(.POST, URL: urlString, HTTPHeaders: client.httpHeaders), parameters: ["params": queryString])
                 let operation = URLSessionOperation(session: client.manager.session, request: request) {
                     (data: NSData?, response: NSURLResponse?, error: NSError?) in
                     if (data != nil && (response as! NSHTTPURLResponse).statusCode == 200) {
