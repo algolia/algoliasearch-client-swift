@@ -371,12 +371,8 @@ public class Client : NSObject {
         if index > 1 {
             currentTimeout += incrementTimeout
         }
-        // FIXME: This should not work... at least on iOS >= 9. As per the doc:
-        // > Changing mutable values within the configuration object has no effect on the current session, but you can
-        // > create a new session with the modified configuration object.
-        manager.session.configuration.timeoutIntervalForRequest = currentTimeout
 
-        let request = manager.request(method, "https://\(hostnames[index])/\(path)", HTTPHeaders: httpHeaders, parameters: body) { (response, data, error) -> Void in
+        let request = manager.request(method, "https://\(hostnames[index])/\(path)", HTTPHeaders: httpHeaders, parameters: body, timeout: currentTimeout) { (response, data, error) -> Void in
             if let statusCode = response?.statusCode {
                 if let block = block {
                     switch(statusCode) {

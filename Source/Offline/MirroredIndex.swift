@@ -132,6 +132,11 @@ public class MirroredIndex : Index {
     // MARK: Sync
     // ----------------------------------------------------------------------
 
+    /// Timeout for data synchronization queries.
+    /// There is no need to use a too short timeout in this case: we don't need real-time performance, so failing
+    /// too soon would only increase the likeliness of a failure.
+    private let SYNC_TIMEOUT: NSTimeInterval = 30
+
     /// Add a data selection query to the local mirror.
     /// The query is not run immediately. It will be run during the subsequent refreshes.
     /// @pre The index must have been marked as mirrored.
@@ -190,13 +195,11 @@ public class MirroredIndex : Index {
         syncError = false
         
         // Task: Download index settings.
-        // TODO: Set a different timeout.
         // TODO: Should we use host retry like for realtime queries? Not sure it's necessary.
         // TODO: Factorize query construction with regular code.
         let path = "1/indexes/\(urlEncodedIndexName)/settings"
         let urlString = "https://\(client.readQueryHostnames.first!)/\(path)"
-        let url = NSURL(string: urlString)
-        let request = NSURLRequest(URL: url!)
+        let request = CreateNSURLRequest(.GET, URL: urlString, HTTPHeaders: client.httpHeaders, timeout: SYNC_TIMEOUT)
         let settingsOperation = URLSessionOperation(session: client.manager.session, request: request) {
             (data: NSData?, response: NSURLResponse?, error: NSError?) in
             if (data != nil && (response as! NSHTTPURLResponse).statusCode == 200) {
@@ -225,7 +228,7 @@ public class MirroredIndex : Index {
                     newQuery["cursor"] = cursor!
                 }
                 let queryString = newQuery.build()
-                let request = client.manager.encodeParameter(CreateNSURLRequest(.POST, URL: urlString, HTTPHeaders: client.httpHeaders), parameters: ["params": queryString])
+                let request = client.manager.encodeParameter(CreateNSURLRequest(.POST, URL: urlString, HTTPHeaders: client.httpHeaders, timeout: SYNC_TIMEOUT), parameters: ["params": queryString])
                 let operation = URLSessionOperation(session: client.manager.session, request: request) {
                     (data: NSData?, response: NSURLResponse?, error: NSError?) in
                     if (data != nil && (response as! NSHTTPURLResponse).statusCode == 200) {

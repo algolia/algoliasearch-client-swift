@@ -50,8 +50,8 @@ struct Manager {
     /// - parameter block: A completion handler.
     ///
     /// - returns: The created request.
-    func request(method: HTTPMethod, _ URLString: String, HTTPHeaders: [String: String]? = nil, parameters: [String: AnyObject]? = nil, block: (NSHTTPURLResponse?, AnyObject?, NSError?) -> Void) -> Request {
-        let URLRequest = encodeParameter(CreateNSURLRequest(method, URL: URLString, HTTPHeaders: HTTPHeaders), parameters: parameters)
+    func request(method: HTTPMethod, _ URLString: String, HTTPHeaders: [String: String]? = nil, parameters: [String: AnyObject]? = nil, timeout: NSTimeInterval, block: (NSHTTPURLResponse?, AnyObject?, NSError?) -> Void) -> Request {
+        let URLRequest = encodeParameter(CreateNSURLRequest(method, URL: URLString, HTTPHeaders: HTTPHeaders, timeout: timeout), parameters: parameters)
         
         let dataTask = session.dataTaskWithRequest(URLRequest, completionHandler: { (data, response, error) -> Void in
             assert(data != nil || error != nil)
@@ -150,9 +150,10 @@ struct Request {
     }
 }
 
-func CreateNSURLRequest(method: HTTPMethod, URL: String, HTTPHeaders: [String: String]?) -> NSURLRequest {
+func CreateNSURLRequest(method: HTTPMethod, URL: String, HTTPHeaders: [String: String]?, timeout: NSTimeInterval) -> NSURLRequest {
     let mutableURLRequest = NSMutableURLRequest(URL: NSURL(string: URL)!)
     mutableURLRequest.HTTPMethod = method.rawValue
+    mutableURLRequest.timeoutInterval = timeout
     if HTTPHeaders != nil {
         for (key, value) in HTTPHeaders! {
             mutableURLRequest.addValue(value, forHTTPHeaderField: key)
