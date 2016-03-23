@@ -198,16 +198,17 @@ public class MirroredIndex : Index {
         // TODO: Should we use host retry like for realtime queries? Not sure it's necessary.
         // TODO: Factorize query construction with regular code.
         let path = "1/indexes/\(urlEncodedIndexName)/settings"
-        let urlString = "https://\(client.readQueryHostnames.first!)/\(path)"
-        let request = CreateNSURLRequest(.GET, URL: urlString, HTTPHeaders: client.httpHeaders, timeout: SYNC_TIMEOUT)
-        let settingsOperation = URLSessionOperation(session: client.manager.session, request: request) {
-            (data: NSData?, response: NSURLResponse?, error: NSError?) in
-            if (data != nil && (response as! NSHTTPURLResponse).statusCode == 200) {
-                self.settingsFilePath = "\(self.tmpDir!)/settings.json"
-                data!.writeToFile(self.settingsFilePath!, atomically: false)
-            } else {
-                self.syncError = true
+        let settingsOperation = client.newRequest(.GET, path: path, body: nil, isSearchQuery: false) {
+            (json: [String: AnyObject]?, error: NSError?) in
+            if json != nil && error == nil {
+                // Write results to disk.
+                if let data = try? NSJSONSerialization.dataWithJSONObject(json!, options: []) {
+                    self.settingsFilePath = "\(self.tmpDir!)/settings.json"
+                    data.writeToFile(self.settingsFilePath!, atomically: false)
+                    return // all other paths go to error
+                }
             }
+            self.syncError = true
         }
         self.offlineClient.buildQueue.addOperation(settingsOperation)
         
@@ -221,38 +222,28 @@ public class MirroredIndex : Index {
             repeat {
                 let thisQueryNo = ++queryNo
                 let path = "1/indexes/\(urlEncodedIndexName)/browse"
-                let urlString = "https://\(client.readQueryHostnames.first!)/\(path)"
                 let newQuery = Query(copy: query.query)
                 newQuery.hitsPerPage = 100 // TODO: Adapt according to perf testing
                 if cursor != nil {
                     newQuery["cursor"] = cursor!
                 }
                 let queryString = newQuery.build()
-                let request = client.manager.encodeParameter(CreateNSURLRequest(.POST, URL: urlString, HTTPHeaders: client.httpHeaders, timeout: SYNC_TIMEOUT), parameters: ["params": queryString])
-                let operation = URLSessionOperation(session: client.manager.session, request: request) {
-                    (data: NSData?, response: NSURLResponse?, error: NSError?) in
-                    if (data != nil && (response as! NSHTTPURLResponse).statusCode == 200) {
-                        do {
-                            // Fetch cursor from data.
-                            // TODO: Is there a way to use SAX parsing for better performance?
-                            if let json = try NSJSONSerialization.JSONObjectWithData(data!, options: NSJSONReadingOptions(rawValue: 0)) as? [String: AnyObject] {
-                                cursor = json["cursor"] as? String
-                                if let hits = json["hits"] as? [[String: AnyObject]] {
-                                    if hits.count == 0 {
-                                        throw NSError(domain: AlgoliaSearchErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: "Server returned zero hits"])
-                                    }
-                                    objectCount += hits.count
-                                    
-                                    // Write results to disk.
-                                    let objectFilePath = "\(self.tmpDir!)/\(thisQueryNo).json"
-                                    self.objectsFilePaths?.append(objectFilePath)
-                                    data!.writeToFile(objectFilePath, atomically: false)
-                                    
-                                    return // all other paths go to error
-                                }
+                let operation = client.newRequest(.POST, path: path, body: ["params": queryString], isSearchQuery: false) {
+                    (json: [String: AnyObject]?, error: NSError?) in
+                    if json != nil && error == nil {
+                        // Fetch cursor from data.
+                        cursor = json!["cursor"] as? String
+                        if let hits = json!["hits"] as? [[String: AnyObject]] {
+                            // Update object count.
+                            objectCount += hits.count
+                            
+                            // Write results to disk.
+                            if let data = try? NSJSONSerialization.dataWithJSONObject(json!, options: []) {
+                                let objectFilePath = "\(self.tmpDir!)/\(thisQueryNo).json"
+                                self.objectsFilePaths?.append(objectFilePath)
+                                data.writeToFile(objectFilePath, atomically: false)
+                                return // all other paths go to error
                             }
-                        } catch {
-                            // TODO: Log the error.
                         }
                     }
                     self.syncError = true
@@ -305,32 +296,19 @@ public class MirroredIndex : Index {
     // MARK: Search
     // ----------------------------------------------------------------------
 
-    /// Search inside the index
-    public override func search(query: Query, block: CompletionHandler) {
-        // TODO: A lot of code duplication (with `Index`) in this method. See if we can reduce it.
-        let path = "1/indexes/\(urlEncodedIndexName)/query"
-        let request = ["params": query.build()]
-        
-        // First try the in-memory query cache.
-        let cacheKey = "\(path)_body_\(request)"
-        if let content = searchCache?.objectForKey(cacheKey) {
-            block(content: content, error: nil)
-        }
-            // Otherwise, run an online query.
-        else {
-            client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.readQueryHostnames, isSearchQuery: true) { (content, error) -> Void in
-                assert(content != nil || error != nil)
-                if content != nil {
-                    self.searchCache?.setObject(content!, forKey: cacheKey)
-                    block(content: content, error: error)
-                } else if isErrorTransient(error!) && self.mirrored {
-                    self.searchMirror(query, block: block)
-                }
-                else {
-                    block(content: content, error: error)
-                }
+    public override func search(query: Query, block: CompletionHandler) -> NSOperation {
+        let operation = super.search(query) {
+            (content, error) -> Void in
+            // In case of transient error and this indexed is mirrored, try the mirror.
+            if error != nil && isErrorTransient(error!) && self.mirrored {
+                self.searchMirror(query, block: block)
+            }
+            // Otherwise, just return whatever result we got from the online API.
+            else {
+                block(content: content, error: error)
             }
         }
+        return operation
     }
     
     /// Search the local mirror.

@@ -42,24 +42,24 @@ public class Index : NSObject {
     /// Add an object in this index
     ///
     /// - parameter object: The object to add inside the index.
-    public func addObject(object: [String: AnyObject], block: CompletionHandler? = nil) {
+    public func addObject(object: [String: AnyObject], block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)"
-        client.performHTTPQuery(path, method: .POST, body: object, hostnames: client.writeQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .POST, body: object, hostnames: client.writeQueryHostnames, block: block)
     }
     
     /// Add an object in this index
     ///
     /// - parameter object: The object to add inside the index.
     /// - parameter withID: An objectID you want to attribute to this object (if the attribute already exist, the old object will be overwrite)
-    public func addObject(object: [String: AnyObject], withID objectID: String, block: CompletionHandler? = nil) {
+    public func addObject(object: [String: AnyObject], withID objectID: String, block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
-        client.performHTTPQuery(path, method: .PUT, body: object, hostnames: client.writeQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .PUT, body: object, hostnames: client.writeQueryHostnames, block: block)
     }
     
     /// Add several objects in this index
     ///
     /// - parameter objects: An array of objects to add (Array of Dictionnary object).
-    public func addObjects(objects: [AnyObject], block: CompletionHandler? = nil) {
+    public func addObjects(objects: [AnyObject], block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
         
         var requests = [AnyObject]()
@@ -69,21 +69,21 @@ public class Index : NSObject {
         }
         let request = ["requests": requests]
         
-        client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.writeQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.writeQueryHostnames, block: block)
     }
     
     /// Delete an object from the index
     ///
     /// - parameter objectID: The unique identifier of object to delete
-    public func deleteObject(objectID: String, block: CompletionHandler? = nil) {
+    public func deleteObject(objectID: String, block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
-        client.performHTTPQuery(path, method: .DELETE, body: nil, hostnames: client.writeQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .DELETE, body: nil, hostnames: client.writeQueryHostnames, block: block)
     }
     
     /// Delete several objects
     ///
     /// - parameter objectIDs: An array of objectID to delete.
-    public func deleteObjects(objectIDs: [String], block: CompletionHandler? = nil) {
+    public func deleteObjects(objectIDs: [String], block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
         
         var requests = [AnyObject]()
@@ -93,32 +93,32 @@ public class Index : NSObject {
         }
         let request = ["requests": requests]
         
-        client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.writeQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.writeQueryHostnames, block: block)
     }
     
     /// Get an object from this index
     ///
     /// - parameter objectID: The unique identifier of the object to retrieve
-    public func getObject(objectID: String, block: CompletionHandler) {
+    public func getObject(objectID: String, block: CompletionHandler) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
-        client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
     }
     
     /// Get an object from this index
     ///
     /// - parameter objectID: The unique identifier of the object to retrieve
     /// - parameter attributesToRetrieve: The list of attributes to retrieve
-    public func getObject(objectID: String, attributesToRetrieve attributes: [String], block: CompletionHandler) {
+    public func getObject(objectID: String, attributesToRetrieve attributes: [String], block: CompletionHandler) -> NSOperation {
         let query = Query()
         query.attributesToRetrieve = attributes
         let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())?\(query.build())"
-        client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
     }
     
     /// Get several objects from this index
     ///
     /// - parameter objectIDs: The array of unique identifier of objects to retrieve
-    public func getObjects(objectIDs: [String], block: CompletionHandler) {
+    public func getObjects(objectIDs: [String], block: CompletionHandler) -> NSOperation {
         let path = "1/indexes/*/objects"
         
         var requests = [AnyObject]()
@@ -128,21 +128,21 @@ public class Index : NSObject {
         }
         let request = ["requests": requests]
         
-        client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.readQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.readQueryHostnames, block: block)
     }
     
     /// Update partially an object (only update attributes passed in argument)
     ///
     /// - parameter object: The object attributes to override, the object must contains an objectID attribute
-    public func partialUpdateObject(partialObject: [String: AnyObject], objectID: String, block: CompletionHandler? = nil) {
+    public func partialUpdateObject(partialObject: [String: AnyObject], objectID: String, block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())/partial"
-        client.performHTTPQuery(path, method: .POST, body: partialObject, hostnames: client.writeQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .POST, body: partialObject, hostnames: client.writeQueryHostnames, block: block)
     }
     
     /// Update partially the content of several objects
     ///
     /// - parameter objects: An array of Dictionary to update (each Dictionary must contains an objectID attribute)
-    public func partialUpdateObjects(objects: [AnyObject], block: CompletionHandler? = nil) {
+    public func partialUpdateObjects(objects: [AnyObject], block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
         
         var requests = [AnyObject]()
@@ -158,23 +158,22 @@ public class Index : NSObject {
         }
         let request = ["requests": requests]
         
-        client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.writeQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.writeQueryHostnames, block: block)
     }
     
     /// Override the content of object
     ///
     /// - parameter object: The object to override, the object must contains an objectID attribute
-    public func saveObject(object: [String: AnyObject], block: CompletionHandler? = nil) {
-        if let objectID = object["objectID"] as? String {
-            let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
-            client.performHTTPQuery(path, method: .PUT, body: object, hostnames: client.writeQueryHostnames, block: block)
-        }
+    public func saveObject(object: [String: AnyObject], block: CompletionHandler? = nil) -> NSOperation {
+        let objectID = object["objectID"] as! String
+        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
+        return client.performHTTPQuery(path, method: .PUT, body: object, hostnames: client.writeQueryHostnames, block: block)
     }
     
     /// Override the content of several objects
     ///
     /// - parameter objects: An array of Dictionary to save (each Dictionary must contains an objectID attribute)
-    public func saveObjects(objects: [AnyObject], block: CompletionHandler? = nil) {
+    public func saveObjects(objects: [AnyObject], block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
         
         var requests = [AnyObject]()
@@ -190,22 +189,29 @@ public class Index : NSObject {
         }
         let request = ["requests": requests]
         
-        client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.writeQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.writeQueryHostnames, block: block)
     }
     
     /// Search inside the index
-    public func search(query: Query, block: CompletionHandler) {
+    public func search(query: Query, block: CompletionHandler) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/query"
         let request = ["params": query.build()]
         
         // First try the in-memory query cache.
         let cacheKey = "\(path)_body_\(request)"
         if let content = searchCache?.objectForKey(cacheKey) {
-            block(content: content, error: nil)
+            // We *have* to return something, so we create a block operation.
+            // Note that its execution will be deferred until the next iteration of the main run loop.
+            let operation = NSBlockOperation() {
+                block(content: content, error: nil)
+            }
+            NSOperationQueue.mainQueue().addOperation(operation)
+            return operation
         }
         // Otherwise, run an online query.
         else {
-            client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.readQueryHostnames, isSearchQuery: true) { (content, error) -> Void in
+            return client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.readQueryHostnames, isSearchQuery: true) {
+                (content, error) -> Void in
                 assert(content != nil || error != nil)
                 if content != nil {
                     self.searchCache?.setObject(content!, forKey: cacheKey)
@@ -217,18 +223,13 @@ public class Index : NSObject {
         }
     }
     
-    /// Delete all previous search queries
-    public func cancelPreviousSearch() {
-        client.cancelQueries(.POST, path: "1/indexes/\(urlEncodedIndexName)/query")
-    }
-    
     /// Wait the publication of a task on the server.
     /// All server task are asynchronous and you can check with this method that the task is published.
     ///
     /// - parameter taskID: The ID of the task returned by server
-    public func waitTask(taskID: Int, block: CompletionHandler) {
+    public func waitTask(taskID: Int, block: CompletionHandler) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/task/\(taskID)"
-        client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: { (content, error) -> Void in
+        return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: { (content, error) -> Void in
             if let content = content {
                 if (content["status"] as? String) == "published" {
                     block(content: content, error: nil)
@@ -243,9 +244,9 @@ public class Index : NSObject {
     }
     
     /// Get settings of this index
-    public func getSettings(block: CompletionHandler) {
+    public func getSettings(block: CompletionHandler) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/settings"
-        client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
     }
     
     /// Set settings for this index
@@ -279,42 +280,42 @@ public class Index : NSObject {
     /// - highlightPreTag: (string) Specify the string that is inserted before the highlighted parts in the query result (default to "<em>").
     /// - highlightPostTag: (string) Specify the string that is inserted after the highlighted parts in the query result (default to "</em>").
     /// - optionalWords: (array of strings) Specify a list of words that should be considered as optional when found in the query.
-    public func setSettings(settings: [String: AnyObject], block: CompletionHandler? = nil) {
+    public func setSettings(settings: [String: AnyObject], block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/settings"
-        client.performHTTPQuery(path, method: .PUT, body: settings, hostnames: client.writeQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .PUT, body: settings, hostnames: client.writeQueryHostnames, block: block)
     }
     
     /// Delete the index content without removing settings and index specific API keys.
-    public func clearIndex(block: CompletionHandler? = nil) {
+    public func clearIndex(block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/clear"
-        client.performHTTPQuery(path, method: .POST, body: nil, hostnames: client.writeQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .POST, body: nil, hostnames: client.writeQueryHostnames, block: block)
     }
     
     /// List all existing user keys associated to this index
-    public func listUserKeys(block: CompletionHandler) {
+    public func listUserKeys(block: CompletionHandler) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/keys"
-        client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
     }
     
     /// List all existing user keys associated to this index
-    public func getUserKeyACL(key: String, block: CompletionHandler) {
+    public func getUserKeyACL(key: String, block: CompletionHandler) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/keys/\(key.urlEncode())"
-        client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
     }
     
     /// Delete an existing user key associated to this index
-    public func deleteUserKey(key: String, block: CompletionHandler? = nil) {
+    public func deleteUserKey(key: String, block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/keys/\(key.urlEncode())"
-        client.performHTTPQuery(path, method: .DELETE, body: nil, hostnames: client.writeQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .DELETE, body: nil, hostnames: client.writeQueryHostnames, block: block)
     }
     
     /// Create a new user key associated to this index
     ///
     /// - parameter acls: The list of ACL for this key. The list can contains the following values (as String): search, addObject, deleteObject, deleteIndex, settings, editSettings
-    public func addUserKey(acls: [String], block: CompletionHandler? = nil) {
+    public func addUserKey(acls: [String], block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/keys"
         let request = ["acl": acls]
-        client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.writeQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.writeQueryHostnames, block: block)
     }
     
     /// Create a new user key associated to this index
@@ -323,7 +324,7 @@ public class Index : NSObject {
     /// - parameter withValidity: The number of seconds after which the key will be automatically removed (0 means no time limit for this key)
     /// - parameter maxQueriesPerIPPerHour: Specify the maximum number of API calls allowed from an IP address per hour.  Defaults to 0 (unlimited).
     /// - parameter maxHitsPerQuery: Specify the maximum number of hits this API key can retrieve in one call. Defaults to 0 (unlimited)
-    public func addUserKey(acls: [String], withValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: CompletionHandler? = nil) {
+    public func addUserKey(acls: [String], withValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/keys"
         let request: [String: AnyObject] = [
             "acl": acls,
@@ -332,16 +333,16 @@ public class Index : NSObject {
             "maxHitsPerQuery": maxHits,
         ]
         
-        client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.writeQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.writeQueryHostnames, block: block)
     }
     
     /// Update a user key associated to this index
     ///
     /// - parameter withACL: The list of ACL for this key. The list can contains the following values (as String): search, addObject, deleteObject, deleteIndex, settings, editSettings
-    public func updateUserKey(key: String, withACL acls: [String], block: CompletionHandler? = nil) {
+    public func updateUserKey(key: String, withACL acls: [String], block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/keys/\(key.urlEncode())"
         let request = ["acl": acls]
-        client.performHTTPQuery(path, method: .PUT, body: request, hostnames: client.writeQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .PUT, body: request, hostnames: client.writeQueryHostnames, block: block)
     }
     
     /// Update a user key associated to this index
@@ -350,7 +351,7 @@ public class Index : NSObject {
     /// - parameter andValidity: The number of seconds after which the key will be automatically removed (0 means no time limit for this key)
     /// - parameter maxQueriesPerIPPerHour: Specify the maximum number of API calls allowed from an IP address per hour.  Defaults to 0 (unlimited).
     /// - parameter maxHitsPerQuery: Specify the maximum number of hits this API key can retrieve in one call. Defaults to 0 (unlimited)
-    public func updateUserKey(key: String, withACL acls: [String], andValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: CompletionHandler? = nil) {
+    public func updateUserKey(key: String, withACL acls: [String], andValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/keys/\(key.urlEncode())"
         let request: [String: AnyObject] = [
             "acl": acls,
@@ -359,16 +360,16 @@ public class Index : NSObject {
             "maxHitsPerQuery": maxHits,
         ]
         
-        client.performHTTPQuery(path, method: .PUT, body: request, hostnames: client.writeQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .PUT, body: request, hostnames: client.writeQueryHostnames, block: block)
     }
     
     /// Browse all index content
     ///
     /// - parameter page: Pagination parameter used to select the page to retrieve. Page is zero-based and defaults to 0. Thus, to retrieve the 10th page you need to set page=9
     /// - parameter hitsPerPage: Pagination parameter used to select the number of hits per page. Defaults to 1000.
-    public func browse(page: UInt = 0, hitsPerPage: UInt = 1000, block: CompletionHandler) {
+    public func browse(page: UInt = 0, hitsPerPage: UInt = 1000, block: CompletionHandler) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/browse?page=\(page)&hitsPerPage=\(hitsPerPage)"
-        client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
+        return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
     }
     
     // MARK: - Browse
