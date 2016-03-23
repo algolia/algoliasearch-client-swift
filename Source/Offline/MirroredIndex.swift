@@ -262,7 +262,7 @@ public class MirroredIndex : Index {
                 // WARNING: Synchronously blocking until the operation finishes.
                 operation.waitUntilFinished()
             }
-            while cursor != nil && objectCount < query.maxObjects
+            while !syncError && cursor != nil && objectCount < query.maxObjects
         }
         
         // Task: build the index using the downloaded files.
