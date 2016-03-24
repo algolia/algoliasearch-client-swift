@@ -112,12 +112,12 @@ public class Request: NSOperation {
         task = session.dataTaskWithRequest(request) {
             (data: NSData?, response: NSURLResponse?, error: NSError?) in
             var json: [String: AnyObject]?
-            var finalError: NSError?
+            var finalError: NSError? = error
             // Shortcut in case of cancellation.
             if self.cancelled {
                 return
             }
-            if (error == nil) {
+            if (finalError == nil) {
                 assert(data != nil)
                 assert(response != nil)
                 
@@ -150,15 +150,15 @@ public class Request: NSOperation {
             assert(json != nil || finalError != nil)
             
             // Success: call completion block.
-            if json != nil {
+            if finalError == nil {
                 self.callCompletion(json, error: nil)
             }
-                // Transient error and host array not exhausted: retry.
+            // Transient error and host array not exhausted: retry.
             else if isErrorTransient(finalError!) && self.nextHostIndex != self.firstHostIndex {
                 self.nextTimeout += self.timeout // raise the timeout
                 self.startNext()
             }
-                // Non-transient error, or no more hosts to retry: report the error.
+            // Non-transient error, or no more hosts to retry: report the error.
             else {
                 self.callCompletion(nil, error: finalError)
             }
