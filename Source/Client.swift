@@ -29,12 +29,12 @@ import Foundation
 /// You should instantiate a Client object with your AppID, ApiKey and Hosts
 /// to start using Algolia Search API.
 public class Client : NSObject {
-    /// HTTP headers that will be issued with every request.
-    public var httpHeaders = [String:String]()
+    /// HTTP headers that will be sent with every request.
+    public var headers = [String:String]()
     
     public var apiKey: String {
         didSet {
-            httpHeaders["X-Algolia-API-Key"] = apiKey
+            headers["X-Algolia-API-Key"] = apiKey
         }
     }
 
@@ -111,16 +111,16 @@ public class Client : NSObject {
         super.init()
         
         // Other headers are likely to change during the lifetime of the session: they will be passed for every request.
-        httpHeaders["X-Algolia-API-Key"] = self.apiKey // necessary because `didSet` not called during initialization
+        headers["X-Algolia-API-Key"] = self.apiKey // necessary because `didSet` not called during initialization
     }
 
     /// Allow to set custom extra header.
-    /// You may also use the `httpHeaders` property directly.
+    /// You may also use the `headers` property directly.
     ///
     /// - parameter value: value of the header
     /// - parameter forKey: key of the header
     public func setExtraHeader(value: String, forKey key: String) {
-        httpHeaders[key] = value
+        headers[key] = value
     }
 
     // MARK: - Operations
@@ -352,7 +352,7 @@ public class Client : NSObject {
         let currentTimeout = isSearchQuery ? searchTimeout : timeout
         let hostnames = isSearchQuery ? readHosts : writeHosts
         // TODO: Remember host failures to restart at the first working host.
-        let request = Request(session: session, method: method, hosts: hostnames, firstHostIndex: 0, path: path, headers: httpHeaders, jsonBody: body, timeout: currentTimeout, completion:  completion)
+        let request = Request(session: session, method: method, hosts: hostnames, firstHostIndex: 0, path: path, headers: headers, jsonBody: body, timeout: currentTimeout, completion:  completion)
         return request
     }
 }
