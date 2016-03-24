@@ -76,7 +76,7 @@ public class Request: NSOperation {
         self.path = path
         self.headers = headers
         self.jsonBody = jsonBody
-        assert(jsonBody == nil || method == .POST)
+        assert(jsonBody == nil || (method == .POST || method == .PUT))
         self.timeout = timeout
         self.nextTimeout = timeout
         self.completion = completion
