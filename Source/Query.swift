@@ -26,13 +26,21 @@ import Foundation
 
 /// A pair of (latitude, longitude).
 /// Used in geo-search.
-public struct LatLng: Equatable {
+@objc public class LatLng: NSObject {
     public let lat: Double
     public let lng: Double
     
     public init(lat: Double, lng: Double) {
         self.lat = lat
         self.lng = lng
+    }
+    
+    public override func isEqual(object: AnyObject?) -> Bool {
+        if let rhs = object as? LatLng {
+            return self.lat == rhs.lat && self.lng == rhs.lng
+        } else {
+            return false
+        }
     }
 }
 
@@ -67,7 +75,26 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
 // values).
 // ----------------------------------------------------------------------------
 
-/// Describes all parameters of search query.
+
+/// Describes all parameters of a search query.
+///
+/// There are two ways to access parameters:
+///
+/// 1. Using the high-level, typed properties for individual parameters (recommended).
+/// 2. Using the low-level, untyped getter (`get()`) and setter (`set()`) or the subscript operator.
+///    Use this approach if the parameter you wish to set is not supported by this class.
+///
+/// # About Objective-C bridgeability
+///
+/// This module must be usable from Objective-C. Because optional value types cannot be bridged to Objective-C,
+/// numerical or boolean parameters use `NSNumber` as their type. However, alternative properties with more Swift-like
+/// types are provided as well; they have a trailing underscore appended to the parameter's name.
+///
+/// Enums can only be bridged to Objective-C if their raw type is integral. We could do that, but since parameters
+/// are optional and optional value types cannot be bridged anyway (see above), this would be pointless: the type
+/// safety of the enum would be lost with the wrapping into `NSNumber`. Therefore, enums have a string raw value,
+/// and the Objective-C bridge uses a plain `NSString`.
+///
 public class Query : NSObject {
     /// The type of query.
     ///
@@ -137,54 +164,54 @@ public class Query : NSObject {
     // MARK: - High-level (typed) parameters
 
     /// The minimum number of characters in a query word to accept one typo in this word.
-    public var minWordSizefor1Typo: UInt? {
+    public var minWordSizefor1Typo_: UInt? {
         get { return Query.parseUInt(get("minWordSizefor1Typo")) }
         set { set("minWordSizefor1Typo", value: Query.buildUInt(newValue)) }
     }
-    @objc public var minWordSizefor1Typo_: NSNumber? {
-        get { return Query.toNumber(self.minWordSizefor1Typo) }
-        set { self.minWordSizefor1Typo = newValue?.unsignedIntegerValue }
+    @objc public var minWordSizefor1Typo: NSNumber? {
+        get { return Query.toNumber(self.minWordSizefor1Typo_) }
+        set { self.minWordSizefor1Typo_ = newValue?.unsignedIntegerValue }
     }
     
     /// The minimum number of characters in a query word to accept two typos in this word.
-    public var minWordSizefor2Typos: UInt? {
+    public var minWordSizefor2Typos_: UInt? {
         get { return Query.parseUInt(get("minWordSizefor2Typos")) }
         set { set("minWordSizefor2Typos", value: Query.buildUInt(newValue)) }
     }
-    @objc public var minWordSizefor2Typos_: NSNumber? {
-        get { return Query.toNumber(self.minWordSizefor2Typos) }
-        set { self.minWordSizefor2Typos = newValue?.unsignedIntegerValue }
+    @objc public var minWordSizefor2Typos: NSNumber? {
+        get { return Query.toNumber(self.minWordSizefor2Typos_) }
+        set { self.minWordSizefor2Typos_ = newValue?.unsignedIntegerValue }
     }
 
     /// Configure the precision of the proximity ranking criterion. By default, the minimum (and best) proximity value distance between 2 matching words is 1. Setting it to 2 (or 3) would allow 1 (or 2) words to be found between the matching words without degrading the proximity ranking value.
     /// Considering the query "javascript framework", if you set minProximity=2 the records "JavaScript framework" and "JavaScript charting framework" will get the same proximity score, even if the second one contains a word between the 2 matching words.
-    public var minProximity: UInt? {
+    public var minProximity_: UInt? {
         get { return Query.parseUInt(get("minProximity")) }
         set { set("minProximity", value: Query.buildUInt(newValue)) }
     }
-    @objc public var minProximity_: NSNumber? {
-        get { return Query.toNumber(self.minProximity) }
-        set { self.minProximity = newValue?.unsignedIntegerValue }
+    @objc public var minProximity: NSNumber? {
+        get { return Query.toNumber(self.minProximity_) }
+        set { self.minProximity_ = newValue?.unsignedIntegerValue }
     }
     
     /// If true, the result hits will contain ranking information in _rankingInfo attribute.
-    public var getRankingInfo: Bool? {
+    public var getRankingInfo_: Bool? {
         get { return Query.parseBool(get("getRankingInfo")) }
         set { set("getRankingInfo", value: Query.buildBool(newValue)) }
     }
-    @objc public var getRankingInfo_: NSNumber? {
-        get { return Query.toNumber(self.getRankingInfo) }
-        set { self.getRankingInfo = newValue?.boolValue }
+    @objc public var getRankingInfo: NSNumber? {
+        get { return Query.toNumber(self.getRankingInfo_) }
+        set { self.getRankingInfo_ = newValue?.boolValue }
     }
     
     /// If true, plural won't be considered as a typo (for example car/cars will be considered as equals). 
-    public var ignorePlurals: Bool? {
+    public var ignorePlurals_: Bool? {
         get { return Query.parseBool(get("ignorePlurals")) }
         set { set("ignorePlurals", value: Query.buildBool(newValue)) }
     }
-    @objc public var ignorePlurals_: NSNumber? {
-        get { return Query.toNumber(self.ignorePlurals) }
-        set { self.ignorePlurals = newValue?.boolValue }
+    @objc public var ignorePlurals: NSNumber? {
+        get { return Query.toNumber(self.ignorePlurals_) }
+        set { self.ignorePlurals_ = newValue?.boolValue }
     }
     
     /// Enable the distinct feature (disabled by default) if the attributeForDistinct index setting is set.
@@ -192,97 +219,97 @@ public class Query : NSObject {
     /// for the attributeForDistinct attribute are removed from results. For example, if the chosen attribute is show_name 
     /// and several hits have the same value for show_name, then only the best one is kept and others are removed.
     /// Specify the maximum number of hits to keep for each distinct value.
-    public var distinct: UInt? {
+    public var distinct_: UInt? {
         get { return Query.parseUInt(get("distinct")) }
         set { set("distinct", value: Query.buildUInt(newValue)) }
     }
-    @objc public var distinct_: NSNumber? {
-        get { return Query.toNumber(self.distinct) }
-        set { self.distinct = newValue?.unsignedIntegerValue }
+    @objc public var distinct: NSNumber? {
+        get { return Query.toNumber(self.distinct_) }
+        set { self.distinct_ = newValue?.unsignedIntegerValue }
     }
     
     /// The page to retrieve (zero base). Defaults to 0.
-    public var page: UInt? {
+    public var page_: UInt? {
         get { return Query.parseUInt(get("page")) }
         set { set("page", value: Query.buildUInt(newValue)) }
     }
-    @objc public var page_: NSNumber? {
-        get { return Query.toNumber(self.page) }
-        set { self.page = newValue?.unsignedIntegerValue }
+    @objc public var page: NSNumber? {
+        get { return Query.toNumber(self.page_) }
+        set { self.page_ = newValue?.unsignedIntegerValue }
     }
     
     /// The number of hits per page. Defaults to 20.
-    public var hitsPerPage: UInt? {
+    public var hitsPerPage_: UInt? {
         get { return Query.parseUInt(get("hitsPerPage")) }
         set { set("hitsPerPage", value: Query.buildUInt(newValue)) }
     }
-    @objc public var hitsPerPage_: NSNumber? {
-        get { return Query.toNumber(self.hitsPerPage) }
-        set { self.hitsPerPage = newValue?.unsignedIntegerValue }
+    @objc public var hitsPerPage: NSNumber? {
+        get { return Query.toNumber(self.hitsPerPage_) }
+        set { self.hitsPerPage_ = newValue?.unsignedIntegerValue }
     }
 
-    public var allowTyposOnNumericTokens: Bool? {
+    public var allowTyposOnNumericTokens_: Bool? {
         get { return Query.parseBool(get("allowTyposOnNumericTokens")) }
         set { set("allowTyposOnNumericTokens", value: Query.buildBool(newValue)) }
     }
-    @objc public var allowTyposOnNumericTokens_: NSNumber? {
-        get { return Query.toNumber(self.allowTyposOnNumericTokens) }
-        set { self.allowTyposOnNumericTokens = newValue?.boolValue }
+    @objc public var allowTyposOnNumericTokens: NSNumber? {
+        get { return Query.toNumber(self.allowTyposOnNumericTokens_) }
+        set { self.allowTyposOnNumericTokens_ = newValue?.boolValue }
     }
     
     /// If false, this query won't appear in the analytics.
-    public var analytics: Bool? {
+    public var analytics_: Bool? {
         get { return Query.parseBool(get("analytics")) }
         set { set("analytics", value: Query.buildBool(newValue)) }
     }
-    @objc public var analytics_: NSNumber? {
-        get { return Query.toNumber(self.analytics) }
-        set { self.analytics = newValue?.boolValue }
+    @objc public var analytics: NSNumber? {
+        get { return Query.toNumber(self.analytics_) }
+        set { self.analytics_ = newValue?.boolValue }
     }
     
     /// If false, this query will not use synonyms defined in configuration.
-    public var synonyms: Bool? {
+    public var synonyms_: Bool? {
         get { return Query.parseBool(get("synonyms")) }
         set { set("synonyms", value: Query.buildBool(newValue)) }
     }
-    @objc public var synonyms_: NSNumber? {
-        get { return Query.toNumber(self.synonyms) }
-        set { self.synonyms = newValue?.boolValue }
+    @objc public var synonyms: NSNumber? {
+        get { return Query.toNumber(self.synonyms_) }
+        set { self.synonyms_ = newValue?.boolValue }
     }
     
     /// If false, words matched via synonyms expansion will not be replaced by the matched synonym in highlight result. 
     /// Default to true.
-    public var replaceSynonymsInHighlight: Bool? {
+    public var replaceSynonymsInHighlight_: Bool? {
         get { return Query.parseBool(get("replaceSynonymsInHighlight")) }
         set { set("replaceSynonymsInHighlight", value: Query.buildBool(newValue)) }
     }
-    @objc public var replaceSynonymsInHighlight_: NSNumber? {
-        get { return Query.toNumber(self.replaceSynonymsInHighlight) }
-        set { self.replaceSynonymsInHighlight = newValue?.boolValue }
+    @objc public var replaceSynonymsInHighlight: NSNumber? {
+        get { return Query.toNumber(self.replaceSynonymsInHighlight_) }
+        set { self.replaceSynonymsInHighlight_ = newValue?.boolValue }
     }
     
     /// The list of attribute names to highlight.
     /// By default indexed attributes are highlighted.
-    public var attributesToHighlight: [String]? {
+    @objc public var attributesToHighlight: [String]? {
         get { return Query.parseStringArray(get("attributesToHighlight")) }
         set { set("attributesToHighlight", value: Query.buildStringArray(newValue)) }
     }
     
     /// The list of attribute names to retrieve.
     /// By default all attributes are retrieved.
-    public var attributesToRetrieve: [String]? {
+    @objc public var attributesToRetrieve: [String]? {
         get { return Query.parseStringArray(get("attributesToRetrieve")) }
         set { set("attributesToRetrieve", value: Query.buildStringArray(newValue)) }
     }
     
     /// The full text query.
-    public var query: String? {
+    @objc public var query: String? {
         get { return get("query") }
         set { set("query", value: newValue) }
     }
     
     /// How the query words are interpreted.
-    public var queryType: QueryType? {
+    public var queryType_: QueryType? {
         get {
             if let value = get("queryType") {
                 return QueryType(rawValue: value)
@@ -294,10 +321,13 @@ public class Query : NSObject {
             set("queryType", value: newValue?.rawValue)
         }
     }
-    // TODO: Objective-C bridging
+    @objc public var queryType: String? {
+        get { return queryType_?.rawValue }
+        set { queryType_ = newValue == nil ? nil : QueryType(rawValue: newValue!) }
+    }
     
     /// The strategy to avoid having an empty result page.
-    public var removeWordsIfNoResults: RemoveWordsIfNoResults? {
+    public var removeWordsIfNoResults_: RemoveWordsIfNoResults? {
         get {
             if let value = get("removeWordsIfNoResults") {
                 return RemoveWordsIfNoResults(rawValue: value)
@@ -309,10 +339,13 @@ public class Query : NSObject {
             set("removeWordsIfNoResults", value: newValue?.rawValue)
         }
     }
-    // TODO: Objective-C bridging
+    @objc public var removeWordsIfNoResults: String? {
+        get { return removeWordsIfNoResults_?.rawValue }
+        set { removeWordsIfNoResults_ = newValue == nil ? nil : RemoveWordsIfNoResults(rawValue: newValue!) }
+    }
     
     /// Control the number of typo in the results set.
-    public var typoTolerance: TypoTolerance? {
+    public var typoTolerance_: TypoTolerance? {
         get {
             if let value = get("typoTolerance") {
                 return TypoTolerance(rawValue: value)
@@ -324,11 +357,14 @@ public class Query : NSObject {
             set("typoTolerance", value: newValue?.rawValue)
         }
     }
-    // TODO: Objective-C bridging
+    @objc public var typoTolerance: String? {
+        get { return typoTolerance_?.rawValue }
+        set { typoTolerance_ = newValue == nil ? nil : TypoTolerance(rawValue: newValue!) }
+    }
     
     /// The list of attributes to snippet alongside the number of words to return (syntax is 'attributeName:nbWords').
     /// By default no snippet is computed.
-    public var attributesToSnippet: [String]? {
+    @objc public var attributesToSnippet: [String]? {
         get { return Query.parseStringArray(get("attributesToSnippet")) }
         set { set("attributesToSnippet", value: Query.buildStringArray(newValue)) }
     }
@@ -336,84 +372,84 @@ public class Query : NSObject {
     /// List of object attributes that you want to use for faceting.
     /// Only attributes that have been added in attributesForFaceting index setting can be used in this parameter.
     /// You can also use `*` to perform faceting on all attributes specified in attributesForFaceting.
-    public var facets: [String]? {
+    @objc public var facets: [String]? {
         get { return Query.parseStringArray(get("facets")) }
         set { set("facets", value: Query.buildStringArray(newValue)) }
     }
     
     /// The list of words that should be considered as optional when found in the query.
-    public var optionalWords: [String]? {
+    @objc public var optionalWords: [String]? {
         get { return Query.parseStringArray(get("optionalWords")) }
         set { set("optionalWords", value: Query.buildStringArray(newValue)) }
     }
     
     /// List of object attributes you want to use for textual search (must be a subset of the attributesToIndex index setting).
-    public var restrictSearchableAttributes: [String]? {
+    @objc public var restrictSearchableAttributes: [String]? {
         get { return Query.parseStringArray(get("restrictSearchableAttributes")) }
         set { set("restrictSearchableAttributes", value: Query.buildStringArray(newValue)) }
     }
     
     /// Specify the string that is inserted before the highlighted parts in the query result (default to "<em>").
-    public var highlightPreTag: String? {
+    @objc public var highlightPreTag: String? {
         get { return get("highlightPreTag") }
         set { set("highlightPreTag", value: newValue) }
     }
     
     /// Specify the string that is inserted after the highlighted parts in the query result (default to "</em>").
-    public var highlightPostTag: String? {
+    @objc public var highlightPostTag: String? {
         get { return get("highlightPostTag") }
         set { set("highlightPostTag", value: newValue) }
     }
     
     /// Specify the string that is used as an ellipsis indicator when a snippet is truncated (defaults to the empty string).
-    public var snippetEllipsisText : String? {
+    @objc public var snippetEllipsisText : String? {
         get { return get("snippetEllipsisText") }
         set { set("snippetEllipsisText", value: newValue) }
     }
     
     /// Tags can be used in the Analytics to analyze a subset of searches only.
-    public var analyticsTags: [String]? {
+    @objc public var analyticsTags: [String]? {
         get { return Query.parseStringArray(get("analyticsTags")) }
         set { set("analyticsTags", value: Query.buildStringArray(newValue)) }
     }
     
     /// Specify the List of attributes on which you want to disable typo tolerance (must be a subset of the attributesToIndex index setting).
     /// By default this list is empty
-    public var disableTypoToleranceOnAttributes: [String]? {
+    @objc public var disableTypoToleranceOnAttributes: [String]? {
         get { return Query.parseStringArray(get("disableTypoToleranceOnAttributes")) }
         set { set("disableTypoToleranceOnAttributes", value: Query.buildStringArray(newValue)) }
     }
     
     /// Change the precision or around latitude/longitude query
-    public var aroundPrecision: UInt? {
+    public var aroundPrecision_: UInt? {
         get { return Query.parseUInt(get("aroundPrecision")) }
         set { set("aroundPrecision", value: Query.buildUInt(newValue)) }
     }
-    @objc public var aroundPrecision_: NSNumber? {
-        get { return Query.toNumber(self.aroundPrecision) }
-        set { self.aroundPrecision = newValue?.unsignedIntegerValue }
+    @objc public var aroundPrecision: NSNumber? {
+        get { return Query.toNumber(self.aroundPrecision_) }
+        set { self.aroundPrecision_ = newValue?.unsignedIntegerValue }
     }
 
     /// Change the radius or around latitude/longitude query
-    public var aroundRadius: UInt? {
+    public var aroundRadius_: UInt? {
         get { return Query.parseUInt(get("aroundRadius")) }
         set { set("aroundRadius", value: Query.buildUInt(newValue)) }
     }
-    @objc public var aroundRadius_: NSNumber? {
-        get { return Query.toNumber(self.aroundRadius) }
-        set { self.aroundRadius = newValue?.unsignedIntegerValue }
+    @objc public var aroundRadius: NSNumber? {
+        get { return Query.toNumber(self.aroundRadius_) }
+        set { self.aroundRadius_ = newValue?.unsignedIntegerValue }
     }
 
-    public var aroundLatLngViaIP: Bool? {
+    public var aroundLatLngViaIP_: Bool? {
         get { return Query.parseBool(get("aroundLatLngViaIP")) }
         set { set("aroundLatLngViaIP", value: Query.buildBool(newValue)) }
     }
-    @objc public var aroundLatLngViaIP_: NSNumber? {
-        get { return Query.toNumber(self.aroundLatLngViaIP) }
-        set { self.aroundLatLngViaIP = newValue?.boolValue }
+    @objc public var aroundLatLngViaIP: NSNumber? {
+        get { return Query.toNumber(self.aroundLatLngViaIP_) }
+        set { self.aroundLatLngViaIP_ = newValue?.boolValue }
     }
    
-    public var aroundLatLng: LatLng? {
+    @objc public var aroundLatLng: LatLng? {
         get {
             if let fields = get("aroundLatLng")?.componentsSeparatedByString(",") {
                 if fields.count == 2 {
@@ -428,9 +464,8 @@ public class Query : NSObject {
             set("aroundLatLng", value: newValue == nil ? nil : "\(newValue!.lat),\(newValue!.lng)")
         }
     }
-    // TODO: Objective-C bridging
     
-    public var insideBoundingBox: [LatLng]? {
+    @objc public var insideBoundingBox: [LatLng]? {
         get {
             if let fields = get("insideBoundingBox")?.componentsSeparatedByString(",") {
                 if fields.count == 4 * 2 {
@@ -450,9 +485,8 @@ public class Query : NSObject {
             set("insideBoundingBox", value: newValue == nil ? nil : "\(newValue![0].lat),\(newValue![0].lng),\(newValue![1].lat),\(newValue![1].lng),\(newValue![2].lat),\(newValue![2].lng),\(newValue![3].lat),\(newValue![3].lng)")
         }
     }
-    // TODO: Objective-C bridging
     
-    public var insidePolygon: [LatLng]? {
+    @objc public var insidePolygon: [LatLng]? {
         get {
             if let fields = get("insidePolygon")?.componentsSeparatedByString(",") {
                 if fields.count % 2 == 0 {
@@ -481,7 +515,6 @@ public class Query : NSObject {
             }
         }
     }
-    // TODO: Objective-C bridging
 
     // TODO: filters
     // TODO: tagFilters
