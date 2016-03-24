@@ -461,7 +461,7 @@ class ClientTests: XCTestCase {
         }
         
         // Override the API key and check the call fails.
-        self.client.httpHeaders["X-Algolia-API-Key"] = "NOT_A_VALID_API_KEY"
+        self.client.headers["X-Algolia-API-Key"] = "NOT_A_VALID_API_KEY"
         let expectation2 = expectationWithDescription("Invalid API key")
         self.client.listIndexes {
             (content, error) -> Void in
@@ -470,7 +470,7 @@ class ClientTests: XCTestCase {
         }
 
         // Restore the valid API key (otherwise tear down will fail).
-        self.client.httpHeaders["X-Algolia-API-Key"] = self.client.apiKey
+        self.client.headers["X-Algolia-API-Key"] = self.client.apiKey
         
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
