@@ -38,42 +38,6 @@ public class Client : NSObject {
         }
     }
 
-    /// Query parameters to be used for every query (passed in HTTP headers).
-    /// Deprecated in favor of secured API keys.
-    @available(*, deprecated)
-    public var queryParameters: String? {
-        get {
-            return httpHeaders["X-Algolia-QueryParameters"]
-        }
-        set {
-            httpHeaders["X-Algolia-QueryParameters"] = newValue
-        }
-    }
-
-    /// Tag filters to be used for every query (passed in HTTP headers).
-    /// Deprecated in favor of secured API keys.
-    @available(*, deprecated)
-    public var tagFilters: String? {
-        get {
-            return httpHeaders["X-Algolia-TagFilters"]
-        }
-        set {
-            httpHeaders["X-Algolia-TagFilters"] = newValue
-        }
-    }
-
-    /// User token to be used for every query (passed in HTTP headers).
-    /// Deprecated in favor of secured API keys.
-    @available(*, deprecated)
-    public var userToken: String? {
-        get {
-            return httpHeaders["X-Algolia-UserToken"]
-        }
-        set {
-            httpHeaders["X-Algolia-UserToken"] = newValue
-        }
-    }
-
     private let timeout: NSTimeInterval = 30
     private let searchTimeout: NSTimeInterval = 5
     private let incrementTimeout: NSTimeInterval = 10
@@ -129,10 +93,7 @@ public class Client : NSObject {
         super.init()
         
         // Other headers are likely to change during the lifetime of the session: they will be passed for every request.
-        httpHeaders["X-Algolia-API-Key"] = self.apiKey
-        self.tagFilters = tagFilters
-        self.userToken = userToken
-        self.queryParameters = queryParameters
+        httpHeaders["X-Algolia-API-Key"] = self.apiKey // necessary because `didSet` not called during initialization
     }
 
     // Helper for Obj-C
