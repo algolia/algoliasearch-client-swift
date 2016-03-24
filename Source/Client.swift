@@ -44,8 +44,35 @@ public class Client : NSObject {
 
     public let appID: String
 
-    let readQueryHostnames: [String]
-    let writeQueryHostnames: [String]
+    /// Hosts for read queries, in priority order.
+    /// The first host will always be used, then subsequent hosts in case of retry.
+    ///
+    /// WARNING: The default values should be appropriate for most use cases.
+    /// Change them only if you know what you are doing.
+    ///
+    public var readHosts: [String] {
+        willSet {
+            assert(!newValue.isEmpty)
+        }
+    }
+    
+    /// Hosts for write queries, in priority order.
+    /// The first host will always be used, then subsequent hosts in case of retry.
+    ///
+    /// WARNING: The default values should be appropriate for most use cases.
+    /// Change them only if you know what you are doing.
+    ///
+    public var writeHosts: [String] {
+        willSet {
+            assert(!newValue.isEmpty)
+        }
+    }
+    
+    /// Set read and write hosts to the same value (convenience method).
+    public func setHosts(hosts: [String]) {
+        readHosts = hosts
+        writeHosts = hosts
+    }
 
     let session: NSURLSession
 
@@ -53,32 +80,23 @@ public class Client : NSObject {
     ///
     /// - parameter appID: the application ID you have in your admin interface
     /// - parameter apiKey: a valid API key for the service
-    /// - parameter queryParameters: value of the header X-Algolia-QueryParameters
-    /// - parameter tagFilters: value of the header X-Algolia-TagFilters (deprecated)
-    /// - parameter userToken: value of the header X-Algolia-UserToken
-    /// - parameter hostnames: the list of hosts that you have received for the service
-    public init(appID: String, apiKey: String, queryParameters: String? = nil, tagFilters: String? = nil, userToken: String? = nil, hostnames: [String]? = nil) {
+    public init(appID: String, apiKey: String) {
         self.appID = appID
         self.apiKey = apiKey
 
-        if let hostnames = hostnames {
-            readQueryHostnames = hostnames
-            writeQueryHostnames = hostnames
-        } else {
-            readQueryHostnames = [
-                "\(appID)-dsn.algolia.net",
-                "\(appID)-1.algolianet.com",
-                "\(appID)-2.algolianet.com",
-                "\(appID)-3.algolianet.com"
-            ]
-            
-            writeQueryHostnames = [
-                "\(appID).algolia.net",
-                "\(appID)-1.algolianet.com",
-                "\(appID)-2.algolianet.com",
-                "\(appID)-3.algolianet.com"
-            ]
-        }
+        // Initialize hosts to their default values.
+        readHosts = [
+            "\(appID)-dsn.algolia.net",
+            "\(appID)-1.algolianet.com",
+            "\(appID)-2.algolianet.com",
+            "\(appID)-3.algolianet.com"
+        ]
+        writeHosts = [
+            "\(appID).algolia.net",
+            "\(appID)-1.algolianet.com",
+            "\(appID)-2.algolianet.com",
+            "\(appID)-3.algolianet.com"
+        ]
         
         // WARNING: Those headers cannot be changed for the lifetime of the session.
         let version = NSBundle(forClass: self.dynamicType).infoDictionary!["CFBundleShortVersionString"] as! String
@@ -96,16 +114,6 @@ public class Client : NSObject {
         httpHeaders["X-Algolia-API-Key"] = self.apiKey // necessary because `didSet` not called during initialization
     }
 
-    // Helper for Obj-C
-    public class func clientWithAppID(appID: String, apiKey: String) -> Client {
-        return Client(appID: appID, apiKey: apiKey)
-    }
-    
-    // Helper for Obj-C
-    public class func clientWithQueryParameters(queryParameters: String, appID: String, apiKey: String) -> Client {
-        return Client(appID: appID, apiKey: apiKey, queryParameters: queryParameters)
-    }
-
     /// Allow to set custom extra header.
     /// You may also use the `httpHeaders` property directly.
     ///
@@ -121,7 +129,7 @@ public class Client : NSObject {
     ///
     /// :return: JSON Object in the handler in the form: { "items": [ {"name": "contacts", "createdAt": "2013-01-18T15:33:13.556Z"}, {"name": "notes", "createdAt": "2013-01-18T15:33:13.556Z"}]}
     public func listIndexes(block: CompletionHandler) -> NSOperation {
-        return performHTTPQuery("1/indexes", method: .GET, body: nil, hostnames: readQueryHostnames, block: block)
+        return performHTTPQuery("1/indexes", method: .GET, body: nil, hostnames: readHosts, block: block)
     }
 
     /// Delete an index.
@@ -130,7 +138,7 @@ public class Client : NSObject {
     /// :return: JSON Object in the handler containing a "deletedAt" attribute
     public func deleteIndex(indexName: String, block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(indexName.urlEncode())"
-        return performHTTPQuery(path, method: .DELETE, body: nil, hostnames: writeQueryHostnames, block: block)
+        return performHTTPQuery(path, method: .DELETE, body: nil, hostnames: writeHosts, block: block)
     }
 
     /// Move an existing index.
@@ -144,7 +152,7 @@ public class Client : NSObject {
             "operation": "move"
         ]
 
-        return performHTTPQuery(path, method: .POST, body: request, hostnames: writeQueryHostnames, block: block)
+        return performHTTPQuery(path, method: .POST, body: request, hostnames: writeHosts, block: block)
     }
 
     /// Copy an existing index.
@@ -158,12 +166,12 @@ public class Client : NSObject {
             "operation": "copy"
         ]
 
-        return performHTTPQuery(path, method: .POST, body: request, hostnames: writeQueryHostnames, block: block)
+        return performHTTPQuery(path, method: .POST, body: request, hostnames: writeHosts, block: block)
     }
 
     /// Return 10 last log entries.
     public func getLogs(block: CompletionHandler) -> NSOperation {
-        return performHTTPQuery("1/logs", method: .GET, body: nil, hostnames: writeQueryHostnames, block: block)
+        return performHTTPQuery("1/logs", method: .GET, body: nil, hostnames: writeHosts, block: block)
     }
 
     /// Return last logs entries.
@@ -172,7 +180,7 @@ public class Client : NSObject {
     /// - parameter length: Specify the maximum number of entries to retrieve starting at offset. Maximum allowed value: 1000.
     public func getLogsWithOffset(offset: UInt, length: UInt, block: CompletionHandler) -> NSOperation {
         let path = "1/logs?offset=\(offset)&length=\(length)"
-        return performHTTPQuery(path, method: .GET, body: nil, hostnames: readQueryHostnames, block: block)
+        return performHTTPQuery(path, method: .GET, body: nil, hostnames: readHosts, block: block)
     }
 
     /// Return last logs entries.
@@ -181,7 +189,7 @@ public class Client : NSObject {
     /// - parameter length: Specify the maximum number of entries to retrieve starting at offset. Maximum allowed value: 1000.
     public func getLogsWithType(type: String, offset: UInt, length: UInt, block: CompletionHandler) -> NSOperation {
         let path = "1/logs?offset=\(offset)&length=\(length)&type=\(type)"
-        return performHTTPQuery(path, method: .GET, body: nil, hostnames: readQueryHostnames, block: block)
+        return performHTTPQuery(path, method: .GET, body: nil, hostnames: readHosts, block: block)
     }
 
     /// Get the index object initialized (no server call needed for initialization).
@@ -193,19 +201,19 @@ public class Client : NSObject {
 
     /// List all existing user keys with their associated ACLs.
     public func listUserKeys(block: CompletionHandler) -> NSOperation {
-        return performHTTPQuery("1/keys", method: .GET, body: nil, hostnames: readQueryHostnames, block: block)
+        return performHTTPQuery("1/keys", method: .GET, body: nil, hostnames: readHosts, block: block)
     }
 
     /// Get ACL of a user key.
     public func getUserKeyACL(key: String, block: CompletionHandler) -> NSOperation {
         let path = "1/keys/\(key)"
-        return performHTTPQuery(path, method: .GET, body: nil, hostnames: readQueryHostnames, block: block)
+        return performHTTPQuery(path, method: .GET, body: nil, hostnames: readHosts, block: block)
     }
 
     /// Delete an existing user key.
     public func deleteUserKey(key: String, block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/keys/\(key)"
-        return performHTTPQuery(path, method: .DELETE, body: nil, hostnames: writeQueryHostnames, block: block)
+        return performHTTPQuery(path, method: .DELETE, body: nil, hostnames: writeHosts, block: block)
     }
 
     /// Create a new user key
@@ -213,7 +221,7 @@ public class Client : NSObject {
     /// - parameter acls: The list of ACL for this key. The list can contains the following values (as String): search, addObject, deleteObject, deleteIndex, settings, editSettings
     public func addUserKey(acls: [String], block: CompletionHandler? = nil) -> NSOperation {
         let request = ["acl": acls]
-        return performHTTPQuery("1/keys", method: .POST, body: request, hostnames: writeQueryHostnames, block: block)
+        return performHTTPQuery("1/keys", method: .POST, body: request, hostnames: writeHosts, block: block)
     }
 
     /// Create a new user key
@@ -230,7 +238,7 @@ public class Client : NSObject {
             "maxHitsPerQuery": maxHits,
         ]
 
-        return performHTTPQuery("1/keys", method: .POST, body: request, hostnames: writeQueryHostnames, block: block)
+        return performHTTPQuery("1/keys", method: .POST, body: request, hostnames: writeHosts, block: block)
     }
 
     /// Create a new user key
@@ -249,7 +257,7 @@ public class Client : NSObject {
             "maxHitsPerQuery": maxHits,
         ]
 
-        return performHTTPQuery("1/keys", method: .POST, body: request, hostnames: writeQueryHostnames, block: block)
+        return performHTTPQuery("1/keys", method: .POST, body: request, hostnames: writeHosts, block: block)
     }
 
     /// Update a user key
@@ -259,7 +267,7 @@ public class Client : NSObject {
     public func updateUserKey(key: String, withACL acls: [String], block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/keys/\(key)"
         let request = ["acl": acls]
-        return performHTTPQuery(path, method: .PUT, body: request, hostnames: writeQueryHostnames, block: block)
+        return performHTTPQuery(path, method: .PUT, body: request, hostnames: writeHosts, block: block)
     }
 
     /// Update a user key
@@ -278,7 +286,7 @@ public class Client : NSObject {
             "maxHitsPerQuery": maxHits,
         ]
 
-        return performHTTPQuery(path, method: .PUT, body: request, hostnames: writeQueryHostnames, block: block)
+        return performHTTPQuery(path, method: .PUT, body: request, hostnames: writeHosts, block: block)
     }
 
     /// Update a user key
@@ -299,7 +307,7 @@ public class Client : NSObject {
             "maxHitsPerQuery": maxHits,
         ]
 
-        return performHTTPQuery(path, method: .PUT, body: request, hostnames: writeQueryHostnames, block: block)
+        return performHTTPQuery(path, method: .PUT, body: request, hostnames: writeHosts, block: block)
     }
 
     /// Query multiple indexes with one API call.
@@ -320,7 +328,7 @@ public class Client : NSObject {
         }
 
         let request = ["requests": convertedQueries]
-        return performHTTPQuery(path, method: .POST, body: request, hostnames: readQueryHostnames, block: block)
+        return performHTTPQuery(path, method: .POST, body: request, hostnames: readHosts, block: block)
     }
 
     // MARK: - Network
@@ -342,7 +350,7 @@ public class Client : NSObject {
     /// Create a request with this client's settings.
     func newRequest(method: HTTPMethod, path: String, body: [String: AnyObject]?, isSearchQuery: Bool = false, completion: CompletionHandler? = nil) -> Request {
         let currentTimeout = isSearchQuery ? searchTimeout : timeout
-        let hostnames = isSearchQuery ? readQueryHostnames : writeQueryHostnames
+        let hostnames = isSearchQuery ? readHosts : writeHosts
         // TODO: Remember host failures to restart at the first working host.
         let request = Request(session: session, method: method, hosts: hostnames, firstHostIndex: 0, path: path, headers: httpHeaders, jsonBody: body, timeout: currentTimeout, completion:  completion)
         return request

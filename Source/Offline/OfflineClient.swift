@@ -35,16 +35,12 @@ public class OfflineClient : Client {
     ///
     /// - parameter appID: the application ID you have in your admin interface
     /// - parameter apiKey: a valid API key for the service
-    /// - parameter queryParameters: value of the header X-Algolia-QueryParameters
-    /// - parameter tagFilters: value of the header X-Algolia-TagFilters (deprecated)
-    /// - parameter userToken: value of the header X-Algolia-UserToken
-    /// - parameter hostnames: the list of hosts that you have received for the service
-    public override init(appID: String, apiKey: String, queryParameters: String? = nil, tagFilters: String? = nil, userToken: String? = nil, hostnames: [String]? = nil) {
+    public override init(appID: String, apiKey: String) {
         buildQueue.name = "AlgoliaSearch-Build"
         buildQueue.maxConcurrentOperationCount = 1
         searchQueue.name = "AlgoliaSearch-Search"
         searchQueue.maxConcurrentOperationCount = 1
-        super.init(appID: appID, apiKey: apiKey, queryParameters: queryParameters, tagFilters: tagFilters, userToken: userToken, hostnames: hostnames)
+        super.init(appID: appID, apiKey: apiKey)
     }
 
     var sdk: ASSdk = ASSdk.sharedSdk()
