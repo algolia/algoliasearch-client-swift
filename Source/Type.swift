@@ -51,6 +51,6 @@ struct RingBuffer<T>: SequenceType {
         } else {
             buff[index % capacity] = newElement
         }
-        ++index
+        index += 1
     }
 }
