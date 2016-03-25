@@ -150,7 +150,23 @@ class NetworkTests: XCTestCase {
         }
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
+
+    /// Test when the server returns a success, but ill-formed JSON.
+    func testIllFormedResponse() {
+        let expectation = expectationWithDescription(#function)
+        session.responses["https://\(client.writeHosts[0])/1/indexes"] = MockResponse(statusCode: 200, data: NSData(base64EncodedString: "U0hPVUxETk9UV09SSw==", options: [])!)
+        client.listIndexes {
+            (content, error) -> Void in
+            XCTAssertNil(content)
+            XCTAssertNotNil(error)
+            XCTAssertEqual(error?.domain, AlgoliaSearchErrorDomain)
+            XCTAssertEqual(error?.code, StatusCode.InvalidJSONResponse.rawValue)
+            expectation.fulfill()
+        }
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+    }
     
+
     /// Test when the server returns an error status code, but no JSON.
     func testEmptyErrorResponse() {
         let expectation = expectationWithDescription(#function)
