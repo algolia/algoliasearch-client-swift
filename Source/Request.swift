@@ -98,8 +98,8 @@ public class Request: NSOperation {
             if let payload = try? NSJSONSerialization.dataWithJSONObject(jsonBody!, options: NSJSONWritingOptions(rawValue: 0)) {
                 request.HTTPBody = payload
             } else {
-                // We build requests ourselves, so they should always be well-formed JSON.
-                assert(false, "Should never happen")
+                // The JSON we try to send should always be well-formed.
+                assert(false, "Trying to send a request with invalid JSON")
             }
         }
         return request
