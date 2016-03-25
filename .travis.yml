@@ -3,11 +3,11 @@ language: objective-c
 env:
   matrix:
     - IOS="FALSE"
-    - IOS="TRUE" VERSION="OS=8.1,name=iPhone 6" SDK=iphonesimulator9.0
-    - IOS="TRUE" VERSION="OS=8.2,name=iPhone 6" SDK=iphonesimulator9.0
-    - IOS="TRUE" VERSION="OS=8.3,name=iPhone 6" SDK=iphonesimulator9.0
-    - IOS="TRUE" VERSION="OS=8.4,name=iPhone 6" SDK=iphonesimulator9.0
-    - IOS="TRUE" VERSION="OS=9.0,name=iPhone 6" SDK=iphonesimulator9.0
+    - IOS="TRUE" VERSION="OS=8.1,name=iPhone 6" SDK=iphonesimulator9.3
+    - IOS="TRUE" VERSION="OS=8.2,name=iPhone 6" SDK=iphonesimulator9.3
+    - IOS="TRUE" VERSION="OS=8.3,name=iPhone 6" SDK=iphonesimulator9.3
+    - IOS="TRUE" VERSION="OS=8.4,name=iPhone 6" SDK=iphonesimulator9.3
+    - IOS="TRUE" VERSION="OS=9.0,name=iPhone 6" SDK=iphonesimulator9.3
 before_script:
   - gem install xcpretty -N
 script:
