@@ -24,8 +24,68 @@
 import Foundation
 
 
+// ----------------------------------------------------------------------------
+// IMPLEMENTATION NOTES
+// ----------------------------------------------------------------------------
+// # Typed vs untyped parameters
+//
+// All parameters are stored as untyped, string values. They can be
+// accessed via the low-level `get` and `set` methods (or the subscript
+// operator).
+//
+// Besides, the class provides typed accessors, acting as wrappers on top
+// of the untyped storage (i.e. serializing to and parsing from string
+// values).
+//
+// # Bridgeability
+//
+// **This Swift client must be bridgeable to Objective-C.**
+//
+// Unfortunately, query parameters with primitive types (Int, Bool...) are not
+// bridgeable, because all parameters are optional, and primitive optionals are
+// not bridgeable to Objective-C.
+//
+// Consequently, for those parameters, the type is `NSNumber`, which properly
+// allows to represent an optional integral type in Objective-C. Because Swift
+// automatically bridges integral types to (but not from) `NSNumber`, the
+// parameters can still be set using Swift's integral types (`Int`, `Bool`).
+// Getting them, however, will result in an `NSNumber` instance, which has to
+// be explicitly cast to the adequate type.
+//
+// For type-checking purposes, `NSNumber`-typed properties have a more strongly
+// typed variant (named with a trailing underscore), which allows to further
+// restrict the value passed via `NSNumber`. This property is only internally
+// accessible (to avoid confusion)... except in the case of enums (see below).
+//
+// ## The case of enums
+//
+// Enums can only be bridged to Objective-C if their raw type is integral.
+// We could do that, but since parameters are optional and optional value types
+// cannot be bridged anyway (see above), this would be pointless: the type
+// safety of the enum would be lost in the wrapping into `NSNumber`. Therefore,
+// enums have a string raw value, and the Objective-C bridge uses a plain
+// `NSString`.
+//
+// Because this is sub-optimal in Swift, as an exception, the trailing
+// underscore-named property for those parameters is publicly exposed. This
+// allows Swift users to leverage the full type safety of enums (at the price
+// of a little confusion).
+//
+// ## Annotations
+//
+// Properties and methods visible in Objective-C are annotated with `@objc`.
+// From an implementation point of view, this is not necessary, because `Query`
+// derives from `NSObject` and thus every brdigeable property/method is
+// automatically bridged. We use these annotations as hints for maintainers
+// (so please keep them).
+//
+// ----------------------------------------------------------------------------
+
+
 /// A pair of (latitude, longitude).
 /// Used in geo-search.
+///
+// IMPLEMENTATION NOTE: Cannot be `struct` because of Objective-C bridgeability.
 @objc public class LatLng: NSObject {
     public let lat: Double
     public let lng: Double
@@ -49,33 +109,6 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
 }
 
 
-// ----------------------------------------------------------------------------
-// IMPLEMENTATION NOTES
-// ----------------------------------------------------------------------------
-// # Bridgeability
-//
-// **This Swift client must be bridgeable to Objective-C.**
-//
-// Unfortunately, query parameters with primitive types (int, float) are not
-// bridgeable, because all parameters are optional, and primitive optionals are
-// not bridgeable to Objective-C.
-//
-// Consequently, for those parameters, another version with type `NSNumber` is
-// provided with a trailing underscore appended to the name. Only this version
-// is visible from Objective-C.
-//
-// # Typed vs untyped parameters
-//
-// All parameters are stored as untyped, string values. They can be
-// accessed via the low-level `get` and `set` methods (or the subscript
-// operator).
-//
-// Besides, the class provides typed accessors, acting as wrappers on top
-// of the untyped storage (i.e. serializing to and parsing from string
-// values).
-// ----------------------------------------------------------------------------
-
-
 /// Describes all parameters of a search query.
 ///
 /// There are two ways to access parameters:
@@ -83,17 +116,6 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
 /// 1. Using the high-level, typed properties for individual parameters (recommended).
 /// 2. Using the low-level, untyped getter (`get()`) and setter (`set()`) or the subscript operator.
 ///    Use this approach if the parameter you wish to set is not supported by this class.
-///
-/// # About Objective-C bridgeability
-///
-/// This module must be usable from Objective-C. Because optional value types cannot be bridged to Objective-C,
-/// numerical or boolean parameters use `NSNumber` as their type. However, alternative properties with more Swift-like
-/// types are provided as well; they have a trailing underscore appended to the parameter's name.
-///
-/// Enums can only be bridged to Objective-C if their raw type is integral. We could do that, but since parameters
-/// are optional and optional value types cannot be bridged anyway (see above), this would be pointless: the type
-/// safety of the enum would be lost with the wrapping into `NSNumber`. Therefore, enums have a string raw value,
-/// and the Objective-C bridge uses a plain `NSString`.
 ///
 public class Query : NSObject {
     /// The type of query.
@@ -139,12 +161,12 @@ public class Query : NSObject {
     private var parameters: [String: String] = [:]
     
     /// Get a parameter by name (untyped version).
-    public func get(name: String) -> String? {
+    @objc public func get(name: String) -> String? {
         return parameters[name]
     }
     
     /// Set a parameter by name (untyped version).
-    public func set(name: String, value: String?) {
+    @objc public func set(name: String, value: String?) {
         if value == nil {
             parameters.removeValueForKey(name)
         } else {
@@ -152,7 +174,7 @@ public class Query : NSObject {
         }
     }
     
-    public subscript(index: String) -> String? {
+    @objc public subscript(index: String) -> String? {
         get {
             return get(index)
         }
@@ -164,7 +186,7 @@ public class Query : NSObject {
     // MARK: - High-level (typed) parameters
 
     /// The minimum number of characters in a query word to accept one typo in this word.
-    public var minWordSizefor1Typo_: UInt? {
+    var minWordSizefor1Typo_: UInt? {
         get { return Query.parseUInt(get("minWordSizefor1Typo")) }
         set { set("minWordSizefor1Typo", value: Query.buildUInt(newValue)) }
     }
@@ -174,7 +196,7 @@ public class Query : NSObject {
     }
     
     /// The minimum number of characters in a query word to accept two typos in this word.
-    public var minWordSizefor2Typos_: UInt? {
+    var minWordSizefor2Typos_: UInt? {
         get { return Query.parseUInt(get("minWordSizefor2Typos")) }
         set { set("minWordSizefor2Typos", value: Query.buildUInt(newValue)) }
     }
@@ -185,7 +207,7 @@ public class Query : NSObject {
 
     /// Configure the precision of the proximity ranking criterion. By default, the minimum (and best) proximity value distance between 2 matching words is 1. Setting it to 2 (or 3) would allow 1 (or 2) words to be found between the matching words without degrading the proximity ranking value.
     /// Considering the query "javascript framework", if you set minProximity=2 the records "JavaScript framework" and "JavaScript charting framework" will get the same proximity score, even if the second one contains a word between the 2 matching words.
-    public var minProximity_: UInt? {
+    var minProximity_: UInt? {
         get { return Query.parseUInt(get("minProximity")) }
         set { set("minProximity", value: Query.buildUInt(newValue)) }
     }
@@ -195,7 +217,7 @@ public class Query : NSObject {
     }
     
     /// If true, the result hits will contain ranking information in _rankingInfo attribute.
-    public var getRankingInfo_: Bool? {
+    var getRankingInfo_: Bool? {
         get { return Query.parseBool(get("getRankingInfo")) }
         set { set("getRankingInfo", value: Query.buildBool(newValue)) }
     }
@@ -205,7 +227,7 @@ public class Query : NSObject {
     }
     
     /// If true, plural won't be considered as a typo (for example car/cars will be considered as equals). 
-    public var ignorePlurals_: Bool? {
+    var ignorePlurals_: Bool? {
         get { return Query.parseBool(get("ignorePlurals")) }
         set { set("ignorePlurals", value: Query.buildBool(newValue)) }
     }
@@ -219,7 +241,7 @@ public class Query : NSObject {
     /// for the attributeForDistinct attribute are removed from results. For example, if the chosen attribute is show_name 
     /// and several hits have the same value for show_name, then only the best one is kept and others are removed.
     /// Specify the maximum number of hits to keep for each distinct value.
-    public var distinct_: UInt? {
+    var distinct_: UInt? {
         get { return Query.parseUInt(get("distinct")) }
         set { set("distinct", value: Query.buildUInt(newValue)) }
     }
@@ -229,7 +251,7 @@ public class Query : NSObject {
     }
     
     /// The page to retrieve (zero base). Defaults to 0.
-    public var page_: UInt? {
+    var page_: UInt? {
         get { return Query.parseUInt(get("page")) }
         set { set("page", value: Query.buildUInt(newValue)) }
     }
@@ -239,7 +261,7 @@ public class Query : NSObject {
     }
     
     /// The number of hits per page. Defaults to 20.
-    public var hitsPerPage_: UInt? {
+    var hitsPerPage_: UInt? {
         get { return Query.parseUInt(get("hitsPerPage")) }
         set { set("hitsPerPage", value: Query.buildUInt(newValue)) }
     }
@@ -248,7 +270,7 @@ public class Query : NSObject {
         set { self.hitsPerPage_ = newValue?.unsignedIntegerValue }
     }
 
-    public var allowTyposOnNumericTokens_: Bool? {
+    var allowTyposOnNumericTokens_: Bool? {
         get { return Query.parseBool(get("allowTyposOnNumericTokens")) }
         set { set("allowTyposOnNumericTokens", value: Query.buildBool(newValue)) }
     }
@@ -258,7 +280,7 @@ public class Query : NSObject {
     }
     
     /// If false, this query won't appear in the analytics.
-    public var analytics_: Bool? {
+    var analytics_: Bool? {
         get { return Query.parseBool(get("analytics")) }
         set { set("analytics", value: Query.buildBool(newValue)) }
     }
@@ -268,7 +290,7 @@ public class Query : NSObject {
     }
     
     /// If false, this query will not use synonyms defined in configuration.
-    public var synonyms_: Bool? {
+    var synonyms_: Bool? {
         get { return Query.parseBool(get("synonyms")) }
         set { set("synonyms", value: Query.buildBool(newValue)) }
     }
@@ -279,7 +301,7 @@ public class Query : NSObject {
     
     /// If false, words matched via synonyms expansion will not be replaced by the matched synonym in highlight result. 
     /// Default to true.
-    public var replaceSynonymsInHighlight_: Bool? {
+    var replaceSynonymsInHighlight_: Bool? {
         get { return Query.parseBool(get("replaceSynonymsInHighlight")) }
         set { set("replaceSynonymsInHighlight", value: Query.buildBool(newValue)) }
     }
@@ -421,7 +443,7 @@ public class Query : NSObject {
     }
     
     /// Change the precision or around latitude/longitude query
-    public var aroundPrecision_: UInt? {
+    var aroundPrecision_: UInt? {
         get { return Query.parseUInt(get("aroundPrecision")) }
         set { set("aroundPrecision", value: Query.buildUInt(newValue)) }
     }
@@ -431,7 +453,7 @@ public class Query : NSObject {
     }
 
     /// Change the radius or around latitude/longitude query
-    public var aroundRadius_: UInt? {
+    var aroundRadius_: UInt? {
         get { return Query.parseUInt(get("aroundRadius")) }
         set { set("aroundRadius", value: Query.buildUInt(newValue)) }
     }
@@ -440,7 +462,7 @@ public class Query : NSObject {
         set { self.aroundRadius_ = newValue?.unsignedIntegerValue }
     }
 
-    public var aroundLatLngViaIP_: Bool? {
+    var aroundLatLngViaIP_: Bool? {
         get { return Query.parseBool(get("aroundLatLngViaIP")) }
         set { set("aroundLatLngViaIP", value: Query.buildBool(newValue)) }
     }
@@ -524,29 +546,29 @@ public class Query : NSObject {
 
     // MARK: - Miscellaneous
 
-    override public var description: String {
+    @objc override public var description: String {
         get { return "Query = \(build())" }
     }
     
     // MARK: - Initialization
 
     /// Construct an empty query.
-    public override init() {
+    @objc public override init() {
     }
     
     /// Construct a query with the specified full text query.
-    public init(query: String?) {
+    @objc public init(query: String?) {
         super.init()
         self.query = query
     }
     
     /// Construct a query with the specified low-level parameters.
-    public init(parameters: [String: String]) {
+    @objc public init(parameters: [String: String]) {
         self.parameters = parameters
     }
     
     /// Copy an existing query.
-    public init(copy: Query) {
+    @objc public init(copy: Query) {
         parameters = copy.parameters
     }
 
@@ -566,7 +588,7 @@ public class Query : NSObject {
     )
     
     /// Return the final query string used in URL.
-    public func build() -> String {
+    @objc public func build() -> String {
         var components = [String]()
         // Sort parameters by name to get predictable output.
         let sortedParameters = parameters.sort { $0.0 < $1.0 }
@@ -580,7 +602,7 @@ public class Query : NSObject {
     }
 
     /// Parse a query from a URL query string.
-    public static func parse(queryString: String) -> Query {
+    @objc public static func parse(queryString: String) -> Query {
         let query = Query()
         let components = queryString.componentsSeparatedByString("&")
         for component in components {
