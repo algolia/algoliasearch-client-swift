@@ -28,10 +28,12 @@ import Foundation
 public let AlgoliaSearchErrorDomain = "AlgoliaSearch"
 
 
-/// HTTP status codes.
+/// Status codes.
 /// NOTE: Only those likely to be used by Algolia's servers and SDK are listed here.
 ///
-public enum HTTPStatusCode: Int {
+public enum StatusCode: Int {
+    // MARK: Regular HTTP status codes
+    
     case OK                                                     = 200
     case BadRequest                                             = 400
     case Unauthorized                                           = 401
@@ -39,6 +41,11 @@ public enum HTTPStatusCode: Int {
     case MethodNotAllowed                                       = 405
     case InternalServerError                                    = 500
     case ServiceUnavailable                                     = 503
+    
+    // MARK: Custom status codes
+    
+    /// The server replied an invalid JSON response.
+    case InvalidJSONResponse                                    = 600
     
     public static func isSuccess(statusCode: Int) -> Bool {
         return statusCode >= 200 && statusCode < 300
@@ -58,7 +65,7 @@ public enum HTTPStatusCode: Int {
 ///
 public func isErrorTransient(error: NSError) -> Bool {
     if (error.domain == AlgoliaSearchErrorDomain) {
-        return HTTPStatusCode.isServerError(error.code)
+        return StatusCode.isServerError(error.code)
     } else if (error.domain == NSURLErrorDomain) {
         return true
     } else {

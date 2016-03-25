@@ -74,7 +74,8 @@ public class Client : NSObject {
         writeHosts = hosts
     }
 
-    let session: NSURLSession
+    // NOTE: Not constant only for the sake of mocking during unit tests.
+    var session: URLSession
 
     /// Algolia Search initialization.
     ///

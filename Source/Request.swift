@@ -30,7 +30,7 @@ import Foundation
 /// calls into a high-level operation. This operation can be cancelled by the user.
 ///
 public class Request: NSOperation {
-    let session: NSURLSession
+    let session: URLSession
     
     /// Request method.
     let method: HTTPMethod
@@ -65,7 +65,7 @@ public class Request: NSOperation {
     /// User completion block to be called.
     let completion: CompletionHandler?
     
-    init(session: NSURLSession, method: HTTPMethod, hosts: [String], firstHostIndex: Int, path: String, headers: [String: String]?, jsonBody: [String: AnyObject]?, timeout: NSTimeInterval, completion: CompletionHandler?) {
+    init(session: URLSession, method: HTTPMethod, hosts: [String], firstHostIndex: Int, path: String, headers: [String: String]?, jsonBody: [String: AnyObject]?, timeout: NSTimeInterval, completion: CompletionHandler?) {
         self.session = session
         self.method = method
         self.hosts = hosts
@@ -126,17 +126,17 @@ public class Request: NSOperation {
                 do {
                     json = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as? [String: AnyObject]
                     if json == nil {
-                        finalError = NSError(domain: AlgoliaSearchErrorDomain, code: HTTPStatusCode.InternalServerError.rawValue, userInfo: [NSLocalizedDescriptionKey: "Response not a JSON object"])
+                        finalError = NSError(domain: AlgoliaSearchErrorDomain, code: StatusCode.InvalidJSONResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "Server response not a JSON object"])
                     }
                 } catch let jsonError as NSError {
-                    finalError = jsonError
+                    finalError = NSError(domain: AlgoliaSearchErrorDomain, code: StatusCode.InvalidJSONResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "Server returned invalid JSON", NSUnderlyingErrorKey: jsonError])
                 } catch {
                     finalError = NSError(domain: AlgoliaSearchErrorDomain, code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error when parsing JSON"])
                 }
                 
                 // Handle HTTP status code.
                 let httpResponse = response! as! NSHTTPURLResponse
-                if (finalError == nil && !HTTPStatusCode.isSuccess(httpResponse.statusCode)) {
+                if (finalError == nil && !StatusCode.isSuccess(httpResponse.statusCode)) {
                     var userInfo = [String: AnyObject]()
                     
                     // Get the error message from JSON if available.
