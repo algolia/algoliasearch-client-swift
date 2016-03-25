@@ -59,7 +59,7 @@ class NetworkTests: XCTestCase {
     
     /// In case of time-out on one host, check that the next host is tried.
     func testTimeout_OneHost() {
-        let expectation = expectationWithDescription(__FUNCTION__)
+        let expectation = expectationWithDescription(#function)
         session.responses["https://\(client.writeHosts[0])/1/indexes"] = MockResponse(statusCode: nil, headers: nil, jsonBody: nil, error: TIMEOUT_ERROR)
         session.responses["https://\(client.writeHosts[1])/1/indexes"] = MockResponse(statusCode: 200, headers: nil, jsonBody: ["hello": "world"], error: nil)
         client.listIndexes {
@@ -74,8 +74,8 @@ class NetworkTests: XCTestCase {
 
     /// In case of time-out on all hosts, check that the error is returned.
     func testTimeout_AllHosts() {
-        let expectation = expectationWithDescription(__FUNCTION__)
-        for var i = 0; i < client.writeHosts.count; ++i {
+        let expectation = expectationWithDescription(#function)
+        for i in 0..<client.writeHosts.count {
             session.responses["https://\(client.writeHosts[i])/1/indexes"] = MockResponse(statusCode: nil, headers: nil, jsonBody: nil, error: TIMEOUT_ERROR)
         }
         client.listIndexes {
@@ -91,7 +91,7 @@ class NetworkTests: XCTestCase {
 
     /// In case of DNS error on one host, check that the next host is tried.
     func testDNSError() {
-        let expectation = expectationWithDescription(__FUNCTION__)
+        let expectation = expectationWithDescription(#function)
         session.responses["https://\(client.writeHosts[0])/1/indexes"] = MockResponse(statusCode: nil, headers: nil, jsonBody: nil, error: NSError(domain: NSURLErrorDomain, code: NSURLErrorCannotFindHost, userInfo: nil))
         session.responses["https://\(client.writeHosts[1])/1/indexes"] = MockResponse(statusCode: 200, headers: nil, jsonBody: ["hello": "world"], error: nil)
         client.listIndexes {
@@ -106,7 +106,7 @@ class NetworkTests: XCTestCase {
     
     /// In case of server error on one host, check that the next host is tried.
     func testServerError() {
-        let expectation = expectationWithDescription(__FUNCTION__)
+        let expectation = expectationWithDescription(#function)
         session.responses["https://\(client.writeHosts[0])/1/indexes"] = MockResponse(statusCode: 500, headers: nil, jsonBody: ["message": "Mind your own business"], error: nil)
         session.responses["https://\(client.writeHosts[1])/1/indexes"] = MockResponse(statusCode: 200, headers: nil, jsonBody: ["hello": "world"], error: nil)
         client.listIndexes {
@@ -121,7 +121,7 @@ class NetworkTests: XCTestCase {
     
     /// In case of client error, check that the next host is *not* tried.
     func testClientError() {
-        let expectation = expectationWithDescription(__FUNCTION__)
+        let expectation = expectationWithDescription(#function)
         session.responses["https://\(client.writeHosts[0])/1/indexes"] = MockResponse(statusCode: 403, headers: nil, jsonBody: ["message": "Mind your own business"], error: nil)
         session.responses["https://\(client.writeHosts[1])/1/indexes"] = MockResponse(statusCode: 200, headers: nil, jsonBody: ["hello": "world"], error: nil)
         client.listIndexes {
@@ -138,7 +138,7 @@ class NetworkTests: XCTestCase {
     
     /// Test when the server returns a success, but no JSON.
     func testEmptyResponse() {
-        let expectation = expectationWithDescription(__FUNCTION__)
+        let expectation = expectationWithDescription(#function)
         session.responses["https://\(client.writeHosts[0])/1/indexes"] = MockResponse(statusCode: 200, headers: nil, jsonBody: nil, error: nil)
         client.listIndexes {
             (content, error) -> Void in
@@ -153,7 +153,7 @@ class NetworkTests: XCTestCase {
     
     /// Test when the server returns an error status code, but no JSON.
     func testEmptyErrorResponse() {
-        let expectation = expectationWithDescription(__FUNCTION__)
+        let expectation = expectationWithDescription(#function)
         session.responses["https://\(client.writeHosts[0])/1/indexes"] = MockResponse(statusCode: 403, headers: nil, jsonBody: nil, error: nil)
         session.responses["https://\(client.writeHosts[1])/1/indexes"] = MockResponse(statusCode: 200, headers: nil, jsonBody: ["hello": "world"], error: nil)
         client.listIndexes {
@@ -169,7 +169,7 @@ class NetworkTests: XCTestCase {
     
     /// Test when the server returns an error status code and valid JSON, but no error message in the JSON.
     func testEmptyErrorMessage() {
-        let expectation = expectationWithDescription(__FUNCTION__)
+        let expectation = expectationWithDescription(#function)
         session.responses["https://\(client.writeHosts[0])/1/indexes"] = MockResponse(statusCode: 403, headers: nil, jsonBody: ["something": "else"], error: nil)
         session.responses["https://\(client.writeHosts[1])/1/indexes"] = MockResponse(statusCode: 200, headers: nil, jsonBody: ["hello": "world"], error: nil)
         client.listIndexes {

@@ -44,7 +44,7 @@ class ExpiringCache {
         self.expiringTimeInterval = expiringTimeInterval
         
         // Garbage collector like, for the expired cache
-        timer = NSTimer(timeInterval: 2 * expiringTimeInterval, target: self, selector: Selector("clearExpiredCache"), userInfo: nil, repeats: true)
+        timer = NSTimer(timeInterval: 2 * expiringTimeInterval, target: self, selector: #selector(ExpiringCache.clearExpiredCache), userInfo: nil, repeats: true)
         timer!.tolerance = expiringTimeInterval * 0.5
         NSRunLoop.mainRunLoop().addTimer(timer!, forMode: NSDefaultRunLoopMode)
     }

@@ -492,7 +492,7 @@ public class Query : NSObject {
             if let fields = get("insideBoundingBox")?.componentsSeparatedByString(",") {
                 if fields.count == 4 * 2 {
                     var result = [LatLng]()
-                    for var i = 0; i < 4; ++i {
+                    for i in 0..<4 {
                         if let lat = Double(fields[2 * i + 0]), lng = Double(fields[2 * i + 1]) {
                             result.append(LatLng(lat: lat, lng: lng))
                         }
@@ -513,7 +513,7 @@ public class Query : NSObject {
             if let fields = get("insidePolygon")?.componentsSeparatedByString(",") {
                 if fields.count % 2 == 0 {
                     var result = [LatLng]()
-                    for var i = 0; 2 * i < fields.count; ++i {
+                    for i in 0..<(fields.count / 2) {
                         if let lat = Double(fields[2 * i + 0]), lng = Double(fields[2 * i + 1]) {
                             result.append(LatLng(lat: lat, lng: lng))
                         }
