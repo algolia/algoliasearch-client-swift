@@ -60,7 +60,7 @@ public class MirroredIndex : Index {
     // ----------------------------------------------------------------------
     
     /// Getter returning covariant-typed client.
-    // TODO: Could not find a way to implement proper covariant properties in Swift.
+    // IMPLEMENTATION NOTE: Could not find a way to implement proper covariant properties in Swift.
     public var offlineClient: OfflineClient {
         return self.client as! OfflineClient
     }
@@ -195,7 +195,6 @@ public class MirroredIndex : Index {
         syncError = false
         
         // Task: Download index settings.
-        // TODO: Should we use host retry like for realtime queries? Not sure it's necessary.
         // TODO: Factorize query construction with regular code.
         let path = "1/indexes/\(urlEncodedIndexName)/settings"
         let settingsOperation = client.newRequest(.GET, path: path, body: nil, isSearchQuery: false) {

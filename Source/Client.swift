@@ -351,7 +351,6 @@ public class Client : NSObject {
     func newRequest(method: HTTPMethod, path: String, body: [String: AnyObject]?, isSearchQuery: Bool = false, completion: CompletionHandler? = nil) -> Request {
         let currentTimeout = isSearchQuery ? searchTimeout : timeout
         let hostnames = isSearchQuery ? readHosts : writeHosts
-        // TODO: Remember host failures to restart at the first working host.
         let request = Request(session: session, method: method, hosts: hostnames, firstHostIndex: 0, path: path, headers: headers, jsonBody: body, timeout: currentTimeout, completion:  completion)
         return request
     }
