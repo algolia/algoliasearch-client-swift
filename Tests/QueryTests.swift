@@ -548,4 +548,25 @@ class QueryTests: XCTestCase {
         XCTAssertEqual(query2.insidePolygon!, box)
     }
 
+    func test_tagFilters() {
+        let VALUE: [AnyObject] = ["tag1", ["tag2", "tag3"]]
+        let query1 = Query()
+        XCTAssertNil(query1.tagFilters)
+        query1.tagFilters = VALUE
+        XCTAssertEqual(query1.tagFilters! as NSObject, VALUE as NSObject)
+        XCTAssertEqual(query1["tagFilters"], "[\"tag1\",[\"tag2\",\"tag3\"]]")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.tagFilters! as NSObject, VALUE as NSObject)
+    }
+    
+    func test_facetFilters() {
+        let VALUE: [AnyObject] = [["category:Book", "category:Movie"], "author:John Doe"]
+        let query1 = Query()
+        XCTAssertNil(query1.facetFilters)
+        query1.facetFilters = VALUE
+        XCTAssertEqual(query1.facetFilters! as NSObject, VALUE as NSObject)
+        XCTAssertEqual(query1["facetFilters"], "[[\"category:Book\",\"category:Movie\"],\"author:John Doe\"]")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.facetFilters! as NSObject, VALUE as NSObject)
+    }
 }

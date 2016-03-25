@@ -37,6 +37,13 @@ import Foundation
 // of the untyped storage (i.e. serializing to and parsing from string
 // values).
 //
+// ## Unmapped parameters
+//
+// The following parameters are too complex and have no typed accessors:
+//
+// - `filters`
+// - `numericFilters`
+//
 // # Bridgeability
 //
 // **This Swift client must be bridgeable to Objective-C.**
@@ -538,11 +545,15 @@ public class Query : NSObject {
         }
     }
 
-    // TODO: filters
-    // TODO: tagFilters
-    // TODO: optionalTagFilters
-    // TODO: facetFilters
-    // TODO: numericFilters
+    @objc public var tagFilters: [AnyObject]? {
+        get { return Query.parseJSONArray(get("tagFilters")) }
+        set { set("tagFilters", value: Query.buildJSONArray(newValue)) }
+    }
+    
+    @objc public var facetFilters: [AnyObject]? {
+        get { return Query.parseJSONArray(get("facetFilters")) }
+        set { set("facetFilters", value: Query.buildJSONArray(newValue)) }
+    }
 
     // MARK: - Miscellaneous
 
@@ -657,6 +668,31 @@ public class Query : NSObject {
             }
             // Fallback on plain string parsing.
             return string!.componentsSeparatedByString(",")
+        }
+        return nil
+    }
+    
+    class func buildJSONArray(array: [AnyObject]?) -> String? {
+        if array != nil {
+            do {
+                let data = try NSJSONSerialization.dataWithJSONObject(array!, options: NSJSONWritingOptions(rawValue: 0))
+                if let string = String(data: data, encoding: NSUTF8StringEncoding) {
+                    return string
+                }
+            } catch {
+            }
+        }
+        return nil
+    }
+    
+    class func parseJSONArray(string: String?) -> [AnyObject]? {
+        if string != nil {
+            do {
+                if let array = try NSJSONSerialization.JSONObjectWithData(string!.dataUsingEncoding(NSUTF8StringEncoding)!, options: NSJSONReadingOptions(rawValue: 0)) as? [AnyObject] {
+                    return array
+                }
+            } catch {
+            }
         }
         return nil
     }
