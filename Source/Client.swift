@@ -40,7 +40,6 @@ public class Client : NSObject {
 
     private let timeout: NSTimeInterval = 30
     private let searchTimeout: NSTimeInterval = 5
-    private let incrementTimeout: NSTimeInterval = 10
 
     public let appID: String
 
