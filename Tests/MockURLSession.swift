@@ -23,14 +23,37 @@ public struct MockResponse {
     /// HTTP headers to return.
     public let headers: [String : String]?
     
-    /// JSON body to return.
-    public let jsonBody: AnyObject?
+    public let data: NSData?
     
     // In case of (network) error
     // --------------------------
     
     /// Error to return.
     public let error: NSError?
+    
+    /// Construct a successful response with a JSON body.
+    public init(statusCode: Int, jsonBody: AnyObject) {
+        self.statusCode = statusCode
+        self.headers = nil
+        self.data = try? NSJSONSerialization.dataWithJSONObject(jsonBody, options: []) ?? NSData()
+        self.error = nil
+    }
+    
+    /// Construct a successful response with a raw data body.
+    public init(statusCode: Int, data: NSData) {
+        self.statusCode = statusCode
+        self.headers = nil
+        self.data = data
+        self.error = nil
+    }
+    
+    /// Construct an error response.
+    public init(error: NSError) {
+        self.statusCode = nil
+        self.headers = nil
+        self.data = nil
+        self.error = error
+    }
 }
 
 /// A replacement for `NSURLSession` used for mocking network requests.
@@ -42,7 +65,7 @@ public class MockURLSession: URLSession {
     /// Whether network requests can be cancelled.
     public var cancellable: Bool = true
     
-    let defaultResponse = MockResponse(statusCode: nil, headers: nil, jsonBody: nil, error: NSError(domain: NSURLErrorDomain, code: NSURLErrorResourceUnavailable, userInfo: nil))
+    let defaultResponse = MockResponse(error: NSError(domain: NSURLErrorDomain, code: NSURLErrorResourceUnavailable, userInfo: nil))
     
     public func dataTaskWithRequest(request: NSURLRequest, completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void) -> NSURLSessionDataTask {
         let details = responses[request.URL!.absoluteString] ?? defaultResponse
@@ -88,8 +111,8 @@ public class MockURLSessionDataTask: NSURLSessionDataTask {
             else {
                 assert(self.details.statusCode != nil)
                 let httpResponse = NSHTTPURLResponse(URL: self.request.URL!, statusCode: self.details.statusCode!, HTTPVersion: "HTTP/1.1", headerFields: self.details.headers)!
-                let data = self.details.jsonBody != nil ? try! NSJSONSerialization.dataWithJSONObject(self.details.jsonBody!, options: []) : NSData()
-                self.completionHandler(data, httpResponse, nil)
+                assert(self.details.data != nil)
+                self.completionHandler(self.details.data, httpResponse, nil)
             }
         }
     }
