@@ -16,3 +16,7 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
+
+# Cocoapods
+/Pods
+/AlgoliaSearch.xcworkspace

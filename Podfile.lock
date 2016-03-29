@@ -1,0 +1,26 @@
+PODS:
+  - AlgoliaSearch-Client-Swift (2.2.1):
+    - AlgoliaSearch-Client-Swift/Online (= 2.2.1)
+  - AlgoliaSearch-Client-Swift/Offline (2.2.1):
+    - AlgoliaSearchSDK-iOS
+  - AlgoliaSearch-Client-Swift/Online (2.2.1)
+  - AlgoliaSearchSDK-iOS (0.1)
+
+DEPENDENCIES:
+  - AlgoliaSearch-Client-Swift (from `.`)
+  - AlgoliaSearch-Client-Swift/Offline (from `.`)
+  - AlgoliaSearchSDK-iOS (from `~/devt/workspace/saas-sdk/AlgoliaSaaS/algolia/sdk/bridge/ios`)
+
+EXTERNAL SOURCES:
+  AlgoliaSearch-Client-Swift:
+    :path: .
+  AlgoliaSearchSDK-iOS:
+    :path: ~/devt/workspace/saas-sdk/AlgoliaSaaS/algolia/sdk/bridge/ios
+
+SPEC CHECKSUMS:
+  AlgoliaSearch-Client-Swift: dbd054fa219f2693509a1bf95c45cdfd9d0011e7
+  AlgoliaSearchSDK-iOS: aea326d1314e1911d2b69496e5fccce701d10bce
+
+PODFILE CHECKSUM: 88cd4fbd604f07a30f379273b8ebdd5268ba64f2
+
+COCOAPODS: 1.0.0.beta.2
