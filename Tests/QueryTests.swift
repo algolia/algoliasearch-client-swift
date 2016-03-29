@@ -529,12 +529,19 @@ class QueryTests: XCTestCase {
     func test_insideBoundingBox() {
         let query1 = Query()
         XCTAssertNil(query1.insideBoundingBox)
-        let box = [LatLng(lat: 11.111111, lng: 22.222222), LatLng(lat: 33.333333, lng: 44.444444), LatLng(lat: -55.555555, lng: -66.666666), LatLng(lat: -77.777777, lng: -88.888888)]
+        let box = [LatLng(lat: 11.111111, lng: 22.222222), LatLng(lat: 33.333333, lng: 44.444444)]
         query1.insideBoundingBox = box
         XCTAssertEqual(query1.insideBoundingBox!, box)
-        XCTAssertEqual(query1["insideBoundingBox"], "11.111111,22.222222,33.333333,44.444444,-55.555555,-66.666666,-77.777777,-88.888888")
-        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query1["insideBoundingBox"], "11.111111,22.222222,33.333333,44.444444")
+        var query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.insideBoundingBox!, box)
+        
+        let boxes = [LatLng(lat: 11.111111, lng: 22.222222), LatLng(lat: 33.333333, lng: 44.444444), LatLng(lat: -55.555555, lng: -66.666666), LatLng(lat: -77.777777, lng: -88.888888)]
+        query1.insideBoundingBox = boxes
+        XCTAssertEqual(query1.insideBoundingBox!, boxes)
+        XCTAssertEqual(query1["insideBoundingBox"], "11.111111,22.222222,33.333333,44.444444,-55.555555,-66.666666,-77.777777,-88.888888")
+        query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.insideBoundingBox!, boxes)
     }
 
     func test_insidePolygon() {
@@ -568,5 +575,45 @@ class QueryTests: XCTestCase {
         XCTAssertEqual(query1["facetFilters"], "[[\"category:Book\",\"category:Movie\"],\"author:John Doe\"]")
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.facetFilters! as NSObject, VALUE as NSObject)
+    }
+
+    func test_advancedSyntax() {
+        let query1 = Query()
+        XCTAssertNil(query1.advancedSyntax)
+        query1.advancedSyntax = true
+        XCTAssertEqual(query1.advancedSyntax, true)
+        XCTAssertEqual(query1["advancedSyntax"], "true")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.advancedSyntax, true)
+    }
+
+    func test_removeStopWords() {
+        let query1 = Query()
+        XCTAssertNil(query1.removeStopWords)
+        query1.removeStopWords = true
+        XCTAssertEqual(query1.removeStopWords, true)
+        XCTAssertEqual(query1["removeStopWords"], "true")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.removeStopWords, true)
+    }
+    
+    func test_maxValuesPerFacet() {
+        let query1 = Query()
+        XCTAssertNil(query1.maxValuesPerFacet)
+        query1.maxValuesPerFacet = 456
+        XCTAssertEqual(query1.maxValuesPerFacet, 456)
+        XCTAssertEqual(query1["maxValuesPerFacet"], "456")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.maxValuesPerFacet, 456)
+    }
+    
+    func test_minimumAroundRadius() {
+        let query1 = Query()
+        XCTAssertNil(query1.minimumAroundRadius)
+        query1.minimumAroundRadius = 1000
+        XCTAssertEqual(query1.minimumAroundRadius, 1000)
+        XCTAssertEqual(query1["minimumAroundRadius"], "1000")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.minimumAroundRadius, 1000)
     }
 }
