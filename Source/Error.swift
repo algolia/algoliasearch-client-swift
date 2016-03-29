@@ -44,8 +44,13 @@ public enum StatusCode: Int {
     
     // MARK: Custom status codes
     
-    /// The server replied an invalid JSON response.
-    case InvalidJSONResponse                                    = 600
+    case Unknown                                                = -1
+    
+    /// The server replied ill-formed JSON (syntax error).
+    case IllFormedResponse                                      = 600
+    
+    /// The server replied an invalid response (grammar error).
+    case InvalidResponse                                        = 601
     
     public static func isSuccess(statusCode: Int) -> Bool {
         return statusCode >= 200 && statusCode < 300

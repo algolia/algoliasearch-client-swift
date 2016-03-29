@@ -115,7 +115,7 @@ public class MirroredIndex : Index {
     private var syncing: Bool = false
     
     private var tmpDir : String?
-    private var syncError : Bool = false
+    public private(set) var syncError : NSError?
     private var settingsFilePath: String?
     private var objectsFilePaths: [String]?
     
@@ -205,22 +205,27 @@ public class MirroredIndex : Index {
         }
         
         // NOTE: We use `NSOperation`s to handle dependencies between tasks.
-        syncError = false
+        syncError = nil
         
         // Task: Download index settings.
         // TODO: Factorize query construction with regular code.
         let path = "1/indexes/\(urlEncodedIndexName)/settings"
         let settingsOperation = client.newRequest(.GET, path: path, body: nil, isSearchQuery: false) {
             (json: [String: AnyObject]?, error: NSError?) in
-            if json != nil && error == nil {
+            if error != nil {
+                self.syncError = error
+            } else {
+                assert(json != nil)
                 // Write results to disk.
                 if let data = try? NSJSONSerialization.dataWithJSONObject(json!, options: []) {
                     self.settingsFilePath = "\(self.tmpDir!)/settings.json"
                     data.writeToFile(self.settingsFilePath!, atomically: false)
                     return // all other paths go to error
+                } else {
+                    self.syncError = NSError(domain: AlgoliaSearchErrorDomain, code: StatusCode.Unknown.rawValue, userInfo: [NSLocalizedDescriptionKey: "Could not write index settings"])
                 }
             }
-            self.syncError = true
+            assert(self.syncError != nil) // we should reach this point only in case of error (see above)
         }
         self.offlineClient.buildQueue.addOperation(settingsOperation)
         
@@ -242,7 +247,10 @@ public class MirroredIndex : Index {
                 let queryString = newQuery.build()
                 let operation = client.newRequest(.POST, path: path, body: ["params": queryString], isSearchQuery: false) {
                     (json: [String: AnyObject]?, error: NSError?) in
-                    if json != nil && error == nil {
+                    if error != nil {
+                        self.syncError = error
+                    } else {
+                        assert(json != nil)
                         // Fetch cursor from data.
                         cursor = json!["cursor"] as? String
                         if let hits = json!["hits"] as? [[String: AnyObject]] {
@@ -255,25 +263,29 @@ public class MirroredIndex : Index {
                                 self.objectsFilePaths?.append(objectFilePath)
                                 data.writeToFile(objectFilePath, atomically: false)
                                 return // all other paths go to error
+                            } else {
+                                self.syncError = NSError(domain: AlgoliaSearchErrorDomain, code: StatusCode.Unknown.rawValue, userInfo: [NSLocalizedDescriptionKey: "Could not write hits"])
                             }
+                        } else {
+                            self.syncError = NSError(domain: AlgoliaSearchErrorDomain, code: StatusCode.InvalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "No hits in server response"])
                         }
                     }
-                    self.syncError = true
+                    assert(self.syncError != nil) // we should reach this point only in case of error (see above)
                 }
                 objectOperations.append(operation)
                 self.offlineClient.buildQueue.addOperation(operation)
                 // WARNING: Synchronously blocking until the operation finishes.
                 operation.waitUntilFinished()
             }
-            while !syncError && cursor != nil && objectCount < query.maxObjects
+            while syncError == nil && cursor != nil && objectCount < query.maxObjects
         }
         
         // Task: build the index using the downloaded files.
         let buildIndexOperation = NSBlockOperation() {
-            if !self.syncError {
+            if self.syncError == nil {
                 let status = self.localIndex!.buildFromSettingsFile(self.settingsFilePath!, objectFiles: self.objectsFilePaths!)
                 if status != 200 {
-                    NSLog("Error %d building index %@", status, self.indexName)
+                    self.syncError = NSError(domain: AlgoliaSearchErrorDomain, code: Int(status), userInfo: [NSLocalizedDescriptionKey: "Could not build local index"])
                 } else {
                     // Remember the sync's date
                     self.mirrorSettings.lastSyncDate = NSDate()

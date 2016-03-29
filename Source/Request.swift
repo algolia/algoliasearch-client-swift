@@ -126,12 +126,12 @@ public class Request: NSOperation {
                 do {
                     json = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as? [String: AnyObject]
                     if json == nil {
-                        finalError = NSError(domain: AlgoliaSearchErrorDomain, code: StatusCode.InvalidJSONResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "Server response not a JSON object"])
+                        finalError = NSError(domain: AlgoliaSearchErrorDomain, code: StatusCode.InvalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "Server response not a JSON object"])
                     }
                 } catch let jsonError as NSError {
-                    finalError = NSError(domain: AlgoliaSearchErrorDomain, code: StatusCode.InvalidJSONResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "Server returned invalid JSON", NSUnderlyingErrorKey: jsonError])
+                    finalError = NSError(domain: AlgoliaSearchErrorDomain, code: StatusCode.IllFormedResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "Server returned ill-formed JSON", NSUnderlyingErrorKey: jsonError])
                 } catch {
-                    finalError = NSError(domain: AlgoliaSearchErrorDomain, code: -1, userInfo: [NSLocalizedDescriptionKey: "Unknown error when parsing JSON"])
+                    finalError = NSError(domain: AlgoliaSearchErrorDomain, code: StatusCode.Unknown.rawValue, userInfo: [NSLocalizedDescriptionKey: "Unknown error when parsing JSON"])
                 }
                 
                 // Handle HTTP status code.
