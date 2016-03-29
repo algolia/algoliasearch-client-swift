@@ -529,14 +529,15 @@ class QueryTests: XCTestCase {
     func test_insideBoundingBox() {
         let query1 = Query()
         XCTAssertNil(query1.insideBoundingBox)
-        let box = [LatLng(lat: 11.111111, lng: 22.222222), LatLng(lat: 33.333333, lng: 44.444444)]
-        query1.insideBoundingBox = box
-        XCTAssertEqual(query1.insideBoundingBox!, box)
+        let box1 = GeoRect(p1: LatLng(lat: 11.111111, lng: 22.222222), p2: LatLng(lat: 33.333333, lng: 44.444444))
+        query1.insideBoundingBox = [box1]
+        XCTAssertEqual(query1.insideBoundingBox!, [box1])
         XCTAssertEqual(query1["insideBoundingBox"], "11.111111,22.222222,33.333333,44.444444")
         var query2 = Query.parse(query1.build())
-        XCTAssertEqual(query2.insideBoundingBox!, box)
+        XCTAssertEqual(query2.insideBoundingBox!, [box1])
         
-        let boxes = [LatLng(lat: 11.111111, lng: 22.222222), LatLng(lat: 33.333333, lng: 44.444444), LatLng(lat: -55.555555, lng: -66.666666), LatLng(lat: -77.777777, lng: -88.888888)]
+        let box2 = GeoRect(p1: LatLng(lat: -55.555555, lng: -66.666666), p2: LatLng(lat: -77.777777, lng: -88.888888))
+        let boxes = [box1, box2]
         query1.insideBoundingBox = boxes
         XCTAssertEqual(query1.insideBoundingBox!, boxes)
         XCTAssertEqual(query1["insideBoundingBox"], "11.111111,22.222222,33.333333,44.444444,-55.555555,-66.666666,-77.777777,-88.888888")

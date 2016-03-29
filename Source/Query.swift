@@ -116,6 +116,29 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
 }
 
 
+/// A rectangle in geo coordinates.
+/// Used in geo-serch.
+///
+// IMPLEMENTATION NOTE: Cannot be `struct` because of Objective-C bridgeability.
+@objc public class GeoRect: NSObject {
+    public let p1: LatLng
+    public let p2: LatLng
+    
+    public init(p1: LatLng, p2: LatLng) {
+        self.p1 = p1
+        self.p2 = p2
+    }
+    
+    public override func isEqual(object: AnyObject?) -> Bool {
+        if let rhs = object as? GeoRect {
+            return self.p1 == rhs.p1 && self.p2 == rhs.p2
+        } else {
+            return false
+        }
+    }
+}
+
+
 /// Describes all parameters of a search query.
 ///
 /// There are two ways to access parameters:
@@ -618,18 +641,15 @@ public class Query : NSObject {
     }
     
     /// Search for entries inside a given area defined by the two extreme points of a rectangle.
-    ///
-    /// You can use several bounding boxes (OR) by passing more than 2 values. For example instead of having 2 values
-    /// you can pass 4 to use or OR between two bounding boxes.
-    // TODO: Should we type that more strongly? Like with an array of arrays?
-    @objc public var insideBoundingBox: [LatLng]? {
+    /// You can use several bounding boxes (OR) by passing more than 1 value.
+    @objc public var insideBoundingBox: [GeoRect]? {
         get {
             if let fields = get("insideBoundingBox")?.componentsSeparatedByString(",") {
-                if fields.count % 2 == 0 && (fields.count / 2) % 2 == 0 {
-                    var result = [LatLng]()
-                    for i in 0..<(fields.count / 2) {
-                        if let lat = Double(fields[2 * i + 0]), lng = Double(fields[2 * i + 1]) {
-                            result.append(LatLng(lat: lat, lng: lng))
+                if fields.count % 4 == 0 {
+                    var result = [GeoRect]()
+                    for i in 0..<(fields.count / 4) {
+                        if let lat1 = Double(fields[4 * i + 0]), lng1 = Double(fields[4 * i + 1]), lat2 = Double(fields[4 * i + 2]), lng2 = Double(fields[4 * i + 3]) {
+                            result.append(GeoRect(p1: LatLng(lat: lat1, lng: lng1), p2: LatLng(lat: lat2, lng: lng2)))
                         }
                     }
                     return result
@@ -641,11 +661,12 @@ public class Query : NSObject {
             if newValue == nil {
                 set("insideBoundingBox", value: nil)
             } else {
-                assert(newValue!.count % 2 == 0)
                 var components = [String]()
-                for point in newValue! {
-                    components.append(String(point.lat))
-                    components.append(String(point.lng))
+                for box in newValue! {
+                    components.append(String(box.p1.lat))
+                    components.append(String(box.p1.lng))
+                    components.append(String(box.p2.lat))
+                    components.append(String(box.p2.lng))
                 }
                 set("insideBoundingBox", value: components.joinWithSeparator(","))
             }
