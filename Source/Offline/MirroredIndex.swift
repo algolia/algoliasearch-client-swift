@@ -54,6 +54,14 @@ public struct DataSelectionQuery {
 /// key prior to calling any offline-related method.
 ///
 public class MirroredIndex : Index {
+    
+    // MARK: Constants
+    
+    /// Notification sent when the sync has started.
+    public static let SyncDidStartNotification = "AlgoliaSearch.MirroredIndex.SyncDidStartNotification"
+    
+    /// Notification sent when the sync has finished.
+    public static let SyncDidFinishNotification = "AlgoliaSearch.MirroredIndex.SyncDidFinishNotification"
 
     // ----------------------------------------------------------------------
     // MARK: Properties
@@ -163,6 +171,11 @@ public class MirroredIndex : Index {
             return
         }
         syncing = true
+        
+        // Notify observers.
+        NSNotificationCenter.defaultCenter().postNotificationName(MirroredIndex.SyncDidStartNotification, object: self)
+        
+        // Run the sync asynchronously.
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
             self._sync()
         }
@@ -281,6 +294,9 @@ public class MirroredIndex : Index {
             // Mark the sync as finished.
             dispatch_async(dispatch_get_main_queue()) {
                 self.syncing = false
+                
+                // Notify observers.
+                NSNotificationCenter.defaultCenter().postNotificationName(MirroredIndex.SyncDidFinishNotification, object: self)
             }
         }
         // Make sure this task is run after all the download tasks.
