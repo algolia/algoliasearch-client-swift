@@ -20,8 +20,6 @@
 		BCF3E4B21CAABB77005AF5C6 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA737D1CA555070082B197 /* MockURLSession.swift */; };
 		BCF3E4B31CAABB77005AF5C6 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA73771CA546800082B197 /* NetworkTests.swift */; };
 		BCF3E4B41CAABB77005AF5C6 /* QueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0A01631C9C19CD00CD4A7C /* QueryTests.swift */; };
-		BCF3E4B61CAABD7A005AF5C6 /* OfflineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF3E4B51CAABD7A005AF5C6 /* OfflineTests.swift */; };
-		BCF3E4B71CAABD7A005AF5C6 /* OfflineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCF3E4B51CAABD7A005AF5C6 /* OfflineTests.swift */; };
 		EE2451E98AEA645037A7012E /* Pods_AlgoliaSearch_OSX_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B70E99AC9B4F7E8E449C4DE6 /* Pods_AlgoliaSearch_OSX_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -386,7 +384,6 @@
 				BCF3E4A11CAAB61C005AF5C6 /* NetworkTests.swift in Sources */,
 				BCF3E4A21CAAB61C005AF5C6 /* QueryTests.swift in Sources */,
 				BCF3E49D1CAAB61C005AF5C6 /* ClientTests.swift in Sources */,
-				BCF3E4B61CAABD7A005AF5C6 /* OfflineTests.swift in Sources */,
 				BCF3E49E1CAAB61C005AF5C6 /* Helpers.swift in Sources */,
 				BCF3E49F1CAAB61C005AF5C6 /* IndexTests.swift in Sources */,
 				BCF3E4A01CAAB61C005AF5C6 /* MockURLSession.swift in Sources */,
@@ -400,7 +397,6 @@
 				BCF3E4B31CAABB77005AF5C6 /* NetworkTests.swift in Sources */,
 				BCF3E4B41CAABB77005AF5C6 /* QueryTests.swift in Sources */,
 				BCF3E4AF1CAABB77005AF5C6 /* ClientTests.swift in Sources */,
-				BCF3E4B71CAABD7A005AF5C6 /* OfflineTests.swift in Sources */,
 				BCF3E4B01CAABB77005AF5C6 /* Helpers.swift in Sources */,
 				BCF3E4B11CAABB77005AF5C6 /* IndexTests.swift in Sources */,
 				BCF3E4B21CAABB77005AF5C6 /* MockURLSession.swift in Sources */,

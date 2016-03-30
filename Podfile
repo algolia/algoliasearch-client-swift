@@ -8,10 +8,7 @@
 use_frameworks!
 
 def common_deps
-    # TODO: Use online version when available.
-    pod 'AlgoliaSearchSDK-iOS', :path => '~/devt/workspace/saas-sdk/AlgoliaSaaS/algolia/sdk/bridge/ios'
     pod 'AlgoliaSearch-Client-Swift', :path => '.'
-    pod 'AlgoliaSearch-Client-Swift/Offline', :path => '.'
 end
 
 target "AlgoliaSearch-iOS-Tests" do
