@@ -251,10 +251,11 @@ import Foundation
     }
     
     /// Cancel this request.
+    /// The completion block (if any was provided) will not be called after a request has been cancelled.
     ///
-    /// If any network call is ongoing, this will attempt to cancel it; this may or may not succeed depending on
-    /// `NSURLSessionTask`'s implementation. However, the completion block (if any was provided) is guaranteed not to
-    /// be called after this method has been called.
+    /// WARNING: Cancelling a request may or may not cancel the underlying network call, depending how late the
+    /// cancellation happens. In other words, a cancelled request may have already been executed by the server. In any
+    /// case, cancelling never carries "undo" semantics.
     ///
     @objc public override func cancel() {
         self._cancelled = true
