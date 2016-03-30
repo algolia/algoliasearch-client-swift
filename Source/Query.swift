@@ -147,7 +147,7 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
 /// 2. Using the low-level, untyped getter (`get()`) and setter (`set()`) or the subscript operator.
 ///    Use this approach if the parameter you wish to set is not supported by this class.
 ///
-public class Query : NSObject {
+@objc public class Query : NSObject {
     
     // MARK: - Low-level (untyped) parameters
     

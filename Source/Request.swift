@@ -29,7 +29,7 @@ import Foundation
 /// This class encapsulates a sequence of normally one (nominal case), potentially many (in case of retry) network
 /// calls into a high-level operation. This operation can be cancelled by the user.
 ///
-public class Request: NSOperation {
+@objc public class Request: NSOperation {
     let session: URLSession
     
     /// Request method.
@@ -184,7 +184,7 @@ public class Request: NSOperation {
     // MARK: Properties
     
     // Mark this operation as aynchronous.
-    override public var asynchronous: Bool {
+    @objc override public var asynchronous: Bool {
         get {
             return true
         }
@@ -205,7 +205,7 @@ public class Request: NSOperation {
         }
     }
     
-    override public var executing: Bool {
+    @objc override public var executing: Bool {
         get {
             return _executing
         }
@@ -220,7 +220,7 @@ public class Request: NSOperation {
         }
     }
     
-    override public var finished: Bool {
+    @objc override public var finished: Bool {
         get {
             return _finished
         }
@@ -235,7 +235,7 @@ public class Request: NSOperation {
         }
     }
     
-    override public var cancelled: Bool {
+    @objc override public var cancelled: Bool {
         get {
             return _cancelled
         }
@@ -244,7 +244,7 @@ public class Request: NSOperation {
     // MARK: Operations
     
     /// Start this request.
-    override public func start() {
+    @objc override public func start() {
         assert(!_executing)
         self._executing = true
         startNext()
@@ -256,7 +256,7 @@ public class Request: NSOperation {
     /// `NSURLSessionTask`'s implementation. However, the completion block (if any was provided) is guaranteed not to
     /// be called after this method has been called.
     ///
-    public override func cancel() {
+    @objc public override func cancel() {
         self._cancelled = true
         task?.cancel()
     }
