@@ -25,12 +25,12 @@ if [[ $IOS = "TRUE" ]]; then
     sed -i.tmp "s/JOB_NUMBER_REPLACE_ME/${TRAVIS_JOB_NUMBER}/g" $FILE
 
     xcodebuild -workspace AlgoliaSearch.xcworkspace -scheme "AlgoliaSearch-iOS-Tests" \
-        -sdk "$SDK" -destination "$VERSION" test | xcpretty -c
+        -sdk "$SDK" -destination "$VERSION" test
 
     mv $FILE.bak $FILE
     rm $FILE.tmp
 else
     echo "Run OS X test..."
     xcodebuild -workspace AlgoliaSearch.xcworkspace -scheme "AlgoliaSearch-OSX-Tests" \
-        test | xcpretty -c
+        test
 fi
