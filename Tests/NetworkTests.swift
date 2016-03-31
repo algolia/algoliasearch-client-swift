@@ -145,7 +145,7 @@ class NetworkTests: XCTestCase {
             XCTAssertNil(content)
             XCTAssertNotNil(error)
             XCTAssertEqual(error?.domain, AlgoliaSearchErrorDomain)
-            XCTAssertEqual(error?.code, StatusCode.InvalidJSONResponse.rawValue)
+            XCTAssertEqual(error?.code, StatusCode.IllFormedResponse.rawValue)
             expectation.fulfill()
         }
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
@@ -160,7 +160,7 @@ class NetworkTests: XCTestCase {
             XCTAssertNil(content)
             XCTAssertNotNil(error)
             XCTAssertEqual(error?.domain, AlgoliaSearchErrorDomain)
-            XCTAssertEqual(error?.code, StatusCode.InvalidJSONResponse.rawValue)
+            XCTAssertEqual(error?.code, StatusCode.IllFormedResponse.rawValue)
             expectation.fulfill()
         }
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
@@ -177,7 +177,7 @@ class NetworkTests: XCTestCase {
             XCTAssertNil(content)
             XCTAssertNotNil(error)
             XCTAssertEqual(error?.domain, AlgoliaSearchErrorDomain)
-            XCTAssertEqual(error?.code, StatusCode.InvalidJSONResponse.rawValue)
+            XCTAssertEqual(error?.code, StatusCode.IllFormedResponse.rawValue)
             expectation.fulfill()
         }
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
