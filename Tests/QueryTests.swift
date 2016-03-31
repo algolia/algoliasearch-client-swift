@@ -63,9 +63,9 @@ class QueryTests: XCTestCase {
     func testEscape() {
         let query1 = Query()
         query1.set("accented", value: "éêèàôù")
-        query1.set("escaped", value: " %&=#")
+        query1.set("escaped", value: " %&=#+")
         let queryString = query1.build()
-        XCTAssertEqual(queryString, "accented=%C3%A9%C3%AA%C3%A8%C3%A0%C3%B4%C3%B9&escaped=%20%25%26%3D%23")
+        XCTAssertEqual(queryString, "accented=%C3%A9%C3%AA%C3%A8%C3%A0%C3%B4%C3%B9&escaped=%20%25%26%3D%23%2B")
         
         // Test parsing of escaped characters.
         let query2 = Query.parse(queryString)
