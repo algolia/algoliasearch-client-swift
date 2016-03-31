@@ -53,7 +53,16 @@ struct Manager {
         let URLRequest = encodeParameter(CreateNSURLRequest(method, URL: URLString), parameters: parameters)
         
         let dataTask = session.dataTaskWithRequest(URLRequest, completionHandler: { (data, response, error) -> Void in
+            guard let data = data where data.length > 0 else {
+                dispatch_async(dispatch_get_main_queue()) {
+                    block(response as? NSHTTPURLResponse, nil, error)
+                }
+
+                return
+            }
+
             let (JSON, error) = self.serializeResponse(data)
+
             dispatch_async(dispatch_get_main_queue()) {
                 block(response as? NSHTTPURLResponse, JSON, error)
             }
@@ -83,14 +92,10 @@ struct Manager {
         }
     }
     
-    private func serializeResponse(data: NSData?) -> (AnyObject?, NSError?) {
-        typealias Serializer = (NSData?) -> (AnyObject?, NSError?)
-        
+    private func serializeResponse(data: NSData) -> (AnyObject?, NSError?) {
+        typealias Serializer = (NSData) -> (AnyObject?, NSError?)
+
         let JSONSerializer: Serializer = { (data) in
-            guard let data = data where data.length > 0 else {
-                return (nil, nil)
-            }
-        
             do {
                 return (try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments), nil)
             } catch let error as NSError {
