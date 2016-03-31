@@ -11,7 +11,7 @@ env:
 before_install:
     # Forcing Cocoapods version as described in <http://stackoverflow.com/questions/31751335/travis-ci-fails-to-compile-pods>.
     - rvm use system
-    - sudo gem install cocoapods -v '1.0.0.beta.6'
+    - gem install cocoapods -v '1.0.0.beta.6'
 before_script:
   - gem install xcpretty -N
 script:
