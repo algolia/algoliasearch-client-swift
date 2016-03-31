@@ -9,8 +9,6 @@ env:
     - IOS="TRUE" VERSION="OS=8.4,name=iPhone 6" SDK=iphonesimulator9.3
     - IOS="TRUE" VERSION="OS=9.0,name=iPhone 6" SDK=iphonesimulator9.3
 before_install:
-    # Forcing Cocoapods version as described in <http://stackoverflow.com/questions/31751335/travis-ci-fails-to-compile-pods>.
-    - rvm use system
     - gem install cocoapods -v '1.0.0.beta.6'
 before_script:
   - gem install xcpretty -N
