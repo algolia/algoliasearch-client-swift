@@ -12,6 +12,7 @@ fi
 
 # Unit tests rely on Cocoapods.
 # If you wonder why, see `Podfile` for a discussion.
+pod --version
 pod install
 
 if [[ $IOS = "TRUE" ]]; then
