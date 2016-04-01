@@ -583,73 +583,6 @@ class IndexTests: XCTestCase {
     }
     
     func testBrowse() {
-        let expectation = expectationWithDescription("testBrowse")
-        let object = ["city": "San Francisco", "objectID": "a/go/?à"]
-        
-        index.addObject(object, block: { (content, error) -> Void in
-            if let error = error {
-                XCTFail("Error during addObject: \(error)")
-                expectation.fulfill()
-            } else {
-                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
-                    if let error = error {
-                        XCTFail("Error during waitTask: \(error)")
-                        expectation.fulfill()
-                    } else {
-                        self.index.browse(0, block: { (content, error) -> Void in
-                            if let error = error {
-                                XCTFail("Error during browse: \(error)")
-                            } else {
-                                let nbHits = content!["nbHits"] as! Int
-                                XCTAssertEqual(nbHits, 1, "Wrong number of object in the index")
-                            }
-                            
-                            expectation.fulfill()
-                        })
-                    }
-                })
-            }
-        })
-        
-        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
-    }
-    
-    func testBrowseWithHitsPerPage() {
-        let expectation = expectationWithDescription("testBrowseWithHitsPerPage")
-        let objects = [
-            ["city": "San Francisco", "objectID": "a/go/?à"],
-            ["city": "New York", "objectID": "a/go/?à$"]
-        ]
-        
-        index.addObjects(objects, block: { (content, error) -> Void in
-            if let error = error {
-                XCTFail("Error during addObjects: \(error)")
-                expectation.fulfill()
-            } else {
-                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
-                    if let error = error {
-                        XCTFail("Error during waitTask: \(error)")
-                        expectation.fulfill()
-                    } else {
-                        self.index.browse(0, hitsPerPage: 1, block: { (content, error) -> Void in
-                            if let error = error {
-                                XCTFail("Error during browse: \(error)")
-                            } else {
-                                let nbPages = content!["nbPages"] as! Int
-                                XCTAssertEqual(nbPages, 2, "Wrong number of page")
-                            }
-                            
-                            expectation.fulfill()
-                        })
-                    }
-                })
-            }
-        })
-
-        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
-    }
-    
-    func testBrowseWithQuery() {
         let expectation = expectationWithDescription("testBrowseWithQuery")
         var objects = [AnyObject]()
         for i in 0...1500 {
@@ -667,20 +600,28 @@ class IndexTests: XCTestCase {
                         expectation.fulfill()
                     } else {
                         let query = Query()
-                        query.hitsPerPage = 10
-                        
-                        var n = 0;
-                        
-                        self.index.browse(query, block: { (iterator, end, error) -> Void in
-                            if let error = error {
-                                XCTFail("Error during browse: \(error)")
-                                expectation.fulfill()
-                            } else if end {
-                                XCTAssertEqual(n, 1500 / 10, "Wrong number of page")
-                                expectation.fulfill()
+                        query.hitsPerPage = 1000
+                        self.index.browse(query, block: { (content, error) -> Void in
+                            if error != nil {
+                                XCTFail("Error during browse: \(error!)")
                             } else {
-                                n += 1
-                                iterator.next()
+                                if let cursor = content?["cursor"] as? String {
+                                    self.index.browseFrom(cursor) { (content, error) in
+                                        if error != nil {
+                                            XCTFail("Error during browse: \(error!)")
+                                        } else {
+                                            if content?["cursor"] as? String != nil {
+                                                XCTFail("The end should have been reached")
+                                                expectation.fulfill()
+                                            } else {
+                                                expectation.fulfill()
+                                            }
+                                        }
+                                    }
+                                } else {
+                                    XCTFail("The end should not be reached")
+                                    expectation.fulfill()
+                                }
                             }
                         })
                     }

@@ -363,94 +363,29 @@ import Foundation
         return client.performHTTPQuery(path, method: .PUT, body: request, hostnames: client.writeHosts, block: block)
     }
     
-    /// Browse all index content
-    ///
-    /// - parameter page: Pagination parameter used to select the page to retrieve. Page is zero-based and defaults to 0. Thus, to retrieve the 10th page you need to set page=9
-    /// - parameter hitsPerPage: Pagination parameter used to select the number of hits per page. Defaults to 1000.
-    @objc public func browse(page: UInt = 0, hitsPerPage: UInt = 1000, block: CompletionHandler) -> NSOperation {
-        let path = "1/indexes/\(urlEncodedIndexName)/browse?page=\(page)&hitsPerPage=\(hitsPerPage)"
-        return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readHosts, block: block)
-    }
-    
     // MARK: - Browse
     
-    public typealias BrowseIteratorHandler = (iterator: BrowseIterator, end: Bool, error: NSError?) -> Void
-    
-    @objc public class BrowseIterator: NSObject {
-        public let index: Index
-        public var cursor: String
-        
-        public var result: [String: AnyObject]?
-        
-        private let path: String
-        private let queryURL: String
-        private let block: BrowseIteratorHandler
-        private var end = false
-        
-        private init(index: Index, query: Query?, cursor: String?, block: BrowseIteratorHandler) {
-            self.index = index
-            self.cursor = cursor ?? ""
-            self.block = block
-            
-            queryURL = query?.build() ?? ""
-            path = "1/indexes/\(index.urlEncodedIndexName)/browse?"
-        }
-        
-        convenience init(index: Index, query: Query, block: BrowseIteratorHandler) {
-            self.init(index: index, query: query, cursor: nil, block: block)
-        }
-        
-        convenience init(index: Index, cursor: String, block: BrowseIteratorHandler) {
-            self.init(index: index, query: nil, cursor: cursor, block: block)
-        }
-        
-        @objc public func next() {
-            let requestPath: String
-            if cursor == "" {
-                requestPath = "\(path)\(queryURL)"
-            } else {
-                requestPath = "\(path)cursor=\(cursor.urlEncode())"
-            }
-            
-            index.client.performHTTPQuery(requestPath, method: .GET, body: nil, hostnames: index.client.readHosts) { (content, error) -> Void in
-                if let error = error {
-                    self.block(iterator: self, end: false, error: error)
-                } else {
-                    self.result = content
-                    if let cursor = content!["cursor"] as? String {
-                        self.cursor = cursor
-                    } else {
-                        self.end = true
-                    }
-                    
-                    self.block(iterator: self, end: self.end, error: nil)
-                }
-            }
-        }
-    }
-    
-    /// Browse all index content.
-    ///
-    /// The iterator object has a parameter `result` that contains the result of the current page.
-    /// At the end of the block handler, call the method `next()` of the iterator object to get the next page.
-    /// The parameter `end` is set to true when all the index was browsed.
+    /// Browse all index content (initial call).
+    /// This method should be called once to initiate a browse. It will return the first page of results and a cursor,
+    /// unless the end of the index has been reached. To retrieve subsequent pages, call `browseFrom` with that cursor.
     ///
     /// - parameter query: The query parameters for the browse.
-    @objc public func browse(query: Query, block: BrowseIteratorHandler) {
-        let iterator = BrowseIterator(index: self, query: query, block: block)
-        iterator.next() // first call
+    @objc public func browse(query: Query, block: CompletionHandler) -> NSOperation {
+        let path = "1/indexes/\(urlEncodedIndexName)/browse"
+        let body = [
+            "params": query.build()
+        ]
+        return client.performHTTPQuery(path, method: .POST, body: body, hostnames: client.readHosts, block: block)
     }
     
     /// Browse the index from a cursor.
-    ///
-    /// The iterator object has a parameter `result` that contains the result of the current page.
-    /// At the end of the block handler, call the method `next()` of the iterator object to get the next page.
-    /// The parameter `end` is set to true when all the index was browsed.
+    /// This method should be called after an initial call to `browse()`. It returns a cursor, unless the end of the
+    /// index has been reached.
     ///
     /// - parameter cursor: The cursor of the next page to retrieve
-    @objc public func browseFrom(cursor: String, block: BrowseIteratorHandler) {
-        let iterator = BrowseIterator(index: self, cursor: cursor, block: block)
-        iterator.next()
+    @objc public func browseFrom(cursor: String, block: CompletionHandler) -> NSOperation {
+        let path = "1/indexes/\(urlEncodedIndexName)/browse?cursor=\(cursor.urlEncode())"
+        return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readHosts, block: block)
     }
     
     // MARK: - Search Cache

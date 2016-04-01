@@ -19,7 +19,10 @@ Pod::Spec.new do |s|
         # No additional dependency.
         # WARNING: Cocoapods complains when a subspec is empty, so we must define something additional here to keep
         # it satisfied.
-        online.source_files = 'Source/*.swift'
+        online.source_files = [
+            'Source/*.swift',
+            'Source/Helpers/*.swift',
+        ]
     end
 
     # Offline-enabled API client.
