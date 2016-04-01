@@ -500,4 +500,28 @@ class ClientTests: XCTestCase {
         
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
+
+    func testHeaders() {
+        // Make a call with a valid API key.
+        let expectation1 = expectationWithDescription("Valid API key")
+        self.client.listIndexes {
+            (content, error) -> Void in
+            XCTAssertNil(error)
+            expectation1.fulfill()
+        }
+        
+        // Override the API key and check the call fails.
+        self.client.httpHeaders["X-Algolia-API-Key"] = "NOT_A_VALID_API_KEY"
+        let expectation2 = expectationWithDescription("Invalid API key")
+        self.client.listIndexes {
+            (content, error) -> Void in
+            XCTAssertNotNil(error)
+            expectation2.fulfill()
+        }
+
+        // Restore the valid API key (otherwise tear down will fail).
+        self.client.httpHeaders["X-Algolia-API-Key"] = self.client.apiKey
+        
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+    }
 }

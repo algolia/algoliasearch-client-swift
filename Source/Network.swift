@@ -45,12 +45,13 @@ struct Manager {
     ///
     /// - parameter method: The HTTP method.
     /// - parameter URLString: The URL string.
+    /// - parameter HTTPHeaders: HTTP headers.
     /// - parameter parameters: The parameters (will be encoding in JSON).
     /// - parameter block: A completion handler.
     ///
     /// - returns: The created request.
-    func request(method: HTTPMethod, _ URLString: String, parameters: [String: AnyObject]? = nil, block: (NSHTTPURLResponse?, AnyObject?, NSError?) -> Void) -> Request {
-        let URLRequest = encodeParameter(CreateNSURLRequest(method, URL: URLString), parameters: parameters)
+    func request(method: HTTPMethod, _ URLString: String, HTTPHeaders: [String: String]? = nil, parameters: [String: AnyObject]? = nil, block: (NSHTTPURLResponse?, AnyObject?, NSError?) -> Void) -> Request {
+        let URLRequest = encodeParameter(CreateNSURLRequest(method, URL: URLString, HTTPHeaders: HTTPHeaders), parameters: parameters)
         
         let dataTask = session.dataTaskWithRequest(URLRequest, completionHandler: { (data, response, error) -> Void in
             let (JSON, error) = self.serializeResponse(data)
@@ -142,9 +143,13 @@ struct Request {
     }
 }
 
-func CreateNSURLRequest(method: HTTPMethod, URL: String) -> NSURLRequest {
+func CreateNSURLRequest(method: HTTPMethod, URL: String, HTTPHeaders: [String: String]?) -> NSURLRequest {
     let mutableURLRequest = NSMutableURLRequest(URL: NSURL(string: URL)!)
     mutableURLRequest.HTTPMethod = method.rawValue
-    
+    if HTTPHeaders != nil {
+        for (key, value) in HTTPHeaders! {
+            mutableURLRequest.addValue(value, forHTTPHeaderField: key)
+        }
+    }
     return mutableURLRequest
 }
