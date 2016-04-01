@@ -43,7 +43,7 @@ public class Index : NSObject {
     ///
     /// - parameter object: The object to add inside the index.
     public func addObject(object: [String: AnyObject], block: CompletionHandler? = nil) {
-        let path = "1/indexes/\(urlEncodedIndexName)"
+        let path = "/1/indexes/\(urlEncodedIndexName)"
         client.performHTTPQuery(path, method: .POST, body: object, hostnames: client.writeQueryHostnames, block: block)
     }
     
@@ -52,7 +52,7 @@ public class Index : NSObject {
     /// - parameter object: The object to add inside the index.
     /// - parameter withID: An objectID you want to attribute to this object (if the attribute already exist, the old object will be overwrite)
     public func addObject(object: [String: AnyObject], withID objectID: String, block: CompletionHandler? = nil) {
-        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
+        let path = "/1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
         client.performHTTPQuery(path, method: .PUT, body: object, hostnames: client.writeQueryHostnames, block: block)
     }
     
@@ -60,7 +60,7 @@ public class Index : NSObject {
     ///
     /// - parameter objects: An array of objects to add (Array of Dictionnary object).
     public func addObjects(objects: [AnyObject], block: CompletionHandler? = nil) {
-        let path = "1/indexes/\(urlEncodedIndexName)/batch"
+        let path = "/1/indexes/\(urlEncodedIndexName)/batch"
         
         var requests = [AnyObject]()
         requests.reserveCapacity(objects.count)
@@ -76,7 +76,7 @@ public class Index : NSObject {
     ///
     /// - parameter objectID: The unique identifier of object to delete
     public func deleteObject(objectID: String, block: CompletionHandler? = nil) {
-        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
+        let path = "/1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
         client.performHTTPQuery(path, method: .DELETE, body: nil, hostnames: client.writeQueryHostnames, block: block)
     }
     
@@ -84,7 +84,7 @@ public class Index : NSObject {
     ///
     /// - parameter objectIDs: An array of objectID to delete.
     public func deleteObjects(objectIDs: [String], block: CompletionHandler? = nil) {
-        let path = "1/indexes/\(urlEncodedIndexName)/batch"
+        let path = "/1/indexes/\(urlEncodedIndexName)/batch"
         
         var requests = [AnyObject]()
         requests.reserveCapacity(objectIDs.count)
@@ -100,7 +100,7 @@ public class Index : NSObject {
     ///
     /// - parameter objectID: The unique identifier of the object to retrieve
     public func getObject(objectID: String, block: CompletionHandler) {
-        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
+        let path = "/1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
         client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
     }
     
@@ -110,7 +110,7 @@ public class Index : NSObject {
     /// - parameter attributesToRetrieve: The list of attributes to retrieve
     public func getObject(objectID: String, attributesToRetrieve attributes: [String], block: CompletionHandler) {
         let urlEncodedAttributes = Query.encodeForQuery(attributes, withKey: "attributes")
-        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())?\(urlEncodedAttributes)"
+        let path = "/1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())?\(urlEncodedAttributes)"
         client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
     }
     
@@ -118,7 +118,7 @@ public class Index : NSObject {
     ///
     /// - parameter objectIDs: The array of unique identifier of objects to retrieve
     public func getObjects(objectIDs: [String], block: CompletionHandler) {
-        let path = "1/indexes/*/objects"
+        let path = "/1/indexes/*/objects"
         
         var requests = [AnyObject]()
         requests.reserveCapacity(objectIDs.count)
@@ -134,7 +134,7 @@ public class Index : NSObject {
     ///
     /// - parameter object: The object attributes to override, the object must contains an objectID attribute
     public func partialUpdateObject(partialObject: [String: AnyObject], objectID: String, block: CompletionHandler? = nil) {
-        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())/partial"
+        let path = "/1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())/partial"
         client.performHTTPQuery(path, method: .POST, body: partialObject, hostnames: client.writeQueryHostnames, block: block)
     }
     
@@ -142,7 +142,7 @@ public class Index : NSObject {
     ///
     /// - parameter objects: An array of Dictionary to update (each Dictionary must contains an objectID attribute)
     public func partialUpdateObjects(objects: [AnyObject], block: CompletionHandler? = nil) {
-        let path = "1/indexes/\(urlEncodedIndexName)/batch"
+        let path = "/1/indexes/\(urlEncodedIndexName)/batch"
         
         var requests = [AnyObject]()
         requests.reserveCapacity(objects.count)
@@ -165,7 +165,7 @@ public class Index : NSObject {
     /// - parameter object: The object to override, the object must contains an objectID attribute
     public func saveObject(object: [String: AnyObject], block: CompletionHandler? = nil) {
         if let objectID = object["objectID"] as? String {
-            let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
+            let path = "/1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
             client.performHTTPQuery(path, method: .PUT, body: object, hostnames: client.writeQueryHostnames, block: block)
         }
     }
@@ -174,7 +174,7 @@ public class Index : NSObject {
     ///
     /// - parameter objects: An array of Dictionary to save (each Dictionary must contains an objectID attribute)
     public func saveObjects(objects: [AnyObject], block: CompletionHandler? = nil) {
-        let path = "1/indexes/\(urlEncodedIndexName)/batch"
+        let path = "/1/indexes/\(urlEncodedIndexName)/batch"
         
         var requests = [AnyObject]()
         requests.reserveCapacity(objects.count)
@@ -194,14 +194,14 @@ public class Index : NSObject {
     
     /// Search inside the index
     public func search(query: Query, block: CompletionHandler) {
-        let path = "1/indexes/\(urlEncodedIndexName)/query"
+        let path = "/1/indexes/\(urlEncodedIndexName)/query"
         let request = ["params": query.buildURL()]
         performSearchQuery(path, method: .POST, body: request, block: block)
     }
     
     /// Delete all previous search queries
     public func cancelPreviousSearch() {
-        client.cancelQueries(.POST, path: "1/indexes/\(urlEncodedIndexName)/query")
+        client.cancelQueries(.POST, path: "/1/indexes/\(urlEncodedIndexName)/query")
     }
     
     /// Wait the publication of a task on the server.
@@ -209,7 +209,7 @@ public class Index : NSObject {
     ///
     /// - parameter taskID: The ID of the task returned by server
     public func waitTask(taskID: Int, block: CompletionHandler) {
-        let path = "1/indexes/\(urlEncodedIndexName)/task/\(taskID)"
+        let path = "/1/indexes/\(urlEncodedIndexName)/task/\(taskID)"
         client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: { (content, error) -> Void in
             if let content = content {
                 if (content["status"] as? String) == "published" {
@@ -226,7 +226,7 @@ public class Index : NSObject {
     
     /// Get settings of this index
     public func getSettings(block: CompletionHandler) {
-        let path = "1/indexes/\(urlEncodedIndexName)/settings"
+        let path = "/1/indexes/\(urlEncodedIndexName)/settings"
         client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
     }
     
@@ -262,31 +262,31 @@ public class Index : NSObject {
     /// - highlightPostTag: (string) Specify the string that is inserted after the highlighted parts in the query result (default to "</em>").
     /// - optionalWords: (array of strings) Specify a list of words that should be considered as optional when found in the query.
     public func setSettings(settings: [String: AnyObject], block: CompletionHandler? = nil) {
-        let path = "1/indexes/\(urlEncodedIndexName)/settings"
+        let path = "/1/indexes/\(urlEncodedIndexName)/settings"
         client.performHTTPQuery(path, method: .PUT, body: settings, hostnames: client.writeQueryHostnames, block: block)
     }
     
     /// Delete the index content without removing settings and index specific API keys.
     public func clearIndex(block: CompletionHandler? = nil) {
-        let path = "1/indexes/\(urlEncodedIndexName)/clear"
+        let path = "/1/indexes/\(urlEncodedIndexName)/clear"
         client.performHTTPQuery(path, method: .POST, body: nil, hostnames: client.writeQueryHostnames, block: block)
     }
     
     /// List all existing user keys associated to this index
     public func listUserKeys(block: CompletionHandler) {
-        let path = "1/indexes/\(urlEncodedIndexName)/keys"
+        let path = "/1/indexes/\(urlEncodedIndexName)/keys"
         client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
     }
     
     /// List all existing user keys associated to this index
     public func getUserKeyACL(key: String, block: CompletionHandler) {
-        let path = "1/indexes/\(urlEncodedIndexName)/keys/\(key.urlEncode())"
+        let path = "/1/indexes/\(urlEncodedIndexName)/keys/\(key.urlEncode())"
         client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
     }
     
     /// Delete an existing user key associated to this index
     public func deleteUserKey(key: String, block: CompletionHandler? = nil) {
-        let path = "1/indexes/\(urlEncodedIndexName)/keys/\(key.urlEncode())"
+        let path = "/1/indexes/\(urlEncodedIndexName)/keys/\(key.urlEncode())"
         client.performHTTPQuery(path, method: .DELETE, body: nil, hostnames: client.writeQueryHostnames, block: block)
     }
     
@@ -294,7 +294,7 @@ public class Index : NSObject {
     ///
     /// - parameter acls: The list of ACL for this key. The list can contains the following values (as String): search, addObject, deleteObject, deleteIndex, settings, editSettings
     public func addUserKey(acls: [String], block: CompletionHandler? = nil) {
-        let path = "1/indexes/\(urlEncodedIndexName)/keys"
+        let path = "/1/indexes/\(urlEncodedIndexName)/keys"
         let request = ["acl": acls]
         client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.writeQueryHostnames, block: block)
     }
@@ -306,7 +306,7 @@ public class Index : NSObject {
     /// - parameter maxQueriesPerIPPerHour: Specify the maximum number of API calls allowed from an IP address per hour.  Defaults to 0 (unlimited).
     /// - parameter maxHitsPerQuery: Specify the maximum number of hits this API key can retrieve in one call. Defaults to 0 (unlimited)
     public func addUserKey(acls: [String], withValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: CompletionHandler? = nil) {
-        let path = "1/indexes/\(urlEncodedIndexName)/keys"
+        let path = "/1/indexes/\(urlEncodedIndexName)/keys"
         let request: [String: AnyObject] = [
             "acl": acls,
             "validity": validity,
@@ -321,7 +321,7 @@ public class Index : NSObject {
     ///
     /// - parameter withACL: The list of ACL for this key. The list can contains the following values (as String): search, addObject, deleteObject, deleteIndex, settings, editSettings
     public func updateUserKey(key: String, withACL acls: [String], block: CompletionHandler? = nil) {
-        let path = "1/indexes/\(urlEncodedIndexName)/keys/\(key.urlEncode())"
+        let path = "/1/indexes/\(urlEncodedIndexName)/keys/\(key.urlEncode())"
         let request = ["acl": acls]
         client.performHTTPQuery(path, method: .PUT, body: request, hostnames: client.writeQueryHostnames, block: block)
     }
@@ -333,7 +333,7 @@ public class Index : NSObject {
     /// - parameter maxQueriesPerIPPerHour: Specify the maximum number of API calls allowed from an IP address per hour.  Defaults to 0 (unlimited).
     /// - parameter maxHitsPerQuery: Specify the maximum number of hits this API key can retrieve in one call. Defaults to 0 (unlimited)
     public func updateUserKey(key: String, withACL acls: [String], andValidity validity: UInt, maxQueriesPerIPPerHour maxQueries: UInt, maxHitsPerQuery maxHits: UInt, block: CompletionHandler? = nil) {
-        let path = "1/indexes/\(urlEncodedIndexName)/keys/\(key.urlEncode())"
+        let path = "/1/indexes/\(urlEncodedIndexName)/keys/\(key.urlEncode())"
         let request: [String: AnyObject] = [
             "acl": acls,
             "validity": validity,
@@ -349,7 +349,7 @@ public class Index : NSObject {
     /// - parameter page: Pagination parameter used to select the page to retrieve. Page is zero-based and defaults to 0. Thus, to retrieve the 10th page you need to set page=9
     /// - parameter hitsPerPage: Pagination parameter used to select the number of hits per page. Defaults to 1000.
     public func browse(page: UInt = 0, hitsPerPage: UInt = 1000, block: CompletionHandler) {
-        let path = "1/indexes/\(urlEncodedIndexName)/browse?page=\(page)&hitsPerPage=\(hitsPerPage)"
+        let path = "/1/indexes/\(urlEncodedIndexName)/browse?page=\(page)&hitsPerPage=\(hitsPerPage)"
         client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readQueryHostnames, block: block)
     }
     
@@ -374,7 +374,7 @@ public class Index : NSObject {
             self.block = block
             
             queryURL = query?.buildURL() ?? ""
-            path = "1/indexes/\(index.urlEncodedIndexName)/browse?"
+            path = "/1/indexes/\(index.urlEncodedIndexName)/browse?"
         }
         
         convenience init(index: Index, query: Query, block: BrowseIteratorHandler) {
