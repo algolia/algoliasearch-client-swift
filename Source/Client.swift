@@ -128,9 +128,9 @@ public class Client : NSObject {
         
         // Other headers are likely to change during the lifetime of the session: they will be passed for every request.
         httpHeaders["X-Algolia-API-Key"] = self.apiKey
-        self.tagFilters = tagFilters
-        self.userToken = userToken
-        self.queryParameters = queryParameters
+        httpHeaders["X-Algolia-TagFilters"] = tagFilters
+        httpHeaders["X-Algolia-UserToken"] = userToken
+        httpHeaders["X-Algolia-QueryParameters"] = queryParameters
     }
 
     // Helper for Obj-C
