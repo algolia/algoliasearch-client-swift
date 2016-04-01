@@ -679,7 +679,7 @@ class IndexTests: XCTestCase {
                                 XCTAssertEqual(n, 1500 / 10, "Wrong number of page")
                                 expectation.fulfill()
                             } else {
-                                ++n
+                                n += 1
                                 iterator.next()
                             }
                         })
