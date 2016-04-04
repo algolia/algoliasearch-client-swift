@@ -96,7 +96,7 @@ public typealias BrowseIteratorHandler = (iterator: BrowseIterator, content: [St
         request = nil
         cursor = content?["cursor"] as? String
         block(iterator: self, content: content, error: error)
-        if !cancelled && hasNext() {
+        if error == nil && !cancelled && hasNext() {
             next()
         }
     }
