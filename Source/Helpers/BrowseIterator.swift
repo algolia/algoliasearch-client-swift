@@ -95,9 +95,11 @@ public typealias BrowseIteratorHandler = (iterator: BrowseIterator, content: [St
     private func handleResult(content: [String: AnyObject]?, error: NSError?) {
         request = nil
         cursor = content?["cursor"] as? String
-        block(iterator: self, content: content, error: error)
-        if error == nil && !cancelled && hasNext() {
-            next()
+        if !cancelled {
+            block(iterator: self, content: content, error: error)
+            if !cancelled && error == nil && hasNext() {
+                next()
+            }
         }
     }
     
