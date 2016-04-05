@@ -291,6 +291,16 @@ import Foundation
         return client.performHTTPQuery(path, method: .POST, body: nil, hostnames: client.writeHosts, block: block)
     }
     
+    /// Custom batch operations.
+    ///
+    /// - parameter actions: The array of actions.
+    ///
+    @objc public func batch(actions: [AnyObject], block: CompletionHandler? = nil) -> NSOperation {
+        let path = "1/indexes/\(urlEncodedIndexName)/batch"
+        let body = ["requests": actions]
+        return client.performHTTPQuery(path, method: .POST, body: body, hostnames: client.writeHosts, block: block)
+    }
+    
     // MARK: - Browse
     
     /// Browse all index content (initial call).

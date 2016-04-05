@@ -196,6 +196,16 @@ import Foundation
         let request = ["requests": convertedQueries]
         return performHTTPQuery(path, method: .POST, body: request, hostnames: readHosts, block: block)
     }
+    
+    /// Custom batch operations.
+    ///
+    /// - parameter actions: The array of actions.
+    ///
+    @objc public func batch(actions: [AnyObject], block: CompletionHandler? = nil) -> NSOperation {
+        let path = "1/indexes/*/batch"
+        let body = ["requests": actions]
+        return performHTTPQuery(path, method: .POST, body: body, hostnames: writeHosts, block: block)
+    }
 
     // MARK: - Network
 

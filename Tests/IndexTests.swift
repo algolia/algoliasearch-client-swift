@@ -631,4 +631,46 @@ class IndexTests: XCTestCase {
         
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
+    
+    func testBatch() {
+        let expectation = expectationWithDescription(#function)
+        let actions = [
+            [
+                "action": "addObject",
+                "body": [ "city": "San Francisco" ]
+            ],
+            [
+                "action": "addObject",
+                "body": [ "city": "Paris" ]
+            ]
+        ]
+        index.batch(actions) {
+            (content, error) -> Void in
+            if error != nil {
+                XCTFail(error!.localizedDescription)
+            } else if let taskID = content!["taskID"] as? Int {
+                // Wait for the batch to be processed.
+                self.index.waitTask(taskID) {
+                    (content, error) in
+                    if error != nil {
+                        XCTFail(error!.localizedDescription)
+                    } else {
+                        // Check that objects have been indexed.
+                        self.index.search(Query(query: "Francisco")) {
+                            (content, error) in
+                            if error != nil {
+                                XCTFail(error!.localizedDescription)
+                            } else {
+                                XCTAssertEqual(content!["nbHits"] as? Int, 1)
+                                expectation.fulfill()
+                            }
+                        }
+                    }
+                }
+            } else {
+                XCTFail("Could not find task ID")
+            }
+        }
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+    }
 }
