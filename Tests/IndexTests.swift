@@ -673,4 +673,51 @@ class IndexTests: XCTestCase {
         }
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
+    
+    func testDeleteByQuery() {
+        let expectation = expectationWithDescription(#function)
+        var objects: [AnyObject] = []
+        for i in 0..<3000 {
+            objects.append(["dummy": i])
+        }
+        
+        // Add a batch of objects.
+        index.addObjects(objects, block: { (content, error) -> Void in
+            if error != nil {
+                XCTFail(error!.localizedDescription)
+                expectation.fulfill()
+            } else {
+                // Wait for the objects to be indexed.
+                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                    if error != nil {
+                        XCTFail(error!.localizedDescription)
+                        expectation.fulfill()
+                    } else {
+                        // Delete by query.
+                        let query = Query()
+                        query["numericFilters"] = "dummy < 1500"
+                        self.index.deleteByQuery(query, block: { (content, error) -> Void in
+                            if error != nil {
+                                XCTFail(error!.localizedDescription)
+                                expectation.fulfill()
+                            } else {
+                                // Check that the deleted objects no longer exist.
+                                self.index.browse(query, block: { (content, error) in
+                                    if error != nil {
+                                        XCTFail(error!.localizedDescription)
+                                    } else {
+                                        XCTAssertEqual((content!["hits"] as? [AnyObject])?.count, 0)
+                                        XCTAssertNil(content!["cursor"])
+                                    }
+                                    expectation.fulfill()
+                                })
+                            }
+                        })
+                    }
+                })
+            }
+        })
+        
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+    }
 }

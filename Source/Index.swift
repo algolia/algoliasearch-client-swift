@@ -335,6 +335,92 @@ import Foundation
         return client.performHTTPQuery(path, method: .POST, body: body, hostnames: client.writeHosts, block: block)
     }
     
+    /// Delete all objects matching a query (helper).
+    ///
+    /// - parameter query: The query used to filter objects.
+    ///
+    @objc public func deleteByQuery(query: Query, block: CompletionHandler? = nil) -> NSOperation {
+        let operation = DeleteByQueryOperation(index: self, query: query, block: block)
+        operation.start()
+        return operation
+    }
+    
+    private class DeleteByQueryOperation: AsyncOperation {
+        let index: Index
+        let query: Query
+        let block: CompletionHandler?
+        
+        init(index: Index, query: Query, block: CompletionHandler?) {
+            self.index = index
+            self.query = Query(copy: query)
+            self.block = block
+        }
+        
+        override func start() {
+            super.start()
+            index.browse(query, block: self.handleResult)
+        }
+        
+        private func handleResult(content: [String: AnyObject]?, error: NSError?) {
+            if self.cancelled {
+                return
+            }
+            var finalError: NSError? = error
+            if finalError == nil {
+                let hasMoreContent = content!["cursor"] != nil
+                if let hits = content!["hits"] as? [AnyObject] {
+                    // Fetch IDs of objects to delete.
+                    var objectIDs: [String] = []
+                    for hit in hits {
+                        if let objectID = (hit as? [String: AnyObject])?["objectID"] as? String {
+                            objectIDs.append(objectID)
+                        }
+                    }
+                    // Delete the objects.
+                    self.index.deleteObjects(objectIDs, block: { (content, error) in
+                        if self.cancelled {
+                            return
+                        }
+                        var finalError: NSError? = error
+                        if finalError == nil {
+                            if let taskID = content?["taskID"] as? Int {
+                                // Wait for the deletion to be effective.
+                                self.index.waitTask(taskID, block: { (content, error) in
+                                    if self.cancelled {
+                                        return
+                                    }
+                                    if error != nil || !hasMoreContent {
+                                        self.finish(content, error: error)
+                                    } else {
+                                        // Browse again *from the beginning*, since the deletion invalidated the cursor.
+                                        self.index.browse(self.query, block: self.handleResult)
+                                    }
+                                })
+                            } else {
+                                finalError = NSError(domain: AlgoliaSearchErrorDomain, code: -1, userInfo: [NSLocalizedDescriptionKey: "No task ID returned when deleting"])
+                            }
+                        }
+                        if finalError != nil {
+                            self.finish(nil, error: finalError)
+                        }
+                    })
+                } else {
+                    finalError = NSError(domain: AlgoliaSearchErrorDomain, code: -1, userInfo: [NSLocalizedDescriptionKey: "No hits returned when browsing"])
+                }
+            }
+            if finalError != nil {
+                self.finish(nil, error: finalError)
+            }
+        }
+        
+        private func finish(content: [String: AnyObject]?, error: NSError?) {
+            if !cancelled {
+                self.block?(content: nil, error: error)
+            }
+            self.finish()
+        }
+    }
+    
     // MARK: - Browse
     
     /// Browse all index content (initial call).
