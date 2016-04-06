@@ -211,7 +211,7 @@ import Foundation
 
     /// Perform an HTTP Query.
     func performHTTPQuery(path: String, method: HTTPMethod, body: [String: AnyObject]?, hostnames: [String], isSearchQuery: Bool = false, block: CompletionHandler? = nil) -> NSOperation {
-        let request = newRequest(method, path: path, body: body, isSearchQuery: isSearchQuery) {
+        let request = newRequest(method, path: path, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery) {
             (content: [String: AnyObject]?, error: NSError?) -> Void in
             if block != nil {
                 dispatch_async(dispatch_get_main_queue()) {
@@ -224,9 +224,8 @@ import Foundation
     }
     
     /// Create a request with this client's settings.
-    func newRequest(method: HTTPMethod, path: String, body: [String: AnyObject]?, isSearchQuery: Bool = false, completion: CompletionHandler? = nil) -> Request {
+    func newRequest(method: HTTPMethod, path: String, body: [String: AnyObject]?, hostnames: [String], isSearchQuery: Bool = false, completion: CompletionHandler? = nil) -> Request {
         let currentTimeout = isSearchQuery ? searchTimeout : timeout
-        let hostnames = isSearchQuery ? readHosts : writeHosts
         let request = Request(session: session, method: method, hosts: hostnames, firstHostIndex: 0, path: path, headers: headers, jsonBody: body, timeout: currentTimeout, completion:  completion)
         return request
     }
