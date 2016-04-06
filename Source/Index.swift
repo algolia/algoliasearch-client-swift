@@ -397,7 +397,7 @@ import Foundation
                                     }
                                 })
                             } else {
-                                finalError = NSError(domain: AlgoliaSearchErrorDomain, code: -1, userInfo: [NSLocalizedDescriptionKey: "No task ID returned when deleting"])
+                                finalError = NSError(domain: Client.ErrorDomain, code: -1, userInfo: [NSLocalizedDescriptionKey: "No task ID returned when deleting"])
                             }
                         }
                         if finalError != nil {
@@ -405,7 +405,7 @@ import Foundation
                         }
                     })
                 } else {
-                    finalError = NSError(domain: AlgoliaSearchErrorDomain, code: -1, userInfo: [NSLocalizedDescriptionKey: "No hits returned when browsing"])
+                    finalError = NSError(domain: Client.ErrorDomain, code: -1, userInfo: [NSLocalizedDescriptionKey: "No hits returned when browsing"])
                 }
             }
             if finalError != nil {

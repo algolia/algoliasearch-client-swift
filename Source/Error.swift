@@ -24,11 +24,6 @@
 import Foundation
 
 
-/// The error domain used for errors raised by this module.
-// TODO: Objective-C bridging.
-public let AlgoliaSearchErrorDomain = "AlgoliaSearch"
-
-
 /// Status codes.
 /// NOTE: Only those likely to be used by Algolia's servers and SDK are listed here.
 ///
@@ -70,7 +65,7 @@ public enum StatusCode: Int {
 /// "Transient" means retrying an identical request at a later time might lead to a different result.
 ///
 func isErrorTransient(error: NSError) -> Bool {
-    if (error.domain == AlgoliaSearchErrorDomain) {
+    if (error.domain == Client.ErrorDomain) {
         return StatusCode.isServerError(error.code)
     } else if (error.domain == NSURLErrorDomain) {
         return true

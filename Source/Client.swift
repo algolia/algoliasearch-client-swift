@@ -29,6 +29,13 @@ import Foundation
 /// You should instantiate a Client object with your AppID, ApiKey and Hosts
 /// to start using Algolia Search API.
 @objc public class Client : NSObject {
+    // MARK: Constants
+    
+    /// Error domain used for errors raised by this module.
+    @objc public static let ErrorDomain = "Client.ErrorDomain"
+    
+    // MARK: Properties
+    
     /// HTTP headers that will be sent with every request.
     @objc public var headers = [String:String]()
     

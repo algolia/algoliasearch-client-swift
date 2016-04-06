@@ -127,12 +127,12 @@ class Request: AsyncOperation {
                 do {
                     json = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments) as? [String: AnyObject]
                     if json == nil {
-                        finalError = NSError(domain: AlgoliaSearchErrorDomain, code: StatusCode.InvalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "Server response not a JSON object"])
+                        finalError = NSError(domain: Client.ErrorDomain, code: StatusCode.InvalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "Server response not a JSON object"])
                     }
                 } catch let jsonError as NSError {
-                    finalError = NSError(domain: AlgoliaSearchErrorDomain, code: StatusCode.IllFormedResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "Server returned ill-formed JSON", NSUnderlyingErrorKey: jsonError])
+                    finalError = NSError(domain: Client.ErrorDomain, code: StatusCode.IllFormedResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "Server returned ill-formed JSON", NSUnderlyingErrorKey: jsonError])
                 } catch {
-                    finalError = NSError(domain: AlgoliaSearchErrorDomain, code: StatusCode.Unknown.rawValue, userInfo: [NSLocalizedDescriptionKey: "Unknown error when parsing JSON"])
+                    finalError = NSError(domain: Client.ErrorDomain, code: StatusCode.Unknown.rawValue, userInfo: [NSLocalizedDescriptionKey: "Unknown error when parsing JSON"])
                 }
                 
                 // Handle HTTP status code.
@@ -145,7 +145,7 @@ class Request: AsyncOperation {
                         userInfo[NSLocalizedDescriptionKey] = errorMessage
                     }
                     
-                    finalError = NSError(domain: AlgoliaSearchErrorDomain, code: httpResponse.statusCode, userInfo: userInfo)
+                    finalError = NSError(domain: Client.ErrorDomain, code: httpResponse.statusCode, userInfo: userInfo)
                 }
             }
             assert(json != nil || finalError != nil)

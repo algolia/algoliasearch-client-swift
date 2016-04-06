@@ -222,7 +222,7 @@ public class MirroredIndex : Index {
                     data.writeToFile(self.settingsFilePath!, atomically: false)
                     return // all other paths go to error
                 } else {
-                    self.syncError = NSError(domain: AlgoliaSearchErrorDomain, code: StatusCode.Unknown.rawValue, userInfo: [NSLocalizedDescriptionKey: "Could not write index settings"])
+                    self.syncError = NSError(domain: Client.ErrorDomain, code: StatusCode.Unknown.rawValue, userInfo: [NSLocalizedDescriptionKey: "Could not write index settings"])
                 }
             }
             assert(self.syncError != nil) // we should reach this point only in case of error (see above)
@@ -264,10 +264,10 @@ public class MirroredIndex : Index {
                                 data.writeToFile(objectFilePath, atomically: false)
                                 return // all other paths go to error
                             } else {
-                                self.syncError = NSError(domain: AlgoliaSearchErrorDomain, code: StatusCode.Unknown.rawValue, userInfo: [NSLocalizedDescriptionKey: "Could not write hits"])
+                                self.syncError = NSError(domain: Client.ErrorDomain, code: StatusCode.Unknown.rawValue, userInfo: [NSLocalizedDescriptionKey: "Could not write hits"])
                             }
                         } else {
-                            self.syncError = NSError(domain: AlgoliaSearchErrorDomain, code: StatusCode.InvalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "No hits in server response"])
+                            self.syncError = NSError(domain: Client.ErrorDomain, code: StatusCode.InvalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "No hits in server response"])
                         }
                     }
                     assert(self.syncError != nil) // we should reach this point only in case of error (see above)
@@ -285,7 +285,7 @@ public class MirroredIndex : Index {
             if self.syncError == nil {
                 let status = self.localIndex!.buildFromSettingsFile(self.settingsFilePath!, objectFiles: self.objectsFilePaths!)
                 if status != 200 {
-                    self.syncError = NSError(domain: AlgoliaSearchErrorDomain, code: Int(status), userInfo: [NSLocalizedDescriptionKey: "Could not build local index"])
+                    self.syncError = NSError(domain: Client.ErrorDomain, code: Int(status), userInfo: [NSLocalizedDescriptionKey: "Could not build local index"])
                 } else {
                     // Remember the sync's date
                     self.mirrorSettings.lastSyncDate = NSDate()
@@ -367,13 +367,13 @@ public class MirroredIndex : Index {
                 if json is [String: AnyObject] {
                     content = (json as! [String: AnyObject])
                 } else {
-                    error = NSError(domain: AlgoliaSearchErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON returned"])
+                    error = NSError(domain: Client.ErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON returned"])
                 }
             } catch let _error as NSError {
                 error = _error
             }
         } else {
-            error = NSError(domain: AlgoliaSearchErrorDomain, code: Int(searchResults.statusCode), userInfo: nil)
+            error = NSError(domain: Client.ErrorDomain, code: Int(searchResults.statusCode), userInfo: nil)
         }
         assert(content != nil || error != nil)
         block(content: content, error: error)
@@ -412,13 +412,13 @@ public class MirroredIndex : Index {
                 if json is [String: AnyObject] {
                     content = (json as! [String: AnyObject])
                 } else {
-                    error = NSError(domain: AlgoliaSearchErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON returned"])
+                    error = NSError(domain: Client.ErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON returned"])
                 }
             } catch let _error as NSError {
                 error = _error
             }
         } else {
-            error = NSError(domain: AlgoliaSearchErrorDomain, code: Int(searchResults.statusCode), userInfo: nil)
+            error = NSError(domain: Client.ErrorDomain, code: Int(searchResults.statusCode), userInfo: nil)
         }
         assert(content != nil || error != nil)
         block(content: content, error: error)
