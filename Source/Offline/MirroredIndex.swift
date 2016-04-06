@@ -210,7 +210,7 @@ public class MirroredIndex : Index {
         // Task: Download index settings.
         // TODO: Factorize query construction with regular code.
         let path = "1/indexes/\(urlEncodedIndexName)/settings"
-        let settingsOperation = client.newRequest(.GET, path: path, body: nil, isSearchQuery: false) {
+        let settingsOperation = client.newRequest(.GET, path: path, body: nil, hostnames: self.client.readHosts, isSearchQuery: false) {
             (json: [String: AnyObject]?, error: NSError?) in
             if error != nil {
                 self.syncError = error
@@ -245,7 +245,7 @@ public class MirroredIndex : Index {
                     newQuery["cursor"] = cursor!
                 }
                 let queryString = newQuery.build()
-                let operation = client.newRequest(.POST, path: path, body: ["params": queryString], isSearchQuery: false) {
+                let operation = client.newRequest(.POST, path: path, body: ["params": queryString], hostnames: self.client.readHosts, isSearchQuery: false) {
                     (json: [String: AnyObject]?, error: NSError?) in
                     if error != nil {
                         self.syncError = error
