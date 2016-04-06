@@ -30,12 +30,12 @@ import Foundation
 /// NOTE: Requires Algolia's SDK. The `enableOfflineMode()` method must be called with a valid license key prior to
 /// calling any offline-related method.
 //
-public class OfflineClient : Client {
+@objc public class OfflineClient : Client {
     /// Algolia Search initialization.
     ///
     /// - parameter appID: the application ID you have in your admin interface
     /// - parameter apiKey: a valid API key for the service
-    public override init(appID: String, apiKey: String) {
+    @objc public override init(appID: String, apiKey: String) {
         buildQueue.name = "AlgoliaSearch-Build"
         buildQueue.maxConcurrentOperationCount = 1
         searchQueue.name = "AlgoliaSearch-Search"
@@ -55,7 +55,7 @@ public class OfflineClient : Client {
     ///
     /// - parameter licenseData: license for Algolia's SDK
     ///
-    public func enableOfflineMode(licenseData: String) {
+    @objc public func enableOfflineMode(licenseData: String) {
         // Create the cache directory.
         do {
             self.rootDataDir = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true).first! + "/algolia"
@@ -71,7 +71,7 @@ public class OfflineClient : Client {
 
     /// Create a new index.
     /// NOTE: The offline client returns mirror-capable indices.
-    public override func getIndex(indexName: String) -> MirroredIndex {
+    @objc public override func getIndex(indexName: String) -> MirroredIndex {
         return MirroredIndex(client: self, indexName: indexName)
     }
 }

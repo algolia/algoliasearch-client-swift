@@ -26,11 +26,11 @@ import Foundation
 
 
 /// A data selection query.
-public struct DataSelectionQuery {
-    public let query: Query
-    public let maxObjects: Int
+@objc public class DataSelectionQuery: NSObject {
+    @objc public let query: Query
+    @objc public let maxObjects: Int
     
-    public init(query: Query, maxObjects: Int) {
+    @objc public init(query: Query, maxObjects: Int) {
         self.query = query
         self.maxObjects = maxObjects
     }
@@ -53,15 +53,15 @@ public struct DataSelectionQuery {
 /// NOTE: Requires Algolia's SDK. The `OfflineClient.enableOfflineMode()` method must be called with a valid license
 /// key prior to calling any offline-related method.
 ///
-public class MirroredIndex : Index {
+@objc public class MirroredIndex : Index {
     
     // MARK: Constants
     
     /// Notification sent when the sync has started.
-    public static let SyncDidStartNotification = "AlgoliaSearch.MirroredIndex.SyncDidStartNotification"
+    @objc public static let SyncDidStartNotification = "AlgoliaSearch.MirroredIndex.SyncDidStartNotification"
     
     /// Notification sent when the sync has finished.
-    public static let SyncDidFinishNotification = "AlgoliaSearch.MirroredIndex.SyncDidFinishNotification"
+    @objc public static let SyncDidFinishNotification = "AlgoliaSearch.MirroredIndex.SyncDidFinishNotification"
 
     // ----------------------------------------------------------------------
     // MARK: Properties
@@ -69,7 +69,7 @@ public class MirroredIndex : Index {
     
     /// Getter returning covariant-typed client.
     // IMPLEMENTATION NOTE: Could not find a way to implement proper covariant properties in Swift.
-    public var offlineClient: OfflineClient {
+    @objc public var offlineClient: OfflineClient {
         return self.client as! OfflineClient
     }
     
@@ -80,7 +80,7 @@ public class MirroredIndex : Index {
     let mirrorSettings = MirrorSettings()
     
     /// Whether the index is mirrored locally. Default = false.
-    public var mirrored: Bool = false {
+    @objc public var mirrored: Bool = false {
         didSet {
             if (mirrored) {
                 do {
@@ -94,7 +94,7 @@ public class MirroredIndex : Index {
     }
     
     /// Data selection queries.
-    public var queries: [DataSelectionQuery] {
+    @objc public var queries: [DataSelectionQuery] {
         get {
             return mirrorSettings.queries
         }
@@ -106,7 +106,7 @@ public class MirroredIndex : Index {
     }
     
     /// Time interval between two syncs. Default = 1 hour.
-    public var delayBetweenSyncs : NSTimeInterval = 60 * 60
+    @objc public var delayBetweenSyncs : NSTimeInterval = 60 * 60
     
     // Sync status:
     
@@ -115,7 +115,7 @@ public class MirroredIndex : Index {
     private var syncing: Bool = false
     
     private var tmpDir : String?
-    public private(set) var syncError : NSError?
+    @objc public private(set) var syncError : NSError?
     private var settingsFilePath: String?
     private var objectsFilePaths: [String]?
     
@@ -131,7 +131,7 @@ public class MirroredIndex : Index {
     // MARK: Init
     // ----------------------------------------------------------------------
     
-    public override init(client: Client, indexName: String) {
+    @objc public override init(client: Client, indexName: String) {
         assert(client is OfflineClient);
         super.init(client: client, indexName: indexName)
     }
@@ -148,7 +148,7 @@ public class MirroredIndex : Index {
     /// Add a data selection query to the local mirror.
     /// The query is not run immediately. It will be run during the subsequent refreshes.
     /// @pre The index must have been marked as mirrored.
-    public func addDataSelectionQuery(query: DataSelectionQuery) {
+    @objc public func addDataSelectionQuery(query: DataSelectionQuery) {
         assert(mirrored);
         mirrorSettings.queries.append(query)
         mirrorSettings.queriesModificationDate = NSDate()
@@ -158,14 +158,14 @@ public class MirroredIndex : Index {
     /// Add any number of data selection queries to the local mirror.
     /// The query is not run immediately. It will be run during the subsequent refreshes.
     /// @pre The index must have been marked as mirrored.
-    public func addDataSelectionQueries(queries: [DataSelectionQuery]) {
+    @objc public func addDataSelectionQueries(queries: [DataSelectionQuery]) {
         assert(mirrored);
         mirrorSettings.queries.appendContentsOf(queries)
         mirrorSettings.queriesModificationDate = NSDate()
         mirrorSettings.save(self.mirrorSettingsFilePath)
     }
     
-    public func sync() {
+    @objc public func sync() {
         assert(NSThread.isMainThread(), "Should only be called from the main thread")
         if syncing {
             return
@@ -181,7 +181,7 @@ public class MirroredIndex : Index {
         }
     }
     
-    public func syncIfNeeded() {
+    @objc public func syncIfNeeded() {
         assert(NSThread.isMainThread(), "Should only be called from the main thread")
         let currentDate = NSDate()
         if currentDate.timeIntervalSinceDate(mirrorSettings.lastSyncDate) > self.delayBetweenSyncs
@@ -323,7 +323,7 @@ public class MirroredIndex : Index {
     // MARK: Search
     // ----------------------------------------------------------------------
 
-    public override func search(query: Query, block: CompletionHandler) -> NSOperation {
+    @objc public override func search(query: Query, block: CompletionHandler) -> NSOperation {
         let operation = super.search(query) {
             (content, error) -> Void in
             // In case of transient error and this indexed is mirrored, try the mirror.
@@ -339,7 +339,7 @@ public class MirroredIndex : Index {
     }
     
     /// Search the local mirror.
-    public func searchMirror(query: Query, block: CompletionHandler) {
+    @objc public func searchMirror(query: Query, block: CompletionHandler) {
         let callingQueue = NSOperationQueue.currentQueue() ?? NSOperationQueue.mainQueue()
         self.offlineClient.searchQueue.addOperationWithBlock() {
             self._searchMirror(query) {
@@ -383,7 +383,8 @@ public class MirroredIndex : Index {
     // MARK: Browse
     // ----------------------------------------------------------------------
     
-    public func browseMirror(query: Query, block: CompletionHandler) {
+    /// Browse the local mirror.
+    @objc public func browseMirror(query: Query, block: CompletionHandler) {
         let callingQueue = NSOperationQueue.currentQueue() ?? NSOperationQueue.mainQueue()
         self.offlineClient.searchQueue.addOperationWithBlock() {
             self._browseMirror(query) {
