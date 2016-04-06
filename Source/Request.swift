@@ -29,7 +29,7 @@ import Foundation
 /// This class encapsulates a sequence of normally one (nominal case), potentially many (in case of retry) network
 /// calls into a high-level operation. This operation can be cancelled by the user.
 ///
-@objc public class Request: AsyncOperation {
+class Request: AsyncOperation {
     let session: URLSession
     
     /// Request method.
@@ -182,7 +182,7 @@ import Foundation
     // ----------------------------------------------------------------------
     
     /// Start this request.
-    @objc override public func start() {
+    override func start() {
         super.start()
         startNext()
     }
@@ -194,7 +194,7 @@ import Foundation
     /// cancellation happens. In other words, a cancelled request may have already been executed by the server. In any
     /// case, cancelling never carries "undo" semantics.
     ///
-    @objc public override func cancel() {
+    override func cancel() {
         task?.cancel()
         super.cancel()
     }

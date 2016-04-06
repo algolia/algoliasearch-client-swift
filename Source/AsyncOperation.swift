@@ -31,10 +31,10 @@ import Foundation
 /// - `finished`
 /// - `cancel`
 ///
-public class AsyncOperation: NSOperation {
+class AsyncOperation: NSOperation {
     
     // Mark this operation as aynchronous.
-    @objc override public var asynchronous: Bool {
+    override var asynchronous: Bool {
         get {
             return true
         }
@@ -55,7 +55,7 @@ public class AsyncOperation: NSOperation {
         }
     }
     
-    @objc override public var executing: Bool {
+    override var executing: Bool {
         get {
             return _executing
         }
@@ -70,7 +70,7 @@ public class AsyncOperation: NSOperation {
         }
     }
     
-    @objc override public var finished: Bool {
+    override var finished: Bool {
         get {
             return _finished
         }
@@ -85,18 +85,18 @@ public class AsyncOperation: NSOperation {
         }
     }
     
-    @objc override public var cancelled: Bool {
+    override var cancelled: Bool {
         get {
             return _cancelled
         }
     }
 
-    @objc override public func start() {
+    override func start() {
         assert(!_executing)
         self._executing = true
     }
 
-    @objc public override func cancel() {
+    override func cancel() {
         _cancelled = true
         finish()
     }
