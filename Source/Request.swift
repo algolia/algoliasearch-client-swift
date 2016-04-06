@@ -29,7 +29,7 @@ import Foundation
 /// This class encapsulates a sequence of normally one (nominal case), potentially many (in case of retry) network
 /// calls into a high-level operation. This operation can be cancelled by the user.
 ///
-@objc public class Request: NSOperation {
+@objc public class Request: AsyncOperation {
     let session: URLSession
     
     /// Request method.
@@ -115,6 +115,7 @@ import Foundation
             var finalError: NSError? = error
             // Shortcut in case of cancellation.
             if self.cancelled {
+                self.finish()
                 return
             }
             if (finalError == nil) {
@@ -173,80 +174,16 @@ import Foundation
         if completion != nil && !_cancelled {
             completion!(content: content, error: error)
         }
-        _executing = false
-        _finished = true
+        finish()
     }
     
     // ----------------------------------------------------------------------
     // MARK: - NSOperation interface
     // ----------------------------------------------------------------------
     
-    // MARK: Properties
-    
-    // Mark this operation as aynchronous.
-    @objc override public var asynchronous: Bool {
-        get {
-            return true
-        }
-    }
-    
-    // NOTE: Overriding `NSOperation`'s properties
-    // -------------------------------------------
-    // These properties are defined as read-only by `NSOperation`. As a consequence, they must be computed properties.
-    // But they must also fire KVO notifications, which are crucial for `NSOperationQueue` to work.
-    // This is why we use a private (underscore-prefixed) property to store the state.
-    
-    private var _executing : Bool = false {
-        willSet {
-            self.willChangeValueForKey("isExecuting")
-        }
-        didSet {
-            self.didChangeValueForKey("isExecuting")
-        }
-    }
-    
-    @objc override public var executing: Bool {
-        get {
-            return _executing
-        }
-    }
-    
-    private var _finished : Bool = false {
-        willSet {
-            self.willChangeValueForKey("isFinished")
-        }
-        didSet {
-            self.didChangeValueForKey("isFinished")
-        }
-    }
-    
-    @objc override public var finished: Bool {
-        get {
-            return _finished
-        }
-    }
-    
-    private var _cancelled : Bool = false {
-        willSet {
-            self.willChangeValueForKey("isCancelled")
-        }
-        didSet {
-            self.didChangeValueForKey("isCancelled")
-        }
-    }
-    
-    @objc override public var cancelled: Bool {
-        get {
-            return _cancelled
-        }
-    }
-    
-    // MARK: Operations
-    
     /// Start this request.
     @objc override public func start() {
-        assert(!_executing)
-        self._executing = true
+        super.start()
         startNext()
     }
     
@@ -258,7 +195,7 @@ import Foundation
     /// case, cancelling never carries "undo" semantics.
     ///
     @objc public override func cancel() {
-        self._cancelled = true
         task?.cancel()
+        super.cancel()
     }
 }

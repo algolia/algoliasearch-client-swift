@@ -228,19 +228,53 @@ import Foundation
     ///
     /// - parameter taskID: The ID of the task returned by server
     @objc public func waitTask(taskID: Int, block: CompletionHandler) -> NSOperation {
-        let path = "1/indexes/\(urlEncodedIndexName)/task/\(taskID)"
-        return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readHosts, block: { (content, error) -> Void in
-            if let content = content {
-                if (content["status"] as? String) == "published" {
-                    block(content: content, error: nil)
-                } else {
-                    NSThread.sleepForTimeInterval(0.1)
-                    self.waitTask(taskID, block: block)
-                }
-            } else {
-                block(content: content, error: error)
+        let operation = WaitOperation(index: self, taskID: taskID, block: block)
+        operation.start()
+        return operation
+    }
+    
+    private class WaitOperation: AsyncOperation {
+        let index: Index
+        let taskID: Int
+        let block: CompletionHandler
+        let path: String
+        
+        init(index: Index, taskID: Int, block: CompletionHandler) {
+            self.index = index
+            self.taskID = taskID
+            self.block = block
+            path = "1/indexes/\(index.urlEncodedIndexName)/task/\(taskID)"
+        }
+        
+        override func start() {
+            super.start()
+            startNext()
+        }
+        
+        private func startNext() {
+            if cancelled {
+                finish()
             }
-        })
+            index.client.performHTTPQuery(path, method: .GET, body: nil, hostnames: index.client.writeHosts) {
+                (content, error) -> Void in
+                if let content = content {
+                    if (content["status"] as? String) == "published" {
+                        if !self.cancelled {
+                            self.block(content: content, error: nil)
+                        }
+                        self.finish()
+                    } else {
+                        NSThread.sleepForTimeInterval(0.1)
+                        self.startNext()
+                    }
+                } else {
+                    if !self.cancelled {
+                        self.block(content: content, error: error)
+                    }
+                    self.finish()
+                }
+            }
+        }
     }
     
     /// Get settings of this index

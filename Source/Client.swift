@@ -75,6 +75,9 @@ import Foundation
 
     // NOTE: Not constant only for the sake of mocking during unit tests.
     var session: URLSession
+    
+    /// Background queue for complex asynchronous operations.
+    let queue: NSOperationQueue
 
     /// Algolia Search initialization.
     ///
@@ -107,6 +110,10 @@ import Foundation
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         configuration.HTTPAdditionalHeaders = fixedHTTPHeaders
         session = NSURLSession(configuration: configuration)
+        
+        // Create background queue.
+        self.queue = NSOperationQueue()
+        self.queue.underlyingQueue = dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
         
         super.init()
         
