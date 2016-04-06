@@ -198,28 +198,4 @@ class NetworkTests: XCTestCase {
         }
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
-    
-    /// Test cancelling a request.
-    func testCancel() {
-        // NOTE: We use a search request here because it is more complex (in-memory cache involved).
-        session.responses["https://\(client.writeHosts[0])/1/indexes/\(FAKE_INDEX_NAME)"] = MockResponse(statusCode: 200, jsonBody: ["hello": "world"])
-        let request1 = index.search(Query()) {
-            (content, error) -> Void in
-            XCTFail("Completion handler should not be called when a request has been cancelled")
-        }
-        request1.cancel()
-        // Manually run the run loop for a while to leave a chance to the completion handler to be called.
-        // WARNING: We cannot use `waitForExpectationsWithTimeout()`, because a timeout always results in failure.
-        NSRunLoop.mainRunLoop().runUntilDate(NSDate().dateByAddingTimeInterval(3))
-        
-        // Run the test again, but this time the session won't actually cancel the (mock) network call.
-        // This checks that the `Request` class still mutes the completion handler when cancelled.
-        session.cancellable = false
-        let request2 = index.search(Query()) {
-            (content, error) -> Void in
-            XCTFail("Completion handler should not be called when a request has been cancelled")
-        }
-        request2.cancel()
-        NSRunLoop.mainRunLoop().runUntilDate(NSDate().dateByAddingTimeInterval(3))
-    }
 }
