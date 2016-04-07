@@ -720,4 +720,76 @@ class IndexTests: XCTestCase {
         
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
+    
+    func testSearchDisjunctiveFaceting() {
+        let expectation = expectationWithDescription("testAddObjects")
+        let objects = [
+            ["name": "iPhone 6",                "brand": "Apple",       "category": "device",       "stars": 4],
+            ["name": "iPhone 6 Plus",           "brand": "Apple",       "category": "device",       "stars": 5],
+            ["name": "iPhone cover",            "brand": "Apple",       "category": "accessory",    "stars": 3],
+            ["name": "Galaxy S5",               "brand": "Samsung",     "category": "device",       "stars": 4],
+            ["name": "Wonder Phone",            "brand": "Samsung",     "category": "device",       "stars": 5],
+            ["name": "Platinum Phone Cover",    "brand": "Samsung",     "category": "accessory",    "stars": 2],
+            ["name": "Lame Phone",              "brand": "Whatever",    "category": "device",       "stars": 1],
+            ["name": "Lame Phone cover",        "brand": "Whatever",    "category": "accessory",    "stars": 1]
+        ]
+        
+        // Change index settings.
+        index.setSettings(["attributesForFaceting": ["brand", "category", "stars"]], block: { (content, error) -> Void in
+            if error != nil {
+                XCTFail(error!.localizedDescription)
+                expectation.fulfill()
+            } else {
+                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                    if error != nil {
+                        XCTFail(error!.localizedDescription)
+                        expectation.fulfill()
+                    } else {
+                        // Add objects.
+                        self.index.addObjects(objects, block: { (content, error) -> Void in
+                            if error != nil {
+                                XCTFail(error!.localizedDescription)
+                                expectation.fulfill()
+                            } else {
+                                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                                    if error != nil {
+                                        XCTFail(error!.localizedDescription)
+                                        expectation.fulfill()
+                                    } else {
+                                        // Search.
+                                        let disjunctiveFacets = ["brand"]
+                                        let refinements = [
+                                            "brand": ["Apple", "Samsung"], // disjunctive
+                                            "category": ["device"] // conjunctive
+                                        ]
+                                        let query = Query(query: "phone")
+                                        query.facets = ["brand", "category", "stars"]
+                                        self.index.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, block: { (content, error) -> Void in
+                                            if error != nil {
+                                                XCTFail(error!.localizedDescription)
+                                                expectation.fulfill()
+                                            } else {
+                                                print(content)
+                                                
+                                                XCTAssertEqual(content!["nbHits"] as? Int, 3)
+                                                let disjunctiveFacetsResult = content!["disjunctiveFacets"] as? [String: AnyObject]
+                                                XCTAssertNotNil(disjunctiveFacetsResult)
+                                                let brandFacetCounts = disjunctiveFacetsResult!["brand"] as? [String: AnyObject]
+                                                XCTAssertNotNil(brandFacetCounts)
+                                                XCTAssertEqual(brandFacetCounts!["Apple"] as? Int, 2)
+                                                XCTAssertEqual(brandFacetCounts!["Samsung"] as? Int, 1)
+                                                XCTAssertEqual(brandFacetCounts!["Whatever"] as? Int, 1)
+                                                expectation.fulfill()
+                                            }
+                                        })
+                                    }
+                                })
+                            }
+                        })
+                    }
+                })
+            }
+        })
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+    }
 }

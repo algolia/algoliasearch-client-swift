@@ -335,6 +335,8 @@ import Foundation
         return client.performHTTPQuery(path, method: .POST, body: body, hostnames: client.writeHosts, block: block)
     }
     
+    // MARK: - Helpers
+    
     /// Delete all objects matching a query (helper).
     ///
     /// - parameter query: The query used to filter objects.
@@ -421,6 +423,120 @@ import Foundation
         }
     }
     
+    /// Perform a search with disjunctive facets, generating as many queries as number of disjunctive facets.
+    ///
+    /// - parameter query:              The query.
+    /// - parameter disjunctiveFacets:  List of disjunctive facets.
+    /// - parameter refinements:        The current refinements, mapping facet names to a list of values.
+    /// - parameter block:              Completion handler to be notified of the results.
+    /// - return: A cancellable operation.
+    ///
+    @objc public func searchDisjunctiveFaceting(query: Query, disjunctiveFacets: [String], refinements: [String: [String]], block: CompletionHandler) -> NSOperation {
+        var requests = [[String: AnyObject]]()
+        
+        // Build the first, global query.
+        let globalQuery = Query(copy: query)
+        globalQuery.facetFilters = Index._buildFacetFilters(disjunctiveFacets, refinements: refinements, excludedFacet: nil)
+        requests.append(["indexName": self.indexName, "query": globalQuery])
+        
+        // Build the refined queries.
+        for disjunctiveFacet in disjunctiveFacets {
+            let disjunctiveQuery = Query(copy: query)
+            disjunctiveQuery.facets = [disjunctiveFacet]
+            disjunctiveQuery.facetFilters = Index._buildFacetFilters(disjunctiveFacets, refinements: refinements, excludedFacet: disjunctiveFacet)
+            // We are not interested in the hits for this query, only the facet counts, so let's limit the output.
+            disjunctiveQuery.hitsPerPage = 0
+            disjunctiveQuery.attributesToRetrieve = []
+            disjunctiveQuery.attributesToHighlight = []
+            disjunctiveQuery.attributesToSnippet = []
+            // Do not show this query in analytics, either.
+            disjunctiveQuery.analytics = false
+            requests.append(["indexName": self.indexName, "query": disjunctiveQuery])
+        }
+        
+        // Run all the queries.
+        let operation = client.multipleQueries(requests, block: { (content, error) -> Void in
+            var finalContent: [String: AnyObject]? = nil
+            var finalError: NSError? = error
+            if error == nil {
+                do {
+                    finalContent = try Index._aggregateResults(disjunctiveFacets, refinements: refinements, content: content!)
+                } catch let e as NSError {
+                    finalError = e
+                }
+            }
+            assert(finalContent != nil || finalError != nil)
+            block(content: finalContent, error: finalError)
+        })
+        return operation
+    }
+    
+    /// Aggregate disjunctive faceting search results.
+    private class func _aggregateResults(disjunctiveFacets: [String], refinements: [String: [String]], content: [String: AnyObject]) throws -> [String: AnyObject] {
+        guard let results = content["results"] as? [AnyObject] else {
+            throw NSError(domain: Client.ErrorDomain, code: StatusCode.InvalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "No results in response"])
+        }
+        // The first answer is used as the basis for the response.
+        guard var mainContent = results[0] as? [String: AnyObject] else {
+            throw NSError(domain: Client.ErrorDomain, code: StatusCode.InvalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "Invalid results in response"])
+        }
+        // Following answers are just used for their facet counts.
+        var disjunctiveFacetCounts = [String: AnyObject]()
+        for i in 1..<results.count { // for each answer (= each disjunctive facet)
+            guard let result = results[i] as? [String: AnyObject], allFacetCounts = result["facets"] as? [String: [String: AnyObject]] else {
+                throw NSError(domain: Client.ErrorDomain, code: StatusCode.InvalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "Invalid results in response"])
+            }
+            // NOTE: Iterating, but there should be just one item.
+            for (facetName, facetCounts) in allFacetCounts {
+                var newFacetCounts = facetCounts
+                // Add zeroes for missing values.
+                if disjunctiveFacets.contains(facetName) {
+                    if let refinedValues = refinements[facetName] {
+                        for refinedValue in refinedValues {
+                            if facetCounts[refinedValue] == nil {
+                                newFacetCounts[refinedValue] = 0
+                            }
+                        }
+                    }
+                }
+                disjunctiveFacetCounts[facetName] = newFacetCounts
+            }
+        }
+        mainContent["disjunctiveFacets"] = disjunctiveFacetCounts
+        return mainContent
+    }
+    
+    /// Build the facet filters, either global or for the selected disjunctive facet.
+    ///
+    /// - parameter excludedFacet: The disjunctive facet to exclude from the filters. If nil, no facet is
+    ///   excluded (thus building the global filters).
+    ///
+    private class func _buildFacetFilters(disjunctiveFacets: [String], refinements: [String: [String]], excludedFacet: String?) -> [AnyObject] {
+        var facetFilters: [AnyObject] = []
+        for (facetName, facetValues) in refinements {
+            // Disjunctive facet: OR all values, and AND with the rest of the filters.
+            if disjunctiveFacets.contains(facetName) {
+                // Skip the specified disjunctive facet, if any.
+                if facetName == excludedFacet {
+                    continue
+                }
+                var disjunctiveOperator = [String]()
+                for facetValue in facetValues {
+                    disjunctiveOperator.append("\(facetName):\(facetValue)")
+                }
+                facetFilters.append(disjunctiveOperator)
+            }
+                // Conjunctive facet: AND all values with the rest of the filters.
+            else {
+                assert(facetName != excludedFacet)
+                for facetValue in facetValues {
+                    facetFilters.append("\(facetName):\(facetValue)")
+                }
+            }
+        }
+        return facetFilters
+    }
+
     // MARK: - Browse
     
     /// Browse all index content (initial call).
