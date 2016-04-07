@@ -42,6 +42,9 @@ import Foundation
     /// Add an object in this index
     ///
     /// - parameter object: The object to add inside the index.
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func addObject(object: [String: AnyObject], block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)"
         return client.performHTTPQuery(path, method: .POST, body: object, hostnames: client.writeHosts, block: block)
@@ -51,6 +54,9 @@ import Foundation
     ///
     /// - parameter object: The object to add inside the index.
     /// - parameter withID: An objectID you want to attribute to this object (if the attribute already exist, the old object will be overwrite)
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func addObject(object: [String: AnyObject], withID objectID: String, block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
         return client.performHTTPQuery(path, method: .PUT, body: object, hostnames: client.writeHosts, block: block)
@@ -59,6 +65,9 @@ import Foundation
     /// Add several objects in this index
     ///
     /// - parameter objects: An array of objects to add (Array of Dictionnary object).
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func addObjects(objects: [AnyObject], block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
         
@@ -75,6 +84,9 @@ import Foundation
     /// Delete an object from the index
     ///
     /// - parameter objectID: The unique identifier of object to delete
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func deleteObject(objectID: String, block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
         return client.performHTTPQuery(path, method: .DELETE, body: nil, hostnames: client.writeHosts, block: block)
@@ -83,6 +95,9 @@ import Foundation
     /// Delete several objects
     ///
     /// - parameter objectIDs: An array of objectID to delete.
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func deleteObjects(objectIDs: [String], block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
         
@@ -99,6 +114,9 @@ import Foundation
     /// Get an object from this index
     ///
     /// - parameter objectID: The unique identifier of the object to retrieve
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func getObject(objectID: String, block: CompletionHandler) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
         return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readHosts, block: block)
@@ -108,6 +126,9 @@ import Foundation
     ///
     /// - parameter objectID: The unique identifier of the object to retrieve
     /// - parameter attributesToRetrieve: The list of attributes to retrieve
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func getObject(objectID: String, attributesToRetrieve attributes: [String], block: CompletionHandler) -> NSOperation {
         let query = Query()
         query.attributesToRetrieve = attributes
@@ -118,6 +139,9 @@ import Foundation
     /// Get several objects from this index
     ///
     /// - parameter objectIDs: The array of unique identifier of objects to retrieve
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func getObjects(objectIDs: [String], block: CompletionHandler) -> NSOperation {
         let path = "1/indexes/*/objects"
         
@@ -133,7 +157,11 @@ import Foundation
     
     /// Update partially an object (only update attributes passed in argument)
     ///
-    /// - parameter object: The object attributes to override, the object must contains an objectID attribute
+    /// - parameter partialObject: New values/operations for the object.
+    /// - parameter objectID: Identifier of object to be updated.
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func partialUpdateObject(partialObject: [String: AnyObject], objectID: String, block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())/partial"
         return client.performHTTPQuery(path, method: .POST, body: partialObject, hostnames: client.writeHosts, block: block)
@@ -142,6 +170,9 @@ import Foundation
     /// Update partially the content of several objects
     ///
     /// - parameter objects: An array of Dictionary to update (each Dictionary must contains an objectID attribute)
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func partialUpdateObjects(objects: [AnyObject], block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
         
@@ -164,6 +195,9 @@ import Foundation
     /// Override the content of object
     ///
     /// - parameter object: The object to override, the object must contains an objectID attribute
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func saveObject(object: [String: AnyObject], block: CompletionHandler? = nil) -> NSOperation {
         let objectID = object["objectID"] as! String
         let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
@@ -173,6 +207,9 @@ import Foundation
     /// Override the content of several objects
     ///
     /// - parameter objects: An array of Dictionary to save (each Dictionary must contains an objectID attribute)
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func saveObjects(objects: [AnyObject], block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
         
@@ -193,6 +230,11 @@ import Foundation
     }
     
     /// Search inside the index
+    ///
+    /// - parameter query: Search parameters.
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func search(query: Query, block: CompletionHandler) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/query"
         let request = ["params": query.build()]
@@ -224,6 +266,10 @@ import Foundation
     }
     
     /// Get settings of this index
+    ///
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func getSettings(block: CompletionHandler) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/settings"
         return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readHosts, block: block)
@@ -232,6 +278,8 @@ import Foundation
     /// Set settings for this index
     ///
     /// - parameter settings: The settings object
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
     ///
     /// NB: The settings object can contains :
     ///
@@ -260,12 +308,17 @@ import Foundation
     /// - highlightPreTag: (string) Specify the string that is inserted before the highlighted parts in the query result (default to "<em>").
     /// - highlightPostTag: (string) Specify the string that is inserted after the highlighted parts in the query result (default to "</em>").
     /// - optionalWords: (array of strings) Specify a list of words that should be considered as optional when found in the query.
+    ///
     @objc public func setSettings(settings: [String: AnyObject], block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/settings"
         return client.performHTTPQuery(path, method: .PUT, body: settings, hostnames: client.writeHosts, block: block)
     }
     
     /// Delete the index content without removing settings and index specific API keys.
+    ///
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func clearIndex(block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/clear"
         return client.performHTTPQuery(path, method: .POST, body: nil, hostnames: client.writeHosts, block: block)
@@ -274,6 +327,8 @@ import Foundation
     /// Custom batch operations.
     ///
     /// - parameter actions: The array of actions.
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
     ///
     @objc public func batch(actions: [AnyObject], block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
@@ -286,6 +341,9 @@ import Foundation
     /// unless the end of the index has been reached. To retrieve subsequent pages, call `browseFrom` with that cursor.
     ///
     /// - parameter query: The query parameters for the browse.
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func browse(query: Query, block: CompletionHandler) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/browse"
         let body = [
@@ -299,6 +357,9 @@ import Foundation
     /// index has been reached.
     ///
     /// - parameter cursor: The cursor of the next page to retrieve
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func browseFrom(cursor: String, block: CompletionHandler) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/browse?cursor=\(cursor.urlEncode())"
         return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readHosts, block: block)
@@ -310,6 +371,9 @@ import Foundation
     /// All server task are asynchronous and you can check with this method that the task is published.
     ///
     /// - parameter taskID: The ID of the task returned by server
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func waitTask(taskID: Int, block: CompletionHandler) -> NSOperation {
         let operation = WaitOperation(index: self, taskID: taskID, block: block)
         operation.start()
@@ -363,6 +427,8 @@ import Foundation
     /// Delete all objects matching a query (helper).
     ///
     /// - parameter query: The query used to filter objects.
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
     ///
     @objc public func deleteByQuery(query: Query, block: CompletionHandler? = nil) -> NSOperation {
         let operation = DeleteByQueryOperation(index: self, query: query, block: block)
@@ -451,8 +517,8 @@ import Foundation
     /// - parameter query:              The query.
     /// - parameter disjunctiveFacets:  List of disjunctive facets.
     /// - parameter refinements:        The current refinements, mapping facet names to a list of values.
-    /// - parameter block:              Completion handler to be notified of the results.
-    /// - return: A cancellable operation.
+    /// - parameter block:              Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
     ///
     @objc public func searchDisjunctiveFaceting(query: Query, disjunctiveFacets: [String], refinements: [String: [String]], block: CompletionHandler) -> NSOperation {
         var requests = [[String: AnyObject]]()

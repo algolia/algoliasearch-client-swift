@@ -141,7 +141,9 @@ import Foundation
 
     /// List all existing indexes.
     ///
-    /// :return: JSON Object in the handler in the form: { "items": [ {"name": "contacts", "createdAt": "2013-01-18T15:33:13.556Z"}, {"name": "notes", "createdAt": "2013-01-18T15:33:13.556Z"}]}
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func listIndexes(block: CompletionHandler) -> NSOperation {
         return performHTTPQuery("1/indexes", method: .GET, body: nil, hostnames: readHosts, block: block)
     }
@@ -149,7 +151,9 @@ import Foundation
     /// Delete an index.
     ///
     /// - parameter indexName: the name of index to delete
-    /// :return: JSON Object in the handler containing a "deletedAt" attribute
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func deleteIndex(indexName: String, block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(indexName.urlEncode())"
         return performHTTPQuery(path, method: .DELETE, body: nil, hostnames: writeHosts, block: block)
@@ -159,6 +163,9 @@ import Foundation
     ///
     /// - parameter srcIndexName: the name of index to move.
     /// - parameter dstIndexName: the new index name that will contains sourceIndexName (destination will be overriten if it already exist).
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func moveIndex(srcIndexName: String, to dstIndexName: String, block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(srcIndexName.urlEncode())/operation"
         let request = [
@@ -173,6 +180,9 @@ import Foundation
     ///
     /// - parameter srcIndexName: the name of index to copy.
     /// - parameter dstIndexName: the new index name that will contains a copy of sourceIndexName (destination will be overriten if it already exist).
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func copyIndex(srcIndexName: String, to dstIndexName: String, block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(srcIndexName.urlEncode())/operation"
         let request = [
@@ -186,6 +196,9 @@ import Foundation
     /// Get the index object initialized (no server call needed for initialization).
     ///
     /// - parameter indexName: the name of index
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func getIndex(indexName: String) -> Index {
         return Index(client: self, indexName: indexName)
     }
@@ -193,6 +206,9 @@ import Foundation
     /// Query multiple indexes with one API call.
     ///
     /// - parameter queries: An array of queries with the associated index (Array of Dictionnary object ["indexName": "targettedIndex", "query": QueryObject]).
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc public func multipleQueries(queries: [AnyObject], block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/*/queries"
 
@@ -214,6 +230,8 @@ import Foundation
     /// Custom batch operations.
     ///
     /// - parameter actions: The array of actions.
+    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
     ///
     @objc public func batch(actions: [AnyObject], block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/*/batch"
