@@ -323,36 +323,36 @@ import Foundation
     // MARK: Search
     // ----------------------------------------------------------------------
 
-    @objc public override func search(query: Query, block: CompletionHandler) -> NSOperation {
+    @objc public override func search(query: Query, completionHandler: CompletionHandler) -> NSOperation {
         let operation = super.search(query) {
             (content, error) -> Void in
             // In case of transient error and this indexed is mirrored, try the mirror.
             if error != nil && isErrorTransient(error!) && self.mirrored {
-                self.searchMirror(query, block: block)
+                self.searchMirror(query, completionHandler: completionHandler)
             }
             // Otherwise, just return whatever result we got from the online API.
             else {
-                block(content: content, error: error)
+                completionHandler(content: content, error: error)
             }
         }
         return operation
     }
     
     /// Search the local mirror.
-    @objc public func searchMirror(query: Query, block: CompletionHandler) {
+    @objc public func searchMirror(query: Query, completionHandler: CompletionHandler) {
         let callingQueue = NSOperationQueue.currentQueue() ?? NSOperationQueue.mainQueue()
         self.offlineClient.searchQueue.addOperationWithBlock() {
             self._searchMirror(query) {
                 (content, error) -> Void in
                 callingQueue.addOperationWithBlock() {
-                    block(content: content, error: error)
+                    completionHandler(content: content, error: error)
                 }
             }
         }
     }
     
     /// Search the local mirror synchronously.
-    private func _searchMirror(query: Query, block: CompletionHandler) {
+    private func _searchMirror(query: Query, completionHandler: CompletionHandler) {
         assert(!NSThread.isMainThread()) // make sure it's run in the background
         assert(self.mirrored, "Mirroring not activated on this index")
         
@@ -376,7 +376,7 @@ import Foundation
             error = NSError(domain: Client.ErrorDomain, code: Int(searchResults.statusCode), userInfo: nil)
         }
         assert(content != nil || error != nil)
-        block(content: content, error: error)
+        completionHandler(content: content, error: error)
     }
     
     // ----------------------------------------------------------------------
@@ -384,20 +384,20 @@ import Foundation
     // ----------------------------------------------------------------------
     
     /// Browse the local mirror.
-    @objc public func browseMirror(query: Query, block: CompletionHandler) {
+    @objc public func browseMirror(query: Query, completionHandler: CompletionHandler) {
         let callingQueue = NSOperationQueue.currentQueue() ?? NSOperationQueue.mainQueue()
         self.offlineClient.searchQueue.addOperationWithBlock() {
             self._browseMirror(query) {
                 (content, error) -> Void in
                 callingQueue.addOperationWithBlock() {
-                    block(content: content, error: error)
+                    completionHandler(content: content, error: error)
                 }
             }
         }
     }
 
     /// Browse the local mirror synchronously.
-    private func _browseMirror(query: Query, block: CompletionHandler) {
+    private func _browseMirror(query: Query, completionHandler: CompletionHandler) {
         assert(!NSThread.isMainThread()) // make sure it's run in the background
         assert(self.mirrored, "Mirroring not activated on this index")
         
@@ -422,7 +422,7 @@ import Foundation
             error = NSError(domain: Client.ErrorDomain, code: Int(searchResults.statusCode), userInfo: nil)
         }
         assert(content != nil || error != nil)
-        block(content: content, error: error)
+        completionHandler(content: content, error: error)
     }
 
 }

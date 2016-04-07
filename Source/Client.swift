@@ -141,62 +141,62 @@ import Foundation
 
     /// List all existing indexes.
     ///
-    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func listIndexes(block: CompletionHandler) -> NSOperation {
-        return performHTTPQuery("1/indexes", method: .GET, body: nil, hostnames: readHosts, block: block)
+    @objc public func listIndexes(completionHandler: CompletionHandler) -> NSOperation {
+        return performHTTPQuery("1/indexes", method: .GET, body: nil, hostnames: readHosts, completionHandler: completionHandler)
     }
 
     /// Delete an index.
     ///
     /// - parameter indexName: the name of index to delete
-    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func deleteIndex(indexName: String, block: CompletionHandler? = nil) -> NSOperation {
+    @objc public func deleteIndex(indexName: String, completionHandler: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(indexName.urlEncode())"
-        return performHTTPQuery(path, method: .DELETE, body: nil, hostnames: writeHosts, block: block)
+        return performHTTPQuery(path, method: .DELETE, body: nil, hostnames: writeHosts, completionHandler: completionHandler)
     }
 
     /// Move an existing index.
     ///
     /// - parameter srcIndexName: the name of index to move.
     /// - parameter dstIndexName: the new index name that will contains sourceIndexName (destination will be overriten if it already exist).
-    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func moveIndex(srcIndexName: String, to dstIndexName: String, block: CompletionHandler? = nil) -> NSOperation {
+    @objc public func moveIndex(srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(srcIndexName.urlEncode())/operation"
         let request = [
             "destination": dstIndexName,
             "operation": "move"
         ]
 
-        return performHTTPQuery(path, method: .POST, body: request, hostnames: writeHosts, block: block)
+        return performHTTPQuery(path, method: .POST, body: request, hostnames: writeHosts, completionHandler: completionHandler)
     }
 
     /// Copy an existing index.
     ///
     /// - parameter srcIndexName: the name of index to copy.
     /// - parameter dstIndexName: the new index name that will contains a copy of sourceIndexName (destination will be overriten if it already exist).
-    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func copyIndex(srcIndexName: String, to dstIndexName: String, block: CompletionHandler? = nil) -> NSOperation {
+    @objc public func copyIndex(srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(srcIndexName.urlEncode())/operation"
         let request = [
             "destination": dstIndexName,
             "operation": "copy"
         ]
 
-        return performHTTPQuery(path, method: .POST, body: request, hostnames: writeHosts, block: block)
+        return performHTTPQuery(path, method: .POST, body: request, hostnames: writeHosts, completionHandler: completionHandler)
     }
 
     /// Get the index object initialized (no server call needed for initialization).
     ///
     /// - parameter indexName: the name of index
-    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc public func getIndex(indexName: String) -> Index {
@@ -209,10 +209,10 @@ import Foundation
     /// Query multiple indexes with one API call.
     ///
     /// - parameter queries: List of queries.
-    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func multipleQueries(queries: [IndexQuery], block: CompletionHandler? = nil) -> NSOperation {
+    @objc public func multipleQueries(queries: [IndexQuery], completionHandler: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/*/queries"
         var requests = [[String: AnyObject]]()
         requests.reserveCapacity(queries.count)
@@ -223,30 +223,30 @@ import Foundation
             ])
         }
         let request = ["requests": requests]
-        return performHTTPQuery(path, method: .POST, body: request, hostnames: readHosts, block: block)
+        return performHTTPQuery(path, method: .POST, body: request, hostnames: readHosts, completionHandler: completionHandler)
     }
     
     /// Custom batch operations.
     ///
     /// - parameter actions: The array of actions.
-    /// - parameter block: Completion handler to be notified of the request's outcome.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func batch(actions: [AnyObject], block: CompletionHandler? = nil) -> NSOperation {
+    @objc public func batch(actions: [AnyObject], completionHandler: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/*/batch"
         let body = ["requests": actions]
-        return performHTTPQuery(path, method: .POST, body: body, hostnames: writeHosts, block: block)
+        return performHTTPQuery(path, method: .POST, body: body, hostnames: writeHosts, completionHandler: completionHandler)
     }
 
     // MARK: - Network
 
     /// Perform an HTTP Query.
-    func performHTTPQuery(path: String, method: HTTPMethod, body: [String: AnyObject]?, hostnames: [String], isSearchQuery: Bool = false, block: CompletionHandler? = nil) -> NSOperation {
+    func performHTTPQuery(path: String, method: HTTPMethod, body: [String: AnyObject]?, hostnames: [String], isSearchQuery: Bool = false, completionHandler: CompletionHandler? = nil) -> NSOperation {
         let request = newRequest(method, path: path, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery) {
             (content: [String: AnyObject]?, error: NSError?) -> Void in
-            if block != nil {
+            if completionHandler != nil {
                 dispatch_async(dispatch_get_main_queue()) {
-                    block!(content: content, error: error)
+                    completionHandler!(content: content, error: error)
                 }
             }
         }

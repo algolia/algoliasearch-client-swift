@@ -35,7 +35,7 @@ public typealias BrowseIteratorHandler = (iterator: BrowseIterator, content: [St
 
 /// Iterator to browse all index content.
 ///
-/// This helper takes care of chaining API requests and calling back the handler block with the results, until:
+/// This helper takes care of chaining API requests and calling back the completion handler with the results, until:
 /// - the end of the index has been reached;
 /// - an error has been encountered;
 /// - or the user cancelled the iteration.
@@ -48,7 +48,7 @@ public typealias BrowseIteratorHandler = (iterator: BrowseIterator, content: [St
     public let query: Query
 
     /// Completion handler.
-    private let block: BrowseIteratorHandler
+    private let completionHandler: BrowseIteratorHandler
 
     /// Cursor to use for the next call, if any.
     private var cursor: String?
@@ -67,24 +67,24 @@ public typealias BrowseIteratorHandler = (iterator: BrowseIterator, content: [St
     ///
     /// - parameter index:  The index to be browsed.
     /// - parameter query:  The query used to filter the results.
-    /// - parameter block:  Handler called for each page of results.
+    /// - parameter completionHandler:  Handler called for each page of results.
     ///
-    @objc public init(index: Index, query: Query, block: BrowseIteratorHandler) {
+    @objc public init(index: Index, query: Query, completionHandler: BrowseIteratorHandler) {
         self.index = index
         self.query = query
-        self.block = block
+        self.completionHandler = completionHandler
     }
     
     /// Start the iteration.
     @objc public func start() {
         assert(!started)
         started = true
-        request = index.browse(query, block: self.handleResult)
+        request = index.browse(query, completionHandler: self.handleResult)
     }
     
     /// Cancel the iteration.
     /// This cancels any currently ongoing request, and cancels the iteration.
-    /// The handler block will not be called after the iteration has been cancelled.
+    /// The completion handler will not be called after the iteration has been cancelled.
     ///
     @objc public func cancel() {
         request?.cancel()
@@ -96,7 +96,7 @@ public typealias BrowseIteratorHandler = (iterator: BrowseIterator, content: [St
         request = nil
         cursor = content?["cursor"] as? String
         if !cancelled {
-            block(iterator: self, content: content, error: error)
+            completionHandler(iterator: self, content: content, error: error)
             if !cancelled && error == nil && hasNext() {
                 next()
             }
@@ -113,6 +113,6 @@ public typealias BrowseIteratorHandler = (iterator: BrowseIterator, content: [St
     
     private func next() {
         assert(hasNext())
-        request = index.browseFrom(self.cursor!, block: handleResult)
+        request = index.browseFrom(self.cursor!, completionHandler: handleResult)
     }
 }
