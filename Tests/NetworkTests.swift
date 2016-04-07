@@ -128,7 +128,7 @@ class NetworkTests: XCTestCase {
             (content, error) -> Void in
             XCTAssertNil(content)
             XCTAssertNotNil(error)
-            XCTAssertEqual(error?.domain, AlgoliaSearchErrorDomain)
+            XCTAssertEqual(error?.domain, Client.ErrorDomain)
             XCTAssertEqual(error?.code, 403)
             XCTAssertEqual(error?.userInfo[NSLocalizedDescriptionKey] as? String, "Mind your own business")
             expectation.fulfill()
@@ -144,7 +144,7 @@ class NetworkTests: XCTestCase {
             (content, error) -> Void in
             XCTAssertNil(content)
             XCTAssertNotNil(error)
-            XCTAssertEqual(error?.domain, AlgoliaSearchErrorDomain)
+            XCTAssertEqual(error?.domain, Client.ErrorDomain)
             XCTAssertEqual(error?.code, StatusCode.IllFormedResponse.rawValue)
             expectation.fulfill()
         }
@@ -159,7 +159,7 @@ class NetworkTests: XCTestCase {
             (content, error) -> Void in
             XCTAssertNil(content)
             XCTAssertNotNil(error)
-            XCTAssertEqual(error?.domain, AlgoliaSearchErrorDomain)
+            XCTAssertEqual(error?.domain, Client.ErrorDomain)
             XCTAssertEqual(error?.code, StatusCode.IllFormedResponse.rawValue)
             expectation.fulfill()
         }
@@ -176,7 +176,7 @@ class NetworkTests: XCTestCase {
             (content, error) -> Void in
             XCTAssertNil(content)
             XCTAssertNotNil(error)
-            XCTAssertEqual(error?.domain, AlgoliaSearchErrorDomain)
+            XCTAssertEqual(error?.domain, Client.ErrorDomain)
             XCTAssertEqual(error?.code, StatusCode.IllFormedResponse.rawValue)
             expectation.fulfill()
         }
@@ -192,7 +192,7 @@ class NetworkTests: XCTestCase {
             (content, error) -> Void in
             XCTAssertNil(content)
             XCTAssertNotNil(error)
-            XCTAssertEqual(error?.domain, AlgoliaSearchErrorDomain)
+            XCTAssertEqual(error?.domain, Client.ErrorDomain)
             XCTAssertEqual(error?.code, 403)
             expectation.fulfill()
         }
