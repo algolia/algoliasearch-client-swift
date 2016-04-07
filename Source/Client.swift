@@ -200,6 +200,9 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func getIndex(indexName: String) -> Index {
+        // IMPLEMENTATION NOTE: This method is called `initIndex` in other clients, which better conveys its semantics.
+        // However, methods prefixed by `init` are automatically considered as initializers by the Objective-C bridge.
+        // Therefore, `initIndex` would fail to compile in Objective-C, because its return type is not `instancetype`.
         return Index(client: self, indexName: indexName)
     }
 
