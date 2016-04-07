@@ -223,60 +223,6 @@ import Foundation
         }
     }
     
-    /// Wait the publication of a task on the server.
-    /// All server task are asynchronous and you can check with this method that the task is published.
-    ///
-    /// - parameter taskID: The ID of the task returned by server
-    @objc public func waitTask(taskID: Int, block: CompletionHandler) -> NSOperation {
-        let operation = WaitOperation(index: self, taskID: taskID, block: block)
-        operation.start()
-        return operation
-    }
-    
-    private class WaitOperation: AsyncOperation {
-        let index: Index
-        let taskID: Int
-        let block: CompletionHandler
-        let path: String
-        
-        init(index: Index, taskID: Int, block: CompletionHandler) {
-            self.index = index
-            self.taskID = taskID
-            self.block = block
-            path = "1/indexes/\(index.urlEncodedIndexName)/task/\(taskID)"
-        }
-        
-        override func start() {
-            super.start()
-            startNext()
-        }
-        
-        private func startNext() {
-            if cancelled {
-                finish()
-            }
-            index.client.performHTTPQuery(path, method: .GET, body: nil, hostnames: index.client.writeHosts) {
-                (content, error) -> Void in
-                if let content = content {
-                    if (content["status"] as? String) == "published" {
-                        if !self.cancelled {
-                            self.block(content: content, error: nil)
-                        }
-                        self.finish()
-                    } else {
-                        NSThread.sleepForTimeInterval(0.1)
-                        self.startNext()
-                    }
-                } else {
-                    if !self.cancelled {
-                        self.block(content: content, error: error)
-                    }
-                    self.finish()
-                }
-            }
-        }
-    }
-    
     /// Get settings of this index
     @objc public func getSettings(block: CompletionHandler) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/settings"
@@ -335,8 +281,85 @@ import Foundation
         return client.performHTTPQuery(path, method: .POST, body: body, hostnames: client.writeHosts, block: block)
     }
     
+    /// Browse all index content (initial call).
+    /// This method should be called once to initiate a browse. It will return the first page of results and a cursor,
+    /// unless the end of the index has been reached. To retrieve subsequent pages, call `browseFrom` with that cursor.
+    ///
+    /// - parameter query: The query parameters for the browse.
+    @objc public func browse(query: Query, block: CompletionHandler) -> NSOperation {
+        let path = "1/indexes/\(urlEncodedIndexName)/browse"
+        let body = [
+            "params": query.build()
+        ]
+        return client.performHTTPQuery(path, method: .POST, body: body, hostnames: client.readHosts, block: block)
+    }
+    
+    /// Browse the index from a cursor.
+    /// This method should be called after an initial call to `browse()`. It returns a cursor, unless the end of the
+    /// index has been reached.
+    ///
+    /// - parameter cursor: The cursor of the next page to retrieve
+    @objc public func browseFrom(cursor: String, block: CompletionHandler) -> NSOperation {
+        let path = "1/indexes/\(urlEncodedIndexName)/browse?cursor=\(cursor.urlEncode())"
+        return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readHosts, block: block)
+    }
+    
     // MARK: - Helpers
     
+    /// Wait the publication of a task on the server.
+    /// All server task are asynchronous and you can check with this method that the task is published.
+    ///
+    /// - parameter taskID: The ID of the task returned by server
+    @objc public func waitTask(taskID: Int, block: CompletionHandler) -> NSOperation {
+        let operation = WaitOperation(index: self, taskID: taskID, block: block)
+        operation.start()
+        return operation
+    }
+    
+    private class WaitOperation: AsyncOperation {
+        let index: Index
+        let taskID: Int
+        let block: CompletionHandler
+        let path: String
+        
+        init(index: Index, taskID: Int, block: CompletionHandler) {
+            self.index = index
+            self.taskID = taskID
+            self.block = block
+            path = "1/indexes/\(index.urlEncodedIndexName)/task/\(taskID)"
+        }
+        
+        override func start() {
+            super.start()
+            startNext()
+        }
+        
+        private func startNext() {
+            if cancelled {
+                finish()
+            }
+            index.client.performHTTPQuery(path, method: .GET, body: nil, hostnames: index.client.writeHosts) {
+                (content, error) -> Void in
+                if let content = content {
+                    if (content["status"] as? String) == "published" {
+                        if !self.cancelled {
+                            self.block(content: content, error: nil)
+                        }
+                        self.finish()
+                    } else {
+                        NSThread.sleepForTimeInterval(0.1)
+                        self.startNext()
+                    }
+                } else {
+                    if !self.cancelled {
+                        self.block(content: content, error: error)
+                    }
+                    self.finish()
+                }
+            }
+        }
+    }
+
     /// Delete all objects matching a query (helper).
     ///
     /// - parameter query: The query used to filter objects.
@@ -537,31 +560,6 @@ import Foundation
         return facetFilters
     }
 
-    // MARK: - Browse
-    
-    /// Browse all index content (initial call).
-    /// This method should be called once to initiate a browse. It will return the first page of results and a cursor,
-    /// unless the end of the index has been reached. To retrieve subsequent pages, call `browseFrom` with that cursor.
-    ///
-    /// - parameter query: The query parameters for the browse.
-    @objc public func browse(query: Query, block: CompletionHandler) -> NSOperation {
-        let path = "1/indexes/\(urlEncodedIndexName)/browse"
-        let body = [
-            "params": query.build()
-        ]
-        return client.performHTTPQuery(path, method: .POST, body: body, hostnames: client.readHosts, block: block)
-    }
-    
-    /// Browse the index from a cursor.
-    /// This method should be called after an initial call to `browse()`. It returns a cursor, unless the end of the
-    /// index has been reached.
-    ///
-    /// - parameter cursor: The cursor of the next page to retrieve
-    @objc public func browseFrom(cursor: String, block: CompletionHandler) -> NSOperation {
-        let path = "1/indexes/\(urlEncodedIndexName)/browse?cursor=\(cursor.urlEncode())"
-        return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readHosts, block: block)
-    }
-    
     // MARK: - Search Cache
     
     /// Enable search cache.
