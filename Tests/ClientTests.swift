@@ -248,7 +248,7 @@ class ClientTests: XCTestCase {
                         XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
                     } else {
-                        let queries = [["indexName": self.index.indexName, "query": Query()]]
+                        let queries = [IndexQuery(index: self.index, query: Query())]
                         
                         self.client.multipleQueries(queries, block: { (content, error) -> Void in
                             if let error = error {

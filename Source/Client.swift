@@ -205,25 +205,21 @@ import Foundation
 
     /// Query multiple indexes with one API call.
     ///
-    /// - parameter queries: An array of queries with the associated index (Array of Dictionnary object ["indexName": "targettedIndex", "query": QueryObject]).
+    /// - parameter queries: List of queries.
     /// - parameter block: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func multipleQueries(queries: [AnyObject], block: CompletionHandler? = nil) -> NSOperation {
+    @objc public func multipleQueries(queries: [IndexQuery], block: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/*/queries"
-
-        var convertedQueries = [[String: String]]()
-        convertedQueries.reserveCapacity(queries.count)
+        var requests = [[String: AnyObject]]()
+        requests.reserveCapacity(queries.count)
         for query in queries {
-            if let query = query as? [String: AnyObject] {
-                convertedQueries.append([
-                    "params": (query["query"] as! Query).build(),
-                    "indexName": query["indexName"] as! String
-                    ])
-            }
+            requests.append([
+                "indexName": query.index.indexName,
+                "params": query.query.build()
+            ])
         }
-
-        let request = ["requests": convertedQueries]
+        let request = ["requests": requests]
         return performHTTPQuery(path, method: .POST, body: request, hostnames: readHosts, block: block)
     }
     

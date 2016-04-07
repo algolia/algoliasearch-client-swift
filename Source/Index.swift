@@ -521,12 +521,12 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func searchDisjunctiveFaceting(query: Query, disjunctiveFacets: [String], refinements: [String: [String]], block: CompletionHandler) -> NSOperation {
-        var requests = [[String: AnyObject]]()
+        var requests = [IndexQuery]()
         
         // Build the first, global query.
         let globalQuery = Query(copy: query)
         globalQuery.facetFilters = Index._buildFacetFilters(disjunctiveFacets, refinements: refinements, excludedFacet: nil)
-        requests.append(["indexName": self.indexName, "query": globalQuery])
+        requests.append(IndexQuery(index: self, query: globalQuery))
         
         // Build the refined queries.
         for disjunctiveFacet in disjunctiveFacets {
@@ -540,7 +540,7 @@ import Foundation
             disjunctiveQuery.attributesToSnippet = []
             // Do not show this query in analytics, either.
             disjunctiveQuery.analytics = false
-            requests.append(["indexName": self.indexName, "query": disjunctiveQuery])
+            requests.append(IndexQuery(index: self, query: disjunctiveQuery))
         }
         
         // Run all the queries.
