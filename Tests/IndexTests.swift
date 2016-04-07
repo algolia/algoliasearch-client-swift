@@ -38,7 +38,7 @@ class IndexTests: XCTestCase {
         index = client.getIndex(safeIndexName("algol?à-swift"))
         
         let expectation = expectationWithDescription("Delete index")
-        client.deleteIndex(index.indexName, block: { (content, error) -> Void in
+        client.deleteIndex(index.indexName, completionHandler: { (content, error) -> Void in
             XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
             expectation.fulfill()
         })
@@ -50,7 +50,7 @@ class IndexTests: XCTestCase {
         super.tearDown()
         
         let expectation = expectationWithDescription("Delete index")
-        client.deleteIndex(index.indexName, block: { (content, error) -> Void in
+        client.deleteIndex(index.indexName, completionHandler: { (content, error) -> Void in
             XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
             expectation.fulfill()
         })
@@ -62,17 +62,17 @@ class IndexTests: XCTestCase {
         let expectation = expectationWithDescription("testAdd")
         let object = ["city": "San Francisco"]
         
-        index.addObject(object, block: { (content, error) -> Void in
+        index.addObject(object, completionHandler: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
                     } else {
-                        self.index.search(Query(), block: { (content, error) -> Void in
+                        self.index.search(Query(), completionHandler: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during search: \(error)")
                             } else {
@@ -95,17 +95,17 @@ class IndexTests: XCTestCase {
         let object = ["city": "San José"]
         let objectID = "a/go/?à"
         
-        index.addObject(object, withID: objectID, block: { (content, error) -> Void in
+        index.addObject(object, withID: objectID, completionHandler: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
                     } else {
-                        self.index.getObject(objectID, block: { (content, error) -> Void in
+                        self.index.getObject(objectID, completionHandler: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during getObject: \(error)")
                             } else {
@@ -130,17 +130,17 @@ class IndexTests: XCTestCase {
             ["city": "New York"]
         ]
         
-        index.addObjects(objects, block: { (content, error) -> Void in
+        index.addObjects(objects, completionHandler: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObjects: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
                     } else {
-                        self.index.search(Query(), block: { (content, error) -> Void in
+                        self.index.search(Query(), completionHandler: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during search: \(error)")
                             } else {
@@ -162,12 +162,12 @@ class IndexTests: XCTestCase {
         let expectation = expectationWithDescription("testWaitTask")
         let object = ["city": "Paris", "objectID": "a/go/?à"]
         
-        index.addObject(object, block: { (content, error) -> Void in
+        index.addObject(object, completionHandler: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                     } else {
@@ -186,22 +186,22 @@ class IndexTests: XCTestCase {
         let expectation = expectationWithDescription("testDelete")
         let object = ["city": "Las Vegas", "objectID": "a/go/?à"]
         
-        index.addObject(object, block: { (content, error) -> Void in
+        index.addObject(object, completionHandler: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.deleteObject(object["objectID"]!, block: { (content, error) -> Void in
+                self.index.deleteObject(object["objectID"]!, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during deleteObject: \(error)")
                         expectation.fulfill()
                     } else {
-                        self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                        self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during waitTask: \(error)")
                                 expectation.fulfill()
                             } else {
-                                self.index.search(Query(), block: { (content, error) -> Void in
+                                self.index.search(Query(), completionHandler: { (content, error) -> Void in
                                     if let error = error {
                                         XCTFail("Error during search: \(error)")
                                     } else {
@@ -228,22 +228,22 @@ class IndexTests: XCTestCase {
             ["city": "New York", "objectID": "a/go/?à$"]
         ]
         
-        index.addObjects(objects, block: { (content, error) -> Void in
+        index.addObjects(objects, completionHandler: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObjects: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.deleteObjects(["a/go/?à", "a/go/?à$"], block: { (content, error) -> Void in
+                self.index.deleteObjects(["a/go/?à", "a/go/?à$"], completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during deleteObjects: \(error)")
                         expectation.fulfill()
                     } else {
-                        self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                        self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during waitTask: \(error)")
                                 expectation.fulfill()
                             } else {
-                                self.index.search(Query(), block: { (content, error) -> Void in
+                                self.index.search(Query(), completionHandler: { (content, error) -> Void in
                                     if let error = error {
                                         XCTFail("Error during search: \(error)")
                                     } else {
@@ -267,17 +267,17 @@ class IndexTests: XCTestCase {
         let expectation = expectationWithDescription("testGet")
         let object = ["city": "Los Angeles", "objectID": "a/go/?à"]
         
-        index.addObject(object, block: { (content, error) -> Void in
+        index.addObject(object, completionHandler: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
                     } else {
-                        self.index.getObject(object["objectID"]!, block: { (content, error) -> Void in
+                        self.index.getObject(object["objectID"]!, completionHandler: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during getObject: \(error)")
                             } else {
@@ -302,17 +302,17 @@ class IndexTests: XCTestCase {
             ["city": "New York", "objectID": "a/go/?à$"]
         ]
         
-        index.addObjects(objects, block: { (content, error) -> Void in
+        index.addObjects(objects, completionHandler: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObjetcs: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
                     } else {
-                        self.index.getObjects(["a/go/?à", "a/go/?à$"], block: { (content, error) -> Void in
+                        self.index.getObjects(["a/go/?à", "a/go/?à$"], completionHandler: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during getObjects: \(error)")
                             } else {
@@ -335,22 +335,22 @@ class IndexTests: XCTestCase {
         let expectation = expectationWithDescription("testPartialUpdateObject")
         let object = ["city": "New York", "initial": "NY", "objectID": "a/go/?à"]
         
-        index.addObject(object, block: { (content, error) -> Void in
+        index.addObject(object, completionHandler: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.partialUpdateObject(["city": "Los Angeles"], objectID: object["objectID"]!, block: { (content, error) -> Void in
+                self.index.partialUpdateObject(["city": "Los Angeles"], objectID: object["objectID"]!, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during partialUpdateObject: \(error)")
                         expectation.fulfill()
                     } else {
-                        self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                        self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during waitTask: \(error)")
                                 expectation.fulfill()
                             } else {
-                                self.index.getObject(object["objectID"]!, block: { (content, error) -> Void in
+                                self.index.getObject(object["objectID"]!, completionHandler: { (content, error) -> Void in
                                     if let error = error {
                                         XCTFail("Error during getObject: \(error)")
                                     } else {
@@ -379,7 +379,7 @@ class IndexTests: XCTestCase {
             ["city": "New York", "initial": "NY", "objectID": "a/go/?à$"]
         ]
         
-        index.addObjects(objects, block: { (content, error) -> Void in
+        index.addObjects(objects, completionHandler: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObjects: \(error)")
                 expectation.fulfill()
@@ -388,17 +388,17 @@ class IndexTests: XCTestCase {
                     ["city": "Paris", "objectID": "a/go/?à"],
                     ["city": "Strasbourg", "objectID": "a/go/?à$"]
                 ]
-                self.index.partialUpdateObjects(objectsToUpdate, block: { (content, error) -> Void in
+                self.index.partialUpdateObjects(objectsToUpdate, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during partialUpdateObjects: \(error)")
                         expectation.fulfill()
                     } else {
-                        self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                        self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during waitTask: \(error)")
                                 expectation.fulfill()
                             } else {
-                                self.index.getObjects(["a/go/?à", "a/go/?à$"], block: { (content, error) -> Void in
+                                self.index.getObjects(["a/go/?à", "a/go/?à$"], completionHandler: { (content, error) -> Void in
                                     if let error = error {
                                         XCTFail("Error during getObjects: \(error)")
                                     } else {
@@ -425,22 +425,22 @@ class IndexTests: XCTestCase {
         let expectation = expectationWithDescription("testSaveObject")
         let object = ["city": "New York", "initial": "NY", "objectID": "a/go/?à"]
         
-        index.addObject(object, block: { (content, error) -> Void in
+        index.addObject(object, completionHandler: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.saveObject(["city": "Los Angeles", "objectID": "a/go/?à"], block: { (content, error) -> Void in
+                self.index.saveObject(["city": "Los Angeles", "objectID": "a/go/?à"], completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during saveObject: \(error)")
                         expectation.fulfill()
                     } else {
-                        self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                        self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during waitTask: \(error)")
                                 expectation.fulfill()
                             } else {
-                                self.index.getObject(object["objectID"]!, block: { (content, error) -> Void in
+                                self.index.getObject(object["objectID"]!, completionHandler: { (content, error) -> Void in
                                     if let error = error {
                                         XCTFail("Error during getObject: \(error)")
                                     } else {
@@ -469,7 +469,7 @@ class IndexTests: XCTestCase {
             ["city": "New York", "initial": "NY", "objectID": "a/go/?à$"]
         ]
         
-        index.addObjects(objects, block: { (content, error) -> Void in
+        index.addObjects(objects, completionHandler: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObjects: \(error)")
                 expectation.fulfill()
@@ -478,17 +478,17 @@ class IndexTests: XCTestCase {
                     ["city": "Paris", "objectID": "a/go/?à"],
                     ["city": "Strasbourg", "initial": "SBG", "objectID": "a/go/?à$"]
                 ]
-                self.index.saveObjects(objectsToSave, block: { (content, error) -> Void in
+                self.index.saveObjects(objectsToSave, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during saveObjects: \(error)")
                         expectation.fulfill()
                     } else {
-                        self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                        self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during waitTask: \(error)")
                                 expectation.fulfill()
                             } else {
-                                self.index.getObjects(["a/go/?à", "a/go/?à$"], block: { (content, error) -> Void in
+                                self.index.getObjects(["a/go/?à", "a/go/?à$"], completionHandler: { (content, error) -> Void in
                                     if let error = error {
                                         XCTFail("Error during getObjects: \(error)")
                                     } else {
@@ -515,7 +515,7 @@ class IndexTests: XCTestCase {
         let expectation = expectationWithDescription("testClear")
         let object = ["city": "San Francisco", "objectID": "a/go/?à"]
         
-        index.addObject(object, block: { (content, error) -> Void in
+        index.addObject(object, completionHandler: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
@@ -525,12 +525,12 @@ class IndexTests: XCTestCase {
                         XCTFail("Error during clearIndex: \(error)")
                         expectation.fulfill()
                     } else {
-                        self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                        self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during waitTask: \(error)")
                                 expectation.fulfill()
                             } else {
-                                self.index.search(Query(), block: { (content, error) -> Void in
+                                self.index.search(Query(), completionHandler: { (content, error) -> Void in
                                     if let error = error {
                                         XCTFail("Error during search: \(error)")
                                     } else {
@@ -554,12 +554,12 @@ class IndexTests: XCTestCase {
         let expectation = expectationWithDescription("testSettings")
         let settings = ["attributesToRetrieve": ["name"]]
         
-        index.setSettings(settings, block: { (content, error) -> Void in
+        index.setSettings(settings, completionHandler: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during setSettings: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
@@ -589,19 +589,19 @@ class IndexTests: XCTestCase {
             objects.append(["i": i])
         }
         
-        index.addObjects(objects, block: { (content, error) -> Void in
+        index.addObjects(objects, completionHandler: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObjects: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
                     } else {
                         let query = Query()
                         query.hitsPerPage = 1000
-                        self.index.browse(query, block: { (content, error) -> Void in
+                        self.index.browse(query, completionHandler: { (content, error) -> Void in
                             if error != nil {
                                 XCTFail("Error during browse: \(error!)")
                             } else {
@@ -682,13 +682,13 @@ class IndexTests: XCTestCase {
         }
         
         // Add a batch of objects.
-        index.addObjects(objects, block: { (content, error) -> Void in
+        index.addObjects(objects, completionHandler: { (content, error) -> Void in
             if error != nil {
                 XCTFail(error!.localizedDescription)
                 expectation.fulfill()
             } else {
                 // Wait for the objects to be indexed.
-                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                     if error != nil {
                         XCTFail(error!.localizedDescription)
                         expectation.fulfill()
@@ -696,13 +696,13 @@ class IndexTests: XCTestCase {
                         // Delete by query.
                         let query = Query()
                         query["numericFilters"] = "dummy < 1500"
-                        self.index.deleteByQuery(query, block: { (content, error) -> Void in
+                        self.index.deleteByQuery(query, completionHandler: { (content, error) -> Void in
                             if error != nil {
                                 XCTFail(error!.localizedDescription)
                                 expectation.fulfill()
                             } else {
                                 // Check that the deleted objects no longer exist.
-                                self.index.browse(query, block: { (content, error) in
+                                self.index.browse(query, completionHandler: { (content, error) in
                                     if error != nil {
                                         XCTFail(error!.localizedDescription)
                                     } else {
@@ -735,23 +735,23 @@ class IndexTests: XCTestCase {
         ]
         
         // Change index settings.
-        index.setSettings(["attributesForFaceting": ["brand", "category", "stars"]], block: { (content, error) -> Void in
+        index.setSettings(["attributesForFaceting": ["brand", "category", "stars"]], completionHandler: { (content, error) -> Void in
             if error != nil {
                 XCTFail(error!.localizedDescription)
                 expectation.fulfill()
             } else {
-                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                     if error != nil {
                         XCTFail(error!.localizedDescription)
                         expectation.fulfill()
                     } else {
                         // Add objects.
-                        self.index.addObjects(objects, block: { (content, error) -> Void in
+                        self.index.addObjects(objects, completionHandler: { (content, error) -> Void in
                             if error != nil {
                                 XCTFail(error!.localizedDescription)
                                 expectation.fulfill()
                             } else {
-                                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                                     if error != nil {
                                         XCTFail(error!.localizedDescription)
                                         expectation.fulfill()
@@ -764,7 +764,7 @@ class IndexTests: XCTestCase {
                                         ]
                                         let query = Query(query: "phone")
                                         query.facets = ["brand", "category", "stars"]
-                                        self.index.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, block: { (content, error) -> Void in
+                                        self.index.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: { (content, error) -> Void in
                                             if error != nil {
                                                 XCTFail(error!.localizedDescription)
                                                 expectation.fulfill()
@@ -810,26 +810,26 @@ class IndexTests: XCTestCase {
         ]
         
         // Set index settings.
-        index.setSettings(["attributesForFaceting": ["city", "stars", "facilities"]], block: { (content, error) -> Void in
+        index.setSettings(["attributesForFaceting": ["city", "stars", "facilities"]], completionHandler: { (content, error) -> Void in
             if error != nil {
                 XCTFail(error!.localizedDescription)
                 expectations.forEach() { e in e.fulfill() }
                 return
             }
-            self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+            self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                 if error != nil {
                     XCTFail(error!.localizedDescription)
                     expectations.forEach() { e in e.fulfill() }
                     return
                 }
                 // Add objects.
-                self.index.addObjects(objects, block: { (content, error) in
+                self.index.addObjects(objects, completionHandler: { (content, error) in
                     if error != nil {
                         XCTFail(error!.localizedDescription)
                         expectations.forEach() { e in e.fulfill() }
                         return
                     }
-                    self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                    self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                         if error != nil {
                             XCTFail(error!.localizedDescription)
                             expectations.forEach() { e in e.fulfill() }
@@ -841,7 +841,7 @@ class IndexTests: XCTestCase {
                         let disjunctiveFacets = ["stars", "facilities"]
                         var refinements = [String: [String]]()
                         
-                        self.index.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, block: { (content, error) in
+                        self.index.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: { (content, error) in
                             if error != nil {
                                 XCTFail(error!.localizedDescription)
                             } else {
@@ -853,7 +853,7 @@ class IndexTests: XCTestCase {
                         })
                         
                         refinements["stars"] = ["*"]
-                        self.index.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, block: { (content, error) in
+                        self.index.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: { (content, error) in
                             if error != nil {
                                 XCTFail(error!.localizedDescription)
                             } else {
@@ -872,7 +872,7 @@ class IndexTests: XCTestCase {
                         })
                         
                         refinements["city"] = ["Paris"]
-                        self.index.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, block: { (content, error) in
+                        self.index.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: { (content, error) in
                             if error != nil {
                                 XCTFail(error!.localizedDescription)
                             } else {
@@ -890,7 +890,7 @@ class IndexTests: XCTestCase {
                         })
 
                         refinements["stars"] = ["*", "****"]
-                        self.index.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, block: { (content, error) in
+                        self.index.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: { (content, error) in
                             if error != nil {
                                 XCTFail(error!.localizedDescription)
                             } else {
