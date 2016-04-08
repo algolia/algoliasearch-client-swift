@@ -205,15 +205,29 @@ import Foundation
         // Therefore, `initIndex` would fail to compile in Objective-C, because its return type is not `instancetype`.
         return Index(client: self, indexName: indexName)
     }
+    
+    /// Strategy when running multiple queries. See `Client.multipleQueries()`.
+    ///
+    public enum MultipleQueriesStrategy: String {
+        /// Execute the sequence of queries until the end.
+        case None = "none"
+        /// Execute the sequence of queries until the number of hits is reached by the sum of hits.
+        case StopIfEnoughMatches = "stopIfEnoughMatches"
+    }
 
     /// Query multiple indexes with one API call.
     ///
     /// - parameter queries: List of queries.
+    /// - param strategy: The strategy to use.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func multipleQueries(queries: [IndexQuery], completionHandler: CompletionHandler? = nil) -> NSOperation {
-        let path = "1/indexes/*/queries"
+    @objc public func multipleQueries(queries: [IndexQuery], strategy: String?, completionHandler: CompletionHandler? = nil) -> NSOperation {
+        // IMPLEMENTATION NOTE: Objective-C bridgeable alternative.
+        var path = "1/indexes/*/queries"
+        if strategy != nil {
+            path += "?strategy=\(strategy!.urlEncode())"
+        }
         var requests = [[String: AnyObject]]()
         requests.reserveCapacity(queries.count)
         for query in queries {
@@ -226,7 +240,19 @@ import Foundation
         return performHTTPQuery(path, method: .POST, body: request, hostnames: readHosts, completionHandler: completionHandler)
     }
     
-    /// Custom batch operations.
+    /// Query multiple indexes with one API call.
+    ///
+    /// - parameter queries: List of queries.
+    /// - param strategy: The strategy to use.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    public func multipleQueries(queries: [IndexQuery], strategy: MultipleQueriesStrategy? = nil, completionHandler: CompletionHandler? = nil) -> NSOperation {
+        // IMPLEMENTATION NOTE: Not Objective-C bridgeable because of enum.
+        return multipleQueries(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
+    }
+    
+    /// Batch operations.
     ///
     /// - parameter actions: The array of actions.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
