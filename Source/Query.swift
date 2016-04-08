@@ -92,8 +92,8 @@ import Foundation
 /// A pair of (latitude, longitude).
 /// Used in geo-search.
 ///
-// IMPLEMENTATION NOTE: Cannot be `struct` because of Objective-C bridgeability.
 @objc public class LatLng: NSObject {
+    // IMPLEMENTATION NOTE: Cannot be `struct` because of Objective-C bridgeability.
     public let lat: Double
     public let lng: Double
     
@@ -117,10 +117,10 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
 
 
 /// A rectangle in geo coordinates.
-/// Used in geo-serch.
+/// Used in geo-search.
 ///
-// IMPLEMENTATION NOTE: Cannot be `struct` because of Objective-C bridgeability.
 @objc public class GeoRect: NSObject {
+    // IMPLEMENTATION NOTE: Cannot be `struct` because of Objective-C bridgeability.
     public let p1: LatLng
     public let p2: LatLng
     
@@ -154,12 +154,21 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
     /// Parameters, as untyped values.
     private var parameters: [String: String] = [:]
     
-    /// Get a parameter by name (untyped version).
+    /// Get a parameter in an untyped fashion.
+    ///
+    /// - parameter name:   The parameter's name.
+    /// - returns: The parameter's value, or nil if a parameter with the specified name does not exist.
+    ///
     @objc public func get(name: String) -> String? {
         return parameters[name]
     }
     
-    /// Set a parameter by name (untyped version).
+    /// Set a parameter in an untyped fashion.
+    /// This low-level accessor is intended to access parameters that this client does not yet support.
+    ///
+    /// - parameter name:   The parameter's name.
+    /// - parameter value:  The parameter's value, or nill to remove it.
+    ///
     @objc public func set(name: String, value: String?) {
         if value == nil {
             parameters.removeValueForKey(name)
@@ -729,7 +738,7 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
         self.parameters = parameters
     }
     
-    /// Copy an existing query.
+    /// Clone an existing query.
     @objc public init(copy: Query) {
         parameters = copy.parameters
     }

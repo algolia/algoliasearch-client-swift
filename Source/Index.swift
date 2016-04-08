@@ -23,9 +23,10 @@
 
 import Foundation
 
-/// Contains all the functions related to one index
+/// A proxy to an Algolia index.
 ///
-/// You can use Client.getIndex(indexName) to retrieve this object
+/// You cannot construct this class directly. Please use `Client.getIndex()` to obtain an instance.
+///
 @objc public class Index : NSObject {
     @objc public let indexName: String
     @objc public let client: Client
@@ -33,15 +34,15 @@ import Foundation
     
     var searchCache: ExpiringCache?
     
-    @objc public init(client: Client, indexName: String) {
+    @objc init(client: Client, indexName: String) {
         self.client = client
         self.indexName = indexName
         urlEncodedIndexName = indexName.urlEncode()
     }
     
-    /// Add an object in this index
+    /// Add an object to this index.
     ///
-    /// - parameter object: The object to add inside the index.
+    /// - parameter object: The object to add.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -50,10 +51,11 @@ import Foundation
         return client.performHTTPQuery(path, method: .POST, body: object, hostnames: client.writeHosts, completionHandler: completionHandler)
     }
     
-    /// Add an object in this index
+    /// Add an object to this index, assigning it the specified object ID.
+    /// If an object already exists with the same object ID, the existing object will be overwritten.
     ///
-    /// - parameter object: The object to add inside the index.
-    /// - parameter withID: An objectID you want to attribute to this object (if the attribute already exist, the old object will be overwrite)
+    /// - parameter object: The object to add.
+    /// - parameter withID: Identifier that you want to assign this object.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -62,13 +64,13 @@ import Foundation
         return client.performHTTPQuery(path, method: .PUT, body: object, hostnames: client.writeHosts, completionHandler: completionHandler)
     }
     
-    /// Add several objects in this index
+    /// Add several objects to this index.
     ///
-    /// - parameter objects: An array of objects to add (Array of Dictionnary object).
+    /// - parameter objects: Objects to add.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func addObjects(objects: [AnyObject], completionHandler: CompletionHandler? = nil) -> NSOperation {
+    @objc public func addObjects(objects: [[String: AnyObject]], completionHandler: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
         
         var requests = [AnyObject]()
@@ -81,9 +83,9 @@ import Foundation
         return client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.writeHosts, completionHandler: completionHandler)
     }
     
-    /// Delete an object from the index
+    /// Delete an object from this index.
     ///
-    /// - parameter objectID: The unique identifier of object to delete
+    /// - parameter objectID: Identifier of object to delete.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -92,9 +94,9 @@ import Foundation
         return client.performHTTPQuery(path, method: .DELETE, body: nil, hostnames: client.writeHosts, completionHandler: completionHandler)
     }
     
-    /// Delete several objects
+    /// Delete several objects from this index.
     ///
-    /// - parameter objectIDs: An array of objectID to delete.
+    /// - parameter objectIDs: Identifiers of objects to delete.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -111,9 +113,9 @@ import Foundation
         return client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.writeHosts, completionHandler: completionHandler)
     }
     
-    /// Get an object from this index
+    /// Get an object from this index.
     ///
-    /// - parameter objectID: The unique identifier of the object to retrieve
+    /// - parameter objectID: Identifier of the object to retrieve.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -122,10 +124,10 @@ import Foundation
         return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readHosts, completionHandler: completionHandler)
     }
     
-    /// Get an object from this index
+    /// Get an object from this index, optionally restricting the retrieved content.
     ///
-    /// - parameter objectID: The unique identifier of the object to retrieve
-    /// - parameter attributesToRetrieve: The list of attributes to retrieve
+    /// - parameter objectID: Identifier of the object to retrieve.
+    /// - parameter attributesToRetrieve: List of attributes to retrieve.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -136,9 +138,9 @@ import Foundation
         return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readHosts, completionHandler: completionHandler)
     }
     
-    /// Get several objects from this index
+    /// Get several objects from this index.
     ///
-    /// - parameter objectIDs: The array of unique identifier of objects to retrieve
+    /// - parameter objectIDs: Identifiers of objects to retrieve.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -155,7 +157,7 @@ import Foundation
         return client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.readHosts, completionHandler: completionHandler)
     }
     
-    /// Update partially an object (only update attributes passed in argument)
+    /// Partially update an object.
     ///
     /// - parameter partialObject: New values/operations for the object.
     /// - parameter objectID: Identifier of object to be updated.
@@ -167,9 +169,9 @@ import Foundation
         return client.performHTTPQuery(path, method: .POST, body: partialObject, hostnames: client.writeHosts, completionHandler: completionHandler)
     }
     
-    /// Update partially the content of several objects
+    /// Partially update several objects.
     ///
-    /// - parameter objects: An array of Dictionary to update (each Dictionary must contains an objectID attribute)
+    /// - parameter objects: New values/operations for the objects. Each object must contain an `objectID` attribute.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -190,9 +192,9 @@ import Foundation
         return client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.writeHosts, completionHandler: completionHandler)
     }
     
-    /// Override the content of object
+    /// Update an object.
     ///
-    /// - parameter object: The object to override, the object must contains an objectID attribute
+    /// - parameter object: New version of the object to update. Must contain an `objectID` attribute.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -202,9 +204,9 @@ import Foundation
         return client.performHTTPQuery(path, method: .PUT, body: object, hostnames: client.writeHosts, completionHandler: completionHandler)
     }
     
-    /// Override the content of several objects
+    /// Update several objects.
     ///
-    /// - parameter objects: An array of Dictionary to save (each Dictionary must contains an objectID attribute)
+    /// - parameter objects: New versions of the objects to update. Each one must contain an `objectID` attribute.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -225,7 +227,7 @@ import Foundation
         return client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.writeHosts, completionHandler: completionHandler)
     }
     
-    /// Search inside the index
+    /// Search this index.
     ///
     /// - parameter query: Search parameters.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
@@ -261,7 +263,7 @@ import Foundation
         }
     }
     
-    /// Get settings of this index
+    /// Get this index's settings.
     ///
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
@@ -271,39 +273,14 @@ import Foundation
         return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readHosts, completionHandler: completionHandler)
     }
     
-    /// Set settings for this index
+    /// Set this index's settings.
     ///
-    /// - parameter settings: The settings object
+    /// Please refer to our [API documentation](https://www.algolia.com/doc/swift#index-settings) for the list of
+    /// supported settings.
+    ///
+    /// - parameter settings: New settings.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
-    ///
-    /// NB: The settings object can contains :
-    ///
-    /// - minWordSizefor1Typo: (integer) the minimum number of characters to accept one typo (default = 3).
-    /// - minWordSizefor2Typos: (integer) the minimum number of characters to accept two typos (default = 7).
-    /// - hitsPerPage: (integer) the number of hits per page (default = 10).
-    /// - attributesToRetrieve: (array of strings) default list of attributes to retrieve in objects. If set to null, all attributes are retrieved.
-    /// - attributesToHighlight: (array of strings) default list of attributes to highlight. If set to null, all indexed attributes are highlighted.
-    /// - attributesToSnippet: (array of strings) default list of attributes to snippet alongside the number of words to return (syntax is attributeName:nbWords). By default no snippet is computed. If set to null, no snippet is computed.
-    /// - attributesToIndex: (array of strings) the list of fields you want to index. If set to null, all textual and numerical attributes of your objects are indexed, but you should update it to get optimal results. This parameter has two important uses:
-    ///     - Limit the attributes to index: For example if you store a binary image in base64, you want to store it and be able to retrieve it but you don't want to search in the base64 string.
-    ///     - Control part of the ranking*: (see the ranking parameter for full explanation) Matches in attributes at the beginning of the list will be considered more important than matches in attributes further down the list. In one attribute, matching text at the beginning of the attribute will be considered more important than text after, you can disable this behavior if you add your attribute inside `unordered(AttributeName)`, for example attributesToIndex: ["title", "unordered(text)"].
-    /// - attributesForFaceting: (array of strings) The list of fields you want to use for faceting. All strings in the attribute selected for faceting are extracted and added as a facet. If set to null, no attribute is used for faceting.
-    /// - ranking: (array of strings) controls the way results are sorted. We have six available criteria:
-    ///     - typo: sort according to number of typos,
-    ///     - geo: sort according to decreassing distance when performing a geo-location based search,
-    ///     - proximity: sort according to the proximity of query words in hits,
-    ///     - attribute: sort according to the order of attributes defined by attributesToIndex,
-    ///     - exact: sort according to the number of words that are matched identical to query word (and not as a prefix),
-    ///     - custom: sort according to a user defined formula set in customRanking attribute. The standard order is ["typo", "geo", "proximity", "attribute", "exact", "custom"]
-    /// - customRanking: (array of strings) lets you specify part of the ranking. The syntax of this condition is an array of strings containing attributes prefixed by asc (ascending order) or desc (descending order) operator. For example `"customRanking" => ["desc(population)", "asc(name)"]`
-    /// - queryType: Select how the query words are interpreted, it can be one of the following value:
-    ///     - prefixAll: all query words are interpreted as prefixes,
-    ///     - prefixLast: only the last word is interpreted as a prefix (default behavior),
-    ///     - prefixNone: no query word is interpreted as a prefix. This option is not recommended.
-    /// - highlightPreTag: (string) Specify the string that is inserted before the highlighted parts in the query result (default to "<em>").
-    /// - highlightPostTag: (string) Specify the string that is inserted after the highlighted parts in the query result (default to "</em>").
-    /// - optionalWords: (array of strings) Specify a list of words that should be considered as optional when found in the query.
     ///
     @objc public func setSettings(settings: [String: AnyObject], completionHandler: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/settings"
@@ -320,15 +297,15 @@ import Foundation
         return client.performHTTPQuery(path, method: .POST, body: nil, hostnames: client.writeHosts, completionHandler: completionHandler)
     }
     
-    /// Custom batch operations.
+    /// Batch operations.
     ///
-    /// - parameter actions: The array of actions.
+    /// - parameter operations: The array of actions.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func batch(actions: [AnyObject], completionHandler: CompletionHandler? = nil) -> NSOperation {
+    @objc public func batch(operations: [[String: AnyObject]], completionHandler: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
-        let body = ["requests": actions]
+        let body = ["requests": operations]
         return client.performHTTPQuery(path, method: .POST, body: body, hostnames: client.writeHosts, completionHandler: completionHandler)
     }
     
@@ -363,10 +340,10 @@ import Foundation
     
     // MARK: - Helpers
     
-    /// Wait the publication of a task on the server.
-    /// All server task are asynchronous and you can check with this method that the task is published.
+    /// Wait until the publication of a task on the server (helper).
+    /// All server tasks are asynchronous. This method helps you check that a task is published.
     ///
-    /// - parameter taskID: The ID of the task returned by server
+    /// - parameter taskID: Identifier of the task (as returned by the server).
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -422,7 +399,7 @@ import Foundation
 
     /// Delete all objects matching a query (helper).
     ///
-    /// - parameter query: The query used to filter objects.
+    /// - parameter query: The query that objects to delete must match.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -508,12 +485,12 @@ import Foundation
         }
     }
     
-    /// Perform a search with disjunctive facets, generating as many queries as number of disjunctive facets.
+    /// Perform a search with disjunctive facets, generating as many queries as number of disjunctive facets (helper).
     ///
-    /// - parameter query:              The query.
-    /// - parameter disjunctiveFacets:  List of disjunctive facets.
-    /// - parameter refinements:        The current refinements, mapping facet names to a list of values.
-    /// - parameter completionHandler:              Completion handler to be notified of the request's outcome.
+    /// - parameter query: The query.
+    /// - parameter disjunctiveFacets: List of disjunctive facets.
+    /// - parameter refinements: The current refinements, mapping facet names to a list of values.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc public func searchDisjunctiveFaceting(query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: CompletionHandler) -> NSOperation {
@@ -624,20 +601,23 @@ import Foundation
 
     // MARK: - Search Cache
     
-    /// Enable search cache.
+    /// Enable the search cache.
     ///
-    /// - parameter expiringTimeInterval: Each cached search will be valid during this interval of time
+    /// - parameter expiringTimeInterval: Each cached search will be valid during this interval of time.
+    ///
     @objc public func enableSearchCache(expiringTimeInterval: NSTimeInterval = 120) {
         searchCache = ExpiringCache(expiringTimeInterval: expiringTimeInterval)
     }
     
-    /// Disable search cache
+    /// Disable the search cache.
+    ///
     @objc public func disableSearchCache() {
         searchCache?.clearCache()
         searchCache = nil
     }
     
-    /// Clear search cache
+    /// Clear the search cache.
+    ///
     @objc public func clearSearchCache() {
         searchCache?.clearCache()
     }

@@ -86,10 +86,12 @@ import Foundation
     /// Background queue for complex asynchronous operations.
     let queue: NSOperationQueue
 
-    /// Algolia Search initialization.
+
+    /// Create a new Algolia Search client.
     ///
-    /// - parameter appID: the application ID you have in your admin interface
-    /// - parameter apiKey: a valid API key for the service
+    /// - parameter appID:  The application ID (available in your Algolia Dashboard).
+    /// - parameter apiKey: A valid API key for the service.
+    ///
     @objc public init(appID: String, apiKey: String) {
         self.appID = appID
         self.apiKey = apiKey
@@ -128,11 +130,13 @@ import Foundation
         headers["X-Algolia-API-Key"] = self.apiKey // necessary because `didSet` not called during initialization
     }
 
-    /// Allow to set custom extra header.
-    /// You may also use the `headers` property directly.
+    /// Set an HTTP header that will be sent with every request.
     ///
-    /// - parameter value: value of the header
-    /// - parameter forKey: key of the header
+    /// NOTE: You may also use the `headers` property directly.
+    ///
+    /// - parameter name: Header name.
+    /// - parameter value: Value for the header. If nil, the header will be removed.
+    ///
     @objc public func setHeader(name: String!, value: String) {
         headers[name] = value
     }
@@ -150,7 +154,7 @@ import Foundation
 
     // MARK: - Operations
 
-    /// List all existing indexes.
+    /// List existing indexes.
     ///
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
@@ -161,7 +165,7 @@ import Foundation
 
     /// Delete an index.
     ///
-    /// - parameter indexName: the name of index to delete
+    /// - parameter indexName: Name of the index to delete.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -172,8 +176,11 @@ import Foundation
 
     /// Move an existing index.
     ///
-    /// - parameter srcIndexName: the name of index to move.
-    /// - parameter dstIndexName: the new index name that will contains sourceIndexName (destination will be overriten if it already exist).
+    /// If the destination index already exists, its specific API keys will be preserved and the source index specific
+    /// API keys will be added.
+    ///
+    /// - parameter srcIndexName: Name of index to move.
+    /// - parameter dstIndexName: The new index name.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -189,8 +196,11 @@ import Foundation
 
     /// Copy an existing index.
     ///
-    /// - parameter srcIndexName: the name of index to copy.
-    /// - parameter dstIndexName: the new index name that will contains a copy of sourceIndexName (destination will be overriten if it already exist).
+    /// If the destination index already exists, its specific API keys will be preserved and the source index specific
+    /// API keys will be added.
+    ///
+    /// - parameter srcIndexName: Name of the index to copy.
+    /// - parameter dstIndexName: The new index name.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -204,11 +214,10 @@ import Foundation
         return performHTTPQuery(path, method: .POST, body: request, hostnames: writeHosts, completionHandler: completionHandler)
     }
 
-    /// Get the index object initialized (no server call needed for initialization).
+    /// Create a proxy to an Algolia index (no server call required by this method).
     ///
-    /// - parameter indexName: the name of index
-    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
-    /// - returns: A cancellable operation.
+    /// - parameter indexName: The name of the index.
+    /// - returns: A new proxy to the specified index.
     ///
     @objc public func getIndex(indexName: String) -> Index {
         // IMPLEMENTATION NOTE: This method is called `initIndex` in other clients, which better conveys its semantics.
@@ -265,13 +274,13 @@ import Foundation
     
     /// Batch operations.
     ///
-    /// - parameter actions: The array of actions.
+    /// - parameter operations: List of operations.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func batch(actions: [AnyObject], completionHandler: CompletionHandler? = nil) -> NSOperation {
+    @objc public func batch(operations: [AnyObject], completionHandler: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/*/batch"
-        let body = ["requests": actions]
+        let body = ["requests": operations]
         return performHTTPQuery(path, method: .POST, body: body, hostnames: writeHosts, completionHandler: completionHandler)
     }
 
