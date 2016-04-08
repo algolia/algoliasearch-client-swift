@@ -133,8 +133,19 @@ import Foundation
     ///
     /// - parameter value: value of the header
     /// - parameter forKey: key of the header
-    @objc public func setExtraHeader(value: String, forKey key: String) {
-        headers[key] = value
+    @objc public func setHeader(name: String!, value: String) {
+        headers[name] = value
+    }
+    
+    /// Get an HTTP header.
+    ///
+    /// NOTE: You may also use the `headers` property directly.
+    ///
+    /// - parameter name: Header name.
+    /// - returns: The header's value, or nil if the header does not exist.
+    ///
+    @objc public func getHeader(name: String) -> String? {
+        return headers[name]
     }
 
     // MARK: - Operations
