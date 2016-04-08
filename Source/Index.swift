@@ -173,19 +173,17 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func partialUpdateObjects(objects: [AnyObject], completionHandler: CompletionHandler? = nil) -> NSOperation {
+    @objc public func partialUpdateObjects(objects: [[String: AnyObject]], completionHandler: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
         
         var requests = [AnyObject]()
         requests.reserveCapacity(objects.count)
         for object in objects {
-            if let object = object as? [String: AnyObject] {
-                requests.append([
-                    "action": "partialUpdateObject",
-                    "objectID": object["objectID"] as! String,
-                    "body": object
-                    ])
-            }
+            requests.append([
+                "action": "partialUpdateObject",
+                "objectID": object["objectID"] as! String,
+                "body": object
+            ])
         }
         let request = ["requests": requests]
         
@@ -210,19 +208,17 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func saveObjects(objects: [AnyObject], completionHandler: CompletionHandler? = nil) -> NSOperation {
+    @objc public func saveObjects(objects: [[String: AnyObject]], completionHandler: CompletionHandler? = nil) -> NSOperation {
         let path = "1/indexes/\(urlEncodedIndexName)/batch"
         
         var requests = [AnyObject]()
         requests.reserveCapacity(objects.count)
         for object in objects {
-            if let object = object as? [String: AnyObject] {
-                requests.append([
-                    "action": "updateObject",
-                    "objectID": object["objectID"] as! String,
-                    "body": object
-                    ])
-            }
+            requests.append([
+                "action": "updateObject",
+                "objectID": object["objectID"] as! String,
+                "body": object
+            ])
         }
         let request = ["requests": requests]
         

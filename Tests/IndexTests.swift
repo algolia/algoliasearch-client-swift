@@ -125,7 +125,7 @@ class IndexTests: XCTestCase {
     
     func testAddObjects() {
         let expectation = expectationWithDescription("testAddObjects")
-        let objects = [
+        let objects: [[String: AnyObject]] = [
             ["city": "San Francisco"],
             ["city": "New York"]
         ]
@@ -223,7 +223,7 @@ class IndexTests: XCTestCase {
     
     func testDeleteObjects() {
         let expectation = expectationWithDescription("testDeleteObjects")
-        let objects = [
+        let objects: [[String: AnyObject]] = [
             ["city": "San Francisco", "objectID": "a/go/?à"],
             ["city": "New York", "objectID": "a/go/?à$"]
         ]
@@ -297,7 +297,7 @@ class IndexTests: XCTestCase {
     
     func testGetObjects() {
         let expectation = expectationWithDescription("testGetObjects")
-        let objects = [
+        let objects: [[String: AnyObject]] = [
             ["city": "San Francisco", "objectID": "a/go/?à"],
             ["city": "New York", "objectID": "a/go/?à$"]
         ]
@@ -317,8 +317,8 @@ class IndexTests: XCTestCase {
                                 XCTFail("Error during getObjects: \(error)")
                             } else {
                                 let items = content!["results"] as! [[String: String]]
-                                XCTAssertEqual(items[0]["city"]!, objects[0]["city"]!, "GetObjects return the wrong object")
-                                XCTAssertEqual(items[1]["city"]!, objects[1]["city"]!, "GetObjects return the wrong object")
+                                XCTAssertEqual(items[0]["city"]!, objects[0]["city"]! as! String, "GetObjects return the wrong object")
+                                XCTAssertEqual(items[1]["city"]!, objects[1]["city"]! as! String, "GetObjects return the wrong object")
                             }
                             
                             expectation.fulfill()
@@ -374,7 +374,7 @@ class IndexTests: XCTestCase {
     
     func testPartialUpdateObjects() {
         let expectation = expectationWithDescription("testPartialUpdateObjects")
-        let objects = [
+        let objects: [[String: AnyObject]] = [
             ["city": "San Francisco", "initial": "SF", "objectID": "a/go/?à"],
             ["city": "New York", "initial": "NY", "objectID": "a/go/?à$"]
         ]
@@ -384,7 +384,7 @@ class IndexTests: XCTestCase {
                 XCTFail("Error during addObjects: \(error)")
                 expectation.fulfill()
             } else {
-                let objectsToUpdate = [
+                let objectsToUpdate: [[String: AnyObject]] = [
                     ["city": "Paris", "objectID": "a/go/?à"],
                     ["city": "Strasbourg", "objectID": "a/go/?à$"]
                 ]
@@ -423,7 +423,7 @@ class IndexTests: XCTestCase {
     
     func testSaveObject() {
         let expectation = expectationWithDescription("testSaveObject")
-        let object = ["city": "New York", "initial": "NY", "objectID": "a/go/?à"]
+        let object: [String: AnyObject] = ["city": "New York", "initial": "NY", "objectID": "a/go/?à"]
         
         index.addObject(object, completionHandler: { (content, error) -> Void in
             if let error = error {
@@ -440,7 +440,7 @@ class IndexTests: XCTestCase {
                                 XCTFail("Error during waitTask: \(error)")
                                 expectation.fulfill()
                             } else {
-                                self.index.getObject(object["objectID"]!, completionHandler: { (content, error) -> Void in
+                                self.index.getObject(object["objectID"]! as! String, completionHandler: { (content, error) -> Void in
                                     if let error = error {
                                         XCTFail("Error during getObject: \(error)")
                                     } else {
@@ -464,7 +464,7 @@ class IndexTests: XCTestCase {
     
     func testSaveObjects() {
         let expectation = expectationWithDescription("testSaveObjects")
-        let objects = [
+        let objects: [[String: AnyObject]] = [
             ["city": "San Francisco", "initial": "SF", "objectID": "a/go/?à"],
             ["city": "New York", "initial": "NY", "objectID": "a/go/?à$"]
         ]
@@ -474,7 +474,7 @@ class IndexTests: XCTestCase {
                 XCTFail("Error during addObjects: \(error)")
                 expectation.fulfill()
             } else {
-                let objectsToSave = [
+                let objectsToSave: [[String: AnyObject]] = [
                     ["city": "Paris", "objectID": "a/go/?à"],
                     ["city": "Strasbourg", "initial": "SBG", "objectID": "a/go/?à$"]
                 ]
@@ -513,7 +513,7 @@ class IndexTests: XCTestCase {
     
     func testClear() {
         let expectation = expectationWithDescription("testClear")
-        let object = ["city": "San Francisco", "objectID": "a/go/?à"]
+        let object: [String: AnyObject] = ["city": "San Francisco", "objectID": "a/go/?à"]
         
         index.addObject(object, completionHandler: { (content, error) -> Void in
             if let error = error {
@@ -584,7 +584,7 @@ class IndexTests: XCTestCase {
     
     func testBrowse() {
         let expectation = expectationWithDescription("testBrowseWithQuery")
-        var objects = [AnyObject]()
+        var objects: [[String: AnyObject]] = []
         for i in 0...1500 {
             objects.append(["i": i])
         }
@@ -634,7 +634,7 @@ class IndexTests: XCTestCase {
     
     func testBatch() {
         let expectation = expectationWithDescription(#function)
-        let actions = [
+        let actions: [[String: AnyObject]] = [
             [
                 "action": "addObject",
                 "body": [ "city": "San Francisco" ]
@@ -676,7 +676,7 @@ class IndexTests: XCTestCase {
     
     func testDeleteByQuery() {
         let expectation = expectationWithDescription(#function)
-        var objects: [AnyObject] = []
+        var objects: [[String: AnyObject]] = []
         for i in 0..<3000 {
             objects.append(["dummy": i])
         }
@@ -723,7 +723,7 @@ class IndexTests: XCTestCase {
     
     func testSearchDisjunctiveFaceting() {
         let expectation = expectationWithDescription("testAddObjects")
-        let objects = [
+        let objects: [[String: AnyObject]] = [
             ["name": "iPhone 6",                "brand": "Apple",       "category": "device",       "stars": 4],
             ["name": "iPhone 6 Plus",           "brand": "Apple",       "category": "device",       "stars": 5],
             ["name": "iPhone cover",            "brand": "Apple",       "category": "accessory",    "stars": 3],
@@ -801,7 +801,7 @@ class IndexTests: XCTestCase {
         let expectation4 = self.expectationWithDescription("stars (2 values) + city")
         let expectations = [expectation, expectation1, expectation2, expectation3, expectation4]
         
-        let objects = [
+        let objects: [[String: AnyObject]] = [
             ["name": "Hotel A", "stars": "*", "facilities": ["wifi", "bath", "spa"], "city": "Paris"],
             ["name": "Hotel B", "stars": "*", "facilities": ["wifi"], "city": "Paris"],
             ["name": "Hotel C", "stars": "**", "facilities": ["bath"], "city": "San Fancisco"],

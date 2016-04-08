@@ -45,7 +45,7 @@ class BrowseIteratorTests: XCTestCase {
         
         // Add a bunch of objects to the index.
         let expectation2 = expectationWithDescription("Add objects")
-        var objects = [AnyObject]()
+        var objects = [[String: AnyObject]]()
         for i in 0...1500 {
             objects.append(["i": i])
         }
