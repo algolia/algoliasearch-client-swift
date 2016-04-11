@@ -45,8 +45,11 @@ import Foundation
         }
     }
 
-    private let timeout: NSTimeInterval = 30
-    private let searchTimeout: NSTimeInterval = 5
+    /// Default timeout for network requests. Default: 30".
+    @objc public let timeout: NSTimeInterval = 30
+    
+    /// Timeout for search requests. Default: 5".
+    @objc public let searchTimeout: NSTimeInterval = 5
 
     @objc public let appID: String
 
