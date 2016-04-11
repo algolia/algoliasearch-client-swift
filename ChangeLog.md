@@ -1,6 +1,54 @@
 Change Log
 ==========
 
+## 3.0 (FIXME)
+
+This major version brings new features and bug fixes. In addition, a lot of refactoring has been performed to achieve
+better Objective-C bridging, better maintainability, as well as to align the Swift client with the other Algolia API
+clients.
+
+As a consequence, the public interface has changed in an incompatible way. Please refer to our
+[Migration Guide](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-to-version-3.x) for
+detailed instructions.
+
+## New features
+
+- Allow arbitrary query parameters to be specified: the `Query` class provides low-level, untyped accessors in addition
+  to the higher-level, typed properties.
+- Allow arbitrary HTTP headers to be specified (`Client.headers`)
+- Asynchronous requests are cancellable: asynchronous methods return an `NSOperation` instance, making it possible to
+  call `cancel()` on it.
+- Timeout settings now user-configurable
+- Batch operation support
+- Multiple queries `strategy` parameter support
+- Disjunctive faceting helper
+- Delete by query helper
+- Browse iterator helper (`BrowseIterator`)
+
+## Changes
+
+- Asynchronous methods completion block argument renamed to `completionHandler` for better consistency with the
+  system libraries (in particular `NSURLSession`)
+- Align `Query` class parameters with the [REST API](https://www.algolia.com/doc/rest)
+- Remove operations requiring an admin API key. (The admin key should *never* be used on the client side.)
+- Browse methods now only low-level. (For high-level iteration, use the `BrowseIterator` helper; see above.)
+- Remove accessors to deprecated HTTP headers
+
+## Fixes
+
+- **Full Objective-C bridging**: all features are now available from Objective-C.
+- More consistent error handling
+- Fix percent-escaping of query parameters in URLs
+- Fix Swift 2.2 deprecation warnings
+- HTTP headers can now be changed during the client's lifetime
+
+## Misc. improvements
+
+- Minimize public interface
+- Update documentation
+- Add test cases
+
+
 ## 2.2.1 (2016-02-05)
 
 * Added support of snippet ellipsis query parameter
