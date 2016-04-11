@@ -147,7 +147,7 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
 /// 2. Using the low-level, untyped getter (`get()`) and setter (`set()`) or the subscript operator.
 ///    Use this approach if the parameter you wish to set is not supported by this class.
 ///
-@objc public class Query : NSObject {
+@objc public class Query : NSObject, NSCopying {
     
     // MARK: - Low-level (untyped) parameters
     
@@ -741,6 +741,15 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
     /// Clone an existing query.
     @objc public init(copy: Query) {
         parameters = copy.parameters
+    }
+    
+    /// Support for `NSCopying`.
+    ///
+    /// NOTE: Primarily intended for Objective-C use. Swift coders should use `Query.init(copy:)`.
+    ///
+    @objc public func copyWithZone(zone: NSZone) -> AnyObject {
+        // NOTE: As per the docs, the zone argument is ignored.
+        return Query(copy: self)
     }
 
     // MARK: Serialization & parsing
