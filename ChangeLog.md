@@ -11,7 +11,7 @@ As a consequence, the public interface has changed in an incompatible way. Pleas
 [Migration Guide](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-to-version-3.x) for
 detailed instructions.
 
-## New features
+### New features
 
 - Allow arbitrary query parameters to be specified: the `Query` class provides low-level, untyped accessors in addition
   to the higher-level, typed properties.
@@ -25,7 +25,7 @@ detailed instructions.
 - Delete by query helper
 - Browse iterator helper (`BrowseIterator`)
 
-## Changes
+### Changes
 
 - Asynchronous methods completion block argument renamed to `completionHandler` for better consistency with the
   system libraries (in particular `NSURLSession`)
@@ -34,7 +34,7 @@ detailed instructions.
 - Browse methods now only low-level. (For high-level iteration, use the `BrowseIterator` helper; see above.)
 - Remove accessors to deprecated HTTP headers
 
-## Fixes
+### Fixes
 
 - **Full Objective-C bridging**: all features are now available from Objective-C.
 - More consistent error handling
@@ -42,7 +42,7 @@ detailed instructions.
 - Fix Swift 2.2 deprecation warnings
 - HTTP headers can now be changed during the client's lifetime
 
-## Misc. improvements
+### Misc. improvements
 
 - Minimize public interface
 - Update documentation
