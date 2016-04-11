@@ -358,6 +358,10 @@ import Foundation
         let taskID: Int
         let completionHandler: CompletionHandler
         let path: String
+        var iteration: Int = 0
+        
+        static let BASE_DELAY = 0.1     ///< Minimum wait delay.
+        static let MAX_DELAY  = 5.0     ///< Maximum wait delay.
         
         init(index: Index, taskID: Int, completionHandler: CompletionHandler) {
             self.index = index
@@ -375,6 +379,7 @@ import Foundation
             if cancelled {
                 finish()
             }
+            iteration += 1
             index.client.performHTTPQuery(path, method: .GET, body: nil, hostnames: index.client.writeHosts) {
                 (content, error) -> Void in
                 if let content = content {
@@ -384,7 +389,9 @@ import Foundation
                         }
                         self.finish()
                     } else {
-                        NSThread.sleepForTimeInterval(0.1)
+                        // The delay between polls increases quadratically from the base delay up to the max delay.
+                        let delay = min(WaitOperation.BASE_DELAY * Double(self.iteration * self.iteration), WaitOperation.MAX_DELAY)
+                        NSThread.sleepForTimeInterval(delay)
                         self.startNext()
                     }
                 } else {
