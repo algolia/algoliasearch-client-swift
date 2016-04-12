@@ -317,8 +317,8 @@ class IndexTests: XCTestCase {
                                 XCTFail("Error during getObjects: \(error)")
                             } else {
                                 let items = content!["results"] as! [[String: String]]
-                                XCTAssertEqual(items[0]["city"]!, objects[0]["city"]! as! String, "GetObjects return the wrong object")
-                                XCTAssertEqual(items[1]["city"]!, objects[1]["city"]! as! String, "GetObjects return the wrong object")
+                                XCTAssertEqual(items[0]["city"]!, objects[0]["city"]! as? String, "GetObjects return the wrong object")
+                                XCTAssertEqual(items[1]["city"]!, objects[1]["city"]! as? String, "GetObjects return the wrong object")
                             }
                             
                             expectation.fulfill()
