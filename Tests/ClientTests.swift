@@ -58,6 +58,56 @@ class ClientTests: XCTestCase {
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
     
+    func testKeepAlive() {
+        // Setup index
+        let expectationAdd = expectationWithDescription("testAdd")
+        let object = ["city": "San Francisco"]
+        index.addObject(object, completionHandler: { (content, error) -> Void in
+            XCTAssertNil(error, "Error during addObject: \(error?.description)")
+            if content != nil {
+                self.index.waitTask(content!["taskID"] as! Int) {
+                    (content, error) -> Void in
+                    if let error = error {
+                        XCTFail("Error during waitTask: \(error)")
+                    } else {
+                        XCTAssertEqual((content!["status"] as! String), "published", "Wait task failed")
+                    }
+                    expectationAdd.fulfill()
+                }
+            }
+        })
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+        
+        // Reset client to avoid reuse of connection (Keep-Alive)
+        let appID = NSProcessInfo.processInfo().environment["ALGOLIA_APPLICATION_ID"] ?? APP_ID
+        let apiKey = NSProcessInfo.processInfo().environment["ALGOLIA_API_KEY"] ?? API_KEY
+        let testClient = AlgoliaSearch.Client(appID: appID, apiKey: apiKey)
+        let testIndex = testClient.getIndex(safeIndexName("algol?à-swift"))
+        
+        let bench = 10
+        var mesuredTime = [Double]()
+        mesuredTime.reserveCapacity(bench)
+        
+        for _ in 1...bench {
+            let expectation = expectationWithDescription("testKeepAlive")
+            
+            let startTime = CACurrentMediaTime()
+            testIndex.search(Query(query: ""), completionHandler: { (content, error) -> Void in
+                XCTAssertNil(error, "Error during search: \(error?.description)")
+                expectation.fulfill()
+            })
+            waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+            mesuredTime.append(CACurrentMediaTime() - startTime)
+        }
+        
+        let avgTime = average(Array(mesuredTime.dropFirst()))
+        let ratio = (mesuredTime[0] - avgTime) / max(mesuredTime[0], avgTime)
+        
+        if ratio < 0.5 {
+            XCTFail("Maybe keep-alive doesn't work")
+        }
+    }
+    
     func testListIndexes() {
         let expectation = expectationWithDescription("testListIndexes")
         let object = ["city": "San Francisco", "objectID": "a/go/?à"]
