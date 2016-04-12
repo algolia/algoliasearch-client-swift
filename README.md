@@ -6,14 +6,13 @@
 
 **&lt;Welcome Objective-C developers&gt;**
 
-In July 2015, we released a new version of our Swift client able to work with Swift and Objective-C.
+In July 2015, we released a new version of our Swift client, able to work with Swift and Objective-C. As of version 3 (April 2016), Swift has become the reference implementation for both Swift and Objective-C projects.
 
 If you were using our Objective-C client, [read the migration guide](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-from-Objective-C-to-Swift-API-Client).
 
-The Objective-C API Client is still supported and can be found [here](https://github.com/algolia/algoliasearch-client-objc).
+The [Objective-C API Client](https://github.com/algolia/algoliasearch-client-objc) is no longer under active development. It is still supported for bug fixes, but will not receive new features.
 
 **&lt;/Welcome Objective-C developers&gt;**
-
 
 
 
@@ -23,8 +22,7 @@ The Objective-C API Client is still supported and can be found [here](https://gi
 
 <!--/NO_HTML-->
 
-Our Swift client lets you easily use the [Algolia Search API](https://www.algolia.com/doc/rest) from your backend. It wraps the [Algolia Search REST API](https://www.algolia.com/doc/rest).
-
+Our Swift client lets you easily use the [Algolia Search API](https://www.algolia.com/doc/rest) from your iOS & OS X applications. It wraps the [Algolia Search REST API](https://www.algolia.com/doc/rest).
 
 
 
@@ -46,7 +44,6 @@ Table of Contents
 
 1. [Setup](#setup)
 1. [Quick Start](#quick-start)
-
 1. [Guides & Tutorials](#guides-tutorials)
 
 
@@ -66,10 +63,8 @@ Table of Contents
 1. [Clear an index](#clear-an-index)
 1. [Wait indexing](#wait-indexing)
 1. [Batch writes](#batch-writes)
-1. [Security / User API Keys](#security--user-api-keys)
-1. [Copy or rename an index](#copy-or-rename-an-index)
-1. [Backup / Retrieve all index content](#backup--retrieve-of-all-index-content)
-1. [Logs](#logs)
+1. [Copy / Move an index](#copy--move-an-index)
+1. [Backup / Export an index](#backup--export-an-index)
 
 
 <!--/NO_HTML-->
@@ -83,12 +78,12 @@ To setup your project, follow these steps:
 
 
 
- 1. [Download and add sources](https://github.com/algolia/algoliasearch-client-swift/archive/master.zip) to your project or use [Carthage](https://github.com/Carthage/Carthage) by adding `github "algolia/algoliasearch-client-swift"` in your Cartfile or use cocoapods by adding `pod 'AlgoliaSearch-Client-Swift', '~> 2.0'` in your Podfile.
- 2. Add the `import AlgoliaSearch` call to your project
- 3. Initialize the client with your ApplicationID and API-Key. You can find all of them on [your Algolia account](http://www.algolia.com/users/edit).
+1. Add `pod 'AlgoliaSearch-Client-Swift', '~> 3.0'` to your Podfile. (We only support Cocoapods so far.)
+2. Add `import AlgoliaSearch` to your source files.
+3. Initialize the client with your application ID and API key (you can find them on [your Algolia Dashboard](https://www.algolia.com/api-keys)):
 
 ```swift
-let client = AlgoliaSearch.Client(appID: "YourApplicationID", apiKey: "YourAPIKey")
+let client = Client(appID: "YourApplicationID", apiKey: "YourAPIKey")
 ```
 
 
@@ -101,41 +96,42 @@ Quick Start
 In 30 seconds, this quick start tutorial will show you how to index and search objects.
 
 Without any prior configuration, you can start indexing [500 contacts](https://github.com/algolia/algoliasearch-client-csharp/blob/master/contacts.json) in the ```contacts``` index using the following code:
+
 ```swift
 // Load content file
 let jsonPath = NSBundle.mainBundle().pathForResource("contacts", ofType: "json")
-let jsonData = NSData.dataWithContentsOfMappedFile("jsonPath")
-let dict = NScontentSerialization.contentObjectWithData(jsonData, options: 0, error: nil)
+let jsonData = NSData(contentsOfFile: jsonPath)
+let dict = try! NSJSONSerialization.JSONObjectWithData(jsonData!, options: [])
 
 // Load all objects of json file in an index named "contacts"
-let index = client.getIndex("contacts");
-index.addObjects(dict["objects"], block: nil)
+let index = client.getIndex("contacts")
+index.addObjects(dict["objects"])
 ```
 
 You can now search for contacts using firstname, lastname, company, etc. (even with typos):
 ```swift
 // search by firstname
-index.search(Query(query: "jimmie"), block: { (content, error) -> Void in
+index.search(Query(query: "jimmie"), completionHandler: { (content, error) -> Void in
 	if error == nil {
-		println("Result: \(content)")
+		print("Result: \(content)")
 	}
 })
 // search a firstname with typo
-index.search(Query(query: "jimie"), block: { (content, error) -> Void in
+index.search(Query(query: "jimie"), completionHandler: { (content, error) -> Void in
 	if error == nil {
-		println("Result: \(content)")
+		print("Result: \(content)")
 	}
 })
 // search for a company
-index.search(Query(query: "california paint"), block: { (content, error) -> Void in
+index.search(Query(query: "california paint"), completionHandler: { (content, error) -> Void in
 	if error == nil {
-		println("Result: \(content)")
+		print("Result: \(content)")
 	}
 })
 // search for a firstname & company
-index.search(Query(query: "jimmie paint"), block: { (content, error) -> Void in
+index.search(Query(query: "jimmie paint"), completionHandler: { (content, error) -> Void in
 	if error == nil {
-		println("Result: \(content)")
+		print("Result: \(content)")
 	}
 })
 ```
@@ -144,9 +140,9 @@ Settings can be customized to tune the search behavior. For example, you can add
 ```swift
 let customRanking = ["desc(followers)"]
 let settings = ["customRanking": customRanking]
-index.setSettings(settings, block: { (content, error) -> Void in
-	if let error = error {
-		println("Error when applying settings: \(error)")
+index.setSettings(settings, completionHandler: { (content, error) -> Void in
+	if error != nil {
+		print("Error when applying settings: \(error!)")
 	}
 })
 ```
@@ -155,24 +151,24 @@ You can also configure the list of attributes you want to index by order of impo
 ```swift
 let customRanking = ["lastname", "firstname", "company", "email", "city", "address"]
 let settings = ["attributesToIndex": customRanking]
-index.setSettings(settings, block: { (content, error) -> Void in
-	if let error = error {
-		println("Error when applying settings: \(error)")
+index.setSettings(settings, completionHandler: { (content, error) -> Void in
+	if error != nil {
+		print("Error when applying settings: \(error!)")
 	}
 })
 ```
 
 Since the engine is designed to suggest results as you type, you'll generally search by prefix. In this case the order of attributes is very important to decide which hit is the best:
 ```swift
-index.search(Query(query: "or"), block: { (content, error) -> Void in
+index.search(Query(query: "or"), completionHandler: { (content, error) -> Void in
 	if error == nil {
-		println("Result: \(content)")
+		print("Result: \(content)")
 	}
 })
 
-index.search(Query(query: "jim"), block: { (content, error) -> Void in
+index.search(Query(query: "jim"), completionHandler: { (content, error) -> Void in
 	if error == nil {
-		println("Result: \(content)")
+		print("Result: \(content)")
 	}
 })
 ```
@@ -224,24 +220,26 @@ Example with automatic `objectID` assignment:
 
 ```swift
 let newObject = ["firstname": "Jimmie", "lastname": "Barninger"]
-index.addObject(object, block: { (content, error) -> Void in
+index.addObject(newObject, completionHandler: { (content, error) -> Void in
 	if error == nil {
-		let objectID = content!["objectID"] as String
-		println("Object ID: \(objectID)")
+		if let objectID = content!["objectID"] as? String {
+			print("Object ID: \(objectID)")
+		}
 	}
-)
+})
 ```
 
 Example with manual `objectID` assignment:
 
 ```swift
 let newObject = ["firstname": "Jimmie", "lastname": "Barninger"]
-index.addObject(object, withID: "myID", block: { (content, error) -> Void in
+index.addObject(newObject, withID: "myID", completionHandler: { (content, error) -> Void in
 	if error == nil {
-		let objectID = content!["objectID"] as String
-		println("Object ID: \(objectID)")
+		if let objectID = content!["objectID"] as? String {
+			print("Object ID: \(objectID)")
+		}
 	}
-)
+})
 ```
 
 Update an existing object in the Index
@@ -262,7 +260,7 @@ let newObject = [
 	"city": "New York",
 	"objectID": "myID"
 ]
-index.saveObject(newObject, block: nil)
+index.saveObject(newObject)
 ```
 
 You have many ways to update an object's attributes:
@@ -278,7 +276,7 @@ Example to update only the city attribute of an existing object:
 
 ```swift
 let partialObject = ["city": "San Francisco"]
-index.partialUpdateObject(partialObject, objectID: "myID", block: nil)
+index.partialUpdateObject(partialObject, objectID: "myID")
 ```
 
 Example to add a tag:
@@ -289,7 +287,7 @@ let operation = [
 	"_operation": "Add"
 ]
 let partialObject = ["_tags": operation]
-index.partialUpdateObject(partialObject, objectID: "myID", block: nil)
+index.partialUpdateObject(partialObject, objectID: "myID")
 ```
 
 Example to remove a tag:
@@ -300,7 +298,7 @@ let operation = [
 	"_operation": "Remove"
 ]
 let partialObject = ["_tags": operation]
-index.partialUpdateObject(partialObject, objectID: "myID", block: nil)
+index.partialUpdateObject(partialObject, objectID: "myID")
 ```
 
 Example to add a tag if it doesn't exist:
@@ -311,7 +309,7 @@ let operation = [
 	"_operation": "AddUnique"
 ]
 let partialObject = ["_tags": operation]
-index.partialUpdateObject(partialObject, objectID: "myID", block: nil)
+index.partialUpdateObject(partialObject, objectID: "myID")
 ```
 
 Example to increment a numeric value:
@@ -322,7 +320,7 @@ let operation = [
 	"_operation": "Increment"
 ]
 let partialObject = ["price": operation]
-index.partialUpdateObject(partialObject, objectID: "myID", block: nil)
+index.partialUpdateObject(partialObject, objectID: "myID")
 ```
 
 Note: Here we are incrementing the value by `42`. To increment just by one, put
@@ -336,7 +334,7 @@ let operation = [
 	"_operation": "Decrement"
 ]
 let partialObject = ["price": operation]
-index.partialUpdateObject(partialObject, objectID: "myID", block: nil)
+index.partialUpdateObject(partialObject, objectID: "myID")
 ```
 
 Note: Here we are decrementing the value by `42`. To decrement just by one, put
@@ -353,18 +351,18 @@ The search query allows only to retrieve 1000 hits, if you need to retrieve more
 
 ```swift
 let index = client.getIndex("contacts")
-index.search(Query(query: "s"), block: { (content, error) -> Void in
+index.search(Query(query: "s"), completionHandler: { (content, error) -> Void in
 	if error == nil {
-		println("Result: \(content)")
+		print("Result: \(content!)")
 	}
 })
 
 let query = Query(query: "s")
 query.attributesToRetrieve = ["firstname", "lastname"]
 query.hitsPerPage = 50
-index.search(query, block: { (content, error) -> Void in
+index.search(query, completionHandler: { (content, error) -> Void in
 	if error == nil {
-		println("Result: \(content)")
+		print("Result: \(content!)")
 	}
 })
 ```
@@ -1164,13 +1162,15 @@ There is no pre-caching mechanism but you can simulate it by making a preemptive
 By default, the cache is disabled.
 
 ```swift
-myIndex.enableSearchCache()
+// Enable the search cache with default settings.
+index.enableSearchCache()
 ```
 
 Or:
 
 ```swift
-myIndex.enableSearchCache(expiringTimeInterval: 300)
+// Enable the search cache with a TTL of 5 minutes.
+index.enableSearchCache(expiringTimeInterval: 300)
 ```
 
 
@@ -1187,13 +1187,13 @@ You can send multiple queries with a single API call using a batch of queries:
 // 		- 1st query target index `categories`
 //		- 2nd and 3rd queries target index `products`
 let queries = [
-	["indexName": "categories", "query": aQueryObject],
-	["indexName": "products", "query": anotherQueryObject],
-	["indexName": "products", "query": anotherQueryObject]
+	IndexQuery(indexName: "categories", query: Query(query: "electronics")),
+	IndexQuery(indexName: "products", query: Query(query: "iPhone")),
+	IndexQuery(indexName: "products", query: Query(query: "Galaxy"))
 ]
-client.multipleQueries(queries, block: { (content, error) -> Void in
+client.multipleQueries(queries, completionHandler: { (content, error) -> Void in
 	if error == nil {
-		println("Result: \(content)")
+		print("Result: \(content!)")
 	}
 })
 ```
@@ -1213,15 +1213,15 @@ You can easily retrieve an object using its `objectID` and optionally specify a 
 
 ```swift
 // Retrieves all attributes
-index.getObject("myID", block: { (content, error) -> Void in
+index.getObject("myID", completionHandler: { (content, error) -> Void in
 	if error == nil {
-		println("Object: \(content)")
+		print("Object: \(content)")
 	}
 })
 // Retrieves only the firstname attribute
-index.getObject("myID", attributesToRetrieve: ["firstname"], block: { (content, error) -> Void in
+index.getObject("myID", attributesToRetrieve: ["firstname"], completionHandler: { (content, error) -> Void in
 	if error == nil {
-		println("Object: \(content)")
+		print("Object: \(content)")
 	}
 })
 ```
@@ -1229,7 +1229,7 @@ index.getObject("myID", attributesToRetrieve: ["firstname"], block: { (content, 
 You can also retrieve a set of objects:
 
 ```swift
-index.getObjects(["myID1", "myID2"], block: { (content, error) -> {
+index.getObjects(["myID1", "myID2"], completionHandler: { (content, error) -> {
 	// do something
 })
 ```
@@ -1240,7 +1240,7 @@ Delete an object
 You can delete an object using its `objectID`:
 
 ```swift
-index.deleteObject("myID", block: nil)
+index.deleteObject("myID")
 ```
 
 
@@ -1251,7 +1251,7 @@ You can delete all objects matching a single query with the following code. Inte
 
 ```swift
 let query: Query = /* [...] */
-index.deleteByQuery(query, block: nil)
+index.deleteByQuery(query)
 ```
 
 
@@ -1261,9 +1261,9 @@ Index Settings
 You can easily retrieve or update settings:
 
 ```swift
-index.getSettings(block: { (content, error) -> Void in
+index.getSettings(completionHandler: { (content, error) -> Void in
 	if error == nil 
-		println("Settings: \(content)")
+		print("Settings: \(content!)")
 	}
 })
 ```
@@ -1271,7 +1271,7 @@ index.getSettings(block: { (content, error) -> Void in
 ```swift
 let customRanking = ["desc(followers)", "asc(name)"]
 let settings = ["customRanking": customRanking]
-index.setSettings(settings, block: nil)
+index.setSettings(settings)
 ```
 
 
@@ -1891,9 +1891,9 @@ List indices
 You can list all your indices along with their associated information (number of entries, disk size, etc.) with the `` method:
 
 ```swift
-client.listIndexes(block: { (content, error) -> Void in
+client.listIndexes(completionHandler: { (content, error) -> Void in
 	if error == nil {
-		println("Indexes: \(content)")
+		print("Indexes: \(content!)")
 	}
 })
 ```
@@ -1907,9 +1907,9 @@ Delete an index
 You can delete an index using its name:
 
 ```swift
-client.deleteIndex("contacts", block: { (content, error) -> Void in
-	if let error = error {
-		println("Could not delete: \(error)")
+client.deleteIndex("contacts", completionHandler: { (content, error) -> Void in
+	if error != nil {
+		print("Could not delete: \(error!)")
 	}
 })
 ```
@@ -1923,9 +1923,9 @@ Clear an index
 You can delete the index contents without removing settings and index specific API keys by using the clearIndex command:
 
 ```swift
-index.clearIndex(block: { (content, error) -> Void in
-	if let error = error {
-		println("Could not clear index: \(error)")
+index.clearIndex(completionHandler: { (content, error) -> Void in
+	if error != nil {
+		print("Could not clear index: \(error!)")
 	}
 })
 ```
@@ -1945,14 +1945,18 @@ You can wait for a task to complete using the `waitTask` method on the `taskID` 
 
 For example, to wait for indexing of a new object:
 ```swift
-index.addObject(newObject, block: { (content, error) -> Void in
-	if error == nil {
-		self.index.waitTask(content!["taskID"] as Int, block: { (content, error) -> Void in
-			if error == nil {
-				println("New object is indexed!")
-			}
-		})
+index.addObject(newObject, completionHandler: { (content, error) -> Void in
+	if error != nil {
+		return
 	}
+	guard let taskID = content!["taskID"] as? Int else {
+		return // could not retrieve task ID
+	}
+	self.index.waitTask(taskID, completionHandler: { (content, error) -> Void in
+		if error == nil {
+			print("New object is indexed!")
+		}
+	})
 })
 ```
 
@@ -1964,18 +1968,18 @@ Batch writes
 
 You may want to perform multiple operations with one API call to reduce latency.
 We expose four methods to perform batch operations:
- * ``: Add an array of objects using automatic `objectID` assignment.
- * ``: Add or update an array of objects that contains an `objectID` attribute.
- * ``: Delete an array of objectIDs.
- * ``: Partially update an array of objects that contain an `objectID` attribute (only specified attributes will be updated).
+ * `addObjects`: Add an array of objects using automatic `objectID` assignment.
+ * `saveObjects`: Add or update an array of objects that contains an `objectID` attribute.
+ * `deleteObjects`: Delete an array of objectIDs.
+ * `partialUpdateObjects`: Partially update an array of objects that contain an `objectID` attribute (only specified attributes will be updated).
 
 Example using automatic `objectID` assignment:
 ```swift
 let obj1 = ["firstname": "Jimmie", "lastname": "Barninger"]
 let obj2 = ["firstname": "Warren", "lastname": "Speach"]
-index.addObjects([obj1, obj2], block: { (content, error) -> Void in
+index.addObjects([obj1, obj2], completionHandler: { (content, error) -> Void in
 	if error == nil {
-		println("Object IDs: \(content)")
+		print("Object IDs: \(content!)")
 	}
 })
 ```
@@ -1984,25 +1988,25 @@ Example with user defined `objectID` (add or update):
 ```swift
 let obj1 = ["firstname": "Jimmie", "lastname": "Barninger", "objectID": "myID1"]
 let obj2 = ["firstname": "Warren", "lastname": "Speach", "objectID": "myID2"]
-index.saveObjects([obj1, obj2], block: { (content, error) -> Void in
+index.saveObjects([obj1, obj2], completionHandler: { (content, error) -> Void in
 	if error == nil {
-		println("Object IDs: \(content)")
+		print("Object IDs: \(content!)")
 	}
 })
 ```
 
 Example that deletes a set of records:
 ```swift
-index.deleteObjects(["myID1", "myID2"], block: nil)
+index.deleteObjects(["myID1", "myID2"])
 ```
 
 Example that updates only the `firstname` attribute:
 ```swift
 let obj1 = ["firstname": "Jimmie", "objectID": "myID1"]
 let obj2 = ["firstname": "Warren", "objectID": "myID2"]
-index.partialUpdateObjects([obj1, obj2], block: { (content, error) -> Void in
+index.partialUpdateObjects([obj1, obj2], completionHandler: { (content, error) -> Void in
 	if error == nil {
-		println("Object IDs: \(content)")
+		print("Object IDs: \(content!)")
 	}
 })
 ```
@@ -2020,246 +2024,7 @@ The attribute **action** can have these values:
 - partialUpdateObjectNoCreate
 - deleteObject
 
-Security / User API Keys
-==================
-
-The ADMIN API key provides full control of all your indices.
-You can also generate user API keys to control security.
-These API keys can be restricted to a set of operations or/and restricted to a given index.
-
-To list existing keys, you can use `listUserKeys` method:
-```swift
-// Lists global API keys
-client.listUserKeys(block: { (content, error) -> Void in
-	if error == nil {
-		println("User keys: \(content)")
-	}
-})
-// Lists API keys that can access only to this index
-index.listUserKeys(block: { (content, error) -> Void in
-	if error == nil {
-		println("User keys: \(content)")
-	}
-})
-```
-
-Each key is defined by a set of permissions that specify the authorized actions. The different permissions are:
- * **search**: Allowed to search.
- * **browse**: Allowed to retrieve all index contents via the browse API.
- * **addObject**: Allowed to add/update an object in the index.
- * **deleteObject**: Allowed to delete an existing object.
- * **deleteIndex**: Allowed to delete index content.
- * **settings**: allows to get index settings.
- * **editSettings**: Allowed to change index settings.
- * **analytics**: Allowed to retrieve analytics through the analytics API.
- * **listIndexes**: Allowed to list all accessible indexes.
-
-Example of API Key creation:
-```swift
-// Creates a new global API key that can only perform search actions
-client.addUserKey(["search"], block: { (content, error) -> Void in
-	if error == nil {
-		let key = content!["key"] as String
-		println("API key: \(key)")
-	}
-})
-// Creates a new API key that can only perform search action on this index
-index.addUserKey(["search"], block: { (content, error) -> Void in
-	if error == nil {
-		let key = content!["key"] as String
-		println("API key: \(key)")
-	}
-})
-```
-
-You can also create an API Key with advanced settings:
-
-<table><tbody>
-  
-    <tr>
-      <td valign='top'>
-        <div class='client-readme-param-container'>
-          <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>validity</code></div>
-            
-          </div>
-        </div>
-      </td>
-      <td class='client-readme-param-content'>
-        <p>Add a validity period. The key will be valid for a specific period of time (in seconds).</p>
-
-      </td>
-    </tr>
-    
-  
-    <tr>
-      <td valign='top'>
-        <div class='client-readme-param-container'>
-          <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>maxQueriesPerIPPerHour</code></div>
-            
-          </div>
-        </div>
-      </td>
-      <td class='client-readme-param-content'>
-        <p>Specify the maximum number of API calls allowed from an IP address per hour. Each time an API call is performed with this key, a check is performed. If the IP at the source of the call did more than this number of calls in the last hour, a 403 code is returned. Defaults to 0 (no rate limit). This parameter can be used to protect you from attempts at retrieving your entire index contents by massively querying the index.</p>
-
-      </td>
-    </tr>
-    
-  
-    <tr>
-      <td valign='top'>
-        <div class='client-readme-param-container'>
-          <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>maxHitsPerQuery</code></div>
-            
-          </div>
-        </div>
-      </td>
-      <td class='client-readme-param-content'>
-        <p>Specify the maximum number of hits this API key can retrieve in one call. Defaults to 0 (unlimited). This parameter can be used to protect you from attempts at retrieving your entire index contents by massively querying the index.</p>
-
-      </td>
-    </tr>
-    
-  
-    <tr>
-      <td valign='top'>
-        <div class='client-readme-param-container'>
-          <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>indexes</code></div>
-            
-          </div>
-        </div>
-      </td>
-      <td class='client-readme-param-content'>
-        <p>Specify the list of targeted indices. You can target all indices starting with a prefix or ending with a suffix using the &#39;*&#39; character. For example, &quot;dev_*&quot; matches all indices starting with &quot;dev_&quot; and &quot;*_dev&quot; matches all indices ending with &quot;_dev&quot;. Defaults to all indices if empty or blank.</p>
-
-      </td>
-    </tr>
-    
-  
-    <tr>
-      <td valign='top'>
-        <div class='client-readme-param-container'>
-          <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>referers</code></div>
-            
-          </div>
-        </div>
-      </td>
-      <td class='client-readme-param-content'>
-        <p>Specify the list of referers. You can target all referers starting with a prefix or ending with a suffix using the &#39;*&#39; character. For example, &quot;algolia.com/*&quot; matches all referers starting with &quot;algolia.com/&quot; and &quot;*.algolia.com&quot; matches all referers ending with &quot;.algolia.com&quot;. Defaults to all referers if empty or blank.</p>
-
-      </td>
-    </tr>
-    
-  
-    <tr>
-      <td valign='top'>
-        <div class='client-readme-param-container'>
-          <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>queryParameters</code></div>
-            
-          </div>
-        </div>
-      </td>
-      <td class='client-readme-param-content'>
-        <p>Specify the list of query parameters. You can force the query parameters for a query using the url string format (param1=X&amp;param2=Y...).</p>
-
-      </td>
-    </tr>
-    
-  
-    <tr>
-      <td valign='top'>
-        <div class='client-readme-param-container'>
-          <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>description</code></div>
-            
-          </div>
-        </div>
-      </td>
-      <td class='client-readme-param-content'>
-        <p>Specify a description to describe where the key is used.</p>
-
-      </td>
-    </tr>
-    
-
-</tbody></table>
-
-```swift
-// Creates a new global API key that is valid for 300 seconds
-client.addUserKey(["search"], withValidity: 300, maxQueriesPerIPPerHour: 0, maxHitsPerQuery: 0, block: { (content, error) -> Void in
-	if error == nil {
-		let key = content!["key"] as String
-		println("API Key: \(key)")
-	}
-})
-
-// Creates a new index specific API key valid for 300 seconds, with a rate limit of 100 calls per hour per IP and a maximum of 20 hits
-client.addUserKey(["search"], withValidity: 300, maxQueriesPerIPPerHour: 100, maxHitsPerQuery: 20, block: { (content, error) -> Void in
-	if error == nil {
-		let key = content!["key"] as String
-		println("API Key: \(key)")
-	}
-})
-```
-
-Update the permissions of an existing key:
-```swift
-// Update an existing global API key that is valid for 300 seconds
-client.updateUserKey("myKey", withACL: ["search"], andValidity: 300, maxQueriesPerIPPerHour: 0, maxHitsPerQuery: 0, block: { (content, error) -> Void in
-	if error == nil {
-		let key = content!["key"] as String
-		println("API Key: \(key)")
-	}
-})
-// Update an existing index specific API key valid for 300 seconds, with a rate limit of 100 calls per hour per IP and a maximum of 20 hits
-client.updateUserKey("myKey", withACL: ["search"], andValidity: 300, maxQueriesPerIPPerHour: 100, maxHitsPerQuery: 20, block: { (content, error) -> Void in
-	if error == nil {
-		let key = content!["key"] as String
-		println("API Key: \(key)")
-	}
-})
-```
-Get the permissions of a given key:
-```swift
-// Gets the rights of a global key
-client.getUserKeyACL("myAPIKey", block: { (content, error) -> Void in
-	if error == nil {
-		println("Key details: \(content)")
-	}
-})
-// Gets the rights of an index specific key
-index.getUserKeyACL("myAPIKey", block: { (content, error) -> Void in
-	if error == nil {
-		println("Key details: \(content)")
-	}
-})
-```
-
-Delete an existing key:
-```swift
-// Deletes a global key
-client.deleteUserKey("myAPIKey", block: { (content, error) -> Void in
-	if let error = error {
-		println("Delete error: \(error)")
-	}
-})
-// Deletes an index specific key
-index.deleteUserKey("myAPIKey", block: { (content, error) -> Void in
-	if let error = error {
-		println("Delete error: \(error)")
-	}
-})
-```
-
-
-
-Copy or rename an index
+Copy / Move an index
 ==================
 
 You can easily copy or rename an existing index using the `copy` and `move` commands.
@@ -2267,19 +2032,19 @@ You can easily copy or rename an existing index using the `copy` and `move` comm
 
 ```swift
 // Rename MyIndex in MyIndexNewName
-client.moveIndex("MyIndex", to: "MyIndexNewName", block: { (content, error) -> Void in
-	if let error = error {
-		println("Move failure: \(error)")
+client.moveIndex("MyIndex", to: "MyIndexNewName", completionHandler: { (content, error) -> Void in
+	if error != nil {
+		print("Move failure: \(error!)")
 	} else {
-		println("Move success: \(content)")
+		print("Move success: \(content!)")
 	}
 })
 // Copy MyIndex in MyIndexCopy
-client.copyIndex("MyIndex", to: "MyIndexCopy", block: { (content, error) -> Void in
-	if let error = error {
-		println("Copy failure: \(error)")
+client.copyIndex("MyIndex", to: "MyIndexCopy", completionHandler: { (content, error) -> Void in
+	if error != nil {
+		print("Copy failure: \(error!)")
 	} else {
-		println("Copy success: \(content)")
+		print("Copy success: \(content!)")
 	}
 })
 ```
@@ -2290,17 +2055,16 @@ The move command is particularly useful if you want to update a big index atomic
 
 ```swift
 // Rename MyNewIndex in MyIndex (and overwrite it)
-client.moveIndex("MyNewIndex", dstIndexName: "MyIndex", block: { (content, error) -> Void in
-	if let error = error {
-		println("Move failure: \(error)")
+client.moveIndex("MyNewIndex", dstIndexName: "MyIndex", completionHandler: { (content, error) -> Void in
+	if error != nil {
+		print("Move failure: \(error!)")
 	} else {
-		println("Move success: \(content)")
+		print("Move success: \(content!)")
 	}
 })
 ```
 
-
-Backup / Retrieve of all index content
+Backup / Export an index
 ==================
 
 The `search` method cannot return more than 1,000 results. If you need to
@@ -2322,131 +2086,35 @@ that it is not possible to access records beyond the 1,000th on the first call.
 
 Example:
 
-```swift
-index.browse(query, block: { (iterator, end, error) -> Void in
-	// Retrieve the next cursor from the browse method
-	println(iterator.cursor)
-    if let error = error {
-        // Handle errors
-    } else if end {
-        // End of index
-    } else {
-        // Do something
-        iterator.next()
-    }
-})
-```
-
-
-
-
-Logs
-==================
-
-You can retrieve the latest logs via this API. Each log entry contains:
- * Timestamp in ISO-8601 format
- * Client IP
- * Request Headers (API Key is obfuscated)
- * Request URL
- * Request method
- * Request body
- * Answer HTTP code
- * Answer body
- * SHA1 ID of entry
-
-You can retrieve the logs of your last 1,000 API calls and browse them using the offset/length parameters:
-
-<table><tbody>
-  
-    <tr>
-      <td valign='top'>
-        <div class='client-readme-param-container'>
-          <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>offset</code></div>
-            
-          </div>
-        </div>
-      </td>
-      <td class='client-readme-param-content'>
-        <p>Specify the first entry to retrieve (0-based, 0 is the most recent log entry). Defaults to 0.</p>
-
-      </td>
-    </tr>
-    
-  
-    <tr>
-      <td valign='top'>
-        <div class='client-readme-param-container'>
-          <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>length</code></div>
-            
-          </div>
-        </div>
-      </td>
-      <td class='client-readme-param-content'>
-        <p>Specify the maximum number of entries to retrieve starting at the offset. Defaults to 10. Maximum allowed value: 1,000.</p>
-
-      </td>
-    </tr>
-    
-  
-    <tr>
-      <td valign='top'>
-        <div class='client-readme-param-container'>
-          <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>onlyErrors</code></div>
-            
-          </div>
-        </div>
-      </td>
-      <td class='client-readme-param-content'>
-        <p>Retrieve only logs with an HTTP code different than 200 or 201. (deprecated)</p>
-
-      </td>
-    </tr>
-    
-  
-    <tr>
-      <td valign='top'>
-        <div class='client-readme-param-container'>
-          <div class='client-readme-param-container-inner'>
-            <div class='client-readme-param-name'><code>type</code></div>
-            
-          </div>
-        </div>
-      </td>
-      <td class='client-readme-param-content'>
-        <p>Specify the type of logs to retrieve:</p>
-
-<ul>
-<li><code>query</code>: Retrieve only the queries.</li>
-<li><code>build</code>: Retrieve only the build operations.</li>
-<li><code>error</code>: Retrieve only the errors (same as <code>onlyErrors</code> parameters).</li>
-</ul>
-
-      </td>
-    </tr>
-    
-</tbody></table>
+Using the low-level methods:
 
 ```swift
-// Get last 10 log entries
-client.getLogs(block: { (content, error) -> Void in
-	if let error = error {
-		println("GetLogs failure: \(error)")
-	} else {
-		println("GetLogs success: \(content)")
+index.browse(Query(), completionHandler: { (content, error) in
+	if error != nil {
+		return
 	}
-})
-// Get last 100 log entries
-client.getLogsWithOffset(0, length: 100, block: { (content, error) -> Void in
-	if let error = error {
-		println("GetLogs failure: \(error)")
-	} else {
-		println("GetLogs success: \(content)")
+	// Handle content [...]
+	// If there is more content...
+	if let cursor = content!["cursor"] as? String {
+		index.browseFrom(cursor, completionHandler: { (content, error) in
+			// Handle more content [...]
+		})
 	}
 })
 ```
+
+Using the browse helper:
+
+```swift
+let iterator = BrowseIterator(index: index, query: Query()) { (iterator, content, error) in
+	// Handle the content/error [...]
+	// You may cancel the iteration with:
+	iterator.cancel()
+}
+iterator.start()
+```
+
+
 
 
 

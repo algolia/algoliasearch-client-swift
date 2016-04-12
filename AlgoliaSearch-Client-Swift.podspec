@@ -11,5 +11,29 @@ Pod::Spec.new do |s|
     s.ios.deployment_target = '8.0'
     s.osx.deployment_target = '10.9'
 
-    s.source_files = 'Source/*.swift'
+    # By default, do not require the offline SDK.
+    s.default_subspec = 'Online'
+
+    # Online-only API client.
+    s.subspec 'Online' do |online|
+        # No additional dependency.
+        # WARNING: Cocoapods complains when a subspec is empty, so we must define something additional here to keep
+        # it satisfied.
+        online.source_files = [
+            'Source/*.swift',
+            'Source/Helpers/*.swift',
+        ]
+    end
+
+    # Offline-enabled API client.
+    s.subspec 'Offline' do |offline|
+        offline.dependency 'AlgoliaSearchSDK-iOS'
+        # Activate SDK-dependent code.
+        # WARNING: Specifying the preprocessor macro is not enough; it must be added to Swift flags as well.
+        offline.pod_target_xcconfig = {
+            'GCC_PREPROCESSOR_DEFINITIONS' => 'ALGOLIA_SDK=1',
+            'OTHER_SWIFT_FLAGS' => '-DALGOLIA_SDK'
+        }
+        offline.source_files = 'Source/Offline/*.swift'
+    end
 end

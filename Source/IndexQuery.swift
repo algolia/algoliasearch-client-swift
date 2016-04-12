@@ -1,5 +1,5 @@
 //
-//  Copyright (c) 2015 Algolia
+//  Copyright (c) 2016 Algolia
 //  http://www.algolia.com/
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,21 +23,20 @@
 
 import Foundation
 
-/// HTTP method definitions.
-enum HTTPMethod: String {
-    case GET = "GET"
-    case POST = "POST"
-    case PUT = "PUT"
-    case DELETE = "DELETE"
-}
 
-/// Abstraction of `NSURLSession`.
-/// Only for the sake of unit tests.
-protocol URLSession {
-    func dataTaskWithRequest(request: NSURLRequest, completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void) -> NSURLSessionDataTask
-}
+/// A search query targeting a specific index.
+///
+@objc public class IndexQuery: NSObject {
+    @objc public let indexName: String
+    @objc public let query: Query
+    
+    @objc public init(indexName: String, query: Query) {
+        self.indexName = indexName
+        self.query = query
+    }
 
-// Convince the compiler that NSURLSession does implements our custom protocol.
-extension NSURLSession: URLSession {
+    @objc public init(index: Index, query: Query) {
+        self.indexName = index.indexName
+        self.query = query
+    }
 }
-

@@ -38,7 +38,7 @@ class ClientTests: XCTestCase {
         index = client.getIndex(safeIndexName("algol?à-swift"))
         
         let expectation = expectationWithDescription("Delete index")
-        client.deleteIndex(index.indexName, block: { (content, error) -> Void in
+        client.deleteIndex(index.indexName, completionHandler: { (content, error) -> Void in
             XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
             expectation.fulfill()
         })
@@ -50,7 +50,7 @@ class ClientTests: XCTestCase {
         super.tearDown()
         
         let expectation = expectationWithDescription("Delete index")
-        client.deleteIndex(index.indexName, block: { (content, error) -> Void in
+        client.deleteIndex(index.indexName, completionHandler: { (content, error) -> Void in
             XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
             expectation.fulfill()
         })
@@ -62,7 +62,7 @@ class ClientTests: XCTestCase {
         // Setup index
         let expectationAdd = expectationWithDescription("testAdd")
         let object = ["city": "San Francisco"]
-        index.addObject(object, block: { (content, error) -> Void in
+        index.addObject(object, completionHandler: { (content, error) -> Void in
             XCTAssertNil(error, "Error during addObject: \(error?.description)")
             if content != nil {
                 self.index.waitTask(content!["taskID"] as! Int) {
@@ -92,7 +92,7 @@ class ClientTests: XCTestCase {
             let expectation = expectationWithDescription("testKeepAlive")
             
             let startTime = CACurrentMediaTime()
-            testIndex.search(Query(query: ""), block: { (content, error) -> Void in
+            testIndex.search(Query(query: ""), completionHandler: { (content, error) -> Void in
                 XCTAssertNil(error, "Error during search: \(error?.description)")
                 expectation.fulfill()
             })
@@ -112,12 +112,12 @@ class ClientTests: XCTestCase {
         let expectation = expectationWithDescription("testListIndexes")
         let object = ["city": "San Francisco", "objectID": "a/go/?à"]
         
-        index.addObject(object, block: { (content, error) -> Void in
+        index.addObject(object, completionHandler: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
@@ -153,30 +153,30 @@ class ClientTests: XCTestCase {
         let expecation = expectationWithDescription("testMoveIndex")
         let object = ["city": "San Francisco", "objectID": "a/go/?à"]
         
-        index.addObject(object, block: { (content, error) -> Void in
+        index.addObject(object, completionHandler: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expecation.fulfill()
             } else {
-                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expecation.fulfill()
                     } else {
                         XCTAssertEqual((content!["status"] as! String), "published", "Wait task failed")
                         
-                        self.client.moveIndex(self.index.indexName, to: safeIndexName("algol?à-swift2"), block: { (content, error) -> Void in
+                        self.client.moveIndex(self.index.indexName, to: safeIndexName("algol?à-swift2"), completionHandler: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during moveIndex: \(error)")
                                 expecation.fulfill()
                             } else {
-                                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                                     if let error = error {
                                         XCTFail("Error during waitTask: \(error)")
                                         expecation.fulfill()
                                     } else {
                                         let dstIndex = self.client.getIndex(safeIndexName("algol?à-swift2"))
-                                        dstIndex.search(Query(), block: { (content, error) -> Void in
+                                        dstIndex.search(Query(), completionHandler: { (content, error) -> Void in
                                             if let error = error {
                                                 XCTFail("Error during search: \(error)")
                                             } else {
@@ -198,7 +198,7 @@ class ClientTests: XCTestCase {
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
         
         let deleteExpectation = expectationWithDescription("Delete index")
-        client.deleteIndex(safeIndexName("algol?à-swift2"), block: { (content, error) -> Void in
+        client.deleteIndex(safeIndexName("algol?à-swift2"), completionHandler: { (content, error) -> Void in
             XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
             deleteExpectation.fulfill()
         })
@@ -213,7 +213,7 @@ class ClientTests: XCTestCase {
         
         let object = ["city": "San Francisco", "objectID": "a/go/?à"]
         
-        index.addObject(object, block: { (content, error) -> Void in
+        index.addObject(object, completionHandler: { (content, error) -> Void in
             guard let taskID = content?["taskID"] as? Int else {
                 XCTFail("Error fetching taskID")
                 expecation.fulfill()
@@ -224,23 +224,23 @@ class ClientTests: XCTestCase {
                 XCTFail("Error during addObject: \(error)")
                 expecation.fulfill()
             } else {
-                self.index.waitTask(taskID, block: { (content, error) -> Void in
+                self.index.waitTask(taskID, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expecation.fulfill()
                     } else {
                         XCTAssertEqual((content!["status"] as! String), "published", "Wait task failed")
                         
-                        self.client.copyIndex(self.index.indexName, to: safeIndexName("algol?à-swift2"), block: { (content, error) -> Void in
+                        self.client.copyIndex(self.index.indexName, to: safeIndexName("algol?à-swift2"), completionHandler: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during copyIndex: \(error)")
                                 expecation.fulfill()
                             } else {
-                                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                                     if let error = error {
                                         XCTFail("Error during waitTask: \(error)")
                                     } else {
-                                        self.index.search(Query(), block: { (content, error) -> Void in
+                                        self.index.search(Query(), completionHandler: { (content, error) -> Void in
                                             if let error = error {
                                                 XCTFail("Error during search: \(error)")
                                             } else {
@@ -252,7 +252,7 @@ class ClientTests: XCTestCase {
                                         })
                                         
                                         let dstIndex = self.client.getIndex(safeIndexName("algol?à-swift2"))
-                                        dstIndex.search(Query(), block: { (content, error) -> Void in
+                                        dstIndex.search(Query(), completionHandler: { (content, error) -> Void in
                                             if let error = error {
                                                 XCTFail("Error during search: \(error)")
                                             } else {
@@ -276,105 +276,9 @@ class ClientTests: XCTestCase {
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
         
         let deleteExpectation = expectationWithDescription("Delete index")
-        client.deleteIndex(safeIndexName("algol?à-swift2"), block: { (content, error) -> Void in
+        client.deleteIndex(safeIndexName("algol?à-swift2"), completionHandler: { (content, error) -> Void in
             XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
             deleteExpectation.fulfill()
-        })
-        
-        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
-    }
-    
-    func testGetLogs() {
-        let expecation = expectationWithDescription("testGetLogs")
-        let object = ["city": "San Francisco", "objectID": "a/go/?à"]
-        
-        index.addObject(object, block: { (content, error) -> Void in
-            if let error = error {
-                XCTFail("Error during addObject: \(error)")
-                expecation.fulfill()
-            } else {
-                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
-                    if let error = error {
-                        XCTFail("Error during waitTask: \(error)")
-                        expecation.fulfill()
-                    } else {
-                        self.client.getLogs({ (content, error) -> Void in
-                            if let error = error {
-                                XCTFail("Error during getLogs: \(error)")
-                            } else {
-                                let logs = content!["logs"] as! [AnyObject]
-                                XCTAssertNotEqual(logs.count, 0, "Get logs failed")
-                            }
-                            
-                            expecation.fulfill()
-                        })
-                    }
-                })
-            }
-        })
-        
-        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
-    }
-    
-    func testGetLogsWithOffset() {
-        let expecation = expectationWithDescription("testGetLogsWithOffset")
-        let object = ["city": "San Francisco", "objectID": "a/go/?à"]
-        
-        index.addObject(object, block: { (content, error) -> Void in
-            if let error = error {
-                XCTFail("Error during addObject: \(error)")
-                expecation.fulfill()
-            } else {
-                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
-                    if let error = error {
-                        XCTFail("Error during waitTask: \(error)")
-                        expecation.fulfill()
-                    } else {
-                        self.client.getLogsWithOffset(0, length: 1, block: { (content, error) -> Void in
-                            if let error = error {
-                                XCTFail("Error during getLogs: \(error)")
-                            } else {
-                                let logs = content!["logs"] as! [AnyObject]
-                                XCTAssertEqual(logs.count, 1, "Get logs failed")
-                            }
-                            
-                            expecation.fulfill()
-                        })
-                    }
-                })
-            }
-        })
-        
-        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
-    }
-    
-    func testGetLogsWithType() {
-        let expecation = expectationWithDescription("testGetLogsWithType")
-        let object = ["city": "San Francisco", "objectID": "a/go/?à"]
-        
-        index.addObject(object, block: { (content, error) -> Void in
-            if let error = error {
-                XCTFail("Error during addObject: \(error)")
-                expecation.fulfill()
-            } else {
-                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
-                    if let error = error {
-                        XCTFail("Error during waitTask: \(error)")
-                        expecation.fulfill()
-                    } else {
-                        self.client.getLogsWithType("build", offset: 0, length: 1, block: { (content, error) -> Void in
-                            if let error = error {
-                                XCTFail("Error during getLogs: \(error)")
-                            } else {
-                                let logs = content!["logs"] as! [AnyObject]
-                                XCTAssertEqual(logs.count, 1, "Get logs failed")
-                            }
-                            
-                            expecation.fulfill()
-                        })
-                    }
-                })
-            }
         })
         
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
@@ -384,19 +288,19 @@ class ClientTests: XCTestCase {
         let expectation = expectationWithDescription("testMultipleQueries")
         let object = ["city": "San Francisco"]
         
-        index.addObject(object, block: { (content, error) -> Void in
+        index.addObject(object, completionHandler: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
+                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
                     } else {
-                        let queries = [["indexName": self.index.indexName, "query": Query()]]
+                        let queries = [IndexQuery(index: self.index, query: Query())]
                         
-                        self.client.multipleQueries(queries, block: { (content, error) -> Void in
+                        self.client.multipleQueries(queries, completionHandler: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during multipleQueries: \(error)")
                             } else {
@@ -415,92 +319,6 @@ class ClientTests: XCTestCase {
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
     
-    func testKeyOperations() {
-        let expectation = expectationWithDescription("testKeyOperations")
-        let object = ["city": "San Francisco", "objectID": "a/go/?à"]
-        
-        index.addObject(object, block: { (content, error) -> Void in
-            if let error = error {
-                XCTFail("Error during addObject: \(error)")
-                expectation.fulfill()
-            } else {
-                self.index.waitTask(content!["taskID"] as! Int, block: { (content, error) -> Void in
-                    if let error = error {
-                        XCTFail("Error during waitTask: \(error)")
-                        expectation.fulfill()
-                    } else {
-                        self.client.addUserKey(["search"], block: { (content, error) -> Void in
-                            if let error = error {
-                                XCTFail("Error during addUserKey: \(error)")
-                                expectation.fulfill()
-                            } else {
-                                NSThread.sleepForTimeInterval(5) // Wait the backend
-                                self.client.getUserKeyACL(content!["key"] as! String, block: { (content, error) -> Void in
-                                    if let error = error {
-                                        XCTFail("Error during getUserKeyACL: \(error)")
-                                        expectation.fulfill()
-                                    } else {
-                                        let acls = content!["acl"] as! [String]
-                                        XCTAssertEqual(acls, ["search"], "Add user key failed")
-                                        
-                                        self.client.updateUserKey(content!["value"] as! String, withACL: ["addObject"], block: { (content, error) -> Void in
-                                            if let error = error {
-                                                XCTFail("Error during updateUserKey: \(error)")
-                                                expectation.fulfill()
-                                            } else {
-                                                NSThread.sleepForTimeInterval(5) // Wait the backend
-                                                self.client.getUserKeyACL(content!["key"] as! String, block: { (content, error) -> Void in
-                                                    if let error = error {
-                                                        XCTFail("Error during getUserKeyACL: \(error)")
-                                                        expectation.fulfill()
-                                                    } else {
-                                                        let acls = content!["acl"] as! [String]
-                                                        XCTAssertEqual(acls, ["addObject"], "Update user key failed")
-                                                        
-                                                        let keyToDelete = content!["value"] as! String
-                                                        self.client.deleteUserKey(keyToDelete, block: { (content, error) -> Void in
-                                                            if let error = error {
-                                                                XCTFail("Error during deleteUserKey: \(error)")
-                                                                expectation.fulfill()
-                                                            } else {
-                                                                NSThread.sleepForTimeInterval(5) // Wait the backend
-                                                                self.client.listUserKeys({ (content, error) -> Void in
-                                                                    if let error = error {
-                                                                        XCTFail("Error during listUserKeys: \(error)")
-                                                                    } else {
-                                                                        let keys = content!["keys"] as! [[String: AnyObject]]
-                                                                        
-                                                                        var found = false
-                                                                        for key in keys {
-                                                                            if (key["value"] as! String) == keyToDelete {
-                                                                                found = true
-                                                                                break;
-                                                                            }
-                                                                        }
-                                                                        
-                                                                        XCTAssertTrue(!found, "DeleteUserKey failed")
-                                                                    }
-                                                                    
-                                                                    expectation.fulfill()
-                                                                })
-                                                            }
-                                                        })
-                                                    }
-                                                })
-                                            }
-                                        })
-                                    }
-                                })
-                            }
-                        })
-                    }
-                })
-            }
-        })
-        
-        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
-    }
-
     func testHeaders() {
         // Make a call with a valid API key.
         let expectation1 = expectationWithDescription("Valid API key")
@@ -511,7 +329,7 @@ class ClientTests: XCTestCase {
         }
         
         // Override the API key and check the call fails.
-        self.client.httpHeaders["X-Algolia-API-Key"] = "NOT_A_VALID_API_KEY"
+        self.client.headers["X-Algolia-API-Key"] = "NOT_A_VALID_API_KEY"
         let expectation2 = expectationWithDescription("Invalid API key")
         self.client.listIndexes {
             (content, error) -> Void in
@@ -520,8 +338,52 @@ class ClientTests: XCTestCase {
         }
 
         // Restore the valid API key (otherwise tear down will fail).
-        self.client.httpHeaders["X-Algolia-API-Key"] = self.client.apiKey
+        self.client.headers["X-Algolia-API-Key"] = self.client.apiKey
         
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+    }
+    
+    func testBatch() {
+        let expectation = expectationWithDescription(#function)
+        let actions = [
+            [
+                "indexName": index.indexName,
+                "action": "addObject",
+                "body": [ "city": "San Francisco" ]
+            ],
+            [
+                "indexName": index.indexName,
+                "action": "addObject",
+                "body": [ "city": "Paris" ]
+            ]
+        ]
+        client.batch(actions) {
+            (content, error) -> Void in
+            if error != nil {
+                XCTFail(error!.localizedDescription)
+            } else if let taskID = (content!["taskID"] as? [String: AnyObject])?[self.index.indexName] as? Int {
+                // Wait for the batch to be processed.
+                self.index.waitTask(taskID) {
+                    (content, error) in
+                    if error != nil {
+                        XCTFail(error!.localizedDescription)
+                    } else {
+                        // Check that objects have been indexed.
+                        self.index.search(Query(query: "Francisco")) {
+                            (content, error) in
+                            if error != nil {
+                                XCTFail(error!.localizedDescription)
+                            } else {
+                                XCTAssertEqual(content!["nbHits"] as? Int, 1)
+                                expectation.fulfill()
+                            }
+                        }
+                    }
+                }
+            } else {
+                XCTFail("Could not find task ID")
+            }
+        }
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
 }
