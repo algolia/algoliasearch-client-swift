@@ -255,7 +255,7 @@ import Foundation
         requests.reserveCapacity(queries.count)
         for query in queries {
             requests.append([
-                "indexName": query.index.indexName,
+                "indexName": query.indexName,
                 "params": query.query.build()
             ])
         }

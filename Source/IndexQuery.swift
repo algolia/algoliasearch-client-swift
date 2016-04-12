@@ -27,11 +27,16 @@ import Foundation
 /// A search query targeting a specific index.
 ///
 @objc public class IndexQuery: NSObject {
-    @objc public let index: Index
+    @objc public let indexName: String
     @objc public let query: Query
     
+    @objc public init(indexName: String, query: Query) {
+        self.indexName = indexName
+        self.query = query
+    }
+
     @objc public init(index: Index, query: Query) {
-        self.index = index
+        self.indexName = index.indexName
         self.query = query
     }
 }
