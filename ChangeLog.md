@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-## 3.0 (FIXME)
+## 3.0 (2016-04-13)
 
 This major version brings new features and bug fixes. In addition, a lot of refactoring has been performed to achieve
 better Objective-C bridging, better maintainability, as well as to align the Swift client with the other Algolia API
