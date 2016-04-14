@@ -33,16 +33,14 @@ import Foundation
 // accessed via the low-level `get` and `set` methods (or the subscript
 // operator).
 //
-// Besides, the class provides typed accessors, acting as wrappers on top
+// Besides, the class provides typed properties, acting as wrappers on top
 // of the untyped storage (i.e. serializing to and parsing from string
 // values).
 //
 // ## Unmapped parameters
 //
-// The following parameters are too complex and have no typed accessors:
-//
-// - `filters`
-// - `numericFilters`
+// Some parameters are too complex and have no typed accessors. They are
+// documented in the class's description.
 //
 // # Bridgeability
 //
@@ -146,6 +144,12 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
 /// 1. Using the high-level, typed properties for individual parameters (recommended).
 /// 2. Using the low-level, untyped getter (`get()`) and setter (`set()`) or the subscript operator.
 ///    Use this approach if the parameter you wish to set is not supported by this class.
+///
+/// The following parameters have no typed property because they are too complex. You can still access them using
+/// the low-level methods/subscript operator:
+///
+/// - `filters`
+/// - `numericFilters`
 ///
 @objc public class Query : NSObject, NSCopying {
     
