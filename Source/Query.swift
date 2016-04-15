@@ -76,6 +76,15 @@ import Foundation
 // allows Swift users to leverage the full type safety of enums (at the price
 // of a little confusion).
 //
+// ## The case of structs
+//
+// Auxiliary types used for query parameters, like `LatLng` or `GeoRect`, have
+// value semantics. However, structs are not bridgeable to Objective-C. Therefore
+// we use plain classes (inheriting from `NSObject`) and we make them immutable.
+//
+// Equality comparison is implemented in those classes only for the sake of
+// testability (we use comparisons extensively in unit tests).
+//
 // ## Annotations
 //
 // Properties and methods visible in Objective-C are annotated with `@objc`.
