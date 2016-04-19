@@ -4,10 +4,7 @@ env:
   matrix:
     - PLATFORM="OSX"    SDK="macosx10.11"
     - PLATFORM="iOS"    SDK="iphonesimulator9.3"    DESTINATION="OS=8.1,name=iPhone 6"
-    - PLATFORM="iOS"    SDK="iphonesimulator9.3"    DESTINATION="OS=8.2,name=iPhone 6"
-    - PLATFORM="iOS"    SDK="iphonesimulator9.3"    DESTINATION="OS=8.3,name=iPhone 6"
-    - PLATFORM="iOS"    SDK="iphonesimulator9.3"    DESTINATION="OS=8.4,name=iPhone 6"
-    - PLATFORM="iOS"    SDK="iphonesimulator9.3"    DESTINATION="OS=9.0,name=iPhone 6"
+    - PLATFORM="iOS"    SDK="iphonesimulator9.3"    DESTINATION="OS=9.3,name=iPhone 6"
     - PLATFORM="tvOS"   SDK="appletvsimulator9.2"   DESTINATION="OS=9.2,name=Apple TV 1080p"
 before_script:
   - gem install xcpretty -N
