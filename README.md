@@ -78,9 +78,7 @@ To setup your project, follow these steps:
 
 
 
-1. Add a dependency on AlgoliaSearch-Client-Swift:
-    - Cocoapods: add `pod 'AlgoliaSearch-Client-Swift', '~> 3.0'` to your `Podfile`.
-    - Carthage: add `github "algolia/algoliasearch-client-swift"` to your `Cartfile`.
+1. Add `pod 'AlgoliaSearch-Client-Swift', '~> 3.0'` to your Podfile. (We only support Cocoapods so far.)
 2. Add `import AlgoliaSearch` to your source files.
 3. Initialize the client with your application ID and API key (you can find them on [your Algolia Dashboard](https://www.algolia.com/api-keys)):
 
@@ -964,7 +962,7 @@ You can use the following optional arguments:
         </div>
       </td>
       <td class='client-readme-param-content'>
-        <p>String used as an ellipsis indicator when a snippet is truncated (defaults to empty).</p>
+        <p>String used as an ellipsis indicator when a snippet is truncated. Defaults to an empty string for all accounts created before 10/2/2016, and to <code>…</code> (UTF-8 U+2026) for accounts created after that date.</p>
 
       </td>
     </tr>
