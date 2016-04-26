@@ -964,7 +964,7 @@ You can use the following optional arguments:
         </div>
       </td>
       <td class='client-readme-param-content'>
-        <p>String used as an ellipsis indicator when a snippet is truncated (defaults to empty).</p>
+        <p>String used as an ellipsis indicator when a snippet is truncated. Defaults to an empty string for all accounts created before 10/2/2016, and to <code>…</code> (UTF-8 U+2026) for accounts created after that date.</p>
 
       </td>
     </tr>
