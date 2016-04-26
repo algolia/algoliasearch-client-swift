@@ -78,7 +78,9 @@ To setup your project, follow these steps:
 
 
 
-1. Add `pod 'AlgoliaSearch-Client-Swift', '~> 3.0'` to your Podfile. (We only support Cocoapods so far.)
+1. Add a dependency on AlgoliaSearch-Client-Swift:
+    - Cocoapods: add `pod 'AlgoliaSearch-Client-Swift', '~> 3.0'` to your `Podfile`.
+    - Carthage: add `github "algolia/algoliasearch-client-swift"` to your `Cartfile`.
 2. Add `import AlgoliaSearch` to your source files.
 3. Initialize the client with your application ID and API key (you can find them on [your Algolia Dashboard](https://www.algolia.com/api-keys)):
 
