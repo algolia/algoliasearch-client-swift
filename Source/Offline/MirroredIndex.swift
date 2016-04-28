@@ -101,7 +101,7 @@ import Foundation
     }
     
     /// Data selection queries.
-    @objc public var queries: [DataSelectionQuery] {
+    @objc public var dataSelectionQueries: [DataSelectionQuery] {
         get {
             return mirrorSettings.queries
         }
