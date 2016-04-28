@@ -69,6 +69,9 @@ import Foundation
     
     /// Notification sent when the sync has finished.
     @objc public static let SyncDidFinishNotification = "AlgoliaSearch.MirroredIndex.SyncDidFinishNotification"
+    
+    /// Notification user info key used to pass the error, when an error occurred during the sync.
+    @objc public static let SyncErrorKey = "AlgoliaSearch.MirroredIndex.SyncErrorKey"
 
     // ----------------------------------------------------------------------
     // MARK: Properties
@@ -344,7 +347,11 @@ import Foundation
         
         // Notify observers.
         dispatch_async(dispatch_get_main_queue()) {
-            NSNotificationCenter.defaultCenter().postNotificationName(MirroredIndex.SyncDidFinishNotification, object: self)
+            var userInfo: [String: AnyObject]? = nil
+            if self.syncError != nil {
+                userInfo = [MirroredIndex.SyncErrorKey: self.syncError!]
+            }
+            NSNotificationCenter.defaultCenter().postNotificationName(MirroredIndex.SyncDidFinishNotification, object: self, userInfo: userInfo)
         }
     }
     
@@ -411,6 +418,9 @@ import Foundation
     // ----------------------------------------------------------------------
     // MARK: Browse
     // ----------------------------------------------------------------------
+    // NOTE: Contrary to search, there is no point in transparently switching from online to offline when browsing,
+    // as the results would likely be inconsistent. Anyway, the cursor is not portable across instances, so the
+    // fall back could only work for the first query.
 
     /// Browse the local mirror (initial call).
     /// Same semantics as `Index.browse()`.
