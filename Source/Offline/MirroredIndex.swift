@@ -34,6 +34,13 @@ import Foundation
         self.query = query
         self.maxObjects = maxObjects
     }
+    
+    override public func isEqual(object: AnyObject?) -> Bool {
+        guard let rhs = object as? DataSelectionQuery else {
+            return false
+        }
+        return self.query == rhs.query && self.maxObjects == rhs.maxObjects
+    }
 }
 
 
@@ -99,9 +106,11 @@ import Foundation
             return mirrorSettings.queries
         }
         set {
-            mirrorSettings.queries = newValue
-            mirrorSettings.queriesModificationDate = NSDate()
-            mirrorSettings.save(mirrorSettingsFilePath)
+            if (mirrorSettings.queries != newValue) {
+                mirrorSettings.queries = newValue
+                mirrorSettings.queriesModificationDate = NSDate()
+                mirrorSettings.save(mirrorSettingsFilePath)
+            }
         }
     }
     
