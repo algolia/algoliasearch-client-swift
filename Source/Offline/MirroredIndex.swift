@@ -173,37 +173,56 @@ import Foundation
         mirrorSettings.queriesModificationDate = NSDate()
         mirrorSettings.save(self.mirrorSettingsFilePath)
     }
-    
+
+    /// Launch a sync.
+    /// This unconditionally launches a sync, unless one is already running.
+    ///
     @objc public func sync() {
-        assert(NSThread.isMainThread(), "Should only be called from the main thread")
-        if syncing {
-            return
-        }
-        syncing = true
-        
-        // Notify observers.
-        NSNotificationCenter.defaultCenter().postNotificationName(MirroredIndex.SyncDidStartNotification, object: self)
-        
-        // Run the sync asynchronously.
-        dispatch_async(dispatch_get_global_queue(QOS_CLASS_BACKGROUND, 0)) {
+        offlineClient.buildQueue.addOperationWithBlock() {
             self._sync()
         }
     }
-    
+
+    /// Launch a sync if needed.
+    /// This takes into account the delay between syncs.
+    ///
     @objc public func syncIfNeeded() {
-        assert(NSThread.isMainThread(), "Should only be called from the main thread")
-        let currentDate = NSDate()
-        if currentDate.timeIntervalSinceDate(mirrorSettings.lastSyncDate) > self.delayBetweenSyncs
-            || mirrorSettings.queriesModificationDate.compare(mirrorSettings.lastSyncDate) == .OrderedDescending {
-                sync()
+        if self.isSyncDelayExpired() || self.isMirrorSettingsDirty() {
+            offlineClient.buildQueue.addOperationWithBlock() {
+                self._sync()
+            }
         }
     }
     
+    private func isSyncDelayExpired() -> Bool {
+        let currentDate = NSDate()
+        return currentDate.timeIntervalSinceDate(self.mirrorSettings.lastSyncDate) > self.delayBetweenSyncs
+    }
+    
+    private func isMirrorSettingsDirty() -> Bool {
+        return self.mirrorSettings.queriesModificationDate.compare(self.mirrorSettings.lastSyncDate) == .OrderedDescending
+    }
+    
     /// Refresh the local mirror.
+    ///
+    /// WARNING: Calls to this method must be synchronized by the caller.
+    ///
     private func _sync() {
         assert(!NSThread.isMainThread()) // make sure it's run in the background
+        assert(NSOperationQueue.currentQueue() == offlineClient.buildQueue) // ensure serial calls
         assert(self.mirrored, "Mirroring not activated on this index")
-        
+
+        // If already syncing, abort.
+        if self.syncing {
+            return
+        }
+        self.syncing = true
+
+        // Notify observers.
+        dispatch_async(dispatch_get_main_queue()) {
+            NSNotificationCenter.defaultCenter().postNotificationName(MirroredIndex.SyncDidStartNotification, object: self)
+        }
+
         // Create temporary directory.
         do {
             self.tmpDir = NSTemporaryDirectory() + "/algolia/" + NSUUID().UUIDString
@@ -237,57 +256,6 @@ import Foundation
         }
         self.offlineClient.buildQueue.addOperation(settingsOperation)
         
-        // Tasks: Perform data selection queries.
-        var queryNo = 0
-        self.objectsFilePaths = []
-        var objectOperations: [NSOperation] = []
-        var cursor: String?
-        for query in mirrorSettings.queries {
-            var objectCount = 0
-            repeat {
-                let thisQueryNo = ++queryNo
-                let path = "1/indexes/\(urlEncodedIndexName)/browse"
-                let newQuery = Query(copy: query.query)
-                newQuery.hitsPerPage = 100 // TODO: Adapt according to perf testing
-                if cursor != nil {
-                    newQuery["cursor"] = cursor!
-                }
-                let queryString = newQuery.build()
-                let operation = client.newRequest(.POST, path: path, body: ["params": queryString], hostnames: self.client.readHosts, isSearchQuery: false) {
-                    (json: [String: AnyObject]?, error: NSError?) in
-                    if error != nil {
-                        self.syncError = error
-                    } else {
-                        assert(json != nil)
-                        // Fetch cursor from data.
-                        cursor = json!["cursor"] as? String
-                        if let hits = json!["hits"] as? [[String: AnyObject]] {
-                            // Update object count.
-                            objectCount += hits.count
-                            
-                            // Write results to disk.
-                            if let data = try? NSJSONSerialization.dataWithJSONObject(json!, options: []) {
-                                let objectFilePath = "\(self.tmpDir!)/\(thisQueryNo).json"
-                                self.objectsFilePaths?.append(objectFilePath)
-                                data.writeToFile(objectFilePath, atomically: false)
-                                return // all other paths go to error
-                            } else {
-                                self.syncError = NSError(domain: Client.ErrorDomain, code: StatusCode.Unknown.rawValue, userInfo: [NSLocalizedDescriptionKey: "Could not write hits"])
-                            }
-                        } else {
-                            self.syncError = NSError(domain: Client.ErrorDomain, code: StatusCode.InvalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "No hits in server response"])
-                        }
-                    }
-                    assert(self.syncError != nil) // we should reach this point only in case of error (see above)
-                }
-                objectOperations.append(operation)
-                self.offlineClient.buildQueue.addOperation(operation)
-                // WARNING: Synchronously blocking until the operation finishes.
-                operation.waitUntilFinished()
-            }
-            while syncError == nil && cursor != nil && objectCount < query.maxObjects
-        }
-        
         // Task: build the index using the downloaded files.
         let buildIndexOperation = NSBlockOperation() {
             if self.syncError == nil {
@@ -300,31 +268,84 @@ import Foundation
                     self.mirrorSettings.save(self.mirrorSettingsFilePath)
                 }
             }
-            
-            // Clean-up.
-            do {
-                try NSFileManager.defaultManager().removeItemAtPath(self.tmpDir!)
-            } catch _ {
-                // Ignore error
-            }
-            self.tmpDir = nil
-            self.settingsFilePath = nil
-            self.objectsFilePaths = nil
-            
-            // Mark the sync as finished.
-            dispatch_async(dispatch_get_main_queue()) {
-                self.syncing = false
-                
-                // Notify observers.
-                NSNotificationCenter.defaultCenter().postNotificationName(MirroredIndex.SyncDidFinishNotification, object: self)
-            }
+            self._syncFinished()
         }
-        // Make sure this task is run after all the download tasks.
+        // Make sure this task is run after the settings task.
         buildIndexOperation.addDependency(settingsOperation)
-        for operation in objectOperations {
-            buildIndexOperation.addDependency(operation)
+
+        // Tasks: Perform data selection queries.
+        var queryNo = 0
+        self.objectsFilePaths = []
+        for dataSelectionQuery in mirrorSettings.queries {
+            var objectCount = 0
+            func doBrowseQuery(query: Query) {
+                queryNo += 1
+                let thisQueryNo = queryNo
+                let path = "1/indexes/\(urlEncodedIndexName)/browse"
+                let operation = client.newRequest(.POST, path: path, body: ["params": query.build()], hostnames: self.client.readHosts, isSearchQuery: false) {
+                    (json: [String: AnyObject]?, error: NSError?) in
+                    if error != nil {
+                        self.syncError = error
+                    } else {
+                        assert(json != nil)
+                        // Fetch cursor from data.
+                        let cursor = json!["cursor"] as? String
+                        if let hits = json!["hits"] as? [[String: AnyObject]] {
+                            // Update object count.
+                            objectCount += hits.count
+                            
+                            // Write results to disk.
+                            if let data = try? NSJSONSerialization.dataWithJSONObject(json!, options: []) {
+                                let objectFilePath = "\(self.tmpDir!)/\(thisQueryNo).json"
+                                self.objectsFilePaths?.append(objectFilePath)
+                                data.writeToFile(objectFilePath, atomically: false)
+                                
+                                // Chain if needed.
+                                if cursor != nil && objectCount < dataSelectionQuery.maxObjects {
+                                    doBrowseQuery(Query(parameters: ["cursor": cursor!]))
+                                }
+                                return // all other paths go to error
+                            } else {
+                                self.syncError = NSError(domain: Client.ErrorDomain, code: StatusCode.Unknown.rawValue, userInfo: [NSLocalizedDescriptionKey: "Could not write hits"])
+                            }
+                        } else {
+                            self.syncError = NSError(domain: Client.ErrorDomain, code: StatusCode.InvalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "No hits in server response"])
+                        }
+                    }
+                    assert(self.syncError != nil) // we should reach this point only in case of error (see above)
+                }
+                self.offlineClient.buildQueue.addOperation(operation)
+                buildIndexOperation.addDependency(operation)
+            }
+            doBrowseQuery(dataSelectionQuery.query)
         }
         self.offlineClient.buildQueue.addOperation(buildIndexOperation)
+    }
+
+    /// Wrap-up method, to be called at the end of each sync, *whatever the result*.
+    ///
+    /// WARNING: Calls to this method must be synchronized by the caller.
+    ///
+    private func _syncFinished() {
+        assert(NSOperationQueue.currentQueue() == offlineClient.buildQueue) // ensure serial calls
+
+        // Clean-up.
+        do {
+            try NSFileManager.defaultManager().removeItemAtPath(self.tmpDir!)
+        } catch _ {
+            // Ignore error
+        }
+        self.tmpDir = nil
+        self.settingsFilePath = nil
+        self.objectsFilePaths = nil
+        
+        // Mark the sync as finished.
+        self.syncing = false
+        
+        // Notify observers.
+        dispatch_async(dispatch_get_main_queue()) {
+            NSNotificationCenter.defaultCenter().postNotificationName(MirroredIndex.SyncDidFinishNotification, object: self)
+        }
     }
     
     // ----------------------------------------------------------------------
