@@ -40,11 +40,17 @@ import Foundation
         buildQueue.maxConcurrentOperationCount = 1
         searchQueue.name = "AlgoliaSearch-Search"
         searchQueue.maxConcurrentOperationCount = 1
+        rootDataDir = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true).first! + "/algolia"
         super.init(appID: appID, apiKey: apiKey)
     }
 
     var sdk: ASSdk = ASSdk.sharedSdk()
-    var rootDataDir: String?
+
+    /// Path to directory where the local data is stored.
+    /// Defaults to an "algolia" sub-directory inside the Caches directory.
+    /// If you set it to another value, do so *before* calling `enableOfflineMode()`.
+    ///
+    @objc public var rootDataDir: String
     
     /// Queue used to build local indices in the background.
     let buildQueue = NSOperationQueue()
@@ -56,12 +62,11 @@ import Foundation
     /// - parameter licenseData: license for Algolia's SDK
     ///
     @objc public func enableOfflineMode(licenseData: String) {
-        // Create the cache directory.
+        // Create the data directory.
         do {
-            self.rootDataDir = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true).first! + "/algolia"
-            try NSFileManager.defaultManager().createDirectoryAtPath(self.rootDataDir!, withIntermediateDirectories: true, attributes: nil)
+            try NSFileManager.defaultManager().createDirectoryAtPath(self.rootDataDir, withIntermediateDirectories: true, attributes: nil)
         } catch _ {
-            NSLog("Error: could not create cache directory '%@'", self.rootDataDir!)
+            NSLog("Error: could not create cache directory '%@'", self.rootDataDir)
         }
         
         // Init the SDK.

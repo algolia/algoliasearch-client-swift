@@ -74,7 +74,7 @@ import Foundation
     }
     
     /// The local index mirroring this remote index (lazy instantiated, only if mirroring is activated).
-    lazy var localIndex: ASLocalIndex? = ASLocalIndex(dataDir: self.offlineClient.rootDataDir!, appID: self.client.appID, indexName: self.indexName)
+    lazy var localIndex: ASLocalIndex? = ASLocalIndex(dataDir: self.offlineClient.rootDataDir, appID: self.client.appID, indexName: self.indexName)
     
     /// The mirrored index settings.
     let mirrorSettings = MirrorSettings()
@@ -124,7 +124,7 @@ import Foundation
     }
     
     private var indexDataDir: String {
-        get { return "\(self.offlineClient.rootDataDir!)/\(self.client.appID)/\(self.indexName)" }
+        get { return "\(self.offlineClient.rootDataDir)/\(self.client.appID)/\(self.indexName)" }
     }
     
     // ----------------------------------------------------------------------
@@ -194,7 +194,6 @@ import Foundation
     private func _sync() {
         assert(!NSThread.isMainThread()) // make sure it's run in the background
         assert(self.mirrored, "Mirroring not activated on this index")
-        assert(self.offlineClient.rootDataDir != nil, "Please enable offline mode in client first")
         
         // Create temporary directory.
         do {
