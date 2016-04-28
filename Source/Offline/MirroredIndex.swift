@@ -411,11 +411,32 @@ import Foundation
     // ----------------------------------------------------------------------
     // MARK: Browse
     // ----------------------------------------------------------------------
-    
-    /// Browse the local mirror.
-    @objc public func browseMirror(query: Query, completionHandler: CompletionHandler) {
+
+    /// Browse the local mirror (initial call).
+    /// Same semantics as `Index.browse()`.
+    ///
+    @objc public func browseMirror(query: Query, completionHandler: CompletionHandler) -> NSOperation {
         let callingQueue = NSOperationQueue.currentQueue() ?? NSOperationQueue.mainQueue()
-        self.offlineClient.searchQueue.addOperationWithBlock() {
+        let queryCopy = Query(copy: query)
+        let operation = NSBlockOperation() {
+            self._browseMirror(queryCopy) {
+                (content, error) -> Void in
+                callingQueue.addOperationWithBlock() {
+                    completionHandler(content: content, error: error)
+                }
+            }
+        }
+        self.offlineClient.searchQueue.addOperation(operation)
+        return operation
+    }
+
+    /// Browse the index from a cursor.
+    /// Same semantics as `Index.browseFrom()`.
+    ///
+    @objc public func browseMirrorFrom(cursor: String, completionHandler: CompletionHandler) -> NSOperation {
+        let callingQueue = NSOperationQueue.currentQueue() ?? NSOperationQueue.mainQueue()
+        let operation = NSBlockOperation() {
+            let query = Query(parameters: ["cursor": cursor])
             self._browseMirror(query) {
                 (content, error) -> Void in
                 callingQueue.addOperationWithBlock() {
@@ -423,6 +444,8 @@ import Foundation
                 }
             }
         }
+        self.offlineClient.searchQueue.addOperation(operation)
+        return operation
     }
 
     /// Browse the local mirror synchronously.
