@@ -6,13 +6,14 @@
 
 **&lt;Welcome Objective-C developers&gt;**
 
-In July 2015, we released a new version of our Swift client, able to work with Swift and Objective-C. As of version 3 (April 2016), Swift has become the reference implementation for both Swift and Objective-C projects.
+In July 2015, we released a **new version** of our Swift client, able to work with Swift and Objective-C. As of version 3 (April 2016), Swift has become the reference implementation for both Swift and Objective-C projects.
 
-If you were using our Objective-C client, [read the migration guide](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-from-Objective-C-to-Swift-API-Client).
-
-The [Objective-C API Client](https://github.com/algolia/algoliasearch-client-objc) is no longer under active development. It is still supported for bug fixes, but will not receive new features.
+If you were using our Objective-C client, read the [migration guide from Objective-C](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-from-Objective-C-to-Swift-API-Client). The [Objective-C API Client](https://github.com/algolia/algoliasearch-client-objc) is no longer under active development. It is still supported for bug fixes, but will not receive new features.
 
 **&lt;/Welcome Objective-C developers&gt;**
+
+If you were using **version 2.x** of our Swift client, read the [migration guide to version 3.x](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-to-version-3.x).
+
 
 
 
