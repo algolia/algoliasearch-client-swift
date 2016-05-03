@@ -72,6 +72,9 @@ import Foundation
     
     /// Notification user info key used to pass the error, when an error occurred during the sync.
     @objc public static let SyncErrorKey = "AlgoliaSearch.MirroredIndex.SyncErrorKey"
+    
+    /// Default minimum delay between two syncs.
+    @objc public static let DefaultDelayBetweenSyncs: NSTimeInterval = 60 * 60
 
     // ----------------------------------------------------------------------
     // MARK: Properties
@@ -118,7 +121,7 @@ import Foundation
     }
     
     /// Time interval between two syncs. Default = 1 hour.
-    @objc public var delayBetweenSyncs : NSTimeInterval = 60 * 60
+    @objc public var delayBetweenSyncs: NSTimeInterval = DefaultDelayBetweenSyncs
     
     /// Error encountered by the current/last sync (if any).
     @objc public private(set) var syncError : NSError?
