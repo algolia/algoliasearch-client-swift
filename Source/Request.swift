@@ -179,7 +179,7 @@ class Request: AsyncOperation {
                 self.callCompletion(nil, error: finalError)
             }
         }
-        task?.resume()
+        task!.resume()
     }
     
     /// Finish this operation.
@@ -212,5 +212,10 @@ class Request: AsyncOperation {
     override func cancel() {
         task?.cancel()
         super.cancel()
+    }
+    
+    override func finish() {
+        task = nil
+        super.finish()
     }
 }
