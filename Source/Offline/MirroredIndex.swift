@@ -120,27 +120,11 @@ import Foundation
     /// Time interval between two syncs. Default = 1 hour.
     @objc public var delayBetweenSyncs : NSTimeInterval = 60 * 60
     
-    // Sync status:
-    
-    /// Syncing indicator.
-    /// NOTE: To prevent concurrent access to this variable, we always access it from the main thread.
-    private var syncing: Bool = false
-    
-    private var tmpDir : String?
+    /// Error encountered by the current/last sync (if any).
     @objc public private(set) var syncError : NSError?
-    private var settingsFilePath: String?
-    private var objectsFilePaths: [String]?
-    
-    private var mirrorSettingsFilePath: String {
-        get { return "\(self.indexDataDir)/mirror.plist" }
-    }
-    
-    private var indexDataDir: String {
-        get { return "\(self.offlineClient.rootDataDir)/\(self.client.appID)/\(self.indexName)" }
-    }
-    
+
     // ----------------------------------------------------------------------
-    // MARK: Init
+    // MARK: - Init
     // ----------------------------------------------------------------------
     
     @objc public override init(client: Client, indexName: String) {
@@ -149,9 +133,39 @@ import Foundation
     }
     
     // ----------------------------------------------------------------------
-    // MARK: Sync
+    // MARK: - Sync
     // ----------------------------------------------------------------------
 
+    /// Syncing indicator.
+    /// NOTE: To prevent concurrent access to this variable, we always access it from the build (serial) queue.
+    private var syncing: Bool = false
+    
+    /// Path to the temporary directory for the current sync.
+    private var tmpDir : String!
+    
+    /// The path to the settings file.
+    private var settingsFilePath: String!
+    
+    /// Paths to object files/
+    private var objectsFilePaths: [String]!
+    
+    /// The current object file index. Object files are named `${i}.json`, where `i` is automatically incremented.
+    private var objectFileIndex = 0
+    
+    /// The operation to build the index.
+    /// NOTE: We need to store it because its dependencies are modified dynamically.
+    private var buildIndexOperation: NSOperation!
+    
+    /// Path to the persistent mirror settings.
+    private var mirrorSettingsFilePath: String {
+        get { return "\(self.indexDataDir)/mirror.plist" }
+    }
+    
+    /// Path to this index's offline data.
+    private var indexDataDir: String {
+        get { return "\(self.offlineClient.rootDataDir)/\(self.client.appID)/\(self.indexName)" }
+    }
+    
     /// Timeout for data synchronization queries.
     /// There is no need to use a too short timeout in this case: we don't need real-time performance, so failing
     /// too soon would only increase the likeliness of a failure.
@@ -216,10 +230,10 @@ import Foundation
         assert(self.mirrored, "Mirroring not activated on this index")
 
         // If already syncing, abort.
-        if self.syncing {
+        if syncing {
             return
         }
-        self.syncing = true
+        syncing = true
 
         // Notify observers.
         dispatch_async(dispatch_get_main_queue()) {
@@ -228,10 +242,10 @@ import Foundation
 
         // Create temporary directory.
         do {
-            self.tmpDir = NSTemporaryDirectory() + "/algolia/" + NSUUID().UUIDString
-            try NSFileManager.defaultManager().createDirectoryAtPath(self.tmpDir!, withIntermediateDirectories: true, attributes: nil)
+            tmpDir = NSTemporaryDirectory() + "/algolia/" + NSUUID().UUIDString
+            try NSFileManager.defaultManager().createDirectoryAtPath(tmpDir, withIntermediateDirectories: true, attributes: nil)
         } catch _ {
-            NSLog("ERROR: Could not create temporary directory '%@'", self.tmpDir!)
+            NSLog("ERROR: Could not create temporary directory '%@'", tmpDir)
         }
         
         // NOTE: We use `NSOperation`s to handle dependencies between tasks.
@@ -240,7 +254,7 @@ import Foundation
         // Task: Download index settings.
         // TODO: Factorize query construction with regular code.
         let path = "1/indexes/\(urlEncodedIndexName)/settings"
-        let settingsOperation = client.newRequest(.GET, path: path, body: nil, hostnames: self.client.readHosts, isSearchQuery: false) {
+        let settingsOperation = client.newRequest(.GET, path: path, body: nil, hostnames: client.readHosts, isSearchQuery: false) {
             (json: [String: AnyObject]?, error: NSError?) in
             if error != nil {
                 self.syncError = error
@@ -248,8 +262,8 @@ import Foundation
                 assert(json != nil)
                 // Write results to disk.
                 if let data = try? NSJSONSerialization.dataWithJSONObject(json!, options: []) {
-                    self.settingsFilePath = "\(self.tmpDir!)/settings.json"
-                    data.writeToFile(self.settingsFilePath!, atomically: false)
+                    self.settingsFilePath = "\(self.tmpDir)/settings.json"
+                    data.writeToFile(self.settingsFilePath, atomically: false)
                     return // all other paths go to error
                 } else {
                     self.syncError = NSError(domain: Client.ErrorDomain, code: StatusCode.Unknown.rawValue, userInfo: [NSLocalizedDescriptionKey: "Could not write index settings"])
@@ -257,12 +271,12 @@ import Foundation
             }
             assert(self.syncError != nil) // we should reach this point only in case of error (see above)
         }
-        self.offlineClient.buildQueue.addOperation(settingsOperation)
+        offlineClient.buildQueue.addOperation(settingsOperation)
         
         // Task: build the index using the downloaded files.
-        let buildIndexOperation = NSBlockOperation() {
+        buildIndexOperation = NSBlockOperation() {
             if self.syncError == nil {
-                let status = self.localIndex!.buildFromSettingsFile(self.settingsFilePath!, objectFiles: self.objectsFilePaths!, clearIndex: true)
+                let status = self.localIndex!.buildFromSettingsFile(self.settingsFilePath, objectFiles: self.objectsFilePaths, clearIndex: true)
                 if status != 200 {
                     self.syncError = NSError(domain: Client.ErrorDomain, code: Int(status), userInfo: [NSLocalizedDescriptionKey: "Could not build local index"])
                 } else {
@@ -273,56 +287,63 @@ import Foundation
             }
             self._syncFinished()
         }
+        buildIndexOperation.name = "Build \(self)"
         // Make sure this task is run after the settings task.
         buildIndexOperation.addDependency(settingsOperation)
 
         // Tasks: Perform data selection queries.
-        var queryNo = 0
-        self.objectsFilePaths = []
+        objectFileIndex = 0
+        objectsFilePaths = []
         for dataSelectionQuery in mirrorSettings.queries {
-            var objectCount = 0
-            func doBrowseQuery(query: Query) {
-                queryNo += 1
-                let thisQueryNo = queryNo
-                let path = "1/indexes/\(urlEncodedIndexName)/browse"
-                let operation = client.newRequest(.POST, path: path, body: ["params": query.build()], hostnames: self.client.readHosts, isSearchQuery: false) {
-                    (json: [String: AnyObject]?, error: NSError?) in
-                    if error != nil {
-                        self.syncError = error
-                    } else {
-                        assert(json != nil)
-                        // Fetch cursor from data.
-                        let cursor = json!["cursor"] as? String
-                        if let hits = json!["hits"] as? [[String: AnyObject]] {
-                            // Update object count.
-                            objectCount += hits.count
-                            
-                            // Write results to disk.
-                            if let data = try? NSJSONSerialization.dataWithJSONObject(json!, options: []) {
-                                let objectFilePath = "\(self.tmpDir!)/\(thisQueryNo).json"
-                                self.objectsFilePaths?.append(objectFilePath)
-                                data.writeToFile(objectFilePath, atomically: false)
-                                
-                                // Chain if needed.
-                                if cursor != nil && objectCount < dataSelectionQuery.maxObjects {
-                                    doBrowseQuery(Query(parameters: ["cursor": cursor!]))
-                                }
-                                return // all other paths go to error
-                            } else {
-                                self.syncError = NSError(domain: Client.ErrorDomain, code: StatusCode.Unknown.rawValue, userInfo: [NSLocalizedDescriptionKey: "Could not write hits"])
-                            }
-                        } else {
-                            self.syncError = NSError(domain: Client.ErrorDomain, code: StatusCode.InvalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "No hits in server response"])
-                        }
-                    }
-                    assert(self.syncError != nil) // we should reach this point only in case of error (see above)
-                }
-                self.offlineClient.buildQueue.addOperation(operation)
-                buildIndexOperation.addDependency(operation)
-            }
-            doBrowseQuery(dataSelectionQuery.query)
+            doBrowseQuery(dataSelectionQuery, browseQuery: dataSelectionQuery.query, objectCount: 0)
         }
-        self.offlineClient.buildQueue.addOperation(buildIndexOperation)
+        
+        // Finally add the build index operation to the queue, now that dependencies are set up.
+        offlineClient.buildQueue.addOperation(buildIndexOperation)
+    }
+    
+    // Auxiliary function, called:
+    // - once synchronously, to initiate the browse;
+    // - from 0 to many times asynchronously, to continue browsing.
+    //
+    private func doBrowseQuery(dataSelectionQuery: DataSelectionQuery, browseQuery: Query, objectCount currentObjectCount: Int) {
+        objectFileIndex += 1
+        let currentObjectFileIndex = objectFileIndex
+        let path = "1/indexes/\(urlEncodedIndexName)/browse"
+        let operation = client.newRequest(.POST, path: path, body: ["params": browseQuery.build()], hostnames: client.readHosts, isSearchQuery: false) {
+            (json: [String: AnyObject]?, error: NSError?) in
+            if error != nil {
+                self.syncError = error
+            } else {
+                assert(json != nil)
+                // Fetch cursor from data.
+                let cursor = json!["cursor"] as? String
+                if let hits = json!["hits"] as? [[String: AnyObject]] {
+                    // Update object count.
+                    let newObjectCount = currentObjectCount + hits.count
+                    
+                    // Write results to disk.
+                    if let data = try? NSJSONSerialization.dataWithJSONObject(json!, options: []) {
+                        let objectFilePath = "\(self.tmpDir)/\(currentObjectFileIndex).json"
+                        self.objectsFilePaths.append(objectFilePath)
+                        data.writeToFile(objectFilePath, atomically: false)
+                        
+                        // Chain if needed.
+                        if cursor != nil && newObjectCount < dataSelectionQuery.maxObjects {
+                            self.doBrowseQuery(dataSelectionQuery, browseQuery: Query(parameters: ["cursor": cursor!]), objectCount: newObjectCount)
+                        }
+                        return // all other paths go to error
+                    } else {
+                        self.syncError = NSError(domain: Client.ErrorDomain, code: StatusCode.Unknown.rawValue, userInfo: [NSLocalizedDescriptionKey: "Could not write hits"])
+                    }
+                } else {
+                    self.syncError = NSError(domain: Client.ErrorDomain, code: StatusCode.InvalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "No hits in server response"])
+                }
+            }
+            assert(self.syncError != nil) // we should reach this point only in case of error (see above)
+        }
+        offlineClient.buildQueue.addOperation(operation)
+        buildIndexOperation.addDependency(operation)
     }
 
     /// Wrap-up method, to be called at the end of each sync, *whatever the result*.
@@ -334,13 +355,14 @@ import Foundation
 
         // Clean-up.
         do {
-            try NSFileManager.defaultManager().removeItemAtPath(self.tmpDir!)
+            try NSFileManager.defaultManager().removeItemAtPath(tmpDir)
         } catch _ {
             // Ignore error
         }
-        self.tmpDir = nil
-        self.settingsFilePath = nil
-        self.objectsFilePaths = nil
+        tmpDir = nil
+        settingsFilePath = nil
+        objectsFilePaths = nil
+        buildIndexOperation = nil
         
         // Mark the sync as finished.
         self.syncing = false
@@ -356,7 +378,7 @@ import Foundation
     }
     
     // ----------------------------------------------------------------------
-    // MARK: Search
+    // MARK: - Search
     // ----------------------------------------------------------------------
 
     @objc public override func search(query: Query, completionHandler: CompletionHandler) -> NSOperation {
@@ -416,7 +438,7 @@ import Foundation
     }
     
     // ----------------------------------------------------------------------
-    // MARK: Browse
+    // MARK: - Browse
     // ----------------------------------------------------------------------
     // NOTE: Contrary to search, there is no point in transparently switching from online to offline when browsing,
     // as the results would likely be inconsistent. Anyway, the cursor is not portable across instances, so the
