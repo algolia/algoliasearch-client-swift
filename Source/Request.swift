@@ -211,6 +211,7 @@ class Request: AsyncOperation {
     ///
     override func cancel() {
         task?.cancel()
+        task = nil
         super.cancel()
     }
     
