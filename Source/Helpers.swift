@@ -30,3 +30,17 @@ extension String {
         return stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)!
     }
 }
+
+// MARK: - Memory debugging
+
+// NOTE: Those helpers are not used in the code, but let's keep them because they can be handy when debugging.
+
+/// Log the initialization of an object.
+func logInit(object: AnyObject) {
+    print("<INIT> \(unsafeAddressOf(object)) (\(object.dynamicType)) \(object.description)")
+}
+
+/// Log the termination ("de-initialization" in Swift terms) of an object.
+func logTerm(object: AnyObject) {
+    print("<TERM> \(unsafeAddressOf(object)) (\(object.dynamicType)) \(object.description)")
+}

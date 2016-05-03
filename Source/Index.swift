@@ -39,7 +39,17 @@ import Foundation
         self.indexName = indexName
         urlEncodedIndexName = indexName.urlEncode()
     }
+
+    // MARK: - Utils
+
+    override public var description: String {
+        get {
+            return "Index{\"\(indexName)\"}"
+        }
+    }
     
+    // MARK: - Core API operations
+
     /// Add an object to this index.
     ///
     /// - parameter object: The object to add.

@@ -65,6 +65,8 @@ class Request: AsyncOperation {
     /// User completion block to be called.
     let completion: CompletionHandler?
     
+    // MARK: - Initialization
+    
     init(session: URLSession, method: HTTPMethod, hosts: [String], firstHostIndex: Int, path: String, headers: [String: String]?, jsonBody: [String: AnyObject]?, timeout: NSTimeInterval, completion: CompletionHandler?) {
         self.session = session
         self.method = method
@@ -80,7 +82,20 @@ class Request: AsyncOperation {
         self.timeout = timeout
         self.nextTimeout = timeout
         self.completion = completion
+        super.init()
+        // Assign a descriptive name, but let the caller may change it afterwards (in contrast to getter override).
+        self.name = "Request{\(method) /\(path)}"
     }
+    
+    // MARK: - Debug
+    
+    override var description: String {
+        get {
+            return name ?? super.description
+        }
+    }
+    
+    // MARK: - Request logic
     
     /// Create a URL request for the specified host index.
     private func createRequest(hostIndex: Int) -> NSMutableURLRequest {
