@@ -76,6 +76,15 @@ import Foundation
     /// Default minimum delay between two syncs.
     @objc public static let DefaultDelayBetweenSyncs: NSTimeInterval = 60 * 60 * 24 // 1 day
 
+    /// Key used to indicate the origin of results in the returned JSON.
+    @objc public static let JSONKeyOrigin = "origin"
+    
+    /// Value for `JSONKeyOrigin` indicating that the results come from the local mirror.
+    @objc public static let JSONValueOriginLocal = "local"
+    
+    /// Value for `JSONKeyOrigin` indicating that the results come from the online API.
+    @objc public static let JSONValueOriginRemote = "remote"
+
     // ----------------------------------------------------------------------
     // MARK: Properties
     // ----------------------------------------------------------------------
@@ -394,7 +403,9 @@ import Foundation
             }
             // Otherwise, just return whatever result we got from the online API.
             else {
-                completionHandler(content: content, error: error)
+                var taggedContent = content
+                taggedContent?[MirroredIndex.JSONKeyOrigin] = MirroredIndex.JSONValueOriginRemote
+                completionHandler(content: taggedContent, error: error)
             }
         }
         return operation
@@ -428,6 +439,7 @@ import Foundation
                 let json = try NSJSONSerialization.JSONObjectWithData(searchResults.data!, options: NSJSONReadingOptions(rawValue: 0))
                 if json is [String: AnyObject] {
                     content = (json as! [String: AnyObject])
+                    // NOTE: Origin tagging performed by the SDK.
                 } else {
                     error = NSError(domain: Client.ErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON returned"])
                 }
@@ -500,6 +512,7 @@ import Foundation
                 let json = try NSJSONSerialization.JSONObjectWithData(searchResults.data!, options: NSJSONReadingOptions(rawValue: 0))
                 if json is [String: AnyObject] {
                     content = (json as! [String: AnyObject])
+                    // NOTE: Origin tagging performed by the SDK.
                 } else {
                     error = NSError(domain: Client.ErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON returned"])
                 }
