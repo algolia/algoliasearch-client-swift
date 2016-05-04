@@ -231,6 +231,7 @@ import Foundation
         assert(!NSThread.isMainThread()) // make sure it's run in the background
         assert(NSOperationQueue.currentQueue() == offlineClient.buildQueue) // ensure serial calls
         assert(self.mirrored, "Mirroring not activated on this index")
+        assert(!self.dataSelectionQueries.isEmpty)
 
         // If already syncing, abort.
         if syncing {
