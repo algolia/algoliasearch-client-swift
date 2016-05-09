@@ -100,18 +100,20 @@ import Foundation
         self.apiKey = apiKey
 
         // Initialize hosts to their default values.
-        readHosts = [
-            "\(appID)-dsn.algolia.net",
+        //
+        // NOTE: The host list comes in two parts:
+        //
+        // 1. The fault-tolerant, load-balanced DNS host.
+        // 2. The non-fault-tolerant hosts. Those hosts must be randomized to ensure proper load balancing in case
+        //    of the first host's failure.
+        //
+        let fallbackHosts = [
             "\(appID)-1.algolianet.com",
             "\(appID)-2.algolianet.com",
             "\(appID)-3.algolianet.com"
-        ]
-        writeHosts = [
-            "\(appID).algolia.net",
-            "\(appID)-1.algolianet.com",
-            "\(appID)-2.algolianet.com",
-            "\(appID)-3.algolianet.com"
-        ]
+        ].shuffle()
+        readHosts = [ "\(appID)-dsn.algolia.net" ] + fallbackHosts
+        writeHosts = [ "\(appID).algolia.net" ] + fallbackHosts
         
         // WARNING: Those headers cannot be changed for the lifetime of the session.
         let version = NSBundle(forClass: self.dynamicType).infoDictionary!["CFBundleShortVersionString"] as! String
