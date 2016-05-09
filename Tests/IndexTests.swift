@@ -695,7 +695,7 @@ class IndexTests: XCTestCase {
                     } else {
                         // Delete by query.
                         let query = Query()
-                        query["numericFilters"] = "dummy < 1500"
+                        query.numericFilters = ["dummy < 1500"]
                         self.index.deleteByQuery(query, completionHandler: { (content, error) -> Void in
                             if error != nil {
                                 XCTFail(error!.localizedDescription)

@@ -37,11 +37,6 @@ import Foundation
 // of the untyped storage (i.e. serializing to and parsing from string
 // values).
 //
-// ## Unmapped parameters
-//
-// Some parameters are too complex and have no typed accessors. They are
-// documented in the class's description.
-//
 // # Bridgeability
 //
 // **This Swift client must be bridgeable to Objective-C.**
@@ -153,12 +148,6 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
 /// 1. Using the high-level, typed properties for individual parameters (recommended).
 /// 2. Using the low-level, untyped getter (`get()`) and setter (`set()`) or the subscript operator.
 ///    Use this approach if the parameter you wish to set is not supported by this class.
-///
-/// The following parameters have no typed property because they are too complex. You can still access them using
-/// the low-level methods/subscript operator:
-///
-/// - `filters`
-/// - `numericFilters`
 ///
 @objc public class Query : NSObject, NSCopying {
     
@@ -533,8 +522,12 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
     
     // MARK: Numeric search parameters
 
-    // NOTE: `numericFilters` omitted because loosely typed (see implementation notes above).
-
+    /// Filter on numeric attributes.
+    @objc public var numericFilters: [AnyObject]? {
+        get { return Query.parseJSONArray(get("numericFilters")) }
+        set { set("numericFilters", value: Query.buildJSONArray(newValue)) }
+    }
+    
     // MARK: Category search parameters
 
     /// Filter the query by a set of tags.
@@ -588,8 +581,25 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
     }
 
     // MARK: Unified filter parameter (SQL like)
-    
-    // NOTE: `filters` omitted because loosely typed (see implementation notes above).
+
+    /// Filter the query with numeric, facet or/and tag filters.
+    /// The syntax is a SQL like syntax, you can use the OR and AND keywords. The syntax for the underlying numeric,
+    /// facet and tag filters is the same than in the other filters:
+    ///
+    ///     available=1 AND (category:Book OR NOT category:Ebook) AND publication_date: 1441745506 TO 1441755506
+    ///     AND inStock > 0 AND author:"John Doe"
+    ///
+    /// The list of keywords is:
+    ///
+    /// - `OR`: create a disjunctive filter between two filters.
+    /// - `AND`: create a conjunctive filter between two filters.
+    /// - `TO`: used to specify a range for a numeric filter.
+    /// - `NOT`: used to negate a filter. The syntax with the `-` isn't allowed.
+    ///
+    @objc public var filters: String? {
+        get { return get("filters") }
+        set { set("filters", value: newValue) }
+    }
 
     // MARK: Geo-search parameters
     
