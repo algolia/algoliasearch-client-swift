@@ -40,7 +40,7 @@ import Foundation
         buildQueue.maxConcurrentOperationCount = 1
         searchQueue.name = "AlgoliaSearch-Search"
         searchQueue.maxConcurrentOperationCount = 1
-        rootDataDir = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true).first! + "/algolia"
+        rootDataDir = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true).first! + "/algolia"
         super.init(appID: appID, apiKey: apiKey)
         headers["User-Agent"] = headers["User-Agent"]! + ";AlgoliaSearchOfflineCore-iOS \(sdk.versionString)"
     }
@@ -48,8 +48,10 @@ import Foundation
     var sdk: ASSdk = ASSdk.sharedSdk()
 
     /// Path to directory where the local data is stored.
-    /// Defaults to an "algolia" sub-directory inside the Caches directory.
+    /// Defaults to an `algolia` sub-directory inside the `Library/Application Support` directory.
     /// If you set it to another value, do so *before* calling `enableOfflineMode()`.
+    ///
+    /// WARNING: This directory will be explicitly excluded from iCloud/iTunes backup.
     ///
     @objc public var rootDataDir: String
     
@@ -63,16 +65,23 @@ import Foundation
     /// - parameter licenseData: license for Algolia's SDK
     ///
     @objc public func enableOfflineMode(licenseData: String) {
-        // Create the data directory.
         do {
+            // Create the data directory.
             try NSFileManager.defaultManager().createDirectoryAtPath(self.rootDataDir, withIntermediateDirectories: true, attributes: nil)
+            
+            // Exclude the data directory from iTunes backup.
+            // DISCUSSION: Local indices are essentially a cache. But we cannot just use the `Caches` directory because
+            // we would have no guarantee that all files pertaining to an index would be purged simultaneously.
+            let url = NSURL.fileURLWithPath(rootDataDir)
+            try url.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
         } catch _ {
-            NSLog("Error: could not create cache directory '%@'", self.rootDataDir)
+            // Report errors but do not throw: the offline mode will not work, but the online client is still viable.
+            NSLog("Error: could not create data directory '%@'", self.rootDataDir)
         }
         
         // Init the SDK.
         sdk.initWithLicenseData(licenseData)
-        // TODO: Report any error.
+        // NOTE: Errors reported by the core itself.
     }
 
     /// Create a new index.
