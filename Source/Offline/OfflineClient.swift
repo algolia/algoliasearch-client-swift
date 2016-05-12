@@ -21,7 +21,7 @@
 //  THE SOFTWARE.
 //
 
-import AlgoliaSearchSDK
+import AlgoliaSearchOfflineCore
 import Foundation
 
 
