@@ -116,7 +116,6 @@ import Foundation
         // WARNING: Those headers cannot be changed for the lifetime of the session.
         let version = NSBundle(forClass: self.dynamicType).infoDictionary!["CFBundleShortVersionString"] as! String
         let fixedHTTPHeaders = [
-            "User-Agent": "Algolia for Swift \(version)",
             "X-Algolia-Application-Id": self.appID
         ]
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
@@ -131,6 +130,8 @@ import Foundation
         
         // Other headers are likely to change during the lifetime of the session: they will be passed for every request.
         headers["X-Algolia-API-Key"] = self.apiKey // necessary because `didSet` not called during initialization
+        // NOTE: This one will not change... except it can be overridden by the offline client:
+        headers["User-Agent"] = "Algolia for Swift \(version)"
     }
 
     /// Set an HTTP header that will be sent with every request.

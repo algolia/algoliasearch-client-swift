@@ -42,6 +42,7 @@ import Foundation
         searchQueue.maxConcurrentOperationCount = 1
         rootDataDir = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true).first! + "/algolia"
         super.init(appID: appID, apiKey: apiKey)
+        headers["User-Agent"] = headers["User-Agent"]! + ";AlgoliaSearchOfflineCore-iOS \(sdk.versionString)"
     }
 
     var sdk: ASSdk = ASSdk.sharedSdk()
