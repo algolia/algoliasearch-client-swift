@@ -170,7 +170,7 @@ class Request: AsyncOperation {
                 self.callCompletion(json, error: nil)
             }
             // Transient error and host array not exhausted: retry.
-            else if isErrorTransient(finalError!) && self.nextHostIndex != self.firstHostIndex {
+            else if finalError!.isTransient() && self.nextHostIndex != self.firstHostIndex {
                 self.nextTimeout += self.timeout // raise the timeout
                 self.startNext()
             }

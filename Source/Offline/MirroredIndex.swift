@@ -462,7 +462,7 @@ import Foundation
             // Launch an online request immediately.
             onlineRequest = index.searchOnline(query, completionHandler: {
                 (content, error) in
-                if error != nil && isErrorTransient(error!) {
+                if error != nil && error!.isTransient() {
                     self.startOffline()
                 } else {
                     self.cancelOffline()
