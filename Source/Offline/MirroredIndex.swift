@@ -419,7 +419,7 @@ import Foundation
 
     @objc public override func search(query: Query, completionHandler: CompletionHandler) -> NSOperation {
         // A non-mirrored index behaves exactly as an online index.
-        if !mirrored || !preventiveOfflineSearch {
+        if !mirrored {
             return super.search(query, completionHandler: completionHandler)
         }
         // A mirrored index launches a mixed offline/online request.
@@ -474,10 +474,12 @@ import Foundation
                 }
             })
             
-            // Schedule an offline request to start after a certain delay.
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(index.delayBeforeOfflineSearch * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-                if self.mayRunOfflineRequest {
-                    self.startOffline()
+            // Preventive offline mode: schedule an offline request to start after a certain delay.
+            if index.preventiveOfflineSearch {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(index.delayBeforeOfflineSearch * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                    if self.mayRunOfflineRequest {
+                        self.startOffline()
+                    }
                 }
             }
         }
