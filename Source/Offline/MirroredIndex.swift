@@ -68,8 +68,8 @@ import Foundation
 /// `false`.
 ///
 /// To avoid wasting CPU when the network connection is good, the offline request is only launched after a certain
-/// delay. This delay can be adjusted by setting `delayBeforeOfflineSearch`. The default is
-/// `DefaultDelayBeforeOfflineSearch`. If the online request finishes with a definitive result (i.e. success or
+/// delay. This delay can be adjusted by setting `preventiveOfflineSearchDelay`. The default is
+/// `DefaultPreventiveOfflineSearchDelay`. If the online request finishes with a definitive result (i.e. success or
 /// application error) before the offline request has finished (or even been launched), the offline request will be
 /// cancelled (or not be launched at all).
 ///
@@ -99,7 +99,7 @@ import Foundation
     @objc public static let JSONValueOriginRemote = "remote"
 
     /// Default delay before preventive offline search.
-    @objc public static let DefaultDelayBeforeOfflineSearch: NSTimeInterval = 0.2
+    @objc public static let DefaultPreventiveOfflineSearchDelay: NSTimeInterval = 0.2
 
     // ----------------------------------------------------------------------
     // MARK: Properties
@@ -156,7 +156,7 @@ import Foundation
     @objc public var preventiveOfflineSearch: Bool = true
     
     /// The delay before a preventive offline search is launched.
-    @objc public var delayBeforeOfflineSearch: NSTimeInterval = MirroredIndex.DefaultDelayBeforeOfflineSearch
+    @objc public var preventiveOfflineSearchDelay: NSTimeInterval = MirroredIndex.DefaultPreventiveOfflineSearchDelay
 
     // ----------------------------------------------------------------------
     // MARK: - Init
@@ -476,7 +476,7 @@ import Foundation
             
             // Preventive offline mode: schedule an offline request to start after a certain delay.
             if index.preventiveOfflineSearch {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(index.delayBeforeOfflineSearch * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(index.preventiveOfflineSearchDelay * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
                     if self.mayRunOfflineRequest {
                         self.startOffline()
                     }
