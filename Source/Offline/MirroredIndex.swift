@@ -489,6 +489,10 @@ import Foundation
             offlineRequest = index.searchMirror(query, completionHandler: {
                 (content, error) in
                 // NOTE: If we reach this handler, it means the offline request has not been cancelled.
+                // WARNING: A 404 error likely indicates that the local mirror has not been synced yet, so absorb it.
+                if error?.domain == Client.ErrorDomain && error?.code == 404 {
+                    return
+                }
                 self.completionHandler(content: content, error: error)
             })
         }
