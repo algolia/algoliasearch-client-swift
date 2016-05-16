@@ -503,7 +503,7 @@ import Foundation
         override func cancel() {
             if !cancelled {
                 onlineRequest?.cancel()
-                offlineRequest?.cancel()
+                cancelOffline()
                 super.cancel()
             }
         }
