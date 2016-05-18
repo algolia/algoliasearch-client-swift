@@ -17,6 +17,7 @@ If you were using **version 2.x** of our Swift client, read the [migration guide
 
 
 
+
 <!--NO_HTML-->
 
 [Algolia Search](https://www.algolia.com) is a hosted full-text, numerical, and faceted search engine capable of delivering realtime results from the first keystroke.
@@ -33,6 +34,7 @@ Our Swift client lets you easily use the [Algolia Search API](https://www.algoli
 [![CocoaPods](https://img.shields.io/cocoapods/l/AlgoliaSearch-Client-Swift.svg)]()
 [![](https://img.shields.io/badge/OS%20X-10.9%2B-lightgrey.svg)]()
 [![](https://img.shields.io/badge/iOS-7.0%2B-lightgrey.svg)]()
+
 
 
 
