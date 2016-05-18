@@ -62,10 +62,11 @@ import Foundation
 ///
 /// ### Preventive offline searches
 ///
+/// This behavior is optional and disabled by default. It may be enabled by setting `preventiveOfflineSearch` to `true`.
+///
 /// When the index is mirrored, it may launch a "preventive" request to the offline mirror for every online search
 /// request. **This may result in the completion handler being called twice:** a first time with the offline results,
-/// and a second time with the online results. This behavior may be turned off by setting `preventiveOfflineSearch` to
-/// `false`.
+/// and a second time with the online results.
 ///
 /// To avoid wasting CPU when the network connection is good, the offline request is only launched after a certain
 /// delay. This delay can be adjusted by setting `preventiveOfflineSearchDelay`. The default is
@@ -153,7 +154,7 @@ import Foundation
 
     /// Whether to launch a preventive offline search for every online search.
     /// Only valid when the index is mirrored.
-    @objc public var preventiveOfflineSearch: Bool = true
+    @objc public var preventiveOfflineSearch: Bool = false
     
     /// The delay before a preventive offline search is launched.
     @objc public var preventiveOfflineSearchDelay: NSTimeInterval = MirroredIndex.DefaultPreventiveOfflineSearchDelay
