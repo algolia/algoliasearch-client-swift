@@ -127,7 +127,9 @@ import Foundation
         
         // Create background queue.
         self.queue = NSOperationQueue()
-        self.queue.underlyingQueue = dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
+        if #available(iOS 8.0, *) {
+            self.queue.underlyingQueue = dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
+        }
         
         super.init()
         
