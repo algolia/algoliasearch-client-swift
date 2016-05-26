@@ -84,14 +84,20 @@ class Request: AsyncOperation {
         self.completion = completion
         super.init()
         // Assign a descriptive name, but let the caller may change it afterwards (in contrast to getter override).
-        self.name = "Request{\(method) /\(path)}"
+        if #available(iOS 8.0, *) {
+            self.name = "Request{\(method) /\(path)}"
+        }
     }
     
     // MARK: - Debug
     
     override var description: String {
         get {
-            return name ?? super.description
+            if #available(iOS 8.0, *) {
+                return name ?? super.description
+            } else {
+                return super.description
+            }
         }
     }
     
