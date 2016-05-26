@@ -8,14 +8,15 @@ Pod::Spec.new do |s|
     s.author   = { 'Algolia' => 'contact@algolia.com' }
     s.source = { :git => 'https://github.com/algolia/algoliasearch-client-swift.git', :tag => s.version }
 
-    s.ios.deployment_target = '7.0'
-    s.osx.deployment_target = '10.10'
+    s.ios.deployment_target = '8.0'
 
     # By default, do not require the offline Core.
     s.default_subspec = 'Online'
 
     # Online-only API client.
     s.subspec 'Online' do |online|
+        online.ios.deployment_target = '8.0'
+        online.osx.deployment_target = '10.10'
         # No additional dependency.
         # WARNING: Cocoapods complains when a subspec is empty, so we must define something additional here to keep
         # it satisfied.
@@ -35,6 +36,10 @@ Pod::Spec.new do |s|
             'GCC_PREPROCESSOR_DEFINITIONS' => 'ALGOLIA_SDK=1',
             'OTHER_SWIFT_FLAGS' => '-DALGOLIA_SDK'
         }
-        offline.source_files = 'Source/Offline/*.swift'
+        offline.source_files = [
+            'Source/*.swift',
+            'Source/Helpers/*.swift',
+            'Source/Offline/*.swift'
+        ]
     end
 end
