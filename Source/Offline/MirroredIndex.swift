@@ -520,7 +520,7 @@ import Foundation
         let callingQueue = NSOperationQueue.currentQueue() ?? NSOperationQueue.mainQueue()
         let operation = NSBlockOperation()
         operation.addExecutionBlock() {
-            let (content, error) = self._searchMirror(query)
+            let (content, error) = self._searchMirror(queryCopy)
             callingQueue.addOperationWithBlock() {
                 if !operation.cancelled {
                     completionHandler(content: content, error: error)
