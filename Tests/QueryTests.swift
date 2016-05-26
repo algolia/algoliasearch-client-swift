@@ -617,4 +617,27 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.minimumAroundRadius, 1000)
     }
+    
+    func test_numericFilters() {
+        let VALUE: [AnyObject] = ["code=1", ["price:0 to 10", "price:1000 to 2000"]]
+        let query1 = Query()
+        XCTAssertNil(query1.numericFilters)
+        query1.numericFilters = VALUE
+        XCTAssertEqual(query1.numericFilters! as NSObject, VALUE as NSObject)
+        XCTAssertEqual(query1["numericFilters"], "[\"code=1\",[\"price:0 to 10\",\"price:1000 to 2000\"]]")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.numericFilters! as NSObject, VALUE as NSObject)
+    }
+    
+    func test_filters() {
+        let VALUE = "available=1 AND (category:Book OR NOT category:Ebook) AND publication_date: 1441745506 TO 1441755506 AND inStock > 0 AND author:\"John Doe\""
+        let query1 = Query()
+        XCTAssertNil(query1.filters)
+        query1.filters = VALUE
+        XCTAssertEqual(query1.filters, VALUE)
+        XCTAssertEqual(query1["filters"], VALUE)
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.filters, VALUE)
+    }
+    
 }

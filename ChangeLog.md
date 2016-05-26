@@ -1,6 +1,16 @@
 Change Log
 ==========
 
+## 3.1 (2016-05-09)
+
+- Add tvOS target
+- Restore [Carthage](https://github.com/Carthage/Carthage) support
+- Add typed properties for query parameters `filters` and `numericFilters`
+- Shuffle host array at init time, for better load balancing
+- Update documentation
+- Fix unit tests: remove broken "keep alive" test case
+
+
 ## 3.0 (2016-04-13)
 
 This major version brings new features and bug fixes. In addition, a lot of refactoring has been performed to achieve

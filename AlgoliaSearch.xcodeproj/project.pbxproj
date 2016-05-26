@@ -45,6 +45,27 @@
 		BC4A7F3D1CB5373E00AF1DCB /* CancelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4A7F3B1CB5373E00AF1DCB /* CancelTests.swift */; };
 		BC68BC571CB69776007F9655 /* IndexQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC68BC561CB69776007F9655 /* IndexQuery.swift */; };
 		BC68BC581CB69776007F9655 /* IndexQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC68BC561CB69776007F9655 /* IndexQuery.swift */; };
+		BCD1F5541CC61C8D0006E227 /* AlgoliaSearch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCD1F54A1CC61C8D0006E227 /* AlgoliaSearch.framework */; };
+		BCD1F5611CC61CFE0006E227 /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4A7F381CB5308100AF1DCB /* AsyncOperation.swift */; };
+		BCD1F5621CC61D020006E227 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D67400E1B4AA22600B326EC /* Cache.swift */; };
+		BCD1F5631CC61D050006E227 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7495A01A8E277400B0263F /* Client.swift */; };
+		BCD1F5641CC61D090006E227 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0A01591C9BEDB200CD4A7C /* Error.swift */; };
+		BCD1F5651CC61D0D0006E227 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D74959F1A8E277400B0263F /* Helpers.swift */; };
+		BCD1F5661CC61D100006E227 /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DECA2D91A960BC5001A6088 /* Index.swift */; };
+		BCD1F5671CC61D130006E227 /* IndexQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC68BC561CB69776007F9655 /* IndexQuery.swift */; };
+		BCD1F5681CC61D160006E227 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D09E1DB1AC0773A00B799A6 /* Network.swift */; };
+		BCD1F5691CC61D1A0006E227 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7495A61A8E499B00B0263F /* Query.swift */; };
+		BCD1F56A1CC61D1D0006E227 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC01E66C1CA43CEE0067670B /* Request.swift */; };
+		BCD1F56B1CC61D200006E227 /* Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF8C1301A9CA354006E107B /* Type.swift */; };
+		BCD1F56C1CC61D2D0006E227 /* BrowseIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC09F7761CAE743900ABB395 /* BrowseIterator.swift */; };
+		BCD1F56D1CC61DB30006E227 /* BrowseIteratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC09F7791CAE7FDF00ABB395 /* BrowseIteratorTests.swift */; };
+		BCD1F56E1CC61DB80006E227 /* CancelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4A7F3B1CB5373E00AF1DCB /* CancelTests.swift */; };
+		BCD1F56F1CC61DB80006E227 /* ClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8FFA371AAB08830078869E /* ClientTests.swift */; };
+		BCD1F5701CC61DB80006E227 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D44D0261B362648008369AC /* Helpers.swift */; };
+		BCD1F5711CC61DB80006E227 /* IndexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8FFA391AAB0AB80078869E /* IndexTests.swift */; };
+		BCD1F5721CC61DB80006E227 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA737D1CA555070082B197 /* MockURLSession.swift */; };
+		BCD1F5731CC61DB80006E227 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA73771CA546800082B197 /* NetworkTests.swift */; };
+		BCD1F5741CC61DB80006E227 /* QueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0A01631C9C19CD00CD4A7C /* QueryTests.swift */; };
 		BCDA73781CA546800082B197 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA73771CA546800082B197 /* NetworkTests.swift */; };
 		BCDA73791CA546800082B197 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA73771CA546800082B197 /* NetworkTests.swift */; };
 		BCDA737E1CA555070082B197 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA737D1CA555070082B197 /* MockURLSession.swift */; };
@@ -65,6 +86,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 5DB2513C1AAD9EE300945339;
 			remoteInfo = AlgoliaSarch;
+		};
+		BCD1F5551CC61C8D0006E227 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5D7495751A8E25A600B0263F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BCD1F5491CC61C8D0006E227;
+			remoteInfo = AlgoliaSearch;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -96,6 +124,8 @@
 		BC4A7F381CB5308100AF1DCB /* AsyncOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
 		BC4A7F3B1CB5373E00AF1DCB /* CancelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelTests.swift; sourceTree = "<group>"; };
 		BC68BC561CB69776007F9655 /* IndexQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexQuery.swift; sourceTree = "<group>"; };
+		BCD1F54A1CC61C8D0006E227 /* AlgoliaSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlgoliaSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCD1F5531CC61C8D0006E227 /* AlgoliaSearch tvOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AlgoliaSearch tvOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCDA73771CA546800082B197 /* NetworkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
 		BCDA737D1CA555070082B197 /* MockURLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -131,6 +161,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCD1F5461CC61C8D0006E227 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCD1F5501CC61C8D0006E227 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCD1F5541CC61C8D0006E227 /* AlgoliaSearch.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -150,6 +195,8 @@
 				5D7495891A8E25A600B0263F /* AlgoliaSearch OSX Tests.xctest */,
 				5DB2513D1AAD9EE300945339 /* AlgoliaSearch.framework */,
 				5DB251471AAD9EE400945339 /* AlgoliaSearch iOS Tests.xctest */,
+				BCD1F54A1CC61C8D0006E227 /* AlgoliaSearch.framework */,
+				BCD1F5531CC61C8D0006E227 /* AlgoliaSearch tvOS Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -242,6 +289,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCD1F5471CC61C8D0006E227 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -316,6 +370,42 @@
 			productReference = 5DB251471AAD9EE400945339 /* AlgoliaSearch iOS Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		BCD1F5491CC61C8D0006E227 /* AlgoliaSearch tvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCD1F55F1CC61C8D0006E227 /* Build configuration list for PBXNativeTarget "AlgoliaSearch tvOS" */;
+			buildPhases = (
+				BCD1F5451CC61C8D0006E227 /* Sources */,
+				BCD1F5461CC61C8D0006E227 /* Frameworks */,
+				BCD1F5471CC61C8D0006E227 /* Headers */,
+				BCD1F5481CC61C8D0006E227 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "AlgoliaSearch tvOS";
+			productName = AlgoliaSearch;
+			productReference = BCD1F54A1CC61C8D0006E227 /* AlgoliaSearch.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		BCD1F5521CC61C8D0006E227 /* AlgoliaSearch tvOS Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BCD1F5601CC61C8D0006E227 /* Build configuration list for PBXNativeTarget "AlgoliaSearch tvOS Tests" */;
+			buildPhases = (
+				BCD1F54F1CC61C8D0006E227 /* Sources */,
+				BCD1F5501CC61C8D0006E227 /* Frameworks */,
+				BCD1F5511CC61C8D0006E227 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BCD1F5561CC61C8D0006E227 /* PBXTargetDependency */,
+			);
+			name = "AlgoliaSearch tvOS Tests";
+			productName = AlgoliaSearchTests;
+			productReference = BCD1F5531CC61C8D0006E227 /* AlgoliaSearch tvOS Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -323,7 +413,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftMigration = 0700;
-				LastSwiftUpdateCheck = 0700;
+				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = Algolia;
 				TargetAttributes = {
@@ -338,6 +428,12 @@
 					};
 					5DB251461AAD9EE400945339 = {
 						CreatedOnToolsVersion = 6.1.1;
+					};
+					BCD1F5491CC61C8D0006E227 = {
+						CreatedOnToolsVersion = 7.3;
+					};
+					BCD1F5521CC61C8D0006E227 = {
+						CreatedOnToolsVersion = 7.3;
 					};
 				};
 			};
@@ -357,6 +453,8 @@
 				5D7495881A8E25A600B0263F /* AlgoliaSearch OSX Tests */,
 				5DB2513C1AAD9EE300945339 /* AlgoliaSearch iOS */,
 				5DB251461AAD9EE400945339 /* AlgoliaSearch iOS Tests */,
+				BCD1F5491CC61C8D0006E227 /* AlgoliaSearch tvOS */,
+				BCD1F5521CC61C8D0006E227 /* AlgoliaSearch tvOS Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -377,6 +475,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		5DB251451AAD9EE400945339 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCD1F5481CC61C8D0006E227 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCD1F5511CC61C8D0006E227 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -454,6 +566,40 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BCD1F5451CC61C8D0006E227 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCD1F5641CC61D090006E227 /* Error.swift in Sources */,
+				BCD1F5691CC61D1A0006E227 /* Query.swift in Sources */,
+				BCD1F5621CC61D020006E227 /* Cache.swift in Sources */,
+				BCD1F56C1CC61D2D0006E227 /* BrowseIterator.swift in Sources */,
+				BCD1F5681CC61D160006E227 /* Network.swift in Sources */,
+				BCD1F5661CC61D100006E227 /* Index.swift in Sources */,
+				BCD1F56B1CC61D200006E227 /* Type.swift in Sources */,
+				BCD1F5611CC61CFE0006E227 /* AsyncOperation.swift in Sources */,
+				BCD1F5651CC61D0D0006E227 /* Helpers.swift in Sources */,
+				BCD1F56A1CC61D1D0006E227 /* Request.swift in Sources */,
+				BCD1F5631CC61D050006E227 /* Client.swift in Sources */,
+				BCD1F5671CC61D130006E227 /* IndexQuery.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BCD1F54F1CC61C8D0006E227 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BCD1F5731CC61DB80006E227 /* NetworkTests.swift in Sources */,
+				BCD1F5721CC61DB80006E227 /* MockURLSession.swift in Sources */,
+				BCD1F56D1CC61DB30006E227 /* BrowseIteratorTests.swift in Sources */,
+				BCD1F56F1CC61DB80006E227 /* ClientTests.swift in Sources */,
+				BCD1F5741CC61DB80006E227 /* QueryTests.swift in Sources */,
+				BCD1F5711CC61DB80006E227 /* IndexTests.swift in Sources */,
+				BCD1F56E1CC61DB80006E227 /* CancelTests.swift in Sources */,
+				BCD1F5701CC61DB80006E227 /* Helpers.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -466,6 +612,11 @@
 			isa = PBXTargetDependency;
 			target = 5DB2513C1AAD9EE300945339 /* AlgoliaSearch iOS */;
 			targetProxy = 5DB251491AAD9EE400945339 /* PBXContainerItemProxy */;
+		};
+		BCD1F5561CC61C8D0006E227 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BCD1F5491CC61C8D0006E227 /* AlgoliaSearch tvOS */;
+			targetProxy = BCD1F5551CC61C8D0006E227 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -505,7 +656,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -538,6 +689,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
@@ -545,7 +697,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
@@ -639,7 +791,6 @@
 				);
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.algolia.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = AlgoliaSearch;
@@ -661,7 +812,6 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.algolia.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = AlgoliaSearch;
@@ -683,7 +833,6 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.algolia.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -698,11 +847,90 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Tests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.algolia.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BCD1F55B1CC61C8D0006E227 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.algolia.AlgoliaSearch;
+				PRODUCT_NAME = AlgoliaSearch;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+			};
+			name = Debug;
+		};
+		BCD1F55C1CC61C8D0006E227 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = "$(SRCROOT)/Source/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.algolia.AlgoliaSearch;
+				PRODUCT_NAME = AlgoliaSearch;
+				SDKROOT = appletvos;
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 9.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		BCD1F55D1CC61C8D0006E227 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.algolia.AlgoliaSearchTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
+			};
+			name = Debug;
+		};
+		BCD1F55E1CC61C8D0006E227 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = Tests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.algolia.AlgoliaSearchTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				TVOS_DEPLOYMENT_TARGET = 9.2;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -754,6 +982,22 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		BCD1F55F1CC61C8D0006E227 /* Build configuration list for PBXNativeTarget "AlgoliaSearch tvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCD1F55B1CC61C8D0006E227 /* Debug */,
+				BCD1F55C1CC61C8D0006E227 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		BCD1F5601CC61C8D0006E227 /* Build configuration list for PBXNativeTarget "AlgoliaSearch tvOS Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCD1F55D1CC61C8D0006E227 /* Debug */,
+				BCD1F55E1CC61C8D0006E227 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

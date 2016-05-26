@@ -86,10 +86,6 @@ import Foundation
     // NOTE: Not constant only for the sake of mocking during unit tests.
     var session: URLSession
     
-    /// Background queue for complex asynchronous operations.
-    let queue: NSOperationQueue
-
-
     /// Create a new Algolia Search client.
     ///
     /// - parameter appID:  The application ID (available in your Algolia Dashboard).
@@ -100,18 +96,20 @@ import Foundation
         self.apiKey = apiKey
 
         // Initialize hosts to their default values.
-        readHosts = [
-            "\(appID)-dsn.algolia.net",
+        //
+        // NOTE: The host list comes in two parts:
+        //
+        // 1. The fault-tolerant, load-balanced DNS host.
+        // 2. The non-fault-tolerant hosts. Those hosts must be randomized to ensure proper load balancing in case
+        //    of the first host's failure.
+        //
+        let fallbackHosts = [
             "\(appID)-1.algolianet.com",
             "\(appID)-2.algolianet.com",
             "\(appID)-3.algolianet.com"
-        ]
-        writeHosts = [
-            "\(appID).algolia.net",
-            "\(appID)-1.algolianet.com",
-            "\(appID)-2.algolianet.com",
-            "\(appID)-3.algolianet.com"
-        ]
+        ].shuffle()
+        readHosts = [ "\(appID)-dsn.algolia.net" ] + fallbackHosts
+        writeHosts = [ "\(appID).algolia.net" ] + fallbackHosts
         
         // WARNING: Those headers cannot be changed for the lifetime of the session.
         let version = NSBundle(forClass: self.dynamicType).infoDictionary!["CFBundleShortVersionString"] as! String
@@ -121,10 +119,6 @@ import Foundation
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         configuration.HTTPAdditionalHeaders = fixedHTTPHeaders
         session = NSURLSession(configuration: configuration)
-        
-        // Create background queue.
-        self.queue = NSOperationQueue()
-        self.queue.underlyingQueue = dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)
         
         super.init()
         

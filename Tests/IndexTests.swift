@@ -695,7 +695,7 @@ class IndexTests: XCTestCase {
                     } else {
                         // Delete by query.
                         let query = Query()
-                        query["numericFilters"] = "dummy < 1500"
+                        query.numericFilters = ["dummy < 1500"]
                         self.index.deleteByQuery(query, completionHandler: { (content, error) -> Void in
                             if error != nil {
                                 XCTFail(error!.localizedDescription)
@@ -911,6 +911,23 @@ class IndexTests: XCTestCase {
                     })
                 })
             })
+        })
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+    }
+    
+    func testDNSTimeout() {
+        let expectation = expectationWithDescription(#function)
+
+        // The DNS lookup for any host in the `algolia.biz` domain will time-out.
+        // We generate a new host name every time to avoid any cache effect.
+        client.readHosts[0] = "swift-\(UInt32(NSDate().timeIntervalSince1970)).algolia.biz"
+        
+        client.listIndexes({
+            (content, error) -> Void in
+            if error != nil {
+                XCTFail(error!.description)
+            }
+            expectation.fulfill()
         })
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }

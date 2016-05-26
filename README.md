@@ -6,13 +6,15 @@
 
 **&lt;Welcome Objective-C developers&gt;**
 
-In July 2015, we released a new version of our Swift client, able to work with Swift and Objective-C. As of version 3 (April 2016), Swift has become the reference implementation for both Swift and Objective-C projects.
+In July 2015, we released a **new version** of our Swift client, able to work with Swift and Objective-C. As of version 3 (April 2016), Swift has become the reference implementation for both Swift and Objective-C projects.
 
-If you were using our Objective-C client, [read the migration guide](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-from-Objective-C-to-Swift-API-Client).
-
-The [Objective-C API Client](https://github.com/algolia/algoliasearch-client-objc) is no longer under active development. It is still supported for bug fixes, but will not receive new features.
+If you were using our Objective-C client, read the [migration guide from Objective-C](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-from-Objective-C-to-Swift-API-Client). The [Objective-C API Client](https://github.com/algolia/algoliasearch-client-objc) is no longer under active development. It is still supported for bug fixes, but will not receive new features.
 
 **&lt;/Welcome Objective-C developers&gt;**
+
+If you were using **version 2.x** of our Swift client, read the [migration guide to version 3.x](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-to-version-3.x).
+
+
 
 
 
@@ -30,8 +32,9 @@ Our Swift client lets you easily use the [Algolia Search API](https://www.algoli
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![CocoaPods](https://img.shields.io/cocoapods/v/AlgoliaSearch-Client-Swift.svg)]()
 [![CocoaPods](https://img.shields.io/cocoapods/l/AlgoliaSearch-Client-Swift.svg)]()
-[![](http://img.shields.io/badge/OS%20X-10.9%2B-lightgrey.svg)]()
-[![](http://img.shields.io/badge/iOS-7.0%2B-lightgrey.svg)]()
+[![](https://img.shields.io/badge/OS%20X-10.9%2B-lightgrey.svg)]()
+[![](https://img.shields.io/badge/iOS-7.0%2B-lightgrey.svg)]()
+
 
 
 
@@ -78,7 +81,9 @@ To setup your project, follow these steps:
 
 
 
-1. Add `pod 'AlgoliaSearch-Client-Swift', '~> 3.0'` to your Podfile. (We only support Cocoapods so far.)
+1. Add a dependency on AlgoliaSearch-Client-Swift:
+    - Cocoapods: add `pod 'AlgoliaSearch-Client-Swift', '~> 3.0'` to your `Podfile`.
+    - Carthage: add `github "algolia/algoliasearch-client-swift"` to your `Cartfile`.
 2. Add `import AlgoliaSearch` to your source files.
 3. Initialize the client with your application ID and API key (you can find them on [your Algolia Dashboard](https://www.algolia.com/api-keys)):
 
@@ -854,6 +859,8 @@ You can use the following optional arguments:
 
 <p>Attributes are separated with a comma (for example <code>&quot;name,address&quot;</code>). You can also use a string array encoding (for example <code>[&quot;name&quot;,&quot;address&quot;]</code> ). By default, all attributes are retrieved. You can also use <code>*</code> to retrieve all values when an <strong>attributesToRetrieve</strong> setting is specified for your index.</p>
 
+<p><code>objectID</code> is always retrieved even when not specified.</p>
+
       </td>
     </tr>
     
@@ -962,7 +969,7 @@ You can use the following optional arguments:
         </div>
       </td>
       <td class='client-readme-param-content'>
-        <p>String used as an ellipsis indicator when a snippet is truncated (defaults to empty).</p>
+        <p>String used as an ellipsis indicator when a snippet is truncated. Defaults to an empty string for all accounts created before 10/2/2016, and to <code>…</code> (UTF-8 U+2026) for accounts created after that date.</p>
 
       </td>
     </tr>
@@ -1102,6 +1109,8 @@ You can also use a string array encoding (for example `numericFilters: ["price>1
         <p>Filter the query with numeric, facet or/and tag filters. The syntax is a SQL like syntax, you can use the OR and AND keywords. The syntax for the underlying numeric, facet and tag filters is the same than in the other filters:
 <code>available=1 AND (category:Book OR NOT category:Ebook) AND public</code>
 <code>date: 1441745506 TO 1441755506 AND inStock &gt; 0 AND author:&quot;John Doe&quot;</code></p>
+
+<p>If no attribute name is specified, the filter applies to <code>_tags</code>. For example: <code>public OR user_42</code> will translate to <code>_tags:public OR _tags:user_42</code>.</p>
 
 <p>The list of keywords is:</p>
 
