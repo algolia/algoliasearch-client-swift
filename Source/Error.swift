@@ -61,15 +61,18 @@ public enum StatusCode: Int {
     }
 }
 
-/// Determine if a given error is transient or not.
-/// "Transient" means retrying an identical request at a later time might lead to a different result.
-///
-func isErrorTransient(error: NSError) -> Bool {
-    if (error.domain == Client.ErrorDomain) {
-        return StatusCode.isServerError(error.code)
-    } else if (error.domain == NSURLErrorDomain) {
-        return true
-    } else {
-        return false
+extension NSError {
+    /// Determine if this error is transient or not.
+    /// "Transient" means retrying an identical request at a later time might lead to a different result.
+    ///
+    func isTransient() -> Bool {
+        if (domain == Client.ErrorDomain) {
+            return StatusCode.isServerError(code)
+        } else if (domain == NSURLErrorDomain) {
+            return true
+        } else {
+            return false
+        }
     }
 }
+

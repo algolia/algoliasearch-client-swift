@@ -31,7 +31,21 @@ extension String {
     }
 }
 
-// Collection shuffling taken from <http://stackoverflow.com/questions/24026510/how-do-i-shuffle-an-array-in-swift>.
+// MARK: - Memory debugging
+
+// NOTE: Those helpers are not used in the code, but let's keep them because they can be handy when debugging.
+
+/// Log the initialization of an object.
+func logInit(object: AnyObject) {
+    print("<INIT> \(unsafeAddressOf(object)) (\(object.dynamicType)) \(object.description)")
+}
+
+/// Log the termination ("de-initialization" in Swift terms) of an object.
+func logTerm(object: AnyObject) {
+    print("<TERM> \(unsafeAddressOf(object)) (\(object.dynamicType)) \(object.description)")
+
+// MARK: - Collection shuffling
+// Taken from <http://stackoverflow.com/questions/24026510/how-do-i-shuffle-an-array-in-swift>.
 
 extension CollectionType {
     /// Return a copy of `self` with its elements shuffled.
