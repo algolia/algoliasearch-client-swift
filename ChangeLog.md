@@ -3,7 +3,10 @@ Change Log
 
 ## 3.2 (2016-05-26)
 
-- Support iOS 7.0. **Warning: due to unavailability of simulators earlier than iOS 8.1 in Xcode 7.3, iOS 7 remains untested.**
+- Support iOS 7.0
+    - **Warning:** Because Cocoapods uses dynamic frameworks and Swift is not supported in dynamic frameworks on iOS 7,
+    iOS 7 support is not possible through Cocoapods.
+    - **Warning:** Due to unavailability of simulators earlier than iOS 8.1 in Xcode 7.3, iOS 7 remains **untested**.
 - README updated
 - [Test] Add test case for DNS time-out
 
