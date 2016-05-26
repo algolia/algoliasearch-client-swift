@@ -1,6 +1,17 @@
 Change Log
 ==========
 
+## 3.2 (2016-05-26)
+
+- Support iOS 7.0. **Warning: due to unavailability of simulators earlier than iOS 8.1 in Xcode 7.3, iOS 7 remains untested.**
+- README updated
+- [Test] Add test case for DNS time-out
+
+### Experimental features
+
+- Offline mode. *Note: requires the Algolia Search Offline Core library.* **Warning: beta version.**
+
+
 ## 3.1 (2016-05-09)
 
 - Add tvOS target

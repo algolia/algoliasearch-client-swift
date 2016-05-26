@@ -32,7 +32,7 @@ Offline features are brought by Algolia's **Offline SDK**, which is actually com
 2. In your Podfile, explicitly reference the "Offline" Cocoapods [subspec](https://guides.cocoapods.org/syntax/podspec.html#subspec):
 
     ```ruby
-    pod 'AlgoliaSearch-Client-Swift/Offline', '~> 3.1'
+    pod 'AlgoliaSearch-Client-Swift/Offline', '~> ${WHATEVER_IS_THE_LATEST_VERSION}'
     ```
 
     *NOTE: Because of its intrinsic limitations, Carthage is **not** supported for the offline mode.*

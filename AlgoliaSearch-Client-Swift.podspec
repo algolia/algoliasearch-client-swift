@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
     s.name = 'AlgoliaSearch-Client-Swift'
     s.module_name = 'AlgoliaSearch'
-    s.version = '3.1'
+    s.version = '3.2'
     s.license = 'MIT'
     s.summary = 'Algolia Search API Client for iOS & OS X written in Swift.'
     s.homepage = 'https://github.com/algolia/algoliasearch-client-swift'
@@ -28,7 +28,7 @@ Pod::Spec.new do |s|
     # Offline-enabled API client.
     # NOTE: Disabled until release.
     s.subspec 'Offline' do |offline|
-        offline.dependency 'AlgoliaSearchOfflineCore-iOS'
+        offline.dependency 'AlgoliaSearchOfflineCore-iOS', '0.1'
         # Activate Core-dependent code.
         # WARNING: Specifying the preprocessor macro is not enough; it must be added to Swift flags as well.
         offline.pod_target_xcconfig = {
