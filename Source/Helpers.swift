@@ -43,6 +43,7 @@ func logInit(object: AnyObject) {
 /// Log the termination ("de-initialization" in Swift terms) of an object.
 func logTerm(object: AnyObject) {
     print("<TERM> \(unsafeAddressOf(object)) (\(object.dynamicType)) \(object.description)")
+}
 
 // MARK: - Collection shuffling
 // Taken from <http://stackoverflow.com/questions/24026510/how-do-i-shuffle-an-array-in-swift>.
