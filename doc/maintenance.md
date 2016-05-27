@@ -18,6 +18,8 @@ The client exists in two different flavors:
 Cocoapods subspecs don't allow us to have different deployment platforms for each subspec. So, instead of using
 subspecs, we use **two distinct pods**.
 
+Although the project is published as two different pods, it is essentially the same code base. Therefore we wish to
+keep versioning aligned (there is only one version number for both flavors).
 
 
 ## Deployment process
@@ -56,7 +58,11 @@ subspecs, we use **two distinct pods**.
   `pod trunk register EMAIL` to create one. (If you have never registered to Cocoapods, you need to contact one of
   the pod's owners; `pod trunk info` is your friend.)
 
-- `pod trunk push --allow-warnings`
+- **Publish the pods.** You have to publish each pod separately:
+
+    - `pod trunk push --allow-warnings AlgoliaSearch-Client-Swift.podspec`
+
+    - `pod trunk push --allow-warnings AlgoliaSearch-Offline-Swift.podspec`
 
     NOTE: Currently, `--allow-warnings` is required. We get warnings about useless conditional compilation on iOS 8.0,
     but iOS 7 is really supported; it's just that it cannot be supported via Cocoapods.
