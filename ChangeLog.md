@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+## 3.2.1 (2016-05-27)
+
+- Fix OS X support in Cocoapods
+
+
 ## 3.2 (2016-05-26)
 
 - Support iOS 7.0
