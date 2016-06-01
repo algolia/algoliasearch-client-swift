@@ -1107,7 +1107,7 @@ You can also use a string array encoding (for example `numericFilters: ["price>1
       </td>
       <td class='client-readme-param-content'>
         <p>Filter the query with numeric, facet or/and tag filters. The syntax is a SQL like syntax, you can use the OR and AND keywords. The syntax for the underlying numeric, facet and tag filters is the same than in the other filters:
-<code>available=1 AND (category:Book OR NOT category:Ebook) AND public</code>
+<code>available=1 AND (category:Book OR NOT category:Ebook) AND _tags:public</code>
 <code>date: 1441745506 TO 1441755506 AND inStock &gt; 0 AND author:&quot;John Doe&quot;</code></p>
 
 <p>If no attribute name is specified, the filter applies to <code>_tags</code>. For example: <code>public OR user_42</code> will translate to <code>_tags:public OR _tags:user_42</code>.</p>
