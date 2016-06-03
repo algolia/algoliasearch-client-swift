@@ -27,7 +27,20 @@ Offline features are brought by Algolia's **Offline SDK**, which is actually com
 
 ## Setup
 
+### Prerequisites
+
 1. Obtain a **license key** from [Algolia](https://www.algolia.com/).
+
+2. Make sure you use an **API key** with the following ACLs:
+
+    - Search (`search`)
+    - Browse (`browse`)
+    - Get index settings (`settings`)
+
+    *This is required because the offline mode needs to replicate the online index's settings and uses browse requests when syncing.*
+
+
+### Steps
 
 2. In your Podfile, reference the offline pod:
 
