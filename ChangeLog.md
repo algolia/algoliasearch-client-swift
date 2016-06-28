@@ -7,6 +7,8 @@ Change Log
   corresponding property had to be degraded from `Bool?` to `AnyObject?`; as a consequence, the getter suffers from an
   incompatible change (but not the setter).
 - (#79) Support `aroundRadius=all` in query parameters.
+- (#76) Support the `exactOnSingleWordQuery` query parameter
+- (#76) Support the `alternativesAsExact` query parameter
 
 
 ## 3.2.1 (2016-05-27)

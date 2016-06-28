@@ -659,4 +659,53 @@ class QueryTests: XCTestCase {
         XCTAssertEqual(query2.filters, VALUE)
     }
     
+    func test_exactOnSingleWordQuery() {
+        let query1 = Query()
+        XCTAssertNil(query1.exactOnSingleWordQuery_)
+        XCTAssertNil(query1.exactOnSingleWordQuery)
+        
+        let ALL_VALUES = [Query.ExactOnSingleWordQuery.None, Query.ExactOnSingleWordQuery.Word, Query.ExactOnSingleWordQuery.Attribute]
+        for value in ALL_VALUES {
+            query1.exactOnSingleWordQuery_ = value
+            XCTAssertEqual(query1.exactOnSingleWordQuery_, value)
+            XCTAssertEqual(query1.exactOnSingleWordQuery, value.rawValue)
+            XCTAssertEqual(query1["exactOnSingleWordQuery"], value.rawValue)
+            let query2 = Query.parse(query1.build())
+            XCTAssertEqual(query2.exactOnSingleWordQuery_, value)
+            
+            query1.exactOnSingleWordQuery = value.rawValue
+            XCTAssertEqual(query1.exactOnSingleWordQuery_, value)
+            XCTAssertEqual(query1.exactOnSingleWordQuery, value.rawValue)
+            XCTAssertEqual(query1["exactOnSingleWordQuery"], value.rawValue)
+        }
+        
+        query1["exactOnSingleWordQuery"] = "invalid"
+        XCTAssertNil(query1.exactOnSingleWordQuery_)
+        XCTAssertNil(query1.exactOnSingleWordQuery)
+        
+        query1.exactOnSingleWordQuery = "invalid"
+        XCTAssertNil(query1["exactOnSingleWordQuery"])
+        XCTAssertNil(query1.exactOnSingleWordQuery_)
+        XCTAssertNil(query1.exactOnSingleWordQuery)
+    }
+    
+    func test_alternativesAsExact() {
+        let query1 = Query()
+        XCTAssertNil(query1.alternativesAsExact_)
+        XCTAssertNil(query1.alternativesAsExact)
+
+        let VALUES = [Query.AlternativesAsExact.IgnorePlurals, Query.AlternativesAsExact.SingleWordSynonym, Query.AlternativesAsExact.MultiWordsSynonym]
+        let RAW_VALUES = ["ignorePlurals", "singleWordSynonym", "multiWordsSynonym"]
+        query1.alternativesAsExact_ = VALUES
+        XCTAssertEqual(query1.alternativesAsExact_!, VALUES)
+        XCTAssertEqual(query1.alternativesAsExact!, RAW_VALUES)
+        XCTAssertEqual(query1["alternativesAsExact"], RAW_VALUES.joinWithSeparator(","))
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.alternativesAsExact_!, VALUES)
+        
+        query1.alternativesAsExact = RAW_VALUES
+        XCTAssertEqual(query1.alternativesAsExact_!, VALUES)
+        XCTAssertEqual(query1.alternativesAsExact!, RAW_VALUES)
+        XCTAssertEqual(query1["alternativesAsExact"], RAW_VALUES.joinWithSeparator(","))
+    }
 }
