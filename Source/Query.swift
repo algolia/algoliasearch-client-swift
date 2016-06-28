@@ -304,7 +304,7 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
     /// attributesToIndex settings are used to search.
     @objc public var restrictSearchableAttributes: [String]? {
         get { return Query.parseStringArray(get("restrictSearchableAttributes")) }
-        set { set("restrictSearchableAttributes", value: Query.buildStringArray(newValue)) }
+        set { set("restrictSearchableAttributes", value: Query.buildJSONArray(newValue)) }
     }
     
     /// Enable the advanced query syntax.
@@ -331,7 +331,7 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
     /// subset of searches only.
     @objc public var analyticsTags: [String]? {
         get { return Query.parseStringArray(get("analyticsTags")) }
-        set { set("analyticsTags", value: Query.buildStringArray(newValue)) }
+        set { set("analyticsTags", value: Query.buildJSONArray(newValue)) }
     }
     
     /// If set to false, this query will not use synonyms defined in configuration.
@@ -359,7 +359,7 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
     /// appended to the one defined in your index settings.
     @objc public var optionalWords: [String]? {
         get { return Query.parseStringArray(get("optionalWords")) }
-        set { set("optionalWords", value: Query.buildStringArray(newValue)) }
+        set { set("optionalWords", value: Query.buildJSONArray(newValue)) }
     }
 
     /// Configure the precision of the proximity ranking criterion. By default, the minimum (and best) proximity value
@@ -416,13 +416,17 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
     /// index setting).
     @objc public var disableTypoToleranceOnAttributes: [String]? {
         get { return Query.parseStringArray(get("disableTypoToleranceOnAttributes")) }
-        set { set("disableTypoToleranceOnAttributes", value: Query.buildStringArray(newValue)) }
+        set { set("disableTypoToleranceOnAttributes", value: Query.buildJSONArray(newValue)) }
     }
 
     /// Remove stop words from query before executing it.
+    /// It can be a boolean: enable or disable all 41 supported languages or a comma separated string with the list of
+    /// languages you have in your record (using language iso code). In most use-cases, we don’t recommend enabling
+    /// this option.
     ///
     /// Stop words removal is applied on query words that are not interpreted as a prefix. The behavior depends of the
     /// `queryType` parameter:
+    ///
     /// - `queryType=prefixLast` means the last query word is a prefix and it won’t be considered for stop words removal
     /// - `queryType=prefixNone` means no query word are prefix, stop words removal will be applied on all query words
     /// - `queryType=prefixAll` means all query terms are prefix, stop words won’t be removed
@@ -431,13 +435,28 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
     /// before executing the query, we will remove “what”, “is” and “a” in order to just search for “record”. This
     /// removal will remove false positive because of stop words, especially when combined with optional words.
     /// For most use cases, it is better to do not use this feature as people search by keywords on search engines.
-    @objc public var removeStopWords: NSNumber? {
-        get { return Query.toNumber(self.removeStopWords_) }
-        set { self.removeStopWords_ = newValue?.boolValue }
-    }
-    var removeStopWords_: Bool? {
-        get { return Query.parseBool(get("removeStopWords")) }
-        set { set("removeStopWords", value: Query.buildBool(newValue)) }
+    @objc public var removeStopWords: AnyObject? {
+        get {
+            let stringValue = get("removeStopWords")
+            if let boolValue = Query.parseBool(stringValue) {
+                return boolValue
+            } else if let arrayValue = Query.parseStringArray(stringValue) {
+                return arrayValue
+            } else {
+                return nil
+            }
+        }
+        set {
+            if let boolValue = newValue as? Bool {
+                set("removeStopWords", value: Query.buildBool(boolValue))
+            } else if let numberValue = newValue as? NSNumber {
+                set("removeStopWords", value: Query.buildBool(numberValue.boolValue))
+            } else if let arrayValue = newValue as? [String] {
+                set("removeStopWords", value: Query.buildStringArray(arrayValue))
+            } else {
+                set("removeStopWords", value: nil)
+            }
+        }
     }
     
     // MARK: Pagination parameters
@@ -470,7 +489,7 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
     /// By default all attributes are retrieved.
     @objc public var attributesToRetrieve: [String]? {
         get { return Query.parseStringArray(get("attributesToRetrieve")) }
-        set { set("attributesToRetrieve", value: Query.buildStringArray(newValue)) }
+        set { set("attributesToRetrieve", value: Query.buildJSONArray(newValue)) }
     }
     
     /// List of attributes you want to highlight according to the query. If an attribute has no match for the query,
@@ -482,14 +501,14 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
     /// - `none`: if none of the query terms were found
     @objc public var attributesToHighlight: [String]? {
         get { return Query.parseStringArray(get("attributesToHighlight")) }
-        set { set("attributesToHighlight", value: Query.buildStringArray(newValue)) }
+        set { set("attributesToHighlight", value: Query.buildJSONArray(newValue)) }
     }
     
     /// List of attributes to snippet alongside the number of words to return (syntax is `attributeName:nbWords`).
     /// By default no snippet is computed.
     @objc public var attributesToSnippet: [String]? {
         get { return Query.parseStringArray(get("attributesToSnippet")) }
-        set { set("attributesToSnippet", value: Query.buildStringArray(newValue)) }
+        set { set("attributesToSnippet", value: Query.buildJSONArray(newValue)) }
     }
     
     /// If set to true, the result hits will contain ranking information in `_rankingInfo` attribute.
@@ -560,7 +579,7 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
     /// be approximate, the attribute `exhaustiveFacetsCount` in the response is true when the count is exact.
     @objc public var facets: [String]? {
         get { return Query.parseStringArray(get("facets")) }
-        set { set("facets", value: Query.buildStringArray(newValue)) }
+        set { set("facets", value: Query.buildJSONArray(newValue)) }
     }
     
     /// Filter the query by a list of facets.
@@ -837,15 +856,11 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
     
     // MARK: - Helper methods to build & parse URL
     
+    /// Build a plain, comma-separated array of strings.
+    ///
     class func buildStringArray(array: [String]?) -> String? {
         if array != nil {
-            do {
-                let data = try NSJSONSerialization.dataWithJSONObject(array!, options: NSJSONWritingOptions(rawValue: 0))
-                if let string = String(data: data, encoding: NSUTF8StringEncoding) {
-                    return string
-                }
-            } catch {
-            }
+            return array!.joinWithSeparator(",")
         }
         return nil
     }
