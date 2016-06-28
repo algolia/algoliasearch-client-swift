@@ -6,6 +6,7 @@ Change Log
 - (#77) Support a list of languages as a value for the `removeStopWords` query parameter. **Warning:** The type of the
   corresponding property had to be degraded from `Bool?` to `AnyObject?`; as a consequence, the getter suffers from an
   incompatible change (but not the setter).
+- (#79) Support `aroundRadius=all` in query parameters.
 
 
 ## 3.2.1 (2016-05-27)

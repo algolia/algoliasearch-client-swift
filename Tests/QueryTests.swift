@@ -502,8 +502,14 @@ class QueryTests: XCTestCase {
         query1.aroundRadius = 987
         XCTAssertEqual(query1.aroundRadius, 987)
         XCTAssertEqual(query1["aroundRadius"], "987")
-        let query2 = Query.parse(query1.build())
+        var query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.aroundRadius, 987)
+        
+        query1.aroundRadius = Query.aroundRadiusAll
+        XCTAssertEqual(query1.aroundRadius, Query.aroundRadiusAll)
+        XCTAssertEqual(query1["aroundRadius"], "all")
+        query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.aroundRadius, Query.aroundRadiusAll)
     }
     
     func test_aroundLatLngViaIP() {
