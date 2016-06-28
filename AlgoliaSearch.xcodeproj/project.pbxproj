@@ -425,9 +425,11 @@
 					};
 					5DB2513C1AAD9EE300945339 = {
 						CreatedOnToolsVersion = 6.1.1;
+						LastSwiftMigration = 0800;
 					};
 					5DB251461AAD9EE400945339 = {
 						CreatedOnToolsVersion = 6.1.1;
+						LastSwiftMigration = 0800;
 					};
 					BCD1F5491CC61C8D0006E227 = {
 						CreatedOnToolsVersion = 7.3;
@@ -796,6 +798,7 @@
 				PRODUCT_NAME = AlgoliaSearch;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -817,6 +820,7 @@
 				PRODUCT_NAME = AlgoliaSearch;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -837,6 +841,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.algolia.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -851,6 +856,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.algolia.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 2.3;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;

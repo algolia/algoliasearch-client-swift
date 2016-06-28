@@ -68,7 +68,11 @@ public class MockURLSession: URLSession {
     let defaultResponse = MockResponse(error: NSError(domain: NSURLErrorDomain, code: NSURLErrorResourceUnavailable, userInfo: nil))
     
     public func dataTaskWithRequest(request: NSURLRequest, completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void) -> NSURLSessionDataTask {
+        #if swift(>=2.3)
+        let details = responses[request.URL!.absoluteString!] ?? defaultResponse
+        #else
         let details = responses[request.URL!.absoluteString] ?? defaultResponse
+        #endif
         let task = MockURLSessionDataTask(request: request, details: details, completionHandler: completionHandler)
         task.cancellable = self.cancellable
         return task
