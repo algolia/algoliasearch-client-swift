@@ -1,6 +1,9 @@
 Change Log
 ==========
 
+- (#76) Support the `exactOnSingleWordQuery` query parameter
+- (#76) Support the `alternativesAsExact` query parameter
+
 ## 3.2.1 (2016-05-27)
 
 - Fix OS X support in Cocoapods
