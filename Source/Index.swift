@@ -296,7 +296,22 @@ import Foundation
         let path = "1/indexes/\(urlEncodedIndexName)/settings"
         return client.performHTTPQuery(path, method: .PUT, body: settings, hostnames: client.writeHosts, completionHandler: completionHandler)
     }
-    
+
+    /// Set this index's settings, optionally forwarding the change to slave indices.
+    ///
+    /// Please refer to our [API documentation](https://www.algolia.com/doc/swift#index-settings) for the list of
+    /// supported settings.
+    ///
+    /// - parameter settings: New settings.
+    /// - parameter forwardToSlaves: When true, the change is also applied to slaves of this index.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc public func setSettings(settings: [String: AnyObject], forwardToSlaves: Bool, completionHandler: CompletionHandler? = nil) -> NSOperation {
+        let path = "1/indexes/\(urlEncodedIndexName)/settings?forwardToSlaves=\(forwardToSlaves)"
+        return client.performHTTPQuery(path, method: .PUT, body: settings, hostnames: client.writeHosts, completionHandler: completionHandler)
+    }
+
     /// Delete the index content without removing settings and index specific API keys.
     ///
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
