@@ -440,6 +440,33 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
         set { set("removeStopWords", value: Query.buildBool(newValue)) }
     }
     
+    /// This parameter control how the exact ranking criterion is computed when the query contains one word.
+    @objc public var exactOnSingleWordQuery: String? {
+        get { return exactOnSingleWordQuery_?.rawValue }
+        set { exactOnSingleWordQuery_ = newValue == nil ? nil : ExactOnSingleWordQuery(rawValue: newValue!) }
+    }
+    public enum ExactOnSingleWordQuery: String {
+        /// No exact on single word query.
+        case None = "none"
+        /// Exact set to 1 if the query word is found in the record. The query word needs to have at least 3 chars and
+        /// not be part of our stop words dictionary.
+        case Word = "word"
+        /// (Default) Exact set to 1 if there is an attribute containing a string equals to the query.
+        case Attribute = "attribute"
+    }
+    public var exactOnSingleWordQuery_: ExactOnSingleWordQuery? {
+        get {
+            if let value = get("exactOnSingleWordQuery") {
+                return ExactOnSingleWordQuery(rawValue: value)
+            } else {
+                return nil
+            }
+        }
+        set {
+            set("exactOnSingleWordQuery", value: newValue?.rawValue)
+        }
+    }
+    
     // MARK: Pagination parameters
     
     /// Pagination parameter used to select the page to retrieve. Page is zero-based and defaults to 0. Thus, to

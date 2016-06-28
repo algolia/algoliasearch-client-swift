@@ -640,4 +640,33 @@ class QueryTests: XCTestCase {
         XCTAssertEqual(query2.filters, VALUE)
     }
     
+    func test_exactOnSingleWordQuery() {
+        let query1 = Query()
+        XCTAssertNil(query1.exactOnSingleWordQuery_)
+        XCTAssertNil(query1.exactOnSingleWordQuery)
+        
+        let ALL_VALUES = [Query.ExactOnSingleWordQuery.None, Query.ExactOnSingleWordQuery.Word, Query.ExactOnSingleWordQuery.Attribute]
+        for value in ALL_VALUES {
+            query1.exactOnSingleWordQuery_ = value
+            XCTAssertEqual(query1.exactOnSingleWordQuery_, value)
+            XCTAssertEqual(query1.exactOnSingleWordQuery, value.rawValue)
+            XCTAssertEqual(query1["exactOnSingleWordQuery"], value.rawValue)
+            let query2 = Query.parse(query1.build())
+            XCTAssertEqual(query2.exactOnSingleWordQuery_, value)
+            
+            query1.exactOnSingleWordQuery = value.rawValue
+            XCTAssertEqual(query1.exactOnSingleWordQuery_, value)
+            XCTAssertEqual(query1.exactOnSingleWordQuery, value.rawValue)
+            XCTAssertEqual(query1["exactOnSingleWordQuery"], value.rawValue)
+        }
+        
+        query1["exactOnSingleWordQuery"] = "invalid"
+        XCTAssertNil(query1.exactOnSingleWordQuery_)
+        XCTAssertNil(query1.exactOnSingleWordQuery)
+        
+        query1.exactOnSingleWordQuery = "invalid"
+        XCTAssertNil(query1["exactOnSingleWordQuery"])
+        XCTAssertNil(query1.exactOnSingleWordQuery_)
+        XCTAssertNil(query1.exactOnSingleWordQuery)
+    }
 }
