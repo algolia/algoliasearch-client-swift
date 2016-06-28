@@ -669,4 +669,24 @@ class QueryTests: XCTestCase {
         XCTAssertNil(query1.exactOnSingleWordQuery_)
         XCTAssertNil(query1.exactOnSingleWordQuery)
     }
+    
+    func test_alternativesAsExact() {
+        let query1 = Query()
+        XCTAssertNil(query1.alternativesAsExact_)
+        XCTAssertNil(query1.alternativesAsExact)
+
+        let VALUES = [Query.AlternativesAsExact.IgnorePlurals, Query.AlternativesAsExact.SingleWordSynonym, Query.AlternativesAsExact.MultiWordsSynonym]
+        let RAW_VALUES = ["ignorePlurals", "singleWordSynonym", "multiWordsSynonym"]
+        query1.alternativesAsExact_ = VALUES
+        XCTAssertEqual(query1.alternativesAsExact_!, VALUES)
+        XCTAssertEqual(query1.alternativesAsExact!, RAW_VALUES)
+        XCTAssertEqual(query1["alternativesAsExact"], RAW_VALUES.joinWithSeparator(","))
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.alternativesAsExact_!, VALUES)
+        
+        query1.alternativesAsExact = RAW_VALUES
+        XCTAssertEqual(query1.alternativesAsExact_!, VALUES)
+        XCTAssertEqual(query1.alternativesAsExact!, RAW_VALUES)
+        XCTAssertEqual(query1["alternativesAsExact"], RAW_VALUES.joinWithSeparator(","))
+    }
 }

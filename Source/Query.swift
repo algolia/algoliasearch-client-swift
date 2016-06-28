@@ -467,6 +467,52 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
         }
     }
     
+    /// Specify the list of approximation that should be considered as an exact match in the ranking formula.
+    ///
+    /// - `ignorePlurals`: alternative word added by the ignore plurals feature
+    /// - `singleWordSynonym`: single word synonym (For example “NY” = “NYC”)
+    /// - `multiWordsSynonym`: synonym over multiple words (For example “NY” = “New York”)
+    ///
+    /// The default value is `ignorePlurals,singleWordSynonym`.
+    ///
+    @objc public var alternativesAsExact: [String]? {
+        get { return Query.parseStringArray(get("alternativesAsExact")) }
+        set { set("alternativesAsExact", value: newValue?.joinWithSeparator(",")) }
+    }
+    public enum AlternativesAsExact: String {
+        /// Alternative word added by the ignore plurals feature.
+        case IgnorePlurals = "ignorePlurals"
+        /// Single word synonym (For example “NY” = “NYC”).
+        case SingleWordSynonym = "singleWordSynonym"
+        /// Synonym over multiple words (For example “NY” = “New York”).
+        case MultiWordsSynonym = "multiWordsSynonym"
+    }
+    public var alternativesAsExact_: [AlternativesAsExact]? {
+        get {
+            if let rawValues = alternativesAsExact {
+                var values = [AlternativesAsExact]()
+                for rawValue in rawValues {
+                    if let value = AlternativesAsExact(rawValue: rawValue) {
+                        values.append(value)
+                    }
+                }
+                return values
+            } else {
+                return nil
+            }
+        }
+        set {
+            var rawValues : [String]?
+            if newValue != nil {
+                rawValues = []
+                for value in newValue! {
+                    rawValues?.append(value.rawValue)
+                }
+            }
+            alternativesAsExact = rawValues
+        }
+    }
+    
     // MARK: Pagination parameters
     
     /// Pagination parameter used to select the page to retrieve. Page is zero-based and defaults to 0. Thus, to
