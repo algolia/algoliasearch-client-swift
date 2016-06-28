@@ -581,7 +581,39 @@ class IndexTests: XCTestCase {
         
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
-    
+
+    func testSettings_forwardToSlaves() {
+        let expectation = expectationWithDescription("testSettings")
+        let settings = ["attributesToRetrieve": ["name"]]
+        
+        index.setSettings(settings, forwardToSlaves: true, completionHandler: { (content, error) -> Void in
+            if let error = error {
+                XCTFail("Error during setSettings: \(error)")
+                expectation.fulfill()
+            } else {
+                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
+                    if let error = error {
+                        XCTFail("Error during waitTask: \(error)")
+                        expectation.fulfill()
+                    } else {
+                        self.index.getSettings({ (content, error) -> Void in
+                            if let error = error {
+                                XCTFail("Error during getSettings: \(error)")
+                            } else {
+                                let attributesToRetrieve = content!["attributesToRetrieve"] as! [String]
+                                XCTAssertEqual(attributesToRetrieve, settings["attributesToRetrieve"]!, "Set settings failed")
+                            }
+                            
+                            expectation.fulfill()
+                        })
+                    }
+                })
+            }
+        })
+        
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+    }
+
     func testBrowse() {
         let expectation = expectationWithDescription("testBrowseWithQuery")
         var objects: [[String: AnyObject]] = []
