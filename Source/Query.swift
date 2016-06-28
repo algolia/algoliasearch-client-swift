@@ -638,15 +638,32 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
     /// Control the radius associated with a `aroundLatLng` or `aroundLatLngViaIP` query. Defined in meters.
     /// If not set, the radius is computed automatically using the density of the area, you can retrieve the computed
     /// radius in the `automaticRadius` attribute of the answer. You can also specify a minimum value for the automatic
-    /// radius by using the `minimumAroundRadius` query parameter.
+    /// radius by using the `minimumAroundRadius` query parameter. You can specify `aroundRadius=all` if you want to
+    /// compute the geo distance without filtering in a geo area, this option will be faster than specifying a big
+    /// integer.
+    ///
     @objc public var aroundRadius: NSNumber? {
         get { return Query.toNumber(self.aroundRadius_) }
         set { self.aroundRadius_ = newValue?.unsignedIntegerValue }
     }
     var aroundRadius_: UInt? {
-        get { return Query.parseUInt(get("aroundRadius")) }
-        set { set("aroundRadius", value: Query.buildUInt(newValue)) }
+        get {
+            if let stringValue = get("aroundRadius") {
+                if stringValue == "all" {
+                    return Query.aroundRadiusAll
+                } else {
+                    return Query.parseUInt(stringValue)
+                }
+            } else {
+                return nil
+            }
+        }
+        set {
+            set("aroundRadius", value: newValue == Query.aroundRadiusAll ? "all" : Query.buildUInt(newValue))
+        }
     }
+    /// Special value for `aroundRadius` to compute the geo distance without filtering.
+    @objc public static let aroundRadiusAll: UInt = UInt.max
     
     /// Control the precision of a `aroundLatLng` query. In meter. For example if you set `aroundPrecision=100`, two
     /// objects that are in the range 0-99m will be considered as identical in the ranking for the .variable geo

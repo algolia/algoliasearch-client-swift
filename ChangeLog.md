@@ -1,6 +1,8 @@
 Change Log
 ==========
 
+- (#79) Support `aroundRadius=all` in query parameters.
+
 ## 3.2.1 (2016-05-27)
 
 - Fix OS X support in Cocoapods
