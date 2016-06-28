@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+## 3.3 (TODO: Freeze date when released)
+
+- (#77) Support a list of languages as a value for the `removeStopWords` query parameter. **Warning:** The type of the
+  corresponding property had to be degraded from `Bool?` to `AnyObject?`; as a consequence, the getter suffers from an
+  incompatible change (but not the setter).
+
+
 ## 3.2.1 (2016-05-27)
 
 - Fix OS X support in Cocoapods

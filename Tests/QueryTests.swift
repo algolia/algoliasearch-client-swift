@@ -592,10 +592,23 @@ class QueryTests: XCTestCase {
         let query1 = Query()
         XCTAssertNil(query1.removeStopWords)
         query1.removeStopWords = true
-        XCTAssertEqual(query1.removeStopWords, true)
+        XCTAssertEqual(query1.removeStopWords as? Bool, true)
         XCTAssertEqual(query1["removeStopWords"], "true")
-        let query2 = Query.parse(query1.build())
-        XCTAssertEqual(query2.removeStopWords, true)
+        var query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.removeStopWords as? Bool, true)
+
+        query1.removeStopWords = false
+        XCTAssertEqual(query1.removeStopWords as? Bool, false)
+        XCTAssertEqual(query1["removeStopWords"], "false")
+        query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.removeStopWords as? Bool, false)
+
+        let VALUE = ["de", "es", "fr"]
+        query1.removeStopWords = VALUE
+        XCTAssertEqual(query1.removeStopWords as! [String], VALUE)
+        XCTAssertEqual(query1["removeStopWords"], "de,es,fr")
+        query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.removeStopWords as! [String], VALUE)
     }
     
     func test_maxValuesPerFacet() {
