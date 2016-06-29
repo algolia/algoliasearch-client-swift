@@ -1,14 +1,17 @@
 Change Log
 ==========
 
-## 3.3 (TODO: Freeze date when released)
+## 3.3 (2016-06-29)
 
 - (#77) Support a list of languages as a value for the `removeStopWords` query parameter. **Warning:** The type of the
   corresponding property had to be degraded from `Bool?` to `AnyObject?`; as a consequence, the getter suffers from an
   incompatible change (but not the setter).
-- (#79) Support `aroundRadius=all` in query parameters.
+- (#79) Support `aroundRadius=all` in query parameters
 - (#76) Support the `exactOnSingleWordQuery` query parameter
 - (#76) Support the `alternativesAsExact` query parameter
+- (#74) Support Swift 2.3
+- (#75) Fix iTunes Connect submission issue when using Carthage: minimum iOS version is now 8.0
+- Update documentation
 
 
 ## 3.2.1 (2016-05-27)
