@@ -1341,6 +1341,16 @@ let settings = ["customRanking": customRanking]
 index.setSettings(settings)
 ```
 
+## Slave settings
+
+You can forward all settings updates to the slaves of an index by using the `forwardToSlaves` option:
+
+```swift
+let settings = ["attributesToRetrieve": "name", "birthdate"]
+index.setSettings(settings, forwardToSlaves: true, completionHandler: { (content, error) -> Void in
+    // [...]
+})
+```
 
 ## Indexing parameters
 
