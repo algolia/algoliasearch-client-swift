@@ -289,14 +289,31 @@ import Foundation
         let request = newRequest(method, path: path, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery) {
             (content: [String: AnyObject]?, error: NSError?) -> Void in
             if completionHandler != nil {
-                dispatch_async(dispatch_get_main_queue()) {
-                    completionHandler!(content: content, error: error)
-                }
+                #if DEBUG
+                    if let delay = self.debugResponseDelay {
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                            completionHandler!(content: content, error: error)
+                        }
+                    } else {
+                        dispatch_async(dispatch_get_main_queue()) {
+                            completionHandler!(content: content, error: error)
+                        }
+                    }
+                #else
+                    dispatch_async(dispatch_get_main_queue()) {
+                        completionHandler!(content: content, error: error)
+                    }
+                #endif
             }
         }
         request.start()
         return request
     }
+    
+    #if DEBUG
+    /// [debug] Artificial delay introduced in responses. Disabled by default.
+    public var debugResponseDelay: NSTimeInterval?
+    #endif
     
     /// Create a request with this client's settings.
     func newRequest(method: HTTPMethod, path: String, body: [String: AnyObject]?, hostnames: [String], isSearchQuery: Bool = false, completion: CompletionHandler? = nil) -> Request {
