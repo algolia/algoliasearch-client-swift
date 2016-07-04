@@ -101,6 +101,11 @@ class Request: AsyncOperation {
         }
     }
     
+    #if DEBUG
+    /// [debug] Artificial delay introduced in responses. Disabled by default.
+    public var debugResponseDelay: NSTimeInterval?
+    #endif
+    
     // MARK: - Request logic
     
     /// Create a URL request for the specified host index.
@@ -191,6 +196,18 @@ class Request: AsyncOperation {
     /// Finish this operation.
     /// This method should be called exactly once per operation.
     private func callCompletion(content: [String: AnyObject]?, error: NSError?) {
+        #if DEBUG
+        if let delay = self.debugResponseDelay {
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                self._callCompletion(content, error: error)
+            }
+            return
+        }
+        #endif
+        _callCompletion(content, error: error)
+    }
+    
+    private func _callCompletion(content: [String: AnyObject]?, error: NSError?) {
         assert(!_finished)
         if completion != nil && !_cancelled {
             completion!(content: content, error: error)
