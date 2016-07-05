@@ -268,7 +268,49 @@ class ClientTests: XCTestCase {
         
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
-    
+
+    func testMultipleQueries_stopIfEnoughMatches() {
+        let expectation = expectationWithDescription("testMultipleQueries")
+        let object = ["city": "San Francisco"]
+        
+        index.addObject(object, completionHandler: { (content, error) -> Void in
+            if let error = error {
+                XCTFail("Error during addObject: \(error)")
+                expectation.fulfill()
+            } else {
+                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
+                    if let error = error {
+                        XCTFail("Error during waitTask: \(error)")
+                        expectation.fulfill()
+                    } else {
+                        let query = Query()
+                        query.hitsPerPage = 1
+                        let queries = [
+                            IndexQuery(index: self.index, query: query),
+                            IndexQuery(index: self.index, query: query)
+                        ]
+                        
+                        self.client.multipleQueries(queries, strategy: .StopIfEnoughMatches, completionHandler: { (content, error) -> Void in
+                            if let error = error {
+                                XCTFail("Error during multipleQueries: \(error)")
+                            } else {
+                                let items = content!["results"] as! [[String: AnyObject]]
+                                XCTAssert(items.count == 2) // each query should return an item...
+                                XCTAssertEqual(items[0]["nbHits"] as? Int, 1, "Wrong number of object in the index")
+                                // ... but the second query should not have been processed
+                                XCTAssertEqual(items[1]["processed"] as? Bool, false)
+                                XCTAssertEqual(items[1]["nbHits"] as? Int, 0, "Wrong number of object in the index")
+                            }
+                            expectation.fulfill()
+                        })
+                    }
+                })
+            }
+        })
+        
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+    }
+
     func testHeaders() {
         // Make a call with a valid API key.
         let expectation1 = expectationWithDescription("Valid API key")
