@@ -963,4 +963,20 @@ class IndexTests: XCTestCase {
         })
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
+    
+    func testTCPDrop() {
+        let expectation = expectationWithDescription(#function)
+        
+        // The host `notcp-xx-1.algolianet.com` will drop TCP connections.
+        client.readHosts[0] = "notcp-xx-1.algolianet.com"
+        
+        client.listIndexes({
+            (content, error) -> Void in
+            if error != nil {
+                XCTFail(error!.description)
+            }
+            expectation.fulfill()
+        })
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+    }
 }
