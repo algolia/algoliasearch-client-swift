@@ -281,6 +281,17 @@ import Foundation
         let body = ["requests": operations]
         return performHTTPQuery(path, method: .POST, body: body, hostnames: writeHosts, completionHandler: completionHandler)
     }
+    
+    /// Ping the server.
+    /// This method returns nothing except a message indicating that the server is alive.
+    ///
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc public func isAlive(completionHandler: CompletionHandler) -> NSOperation {
+        let path = "1/isalive"
+        return performHTTPQuery(path, method: .GET, body: nil, hostnames: readHosts, completionHandler: completionHandler)
+    }
 
     // MARK: - Network
 

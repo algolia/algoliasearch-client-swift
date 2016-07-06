@@ -336,4 +336,18 @@ class ClientTests: XCTestCase {
         }
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
+    
+    func testIsAlive() {
+        let expectation = expectationWithDescription(#function)
+        
+        client.isAlive() { (content, error) -> Void in
+            if let error = error {
+                XCTFail(error.description)
+            } else {
+                XCTAssertEqual(content?["message"] as? String, "server is alive")
+            }
+            expectation.fulfill()
+        }
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+    }
 }
