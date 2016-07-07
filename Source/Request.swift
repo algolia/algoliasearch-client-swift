@@ -139,7 +139,6 @@ class Request: AsyncOperation {
             var finalError: NSError? = error
             // Shortcut in case of cancellation.
             if self.cancelled {
-                self.finish()
                 return
             }
             if (finalError == nil) {
