@@ -297,11 +297,15 @@ import Foundation
 
     /// Perform an HTTP Query.
     func performHTTPQuery(path: String, method: HTTPMethod, body: [String: AnyObject]?, hostnames: [String], isSearchQuery: Bool = false, completionHandler: CompletionHandler? = nil) -> NSOperation {
-        let request = newRequest(method, path: path, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery) {
+        var request: Request!
+        request = newRequest(method, path: path, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery) {
             (content: [String: AnyObject]?, error: NSError?) -> Void in
             if completionHandler != nil {
                 dispatch_async(dispatch_get_main_queue()) {
-                    completionHandler!(content: content, error: error)
+                    // WARNING: Because of the asynchronous dispatch, the request could have been cancelled in the meantime.
+                    if !request.cancelled {
+                        completionHandler!(content: content, error: error)
+                    }
                 }
             }
         }
