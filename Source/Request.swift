@@ -127,7 +127,10 @@ class Request: AsyncOperation {
     }
     
     private func startNext() {
-        assert(_executing)
+        // Shortcut when cancelled.
+        if _cancelled {
+            return
+        }
         let request = createRequest(nextHostIndex)
         nextHostIndex = (nextHostIndex + 1) % hosts.count
         task = session.dataTaskWithRequest(request) {
@@ -191,7 +194,6 @@ class Request: AsyncOperation {
     /// Finish this operation.
     /// This method should be called exactly once per operation.
     private func callCompletion(content: [String: AnyObject]?, error: NSError?) {
-        assert(!_finished)
         if completion != nil && !_cancelled {
             completion!(content: content, error: error)
         }
