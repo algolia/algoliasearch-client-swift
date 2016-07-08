@@ -60,19 +60,18 @@ import Foundation
 /// NOTE: Requires Algolia's SDK. The `OfflineClient.enableOfflineMode()` method must be called with a valid license
 /// key prior to calling any offline-related method.
 ///
-/// ### Preventive offline searches
+/// ### Request strategy
 ///
-/// This behavior is optional and disabled by default. It may be enabled by setting `preventiveOfflineSearch` to `true`.
+/// When the index is mirrored and the device is online, it becomes possible to transparently switch between online and
+/// offline requests. There is no single best strategy for that, because it depends on the use case and the current
+/// network conditions. You can choose the strategy through the `requestStrategy` property. The default is
+/// `FallbackOnFailure`, which will always target the online API first, then fallback to the offline mirror in case of
+/// failure (including network unavailability).
 ///
-/// When the index is mirrored, it may launch a "preventive" request to the offline mirror for every online search
-/// request. **This may result in the completion handler being called twice:** a first time with the offline results,
-/// and a second time with the online results.
+/// NOTE: If you want to explicitly target either the online API or the offline mirror, doing so is always possible
+/// using the `searchOnline()` or `searchOffline()` methods.
 ///
-/// To avoid wasting CPU when the network connection is good, the offline request is only launched after a certain
-/// delay. This delay can be adjusted by setting `preventiveOfflineSearchDelay`. The default is
-/// `DefaultPreventiveOfflineSearchDelay`. If the online request finishes with a definitive result (i.e. success or
-/// application error) before the offline request has finished (or even been launched), the offline request will be
-/// cancelled (or not be launched at all).
+/// NOTE: The strategy applies both to `search()` and `searchDisjunctiveFaceting()`.
 ///
 @objc public class MirroredIndex : Index {
     
@@ -98,9 +97,6 @@ import Foundation
     
     /// Value for `JSONKeyOrigin` indicating that the results come from the online API.
     @objc public static let JSONValueOriginRemote = "remote"
-
-    /// Default delay before preventive offline search.
-    @objc public static let DefaultPreventiveOfflineSearchDelay: NSTimeInterval = 0.2
 
     // ----------------------------------------------------------------------
     // MARK: Properties
@@ -151,13 +147,6 @@ import Foundation
     
     /// Error encountered by the current/last sync (if any).
     @objc public private(set) var syncError : NSError?
-
-    /// Whether to launch a preventive offline search for every online search.
-    /// Only valid when the index is mirrored.
-    @objc public var preventiveOfflineSearch: Bool = false
-    
-    /// The delay before a preventive offline search is launched.
-    @objc public var preventiveOfflineSearchDelay: NSTimeInterval = MirroredIndex.DefaultPreventiveOfflineSearchDelay
 
     // ----------------------------------------------------------------------
     // MARK: - Init
@@ -417,42 +406,58 @@ import Foundation
     // ----------------------------------------------------------------------
     // MARK: - Search
     // ----------------------------------------------------------------------
+    
+    /// Strategy to choose between online and offline search.
+    ///
+    @objc public enum Strategy: Int {
+        /// Search online only.
+        /// The search will fail when the API can't be reached.
+        ///
+        /// NOTE: You might consider that this defeats the purpose of having a mirror in the first place... But this
+        /// is intended for applications wanting to manually manage their policy.
+        ///
+        case OnlineOnly = 0
 
-    @objc public override func search(query: Query, completionHandler: CompletionHandler) -> NSOperation {
-        // A non-mirrored index behaves exactly as an online index.
-        if !mirrored {
-            return super.search(query, completionHandler: completionHandler)
-        }
-        // A mirrored index launches a mixed offline/online request.
-        else {
-            let queryCopy = Query(copy: query)
-            let operation = OnlineOfflineSearchOperation(index: self, query: queryCopy, completionHandler: completionHandler)
-            // NOTE: This operation is just an aggregate, so it does not need to be enqueued.
-            operation.start()
-            return operation
-        }
+        /// Search offline only.
+        /// The search will fail when the offline mirror has not yet been synced.
+        ///
+        case OfflineOnly = 1
+        
+        /// Search online, then fallback to offline on failure.
+        /// Please note that when online, this is likely to hit the request timeout on *every host* before failing.
+        ///
+        case FallbackOnFailure = 2
+        
+        /// Fallback after a certain timeout.
+        /// Will first try an online request, but fallback to offline in case of failure or when a timeout has been
+        /// reached, whichever comes first.
+        ///
+        /// The timeout can be set through the `offlineFallbackTimeout` property.
+        ///
+        case FallbackOnTimeout = 3
     }
     
-    private func searchOnline(query: Query, completionHandler: CompletionHandler) -> NSOperation {
-        return super.search(query, completionHandler: completionHandler)
-    }
+    /// Strategy to use for offline fallback. Default = `FallbackOnFailure`.
+    @objc public var requestStrategy: Strategy = .FallbackOnFailure
     
+    /// Timeout used to control offline fallback.
+    ///
+    /// NOTE: Only used by the `FallbackOnTimeout` strategy.
+    ///
+    @objc public var offlineFallbackTimeout: NSTimeInterval = 1.0
+
     /// A mixed online/offline request.
     /// This request encapsulates two concurrent online and offline requests, to optimize response time.
     ///
-    /// WARNING: Can only be used when the index is mirrored.
-    ///
-    class OnlineOfflineSearchOperation: AsyncOperation {
+    private class OnlineOfflineOperation: AsyncOperation {
         private let index: MirroredIndex
-        let query: Query
         let completionHandler: CompletionHandler
         private var onlineRequest: NSOperation?
         private var offlineRequest: NSOperation?
         private var mayRunOfflineRequest: Bool = true
         
-        init(index: MirroredIndex, query: Query, completionHandler: CompletionHandler) {
+        init(index: MirroredIndex, completionHandler: CompletionHandler) {
             self.index = index
-            self.query = query
             self.completionHandler = completionHandler
         }
         
@@ -460,24 +465,20 @@ import Foundation
             // WARNING: All callbacks must run sequentially; we cannot afford race conditions between them.
             // Since most methods use the main thread for callbacks, we have to use it as well.
             
-            // Launch an online request immediately.
-            onlineRequest = index.searchOnline(query, completionHandler: {
-                (content, error) in
-                if error != nil && error!.isTransient() {
-                    self.startOffline()
-                } else {
-                    self.cancelOffline()
-                    var taggedContent = content
-                    if content != nil {
-                        taggedContent?[MirroredIndex.JSONKeyOrigin] = MirroredIndex.JSONValueOriginRemote
-                    }
-                    self.completionHandler(content: taggedContent, error: error);
+            // If the strategy is "offline only", well, go offline straight away.
+            if index.requestStrategy == .OfflineOnly && index.mirrored {
+                startOffline()
+            }
+            // Otherwise, always launch an online request.
+            else {
+                if index.requestStrategy == .OnlineOnly {
+                    mayRunOfflineRequest = false
                 }
-            })
-            
-            // Preventive offline mode: schedule an offline request to start after a certain delay.
-            if index.preventiveOfflineSearch {
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(index.preventiveOfflineSearchDelay * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                startOnline()
+            }
+            if index.requestStrategy == .FallbackOnTimeout {
+                // Schedule an offline request to start after a certain delay.
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(index.offlineFallbackTimeout * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
                     if self.mayRunOfflineRequest {
                         self.startOffline()
                     }
@@ -485,16 +486,42 @@ import Foundation
             }
         }
         
+        private func startOnline() {
+            // Avoid launching the request twice.
+            if onlineRequest != nil {
+                return
+            }
+            onlineRequest = startOnlineRequest({
+                (content, error) in
+                // In case of transient error, run an offline request.
+                if error != nil && error!.isTransient() && self.mayRunOfflineRequest {
+                    self.startOffline()
+                }
+                // Otherwise, just return the online results.
+                else {
+                    self.cancelOffline()
+                    self.callCompletion(content, error: error)
+                }
+            })
+        }
+        
         private func startOffline() {
             // NOTE: If we reach this handler, it means the offline request has not been cancelled.
-            offlineRequest = index.searchMirror(query, completionHandler: {
+            assert(mayRunOfflineRequest)
+            // Avoid launching the request twice.
+            if offlineRequest != nil {
+                return
+            }
+            offlineRequest = startOfflineRequest({
                 (content, error) in
                 // NOTE: If we reach this handler, it means the offline request has not been cancelled.
-                // WARNING: A 404 error likely indicates that the local mirror has not been synced yet, so absorb it.
-                if error?.domain == Client.ErrorDomain && error?.code == 404 {
+                // WARNING: A 404 error likely indicates that the local mirror has not been synced yet, so absorb it...
+                // ... unless the online request has already finished, meaning the offline has to return a result.
+                if error?.domain == Client.ErrorDomain && error?.code == 404 && self.onlineRequest?.finished != true {
                     return
                 }
-                self.completionHandler(content: content, error: error)
+                self.onlineRequest?.cancel()
+                self.callCompletion(content, error: error)
             })
         }
         
@@ -503,6 +530,7 @@ import Foundation
             mayRunOfflineRequest = false;
             // Cancel the offline request if already running.
             offlineRequest?.cancel();
+            offlineRequest = nil
         }
         
         override func cancel() {
@@ -512,15 +540,75 @@ import Foundation
                 super.cancel()
             }
         }
+        
+        private func callCompletion(content: [String: AnyObject]?, error: NSError?) {
+            if _finished {
+                return
+            }
+            if !_cancelled {
+                completionHandler(content: content, error: error)
+            }
+            finish()
+        }
+        
+        func startOnlineRequest(completionHandler: CompletionHandler) -> NSOperation {
+            preconditionFailure("To be implemented by derived classes")
+        }
+
+        func startOfflineRequest(completionHandler: CompletionHandler) -> NSOperation {
+            preconditionFailure("To be implemented by derived classes")
+        }
     }
     
-    /// Search the local mirror.
-    @objc public func searchMirror(query: Query, completionHandler: CompletionHandler) -> NSOperation {
+    // MARK: Regular search
+    
+    /// Search using the current request strategy to choose between online and offline (or a combination of both).
+    @objc public override func search(query: Query, completionHandler: CompletionHandler) -> NSOperation {
+        let queryCopy = Query(copy: query)
+        let operation = OnlineOfflineSearchOperation(index: self, query: queryCopy, completionHandler: completionHandler)
+        // NOTE: This operation is just an aggregate, so it does not need to be enqueued.
+        operation.start()
+        return operation
+    }
+    
+    private class OnlineOfflineSearchOperation: OnlineOfflineOperation {
+        let query: Query
+        
+        init(index: MirroredIndex, query: Query, completionHandler: CompletionHandler) {
+            self.query = query
+            super.init(index: index, completionHandler: completionHandler)
+        }
+        
+        override func startOnlineRequest(completionHandler: CompletionHandler) -> NSOperation {
+            return index.searchOnline(query, completionHandler: completionHandler)
+        }
+        
+        override func startOfflineRequest(completionHandler: CompletionHandler) -> NSOperation {
+            return index.searchOffline(query, completionHandler: completionHandler)
+        }
+    }
+    
+    /// Explicitly search the online API, and not the local mirror.
+    @objc public func searchOnline(query: Query, completionHandler: CompletionHandler) -> NSOperation {
+        return super.search(query, completionHandler: {
+            (content, error) in
+            // Tag results as having a remote origin.
+            var taggedContent: [String: AnyObject]? = content
+            if taggedContent != nil {
+                taggedContent?[MirroredIndex.JSONKeyOrigin] = MirroredIndex.JSONValueOriginRemote
+            }
+            completionHandler(content: taggedContent, error: error)
+        })
+    }
+    
+    /// Explicitly search the local mirror.
+    @objc public func searchOffline(query: Query, completionHandler: CompletionHandler) -> NSOperation {
+        assert(self.mirrored, "Mirroring not activated on this index")
         let queryCopy = Query(copy: query)
         let callingQueue = NSOperationQueue.currentQueue() ?? NSOperationQueue.mainQueue()
         let operation = NSBlockOperation()
         operation.addExecutionBlock() {
-            let (content, error) = self._searchMirror(queryCopy)
+            let (content, error) = self._searchOffline(queryCopy)
             callingQueue.addOperationWithBlock() {
                 if !operation.cancelled {
                     completionHandler(content: content, error: error)
@@ -530,11 +618,10 @@ import Foundation
         self.offlineClient.searchQueue.addOperation(operation)
         return operation
     }
-    
+
     /// Search the local mirror synchronously.
-    private func _searchMirror(query: Query) -> (content: [String: AnyObject]?, error: NSError?) {
+    private func _searchOffline(query: Query) -> (content: [String: AnyObject]?, error: NSError?) {
         assert(!NSThread.isMainThread()) // make sure it's run in the background
-        assert(self.mirrored, "Mirroring not activated on this index")
         
         var content: [String: AnyObject]?
         var error: NSError?
@@ -555,6 +642,138 @@ import Foundation
             }
         } else {
             error = NSError(domain: Client.ErrorDomain, code: Int(searchResults.statusCode), userInfo: nil)
+        }
+        assert(content != nil || error != nil)
+        return (content: content, error: error)
+    }
+    
+    // MARK: Multiple queries
+    
+    /// Run multiple queries using the current request strategy to choose between online and offline.
+    @objc override public func multipleQueries(queries: [Query], strategy: String?, completionHandler: CompletionHandler) -> NSOperation {
+        let operation = OnlineOfflineMultipleQueriesOperation(index: self, queries: queries, completionHandler: completionHandler)
+        operation.start()
+        return operation
+    }
+    
+    private class OnlineOfflineMultipleQueriesOperation: OnlineOfflineOperation {
+        let queries: [Query]
+        
+        init(index: MirroredIndex, queries: [Query], completionHandler: CompletionHandler) {
+            self.queries = queries
+            super.init(index: index, completionHandler: completionHandler)
+        }
+        
+        override func startOnlineRequest(completionHandler: CompletionHandler) -> NSOperation {
+            return index.multipleQueriesOnline(queries, completionHandler: completionHandler)
+        }
+        
+        override func startOfflineRequest(completionHandler: CompletionHandler) -> NSOperation {
+            return index.multipleQueriesOffline(queries, completionHandler: completionHandler)
+        }
+    }
+    
+    /// Run multiple queries on the online API, and not the local mirror.
+    @objc public func multipleQueriesOnline(queries: [Query], strategy: String?, completionHandler: CompletionHandler) -> NSOperation {
+        return super.multipleQueries(queries, strategy: strategy, completionHandler: {
+            (content, error) in
+            // Tag results as having a remote origin.
+            var taggedContent: [String: AnyObject]? = content
+            if taggedContent != nil {
+                taggedContent?[MirroredIndex.JSONKeyOrigin] = MirroredIndex.JSONValueOriginRemote
+            }
+            completionHandler(content: taggedContent, error: error)
+        })
+    }
+
+    public func multipleQueriesOnline(queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: CompletionHandler) -> NSOperation {
+        return self.multipleQueriesOnline(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
+    }
+
+    /// Run multiple queries on the local mirror.
+    /// This method is the offline equivalent of `Index.multipleQueries()`.
+    ///
+    /// - parameter queries: List of queries.
+    /// - param strategy: The strategy to use.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc public func multipleQueriesOffline(queries: [Query], strategy: String?, completionHandler: CompletionHandler) -> NSOperation {
+        assert(self.mirrored, "Mirroring not activated on this index")
+        
+        // TODO: We should be doing a copy of the queries for better safety.
+        let callingQueue = NSOperationQueue.currentQueue() ?? NSOperationQueue.mainQueue()
+        let operation = NSBlockOperation()
+        operation.addExecutionBlock() {
+            let (content, error) = self._multipleQueriesOffline(queries, strategy: strategy)
+            callingQueue.addOperationWithBlock() {
+                if !operation.cancelled {
+                    completionHandler(content: content, error: error)
+                }
+            }
+        }
+        self.offlineClient.searchQueue.addOperation(operation)
+        return operation
+    }
+    
+    public func multipleQueriesOffline(queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: CompletionHandler) -> NSOperation {
+        return self.multipleQueriesOffline(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
+    }
+    
+    /// Run multiple queries on the local mirror synchronously.
+    private func _multipleQueriesOffline(queries: [Query], strategy: String?) -> (content: [String: AnyObject]?, error: NSError?) {
+        // TODO: Should be moved to `LocalIndex` to factorize implementation between platforms.
+        assert(!NSThread.isMainThread()) // make sure it's run in the background
+
+        var content: [String: AnyObject]?
+        var error: NSError?
+        var results: [[String: AnyObject]] = []
+        
+        var shouldProcess = true
+        for query in queries {
+            // Implement the "stop if enough matches" strategy.
+            if !shouldProcess {
+                let returnedContent: [String: AnyObject] = [
+                    "hits": [],
+                    "page": 0,
+                    "nbHits": 0,
+                    "nbPages": 0,
+                    "hitsPerPage": 0,
+                    "processingTimeMS": 1,
+                    "params": query.build(),
+                    "index": self.indexName,
+                    "processed": false
+                ]
+                results.append(returnedContent)
+                continue
+            }
+            
+            let (queryContent, queryError) = self._searchOffline(query)
+            if queryError != nil {
+                error = queryError
+                break
+            }
+            guard var returnedContent = queryContent else { assert(false, "Should never happen") }
+            returnedContent["index"] = self.indexName
+            results.append(returnedContent)
+            
+            // Implement the "stop if enough matches strategy".
+            if shouldProcess && strategy == Client.MultipleQueriesStrategy.StopIfEnoughMatches.rawValue {
+                if let nbHits = returnedContent["nbHits"] as? Int, hitsPerPage = returnedContent["hitsPerPage"] as? Int {
+                    if nbHits >= hitsPerPage {
+                        shouldProcess = false
+                    }
+                }
+            }
+        }
+        if error == nil {
+            content = [
+                "results": results,
+                // Tag results as having a local origin.
+                // NOTE: Each individual result is also automatically tagged, but having a top-level key allows for
+                // more uniform processing.
+                MirroredIndex.JSONKeyOrigin: MirroredIndex.JSONValueOriginLocal
+            ]
         }
         assert(content != nil || error != nil)
         return (content: content, error: error)

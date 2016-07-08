@@ -526,12 +526,12 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func searchDisjunctiveFaceting(query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: CompletionHandler) -> NSOperation {
-        var requests = [IndexQuery]()
+        var queries = [Query]()
         
         // Build the first, global query.
         let globalQuery = Query(copy: query)
         globalQuery.facetFilters = Index._buildFacetFilters(disjunctiveFacets, refinements: refinements, excludedFacet: nil)
-        requests.append(IndexQuery(index: self, query: globalQuery))
+        queries.append(globalQuery)
         
         // Build the refined queries.
         for disjunctiveFacet in disjunctiveFacets {
@@ -545,11 +545,11 @@ import Foundation
             disjunctiveQuery.attributesToSnippet = []
             // Do not show this query in analytics, either.
             disjunctiveQuery.analytics = false
-            requests.append(IndexQuery(index: self, query: disjunctiveQuery))
+            queries.append(disjunctiveQuery)
         }
         
         // Run all the queries.
-        let operation = client.multipleQueries(requests, completionHandler: { (content, error) -> Void in
+        let operation = self.multipleQueries(queries, completionHandler: { (content, error) -> Void in
             var finalContent: [String: AnyObject]? = nil
             var finalError: NSError? = error
             if error == nil {
@@ -563,6 +563,33 @@ import Foundation
             completionHandler(content: finalContent, error: finalError)
         })
         return operation
+    }
+    
+    /// Run multiple queries on this index.
+    /// This method is a variant of `Client.multipleQueries()` where the targeted index is always the receiver.
+    ///
+    /// - parameter queries: The queries to run.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc public func multipleQueries(queries: [Query], strategy: String?, completionHandler: CompletionHandler) -> NSOperation {
+        var requests = [IndexQuery]()
+        for query in queries {
+            requests.append(IndexQuery(index: self, query: query))
+        }
+        return client.multipleQueries(requests, strategy: strategy, completionHandler: completionHandler)
+    }
+    
+    /// Run multiple queries on this index.
+    /// This method is a variant of `Client.multipleQueries()` where the targeted index is always the receiver.
+    ///
+    /// - parameter queries: The queries to run.
+    /// - param strategy: The strategy to use.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    public func multipleQueries(queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: CompletionHandler) -> NSOperation {
+        return self.multipleQueries(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
     
     /// Aggregate disjunctive faceting search results.
