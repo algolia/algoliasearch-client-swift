@@ -53,9 +53,11 @@ Table of Contents
 **Commands Reference**
 
 Getting started
+
 1. [Init Index](#install-and-init---initindex)
 
 Search
+
 1. [Search](#search)
 1. [Find by id](#find-by-ids---getobjects)
 1. [Search cache](#search-cache)
