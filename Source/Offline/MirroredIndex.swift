@@ -566,11 +566,18 @@ import Foundation
     
     /// Search using the current request strategy to choose between online and offline (or a combination of both).
     @objc public override func search(query: Query, completionHandler: CompletionHandler) -> NSOperation {
-        let queryCopy = Query(copy: query)
-        let operation = OnlineOfflineSearchOperation(index: self, query: queryCopy, completionHandler: completionHandler)
-        // NOTE: This operation is just an aggregate, so it does not need to be enqueued.
-        operation.start()
-        return operation
+        // IMPORTANT: A non-mirrored index must behave exactly as an online index.
+        if (!mirrored) {
+            return super.search(query, completionHandler: completionHandler);
+        }
+        // A mirrored index launches a mixed offline/online request.
+        else {
+            let queryCopy = Query(copy: query)
+            let operation = OnlineOfflineSearchOperation(index: self, query: queryCopy, completionHandler: completionHandler)
+            // NOTE: This operation is just an aggregate, so it does not need to be enqueued.
+            operation.start()
+            return operation
+        }
     }
     
     private class OnlineOfflineSearchOperation: OnlineOfflineOperation {
@@ -653,9 +660,16 @@ import Foundation
     
     /// Run multiple queries using the current request strategy to choose between online and offline.
     @objc override public func multipleQueries(queries: [Query], strategy: String?, completionHandler: CompletionHandler) -> NSOperation {
-        let operation = OnlineOfflineMultipleQueriesOperation(index: self, queries: queries, completionHandler: completionHandler)
-        operation.start()
-        return operation
+        // IMPORTANT: A non-mirrored index must behave exactly as an online index.
+        if (!mirrored) {
+            return super.multipleQueries(queries, strategy: strategy, completionHandler: completionHandler);
+        }
+        // A mirrored index launches a mixed offline/online request.
+        else {
+            let operation = OnlineOfflineMultipleQueriesOperation(index: self, queries: queries, completionHandler: completionHandler)
+            operation.start()
+            return operation
+        }
     }
     
     private class OnlineOfflineMultipleQueriesOperation: OnlineOfflineOperation {
