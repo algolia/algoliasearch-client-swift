@@ -468,17 +468,17 @@ import Foundation
             // Since most methods use the main thread for callbacks, we have to use it as well.
             
             // If the strategy is "offline only", well, go offline straight away.
-            if index.requestStrategy == .OfflineOnly && index.mirrored {
+            if index.requestStrategy == .OfflineOnly {
                 startOffline()
             }
             // Otherwise, always launch an online request.
             else {
-                if index.requestStrategy == .OnlineOnly {
+                if index.requestStrategy == .OnlineOnly || !index.localIndex.exists() {
                     mayRunOfflineRequest = false
                 }
                 startOnline()
             }
-            if index.requestStrategy == .FallbackOnTimeout {
+            if index.requestStrategy == .FallbackOnTimeout && mayRunOfflineRequest {
                 // Schedule an offline request to start after a certain delay.
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(index.offlineFallbackTimeout * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
                     if self.mayRunOfflineRequest {
@@ -516,12 +516,6 @@ import Foundation
             }
             offlineRequest = startOfflineRequest({
                 (content, error) in
-                // NOTE: If we reach this handler, it means the offline request has not been cancelled.
-                // WARNING: A 404 error likely indicates that the local mirror has not been synced yet, so absorb it...
-                // ... unless the online request has already finished, meaning the offline has to return a result.
-                if error?.domain == Client.ErrorDomain && error?.code == 404 && self.onlineRequest?.finished != true {
-                    return
-                }
                 self.onlineRequest?.cancel()
                 self.callCompletion(content, error: error)
             })
