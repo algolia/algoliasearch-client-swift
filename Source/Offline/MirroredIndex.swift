@@ -109,7 +109,7 @@ import Foundation
     }
     
     /// The local index mirroring this remote index (lazy instantiated, only if mirroring is activated).
-    lazy var localIndex: ASLocalIndex? = ASLocalIndex(dataDir: self.offlineClient.rootDataDir, appID: self.client.appID, indexName: self.indexName)
+    lazy var localIndex: ASLocalIndex! = ASLocalIndex(dataDir: self.offlineClient.rootDataDir, appID: self.client.appID, indexName: self.indexName)
     
     /// The mirrored index settings.
     let mirrorSettings = MirrorSettings()
@@ -220,6 +220,7 @@ import Foundation
     /// This unconditionally launches a sync, unless one is already running.
     ///
     @objc public func sync() {
+        assert(self.mirrored, "Mirroring not activated on this index")
         offlineClient.buildQueue.addOperationWithBlock() {
             self._sync()
         }
@@ -229,6 +230,7 @@ import Foundation
     /// This takes into account the delay between syncs.
     ///
     @objc public func syncIfNeeded() {
+        assert(self.mirrored, "Mirroring not activated on this index")
         if self.isSyncDelayExpired() || self.isMirrorSettingsDirty() {
             offlineClient.buildQueue.addOperationWithBlock() {
                 self._sync()
@@ -252,7 +254,6 @@ import Foundation
     private func _sync() {
         assert(!NSThread.isMainThread()) // make sure it's run in the background
         assert(NSOperationQueue.currentQueue() == offlineClient.buildQueue) // ensure serial calls
-        assert(self.mirrored, "Mirroring not activated on this index")
         assert(!self.dataSelectionQueries.isEmpty)
 
         // If already syncing, abort.
@@ -302,7 +303,7 @@ import Foundation
         // Task: build the index using the downloaded files.
         buildIndexOperation = NSBlockOperation() {
             if self.syncError == nil {
-                let status = self.localIndex!.buildFromSettingsFile(self.settingsFilePath, objectFiles: self.objectsFilePaths, clearIndex: true)
+                let status = self.localIndex.buildFromSettingsFile(self.settingsFilePath, objectFiles: self.objectsFilePaths, clearIndex: true)
                 if status != 200 {
                     self.syncError = NSError(domain: Client.ErrorDomain, code: Int(status), userInfo: [NSLocalizedDescriptionKey: "Could not build local index"])
                 } else {
@@ -457,6 +458,7 @@ import Foundation
         private var mayRunOfflineRequest: Bool = true
         
         init(index: MirroredIndex, completionHandler: CompletionHandler) {
+            assert(index.mirrored)
             self.index = index
             self.completionHandler = completionHandler
         }
@@ -626,7 +628,7 @@ import Foundation
         var content: [String: AnyObject]?
         var error: NSError?
         
-        let searchResults = localIndex!.search(query.build())
+        let searchResults = localIndex.search(query.build())
         if searchResults.statusCode == 200 {
             assert(searchResults.data != nil)
             do {
@@ -790,6 +792,7 @@ import Foundation
     /// Same semantics as `Index.browse()`.
     ///
     @objc public func browseMirror(query: Query, completionHandler: CompletionHandler) -> NSOperation {
+        assert(self.mirrored, "Mirroring not activated on this index")
         let queryCopy = Query(copy: query)
         let callingQueue = NSOperationQueue.currentQueue() ?? NSOperationQueue.mainQueue()
         let operation = NSBlockOperation()
@@ -809,6 +812,7 @@ import Foundation
     /// Same semantics as `Index.browseFrom()`.
     ///
     @objc public func browseMirrorFrom(cursor: String, completionHandler: CompletionHandler) -> NSOperation {
+        assert(self.mirrored, "Mirroring not activated on this index")
         let callingQueue = NSOperationQueue.currentQueue() ?? NSOperationQueue.mainQueue()
         let operation = NSBlockOperation()
         operation.addExecutionBlock() {
@@ -827,12 +831,11 @@ import Foundation
     /// Browse the local mirror synchronously.
     private func _browseMirror(query: Query) -> (content: [String: AnyObject]?, error: NSError?) {
         assert(!NSThread.isMainThread()) // make sure it's run in the background
-        assert(self.mirrored, "Mirroring not activated on this index")
         
         var content: [String: AnyObject]?
         var error: NSError?
         
-        let searchResults = localIndex!.browse(query.build())
+        let searchResults = localIndex.browse(query.build())
         // TODO: Factorize this code with above and with online requests.
         if searchResults.statusCode == 200 {
             assert(searchResults.data != nil)
