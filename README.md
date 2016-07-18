@@ -50,19 +50,19 @@ Our Swift client lets you easily use the [Algolia Search API](https://www.algoli
 
 Getting started
 
-1. [Init Index](#install-and-init---initindex)
+1. [Install and init](#install-and-init---initindex)
 
 Search
 
-1. [Search](#search)
-1. [Find by id](#find-by-ids---getobjects)
+1. [Search in an index](#search-in-an-index---search)
+1. [Find by IDs](#find-by-ids---getobjects)
 1. [Search cache](#search-cache)
 
 Indexing
 
 1. [Add objects](#add-objects---addobjects)
 1. [Update objects](#update-objects---saveobjects)
-1. [Partial Update objects](#partial-update---partialupdateobjects)
+1. [Partial update](#partial-update---partialupdateobjects)
 1. [Delete objects](#delete-objects---deleteobjects)
 
 Settings
@@ -73,24 +73,24 @@ Settings
 Manage Indices
 
 1. [List indices](#list-indices---listindexes)
-1. [Delete an index](#delete-index---deleteindex)
-1. [Clear an index](#clear-index---clearindex)
-1. [Copy an index](#copy-index---copyindex)
-1. [Move an index](#move-index---moveindex)
+1. [Delete index](#delete-index---deleteindex)
+1. [Clear index](#clear-index---clearindex)
+1. [Copy index](#copy-index---copyindex)
+1. [Move index](#move-index---moveindex)
 
 Api Keys
 
-1. [Generate API keys](#generate-key---generatesecuredapikey)
+1. [Generate key](#generate-key---generatesecuredapikey)
 
 
 
 Advanced
 
 1. [Custom batch](#custom-batch---batch)
-1. [Wait for an indexing operation](#wait-for-an-indexing-operation---waittask)
+1. [Wait for operations](#wait-for-operations---waittask)
 1. [Multiple queries](#multiple-queries---multiplequeries)
 1. [Delete by query](#delete-by-query---deletebyquery)
-1. [Backup / Export an index](#backup--export-an-index---browse)
+1. [Backup / Export an index](#backup-/-export-an-index---browse)
 1. [List api keys](#list-api-keys---listapikeys)
 1. [Add user key](#add-user-key---adduserkey)
 1. [Update user key](#update-user-key---updateuserkey)
