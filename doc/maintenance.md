@@ -68,3 +68,8 @@ keep versioning aligned (there is only one version number for both flavors).
     but iOS 7 is really supported; it's just that it cannot be supported via CocoaPods.
 
 - Edit the **release notes**: in GitHub, edit the tag and copy-paste the Change Log section for this release.
+
+- Update the **external documentation** if necessary:
+
+    - [Guides](https://www.algolia.com/doc/guides)
+    - [FAQ](https://www.algolia.com/doc/faq)
