@@ -129,7 +129,7 @@ Check our [online guides](https://www.algolia.com/doc):
 
 ## Getting Started
 
-### Install and init- `initIndex`
+### Install and init - `initIndex`
 
 
 
@@ -241,7 +241,7 @@ index.search(Query(query: "jim"), completionHandler: { (content, error) -> Void 
 
 ## Search
 
-### Search in an index- `search`
+### Search in an index - `search`
 
 
 
@@ -366,7 +366,7 @@ Parameters that can also be used in a setSettings also have the `indexing` [scop
 
 <!--/PARAMETERS_LINK-->
 
-### Find by IDs- `getObjects`
+### Find by IDs - `getObjects`
 
 You can easily retrieve an object using its `objectID` and optionally specify a comma separated list of attributes you want:
 
@@ -420,7 +420,7 @@ index.enableSearchCache(expiringTimeInterval: 300)
 
 ## Indexing
 
-### Add objects- `addObjects`
+### Add objects - `addObjects`
 
 Each entry in an index has a unique identifier called `objectID`. There are two ways to add an entry to the index:
 
@@ -457,7 +457,7 @@ index.addObject(newObject, withID: "myID", completionHandler: { (content, error)
 ```
 
 
-### Update objects- `saveObjects`
+### Update objects - `saveObjects`
 
 You have three options when updating an existing object:
 
@@ -477,7 +477,7 @@ let newObject = [
 index.saveObject(newObject)
 ```
 
-### Partial update- `partialUpdateObjects`
+### Partial update - `partialUpdateObjects`
 
 You have many ways to update an object's attributes:
 
@@ -557,7 +557,7 @@ Note: Here we are decrementing the value by `42`. To decrement just by one, put
 `value:1`.
 
 
-### Delete objects- `deleteObjects`
+### Delete objects - `deleteObjects`
 
 You can delete an object using its `objectID`:
 
@@ -565,7 +565,7 @@ You can delete an object using its `objectID`:
 index.deleteObject("myID")
 ```
 
-### Delete by query- `deleteByQuery`
+### Delete by query - `deleteByQuery`
 
 You can delete all objects matching a single query with the following code. Internally, the API client performs the query, deletes all matching hits, and waits until the deletions have been applied.
 
@@ -577,7 +577,7 @@ let query: Query = /* [...] */
 index.deleteByQuery(query)
 ```
 
-### Wait for operations- `waitTask`
+### Wait for operations - `waitTask`
 
 All write operations in Algolia are asynchronous by design.
 
@@ -611,7 +611,7 @@ the biggest `taskID`.
 
 ## Settings
 
-### Get settings- `getSettings`
+### Get settings - `getSettings`
 
 You can retrieve settings:
 
@@ -623,7 +623,7 @@ index.getSettings(completionHandler: { (content, error) -> Void in
 })
 ```
 
-### Set settings- `setSettings`
+### Set settings - `setSettings`
 
 ```swift
 let customRanking = ["desc(followers)", "asc(name)"]
@@ -1646,7 +1646,7 @@ To create an index, you need to perform any indexing operation like:
 - set settings
 - add object
 
-### List indices- `listIndexes`
+### List indices - `listIndexes`
 
 You can list all your indices along with their associated information (number of entries, disk size, etc.) with the `` method:
 
@@ -1668,14 +1668,14 @@ client.listIndexes(completionHandler: { (content, error) -> Void in
 
 ## Advanced
 
-### Custom batch- `batch`
+### Custom batch - `batch`
 
 You may want to perform multiple operations with one API call to reduce latency.
 We expose four methods to perform batch operations:
- * Add objects- `addObjects`: Add an array of objects using automatic `objectID` assignment.
- * Update objects- `saveObjects`: Add or update an array of objects that contains an `objectID` attribute.
- * Delete objects- `deleteObjects`: Delete an array of objectIDs.
- * Partial update- `partialUpdateObjects`: Partially update an array of objects that contain an `objectID` attribute (only specified attributes will be updated).
+ * Add objects - `addObjects`: Add an array of objects using automatic `objectID` assignment.
+ * Update objects - `saveObjects`: Add or update an array of objects that contains an `objectID` attribute.
+ * Delete objects - `deleteObjects`: Delete an array of objectIDs.
+ * Partial update - `partialUpdateObjects`: Partially update an array of objects that contain an `objectID` attribute (only specified attributes will be updated).
 
 Example using automatic `objectID` assignment:
 ```swift
@@ -1728,7 +1728,7 @@ The attribute **action** can have these values:
 - partialUpdateObjectNoCreate
 - deleteObject
 
-### Backup / Export an index- `browse`
+### Backup / Export an index - `browse`
 
 The `search` method cannot return more than 1,000 results. If you need to
 retrieve all the content of your index (for backup, SEO purposes or for running
