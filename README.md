@@ -19,7 +19,7 @@ If you were using **version 2.x** of our Swift client, read the [migration guide
 [Algolia Search](https://www.algolia.com) is a hosted full-text, numerical, and faceted search engine capable of delivering realtime results from the first keystroke.
 
 
-Our Swift client lets you easily use the [Algolia Search API](https://www.algolia.com/doc/rest) from your iOS & OS X applications. It wraps the [Algolia Search REST API](https://www.algolia.com/doc/rest).
+Our Swift client lets you easily use the [Algolia Search API](https://www.algolia.com/doc/rest) from your iOS, macOS and tvOS applications. It wraps the [Algolia Search REST API](https://www.algolia.com/doc/rest).
 
 
 
