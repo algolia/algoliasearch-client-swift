@@ -49,7 +49,8 @@ Our Swift client lets you easily use the [Algolia Search API](https://www.algoli
 
 Getting started
 
-1. [Install and init](#install-and-init---initindex)
+1. [Install](#install)
+1. [Init index](#init-index---initindex)
 
 Search
 
@@ -129,7 +130,7 @@ Check our [online guides](https://www.algolia.com/doc):
 
 ## Getting Started
 
-### Install and init - `initIndex`
+### Install
 
 
 
@@ -138,12 +139,15 @@ Check our [online guides](https://www.algolia.com/doc):
     - CocoaPods: add `pod 'AlgoliaSearch-Client-Swift', '~> 3.0'` to your `Podfile`.
     - Carthage: add `github "algolia/algoliasearch-client-swift"` to your `Cartfile`.
 2. Add `import AlgoliaSearch` to your source files.
-3. Initialize the client with your application ID and API key (you can find them on [your Algolia Dashboard](https://www.algolia.com/api-keys)):
+
+
+### Init index - `initIndex`
+
+To initialize the client you need your ApplicationID and API-Key. You can find all of them on [your Algolia account](http://www.algolia.com/users/edit)
 
 ```swift
 let client = Client(appID: "YourApplicationID", apiKey: "YourAPIKey")
 ```
-
 
 
 
