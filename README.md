@@ -2,7 +2,6 @@
 
 # Algolia Search API Client for Swift
 
-
 **&lt;Welcome Objective-C developers&gt;**
 
 In July 2015, we released a **new version** of our Swift client, able to work with Swift and Objective-C. As of version 3 (April 2016), Swift has become the reference implementation for both Swift and Objective-C projects.
@@ -20,7 +19,7 @@ If you were using **version 2.x** of our Swift client, read the [migration guide
 [Algolia Search](https://www.algolia.com) is a hosted full-text, numerical, and faceted search engine capable of delivering realtime results from the first keystroke.
 
 
-Our Swift client lets you easily use the [Algolia Search API](https://www.algolia.com/doc/rest) from your iOS, macOS and tvOS applications. It wraps the [Algolia Search REST API](https://www.algolia.com/doc/rest).
+Our Swift client lets you easily use the [Algolia Search API](https://www.algolia.com/doc/rest) from your iOS & OS X applications. It wraps the [Algolia Search REST API](https://www.algolia.com/doc/rest).
 
 
 
@@ -90,7 +89,7 @@ Advanced
 1. [Wait for operations](#wait-for-operations---waittask)
 1. [Multiple queries](#multiple-queries---multiplequeries)
 1. [Delete by query](#delete-by-query---deletebyquery)
-1. [Backup / Export an index](#backup-)-export-an-index---browse)
+1. [Backup / Export an index](#backup--export-an-index---browse)
 1. [List api keys](#list-api-keys---listapikeys)
 1. [Add user key](#add-user-key---adduserkey)
 1. [Update user key](#update-user-key---updateuserkey)
@@ -130,9 +129,7 @@ Check our [online guides](https://www.algolia.com/doc):
 
 ## Getting Started
 
-### Install and init - `initIndex`
-
-To setup your project, follow these steps:
+### Install and init- `initIndex`
 
 
 
@@ -244,15 +241,11 @@ index.search(Query(query: "jim"), completionHandler: { (content, error) -> Void 
 
 ## Search
 
-### Search in an index - `search`
-
-
+### Search in an index- `search`
 
 
 
 To perform a search, you only need to initialize the index and perform a call to the search function.
-
-
 
 The search query allows only to retrieve 1000 hits, if you need to retrieve more than 1000 hits for seo, you can use [Backup / Retrieve all index content](#backup--export-an-index)
 
@@ -318,62 +311,62 @@ Here is the list of parameters you can use with the search method (`search` [sco
 Parameters that can also be used in a setSettings also have the `indexing` [scope](#scope)
 
 **Search**
-- [query](#query) `search`
+- [query](query) `search`
 
 **Attributes**
-- [attributesToRetrieve](#attributestoretrieve) `settings`, `search`
+- [attributesToRetrieve](attributestoretrieve) `settings`, `search`
 
 **Filtering / Faceting**
-- [filters](#filters) `search`
-- [facets](#facets) `search`
-- [maxValuesPerFacet](#maxvaluesperfacet) `settings`, `search`
+- [filters](filters) `search`
+- [facets](facets) `search`
+- [maxValuesPerFacet](maxvaluesperfacet) `settings`, `search`
 
 **Highlighting / Snippeting**
-- [attributesToHighlight](#attributestohighlight) `settings`, `search`
-- [attributesToSnippet](#attributestosnippet) `settings`, `search`
-- [highlightPreTag](#highlightpretag) `settings`, `search`
-- [highlightPostTag](#highlightposttag) `settings`, `search`
-- [snippetEllipsisText](#snippetellipsistext) `settings`, `search`
+- [attributesToHighlight](attributestohighlight) `settings`, `search`
+- [attributesToSnippet](attributestosnippet) `settings`, `search`
+- [highlightPreTag](highlightpretag) `settings`, `search`
+- [highlightPostTag](highlightposttag) `settings`, `search`
+- [snippetEllipsisText](snippetellipsistext) `settings`, `search`
 
 **Pagination**
-- [page](#page) `search`
-- [hitsPerPage](#hitsperpage) `settings`, `search`
+- [page](page) `search`
+- [hitsPerPage](hitsperpage) `settings`, `search`
 
 **Typos**
-- [minWordSizefor1Typo](#minwordsizefor1typo) `settings`, `search`
-- [minWordSizefor2Typos](#minwordsizefor2typos) `settings`, `search`
-- [typoTolerance](#typotolerance) `settings`, `search`
-- [allowTyposOnNumericTokens](#allowtyposonnumerictokens) `settings`, `search`
-- [ignorePlurals](#ignoreplurals) `settings`, `search`
-- [disableTypoToleranceOnAttributes](#disabletypotoleranceonattributes) `settings`, `search`
+- [minWordSizefor1Typo](minwordsizefor1typo) `settings`, `search`
+- [minWordSizefor2Typos](minwordsizefor2typos) `settings`, `search`
+- [typoTolerance](typotolerance) `settings`, `search`
+- [allowTyposOnNumericTokens](allowtyposonnumerictokens) `settings`, `search`
+- [ignorePlurals](ignoreplurals) `settings`, `search`
+- [disableTypoToleranceOnAttributes](disabletypotoleranceonattributes) `settings`, `search`
 
 **Geo-Search**
-- [aroundLatLng](#aroundlatlng) `search`
-- [aroundLatLngViaIP](#aroundlatlngviaip) `search`
-- [insideBoundingBox](#insideboundingbox) `search`
-- [insidePolygon](#insidepolygon) `search`
+- [aroundLatLng](aroundlatlng) `search`
+- [aroundLatLngViaIP](aroundlatlngviaip) `search`
+- [insideBoundingBox](insideboundingbox) `search`
+- [insidePolygon](insidepolygon) `search`
 
 
 **Query Strategy**
-- [queryType](#querytype) `settings`, `search`
-- [removeWordsIfNoResults](#removewordsifnoresults) `settings`, `search`
-- [advancedSyntax](#advancedsyntax) `settings`, `search`
-- [optionalWords](#optionalwords) `settings`, `search`
-- [removeStopWords](#removestopwords) `settings`, `search`
-- [exactOnSingleWordQuery](#exactonsinglewordquery) `settings`, `search`
-- [alternativesAsExact](#alternativesasexact) `settings`, `search`
+- [queryType](querytype) `settings`, `search`
+- [removeWordsIfNoResults](removewordsifnoresults) `settings`, `search`
+- [advancedSyntax](advancedsyntax) `settings`, `search`
+- [optionalWords](optionalwords) `settings`, `search`
+- [removeStopWords](removestopwords) `settings`, `search`
+- [exactOnSingleWordQuery](exactonsinglewordquery) `settings`, `search`
+- [alternativesAsExact](alternativesasexact) `settings`, `search`
 
 **Advanced**
-- [distinct](#distinct) `settings`, `search`
-- [rankingInfo](#rankinginfo) `search`
-- [numericFilters (deprecated)](#numericfilters+%28deprecated%29) `search`
-- [tagFilters (deprecated)](#tagfilters+%28deprecated%29) `search`
-- [facetFilters (deprecated)](#facetfilters+%28deprecated%29) `search`
-- [analytics](#analytics) `settings`, `search`
+- [distinct](distinct) `settings`, `search`
+- [rankingInfo](rankinginfo) `search`
+- [numericFilters (deprecated)](numericfilters-deprecated) `search`
+- [tagFilters (deprecated)](tagfilters-deprecated) `search`
+- [facetFilters (deprecated)](facetfilters-deprecated) `search`
+- [analytics](analytics) `settings`, `search`
 
 <!--/PARAMETERS_LINK-->
 
-### Find by IDs - `getObjects`
+### Find by IDs- `getObjects`
 
 You can easily retrieve an object using its `objectID` and optionally specify a comma separated list of attributes you want:
 
@@ -427,7 +420,7 @@ index.enableSearchCache(expiringTimeInterval: 300)
 
 ## Indexing
 
-### Add objects - `addObjects`
+### Add objects- `addObjects`
 
 Each entry in an index has a unique identifier called `objectID`. There are two ways to add an entry to the index:
 
@@ -464,7 +457,7 @@ index.addObject(newObject, withID: "myID", completionHandler: { (content, error)
 ```
 
 
-### Update objects - `saveObjects`
+### Update objects- `saveObjects`
 
 You have three options when updating an existing object:
 
@@ -484,7 +477,7 @@ let newObject = [
 index.saveObject(newObject)
 ```
 
-### Partial update - `partialUpdateObjects`
+### Partial update- `partialUpdateObjects`
 
 You have many ways to update an object's attributes:
 
@@ -564,7 +557,7 @@ Note: Here we are decrementing the value by `42`. To decrement just by one, put
 `value:1`.
 
 
-### Delete objects - `deleteObjects`
+### Delete objects- `deleteObjects`
 
 You can delete an object using its `objectID`:
 
@@ -572,8 +565,7 @@ You can delete an object using its `objectID`:
 index.deleteObject("myID")
 ```
 
-
-### Delete by query - `deleteByQuery`
+### Delete by query- `deleteByQuery`
 
 You can delete all objects matching a single query with the following code. Internally, the API client performs the query, deletes all matching hits, and waits until the deletions have been applied.
 
@@ -585,9 +577,7 @@ let query: Query = /* [...] */
 index.deleteByQuery(query)
 ```
 
-
-
-### Wait for operations - `waitTask`
+### Wait for operations- `waitTask`
 
 All write operations in Algolia are asynchronous by design.
 
@@ -621,7 +611,7 @@ the biggest `taskID`.
 
 ## Settings
 
-### Get settings - `getSettings`
+### Get settings- `getSettings`
 
 You can retrieve settings:
 
@@ -633,7 +623,7 @@ index.getSettings(completionHandler: { (content, error) -> Void in
 })
 ```
 
-### Set settings - `setSettings`
+### Set settings- `setSettings`
 
 ```swift
 let customRanking = ["desc(followers)", "asc(name)"]
@@ -664,56 +654,56 @@ Here is the list of parameters you can use with the set settings method (`indexi
 Parameters that can be override at search time also have the `indexing` [scope](#scope)
 
 **Attributes**
-- [attributesToIndex](#attributestoindex) `settings`
-- [attributesForFaceting](#attributesforfaceting) `settings`
-- [attributesToRetrieve](#attributestoretrieve) `settings`, `search`
-- [unretrievableAttributes](#unretrievableattributes) `settings`
+- [attributesToIndex](attributestoindex) `settings`
+- [attributesForFaceting](attributesforfaceting) `settings`
+- [attributesToRetrieve](attributestoretrieve) `settings`, `search`
+- [unretrievableAttributes](unretrievableattributes) `settings`
 
 **Ranking**
-- [ranking](#ranking) `settings`
-- [customRanking](#customranking) `settings`
-- [slaves](#slaves) `settings`
+- [ranking](ranking) `settings`
+- [customRanking](customranking) `settings`
+- [slaves](slaves) `settings`
 
 **Filtering / Faceting**
-- [maxValuesPerFacet](#maxvaluesperfacet) `settings`, `search`
+- [maxValuesPerFacet](maxvaluesperfacet) `settings`, `search`
 
 **Highlighting / Snippeting**
-- [attributesToHighlight](#attributestohighlight) `settings`, `search`
-- [attributesToSnippet](#attributestosnippet) `settings`, `search`
-- [highlightPreTag](#highlightpretag) `settings`, `search`
-- [highlightPostTag](#highlightposttag) `settings`, `search`
-- [snippetEllipsisText](#snippetellipsistext) `settings`, `search`
+- [attributesToHighlight](attributestohighlight) `settings`, `search`
+- [attributesToSnippet](attributestosnippet) `settings`, `search`
+- [highlightPreTag](highlightpretag) `settings`, `search`
+- [highlightPostTag](highlightposttag) `settings`, `search`
+- [snippetEllipsisText](snippetellipsistext) `settings`, `search`
 
 **Pagination**
-- [hitsPerPage](#hitsperpage) `settings`, `search`
+- [hitsPerPage](hitsperpage) `settings`, `search`
 
 **Typos**
-- [minWordSizefor1Typo](#minwordsizefor1typo) `settings`, `search`
-- [minWordSizefor2Typos](#minwordsizefor2typos) `settings`, `search`
-- [typoTolerance](#typotolerance) `settings`, `search`
-- [allowTyposOnNumericTokens](#allowtyposonnumerictokens) `settings`, `search`
-- [ignorePlurals](#ignoreplurals) `settings`, `search`
-- [disableTypoToleranceOnAttributes](#disabletypotoleranceonattributes) `settings`, `search`
-- [separatorsToIndex](#separatorstoindex) `settings`
+- [minWordSizefor1Typo](minwordsizefor1typo) `settings`, `search`
+- [minWordSizefor2Typos](minwordsizefor2typos) `settings`, `search`
+- [typoTolerance](typotolerance) `settings`, `search`
+- [allowTyposOnNumericTokens](allowtyposonnumerictokens) `settings`, `search`
+- [ignorePlurals](ignoreplurals) `settings`, `search`
+- [disableTypoToleranceOnAttributes](disabletypotoleranceonattributes) `settings`, `search`
+- [separatorsToIndex](separatorstoindex) `settings`
 
 **Query Strategy**
-- [queryType](#querytype) `settings`, `search`
-- [removeWordsIfNoResults](#removewordsifnoresults) `settings`, `search`
-- [advancedSyntax](#advancedsyntax) `settings`, `search`
-- [optionalWords](#optionalwords) `settings`, `search`
-- [removeStopWords](#removestopwords) `settings`, `search`
-- [disablePrefixOnAttributes](#disableprefixonattributes) `settings`
-- [disableExactOnAttributes](#disableexactonattributes) `settings`
-- [exactOnSingleWordQuery](#exactonsinglewordquery) `settings`, `search`
-- [alternativesAsExact](#alternativesasexact) `settings`, `search`
+- [queryType](querytype) `settings`, `search`
+- [removeWordsIfNoResults](removewordsifnoresults) `settings`, `search`
+- [advancedSyntax](advancedsyntax) `settings`, `search`
+- [optionalWords](optionalwords) `settings`, `search`
+- [removeStopWords](removestopwords) `settings`, `search`
+- [disablePrefixOnAttributes](disableprefixonattributes) `settings`
+- [disableExactOnAttributes](disableexactonattributes) `settings`
+- [exactOnSingleWordQuery](exactonsinglewordquery) `settings`, `search`
+- [alternativesAsExact](alternativesasexact) `settings`, `search`
 
 **Advanced**
-- [attributeForDistinct](#attributefordistinct) `settings`
-- [distinct](#distinct) `settings`, `search`
-- [numericAttributesToIndex](#numericattributestoindex) `settings`
-- [allowCompressionOfIntegerArray](#allowcompressionofintegerarray) `settings`
-- [altCorrections](#altcorrections) `settings`
-- [placeholders](#placeholders) `settings`
+- [attributeForDistinct](attributefordistinct) `settings`
+- [distinct](distinct) `settings`, `search`
+- [numericAttributesToIndex](numericattributestoindex) `settings`
+- [allowCompressionOfIntegerArray](allowcompressionofintegerarray) `settings`
+- [altCorrections](altcorrections) `settings`
+- [placeholders](placeholders) `settings`
 
 <!--/PARAMETERS_LINK-->
 
@@ -736,77 +726,77 @@ They are three scopes:
 #### Parameters List
 
 **Search**
-- [query](#query) `search`
+- [query](query) `search`
 
 **Attributes**
-- [attributesToIndex](#attributestoindex) `settings`
-- [attributesForFaceting](#attributesforfaceting) `settings`
-- [attributesToRetrieve](#attributestoretrieve) `settings`, `search`
-- [unretrievableAttributes](#unretrievableattributes) `settings`
-- [attributesToRetrieve](#attributestoretrieve) `settings`, `search`
+- [attributesToIndex](attributestoindex) `settings`
+- [attributesForFaceting](attributesforfaceting) `settings`
+- [attributesToRetrieve](attributestoretrieve) `settings`, `search`
+- [unretrievableAttributes](unretrievableattributes) `settings`
+- [attributesToRetrieve](attributestoretrieve) `settings`, `search`
 
 
 **Ranking**
-- [ranking](#ranking) `settings`
-- [customRanking](#customranking) `settings`
-- [slaves](#slaves) `settings`
+- [ranking](ranking) `settings`
+- [customRanking](customranking) `settings`
+- [slaves](slaves) `settings`
 
 **Filtering / Faceting**
-- [filters](#filters) `search`
-- [facets](#facets) `search`
-- [maxValuesPerFacet](#maxvaluesperfacet) `settings`, `search`
+- [filters](filters) `search`
+- [facets](facets) `search`
+- [maxValuesPerFacet](maxvaluesperfacet) `settings`, `search`
 
 **Highlighting / Snippeting**
-- [attributesToHighlight](#attributestohighlight) `settings`, `search`
-- [attributesToSnippet](#attributestosnippet) `settings`, `search`
-- [highlightPreTag](#highlightpretag) `settings`, `search`
-- [highlightPostTag](#highlightposttag) `settings`, `search`
-- [snippetEllipsisText](#snippetellipsistext) `settings`, `search`
+- [attributesToHighlight](attributestohighlight) `settings`, `search`
+- [attributesToSnippet](attributestosnippet) `settings`, `search`
+- [highlightPreTag](highlightpretag) `settings`, `search`
+- [highlightPostTag](highlightposttag) `settings`, `search`
+- [snippetEllipsisText](snippetellipsistext) `settings`, `search`
 
 **Pagination**
-- [page](#page) `search`
-- [hitsPerPage](#hitsperpage) `settings`, `search`
+- [page](page) `search`
+- [hitsPerPage](hitsperpage) `settings`, `search`
 
 **Typos**
-- [minWordSizefor1Typo](#minwordsizefor1typo) `settings`, `search`
-- [minWordSizefor2Typos](#minwordsizefor2typos) `settings`, `search`
-- [typoTolerance](#typotolerance) `settings`, `search`
-- [allowTyposOnNumericTokens](#allowtyposonnumerictokens) `settings`, `search`
-- [ignorePlurals](#ignoreplurals) `settings`, `search`
-- [disableTypoToleranceOnAttributes](#disabletypotoleranceonattributes) `settings`, `search`
-- [separatorsToIndex](#separatorstoindex) `settings`
+- [minWordSizefor1Typo](minwordsizefor1typo) `settings`, `search`
+- [minWordSizefor2Typos](minwordsizefor2typos) `settings`, `search`
+- [typoTolerance](typotolerance) `settings`, `search`
+- [allowTyposOnNumericTokens](allowtyposonnumerictokens) `settings`, `search`
+- [ignorePlurals](ignoreplurals) `settings`, `search`
+- [disableTypoToleranceOnAttributes](disabletypotoleranceonattributes) `settings`, `search`
+- [separatorsToIndex](separatorstoindex) `settings`
 
 **Geo-Search**
 
-- [aroundLatLng](#aroundlatlng) `search`
-- [aroundLatLngViaIP](#aroundlatlngviaip) `search`
-- [insideBoundingBox](#insideboundingbox) `search`
-- [insidePolygon](#insidepolygon) `search`
+- [aroundLatLng](aroundlatlng) `search`
+- [aroundLatLngViaIP](aroundlatlngviaip) `search`
+- [insideBoundingBox](insideboundingbox) `search`
+- [insidePolygon](insidepolygon) `search`
 
 
 **Query Strategy**
-- [queryType](#querytype) `settings`, `search`
-- [removeWordsIfNoResults](#removewordsifnoresults) `settings`, `search`
-- [advancedSyntax](#advancedsyntax) `settings`, `search`
-- [optionalWords](#optionalwords) `settings`, `search`
-- [removeStopWords](#removestopwords) `settings`, `search`
-- [disablePrefixOnAttributes](#disableprefixonattributes) `settings`
-- [disableExactOnAttributes](#disableexactonattributes) `settings`
-- [exactOnSingleWordQuery](#exactonsinglewordquery) `settings`, `search`
-- [alternativesAsExact](#alternativesasexact) `settings`, `search`
+- [queryType](querytype) `settings`, `search`
+- [removeWordsIfNoResults](removewordsifnoresults) `settings`, `search`
+- [advancedSyntax](advancedsyntax) `settings`, `search`
+- [optionalWords](optionalwords) `settings`, `search`
+- [removeStopWords](removestopwords) `settings`, `search`
+- [disablePrefixOnAttributes](disableprefixonattributes) `settings`
+- [disableExactOnAttributes](disableexactonattributes) `settings`
+- [exactOnSingleWordQuery](exactonsinglewordquery) `settings`, `search`
+- [alternativesAsExact](alternativesasexact) `settings`, `search`
 
 **Advanced**
-- [attributeForDistinct](#attributefordistinct) `settings`
-- [distinct](#distinct) `settings`, `search`
-- [rankingInfo](#rankinginfo) `search`
-- [numericAttributesToIndex](#numericattributestoindex) `settings`
-- [allowCompressionOfIntegerArray](#allowcompressionofintegerarray) `settings`
-- [numericFilters (deprecated)](#numericfilters+%28deprecated%29) `search`
-- [tagFilters (deprecated)](#tagfilters+%28deprecated%29) `search`
-- [facetFilters (deprecated)](#facetfilters+%28deprecated%29) `search`
-- [analytics](#analytics) `settings`, `search`
-- [altCorrections](#altcorrections) `settings`
-- [placeholders](#placeholders) `settings`
+- [attributeForDistinct](attributefordistinct) `settings`
+- [distinct](distinct) `settings`, `search`
+- [rankingInfo](rankinginfo) `search`
+- [numericAttributesToIndex](numericattributestoindex) `settings`
+- [allowCompressionOfIntegerArray](allowcompressionofintegerarray) `settings`
+- [numericFilters (deprecated)](numericfilters-deprecated) `search`
+- [tagFilters (deprecated)](tagfilters-deprecated) `search`
+- [facetFilters (deprecated)](facetfilters-deprecated) `search`
+- [analytics](analytics) `settings`, `search`
+- [altCorrections](altcorrections) `settings`
+- [placeholders](placeholders) `settings`
 
 ### Search
 
@@ -1656,7 +1646,7 @@ To create an index, you need to perform any indexing operation like:
 - set settings
 - add object
 
-### List indices - `listIndexes`
+### List indices- `listIndexes`
 
 You can list all your indices along with their associated information (number of entries, disk size, etc.) with the `` method:
 
@@ -1678,14 +1668,14 @@ client.listIndexes(completionHandler: { (content, error) -> Void in
 
 ## Advanced
 
-### Custom batch - `batch`
+### Custom batch- `batch`
 
 You may want to perform multiple operations with one API call to reduce latency.
 We expose four methods to perform batch operations:
- * Add objects - `addObjects`: Add an array of objects using automatic `objectID` assignment.
- * Update objects - `saveObjects`: Add or update an array of objects that contains an `objectID` attribute.
- * Delete objects - `deleteObjects`: Delete an array of objectIDs.
- * Partial update - `partialUpdateObjects`: Partially update an array of objects that contain an `objectID` attribute (only specified attributes will be updated).
+ * Add objects- `addObjects`: Add an array of objects using automatic `objectID` assignment.
+ * Update objects- `saveObjects`: Add or update an array of objects that contains an `objectID` attribute.
+ * Delete objects- `deleteObjects`: Delete an array of objectIDs.
+ * Partial update- `partialUpdateObjects`: Partially update an array of objects that contain an `objectID` attribute (only specified attributes will be updated).
 
 Example using automatic `objectID` assignment:
 ```swift
@@ -1738,7 +1728,7 @@ The attribute **action** can have these values:
 - partialUpdateObjectNoCreate
 - deleteObject
 
-### Backup / Export an index - `browse`
+### Backup / Export an index- `browse`
 
 The `search` method cannot return more than 1,000 results. If you need to
 retrieve all the content of your index (for backup, SEO purposes or for running
@@ -1800,9 +1790,6 @@ Everything that can be done using the REST API can be done using those clients.
 
 The REST API lets your interact directly with Algolia platforms from anything that can send an HTTP request
 [Go to the REST API doc](https://algolia.com/doc/rest)
-
-
-
 
 
 
