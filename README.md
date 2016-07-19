@@ -729,11 +729,10 @@ They are three scopes:
 - [query](query) `search`
 
 **Attributes**
-- [attributesToIndex](attributestoindex) `settings`
 - [attributesForFaceting](attributesforfaceting) `settings`
+- [attributesToIndex](attributestoindex) `settings`
 - [attributesToRetrieve](attributestoretrieve) `settings`, `search`
 - [unretrievableAttributes](unretrievableattributes) `settings`
-- [attributesToRetrieve](attributestoretrieve) `settings`, `search`
 
 
 **Ranking**
@@ -1637,6 +1636,7 @@ Each alternative correction is described by an object containing three attribute
 For example:
 
 `"altCorrections": [ { "word" : "foot", "correction": "feet", "nbTypos": 1 }, { "word": "feet", "correction": "foot", "nbTypos": 1 } ]`.
+
 
 ## Manage Indices
 
