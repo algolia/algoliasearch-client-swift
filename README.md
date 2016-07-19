@@ -1357,7 +1357,7 @@ This syntax allow to do two things:
 #### optionalWords
 
 - scope: `settings`, `search`
-- type: `array of string`
+- type: `array of strings`
 - default: `[]`
 
 
@@ -1396,7 +1396,7 @@ For most use cases, it is better to not use this feature as people search by key
 #### disablePrefixOnAttributes
 
 - scope: `settings`
-- type: `array of string`
+- type: `array of strings`
 - default: `[]`
 
 
@@ -1410,7 +1410,7 @@ This setting is useful on attributes that contain string that should not be matc
 #### disableExactOnAttributes
 
 - scope: `settings`
-- type: `array of string`
+- type: `array of strings`
 - default: `[]`
 
 
