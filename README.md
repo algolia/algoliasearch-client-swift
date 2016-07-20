@@ -78,9 +78,6 @@ Manage Indices
 1. [Copy index](#copy-index---copyindex)
 1. [Move index](#move-index---moveindex)
 
-Api Keys
-
-1. [Generate key](#generate-key---generatesecuredapikey)
 
 
 
@@ -91,12 +88,6 @@ Advanced
 1. [Multiple queries](#multiple-queries---multiplequeries)
 1. [Delete by query](#delete-by-query---deletebyquery)
 1. [Backup / Export an index](#backup--export-an-index---browse)
-1. [List api keys](#list-api-keys---listapikeys)
-1. [Add user key](#add-user-key---adduserkey)
-1. [Update user key](#update-user-key---updateuserkey)
-1. [Delete user key](#delete-user-key---deleteuserkey)
-1. [Get key permissions](#get-key-permissions---getuserkeyacl)
-1. [Get Logs](#get-logs---getlogs)
 
 
 
@@ -424,6 +415,9 @@ index.enableSearchCache(expiringTimeInterval: 300)
 
 ## Indexing
 
+*Note: In most use cases, updating indices is better done from your back-end. Methods in this section are documented for the sake of completeness.*
+
+
 ### Add objects - `addObjects`
 
 Each entry in an index has a unique identifier called `objectID`. There are two ways to add an entry to the index:
@@ -614,6 +608,9 @@ If you want to ensure multiple objects have been indexed, you only need to check
 the biggest `taskID`.
 
 ## Settings
+
+*Note: In most use cases, updating indices is better done from your back-end. Methods in this section are documented for the sake of completeness.*
+
 
 ### Get settings - `getSettings`
 
@@ -1368,20 +1365,20 @@ A string that contains the comma separated list of words that should be consider
 #### removeStopWords
 
 - scope: `settings`, `search`
-- type: `boolean`
+- type: `boolean`, `array of strings`
 - default: `false`
 
 
-Remove stop words from the query **before** executing it. Defaults to `false`.
-Use a boolean to enable/disable all 41 supported languages and a comma separated list
-of iso codes of the languages you want to use consider to enable the stopwords removal
-on a subset of them (select the one you have in your records).
+Remove stop words from the query **before** executing it. It can be:
 
-In most use-cases, **you shouldn't need to enable this option**.
+- a **boolean**: enable or disable stop words for all 41 supported languages; or
+- a **list of language ISO codes** (as a comma-separated string) for which stop words should be enabled.
 
-List of 41 supported languages with their associated iso code: Arabic=ar, Armenian=hy, Basque=eu, Bengali=bn, Brazilian=pt-br, Bulgarian=bg, Catalan=ca, Chinese=zh, Czech=cs, Danish=da, Dutch=nl, English=en, Finnish=fi, French=fr, Galician=gl, German=de, Greek=el, Hindi=hi, Hungarian=hu, Indonesian=id, Irish=ga, Italian=it, Japanese=ja, Korean=ko, Kurdish=ku, Latvian=lv, Lithuanian=lt, Marathi=mr, Norwegian=no, Persian (Farsi)=fa, Polish=pl, Portugese=pt, Romanian=ro, Russian=ru, Slovak=sk, Spanish=es, Swedish=sv, Thai=th, Turkish=tr, Ukranian=uk, Urdu=ur
+In most use-cases, **we don’t recommend enabling this option**.
 
-Stop words removal is applied on query words that are not interpreted as a prefix. The behavior depends of the queryType parameter:
+List of 41 supported languages with their associated iso code: Arabic=`ar`, Armenian=`hy`, Basque=`eu`, Bengali=`bn`, Brazilian=`pt-br`, Bulgarian=`bg`, Catalan=`ca`, Chinese=`zh`, Czech=`cs`, Danish=`da`, Dutch=`nl`, English=`en`, Finnish=`fi`, French=`fr`, Galician=`gl`, German=`de`, Greek=`el`, Hindi=`hi`, Hungarian=`hu`, Indonesian=`id`, Irish=`ga`, Italian=`it`, Japanese=`ja`, Korean=`ko`, Kurdish=`ku`, Latvian=`lv`, Lithuanian=`lt`, Marathi=`mr`, Norwegian=`no`, Persian (Farsi)=`fa`, Polish=`pl`, Portugese=`pt`, Romanian=`ro`, Russian=`ru`, Slovak=`sk`, Spanish=`es`, Swedish=`sv`, Thai=`th`, Turkish=`tr`, Ukranian=`uk`, Urdu=`ur`.
+
+Stop words removal is applied on query words that are not interpreted as a prefix. The behavior depends of the `queryType` parameter:
 
 * `queryType=prefixLast` means the last query word is a prefix and it won’t be considered for stop words removal
 * `queryType=prefixNone` means no query word are prefix, stop words removal will be applied on all query words
@@ -1642,6 +1639,9 @@ For example:
 
 ## Manage Indices
 
+*Note: In most use cases, updating indices is better done from your back-end. Methods in this section are documented for the sake of completeness.*
+
+
 ### Create an index
 
 To create an index, you need to perform any indexing operation like:
@@ -1779,6 +1779,32 @@ let iterator = BrowseIterator(index: index, query: Query()) { (iterator, content
 iterator.start()
 ```
 
+
+### Multiple queries - `multipleQueries`
+
+You can send multiple queries with a single API call using a batch of queries:
+
+```swift
+// Perform 3 queries in a single API call:
+// 		- 1st query target index `categories`
+//		- 2nd and 3rd queries target index `products`
+let queries = [
+	IndexQuery(indexName: "categories", query: Query(query: "electronics")),
+	IndexQuery(indexName: "products", query: Query(query: "iPhone")),
+	IndexQuery(indexName: "products", query: Query(query: "Galaxy"))
+]
+client.multipleQueries(queries, completionHandler: { (content, error) -> Void in
+	if error == nil {
+		print("Result: \(content!)")
+	}
+})
+```
+
+The resulting JSON answer contains a ```results``` array storing the underlying queries answers. The answers order is the same than the requests order.
+
+You can specify a `strategy` parameter to optimize your multiple queries:
+- `none`: Execute the sequence of queries until the end.
+- `stopIfEnoughMatches`: Execute the sequence of queries until the number of hits is reached by the sum of hits.
 
 
 ### REST API
