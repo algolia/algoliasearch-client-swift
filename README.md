@@ -78,9 +78,6 @@ Manage Indices
 1. [Copy index](#copy-index---copyindex)
 1. [Move index](#move-index---moveindex)
 
-Api Keys
-
-1. [Generate key](#generate-key---generatesecuredapikey)
 
 
 
@@ -91,12 +88,6 @@ Advanced
 1. [Multiple queries](#multiple-queries---multiplequeries)
 1. [Delete by query](#delete-by-query---deletebyquery)
 1. [Backup / Export an index](#backup--export-an-index---browse)
-1. [List api keys](#list-api-keys---listapikeys)
-1. [Add user key](#add-user-key---adduserkey)
-1. [Update user key](#update-user-key---updateuserkey)
-1. [Delete user key](#delete-user-key---deleteuserkey)
-1. [Get key permissions](#get-key-permissions---getuserkeyacl)
-1. [Get Logs](#get-logs---getlogs)
 
 
 
@@ -424,6 +415,9 @@ index.enableSearchCache(expiringTimeInterval: 300)
 
 ## Indexing
 
+*Note: In most use cases, updating indices is better done from your back-end. Methods in this section are documented for the sake of completeness.*
+
+
 ### Add objects - `addObjects`
 
 Each entry in an index has a unique identifier called `objectID`. There are two ways to add an entry to the index:
@@ -614,6 +608,9 @@ If you want to ensure multiple objects have been indexed, you only need to check
 the biggest `taskID`.
 
 ## Settings
+
+*Note: In most use cases, updating indices is better done from your back-end. Methods in this section are documented for the sake of completeness.*
+
 
 ### Get settings - `getSettings`
 
@@ -1642,6 +1639,9 @@ For example:
 
 ## Manage Indices
 
+*Note: In most use cases, updating indices is better done from your back-end. Methods in this section are documented for the sake of completeness.*
+
+
 ### Create an index
 
 To create an index, you need to perform any indexing operation like:
@@ -1779,6 +1779,32 @@ let iterator = BrowseIterator(index: index, query: Query()) { (iterator, content
 iterator.start()
 ```
 
+
+### Multiple queries - `multipleQueries`
+
+You can send multiple queries with a single API call using a batch of queries:
+
+```swift
+// Perform 3 queries in a single API call:
+// 		- 1st query target index `categories`
+//		- 2nd and 3rd queries target index `products`
+let queries = [
+	IndexQuery(indexName: "categories", query: Query(query: "electronics")),
+	IndexQuery(indexName: "products", query: Query(query: "iPhone")),
+	IndexQuery(indexName: "products", query: Query(query: "Galaxy"))
+]
+client.multipleQueries(queries, completionHandler: { (content, error) -> Void in
+	if error == nil {
+		print("Result: \(content!)")
+	}
+})
+```
+
+The resulting JSON answer contains a ```results``` array storing the underlying queries answers. The answers order is the same than the requests order.
+
+You can specify a `strategy` parameter to optimize your multiple queries:
+- `none`: Execute the sequence of queries until the end.
+- `stopIfEnoughMatches`: Execute the sequence of queries until the number of hits is reached by the sum of hits.
 
 
 ### REST API
