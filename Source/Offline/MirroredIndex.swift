@@ -759,11 +759,12 @@ import Foundation
             }
             
             let (queryContent, queryError) = self._searchOffline(query)
+            assert(queryContent != nil || queryError != nil)
             if queryError != nil {
                 error = queryError
                 break
             }
-            guard var returnedContent = queryContent else { assert(false, "Should never happen") }
+            var returnedContent = queryContent!
             returnedContent["index"] = self.indexName
             results.append(returnedContent)
             
