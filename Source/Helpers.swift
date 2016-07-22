@@ -23,11 +23,43 @@
 
 import Foundation
 
+
+// MARK: - URL encoding
+
+/// Character set allowed as a component of the path portion of a URL.
+/// Basically it's just the default `NSCharacterSet.URLPathAllowedCharacterSet()` minus the slash character.
+///
+let URLPathComponentAllowedCharacterSet: NSCharacterSet = {
+    let characterSet = NSMutableCharacterSet()
+    characterSet.formUnionWithCharacterSet(NSCharacterSet.URLPathAllowedCharacterSet())
+    characterSet.removeCharactersInString("/")
+    return characterSet
+}()
+
+// Allowed characters taken from [RFC 3986](https://tools.ietf.org/html/rfc3986) (cf. §2 "Characters"):
+// - unreserved  = ALPHA / DIGIT / "-" / "." / "_" / "~"
+// - gen-delims  = ":" / "/" / "?" / "#" / "[" / "]" / "@"
+// - sub-delims  = "!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="
+//
+// ... with these further restrictions:
+// - ampersand ('&') and equal sign ('=') removed because they are used as delimiters for the parameters;
+// - question mark ('?') and hash ('#') removed because they mark the beginning and the end of the query string.
+// - plus ('+') is removed because it is interpreted as a space by Algolia's servers.
+//
+let URLQueryParamAllowedCharacterSet = NSCharacterSet(charactersInString:
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~:/[]@!$'()*,;"
+)
+
+
 extension String {
-    /// Return URL encoded version of the string
-    func urlEncode() -> String {
-        let customAllowedSet = NSCharacterSet(charactersInString: "!*'();:@&=+$,/?%#[]").invertedSet
-        return stringByAddingPercentEncodingWithAllowedCharacters(customAllowedSet)!
+    /// Return an URL-encoded version of the string suitable for use as a component of the path portion of a URL.
+    func urlEncodedPathComponent() -> String {
+        return stringByAddingPercentEncodingWithAllowedCharacters(URLPathComponentAllowedCharacterSet)!
+    }
+    
+    /// Return an URL-encoded version of the string suitable for use as a query parameter key or value.
+    func urlEncodedQueryParam() -> String {
+        return stringByAddingPercentEncodingWithAllowedCharacters(URLQueryParamAllowedCharacterSet)!
     }
 }
 
