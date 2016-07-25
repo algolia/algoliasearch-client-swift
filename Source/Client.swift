@@ -240,7 +240,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func multipleQueries(queries: [IndexQuery], strategy: String?, completionHandler: CompletionHandler? = nil) -> NSOperation {
+    @objc public func multipleQueries(queries: [IndexQuery], strategy: String?, completionHandler: CompletionHandler) -> NSOperation {
         // IMPLEMENTATION NOTE: Objective-C bridgeable alternative.
         let path = "1/indexes/*/queries"
         var requests = [[String: AnyObject]]()
@@ -266,7 +266,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    public func multipleQueries(queries: [IndexQuery], strategy: MultipleQueriesStrategy? = nil, completionHandler: CompletionHandler? = nil) -> NSOperation {
+    public func multipleQueries(queries: [IndexQuery], strategy: MultipleQueriesStrategy? = nil, completionHandler: CompletionHandler) -> NSOperation {
         // IMPLEMENTATION NOTE: Not Objective-C bridgeable because of enum.
         return multipleQueries(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
