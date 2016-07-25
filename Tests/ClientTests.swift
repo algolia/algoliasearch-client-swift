@@ -392,4 +392,15 @@ class ClientTests: XCTestCase {
         }
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
+
+    func testIndexNameWithSpace() {
+    let expectation = expectationWithDescription(#function)
+        client.deleteIndex("Index with spaces", completionHandler: { (content, error) -> Void in
+            if error != nil {
+                XCTFail(error!.localizedDescription)
+            }
+            expectation.fulfill()
+        })
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+    }
 }

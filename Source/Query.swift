@@ -886,30 +886,15 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
 
     // MARK: Serialization & parsing
 
-    // Allowed characters taken from [RFC 3986](https://tools.ietf.org/html/rfc3986) (cf. §2 "Characters"):
-    // - unreserved  = ALPHA / DIGIT / "-" / "." / "_" / "~"
-    // - gen-delims  = ":" / "/" / "?" / "#" / "[" / "]" / "@"
-    // - sub-delims  = "!" / "$" / "&" / "'" / "(" / ")" / "*" / "+" / "," / ";" / "="
-    //
-    // ... with these further restrictions:
-    // - ampersand ('&') and equal sign ('=') removed because they are used as delimiters for the parameters;
-    // - question mark ('?') and hash ('#') removed because they mark the beginning and the end of the query string.
-    // - plus ('+') is removed because it is interpreted as a space by Algolia's servers.
-    //
-    static let queryParamAllowedCharacterSet = NSCharacterSet(charactersInString:
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~:/[]@!$'()*,;"
-    )
-    
     /// Return the final query string used in URL.
     @objc public func build() -> String {
         var components = [String]()
         // Sort parameters by name to get predictable output.
         let sortedParameters = parameters.sort { $0.0 < $1.0 }
         for (key, value) in sortedParameters {
-            if let escapedKey = key.stringByAddingPercentEncodingWithAllowedCharacters(Query.queryParamAllowedCharacterSet),
-                let escapedValue = value.stringByAddingPercentEncodingWithAllowedCharacters(Query.queryParamAllowedCharacterSet) {
-                components.append(escapedKey + "=" + escapedValue)
-            }
+            let escapedKey = key.urlEncodedQueryParam()
+            let escapedValue = value.urlEncodedQueryParam()
+            components.append(escapedKey + "=" + escapedValue)
         }
         return components.joinWithSeparator("&")
     }

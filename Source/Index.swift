@@ -37,7 +37,7 @@ import Foundation
     @objc init(client: Client, indexName: String) {
         self.client = client
         self.indexName = indexName
-        urlEncodedIndexName = indexName.urlEncode()
+        urlEncodedIndexName = indexName.urlEncodedPathComponent()
     }
 
     // MARK: - Utils
@@ -70,7 +70,7 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func addObject(object: [String: AnyObject], withID objectID: String, completionHandler: CompletionHandler? = nil) -> NSOperation {
-        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
+        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncodedPathComponent())"
         return client.performHTTPQuery(path, method: .PUT, body: object, hostnames: client.writeHosts, completionHandler: completionHandler)
     }
     
@@ -100,7 +100,7 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func deleteObject(objectID: String, completionHandler: CompletionHandler? = nil) -> NSOperation {
-        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
+        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncodedPathComponent())"
         return client.performHTTPQuery(path, method: .DELETE, body: nil, hostnames: client.writeHosts, completionHandler: completionHandler)
     }
     
@@ -130,7 +130,7 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func getObject(objectID: String, completionHandler: CompletionHandler) -> NSOperation {
-        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
+        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncodedPathComponent())"
         return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readHosts, completionHandler: completionHandler)
     }
     
@@ -144,7 +144,7 @@ import Foundation
     @objc public func getObject(objectID: String, attributesToRetrieve attributes: [String], completionHandler: CompletionHandler) -> NSOperation {
         let query = Query()
         query.attributesToRetrieve = attributes
-        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())?\(query.build())"
+        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncodedPathComponent())?\(query.build())"
         return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readHosts, completionHandler: completionHandler)
     }
     
@@ -175,7 +175,7 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func partialUpdateObject(partialObject: [String: AnyObject], objectID: String, completionHandler: CompletionHandler? = nil) -> NSOperation {
-        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())/partial"
+        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncodedPathComponent())/partial"
         return client.performHTTPQuery(path, method: .POST, body: partialObject, hostnames: client.writeHosts, completionHandler: completionHandler)
     }
     
@@ -210,7 +210,7 @@ import Foundation
     ///
     @objc public func saveObject(object: [String: AnyObject], completionHandler: CompletionHandler? = nil) -> NSOperation {
         let objectID = object["objectID"] as! String
-        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncode())"
+        let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncodedPathComponent())"
         return client.performHTTPQuery(path, method: .PUT, body: object, hostnames: client.writeHosts, completionHandler: completionHandler)
     }
     
@@ -359,7 +359,7 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func browseFrom(cursor: String, completionHandler: CompletionHandler) -> NSOperation {
-        let path = "1/indexes/\(urlEncodedIndexName)/browse?cursor=\(cursor.urlEncode())"
+        let path = "1/indexes/\(urlEncodedIndexName)/browse?cursor=\(cursor.urlEncodedQueryParam())"
         return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readHosts, completionHandler: completionHandler)
     }
     
