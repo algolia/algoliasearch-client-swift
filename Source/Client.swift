@@ -242,10 +242,7 @@ import Foundation
     ///
     @objc public func multipleQueries(queries: [IndexQuery], strategy: String?, completionHandler: CompletionHandler? = nil) -> NSOperation {
         // IMPLEMENTATION NOTE: Objective-C bridgeable alternative.
-        var path = "1/indexes/*/queries"
-        if strategy != nil {
-            path += "?strategy=\(strategy!.urlEncode())"
-        }
+        let path = "1/indexes/*/queries"
         var requests = [[String: AnyObject]]()
         requests.reserveCapacity(queries.count)
         for query in queries {
@@ -254,7 +251,11 @@ import Foundation
                 "params": query.query.build()
             ])
         }
-        let request = ["requests": requests]
+        var request = [String: AnyObject]()
+        request["requests"] = requests
+        if strategy != nil {
+            request["strategy"] = strategy
+        }
         return performHTTPQuery(path, method: .POST, body: request, hostnames: readHosts, completionHandler: completionHandler)
     }
     
