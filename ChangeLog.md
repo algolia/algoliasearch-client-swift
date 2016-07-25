@@ -1,6 +1,15 @@
 Change Log
 ==========
 
+## 3.4 (2016-07-25)
+
+- New `Client.isAlive()` method (`/1/isalive` endpoint)
+- Completion handler is now mandatory for multiple queries. **Warning: breaking change**
+- (#88) Fix passing of `strategy` parameter in multiple queries (should be POST instead of GET)
+- (#103) Fix URL encoding of path components (e.g. spaces in index names)
+- Add test case for TCP connection dropping
+
+
 ## 3.3 (2016-06-29)
 
 - (#77) Support a list of languages as a value for the `removeStopWords` query parameter. **Warning:** The type of the
