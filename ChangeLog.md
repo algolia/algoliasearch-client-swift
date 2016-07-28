@@ -1,6 +1,20 @@
 Change Log
 ==========
 
+## Next
+
+- New `multipleQueries()` method at index level
+- Fix cancellation of requests: in some edge cases, the completion handler could be called after cancellation
+- Fix potential crash when cancelling requests (unsafe assertions were made)
+
+The following changes are for the offline mode only:
+
+- New offline fallback strategy. **Warning: breaking change:** preventive search no longer supported.
+- Offline requests now also work for disjunctive faceting
+- The `searchMirror()` method has been renamed to `searchOffline()`, for better consistency with the newly introduced `searchOnline()` method.
+- Improve detection of non-existent indices
+
+
 ## 3.4 (2016-07-25)
 
 - New `Client.isAlive()` method (`/1/isalive` endpoint)
