@@ -55,8 +55,15 @@ import Foundation
     ///
     @objc public var rootDataDir: String
     
+    // NOTE: The build and search queues must be serial to prevent concurrent searches or builds on a given index, but
+    // may be distinct because building can be done in parallel with search.
+    //
+    // NOTE: Although serialization is only strictly needed at the index level, we use global queues as a way to limit
+    // resource consumption by the SDK.
+    
     /// Queue used to build local indices in the background.
     let buildQueue = NSOperationQueue()
+    
     /// Queue used to search local indices in the background.
     let searchQueue = NSOperationQueue()
 

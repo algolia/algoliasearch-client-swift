@@ -850,7 +850,7 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
     // MARK: - Miscellaneous
 
     @objc override public var description: String {
-        get { return "Query = \(build())" }
+        get { return "Query{\(parameters)}" }
     }
     
     // MARK: - Initialization

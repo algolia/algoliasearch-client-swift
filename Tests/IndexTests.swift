@@ -979,4 +979,35 @@ class IndexTests: XCTestCase {
         })
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
+
+    func testMultipleQueries() {
+        let expectation = expectationWithDescription(#function)
+        let object = ["city": "San Francisco"]
+        
+        index.addObject(object, completionHandler: { (content, error) -> Void in
+            if let error = error {
+                XCTFail("Error during addObject: \(error)")
+                expectation.fulfill()
+            } else {
+                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
+                    if let error = error {
+                        XCTFail("Error during waitTask: \(error)")
+                        expectation.fulfill()
+                    } else {
+                        let queries = [Query()]
+                        self.index.multipleQueries(queries, completionHandler: { (content, error) -> Void in
+                            if let error = error {
+                                XCTFail("Error during multipleQueries: \(error)")
+                            } else {
+                                let items = content!["results"] as! [[String: AnyObject]]
+                                XCTAssertEqual(items[0]["nbHits"] as? Int, 1, "Wrong number of object in the index")
+                            }
+                            expectation.fulfill()
+                        })
+                    }
+                })
+            }
+        })
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+    }
 }
