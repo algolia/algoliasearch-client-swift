@@ -1,7 +1,7 @@
 Change Log
 ==========
 
-## Next
+## 3.5 (2016-07-29)
 
 - New `multipleQueries()` method at index level
 - Fix cancellation of requests: in some edge cases, the completion handler could be called after cancellation
