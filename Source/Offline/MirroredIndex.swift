@@ -240,11 +240,23 @@ import Foundation
     
     private func isSyncDelayExpired() -> Bool {
         let currentDate = NSDate()
-        return currentDate.timeIntervalSinceDate(self.mirrorSettings.lastSyncDate) > self.delayBetweenSyncs
+        if let lastSyncDate = mirrorSettings.lastSyncDate {
+            return currentDate.timeIntervalSinceDate(lastSyncDate) > self.delayBetweenSyncs
+        } else {
+            return true
+        }
     }
     
     private func isMirrorSettingsDirty() -> Bool {
-        return self.mirrorSettings.queriesModificationDate.compare(self.mirrorSettings.lastSyncDate) == .OrderedDescending
+        if let queriesModificationDate = mirrorSettings.queriesModificationDate {
+            if let lastSyncDate = lastSuccessfulSyncDate {
+                return queriesModificationDate.compare(lastSyncDate) == .OrderedDescending
+            } else {
+                return true
+            }
+        } else {
+            return false
+        }
     }
     
     /// Refresh the local mirror.

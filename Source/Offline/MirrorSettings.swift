@@ -10,9 +10,9 @@ import Foundation
 
 
 class MirrorSettings {
-    var lastSyncDate: NSDate = NSDate(timeIntervalSince1970: 0)
+    var lastSyncDate: NSDate?
     var queries : [DataSelectionQuery] = []
-    var queriesModificationDate: NSDate = NSDate(timeIntervalSince1970: 0)
+    var queriesModificationDate: NSDate?
     
     /// Serialize the settings to a plist and save them to disk.
     func save(filePath: String) {
@@ -23,11 +23,11 @@ class MirrorSettings {
                 "maxObjects": query.maxObjects
             ])
         }
-        let settings = [
-            "lastSyncDate": lastSyncDate,
-            "queries": queriesJson,
-            "queriesModificationDate": queriesModificationDate
+        var settings: [String: AnyObject] = [
+            "queries": queriesJson
         ]
+        settings["lastSyncDate"] = lastSyncDate
+        settings["queriesModificationDate"] = queriesModificationDate
         (settings as NSDictionary).writeToFile(filePath, atomically: true)
     }
 
