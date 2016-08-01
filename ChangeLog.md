@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+## Next
+
+### Offline mode
+
+- Expose last successful sync date (property `MirroredIndex.lastSuccessfulSyncDate`)
+
+
 ## 3.5 (2016-07-29)
 
 - New `multipleQueries()` method at index level

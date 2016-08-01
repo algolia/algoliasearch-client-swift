@@ -145,6 +145,11 @@ import Foundation
     /// Minimum delay between two syncs.
     @objc public var delayBetweenSyncs: NSTimeInterval = DefaultDelayBetweenSyncs
     
+    /// Date of the last successful sync, or nil if the index has never been successfully synced.
+    @objc public var lastSuccessfulSyncDate: NSDate? {
+        return mirrorSettings.lastSyncDate
+    }
+    
     /// Error encountered by the current/last sync (if any).
     @objc public private(set) var syncError : NSError?
 
