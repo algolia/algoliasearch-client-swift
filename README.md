@@ -119,6 +119,7 @@ Check our [online guides](https://www.algolia.com/doc):
 
 
 
+
 ## Getting Started
 
 ### Install
