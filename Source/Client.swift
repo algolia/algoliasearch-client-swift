@@ -273,7 +273,7 @@ public func ==(lhs: LibraryVersion, rhs: LibraryVersion) -> Bool {
     /// Query multiple indexes with one API call.
     ///
     /// - parameter queries: List of queries.
-    /// - param strategy: The strategy to use.
+    /// - parameter strategy: The strategy to use.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -299,7 +299,7 @@ public func ==(lhs: LibraryVersion, rhs: LibraryVersion) -> Bool {
     /// Query multiple indexes with one API call.
     ///
     /// - parameter queries: List of queries.
-    /// - param strategy: The strategy to use.
+    /// - parameter strategy: The strategy to use.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///

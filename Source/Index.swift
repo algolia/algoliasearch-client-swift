@@ -584,7 +584,7 @@ import Foundation
     /// This method is a variant of `Client.multipleQueries()` where the targeted index is always the receiver.
     ///
     /// - parameter queries: The queries to run.
-    /// - param strategy: The strategy to use.
+    /// - parameter strategy: The strategy to use.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///

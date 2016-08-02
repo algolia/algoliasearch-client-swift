@@ -721,7 +721,7 @@ import Foundation
     /// This method is the offline equivalent of `Index.multipleQueries()`.
     ///
     /// - parameter queries: List of queries.
-    /// - param strategy: The strategy to use.
+    /// - parameter strategy: The strategy to use.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
