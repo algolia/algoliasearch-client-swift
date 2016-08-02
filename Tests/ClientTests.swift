@@ -403,4 +403,16 @@ class ClientTests: XCTestCase {
         })
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
+    
+    func testUserAgentHeader() {
+        // Test that the initial value of the header is correct.
+        XCTAssert(client.headers["User-Agent"]?.rangeOfString("^Algolia for Swift \\([0-9.]+\\)$", options: .RegularExpressionSearch) != nil)
+        
+        // Test that changing the user agents results in a proper format.
+        client.userAgents = [
+            LibraryVersion(name: "ABC", version: "1.2.3"),
+            LibraryVersion(name: "DEF", version: "4.5.6")
+        ]
+        XCTAssertEqual(client.headers["User-Agent"], "ABC (1.2.3); DEF (4.5.6)")
+    }
 }
