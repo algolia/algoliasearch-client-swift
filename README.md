@@ -308,9 +308,7 @@ The server response will look like:
 
     Hits are made of the JSON objects that you stored in the index; therefore, they are mostly schema-less. However, Algolia does enrich them with a few additional fields:
 
-    - `_highlightResult` (object, optional): Highlighted attributes.
-
-    *Note: Only returned when [`attributesToHighlight`](#attributestohighlight) is non-empty.*
+    - `_highlightResult` (object, optional): Highlighted attributes. *Note: Only returned when [`attributesToHighlight`](#attributestohighlight) is non-empty.*
 
         - `${attribute_name}` (object): Highlighting for one attribute.
 
@@ -322,9 +320,7 @@ The server response will look like:
 
             - `fullyHighlighted` (boolean): Whether the entire attribute value is highlighted.
 
-    - `_snippetResult` (object, optional): Snippeted attributes.
-
-    *Note: Only returned when [`attributesToSnippet`](#attributestosnippet) is non-empty.*
+    - `_snippetResult` (object, optional): Snippeted attributes. *Note: Only returned when [`attributesToSnippet`](#attributestosnippet) is non-empty.*
 
         - `${attribute_name}` (object): Snippeting for the corresponding attribute.
 
@@ -332,9 +328,7 @@ The server response will look like:
 
             - `matchLevel` (string, enum) = {`none` | `partial` | `full`}: Indicates how well the attribute matched the search query.
 
-    - `_rankingInfo` (object, optional): Ranking information.
-
-    *Note: Only returned when [`getRankingInfo`](#getrankinginfo) is `true`.*
+    - `_rankingInfo` (object, optional): Ranking information. *Note: Only returned when [`getRankingInfo`](#getrankinginfo) is `true`.*
 
         - `nbTypos` (integer): Number of typos encountered when matching the record. Corresponds to the `typos` ranking criterion in the ranking formula.
 
