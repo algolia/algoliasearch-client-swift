@@ -24,6 +24,24 @@
 import Foundation
 
 
+/// A version of a software library.
+/// Used to construct the `User-Agent` header.
+///
+@objc public class LibraryVersion: NSObject {
+    @objc public let name: String
+    @objc public let version: String
+    
+    @objc public init(name: String, version: String) {
+        self.name = name
+        self.version = version
+    }
+}
+
+public func ==(lhs: LibraryVersion, rhs: LibraryVersion) -> Bool {
+    return lhs.name == rhs.name && lhs.version == rhs.version
+}
+
+
 /// Entry point in the Swift API.
 ///
 /// You should instantiate a Client object with your AppID, ApiKey and Hosts
@@ -41,8 +59,26 @@ import Foundation
     
     @objc public var apiKey: String {
         didSet {
-            headers["X-Algolia-API-Key"] = apiKey
+            updateHeadersFromAPIKey()
         }
+    }
+    private func updateHeadersFromAPIKey() {
+        headers["X-Algolia-API-Key"] = apiKey
+    }
+
+    /// The list of libraries used by this client, passed in the `User-Agent` HTTP header of every request.
+    /// It is initially set to contain only this API Client, but may be overridden to include other libraries.
+    ///
+    /// * WARNING: The user agent is crucial to proper statistics in your Algolia dashboard. Please leave it as is.
+    /// This field is publicly exposed only for the sake of other Algolia libraries.
+    ///
+    @objc public var userAgents: [LibraryVersion] = [] {
+        didSet {
+            updateHeadersFromUserAgents()
+        }
+    }
+    private func updateHeadersFromUserAgents() {
+        headers["User-Agent"] = userAgents.map({ return "\($0.name) (\($0.version))"}).joinWithSeparator("; ")
     }
 
     /// Default timeout for network requests. Default: 30".
@@ -94,6 +130,8 @@ import Foundation
     @objc public init(appID: String, apiKey: String) {
         self.appID = appID
         self.apiKey = apiKey
+        let version = NSBundle(forClass: self.dynamicType).infoDictionary!["CFBundleShortVersionString"] as! String
+        self.userAgents = [ LibraryVersion(name: "Algolia for Swift", version: version) ]
 
         // Initialize hosts to their default values.
         //
@@ -112,7 +150,6 @@ import Foundation
         writeHosts = [ "\(appID).algolia.net" ] + fallbackHosts
         
         // WARNING: Those headers cannot be changed for the lifetime of the session.
-        let version = NSBundle(forClass: self.dynamicType).infoDictionary!["CFBundleShortVersionString"] as! String
         let fixedHTTPHeaders = [
             "X-Algolia-Application-Id": self.appID
         ]
@@ -123,9 +160,9 @@ import Foundation
         super.init()
         
         // Other headers are likely to change during the lifetime of the session: they will be passed for every request.
-        headers["X-Algolia-API-Key"] = self.apiKey // necessary because `didSet` not called during initialization
-        // NOTE: This one will not change... except it can be overridden by the offline client:
-        headers["User-Agent"] = "Algolia for Swift \(version)"
+        // WARNING: `didSet` not called during initialization => we need to update the headers manually here.
+        updateHeadersFromAPIKey()
+        updateHeadersFromUserAgents()
     }
 
     /// Set an HTTP header that will be sent with every request.
