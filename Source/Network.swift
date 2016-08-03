@@ -42,7 +42,7 @@ extension NSURLSession: URLSession {
 }
 
 
-#if DEBUG
+#if os(iOS) && DEBUG
 
 import CoreTelephony
 import SystemConfiguration

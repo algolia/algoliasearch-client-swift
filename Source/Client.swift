@@ -130,8 +130,6 @@ public func ==(lhs: LibraryVersion, rhs: LibraryVersion) -> Bool {
     @objc public init(appID: String, apiKey: String) {
         self.appID = appID
         self.apiKey = apiKey
-        let version = NSBundle(forClass: self.dynamicType).infoDictionary!["CFBundleShortVersionString"] as! String
-        self.userAgents = [ LibraryVersion(name: "Algolia for Swift", version: version) ]
 
         // Initialize hosts to their default values.
         //
@@ -150,6 +148,7 @@ public func ==(lhs: LibraryVersion, rhs: LibraryVersion) -> Bool {
         writeHosts = [ "\(appID).algolia.net" ] + fallbackHosts
         
         // WARNING: Those headers cannot be changed for the lifetime of the session.
+        // Other headers are likely to change during the lifetime of the session: they will be passed at every request.
         let fixedHTTPHeaders = [
             "X-Algolia-Application-Id": self.appID
         ]
@@ -159,7 +158,22 @@ public func ==(lhs: LibraryVersion, rhs: LibraryVersion) -> Bool {
         
         super.init()
         
-        // Other headers are likely to change during the lifetime of the session: they will be passed for every request.
+        // Add this library's version to the user agents.
+        let version = NSBundle(forClass: self.dynamicType).infoDictionary!["CFBundleShortVersionString"] as! String
+        self.userAgents = [ LibraryVersion(name: "Algolia for Swift", version: version) ]
+        
+        // Add the operating system's version to the user agents.
+        if #available(iOS 8.0, OSX 10.0, tvOS 9.0, *) {
+            let osVersion = NSProcessInfo.processInfo().operatingSystemVersion
+            var osVersionString = "\(osVersion.majorVersion).\(osVersion.minorVersion)"
+            if osVersion.patchVersion != 0 {
+                osVersionString += ".\(osVersion.patchVersion)"
+            }
+            if let osName = getOSName() {
+                self.userAgents.append(LibraryVersion(name: osName, version: osVersionString))
+            }
+        }
+        
         // WARNING: `didSet` not called during initialization => we need to update the headers manually here.
         updateHeadersFromAPIKey()
         updateHeadersFromUserAgents()

@@ -406,7 +406,7 @@ class ClientTests: XCTestCase {
     
     func testUserAgentHeader() {
         // Test that the initial value of the header is correct.
-        XCTAssert(client.headers["User-Agent"]?.rangeOfString("^Algolia for Swift \\([0-9.]+\\)$", options: .RegularExpressionSearch) != nil)
+        XCTAssert(client.headers["User-Agent"]?.rangeOfString("^Algolia for Swift \\([0-9.]+\\); (iOS|macOS|tvOS) \\([0-9.]+\\)$", options: .RegularExpressionSearch) != nil)
         
         // Test that changing the user agents results in a proper format.
         client.userAgents = [
