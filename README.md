@@ -740,6 +740,10 @@ let settings = ["customRanking": customRanking]
 index.setSettings(settings)
 ```
 
+**Warning**
+
+Performance wise, it's better to do a `setSettings` before pushing the data
+
 #### Slave settings
 
 You can forward all settings updates to the slaves of an index by using the `forwardToSlaves` option:
