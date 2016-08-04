@@ -42,6 +42,10 @@ public func ==(lhs: LibraryVersion, rhs: LibraryVersion) -> Bool {
 }
 
 
+/// Error domain used for errors raised by this module.
+public let ErrorDomain = "AlgoliaSearch"
+
+
 /// Entry point in the Swift API.
 ///
 /// You should instantiate a Client object with your AppID, ApiKey and Hosts
@@ -50,7 +54,8 @@ public func ==(lhs: LibraryVersion, rhs: LibraryVersion) -> Bool {
     // MARK: Constants
     
     /// Error domain used for errors raised by this module.
-    @objc public static let ErrorDomain = "Client.ErrorDomain"
+    /// + NOTE: This shortcut is provided for Objective-C bridging. See the top-level `ErrorDomain` constant.
+    @objc public static let ErrorDomain = AlgoliaSearch.ErrorDomain
     
     // MARK: Properties
     
