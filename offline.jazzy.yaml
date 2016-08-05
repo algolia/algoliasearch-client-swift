@@ -1,0 +1,15 @@
+# In the case of the offline flavor, the Xcode project is not standalone: we need the Cocoapods-generated workspace
+# to draw dependencies.
+xcodebuild_arguments:
+    - -workspace
+    - AlgoliaSearch.xcworkspace
+    - -scheme
+    - AlgoliaSearch-Offline-iOS
+documentation:
+    - doc/offline-mode.md
+output: build/doc
+# Avoid putting the DocSet within the HTML docs.
+# WARNING: The path is relative to the output directory.
+docset_path: ../docset
+hide_documentation_coverage: true
+skip_undocumented: true

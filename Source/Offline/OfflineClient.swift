@@ -27,14 +27,17 @@ import Foundation
 
 /// An API client that adds offline features on top of the regular online API client.
 ///
-/// NOTE: Requires Algolia's SDK. The `enableOfflineMode()` method must be called with a valid license key prior to
-/// calling any offline-related method.
-//
+/// + Note: Requires Algolia's Offline Core SDK. The `enableOfflineMode(...)` method must be called with a valid license
+/// key prior to calling any offline-related method.
+///
 @objc public class OfflineClient : Client {
-    /// Algolia Search initialization.
+    /// Create a new offline-capable Algolia Search client.
+    ///
+    /// + Note: Offline mode is disabled by default, until you call `enableOfflineMode(...)`.
     ///
     /// - parameter appID: the application ID you have in your admin interface
     /// - parameter apiKey: a valid API key for the service
+    ///
     @objc public override init(appID: String, apiKey: String) {
         buildQueue.name = "AlgoliaSearch-Build"
         buildQueue.maxConcurrentOperationCount = 1
@@ -49,9 +52,9 @@ import Foundation
 
     /// Path to directory where the local data is stored.
     /// Defaults to an `algolia` sub-directory inside the `Library/Application Support` directory.
-    /// If you set it to another value, do so *before* calling `enableOfflineMode()`.
+    /// If you set it to another value, do so *before* calling `enableOfflineMode(...)`.
     ///
-    /// WARNING: This directory will be explicitly excluded from iCloud/iTunes backup.
+    /// + Warning: This directory will be explicitly excluded from iCloud/iTunes backup.
     ///
     @objc public var rootDataDir: String
     
@@ -92,7 +95,9 @@ import Foundation
     }
 
     /// Create a new index.
-    /// NOTE: The offline client returns mirror-capable indices.
+    ///
+    /// + Note: The offline client returns mirror-capable indices.
+    ///
     @objc public override func getIndex(indexName: String) -> MirroredIndex {
         return MirroredIndex(client: self, indexName: indexName)
     }

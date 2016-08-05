@@ -25,11 +25,16 @@ import AlgoliaSearchOfflineCore
 import Foundation
 
 
-/// A data selection query.
+/// A data selection query, used to select data to be mirrored locally by a `MirroredIndex`.
+///
 @objc public class DataSelectionQuery: NSObject {
+    /// Query used to select data.
     @objc public let query: Query
-    @objc public let maxObjects: Int
     
+    /// Maximum number of objects to retrieve with this query.
+    @objc public let maxObjects: Int
+
+    /// Create a new data selection query.
     @objc public init(query: Query, maxObjects: Int) {
         self.query = query
         self.maxObjects = maxObjects
@@ -46,10 +51,10 @@ import Foundation
 
 /// An online index that can also be mirrored locally.
 ///
-/// When created, an instance of this class has its <code>mirrored</code> flag set to false, and behaves like a normal,
+/// When created, an instance of this class has its `mirrored` flag set to false, and behaves like a normal,
 /// online `Index`. When the `mirrored` flag is set to true, the index becomes capable of acting upon local data.
 ///
-/// It is a programming error to call methods acting on the local data when `mirrored` is false. Doing so
+/// + Warning: It is a programming error to call methods acting on the local data when `mirrored` is false. Doing so
 /// will result in an assertion error being raised.
 ///
 /// Native resources are lazily instantiated at the first method call requiring them. They are released when the
@@ -57,8 +62,8 @@ import Foundation
 /// to create more than one `MirroredIndex` instance pointing to the same index, as that would duplicate
 /// native resources.
 ///
-/// NOTE: Requires Algolia's SDK. The `OfflineClient.enableOfflineMode()` method must be called with a valid license
-/// key prior to calling any offline-related method.
+/// + Note: Requires Algolia's SDK. The `OfflineClient.enableOfflineMode(...)` method must be called with a valid
+/// license key prior to calling any offline-related method.
 ///
 /// ### Request strategy
 ///
@@ -68,10 +73,10 @@ import Foundation
 /// `FallbackOnFailure`, which will always target the online API first, then fallback to the offline mirror in case of
 /// failure (including network unavailability).
 ///
-/// NOTE: If you want to explicitly target either the online API or the offline mirror, doing so is always possible
-/// using the `searchOnline()` or `searchOffline()` methods.
+/// + Note: If you want to explicitly target either the online API or the offline mirror, doing so is always possible
+/// using the `searchOnline(...)` or `searchOffline(...)` methods.
 ///
-/// NOTE: The strategy applies both to `search()` and `searchDisjunctiveFaceting()`.
+/// + Note: The strategy applies both to `search(...)` and `searchDisjunctiveFaceting(...)`.
 ///
 @objc public class MirroredIndex : Index {
     
@@ -102,9 +107,9 @@ import Foundation
     // MARK: Properties
     // ----------------------------------------------------------------------
     
-    /// Getter returning covariant-typed client.
-    // IMPLEMENTATION NOTE: Could not find a way to implement proper covariant properties in Swift.
+    /// The offline client used by this index.
     @objc public var offlineClient: OfflineClient {
+        // IMPLEMENTATION NOTE: Could not find a way to implement proper covariant properties in Swift.
         return self.client as! OfflineClient
     }
     
@@ -157,7 +162,7 @@ import Foundation
     // MARK: - Init
     // ----------------------------------------------------------------------
     
-    @objc public override init(client: Client, indexName: String) {
+    @objc override internal init(client: Client, indexName: String) {
         assert(client is OfflineClient);
         super.init(client: client, indexName: indexName)
     }
@@ -167,7 +172,9 @@ import Foundation
     // ----------------------------------------------------------------------
 
     /// Syncing indicator.
-    /// NOTE: To prevent concurrent access to this variable, we always access it from the build (serial) queue.
+    ///
+    /// + Note: To prevent concurrent access to this variable, we always access it from the build (serial) queue.
+    ///
     private var syncing: Bool = false
     
     /// Path to the temporary directory for the current sync.
@@ -203,7 +210,9 @@ import Foundation
 
     /// Add a data selection query to the local mirror.
     /// The query is not run immediately. It will be run during the subsequent refreshes.
-    /// @pre The index must have been marked as mirrored.
+    ///
+    /// + Precondition: Mirroring must have been activated on this index (see the `mirrored` property).
+    ///
     @objc public func addDataSelectionQuery(query: DataSelectionQuery) {
         assert(mirrored);
         mirrorSettings.queries.append(query)
@@ -213,7 +222,9 @@ import Foundation
     
     /// Add any number of data selection queries to the local mirror.
     /// The query is not run immediately. It will be run during the subsequent refreshes.
-    /// @pre The index must have been marked as mirrored.
+    ///
+    /// + Precondition: Mirroring must have been activated on this index (see the `mirrored` property).
+    ///
     @objc public func addDataSelectionQueries(queries: [DataSelectionQuery]) {
         assert(mirrored);
         mirrorSettings.queries.appendContentsOf(queries)
@@ -224,6 +235,8 @@ import Foundation
     /// Launch a sync.
     /// This unconditionally launches a sync, unless one is already running.
     ///
+    /// + Precondition: Mirroring must have been activated on this index (see the `mirrored` property).
+    ///
     @objc public func sync() {
         assert(self.mirrored, "Mirroring not activated on this index")
         offlineClient.buildQueue.addOperationWithBlock() {
@@ -233,6 +246,8 @@ import Foundation
 
     /// Launch a sync if needed.
     /// This takes into account the delay between syncs.
+    ///
+    /// + Precondition: Mirroring must have been activated on this index (see the `mirrored` property).
     ///
     @objc public func syncIfNeeded() {
         assert(self.mirrored, "Mirroring not activated on this index")
@@ -431,7 +446,7 @@ import Foundation
         /// Search online only.
         /// The search will fail when the API can't be reached.
         ///
-        /// NOTE: You might consider that this defeats the purpose of having a mirror in the first place... But this
+        /// + Note: You might consider that this defeats the purpose of having a mirror in the first place... But this
         /// is intended for applications wanting to manually manage their policy.
         ///
         case OnlineOnly = 0
@@ -460,7 +475,7 @@ import Foundation
     
     /// Timeout used to control offline fallback.
     ///
-    /// NOTE: Only used by the `FallbackOnTimeout` strategy.
+    /// + Note: Only used by the `FallbackOnTimeout` strategy.
     ///
     @objc public var offlineFallbackTimeout: NSTimeInterval = 1.0
 
@@ -815,7 +830,7 @@ import Foundation
     // fall back could only work for the first query.
 
     /// Browse the local mirror (initial call).
-    /// Same semantics as `Index.browse()`.
+    /// Same semantics as `Index.browse(...)`.
     ///
     @objc public func browseMirror(query: Query, completionHandler: CompletionHandler) -> NSOperation {
         assert(self.mirrored, "Mirroring not activated on this index")
@@ -835,7 +850,7 @@ import Foundation
     }
 
     /// Browse the index from a cursor.
-    /// Same semantics as `Index.browseFrom()`.
+    /// Same semantics as `Index.browseFrom(...)`.
     ///
     @objc public func browseMirrorFrom(cursor: String, completionHandler: CompletionHandler) -> NSOperation {
         assert(self.mirrored, "Mirroring not activated on this index")
