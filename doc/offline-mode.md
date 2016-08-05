@@ -48,7 +48,7 @@ Offline features are brought by Algolia's **Offline SDK**, which is actually com
     pod 'AlgoliaSearch-Offline-Swift', '~> ${WHATEVER_IS_THE_LATEST_VERSION}'
     ```
 
-    *NOTE: Because of its intrinsic limitations, Carthage is **not** supported for the offline mode.*
+    **Note:** *Because of its intrinsic limitations, Carthage is* **not** *supported for the offline mode.*
 
 3. When initializing your client, instantiate an `OfflineClient` instead of a `Client`:
 
