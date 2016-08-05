@@ -25,22 +25,29 @@ import Foundation
 
 /// A proxy to an Algolia index.
 ///
-/// You cannot construct this class directly. Please use `Client.getIndex()` to obtain an instance.
+/// + Note: You cannot construct this class directly. Please use `Client.getIndex(_:)` to obtain an instance.
 ///
 @objc public class Index : NSObject {
+    // MARK: Properties
+    
+    /// This index's name.
     @objc public let indexName: String
+    
+    /// API client used by this index.
     @objc public let client: Client
+    
     let urlEncodedIndexName: String
     
     var searchCache: ExpiringCache?
     
+    // MAR: - Initialization
+    
+    /// Create a new index proxy.
     @objc init(client: Client, indexName: String) {
         self.client = client
         self.indexName = indexName
         urlEncodedIndexName = indexName.urlEncodedPathComponent()
     }
-
-    // MARK: - Utils
 
     override public var description: String {
         get {
@@ -48,7 +55,7 @@ import Foundation
         }
     }
     
-    // MARK: - Core API operations
+    // MARK: - Operations
 
     /// Add an object to this index.
     ///
@@ -566,7 +573,7 @@ import Foundation
     }
     
     /// Run multiple queries on this index.
-    /// This method is a variant of `Client.multipleQueries()` where the targeted index is always the receiver.
+    /// This method is a variant of `Client.multipleQueries(...)` where the targeted index is always the receiver.
     ///
     /// - parameter queries: The queries to run.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
@@ -581,7 +588,7 @@ import Foundation
     }
     
     /// Run multiple queries on this index.
-    /// This method is a variant of `Client.multipleQueries()` where the targeted index is always the receiver.
+    /// This method is a variant of `Client.multipleQueries(...)` where the targeted index is always the receiver.
     ///
     /// - parameter queries: The queries to run.
     /// - parameter strategy: The strategy to use.

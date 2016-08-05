@@ -24,11 +24,24 @@
 import Foundation
 
 
+/// Signature of most completion handlers used by this library.
+///
+/// - parameter content: The JSON response (in case of success) or `nil` (in case of error).
+/// - parameter error: The encountered error (in case of error) or `nil` (in case of success).
+///
+/// + Note: `content` and `error` are mutually exclusive: only one will be non-nil.
+///
+public typealias CompletionHandler = (content: [String: AnyObject]?, error: NSError?) -> Void
+
+
 /// A version of a software library.
 /// Used to construct the `User-Agent` header.
 ///
 @objc public class LibraryVersion: NSObject {
+    /// Library name.
     @objc public let name: String
+    
+    /// Version string.
     @objc public let version: String
     
     @objc public init(name: String, version: String) {
@@ -46,22 +59,23 @@ public func ==(lhs: LibraryVersion, rhs: LibraryVersion) -> Bool {
 public let ErrorDomain = "AlgoliaSearch"
 
 
-/// Entry point in the Swift API.
+/// Entry point into the Swift API.
 ///
-/// You should instantiate a Client object with your AppID, ApiKey and Hosts
-/// to start using Algolia Search API.
 @objc public class Client : NSObject {
     // MARK: Constants
     
     /// Error domain used for errors raised by this module.
-    /// + NOTE: This shortcut is provided for Objective-C bridging. See the top-level `ErrorDomain` constant.
+    ///
+    /// + Note: This shortcut is provided for Objective-C bridging. See the top-level `ErrorDomain` constant.
+    ///
     @objc public static let ErrorDomain = AlgoliaSearch.ErrorDomain
     
     // MARK: Properties
     
     /// HTTP headers that will be sent with every request.
     @objc public var headers = [String:String]()
-    
+
+    /// Algolia API key.
     @objc public var apiKey: String {
         didSet {
             updateHeadersFromAPIKey()
@@ -74,7 +88,7 @@ public let ErrorDomain = "AlgoliaSearch"
     /// The list of libraries used by this client, passed in the `User-Agent` HTTP header of every request.
     /// It is initially set to contain only this API Client, but may be overridden to include other libraries.
     ///
-    /// * WARNING: The user agent is crucial to proper statistics in your Algolia dashboard. Please leave it as is.
+    /// + WARNING: The user agent is crucial to proper statistics in your Algolia dashboard. Please leave it as is.
     /// This field is publicly exposed only for the sake of other Algolia libraries.
     ///
     @objc public var userAgents: [LibraryVersion] = [] {
@@ -86,18 +100,19 @@ public let ErrorDomain = "AlgoliaSearch"
         headers["User-Agent"] = userAgents.map({ return "\($0.name) (\($0.version))"}).joinWithSeparator("; ")
     }
 
-    /// Default timeout for network requests. Default: 30".
+    /// Default timeout for network requests. Default: 30 seconds.
     @objc public let timeout: NSTimeInterval = 30
     
-    /// Timeout for search requests. Default: 5".
+    /// Timeout for search requests. Default: 5 seconds.
     @objc public let searchTimeout: NSTimeInterval = 5
 
+    /// Algolia application ID.
     @objc public let appID: String
 
     /// Hosts for read queries, in priority order.
     /// The first host will always be used, then subsequent hosts in case of retry.
     ///
-    /// WARNING: The default values should be appropriate for most use cases.
+    /// + Warning: The default values should be appropriate for most use cases.
     /// Change them only if you know what you are doing.
     ///
     @objc public var readHosts: [String] {
@@ -109,7 +124,7 @@ public let ErrorDomain = "AlgoliaSearch"
     /// Hosts for write queries, in priority order.
     /// The first host will always be used, then subsequent hosts in case of retry.
     ///
-    /// WARNING: The default values should be appropriate for most use cases.
+    /// + Warning: The default values should be appropriate for most use cases.
     /// Change them only if you know what you are doing.
     ///
     @objc public var writeHosts: [String] {
@@ -118,14 +133,10 @@ public let ErrorDomain = "AlgoliaSearch"
         }
     }
     
-    /// Set read and write hosts to the same value (convenience method).
-    @objc public func setHosts(hosts: [String]) {
-        readHosts = hosts
-        writeHosts = hosts
-    }
-
     // NOTE: Not constant only for the sake of mocking during unit tests.
     var session: URLSession
+    
+    // MARK: Initialization
     
     /// Create a new Algolia Search client.
     ///
@@ -170,23 +181,33 @@ public let ErrorDomain = "AlgoliaSearch"
         updateHeadersFromUserAgents()
     }
 
+    /// Set read and write hosts to the same value (convenience method).
+    ///
+    /// + Warning: The default values should be appropriate for most use cases.
+    /// Change them only if you know what you are doing.
+    ///
+    @objc public func setHosts(hosts: [String]) {
+        readHosts = hosts
+        writeHosts = hosts
+    }
+    
     /// Set an HTTP header that will be sent with every request.
     ///
-    /// NOTE: You may also use the `headers` property directly.
+    /// + Note: You may also use the `headers` property directly.
     ///
     /// - parameter name: Header name.
-    /// - parameter value: Value for the header. If nil, the header will be removed.
+    /// - parameter value: Value for the header. If `nil`, the header will be removed.
     ///
-    @objc public func setHeader(name: String!, value: String) {
+    @objc public func setHeader(name: String, value: String?) {
         headers[name] = value
     }
     
     /// Get an HTTP header.
     ///
-    /// NOTE: You may also use the `headers` property directly.
+    /// + Note: You may also use the `headers` property directly.
     ///
     /// - parameter name: Header name.
-    /// - returns: The header's value, or nil if the header does not exist.
+    /// - returns: The header's value, or `nil` if the header does not exist.
     ///
     @objc public func getHeader(name: String) -> String? {
         return headers[name]
@@ -266,7 +287,7 @@ public let ErrorDomain = "AlgoliaSearch"
         return Index(client: self, indexName: indexName)
     }
     
-    /// Strategy when running multiple queries. See `Client.multipleQueries()`.
+    /// Strategy when running multiple queries. See `Client.multipleQueries(...)`.
     ///
     public enum MultipleQueriesStrategy: String {
         /// Execute the sequence of queries until the end.

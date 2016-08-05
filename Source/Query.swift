@@ -96,9 +96,18 @@ import Foundation
 ///
 @objc public class LatLng: NSObject {
     // IMPLEMENTATION NOTE: Cannot be `struct` because of Objective-C bridgeability.
+    
+    /// Latitude.
     public let lat: Double
+    
+    /// Longitude.
     public let lng: Double
     
+    /// Create a geo location.
+    ///
+    /// - parameter lat: Latitude.
+    /// - parameter lng: Longitude.
+    ///
     public init(lat: Double, lng: Double) {
         self.lat = lat
         self.lng = lng
@@ -123,9 +132,18 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
 ///
 @objc public class GeoRect: NSObject {
     // IMPLEMENTATION NOTE: Cannot be `struct` because of Objective-C bridgeability.
+    
+    /// One of the rectangle's corners (typically the northwesternmost).
     public let p1: LatLng
+    
+    /// Corner opposite from `p1` (typically the southeasternmost).
     public let p2: LatLng
     
+    /// Create a geo rectangle.
+    ///
+    /// - parameter p1: One of the rectangle's corners (typically the northwesternmost).
+    /// - parameter p2: Corner opposite from `p1` (typically the southeasternmost).
+    ///
     public init(p1: LatLng, p2: LatLng) {
         self.p1 = p1
         self.p2 = p2
@@ -145,8 +163,8 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
 ///
 /// There are two ways to access parameters:
 ///
-/// 1. Using the high-level, typed properties for individual parameters (recommended).
-/// 2. Using the low-level, untyped getter (`get()`) and setter (`set()`) or the subscript operator.
+/// 1. Using the high-level, **typed properties** for individual parameters (recommended).
+/// 2. Using the low-level, **untyped accessors** `get(_:)` and `set(_:value:)` or the subscript operator.
 ///    Use this approach if the parameter you wish to set is not supported by this class.
 ///
 @objc public class Query : NSObject, NSCopying {
@@ -179,6 +197,7 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
         }
     }
     
+    /// Convenience shortcut to `get(_:)` and `set(_:value:)`.
     @objc public subscript(index: String) -> String? {
         get {
             return get(index)
@@ -877,7 +896,7 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
     
     /// Support for `NSCopying`.
     ///
-    /// NOTE: Primarily intended for Objective-C use. Swift coders should use `Query.init(copy:)`.
+    /// + Note: Primarily intended for Objective-C use. Swift coders should use `init(copy:)`.
     ///
     @objc public func copyWithZone(zone: NSZone) -> AnyObject {
         // NOTE: As per the docs, the zone argument is ignored.

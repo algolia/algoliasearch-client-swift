@@ -1,0 +1,6 @@
+output: build/doc
+# Avoid putting the DocSet within the HTML docs.
+# WARNING: The path is relative to the output directory.
+docset_path: ../docset
+hide_documentation_coverage: true
+skip_undocumented: true
