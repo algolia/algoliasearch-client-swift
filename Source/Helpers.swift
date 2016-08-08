@@ -102,3 +102,23 @@ extension MutableCollectionType where Index == Int {
         }
     }
 }
+
+// MARK: - Miscellaneous
+
+/// Get the operating system's name.
+///
+/// - returns: The operating system's name, or nil if it could not be determined.
+///
+func getOSName() -> String? {
+    #if os(iOS)
+        return "iOS"
+    #elseif os(OSX)
+        return "macOS"
+    #elseif os(tvOS)
+        return "tvOS"
+    #elseif os(watchOS)
+        return "watchOS"
+    #else
+        return nil
+    #endif
+}
