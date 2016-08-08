@@ -629,6 +629,14 @@ import Foundation
                 }
                 disjunctiveFacetCounts[facetName] = newFacetCounts
             }
+            // If facet counts are not exhaustive, propagate this information to the main results.
+            // Because disjunctive queries are less restrictive than the main query, it can happen that the main query
+            // returns exhaustive facet counts, while the disjunctive queries do not.
+            if let exhaustiveFacetsCount = result["exhaustiveFacetsCount"] as? Bool {
+                if !exhaustiveFacetsCount {
+                    mainContent["exhaustiveFacetsCount"] = false
+                }
+            }
         }
         mainContent["disjunctiveFacets"] = disjunctiveFacetCounts
         return mainContent
