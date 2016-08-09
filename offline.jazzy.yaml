@@ -5,11 +5,33 @@ xcodebuild_arguments:
     - AlgoliaSearch.xcworkspace
     - -scheme
     - AlgoliaSearch-Offline-iOS
-documentation:
-    - doc/offline-mode.md
 output: build/doc
 # Avoid putting the DocSet within the HTML docs.
 # WARNING: The path is relative to the output directory.
 docset_path: ../docset
 hide_documentation_coverage: true
 skip_undocumented: true
+
+custom_categories:
+    - name: API Client
+      children:
+        - Client
+        - Index
+        - Query
+        - BrowseIterator
+
+    - name: Auxiliary types
+      children:
+        - GeoRect
+        - IndexQuery
+        - LatLng
+        - LibraryVersion
+
+    - name: Offline mode
+      children:
+        - OfflineClient
+        - MirroredIndex
+        - DataSelectionQuery
+
+abstract:
+    - doc/Offline mode.md
