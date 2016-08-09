@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>BrowseIterator Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/BrowseIterator" class="dashAnchor"></a>
+    <a title="BrowseIterator Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">AlgoliaSearch Docs</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">AlgoliaSearch Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        BrowseIterator Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../API Client.html">API Client</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/Client.html">Client</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Client/MultipleQueriesStrategy.html">– MultipleQueriesStrategy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Index.html">Index</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query.html">Query</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/BrowseIterator.html">BrowseIterator</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Auxiliary types.html">Auxiliary types</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/GeoRect.html">GeoRect</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IndexQuery.html">IndexQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/LatLng.html">LatLng</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/LibraryVersion.html">LibraryVersion</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Offline mode.html">Offline mode</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/OfflineClient.html">OfflineClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MirroredIndex.html">MirroredIndex</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MirroredIndex/Strategy.html">– Strategy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DataSelectionQuery.html">DataSelectionQuery</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Other Global Variables.html">Other Global Variables</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Other Global Variables.html#/s:v13AlgoliaSearch11ErrorDomainSS">ErrorDomain</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Other Enums.html">Other Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/StatusCode.html">StatusCode</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Other Typealiases.html">Other Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Other Typealiases.html#/s:13AlgoliaSearch21BrowseIteratorHandler">BrowseIteratorHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>BrowseIterator</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">BrowseIterator</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+                </div>
+              </div>
+            <p>Iterator to browse all index content.</p>
+
+<p>This helper takes care of chaining API requests and calling back the completion handler with the results, until:
+- the end of the index has been reached;
+- an error has been encountered;
+- or the user cancelled the iteration.</p>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch14BrowseIterator5indexCS_5Index"></a>
+                    <a name="//apple_ref/swift/Property/index" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch14BrowseIterator5indexCS_5Index">index</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The index being browsed.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">index</span><span class="p">:</span> <span class="kt"><a href="../Classes/Index.html">Index</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch14BrowseIterator5queryCS_5Query"></a>
+                    <a name="//apple_ref/swift/Property/query" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch14BrowseIterator5queryCS_5Query">query</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The query used to filter the results.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch14BrowseIteratorcFT5indexCS_5Index5queryCS_5Query17completionHandlerFT8iteratorS0_7contentGSqGVs10DictionarySSPs9AnyObject___5errorGSqCSo7NSError__T__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(index:query:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch14BrowseIteratorcFT5indexCS_5Index5queryCS_5Query17completionHandlerFT8iteratorS0_7contentGSqGVs10DictionarySSPs9AnyObject___5errorGSqCSo7NSError__T__S0_">init(index:query:completionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Construct a new browse iterator.
+NOTE: The iteration does not start automatically. You have to call <code><a href="../Classes/BrowseIterator.html#/s:FC13AlgoliaSearch14BrowseIterator5startFT_T_">start()</a></code> explicitly.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">index</span><span class="p">:</span> <span class="kt"><a href="../Classes/Index.html">Index</a></span><span class="p">,</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch21BrowseIteratorHandler">BrowseIteratorHandler</a></span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>index</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The index to be browsed.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>query</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The query used to filter the results.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Handler called for each page of results.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch14BrowseIterator5startFT_T_"></a>
+                    <a name="//apple_ref/swift/Method/start()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch14BrowseIterator5startFT_T_">start()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Start the iteration.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">start</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch14BrowseIterator6cancelFT_T_"></a>
+                    <a name="//apple_ref/swift/Method/cancel()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch14BrowseIterator6cancelFT_T_">cancel()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Cancel the iteration.
+This cancels any currently ongoing request, and cancels the iteration.
+The completion handler will not be called after the iteration has been cancelled.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">cancel</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch14BrowseIterator7hasNextFT_Sb"></a>
+                    <a name="//apple_ref/swift/Method/hasNext()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch14BrowseIterator7hasNextFT_Sb">hasNext()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Determine if there is more content to be browsed.
+WARNING: Can only be called from the handler, once the iteration has started.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">hasNext</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2016 <a class="link" href="https://github.com/algolia/algoliasearch-client-swift" target="_blank" rel="external">Algolia</a>. All rights reserved. (Last updated: 2016-08-09)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

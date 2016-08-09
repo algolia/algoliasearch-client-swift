@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Query Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/Query" class="dashAnchor"></a>
+    <a title="Query Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">AlgoliaSearch Docs</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">AlgoliaSearch Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        Query Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../API Client.html">API Client</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/Client.html">Client</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Client/MultipleQueriesStrategy.html">– MultipleQueriesStrategy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Index.html">Index</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query.html">Query</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/BrowseIterator.html">BrowseIterator</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Auxiliary types.html">Auxiliary types</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/GeoRect.html">GeoRect</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IndexQuery.html">IndexQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/LatLng.html">LatLng</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/LibraryVersion.html">LibraryVersion</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Offline mode.html">Offline mode</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/OfflineClient.html">OfflineClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MirroredIndex.html">MirroredIndex</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MirroredIndex/Strategy.html">– Strategy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DataSelectionQuery.html">DataSelectionQuery</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Other Global Variables.html">Other Global Variables</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Other Global Variables.html#/s:v13AlgoliaSearch11ErrorDomainSS">ErrorDomain</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Other Enums.html">Other Enums</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Enums/StatusCode.html">StatusCode</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Other Typealiases.html">Other Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Other Typealiases.html#/s:13AlgoliaSearch21BrowseIteratorHandler">BrowseIteratorHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>Query</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">Query</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCopying</span></code></pre>
+
+                </div>
+              </div>
+            <p>Describes all parameters of a search query.</p>
+
+<p>There are two ways to access parameters:</p>
+
+<ol>
+<li>Using the high-level, <strong>typed properties</strong> for individual parameters (recommended).</li>
+<li>Using the low-level, <strong>untyped accessors</strong> <code>get(_:)</code> and <code>set(_:value:)</code> or the subscript operator.
+Use this approach if the parameter you wish to set is not supported by this class.</li>
+</ol>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Low-level%20(untyped)%20parameters"></a>
+                <a name="//apple_ref/swift/Section/Low-level (untyped) parameters" class="dashAnchor"></a>
+                <a href="#/Low-level%20(untyped)%20parameters">
+                  <h3 class="section-name">Low-level (untyped) parameters</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:iC13AlgoliaSearch5Query9subscriptFSSGSqSS_"></a>
+                    <a name="//apple_ref/swift/Method/subscript(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:iC13AlgoliaSearch5Query9subscriptFSSGSqSS_">subscript(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Convenience shortcut to <code><a href="../Classes/Query.html#/s:FC13AlgoliaSearch5Query3getFSSGSqSS_">get(_:)</a></code> and <code><a href="../Classes/Query.html#/s:FC13AlgoliaSearch5Query3setFTSS5valueGSqSS__T_">set(_:value:)</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="nf">subscript</span><span class="p">(</span><span class="nv">index</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch5Query3getFSSGSqSS_"></a>
+                    <a name="//apple_ref/swift/Method/get(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch5Query3getFSSGSqSS_">get(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get a parameter in an untyped fashion.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">get</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The parameter&rsquo;s name.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The parameter&rsquo;s value, or nil if a parameter with the specified name does not exist.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch5Query3setFTSS5valueGSqSS__T_"></a>
+                    <a name="//apple_ref/swift/Method/set(_:value:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch5Query3setFTSS5valueGSqSS__T_">set(_:value:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Set a parameter in an untyped fashion.
+This low-level accessor is intended to access parameters that this client does not yet support.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">set</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The parameter&rsquo;s name.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>value</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The parameter&rsquo;s value, or nill to remove it.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Full%20text%20search%20parameters"></a>
+                <a name="//apple_ref/swift/Section/Full text search parameters" class="dashAnchor"></a>
+                <a href="#/Full%20text%20search%20parameters">
+                  <h3 class="section-name">Full text search parameters</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query5queryGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/query" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query5queryGSqSS_">query</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The instant-search query string, all words of the query are interpreted as prefixes (for example “John Mc” will
+match “John Mccamey” and “Johnathan Mccamey”). If no query parameter is set, retrieves all objects.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">query</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query9queryTypeGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/queryType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query9queryTypeGSqSS_">queryType</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Selects how the query words are interpreted:
+- <code>prefixAll</code>: all query words are interpreted as prefixes
+- <code>prefixLast</code>: only the last word is interpreted as a prefix (default behavior)
+- <code>prefixNone</code>: no query word is interpreted as a prefix. This option is not recommended.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">queryType</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query13typoToleranceGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/typoTolerance" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query13typoToleranceGSqSS_">typoTolerance</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This setting has four different options:
+- <code>true</code>: activate the typo-tolerance.
+- <code>false</code>: disable the typo-tolerance.
+- <code>min</code>: keep only results with the lowest number of typo. For example if one result match without typos, then
+  all results with typos will be hidden.
+- <code>strict</code>: if there is a match without typo, then all results with 2 typos or more will be removed. This
+option is useful if you want to avoid as much as possible false positive.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">typoTolerance</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query19minWordSizefor1TypoGSqCSo8NSNumber_"></a>
+                    <a name="//apple_ref/swift/Property/minWordSizefor1Typo" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query19minWordSizefor1TypoGSqCSo8NSNumber_">minWordSizefor1Typo</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The minimum number of characters in a query word to accept one typo in this word.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">minWordSizefor1Typo</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query20minWordSizefor2TyposGSqCSo8NSNumber_"></a>
+                    <a name="//apple_ref/swift/Property/minWordSizefor2Typos" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query20minWordSizefor2TyposGSqCSo8NSNumber_">minWordSizefor2Typos</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The minimum number of characters in a query word to accept two typos in this word.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">minWordSizefor2Typos</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query25allowTyposOnNumericTokensGSqCSo8NSNumber_"></a>
+                    <a name="//apple_ref/swift/Property/allowTyposOnNumericTokens" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query25allowTyposOnNumericTokensGSqCSo8NSNumber_">allowTyposOnNumericTokens</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>If set to false, disable typo-tolerance on numeric tokens (=numbers) in the query word. For example the query
+<q>304</q> will match with <q>30450</q>, but not with <q>40450</q> that would have been the case with typo-tolerance enabled.
+Can be very useful on serial numbers and zip codes searches.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">allowTyposOnNumericTokens</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query13ignorePluralsGSqCSo8NSNumber_"></a>
+                    <a name="//apple_ref/swift/Property/ignorePlurals" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query13ignorePluralsGSqCSo8NSNumber_">ignorePlurals</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>If set to true, simple plural forms won’t be considered as typos (for example car/cars will be considered as
+equal).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">ignorePlurals</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query28restrictSearchableAttributesGSqGSaSS__"></a>
+                    <a name="//apple_ref/swift/Property/restrictSearchableAttributes" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query28restrictSearchableAttributesGSqGSaSS__">restrictSearchableAttributes</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>List of attributes you want to use for textual search (must be a subset of the attributesToIndex index setting).
+Attributes are separated with a comma (for example <q>name,address</q> ), you can also use a JSON string array
+encoding (for example encodeURIComponent(&rsquo;[<q>name</q>,<q>address</q>]&rsquo;) ). By default, all attributes specified in
+attributesToIndex settings are used to search.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">restrictSearchableAttributes</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query14advancedSyntaxGSqCSo8NSNumber_"></a>
+                    <a name="//apple_ref/swift/Property/advancedSyntax" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query14advancedSyntaxGSqCSo8NSNumber_">advancedSyntax</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Enable the advanced query syntax.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">advancedSyntax</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query9analyticsGSqCSo8NSNumber_"></a>
+                    <a name="//apple_ref/swift/Property/analytics" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query9analyticsGSqCSo8NSNumber_">analytics</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>If set to false, this query will not be taken into account for the Analytics.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">analytics</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query13analyticsTagsGSqGSaSS__"></a>
+                    <a name="//apple_ref/swift/Property/analyticsTags" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query13analyticsTagsGSqGSaSS__">analyticsTags</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>If set, tag your query with the specified identifiers. Tags can then be used in the Analytics to analyze a
+subset of searches only.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">analyticsTags</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query8synonymsGSqCSo8NSNumber_"></a>
+                    <a name="//apple_ref/swift/Property/synonyms" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query8synonymsGSqCSo8NSNumber_">synonyms</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>If set to false, this query will not use synonyms defined in configuration.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">synonyms</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query26replaceSynonymsInHighlightGSqCSo8NSNumber_"></a>
+                    <a name="//apple_ref/swift/Property/replaceSynonymsInHighlight" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query26replaceSynonymsInHighlightGSqCSo8NSNumber_">replaceSynonymsInHighlight</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>If set to false, words matched via synonyms expansion will not be replaced by the matched synonym in the
+highlighted result.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">replaceSynonymsInHighlight</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query13optionalWordsGSqGSaSS__"></a>
+                    <a name="//apple_ref/swift/Property/optionalWords" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query13optionalWordsGSqGSaSS__">optionalWords</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Specify a list of words that should be considered as optional when found in the query. This list will be
+appended to the one defined in your index settings.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">optionalWords</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query12minProximityGSqCSo8NSNumber_"></a>
+                    <a name="//apple_ref/swift/Property/minProximity" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query12minProximityGSqCSo8NSNumber_">minProximity</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Configure the precision of the proximity ranking criterion. By default, the minimum (and best) proximity value
+distance between 2 matching words is 1. Setting it to 2 (or 3) would allow 1 (or 2) words to be found between
+the matching words without degrading the proximity ranking value.</p>
+
+<p>Considering the query “javascript framework”, if you set minProximity=2 the records “JavaScript framework” and
+“JavaScript charting framework” will get the same proximity score, even if the second one contains a word
+between the 2 matching words.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">minProximity</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query22removeWordsIfNoResultsGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/removeWordsIfNoResults" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query22removeWordsIfNoResultsGSqSS_">removeWordsIfNoResults</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Configure the way query words are removed when the query doesn’t retrieve any results. This option can be used
+to avoid having an empty result page. There are four different options:
+- <code>lastWords</code>: when a query does not return any result, the last word will be added as optionalWords (the
+  process is repeated with the n-1 word, n-2 word, … until there is results). This option is particularly
+  useful on e-commerce websites
+- <code>firstWords</code>: when a query does not return any result, the first word will be added as optionalWords (the
+  process is repeated with the second word, third word, … until there is results). This option is useful on
+  address search
+- <code>allOptional</code>: When a query does not return any result, a second trial will be made with all words as
+  optional (which is equivalent to transforming the AND operand between query terms in a OR operand)
+- <code>none</code>: No specific processing is done when a query does not return any result.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">removeWordsIfNoResults</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query32disableTypoToleranceOnAttributesGSqGSaSS__"></a>
+                    <a name="//apple_ref/swift/Property/disableTypoToleranceOnAttributes" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query32disableTypoToleranceOnAttributesGSqGSaSS__">disableTypoToleranceOnAttributes</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>List of attributes on which you want to disable typo tolerance (must be a subset of the <code>attributesToIndex</code>
+index setting).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">disableTypoToleranceOnAttributes</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query15removeStopWordsGSqPs9AnyObject__"></a>
+                    <a name="//apple_ref/swift/Property/removeStopWords" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query15removeStopWordsGSqPs9AnyObject__">removeStopWords</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Remove stop words from query before executing it.
+It can be a boolean: enable or disable all 41 supported languages or a comma separated string with the list of
+languages you have in your record (using language iso code). In most use-cases, we don’t recommend enabling
+this option.</p>
+
+<p>Stop words removal is applied on query words that are not interpreted as a prefix. The behavior depends of the
+<code><a href="../Classes/Query.html#/s:vC13AlgoliaSearch5Query9queryTypeGSqSS_">queryType</a></code> parameter:</p>
+
+<ul>
+<li><code>queryType=prefixLast</code> means the last query word is a prefix and it won’t be considered for stop words removal</li>
+<li><code>queryType=prefixNone</code> means no query word are prefix, stop words removal will be applied on all query words</li>
+<li><code>queryType=prefixAll</code> means all query terms are prefix, stop words won’t be removed</li>
+</ul>
+
+<p>This parameter is useful when you have a query in natural language like “what is a record?”. In this case,
+before executing the query, we will remove “what”, “is” and “a” in order to just search for “record”. This
+removal will remove false positive because of stop words, especially when combined with optional words.
+For most use cases, it is better to do not use this feature as people search by keywords on search engines.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">removeStopWords</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query22exactOnSingleWordQueryGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/exactOnSingleWordQuery" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query22exactOnSingleWordQueryGSqSS_">exactOnSingleWordQuery</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>This parameter control how the exact ranking criterion is computed when the query contains one word.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">exactOnSingleWordQuery</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query19alternativesAsExactGSqGSaSS__"></a>
+                    <a name="//apple_ref/swift/Property/alternativesAsExact" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query19alternativesAsExactGSqGSaSS__">alternativesAsExact</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Specify the list of approximation that should be considered as an exact match in the ranking formula.</p>
+
+<ul>
+<li><code><a href="../Classes/Query.html#/s:vC13AlgoliaSearch5Query13ignorePluralsGSqCSo8NSNumber_">ignorePlurals</a></code>: alternative word added by the ignore plurals feature</li>
+<li><code>singleWordSynonym</code>: single word synonym (For example “NY” = “NYC”)</li>
+<li><code>multiWordsSynonym</code>: synonym over multiple words (For example “NY” = “New York”)</li>
+</ul>
+
+<p>The default value is <code>ignorePlurals,singleWordSynonym</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">alternativesAsExact</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Pagination%20parameters"></a>
+                <a name="//apple_ref/swift/Section/Pagination parameters" class="dashAnchor"></a>
+                <a href="#/Pagination%20parameters">
+                  <h3 class="section-name">Pagination parameters</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query4pageGSqCSo8NSNumber_"></a>
+                    <a name="//apple_ref/swift/Property/page" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query4pageGSqCSo8NSNumber_">page</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Pagination parameter used to select the page to retrieve. Page is zero-based and defaults to 0. Thus, to
+retrieve the 10th page you need to set <code>page=9</code></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">page</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query11hitsPerPageGSqCSo8NSNumber_"></a>
+                    <a name="//apple_ref/swift/Property/hitsPerPage" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query11hitsPerPageGSqCSo8NSNumber_">hitsPerPage</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Pagination parameter used to select the number of hits per page. Defaults to 20.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">hitsPerPage</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Parameters%20to%20control%20results%20content"></a>
+                <a name="//apple_ref/swift/Section/Parameters to control results content" class="dashAnchor"></a>
+                <a href="#/Parameters%20to%20control%20results%20content">
+                  <h3 class="section-name">Parameters to control results content</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query20attributesToRetrieveGSqGSaSS__"></a>
+                    <a name="//apple_ref/swift/Property/attributesToRetrieve" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query20attributesToRetrieveGSqGSaSS__">attributesToRetrieve</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>List of object attributes you want to retrieve (let you minimize the answer size). You can also use <code>*</code> to
+retrieve all values when an <code>attributesToRetrieve</code> setting is specified for your index.
+By default all attributes are retrieved.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">attributesToRetrieve</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query21attributesToHighlightGSqGSaSS__"></a>
+                    <a name="//apple_ref/swift/Property/attributesToHighlight" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query21attributesToHighlightGSqGSaSS__">attributesToHighlight</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>List of attributes you want to highlight according to the query. If an attribute has no match for the query,
+the raw value is returned. By default all indexed text attributes are highlighted. You can use <code>*</code> if you want
+to highlight all textual attributes. Numerical attributes are not highlighted. A <code>matchLevel</code> is returned for
+each highlighted attribute and can contain:
+- <code>full</code>: if all the query terms were found in the attribute
+- <code>partial</code>: if only some of the query terms were found
+- <code>none</code>: if none of the query terms were found</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">attributesToHighlight</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query19attributesToSnippetGSqGSaSS__"></a>
+                    <a name="//apple_ref/swift/Property/attributesToSnippet" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query19attributesToSnippetGSqGSaSS__">attributesToSnippet</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>List of attributes to snippet alongside the number of words to return (syntax is <code>attributeName:nbWords</code>).
+By default no snippet is computed.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">attributesToSnippet</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query14getRankingInfoGSqCSo8NSNumber_"></a>
+                    <a name="//apple_ref/swift/Property/getRankingInfo" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query14getRankingInfoGSqCSo8NSNumber_">getRankingInfo</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>If set to true, the result hits will contain ranking information in <code>_rankingInfo</code> attribute.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">getRankingInfo</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query15highlightPreTagGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/highlightPreTag" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query15highlightPreTagGSqSS_">highlightPreTag</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Specify the string that is inserted before the highlighted parts in the query result (defaults to <code>&lt;em&gt;</code>).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">highlightPreTag</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query16highlightPostTagGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/highlightPostTag" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query16highlightPostTagGSqSS_">highlightPostTag</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Specify the string that is inserted after the highlighted parts in the query result (defaults to <code>&lt;/em&gt;</code>)</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">highlightPostTag</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query19snippetEllipsisTextGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/snippetEllipsisText" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query19snippetEllipsisTextGSqSS_">snippetEllipsisText</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>String used as an ellipsis indicator when a snippet is truncated (defaults to empty).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">snippetEllipsisText</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Numeric%20search%20parameters"></a>
+                <a name="//apple_ref/swift/Section/Numeric search parameters" class="dashAnchor"></a>
+                <a href="#/Numeric%20search%20parameters">
+                  <h3 class="section-name">Numeric search parameters</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query14numericFiltersGSqGSaPs9AnyObject___"></a>
+                    <a name="//apple_ref/swift/Property/numericFilters" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query14numericFiltersGSqGSaPs9AnyObject___">numericFilters</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Filter on numeric attributes.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">numericFilters</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Category%20search%20parameters"></a>
+                <a name="//apple_ref/swift/Section/Category search parameters" class="dashAnchor"></a>
+                <a href="#/Category%20search%20parameters">
+                  <h3 class="section-name">Category search parameters</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query10tagFiltersGSqGSaPs9AnyObject___"></a>
+                    <a name="//apple_ref/swift/Property/tagFilters" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query10tagFiltersGSqGSaPs9AnyObject___">tagFilters</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Filter the query by a set of tags.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">tagFilters</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Distinct%20parameter"></a>
+                <a name="//apple_ref/swift/Section/Distinct parameter" class="dashAnchor"></a>
+                <a href="#/Distinct%20parameter">
+                  <h3 class="section-name">Distinct parameter</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query8distinctGSqCSo8NSNumber_"></a>
+                    <a name="//apple_ref/swift/Property/distinct" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query8distinctGSqCSo8NSNumber_">distinct</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Enable the distinct feature (disabled by default) if the attributeForDistinct index setting is set. This
+feature is similar to the SQL “distinct” keyword: when enabled in a query with the <code>distinct=1</code> parameter,
+all hits containing a duplicate value for the <code>attributeForDistinct</code> attribute are removed from results.
+For example, if the chosen attribute is <code>show_name</code> and several hits have the same value for <code>show_name</code>, then
+only the best one is kept and others are removed.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">distinct</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Faceting%20parameters"></a>
+                <a name="//apple_ref/swift/Section/Faceting parameters" class="dashAnchor"></a>
+                <a href="#/Faceting%20parameters">
+                  <h3 class="section-name">Faceting parameters</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query6facetsGSqGSaSS__"></a>
+                    <a name="//apple_ref/swift/Property/facets" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query6facetsGSqGSaSS__">facets</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>List of object attributes that you want to use for faceting. Only attributes that have been added in
+<code>attributesForFaceting</code> index setting can be used in this parameter. You can also use <code>*</code> to perform faceting
+on all attributes specified in <code>attributesForFaceting</code>. If the number of results is important, the count can
+be approximate, the attribute <code>exhaustiveFacetsCount</code> in the response is true when the count is exact.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">facets</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query12facetFiltersGSqGSaPs9AnyObject___"></a>
+                    <a name="//apple_ref/swift/Property/facetFilters" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query12facetFiltersGSqGSaPs9AnyObject___">facetFilters</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Filter the query by a list of facets.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">facetFilters</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query17maxValuesPerFacetGSqCSo8NSNumber_"></a>
+                    <a name="//apple_ref/swift/Property/maxValuesPerFacet" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query17maxValuesPerFacetGSqCSo8NSNumber_">maxValuesPerFacet</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Limit the number of facet values returned for each facet. For example: <code>maxValuesPerFacet=10</code> will retrieve
+max 10 values per facet.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">maxValuesPerFacet</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Unified%20filter%20parameter%20(SQL%20like)"></a>
+                <a name="//apple_ref/swift/Section/Unified filter parameter (SQL like)" class="dashAnchor"></a>
+                <a href="#/Unified%20filter%20parameter%20(SQL%20like)">
+                  <h3 class="section-name">Unified filter parameter (SQL like)</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query7filtersGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/filters" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query7filtersGSqSS_">filters</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Filter the query with numeric, facet or/and tag filters.
+The syntax is a SQL like syntax, you can use the OR and AND keywords. The syntax for the underlying numeric,
+facet and tag filters is the same than in the other filters:</p>
+
+<pre class="highlight plaintext"><code>available=1 AND (category:Book OR NOT category:Ebook) AND publication_date: 1441745506 TO 1441755506
+AND inStock &gt; 0 AND author:"John Doe"
+</code></pre>
+
+<p>The list of keywords is:</p>
+
+<ul>
+<li><code>OR</code>: create a disjunctive filter between two filters.</li>
+<li><code>AND</code>: create a conjunctive filter between two filters.</li>
+<li><code>TO</code>: used to specify a range for a numeric filter.</li>
+<li><code>NOT</code>: used to negate a filter. The syntax with the <code>-</code> isn&rsquo;t allowed.</li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">filters</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Geo-search%20parameters"></a>
+                <a name="//apple_ref/swift/Section/Geo-search parameters" class="dashAnchor"></a>
+                <a href="#/Geo-search%20parameters">
+                  <h3 class="section-name">Geo-search parameters</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query12aroundLatLngGSqCS_6LatLng_"></a>
+                    <a name="//apple_ref/swift/Property/aroundLatLng" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query12aroundLatLngGSqCS_6LatLng_">aroundLatLng</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Search for entries around a given latitude/longitude. You can specify the maximum distance in meters with the
+<code><a href="../Classes/Query.html#/s:vC13AlgoliaSearch5Query12aroundRadiusGSqCSo8NSNumber_">aroundRadius</a></code> parameter but we recommend to let it unset and let our automatic radius computation adapt it
+depending of the density of the are. At indexing, you should specify the geo-location of an object with the
+<code>_geoloc</code> attribute (in the form <code>&quot;_geoloc&quot;:{&quot;lat&quot;:48.853409, &quot;lng&quot;:2.348800}</code> or
+<code>&quot;_geoloc&quot;:[{&quot;lat&quot;:48.853409, &quot;lng&quot;:2.348800},{&quot;lat&quot;:48.547456, &quot;lng&quot;:2.972075}]</code> if you have several
+geo-locations in your record).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">aroundLatLng</span><span class="p">:</span> <span class="kt"><a href="../Classes/LatLng.html">LatLng</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query17aroundLatLngViaIPGSqCSo8NSNumber_"></a>
+                    <a name="//apple_ref/swift/Property/aroundLatLngViaIP" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query17aroundLatLngViaIPGSqCSo8NSNumber_">aroundLatLngViaIP</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Same than aroundLatLng but using IP geolocation instead of manually specified latitude/longitude.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">aroundLatLngViaIP</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query12aroundRadiusGSqCSo8NSNumber_"></a>
+                    <a name="//apple_ref/swift/Property/aroundRadius" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query12aroundRadiusGSqCSo8NSNumber_">aroundRadius</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Control the radius associated with a <code><a href="../Classes/Query.html#/s:vC13AlgoliaSearch5Query12aroundLatLngGSqCS_6LatLng_">aroundLatLng</a></code> or <code><a href="../Classes/Query.html#/s:vC13AlgoliaSearch5Query17aroundLatLngViaIPGSqCSo8NSNumber_">aroundLatLngViaIP</a></code> query. Defined in meters.
+If not set, the radius is computed automatically using the density of the area, you can retrieve the computed
+radius in the <code>automaticRadius</code> attribute of the answer. You can also specify a minimum value for the automatic
+radius by using the <code><a href="../Classes/Query.html#/s:vC13AlgoliaSearch5Query19minimumAroundRadiusGSqCSo8NSNumber_">minimumAroundRadius</a></code> query parameter. You can specify <code>aroundRadius=all</code> if you want to
+compute the geo distance without filtering in a geo area, this option will be faster than specifying a big
+integer.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">aroundRadius</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13AlgoliaSearch5Query15aroundRadiusAllSu"></a>
+                    <a name="//apple_ref/swift/Variable/aroundRadiusAll" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13AlgoliaSearch5Query15aroundRadiusAllSu">aroundRadiusAll</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Special value for <code><a href="../Classes/Query.html#/s:vC13AlgoliaSearch5Query12aroundRadiusGSqCSo8NSNumber_">aroundRadius</a></code> to compute the geo distance without filtering.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">aroundRadiusAll</span><span class="p">:</span> <span class="kt">UInt</span> <span class="o">=</span> <span class="kt">UInt</span><span class="o">.</span><span class="n">max</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query15aroundPrecisionGSqCSo8NSNumber_"></a>
+                    <a name="//apple_ref/swift/Property/aroundPrecision" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query15aroundPrecisionGSqCSo8NSNumber_">aroundPrecision</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Control the precision of a <code><a href="../Classes/Query.html#/s:vC13AlgoliaSearch5Query12aroundLatLngGSqCS_6LatLng_">aroundLatLng</a></code> query. In meter. For example if you set <code>aroundPrecision=100</code>, two
+objects that are in the range 0-99m will be considered as identical in the ranking for the .variable geo
+ranking parameter (same for 100-199, 200-299, … ranges).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">aroundPrecision</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query19minimumAroundRadiusGSqCSo8NSNumber_"></a>
+                    <a name="//apple_ref/swift/Property/minimumAroundRadius" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query19minimumAroundRadiusGSqCSo8NSNumber_">minimumAroundRadius</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Define the minimum radius used for <code><a href="../Classes/Query.html#/s:vC13AlgoliaSearch5Query12aroundLatLngGSqCS_6LatLng_">aroundLatLng</a></code> or <code><a href="../Classes/Query.html#/s:vC13AlgoliaSearch5Query17aroundLatLngViaIPGSqCSo8NSNumber_">aroundLatLngViaIP</a></code> when <code><a href="../Classes/Query.html#/s:vC13AlgoliaSearch5Query12aroundRadiusGSqCSo8NSNumber_">aroundRadius</a></code> is not set. The
+radius is computed automatically using the density of the area. You can retrieve the computed radius in the
+<code>automaticRadius</code> attribute of the answer.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">minimumAroundRadius</span><span class="p">:</span> <span class="kt">NSNumber</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query17insideBoundingBoxGSqGSaCS_7GeoRect__"></a>
+                    <a name="//apple_ref/swift/Property/insideBoundingBox" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query17insideBoundingBoxGSqGSaCS_7GeoRect__">insideBoundingBox</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Search for entries inside a given area defined by the two extreme points of a rectangle.
+You can use several bounding boxes (OR) by passing more than 1 value.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">insideBoundingBox</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/GeoRect.html">GeoRect</a></span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Initialization"></a>
+                <a name="//apple_ref/swift/Section/Initialization" class="dashAnchor"></a>
+                <a href="#/Initialization">
+                  <h3 class="section-name">Initialization</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch5QuerycFT_S0_"></a>
+                    <a name="//apple_ref/swift/Method/init()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch5QuerycFT_S0_">init()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Construct an empty query.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">override</span> <span class="nf">init</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch5QuerycFT5queryGSqSS__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(query:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch5QuerycFT5queryGSqSS__S0_">init(query:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Construct a query with the specified full text query.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">query</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch5QuerycFT10parametersGVs10DictionarySSSS__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(parameters:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch5QuerycFT10parametersGVs10DictionarySSSS__S0_">init(parameters:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Construct a query with the specified low-level parameters.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">parameters</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch5QuerycFT4copyS0__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(copy:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch5QuerycFT4copyS0__S0_">init(copy:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Clone an existing query.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">copy</span><span class="p">:</span> <span class="kt">Query</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch5Query12copyWithZoneFV10ObjectiveC6NSZonePs9AnyObject_"></a>
+                    <a name="//apple_ref/swift/Method/copyWithZone(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch5Query12copyWithZoneFV10ObjectiveC6NSZonePs9AnyObject_">copyWithZone(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Support for <code>NSCopying</code>.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Primarily intended for Objective-C use. Swift coders should use <code><a href="../Classes/Query.html#/s:FC13AlgoliaSearch5QuerycFT4copyS0__S0_">init(copy:)</a></code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">copyWithZone</span><span class="p">(</span><span class="nv">zone</span><span class="p">:</span> <span class="kt">NSZone</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">AnyObject</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Serialization%20&amp;%20parsing"></a>
+                <a name="//apple_ref/swift/Section/Serialization &amp; parsing" class="dashAnchor"></a>
+                <a href="#/Serialization%20&amp;%20parsing">
+                  <h3 class="section-name">Serialization &amp; parsing</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch5Query5buildFT_SS"></a>
+                    <a name="//apple_ref/swift/Method/build()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch5Query5buildFT_SS">build()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Return the final query string used in URL.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">build</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFC13AlgoliaSearch5Query5parseFSSS0_"></a>
+                    <a name="//apple_ref/swift/Method/parse(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFC13AlgoliaSearch5Query5parseFSSS0_">parse(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Parse a query from a URL query string.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">parse</span><span class="p">(</span><span class="nv">queryString</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Query</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>&copy; 2016 <a class="link" href="https://github.com/algolia/algoliasearch-client-swift" target="_blank" rel="external">Algolia</a>. All rights reserved. (Last updated: 2016-08-09)</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
