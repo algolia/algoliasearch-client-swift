@@ -1,7 +1,14 @@
 Change Log
 ==========
 
-## Next
+## 3.6 (2016-08-09)
+
+- Add explicit support for **tvOS** in the Cocoapods pod spec. (In fact, tvOS has been supported for a while in our code, but somehow never made it to the pod spec.) *Note: not supported by the offline mode.*
+- Add support for HTML documentation generation via [Jazzy](https://github.com/realm/jazzy)
+- Fix behavior of the `exhaustiveFacetsCount` response field when using disjunctive faceting
+- Migrate the `User-Agent` HTTP header to a new, more parseable format; now also includes the operating system's version.
+- Change value of `ErrorDomain` constant. *Note: not a breaking change unless you relied on the value itself.*
+- Update documentation
 
 ### Offline mode
 
