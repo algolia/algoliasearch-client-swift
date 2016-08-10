@@ -11,7 +11,7 @@ output: build/doc
 docset_path: ../docset
 hide_documentation_coverage: true
 skip_undocumented: true
-
+readme: doc/reference.md
 custom_categories:
     - name: API Client
       children:
@@ -32,6 +32,5 @@ custom_categories:
         - OfflineClient
         - MirroredIndex
         - DataSelectionQuery
-
 abstract:
     - doc/Offline mode.md
