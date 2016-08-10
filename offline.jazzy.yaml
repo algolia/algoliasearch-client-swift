@@ -32,5 +32,3 @@ custom_categories:
         - OfflineClient
         - MirroredIndex
         - DataSelectionQuery
-abstract:
-    - doc/Offline mode.md
