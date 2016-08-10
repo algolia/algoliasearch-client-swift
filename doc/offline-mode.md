@@ -1,6 +1,16 @@
 
 # Offline mode
 
+**Table of contents**
+
+* [Overview](#overview)
+* [Setup](#setup)
+* [Usage](#usage)
+* [Unsupported features](#unsupported-features)
+* [Troubleshooting](#troubleshooting)
+* [Other resources](#other-resources)
+
+
 ## Overview
 
 The API client can be enhanced with offline capabilities. This optional **offline mode** allows you to mirror online indices on local storage, and transparently switch to the local mirror in case of unavailability of the online index, thus providing uninterrupted user experience. You can also explicitly query the mirror if you want.
