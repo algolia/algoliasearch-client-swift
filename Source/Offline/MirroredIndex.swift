@@ -335,7 +335,7 @@ import Foundation
         // Task: build the index using the downloaded files.
         buildIndexOperation = NSBlockOperation() {
             if self.syncError == nil {
-                let status = self.localIndex.buildFromSettingsFile(self.settingsFilePath, objectFiles: self.objectsFilePaths, clearIndex: true)
+                let status = self.localIndex.buildFromSettingsFile(self.settingsFilePath, objectFiles: self.objectsFilePaths, clearIndex: true, deletedObjectIDs: nil)
                 if status != 200 {
                     self.syncError = NSError(domain: Client.ErrorDomain, code: Int(status), userInfo: [NSLocalizedDescriptionKey: "Could not build local index"])
                 } else {
