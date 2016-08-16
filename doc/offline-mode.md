@@ -59,15 +59,17 @@ Offline features are brought by Algolia's **Offline SDK**, which is actually com
     client = OfflineClient(appID: "YOUR_APP_ID", apiKey: "YOUR_API_KEY")
     ```
 
-4. (Optional) Choose the directory under which local indices will be stored:
+4. *(Optional)* Choose the directory under which local indices will be stored:
 
     ```swift
-    client.rootDataDir = TODO
+    client.rootDataDir = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true).first! + "/my-indices"
     ```
 
-    By default, TODO.
+    By default, indices are stored under an `algolia` subdirectory of the `Application Support` directory.
 
-    *Warning: although using the cache directory may be tempting, we advise you against doing so. There is no guarantee that all files will be deleted together, and a partial delete could leave an index in an inconsistent state.*
+    **Warning:** Although using the cache directory may be tempting, we advise you against doing so. There is no guarantee that all files will be deleted together, and a partial delete could leave an index in an inconsistent state.
+
+    **Note:** The directory chosen for index storage is automatically excluded from iCloud/iTunes backup.
 
 5. **Enable offline mode**:
 
@@ -80,16 +82,16 @@ Offline features are brought by Algolia's **Offline SDK**, which is actually com
 
 ### Activation
 
-An `OfflineClient` provides all the features of an online `Client`. It returns `MirroredIndex` instances, which in turn provide all the features of online `Index` instances.
+An `OfflineClient` provides all the features of an online `Client`. It returns `MirroredIndex` instances, which also provide all the features of online `Index` instances.
 
-However, until you explicitly enable the offline mode by calling `enableOfflineMode()`, your offline client behaves like a regular online client. The same goes for indices: *you must explicitly activate mirroring* by settings the `mirrored` property to `true`. The reason is that you might not want to mirror all of your indices.
+However, until you explicitly enable the offline mode by calling `enableOfflineMode()`, your offline client behaves like a regular online client. The same goes for indices: *you must explicitly activate mirroring* by setting the `mirrored` property to `true`. The reason is that you might not want to mirror all of your indices.
 
-*Warning: Calling offline features before enabling mirroring on an index is a programming error and will be punished by an assertion failure.*
+**Warning:** Calling offline features before enabling mirroring on an index is a programming error and will be punished by an assertion failure.
 
 
 ### Synchronization
 
-You have entire control over *what* is synchronized and *when*.
+You have entire control over **what** is synchronized and **when**.
 
 #### What
 
@@ -99,11 +101,11 @@ A *data selection query* is essentially a combination of a browse `Query` and a 
 
 It will do so for every data selection query you have provided, then build (or re-build) the local index from the retrieved data. (When re-building, the previous version of the local index remains available for querying, until it is replaced by the new version.)
 
-*Warning: The entire selected data is re-downloaded at every sync, so be careful about bandwidth usage!*
+**Warning:** The entire selected data is re-downloaded at every sync, so be careful about bandwidth usage!
 
-*Warning: It is a programming error to attempt a sync with no data selection queries. Doing so will result in an assertion failure.*
+**Warning:** It is a programming error to attempt a sync with no data selection queries. Doing so will result in an assertion failure.
 
-*Note: Because the sync uses a "browse" to retrieve objects, the number of objects actually mirrored may exceed the maximum object count specified in the data selection query (up to one page of results of difference).*
+**Note:** Because the sync uses a "browse" to retrieve objects, the number of objects actually mirrored may exceed the maximum object count specified in the data selection query (up to one page of results of difference).
 
 
 #### When
@@ -118,9 +120,9 @@ Alternatively, you may call `MirroredIndex.sync()` to force a sync to happen now
 
 The reason you have to choose when to synchronize is that the decision depends on various factors that the SDK cannot know, in particular the specific business rules of your application, or the user's preferences. For example, you may want to sync only when connected to a non-metered Wi-Fi network, or during the night.
 
-*Note: Syncs always happen in the background, and therefore should not impact the user's experience.*
+**Note:** Syncs always happen in the background, and therefore should not impact the user's experience.
 
-*Note: You cannot have two syncs on the same index running in parallel. If a sync is already running, concurrent sync requests will be ignored.*
+**Note:** You cannot have two syncs on the same index running in parallel. If a sync is already running, concurrent sync requests will be ignored.
 
 
 ### Querying
@@ -129,26 +131,24 @@ The reason you have to choose when to synchronize is that the decision depends o
 
 You query a mirrored index using the same `search()` method as a purely online index. This will use the offline mirror as a fallback in case of failure of the online request.
 
-There's a catch, however. A mirrored index can function in two modes:
+You can customize this behavior by changing the `requestStrategy` property of the index:
 
-1. **Preventive offline search** (default). In this mode, if the online request is too slow to return, an offline request is launched preventively after a certain delay.
+- `FallbackOnFailure` (default) only falls back to the offline mirror if the online request fails. This covers cases where the device is offline; however, when the device is online but with a bad connectivity, every timeout has to be hit before the request is considered a failure.
 
-    *Warning: This may lead to your completion handler being called twice:* a first time with the offline results, and a second time with the online results. However, if the online request is fast enough (and successful, or the error cannot be recovered), the callback will be called just once.
+- To enforce a maximum response time, you can use `FallbackOnTimeout`, adjusting the timeout threshold via the `offlineFallbackTimeout` property.
 
-    You may adjust the delay setting the `MirroredIndex.preventiveOfflineSearchDelay` property. The default is `MirroredIndex.DefaultPreventiveOfflineSearchDelay`.
+- `OnlineOnly` and `OfflineOnly` are rather straightforward strategies, meant to implement custom strategies on top of them.
 
-2. **Offline fallback.** In this mode, the index first tries an online request, and in case of failure, switches back to the offline mirror, but only after the online request has failed. Therefore, the completion handler is guaranteed to be called exactly once.
+#### Data origin
 
-You can switch between those two modes by setting `MirroredIndex.preventiveOfflineSearch`.
-
-The origin of the data is indicated by the `origin` attribute in the returned result object: its value is `remote` if the content originates from the online API, and `local` if the content originates from the offline mirror.
+The origin of the data is indicated by the `origin` attribute in the returned result object: its value is `remote` if the content originates from the online API, and `local` if the content originates from the offline mirror. When you are using a mixed online/offline request strategy (the default, see above), this lets you know where the response is coming from.
 
 
 #### Direct query
 
 You may directly target the offline mirror if you want:
 
-- for search queries: `searchMirror()`
+- for search queries: `searchOffline()`
 - for browse queries: `browseMirror()` and `browseMirrorFrom()`
 
 Those methods have the same semantics as their online counterpart.
@@ -170,10 +170,10 @@ In order to offer the best user experience, you may want to pre-load some of tho
 To do so:
 
 - register a listener on the mirrored index (see [Events](#events) above);
-- when the sync is finished, browse the local mirror, parsing each object to detect associated resources;
+- when the sync is finished, browse the local mirror (using `browseMirror()` and `browseMirrorFrom()`, see above), parsing each object to detect associated resources;
 - pre-fetch those that are not already available locally.
 
-*Note: You should do so from a background thread with a low priority to minimize impact on the user's experience.*
+**Note:** You should do so from a background thread with a low priority to minimize impact on the user's experience.
 
 
 
@@ -207,7 +207,7 @@ Any unexpected condition should result in a warning/error being logged.
 
 If you think you found a bug in the offline client, please submit an issue on GitHub so that it can benefit the community.
 
-If you have a crash in the offline core, please send us a support request. Make sure to include the *crash report*, so that we can pinpoint the problem.
+If you have a crash in the offline core, please send us a support request. Make sure to include the **crash report**, so that we can pinpoint the problem.
 
 
 ## Other resources
