@@ -6,7 +6,7 @@ set -e # fail on first error
 SELF_ROOT=$(cd $(dirname "$0") && pwd)
 PROJECT_ROOT=$(cd "$SELF_ROOT"/.. && pwd)
 
-GIT_REPO_NAME="algolia/algoliasearch-helper-swift"
+GIT_REPO_URL=$(cd "$PROJECT_ROOT" && git remote get-url origin)
 BRANCH_NAME="gh-pages"
 DST_DIR="$PROJECT_ROOT/build/doc"
 
@@ -28,7 +28,7 @@ if [[ -d "$DST_DIR" ]]; then
 else
     echo "No Git checkout found; cloning"
     mkdir -p $(dirname "$DST_DIR")
-    git clone git@github.com:$GIT_REPO_NAME -b "$BRANCH_NAME" --single-branch "$DST_DIR"
+    git clone "$GIT_REPO_URL" -b "$BRANCH_NAME" --single-branch "$DST_DIR"
 fi
 
 # Make the documentation
