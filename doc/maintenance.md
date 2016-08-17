@@ -69,6 +69,14 @@ keep versioning aligned (there is only one version number for both flavors).
 
 - Edit the **release notes**: in GitHub, edit the tag and copy-paste the Change Log section for this release.
 
+- Update the **reference documentation**:
+
+    - Generate the documentation: `tools/make-doc.sh`
+
+    - Review it: `cd build/doc && git diff`
+
+    - Publish it: `git add . && git commit && git push`
+
 - Update the **external documentation** if necessary:
 
     - [Guides](https://www.algolia.com/doc/guides)
