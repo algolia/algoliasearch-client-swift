@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Offline mode  Reference</title>
+    <title>API Client  Reference</title>
     <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,7 +10,7 @@
     
   </head>
   <body>
-    <a title="Offline mode  Reference"></a>
+    <a title="API Client  Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="index.html">AlgoliaSearch Docs</a></p>
@@ -20,7 +20,7 @@
       <p id="breadcrumbs">
         <a href="index.html">AlgoliaSearch Reference</a>
         <img id="carat" src="img/carat.png" />
-        Offline mode  Reference
+        API Client  Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -112,7 +112,7 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>Offline mode</h1>
+            <h1>API Client</h1>
             
           </section>
           <section class="section task-group-section">
@@ -121,9 +121,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:C13AlgoliaSearch13OfflineClient"></a>
-                    <a name="//apple_ref/swift/Class/OfflineClient" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C13AlgoliaSearch13OfflineClient">OfflineClient</a>
+                    <a name="/s:C13AlgoliaSearch6Client"></a>
+                    <a name="//apple_ref/swift/Class/Client" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C13AlgoliaSearch6Client">Client</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -131,22 +131,15 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>An API client that adds offline features on top of the regular online API client.</p>
+                        <p>Entry point into the Swift API.</p>
 
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Requires Algolia&rsquo;s Offline Core SDK. The <code>enableOfflineMode(...)</code> method must be called with a valid license
-key prior to calling any offline-related method.
-
-</div>
-
-                        <a href="Classes/OfflineClient.html" class="slightly-smaller">See more</a>
+                        <a href="Classes/Client.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">OfflineClient</span> <span class="p">:</span> <span class="kt"><a href="Classes/Client.html">Client</a></span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">Client</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
                         </div>
                       </div>
@@ -160,9 +153,9 @@ key prior to calling any offline-related method.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:C13AlgoliaSearch13MirroredIndex"></a>
-                    <a name="//apple_ref/swift/Class/MirroredIndex" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C13AlgoliaSearch13MirroredIndex">MirroredIndex</a>
+                    <a name="/s:C13AlgoliaSearch5Index"></a>
+                    <a name="//apple_ref/swift/Class/Index" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C13AlgoliaSearch5Index">Index</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -170,70 +163,37 @@ key prior to calling any offline-related method.
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>An online index that can also be mirrored locally.</p>
-
-<p>When created, an instance of this class has its <code>mirrored</code> flag set to false, and behaves like a normal,
-online <code><a href="Classes/Index.html">Index</a></code>. When the <code>mirrored</code> flag is set to true, the index becomes capable of acting upon local data.</p>
-
-<div class="aside aside-warning">
-    <p class="aside-title">Warning</p>
-    It is a programming error to call methods acting on the local data when <code>mirrored</code> is false. Doing so
-will result in an assertion error being raised.
-
-</div>
-
-<p>Native resources are lazily instantiated at the first method call requiring them. They are released when the
-object is released. Although the client guards against concurrent accesses, it is strongly discouraged
-to create more than one <code>MirroredIndex</code> instance pointing to the same index, as that would duplicate
-native resources.</p>
+                        <p>A proxy to an Algolia index.</p>
 
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    Requires Algolia&rsquo;s SDK. The <code><a href="Classes/OfflineClient.html#/s:FC13AlgoliaSearch13OfflineClient17enableOfflineModeFSST_">OfflineClient.enableOfflineMode(...)</a></code> method must be called with a valid
-license key prior to calling any offline-related method.
+    You cannot construct this class directly. Please use <code><a href="Classes/Client.html#/s:FC13AlgoliaSearch6Client8getIndexFSSCS_5Index">Client.getIndex(_:)</a></code> to obtain an instance.
 
 </div>
 
-<p><a href='#request-strategy' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='request-strategy'>Request strategy</h3></p>
-
-<p>When the index is mirrored and the device is online, it becomes possible to transparently switch between online and
-offline requests. There is no single best strategy for that, because it depends on the use case and the current
-network conditions. You can choose the strategy through the <code>requestStrategy</code> property. The default is
-<code>FallbackOnFailure</code>, which will always target the online API first, then fallback to the offline mirror in case of
-failure (including network unavailability).</p>
-
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    <p>If you want to explicitly target either the online API or the offline mirror, doing so is always possible
-using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> methods.</p>
-
-</div>
-
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    <p>The strategy applies both to <code>search(...)</code> and <code>searchDisjunctiveFaceting(...)</code>.</p>
-
-</div>
-
-                        <a href="Classes/MirroredIndex.html" class="slightly-smaller">See more</a>
+                        <a href="Classes/Index.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">MirroredIndex</span> <span class="p">:</span> <span class="kt"><a href="Classes/Index.html">Index</a></span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">Index</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:C13AlgoliaSearch18DataSelectionQuery"></a>
-                    <a name="//apple_ref/swift/Class/DataSelectionQuery" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C13AlgoliaSearch18DataSelectionQuery">DataSelectionQuery</a>
+                    <a name="/s:C13AlgoliaSearch5Query"></a>
+                    <a name="//apple_ref/swift/Class/Query" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C13AlgoliaSearch5Query">Query</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -241,15 +201,60 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>A data selection query, used to select data to be mirrored locally by a <code><a href="Classes/MirroredIndex.html">MirroredIndex</a></code>.</p>
+                        <p>Describes all parameters of a search query.</p>
 
-                        <a href="Classes/DataSelectionQuery.html" class="slightly-smaller">See more</a>
+<p>There are two ways to access parameters:</p>
+
+<ol>
+<li>Using the high-level, <strong>typed properties</strong> for individual parameters (recommended).</li>
+<li>Using the low-level, <strong>untyped accessors</strong> <code>get(_:)</code> and <code>set(_:value:)</code> or the subscript operator.
+Use this approach if the parameter you wish to set is not supported by this class.</li>
+</ol>
+
+                        <a href="Classes/Query.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">DataSelectionQuery</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">Query</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCopying</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:C13AlgoliaSearch14BrowseIterator"></a>
+                    <a name="//apple_ref/swift/Class/BrowseIterator" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C13AlgoliaSearch14BrowseIterator">BrowseIterator</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Iterator to browse all index content.</p>
+
+<p>This helper takes care of chaining API requests and calling back the completion handler with the results, until:
+- the end of the index has been reached;
+- an error has been encountered;
+- or the user cancelled the iteration.</p>
+
+                        <a href="Classes/BrowseIterator.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">BrowseIterator</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
                         </div>
                       </div>
@@ -261,7 +266,7 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
           </section>
         </section>
         <section id="footer">
-          <p>&copy; 2016 <a class="link" href="https://github.com/algolia/algoliasearch-client-swift" target="_blank" rel="external">Algolia</a>. All rights reserved. (Last updated: 2016-08-16)</p>
+          <p>© Copyright 2016 <a class="link" href="https://www.algolia.com/" target="_blank" rel="external">Algolia</a>. All rights reserved.</p>
           <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.0</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
