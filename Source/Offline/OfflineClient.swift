@@ -101,4 +101,34 @@ import Foundation
     @objc public override func getIndex(indexName: String) -> MirroredIndex {
         return MirroredIndex(client: self, indexName: indexName)
     }
+    
+    // MARK: - Utils
+    
+    /// Parse search results returned by the Offline Core into a (content, error) pair suitable for completion handlers.
+    ///
+    /// - parameter searchResults: Search results to parse.
+    /// - returns: A (content, error) pair that can be passed to a `CompletionHandler`.
+    ///
+    internal static func parseSearchResults(searchResults: ASSearchResults) -> (content: [String: AnyObject]?, error: NSError?) {
+        var content: [String: AnyObject]?
+        var error: NSError?
+        if searchResults.statusCode == 200 {
+            assert(searchResults.data != nil)
+            do {
+                let json = try NSJSONSerialization.JSONObjectWithData(searchResults.data!, options: NSJSONReadingOptions(rawValue: 0))
+                if json is [String: AnyObject] {
+                    content = (json as! [String: AnyObject])
+                    // NOTE: Origin tagging performed by the SDK.
+                } else {
+                    error = NSError(domain: Client.ErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON returned"])
+                }
+            } catch let _error as NSError {
+                error = _error
+            }
+        } else {
+            error = NSError(domain: Client.ErrorDomain, code: Int(searchResults.statusCode), userInfo: nil)
+        }
+        assert(content != nil || error != nil)
+        return (content: content, error: error)
+    }
 }

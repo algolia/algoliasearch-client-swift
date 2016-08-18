@@ -43,7 +43,20 @@ import Foundation
 /// - **Batch** operations are not supported.
 ///
 ///
-/// ## Operation cancellation
+/// ## Operations
+///
+/// ### Asynchronicity
+///
+/// **Reminder:** Write operations on an online `Index` are twice asynchronous: the response from the server received
+/// by the completion handler is merely an acknowledgement of the task. If you want to detect the end of the write
+/// operation, you have to use `waitTask(_:completionHandler:)`.
+///
+/// In contrast, write operations on an `OfflineIndex` are only once asynchronous: when the completion handler is
+/// called, the operation has completed (eitehr successfully or unsuccessfully).
+///
+/// Read operations behave identically as on online indices.
+///
+/// ### Cancellation
 ///
 /// Just like online indices, an offline index bears *no rollback semantic*: cancelling an operation does **not**
 /// prevent the data from being modified. It just prevents the completion handler from being called.
@@ -63,17 +76,18 @@ import Foundation
     /// The local index (lazy instantiated).
     lazy var localIndex: ASLocalIndex! = ASLocalIndex(dataDir: self.client.rootDataDir, appID: self.client.appID, indexName: self.indexName)
 
-    let urlEncodedIndexName: String
-    
     var searchCache: ExpiringCache?
     
     // MARK: - Initialization
     
-    /// Create a new index proxy.
-    @objc internal init(client: OfflineClient, indexName: String) {
+    /// Create a new offline index.
+    ///
+    /// - parameter client: The offline client used by this index.
+    /// - parameter name: This index's name.
+    ///
+    @objc public init(client: OfflineClient, name: String) {
         self.client = client
-        self.indexName = indexName
-        urlEncodedIndexName = indexName.urlEncodedPathComponent()
+        self.indexName = name
     }
     
     override public var description: String {
@@ -136,12 +150,15 @@ import Foundation
     ///
     @objc public func deleteObjects(objectIDs: [String], completionHandler: CompletionHandler? = nil) -> NSOperation {
         let operation = NSBlockOperation() {
+            var content: [String: AnyObject]?
+            var error: NSError?
             let statusCode = Int(self.localIndex.buildFromSettingsFile(nil, objectFiles: [], clearIndex: false, deletedObjectIDs: objectIDs))
             if statusCode == StatusCode.OK.rawValue {
-                completionHandler?(content: [:], error: nil)
+                content = ["objectID": objectIDs]
             } else {
-                completionHandler?(content: nil, error: NSError(domain: ErrorDomain, code: statusCode, userInfo: nil))
+                error = NSError(domain: ErrorDomain, code: statusCode, userInfo: nil)
             }
+            self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.buildQueue.addOperation(operation)
         return operation
@@ -154,9 +171,7 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func getObject(objectID: String, completionHandler: CompletionHandler) -> NSOperation {
-        // TODO: Requires support from the Offline Core.
-        // TODO: Implement.
-        assert(false)
+        return getObjects([objectID], completionHandler: completionHandler)
     }
     
     /// Get an object from this index, optionally restricting the retrieved content.
@@ -166,10 +181,18 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func getObject(objectID: String, attributesToRetrieve attributes: [String], completionHandler: CompletionHandler) -> NSOperation {
-        // TODO: Requires support from the Offline Core.
-        // TODO: Implement.
-        assert(false)
+    @objc public func getObject(objectID: String, attributesToRetrieve: [String], completionHandler: CompletionHandler) -> NSOperation {
+        let query = Query()
+        query.attributesToRetrieve = attributesToRetrieve
+        let operation = NSBlockOperation() {
+            var content: [String: AnyObject]?
+            var error: NSError?
+            let searchResults = self.localIndex.getObjects([objectID], parameters: query.build())
+            (content, error) = OfflineClient.parseSearchResults(searchResults)
+            self.callCompletionHandler(completionHandler, content: content, error: error)
+        }
+        client.searchQueue.addOperation(operation)
+        return operation
     }
     
     /// Get several objects from this index.
@@ -179,9 +202,15 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func getObjects(objectIDs: [String], completionHandler: CompletionHandler) -> NSOperation {
-        // TODO: Requires support from the Offline Core.
-        // TODO: Implement.
-        assert(false)
+        let operation = NSBlockOperation() {
+            var content: [String: AnyObject]?
+            var error: NSError?
+            let searchResults = self.localIndex.getObjects(objectIDs, parameters: nil)
+            (content, error) = OfflineClient.parseSearchResults(searchResults)
+            self.callCompletionHandler(completionHandler, content: content, error: error)
+        }
+        client.searchQueue.addOperation(operation)
+        return operation
     }
     
     /// Update an object.
@@ -201,9 +230,25 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func saveObjects(objects: [[String: AnyObject]], completionHandler: CompletionHandler? = nil) -> NSOperation {
-        // TODO: Requires support from the Offline Core.
-        // TODO: Implement.
-        assert(false)
+        let operation = NSBlockOperation() {
+            var content: [String: AnyObject]?
+            var error: NSError?
+            do {
+                let jsonFilePath = try self.writeTempJSONFile(objects)
+                let statusCode = Int(self.localIndex.buildFromSettingsFile(nil, objectFiles: [jsonFilePath], clearIndex: false, deletedObjectIDs: nil))
+                if statusCode == StatusCode.OK.rawValue {
+                    content = [:]
+                } else {
+                    error = NSError(domain: ErrorDomain, code: statusCode, userInfo: nil)
+                }
+                try NSFileManager.defaultManager().removeItemAtPath(jsonFilePath)
+            } catch let e as NSError {
+                error = e
+            }
+            self.callCompletionHandler(completionHandler, content: content, error: error)
+        }
+        client.buildQueue.addOperation(operation)
+        return operation
     }
     
     /// Search this index.
@@ -213,8 +258,15 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func search(query: Query, completionHandler: CompletionHandler) -> NSOperation {
-        // TODO: Implement.
-        assert(false)
+        let operation = NSBlockOperation() {
+            var content: [String: AnyObject]?
+            var error: NSError?
+            let searchResults = self.localIndex.search(query.build())
+            (content, error) = OfflineClient.parseSearchResults(searchResults)
+            self.callCompletionHandler(completionHandler, content: content, error: error)
+        }
+        client.searchQueue.addOperation(operation)
+        return operation
     }
     
     /// Get this index's settings.
@@ -223,9 +275,15 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func getSettings(completionHandler: CompletionHandler) -> NSOperation {
-        // TODO: Requires support from the Offline Core.
-        // TODO: Implement.
-        assert(false)
+        let operation = NSBlockOperation() {
+            var content: [String: AnyObject]?
+            var error: NSError?
+            let searchResults = self.localIndex.getSettings()
+            (content, error) = OfflineClient.parseSearchResults(searchResults)
+            self.callCompletionHandler(completionHandler, content: content, error: error)
+        }
+        client.searchQueue.addOperation(operation)
+        return operation
     }
     
     /// Set this index's settings.
@@ -238,8 +296,25 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func setSettings(settings: [String: AnyObject], completionHandler: CompletionHandler? = nil) -> NSOperation {
-        // TODO: Implement.
-        assert(false)
+        let operation = NSBlockOperation() {
+            var content: [String: AnyObject]?
+            var error: NSError?
+            do {
+                let jsonFilePath = try self.writeTempJSONFile(settings)
+                let statusCode = Int(self.localIndex.buildFromSettingsFile(jsonFilePath, objectFiles: [], clearIndex: false, deletedObjectIDs: nil))
+                if statusCode == StatusCode.OK.rawValue {
+                    content = [:]
+                } else {
+                    error = NSError(domain: ErrorDomain, code: statusCode, userInfo: nil)
+                }
+                try NSFileManager.defaultManager().removeItemAtPath(jsonFilePath)
+            } catch let e as NSError {
+                error = e
+            }
+            self.callCompletionHandler(completionHandler, content: content, error: error)
+        }
+        client.buildQueue.addOperation(operation)
+        return operation
     }
     
     /// Set this index's settings, optionally forwarding the change to slave indices.
@@ -253,8 +328,8 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func setSettings(settings: [String: AnyObject], forwardToSlaves: Bool, completionHandler: CompletionHandler? = nil) -> NSOperation {
-        // TODO: Implement.
-        assert(false)
+        assert(forwardToSlaves == false, "Slaves are not supported by offline indices")
+        return setSettings(settings, completionHandler: completionHandler)
     }
     
     /// Delete the index content without removing settings and index specific API keys.
@@ -263,8 +338,19 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func clearIndex(completionHandler: CompletionHandler? = nil) -> NSOperation {
-        // TODO: Implement.
-        assert(false)
+        let operation = NSBlockOperation() {
+            var content: [String: AnyObject]?
+            var error: NSError?
+            let statusCode = Int(self.localIndex.buildFromSettingsFile(nil, objectFiles: [], clearIndex: true, deletedObjectIDs: nil))
+            if statusCode == StatusCode.OK.rawValue {
+                content = [:]
+            } else {
+                error = NSError(domain: ErrorDomain, code: statusCode, userInfo: nil)
+            }
+            self.callCompletionHandler(completionHandler, content: content, error: error)
+        }
+        client.buildQueue.addOperation(operation)
+        return operation
     }
     
     /// Browse all index content (initial call).
@@ -276,8 +362,15 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func browse(query: Query, completionHandler: CompletionHandler) -> NSOperation {
-        // TODO: Factorize with `MirroredIndex`?
-        assert(false)
+        let operation = NSBlockOperation() {
+            var content: [String: AnyObject]?
+            var error: NSError?
+            let searchResults = self.localIndex.browse(query.build())
+            (content, error) = OfflineClient.parseSearchResults(searchResults)
+            self.callCompletionHandler(completionHandler, content: content, error: error)
+        }
+        client.searchQueue.addOperation(operation)
+        return operation
     }
     
     /// Browse the index from a cursor.
@@ -289,8 +382,15 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func browseFrom(cursor: String, completionHandler: CompletionHandler) -> NSOperation {
-        // TODO: Factorize with `MirroredIndex`?
-        assert(false)
+        let operation = NSBlockOperation() {
+            var content: [String: AnyObject]?
+            var error: NSError?
+            let searchResults = self.localIndex.browse(Query(parameters: ["cursor": cursor]).build())
+            (content, error) = OfflineClient.parseSearchResults(searchResults)
+            self.callCompletionHandler(completionHandler, content: content, error: error)
+        }
+        client.searchQueue.addOperation(operation)
+        return operation
     }
     
     // MARK: - Helpers
@@ -304,7 +404,7 @@ import Foundation
     ///
     @objc public func waitTask(taskID: Int, completionHandler: CompletionHandler) -> NSOperation {
         // TODO: Implement locally (the core has no notion of task ID).
-        assert(false, "Unsupported")
+        assert(false, "Unsupported operation")
     }
     
     /// Delete all objects matching a query (helper).
@@ -315,7 +415,7 @@ import Foundation
     ///
     @objc public func deleteByQuery(query: Query, completionHandler: CompletionHandler? = nil) -> NSOperation {
         // TODO: Move to a higher level.
-        assert(false)
+        assert(false, "Unsupported operation")
     }
     
     /// Perform a search with disjunctive facets, generating as many queries as number of disjunctive facets (helper).
@@ -328,7 +428,7 @@ import Foundation
     ///
     @objc public func searchDisjunctiveFaceting(query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: CompletionHandler) -> NSOperation {
         // TODO: Move to a higher level.
-        assert(false)
+        assert(false, "Unsupported operation")
     }
     
     /// Run multiple queries on this index.
@@ -340,20 +440,60 @@ import Foundation
     ///
     @objc public func multipleQueries(queries: [Query], strategy: String?, completionHandler: CompletionHandler) -> NSOperation {
         // TODO: Factorize with `MirroredIndex`.
-        assert(false)
+        assert(false, "Unsupported operation")
     }
     
     // MARK: - Search Cache
     
     @objc public func enableSearchCache(expiringTimeInterval: NSTimeInterval = 120) {
         // TODO: Move to a higher level.
+        assert(false, "Unsupported operation")
     }
     
     @objc public func disableSearchCache() {
         // TODO: Move to a higher level.
+        assert(false, "Unsupported operation")
     }
     
     @objc public func clearSearchCache() {
         // TODO: Move to a higher level.
+        assert(false, "Unsupported operation")
+    }
+    
+    // MARK: - Utils
+    
+    /// Call a completion handler on the main queue.
+    ///
+    /// - parameter completionHandler: The completion handler to call. If `nil`, this function does nothing.
+    /// - parameter content: The content to pass as a first argument to the completion handler.
+    /// - parameter error: The error to pass as a second argument to the completion handler.
+    ///
+    private func callCompletionHandler(completionHandler: CompletionHandler?, content: [String: AnyObject]?, error: NSError?) {
+        if let completionHandler = completionHandler {
+            dispatch_async(dispatch_get_main_queue(), {
+                completionHandler(content: content, error: error)
+            })
+        }
+    }
+    
+    /// Write a JSON object/array to a temporary file.
+    /// The path of the file is computed automatically.
+    ///
+    /// - parameters json: A JSON object or array.
+    /// - returns: The created file path.
+    ///
+    private func writeTempJSONFile(json: AnyObject) throws -> String {
+        // Create temporary directory if necessary.
+        let tmpDirPath = NSTemporaryDirectory() + "/algolia"
+        try NSFileManager.defaultManager().createDirectoryAtPath(tmpDirPath, withIntermediateDirectories: true, attributes: nil)
+        
+        // Create unique file path.
+        // TODO: We could use `mktemp()`, but passing a mutable C string is, well... daunting.
+        let tmpFilePath = tmpDirPath + "/" + NSUUID().UUIDString + ".json"
+        
+        // Write results to disk.
+        let data = try NSJSONSerialization.dataWithJSONObject(json, options: [])
+        data.writeToFile(tmpFilePath, atomically: false)
+        return tmpFilePath
     }
 }
