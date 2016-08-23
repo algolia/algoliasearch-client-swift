@@ -136,6 +136,15 @@ public let ErrorDomain = "AlgoliaSearch"
     // NOTE: Not constant only for the sake of mocking during unit tests.
     var session: URLSession
     
+    /// Operation queue used to keep track of requests.
+    /// `Request` instances are inherently asynchronous, since they are merely wrappers around `NSURLSessionTask`.
+    /// The sole purpose of the queue is to retain them for the duration of their execution!
+    ///
+    let requestQueue: NSOperationQueue
+    
+    /// Dispatch queue used to run completion handlers.
+    private var completionQueue = dispatch_get_main_queue()
+    
     // MARK: Initialization
     
     /// Create a new Algolia Search client.
@@ -171,6 +180,9 @@ public let ErrorDomain = "AlgoliaSearch"
         let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
         configuration.HTTPAdditionalHeaders = fixedHTTPHeaders
         session = NSURLSession(configuration: configuration)
+        
+        requestQueue = NSOperationQueue()
+        requestQueue.maxConcurrentOperationCount = 8
         
         super.init()
         
@@ -376,18 +388,9 @@ public let ErrorDomain = "AlgoliaSearch"
     /// Perform an HTTP Query.
     func performHTTPQuery(path: String, method: HTTPMethod, body: [String: AnyObject]?, hostnames: [String], isSearchQuery: Bool = false, completionHandler: CompletionHandler? = nil) -> NSOperation {
         var request: Request!
-        request = newRequest(method, path: path, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery) {
-            (content: [String: AnyObject]?, error: NSError?) -> Void in
-            if completionHandler != nil {
-                dispatch_async(dispatch_get_main_queue()) {
-                    // WARNING: Because of the asynchronous dispatch, the request could have been cancelled in the meantime.
-                    if !request.cancelled {
-                        completionHandler!(content: content, error: error)
-                    }
-                }
-            }
-        }
-        request.start()
+        request = newRequest(method, path: path, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery, completion: completionHandler)
+        request.completionQueue = self.completionQueue
+        requestQueue.addOperation(request)
         return request
     }
     

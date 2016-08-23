@@ -65,6 +65,9 @@ class Request: AsyncOperation {
     /// User completion block to be called.
     let completion: CompletionHandler?
     
+    /// Dispatch queue used to execute the completion handler.
+    var completionQueue: dispatch_queue_t?
+    
     // MARK: - Initialization
     
     init(session: URLSession, method: HTTPMethod, hosts: [String], firstHostIndex: Int, path: String, headers: [String: String]?, jsonBody: [String: AnyObject]?, timeout: NSTimeInterval, completion: CompletionHandler?) {
@@ -193,10 +196,27 @@ class Request: AsyncOperation {
     /// Finish this operation.
     /// This method should be called exactly once per operation.
     private func callCompletion(content: [String: AnyObject]?, error: NSError?) {
-        if completion != nil && !_cancelled {
-            completion!(content: content, error: error)
+        if _cancelled {
+            return
         }
-        finish()
+        if let completionQueue = completionQueue {
+            dispatch_async(completionQueue) {
+                self._callCompletion(content, error: error)
+            }
+        } else {
+            _callCompletion(content, error: error)
+        }
+    }
+    
+    private func _callCompletion(content: [String: AnyObject]?, error: NSError?) {
+        // WARNING: In case of asynchronous dispatch, the request could have been cancelled in the meantime
+        // => check again.
+        if !_cancelled {
+            if let completion = completion {
+                completion(content: content, error: error)
+            }
+            finish()
+        }
     }
     
     // ----------------------------------------------------------------------
