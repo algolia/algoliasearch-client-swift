@@ -513,8 +513,13 @@ import Foundation
             if index.requestStrategy == .FallbackOnTimeout && mayRunOfflineRequest {
                 // Schedule an offline request to start after a certain delay.
                 dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(index.offlineFallbackTimeout * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
-                    if self.mayRunOfflineRequest {
-                        self.startOffline()
+                    [weak self] in
+                    // WARNING: Because dispatched blocks cannot be cancelled, and to avoid increasing the lifetime of
+                    // the operation by the timeout delay, we do not retain self. => Gracefully fail if the operation
+                    // has already finished.
+                    guard let this = self else { return }
+                    if this.mayRunOfflineRequest {
+                        this.startOffline()
                     }
                 }
             }
@@ -526,6 +531,7 @@ import Foundation
                 return
             }
             onlineRequest = startOnlineRequest({
+                [unowned self] // works because the operation is enqueued and retained by the queue
                 (content, error) in
                 // In case of transient error, run an offline request.
                 if error != nil && error!.isTransient() && self.mayRunOfflineRequest {
@@ -547,6 +553,7 @@ import Foundation
                 return
             }
             offlineRequest = startOfflineRequest({
+                [unowned self] // works because the operation is enqueued and retained by the queue
                 (content, error) in
                 self.onlineRequest?.cancel()
                 self.callCompletion(content, error: error)
@@ -600,8 +607,7 @@ import Foundation
         else {
             let queryCopy = Query(copy: query)
             let operation = OnlineOfflineSearchOperation(index: self, query: queryCopy, completionHandler: completionHandler)
-            // NOTE: This operation is just an aggregate, so it does not need to be enqueued.
-            operation.start()
+            offlineClient.mixedRequestQueue.addOperation(operation)
             return operation
         }
     }
@@ -693,7 +699,7 @@ import Foundation
         // A mirrored index launches a mixed offline/online request.
         else {
             let operation = OnlineOfflineMultipleQueriesOperation(index: self, queries: queries, completionHandler: completionHandler)
-            operation.start()
+            offlineClient.mixedRequestQueue.addOperation(operation)
             return operation
         }
     }

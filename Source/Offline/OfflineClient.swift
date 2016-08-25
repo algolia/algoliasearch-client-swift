@@ -43,8 +43,10 @@ import Foundation
         buildQueue.maxConcurrentOperationCount = 1
         searchQueue.name = "AlgoliaSearch-Search"
         searchQueue.maxConcurrentOperationCount = 1
+        mixedRequestQueue.name = "AlgoliaSearch-Mixed"
         rootDataDir = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true).first! + "/algolia"
         super.init(appID: appID, apiKey: apiKey)
+        mixedRequestQueue.maxConcurrentOperationCount = super.requestQueue.maxConcurrentOperationCount
         userAgents.append(LibraryVersion(name: "AlgoliaSearchOfflineCore-iOS", version: sdk.versionString))
     }
 
@@ -69,6 +71,13 @@ import Foundation
     
     /// Queue used to search local indices in the background.
     let searchQueue = NSOperationQueue()
+    
+    /// Queue for mixed online/offline operations.
+    ///
+    /// + Note: We could use `Client.requestQueue`, but since mixed operations are essentially aggregations of
+    ///   individual operations, we wish to avoid deadlocks.
+    ///
+    let mixedRequestQueue = NSOperationQueue()
 
     /// Enable the offline mode.
     ///
