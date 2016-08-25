@@ -31,7 +31,10 @@ import Foundation
 /// + Note: You cannot construct this class directly. Please use `OfflineClient.getOfflineIndex(_:)` to obtain an
 ///   instance.
 ///
-/// # Limitations
+///
+/// # Caveats
+///
+/// ## Limitations
 ///
 /// Though offline indices support most features of an online index, there are some limitations:
 ///
@@ -42,10 +45,16 @@ import Foundation
 ///
 /// - **Batch** operations are not supported.
 ///
+/// ## Differences
 ///
-/// ## Operations
+/// - **Settings** are not incremental: the new settings completely replace the previous ones. If a setting
+///   is omitted in the new version, it reverts back to its default value. (This is in contrast with the online API,
+///   where you can only specify the settings you want to change and omit the others.)
 ///
-/// ### Asynchronicity
+///
+/// # Operations
+///
+/// ## Asynchronicity
 ///
 /// **Reminder:** Write operations on an online `Index` are twice asynchronous: the response from the server received
 /// by the completion handler is merely an acknowledgement of the task. If you want to detect the end of the write
@@ -394,18 +403,6 @@ import Foundation
     }
     
     // MARK: - Helpers
-    
-    /// Wait until the publication of a task on the server (helper).
-    /// All server tasks are asynchronous. This method helps you check that a task is published.
-    ///
-    /// - parameter taskID: Identifier of the task (as returned by the server).
-    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
-    /// - returns: A cancellable operation.
-    ///
-    @objc public func waitTask(taskID: Int, completionHandler: CompletionHandler) -> NSOperation {
-        // TODO: Implement locally (the core has no notion of task ID).
-        assert(false, "Unsupported operation")
-    }
     
     /// Delete all objects matching a query (helper).
     ///
