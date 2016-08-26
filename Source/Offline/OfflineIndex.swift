@@ -77,16 +77,14 @@ import Foundation
     // MARK: Properties
     
     /// This index's name.
-    @objc public let indexName: String
+    @objc public let name: String
     
     /// API client used by this index.
     @objc public let client: OfflineClient
 
     /// The local index (lazy instantiated).
-    lazy var localIndex: ASLocalIndex! = ASLocalIndex(dataDir: self.client.rootDataDir, appID: self.client.appID, indexName: self.indexName)
+    lazy var localIndex: ASLocalIndex! = ASLocalIndex(dataDir: self.client.rootDataDir, appID: self.client.appID, indexName: self.name)
 
-    var searchCache: ExpiringCache?
-    
     // MARK: - Initialization
     
     /// Create a new offline index.
@@ -96,13 +94,13 @@ import Foundation
     ///
     @objc public init(client: OfflineClient, name: String) {
         self.client = client
-        self.indexName = name
+        self.name = name
     }
     
     override public var description: String {
         get {
             // TODO: Move to a higher level.
-            return "Index{\"\(indexName)\"}"
+            return "Index{\"\(name)\"}"
         }
     }
     
@@ -127,7 +125,8 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func addObject(object: [String: AnyObject], withID objectID: String, completionHandler: CompletionHandler? = nil) -> NSOperation {
-        assert(object["objectID"] as? String == objectID)
+        var object = object
+        object["objectID"] = objectID
         return saveObject(object, completionHandler: completionHandler)
     }
     
@@ -159,18 +158,23 @@ import Foundation
     ///
     @objc public func deleteObjects(objectIDs: [String], completionHandler: CompletionHandler? = nil) -> NSOperation {
         let operation = NSBlockOperation() {
-            var content: [String: AnyObject]?
-            var error: NSError?
-            let statusCode = Int(self.localIndex.buildFromSettingsFile(nil, objectFiles: [], clearIndex: false, deletedObjectIDs: objectIDs))
-            if statusCode == StatusCode.OK.rawValue {
-                content = ["objectID": objectIDs]
-            } else {
-                error = NSError(domain: ErrorDomain, code: statusCode, userInfo: nil)
-            }
+            let (content, error) = self.deleteObjectsSync(objectIDs)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.buildQueue.addOperation(operation)
         return operation
+    }
+    
+    private func deleteObjectsSync(objectIDs: [String]) -> (content: [String: AnyObject]?, error: NSError?) {
+        var content: [String: AnyObject]?
+        var error: NSError?
+        let statusCode = Int(self.localIndex.buildFromSettingsFile(nil, objectFiles: [], clearIndex: false, deletedObjectIDs: objectIDs))
+        if statusCode == StatusCode.OK.rawValue {
+            content = ["objectID": objectIDs]
+        } else {
+            error = NSError(domain: ErrorDomain, code: statusCode, userInfo: nil)
+        }
+        return (content, error)
     }
     
     /// Get an object from this index.
@@ -341,7 +345,7 @@ import Foundation
         return setSettings(settings, completionHandler: completionHandler)
     }
     
-    /// Delete the index content without removing settings and index specific API keys.
+    /// Delete the index content without removing settings.
     ///
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
@@ -411,8 +415,41 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func deleteByQuery(query: Query, completionHandler: CompletionHandler? = nil) -> NSOperation {
-        // TODO: Move to a higher level.
-        assert(false, "Unsupported operation")
+        let operation = NSBlockOperation() {
+            let (content, error) = self.deleteByQuerySync(query)
+            self.callCompletionHandler(completionHandler, content: content, error: error)
+        }
+        client.buildQueue.addOperation(operation)
+        return operation
+    }
+    
+    private func deleteByQuerySync(query: Query) -> (content: [String: AnyObject]?, error: NSError?) {
+        let browseQuery = Query(copy: query)
+        browseQuery.attributesToRetrieve = ["objectID"]
+        let queryParameters = browseQuery.build()
+        
+        // Gather object IDs to delete.
+        var objectIDsToDelete: [String] = []
+        var hasMore = true
+        while hasMore {
+            let (content, error) = OfflineClient.parseSearchResults(self.localIndex.browse(queryParameters))
+            guard let returnedContent = content else {
+                return (content, error)
+            }
+            guard let hits = content!["hits"] as? [AnyObject] else {
+                return (nil, NSError(domain: Client.ErrorDomain, code: -1, userInfo: [NSLocalizedDescriptionKey: "No hits returned when browsing"]))
+            }
+            // Retrieve object IDs.
+            for hit in hits {
+                if let objectID = (hit as? [String: AnyObject])?["objectID"] as? String {
+                    objectIDsToDelete.append(objectID)
+                }
+            }
+            hasMore = returnedContent["cursor"] != nil
+        }
+
+        // Delete objects.
+        return self.deleteObjectsSync(objectIDsToDelete)
     }
     
     /// Perform a search with disjunctive facets, generating as many queries as number of disjunctive facets (helper).
@@ -424,37 +461,39 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func searchDisjunctiveFaceting(query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: CompletionHandler) -> NSOperation {
-        // TODO: Move to a higher level.
-        assert(false, "Unsupported operation")
+        return DisjunctiveFaceting(multipleQuerier: { (queries: [Query], completionHandler: CompletionHandler) in
+            return self.multipleQueries(queries, completionHandler: completionHandler)
+        }).searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: completionHandler)
     }
     
     /// Run multiple queries on this index.
-    /// This method is a variant of `Client.multipleQueries(...)` where the targeted index is always the receiver.
     ///
     /// - parameter queries: The queries to run.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc public func multipleQueries(queries: [Query], strategy: String?, completionHandler: CompletionHandler) -> NSOperation {
-        // TODO: Factorize with `MirroredIndex`.
-        assert(false, "Unsupported operation")
+        let emulator = MultipleQueryEmulator(indexName: self.name, querier: { (query: Query) in
+            let searchResults = self.localIndex.search(query.build())
+            return OfflineClient.parseSearchResults(searchResults)
+        })
+        let operation = NSBlockOperation() {
+            let (content, error) = emulator.multipleQueries(queries, strategy: strategy)
+            self.callCompletionHandler(completionHandler, content: content, error: error)
+        }
+        client.searchQueue.addOperation(operation)
+        return operation
     }
     
-    // MARK: - Search Cache
-    
-    @objc public func enableSearchCache(expiringTimeInterval: NSTimeInterval = 120) {
-        // TODO: Move to a higher level.
-        assert(false, "Unsupported operation")
-    }
-    
-    @objc public func disableSearchCache() {
-        // TODO: Move to a higher level.
-        assert(false, "Unsupported operation")
-    }
-    
-    @objc public func clearSearchCache() {
-        // TODO: Move to a higher level.
-        assert(false, "Unsupported operation")
+    /// Run multiple queries on this index.
+    ///
+    /// - parameter queries: The queries to run.
+    /// - parameter strategy: The strategy to use.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    public func multipleQueries(queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: CompletionHandler) -> NSOperation {
+        return self.multipleQueries(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
     
     // MARK: - Utils

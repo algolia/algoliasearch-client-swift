@@ -161,10 +161,10 @@ import Foundation
     // ----------------------------------------------------------------------
     // MARK: - Init
     // ----------------------------------------------------------------------
-    
-    @objc override internal init(client: Client, indexName: String) {
+
+    @objc override internal init(client: Client, indexName name: String) {
         assert(client is OfflineClient);
-        super.init(client: client, indexName: indexName)
+        super.init(client: client, indexName: name)
     }
     
     // ----------------------------------------------------------------------
@@ -770,62 +770,7 @@ import Foundation
     
     /// Run multiple queries on the local mirror synchronously.
     private func _multipleQueriesOffline(queries: [Query], strategy: String?) -> (content: [String: AnyObject]?, error: NSError?) {
-        // TODO: Should be moved to `LocalIndex` to factorize implementation between platforms.
-        assert(!NSThread.isMainThread()) // make sure it's run in the background
-
-        var content: [String: AnyObject]?
-        var error: NSError?
-        var results: [[String: AnyObject]] = []
-        
-        var shouldProcess = true
-        for query in queries {
-            // Implement the "stop if enough matches" strategy.
-            if !shouldProcess {
-                let returnedContent: [String: AnyObject] = [
-                    "hits": [],
-                    "page": 0,
-                    "nbHits": 0,
-                    "nbPages": 0,
-                    "hitsPerPage": 0,
-                    "processingTimeMS": 1,
-                    "params": query.build(),
-                    "index": self.indexName,
-                    "processed": false
-                ]
-                results.append(returnedContent)
-                continue
-            }
-            
-            let (queryContent, queryError) = self._searchOffline(query)
-            assert(queryContent != nil || queryError != nil)
-            if queryError != nil {
-                error = queryError
-                break
-            }
-            var returnedContent = queryContent!
-            returnedContent["index"] = self.indexName
-            results.append(returnedContent)
-            
-            // Implement the "stop if enough matches strategy".
-            if shouldProcess && strategy == Client.MultipleQueriesStrategy.StopIfEnoughMatches.rawValue {
-                if let nbHits = returnedContent["nbHits"] as? Int, hitsPerPage = returnedContent["hitsPerPage"] as? Int {
-                    if nbHits >= hitsPerPage {
-                        shouldProcess = false
-                    }
-                }
-            }
-        }
-        if error == nil {
-            content = [
-                "results": results,
-                // Tag results as having a local origin.
-                // NOTE: Each individual result is also automatically tagged, but having a top-level key allows for
-                // more uniform processing.
-                MirroredIndex.JSONKeyOrigin: MirroredIndex.JSONValueOriginLocal
-            ]
-        }
-        assert(content != nil || error != nil)
-        return (content: content, error: error)
+        return MultipleQueryEmulator(indexName: self.indexName, querier: self._searchOffline).multipleQueries(queries, strategy: strategy)
     }
     
     // ----------------------------------------------------------------------

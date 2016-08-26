@@ -5,3 +5,8 @@ use_frameworks!
 target "AlgoliaSearch-Offline-iOS" do
     pod 'AlgoliaSearchOfflineCore-iOS', '~> 0.2'
 end
+
+target "FakeUnitTest" do
+    pod 'AlgoliaSearchOfflineCore-iOS', '~> 0.2'
+end
+
