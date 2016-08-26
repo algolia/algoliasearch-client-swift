@@ -84,9 +84,7 @@ class OfflineIndexTests /*: XCTestCase */ {
             assert(error == nil)
             index.getObject("1") { (content, error) in
                 guard let content = content else { assert(false); return }
-                guard let items = content["items"] as? [[String: AnyObject]] else { assert(false); return }
-                assert(items.count == 1)
-                guard let name = items[0]["name"] as? String else { assert(false); return }
+                guard let name = content["name"] as? String else { assert(false); return }
                 assert(name == "Snoopy")
                 index.deleteObject("1") { (content, error) in
                     assert(error == nil)
@@ -106,9 +104,7 @@ class OfflineIndexTests /*: XCTestCase */ {
             assert(error == nil)
             index.getObject("xxx") { (content, error) in
                 guard let content = content else { assert(false); return }
-                guard let items = content["items"] as? [[String: AnyObject]] else { assert(false); return }
-                assert(items.count == 1)
-                guard let name = items[0]["name"] as? String else { assert(false); return }
+                guard let name = content["name"] as? String else { assert(false); return }
                 assert(name == "unknown")
                 index.deleteObject("xxx") { (content, error) in
                     assert(error == nil)
@@ -126,12 +122,11 @@ class OfflineIndexTests /*: XCTestCase */ {
         let index = OfflineIndex(client: client, name: #function)
         index.addObjects(Array(objects.values)) { (content, error) in
             assert(error == nil)
-            index.getObject("1") { (content, error) in
+            index.getObjects(["1", "2"]) { (content, error) in
                 guard let content = content else { assert(false); return }
-                guard let items = content["items"] as? [[String: AnyObject]] else { assert(false); return }
-                assert(items.count == 1)
-                guard let name = items[0]["name"] as? String else { assert(false); return }
-                assert(name == "Snoopy")
+                guard let items = content["results"] as? [[String: AnyObject]] else { assert(false); return }
+                assert(items.count == 2)
+                assert(items[0]["name"] as! String == "Snoopy")
                 index.deleteObjects(["1", "2"]) { (content, error) in
                     assert(error == nil)
                     index.getObject("2") { (content, error) in

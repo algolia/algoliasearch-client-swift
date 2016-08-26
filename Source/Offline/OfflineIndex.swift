@@ -165,6 +165,13 @@ import Foundation
         return operation
     }
     
+    /// Delete several objects from this index (synchronous version).
+    ///
+    /// + Warning: It is the caller's responsibility to ensure proper serialization of index write operations.
+    ///
+    /// - parameter objectIDs: Identifiers of objects to delete.
+    /// - returns: A mutually exclusive (content, error) pair.
+    ///
     private func deleteObjectsSync(objectIDs: [String]) -> (content: [String: AnyObject]?, error: NSError?) {
         var content: [String: AnyObject]?
         var error: NSError?
@@ -184,7 +191,7 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc public func getObject(objectID: String, completionHandler: CompletionHandler) -> NSOperation {
-        return getObjects([objectID], completionHandler: completionHandler)
+        return getObject(objectID, attributesToRetrieve: nil, completionHandler: completionHandler)
     }
     
     /// Get an object from this index, optionally restricting the retrieved content.
@@ -194,18 +201,33 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func getObject(objectID: String, attributesToRetrieve: [String], completionHandler: CompletionHandler) -> NSOperation {
-        let query = Query()
-        query.attributesToRetrieve = attributesToRetrieve
+    @objc public func getObject(objectID: String, attributesToRetrieve: [String]?, completionHandler: CompletionHandler) -> NSOperation {
         let operation = NSBlockOperation() {
-            var content: [String: AnyObject]?
-            var error: NSError?
-            let searchResults = self.localIndex.getObjects([objectID], parameters: query.build())
-            (content, error) = OfflineClient.parseSearchResults(searchResults)
+            let (content, error) = self.getObject(objectID, attributesToRetrieve: attributesToRetrieve)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.searchQueue.addOperation(operation)
         return operation
+    }
+    
+    private func getObject(objectID: String, attributesToRetrieve: [String]?) -> (content: [String: AnyObject]?, error: NSError?) {
+        var content: [String: AnyObject]?
+        var error: NSError?
+        let query = Query()
+        query.attributesToRetrieve = attributesToRetrieve
+        let searchResults = self.localIndex.getObjects([objectID], parameters: query.build())
+        (content, error) = OfflineClient.parseSearchResults(searchResults)
+        if let content = content {
+            guard let results = content["results"] as? [[String: AnyObject]] else {
+                return (nil, NSError(domain: ErrorDomain, code: StatusCode.InternalServerError.rawValue, userInfo: nil)) // should never happen
+            }
+            guard results.count == 1 else {
+                return (nil, NSError(domain: ErrorDomain, code: StatusCode.InternalServerError.rawValue, userInfo: nil)) // should never happen
+            }
+            let object = results[0]
+            return (object, nil)
+        }
+        return (nil, error)
     }
     
     /// Get several objects from this index.
