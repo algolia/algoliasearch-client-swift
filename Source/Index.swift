@@ -461,6 +461,8 @@ import Foundation
         
         override func start() {
             super.start()
+            // Save bandwidth by retrieving only the `objectID` attribute.
+            query.attributesToRetrieve = ["objectID"]
             index.browse(query, completionHandler: self.handleResult)
         }
         
