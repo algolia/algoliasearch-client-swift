@@ -25,6 +25,10 @@ import AlgoliaSearchOfflineCore
 import Foundation
 
 
+/// A standard response from the API: a mutually exclusive (content, error) pair.
+typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
+
+
 /// A purely offline index.
 /// Such an index has no online counterpart. It is updated and queried locally.
 ///
@@ -172,7 +176,7 @@ import Foundation
     /// - parameter objectIDs: Identifiers of objects to delete.
     /// - returns: A mutually exclusive (content, error) pair.
     ///
-    private func deleteObjectsSync(objectIDs: [String]) -> (content: [String: AnyObject]?, error: NSError?) {
+    private func deleteObjectsSync(objectIDs: [String]) -> APIResponse {
         var content: [String: AnyObject]?
         var error: NSError?
         let statusCode = Int(self.localIndex.buildFromSettingsFile(nil, objectFiles: [], clearIndex: false, deletedObjectIDs: objectIDs))
@@ -203,14 +207,19 @@ import Foundation
     ///
     @objc public func getObject(objectID: String, attributesToRetrieve: [String]?, completionHandler: CompletionHandler) -> NSOperation {
         let operation = NSBlockOperation() {
-            let (content, error) = self.getObject(objectID, attributesToRetrieve: attributesToRetrieve)
+            let (content, error) = self.getObjectSync(objectID, attributesToRetrieve: attributesToRetrieve)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.searchQueue.addOperation(operation)
         return operation
     }
     
-    private func getObject(objectID: String, attributesToRetrieve: [String]?) -> (content: [String: AnyObject]?, error: NSError?) {
+    /// Get an object from this index (synchronous version).
+    ///
+    /// - parameter objectID: Identifier of the object to retrieve.
+    /// - returns: A mutually exclusive (content, error) pair.
+    ///
+    private func getObjectSync(objectID: String, attributesToRetrieve: [String]?) -> APIResponse {
         var content: [String: AnyObject]?
         var error: NSError?
         let query = Query()
@@ -238,14 +247,21 @@ import Foundation
     ///
     @objc public func getObjects(objectIDs: [String], completionHandler: CompletionHandler) -> NSOperation {
         let operation = NSBlockOperation() {
-            var content: [String: AnyObject]?
-            var error: NSError?
-            let searchResults = self.localIndex.getObjects(objectIDs, parameters: nil)
-            (content, error) = OfflineClient.parseSearchResults(searchResults)
+            let (content, error) = self.getObjectsSync(objectIDs)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.searchQueue.addOperation(operation)
         return operation
+    }
+    
+    /// Get several objects from this index (synchronous version).
+    ///
+    /// - parameter objectIDs: Identifiers of objects to retrieve.
+    /// - returns: A mutually exclusive (content, error) pair.
+    ///
+    private func getObjectsSync(objectIDs: [String]) -> APIResponse {
+        let searchResults = self.localIndex.getObjects(objectIDs, parameters: nil)
+        return OfflineClient.parseSearchResults(searchResults)
     }
     
     /// Update an object.
@@ -266,24 +282,36 @@ import Foundation
     ///
     @objc public func saveObjects(objects: [[String: AnyObject]], completionHandler: CompletionHandler? = nil) -> NSOperation {
         let operation = NSBlockOperation() {
-            var content: [String: AnyObject]?
-            var error: NSError?
-            do {
-                let jsonFilePath = try self.writeTempJSONFile(objects)
-                let statusCode = Int(self.localIndex.buildFromSettingsFile(nil, objectFiles: [jsonFilePath], clearIndex: false, deletedObjectIDs: nil))
-                if statusCode == StatusCode.OK.rawValue {
-                    content = [:]
-                } else {
-                    error = NSError(domain: ErrorDomain, code: statusCode, userInfo: nil)
-                }
-                try NSFileManager.defaultManager().removeItemAtPath(jsonFilePath)
-            } catch let e as NSError {
-                error = e
-            }
+            let (content, error) = self.saveObjectsSync(objects)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.buildQueue.addOperation(operation)
         return operation
+    }
+    
+    /// Update several objects (synchronous version).
+    ///
+    /// + Warning: It is the caller's responsibility to ensure proper serialization of index write operations.
+    ///
+    /// - parameter objects: New versions of the objects to update. Each one must contain an `objectID` attribute.
+    /// - returns: A mutually exclusive (content, error) pair.
+    ///
+    private func saveObjectsSync(objects: [[String: AnyObject]]) -> APIResponse {
+        var content: [String: AnyObject]?
+        var error: NSError?
+        do {
+            let jsonFilePath = try self.writeTempJSONFile(objects)
+            let statusCode = Int(self.localIndex.buildFromSettingsFile(nil, objectFiles: [jsonFilePath], clearIndex: false, deletedObjectIDs: nil))
+            if statusCode == StatusCode.OK.rawValue {
+                content = [:]
+            } else {
+                error = NSError(domain: ErrorDomain, code: statusCode, userInfo: nil)
+            }
+            try NSFileManager.defaultManager().removeItemAtPath(jsonFilePath)
+        } catch let e as NSError {
+            error = e
+        }
+        return (content, error)
     }
     
     /// Search this index.
@@ -294,16 +322,23 @@ import Foundation
     ///
     @objc public func search(query: Query, completionHandler: CompletionHandler) -> NSOperation {
         let operation = NSBlockOperation() {
-            var content: [String: AnyObject]?
-            var error: NSError?
-            let searchResults = self.localIndex.search(query.build())
-            (content, error) = OfflineClient.parseSearchResults(searchResults)
+            let (content, error) = self.searchSync(Query(copy: query))
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.searchQueue.addOperation(operation)
         return operation
     }
-    
+
+    /// Search this index (synchronous version).
+    ///
+    /// - parameter query: Search parameters.
+    /// - returns: A mutually exclusive (content, error) pair.
+    ///
+    private func searchSync(query: Query) -> APIResponse {
+        let searchResults = self.localIndex.search(query.build())
+        return OfflineClient.parseSearchResults(searchResults)
+    }
+
     /// Get this index's settings.
     ///
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
@@ -311,14 +346,20 @@ import Foundation
     ///
     @objc public func getSettings(completionHandler: CompletionHandler) -> NSOperation {
         let operation = NSBlockOperation() {
-            var content: [String: AnyObject]?
-            var error: NSError?
-            let searchResults = self.localIndex.getSettings()
-            (content, error) = OfflineClient.parseSearchResults(searchResults)
+            let (content, error) = self.getSettingsSync()
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.searchQueue.addOperation(operation)
         return operation
+    }
+    
+    /// Get this index's settings (synchronous version).
+    ///
+    /// - returns: A mutually exclusive (content, error) pair.
+    ///
+    private func getSettingsSync() -> APIResponse {
+        let searchResults = self.localIndex.getSettings()
+        return OfflineClient.parseSearchResults(searchResults)
     }
     
     /// Set this index's settings.
@@ -332,27 +373,45 @@ import Foundation
     ///
     @objc public func setSettings(settings: [String: AnyObject], completionHandler: CompletionHandler? = nil) -> NSOperation {
         let operation = NSBlockOperation() {
-            var content: [String: AnyObject]?
-            var error: NSError?
-            do {
-                let jsonFilePath = try self.writeTempJSONFile(settings)
-                let statusCode = Int(self.localIndex.buildFromSettingsFile(jsonFilePath, objectFiles: [], clearIndex: false, deletedObjectIDs: nil))
-                if statusCode == StatusCode.OK.rawValue {
-                    content = [:]
-                } else {
-                    error = NSError(domain: ErrorDomain, code: statusCode, userInfo: nil)
-                }
-                try NSFileManager.defaultManager().removeItemAtPath(jsonFilePath)
-            } catch let e as NSError {
-                error = e
-            }
+            let (content, error) = self.setSettingsSync(settings)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.buildQueue.addOperation(operation)
         return operation
     }
-    
+
+    /// Set this index's settings (synchronous version).
+    ///
+    /// Please refer to our [API documentation](https://www.algolia.com/doc/swift#index-settings) for the list of
+    /// supported settings.
+    ///
+    /// + Warning: It is the caller's responsibility to ensure proper serialization of index write operations.
+    ///
+    /// - parameter settings: New settings.
+    /// - returns: A mutually exclusive (content, error) pair.
+    ///
+    private func setSettingsSync(settings: [String: AnyObject]) -> APIResponse {
+        var content: [String: AnyObject]?
+        var error: NSError?
+        do {
+            let jsonFilePath = try self.writeTempJSONFile(settings)
+            let statusCode = Int(self.localIndex.buildFromSettingsFile(jsonFilePath, objectFiles: [], clearIndex: false, deletedObjectIDs: nil))
+            if statusCode == StatusCode.OK.rawValue {
+                content = [:]
+            } else {
+                error = NSError(domain: ErrorDomain, code: statusCode, userInfo: nil)
+            }
+            try NSFileManager.defaultManager().removeItemAtPath(jsonFilePath)
+        } catch let e as NSError {
+            error = e
+        }
+        return (content, error)
+    }
+
     /// Set this index's settings, optionally forwarding the change to slave indices.
+    ///
+    /// + Warning: Slave indices are **not supported** by offline indices. This method is provided for the sake of
+    ///   homogeneity with `Index`.
     ///
     /// Please refer to our [API documentation](https://www.algolia.com/doc/swift#index-settings) for the list of
     /// supported settings.
@@ -398,14 +457,23 @@ import Foundation
     ///
     @objc public func browse(query: Query, completionHandler: CompletionHandler) -> NSOperation {
         let operation = NSBlockOperation() {
-            var content: [String: AnyObject]?
-            var error: NSError?
-            let searchResults = self.localIndex.browse(query.build())
-            (content, error) = OfflineClient.parseSearchResults(searchResults)
+            let (content, error) = self.browseSync(Query(copy: query))
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.searchQueue.addOperation(operation)
         return operation
+    }
+    
+    /// Browse all index content (initial call) (synchronous version).
+    /// This method should be called once to initiate a browse. It will return the first page of results and a cursor,
+    /// unless the end of the index has been reached. To retrieve subsequent pages, call `browseFrom` with that cursor.
+    ///
+    /// - parameter query: The query parameters for the browse.
+    /// - returns: A mutually exclusive (content, error) pair.
+    ///
+    private func browseSync(query: Query) -> APIResponse {
+        let searchResults = self.localIndex.browse(query.build())
+        return OfflineClient.parseSearchResults(searchResults)
     }
     
     /// Browse the index from a cursor.
@@ -418,16 +486,26 @@ import Foundation
     ///
     @objc public func browseFrom(cursor: String, completionHandler: CompletionHandler) -> NSOperation {
         let operation = NSBlockOperation() {
-            var content: [String: AnyObject]?
-            var error: NSError?
-            let searchResults = self.localIndex.browse(Query(parameters: ["cursor": cursor]).build())
-            (content, error) = OfflineClient.parseSearchResults(searchResults)
+            let (content, error) = self.browseFromSync(cursor)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.searchQueue.addOperation(operation)
         return operation
     }
-    
+
+    /// Browse the index from a cursor (synchronous version).
+    /// This method should be called after an initial call to `browse()`. It returns a cursor, unless the end of the
+    /// index has been reached.
+    ///
+    /// - parameter cursor: The cursor of the next page to retrieve
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    private func browseFromSync(cursor: String) -> APIResponse {
+        let searchResults = self.localIndex.browse(Query(parameters: ["cursor": cursor]).build())
+        return OfflineClient.parseSearchResults(searchResults)
+    }
+
     // MARK: - Helpers
     
     /// Delete all objects matching a query (helper).
@@ -445,7 +523,7 @@ import Foundation
         return operation
     }
     
-    private func deleteByQuerySync(query: Query) -> (content: [String: AnyObject]?, error: NSError?) {
+    private func deleteByQuerySync(query: Query) -> APIResponse {
         let browseQuery = Query(copy: query)
         browseQuery.attributesToRetrieve = ["objectID"]
         let queryParameters = browseQuery.build()
@@ -491,22 +569,32 @@ import Foundation
     /// Run multiple queries on this index.
     ///
     /// - parameter queries: The queries to run.
+    /// - parameter strategy: The strategy to use.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc public func multipleQueries(queries: [Query], strategy: String?, completionHandler: CompletionHandler) -> NSOperation {
-        let emulator = MultipleQueryEmulator(indexName: self.name, querier: { (query: Query) in
-            let searchResults = self.localIndex.search(query.build())
-            return OfflineClient.parseSearchResults(searchResults)
-        })
         let operation = NSBlockOperation() {
-            let (content, error) = emulator.multipleQueries(queries, strategy: strategy)
+            let (content, error) = self.multipleQueriesSync(queries, strategy: strategy)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.searchQueue.addOperation(operation)
         return operation
     }
-    
+
+    /// Run multiple queries on this index (synchronous version).
+    ///
+    /// - parameter queries: The queries to run.
+    /// - parameter strategy: The strategy to use.
+    /// - returns: A mutually exclusive (content, error) pair.
+    ///
+    private func multipleQueriesSync(queries: [Query], strategy: String?) -> APIResponse {
+        let emulator = MultipleQueryEmulator(indexName: self.name, querier: { (query: Query) in
+            return self.searchSync(query)
+        })
+        return emulator.multipleQueries(queries, strategy: strategy)
+    }
+
     /// Run multiple queries on this index.
     ///
     /// - parameter queries: The queries to run.
@@ -517,7 +605,17 @@ import Foundation
     public func multipleQueries(queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: CompletionHandler) -> NSOperation {
         return self.multipleQueries(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
-    
+
+    /// Run multiple queries on this index (synchronous version).
+    ///
+    /// - parameter queries: The queries to run.
+    /// - parameter strategy: The strategy to use.
+    /// - returns: A mutually exclusive (content, error) pair.
+    ///
+    private func multipleQueriesSync(queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil) -> APIResponse {
+        return self.multipleQueriesSync(queries, strategy: strategy?.rawValue)
+    }
+
     // MARK: - Utils
     
     /// Call a completion handler on the main queue.
