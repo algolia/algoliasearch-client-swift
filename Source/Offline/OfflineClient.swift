@@ -111,6 +111,17 @@ import Foundation
         return MirroredIndex(client: self, indexName: indexName)
     }
     
+    /// Create a purely offline index.
+    ///
+    /// - parameter name: Name for the new index.
+    /// - returns: A new object representing the index.
+    ///
+    /// + Warning: The name should not overlap with any `MirroredIndex` (see `getIndex(_:)`).
+    ///
+    @objc public func getOfflineIndex(name: String) -> OfflineIndex {
+        return OfflineIndex(client: self, name: name)
+    }
+    
     // MARK: - Utils
     
     /// Parse search results returned by the Offline Core into a (content, error) pair suitable for completion handlers.

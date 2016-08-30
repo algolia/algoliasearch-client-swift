@@ -96,7 +96,7 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
     /// - parameter client: The offline client used by this index.
     /// - parameter name: This index's name.
     ///
-    @objc public init(client: OfflineClient, name: String) {
+    internal init(client: OfflineClient, name: String) {
         self.client = client
         self.name = name
     }

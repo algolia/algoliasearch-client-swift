@@ -79,7 +79,7 @@ class OfflineIndexTests /*: XCTestCase */ {
     }
     
     func testAddGetDeleteObject() {
-        let index = OfflineIndex(client: client, name: #function)
+        let index = client.getOfflineIndex(#function)
         index.addObject(objects["snoopy"]!) { (content, error) in
             assert(error == nil)
             index.getObject("1") { (content, error) in
@@ -99,7 +99,7 @@ class OfflineIndexTests /*: XCTestCase */ {
     }
     
     func testAddWithIDGetDeleteObject() {
-        let index = OfflineIndex(client: client, name: #function)
+        let index = client.getOfflineIndex(#function)
         index.addObject(["name": "unknown"], withID: "xxx") { (content, error) in
             assert(error == nil)
             index.getObject("xxx") { (content, error) in
@@ -119,7 +119,7 @@ class OfflineIndexTests /*: XCTestCase */ {
     }
     
     func testAddGetDeleteObjects() {
-        let index = OfflineIndex(client: client, name: #function)
+        let index = client.getOfflineIndex(#function)
         index.addObjects(Array(objects.values)) { (content, error) in
             assert(error == nil)
             index.getObjects(["1", "2"]) { (content, error) in
@@ -140,7 +140,7 @@ class OfflineIndexTests /*: XCTestCase */ {
     }
     
     func testSearch() {
-        let index = OfflineIndex(client: client, name: #function)
+        let index = client.getOfflineIndex(#function)
         index.addObjects(Array(objects.values)) { (content, error) in
             assert(error == nil)
             let query = Query(query: "snoopy")
@@ -158,7 +158,7 @@ class OfflineIndexTests /*: XCTestCase */ {
     }
     
     func testGetSetSettings() {
-        let index = OfflineIndex(client: client, name: #function)
+        let index = client.getOfflineIndex(#function)
         let settings: [String: AnyObject] = [
             "attributesToIndex": ["foo", "bar"]
         ]
@@ -174,7 +174,7 @@ class OfflineIndexTests /*: XCTestCase */ {
     }
     
     func testClear() {
-        let index = OfflineIndex(client: client, name: #function)
+        let index = client.getOfflineIndex(#function)
         index.addObjects(Array(objects.values)) { (content, error) in
             assert(error == nil)
             index.clearIndex() { (content, error) in
@@ -190,7 +190,7 @@ class OfflineIndexTests /*: XCTestCase */ {
     }
     
     func testBrowse() {
-        let index = OfflineIndex(client: client, name: #function)
+        let index = client.getOfflineIndex(#function)
         index.addObjects(Array(objects.values)) { (content, error) in
             assert(error == nil)
             index.browse(Query(parameters: ["hitsPerPage": "1"])) { (content, error) in
@@ -206,7 +206,7 @@ class OfflineIndexTests /*: XCTestCase */ {
     }
     
     func testDeleteByQuery() {
-        let index = OfflineIndex(client: client, name: #function)
+        let index = client.getOfflineIndex(#function)
         index.addObjects(Array(objects.values)) { (content, error) in
             assert(error == nil)
             index.deleteByQuery(Query(parameters: ["numericFilters": "born < 1970"])) { (content, error) in
@@ -223,7 +223,7 @@ class OfflineIndexTests /*: XCTestCase */ {
     }
     
     func testMultipleQueries() {
-        let index = OfflineIndex(client: client, name: #function)
+        let index = client.getOfflineIndex(#function)
         index.addObjects(Array(objects.values)) { (content, error) in
             assert(error == nil)
             index.multipleQueries([Query(query: "snoopy"), Query(query: "woodstock")]) { (content, error) in
