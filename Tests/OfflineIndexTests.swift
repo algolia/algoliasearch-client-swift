@@ -108,7 +108,7 @@ class OfflineIndexTests /*: XCTestCase */ {
                 assert(name == "unknown")
                 index.deleteObject("xxx") { (content, error) in
                     assert(error == nil)
-                    index.getObject("1") { (content, error) in
+                    index.getObject("xxx") { (content, error) in
                         assert(error != nil)
                         assert(error!.code == 404)
                         NSLog("[TEST] \(#function): OK")
