@@ -11,19 +11,18 @@ import UIKit
 
 
 class ViewController: UIViewController {
-    var tests = OfflineIndexTests()
+    var offlineClientTests = OfflineClientTests()
+    var offlineIndexTests = OfflineIndexTests()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
-        tests.test()
+        // Clean-up.
+        let client = OfflineClient(appID: "DONTCARE", apiKey: "NEVERMIND")
+        try! NSFileManager.defaultManager().removeItemAtPath(client.rootDataDir)
+        
+        offlineClientTests.test()
+        offlineIndexTests.test()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
 }
 

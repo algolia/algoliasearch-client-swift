@@ -44,7 +44,7 @@ class OfflineIndexTests /*: XCTestCase */ {
     /* override */ func setUp() {
         // super.setUp()
         if client == nil {
-            client = OfflineClient(appID: "DONTCARE", apiKey: "NEVERMIND")
+            client = OfflineClient(appID: String(self.dynamicType), apiKey: "NEVERMIND")
             client.enableOfflineMode("AkUGAQH/3YXDBf+GxMAFABxDbJYBbWVudCBMZSBQcm92b3N0IChBbGdvbGlhKRhjb20uYWxnb2xpYS5GYWtlVW5pdFRlc3QwLgIVANNt9d4exv+oUPNno7XkXLOQozbYAhUAzVNYI6t/KQy1eEZECvYA0/ScpQU=")
         }
     }
@@ -91,7 +91,7 @@ class OfflineIndexTests /*: XCTestCase */ {
                     index.getObject("1") { (content, error) in
                         assert(error != nil)
                         assert(error!.code == 404)
-                        NSLog("[TEST] \(#function): OK")
+                        NSLog("[TEST] OK: \(#function)")
                     }
                 }
             }
@@ -111,7 +111,7 @@ class OfflineIndexTests /*: XCTestCase */ {
                     index.getObject("xxx") { (content, error) in
                         assert(error != nil)
                         assert(error!.code == 404)
-                        NSLog("[TEST] \(#function): OK")
+                        NSLog("[TEST] OK: \(#function)")
                     }
                 }
             }
@@ -132,7 +132,7 @@ class OfflineIndexTests /*: XCTestCase */ {
                     index.getObject("2") { (content, error) in
                         assert(error != nil)
                         assert(error!.code == 404)
-                        NSLog("[TEST] \(#function): OK")
+                        NSLog("[TEST] OK: \(#function)")
                     }
                 }
             }
@@ -152,7 +152,7 @@ class OfflineIndexTests /*: XCTestCase */ {
                 assert(hits.count == 1)
                 guard let name = hits[0]["name"] as? String else { assert(false); return }
                 assert(name == "Snoopy")
-                NSLog("[TEST] \(#function): OK")
+                NSLog("[TEST] OK: \(#function)")
             }
         }
     }
@@ -168,7 +168,7 @@ class OfflineIndexTests /*: XCTestCase */ {
                 guard let content = content else { assert(false); return }
                 assert(content["attributesToIndex"] as! NSObject == settings["attributesToIndex"] as! NSObject)
                 assert(content["attributesToRetrieve"] as! NSObject == NSNull())
-                NSLog("[TEST] \(#function): OK")
+                NSLog("[TEST] OK: \(#function)")
             }
         }
     }
@@ -183,7 +183,7 @@ class OfflineIndexTests /*: XCTestCase */ {
                     guard let content = content else { assert(false); return }
                     guard let nbHits = content["nbHits"] as? Int else { assert(false); return }
                     assert(nbHits == 0)
-                    NSLog("[TEST] \(#function): OK")
+                    NSLog("[TEST] OK: \(#function)")
                 }
             }
         }
@@ -199,7 +199,7 @@ class OfflineIndexTests /*: XCTestCase */ {
                 index.browseFrom(cursor) { (content, error) in
                     guard let content = content else { assert(false); return }
                     assert(content["cursor"] == nil)
-                    NSLog("[TEST] \(#function): OK")
+                    NSLog("[TEST] OK: \(#function)")
                 }
             }
         }
@@ -216,7 +216,7 @@ class OfflineIndexTests /*: XCTestCase */ {
                     guard let nbHits = content["nbHits"] as? Int else { assert(false); return }
                     assert(nbHits == 1)
                     assert(content["cursor"] == nil)
-                    NSLog("[TEST] \(#function): OK")
+                    NSLog("[TEST] OK: \(#function)")
                 }
             }
         }
@@ -234,7 +234,7 @@ class OfflineIndexTests /*: XCTestCase */ {
                     guard let nbHits = result["nbHits"] as? Int else { assert(false); return }
                     assert(nbHits == 1)
                 }
-                NSLog("[TEST] \(#function): OK")
+                NSLog("[TEST] OK: \(#function)")
             }
         }
     }

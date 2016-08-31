@@ -625,6 +625,7 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
     /// - parameter error: The error to pass as a second argument to the completion handler.
     ///
     private func callCompletionHandler(completionHandler: CompletionHandler?, content: [String: AnyObject]?, error: NSError?) {
+        // TODO: Factorize with `OfflineClient`.
         if let completionHandler = completionHandler {
             dispatch_async(dispatch_get_main_queue(), {
                 completionHandler(content: content, error: error)

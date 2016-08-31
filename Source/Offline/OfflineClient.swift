@@ -60,6 +60,9 @@ import Foundation
     ///
     @objc public var rootDataDir: String
     
+    /// The local data directory for this client's app ID.
+    private var appDir: String { return rootDataDir + "/" + appID }
+    
     // NOTE: The build and search queues must be serial to prevent concurrent searches or builds on a given index, but
     // may be distinct because building can be done in parallel with search.
     //
@@ -122,6 +125,154 @@ import Foundation
         return OfflineIndex(client: self, name: name)
     }
     
+    // MARK: - Accessors
+    
+    private func indexDir(name: String) -> String {
+        return appDir + "/" + name
+    }
+    
+    // MARK: - Operations
+    
+    /// Test if an index has offline data on disk.
+    ///
+    /// + Note: This applies both to `MirroredIndex` and `OfflineIndex` instances.
+    ///
+    /// + Warning: This method is synchronous!
+    ///
+    /// - parameter name: The index's name.
+    /// - returns: `true` if data exists on disk for this index, `false` otherwise.
+    ///
+    @objc public func hasOfflineData(name: String) -> Bool {
+        // TODO: Suboptimal; we should be able to test existence without instantiating a `LocalIndex`.
+        return ASLocalIndex(dataDir: rootDataDir, appID: appID, indexName: name).exists()
+    }
+
+    /// List existing offline indexes.
+    /// Only indices that *actually exist* on disk are listed. If an instance was created but never synced or written
+    /// to, it will not appear in the list.
+    ///
+    /// + Note: This applies both to `MirroredIndex` and `OfflineIndex` instances.
+    ///
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc public func listIndexesOffline(completionHandler: CompletionHandler) -> NSOperation {
+        let operation = NSBlockOperation() {
+            let (content, error) = self.listIndexesOfflineSync()
+            self.callCompletionHandler(completionHandler, content: content, error: error)
+        }
+        searchQueue.addOperation(operation)
+        return operation
+    }
+    
+    /// List existing offline indexes (synchronously).
+    /// Only indices that *actually exist* on disk are listed. If an instance was created but never synced or written
+    /// to, it will not appear in the list.
+    ///
+    /// - returns: A mutally exclusive (content, error) pair.
+    ///
+    private func listIndexesOfflineSync() -> APIResponse {
+        var content: [String: AnyObject]?
+        var error: NSError?
+        do {
+            var items = [[String: AnyObject]]()
+            var isDirectory: ObjCBool = false
+            if NSFileManager.defaultManager().fileExistsAtPath(appDir, isDirectory: &isDirectory) && isDirectory {
+                let files = try NSFileManager.defaultManager().contentsOfDirectoryAtPath(appDir)
+                for file in files {
+                    if hasOfflineData(file) {
+                        items.append([
+                            "name": file
+                            ])
+                        // TODO: Do we need other data as in the online API?
+                    }
+                }
+            }
+            content = ["items": items]
+        } catch let e as NSError {
+            error = e
+        }
+        return (content, error)
+    }
+    
+    /// Delete an offline index.
+    ///
+    /// + Note: This applies both to `MirroredIndex` and `OfflineIndex` instances.
+    ///
+    /// - parameter indexName: Name of the index to delete.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc public func deleteIndexOffline(indexName: String, completionHandler: CompletionHandler? = nil) -> NSOperation {
+        let operation = NSBlockOperation() {
+            let (content, error) = self.deleteIndexOfflineSync(indexName)
+            self.callCompletionHandler(completionHandler, content: content, error: error)
+        }
+        buildQueue.addOperation(operation)
+        return operation
+    }
+    
+    /// Delete an offline index (synchronously).
+    ///
+    /// + Note: This applies both to `MirroredIndex` and `OfflineIndex` instances.
+    ///
+    /// - returns: A mutally exclusive (content, error) pair.
+    ///
+    private func deleteIndexOfflineSync(indexName: String) -> APIResponse {
+        do {
+            try NSFileManager.defaultManager().removeItemAtPath(indexDir(indexName))
+            return (successfulResponse, nil)
+        } catch let e as NSError {
+            return (nil, e)
+        }
+    }
+    
+    /// Move an existing index.
+    ///
+    /// + Warning: This will overwrite the destination index if it exists.
+    ///
+    /// + Note: This applies both to `MirroredIndex` and `OfflineIndex` instances.
+    ///
+    /// - parameter srcIndexName: Name of index to move.
+    /// - parameter dstIndexName: The new index name.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc public func moveIndexOffline(srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> NSOperation {
+        let operation = NSBlockOperation() {
+            let (content, error) = self.moveIndexOfflineSync(srcIndexName, to: dstIndexName)
+            self.callCompletionHandler(completionHandler, content: content, error: error)
+        }
+        buildQueue.addOperation(operation)
+        return operation
+    }
+    
+    /// Move an existing index (synchronously).
+    ///
+    /// + Warning: This will overwrite the destination index if it exists.
+    ///
+    /// + Note: This applies both to `MirroredIndex` and `OfflineIndex` instances.
+    ///
+    /// - parameter srcIndexName: Name of index to move.
+    /// - parameter dstIndexName: The new index name.
+    /// - returns: A mutally exclusive (content, error) pair.
+    ///
+    private func moveIndexOfflineSync(srcIndexName: String, to dstIndexName: String) -> APIResponse {
+        do {
+            let fromPath = indexDir(srcIndexName)
+            let toPath = indexDir(dstIndexName)
+            if NSFileManager.defaultManager().fileExistsAtPath(toPath) {
+                try NSFileManager.defaultManager().removeItemAtPath(toPath)
+            }
+            try NSFileManager.defaultManager().moveItemAtPath(fromPath, toPath: toPath)
+            return (successfulResponse, nil)
+        } catch let e as NSError {
+            return (nil, e)
+        }
+    }
+    
+    // NOTE: Copy not supported because it would be too resource-intensive.
+    
     // MARK: - Utils
     
     /// Parse search results returned by the Offline Core into a (content, error) pair suitable for completion handlers.
@@ -151,4 +302,21 @@ import Foundation
         assert(content != nil || error != nil)
         return (content: content, error: error)
     }
+    
+    /// Call a completion handler on the main queue.
+    ///
+    /// - parameter completionHandler: The completion handler to call. If `nil`, this function does nothing.
+    /// - parameter content: The content to pass as a first argument to the completion handler.
+    /// - parameter error: The error to pass as a second argument to the completion handler.
+    ///
+    internal func callCompletionHandler(completionHandler: CompletionHandler?, content: [String: AnyObject]?, error: NSError?) {
+        if let completionHandler = completionHandler {
+            dispatch_async(dispatch_get_main_queue(), {
+                completionHandler(content: content, error: error)
+            })
+        }
+    }
+    
+    /// JSON object used to represent a successful response in the absence of any other information.
+    internal let successfulResponse: [String: AnyObject] = ["status": 200]
 }
