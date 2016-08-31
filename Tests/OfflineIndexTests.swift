@@ -22,12 +22,9 @@ import XCTest // disabled so far
 // ----------------------------------------------------------------------
 
 
-class OfflineIndexTests /*: XCTestCase */ {
-
-    var client: OfflineClient!
-    var tests: [() -> ()]!
-
-    init() {
+class OfflineIndexTests: OfflineTestCase {
+    override init() {
+        super.init()
         tests = [
             self.testAddGetDeleteObject,
             self.testAddWithIDGetDeleteObject,
@@ -41,44 +38,8 @@ class OfflineIndexTests /*: XCTestCase */ {
         ]
     }
 
-    /* override */ func setUp() {
-        // super.setUp()
-        if client == nil {
-            client = OfflineClient(appID: String(self.dynamicType), apiKey: "NEVERMIND")
-            client.enableOfflineMode("AkUGAQH/3YXDBf+GxMAFABxDbJYBbWVudCBMZSBQcm92b3N0IChBbGdvbGlhKRhjb20uYWxnb2xpYS5GYWtlVW5pdFRlc3QwLgIVANNt9d4exv+oUPNno7XkXLOQozbYAhUAzVNYI6t/KQy1eEZECvYA0/ScpQU=")
-        }
-    }
-    
-    /* override */ func tearDown() {
-        // super.tearDown()
-    }
-
-    let objects: [String: [String: AnyObject]] = [
-        "snoopy": [
-            "objectID": "1",
-            "name": "Snoopy",
-            "kind": "dog",
-            "born": 1967,
-            "series": "Peanuts"
-        ],
-        "woodstock": [
-            "objectID": "2",
-            "name": "Woodstock",
-            "kind": "bird",
-            "born": 1970,
-            "series": "Peanuts"
-        ],
-    ]
-    
-    func test() {
-        for aTest in tests {
-            setUp()
-            aTest()
-            tearDown()
-        }
-    }
-    
     func testAddGetDeleteObject() {
+        let expectation = expectationWithDescription(#function)
         let index = client.getOfflineIndex(#function)
         index.addObject(objects["snoopy"]!) { (content, error) in
             assert(error == nil)
@@ -91,14 +52,16 @@ class OfflineIndexTests /*: XCTestCase */ {
                     index.getObject("1") { (content, error) in
                         assert(error != nil)
                         assert(error!.code == 404)
-                        NSLog("[TEST] OK: \(#function)")
+                        expectation.fulfill()
                     }
                 }
             }
         }
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
     
     func testAddWithIDGetDeleteObject() {
+        let expectation = expectationWithDescription(#function)
         let index = client.getOfflineIndex(#function)
         index.addObject(["name": "unknown"], withID: "xxx") { (content, error) in
             assert(error == nil)
@@ -111,14 +74,16 @@ class OfflineIndexTests /*: XCTestCase */ {
                     index.getObject("xxx") { (content, error) in
                         assert(error != nil)
                         assert(error!.code == 404)
-                        NSLog("[TEST] OK: \(#function)")
+                        expectation.fulfill()
                     }
                 }
             }
         }
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
     
     func testAddGetDeleteObjects() {
+        let expectation = expectationWithDescription(#function)
         let index = client.getOfflineIndex(#function)
         index.addObjects(Array(objects.values)) { (content, error) in
             assert(error == nil)
@@ -132,14 +97,16 @@ class OfflineIndexTests /*: XCTestCase */ {
                     index.getObject("2") { (content, error) in
                         assert(error != nil)
                         assert(error!.code == 404)
-                        NSLog("[TEST] OK: \(#function)")
+                        expectation.fulfill()
                     }
                 }
             }
         }
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
     
     func testSearch() {
+        let expectation = expectationWithDescription(#function)
         let index = client.getOfflineIndex(#function)
         index.addObjects(Array(objects.values)) { (content, error) in
             assert(error == nil)
@@ -152,12 +119,14 @@ class OfflineIndexTests /*: XCTestCase */ {
                 assert(hits.count == 1)
                 guard let name = hits[0]["name"] as? String else { assert(false); return }
                 assert(name == "Snoopy")
-                NSLog("[TEST] OK: \(#function)")
+                expectation.fulfill()
             }
         }
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
     
     func testGetSetSettings() {
+        let expectation = expectationWithDescription(#function)
         let index = client.getOfflineIndex(#function)
         let settings: [String: AnyObject] = [
             "attributesToIndex": ["foo", "bar"]
@@ -168,12 +137,14 @@ class OfflineIndexTests /*: XCTestCase */ {
                 guard let content = content else { assert(false); return }
                 assert(content["attributesToIndex"] as! NSObject == settings["attributesToIndex"] as! NSObject)
                 assert(content["attributesToRetrieve"] as! NSObject == NSNull())
-                NSLog("[TEST] OK: \(#function)")
+                expectation.fulfill()
             }
         }
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
     
     func testClear() {
+        let expectation = expectationWithDescription(#function)
         let index = client.getOfflineIndex(#function)
         index.addObjects(Array(objects.values)) { (content, error) in
             assert(error == nil)
@@ -183,13 +154,15 @@ class OfflineIndexTests /*: XCTestCase */ {
                     guard let content = content else { assert(false); return }
                     guard let nbHits = content["nbHits"] as? Int else { assert(false); return }
                     assert(nbHits == 0)
-                    NSLog("[TEST] OK: \(#function)")
+                    expectation.fulfill()
                 }
             }
         }
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
     
     func testBrowse() {
+        let expectation = expectationWithDescription(#function)
         let index = client.getOfflineIndex(#function)
         index.addObjects(Array(objects.values)) { (content, error) in
             assert(error == nil)
@@ -199,13 +172,15 @@ class OfflineIndexTests /*: XCTestCase */ {
                 index.browseFrom(cursor) { (content, error) in
                     guard let content = content else { assert(false); return }
                     assert(content["cursor"] == nil)
-                    NSLog("[TEST] OK: \(#function)")
+                    expectation.fulfill()
                 }
             }
         }
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
     
     func testDeleteByQuery() {
+        let expectation = expectationWithDescription(#function)
         let index = client.getOfflineIndex(#function)
         index.addObjects(Array(objects.values)) { (content, error) in
             assert(error == nil)
@@ -216,13 +191,15 @@ class OfflineIndexTests /*: XCTestCase */ {
                     guard let nbHits = content["nbHits"] as? Int else { assert(false); return }
                     assert(nbHits == 1)
                     assert(content["cursor"] == nil)
-                    NSLog("[TEST] OK: \(#function)")
+                    expectation.fulfill()
                 }
             }
         }
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
     
     func testMultipleQueries() {
+        let expectation = expectationWithDescription(#function)
         let index = client.getOfflineIndex(#function)
         index.addObjects(Array(objects.values)) { (content, error) in
             assert(error == nil)
@@ -234,8 +211,9 @@ class OfflineIndexTests /*: XCTestCase */ {
                     guard let nbHits = result["nbHits"] as? Int else { assert(false); return }
                     assert(nbHits == 1)
                 }
-                NSLog("[TEST] OK: \(#function)")
+                expectation.fulfill()
             }
         }
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
 }

@@ -75,6 +75,8 @@
 		BCA67F551D705FAA00266441 /* OfflineIndexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCA67F371D703B6700266441 /* OfflineIndexTests.swift */; };
 		BCCD9F1E1D771856004F4800 /* OfflineClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCD9F1D1D771856004F4800 /* OfflineClientTests.swift */; };
 		BCCD9F1F1D771856004F4800 /* OfflineClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCD9F1D1D771856004F4800 /* OfflineClientTests.swift */; };
+		BCCD9F211D771FFA004F4800 /* OfflineTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCD9F201D771FFA004F4800 /* OfflineTestCase.swift */; };
+		BCCD9F221D771FFA004F4800 /* OfflineTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCCD9F201D771FFA004F4800 /* OfflineTestCase.swift */; };
 		BCD1F5541CC61C8D0006E227 /* AlgoliaSearch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCD1F54A1CC61C8D0006E227 /* AlgoliaSearch.framework */; };
 		BCD1F5611CC61CFE0006E227 /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4A7F381CB5308100AF1DCB /* AsyncOperation.swift */; };
 		BCD1F5621CC61D020006E227 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D67400E1B4AA22600B326EC /* Cache.swift */; };
@@ -185,6 +187,7 @@
 		BCA67F4B1D70404900266441 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BCA67F521D70410300266441 /* AlgoliaSearchOfflineCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlgoliaSearchOfflineCore.framework; path = "Pods/AlgoliaSearchOfflineCore-iOS/AlgoliaSearchOfflineCore.framework"; sourceTree = "<group>"; };
 		BCCD9F1D1D771856004F4800 /* OfflineClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineClientTests.swift; sourceTree = "<group>"; };
+		BCCD9F201D771FFA004F4800 /* OfflineTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineTestCase.swift; sourceTree = "<group>"; };
 		BCD1F54A1CC61C8D0006E227 /* AlgoliaSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlgoliaSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD1F5531CC61C8D0006E227 /* AlgoliaSearch tvOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AlgoliaSearch tvOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCDA73771CA546800082B197 /* NetworkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
@@ -344,6 +347,7 @@
 				BCDA73771CA546800082B197 /* NetworkTests.swift */,
 				BCCD9F1D1D771856004F4800 /* OfflineClientTests.swift */,
 				BCA67F371D703B6700266441 /* OfflineIndexTests.swift */,
+				BCCD9F201D771FFA004F4800 /* OfflineTestCase.swift */,
 				BC0A01631C9C19CD00CD4A7C /* QueryTests.swift */,
 				5D74958E1A8E25A600B0263F /* Supporting Files */,
 			);
@@ -906,6 +910,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCCD9F1E1D771856004F4800 /* OfflineClientTests.swift in Sources */,
+				BCCD9F211D771FFA004F4800 /* OfflineTestCase.swift in Sources */,
 				BCA67F381D703B6700266441 /* OfflineIndexTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -916,6 +921,7 @@
 			files = (
 				BCCD9F1F1D771856004F4800 /* OfflineClientTests.swift in Sources */,
 				BCA67F551D705FAA00266441 /* OfflineIndexTests.swift in Sources */,
+				BCCD9F221D771FFA004F4800 /* OfflineTestCase.swift in Sources */,
 				BCA67F421D70404800266441 /* ViewController.swift in Sources */,
 				BCA67F401D70404800266441 /* AppDelegate.swift in Sources */,
 			);
