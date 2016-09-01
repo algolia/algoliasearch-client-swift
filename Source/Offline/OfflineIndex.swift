@@ -87,7 +87,7 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
     @objc public let client: OfflineClient
 
     /// The local index (lazy instantiated).
-    lazy var localIndex: ASLocalIndex! = ASLocalIndex(dataDir: self.client.rootDataDir, appID: self.client.appID, indexName: self.name)
+    lazy var localIndex: LocalIndex! = LocalIndex(dataDir: self.client.rootDataDir, appID: self.client.appID, indexName: self.name)
 
     // MARK: - Initialization
     
@@ -179,7 +179,7 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
     private func deleteObjectsSync(objectIDs: [String]) -> APIResponse {
         var content: [String: AnyObject]?
         var error: NSError?
-        let statusCode = Int(self.localIndex.buildFromSettingsFile(nil, objectFiles: [], clearIndex: false, deletedObjectIDs: objectIDs))
+        let statusCode = Int(self.localIndex.build(settingsFile: nil, objectFiles: [], clearIndex: false, deletedObjectIDs: objectIDs))
         if statusCode == StatusCode.OK.rawValue {
             content = ["objectID": objectIDs]
         } else {
@@ -301,7 +301,7 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
         var error: NSError?
         do {
             let jsonFilePath = try self.writeTempJSONFile(objects)
-            let statusCode = Int(self.localIndex.buildFromSettingsFile(nil, objectFiles: [jsonFilePath], clearIndex: false, deletedObjectIDs: nil))
+            let statusCode = Int(self.localIndex.build(settingsFile: nil, objectFiles: [jsonFilePath], clearIndex: false, deletedObjectIDs: nil))
             if statusCode == StatusCode.OK.rawValue {
                 content = [:]
             } else {
@@ -395,7 +395,7 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
         var error: NSError?
         do {
             let jsonFilePath = try self.writeTempJSONFile(settings)
-            let statusCode = Int(self.localIndex.buildFromSettingsFile(jsonFilePath, objectFiles: [], clearIndex: false, deletedObjectIDs: nil))
+            let statusCode = Int(self.localIndex.build(settingsFile: jsonFilePath, objectFiles: [], clearIndex: false, deletedObjectIDs: nil))
             if statusCode == StatusCode.OK.rawValue {
                 content = [:]
             } else {
@@ -435,7 +435,7 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
         let operation = NSBlockOperation() {
             var content: [String: AnyObject]?
             var error: NSError?
-            let statusCode = Int(self.localIndex.buildFromSettingsFile(nil, objectFiles: [], clearIndex: true, deletedObjectIDs: nil))
+            let statusCode = Int(self.localIndex.build(settingsFile: nil, objectFiles: [], clearIndex: true, deletedObjectIDs: nil))
             if statusCode == StatusCode.OK.rawValue {
                 content = [:]
             } else {

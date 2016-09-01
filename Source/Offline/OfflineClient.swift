@@ -50,7 +50,7 @@ import Foundation
         userAgents.append(LibraryVersion(name: "AlgoliaSearchOfflineCore-iOS", version: sdk.versionString))
     }
 
-    var sdk: ASSdk = ASSdk.sharedSdk()
+    var sdk: Sdk = Sdk.sharedSdk()
 
     /// Path to directory where the local data is stored.
     /// Defaults to an `algolia` sub-directory inside the `Library/Application Support` directory.
@@ -102,7 +102,7 @@ import Foundation
         }
         
         // Init the SDK.
-        sdk.initWithLicenseData(licenseData)
+        sdk.initialize(licenseData: licenseData)
         // NOTE: Errors reported by the core itself.
     }
 
@@ -144,7 +144,7 @@ import Foundation
     ///
     @objc public func hasOfflineData(name: String) -> Bool {
         // TODO: Suboptimal; we should be able to test existence without instantiating a `LocalIndex`.
-        return ASLocalIndex(dataDir: rootDataDir, appID: appID, indexName: name).exists()
+        return LocalIndex(dataDir: rootDataDir, appID: appID, indexName: name).exists()
     }
 
     /// List existing offline indexes.
@@ -280,7 +280,7 @@ import Foundation
     /// - parameter searchResults: Search results to parse.
     /// - returns: A (content, error) pair that can be passed to a `CompletionHandler`.
     ///
-    internal static func parseSearchResults(searchResults: ASSearchResults) -> (content: [String: AnyObject]?, error: NSError?) {
+    internal static func parseSearchResults(searchResults: SearchResults) -> (content: [String: AnyObject]?, error: NSError?) {
         var content: [String: AnyObject]?
         var error: NSError?
         if searchResults.statusCode == 200 {

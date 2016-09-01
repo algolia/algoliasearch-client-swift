@@ -114,7 +114,7 @@ import Foundation
     }
     
     /// The local index mirroring this remote index (lazy instantiated, only if mirroring is activated).
-    lazy var localIndex: ASLocalIndex! = ASLocalIndex(dataDir: self.offlineClient.rootDataDir, appID: self.client.appID, indexName: self.indexName)
+    lazy var localIndex: LocalIndex! = LocalIndex(dataDir: self.offlineClient.rootDataDir, appID: self.client.appID, indexName: self.indexName)
     
     /// The mirrored index settings.
     let mirrorSettings = MirrorSettings()
@@ -335,7 +335,7 @@ import Foundation
         // Task: build the index using the downloaded files.
         buildIndexOperation = NSBlockOperation() {
             if self.syncError == nil {
-                let status = self.localIndex.buildFromSettingsFile(self.settingsFilePath, objectFiles: self.objectsFilePaths, clearIndex: true, deletedObjectIDs: nil)
+                let status = self.localIndex.build(settingsFile: self.settingsFilePath, objectFiles: self.objectsFilePaths, clearIndex: true, deletedObjectIDs: nil)
                 if status != 200 {
                     self.syncError = NSError(domain: Client.ErrorDomain, code: Int(status), userInfo: [NSLocalizedDescriptionKey: "Could not build local index"])
                 } else {
