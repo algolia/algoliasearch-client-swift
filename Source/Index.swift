@@ -173,6 +173,29 @@ import Foundation
         
         return client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.readHosts, completionHandler: completionHandler)
     }
+
+    /// Get several objects from this index, optionally restricting the retrieved content.
+    ///
+    /// - parameter objectIDs: Identifiers of objects to retrieve.
+    /// - parameter attributesToRetrieve: List of attributes to retrieve. If `nil`, all attributes are retrieved.
+    ///                                   If one of the elements is `"*"`, all attributes are retrieved.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc public func getObjects(objectIDs: [String], attributesToRetrieve: [String], completionHandler: CompletionHandler) -> NSOperation {
+        let path = "1/indexes/*/objects"
+        var requests = [AnyObject]()
+        requests.reserveCapacity(objectIDs.count)
+        for id in objectIDs {
+            let request = [
+                "indexName": indexName,
+                "objectID": id,
+                "attributesToRetrieve": attributesToRetrieve.joinWithSeparator(",")
+            ]
+            requests.append(request)
+        }
+        return client.performHTTPQuery(path, method: .POST, body: ["requests": requests], hostnames: client.readHosts, completionHandler: completionHandler)
+    }
     
     /// Partially update an object.
     ///

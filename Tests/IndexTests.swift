@@ -259,7 +259,6 @@ class IndexTests: XCTestCase {
                 })
             }
         })
-        
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
     
@@ -331,6 +330,44 @@ class IndexTests: XCTestCase {
         waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
     }
     
+    func testGetObjectsFiltered() {
+        let expectation = expectationWithDescription(#function)
+        let objects: [[String: AnyObject]] = [
+            ["objectID": "1", "name": "Snoopy", "kind": "dog"],
+            ["objectID": "2", "name": "Woodstock", "kind": "bird"]
+        ]
+        index.addObjects(objects, completionHandler: { (content, error) -> Void in
+            guard let content = content else {
+                XCTFail("Error during addObjetcs: \(error)")
+                expectation.fulfill()
+                return
+            }
+            self.index.waitTask(content["taskID"] as! Int, completionHandler: { (content, error) -> Void in
+                guard error == nil else {
+                    XCTFail("Error during waitTask: \(error)")
+                    expectation.fulfill()
+                    return
+                }
+                self.index.getObjects(["1", "2"], attributesToRetrieve: ["name", "nonexistent"], completionHandler: { (content, error) -> Void in
+                    guard let content = content else {
+                        XCTFail("Error during getObjects: \(error)")
+                        expectation.fulfill()
+                        return
+                    }
+                    let items = content["results"] as! [[String: String]]
+                    XCTAssertEqual(2, items.count)
+                    XCTAssertEqual(items[0]["name"]! as String, "Snoopy")
+                    XCTAssertEqual(items[1]["name"]! as String, "Woodstock")
+                    XCTAssertNil(items[0]["kind"])
+                    XCTAssertNil(items[1]["kind"])
+                    expectation.fulfill()
+                })
+            })
+        })
+        
+        waitForExpectationsWithTimeout(expectationTimeout, handler: nil)
+    }
+
     func testPartialUpdateObject() {
         let expectation = expectationWithDescription("testPartialUpdateObject")
         let object = ["city": "New York", "initial": "NY", "objectID": "a/go/?à"]
