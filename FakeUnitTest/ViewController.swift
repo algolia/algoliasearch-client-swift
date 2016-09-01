@@ -19,7 +19,9 @@ class ViewController: UIViewController {
         
         // Clean-up.
         let client = OfflineClient(appID: "DONTCARE", apiKey: "NEVERMIND")
-        try! NSFileManager.defaultManager().removeItemAtPath(client.rootDataDir)
+        if NSFileManager.defaultManager().fileExistsAtPath(client.rootDataDir) {
+            try! NSFileManager.defaultManager().removeItemAtPath(client.rootDataDir)
+        }
         
         offlineClientTests.test()
         offlineIndexTests.test()
