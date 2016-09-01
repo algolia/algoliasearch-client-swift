@@ -185,7 +185,6 @@
 		BCA67F461D70404900266441 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BCA67F491D70404900266441 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BCA67F4B1D70404900266441 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BCA67F521D70410300266441 /* AlgoliaSearchOfflineCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlgoliaSearchOfflineCore.framework; path = "Pods/AlgoliaSearchOfflineCore-iOS/AlgoliaSearchOfflineCore.framework"; sourceTree = "<group>"; };
 		BCCD9F1D1D771856004F4800 /* OfflineClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineClientTests.swift; sourceTree = "<group>"; };
 		BCCD9F201D771FFA004F4800 /* OfflineTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineTestCase.swift; sourceTree = "<group>"; };
 		BCD1F54A1CC61C8D0006E227 /* AlgoliaSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlgoliaSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -272,7 +271,6 @@
 		51431E2CFD7615D7B8C6F352 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				BCA67F521D70410300266441 /* AlgoliaSearchOfflineCore.framework */,
 				62AD92C0BDA001803B5786C0 /* Pods_AlgoliaSearch_Offline_iOS.framework */,
 				60BC183457E7050846924701 /* Pods_FakeUnitTest.framework */,
 			);
