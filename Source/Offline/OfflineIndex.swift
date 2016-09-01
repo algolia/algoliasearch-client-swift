@@ -466,24 +466,6 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
         return (content, error)
     }
 
-    /// Set this index's settings, optionally forwarding the change to slave indices.
-    ///
-    /// + Warning: Slave indices are **not supported** by offline indices. This method is provided for the sake of
-    ///   homogeneity with `Index`.
-    ///
-    /// Please refer to our [API documentation](https://www.algolia.com/doc/swift#index-settings) for the list of
-    /// supported settings.
-    ///
-    /// - parameter settings: New settings.
-    /// - parameter forwardToSlaves: When true, the change is also applied to slaves of this index.
-    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
-    /// - returns: A cancellable operation.
-    ///
-    @objc public func setSettings(settings: [String: AnyObject], forwardToSlaves: Bool, completionHandler: CompletionHandler? = nil) -> NSOperation {
-        assert(forwardToSlaves == false, "Slaves are not supported by offline indices")
-        return setSettings(settings, completionHandler: completionHandler)
-    }
-    
     /// Delete the index content without removing settings.
     ///
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
