@@ -25,10 +25,6 @@ import AlgoliaSearchOfflineCore
 import Foundation
 
 
-/// A standard response from the API: a mutually exclusive (content, error) pair.
-typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
-
-
 /// A purely offline index.
 /// Such an index has no online counterpart. It is updated and queried locally.
 ///
@@ -48,6 +44,8 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
 /// - **Partial updates** are not supported.
 ///
 /// - **Batch** operations are not supported.
+///
+/// - **Slave indices** are not supported.
 ///
 /// ## Differences
 ///
@@ -69,7 +67,7 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
 ///
 /// Read operations behave identically as on online indices.
 ///
-/// ### Cancellation
+/// ## Cancellation
 ///
 /// Just like online indices, an offline index bears *no rollback semantic*: cancelling an operation does **not**
 /// prevent the data from being modified. It just prevents the completion handler from being called.
@@ -519,7 +517,7 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
     }
     
     /// Browse the index from a cursor.
-    /// This method should be called after an initial call to `browse()`. It returns a cursor, unless the end of the
+    /// This method should be called after an initial call to `browse(...)`. It returns a cursor, unless the end of the
     /// index has been reached.
     ///
     /// - parameter cursor: The cursor of the next page to retrieve

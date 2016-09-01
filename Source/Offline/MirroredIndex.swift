@@ -595,8 +595,6 @@ import Foundation
         }
     }
     
-    // MARK: Regular search
-    
     /// Search using the current request strategy to choose between online and offline (or a combination of both).
     @objc public override func search(query: Query, completionHandler: CompletionHandler) -> NSOperation {
         // IMPORTANT: A non-mirrored index must behave exactly as an online index.
