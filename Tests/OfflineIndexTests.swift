@@ -42,13 +42,17 @@ class OfflineIndexTests: OfflineTestCase {
         let expectation = expectationWithDescription(#function)
         let index = client.getOfflineIndex(#function)
         index.addObject(objects["snoopy"]!) { (content, error) in
-            assert(error == nil)
+            guard let content = content else { assert(false); return }
+            assert(content["updatedAt"] as? String != nil)
+            guard let objectID = content["objectID"] as? String else { assert(false); return }
+            assert(objectID == "1")
             index.getObject("1") { (content, error) in
                 guard let content = content else { assert(false); return }
                 guard let name = content["name"] as? String else { assert(false); return }
                 assert(name == "Snoopy")
                 index.deleteObject("1") { (content, error) in
-                    assert(error == nil)
+                    guard let content = content else { assert(false); return }
+                    assert(content["deletedAt"] as? String != nil)
                     index.getObject("1") { (content, error) in
                         assert(error != nil)
                         assert(error!.code == 404)
@@ -64,13 +68,17 @@ class OfflineIndexTests: OfflineTestCase {
         let expectation = expectationWithDescription(#function)
         let index = client.getOfflineIndex(#function)
         index.addObject(["name": "unknown"], withID: "xxx") { (content, error) in
-            assert(error == nil)
+            guard let content = content else { assert(false); return }
+            assert(content["updatedAt"] as? String != nil)
+            guard let objectID = content["objectID"] as? String else { assert(false); return }
+            assert(objectID == "xxx")
             index.getObject("xxx") { (content, error) in
                 guard let content = content else { assert(false); return }
                 guard let name = content["name"] as? String else { assert(false); return }
                 assert(name == "unknown")
                 index.deleteObject("xxx") { (content, error) in
-                    assert(error == nil)
+                    guard let content = content else { assert(false); return }
+                    assert(content["deletedAt"] as? String != nil)
                     index.getObject("xxx") { (content, error) in
                         assert(error != nil)
                         assert(error!.code == 404)
@@ -86,14 +94,16 @@ class OfflineIndexTests: OfflineTestCase {
         let expectation = expectationWithDescription(#function)
         let index = client.getOfflineIndex(#function)
         index.addObjects(Array(objects.values)) { (content, error) in
-            assert(error == nil)
+            guard let content = content else { assert(false); return }
+            assert(content["objectIDs"] as? [AnyObject] != nil)
             index.getObjects(["1", "2"]) { (content, error) in
                 guard let content = content else { assert(false); return }
                 guard let items = content["results"] as? [[String: AnyObject]] else { assert(false); return }
                 assert(items.count == 2)
                 assert(items[0]["name"] as! String == "Snoopy")
                 index.deleteObjects(["1", "2"]) { (content, error) in
-                    assert(error == nil)
+                    guard let content = content else { assert(false); return }
+                    assert(content["objectIDs"] as? [AnyObject] != nil)
                     index.getObject("2") { (content, error) in
                         assert(error != nil)
                         assert(error!.code == 404)
@@ -149,7 +159,8 @@ class OfflineIndexTests: OfflineTestCase {
         index.addObjects(Array(objects.values)) { (content, error) in
             assert(error == nil)
             index.clearIndex() { (content, error) in
-                assert(error == nil)
+                guard let content = content else { assert(false); return }
+                assert(content["updatedAt"] as? String != nil)
                 index.browse(Query()) { (content, error) in
                     guard let content = content else { assert(false); return }
                     guard let nbHits = content["nbHits"] as? Int else { assert(false); return }

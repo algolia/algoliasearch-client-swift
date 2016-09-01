@@ -103,6 +103,23 @@ extension MutableCollectionType where Index == Int {
     }
 }
 
+// MARK: - Dates
+
+let iso8601DateFormatter: NSDateFormatter = {
+    let formatter = NSDateFormatter()
+    formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)
+    formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
+    formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" // "2000-12-31T23:59:59.666Z"
+    return formatter
+}()
+
+extension NSDate {
+    func iso8601() -> String {
+        return iso8601DateFormatter.stringFromDate(self)
+    }
+}
+
 // MARK: - Miscellaneous
 
 /// Get the operating system's name.

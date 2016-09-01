@@ -151,9 +151,32 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
     /// - returns: A cancellable operation.
     ///
     @objc public func deleteObject(objectID: String, completionHandler: CompletionHandler? = nil) -> NSOperation {
-        return deleteObjects([objectID], completionHandler: completionHandler)
+        let operation = NSBlockOperation() {
+            let (content, error) = self.deleteObjectSync(objectID)
+            self.callCompletionHandler(completionHandler, content: content, error: error)
+        }
+        client.buildQueue.addOperation(operation)
+        return operation
     }
-    
+
+    /// Delete an object from this index (synchronous version).
+    ///
+    /// + Warning: It is the caller's responsibility to ensure proper serialization of index write operations.
+    ///
+    /// - parameter objectID: Identifier of object to delete.
+    /// - returns: A mutually exclusive (content, error) pair.
+    ///
+    private func deleteObjectSync(objectID: String) -> APIResponse {
+        let (content, error) = deleteObjectsSync([objectID])
+        if content != nil {
+            let newContent: [String: AnyObject] = [
+                "deletedAt": NSDate().iso8601()
+            ]
+            return (newContent, nil)
+        }
+        return (nil, error)
+    }
+
     /// Delete several objects from this index.
     ///
     /// - parameter objectIDs: Identifiers of objects to delete.
@@ -181,7 +204,9 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
         var error: NSError?
         let statusCode = Int(self.localIndex.build(settingsFile: nil, objectFiles: [], clearIndex: false, deletedObjectIDs: objectIDs))
         if statusCode == StatusCode.OK.rawValue {
-            content = ["objectID": objectIDs]
+            content = [
+                "objectIDs": objectIDs
+            ]
         } else {
             error = NSError(domain: ErrorDomain, code: statusCode, userInfo: nil)
         }
@@ -271,9 +296,32 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
     /// - returns: A cancellable operation.
     ///
     @objc public func saveObject(object: [String: AnyObject], completionHandler: CompletionHandler? = nil) -> NSOperation {
-        return saveObjects([object], completionHandler: completionHandler)
+        let operation = NSBlockOperation() {
+            let (content, error) = self.saveObjectSync(object)
+            self.callCompletionHandler(completionHandler, content: content, error: error)
+        }
+        client.buildQueue.addOperation(operation)
+        return operation
     }
-    
+
+    /// Update an object (synchronous version).
+    ///
+    /// - parameter object: New version of the object to update. Must contain an `objectID` attribute.
+    /// - returns: A mutually exclusive (content, error) pair.
+    ///
+    private func saveObjectSync(object: [String: AnyObject]) -> APIResponse {
+        let (content, error) = saveObjectsSync([object])
+        if let content = content {
+            let newContent: [String: AnyObject] = [
+                "updatedAt": NSDate().iso8601(),
+                "objectID": (content["objectIDs"] as! [AnyObject])[0], // should always succeed
+            ]
+            return (newContent, nil)
+        } else {
+            return (nil, error)
+        }
+    }
+
     /// Update several objects.
     ///
     /// - parameter objects: New versions of the objects to update. Each one must contain an `objectID` attribute.
@@ -300,10 +348,18 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
         var content: [String: AnyObject]?
         var error: NSError?
         do {
+            let objectIDs = try objects.map({ (object: [String : AnyObject]) -> AnyObject in
+                guard let objectID = object["objectID"] else {
+                    throw NSError(domain: ErrorDomain, code: StatusCode.BadRequest.rawValue, userInfo: [NSLocalizedDescriptionKey: "Object missing mandatory `objectID` attribute"])
+                }
+                return objectID
+            })
             let jsonFilePath = try self.writeTempJSONFile(objects)
             let statusCode = Int(self.localIndex.build(settingsFile: nil, objectFiles: [jsonFilePath], clearIndex: false, deletedObjectIDs: nil))
             if statusCode == StatusCode.OK.rawValue {
-                content = [:]
+                content = [
+                    "objectIDs": objectIDs
+                ]
             } else {
                 error = NSError(domain: ErrorDomain, code: statusCode, userInfo: nil)
             }
@@ -397,7 +453,9 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
             let jsonFilePath = try self.writeTempJSONFile(settings)
             let statusCode = Int(self.localIndex.build(settingsFile: jsonFilePath, objectFiles: [], clearIndex: false, deletedObjectIDs: nil))
             if statusCode == StatusCode.OK.rawValue {
-                content = [:]
+                content = [
+                    "updatedAt": NSDate().iso8601()
+                ]
             } else {
                 error = NSError(domain: ErrorDomain, code: statusCode, userInfo: nil)
             }
@@ -437,7 +495,9 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
             var error: NSError?
             let statusCode = Int(self.localIndex.build(settingsFile: nil, objectFiles: [], clearIndex: true, deletedObjectIDs: nil))
             if statusCode == StatusCode.OK.rawValue {
-                content = [:]
+                content = [
+                    "updatedAt": NSDate().iso8601(),
+                ]
             } else {
                 error = NSError(domain: ErrorDomain, code: statusCode, userInfo: nil)
             }

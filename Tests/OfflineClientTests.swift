@@ -73,7 +73,8 @@ class OfflineClientTests: OfflineTestCase {
             assert(error == nil)
             assert(self.client.hasOfflineData(index.name))
             self.client.deleteIndexOffline(index.name) { (content, error) in
-                assert(error == nil)
+                guard let content = content else { assert(false); return }
+                assert(content["deletedAt"] as? String != nil)
                 assert(!self.client.hasOfflineData(index.name))
                 expectation.fulfill()
             }
@@ -90,7 +91,8 @@ class OfflineClientTests: OfflineTestCase {
             assert(self.client.hasOfflineData(srcIndex.name))
             assert(!self.client.hasOfflineData(dstIndex.name))
             self.client.moveIndexOffline(srcIndex.name, to: dstIndex.name) { (content, error) in
-                assert(error == nil)
+                guard let content = content else { assert(false); return }
+                assert(content["updatedAt"] as? String != nil)
                 assert(!self.client.hasOfflineData(srcIndex.name))
                 assert(self.client.hasOfflineData(dstIndex.name))
                 dstIndex.search(Query(query: "woodstock")) { (content, error) in

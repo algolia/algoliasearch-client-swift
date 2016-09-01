@@ -221,7 +221,10 @@ import Foundation
     private func deleteIndexOfflineSync(indexName: String) -> APIResponse {
         do {
             try NSFileManager.defaultManager().removeItemAtPath(indexDir(indexName))
-            return (successfulResponse, nil)
+            let content: [String: AnyObject] = [
+                "deletedAt": NSDate().iso8601()
+            ]
+            return (content, nil)
         } catch let e as NSError {
             return (nil, e)
         }
@@ -265,7 +268,10 @@ import Foundation
                 try NSFileManager.defaultManager().removeItemAtPath(toPath)
             }
             try NSFileManager.defaultManager().moveItemAtPath(fromPath, toPath: toPath)
-            return (successfulResponse, nil)
+            let content: [String: AnyObject] = [
+                "updatedAt": NSDate().iso8601()
+            ]
+            return (content, nil)
         } catch let e as NSError {
             return (nil, e)
         }
@@ -316,7 +322,4 @@ import Foundation
             })
         }
     }
-    
-    /// JSON object used to represent a successful response in the absence of any other information.
-    internal let successfulResponse: [String: AnyObject] = ["status": 200]
 }
