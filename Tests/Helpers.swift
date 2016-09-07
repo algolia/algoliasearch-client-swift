@@ -27,10 +27,10 @@ let APP_ID = "APP_ID_REPLACE_ME"
 let API_KEY = "API_KEY_REPLACE_ME"
 let JOB_NUMBER = "JOB_NUMBER_REPLACE_ME"
 
-func safeIndexName(name: String) -> String {
-    if let travisBuild = NSProcessInfo.processInfo().environment["TRAVIS_JOB_NUMBER"] {
+func safeIndexName(_ name: String) -> String {
+    if let travisBuild = ProcessInfo.processInfo.environment["TRAVIS_JOB_NUMBER"] {
         return "\(name)_travis-\(travisBuild)"
-    } else if JOB_NUMBER.rangeOfString("[1-9]+\\.[1-9]+", options: .RegularExpressionSearch) != nil {
+    } else if JOB_NUMBER.range(of: "[1-9]+\\.[1-9]+", options: .regularExpression) != nil {
         return "\(name)_travis-\(JOB_NUMBER)"
     } else {
         return name
@@ -38,5 +38,5 @@ func safeIndexName(name: String) -> String {
 }
 
 func average(values: [Double]) -> Double {
-    return values.reduce(0, combine: +) / Double(values.count)
+    return values.reduce(0, +) / Double(values.count)
 }

@@ -30,7 +30,7 @@ import Foundation
 /// - parameter content:    The content returned by the server, in case of success.
 /// - parameter error:      The error that was encountered, in case of failure.
 ///
-public typealias BrowseIteratorHandler = (iterator: BrowseIterator, content: [String: AnyObject]?, error: NSError?) -> Void
+public typealias BrowseIteratorHandler = (_ iterator: BrowseIterator, _ content: JSONObject?, _ error: NSError?) -> Void
 
 
 /// Iterator to browse all index content.
@@ -40,27 +40,27 @@ public typealias BrowseIteratorHandler = (iterator: BrowseIterator, content: [St
 /// - an error has been encountered;
 /// - or the user cancelled the iteration.
 ///
-@objc public class BrowseIterator: NSObject {
+@objc open class BrowseIterator: NSObject {
     /// The index being browsed.
-    public let index: Index
+    open let index: Index
     
     /// The query used to filter the results.
-    public let query: Query
+    open let query: Query
 
     /// Completion handler.
-    private let completionHandler: BrowseIteratorHandler
+    fileprivate let completionHandler: BrowseIteratorHandler
 
     /// Cursor to use for the next call, if any.
-    private var cursor: String?
+    fileprivate var cursor: String?
     
     /// Whether the iteration has already started.
-    private var started = false
+    fileprivate var started = false
     
     /// Whether the iteration has been cancelled by the user.
-    private var cancelled: Bool = false
+    fileprivate var cancelled: Bool = false
     
     /// The currently ongoing request, if any.
-    private var request: NSOperation?
+    fileprivate var request: Operation?
     
     /// Construct a new browse iterator.
     /// NOTE: The iteration does not start automatically. You have to call `start()` explicitly.
@@ -76,7 +76,7 @@ public typealias BrowseIteratorHandler = (iterator: BrowseIterator, content: [St
     }
     
     /// Start the iteration.
-    @objc public func start() {
+    @objc open func start() {
         assert(!started)
         started = true
         request = index.browse(query, completionHandler: self.handleResult)
@@ -86,17 +86,17 @@ public typealias BrowseIteratorHandler = (iterator: BrowseIterator, content: [St
     /// This cancels any currently ongoing request, and cancels the iteration.
     /// The completion handler will not be called after the iteration has been cancelled.
     ///
-    @objc public func cancel() {
+    @objc open func cancel() {
         request?.cancel()
         request = nil
         cancelled = true
     }
     
-    private func handleResult(content: [String: AnyObject]?, error: NSError?) {
+    fileprivate func handleResult(_ content: JSONObject?, error: NSError?) {
         request = nil
         cursor = content?["cursor"] as? String
         if !cancelled {
-            completionHandler(iterator: self, content: content, error: error)
+            completionHandler(self, content, error)
             if !cancelled && error == nil && hasNext() {
                 next()
             }
@@ -106,12 +106,12 @@ public typealias BrowseIteratorHandler = (iterator: BrowseIterator, content: [St
     /// Determine if there is more content to be browsed.
     /// WARNING: Can only be called from the handler, once the iteration has started.
     ///
-    @objc public func hasNext() -> Bool {
+    @objc open func hasNext() -> Bool {
         assert(started)
         return self.cursor != nil
     }
     
-    private func next() {
+    fileprivate func next() {
         assert(hasNext())
         request = index.browseFrom(self.cursor!, completionHandler: handleResult)
     }

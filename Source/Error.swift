@@ -32,52 +32,52 @@ public enum StatusCode: Int {
     // MARK: Regular HTTP status codes
     
     /// Success.
-    case OK                                                     = 200
+    case ok                                                     = 200
     
     /// Invalid parameters.
-    case BadRequest                                             = 400
+    case badRequest                                             = 400
     
     /// Invalid authentication.
-    case Unauthorized                                           = 401
+    case unauthorized                                           = 401
     
     /// Operation unauthorized with the provided credentials.
-    case Forbidden                                              = 403
+    case forbidden                                              = 403
     
     /// The HTTP method used in the request is not supported for the targeted endpoint.
     ///
     /// + Note: Should never occur when using this library.
     ///
-    case MethodNotAllowed                                       = 405
+    case methodNotAllowed                                       = 405
     
     /// The server has encountered a fatal internal error.
-    case InternalServerError                                    = 500
+    case internalServerError                                    = 500
     
     /// The server is temporarily down.
-    case ServiceUnavailable                                     = 503
+    case serviceUnavailable                                     = 503
     
     // MARK: Custom status codes
     
     /// Unknown error.
-    case Unknown                                                = -1
+    case unknown                                                = -1
     
     /// The server replied ill-formed JSON (syntax error).
-    case IllFormedResponse                                      = 600
+    case illFormedResponse                                      = 600
     
     /// The server replied an invalid response (grammar error).
-    case InvalidResponse                                        = 601
+    case invalidResponse                                        = 601
     
     /// Test whether a status code represents success.
-    public static func isSuccess(statusCode: Int) -> Bool {
+    public static func isSuccess(_ statusCode: Int) -> Bool {
         return statusCode >= 200 && statusCode < 300
     }
     
     /// Test whether a status code represents a client error.
-    public static func isClientError(statusCode: Int) -> Bool {
+    public static func isClientError(_ statusCode: Int) -> Bool {
         return statusCode >= 400 && statusCode < 500
     }
     
     /// Test whether a status code represents a server error.
-    public static func isServerError(statusCode: Int) -> Bool {
+    public static func isServerError(_ statusCode: Int) -> Bool {
         return statusCode >= 500 && statusCode < 600
     }
 }

@@ -34,11 +34,11 @@ enum HTTPMethod: String {
 /// Abstraction of `NSURLSession`.
 /// Only for the sake of unit tests.
 protocol URLSession {
-    func dataTaskWithRequest(request: NSURLRequest, completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void) -> NSURLSessionDataTask
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
 }
 
 // Convince the compiler that NSURLSession does implements our custom protocol.
-extension NSURLSession: URLSession {
+extension Foundation.URLSession: URLSession {
 }
 
 
@@ -57,7 +57,7 @@ class URLSessionLogger: NSObject, URLSession {
         let startTime: NSDate
         let host: String
         var networkType: String?
-        var responseTime: NSTimeInterval?
+        var responseTime: TimeInterval?
         var cancelled: Bool = false
         var dataSize: Int?
         var statusCode: Int?
@@ -69,7 +69,7 @@ class URLSessionLogger: NSObject, URLSession {
         
         var description: String {
             var description = "@\(Int(startTime.timeIntervalSinceDate(URLSessionLogger.epoch) * 1000))ms; \(host); \(networkType != nil ? networkType! : "?")"
-            if let responseTime = responseTime, dataSize = dataSize, statusCode = statusCode {
+            if let responseTime = responseTime, let dataSize = dataSize, let statusCode = statusCode {
                 description += "; \(Int(responseTime * 1000))ms; \(dataSize)B; \(statusCode)"
             }
             return description

@@ -30,7 +30,7 @@ import Foundation
 /// + Note: Requires Algolia's Offline Core SDK. The `enableOfflineMode(...)` method must be called with a valid license
 /// key prior to calling any offline-related method.
 ///
-@objc public class OfflineClient : Client {
+@objc open class OfflineClient : Client {
     /// Create a new offline-capable Algolia Search client.
     ///
     /// + Note: Offline mode is disabled by default, until you call `enableOfflineMode(...)`.
@@ -44,13 +44,13 @@ import Foundation
         searchQueue.name = "AlgoliaSearch-Search"
         searchQueue.maxConcurrentOperationCount = 1
         mixedRequestQueue.name = "AlgoliaSearch-Mixed"
-        rootDataDir = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true).first! + "/algolia"
+        rootDataDir = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true).first! + "/algolia"
         super.init(appID: appID, apiKey: apiKey)
         mixedRequestQueue.maxConcurrentOperationCount = super.requestQueue.maxConcurrentOperationCount
         userAgents.append(LibraryVersion(name: "AlgoliaSearchOfflineCore-iOS", version: sdk.versionString))
     }
 
-    var sdk: ASSdk = ASSdk.sharedSdk()
+    var sdk: ASSdk = ASSdk.shared()
 
     /// Path to directory where the local data is stored.
     /// Defaults to an `algolia` sub-directory inside the `Library/Application Support` directory.
@@ -58,7 +58,7 @@ import Foundation
     ///
     /// + Warning: This directory will be explicitly excluded from iCloud/iTunes backup.
     ///
-    @objc public var rootDataDir: String
+    @objc open var rootDataDir: String
     
     // NOTE: The build and search queues must be serial to prevent concurrent searches or builds on a given index, but
     // may be distinct because building can be done in parallel with search.
@@ -67,32 +67,32 @@ import Foundation
     // resource consumption by the SDK.
     
     /// Queue used to build local indices in the background.
-    let buildQueue = NSOperationQueue()
+    let buildQueue = OperationQueue()
     
     /// Queue used to search local indices in the background.
-    let searchQueue = NSOperationQueue()
+    let searchQueue = OperationQueue()
     
     /// Queue for mixed online/offline operations.
     ///
     /// + Note: We could use `Client.requestQueue`, but since mixed operations are essentially aggregations of
     ///   individual operations, we wish to avoid deadlocks.
     ///
-    let mixedRequestQueue = NSOperationQueue()
+    let mixedRequestQueue = OperationQueue()
 
     /// Enable the offline mode.
     ///
     /// - parameter licenseData: license for Algolia's SDK
     ///
-    @objc public func enableOfflineMode(licenseData: String) {
+    @objc open func enableOfflineMode(_ licenseData: String) {
         do {
             // Create the data directory.
-            try NSFileManager.defaultManager().createDirectoryAtPath(self.rootDataDir, withIntermediateDirectories: true, attributes: nil)
+            try FileManager.default.createDirectory(atPath: self.rootDataDir, withIntermediateDirectories: true, attributes: nil)
             
             // Exclude the data directory from iTunes backup.
             // DISCUSSION: Local indices are essentially a cache. But we cannot just use the `Caches` directory because
             // we would have no guarantee that all files pertaining to an index would be purged simultaneously.
-            let url = NSURL.fileURLWithPath(rootDataDir)
-            try url.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
+            let url = URL(fileURLWithPath: rootDataDir)
+            try (url as NSURL).setResourceValue(true, forKey: URLResourceKey.isExcludedFromBackupKey)
         } catch _ {
             // Report errors but do not throw: the offline mode will not work, but the online client is still viable.
             NSLog("Error: could not create data directory '%@'", self.rootDataDir)
@@ -107,7 +107,7 @@ import Foundation
     ///
     /// + Note: The offline client returns mirror-capable indices.
     ///
-    @objc public override func getIndex(indexName: String) -> MirroredIndex {
+    @objc open override func getIndex(_ indexName: String) -> MirroredIndex {
         return MirroredIndex(client: self, indexName: indexName)
     }
 }

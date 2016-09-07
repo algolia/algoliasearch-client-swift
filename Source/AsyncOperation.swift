@@ -31,10 +31,10 @@ import Foundation
 /// - `finished`
 /// - `cancel`
 ///
-class AsyncOperation: NSOperation {
+class AsyncOperation: Operation {
     
     // Mark this operation as aynchronous.
-    override var asynchronous: Bool {
+    override var isAsynchronous: Bool {
         get {
             return true
         }
@@ -48,14 +48,14 @@ class AsyncOperation: NSOperation {
     
     var _executing : Bool = false {
         willSet {
-            self.willChangeValueForKey("isExecuting")
+            self.willChangeValue(forKey: "isExecuting")
         }
         didSet {
-            self.didChangeValueForKey("isExecuting")
+            self.didChangeValue(forKey: "isExecuting")
         }
     }
     
-    override var executing: Bool {
+    override var isExecuting: Bool {
         get {
             return _executing
         }
@@ -63,14 +63,14 @@ class AsyncOperation: NSOperation {
     
     var _finished : Bool = false {
         willSet {
-            self.willChangeValueForKey("isFinished")
+            self.willChangeValue(forKey: "isFinished")
         }
         didSet {
-            self.didChangeValueForKey("isFinished")
+            self.didChangeValue(forKey: "isFinished")
         }
     }
     
-    override var finished: Bool {
+    override var isFinished: Bool {
         get {
             return _finished
         }
@@ -78,14 +78,14 @@ class AsyncOperation: NSOperation {
     
     var _cancelled : Bool = false {
         willSet {
-            self.willChangeValueForKey("isCancelled")
+            self.willChangeValue(forKey: "isCancelled")
         }
         didSet {
-            self.didChangeValueForKey("isCancelled")
+            self.didChangeValue(forKey: "isCancelled")
         }
     }
     
-    override var cancelled: Bool {
+    override var isCancelled: Bool {
         get {
             return _cancelled
         }

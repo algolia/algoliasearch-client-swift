@@ -548,6 +548,9 @@
 					BC23A6EB1D63539A00DF9034 = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
+					BC4BD2801D54E48900170ECC = {
+						LastSwiftMigration = 0800;
+					};
 					BCD1F5491CC61C8D0006E227 = {
 						CreatedOnToolsVersion = 7.3;
 					};
@@ -869,6 +872,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -912,6 +916,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1007,7 +1012,6 @@
 				PRODUCT_NAME = AlgoliaSearch;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1029,7 +1033,6 @@
 				PRODUCT_NAME = AlgoliaSearch;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1050,7 +1053,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.algolia.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -1065,7 +1067,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.algolia.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 2.3;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -1143,7 +1144,6 @@
 				PRODUCT_NAME = AlgoliaSearch;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1166,7 +1166,6 @@
 				PRODUCT_NAME = AlgoliaSearch;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};

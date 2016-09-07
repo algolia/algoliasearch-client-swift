@@ -563,7 +563,7 @@ class QueryTests: XCTestCase {
     }
 
     func test_tagFilters() {
-        let VALUE: [AnyObject] = ["tag1", ["tag2", "tag3"]]
+        let VALUE: [Any] = ["tag1", ["tag2", "tag3"]]
         let query1 = Query()
         XCTAssertNil(query1.tagFilters)
         query1.tagFilters = VALUE
@@ -574,7 +574,7 @@ class QueryTests: XCTestCase {
     }
     
     func test_facetFilters() {
-        let VALUE: [AnyObject] = [["category:Book", "category:Movie"], "author:John Doe"]
+        let VALUE: [Any] = [["category:Book", "category:Movie"], "author:John Doe"]
         let query1 = Query()
         XCTAssertNil(query1.facetFilters)
         query1.facetFilters = VALUE
@@ -638,7 +638,7 @@ class QueryTests: XCTestCase {
     }
     
     func test_numericFilters() {
-        let VALUE: [AnyObject] = ["code=1", ["price:0 to 10", "price:1000 to 2000"]]
+        let VALUE: [Any] = ["code=1", ["price:0 to 10", "price:1000 to 2000"]]
         let query1 = Query()
         XCTAssertNil(query1.numericFilters)
         query1.numericFilters = VALUE
@@ -699,13 +699,13 @@ class QueryTests: XCTestCase {
         query1.alternativesAsExact_ = VALUES
         XCTAssertEqual(query1.alternativesAsExact_!, VALUES)
         XCTAssertEqual(query1.alternativesAsExact!, RAW_VALUES)
-        XCTAssertEqual(query1["alternativesAsExact"], RAW_VALUES.joinWithSeparator(","))
+        XCTAssertEqual(query1["alternativesAsExact"], RAW_VALUES.joined(separator: ","))
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.alternativesAsExact_!, VALUES)
         
         query1.alternativesAsExact = RAW_VALUES
         XCTAssertEqual(query1.alternativesAsExact_!, VALUES)
         XCTAssertEqual(query1.alternativesAsExact!, RAW_VALUES)
-        XCTAssertEqual(query1["alternativesAsExact"], RAW_VALUES.joinWithSeparator(","))
+        XCTAssertEqual(query1["alternativesAsExact"], RAW_VALUES.joined(separator: ","))
     }
 }
