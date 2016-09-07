@@ -414,6 +414,7 @@ import Foundation
         let completionHandler: CompletionHandler
         let path: String
         var iteration: Int = 0
+        var operation: Operation?
         
         static let BASE_DELAY = 0.1     ///< Minimum wait delay.
         static let MAX_DELAY  = 5.0     ///< Maximum wait delay.
@@ -430,18 +431,21 @@ import Foundation
             startNext()
         }
         
+        override func cancel() {
+            operation?.cancel()
+            super.cancel()
+        }
+        
         fileprivate func startNext() {
             if isCancelled {
-                finish()
+                return
             }
             iteration += 1
-            index.client.performHTTPQuery(path, method: .GET, body: nil, hostnames: index.client.writeHosts) {
+            operation = index.client.performHTTPQuery(path, method: .GET, body: nil, hostnames: index.client.writeHosts) {
                 (content, error) -> Void in
                 if let content = content {
                     if (content["status"] as? String) == "published" {
-                        if !self.isCancelled {
-                            self.completionHandler(content, nil)
-                        }
+                        self.completionHandler(content, nil)
                         self.finish()
                     } else {
                         // The delay between polls increases quadratically from the base delay up to the max delay.
@@ -450,9 +454,7 @@ import Foundation
                         self.startNext()
                     }
                 } else {
-                    if !self.isCancelled {
-                        self.completionHandler(content, error)
-                    }
+                    self.completionHandler(content, error)
                     self.finish()
                 }
             }
