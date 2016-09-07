@@ -1,6 +1,14 @@
 Change Log
 ==========
 
+## 3.7 (2016-09-07)
+
+- (#118) Add support for **watchOS**
+- (#120) Add an `Index.getObjects()` method with attributes to retrieve
+- Improve bandwidth usage of the "delete by query" helper
+- Fix memory leaks
+- Generate reference documentation for both the online and offline flavors
+
 ## 3.6 (2016-08-09)
 
 - Add explicit support for **tvOS** in the Cocoapods pod spec. (In fact, tvOS has been supported for a while in our code, but somehow never made it to the pod spec.) *Note: not supported by the offline mode.*
@@ -131,7 +139,7 @@ detailed instructions.
 ## 2.2.1 (2016-02-05)
 
 * Added support of snippet ellipsis query parameter
-	
+
 ## 2.2.0 (2015-12-11)
 
 * Added support for optional tag filters
