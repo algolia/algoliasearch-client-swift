@@ -598,7 +598,7 @@ import Foundation
     // MARK: Regular search
     
     /// Search using the current request strategy to choose between online and offline (or a combination of both).
-    @objc open override func search(_ query: Query, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open override func search(_ query: Query, completionHandler: CompletionHandler) -> Operation {
         // IMPORTANT: A non-mirrored index must behave exactly as an online index.
         if (!mirrored) {
             return super.search(query, completionHandler: completionHandler);
@@ -630,7 +630,7 @@ import Foundation
     }
     
     /// Explicitly search the online API, and not the local mirror.
-    @objc open func searchOnline(_ query: Query, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func searchOnline(_ query: Query, completionHandler: CompletionHandler) -> Operation {
         return super.search(query, completionHandler: {
             (content, error) in
             // Tag results as having a remote origin.
@@ -643,7 +643,7 @@ import Foundation
     }
     
     /// Explicitly search the local mirror.
-    @objc open func searchOffline(_ query: Query, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func searchOffline(_ query: Query, completionHandler: CompletionHandler) -> Operation {
         assert(self.mirrored, "Mirroring not activated on this index")
         let queryCopy = Query(copy: query)
         let callingQueue = OperationQueue.current ?? OperationQueue.main
@@ -691,7 +691,7 @@ import Foundation
     // MARK: Multiple queries
     
     /// Run multiple queries using the current request strategy to choose between online and offline.
-    @objc override open func multipleQueries(_ queries: [Query], strategy: String?, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc override open func multipleQueries(_ queries: [Query], strategy: String?, completionHandler: CompletionHandler) -> Operation {
         // IMPORTANT: A non-mirrored index must behave exactly as an online index.
         if (!mirrored) {
             return super.multipleQueries(queries, strategy: strategy, completionHandler: completionHandler);
@@ -722,7 +722,7 @@ import Foundation
     }
     
     /// Run multiple queries on the online API, and not the local mirror.
-    @objc open func multipleQueriesOnline(_ queries: [Query], strategy: String?, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func multipleQueriesOnline(_ queries: [Query], strategy: String?, completionHandler: CompletionHandler) -> Operation {
         return super.multipleQueries(queries, strategy: strategy, completionHandler: {
             (content, error) in
             // Tag results as having a remote origin.
@@ -734,7 +734,7 @@ import Foundation
         })
     }
 
-    open func multipleQueriesOnline(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult open func multipleQueriesOnline(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: CompletionHandler) -> Operation {
         return self.multipleQueriesOnline(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
 
@@ -746,7 +746,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc open func multipleQueriesOffline(_ queries: [Query], strategy: String?, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func multipleQueriesOffline(_ queries: [Query], strategy: String?, completionHandler: CompletionHandler) -> Operation {
         assert(self.mirrored, "Mirroring not activated on this index")
         
         // TODO: We should be doing a copy of the queries for better safety.
@@ -764,7 +764,7 @@ import Foundation
         return operation
     }
     
-    open func multipleQueriesOffline(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult open func multipleQueriesOffline(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: CompletionHandler) -> Operation {
         return self.multipleQueriesOffline(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
     
@@ -838,7 +838,7 @@ import Foundation
     /// Browse the local mirror (initial call).
     /// Same semantics as `Index.browse(...)`.
     ///
-    @objc open func browseMirror(_ query: Query, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func browseMirror(_ query: Query, completionHandler: CompletionHandler) -> Operation {
         assert(self.mirrored, "Mirroring not activated on this index")
         let queryCopy = Query(copy: query)
         let callingQueue = OperationQueue.current ?? OperationQueue.main
@@ -858,7 +858,7 @@ import Foundation
     /// Browse the index from a cursor.
     /// Same semantics as `Index.browseFrom(...)`.
     ///
-    @objc open func browseMirrorFrom(_ cursor: String, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func browseMirrorFrom(_ cursor: String, completionHandler: CompletionHandler) -> Operation {
         assert(self.mirrored, "Mirroring not activated on this index")
         let callingQueue = OperationQueue.current ?? OperationQueue.main
         let operation = BlockOperation()

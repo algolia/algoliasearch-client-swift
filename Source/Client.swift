@@ -249,7 +249,7 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc open func listIndexes(_ completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func listIndexes(_ completionHandler: CompletionHandler) -> Operation {
         return performHTTPQuery("1/indexes", method: .GET, body: nil, hostnames: readHosts, completionHandler: completionHandler)
     }
 
@@ -259,7 +259,7 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc open func deleteIndex(_ indexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
+    @discardableResult @objc open func deleteIndex(_ indexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(indexName.urlEncodedPathComponent())"
         return performHTTPQuery(path, method: .DELETE, body: nil, hostnames: writeHosts, completionHandler: completionHandler)
     }
@@ -274,7 +274,7 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc open func moveIndex(_ srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
+    @discardableResult @objc open func moveIndex(_ srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(srcIndexName.urlEncodedPathComponent())/operation"
         let request = [
             "destination": dstIndexName,
@@ -294,7 +294,7 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc open func copyIndex(_ srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
+    @discardableResult @objc open func copyIndex(_ srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(srcIndexName.urlEncodedPathComponent())/operation"
         let request = [
             "destination": dstIndexName,
@@ -332,7 +332,7 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc open func multipleQueries(_ queries: [IndexQuery], strategy: String?, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func multipleQueries(_ queries: [IndexQuery], strategy: String?, completionHandler: CompletionHandler) -> Operation {
         // IMPLEMENTATION NOTE: Objective-C bridgeable alternative.
         let path = "1/indexes/*/queries"
         var requests = [JSONObject]()
@@ -358,7 +358,7 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    open func multipleQueries(_ queries: [IndexQuery], strategy: MultipleQueriesStrategy? = nil, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult open func multipleQueries(_ queries: [IndexQuery], strategy: MultipleQueriesStrategy? = nil, completionHandler: CompletionHandler) -> Operation {
         // IMPLEMENTATION NOTE: Not Objective-C bridgeable because of enum.
         return multipleQueries(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
@@ -369,7 +369,7 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc open func batch(_ operations: [Any], completionHandler: CompletionHandler? = nil) -> Operation {
+    @discardableResult @objc open func batch(_ operations: [Any], completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/*/batch"
         let body = ["requests": operations]
         return performHTTPQuery(path, method: .POST, body: body as [String : Any]?, hostnames: writeHosts, completionHandler: completionHandler)
@@ -381,7 +381,7 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc open func isAlive(_ completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func isAlive(_ completionHandler: CompletionHandler) -> Operation {
         let path = "1/isalive"
         return performHTTPQuery(path, method: .GET, body: nil, hostnames: readHosts, completionHandler: completionHandler)
     }
