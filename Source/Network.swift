@@ -107,7 +107,7 @@ class URLSessionLogger: NSObject, URLSession {
         URLSessionLogger.epoch = NSDate()
     }
     
-    func dataTaskWithRequest(request: NSURLRequest, completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void) -> NSURLSessionDataTask {
+    override func dataTask(with request: NSURLRequest, completionHandler: @escaping (NSData?, NSURLResponse?, Error?) -> Void) -> NSURLSessionDataTask {
         var task: NSURLSessionDataTask!
         let startTime = NSDate()
         let networkType = getNetworkType()

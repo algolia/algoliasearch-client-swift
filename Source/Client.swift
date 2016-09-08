@@ -34,7 +34,7 @@ public typealias JSONObject = [String: Any]
 ///
 /// + Note: `content` and `error` are mutually exclusive: only one will be non-nil.
 ///
-public typealias CompletionHandler = (_ content: JSONObject?, _ error: NSError?) -> Void
+public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -> Void
 
 
 /// A version of a software library.

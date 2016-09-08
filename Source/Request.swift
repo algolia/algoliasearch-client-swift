@@ -139,7 +139,7 @@ class Request: AsyncOperation {
         task = session.dataTask(with: request) {
             (data: Data?, response: URLResponse?, error: Error?) in
             var json: JSONObject?
-            var finalError: NSError? = error as? NSError // should always be the case
+            var finalError: Error? = error
             // Shortcut in case of cancellation.
             if self.isCancelled {
                 return
@@ -153,25 +153,18 @@ class Request: AsyncOperation {
                 do {
                     json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? JSONObject
                     if json == nil {
-                        finalError = NSError(domain: Client.ErrorDomain, code: StatusCode.invalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "Server response not a JSON object"])
+                        finalError = InvalidJSONError(description: "Server response not a JSON object")
                     }
-                } catch let jsonError as NSError {
-                    finalError = NSError(domain: Client.ErrorDomain, code: StatusCode.illFormedResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "Server returned ill-formed JSON", NSUnderlyingErrorKey: jsonError])
-                } catch {
-                    finalError = NSError(domain: Client.ErrorDomain, code: StatusCode.unknown.rawValue, userInfo: [NSLocalizedDescriptionKey: "Unknown error when parsing JSON"])
+                } catch let jsonError {
+                    finalError = jsonError
                 }
                 
                 // Handle HTTP status code.
                 let httpResponse = response! as! HTTPURLResponse
                 if (finalError == nil && !StatusCode.isSuccess(httpResponse.statusCode)) {
-                    var userInfo = JSONObject()
-                    
                     // Get the error message from JSON if available.
-                    if let errorMessage = json?["message"] as? String {
-                        userInfo[NSLocalizedDescriptionKey] = errorMessage
-                    }
-                    
-                    finalError = NSError(domain: Client.ErrorDomain, code: httpResponse.statusCode, userInfo: userInfo)
+                    let errorMessage = json?["message"] as? String
+                    finalError = HTTPError(statusCode: httpResponse.statusCode, message: errorMessage)
                 }
             }
             assert(json != nil || finalError != nil)
@@ -195,7 +188,7 @@ class Request: AsyncOperation {
     
     /// Finish this operation.
     /// This method should be called exactly once per operation.
-    fileprivate func callCompletion(_ content: JSONObject?, error: NSError?) {
+    fileprivate func callCompletion(_ content: JSONObject?, error: Error?) {
         if _cancelled {
             return
         }
@@ -208,7 +201,7 @@ class Request: AsyncOperation {
         }
     }
     
-    fileprivate func _callCompletion(_ content: JSONObject?, error: NSError?) {
+    fileprivate func _callCompletion(_ content: JSONObject?, error: Error?) {
         // WARNING: In case of asynchronous dispatch, the request could have been cancelled in the meantime
         // => check again.
         if !_cancelled {

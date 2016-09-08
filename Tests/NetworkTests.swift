@@ -82,8 +82,9 @@ class NetworkTests: XCTestCase {
             (content, error) -> Void in
             XCTAssertNil(content)
             XCTAssertNotNil(error)
-            XCTAssert(error?.domain == NSURLErrorDomain)
-            XCTAssert(error?.code == NSURLErrorTimedOut)
+            XCTAssert(error is NSError)
+            XCTAssert((error as! NSError).domain == NSURLErrorDomain)
+            XCTAssert((error as! NSError).code == NSURLErrorTimedOut)
             expectation.fulfill()
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
@@ -128,9 +129,9 @@ class NetworkTests: XCTestCase {
             (content, error) -> Void in
             XCTAssertNil(content)
             XCTAssertNotNil(error)
-            XCTAssertEqual(error?.domain, Client.ErrorDomain)
-            XCTAssertEqual(error?.code, 403)
-            XCTAssertEqual(error?.userInfo[NSLocalizedDescriptionKey] as? String, "Mind your own business")
+            XCTAssert(error is HTTPError)
+            let httpError = error as! HTTPError
+            XCTAssertEqual(httpError.statusCode, 403)
             expectation.fulfill()
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
@@ -144,8 +145,9 @@ class NetworkTests: XCTestCase {
             (content, error) -> Void in
             XCTAssertNil(content)
             XCTAssertNotNil(error)
-            XCTAssertEqual(error?.domain, Client.ErrorDomain)
-            XCTAssertEqual(error?.code, StatusCode.illFormedResponse.rawValue)
+            let nsError = error as! NSError
+            XCTAssertEqual(NSCocoaErrorDomain, nsError.domain)
+            XCTAssertEqual(NSPropertyListReadCorruptError, nsError.code)
             expectation.fulfill()
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
@@ -158,9 +160,9 @@ class NetworkTests: XCTestCase {
         client.listIndexes {
             (content, error) -> Void in
             XCTAssertNil(content)
-            XCTAssertNotNil(error)
-            XCTAssertEqual(error?.domain, Client.ErrorDomain)
-            XCTAssertEqual(error?.code, StatusCode.illFormedResponse.rawValue)
+            let nsError = error as! NSError
+            XCTAssertEqual(NSCocoaErrorDomain, nsError.domain)
+            XCTAssertEqual(NSPropertyListReadCorruptError, nsError.code)
             expectation.fulfill()
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
@@ -176,8 +178,9 @@ class NetworkTests: XCTestCase {
             (content, error) -> Void in
             XCTAssertNil(content)
             XCTAssertNotNil(error)
-            XCTAssertEqual(error?.domain, Client.ErrorDomain)
-            XCTAssertEqual(error?.code, StatusCode.illFormedResponse.rawValue)
+            let nsError = error as! NSError
+            XCTAssertEqual(NSCocoaErrorDomain, nsError.domain)
+            XCTAssertEqual(NSPropertyListReadCorruptError, nsError.code)
             expectation.fulfill()
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
@@ -192,8 +195,9 @@ class NetworkTests: XCTestCase {
             (content, error) -> Void in
             XCTAssertNil(content)
             XCTAssertNotNil(error)
-            XCTAssertEqual(error?.domain, Client.ErrorDomain)
-            XCTAssertEqual(error?.code, 403)
+            XCTAssert(error is HTTPError)
+            let httpError = error as! HTTPError
+            XCTAssertEqual(403, httpError.statusCode)
             expectation.fulfill()
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)

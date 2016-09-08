@@ -39,7 +39,7 @@ class BrowseIteratorTests: XCTestCase {
         
         let expectation = self.expectation(description: "Delete index")
         client.deleteIndex(index.indexName, completionHandler: { (content, error) -> Void in
-            XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
+            XCTAssertNil(error, "Error during deleteIndex: \(error!)")
             expectation.fulfill()
         })
         
@@ -70,7 +70,7 @@ class BrowseIteratorTests: XCTestCase {
         
         let expectation = self.expectation(description: "Delete index")
         client.deleteIndex(index.indexName, completionHandler: { (content, error) -> Void in
-            XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
+            XCTAssertNil(error, "Error during deleteIndex: \(error!)")
             expectation.fulfill()
         })
         

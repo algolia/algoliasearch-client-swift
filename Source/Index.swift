@@ -293,12 +293,12 @@ import Foundation
             return client.performHTTPQuery(path, method: .POST, body: request, hostnames: client.readHosts, isSearchQuery: true) {
                 (content, error) -> Void in
                 assert(content != nil || error != nil)
+                
+                // Update local cache in case of success.
                 if content != nil {
                     self.searchCache?.setObject(content!, forKey: cacheKey)
-                    completionHandler(content, error)
-                } else {
-                    completionHandler(content, error)
                 }
+                completionHandler(content, error)
             }
         }
     }
@@ -491,11 +491,11 @@ import Foundation
             index.browse(query, completionHandler: self.handleResult)
         }
         
-        fileprivate func handleResult(_ content: JSONObject?, error: NSError?) {
+        fileprivate func handleResult(_ content: JSONObject?, error: Error?) {
             if self.isCancelled {
                 return
             }
-            var finalError: NSError? = error
+            var finalError: Error? = error
             if finalError == nil {
                 let hasMoreContent = content!["cursor"] != nil
                 if let hits = content!["hits"] as? [Any] {
@@ -511,7 +511,7 @@ import Foundation
                         if self.isCancelled {
                             return
                         }
-                        var finalError: NSError? = error
+                        var finalError: Error? = error
                         if finalError == nil {
                             if let taskID = content?["taskID"] as? Int {
                                 // Wait for the deletion to be effective.
@@ -527,7 +527,7 @@ import Foundation
                                     }
                                 })
                             } else {
-                                finalError = NSError(domain: Client.ErrorDomain, code: -1, userInfo: [NSLocalizedDescriptionKey: "No task ID returned when deleting"])
+                                finalError = InvalidJSONError(description: "No task ID returned when deleting")
                             }
                         }
                         if finalError != nil {
@@ -535,7 +535,7 @@ import Foundation
                         }
                     })
                 } else {
-                    finalError = NSError(domain: Client.ErrorDomain, code: -1, userInfo: [NSLocalizedDescriptionKey: "No hits returned when browsing"])
+                    finalError = InvalidJSONError(description: "No hits returned when browsing")
                 }
             }
             if finalError != nil {
@@ -543,7 +543,7 @@ import Foundation
             }
         }
         
-        fileprivate func finish(_ content: JSONObject?, error: NSError?) {
+        fileprivate func finish(_ content: JSONObject?, error: Error?) {
             if !isCancelled {
                 self.completionHandler?(nil, error)
             }
@@ -585,11 +585,11 @@ import Foundation
         // Run all the queries.
         let operation = self.multipleQueries(queries, completionHandler: { (content, error) -> Void in
             var finalContent: JSONObject? = nil
-            var finalError: NSError? = error
+            var finalError: Error? = error
             if error == nil {
                 do {
                     finalContent = try Index._aggregateResults(disjunctiveFacets, refinements: refinements, content: content!)
-                } catch let e as NSError {
+                } catch let e {
                     finalError = e
                 }
             }
@@ -629,17 +629,17 @@ import Foundation
     /// Aggregate disjunctive faceting search results.
     fileprivate class func _aggregateResults(_ disjunctiveFacets: [String], refinements: [String: [String]], content: JSONObject) throws -> JSONObject {
         guard let results = content["results"] as? [Any] else {
-            throw NSError(domain: Client.ErrorDomain, code: StatusCode.invalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "No results in response"])
+            throw InvalidJSONError(description: "No results in response")
         }
         // The first answer is used as the basis for the response.
         guard var mainContent = results[0] as? JSONObject else {
-            throw NSError(domain: Client.ErrorDomain, code: StatusCode.invalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "Invalid results in response"])
+            throw InvalidJSONError(description: "Invalid results in response")
         }
         // Following answers are just used for their facet counts.
         var disjunctiveFacetCounts = JSONObject()
         for i in 1..<results.count { // for each answer (= each disjunctive facet)
             guard let result = results[i] as? JSONObject, let allFacetCounts = result["facets"] as? [String: [String: Any]] else {
-                throw NSError(domain: Client.ErrorDomain, code: StatusCode.invalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "Invalid results in response"])
+                throw InvalidJSONError(description: "Invalid facets in response")
             }
             // NOTE: Iterating, but there should be just one item.
             for (facetName, facetCounts) in allFacetCounts {

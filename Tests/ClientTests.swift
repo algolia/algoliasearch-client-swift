@@ -39,7 +39,7 @@ class ClientTests: XCTestCase {
         
         let expectation = self.expectation(description: "Delete index")
         client.deleteIndex(index.indexName, completionHandler: { (content, error) -> Void in
-            XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
+            XCTAssertNil(error, "Error during deleteIndex: \(error!)")
             expectation.fulfill()
         })
         
@@ -51,7 +51,7 @@ class ClientTests: XCTestCase {
         
         let expectation = self.expectation(description: "Delete index")
         client.deleteIndex(index.indexName, completionHandler: { (content, error) -> Void in
-            XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
+            XCTAssertNil(error, "Error during deleteIndex: \(error!)")
             expectation.fulfill()
         })
         
@@ -149,7 +149,7 @@ class ClientTests: XCTestCase {
         
         let deleteExpectation = self.expectation(description: "Delete index")
         client.deleteIndex(safeIndexName("algol?à-swift2"), completionHandler: { (content, error) -> Void in
-            XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
+            XCTAssertNil(error, "Error during deleteIndex: \(error!)")
             deleteExpectation.fulfill()
         })
         
@@ -227,7 +227,7 @@ class ClientTests: XCTestCase {
         
         let deleteExpectation = self.expectation(description: "Delete index")
         client.deleteIndex(safeIndexName("algol?à-swift2"), completionHandler: { (content, error) -> Void in
-            XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
+            XCTAssertNil(error, "Error during deleteIndex: \(error!)")
             deleteExpectation.fulfill()
         })
         
@@ -384,7 +384,7 @@ class ClientTests: XCTestCase {
         
         client.isAlive() { (content, error) -> Void in
             if let error = error {
-                XCTFail(error.description)
+                XCTFail("\(error)")
             } else {
                 XCTAssertEqual(content?["message"] as? String, "server is alive")
             }

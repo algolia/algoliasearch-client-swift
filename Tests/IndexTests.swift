@@ -39,7 +39,7 @@ class IndexTests: XCTestCase {
         
         let expectation = self.expectation(description: "Delete index")
         client.deleteIndex(index.indexName, completionHandler: { (content, error) -> Void in
-            XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
+            XCTAssertNil(error, "Error during deleteIndex: \(error)")
             expectation.fulfill()
         })
         
@@ -51,7 +51,7 @@ class IndexTests: XCTestCase {
         
         let expectation = self.expectation(description: "Delete index")
         client.deleteIndex(index.indexName, completionHandler: { (content, error) -> Void in
-            XCTAssertNil(error, "Error during deleteIndex: \(error?.description)")
+            XCTAssertNil(error, "Error during deleteIndex: \(error)")
             expectation.fulfill()
         })
         
@@ -993,8 +993,8 @@ class IndexTests: XCTestCase {
         
         client.listIndexes({
             (content, error) -> Void in
-            if error != nil {
-                XCTFail(error!.description)
+            if let error = error {
+                XCTFail("\(error)")
             }
             expectation.fulfill()
         })
@@ -1009,8 +1009,8 @@ class IndexTests: XCTestCase {
         
         client.listIndexes({
             (content, error) -> Void in
-            if error != nil {
-                XCTFail(error!.description)
+            if let error = error {
+                XCTFail("\(error)")
             }
             expectation.fulfill()
         })

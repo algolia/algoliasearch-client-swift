@@ -29,7 +29,7 @@ public struct MockResponse {
     // --------------------------
     
     /// Error to return.
-    public let error: NSError?
+    public let error: Error?
     
     /// Construct a successful response with a JSON body.
     public init(statusCode: Int, jsonBody: Any) {
@@ -48,7 +48,7 @@ public struct MockResponse {
     }
     
     /// Construct an error response.
-    public init(error: NSError) {
+    public init(error: Error) {
         self.statusCode = nil
         self.headers = nil
         self.data = nil

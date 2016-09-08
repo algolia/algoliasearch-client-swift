@@ -156,7 +156,7 @@ import Foundation
     }
     
     /// Error encountered by the current/last sync (if any).
-    @objc open fileprivate(set) var syncError : NSError?
+    @objc open fileprivate(set) var syncError : Error?
 
     // ----------------------------------------------------------------------
     // MARK: - Init
@@ -318,17 +318,16 @@ import Foundation
             if error != nil {
                 self.syncError = error
             } else {
-                assert(json != nil)
-                // Write results to disk.
-                if let data = try? JSONSerialization.data(withJSONObject: json!, options: []) {
+                do {
+                    assert(json != nil)
+                    // Write results to disk.
+                    let data = try JSONSerialization.data(withJSONObject: json!, options: [])
                     self.settingsFilePath = "\(self.tmpDir)/settings.json"
-                    try? data.write(to: URL(fileURLWithPath: self.settingsFilePath), options: [])
-                    return // all other paths go to error
-                } else {
-                    self.syncError = NSError(domain: Client.ErrorDomain, code: StatusCode.unknown.rawValue, userInfo: [NSLocalizedDescriptionKey: "Could not write index settings"])
+                    try data.write(to: URL(fileURLWithPath: self.settingsFilePath), options: [])
+                } catch let e {
+                    self.syncError = e
                 }
             }
-            assert(self.syncError != nil) // we should reach this point only in case of error (see above)
         }
         offlineClient.buildQueue.addOperation(settingsOperation)
         
@@ -337,7 +336,7 @@ import Foundation
             if self.syncError == nil {
                 let status = self.localIndex.build(fromSettingsFile: self.settingsFilePath, objectFiles: self.objectsFilePaths, clearIndex: true)
                 if status != 200 {
-                    self.syncError = NSError(domain: Client.ErrorDomain, code: Int(status), userInfo: [NSLocalizedDescriptionKey: "Could not build local index"])
+                    self.syncError = HTTPError(statusCode: Int(status))
                 } else {
                     // Remember the sync's date
                     self.mirrorSettings.lastSyncDate = Date()
@@ -374,32 +373,31 @@ import Foundation
             if error != nil {
                 self.syncError = error
             } else {
-                assert(json != nil)
-                // Fetch cursor from data.
-                let cursor = json!["cursor"] as? String
-                if let hits = json!["hits"] as? [JSONObject] {
+                do {
+                    assert(json != nil)
+                    // Fetch cursor from data.
+                    let cursor = json!["cursor"] as? String
+                    guard let hits = json!["hits"] as? [JSONObject] else {
+                        self.syncError = InvalidJSONError(description: "No hits found when browsing")
+                        return
+                    }
                     // Update object count.
                     let newObjectCount = currentObjectCount + hits.count
                     
                     // Write results to disk.
-                    if let data = try? JSONSerialization.data(withJSONObject: json!, options: []) {
-                        let objectFilePath = "\(self.tmpDir)/\(currentObjectFileIndex).json"
-                        self.objectsFilePaths.append(objectFilePath)
-                        try? data.write(to: URL(fileURLWithPath: objectFilePath), options: [])
-                        
-                        // Chain if needed.
-                        if cursor != nil && newObjectCount < dataSelectionQuery.maxObjects {
-                            self.doBrowseQuery(dataSelectionQuery, browseQuery: Query(parameters: ["cursor": cursor!]), objectCount: newObjectCount)
-                        }
-                        return // all other paths go to error
-                    } else {
-                        self.syncError = NSError(domain: Client.ErrorDomain, code: StatusCode.unknown.rawValue, userInfo: [NSLocalizedDescriptionKey: "Could not write hits"])
+                    let data = try JSONSerialization.data(withJSONObject: json!, options: [])
+                    let objectFilePath = "\(self.tmpDir)/\(currentObjectFileIndex).json"
+                    self.objectsFilePaths.append(objectFilePath)
+                    try data.write(to: URL(fileURLWithPath: objectFilePath), options: [])
+                    
+                    // Chain if needed.
+                    if cursor != nil && newObjectCount < dataSelectionQuery.maxObjects {
+                        self.doBrowseQuery(dataSelectionQuery, browseQuery: Query(parameters: ["cursor": cursor!]), objectCount: newObjectCount)
                     }
-                } else {
-                    self.syncError = NSError(domain: Client.ErrorDomain, code: StatusCode.invalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "No hits in server response"])
+                } catch let e {
+                    self.syncError = e
                 }
             }
-            assert(self.syncError != nil) // we should reach this point only in case of error (see above)
         }
         offlineClient.buildQueue.addOperation(operation)
         buildIndexOperation.addDependency(operation)
@@ -576,7 +574,7 @@ import Foundation
             }
         }
         
-        fileprivate func callCompletion(_ content: JSONObject?, error: NSError?) {
+        fileprivate func callCompletion(_ content: JSONObject?, error: Error?) {
             if _finished {
                 return
             }
@@ -661,31 +659,11 @@ import Foundation
     }
 
     /// Search the local mirror synchronously.
-    fileprivate func _searchOffline(_ query: Query) -> (content: JSONObject?, error: NSError?) {
+    fileprivate func _searchOffline(_ query: Query) -> (content: JSONObject?, error: Error?) {
         assert(!Thread.isMainThread) // make sure it's run in the background
         
-        var content: JSONObject?
-        var error: NSError?
-        
         let searchResults = localIndex.search(query.build())
-        if searchResults.statusCode == 200 {
-            assert(searchResults.data != nil)
-            do {
-                let json = try JSONSerialization.jsonObject(with: searchResults.data!, options: JSONSerialization.ReadingOptions(rawValue: 0))
-                if json is JSONObject {
-                    content = (json as! JSONObject)
-                    // NOTE: Origin tagging performed by the SDK.
-                } else {
-                    error = NSError(domain: Client.ErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON returned"])
-                }
-            } catch let _error as NSError {
-                error = _error
-            }
-        } else {
-            error = NSError(domain: Client.ErrorDomain, code: Int(searchResults.statusCode), userInfo: nil)
-        }
-        assert(content != nil || error != nil)
-        return (content: content, error: error)
+        return OfflineClient.parseSearchResults(searchResults: searchResults)
     }
     
     // MARK: Multiple queries
@@ -769,12 +747,12 @@ import Foundation
     }
     
     /// Run multiple queries on the local mirror synchronously.
-    fileprivate func _multipleQueriesOffline(_ queries: [Query], strategy: String?) -> (content: JSONObject?, error: NSError?) {
+    fileprivate func _multipleQueriesOffline(_ queries: [Query], strategy: String?) -> (content: JSONObject?, error: Error?) {
         // TODO: Should be moved to `LocalIndex` to factorize implementation between platforms.
         assert(!Thread.isMainThread) // make sure it's run in the background
 
         var content: JSONObject?
-        var error: NSError?
+        var error: Error?
         var results: [JSONObject] = []
         
         var shouldProcess = true
@@ -876,31 +854,10 @@ import Foundation
     }
 
     /// Browse the local mirror synchronously.
-    fileprivate func _browseMirror(_ query: Query) -> (content: JSONObject?, error: NSError?) {
+    fileprivate func _browseMirror(_ query: Query) -> (content: JSONObject?, error: Error?) {
         assert(!Thread.isMainThread) // make sure it's run in the background
         
-        var content: JSONObject?
-        var error: NSError?
-        
         let searchResults = localIndex.browse(query.build())
-        // TODO: Factorize this code with above and with online requests.
-        if searchResults.statusCode == 200 {
-            assert(searchResults.data != nil)
-            do {
-                let json = try JSONSerialization.jsonObject(with: searchResults.data!, options: JSONSerialization.ReadingOptions(rawValue: 0))
-                if json is JSONObject {
-                    content = (json as! JSONObject)
-                    // NOTE: Origin tagging performed by the SDK.
-                } else {
-                    error = NSError(domain: Client.ErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON returned"])
-                }
-            } catch let _error as NSError {
-                error = _error
-            }
-        } else {
-            error = NSError(domain: Client.ErrorDomain, code: Int(searchResults.statusCode), userInfo: nil)
-        }
-        assert(content != nil || error != nil)
-        return (content: content, error: error)
+        return OfflineClient.parseSearchResults(searchResults: searchResults)
     }
 }
