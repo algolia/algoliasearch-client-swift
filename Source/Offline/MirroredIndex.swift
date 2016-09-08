@@ -807,7 +807,7 @@ import Foundation
             results.append(returnedContent)
             
             // Implement the "stop if enough matches strategy".
-            if shouldProcess && strategy == Client.MultipleQueriesStrategy.StopIfEnoughMatches.rawValue {
+            if shouldProcess && strategy == Client.MultipleQueriesStrategy.stopIfEnoughMatches.rawValue {
                 if let nbHits = returnedContent["nbHits"] as? Int, let hitsPerPage = returnedContent["hitsPerPage"] as? Int {
                     if nbHits >= hitsPerPage {
                         shouldProcess = false

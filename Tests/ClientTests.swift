@@ -290,7 +290,7 @@ class ClientTests: XCTestCase {
                             IndexQuery(index: self.index, query: query)
                         ]
                         
-                        self.client.multipleQueries(queries, strategy: .StopIfEnoughMatches, completionHandler: { (content, error) -> Void in
+                        self.client.multipleQueries(queries, strategy: .stopIfEnoughMatches, completionHandler: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during multipleQueries: \(error)")
                             } else {

@@ -320,9 +320,12 @@ public let ErrorDomain = "AlgoliaSearch"
     ///
     public enum MultipleQueriesStrategy: String {
         /// Execute the sequence of queries until the end.
-        case None = "none"
+        ///
+        /// + Warning: Beware of confusion with `Optional.none` when using type inference!
+        ///
+        case none = "none"
         /// Execute the sequence of queries until the number of hits is reached by the sum of hits.
-        case StopIfEnoughMatches = "stopIfEnoughMatches"
+        case stopIfEnoughMatches = "stopIfEnoughMatches"
     }
 
     /// Query multiple indexes with one API call.

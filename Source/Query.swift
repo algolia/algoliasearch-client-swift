@@ -227,9 +227,12 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
         set { queryType_ = newValue == nil ? nil : QueryType(rawValue: newValue!) }
     }
     public enum QueryType: String {
-        case PrefixAll = "prefixAll"
-        case PrefixLast = "prefixLast"
-        case PrefixNone = "prefixNone"
+        /// All query words are interpreted as prefixes.
+        case prefixAll = "prefixAll"
+        /// Only the last word is interpreted as a prefix (default behavior).
+        case prefixLast = "prefixLast"
+        /// No query word is interpreted as a prefix. This option is not recommended.
+        case prefixNone = "prefixNone"
     }
     open var queryType_: QueryType? {
         get {
@@ -253,18 +256,50 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
     /// option is useful if you want to avoid as much as possible false positive.
     @objc open var typoTolerance: String? {
         get { return typoTolerance_?.rawValue }
-        set { typoTolerance_ = newValue == nil ? nil : TypoTolerance(rawValue: newValue!) }
+        set { typoTolerance_ = newValue == nil ? nil : TypoTolerance.from(rawValue: newValue!) }
     }
-    public enum TypoTolerance: String {
-        case True = "true"
-        case False = "false"
-        case Min = "min"
-        case Strict = "strict"
+    public enum TypoTolerance: Equatable {
+        /// Activate or de-activate the typo tolerance entirely.
+        case bool(Bool)
+        /// Keep only results with the lowest number of typo. For example if one result match without typos, then
+        /// all results with typos will be hidden.
+        case min
+        /// If there is a match without typo, then all results with 2 typos or more will be removed. This
+        /// option is useful if you want to avoid as much as possible false positive.
+        case strict
+        
+        // NOTE: Associated values disable the ability to convert to/from raw values, so we emulate it ourselves.
+        public var rawValue: String {
+            switch self {
+            case let .bool(value): return String(value)
+            case .min: return "min"
+            case .strict: return "strict"
+            }
+        }
+        static func from(rawValue: String) -> TypoTolerance? {
+            switch rawValue {
+            case "true": return .bool(true)
+            case "false": return .bool(false)
+            case "min": return .min
+            case "strict": return .strict
+            default: return nil
+            }
+        }
+        
+        // NOTE: Associated values disable automatic conformance to `Equatable`, so we have to implement it ourselves.
+        static public func ==(lhs: TypoTolerance, rhs: TypoTolerance) -> Bool {
+            switch (lhs, rhs) {
+            case (let .bool(lhsValue), let .bool(rhsValue)): return lhsValue == rhsValue
+            case (.min, .min): return true
+            case (.strict, .strict): return true
+            default: return false
+            }
+        }
     }
     open var typoTolerance_: TypoTolerance? {
         get {
             if let value = get("typoTolerance") {
-                return TypoTolerance(rawValue: value)
+                return TypoTolerance.from(rawValue: value)
             } else {
                 return nil
             }
@@ -413,10 +448,22 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
         set { removeWordsIfNoResults_ = newValue == nil ? nil : RemoveWordsIfNoResults(rawValue: newValue!) }
     }
     public enum RemoveWordsIfNoResults: String {
-        case None = "none"
-        case LastWords = "lastWords"
-        case FirstWords = "firstWords"
-        case AllOptional = "allOptional"
+        /// No specific processing is done when a query does not return any result.
+        ///
+        /// + Warning: Beware of confusion with `Optional.none` when using type inference!
+        ///
+        case none = "none"
+        /// When a query does not return any result, the last word will be added as optionalWords (the
+        /// process is repeated with the n-1 word, n-2 word, … until there is results). This option is particularly
+        /// useful on e-commerce websites.
+        case lastWords = "lastWords"
+        /// When a query does not return any result, the first word will be added as optionalWords (the
+        /// process is repeated with the second word, third word, … until there is results). This option is useful on
+        /// address search.
+        case firstWords = "firstWords"
+        /// When a query does not return any result, a second trial will be made with all words as
+        /// optional (which is equivalent to transforming the AND operand between query terms in a OR operand)
+        case allOptional = "allOptional"
     }
     open var removeWordsIfNoResults_: RemoveWordsIfNoResults? {
         get {
@@ -485,12 +532,15 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
     }
     public enum ExactOnSingleWordQuery: String {
         /// No exact on single word query.
-        case None = "none"
+        ///
+        /// + Warning: Beware of confusion with `Optional.none` when using type inference!
+        ///
+        case none = "none"
         /// Exact set to 1 if the query word is found in the record. The query word needs to have at least 3 chars and
         /// not be part of our stop words dictionary.
-        case Word = "word"
+        case word = "word"
         /// (Default) Exact set to 1 if there is an attribute containing a string equals to the query.
-        case Attribute = "attribute"
+        case attribute = "attribute"
     }
     open var exactOnSingleWordQuery_: ExactOnSingleWordQuery? {
         get {
@@ -519,11 +569,11 @@ public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
     }
     public enum AlternativesAsExact: String {
         /// Alternative word added by the ignore plurals feature.
-        case IgnorePlurals = "ignorePlurals"
+        case ignorePlurals = "ignorePlurals"
         /// Single word synonym (For example “NY” = “NYC”).
-        case SingleWordSynonym = "singleWordSynonym"
+        case singleWordSynonym = "singleWordSynonym"
         /// Synonym over multiple words (For example “NY” = “New York”).
-        case MultiWordsSynonym = "multiWordsSynonym"
+        case multiWordsSynonym = "multiWordsSynonym"
     }
     open var alternativesAsExact_: [AlternativesAsExact]? {
         get {
