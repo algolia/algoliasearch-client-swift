@@ -69,7 +69,7 @@ public typealias BrowseIteratorHandler = (_ iterator: BrowseIterator, _ content:
     /// - parameter query:  The query used to filter the results.
     /// - parameter completionHandler:  Handler called for each page of results.
     ///
-    @objc public init(index: Index, query: Query, completionHandler: BrowseIteratorHandler) {
+    @objc public init(index: Index, query: Query, completionHandler: @escaping BrowseIteratorHandler) {
         self.index = index
         self.query = query
         self.completionHandler = completionHandler

@@ -136,7 +136,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func getObject(_ objectID: String, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func getObject(_ objectID: String, completionHandler: @escaping CompletionHandler) -> Operation {
         let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncodedPathComponent())"
         return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readHosts, completionHandler: completionHandler)
     }
@@ -148,7 +148,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func getObject(_ objectID: String, attributesToRetrieve attributes: [String], completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func getObject(_ objectID: String, attributesToRetrieve attributes: [String], completionHandler: @escaping CompletionHandler) -> Operation {
         let query = Query()
         query.attributesToRetrieve = attributes
         let path = "1/indexes/\(urlEncodedIndexName)/\(objectID.urlEncodedPathComponent())?\(query.build())"
@@ -161,7 +161,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func getObjects(_ objectIDs: [String], completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func getObjects(_ objectIDs: [String], completionHandler: @escaping CompletionHandler) -> Operation {
         let path = "1/indexes/*/objects"
         
         var requests = [Any]()
@@ -182,7 +182,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func getObjects(_ objectIDs: [String], attributesToRetrieve: [String], completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func getObjects(_ objectIDs: [String], attributesToRetrieve: [String], completionHandler: @escaping CompletionHandler) -> Operation {
         let path = "1/indexes/*/objects"
         var requests = [Any]()
         requests.reserveCapacity(objectIDs.count)
@@ -273,7 +273,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func search(_ query: Query, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func search(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         let path = "1/indexes/\(urlEncodedIndexName)/query"
         let request = ["params": query.build()]
         
@@ -308,7 +308,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func getSettings(_ completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func getSettings(_ completionHandler: @escaping CompletionHandler) -> Operation {
         let path = "1/indexes/\(urlEncodedIndexName)/settings"
         return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readHosts, completionHandler: completionHandler)
     }
@@ -372,7 +372,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func browse(_ query: Query, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func browse(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         let path = "1/indexes/\(urlEncodedIndexName)/browse"
         let body = [
             "params": query.build()
@@ -388,7 +388,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func browseFrom(_ cursor: String, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func browseFrom(_ cursor: String, completionHandler: @escaping CompletionHandler) -> Operation {
         let path = "1/indexes/\(urlEncodedIndexName)/browse?cursor=\(cursor.urlEncodedQueryParam())"
         return client.performHTTPQuery(path, method: .GET, body: nil, hostnames: client.readHosts, completionHandler: completionHandler)
     }
@@ -402,7 +402,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func waitTask(_ taskID: Int, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func waitTask(_ taskID: Int, completionHandler: @escaping CompletionHandler) -> Operation {
         let operation = WaitOperation(index: self, taskID: taskID, completionHandler: completionHandler)
         operation.start()
         return operation
@@ -419,7 +419,7 @@ import Foundation
         static let BASE_DELAY = 0.1     ///< Minimum wait delay.
         static let MAX_DELAY  = 5.0     ///< Maximum wait delay.
         
-        init(index: Index, taskID: Int, completionHandler: CompletionHandler) {
+        init(index: Index, taskID: Int, completionHandler: @escaping CompletionHandler) {
             self.index = index
             self.taskID = taskID
             self.completionHandler = completionHandler
@@ -559,7 +559,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func searchDisjunctiveFaceting(_ query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func searchDisjunctiveFaceting(_ query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: @escaping CompletionHandler) -> Operation {
         var queries = [Query]()
         
         // Build the first, global query.
@@ -606,7 +606,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func multipleQueries(_ queries: [Query], strategy: String?, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func multipleQueries(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
         var requests = [IndexQuery]()
         for query in queries {
             requests.append(IndexQuery(index: self, query: query))
@@ -622,7 +622,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult open func multipleQueries(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult open func multipleQueries(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         return self.multipleQueries(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
     

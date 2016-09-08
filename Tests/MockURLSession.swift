@@ -91,7 +91,7 @@ public class MockURLSessionDataTask: URLSessionDataTask {
     let request: URLRequest
     let completionHandler: CompletionHandler
     
-    init(request: URLRequest, details: MockResponse, completionHandler: CompletionHandler) {
+    init(request: URLRequest, details: MockResponse, completionHandler: @escaping CompletionHandler) {
         self.request = request
         self.details = details
         self.completionHandler = completionHandler

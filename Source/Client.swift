@@ -249,7 +249,7 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func listIndexes(_ completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func listIndexes(_ completionHandler: @escaping CompletionHandler) -> Operation {
         return performHTTPQuery("1/indexes", method: .GET, body: nil, hostnames: readHosts, completionHandler: completionHandler)
     }
 
@@ -332,7 +332,7 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func multipleQueries(_ queries: [IndexQuery], strategy: String?, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func multipleQueries(_ queries: [IndexQuery], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
         // IMPLEMENTATION NOTE: Objective-C bridgeable alternative.
         let path = "1/indexes/*/queries"
         var requests = [JSONObject]()
@@ -358,7 +358,7 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult open func multipleQueries(_ queries: [IndexQuery], strategy: MultipleQueriesStrategy? = nil, completionHandler: CompletionHandler) -> Operation {
+    @discardableResult open func multipleQueries(_ queries: [IndexQuery], strategy: MultipleQueriesStrategy? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         // IMPLEMENTATION NOTE: Not Objective-C bridgeable because of enum.
         return multipleQueries(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
@@ -381,7 +381,7 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func isAlive(_ completionHandler: CompletionHandler) -> Operation {
+    @discardableResult @objc open func isAlive(_ completionHandler: @escaping CompletionHandler) -> Operation {
         let path = "1/isalive"
         return performHTTPQuery(path, method: .GET, body: nil, hostnames: readHosts, completionHandler: completionHandler)
     }
