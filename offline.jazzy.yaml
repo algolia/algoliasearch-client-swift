@@ -22,16 +22,19 @@ custom_categories:
         - Index
         - Query
         - BrowseIterator
-
     - name: Auxiliary types
       children:
         - GeoRect
         - IndexQuery
         - LatLng
         - LibraryVersion
-
     - name: Offline mode
       children:
         - OfflineClient
         - MirroredIndex
         - DataSelectionQuery
+    - name: Errors
+      children:
+        - HTTPError
+        - InvalidJSONError
+        - StatusCode

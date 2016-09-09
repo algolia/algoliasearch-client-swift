@@ -824,7 +824,7 @@ import Foundation
     // fall back could only work for the first query.
 
     /// Browse the local mirror (initial call).
-    /// Same semantics as `Index.browse(...)`.
+    /// Same semantics as `Index.browse(query:completionHandler:)`.
     ///
     @objc(browseMirrorWithQuery:completionHandler:)
     @discardableResult public func browseMirror(query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
@@ -845,7 +845,7 @@ import Foundation
     }
 
     /// Browse the index from a cursor.
-    /// Same semantics as `Index.browseFrom(...)`.
+    /// Same semantics as `Index.browse(from:completionHandler:)`.
     ///
     @objc(browseMirrorFromCursor:completionHandler:)
     @discardableResult public func browseMirror(from cursor: String, completionHandler: @escaping CompletionHandler) -> Operation {

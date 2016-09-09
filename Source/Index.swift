@@ -25,7 +25,7 @@ import Foundation
 
 /// A proxy to an Algolia index.
 ///
-/// + Note: You cannot construct this class directly. Please use `Client.getIndex(_:)` to obtain an instance.
+/// + Note: You cannot construct this class directly. Please use `Client.index(withName:)` to obtain an instance.
 ///
 @objc public class Index : NSObject {
     // MARK: Properties

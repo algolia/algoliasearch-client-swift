@@ -162,8 +162,8 @@ import Foundation
 /// There are two ways to access parameters:
 ///
 /// 1. Using the high-level, **typed properties** for individual parameters (recommended).
-/// 2. Using the low-level, **untyped accessors** `get(_:)` and `set(_:value:)` or the subscript operator.
-///    Use this approach if the parameter you wish to set is not supported by this class.
+/// 2. Using the low-level, **untyped accessors** `parameter(withName:)` and `setParameter(withName:to:)` or (better)
+///    the **subscript operator**. Use this approach if the parameter you wish to set is not supported by this class.
 ///
 @objc public class Query : NSObject, NSCopying {
     
@@ -195,7 +195,7 @@ import Foundation
         }
     }
     
-    /// Convenience shortcut to `get(_:)` and `set(_:value:)`.
+    /// Convenience shortcut to `parameter(withName:)` and `setParameter(withName:to:)`.
     @objc public subscript(index: String) -> String? {
         get {
             return parameter(withName: index)

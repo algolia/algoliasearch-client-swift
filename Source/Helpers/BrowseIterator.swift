@@ -63,7 +63,8 @@ public typealias BrowseIteratorHandler = (_ iterator: BrowseIterator, _ content:
     private var request: Operation?
     
     /// Construct a new browse iterator.
-    /// NOTE: The iteration does not start automatically. You have to call `start()` explicitly.
+    ///
+    /// + Note: The iteration does not start automatically. You have to call `start()` explicitly.
     ///
     /// - parameter index:  The index to be browsed.
     /// - parameter query:  The query used to filter the results.
@@ -104,7 +105,8 @@ public typealias BrowseIteratorHandler = (_ iterator: BrowseIterator, _ content:
     }
     
     /// Determine if there is more content to be browsed.
-    /// WARNING: Can only be called from the handler, once the iteration has started.
+    ///
+    /// + Warning: Can only be called from the handler, once the iteration has started.
     ///
     @objc public func hasNext() -> Bool {
         assert(started)
