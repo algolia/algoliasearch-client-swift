@@ -48,19 +48,19 @@ public typealias BrowseIteratorHandler = (_ iterator: BrowseIterator, _ content:
     public let query: Query
 
     /// Completion handler.
-    fileprivate let completionHandler: BrowseIteratorHandler
+    private let completionHandler: BrowseIteratorHandler
 
     /// Cursor to use for the next call, if any.
-    fileprivate var cursor: String?
+    private var cursor: String?
     
     /// Whether the iteration has already started.
-    fileprivate var started = false
+    private var started = false
     
     /// Whether the iteration has been cancelled by the user.
-    fileprivate var cancelled: Bool = false
+    private var cancelled: Bool = false
     
     /// The currently ongoing request, if any.
-    fileprivate var request: Operation?
+    private var request: Operation?
     
     /// Construct a new browse iterator.
     /// NOTE: The iteration does not start automatically. You have to call `start()` explicitly.
@@ -92,7 +92,7 @@ public typealias BrowseIteratorHandler = (_ iterator: BrowseIterator, _ content:
         cancelled = true
     }
     
-    fileprivate func handleResult(_ content: JSONObject?, error: Error?) {
+    private func handleResult(_ content: JSONObject?, error: Error?) {
         request = nil
         cursor = content?["cursor"] as? String
         if !cancelled {
@@ -111,7 +111,7 @@ public typealias BrowseIteratorHandler = (_ iterator: BrowseIterator, _ content:
         return self.cursor != nil
     }
     
-    fileprivate func next() {
+    private func next() {
         assert(hasNext())
         request = index.browse(from: self.cursor!, completionHandler: handleResult)
     }

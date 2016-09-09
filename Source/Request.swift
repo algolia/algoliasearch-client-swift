@@ -107,7 +107,7 @@ internal class Request: AsyncOperation {
     // MARK: - Request logic
     
     /// Create a URL request for the specified host index.
-    fileprivate func createRequest(_ hostIndex: Int) -> URLRequest {
+    private func createRequest(_ hostIndex: Int) -> URLRequest {
         let url = URL(string: "https://\(hosts[hostIndex])/\(path)")
         var request = URLRequest(url: url!)
         request.httpMethod = method.rawValue
@@ -129,7 +129,7 @@ internal class Request: AsyncOperation {
         return request
     }
     
-    fileprivate func startNext() {
+    private func startNext() {
         // Shortcut when cancelled.
         if _cancelled {
             return
@@ -188,7 +188,7 @@ internal class Request: AsyncOperation {
     
     /// Finish this operation.
     /// This method should be called exactly once per operation.
-    fileprivate func callCompletion(_ content: JSONObject?, error: Error?) {
+    private func callCompletion(_ content: JSONObject?, error: Error?) {
         if _cancelled {
             return
         }
@@ -201,7 +201,7 @@ internal class Request: AsyncOperation {
         }
     }
     
-    fileprivate func _callCompletion(_ content: JSONObject?, error: Error?) {
+    private func _callCompletion(_ content: JSONObject?, error: Error?) {
         // WARNING: In case of asynchronous dispatch, the request could have been cancelled in the meantime
         // => check again.
         if !_cancelled {

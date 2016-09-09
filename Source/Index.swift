@@ -430,7 +430,7 @@ import Foundation
         return operation
     }
     
-    fileprivate class WaitOperation: AsyncOperation {
+    private class WaitOperation: AsyncOperation {
         let index: Index
         let taskID: Int
         let completionHandler: CompletionHandler
@@ -458,7 +458,7 @@ import Foundation
             super.cancel()
         }
         
-        fileprivate func startNext() {
+        private func startNext() {
             if isCancelled {
                 return
             }
@@ -496,7 +496,7 @@ import Foundation
         return operation
     }
     
-    fileprivate class DeleteByQueryOperation: AsyncOperation {
+    private class DeleteByQueryOperation: AsyncOperation {
         let index: Index
         let query: Query
         let completionHandler: CompletionHandler?
@@ -514,7 +514,7 @@ import Foundation
             index.browse(query: query, completionHandler: self.handleResult)
         }
         
-        fileprivate func handleResult(_ content: JSONObject?, error: Error?) {
+        private func handleResult(_ content: JSONObject?, error: Error?) {
             if self.isCancelled {
                 return
             }
@@ -566,7 +566,7 @@ import Foundation
             }
         }
         
-        fileprivate func finish(_ content: JSONObject?, error: Error?) {
+        private func finish(_ content: JSONObject?, error: Error?) {
             if !isCancelled {
                 self.completionHandler?(nil, error)
             }
@@ -652,7 +652,7 @@ import Foundation
     }
     
     /// Aggregate disjunctive faceting search results.
-    fileprivate class func _aggregateResults(disjunctiveFacets: [String], refinements: [String: [String]], content: JSONObject) throws -> JSONObject {
+    private class func _aggregateResults(disjunctiveFacets: [String], refinements: [String: [String]], content: JSONObject) throws -> JSONObject {
         guard let results = content["results"] as? [Any] else {
             throw InvalidJSONError(description: "No results in response")
         }
@@ -699,7 +699,7 @@ import Foundation
     /// - parameter excludedFacet: The disjunctive facet to exclude from the filters. If nil, no facet is
     ///   excluded (thus building the global filters).
     ///
-    fileprivate class func _buildFacetFilters(disjunctiveFacets: [String], refinements: [String: [String]], excludedFacet: String?) -> [Any] {
+    private class func _buildFacetFilters(disjunctiveFacets: [String], refinements: [String: [String]], excludedFacet: String?) -> [Any] {
         var facetFilters: [Any] = []
         for (facetName, facetValues) in refinements {
             // Disjunctive facet: OR all values, and AND with the rest of the filters.

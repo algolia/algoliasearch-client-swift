@@ -156,7 +156,7 @@ import Foundation
     }
     
     /// Error encountered by the current/last sync (if any).
-    @objc public fileprivate(set) var syncError : Error?
+    @objc public private(set) var syncError : Error?
 
     // ----------------------------------------------------------------------
     // MARK: - Init
@@ -175,38 +175,38 @@ import Foundation
     ///
     /// + Note: To prevent concurrent access to this variable, we always access it from the build (serial) queue.
     ///
-    fileprivate var syncing: Bool = false
+    private var syncing: Bool = false
     
     /// Path to the temporary directory for the current sync.
-    fileprivate var tmpDir : String!
+    private var tmpDir : String!
     
     /// The path to the settings file.
-    fileprivate var settingsFilePath: String!
+    private var settingsFilePath: String!
     
     /// Paths to object files/
-    fileprivate var objectsFilePaths: [String]!
+    private var objectsFilePaths: [String]!
     
     /// The current object file index. Object files are named `${i}.json`, where `i` is automatically incremented.
-    fileprivate var objectFileIndex = 0
+    private var objectFileIndex = 0
     
     /// The operation to build the index.
     /// NOTE: We need to store it because its dependencies are modified dynamically.
-    fileprivate var buildIndexOperation: Operation!
+    private var buildIndexOperation: Operation!
     
     /// Path to the persistent mirror settings.
-    fileprivate var mirrorSettingsFilePath: String {
+    private var mirrorSettingsFilePath: String {
         get { return "\(self.indexDataDir)/mirror.plist" }
     }
     
     /// Path to this index's offline data.
-    fileprivate var indexDataDir: String {
+    private var indexDataDir: String {
         get { return "\(self.offlineClient.rootDataDir)/\(self.client.appID)/\(self.name)" }
     }
     
     /// Timeout for data synchronization queries.
     /// There is no need to use a too short timeout in this case: we don't need real-time performance, so failing
     /// too soon would only increase the likeliness of a failure.
-    fileprivate let SYNC_TIMEOUT: TimeInterval = 30
+    private let SYNC_TIMEOUT: TimeInterval = 30
 
     /// Add a data selection query to the local mirror.
     /// The query is not run immediately. It will be run during the subsequent refreshes.
@@ -262,7 +262,7 @@ import Foundation
         }
     }
     
-    fileprivate func isSyncDelayExpired() -> Bool {
+    private func isSyncDelayExpired() -> Bool {
         let currentDate = Date()
         if let lastSyncDate = mirrorSettings.lastSyncDate {
             return currentDate.timeIntervalSince(lastSyncDate as Date) > self.delayBetweenSyncs
@@ -271,7 +271,7 @@ import Foundation
         }
     }
     
-    fileprivate func isMirrorSettingsDirty() -> Bool {
+    private func isMirrorSettingsDirty() -> Bool {
         if let queriesModificationDate = mirrorSettings.queriesModificationDate {
             if let lastSyncDate = lastSuccessfulSyncDate {
                 return queriesModificationDate.compare(lastSyncDate) == .orderedDescending
@@ -287,7 +287,7 @@ import Foundation
     ///
     /// WARNING: Calls to this method must be synchronized by the caller.
     ///
-    fileprivate func _sync() {
+    private func _sync() {
         assert(!Thread.isMainThread) // make sure it's run in the background
         assert(OperationQueue.current == offlineClient.buildQueue) // ensure serial calls
         assert(!self.dataSelectionQueries.isEmpty)
@@ -368,7 +368,7 @@ import Foundation
     // - once synchronously, to initiate the browse;
     // - from 0 to many times asynchronously, to continue browsing.
     //
-    fileprivate func doBrowseQuery(_ dataSelectionQuery: DataSelectionQuery, browseQuery: Query, objectCount currentObjectCount: Int) {
+    private func doBrowseQuery(_ dataSelectionQuery: DataSelectionQuery, browseQuery: Query, objectCount currentObjectCount: Int) {
         objectFileIndex += 1
         let currentObjectFileIndex = objectFileIndex
         let path = "1/indexes/\(urlEncodedName)/browse"
@@ -411,7 +411,7 @@ import Foundation
     ///
     /// WARNING: Calls to this method must be synchronized by the caller.
     ///
-    fileprivate func _syncFinished() {
+    private func _syncFinished() {
         assert(OperationQueue.current == offlineClient.buildQueue) // ensure serial calls
 
         // Clean-up.
@@ -484,12 +484,12 @@ import Foundation
     /// A mixed online/offline request.
     /// This request encapsulates two concurrent online and offline requests, to optimize response time.
     ///
-    fileprivate class OnlineOfflineOperation: AsyncOperation {
+    private class OnlineOfflineOperation: AsyncOperation {
         fileprivate let index: MirroredIndex
         let completionHandler: CompletionHandler
-        fileprivate var onlineRequest: Operation?
-        fileprivate var offlineRequest: Operation?
-        fileprivate var mayRunOfflineRequest: Bool = true
+        private var onlineRequest: Operation?
+        private var offlineRequest: Operation?
+        private var mayRunOfflineRequest: Bool = true
         
         init(index: MirroredIndex, completionHandler: @escaping CompletionHandler) {
             assert(index.mirrored)
@@ -527,7 +527,7 @@ import Foundation
             }
         }
         
-        fileprivate func startOnline() {
+        private func startOnline() {
             // Avoid launching the request twice.
             if onlineRequest != nil {
                 return
@@ -547,7 +547,7 @@ import Foundation
             }
         }
         
-        fileprivate func startOffline() {
+        private func startOffline() {
             // NOTE: If we reach this handler, it means the offline request has not been cancelled.
             assert(mayRunOfflineRequest)
             // Avoid launching the request twice.
@@ -562,7 +562,7 @@ import Foundation
             }
         }
         
-        fileprivate func cancelOffline() {
+        private func cancelOffline() {
             // Flag the offline request as obsolete.
             mayRunOfflineRequest = false;
             // Cancel the offline request if already running.
@@ -578,7 +578,7 @@ import Foundation
             }
         }
         
-        fileprivate func callCompletion(_ content: JSONObject?, error: Error?) {
+        private func callCompletion(_ content: JSONObject?, error: Error?) {
             if _finished {
                 return
             }
@@ -615,7 +615,7 @@ import Foundation
         }
     }
     
-    fileprivate class OnlineOfflineSearchOperation: OnlineOfflineOperation {
+    private class OnlineOfflineSearchOperation: OnlineOfflineOperation {
         let query: Query
         
         init(index: MirroredIndex, query: Query, completionHandler: @escaping CompletionHandler) {
@@ -666,7 +666,7 @@ import Foundation
     }
 
     /// Search the local mirror synchronously.
-    fileprivate func _searchOffline(_ query: Query) -> (content: JSONObject?, error: Error?) {
+    private func _searchOffline(_ query: Query) -> (content: JSONObject?, error: Error?) {
         assert(!Thread.isMainThread) // make sure it's run in the background
         
         let searchResults = localIndex.search(query.build())
@@ -690,7 +690,7 @@ import Foundation
         }
     }
     
-    fileprivate class OnlineOfflineMultipleQueriesOperation: OnlineOfflineOperation {
+    private class OnlineOfflineMultipleQueriesOperation: OnlineOfflineOperation {
         let queries: [Query]
         
         init(index: MirroredIndex, queries: [Query], completionHandler: @escaping CompletionHandler) {
@@ -757,7 +757,7 @@ import Foundation
     }
     
     /// Run multiple queries on the local mirror synchronously.
-    fileprivate func _multipleQueriesOffline(_ queries: [Query], strategy: String?) -> (content: JSONObject?, error: Error?) {
+    private func _multipleQueriesOffline(_ queries: [Query], strategy: String?) -> (content: JSONObject?, error: Error?) {
         // TODO: Should be moved to `LocalIndex` to factorize implementation between platforms.
         assert(!Thread.isMainThread) // make sure it's run in the background
 
@@ -866,7 +866,7 @@ import Foundation
     }
 
     /// Browse the local mirror synchronously.
-    fileprivate func _browseMirror(query: Query) -> (content: JSONObject?, error: Error?) {
+    private func _browseMirror(query: Query) -> (content: JSONObject?, error: Error?) {
         assert(!Thread.isMainThread) // make sure it's run in the background
         
         let searchResults = localIndex.browse(query.build())

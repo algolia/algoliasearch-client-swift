@@ -170,7 +170,7 @@ import Foundation
     // MARK: - Low-level (untyped) parameters
     
     /// Parameters, as untyped values.
-    fileprivate var parameters: [String: String] = [:]
+    private var parameters: [String: String] = [:]
     
     /// Get a parameter in an untyped fashion.
     ///
