@@ -114,7 +114,7 @@ import Foundation
     }
     
     /// The local index mirroring this remote index (lazy instantiated, only if mirroring is activated).
-    lazy var localIndex: ASLocalIndex! = ASLocalIndex(dataDir: self.offlineClient.rootDataDir, appID: self.client.appID, indexName: self.indexName)
+    lazy var localIndex: ASLocalIndex! = ASLocalIndex(dataDir: self.offlineClient.rootDataDir, appID: self.client.appID, indexName: self.name)
     
     /// The mirrored index settings.
     let mirrorSettings = MirrorSettings()
@@ -162,9 +162,9 @@ import Foundation
     // MARK: - Init
     // ----------------------------------------------------------------------
     
-    @objc override internal init(client: Client, indexName: String) {
+    @objc override internal init(client: Client, name: String) {
         assert(client is OfflineClient);
-        super.init(client: client, indexName: indexName)
+        super.init(client: client, name: name)
     }
     
     // ----------------------------------------------------------------------
@@ -200,7 +200,7 @@ import Foundation
     
     /// Path to this index's offline data.
     fileprivate var indexDataDir: String {
-        get { return "\(self.offlineClient.rootDataDir)/\(self.client.appID)/\(self.indexName)" }
+        get { return "\(self.offlineClient.rootDataDir)/\(self.client.appID)/\(self.name)" }
     }
     
     /// Timeout for data synchronization queries.
@@ -213,7 +213,8 @@ import Foundation
     ///
     /// + Precondition: Mirroring must have been activated on this index (see the `mirrored` property).
     ///
-    @objc public func addDataSelectionQuery(_ query: DataSelectionQuery) {
+    @objc
+    public func addDataSelectionQuery(_ query: DataSelectionQuery) {
         assert(mirrored);
         mirrorSettings.queries.append(query)
         mirrorSettings.queriesModificationDate = Date()
@@ -225,7 +226,8 @@ import Foundation
     ///
     /// + Precondition: Mirroring must have been activated on this index (see the `mirrored` property).
     ///
-    @objc public func addDataSelectionQueries(_ queries: [DataSelectionQuery]) {
+    @objc
+    public func addDataSelectionQueries(_ queries: [DataSelectionQuery]) {
         assert(mirrored);
         mirrorSettings.queries.append(contentsOf: queries)
         mirrorSettings.queriesModificationDate = Date()
@@ -237,7 +239,8 @@ import Foundation
     ///
     /// + Precondition: Mirroring must have been activated on this index (see the `mirrored` property).
     ///
-    @objc public func sync() {
+    @objc
+    public func sync() {
         assert(self.mirrored, "Mirroring not activated on this index")
         offlineClient.buildQueue.addOperation() {
             self._sync()
@@ -249,7 +252,8 @@ import Foundation
     ///
     /// + Precondition: Mirroring must have been activated on this index (see the `mirrored` property).
     ///
-    @objc public func syncIfNeeded() {
+    @objc
+    public func syncIfNeeded() {
         assert(self.mirrored, "Mirroring not activated on this index")
         if self.isSyncDelayExpired() || self.isMirrorSettingsDirty() {
             offlineClient.buildQueue.addOperation() {
@@ -312,8 +316,8 @@ import Foundation
         
         // Task: Download index settings.
         // TODO: Factorize query construction with regular code.
-        let path = "1/indexes/\(urlEncodedIndexName)/settings"
-        let settingsOperation = client.newRequest(.GET, path: path, body: nil, hostnames: client.readHosts, isSearchQuery: false) {
+        let path = "1/indexes/\(urlEncodedName)/settings"
+        let settingsOperation = client.newRequest(method: .GET, path: path, body: nil, hostnames: client.readHosts, isSearchQuery: false) {
             (json, error) in
             if error != nil {
                 self.syncError = error
@@ -367,8 +371,8 @@ import Foundation
     fileprivate func doBrowseQuery(_ dataSelectionQuery: DataSelectionQuery, browseQuery: Query, objectCount currentObjectCount: Int) {
         objectFileIndex += 1
         let currentObjectFileIndex = objectFileIndex
-        let path = "1/indexes/\(urlEncodedIndexName)/browse"
-        let operation = client.newRequest(.POST, path: path, body: ["params": browseQuery.build()], hostnames: client.readHosts, isSearchQuery: false) {
+        let path = "1/indexes/\(urlEncodedName)/browse"
+        let operation = client.newRequest(method: .POST, path: path, body: ["params": browseQuery.build()], hostnames: client.readHosts, isSearchQuery: false) {
             (json, error) in
             if error != nil {
                 self.syncError = error
@@ -528,7 +532,7 @@ import Foundation
             if onlineRequest != nil {
                 return
             }
-            onlineRequest = startOnlineRequest({
+            onlineRequest = startOnlineRequest() {
                 [unowned self] // works because the operation is enqueued and retained by the queue
                 (content, error) in
                 // In case of transient error, run an offline request.
@@ -540,7 +544,7 @@ import Foundation
                     self.cancelOffline()
                     self.callCompletion(content, error: error)
                 }
-            })
+            }
         }
         
         fileprivate func startOffline() {
@@ -550,12 +554,12 @@ import Foundation
             if offlineRequest != nil {
                 return
             }
-            offlineRequest = startOfflineRequest({
+            offlineRequest = startOfflineRequest() {
                 [unowned self] // works because the operation is enqueued and retained by the queue
                 (content, error) in
                 self.onlineRequest?.cancel()
                 self.callCompletion(content, error: error)
-            })
+            }
         }
         
         fileprivate func cancelOffline() {
@@ -584,11 +588,11 @@ import Foundation
             finish()
         }
         
-        func startOnlineRequest(_ completionHandler: @escaping CompletionHandler) -> Operation {
+        func startOnlineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
             preconditionFailure("To be implemented by derived classes")
         }
 
-        func startOfflineRequest(_ completionHandler: @escaping CompletionHandler) -> Operation {
+        func startOfflineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
             preconditionFailure("To be implemented by derived classes")
         }
     }
@@ -596,7 +600,8 @@ import Foundation
     // MARK: Regular search
     
     /// Search using the current request strategy to choose between online and offline (or a combination of both).
-    @discardableResult @objc public override func search(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc
+    @discardableResult public override func search(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         // IMPORTANT: A non-mirrored index must behave exactly as an online index.
         if (!mirrored) {
             return super.search(query, completionHandler: completionHandler);
@@ -618,17 +623,18 @@ import Foundation
             super.init(index: index, completionHandler: completionHandler)
         }
         
-        override func startOnlineRequest(_ completionHandler: @escaping CompletionHandler) -> Operation {
+        override func startOnlineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
             return index.searchOnline(query, completionHandler: completionHandler)
         }
         
-        override func startOfflineRequest(_ completionHandler: @escaping CompletionHandler) -> Operation {
+        override func startOfflineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
             return index.searchOffline(query, completionHandler: completionHandler)
         }
     }
     
     /// Explicitly search the online API, and not the local mirror.
-    @discardableResult @objc public func searchOnline(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc
+    @discardableResult public func searchOnline(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         return super.search(query, completionHandler: {
             (content, error) in
             // Tag results as having a remote origin.
@@ -641,7 +647,8 @@ import Foundation
     }
     
     /// Explicitly search the local mirror.
-    @discardableResult @objc public func searchOffline(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc
+    @discardableResult public func searchOffline(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         assert(self.mirrored, "Mirroring not activated on this index")
         let queryCopy = Query(copy: query)
         let callingQueue = OperationQueue.current ?? OperationQueue.main
@@ -669,7 +676,8 @@ import Foundation
     // MARK: Multiple queries
     
     /// Run multiple queries using the current request strategy to choose between online and offline.
-    @discardableResult @objc override public func multipleQueries(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc
+    @discardableResult override public func multipleQueries(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
         // IMPORTANT: A non-mirrored index must behave exactly as an online index.
         if (!mirrored) {
             return super.multipleQueries(queries, strategy: strategy, completionHandler: completionHandler);
@@ -690,17 +698,18 @@ import Foundation
             super.init(index: index, completionHandler: completionHandler)
         }
         
-        override func startOnlineRequest(_ completionHandler: @escaping CompletionHandler) -> Operation {
+        override func startOnlineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
             return index.multipleQueriesOnline(queries, completionHandler: completionHandler)
         }
         
-        override func startOfflineRequest(_ completionHandler: @escaping CompletionHandler) -> Operation {
+        override func startOfflineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
             return index.multipleQueriesOffline(queries, completionHandler: completionHandler)
         }
     }
     
     /// Run multiple queries on the online API, and not the local mirror.
-    @discardableResult @objc public func multipleQueriesOnline(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc
+    @discardableResult public func multipleQueriesOnline(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
         return super.multipleQueries(queries, strategy: strategy, completionHandler: {
             (content, error) in
             // Tag results as having a remote origin.
@@ -724,7 +733,8 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc public func multipleQueriesOffline(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc
+    @discardableResult public func multipleQueriesOffline(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
         assert(self.mirrored, "Mirroring not activated on this index")
         
         // TODO: We should be doing a copy of the queries for better safety.
@@ -767,7 +777,7 @@ import Foundation
                     "hitsPerPage": 0,
                     "processingTimeMS": 1,
                     "params": query.build(),
-                    "index": self.indexName,
+                    "index": self.name,
                     "processed": false
                 ]
                 results.append(returnedContent)
@@ -781,7 +791,7 @@ import Foundation
                 break
             }
             var returnedContent = queryContent!
-            returnedContent["index"] = self.indexName
+            returnedContent["index"] = self.name
             results.append(returnedContent)
             
             // Implement the "stop if enough matches strategy".
@@ -816,13 +826,14 @@ import Foundation
     /// Browse the local mirror (initial call).
     /// Same semantics as `Index.browse(...)`.
     ///
-    @discardableResult @objc public func browseMirror(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc(browseMirrorWithQuery:completionHandler:)
+    @discardableResult public func browseMirror(query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         assert(self.mirrored, "Mirroring not activated on this index")
         let queryCopy = Query(copy: query)
         let callingQueue = OperationQueue.current ?? OperationQueue.main
         let operation = BlockOperation()
         operation.addExecutionBlock() {
-            let (content, error) = self._browseMirror(queryCopy)
+            let (content, error) = self._browseMirror(query: queryCopy)
             callingQueue.addOperation() {
                 if !operation.isCancelled {
                     completionHandler(content, error)
@@ -836,13 +847,14 @@ import Foundation
     /// Browse the index from a cursor.
     /// Same semantics as `Index.browseFrom(...)`.
     ///
-    @discardableResult @objc public func browseMirrorFrom(_ cursor: String, completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc(browseMirrorFromCursor:completionHandler:)
+    @discardableResult public func browseMirror(from cursor: String, completionHandler: @escaping CompletionHandler) -> Operation {
         assert(self.mirrored, "Mirroring not activated on this index")
         let callingQueue = OperationQueue.current ?? OperationQueue.main
         let operation = BlockOperation()
         operation.addExecutionBlock() {
             let query = Query(parameters: ["cursor": cursor])
-            let (content, error) = self._browseMirror(query)
+            let (content, error) = self._browseMirror(query: query)
             callingQueue.addOperation() {
                 if !operation.isCancelled {
                     completionHandler(content, error)
@@ -854,7 +866,7 @@ import Foundation
     }
 
     /// Browse the local mirror synchronously.
-    fileprivate func _browseMirror(_ query: Query) -> (content: JSONObject?, error: Error?) {
+    fileprivate func _browseMirror(query: Query) -> (content: JSONObject?, error: Error?) {
         assert(!Thread.isMainThread) // make sure it's run in the background
         
         let searchResults = localIndex.browse(query.build())

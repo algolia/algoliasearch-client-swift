@@ -35,10 +35,10 @@ class BrowseIteratorTests: XCTestCase {
         let appID = ProcessInfo.processInfo.environment["ALGOLIA_APPLICATION_ID"] ?? APP_ID
         let apiKey = ProcessInfo.processInfo.environment["ALGOLIA_API_KEY"] ?? API_KEY
         client = AlgoliaSearch.Client(appID: appID, apiKey: apiKey)
-        index = client.getIndex(safeIndexName("algol?à-swift"))
+        index = client.index(withName: safeIndexName("algol?à-swift"))
         
         let expectation = self.expectation(description: "Delete index")
-        client.deleteIndex(index.indexName, completionHandler: { (content, error) -> Void in
+        client.deleteIndex(withName: index.name, completionHandler: { (content, error) -> Void in
             XCTAssertNil(error, "Error during deleteIndex: \(error!)")
             expectation.fulfill()
         })
@@ -54,7 +54,7 @@ class BrowseIteratorTests: XCTestCase {
                 XCTFail("Error during addObjects: \(error!)")
                 expectation2.fulfill()
             } else {
-                self.index.waitTask(content!["taskID"] as! Int) { (content, error) -> Void in
+                self.index.waitTask(withID: content!["taskID"] as! Int) { (content, error) -> Void in
                     if error != nil {
                         XCTFail("Error during waitTask: \(error!)")
                     }
@@ -69,7 +69,7 @@ class BrowseIteratorTests: XCTestCase {
         super.tearDown()
         
         let expectation = self.expectation(description: "Delete index")
-        client.deleteIndex(index.indexName, completionHandler: { (content, error) -> Void in
+        client.deleteIndex(withName: index.name, completionHandler: { (content, error) -> Void in
             XCTAssertNil(error, "Error during deleteIndex: \(error!)")
             expectation.fulfill()
         })

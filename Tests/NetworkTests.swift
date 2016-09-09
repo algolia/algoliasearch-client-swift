@@ -50,7 +50,7 @@ class NetworkTests: XCTestCase {
         super.setUp()
         client = AlgoliaSearch.Client(appID: FAKE_APP_ID, apiKey: FAKE_API_KEY)
         client.session = session
-        index = client.getIndex(FAKE_INDEX_NAME)
+        index = client.index(withName: FAKE_INDEX_NAME)
     }
     
     override func tearDown() {

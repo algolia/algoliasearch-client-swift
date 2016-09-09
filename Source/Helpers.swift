@@ -105,11 +105,11 @@ extension MutableCollection where Index == Int {
 
 // MARK: - Miscellaneous
 
-/// Get the operating system's name.
+/// The operating system's name.
 ///
 /// - returns: The operating system's name, or nil if it could not be determined.
 ///
-func getOSName() -> String? {
+internal var osName: String? {
     #if os(iOS)
         return "iOS"
     #elseif os(OSX)

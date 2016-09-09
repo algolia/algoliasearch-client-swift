@@ -194,7 +194,7 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
             if osVersion.patchVersion != 0 {
                 osVersionString += ".\(osVersion.patchVersion)"
             }
-            if let osName = getOSName() {
+            if let osName = osName {
                 self.userAgents.append(LibraryVersion(name: osName, version: osVersionString))
             }
         }
@@ -209,7 +209,8 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// + Warning: The default values should be appropriate for most use cases.
     /// Change them only if you know what you are doing.
     ///
-    @objc public func setHosts(_ hosts: [String]) {
+    @objc(setHosts:)
+    public func setHosts(_ hosts: [String]) {
         readHosts = hosts
         writeHosts = hosts
     }
@@ -221,7 +222,8 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter name: Header name.
     /// - parameter value: Value for the header. If `nil`, the header will be removed.
     ///
-    @objc public func setHeader(_ name: String, value: String?) {
+    @objc(setHeaderWithName:to:)
+    public func setHeader(withName name: String, to value: String?) {
         headers[name] = value
     }
     
@@ -232,7 +234,8 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter name: Header name.
     /// - returns: The header's value, or `nil` if the header does not exist.
     ///
-    @objc public func getHeader(_ name: String) -> String? {
+    @objc(headerWithName:)
+    public func header(withName name: String) -> String? {
         return headers[name]
     }
 
@@ -243,8 +246,9 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc public func listIndexes(_ completionHandler: @escaping CompletionHandler) -> Operation {
-        return performHTTPQuery("1/indexes", method: .GET, body: nil, hostnames: readHosts, completionHandler: completionHandler)
+    @objc(listIndexes:)
+    @discardableResult public func listIndexes(completionHandler: @escaping CompletionHandler) -> Operation {
+        return performHTTPQuery(path: "1/indexes", method: .GET, body: nil, hostnames: readHosts, completionHandler: completionHandler)
     }
 
     /// Delete an index.
@@ -253,9 +257,10 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc public func deleteIndex(_ indexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
-        let path = "1/indexes/\(indexName.urlEncodedPathComponent())"
-        return performHTTPQuery(path, method: .DELETE, body: nil, hostnames: writeHosts, completionHandler: completionHandler)
+    @objc(deleteIndexWithName:completionHandler:)
+    @discardableResult public func deleteIndex(withName name: String, completionHandler: CompletionHandler? = nil) -> Operation {
+        let path = "1/indexes/\(name.urlEncodedPathComponent())"
+        return performHTTPQuery(path: path, method: .DELETE, body: nil, hostnames: writeHosts, completionHandler: completionHandler)
     }
 
     /// Move an existing index.
@@ -268,14 +273,15 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc public func moveIndex(_ srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
+    @objc(moveIndexFrom:to:completionHandler:)
+    @discardableResult public func moveIndex(from srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(srcIndexName.urlEncodedPathComponent())/operation"
         let request = [
             "destination": dstIndexName,
             "operation": "move"
         ]
 
-        return performHTTPQuery(path, method: .POST, body: request as [String : Any]?, hostnames: writeHosts, completionHandler: completionHandler)
+        return performHTTPQuery(path: path, method: .POST, body: request as [String : Any]?, hostnames: writeHosts, completionHandler: completionHandler)
     }
 
     /// Copy an existing index.
@@ -288,14 +294,15 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc public func copyIndex(_ srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
+    @objc(copyIndexFrom:to:completionHandler:)
+    @discardableResult public func copyIndex(from srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(srcIndexName.urlEncodedPathComponent())/operation"
         let request = [
             "destination": dstIndexName,
             "operation": "copy"
         ]
 
-        return performHTTPQuery(path, method: .POST, body: request as [String : Any]?, hostnames: writeHosts, completionHandler: completionHandler)
+        return performHTTPQuery(path: path, method: .POST, body: request as [String : Any]?, hostnames: writeHosts, completionHandler: completionHandler)
     }
 
     /// Create a proxy to an Algolia index (no server call required by this method).
@@ -303,11 +310,12 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter indexName: The name of the index.
     /// - returns: A new proxy to the specified index.
     ///
-    @objc public func getIndex(_ indexName: String) -> Index {
+    @objc(indexWithName:)
+    public func index(withName indexName: String) -> Index {
         // IMPLEMENTATION NOTE: This method is called `initIndex` in other clients, which better conveys its semantics.
         // However, methods prefixed by `init` are automatically considered as initializers by the Objective-C bridge.
         // Therefore, `initIndex` would fail to compile in Objective-C, because its return type is not `instancetype`.
-        return Index(client: self, indexName: indexName)
+        return Index(client: self, name: indexName)
     }
     
     /// Strategy when running multiple queries. See `Client.multipleQueries(...)`.
@@ -329,7 +337,8 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc public func multipleQueries(_ queries: [IndexQuery], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc(multipleQueries:strategy:completionHandler:)
+    @discardableResult public func multipleQueries(_ queries: [IndexQuery], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
         // IMPLEMENTATION NOTE: Objective-C bridgeable alternative.
         let path = "1/indexes/*/queries"
         var requests = [JSONObject]()
@@ -345,7 +354,7 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
         if strategy != nil {
             request["strategy"] = strategy
         }
-        return performHTTPQuery(path, method: .POST, body: request, hostnames: readHosts, completionHandler: completionHandler)
+        return performHTTPQuery(path: path, method: .POST, body: request, hostnames: readHosts, completionHandler: completionHandler)
     }
     
     /// Query multiple indexes with one API call.
@@ -366,10 +375,11 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc public func batch(_ operations: [Any], completionHandler: CompletionHandler? = nil) -> Operation {
+    @objc(batchOperations:completionHandler:)
+    @discardableResult public func batch(operations: [Any], completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/*/batch"
         let body = ["requests": operations]
-        return performHTTPQuery(path, method: .POST, body: body as [String : Any]?, hostnames: writeHosts, completionHandler: completionHandler)
+        return performHTTPQuery(path: path, method: .POST, body: body as [String : Any]?, hostnames: writeHosts, completionHandler: completionHandler)
     }
     
     /// Ping the server.
@@ -378,24 +388,25 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc public func isAlive(_ completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc(isAlive:)
+    @discardableResult public func isAlive(completionHandler: @escaping CompletionHandler) -> Operation {
         let path = "1/isalive"
-        return performHTTPQuery(path, method: .GET, body: nil, hostnames: readHosts, completionHandler: completionHandler)
+        return performHTTPQuery(path: path, method: .GET, body: nil, hostnames: readHosts, completionHandler: completionHandler)
     }
 
     // MARK: - Network
 
     /// Perform an HTTP Query.
-    func performHTTPQuery(_ path: String, method: HTTPMethod, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, completionHandler: CompletionHandler? = nil) -> Operation {
+    func performHTTPQuery(path: String, method: HTTPMethod, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, completionHandler: CompletionHandler? = nil) -> Operation {
         var request: Request!
-        request = newRequest(method, path: path, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery, completion: completionHandler)
+        request = newRequest(method: method, path: path, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery, completion: completionHandler)
         request.completionQueue = self.completionQueue
         requestQueue.addOperation(request)
         return request
     }
     
     /// Create a request with this client's settings.
-    func newRequest(_ method: HTTPMethod, path: String, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, completion: CompletionHandler? = nil) -> Request {
+    func newRequest(method: HTTPMethod, path: String, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, completion: CompletionHandler? = nil) -> Request {
         let currentTimeout = isSearchQuery ? searchTimeout : timeout
         let request = Request(session: session, method: method, hosts: hostnames, firstHostIndex: 0, path: path, headers: headers, jsonBody: body, timeout: currentTimeout, completion:  completion)
         return request

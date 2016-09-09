@@ -79,7 +79,7 @@ public typealias BrowseIteratorHandler = (_ iterator: BrowseIterator, _ content:
     @objc public func start() {
         assert(!started)
         started = true
-        request = index.browse(query, completionHandler: self.handleResult)
+        request = index.browse(query: query, completionHandler: self.handleResult)
     }
     
     /// Cancel the iteration.
@@ -113,6 +113,6 @@ public typealias BrowseIteratorHandler = (_ iterator: BrowseIterator, _ content:
     
     fileprivate func next() {
         assert(hasNext())
-        request = index.browseFrom(self.cursor!, completionHandler: handleResult)
+        request = index.browse(from: self.cursor!, completionHandler: handleResult)
     }
 }

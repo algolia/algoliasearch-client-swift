@@ -83,7 +83,8 @@ import Foundation
     ///
     /// - parameter licenseData: license for Algolia's SDK
     ///
-    @objc public func enableOfflineMode(_ licenseData: String) {
+    @objc(enableOfflineModeWithLicenseData:)
+    public func enableOfflineMode(licenseData: String) {
         do {
             // Create the data directory.
             try FileManager.default.createDirectory(atPath: self.rootDataDir, withIntermediateDirectories: true, attributes: nil)
@@ -107,8 +108,8 @@ import Foundation
     ///
     /// + Note: The offline client returns mirror-capable indices.
     ///
-    @objc public override func getIndex(_ indexName: String) -> MirroredIndex {
-        return MirroredIndex(client: self, indexName: indexName)
+    @objc public override func index(withName indexName: String) -> MirroredIndex {
+        return MirroredIndex(client: self, name: indexName)
     }
     
     // MARK: - Utils

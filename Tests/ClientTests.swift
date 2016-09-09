@@ -35,10 +35,10 @@ class ClientTests: XCTestCase {
         let appID = ProcessInfo.processInfo.environment["ALGOLIA_APPLICATION_ID"] ?? APP_ID
         let apiKey = ProcessInfo.processInfo.environment["ALGOLIA_API_KEY"] ?? API_KEY
         client = AlgoliaSearch.Client(appID: appID, apiKey: apiKey)
-        index = client.getIndex(safeIndexName("algol?à-swift"))
+        index = client.index(withName: safeIndexName("algol?à-swift"))
         
         let expectation = self.expectation(description: "Delete index")
-        client.deleteIndex(index.indexName, completionHandler: { (content, error) -> Void in
+        client.deleteIndex(withName: index.name, completionHandler: { (content, error) -> Void in
             XCTAssertNil(error, "Error during deleteIndex: \(error!)")
             expectation.fulfill()
         })
@@ -50,7 +50,7 @@ class ClientTests: XCTestCase {
         super.tearDown()
         
         let expectation = self.expectation(description: "Delete index")
-        client.deleteIndex(index.indexName, completionHandler: { (content, error) -> Void in
+        client.deleteIndex(withName: index.name, completionHandler: { (content, error) -> Void in
             XCTAssertNil(error, "Error during deleteIndex: \(error!)")
             expectation.fulfill()
         })
@@ -67,12 +67,12 @@ class ClientTests: XCTestCase {
                 XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
+                self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
                     } else {
-                        self.client.listIndexes({ (content, error) -> Void in
+                        self.client.listIndexes(completionHandler: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during listIndexes: \(error)")
                             } else {
@@ -80,7 +80,7 @@ class ClientTests: XCTestCase {
                                 
                                 var found = false
                                 for item in items {
-                                    if (item["name"] as! String) == self.index.indexName {
+                                    if (item["name"] as! String) == self.index.name {
                                         found = true
                                         break
                                     }
@@ -108,24 +108,24 @@ class ClientTests: XCTestCase {
                 XCTFail("Error during addObject: \(error)")
                 expecation.fulfill()
             } else {
-                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
+                self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expecation.fulfill()
                     } else {
                         XCTAssertEqual((content!["status"] as! String), "published", "Wait task failed")
                         
-                        self.client.moveIndex(self.index.indexName, to: safeIndexName("algol?à-swift2"), completionHandler: { (content, error) -> Void in
+                        self.client.moveIndex(from: self.index.name, to: safeIndexName("algol?à-swift2"), completionHandler: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during moveIndex: \(error)")
                                 expecation.fulfill()
                             } else {
-                                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
+                                self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                                     if let error = error {
                                         XCTFail("Error during waitTask: \(error)")
                                         expecation.fulfill()
                                     } else {
-                                        let dstIndex = self.client.getIndex(safeIndexName("algol?à-swift2"))
+                                        let dstIndex = self.client.index(withName: safeIndexName("algol?à-swift2"))
                                         dstIndex.search(Query(), completionHandler: { (content, error) -> Void in
                                             if let error = error {
                                                 XCTFail("Error during search: \(error)")
@@ -148,7 +148,7 @@ class ClientTests: XCTestCase {
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
         
         let deleteExpectation = self.expectation(description: "Delete index")
-        client.deleteIndex(safeIndexName("algol?à-swift2"), completionHandler: { (content, error) -> Void in
+        client.deleteIndex(withName: safeIndexName("algol?à-swift2"), completionHandler: { (content, error) -> Void in
             XCTAssertNil(error, "Error during deleteIndex: \(error!)")
             deleteExpectation.fulfill()
         })
@@ -174,19 +174,19 @@ class ClientTests: XCTestCase {
                 XCTFail("Error during addObject: \(error)")
                 expecation.fulfill()
             } else {
-                self.index.waitTask(taskID, completionHandler: { (content, error) -> Void in
+                self.index.waitTask(withID: taskID, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expecation.fulfill()
                     } else {
                         XCTAssertEqual((content!["status"] as! String), "published", "Wait task failed")
                         
-                        self.client.copyIndex(self.index.indexName, to: safeIndexName("algol?à-swift2"), completionHandler: { (content, error) -> Void in
+                        self.client.copyIndex(from: self.index.name, to: safeIndexName("algol?à-swift2"), completionHandler: { (content, error) -> Void in
                             if let error = error {
                                 XCTFail("Error during copyIndex: \(error)")
                                 expecation.fulfill()
                             } else {
-                                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
+                                self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                                     if let error = error {
                                         XCTFail("Error during waitTask: \(error)")
                                     } else {
@@ -201,7 +201,7 @@ class ClientTests: XCTestCase {
                                             srcIndexExpectation.fulfill()
                                         })
                                         
-                                        let dstIndex = self.client.getIndex(safeIndexName("algol?à-swift2"))
+                                        let dstIndex = self.client.index(withName: safeIndexName("algol?à-swift2"))
                                         dstIndex.search(Query(), completionHandler: { (content, error) -> Void in
                                             if let error = error {
                                                 XCTFail("Error during search: \(error)")
@@ -226,7 +226,7 @@ class ClientTests: XCTestCase {
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
         
         let deleteExpectation = self.expectation(description: "Delete index")
-        client.deleteIndex(safeIndexName("algol?à-swift2"), completionHandler: { (content, error) -> Void in
+        client.deleteIndex(withName: safeIndexName("algol?à-swift2"), completionHandler: { (content, error) -> Void in
             XCTAssertNil(error, "Error during deleteIndex: \(error!)")
             deleteExpectation.fulfill()
         })
@@ -243,7 +243,7 @@ class ClientTests: XCTestCase {
                 XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
+                self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
@@ -278,7 +278,7 @@ class ClientTests: XCTestCase {
                 XCTFail("Error during addObject: \(error)")
                 expectation.fulfill()
             } else {
-                self.index.waitTask(content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
+                self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                     if let error = error {
                         XCTFail("Error during waitTask: \(error)")
                         expectation.fulfill()
@@ -339,23 +339,23 @@ class ClientTests: XCTestCase {
         let expectation = self.expectation(description: #function)
         let actions = [
             [
-                "indexName": index.indexName,
+                "indexName": index.name,
                 "action": "addObject",
                 "body": [ "city": "San Francisco" ]
             ],
             [
-                "indexName": index.indexName,
+                "indexName": index.name,
                 "action": "addObject",
                 "body": [ "city": "Paris" ]
             ]
         ]
-        client.batch(actions) {
+        client.batch(operations: actions) {
             (content, error) -> Void in
             if error != nil {
                 XCTFail(error!.localizedDescription)
-            } else if let taskID = (content!["taskID"] as? JSONObject)?[self.index.indexName] as? Int {
+            } else if let taskID = (content!["taskID"] as? JSONObject)?[self.index.name] as? Int {
                 // Wait for the batch to be processed.
-                self.index.waitTask(taskID) {
+                self.index.waitTask(withID: taskID) {
                     (content, error) in
                     if error != nil {
                         XCTFail(error!.localizedDescription)
@@ -395,7 +395,7 @@ class ClientTests: XCTestCase {
 
     func testIndexNameWithSpace() {
     let expectation = self.expectation(description: #function)
-        client.deleteIndex("Index with spaces", completionHandler: { (content, error) -> Void in
+        client.deleteIndex(withName: "Index with spaces", completionHandler: { (content, error) -> Void in
             if error != nil {
                 XCTFail(error!.localizedDescription)
             }
