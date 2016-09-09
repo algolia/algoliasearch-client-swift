@@ -83,10 +83,10 @@ import Foundation
     // MARK: Constants
     
     /// Notification sent when the sync has started.
-    @objc public static let SyncDidStartNotification = "AlgoliaSearch.MirroredIndex.SyncDidStartNotification"
+    @objc public static let SyncDidStartNotification = Notification.Name("AlgoliaSearch.MirroredIndex.SyncDidStartNotification")
     
     /// Notification sent when the sync has finished.
-    @objc public static let SyncDidFinishNotification = "AlgoliaSearch.MirroredIndex.SyncDidFinishNotification"
+    @objc public static let SyncDidFinishNotification = Notification.Name("AlgoliaSearch.MirroredIndex.SyncDidFinishNotification")
     
     /// Notification user info key used to pass the error, when an error occurred during the sync.
     @objc public static let SyncErrorKey = "AlgoliaSearch.MirroredIndex.SyncErrorKey"
@@ -300,7 +300,7 @@ import Foundation
 
         // Notify observers.
         DispatchQueue.main.async {
-            NotificationCenter.default.post(name: Notification.Name(rawValue: MirroredIndex.SyncDidStartNotification), object: self)
+            NotificationCenter.default.post(name: MirroredIndex.SyncDidStartNotification, object: self)
         }
 
         // Create temporary directory.
@@ -434,7 +434,7 @@ import Foundation
             if self.syncError != nil {
                 userInfo = [MirroredIndex.SyncErrorKey: self.syncError!]
             }
-            NotificationCenter.default.post(name: Notification.Name(rawValue: MirroredIndex.SyncDidFinishNotification), object: self, userInfo: userInfo)
+            NotificationCenter.default.post(name: MirroredIndex.SyncDidFinishNotification, object: self, userInfo: userInfo)
         }
     }
     
