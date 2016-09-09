@@ -770,34 +770,56 @@ public class Query : NSObject, NSCopying {
     }
     // NOTE: Objective-C bridge moved away to `_objc_Query`
     
-    /// Control the radius associated with a `aroundLatLng` or `aroundLatLngViaIP` query. Defined in meters.
-    /// If not set, the radius is computed automatically using the density of the area, you can retrieve the computed
+    /// Applicable values for the `aroundRadius` parameter.
+    public enum AroundRadius: Equatable {
+        /// Specify an explicit value (in meters).
+        case explicit(UInt)
+        
+        /// Compute the geo distance without filtering in a geo area.
+        /// This option will be faster than specifying a big integer.
+        case all
+
+        // NOTE: Associated values disable automatic conformance to `Equatable`, so we have to implement it ourselves.
+        static public func ==(lhs: AroundRadius, rhs: AroundRadius) -> Bool {
+            switch (lhs, rhs) {
+            case (let .explicit(lhsValue), let .explicit(rhsValue)): return lhsValue == rhsValue
+            case (.all, .all): return true
+            default: return false
+            }
+        }
+    }
+    
+    /// Control the radius associated with a `aroundLatLng` or `aroundLatLngViaIP` query.
+    /// If not set, the radius is computed automatically using the density of the area. You can retrieve the computed
     /// radius in the `automaticRadius` attribute of the answer. You can also specify a minimum value for the automatic
-    /// radius by using the `minimumAroundRadius` query parameter. You can specify `aroundRadiusAll` if you want to
-    /// compute the geo distance without filtering in a geo area, this option will be faster than specifying a big
-    /// integer.
+    /// radius by using the `minimumAroundRadius` query parameter. You can specify `.all` if you want to
+    /// compute the geo distance without filtering in a geo area (this option will be faster than specifying a big
+    /// integer).
     ///
-    public var aroundRadius: UInt? {
+    public var aroundRadius: AroundRadius? {
         get {
             if let stringValue = self["aroundRadius"] {
                 if stringValue == "all" {
-                    return Query.aroundRadiusAll
-                } else {
-                    return Query.parseUInt(stringValue)
+                    return .all
+                } else if let value = Query.parseUInt(stringValue) {
+                    return .explicit(value)
                 }
-            } else {
-                return nil
             }
+            return nil
         }
         set {
-            self["aroundRadius"] = newValue == Query.aroundRadiusAll ? "all" : Query.buildUInt(newValue)
+            if let newValue = newValue {
+                switch newValue {
+                case let .explicit(value): self["aroundRadius"] = Query.buildUInt(value)
+                case .all: self["aroundRadius"] = "all"
+                }
+            } else {
+                self["aroundRadius"] = nil
+            }
         }
     }
     // NOTE: Objective-C bridge moved away to `_objc_Query`
 
-    /// Special value for `aroundRadius` to compute the geo distance without filtering.
-    public static let aroundRadiusAll: UInt = UInt.max    
-    
     /// Control the precision of a `aroundLatLng` query. In meter. For example if you set `aroundPrecision=100`, two
     /// objects that are in the range 0-99m will be considered as identical in the ranking for the .variable geo
     /// ranking parameter (same for 100-199, 200-299, … ranges).
@@ -1235,10 +1257,31 @@ public class _objc_Query: Query {
         set { self.aroundLatLngViaIP = newValue?.boolValue }
     }
 
+    /// Special value for `aroundRadius` to compute the geo distance without filtering.
+    @objc public static let aroundRadiusAll: NSNumber = NSNumber(value: UInt.max)
+
     @objc(aroundRadius)
     public var _aroundRadius: NSNumber? {
-        get { return Query.toNumber(self.aroundRadius) }
-        set { self.aroundRadius = newValue?.uintValue }
+        get {
+            if let aroundRadius = aroundRadius {
+                switch aroundRadius {
+                case let .explicit(value): return NSNumber(value: value)
+                case .all: return _objc_Query.aroundRadiusAll
+                }
+            }
+            return nil
+        }
+        set {
+            if let newValue = newValue {
+                if newValue == _objc_Query.aroundRadiusAll {
+                    self.aroundRadius = .all
+                } else {
+                    self.aroundRadius = .explicit(newValue.uintValue)
+                }
+            } else {
+                self.aroundRadius = nil
+            }
+        }
     }
 
     @objc(aroundPrecision)
