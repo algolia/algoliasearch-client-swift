@@ -514,7 +514,7 @@ import Foundation
             }
             if index.requestStrategy == .fallbackOnTimeout && mayRunOfflineRequest {
                 // Schedule an offline request to start after a certain delay.
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(index.offlineFallbackTimeout * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + index.offlineFallbackTimeout) {
                     [weak self] in
                     // WARNING: Because dispatched blocks cannot be cancelled, and to avoid increasing the lifetime of
                     // the operation by the timeout delay, we do not retain self. => Gracefully fail if the operation
