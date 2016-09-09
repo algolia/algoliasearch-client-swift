@@ -9,7 +9,7 @@
 import Foundation
 
 
-class MirrorSettings {
+internal class MirrorSettings {
     var lastSyncDate: Date?
     var queries : [DataSelectionQuery] = []
     var queriesModificationDate: Date?

@@ -30,7 +30,7 @@ import Foundation
 /// + Note: Requires Algolia's Offline Core SDK. The `enableOfflineMode(...)` method must be called with a valid license
 /// key prior to calling any offline-related method.
 ///
-@objc open class OfflineClient : Client {
+@objc public class OfflineClient : Client {
     /// Create a new offline-capable Algolia Search client.
     ///
     /// + Note: Offline mode is disabled by default, until you call `enableOfflineMode(...)`.
@@ -58,7 +58,7 @@ import Foundation
     ///
     /// + Warning: This directory will be explicitly excluded from iCloud/iTunes backup.
     ///
-    @objc open var rootDataDir: String
+    @objc public var rootDataDir: String
     
     // NOTE: The build and search queues must be serial to prevent concurrent searches or builds on a given index, but
     // may be distinct because building can be done in parallel with search.
@@ -83,7 +83,7 @@ import Foundation
     ///
     /// - parameter licenseData: license for Algolia's SDK
     ///
-    @objc open func enableOfflineMode(_ licenseData: String) {
+    @objc public func enableOfflineMode(_ licenseData: String) {
         do {
             // Create the data directory.
             try FileManager.default.createDirectory(atPath: self.rootDataDir, withIntermediateDirectories: true, attributes: nil)
@@ -107,7 +107,7 @@ import Foundation
     ///
     /// + Note: The offline client returns mirror-capable indices.
     ///
-    @objc open override func getIndex(_ indexName: String) -> MirroredIndex {
+    @objc public override func getIndex(_ indexName: String) -> MirroredIndex {
         return MirroredIndex(client: self, indexName: indexName)
     }
     

@@ -40,12 +40,12 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
 /// A version of a software library.
 /// Used to construct the `User-Agent` header.
 ///
-@objc open class LibraryVersion: NSObject {
+@objc public class LibraryVersion: NSObject {
     /// Library name.
-    @objc open let name: String
+    @objc public let name: String
     
     /// Version string.
-    @objc open let version: String
+    @objc public let version: String
     
     @objc public init(name: String, version: String) {
         self.name = name
@@ -66,19 +66,19 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
 
 /// Entry point into the Swift API.
 ///
-@objc open class Client : NSObject {
+@objc public class Client : NSObject {
     // MARK: Properties
     
     /// HTTP headers that will be sent with every request.
-    @objc open var headers = [String:String]()
+    @objc public var headers = [String:String]()
 
     /// Algolia API key.
-    @objc open var apiKey: String {
+    @objc public var apiKey: String {
         didSet {
             updateHeadersFromAPIKey()
         }
     }
-    fileprivate func updateHeadersFromAPIKey() {
+    private func updateHeadersFromAPIKey() {
         headers["X-Algolia-API-Key"] = apiKey
     }
 
@@ -88,23 +88,23 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// + WARNING: The user agent is crucial to proper statistics in your Algolia dashboard. Please leave it as is.
     /// This field is publicly exposed only for the sake of other Algolia libraries.
     ///
-    @objc open var userAgents: [LibraryVersion] = [] {
+    @objc public var userAgents: [LibraryVersion] = [] {
         didSet {
             updateHeadersFromUserAgents()
         }
     }
-    fileprivate func updateHeadersFromUserAgents() {
+    private func updateHeadersFromUserAgents() {
         headers["User-Agent"] = userAgents.map({ return "\($0.name) (\($0.version))"}).joined(separator: "; ")
     }
 
     /// Default timeout for network requests. Default: 30 seconds.
-    @objc open let timeout: TimeInterval = 30
+    @objc public let timeout: TimeInterval = 30
     
     /// Timeout for search requests. Default: 5 seconds.
-    @objc open let searchTimeout: TimeInterval = 5
+    @objc public let searchTimeout: TimeInterval = 5
 
     /// Algolia application ID.
-    @objc open let appID: String
+    @objc public let appID: String
 
     /// Hosts for read queries, in priority order.
     /// The first host will always be used, then subsequent hosts in case of retry.
@@ -112,7 +112,7 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// + Warning: The default values should be appropriate for most use cases.
     /// Change them only if you know what you are doing.
     ///
-    @objc open var readHosts: [String] {
+    @objc public var readHosts: [String] {
         willSet {
             assert(!newValue.isEmpty)
         }
@@ -124,7 +124,7 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// + Warning: The default values should be appropriate for most use cases.
     /// Change them only if you know what you are doing.
     ///
-    @objc open var writeHosts: [String] {
+    @objc public var writeHosts: [String] {
         willSet {
             assert(!newValue.isEmpty)
         }
@@ -209,7 +209,7 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// + Warning: The default values should be appropriate for most use cases.
     /// Change them only if you know what you are doing.
     ///
-    @objc open func setHosts(_ hosts: [String]) {
+    @objc public func setHosts(_ hosts: [String]) {
         readHosts = hosts
         writeHosts = hosts
     }
@@ -221,7 +221,7 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter name: Header name.
     /// - parameter value: Value for the header. If `nil`, the header will be removed.
     ///
-    @objc open func setHeader(_ name: String, value: String?) {
+    @objc public func setHeader(_ name: String, value: String?) {
         headers[name] = value
     }
     
@@ -232,7 +232,7 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter name: Header name.
     /// - returns: The header's value, or `nil` if the header does not exist.
     ///
-    @objc open func getHeader(_ name: String) -> String? {
+    @objc public func getHeader(_ name: String) -> String? {
         return headers[name]
     }
 
@@ -243,7 +243,7 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func listIndexes(_ completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult @objc public func listIndexes(_ completionHandler: @escaping CompletionHandler) -> Operation {
         return performHTTPQuery("1/indexes", method: .GET, body: nil, hostnames: readHosts, completionHandler: completionHandler)
     }
 
@@ -253,7 +253,7 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func deleteIndex(_ indexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
+    @discardableResult @objc public func deleteIndex(_ indexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(indexName.urlEncodedPathComponent())"
         return performHTTPQuery(path, method: .DELETE, body: nil, hostnames: writeHosts, completionHandler: completionHandler)
     }
@@ -268,7 +268,7 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func moveIndex(_ srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
+    @discardableResult @objc public func moveIndex(_ srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(srcIndexName.urlEncodedPathComponent())/operation"
         let request = [
             "destination": dstIndexName,
@@ -288,7 +288,7 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func copyIndex(_ srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
+    @discardableResult @objc public func copyIndex(_ srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(srcIndexName.urlEncodedPathComponent())/operation"
         let request = [
             "destination": dstIndexName,
@@ -303,7 +303,7 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter indexName: The name of the index.
     /// - returns: A new proxy to the specified index.
     ///
-    @objc open func getIndex(_ indexName: String) -> Index {
+    @objc public func getIndex(_ indexName: String) -> Index {
         // IMPLEMENTATION NOTE: This method is called `initIndex` in other clients, which better conveys its semantics.
         // However, methods prefixed by `init` are automatically considered as initializers by the Objective-C bridge.
         // Therefore, `initIndex` would fail to compile in Objective-C, because its return type is not `instancetype`.
@@ -329,7 +329,7 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func multipleQueries(_ queries: [IndexQuery], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult @objc public func multipleQueries(_ queries: [IndexQuery], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
         // IMPLEMENTATION NOTE: Objective-C bridgeable alternative.
         let path = "1/indexes/*/queries"
         var requests = [JSONObject]()
@@ -355,7 +355,7 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult open func multipleQueries(_ queries: [IndexQuery], strategy: MultipleQueriesStrategy? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult public func multipleQueries(_ queries: [IndexQuery], strategy: MultipleQueriesStrategy? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         // IMPLEMENTATION NOTE: Not Objective-C bridgeable because of enum.
         return multipleQueries(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
@@ -366,7 +366,7 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func batch(_ operations: [Any], completionHandler: CompletionHandler? = nil) -> Operation {
+    @discardableResult @objc public func batch(_ operations: [Any], completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/*/batch"
         let body = ["requests": operations]
         return performHTTPQuery(path, method: .POST, body: body as [String : Any]?, hostnames: writeHosts, completionHandler: completionHandler)
@@ -378,7 +378,7 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func isAlive(_ completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult @objc public func isAlive(_ completionHandler: @escaping CompletionHandler) -> Operation {
         let path = "1/isalive"
         return performHTTPQuery(path, method: .GET, body: nil, hostnames: readHosts, completionHandler: completionHandler)
     }

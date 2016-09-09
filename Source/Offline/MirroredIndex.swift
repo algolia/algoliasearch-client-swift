@@ -27,12 +27,12 @@ import Foundation
 
 /// A data selection query, used to select data to be mirrored locally by a `MirroredIndex`.
 ///
-@objc open class DataSelectionQuery: NSObject {
+@objc public class DataSelectionQuery: NSObject {
     /// Query used to select data.
-    @objc open let query: Query
+    @objc public let query: Query
     
     /// Maximum number of objects to retrieve with this query.
-    @objc open let maxObjects: Int
+    @objc public let maxObjects: Int
 
     /// Create a new data selection query.
     @objc public init(query: Query, maxObjects: Int) {
@@ -40,7 +40,7 @@ import Foundation
         self.maxObjects = maxObjects
     }
     
-    override open func isEqual(_ object: Any?) -> Bool {
+    override public func isEqual(_ object: Any?) -> Bool {
         guard let rhs = object as? DataSelectionQuery else {
             return false
         }
@@ -78,37 +78,37 @@ import Foundation
 ///
 /// + Note: The strategy applies both to `search(...)` and `searchDisjunctiveFaceting(...)`.
 ///
-@objc open class MirroredIndex : Index {
+@objc public class MirroredIndex : Index {
     
     // MARK: Constants
     
     /// Notification sent when the sync has started.
-    @objc open static let SyncDidStartNotification = "AlgoliaSearch.MirroredIndex.SyncDidStartNotification"
+    @objc public static let SyncDidStartNotification = "AlgoliaSearch.MirroredIndex.SyncDidStartNotification"
     
     /// Notification sent when the sync has finished.
-    @objc open static let SyncDidFinishNotification = "AlgoliaSearch.MirroredIndex.SyncDidFinishNotification"
+    @objc public static let SyncDidFinishNotification = "AlgoliaSearch.MirroredIndex.SyncDidFinishNotification"
     
     /// Notification user info key used to pass the error, when an error occurred during the sync.
-    @objc open static let SyncErrorKey = "AlgoliaSearch.MirroredIndex.SyncErrorKey"
+    @objc public static let SyncErrorKey = "AlgoliaSearch.MirroredIndex.SyncErrorKey"
     
     /// Default minimum delay between two syncs.
-    @objc open static let DefaultDelayBetweenSyncs: TimeInterval = 60 * 60 * 24 // 1 day
+    @objc public static let DefaultDelayBetweenSyncs: TimeInterval = 60 * 60 * 24 // 1 day
 
     /// Key used to indicate the origin of results in the returned JSON.
-    @objc open static let JSONKeyOrigin = "origin"
+    @objc public static let JSONKeyOrigin = "origin"
     
     /// Value for `JSONKeyOrigin` indicating that the results come from the local mirror.
-    @objc open static let JSONValueOriginLocal = "local"
+    @objc public static let JSONValueOriginLocal = "local"
     
     /// Value for `JSONKeyOrigin` indicating that the results come from the online API.
-    @objc open static let JSONValueOriginRemote = "remote"
+    @objc public static let JSONValueOriginRemote = "remote"
 
     // ----------------------------------------------------------------------
     // MARK: Properties
     // ----------------------------------------------------------------------
     
     /// The offline client used by this index.
-    @objc open var offlineClient: OfflineClient {
+    @objc public var offlineClient: OfflineClient {
         // IMPLEMENTATION NOTE: Could not find a way to implement proper covariant properties in Swift.
         return self.client as! OfflineClient
     }
@@ -120,7 +120,7 @@ import Foundation
     let mirrorSettings = MirrorSettings()
     
     /// Whether the index is mirrored locally. Default = false.
-    @objc open var mirrored: Bool = false {
+    @objc public var mirrored: Bool = false {
         didSet {
             if (mirrored) {
                 do {
@@ -134,7 +134,7 @@ import Foundation
     }
     
     /// Data selection queries.
-    @objc open var dataSelectionQueries: [DataSelectionQuery] {
+    @objc public var dataSelectionQueries: [DataSelectionQuery] {
         get {
             return mirrorSettings.queries
         }
@@ -148,15 +148,15 @@ import Foundation
     }
     
     /// Minimum delay between two syncs.
-    @objc open var delayBetweenSyncs: TimeInterval = DefaultDelayBetweenSyncs
+    @objc public var delayBetweenSyncs: TimeInterval = DefaultDelayBetweenSyncs
     
     /// Date of the last successful sync, or nil if the index has never been successfully synced.
-    @objc open var lastSuccessfulSyncDate: Date? {
+    @objc public var lastSuccessfulSyncDate: Date? {
         return mirrorSettings.lastSyncDate
     }
     
     /// Error encountered by the current/last sync (if any).
-    @objc open fileprivate(set) var syncError : Error?
+    @objc public fileprivate(set) var syncError : Error?
 
     // ----------------------------------------------------------------------
     // MARK: - Init
@@ -213,7 +213,7 @@ import Foundation
     ///
     /// + Precondition: Mirroring must have been activated on this index (see the `mirrored` property).
     ///
-    @objc open func addDataSelectionQuery(_ query: DataSelectionQuery) {
+    @objc public func addDataSelectionQuery(_ query: DataSelectionQuery) {
         assert(mirrored);
         mirrorSettings.queries.append(query)
         mirrorSettings.queriesModificationDate = Date()
@@ -225,7 +225,7 @@ import Foundation
     ///
     /// + Precondition: Mirroring must have been activated on this index (see the `mirrored` property).
     ///
-    @objc open func addDataSelectionQueries(_ queries: [DataSelectionQuery]) {
+    @objc public func addDataSelectionQueries(_ queries: [DataSelectionQuery]) {
         assert(mirrored);
         mirrorSettings.queries.append(contentsOf: queries)
         mirrorSettings.queriesModificationDate = Date()
@@ -237,7 +237,7 @@ import Foundation
     ///
     /// + Precondition: Mirroring must have been activated on this index (see the `mirrored` property).
     ///
-    @objc open func sync() {
+    @objc public func sync() {
         assert(self.mirrored, "Mirroring not activated on this index")
         offlineClient.buildQueue.addOperation() {
             self._sync()
@@ -249,7 +249,7 @@ import Foundation
     ///
     /// + Precondition: Mirroring must have been activated on this index (see the `mirrored` property).
     ///
-    @objc open func syncIfNeeded() {
+    @objc public func syncIfNeeded() {
         assert(self.mirrored, "Mirroring not activated on this index")
         if self.isSyncDelayExpired() || self.isMirrorSettingsDirty() {
             offlineClient.buildQueue.addOperation() {
@@ -469,13 +469,13 @@ import Foundation
     }
     
     /// Strategy to use for offline fallback. Default = `FallbackOnFailure`.
-    @objc open var requestStrategy: Strategy = .fallbackOnFailure
+    @objc public var requestStrategy: Strategy = .fallbackOnFailure
     
     /// Timeout used to control offline fallback.
     ///
     /// + Note: Only used by the `FallbackOnTimeout` strategy.
     ///
-    @objc open var offlineFallbackTimeout: TimeInterval = 1.0
+    @objc public var offlineFallbackTimeout: TimeInterval = 1.0
 
     /// A mixed online/offline request.
     /// This request encapsulates two concurrent online and offline requests, to optimize response time.
@@ -596,7 +596,7 @@ import Foundation
     // MARK: Regular search
     
     /// Search using the current request strategy to choose between online and offline (or a combination of both).
-    @discardableResult @objc open override func search(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult @objc public override func search(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         // IMPORTANT: A non-mirrored index must behave exactly as an online index.
         if (!mirrored) {
             return super.search(query, completionHandler: completionHandler);
@@ -628,7 +628,7 @@ import Foundation
     }
     
     /// Explicitly search the online API, and not the local mirror.
-    @discardableResult @objc open func searchOnline(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult @objc public func searchOnline(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         return super.search(query, completionHandler: {
             (content, error) in
             // Tag results as having a remote origin.
@@ -641,7 +641,7 @@ import Foundation
     }
     
     /// Explicitly search the local mirror.
-    @discardableResult @objc open func searchOffline(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult @objc public func searchOffline(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         assert(self.mirrored, "Mirroring not activated on this index")
         let queryCopy = Query(copy: query)
         let callingQueue = OperationQueue.current ?? OperationQueue.main
@@ -669,7 +669,7 @@ import Foundation
     // MARK: Multiple queries
     
     /// Run multiple queries using the current request strategy to choose between online and offline.
-    @discardableResult @objc override open func multipleQueries(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult @objc override public func multipleQueries(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
         // IMPORTANT: A non-mirrored index must behave exactly as an online index.
         if (!mirrored) {
             return super.multipleQueries(queries, strategy: strategy, completionHandler: completionHandler);
@@ -700,7 +700,7 @@ import Foundation
     }
     
     /// Run multiple queries on the online API, and not the local mirror.
-    @discardableResult @objc open func multipleQueriesOnline(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult @objc public func multipleQueriesOnline(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
         return super.multipleQueries(queries, strategy: strategy, completionHandler: {
             (content, error) in
             // Tag results as having a remote origin.
@@ -712,7 +712,7 @@ import Foundation
         })
     }
 
-    @discardableResult open func multipleQueriesOnline(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult public func multipleQueriesOnline(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         return self.multipleQueriesOnline(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
 
@@ -724,7 +724,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult @objc open func multipleQueriesOffline(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult @objc public func multipleQueriesOffline(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
         assert(self.mirrored, "Mirroring not activated on this index")
         
         // TODO: We should be doing a copy of the queries for better safety.
@@ -742,7 +742,7 @@ import Foundation
         return operation
     }
     
-    @discardableResult open func multipleQueriesOffline(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult public func multipleQueriesOffline(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         return self.multipleQueriesOffline(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
     
@@ -816,7 +816,7 @@ import Foundation
     /// Browse the local mirror (initial call).
     /// Same semantics as `Index.browse(...)`.
     ///
-    @discardableResult @objc open func browseMirror(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult @objc public func browseMirror(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         assert(self.mirrored, "Mirroring not activated on this index")
         let queryCopy = Query(copy: query)
         let callingQueue = OperationQueue.current ?? OperationQueue.main
@@ -836,7 +836,7 @@ import Foundation
     /// Browse the index from a cursor.
     /// Same semantics as `Index.browseFrom(...)`.
     ///
-    @discardableResult @objc open func browseMirrorFrom(_ cursor: String, completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult @objc public func browseMirrorFrom(_ cursor: String, completionHandler: @escaping CompletionHandler) -> Operation {
         assert(self.mirrored, "Mirroring not activated on this index")
         let callingQueue = OperationQueue.current ?? OperationQueue.main
         let operation = BlockOperation()

@@ -29,7 +29,7 @@ import Foundation
 /// Character set allowed as a component of the path portion of a URL.
 /// Basically it's just the default `NSCharacterSet.URLPathAllowedCharacterSet()` minus the slash character.
 ///
-let URLPathComponentAllowedCharacterSet: CharacterSet = {
+internal let URLPathComponentAllowedCharacterSet: CharacterSet = {
     var characterSet = CharacterSet()
     characterSet.formUnion(CharacterSet.urlPathAllowed)
     characterSet.remove(charactersIn: "/")

@@ -31,7 +31,7 @@ import Foundation
 /// - `finished`
 /// - `cancel`
 ///
-class AsyncOperation: Operation {
+internal class AsyncOperation: Operation {
     
     // Mark this operation as aynchronous.
     override var isAsynchronous: Bool {

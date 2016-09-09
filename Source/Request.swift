@@ -29,7 +29,7 @@ import Foundation
 /// This class encapsulates a sequence of normally one (nominal case), potentially many (in case of retry) network
 /// calls into a high-level operation. This operation can be cancelled by the user.
 ///
-class Request: AsyncOperation {
+internal class Request: AsyncOperation {
     let session: URLSession
     
     /// Request method.

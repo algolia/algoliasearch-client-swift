@@ -23,7 +23,7 @@
 
 import Foundation
 
-class ExpiringCacheItem {
+internal class ExpiringCacheItem {
     let expiringCacheItemDate: Date
     let content: [String: Any]
     
@@ -33,7 +33,7 @@ class ExpiringCacheItem {
     }
 }
 
-class ExpiringCache {
+internal class ExpiringCache {
     fileprivate let cache = NSCache<NSString, ExpiringCacheItem>()
     fileprivate let expiringTimeInterval: TimeInterval
     

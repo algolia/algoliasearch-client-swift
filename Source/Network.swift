@@ -24,7 +24,7 @@
 import Foundation
 
 /// HTTP method definitions.
-enum HTTPMethod: String {
+internal enum HTTPMethod: String {
     case GET = "GET"
     case POST = "POST"
     case PUT = "PUT"
@@ -33,7 +33,7 @@ enum HTTPMethod: String {
 
 /// Abstraction of `NSURLSession`.
 /// Only for the sake of unit tests.
-protocol URLSession {
+internal protocol URLSession {
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
 }
 
@@ -49,7 +49,7 @@ import SystemConfiguration
 
 /// Wrapper around an `NSURLSession`, adding logging facilities.
 ///
-class URLSessionLogger: NSObject, URLSession {
+internal class URLSessionLogger: NSObject, URLSession {
     static var epoch: NSDate!
     
     struct RequestStat {

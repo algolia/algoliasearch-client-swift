@@ -94,14 +94,14 @@ import Foundation
 /// A pair of (latitude, longitude).
 /// Used in geo-search.
 ///
-@objc open class LatLng: NSObject {
+@objc public class LatLng: NSObject {
     // IMPLEMENTATION NOTE: Cannot be `struct` because of Objective-C bridgeability.
     
     /// Latitude.
-    open let lat: Double
+    public let lat: Double
     
     /// Longitude.
-    open let lng: Double
+    public let lng: Double
     
     /// Create a geo location.
     ///
@@ -115,7 +115,7 @@ import Foundation
     
     // MARK: Equatable
     
-    open override func isEqual(_ object: Any?) -> Bool {
+    public override func isEqual(_ object: Any?) -> Bool {
         if let rhs = object as? LatLng {
             return self.lat == rhs.lat && self.lng == rhs.lng
         } else {
@@ -128,14 +128,14 @@ import Foundation
 /// A rectangle in geo coordinates.
 /// Used in geo-search.
 ///
-@objc open class GeoRect: NSObject {
+@objc public class GeoRect: NSObject {
     // IMPLEMENTATION NOTE: Cannot be `struct` because of Objective-C bridgeability.
     
     /// One of the rectangle's corners (typically the northwesternmost).
-    open let p1: LatLng
+    public let p1: LatLng
     
     /// Corner opposite from `p1` (typically the southeasternmost).
-    open let p2: LatLng
+    public let p2: LatLng
     
     /// Create a geo rectangle.
     ///
@@ -147,7 +147,7 @@ import Foundation
         self.p2 = p2
     }
     
-    open override func isEqual(_ object: Any?) -> Bool {
+    public override func isEqual(_ object: Any?) -> Bool {
         if let rhs = object as? GeoRect {
             return self.p1 == rhs.p1 && self.p2 == rhs.p2
         } else {
@@ -165,7 +165,7 @@ import Foundation
 /// 2. Using the low-level, **untyped accessors** `get(_:)` and `set(_:value:)` or the subscript operator.
 ///    Use this approach if the parameter you wish to set is not supported by this class.
 ///
-@objc open class Query : NSObject, NSCopying {
+@objc public class Query : NSObject, NSCopying {
     
     // MARK: - Low-level (untyped) parameters
     
@@ -177,7 +177,7 @@ import Foundation
     /// - parameter name:   The parameter's name.
     /// - returns: The parameter's value, or nil if a parameter with the specified name does not exist.
     ///
-    @objc open func get(_ name: String) -> String? {
+    @objc public func get(_ name: String) -> String? {
         return parameters[name]
     }
     
@@ -187,7 +187,7 @@ import Foundation
     /// - parameter name:   The parameter's name.
     /// - parameter value:  The parameter's value, or nill to remove it.
     ///
-    @objc open func set(_ name: String, value: String?) {
+    @objc public func set(_ name: String, value: String?) {
         if value == nil {
             parameters.removeValue(forKey: name)
         } else {
@@ -196,7 +196,7 @@ import Foundation
     }
     
     /// Convenience shortcut to `get(_:)` and `set(_:value:)`.
-    @objc open subscript(index: String) -> String? {
+    @objc public subscript(index: String) -> String? {
         get {
             return get(index)
         }
@@ -211,7 +211,7 @@ import Foundation
 
     /// The instant-search query string, all words of the query are interpreted as prefixes (for example “John Mc” will
     /// match “John Mccamey” and “Johnathan Mccamey”). If no query parameter is set, retrieves all objects.
-    @objc open var query: String? {
+    @objc public var query: String? {
         get { return get("query") }
         set { set("query", value: newValue) }
     }
@@ -220,7 +220,7 @@ import Foundation
     /// - `prefixAll`: all query words are interpreted as prefixes
     /// - `prefixLast`: only the last word is interpreted as a prefix (default behavior)
     /// - `prefixNone`: no query word is interpreted as a prefix. This option is not recommended.
-    @objc open var queryType: String? {
+    @objc public var queryType: String? {
         get { return queryType_?.rawValue }
         set { queryType_ = newValue == nil ? nil : QueryType(rawValue: newValue!) }
     }
@@ -232,7 +232,7 @@ import Foundation
         /// No query word is interpreted as a prefix. This option is not recommended.
         case prefixNone = "prefixNone"
     }
-    open var queryType_: QueryType? {
+    public var queryType_: QueryType? {
         get {
             if let value = get("queryType") {
                 return QueryType(rawValue: value)
@@ -252,7 +252,7 @@ import Foundation
     ///   all results with typos will be hidden.
     /// - `strict`: if there is a match without typo, then all results with 2 typos or more will be removed. This
     /// option is useful if you want to avoid as much as possible false positive.
-    @objc open var typoTolerance: String? {
+    @objc public var typoTolerance: String? {
         get { return typoTolerance_?.rawValue }
         set { typoTolerance_ = newValue == nil ? nil : TypoTolerance.from(rawValue: newValue!) }
     }
@@ -294,7 +294,7 @@ import Foundation
             }
         }
     }
-    open var typoTolerance_: TypoTolerance? {
+    public var typoTolerance_: TypoTolerance? {
         get {
             if let value = get("typoTolerance") {
                 return TypoTolerance.from(rawValue: value)
@@ -308,7 +308,7 @@ import Foundation
     }
     
     /// The minimum number of characters in a query word to accept one typo in this word.
-    @objc open var minWordSizefor1Typo: NSNumber? {
+    @objc public var minWordSizefor1Typo: NSNumber? {
         get { return Query.toNumber(self.minWordSizefor1Typo_) }
         set { self.minWordSizefor1Typo_ = newValue?.uintValue }
     }
@@ -318,7 +318,7 @@ import Foundation
     }
     
     /// The minimum number of characters in a query word to accept two typos in this word.
-    @objc open var minWordSizefor2Typos: NSNumber? {
+    @objc public var minWordSizefor2Typos: NSNumber? {
         get { return Query.toNumber(self.minWordSizefor2Typos_) }
         set { self.minWordSizefor2Typos_ = newValue?.uintValue }
     }
@@ -330,7 +330,7 @@ import Foundation
     /// If set to false, disable typo-tolerance on numeric tokens (=numbers) in the query word. For example the query
     /// "304" will match with "30450", but not with "40450" that would have been the case with typo-tolerance enabled.
     /// Can be very useful on serial numbers and zip codes searches.
-    @objc open var allowTyposOnNumericTokens: NSNumber? {
+    @objc public var allowTyposOnNumericTokens: NSNumber? {
         get { return Query.toNumber(self.allowTyposOnNumericTokens_) }
         set { self.allowTyposOnNumericTokens_ = newValue?.boolValue }
     }
@@ -341,7 +341,7 @@ import Foundation
     
     /// If set to true, simple plural forms won’t be considered as typos (for example car/cars will be considered as
     /// equal).
-    @objc open var ignorePlurals: NSNumber? {
+    @objc public var ignorePlurals: NSNumber? {
         get { return Query.toNumber(self.ignorePlurals_) }
         set { self.ignorePlurals_ = newValue?.boolValue }
     }
@@ -354,13 +354,13 @@ import Foundation
     /// Attributes are separated with a comma (for example "name,address" ), you can also use a JSON string array
     /// encoding (for example encodeURIComponent('["name","address"]') ). By default, all attributes specified in
     /// attributesToIndex settings are used to search.
-    @objc open var restrictSearchableAttributes: [String]? {
+    @objc public var restrictSearchableAttributes: [String]? {
         get { return Query.parseStringArray(get("restrictSearchableAttributes")) }
         set { set("restrictSearchableAttributes", value: Query.buildJSONArray(newValue)) }
     }
     
     /// Enable the advanced query syntax.
-    @objc open var advancedSyntax: NSNumber? {
+    @objc public var advancedSyntax: NSNumber? {
         get { return Query.toNumber(self.advancedSyntax_) }
         set { self.advancedSyntax_ = newValue?.boolValue }
     }
@@ -370,7 +370,7 @@ import Foundation
     }
     
     /// If set to false, this query will not be taken into account for the Analytics.
-    @objc open var analytics: NSNumber? {
+    @objc public var analytics: NSNumber? {
         get { return Query.toNumber(self.analytics_) }
         set { self.analytics_ = newValue?.boolValue }
     }
@@ -381,13 +381,13 @@ import Foundation
     
     /// If set, tag your query with the specified identifiers. Tags can then be used in the Analytics to analyze a
     /// subset of searches only.
-    @objc open var analyticsTags: [String]? {
+    @objc public var analyticsTags: [String]? {
         get { return Query.parseStringArray(get("analyticsTags")) }
         set { set("analyticsTags", value: Query.buildJSONArray(newValue)) }
     }
     
     /// If set to false, this query will not use synonyms defined in configuration.
-    @objc open var synonyms: NSNumber? {
+    @objc public var synonyms: NSNumber? {
         get { return Query.toNumber(self.synonyms_) }
         set { self.synonyms_ = newValue?.boolValue }
     }
@@ -398,7 +398,7 @@ import Foundation
     
     /// If set to false, words matched via synonyms expansion will not be replaced by the matched synonym in the
     /// highlighted result.
-    @objc open var replaceSynonymsInHighlight: NSNumber? {
+    @objc public var replaceSynonymsInHighlight: NSNumber? {
         get { return Query.toNumber(self.replaceSynonymsInHighlight_) }
         set { self.replaceSynonymsInHighlight_ = newValue?.boolValue }
     }
@@ -409,7 +409,7 @@ import Foundation
     
     /// Specify a list of words that should be considered as optional when found in the query. This list will be
     /// appended to the one defined in your index settings.
-    @objc open var optionalWords: [String]? {
+    @objc public var optionalWords: [String]? {
         get { return Query.parseStringArray(get("optionalWords")) }
         set { set("optionalWords", value: Query.buildJSONArray(newValue)) }
     }
@@ -421,7 +421,7 @@ import Foundation
     /// Considering the query “javascript framework”, if you set minProximity=2 the records “JavaScript framework” and
     /// “JavaScript charting framework” will get the same proximity score, even if the second one contains a word
     /// between the 2 matching words.
-    @objc open var minProximity: NSNumber? {
+    @objc public var minProximity: NSNumber? {
         get { return Query.toNumber(self.minProximity_) }
         set { self.minProximity_ = newValue?.uintValue }
     }
@@ -441,7 +441,7 @@ import Foundation
     /// - `allOptional`: When a query does not return any result, a second trial will be made with all words as
     ///   optional (which is equivalent to transforming the AND operand between query terms in a OR operand)
     /// - `none`: No specific processing is done when a query does not return any result.
-    @objc open var removeWordsIfNoResults: String? {
+    @objc public var removeWordsIfNoResults: String? {
         get { return removeWordsIfNoResults_?.rawValue }
         set { removeWordsIfNoResults_ = newValue == nil ? nil : RemoveWordsIfNoResults(rawValue: newValue!) }
     }
@@ -463,7 +463,7 @@ import Foundation
         /// optional (which is equivalent to transforming the AND operand between query terms in a OR operand)
         case allOptional = "allOptional"
     }
-    open var removeWordsIfNoResults_: RemoveWordsIfNoResults? {
+    public var removeWordsIfNoResults_: RemoveWordsIfNoResults? {
         get {
             if let value = get("removeWordsIfNoResults") {
                 return RemoveWordsIfNoResults(rawValue: value)
@@ -478,7 +478,7 @@ import Foundation
     
     /// List of attributes on which you want to disable typo tolerance (must be a subset of the `attributesToIndex`
     /// index setting).
-    @objc open var disableTypoToleranceOnAttributes: [String]? {
+    @objc public var disableTypoToleranceOnAttributes: [String]? {
         get { return Query.parseStringArray(get("disableTypoToleranceOnAttributes")) }
         set { set("disableTypoToleranceOnAttributes", value: Query.buildJSONArray(newValue)) }
     }
@@ -499,7 +499,7 @@ import Foundation
     /// before executing the query, we will remove “what”, “is” and “a” in order to just search for “record”. This
     /// removal will remove false positive because of stop words, especially when combined with optional words.
     /// For most use cases, it is better to do not use this feature as people search by keywords on search engines.
-    @objc open var removeStopWords: Any? {
+    @objc public var removeStopWords: Any? {
         get {
             let stringValue = get("removeStopWords")
             if let boolValue = Query.parseBool(stringValue) {
@@ -524,7 +524,7 @@ import Foundation
     }
     
     /// This parameter control how the exact ranking criterion is computed when the query contains one word.
-    @objc open var exactOnSingleWordQuery: String? {
+    @objc public var exactOnSingleWordQuery: String? {
         get { return exactOnSingleWordQuery_?.rawValue }
         set { exactOnSingleWordQuery_ = newValue == nil ? nil : ExactOnSingleWordQuery(rawValue: newValue!) }
     }
@@ -540,7 +540,7 @@ import Foundation
         /// (Default) Exact set to 1 if there is an attribute containing a string equals to the query.
         case attribute = "attribute"
     }
-    open var exactOnSingleWordQuery_: ExactOnSingleWordQuery? {
+    public var exactOnSingleWordQuery_: ExactOnSingleWordQuery? {
         get {
             if let value = get("exactOnSingleWordQuery") {
                 return ExactOnSingleWordQuery(rawValue: value)
@@ -561,7 +561,7 @@ import Foundation
     ///
     /// The default value is `ignorePlurals,singleWordSynonym`.
     ///
-    @objc open var alternativesAsExact: [String]? {
+    @objc public var alternativesAsExact: [String]? {
         get { return Query.parseStringArray(get("alternativesAsExact")) }
         set { set("alternativesAsExact", value: newValue?.joined(separator: ",")) }
     }
@@ -573,7 +573,7 @@ import Foundation
         /// Synonym over multiple words (For example “NY” = “New York”).
         case multiWordsSynonym = "multiWordsSynonym"
     }
-    open var alternativesAsExact_: [AlternativesAsExact]? {
+    public var alternativesAsExact_: [AlternativesAsExact]? {
         get {
             if let rawValues = alternativesAsExact {
                 var values = [AlternativesAsExact]()
@@ -603,7 +603,7 @@ import Foundation
     
     /// Pagination parameter used to select the page to retrieve. Page is zero-based and defaults to 0. Thus, to
     /// retrieve the 10th page you need to set `page=9`
-    @objc open var page: NSNumber? {
+    @objc public var page: NSNumber? {
         get { return Query.toNumber(self.page_) }
         set { self.page_ = newValue?.uintValue }
     }
@@ -613,7 +613,7 @@ import Foundation
     }
     
     /// Pagination parameter used to select the number of hits per page. Defaults to 20.
-    @objc open var hitsPerPage: NSNumber? {
+    @objc public var hitsPerPage: NSNumber? {
         get { return Query.toNumber(self.hitsPerPage_) }
         set { self.hitsPerPage_ = newValue?.uintValue }
     }
@@ -627,7 +627,7 @@ import Foundation
     /// List of object attributes you want to retrieve (let you minimize the answer size). You can also use `*` to
     /// retrieve all values when an `attributesToRetrieve` setting is specified for your index.
     /// By default all attributes are retrieved.
-    @objc open var attributesToRetrieve: [String]? {
+    @objc public var attributesToRetrieve: [String]? {
         get { return Query.parseStringArray(get("attributesToRetrieve")) }
         set { set("attributesToRetrieve", value: Query.buildJSONArray(newValue)) }
     }
@@ -639,20 +639,20 @@ import Foundation
     /// - `full`: if all the query terms were found in the attribute
     /// - `partial`: if only some of the query terms were found
     /// - `none`: if none of the query terms were found
-    @objc open var attributesToHighlight: [String]? {
+    @objc public var attributesToHighlight: [String]? {
         get { return Query.parseStringArray(get("attributesToHighlight")) }
         set { set("attributesToHighlight", value: Query.buildJSONArray(newValue)) }
     }
     
     /// List of attributes to snippet alongside the number of words to return (syntax is `attributeName:nbWords`).
     /// By default no snippet is computed.
-    @objc open var attributesToSnippet: [String]? {
+    @objc public var attributesToSnippet: [String]? {
         get { return Query.parseStringArray(get("attributesToSnippet")) }
         set { set("attributesToSnippet", value: Query.buildJSONArray(newValue)) }
     }
     
     /// If set to true, the result hits will contain ranking information in `_rankingInfo` attribute.
-    @objc open var getRankingInfo: NSNumber? {
+    @objc public var getRankingInfo: NSNumber? {
         get { return Query.toNumber(self.getRankingInfo_) }
         set { self.getRankingInfo_ = newValue?.boolValue }
     }
@@ -662,19 +662,19 @@ import Foundation
     }
     
     /// Specify the string that is inserted before the highlighted parts in the query result (defaults to `<em>`).
-    @objc open var highlightPreTag: String? {
+    @objc public var highlightPreTag: String? {
         get { return get("highlightPreTag") }
         set { set("highlightPreTag", value: newValue) }
     }
     
     /// Specify the string that is inserted after the highlighted parts in the query result (defaults to `</em>`)
-    @objc open var highlightPostTag: String? {
+    @objc public var highlightPostTag: String? {
         get { return get("highlightPostTag") }
         set { set("highlightPostTag", value: newValue) }
     }
     
     /// String used as an ellipsis indicator when a snippet is truncated (defaults to empty).
-    @objc open var snippetEllipsisText : String? {
+    @objc public var snippetEllipsisText : String? {
         get { return get("snippetEllipsisText") }
         set { set("snippetEllipsisText", value: newValue) }
     }
@@ -682,7 +682,7 @@ import Foundation
     // MARK: Numeric search parameters
 
     /// Filter on numeric attributes.
-    @objc open var numericFilters: [Any]? {
+    @objc public var numericFilters: [Any]? {
         get { return Query.parseJSONArray(get("numericFilters")) }
         set { set("numericFilters", value: Query.buildJSONArray(newValue)) }
     }
@@ -690,7 +690,7 @@ import Foundation
     // MARK: Category search parameters
 
     /// Filter the query by a set of tags.
-    @objc open var tagFilters: [Any]? {
+    @objc public var tagFilters: [Any]? {
         get { return Query.parseJSONArray(get("tagFilters")) }
         set { set("tagFilters", value: Query.buildJSONArray(newValue)) }
     }
@@ -702,7 +702,7 @@ import Foundation
     /// all hits containing a duplicate value for the `attributeForDistinct` attribute are removed from results.
     /// For example, if the chosen attribute is `show_name` and several hits have the same value for `show_name`, then
     /// only the best one is kept and others are removed.
-    @objc open var distinct: NSNumber? {
+    @objc public var distinct: NSNumber? {
         get { return Query.toNumber(self.distinct_) }
         set { self.distinct_ = newValue?.uintValue }
     }
@@ -717,20 +717,20 @@ import Foundation
     /// `attributesForFaceting` index setting can be used in this parameter. You can also use `*` to perform faceting
     /// on all attributes specified in `attributesForFaceting`. If the number of results is important, the count can
     /// be approximate, the attribute `exhaustiveFacetsCount` in the response is true when the count is exact.
-    @objc open var facets: [String]? {
+    @objc public var facets: [String]? {
         get { return Query.parseStringArray(get("facets")) }
         set { set("facets", value: Query.buildJSONArray(newValue)) }
     }
     
     /// Filter the query by a list of facets.
-    @objc open var facetFilters: [Any]? {
+    @objc public var facetFilters: [Any]? {
         get { return Query.parseJSONArray(get("facetFilters")) }
         set { set("facetFilters", value: Query.buildJSONArray(newValue)) }
     }
     
     /// Limit the number of facet values returned for each facet. For example: `maxValuesPerFacet=10` will retrieve
     /// max 10 values per facet.
-    @objc open var maxValuesPerFacet: NSNumber? {
+    @objc public var maxValuesPerFacet: NSNumber? {
         get { return Query.toNumber(self.maxValuesPerFacet_) }
         set { self.maxValuesPerFacet_ = newValue?.uintValue }
     }
@@ -755,7 +755,7 @@ import Foundation
     /// - `TO`: used to specify a range for a numeric filter.
     /// - `NOT`: used to negate a filter. The syntax with the `-` isn't allowed.
     ///
-    @objc open var filters: String? {
+    @objc public var filters: String? {
         get { return get("filters") }
         set { set("filters", value: newValue) }
     }
@@ -768,7 +768,7 @@ import Foundation
     /// `_geoloc` attribute (in the form `"_geoloc":{"lat":48.853409, "lng":2.348800}` or
     /// `"_geoloc":[{"lat":48.853409, "lng":2.348800},{"lat":48.547456, "lng":2.972075}]` if you have several
     /// geo-locations in your record).
-    @objc open var aroundLatLng: LatLng? {
+    @objc public var aroundLatLng: LatLng? {
         get {
             if let fields = get("aroundLatLng")?.components(separatedBy: ",") {
                 if fields.count == 2 {
@@ -785,7 +785,7 @@ import Foundation
     }
 
     /// Same than aroundLatLng but using IP geolocation instead of manually specified latitude/longitude.
-    @objc open var aroundLatLngViaIP: NSNumber? {
+    @objc public var aroundLatLngViaIP: NSNumber? {
         get { return Query.toNumber(self.aroundLatLngViaIP_) }
         set { self.aroundLatLngViaIP_ = newValue?.boolValue }
     }
@@ -801,7 +801,7 @@ import Foundation
     /// compute the geo distance without filtering in a geo area, this option will be faster than specifying a big
     /// integer.
     ///
-    @objc open var aroundRadius: NSNumber? {
+    @objc public var aroundRadius: NSNumber? {
         get { return Query.toNumber(self.aroundRadius_) }
         set { self.aroundRadius_ = newValue?.uintValue }
     }
@@ -829,7 +829,7 @@ import Foundation
     /// Control the precision of a `aroundLatLng` query. In meter. For example if you set `aroundPrecision=100`, two
     /// objects that are in the range 0-99m will be considered as identical in the ranking for the .variable geo
     /// ranking parameter (same for 100-199, 200-299, … ranges).
-    @objc open var aroundPrecision: NSNumber? {
+    @objc public var aroundPrecision: NSNumber? {
         get { return Query.toNumber(self.aroundPrecision_) }
         set { self.aroundPrecision_ = newValue?.uintValue }
     }
@@ -841,7 +841,7 @@ import Foundation
     /// Define the minimum radius used for `aroundLatLng` or `aroundLatLngViaIP` when `aroundRadius` is not set. The
     /// radius is computed automatically using the density of the area. You can retrieve the computed radius in the
     /// `automaticRadius` attribute of the answer.
-    @objc open var minimumAroundRadius: NSNumber? {
+    @objc public var minimumAroundRadius: NSNumber? {
         get { return Query.toNumber(self.minimumAroundRadius_) }
         set { self.minimumAroundRadius_ = newValue?.uintValue }
     }
@@ -852,7 +852,7 @@ import Foundation
     
     /// Search for entries inside a given area defined by the two extreme points of a rectangle.
     /// You can use several bounding boxes (OR) by passing more than 1 value.
-    @objc open var insideBoundingBox: [GeoRect]? {
+    @objc public var insideBoundingBox: [GeoRect]? {
         get {
             if let fields = get("insideBoundingBox")?.components(separatedBy: ",") {
                 if fields.count % 4 == 0 {
@@ -886,7 +886,7 @@ import Foundation
     /// Search entries inside a given area defined by a set of points (defined by a minimum of 3 points).
     /// You can pass several time the insidePolygon parameter to your query, the behavior will be a OR between all those polygons.
     // FIXME: Union cannot work with this implementation, as at most one occurrence per parameter is supported.
-    @objc open var insidePolygon: [LatLng]? {
+    @objc public var insidePolygon: [LatLng]? {
         get {
             if let fields = get("insidePolygon")?.components(separatedBy: ",") {
                 if fields.count % 2 == 0 && fields.count / 2 >= 3 {
@@ -918,7 +918,7 @@ import Foundation
 
     // MARK: - Miscellaneous
 
-    @objc override open var description: String {
+    @objc override public var description: String {
         get { return "Query{\(parameters)}" }
     }
     
@@ -948,7 +948,7 @@ import Foundation
     ///
     /// + Note: Primarily intended for Objective-C use. Swift coders should use `init(copy:)`.
     ///
-    @objc open func copy(with zone: NSZone?) -> Any {
+    @objc public func copy(with zone: NSZone?) -> Any {
         // NOTE: As per the docs, the zone argument is ignored.
         return Query(copy: self)
     }
@@ -956,7 +956,7 @@ import Foundation
     // MARK: Serialization & parsing
 
     /// Return the final query string used in URL.
-    @objc open func build() -> String {
+    @objc public func build() -> String {
         var components = [String]()
         // Sort parameters by name to get predictable output.
         let sortedParameters = parameters.sorted { $0.0 < $1.0 }
@@ -969,7 +969,7 @@ import Foundation
     }
 
     /// Parse a query from a URL query string.
-    @objc open static func parse(_ queryString: String) -> Query {
+    @objc public static func parse(_ queryString: String) -> Query {
         let query = Query()
         let components = queryString.components(separatedBy: "&")
         for component in components {
@@ -991,7 +991,7 @@ import Foundation
     
     // MARK: Equatable
     
-    override open func isEqual(_ object: Any?) -> Bool {
+    override public func isEqual(_ object: Any?) -> Bool {
         guard let rhs = object as? Query else {
             return false
         }
