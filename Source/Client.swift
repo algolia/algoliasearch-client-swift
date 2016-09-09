@@ -98,10 +98,10 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     }
 
     /// Default timeout for network requests. Default: 30 seconds.
-    @objc public let timeout: TimeInterval = 30
+    @objc public var timeout: TimeInterval = 30
     
-    /// Timeout for search requests. Default: 5 seconds.
-    @objc public let searchTimeout: TimeInterval = 5
+    /// Specific timeout for search requests. Default: 5 seconds.
+    @objc public var searchTimeout: TimeInterval = 5
 
     /// Algolia application ID.
     @objc public let appID: String

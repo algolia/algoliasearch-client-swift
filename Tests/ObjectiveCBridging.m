@@ -67,8 +67,8 @@
     client.userAgents = [client.userAgents arrayByAddingObject:[[LibraryVersion alloc] initWithName:@"FooBar" version:@"1.2.3"]];
     
     // Timeouts.
-    NSLog(@"Timeout = %f", client.timeout);
-    NSLog(@"Search timeout = %f", client.searchTimeout);
+    client.timeout = client.timeout + 10;
+    client.searchTimeout = client.searchTimeout + 5;
 
     // Hosts.
     client.readHosts = [client.readHosts arrayByAddingObject:@"nowhere.net"];
