@@ -112,7 +112,7 @@
     query.aroundLatLng = [[LatLng alloc] initWithLat:123.45 lng:67.89];
     query.aroundLatLngViaIP = [NSNumber numberWithBool:YES];
     query.aroundRadius = [NSNumber numberWithInt:666];
-    query.aroundRadius = [Query aroundRadiusAll];
+    query.aroundRadius = [NSNumber numberWithUnsignedInteger:[Query aroundRadiusAll]];
     query.aroundPrecision = [NSNumber numberWithInt:66];
     query.minimumAroundRadius = [NSNumber numberWithInt:666];
     query.insideBoundingBox = @[ [[GeoRect alloc] initWithP1:[[LatLng alloc] initWithLat:123.45 lng:67.89] p2:[[LatLng alloc] initWithLat:129.99 lng:69.99]] ];
