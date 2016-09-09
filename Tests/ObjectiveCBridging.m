@@ -164,7 +164,7 @@
     [index setSettings:DUMMY_JSON completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
         // Do nothing.
     }];
-    [index setSettings:DUMMY_JSON forwardToSlaves:YES completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+    [index setSettings:DUMMY_JSON forwardToReplicas:YES completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
         // Do nothing.
     }];
     [index clearIndex:^(NSDictionary<NSString*,id>* content, NSError* error) {

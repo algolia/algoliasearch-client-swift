@@ -343,19 +343,19 @@ import Foundation
         return client.performHTTPQuery(path: path, method: .PUT, body: settings, hostnames: client.writeHosts, completionHandler: completionHandler)
     }
 
-    /// Set this index's settings, optionally forwarding the change to slave indices.
+    /// Set this index's settings, optionally forwarding the change to replicas.
     ///
     /// Please refer to our [API documentation](https://www.algolia.com/doc/swift#index-settings) for the list of
     /// supported settings.
     ///
     /// - parameter settings: New settings.
-    /// - parameter forwardToSlaves: When true, the change is also applied to slaves of this index.
+    /// - parameter forwardToReplicas: When true, the change is also applied to replicas of this index.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func setSettings(_ settings: JSONObject, forwardToSlaves: Bool, completionHandler: CompletionHandler? = nil) -> Operation {
-        let path = "1/indexes/\(urlEncodedName)/settings?forwardToSlaves=\(forwardToSlaves)"
+    @discardableResult public func setSettings(_ settings: JSONObject, forwardToReplicas: Bool, completionHandler: CompletionHandler? = nil) -> Operation {
+        let path = "1/indexes/\(urlEncodedName)/settings?forwardToReplicas=\(forwardToReplicas)"
         return client.performHTTPQuery(path: path, method: .PUT, body: settings, hostnames: client.writeHosts, completionHandler: completionHandler)
     }
 

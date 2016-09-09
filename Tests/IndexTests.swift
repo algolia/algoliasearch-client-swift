@@ -619,11 +619,11 @@ class IndexTests: XCTestCase {
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
 
-    func testSettings_forwardToSlaves() {
+    func testSettings_forwardToReplicas() {
         let expectation = self.expectation(description: "testSettings")
         let settings = ["attributesToRetrieve": ["name"]]
         
-        index.setSettings(settings, forwardToSlaves: true, completionHandler: { (content, error) -> Void in
+        index.setSettings(settings, forwardToReplicas: true, completionHandler: { (content, error) -> Void in
             if let error = error {
                 XCTFail("Error during setSettings: \(error)")
                 expectation.fulfill()
