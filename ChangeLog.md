@@ -1,6 +1,47 @@
 Change Log
 ==========
 
+## 4.0 (WIP)
+
+**Note:** This is a new major version, bringing incompatible changes, most of them due to Swift 3 support.
+
+**Warning:** This version requires Swift 3; it will not compile with Swift 2.x.
+
+Add support for **Swift 3**:
+
+- Adapt to the new Foundation API
+- Follow the [Swift API Design Guidelines](https://swift.org/documentation/api-design-guidelines):
+    - Argument labels:
+        - Omit the first argument when the function name contains a complement (e.g. `addObject`) or when the purpose is obvious (`search`: with a query)
+        - Label the first argument when the purpose is not obvious and not contained in the method name (e.g. `batch(operations:)`)
+        - Label all completion handlers explicitly. This is the convention adopted by the system's libraries (e.g. `URLSession.dataTask(with:completionHandler:)`. Since the completion handler is likely to be a closure, the block can be moved out of the call site anyway, so the label is only required when passing a function/block reference.
+    - Method names:
+        - `browse` is now overloaded: `browse(query:)` and `browse(from:)`.
+    - Rename enum members to lower camel case
+- Better Objective-C mappings
+    - Adjust method names when necessary for a better fit with this language
+    - Objective-C specific types are no longer visible in Swift (well, technically, they still are, but you have to look harder...)
+    - No underscore-suffixed properties any longer
+- Use `Error` instead of `NSError` in completion handlers
+    - Use dedicated error types
+- Use `@discardableResult` for methods returning `Operation`
+- Notifications are typed `Notification.Name`
+- Prevent subclassing by *not* adopting the `open` access modifier
+
+Other breaking changes:
+
+- (Swift only) Better typing of complex properties through enums
+- Rename `Index.indexName` to `Index.name`.
+- Refactor index search cache handling into two properties to enable/disable (`searchCacheEnabled`) it and set the expiration delay (`searchCacheExpiringTimeInterval`), and one method to clear it (`clearSearchCache()`)
+- Rename "slaves" to "replicas"
+
+Other improvements:
+
+- Improve cancellation of `Index.waitTask()`
+- Add tests for Objective-C bridging (online flavor only)
+- Make timeouts configurable
+
+
 ## 3.7 (2016-09-07)
 
 - (#118) Add support for **watchOS**
