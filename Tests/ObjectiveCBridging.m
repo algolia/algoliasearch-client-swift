@@ -47,6 +47,78 @@
     [super tearDown];
 }
 
+- (void)testQuery {
+    // Init
+    // ----
+    Query* query = [Query new];
+    query = [[Query alloc] initWithQuery:@"text"];
+    query = [[Query alloc] initWithParameters:@{ @"foo": @"bar" }];
+    
+    // Methods
+    // -------
+    // Parameter accessors.
+    [query setParameterWithName:@"foo" to:@"bar"];
+    [query parameterWithName:@"foo"];
+    
+    // Subscript.
+    query[@"foo"] = [query[@"foo"] stringByAppendingString:@"baz"];
+    
+    // Copying.
+    Query* query2 = [query copy];
+    XCTAssertEqualObjects(query, query2);
+    
+    // Building/parsing.
+    Query* query3 = [Query parse:[query build]];
+    XCTAssertEqualObjects(query, query3);
+    
+    // Properties
+    // ----------
+    query.query = @"text";
+    query.queryType = @"prefixAll";
+    query.typoTolerance = @"strict";
+    query.minWordSizefor1Typo = [NSNumber numberWithInt:5];
+    query.minWordSizefor2Typos = [NSNumber numberWithInt:10];
+    query.allowTyposOnNumericTokens = [NSNumber numberWithBool:YES];
+    query.ignorePlurals = [NSNumber numberWithBool:YES];
+    query.restrictSearchableAttributes = @[ @"foo", @"bar" ];
+    query.advancedSyntax = [NSNumber numberWithBool:YES];
+    query.analytics = [NSNumber numberWithBool:YES];
+    query.analyticsTags = @[ @"foo", @"bar" ];
+    query.synonyms = [NSNumber numberWithBool:YES];
+    query.replaceSynonymsInHighlight = [NSNumber numberWithBool:YES];
+    query.optionalWords = @[ @"foo", @"bar" ];
+    query.minProximity = [NSNumber numberWithInt:6];
+    query.removeWordsIfNoResults = @"allOptional";
+    query.disableTypoToleranceOnAttributes = @[ @"foo", @"bar" ];
+    query.removeStopWords = @[ @"en", @"fr" ];
+    query.exactOnSingleWordQuery = @"attribute";
+    query.alternativesAsExact = @[ @"foo", @"bar" ];
+    query.page = [NSNumber numberWithInt:6];
+    query.hitsPerPage = [NSNumber numberWithInt:66];
+    query.attributesToRetrieve = @[ @"foo", @"bar" ];
+    query.attributesToHighlight = @[ @"foo", @"bar" ];
+    query.attributesToSnippet = @[ @"foo", @"bar" ];
+    query.getRankingInfo = [NSNumber numberWithBool:YES];
+    query.highlightPreTag = @"<mark>";
+    query.highlightPostTag = @"</mark>";
+    query.snippetEllipsisText = @"...";
+    query.numericFilters = @[ @"foo > 0", @"baz < 1000" ];
+    query.tagFilters = @[ @"foo", @"bar" ];
+    query.distinct = [NSNumber numberWithInt:6];
+    query.facets = @[ @"foo", @"bar" ];
+    query.facetFilters = @[ @"foo:bar", @"baz:blip" ];
+    query.maxValuesPerFacet = [NSNumber numberWithInt:666];
+    query.filters = @"foo = 0 AND bar < 1000";
+    query.aroundLatLng = [[LatLng alloc] initWithLat:123.45 lng:67.89];
+    query.aroundLatLngViaIP = [NSNumber numberWithBool:YES];
+    query.aroundRadius = [NSNumber numberWithInt:666];
+    query.aroundRadius = [Query aroundRadiusAll];
+    query.aroundPrecision = [NSNumber numberWithInt:66];
+    query.minimumAroundRadius = [NSNumber numberWithInt:666];
+    query.insideBoundingBox = @[ [[GeoRect alloc] initWithP1:[[LatLng alloc] initWithLat:123.45 lng:67.89] p2:[[LatLng alloc] initWithLat:129.99 lng:69.99]] ];
+    query.insidePolygon = @[ [[LatLng alloc] initWithLat:123.45 lng:67.89], [[LatLng alloc] initWithLat:129.99 lng:69.99], [[LatLng alloc] initWithLat:0.0 lng:0.0] ];
+}
+
 - (void)testClient {
     Client* client = [[Client alloc] initWithAppID:@"APPID" apiKey:@"APIKEY"];
     
