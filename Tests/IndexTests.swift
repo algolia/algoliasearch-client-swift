@@ -1047,4 +1047,63 @@ class IndexTests: XCTestCase {
         })
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
+
+    func testSearchCache() {
+        let expectation = self.expectation(description: #function)
+        let objects: [JSONObject] = [
+            ["city": "San Francisco"],
+            ["city": "New York"]
+        ]
+        
+        let timeout: TimeInterval = 5
+        index.searchCacheEnabled = true
+        index.searchCacheExpiringTimeInterval = timeout
+        index.addObjects(objects) { (content, error) in
+            guard error == nil else {
+                XCTFail("Error during addObjects: \(error)")
+                expectation.fulfill()
+                return
+            }
+            self.index.waitTask(withID: content!["taskID"] as! Int) { (content, error) in
+                guard error == nil else {
+                    XCTFail("Error during waitTask: \(error)")
+                    expectation.fulfill()
+                    return
+                }
+                // Search a first time: there should be no cache.
+                self.index.search(Query()) { (content, error) in
+                    guard error == nil else {
+                        XCTFail("Error during search #1: \(error)")
+                        expectation.fulfill()
+                        return
+                    }
+                    XCTAssertNotNil(content)
+                    let firstResponse: JSONObject = content!
+
+                    // Alter the hosts so that any search request should fail.
+                    self.client.readHosts = ["alwaysfail.algolia.com"]
+                    
+                    // Search a second time with the same query: we should hit the cache and not return an error.
+                    self.index.search(Query()) { (content, error) in
+                        guard error == nil else {
+                            XCTFail("Error during search #2: \(error)")
+                            expectation.fulfill()
+                            return
+                        }
+                        XCTAssertNotNil(content)
+                        XCTAssertEqual(firstResponse as NSObject, content! as NSObject)
+                        
+                        // Search a third time, but wait for the cache to expire.
+                        DispatchQueue.main.asyncAfter(deadline: .now() + timeout * 3) {
+                            self.index.search(Query()) { (content, error) in
+                                XCTAssertNotNil(error)
+                                expectation.fulfill()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        self.waitForExpectations(timeout: expectationTimeout + timeout * 4, handler: nil)
+    }
 }
