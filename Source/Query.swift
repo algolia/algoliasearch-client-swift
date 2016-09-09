@@ -177,7 +177,7 @@ import Foundation
     /// - parameter name:   The parameter's name.
     /// - returns: The parameter's value, or nil if a parameter with the specified name does not exist.
     ///
-    @objc public func get(_ name: String) -> String? {
+    @objc public func parameter(withName name: String) -> String? {
         return parameters[name]
     }
     
@@ -187,7 +187,7 @@ import Foundation
     /// - parameter name:   The parameter's name.
     /// - parameter value:  The parameter's value, or nill to remove it.
     ///
-    @objc public func set(_ name: String, value: String?) {
+    @objc public func setParameter(withName name: String, to value: String?) {
         if value == nil {
             parameters.removeValue(forKey: name)
         } else {
@@ -198,10 +198,10 @@ import Foundation
     /// Convenience shortcut to `get(_:)` and `set(_:value:)`.
     @objc public subscript(index: String) -> String? {
         get {
-            return get(index)
+            return parameter(withName: index)
         }
         set(newValue) {
-            set(index, value: newValue)
+            setParameter(withName: index, to: newValue)
         }
     }
     
@@ -212,8 +212,8 @@ import Foundation
     /// The instant-search query string, all words of the query are interpreted as prefixes (for example “John Mc” will
     /// match “John Mccamey” and “Johnathan Mccamey”). If no query parameter is set, retrieves all objects.
     @objc public var query: String? {
-        get { return get("query") }
-        set { set("query", value: newValue) }
+        get { return self["query"] }
+        set { self["query"] = newValue }
     }
     
     /// Selects how the query words are interpreted:
@@ -234,14 +234,14 @@ import Foundation
     }
     public var queryType_: QueryType? {
         get {
-            if let value = get("queryType") {
+            if let value = self["queryType"] {
                 return QueryType(rawValue: value)
             } else {
                 return nil
             }
         }
         set {
-            set("queryType", value: newValue?.rawValue)
+            self["queryType"] = newValue?.rawValue
         }
     }
     
@@ -296,14 +296,14 @@ import Foundation
     }
     public var typoTolerance_: TypoTolerance? {
         get {
-            if let value = get("typoTolerance") {
+            if let value = self["typoTolerance"] {
                 return TypoTolerance.from(rawValue: value)
             } else {
                 return nil
             }
         }
         set {
-            set("typoTolerance", value: newValue?.rawValue)
+            self["typoTolerance"] = newValue?.rawValue
         }
     }
     
@@ -313,8 +313,8 @@ import Foundation
         set { self.minWordSizefor1Typo_ = newValue?.uintValue }
     }
     var minWordSizefor1Typo_: UInt? {
-        get { return Query.parseUInt(get("minWordSizefor1Typo")) }
-        set { set("minWordSizefor1Typo", value: Query.buildUInt(newValue)) }
+        get { return Query.parseUInt(self["minWordSizefor1Typo"]) }
+        set { self["minWordSizefor1Typo"] = Query.buildUInt(newValue) }
     }
     
     /// The minimum number of characters in a query word to accept two typos in this word.
@@ -323,8 +323,8 @@ import Foundation
         set { self.minWordSizefor2Typos_ = newValue?.uintValue }
     }
     var minWordSizefor2Typos_: UInt? {
-        get { return Query.parseUInt(get("minWordSizefor2Typos")) }
-        set { set("minWordSizefor2Typos", value: Query.buildUInt(newValue)) }
+        get { return Query.parseUInt(self["minWordSizefor2Typos"]) }
+        set { self["minWordSizefor2Typos"] = Query.buildUInt(newValue) }
     }
 
     /// If set to false, disable typo-tolerance on numeric tokens (=numbers) in the query word. For example the query
@@ -335,8 +335,8 @@ import Foundation
         set { self.allowTyposOnNumericTokens_ = newValue?.boolValue }
     }
     var allowTyposOnNumericTokens_: Bool? {
-        get { return Query.parseBool(get("allowTyposOnNumericTokens")) }
-        set { set("allowTyposOnNumericTokens", value: Query.buildBool(newValue)) }
+        get { return Query.parseBool(self["allowTyposOnNumericTokens"]) }
+        set { self["allowTyposOnNumericTokens"] = Query.buildBool(newValue) }
     }
     
     /// If set to true, simple plural forms won’t be considered as typos (for example car/cars will be considered as
@@ -346,8 +346,8 @@ import Foundation
         set { self.ignorePlurals_ = newValue?.boolValue }
     }
     var ignorePlurals_: Bool? {
-        get { return Query.parseBool(get("ignorePlurals")) }
-        set { set("ignorePlurals", value: Query.buildBool(newValue)) }
+        get { return Query.parseBool(self["ignorePlurals"]) }
+        set { self["ignorePlurals"] = Query.buildBool(newValue) }
     }
     
     /// List of attributes you want to use for textual search (must be a subset of the attributesToIndex index setting).
@@ -355,8 +355,8 @@ import Foundation
     /// encoding (for example encodeURIComponent('["name","address"]') ). By default, all attributes specified in
     /// attributesToIndex settings are used to search.
     @objc public var restrictSearchableAttributes: [String]? {
-        get { return Query.parseStringArray(get("restrictSearchableAttributes")) }
-        set { set("restrictSearchableAttributes", value: Query.buildJSONArray(newValue)) }
+        get { return Query.parseStringArray(self["restrictSearchableAttributes"]) }
+        set { self["restrictSearchableAttributes"] = Query.buildJSONArray(newValue) }
     }
     
     /// Enable the advanced query syntax.
@@ -365,8 +365,8 @@ import Foundation
         set { self.advancedSyntax_ = newValue?.boolValue }
     }
     var advancedSyntax_: Bool? {
-        get { return Query.parseBool(get("advancedSyntax")) }
-        set { set("advancedSyntax", value: Query.buildBool(newValue)) }
+        get { return Query.parseBool(self["advancedSyntax"]) }
+        set { self["advancedSyntax"] = Query.buildBool(newValue) }
     }
     
     /// If set to false, this query will not be taken into account for the Analytics.
@@ -375,15 +375,15 @@ import Foundation
         set { self.analytics_ = newValue?.boolValue }
     }
     var analytics_: Bool? {
-        get { return Query.parseBool(get("analytics")) }
-        set { set("analytics", value: Query.buildBool(newValue)) }
+        get { return Query.parseBool(self["analytics"]) }
+        set { self["analytics"] = Query.buildBool(newValue) }
     }
     
     /// If set, tag your query with the specified identifiers. Tags can then be used in the Analytics to analyze a
     /// subset of searches only.
     @objc public var analyticsTags: [String]? {
-        get { return Query.parseStringArray(get("analyticsTags")) }
-        set { set("analyticsTags", value: Query.buildJSONArray(newValue)) }
+        get { return Query.parseStringArray(self["analyticsTags"]) }
+        set { self["analyticsTags"] = Query.buildJSONArray(newValue) }
     }
     
     /// If set to false, this query will not use synonyms defined in configuration.
@@ -392,8 +392,8 @@ import Foundation
         set { self.synonyms_ = newValue?.boolValue }
     }
     var synonyms_: Bool? {
-        get { return Query.parseBool(get("synonyms")) }
-        set { set("synonyms", value: Query.buildBool(newValue)) }
+        get { return Query.parseBool(self["synonyms"]) }
+        set { self["synonyms"] = Query.buildBool(newValue) }
     }
     
     /// If set to false, words matched via synonyms expansion will not be replaced by the matched synonym in the
@@ -403,15 +403,15 @@ import Foundation
         set { self.replaceSynonymsInHighlight_ = newValue?.boolValue }
     }
     var replaceSynonymsInHighlight_: Bool? {
-        get { return Query.parseBool(get("replaceSynonymsInHighlight")) }
-        set { set("replaceSynonymsInHighlight", value: Query.buildBool(newValue)) }
+        get { return Query.parseBool(self["replaceSynonymsInHighlight"]) }
+        set { self["replaceSynonymsInHighlight"] = Query.buildBool(newValue) }
     }
     
     /// Specify a list of words that should be considered as optional when found in the query. This list will be
     /// appended to the one defined in your index settings.
     @objc public var optionalWords: [String]? {
-        get { return Query.parseStringArray(get("optionalWords")) }
-        set { set("optionalWords", value: Query.buildJSONArray(newValue)) }
+        get { return Query.parseStringArray(self["optionalWords"]) }
+        set { self["optionalWords"] = Query.buildJSONArray(newValue) }
     }
 
     /// Configure the precision of the proximity ranking criterion. By default, the minimum (and best) proximity value
@@ -426,8 +426,8 @@ import Foundation
         set { self.minProximity_ = newValue?.uintValue }
     }
     var minProximity_: UInt? {
-        get { return Query.parseUInt(get("minProximity")) }
-        set { set("minProximity", value: Query.buildUInt(newValue)) }
+        get { return Query.parseUInt(self["minProximity"]) }
+        set { self["minProximity"] = Query.buildUInt(newValue) }
     }
 
     /// Configure the way query words are removed when the query doesn’t retrieve any results. This option can be used
@@ -465,22 +465,22 @@ import Foundation
     }
     public var removeWordsIfNoResults_: RemoveWordsIfNoResults? {
         get {
-            if let value = get("removeWordsIfNoResults") {
+            if let value = self["removeWordsIfNoResults"] {
                 return RemoveWordsIfNoResults(rawValue: value)
             } else {
                 return nil
             }
         }
         set {
-            set("removeWordsIfNoResults", value: newValue?.rawValue)
+            self["removeWordsIfNoResults"] = newValue?.rawValue
         }
     }
     
     /// List of attributes on which you want to disable typo tolerance (must be a subset of the `attributesToIndex`
     /// index setting).
     @objc public var disableTypoToleranceOnAttributes: [String]? {
-        get { return Query.parseStringArray(get("disableTypoToleranceOnAttributes")) }
-        set { set("disableTypoToleranceOnAttributes", value: Query.buildJSONArray(newValue)) }
+        get { return Query.parseStringArray(self["disableTypoToleranceOnAttributes"]) }
+        set { self["disableTypoToleranceOnAttributes"] = Query.buildJSONArray(newValue) }
     }
 
     /// Remove stop words from query before executing it.
@@ -501,7 +501,7 @@ import Foundation
     /// For most use cases, it is better to do not use this feature as people search by keywords on search engines.
     @objc public var removeStopWords: Any? {
         get {
-            let stringValue = get("removeStopWords")
+            let stringValue = self["removeStopWords"]
             if let boolValue = Query.parseBool(stringValue) {
                 return boolValue
             } else if let arrayValue = Query.parseStringArray(stringValue) {
@@ -512,13 +512,13 @@ import Foundation
         }
         set {
             if let boolValue = newValue as? Bool {
-                set("removeStopWords", value: Query.buildBool(boolValue))
+                self["removeStopWords"] = Query.buildBool(boolValue)
             } else if let numberValue = newValue as? NSNumber {
-                set("removeStopWords", value: Query.buildBool(numberValue.boolValue))
+                self["removeStopWords"] = Query.buildBool(numberValue.boolValue)
             } else if let arrayValue = newValue as? [String] {
-                set("removeStopWords", value: Query.buildStringArray(arrayValue))
+                self["removeStopWords"] = Query.buildStringArray(arrayValue)
             } else {
-                set("removeStopWords", value: nil)
+                self["removeStopWords"] = nil
             }
         }
     }
@@ -542,14 +542,14 @@ import Foundation
     }
     public var exactOnSingleWordQuery_: ExactOnSingleWordQuery? {
         get {
-            if let value = get("exactOnSingleWordQuery") {
+            if let value = self["exactOnSingleWordQuery"] {
                 return ExactOnSingleWordQuery(rawValue: value)
             } else {
                 return nil
             }
         }
         set {
-            set("exactOnSingleWordQuery", value: newValue?.rawValue)
+            self["exactOnSingleWordQuery"] = newValue?.rawValue
         }
     }
     
@@ -562,8 +562,8 @@ import Foundation
     /// The default value is `ignorePlurals,singleWordSynonym`.
     ///
     @objc public var alternativesAsExact: [String]? {
-        get { return Query.parseStringArray(get("alternativesAsExact")) }
-        set { set("alternativesAsExact", value: newValue?.joined(separator: ",")) }
+        get { return Query.parseStringArray(self["alternativesAsExact"]) }
+        set { self["alternativesAsExact"] = newValue?.joined(separator: ",") }
     }
     public enum AlternativesAsExact: String {
         /// Alternative word added by the ignore plurals feature.
@@ -608,8 +608,8 @@ import Foundation
         set { self.page_ = newValue?.uintValue }
     }
     var page_: UInt? {
-        get { return Query.parseUInt(get("page")) }
-        set { set("page", value: Query.buildUInt(newValue)) }
+        get { return Query.parseUInt(self["page"]) }
+        set { self["page"] = Query.buildUInt(newValue) }
     }
     
     /// Pagination parameter used to select the number of hits per page. Defaults to 20.
@@ -618,8 +618,8 @@ import Foundation
         set { self.hitsPerPage_ = newValue?.uintValue }
     }
     var hitsPerPage_: UInt? {
-        get { return Query.parseUInt(get("hitsPerPage")) }
-        set { set("hitsPerPage", value: Query.buildUInt(newValue)) }
+        get { return Query.parseUInt(self["hitsPerPage"]) }
+        set { self["hitsPerPage"] = Query.buildUInt(newValue) }
     }
     
     // MARK: Parameters to control results content
@@ -628,8 +628,8 @@ import Foundation
     /// retrieve all values when an `attributesToRetrieve` setting is specified for your index.
     /// By default all attributes are retrieved.
     @objc public var attributesToRetrieve: [String]? {
-        get { return Query.parseStringArray(get("attributesToRetrieve")) }
-        set { set("attributesToRetrieve", value: Query.buildJSONArray(newValue)) }
+        get { return Query.parseStringArray(self["attributesToRetrieve"]) }
+        set { self["attributesToRetrieve"] = Query.buildJSONArray(newValue) }
     }
     
     /// List of attributes you want to highlight according to the query. If an attribute has no match for the query,
@@ -640,15 +640,15 @@ import Foundation
     /// - `partial`: if only some of the query terms were found
     /// - `none`: if none of the query terms were found
     @objc public var attributesToHighlight: [String]? {
-        get { return Query.parseStringArray(get("attributesToHighlight")) }
-        set { set("attributesToHighlight", value: Query.buildJSONArray(newValue)) }
+        get { return Query.parseStringArray(self["attributesToHighlight"]) }
+        set { self["attributesToHighlight"] = Query.buildJSONArray(newValue) }
     }
     
     /// List of attributes to snippet alongside the number of words to return (syntax is `attributeName:nbWords`).
     /// By default no snippet is computed.
     @objc public var attributesToSnippet: [String]? {
-        get { return Query.parseStringArray(get("attributesToSnippet")) }
-        set { set("attributesToSnippet", value: Query.buildJSONArray(newValue)) }
+        get { return Query.parseStringArray(self["attributesToSnippet"]) }
+        set { self["attributesToSnippet"] = Query.buildJSONArray(newValue) }
     }
     
     /// If set to true, the result hits will contain ranking information in `_rankingInfo` attribute.
@@ -657,42 +657,42 @@ import Foundation
         set { self.getRankingInfo_ = newValue?.boolValue }
     }
     var getRankingInfo_: Bool? {
-        get { return Query.parseBool(get("getRankingInfo")) }
-        set { set("getRankingInfo", value: Query.buildBool(newValue)) }
+        get { return Query.parseBool(self["getRankingInfo"]) }
+        set { self["getRankingInfo"] = Query.buildBool(newValue) }
     }
     
     /// Specify the string that is inserted before the highlighted parts in the query result (defaults to `<em>`).
     @objc public var highlightPreTag: String? {
-        get { return get("highlightPreTag") }
-        set { set("highlightPreTag", value: newValue) }
+        get { return self["highlightPreTag"] }
+        set { self["highlightPreTag"] = newValue }
     }
     
     /// Specify the string that is inserted after the highlighted parts in the query result (defaults to `</em>`)
     @objc public var highlightPostTag: String? {
-        get { return get("highlightPostTag") }
-        set { set("highlightPostTag", value: newValue) }
+        get { return self["highlightPostTag"] }
+        set { self["highlightPostTag"] = newValue }
     }
     
     /// String used as an ellipsis indicator when a snippet is truncated (defaults to empty).
     @objc public var snippetEllipsisText : String? {
-        get { return get("snippetEllipsisText") }
-        set { set("snippetEllipsisText", value: newValue) }
+        get { return self["snippetEllipsisText"] }
+        set { self["snippetEllipsisText"] = newValue }
     }
     
     // MARK: Numeric search parameters
 
     /// Filter on numeric attributes.
     @objc public var numericFilters: [Any]? {
-        get { return Query.parseJSONArray(get("numericFilters")) }
-        set { set("numericFilters", value: Query.buildJSONArray(newValue)) }
+        get { return Query.parseJSONArray(self["numericFilters"]) }
+        set { self["numericFilters"] = Query.buildJSONArray(newValue) }
     }
     
     // MARK: Category search parameters
 
     /// Filter the query by a set of tags.
     @objc public var tagFilters: [Any]? {
-        get { return Query.parseJSONArray(get("tagFilters")) }
-        set { set("tagFilters", value: Query.buildJSONArray(newValue)) }
+        get { return Query.parseJSONArray(self["tagFilters"]) }
+        set { self["tagFilters"] = Query.buildJSONArray(newValue) }
     }
     
     // MARK: Distinct parameter
@@ -707,8 +707,8 @@ import Foundation
         set { self.distinct_ = newValue?.uintValue }
     }
     var distinct_: UInt? {
-        get { return Query.parseUInt(get("distinct")) }
-        set { set("distinct", value: Query.buildUInt(newValue)) }
+        get { return Query.parseUInt(self["distinct"]) }
+        set { self["distinct"] = Query.buildUInt(newValue) }
     }
     
     // MARK: Faceting parameters
@@ -718,14 +718,14 @@ import Foundation
     /// on all attributes specified in `attributesForFaceting`. If the number of results is important, the count can
     /// be approximate, the attribute `exhaustiveFacetsCount` in the response is true when the count is exact.
     @objc public var facets: [String]? {
-        get { return Query.parseStringArray(get("facets")) }
-        set { set("facets", value: Query.buildJSONArray(newValue)) }
+        get { return Query.parseStringArray(self["facets"]) }
+        set { self["facets"] = Query.buildJSONArray(newValue) }
     }
     
     /// Filter the query by a list of facets.
     @objc public var facetFilters: [Any]? {
-        get { return Query.parseJSONArray(get("facetFilters")) }
-        set { set("facetFilters", value: Query.buildJSONArray(newValue)) }
+        get { return Query.parseJSONArray(self["facetFilters"]) }
+        set { self["facetFilters"] = Query.buildJSONArray(newValue) }
     }
     
     /// Limit the number of facet values returned for each facet. For example: `maxValuesPerFacet=10` will retrieve
@@ -735,8 +735,8 @@ import Foundation
         set { self.maxValuesPerFacet_ = newValue?.uintValue }
     }
     var maxValuesPerFacet_: UInt? {
-        get { return Query.parseUInt(get("maxValuesPerFacet")) }
-        set { set("maxValuesPerFacet", value: Query.buildUInt(newValue)) }
+        get { return Query.parseUInt(self["maxValuesPerFacet"]) }
+        set { self["maxValuesPerFacet"] = Query.buildUInt(newValue) }
     }
 
     // MARK: Unified filter parameter (SQL like)
@@ -756,8 +756,8 @@ import Foundation
     /// - `NOT`: used to negate a filter. The syntax with the `-` isn't allowed.
     ///
     @objc public var filters: String? {
-        get { return get("filters") }
-        set { set("filters", value: newValue) }
+        get { return self["filters"] }
+        set { self["filters"] = newValue }
     }
 
     // MARK: Geo-search parameters
@@ -770,7 +770,7 @@ import Foundation
     /// geo-locations in your record).
     @objc public var aroundLatLng: LatLng? {
         get {
-            if let fields = get("aroundLatLng")?.components(separatedBy: ",") {
+            if let fields = self["aroundLatLng"]?.components(separatedBy: ",") {
                 if fields.count == 2 {
                     if let lat = Double(fields[0]), let lng = Double(fields[1]) {
                         return LatLng(lat: lat, lng: lng)
@@ -780,7 +780,7 @@ import Foundation
             return nil
         }
         set {
-            set("aroundLatLng", value: newValue == nil ? nil : "\(newValue!.lat),\(newValue!.lng)")
+            self["aroundLatLng"] = newValue == nil ? nil : "\(newValue!.lat),\(newValue!.lng)"
         }
     }
 
@@ -790,8 +790,8 @@ import Foundation
         set { self.aroundLatLngViaIP_ = newValue?.boolValue }
     }
     var aroundLatLngViaIP_: Bool? {
-        get { return Query.parseBool(get("aroundLatLngViaIP")) }
-        set { set("aroundLatLngViaIP", value: Query.buildBool(newValue)) }
+        get { return Query.parseBool(self["aroundLatLngViaIP"]) }
+        set { self["aroundLatLngViaIP"] = Query.buildBool(newValue) }
     }
     
     /// Control the radius associated with a `aroundLatLng` or `aroundLatLngViaIP` query. Defined in meters.
@@ -807,7 +807,7 @@ import Foundation
     }
     var aroundRadius_: UInt? {
         get {
-            if let stringValue = get("aroundRadius") {
+            if let stringValue = self["aroundRadius"] {
                 if stringValue == "all" {
                     return Query.aroundRadiusAll_
                 } else {
@@ -818,7 +818,7 @@ import Foundation
             }
         }
         set {
-            set("aroundRadius", value: newValue == Query.aroundRadiusAll_ ? "all" : Query.buildUInt(newValue))
+            self["aroundRadius"] = newValue == Query.aroundRadiusAll_ ? "all" : Query.buildUInt(newValue)
         }
     }
     /// Special value for `aroundRadius` to compute the geo distance without filtering.
@@ -834,8 +834,8 @@ import Foundation
         set { self.aroundPrecision_ = newValue?.uintValue }
     }
     var aroundPrecision_: UInt? {
-        get { return Query.parseUInt(get("aroundPrecision")) }
-        set { set("aroundPrecision", value: Query.buildUInt(newValue)) }
+        get { return Query.parseUInt(self["aroundPrecision"]) }
+        set { self["aroundPrecision"] = Query.buildUInt(newValue) }
     }
 
     /// Define the minimum radius used for `aroundLatLng` or `aroundLatLngViaIP` when `aroundRadius` is not set. The
@@ -846,15 +846,15 @@ import Foundation
         set { self.minimumAroundRadius_ = newValue?.uintValue }
     }
     var minimumAroundRadius_: UInt? {
-        get { return Query.parseUInt(get("minimumAroundRadius")) }
-        set { set("minimumAroundRadius", value: Query.buildUInt(newValue)) }
+        get { return Query.parseUInt(self["minimumAroundRadius"]) }
+        set { self["minimumAroundRadius"] = Query.buildUInt(newValue) }
     }
     
     /// Search for entries inside a given area defined by the two extreme points of a rectangle.
     /// You can use several bounding boxes (OR) by passing more than 1 value.
     @objc public var insideBoundingBox: [GeoRect]? {
         get {
-            if let fields = get("insideBoundingBox")?.components(separatedBy: ",") {
+            if let fields = self["insideBoundingBox"]?.components(separatedBy: ",") {
                 if fields.count % 4 == 0 {
                     var result = [GeoRect]()
                     for i in 0..<(fields.count / 4) {
@@ -869,7 +869,7 @@ import Foundation
         }
         set {
             if newValue == nil {
-                set("insideBoundingBox", value: nil)
+                self["insideBoundingBox"] = nil
             } else {
                 var components = [String]()
                 for box in newValue! {
@@ -878,7 +878,7 @@ import Foundation
                     components.append(String(box.p2.lat))
                     components.append(String(box.p2.lng))
                 }
-                set("insideBoundingBox", value: components.joined(separator: ","))
+                self["insideBoundingBox"] = components.joined(separator: ",")
             }
         }
     }
@@ -888,7 +888,7 @@ import Foundation
     // FIXME: Union cannot work with this implementation, as at most one occurrence per parameter is supported.
     @objc public var insidePolygon: [LatLng]? {
         get {
-            if let fields = get("insidePolygon")?.components(separatedBy: ",") {
+            if let fields = self["insidePolygon"]?.components(separatedBy: ",") {
                 if fields.count % 2 == 0 && fields.count / 2 >= 3 {
                     var result = [LatLng]()
                     for i in 0..<(fields.count / 2) {
@@ -903,7 +903,7 @@ import Foundation
         }
         set {
             if newValue == nil {
-                set("insidePolygon", value: nil)
+                self["insidePolygon"] = nil
             } else {
                 assert(newValue!.count >= 3)
                 var components = [String]()
@@ -911,7 +911,7 @@ import Foundation
                     components.append(String(point.lat))
                     components.append(String(point.lng))
                 }
-                set("insidePolygon", value: components.joined(separator: ","))
+                self["insidePolygon"] = components.joined(separator: ",")
             }
         }
     }
@@ -929,8 +929,8 @@ import Foundation
     }
     
     /// Construct a query with the specified full text query.
-    @objc public init(query: String?) {
-        super.init()
+    @objc public convenience init(query: String?) {
+        self.init()
         self.query = query
     }
     

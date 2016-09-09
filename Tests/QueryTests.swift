@@ -62,8 +62,8 @@ class QueryTests: XCTestCase {
     /// Test that non-ASCII and special characters are escaped.
     func testEscape() {
         let query1 = Query()
-        query1.set("accented", value: "éêèàôù")
-        query1.set("escaped", value: " %&=#+")
+        query1["accented"] = "éêèàôù"
+        query1["escaped"] = " %&=#+"
         let queryString = query1.build()
         XCTAssertEqual(queryString, "accented=%C3%A9%C3%AA%C3%A8%C3%A0%C3%B4%C3%B9&escaped=%20%25%26%3D%23%2B")
         
@@ -79,22 +79,22 @@ class QueryTests: XCTestCase {
         let query = Query()
         
         // Test accessors.
-        query.set("a", value: "A")
-        XCTAssertEqual(query.get("a"), "A")
+        query.setParameter(withName: "a", to: "A")
+        XCTAssertEqual(query.parameter(withName: "a"), "A")
         
         // Test subscript.
         query["b"] = "B"
         XCTAssertEqual(query["b"], "B")
 
         // Test subscript and accessors equivalence.
-        query.set("c", value: "C")
+        query.setParameter(withName: "c", to: "C")
         XCTAssertEqual(query["c"], "C")
         query["d"] = "D"
-        XCTAssertEqual(query.get("d"), "D")
+        XCTAssertEqual(query.parameter(withName: "d"), "D")
 
         // Test setting nil.
-        query.set("a", value: nil)
-        XCTAssertNil(query.get("a"))
+        query.setParameter(withName: "a", to: nil)
+        XCTAssertNil(query.parameter(withName: "a"))
         query["b"] = nil
         XCTAssertNil(query["b"])
     }
