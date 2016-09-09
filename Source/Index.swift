@@ -727,17 +727,37 @@ import Foundation
 
     // MARK: - Search Cache
     
+    /// Whether the search cache is enabled on this index. Default: `false`.
+    ///
+    @objc public var searchCacheEnabled: Bool = false {
+        didSet(wasEnabled) {
+            if !wasEnabled && searchCacheEnabled {
+                enableSearchCache()
+            } else if wasEnabled && !searchCacheEnabled {
+                disableSearchCache()
+            }
+        }
+    }
+    
+    /// Expiration delay for items in the search cache. Default: 2 minutes.
+    ///
+    /// + Note: The delay is a minimum threshold. Items may survive longer in cache.
+    ///
+    @objc public var searchCacheExpiringTimeInterval: TimeInterval = 120 {
+        didSet {
+            searchCache?.expiringTimeInterval = searchCacheExpiringTimeInterval
+        }
+    }
+    
     /// Enable the search cache.
     ///
-    /// - parameter expiringTimeInterval: Each cached search will be valid during this interval of time.
-    ///
-    @objc public func enableSearchCache(expiringTimeInterval: TimeInterval = 120) {
-        searchCache = ExpiringCache(expiringTimeInterval: expiringTimeInterval)
+    private func enableSearchCache() {
+        searchCache = ExpiringCache(expiringTimeInterval: searchCacheExpiringTimeInterval)
     }
     
     /// Disable the search cache.
     ///
-    @objc public func disableSearchCache() {
+    private func disableSearchCache() {
         searchCache?.clearCache()
         searchCache = nil
     }

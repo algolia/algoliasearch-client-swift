@@ -34,19 +34,26 @@ internal class ExpiringCacheItem {
 }
 
 internal class ExpiringCache {
-    fileprivate let cache = NSCache<NSString, ExpiringCacheItem>()
-    fileprivate let expiringTimeInterval: TimeInterval
+    private  let cache = NSCache<NSString, ExpiringCacheItem>()
+    var expiringTimeInterval: TimeInterval {
+        didSet {
+            updateTimer()
+        }
+    }
     
-    fileprivate var cacheKeys = [String]()
-    fileprivate var timer: Timer? = nil
+    private var cacheKeys = [String]()
+    private var timer: Timer! = nil
     
     init(expiringTimeInterval: TimeInterval) {
         self.expiringTimeInterval = expiringTimeInterval
-        
-        // Garbage collector like, for the expired cache
+        updateTimer()
+    }
+    
+    private func updateTimer() {
+        timer?.invalidate()
         timer = Timer(timeInterval: 2 * expiringTimeInterval, target: self, selector: #selector(ExpiringCache.clearExpiredCache), userInfo: nil, repeats: true)
-        timer!.tolerance = expiringTimeInterval * 0.5
-        RunLoop.main.add(timer!, forMode: RunLoopMode.defaultRunLoopMode)
+        timer.tolerance = expiringTimeInterval * 0.5
+        RunLoop.main.add(timer, forMode: RunLoopMode.defaultRunLoopMode)
     }
     
     deinit {

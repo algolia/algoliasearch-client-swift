@@ -195,8 +195,8 @@
     
     // Search cache
     // ------------
-    [index enableSearchCacheWithExpiringTimeInterval:60.0];
-    [index disableSearchCache];
+    index.searchCacheEnabled = YES;
+    index.searchCacheExpiringTimeInterval = 60.0;
     [index clearSearchCache];
 }
 
