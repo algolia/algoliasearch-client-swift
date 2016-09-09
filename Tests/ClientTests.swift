@@ -408,6 +408,10 @@ class ClientTests: XCTestCase {
         // Test that the initial value of the header is correct.
         XCTAssert(client.headers["User-Agent"]?.range(of: "^Algolia for Swift \\([0-9.]+\\); (iOS|macOS|tvOS) \\([0-9.]+\\)$", options: .regularExpression) != nil)
         
+        // Test equality comparison on the `LibraryVersion` class.
+        XCTAssertEqual(LibraryVersion(name: "XYZ", version: "7.8.9"), LibraryVersion(name: "XYZ", version: "7.8.9"))
+        XCTAssertNotEqual(LibraryVersion(name: "XYZ", version: "7.8.9"), LibraryVersion(name: "XXX", version: "6.6.6"))
+        
         // Test that changing the user agents results in a proper format.
         client.userAgents = [
             LibraryVersion(name: "ABC", version: "1.2.3"),

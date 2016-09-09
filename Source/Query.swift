@@ -113,6 +113,8 @@ import Foundation
         self.lng = lng
     }
     
+    // MARK: Equatable
+    
     open override func isEqual(_ object: Any?) -> Bool {
         if let rhs = object as? LatLng {
             return self.lat == rhs.lat && self.lng == rhs.lng
@@ -120,10 +122,6 @@ import Foundation
             return false
         }
     }
-}
-
-public func ==(lhs: LatLng, rhs: LatLng) -> Bool {
-    return lhs.lat == rhs.lat && lhs.lng == rhs.lng
 }
 
 

@@ -51,10 +51,16 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
         self.name = name
         self.version = version
     }
-}
-
-public func ==(lhs: LibraryVersion, rhs: LibraryVersion) -> Bool {
-    return lhs.name == rhs.name && lhs.version == rhs.version
+    
+    // MARK: Equatable
+    
+    override public func isEqual(_ object: Any?) -> Bool {
+        if let rhs = object as? LibraryVersion {
+            return self.name == rhs.name && self.version == rhs.version
+        } else {
+            return false
+        }
+    }
 }
 
 
