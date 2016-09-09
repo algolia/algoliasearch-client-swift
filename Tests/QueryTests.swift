@@ -271,138 +271,91 @@ class QueryTests: XCTestCase {
     
     func test_queryType() {
         let query1 = Query()
-        XCTAssertNil(query1.queryType_)
         XCTAssertNil(query1.queryType)
 
         query1.queryType = .prefixAll
         XCTAssertEqual(query1.queryType, .prefixAll)
-        XCTAssertEqual(query1.queryType_, Query.QueryType.prefixAll.rawValue)
         XCTAssertEqual(query1["queryType"], "prefixAll")
         var query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.queryType, .prefixAll)
 
         query1.queryType = .prefixLast
         XCTAssertEqual(query1.queryType, .prefixLast)
-        XCTAssertEqual(query1.queryType_, Query.QueryType.prefixLast.rawValue)
         XCTAssertEqual(query1["queryType"], "prefixLast")
         query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.queryType, .prefixLast)
 
         query1.queryType = .prefixNone
         XCTAssertEqual(query1.queryType, .prefixNone)
-        XCTAssertEqual(query1.queryType_, Query.QueryType.prefixNone.rawValue)
         XCTAssertEqual(query1["queryType"], "prefixNone")
         query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.queryType, .prefixNone)
 
         query1["queryType"] = "invalid"
-        XCTAssertNil(query1.queryType_)
-        XCTAssertNil(query1.queryType)
-
-        query1.queryType_ = "prefixAll"
-        XCTAssertEqual(query1.queryType, .prefixAll)
-        XCTAssertEqual(query1.queryType_, Query.QueryType.prefixAll.rawValue)
-        XCTAssertEqual(query1["queryType"], "prefixAll")
-
-        query1.queryType_ = "invalid"
-        XCTAssertNil(query1["queryType"])
-        XCTAssertNil(query1.queryType_)
         XCTAssertNil(query1.queryType)
     }
 
     func test_removeWordsIfNoResults() {
         let query1 = Query()
-        XCTAssertNil(query1.removeWordsIfNoResults_)
         XCTAssertNil(query1.removeWordsIfNoResults)
         
         query1.removeWordsIfNoResults = .allOptional
         XCTAssertEqual(query1.removeWordsIfNoResults, .allOptional)
-        XCTAssertEqual(query1.removeWordsIfNoResults_, Query.RemoveWordsIfNoResults.allOptional.rawValue)
         XCTAssertEqual(query1["removeWordsIfNoResults"], "allOptional")
         var query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.removeWordsIfNoResults, .allOptional)
         
         query1.removeWordsIfNoResults = .firstWords
         XCTAssertEqual(query1.removeWordsIfNoResults, .firstWords)
-        XCTAssertEqual(query1.removeWordsIfNoResults_, Query.RemoveWordsIfNoResults.firstWords.rawValue)
         XCTAssertEqual(query1["removeWordsIfNoResults"], "firstWords")
         query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.removeWordsIfNoResults, .firstWords)
         
         query1.removeWordsIfNoResults = .lastWords
         XCTAssertEqual(query1.removeWordsIfNoResults, .lastWords)
-        XCTAssertEqual(query1.removeWordsIfNoResults_, Query.RemoveWordsIfNoResults.lastWords.rawValue)
         XCTAssertEqual(query1["removeWordsIfNoResults"], "lastWords")
         query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.removeWordsIfNoResults, .lastWords)
         
         query1.removeWordsIfNoResults = Query.RemoveWordsIfNoResults.none // WARNING: Possible confusion with `Optional.none`!
         XCTAssertEqual(query1.removeWordsIfNoResults, Query.RemoveWordsIfNoResults.none)
-        XCTAssertEqual(query1.removeWordsIfNoResults_, Query.RemoveWordsIfNoResults.none.rawValue)
         XCTAssertEqual(query1["removeWordsIfNoResults"], "none")
         query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.removeWordsIfNoResults, Query.RemoveWordsIfNoResults.none)
         
         query1["removeWordsIfNoResults"] = "invalid"
-        XCTAssertNil(query1.removeWordsIfNoResults_)
-        XCTAssertNil(query1.removeWordsIfNoResults)
-        
-        query1.removeWordsIfNoResults_ = "allOptional"
-        XCTAssertEqual(query1.removeWordsIfNoResults, .allOptional)
-        XCTAssertEqual(query1.removeWordsIfNoResults_, Query.RemoveWordsIfNoResults.allOptional.rawValue)
-        XCTAssertEqual(query1["removeWordsIfNoResults"], "allOptional")
-        
-        query1.removeWordsIfNoResults_ = "invalid"
-        XCTAssertNil(query1["removeWordsIfNoResults"])
-        XCTAssertNil(query1.removeWordsIfNoResults_)
         XCTAssertNil(query1.removeWordsIfNoResults)
     }
     
     func test_typoTolerance() {
         let query1 = Query()
-        XCTAssertNil(query1.typoTolerance_)
         XCTAssertNil(query1.typoTolerance)
         
         query1.typoTolerance = .bool(true)
         XCTAssertEqual(query1.typoTolerance, .bool(true))
-        XCTAssertEqual(query1.typoTolerance_, Query.TypoTolerance.bool(true).rawValue)
         XCTAssertEqual(query1["typoTolerance"], "true")
         var query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.typoTolerance, .bool(true))
         
         query1.typoTolerance = .bool(false)
         XCTAssertEqual(query1.typoTolerance, .bool(false))
-        XCTAssertEqual(query1.typoTolerance_, Query.TypoTolerance.bool(false).rawValue)
         XCTAssertEqual(query1["typoTolerance"], "false")
         query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.typoTolerance, .bool(false))
         
         query1.typoTolerance = .min
         XCTAssertEqual(query1.typoTolerance, .min)
-        XCTAssertEqual(query1.typoTolerance_, Query.TypoTolerance.min.rawValue)
         XCTAssertEqual(query1["typoTolerance"], "min")
         query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.typoTolerance, .min)
         
         query1.typoTolerance = .strict
         XCTAssertEqual(query1.typoTolerance, .strict)
-        XCTAssertEqual(query1.typoTolerance_, Query.TypoTolerance.strict.rawValue)
         XCTAssertEqual(query1["typoTolerance"], "strict")
         query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.typoTolerance, .strict)
         
         query1["typoTolerance"] = "invalid"
-        XCTAssertNil(query1.typoTolerance_)
-        XCTAssertNil(query1.typoTolerance)
-        
-        query1.typoTolerance_ = "true"
-        XCTAssertEqual(query1.typoTolerance, .bool(true))
-        XCTAssertEqual(query1.typoTolerance_, Query.TypoTolerance.bool(true).rawValue)
-        XCTAssertEqual(query1["typoTolerance"], "true")
-        
-        query1.typoTolerance_ = "invalid"
-        XCTAssertNil(query1["typoTolerance"])
-        XCTAssertNil(query1.typoTolerance_)
         XCTAssertNil(query1.typoTolerance)
     }
 
@@ -615,6 +568,14 @@ class QueryTests: XCTestCase {
         XCTAssertEqual(query1["removeStopWords"], "de,es,fr")
         query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.removeStopWords, .selected(VALUE))
+        
+        // WARNING: There's no validation of ISO codes, so any string is interpreted as a single code.
+        query1["removeStopWords"] = "invalid"
+        XCTAssertNotNil(query1.removeStopWords)
+        switch query1.removeStopWords! {
+        case let .selected(values): XCTAssertEqual(1, values.count)
+        default: XCTFail()
+        }
     }
     
     func test_maxValuesPerFacet() {
@@ -661,51 +622,39 @@ class QueryTests: XCTestCase {
     
     func test_exactOnSingleWordQuery() {
         let query1 = Query()
-        XCTAssertNil(query1.exactOnSingleWordQuery_)
         XCTAssertNil(query1.exactOnSingleWordQuery)
         
         let ALL_VALUES: [Query.ExactOnSingleWordQuery] = [.none, .word, .attribute]
         for value in ALL_VALUES {
             query1.exactOnSingleWordQuery = value
             XCTAssertEqual(query1.exactOnSingleWordQuery, value)
-            XCTAssertEqual(query1.exactOnSingleWordQuery_, value.rawValue)
             XCTAssertEqual(query1["exactOnSingleWordQuery"], value.rawValue)
             let query2 = Query.parse(query1.build())
             XCTAssertEqual(query2.exactOnSingleWordQuery, value)
             
-            query1.exactOnSingleWordQuery_ = value.rawValue
             XCTAssertEqual(query1.exactOnSingleWordQuery, value)
-            XCTAssertEqual(query1.exactOnSingleWordQuery_, value.rawValue)
             XCTAssertEqual(query1["exactOnSingleWordQuery"], value.rawValue)
         }
         
         query1["exactOnSingleWordQuery"] = "invalid"
-        XCTAssertNil(query1.exactOnSingleWordQuery_)
-        XCTAssertNil(query1.exactOnSingleWordQuery)
-        
-        query1.exactOnSingleWordQuery_ = "invalid"
-        XCTAssertNil(query1["exactOnSingleWordQuery"])
-        XCTAssertNil(query1.exactOnSingleWordQuery_)
         XCTAssertNil(query1.exactOnSingleWordQuery)
     }
     
     func test_alternativesAsExact() {
         let query1 = Query()
-        XCTAssertNil(query1.alternativesAsExact_)
         XCTAssertNil(query1.alternativesAsExact)
 
         let VALUES: [Query.AlternativesAsExact] = [.ignorePlurals, .singleWordSynonym, .multiWordsSynonym]
         let RAW_VALUES = ["ignorePlurals", "singleWordSynonym", "multiWordsSynonym"]
         query1.alternativesAsExact = VALUES
         XCTAssertEqual(query1.alternativesAsExact!, VALUES)
-        XCTAssertEqual(query1.alternativesAsExact_!, RAW_VALUES)
         XCTAssertEqual(query1["alternativesAsExact"], RAW_VALUES.joined(separator: ","))
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.alternativesAsExact!, VALUES)
         
-        query1.alternativesAsExact_ = RAW_VALUES
-        XCTAssertEqual(query1.alternativesAsExact!, VALUES)
-        XCTAssertEqual(query1.alternativesAsExact_!, RAW_VALUES)
-        XCTAssertEqual(query1["alternativesAsExact"], RAW_VALUES.joined(separator: ","))
+        // WARNING: There's a catch: since this parameter is an array, invalid values are just filtered out.
+        query1["alternativesAsExact"] = "invalid"
+        XCTAssertNotNil(query1.alternativesAsExact)
+        XCTAssertEqual(0, query1.alternativesAsExact?.count)
     }
 }

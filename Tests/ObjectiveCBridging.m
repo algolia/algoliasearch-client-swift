@@ -272,4 +272,299 @@
     [index clearSearchCache];
 }
 
+// MARK: Test specific query properties
+
+- (void)test_queryType {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.queryType);
+    
+    for (NSString* value in @[ @"prefixAll", @"prefixLast", @"prefixNone" ]) {
+        query1.queryType = value;
+        XCTAssertEqualObjects(query1[@"queryType"], value);
+        Query* query2 = [Query parse:[query1 build]];
+        XCTAssertEqualObjects(query2.queryType, value);
+    }
+    
+    query1[@"queryType"] = @"invalid";
+    XCTAssertNil(query1.queryType);
+}
+
+- (void)test_typoTolerance {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.typoTolerance);
+    
+    for (NSString* value in @[ @"true", @"false", @"min", @"strict" ]) {
+        query1.typoTolerance = value;
+        XCTAssertEqualObjects(query1[@"typoTolerance"], value);
+        Query* query2 = [Query parse:[query1 build]];
+        XCTAssertEqualObjects(query2.typoTolerance, value);
+    }
+    
+    query1[@"typoTolerance"] = @"invalid";
+    XCTAssertNil(query1.typoTolerance);
+}
+
+- (void)test_minWordSizefor1Typo {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.minWordSizefor1Typo);
+    
+    NSNumber* value = [NSNumber numberWithInt:6];
+    query1.minWordSizefor1Typo = value;
+    XCTAssertEqualObjects(query1[@"minWordSizefor1Typo"], @"6");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.minWordSizefor1Typo, value);
+}
+
+- (void)test_minWordSizefor2Typos {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.minWordSizefor2Typos);
+    
+    NSNumber* value = [NSNumber numberWithInt:6];
+    query1.minWordSizefor2Typos = value;
+    XCTAssertEqualObjects(query1[@"minWordSizefor2Typos"], @"6");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.minWordSizefor2Typos, value);
+}
+
+- (void)test_allowTyposOnNumericTokens {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.allowTyposOnNumericTokens);
+    
+    NSNumber* value = [NSNumber numberWithBool:YES];
+    query1.allowTyposOnNumericTokens = value;
+    XCTAssertEqualObjects(query1[@"allowTyposOnNumericTokens"], @"true");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.allowTyposOnNumericTokens, value);
+}
+
+- (void)test_ignorePlurals {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.ignorePlurals);
+    
+    NSNumber* value = [NSNumber numberWithBool:YES];
+    query1.ignorePlurals = value;
+    XCTAssertEqualObjects(query1[@"ignorePlurals"], @"true");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.ignorePlurals, value);
+}
+
+- (void)test_advancedSyntax {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.advancedSyntax);
+    
+    NSNumber* value = [NSNumber numberWithBool:YES];
+    query1.advancedSyntax = value;
+    XCTAssertEqualObjects(query1[@"advancedSyntax"], @"true");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.advancedSyntax, value);
+}
+
+- (void)test_analytics {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.analytics);
+    
+    NSNumber* value = [NSNumber numberWithBool:YES];
+    query1.analytics = value;
+    XCTAssertEqualObjects(query1[@"analytics"], @"true");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.analytics, value);
+}
+
+- (void)test_synonyms {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.synonyms);
+    
+    NSNumber* value = [NSNumber numberWithBool:YES];
+    query1.synonyms = value;
+    XCTAssertEqualObjects(query1[@"synonyms"], @"true");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.synonyms, value);
+}
+
+- (void)test_replaceSynonymsInHighlight {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.replaceSynonymsInHighlight);
+    
+    NSNumber* value = [NSNumber numberWithBool:YES];
+    query1.replaceSynonymsInHighlight = value;
+    XCTAssertEqualObjects(query1[@"replaceSynonymsInHighlight"], @"true");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.replaceSynonymsInHighlight, value);
+}
+
+- (void)test_minProximity {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.minProximity);
+    
+    NSNumber* value = [NSNumber numberWithInt:6];
+    query1.minProximity = value;
+    XCTAssertEqualObjects(query1[@"minProximity"], @"6");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.minProximity, value);
+}
+
+- (void)test_removeWordsIfNoResults {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.removeWordsIfNoResults);
+    
+    for (NSString* value in @[ @"allOptional", @"firstWords", @"lastWords", @"none" ]) {
+        query1.removeWordsIfNoResults = value;
+        XCTAssertEqualObjects(query1[@"removeWordsIfNoResults"], value);
+        Query* query2 = [Query parse:[query1 build]];
+        XCTAssertEqualObjects(query2.removeWordsIfNoResults, value);
+    }
+    
+    query1[@"removeWordsIfNoResults"] = @"invalid";
+    XCTAssertNil(query1.removeWordsIfNoResults);
+}
+
+- (void)test_removeStopWords {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.removeStopWords);
+    
+    NSArray* VALUES = @[ [NSNumber numberWithBool:YES], [NSNumber numberWithBool:NO], @[ @"en", @"fr"] ];
+    NSArray* RAW_VALUES = @[ @"true", @"false", @"en,fr" ];
+    for (int i = 0; i < VALUES.count; ++i) {
+        query1.removeStopWords = VALUES[i];
+        XCTAssertEqualObjects(query1[@"removeStopWords"], RAW_VALUES[i]);
+        Query* query2 = [Query parse:[query1 build]];
+        XCTAssertEqualObjects(query2.removeStopWords, VALUES[i]);
+    }
+    
+    // WARNING: There is no validation of ISO codes, so any string is interpreted as a single language.
+    query1[@"removeStopWords"] = @"invalid";
+    XCTAssertNotNil(query1.removeStopWords);
+    XCTAssertEqual(1, ((NSArray*)query1.removeStopWords).count);
+}
+
+- (void)test_exactOnSingleWordQuery {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.exactOnSingleWordQuery);
+    
+    for (NSString* value in @[ @"none", @"word", @"attribute" ]) {
+        query1.exactOnSingleWordQuery = value;
+        XCTAssertEqualObjects(query1[@"exactOnSingleWordQuery"], value);
+        Query* query2 = [Query parse:[query1 build]];
+        XCTAssertEqualObjects(query2.exactOnSingleWordQuery, value);
+    }
+    
+    query1[@"exactOnSingleWordQuery"] = @"invalid";
+    XCTAssertNil(query1.exactOnSingleWordQuery);
+}
+
+- (void)test_alternativesAsExact {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.alternativesAsExact);
+    
+    NSArray* VALUES = @[ @"ignorePlurals", @"singleWordSynonym", @"multiWordsSynonym" ];
+    query1.alternativesAsExact = VALUES;
+    XCTAssertEqualObjects(query1.alternativesAsExact, VALUES);
+    XCTAssertEqualObjects(query1[@"alternativesAsExact"], [VALUES componentsJoinedByString:@","]);
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.alternativesAsExact, VALUES);
+    
+    query1[@"alternativesAsExact"] = @"invalid";
+    XCTAssertNotNil(query1.alternativesAsExact);
+    XCTAssertEqual(0, query1.alternativesAsExact.count);
+}
+
+- (void)test_page {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.page);
+    
+    NSNumber* value = [NSNumber numberWithInt:6];
+    query1.page = value;
+    XCTAssertEqualObjects(query1[@"page"], @"6");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.page, value);
+}
+
+- (void)test_hitsPerPage {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.hitsPerPage);
+    
+    NSNumber* value = [NSNumber numberWithInt:6];
+    query1.hitsPerPage = value;
+    XCTAssertEqualObjects(query1[@"hitsPerPage"], @"6");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.hitsPerPage, value);
+}
+
+- (void)test_getRankingInfo {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.getRankingInfo);
+    
+    NSNumber* value = [NSNumber numberWithBool:YES];
+    query1.getRankingInfo = value;
+    XCTAssertEqualObjects(query1[@"getRankingInfo"], @"true");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.getRankingInfo, value);
+}
+
+- (void)test_distinct {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.distinct);
+    
+    NSNumber* value = [NSNumber numberWithInt:6];
+    query1.distinct = value;
+    XCTAssertEqualObjects(query1[@"distinct"], @"6");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.distinct, value);
+}
+
+- (void)test_maxValuesPerFacet {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.maxValuesPerFacet);
+    
+    NSNumber* value = [NSNumber numberWithInt:6];
+    query1.maxValuesPerFacet = value;
+    XCTAssertEqualObjects(query1[@"maxValuesPerFacet"], @"6");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.maxValuesPerFacet, value);
+}
+
+- (void)test_aroundLatLngViaIP {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.aroundLatLngViaIP);
+    
+    NSNumber* value = [NSNumber numberWithBool:YES];
+    query1.aroundLatLngViaIP = value;
+    XCTAssertEqualObjects(query1[@"aroundLatLngViaIP"], @"true");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.aroundLatLngViaIP, value);
+}
+
+- (void)test_aroundRadius {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.aroundRadius);
+    
+    NSNumber* value = [NSNumber numberWithInt:6];
+    query1.aroundRadius = value;
+    XCTAssertEqualObjects(query1[@"aroundRadius"], @"6");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.aroundRadius, value);
+}
+
+- (void)test_aroundPrecision {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.aroundPrecision);
+    
+    NSNumber* value = [NSNumber numberWithInt:6];
+    query1.aroundPrecision = value;
+    XCTAssertEqualObjects(query1[@"aroundPrecision"], @"6");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.aroundPrecision, value);
+}
+
+- (void)test_minimumAroundRadius {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.minimumAroundRadius);
+    
+    NSNumber* value = [NSNumber numberWithInt:6];
+    query1.minimumAroundRadius = value;
+    XCTAssertEqualObjects(query1[@"minimumAroundRadius"], @"6");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.minimumAroundRadius, value);
+}
+
 @end
