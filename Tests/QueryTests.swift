@@ -331,17 +331,17 @@ class QueryTests: XCTestCase {
         let query1 = Query()
         XCTAssertNil(query1.typoTolerance)
         
-        query1.typoTolerance = .bool(true)
-        XCTAssertEqual(query1.typoTolerance, .bool(true))
+        query1.typoTolerance = .true
+        XCTAssertEqual(query1.typoTolerance, .true)
         XCTAssertEqual(query1["typoTolerance"], "true")
         var query2 = Query.parse(query1.build())
-        XCTAssertEqual(query2.typoTolerance, .bool(true))
+        XCTAssertEqual(query2.typoTolerance, .true)
         
-        query1.typoTolerance = .bool(false)
-        XCTAssertEqual(query1.typoTolerance, .bool(false))
+        query1.typoTolerance = .false
+        XCTAssertEqual(query1.typoTolerance, .false)
         XCTAssertEqual(query1["typoTolerance"], "false")
         query2 = Query.parse(query1.build())
-        XCTAssertEqual(query2.typoTolerance, .bool(false))
+        XCTAssertEqual(query2.typoTolerance, .false)
         
         query1.typoTolerance = .min
         XCTAssertEqual(query1.typoTolerance, .min)

@@ -259,43 +259,17 @@ public class Query : NSObject, NSCopying {
     // NOTE: Objective-C bridge moved away to `_objc_Query`
     
     /// Values applicable to the `typoTolerance` parameter.
-    public enum TypoTolerance: Equatable {
-        /// Activate or de-activate the typo tolerance entirely.
-        case bool(Bool)
+    public enum TypoTolerance: String {
+        /// Activate typo tolerance entirely.
+        case `true` = "true"
+        /// De-activate typo tolerance entirely.
+        case `false` = "false"
         /// Keep only results with the lowest number of typo. For example if one result match without typos, then
         /// all results with typos will be hidden.
-        case min
+        case min = "min"
         /// If there is a match without typo, then all results with 2 typos or more will be removed. This
         /// option is useful if you want to avoid as much as possible false positive.
-        case strict
-        
-        // NOTE: Associated values disable the ability to convert to/from raw values, so we emulate it ourselves.
-        public var rawValue: String {
-            switch self {
-            case let .bool(value): return String(value)
-            case .min: return "min"
-            case .strict: return "strict"
-            }
-        }
-        static func from(rawValue: String) -> TypoTolerance? {
-            switch rawValue {
-            case "true": return .bool(true)
-            case "false": return .bool(false)
-            case "min": return .min
-            case "strict": return .strict
-            default: return nil
-            }
-        }
-        
-        // NOTE: Associated values disable automatic conformance to `Equatable`, so we have to implement it ourselves.
-        static public func ==(lhs: TypoTolerance, rhs: TypoTolerance) -> Bool {
-            switch (lhs, rhs) {
-            case (let .bool(lhsValue), let .bool(rhsValue)): return lhsValue == rhsValue
-            case (.min, .min): return true
-            case (.strict, .strict): return true
-            default: return false
-            }
-        }
+        case strict = "strict"
     }
     /// This setting has four different options:
     /// - `true`: activate the typo-tolerance.
@@ -307,7 +281,7 @@ public class Query : NSObject, NSCopying {
     public var typoTolerance: TypoTolerance? {
         get {
             if let value = self["typoTolerance"] {
-                return TypoTolerance.from(rawValue: value)
+                return TypoTolerance(rawValue: value)
             } else {
                 return nil
             }
@@ -1103,7 +1077,7 @@ public class _objc_Query: Query {
     @objc(typoTolerance)
     public var _typoTolerance: String? {
         get { return typoTolerance?.rawValue }
-        set { typoTolerance = newValue == nil ? nil : TypoTolerance.from(rawValue: newValue!) }
+        set { typoTolerance = newValue == nil ? nil : TypoTolerance(rawValue: newValue!) }
     }
 
     @objc(minWordSizefor1Typo)
