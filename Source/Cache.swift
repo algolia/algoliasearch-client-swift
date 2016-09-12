@@ -42,7 +42,7 @@ internal class ExpiringCache {
     }
     
     private var cacheKeys = [String]()
-    private var timer: Timer! = nil
+    private var timer: Timer? = nil
     
     init(expiringTimeInterval: TimeInterval) {
         self.expiringTimeInterval = expiringTimeInterval
@@ -52,12 +52,12 @@ internal class ExpiringCache {
     private func updateTimer() {
         timer?.invalidate()
         timer = Timer(timeInterval: 2 * expiringTimeInterval, target: self, selector: #selector(ExpiringCache.clearExpiredCache), userInfo: nil, repeats: true)
-        timer.tolerance = expiringTimeInterval * 0.5
-        RunLoop.main.add(timer, forMode: RunLoopMode.defaultRunLoopMode)
+        timer!.tolerance = expiringTimeInterval * 0.5
+        RunLoop.main.add(timer!, forMode: RunLoopMode.defaultRunLoopMode)
     }
     
     deinit {
-        timer!.invalidate()
+        timer?.invalidate()
     }
     
     func objectForKey(_ key: String) -> [String: Any]? {

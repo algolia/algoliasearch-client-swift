@@ -398,8 +398,7 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
 
     /// Perform an HTTP Query.
     func performHTTPQuery(path: String, method: HTTPMethod, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, completionHandler: CompletionHandler? = nil) -> Operation {
-        var request: Request!
-        request = newRequest(method: method, path: path, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery, completion: completionHandler)
+        let request = newRequest(method: method, path: path, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery, completion: completionHandler)
         request.completionQueue = self.completionQueue
         requestQueue.addOperation(request)
         return request

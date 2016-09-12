@@ -114,7 +114,7 @@ import Foundation
     }
     
     /// The local index mirroring this remote index (lazy instantiated, only if mirroring is activated).
-    lazy var localIndex: ASLocalIndex! = ASLocalIndex(dataDir: self.offlineClient.rootDataDir, appID: self.client.appID, indexName: self.name)
+    lazy var localIndex: ASLocalIndex = ASLocalIndex(dataDir: self.offlineClient.rootDataDir, appID: self.client.appID, indexName: self.name)
     
     /// The mirrored index settings.
     let mirrorSettings = MirrorSettings()
@@ -178,20 +178,20 @@ import Foundation
     private var syncing: Bool = false
     
     /// Path to the temporary directory for the current sync.
-    private var tmpDir : String!
+    private var tmpDir : String?
     
     /// The path to the settings file.
-    private var settingsFilePath: String!
+    private var settingsFilePath: String?
     
     /// Paths to object files/
-    private var objectsFilePaths: [String]!
+    private var objectsFilePaths: [String]?
     
     /// The current object file index. Object files are named `${i}.json`, where `i` is automatically incremented.
     private var objectFileIndex = 0
     
     /// The operation to build the index.
     /// NOTE: We need to store it because its dependencies are modified dynamically.
-    private var buildIndexOperation: Operation!
+    private var buildIndexOperation: Operation?
     
     /// Path to the persistent mirror settings.
     private var mirrorSettingsFilePath: String {
@@ -306,9 +306,9 @@ import Foundation
         // Create temporary directory.
         do {
             tmpDir = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("algolia").appendingPathComponent(UUID().uuidString).path
-            try FileManager.default.createDirectory(atPath: tmpDir, withIntermediateDirectories: true, attributes: nil)
+            try FileManager.default.createDirectory(atPath: tmpDir!, withIntermediateDirectories: true, attributes: nil)
         } catch _ {
-            NSLog("ERROR: Could not create temporary directory '%@'", tmpDir)
+            NSLog("ERROR: Could not create temporary directory '%@'", tmpDir!)
         }
         
         // NOTE: We use `NSOperation`s to handle dependencies between tasks.
@@ -326,8 +326,8 @@ import Foundation
                     assert(json != nil)
                     // Write results to disk.
                     let data = try JSONSerialization.data(withJSONObject: json!, options: [])
-                    self.settingsFilePath = URL(fileURLWithPath: self.tmpDir).appendingPathComponent("settings.json").path
-                    try data.write(to: URL(fileURLWithPath: self.settingsFilePath), options: [])
+                    self.settingsFilePath = URL(fileURLWithPath: self.tmpDir!).appendingPathComponent("settings.json").path
+                    try data.write(to: URL(fileURLWithPath: self.settingsFilePath!), options: [])
                 } catch let e {
                     self.syncError = e
                 }
@@ -338,7 +338,7 @@ import Foundation
         // Task: build the index using the downloaded files.
         buildIndexOperation = BlockOperation() {
             if self.syncError == nil {
-                let status = self.localIndex.build(fromSettingsFile: self.settingsFilePath, objectFiles: self.objectsFilePaths, clearIndex: true)
+                let status = self.localIndex.build(fromSettingsFile: self.settingsFilePath!, objectFiles: self.objectsFilePaths!, clearIndex: true)
                 if status != 200 {
                     self.syncError = HTTPError(statusCode: Int(status))
                 } else {
@@ -349,9 +349,9 @@ import Foundation
             }
             self._syncFinished()
         }
-        buildIndexOperation.name = "Build \(self)"
+        buildIndexOperation!.name = "Build \(self)"
         // Make sure this task is run after the settings task.
-        buildIndexOperation.addDependency(settingsOperation)
+        buildIndexOperation!.addDependency(settingsOperation)
 
         // Tasks: Perform data selection queries.
         objectFileIndex = 0
@@ -361,7 +361,7 @@ import Foundation
         }
         
         // Finally add the build index operation to the queue, now that dependencies are set up.
-        offlineClient.buildQueue.addOperation(buildIndexOperation)
+        offlineClient.buildQueue.addOperation(buildIndexOperation!)
     }
     
     // Auxiliary function, called:
@@ -390,8 +390,8 @@ import Foundation
                     
                     // Write results to disk.
                     let data = try JSONSerialization.data(withJSONObject: json!, options: [])
-                    let objectFilePath = URL(fileURLWithPath: self.tmpDir).appendingPathComponent("\(currentObjectFileIndex).json").path
-                    self.objectsFilePaths.append(objectFilePath)
+                    let objectFilePath = URL(fileURLWithPath: self.tmpDir!).appendingPathComponent("\(currentObjectFileIndex).json").path
+                    self.objectsFilePaths!.append(objectFilePath)
                     try data.write(to: URL(fileURLWithPath: objectFilePath), options: [])
                     
                     // Chain if needed.
@@ -404,7 +404,7 @@ import Foundation
             }
         }
         offlineClient.buildQueue.addOperation(operation)
-        buildIndexOperation.addDependency(operation)
+        buildIndexOperation!.addDependency(operation)
     }
 
     /// Wrap-up method, to be called at the end of each sync, *whatever the result*.
@@ -416,7 +416,7 @@ import Foundation
 
         // Clean-up.
         do {
-            try FileManager.default.removeItem(atPath: tmpDir)
+            try FileManager.default.removeItem(atPath: tmpDir!)
         } catch _ {
             // Ignore error
         }

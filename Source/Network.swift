@@ -50,7 +50,7 @@ import SystemConfiguration
 /// Wrapper around an `NSURLSession`, adding logging facilities.
 ///
 internal class URLSessionLogger: NSObject, URLSession {
-    static var epoch: Date!
+    static var epoch: Date = Date()
     
     struct RequestStat {
         // TODO: Log network type.
