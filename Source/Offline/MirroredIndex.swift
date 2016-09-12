@@ -305,7 +305,7 @@ import Foundation
 
         // Create temporary directory.
         do {
-            tmpDir = NSTemporaryDirectory() + "/algolia/" + UUID().uuidString
+            tmpDir = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("algolia").appendingPathComponent(UUID().uuidString).path
             try FileManager.default.createDirectory(atPath: tmpDir, withIntermediateDirectories: true, attributes: nil)
         } catch _ {
             NSLog("ERROR: Could not create temporary directory '%@'", tmpDir)
@@ -326,7 +326,7 @@ import Foundation
                     assert(json != nil)
                     // Write results to disk.
                     let data = try JSONSerialization.data(withJSONObject: json!, options: [])
-                    self.settingsFilePath = "\(self.tmpDir)/settings.json"
+                    self.settingsFilePath = URL(fileURLWithPath: self.tmpDir).appendingPathComponent("settings.json").path
                     try data.write(to: URL(fileURLWithPath: self.settingsFilePath), options: [])
                 } catch let e {
                     self.syncError = e
@@ -390,7 +390,7 @@ import Foundation
                     
                     // Write results to disk.
                     let data = try JSONSerialization.data(withJSONObject: json!, options: [])
-                    let objectFilePath = "\(self.tmpDir)/\(currentObjectFileIndex).json"
+                    let objectFilePath = URL(fileURLWithPath: self.tmpDir).appendingPathComponent("\(currentObjectFileIndex).json").path
                     self.objectsFilePaths.append(objectFilePath)
                     try data.write(to: URL(fileURLWithPath: objectFilePath), options: [])
                     
