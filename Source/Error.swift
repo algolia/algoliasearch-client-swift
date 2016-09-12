@@ -30,7 +30,11 @@ import Foundation
 public struct InvalidJSONError: CustomNSError {
     /// Further description of this error.
     public let description: String
-    
+
+    public init(description: String) {
+        self.description = description
+    }
+
     // MARK: CustomNSError protocol
     // ... for Objective-C bridging.
     
@@ -54,7 +58,7 @@ public struct HTTPError: CustomNSError {
     /// Optional message returned by the server.
     public let message: String?
     
-    internal init(statusCode: Int, message: String? = nil) {
+    public init(statusCode: Int, message: String? = nil) {
         self.statusCode = statusCode
         self.message = message
     }
