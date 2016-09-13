@@ -89,19 +89,19 @@ import Foundation
     @objc public static let SyncDidFinishNotification = Notification.Name("AlgoliaSearch.MirroredIndex.SyncDidFinishNotification")
     
     /// Notification user info key used to pass the error, when an error occurred during the sync.
-    @objc public static let SyncErrorKey = "AlgoliaSearch.MirroredIndex.SyncErrorKey"
+    @objc public static let syncErrorKey = "AlgoliaSearch.MirroredIndex.syncErrorKey"
     
     /// Default minimum delay between two syncs.
-    @objc public static let DefaultDelayBetweenSyncs: TimeInterval = 60 * 60 * 24 // 1 day
+    @objc public static let defaultDelayBetweenSyncs: TimeInterval = 60 * 60 * 24 // 1 day
 
     /// Key used to indicate the origin of results in the returned JSON.
-    @objc public static let JSONKeyOrigin = "origin"
+    @objc public static let jsonKeyOrigin = "origin"
     
-    /// Value for `JSONKeyOrigin` indicating that the results come from the local mirror.
-    @objc public static let JSONValueOriginLocal = "local"
+    /// Value for `jsonKeyOrigin` indicating that the results come from the local mirror.
+    @objc public static let jsonValueOriginLocal = "local"
     
-    /// Value for `JSONKeyOrigin` indicating that the results come from the online API.
-    @objc public static let JSONValueOriginRemote = "remote"
+    /// Value for `jsonKeyOrigin` indicating that the results come from the online API.
+    @objc public static let jsonValueOriginRemote = "remote"
 
     // ----------------------------------------------------------------------
     // MARK: Properties
@@ -148,7 +148,7 @@ import Foundation
     }
     
     /// Minimum delay between two syncs.
-    @objc public var delayBetweenSyncs: TimeInterval = DefaultDelayBetweenSyncs
+    @objc public var delayBetweenSyncs: TimeInterval = defaultDelayBetweenSyncs
     
     /// Date of the last successful sync, or nil if the index has never been successfully synced.
     @objc public var lastSuccessfulSyncDate: Date? {
@@ -432,7 +432,7 @@ import Foundation
         DispatchQueue.main.async {
             var userInfo: [String: Any]? = nil
             if self.syncError != nil {
-                userInfo = [MirroredIndex.SyncErrorKey: self.syncError!]
+                userInfo = [MirroredIndex.syncErrorKey: self.syncError!]
             }
             NotificationCenter.default.post(name: MirroredIndex.SyncDidFinishNotification, object: self, userInfo: userInfo)
         }
@@ -640,7 +640,7 @@ import Foundation
             // Tag results as having a remote origin.
             var taggedContent: JSONObject? = content
             if taggedContent != nil {
-                taggedContent?[MirroredIndex.JSONKeyOrigin] = MirroredIndex.JSONValueOriginRemote
+                taggedContent?[MirroredIndex.jsonKeyOrigin] = MirroredIndex.jsonValueOriginRemote
             }
             completionHandler(taggedContent, error)
         })
@@ -715,7 +715,7 @@ import Foundation
             // Tag results as having a remote origin.
             var taggedContent: JSONObject? = content
             if taggedContent != nil {
-                taggedContent?[MirroredIndex.JSONKeyOrigin] = MirroredIndex.JSONValueOriginRemote
+                taggedContent?[MirroredIndex.jsonKeyOrigin] = MirroredIndex.jsonValueOriginRemote
             }
             completionHandler(taggedContent, error)
         })
@@ -809,7 +809,7 @@ import Foundation
                 // Tag results as having a local origin.
                 // NOTE: Each individual result is also automatically tagged, but having a top-level key allows for
                 // more uniform processing.
-                MirroredIndex.JSONKeyOrigin: MirroredIndex.JSONValueOriginLocal
+                MirroredIndex.jsonKeyOrigin: MirroredIndex.jsonValueOriginLocal
             ]
         }
         assert(content != nil || error != nil)
