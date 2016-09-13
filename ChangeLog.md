@@ -7,6 +7,8 @@ Change Log
 
 **Warning:** This version requires Swift 3; it will not compile with Swift 2.x.
 
+You can find a detailed change log and migration instructions in the [Migration guide to version 4.x](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-to-version-4.x).
+
 Add support for **Swift 3**:
 
 - Adapt to the new Foundation API
@@ -18,14 +20,16 @@ Add support for **Swift 3**:
     - Method names:
         - `browse` is now overloaded: `browse(query:)` and `browse(from:)`.
     - Rename enum members to lower camel case
+    - Rename constants to lower camel case (except notification names)
 - Better Objective-C mappings
     - Adjust method names when necessary for a better fit with this language
     - Objective-C specific types are no longer visible in Swift (well, technically, they still are, but you have to look harder...)
     - No underscore-suffixed properties any longer
-- Use `Error` instead of `NSError` in completion handlers
-    - Use dedicated error types
-- Use `@discardableResult` for methods returning `Operation`
-- Notifications are typed `Notification.Name`
+- Better typing
+    - Use `Error` instead of `NSError` in completion handlers
+        - Use dedicated error types
+    - Use `@discardableResult` for methods returning `Operation`
+    - Use `Notification.Name` for notifications
 - Prevent subclassing by *not* adopting the `open` access modifier
 
 Other breaking changes:
