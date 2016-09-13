@@ -81,10 +81,10 @@ import Foundation
 
     /// Enable the offline mode.
     ///
-    /// - parameter licenseData: license for Algolia's SDK
+    /// - parameter licenseKey: License key for Algolia's SDK.
     ///
-    @objc(enableOfflineModeWithLicenseData:)
-    public func enableOfflineMode(licenseData: String) {
+    @objc(enableOfflineModeWithLicenseKey:)
+    public func enableOfflineMode(licenseKey: String) {
         do {
             // Create the data directory.
             try FileManager.default.createDirectory(atPath: self.rootDataDir, withIntermediateDirectories: true, attributes: nil)
@@ -100,7 +100,7 @@ import Foundation
         }
         
         // Init the SDK.
-        sdk.initWithLicenseData(licenseData)
+        sdk.initWithLicenseData(licenseKey)
         // NOTE: Errors reported by the core itself.
     }
 
