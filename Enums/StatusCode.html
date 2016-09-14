@@ -43,6 +43,27 @@
                 <a href="../Classes/Query.html">Query</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/Query/QueryType.html">– QueryType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/TypoTolerance.html">– TypoTolerance</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/RemoveWordsIfNoResults.html">– RemoveWordsIfNoResults</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/RemoveStopWords.html">– RemoveStopWords</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/ExactOnSingleWordQuery.html">– ExactOnSingleWordQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/AlternativesAsExact.html">– AlternativesAsExact</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/AroundRadius.html">– AroundRadius</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/BrowseIterator.html">BrowseIterator</a>
               </li>
             </ul>
@@ -65,16 +86,14 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a href="../Other Global Variables.html">Other Global Variables</a>
+            <a href="../Errors.html">Errors</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Other Global Variables.html#/s:v13AlgoliaSearch11ErrorDomainSS">ErrorDomain</a>
+                <a href="../Structs/HTTPError.html">HTTPError</a>
               </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a href="../Other Enums.html">Other Enums</a>
-            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/InvalidJSONError.html">InvalidJSONError</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Enums/StatusCode.html">StatusCode</a>
               </li>
@@ -88,6 +107,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a>
               </li>
             </ul>
           </li>
@@ -103,7 +125,7 @@
 
                 </div>
               </div>
-            <p>Status codes.</p>
+            <p>HTTP status codes.</p>
 
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
@@ -118,9 +140,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO13AlgoliaSearch10StatusCode2OKFMS0_S0_"></a>
-                    <a name="//apple_ref/swift/Element/OK" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO13AlgoliaSearch10StatusCode2OKFMS0_S0_">OK</a>
+                    <a name="/s:FO13AlgoliaSearch10StatusCode2okFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/ok" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO13AlgoliaSearch10StatusCode2okFMS0_S0_">ok</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -135,7 +157,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">OK</span>                                                     <span class="o">=</span> <span class="mi">200</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">ok</span>                                                     <span class="o">=</span> <span class="mi">200</span></code></pre>
 
                         </div>
                       </div>
@@ -149,9 +171,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO13AlgoliaSearch10StatusCode10BadRequestFMS0_S0_"></a>
-                    <a name="//apple_ref/swift/Element/BadRequest" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO13AlgoliaSearch10StatusCode10BadRequestFMS0_S0_">BadRequest</a>
+                    <a name="/s:FO13AlgoliaSearch10StatusCode10badRequestFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/badRequest" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO13AlgoliaSearch10StatusCode10badRequestFMS0_S0_">badRequest</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -166,7 +188,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">BadRequest</span>                                             <span class="o">=</span> <span class="mi">400</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">badRequest</span>                                             <span class="o">=</span> <span class="mi">400</span></code></pre>
 
                         </div>
                       </div>
@@ -180,9 +202,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO13AlgoliaSearch10StatusCode12UnauthorizedFMS0_S0_"></a>
-                    <a name="//apple_ref/swift/Element/Unauthorized" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO13AlgoliaSearch10StatusCode12UnauthorizedFMS0_S0_">Unauthorized</a>
+                    <a name="/s:FO13AlgoliaSearch10StatusCode12unauthorizedFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/unauthorized" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO13AlgoliaSearch10StatusCode12unauthorizedFMS0_S0_">unauthorized</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -197,7 +219,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Unauthorized</span>                                           <span class="o">=</span> <span class="mi">401</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">unauthorized</span>                                           <span class="o">=</span> <span class="mi">401</span></code></pre>
 
                         </div>
                       </div>
@@ -211,9 +233,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO13AlgoliaSearch10StatusCode9ForbiddenFMS0_S0_"></a>
-                    <a name="//apple_ref/swift/Element/Forbidden" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO13AlgoliaSearch10StatusCode9ForbiddenFMS0_S0_">Forbidden</a>
+                    <a name="/s:FO13AlgoliaSearch10StatusCode9forbiddenFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/forbidden" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO13AlgoliaSearch10StatusCode9forbiddenFMS0_S0_">forbidden</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -228,7 +250,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Forbidden</span>                                              <span class="o">=</span> <span class="mi">403</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">forbidden</span>                                              <span class="o">=</span> <span class="mi">403</span></code></pre>
 
                         </div>
                       </div>
@@ -242,9 +264,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO13AlgoliaSearch10StatusCode16MethodNotAllowedFMS0_S0_"></a>
-                    <a name="//apple_ref/swift/Element/MethodNotAllowed" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO13AlgoliaSearch10StatusCode16MethodNotAllowedFMS0_S0_">MethodNotAllowed</a>
+                    <a name="/s:FO13AlgoliaSearch10StatusCode16methodNotAllowedFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/methodNotAllowed" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO13AlgoliaSearch10StatusCode16methodNotAllowedFMS0_S0_">methodNotAllowed</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -265,7 +287,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">MethodNotAllowed</span>                                       <span class="o">=</span> <span class="mi">405</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">methodNotAllowed</span>                                       <span class="o">=</span> <span class="mi">405</span></code></pre>
 
                         </div>
                       </div>
@@ -279,9 +301,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO13AlgoliaSearch10StatusCode19InternalServerErrorFMS0_S0_"></a>
-                    <a name="//apple_ref/swift/Element/InternalServerError" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO13AlgoliaSearch10StatusCode19InternalServerErrorFMS0_S0_">InternalServerError</a>
+                    <a name="/s:FO13AlgoliaSearch10StatusCode19internalServerErrorFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/internalServerError" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO13AlgoliaSearch10StatusCode19internalServerErrorFMS0_S0_">internalServerError</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -296,7 +318,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">InternalServerError</span>                                    <span class="o">=</span> <span class="mi">500</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">internalServerError</span>                                    <span class="o">=</span> <span class="mi">500</span></code></pre>
 
                         </div>
                       </div>
@@ -310,9 +332,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FO13AlgoliaSearch10StatusCode18ServiceUnavailableFMS0_S0_"></a>
-                    <a name="//apple_ref/swift/Element/ServiceUnavailable" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO13AlgoliaSearch10StatusCode18ServiceUnavailableFMS0_S0_">ServiceUnavailable</a>
+                    <a name="/s:FO13AlgoliaSearch10StatusCode18serviceUnavailableFMS0_S0_"></a>
+                    <a name="//apple_ref/swift/Element/serviceUnavailable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FO13AlgoliaSearch10StatusCode18serviceUnavailableFMS0_S0_">serviceUnavailable</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -327,100 +349,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">ServiceUnavailable</span>                                     <span class="o">=</span> <span class="mi">503</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FO13AlgoliaSearch10StatusCode7UnknownFMS0_S0_"></a>
-                    <a name="//apple_ref/swift/Element/Unknown" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO13AlgoliaSearch10StatusCode7UnknownFMS0_S0_">Unknown</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Unknown error.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">Unknown</span>                                                <span class="o">=</span> <span class="o">-</span><span class="mi">1</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FO13AlgoliaSearch10StatusCode17IllFormedResponseFMS0_S0_"></a>
-                    <a name="//apple_ref/swift/Element/IllFormedResponse" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO13AlgoliaSearch10StatusCode17IllFormedResponseFMS0_S0_">IllFormedResponse</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The server replied ill-formed JSON (syntax error).</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">IllFormedResponse</span>                                      <span class="o">=</span> <span class="mi">600</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FO13AlgoliaSearch10StatusCode15InvalidResponseFMS0_S0_"></a>
-                    <a name="//apple_ref/swift/Element/InvalidResponse" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FO13AlgoliaSearch10StatusCode15InvalidResponseFMS0_S0_">InvalidResponse</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The server replied an invalid response (grammar error).</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">InvalidResponse</span>                                        <span class="o">=</span> <span class="mi">601</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">serviceUnavailable</span>                                     <span class="o">=</span> <span class="mi">503</span></code></pre>
 
                         </div>
                       </div>
@@ -431,10 +360,10 @@
             </div>
             <div class="task-group">
               <div class="task-name-container">
-                <a name="/Custom%20status%20codes"></a>
-                <a name="//apple_ref/swift/Section/Custom status codes" class="dashAnchor"></a>
-                <a href="#/Custom%20status%20codes">
-                  <h3 class="section-name">Custom status codes</h3>
+                <a name="/Status%20ranges"></a>
+                <a name="//apple_ref/swift/Section/Status ranges" class="dashAnchor"></a>
+                <a href="#/Status%20ranges">
+                  <h3 class="section-name">Status ranges</h3>
                 </a>
               </div>
               <ul>
@@ -458,7 +387,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">isSuccess</span><span class="p">(</span><span class="nv">statusCode</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">isSuccess</span><span class="p">(</span><span class="n">_</span> <span class="nv">statusCode</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>
@@ -485,7 +414,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">isClientError</span><span class="p">(</span><span class="nv">statusCode</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">isClientError</span><span class="p">(</span><span class="n">_</span> <span class="nv">statusCode</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>
@@ -512,7 +441,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">isServerError</span><span class="p">(</span><span class="nv">statusCode</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">isServerError</span><span class="p">(</span><span class="n">_</span> <span class="nv">statusCode</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>

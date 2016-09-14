@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>LibraryVersion Class Reference</title>
+    <title>InvalidJSONError Struct Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Class/LibraryVersion" class="dashAnchor"></a>
-    <a title="LibraryVersion Class Reference"></a>
+    <a name="//apple_ref/swift/Struct/InvalidJSONError" class="dashAnchor"></a>
+    <a title="InvalidJSONError Struct Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../index.html">AlgoliaSearch Docs</a></p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../index.html">AlgoliaSearch Reference</a>
         <img id="carat" src="../img/carat.png" />
-        LibraryVersion Class Reference
+        InvalidJSONError Struct Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -86,6 +86,23 @@
             </ul>
           </li>
           <li class="nav-group-name">
+            <a href="../Offline mode.html">Offline mode</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/OfflineClient.html">OfflineClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MirroredIndex.html">MirroredIndex</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/MirroredIndex/Strategy.html">– Strategy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/DataSelectionQuery.html">DataSelectionQuery</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a href="../Errors.html">Errors</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -118,15 +135,15 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>LibraryVersion</h1>
+            <h1>InvalidJSONError</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">LibraryVersion</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">InvalidJSONError</span><span class="p">:</span> <span class="kt">CustomNSError</span></code></pre>
 
                 </div>
               </div>
-            <p>A version of a software library.
-Used to construct the <code>User-Agent</code> header.</p>
+            <p>The returned JSON is syntactically correct, but grammatically invalid.
+For example, it a mandatory attribute is missing, or an attribute is not of the expected type.</p>
 
           </section>
           <section class="section task-group-section">
@@ -135,9 +152,9 @@ Used to construct the <code>User-Agent</code> header.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC13AlgoliaSearch14LibraryVersion4nameSS"></a>
-                    <a name="//apple_ref/swift/Property/name" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC13AlgoliaSearch14LibraryVersion4nameSS">name</a>
+                    <a name="/s:vV13AlgoliaSearch16InvalidJSONError11descriptionSS"></a>
+                    <a name="//apple_ref/swift/Property/description" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vV13AlgoliaSearch16InvalidJSONError11descriptionSS">description</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -145,14 +162,51 @@ Used to construct the <code>User-Agent</code> header.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Library name.</p>
+                        <p>Further description of this error.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">let</span> <span class="nv">description</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/CustomNSError%20protocol"></a>
+                <a name="//apple_ref/swift/Section/CustomNSError protocol" class="dashAnchor"></a>
+                <a href="#/CustomNSError%20protocol">
+                  <h3 class="section-name">CustomNSError protocol</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvP10Foundation13CustomNSError11errorDomainSS"></a>
+                    <a name="//apple_ref/swift/Variable/errorDomain" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvP10Foundation13CustomNSError11errorDomainSS">errorDomain</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">errorDomain</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="kt">String</span><span class="p">(</span><span class="nv">reflecting</span><span class="p">:</span> <span class="kt">InvalidJSONError</span><span class="o">.</span><span class="k">self</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -162,9 +216,9 @@ Used to construct the <code>User-Agent</code> header.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC13AlgoliaSearch14LibraryVersion7versionSS"></a>
-                    <a name="//apple_ref/swift/Property/version" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC13AlgoliaSearch14LibraryVersion7versionSS">version</a>
+                    <a name="/s:vP10Foundation13CustomNSError9errorCodeSi"></a>
+                    <a name="//apple_ref/swift/Property/errorCode" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vP10Foundation13CustomNSError9errorCodeSi">errorCode</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -172,14 +226,39 @@ Used to construct the <code>User-Agent</code> header.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Version string.</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">let</span> <span class="nv">version</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">errorCode</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vP10Foundation13CustomNSError13errorUserInfoGVs10DictionarySSP__"></a>
+                    <a name="//apple_ref/swift/Property/errorUserInfo" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vP10Foundation13CustomNSError13errorUserInfoGVs10DictionarySSP__">errorUserInfo</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">errorUserInfo</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">Any</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>

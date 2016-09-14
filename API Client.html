@@ -42,6 +42,27 @@
                 <a href="Classes/Query.html">Query</a>
               </li>
               <li class="nav-group-task">
+                <a href="Classes/Query/QueryType.html">– QueryType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Query/TypoTolerance.html">– TypoTolerance</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Query/RemoveWordsIfNoResults.html">– RemoveWordsIfNoResults</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Query/RemoveStopWords.html">– RemoveStopWords</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Query/ExactOnSingleWordQuery.html">– ExactOnSingleWordQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Query/AlternativesAsExact.html">– AlternativesAsExact</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/Query/AroundRadius.html">– AroundRadius</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="Classes/BrowseIterator.html">BrowseIterator</a>
               </li>
             </ul>
@@ -64,16 +85,14 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a href="Other Global Variables.html">Other Global Variables</a>
+            <a href="Errors.html">Errors</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Other Global Variables.html#/s:v13AlgoliaSearch11ErrorDomainSS">ErrorDomain</a>
+                <a href="Structs/HTTPError.html">HTTPError</a>
               </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a href="Other Enums.html">Other Enums</a>
-            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="Structs/InvalidJSONError.html">InvalidJSONError</a>
+              </li>
               <li class="nav-group-task">
                 <a href="Enums/StatusCode.html">StatusCode</a>
               </li>
@@ -87,6 +106,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a>
               </li>
             </ul>
           </li>
@@ -150,7 +172,7 @@
 
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    You cannot construct this class directly. Please use <code><a href="Classes/Client.html#/s:FC13AlgoliaSearch6Client8getIndexFSSCS_5Index">Client.getIndex(_:)</a></code> to obtain an instance.
+    You cannot construct this class directly. Please use <code><a href="Classes/Client.html#/s:FC13AlgoliaSearch6Client5indexFT8withNameSS_CS_5Index">Client.index(withName:)</a></code> to obtain an instance.
 
 </div>
 
@@ -184,23 +206,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Describes all parameters of a search query.</p>
-
-<p>There are two ways to access parameters:</p>
-
-<ol>
-<li>Using the high-level, <strong>typed properties</strong> for individual parameters (recommended).</li>
-<li>Using the low-level, <strong>untyped accessors</strong> <code>get(_:)</code> and <code>set(_:value:)</code> or the subscript operator.
-Use this approach if the parameter you wish to set is not supported by this class.</li>
-</ol>
-
+                        
                         <a href="Classes/Query.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">Query</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCopying</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Query</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSCopying</span></code></pre>
 
                         </div>
                       </div>

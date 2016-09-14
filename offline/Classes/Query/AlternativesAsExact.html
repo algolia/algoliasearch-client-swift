@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Strategy Enum Reference</title>
+    <title>AlternativesAsExact Enum Reference</title>
     <link rel="stylesheet" type="text/css" href="../../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Enum/Strategy" class="dashAnchor"></a>
-    <a title="Strategy Enum Reference"></a>
+    <a name="//apple_ref/swift/Enum/AlternativesAsExact" class="dashAnchor"></a>
+    <a title="AlternativesAsExact Enum Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../../index.html">AlgoliaSearch Docs</a></p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../../index.html">AlgoliaSearch Reference</a>
         <img id="carat" src="../../img/carat.png" />
-        Strategy Enum Reference
+        AlternativesAsExact Enum Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -135,14 +135,14 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>Strategy</h1>
+            <h1>AlternativesAsExact</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Strategy</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">AlternativesAsExact</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                 </div>
               </div>
-            <p>Strategy to choose between online and offline search.</p>
+            <p>Applicable values for the <code><a href="../../Classes/Query.html#/s:vC13AlgoliaSearch5Query19alternativesAsExactGSqGSaOS0_19AlternativesAsExact__">alternativesAsExact</a></code> parameter.</p>
 
           </section>
           <section class="section task-group-section">
@@ -151,9 +151,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FOC13AlgoliaSearch13MirroredIndex8Strategy10onlineOnlyFMS1_S1_"></a>
-                    <a name="//apple_ref/swift/Element/onlineOnly" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FOC13AlgoliaSearch13MirroredIndex8Strategy10onlineOnlyFMS1_S1_">onlineOnly</a>
+                    <a name="/s:FOC13AlgoliaSearch5Query19AlternativesAsExact13ignorePluralsFMS1_S1_"></a>
+                    <a name="//apple_ref/swift/Element/ignorePlurals" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOC13AlgoliaSearch5Query19AlternativesAsExact13ignorePluralsFMS1_S1_">ignorePlurals</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -161,22 +161,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Search online only.
-The search will fail when the API can&rsquo;t be reached.</p>
-
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    You might consider that this defeats the purpose of having a mirror in the first place&hellip; But this
-is intended for applications wanting to manually manage their policy.
-
-</div>
+                        <p>Alternative word added by the ignore plurals feature.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">onlineOnly</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">ignorePlurals</span> <span class="o">=</span> <span class="s">"ignorePlurals"</span></code></pre>
 
                         </div>
                       </div>
@@ -190,9 +182,9 @@ is intended for applications wanting to manually manage their policy.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FOC13AlgoliaSearch13MirroredIndex8Strategy11offlineOnlyFMS1_S1_"></a>
-                    <a name="//apple_ref/swift/Element/offlineOnly" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FOC13AlgoliaSearch13MirroredIndex8Strategy11offlineOnlyFMS1_S1_">offlineOnly</a>
+                    <a name="/s:FOC13AlgoliaSearch5Query19AlternativesAsExact17singleWordSynonymFMS1_S1_"></a>
+                    <a name="//apple_ref/swift/Element/singleWordSynonym" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOC13AlgoliaSearch5Query19AlternativesAsExact17singleWordSynonymFMS1_S1_">singleWordSynonym</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -200,15 +192,14 @@ is intended for applications wanting to manually manage their policy.
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Search offline only.
-The search will fail when the offline mirror has not yet been synced.</p>
+                        <p>Single word synonym (For example “NY” = “NYC”).</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">offlineOnly</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">singleWordSynonym</span> <span class="o">=</span> <span class="s">"singleWordSynonym"</span></code></pre>
 
                         </div>
                       </div>
@@ -222,9 +213,9 @@ The search will fail when the offline mirror has not yet been synced.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FOC13AlgoliaSearch13MirroredIndex8Strategy17fallbackOnFailureFMS1_S1_"></a>
-                    <a name="//apple_ref/swift/Element/fallbackOnFailure" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FOC13AlgoliaSearch13MirroredIndex8Strategy17fallbackOnFailureFMS1_S1_">fallbackOnFailure</a>
+                    <a name="/s:FOC13AlgoliaSearch5Query19AlternativesAsExact17multiWordsSynonymFMS1_S1_"></a>
+                    <a name="//apple_ref/swift/Element/multiWordsSynonym" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOC13AlgoliaSearch5Query19AlternativesAsExact17multiWordsSynonymFMS1_S1_">multiWordsSynonym</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -232,50 +223,14 @@ The search will fail when the offline mirror has not yet been synced.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Search online, then fallback to offline on failure.
-Please note that when online, this is likely to hit the request timeout on <em>every host</em> before failing.</p>
+                        <p>Synonym over multiple words (For example “NY” = “New York”).</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">fallbackOnFailure</span> <span class="o">=</span> <span class="mi">2</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FOC13AlgoliaSearch13MirroredIndex8Strategy17fallbackOnTimeoutFMS1_S1_"></a>
-                    <a name="//apple_ref/swift/Element/fallbackOnTimeout" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FOC13AlgoliaSearch13MirroredIndex8Strategy17fallbackOnTimeoutFMS1_S1_">fallbackOnTimeout</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Fallback after a certain timeout.
-Will first try an online request, but fallback to offline in case of failure or when a timeout has been
-reached, whichever comes first.</p>
-
-<p>The timeout can be set through the <code><a href="../../Classes/MirroredIndex.html#/s:vC13AlgoliaSearch13MirroredIndex22offlineFallbackTimeoutSd">offlineFallbackTimeout</a></code> property.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">fallbackOnTimeout</span> <span class="o">=</span> <span class="mi">3</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">multiWordsSynonym</span> <span class="o">=</span> <span class="s">"multiWordsSynonym"</span></code></pre>
 
                         </div>
                       </div>

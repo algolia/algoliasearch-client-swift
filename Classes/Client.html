@@ -43,6 +43,27 @@
                 <a href="../Classes/Query.html">Query</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/Query/QueryType.html">– QueryType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/TypoTolerance.html">– TypoTolerance</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/RemoveWordsIfNoResults.html">– RemoveWordsIfNoResults</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/RemoveStopWords.html">– RemoveStopWords</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/ExactOnSingleWordQuery.html">– ExactOnSingleWordQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/AlternativesAsExact.html">– AlternativesAsExact</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/AroundRadius.html">– AroundRadius</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/BrowseIterator.html">BrowseIterator</a>
               </li>
             </ul>
@@ -65,16 +86,14 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a href="../Other Global Variables.html">Other Global Variables</a>
+            <a href="../Errors.html">Errors</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Other Global Variables.html#/s:v13AlgoliaSearch11ErrorDomainSS">ErrorDomain</a>
+                <a href="../Structs/HTTPError.html">HTTPError</a>
               </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a href="../Other Enums.html">Other Enums</a>
-            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/InvalidJSONError.html">InvalidJSONError</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Enums/StatusCode.html">StatusCode</a>
               </li>
@@ -88,6 +107,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a>
               </li>
             </ul>
           </li>
@@ -107,50 +129,6 @@
 
           </section>
           <section class="section task-group-section">
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Constants"></a>
-                <a name="//apple_ref/swift/Section/Constants" class="dashAnchor"></a>
-                <a href="#/Constants">
-                  <h3 class="section-name">Constants</h3>
-                </a>
-              </div>
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:ZvC13AlgoliaSearch6Client11ErrorDomainSS"></a>
-                    <a name="//apple_ref/swift/Variable/ErrorDomain" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZvC13AlgoliaSearch6Client11ErrorDomainSS">ErrorDomain</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Error domain used for errors raised by this module.</p>
-
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    This shortcut is provided for Objective-C bridging. See the top-level <code>ErrorDomain</code> constant.
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">ErrorDomain</span> <span class="o">=</span> <span class="kt">AlgoliaSearch</span><span class="o">.</span><span class="kt">ErrorDomain</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
             <div class="task-group">
               <div class="task-name-container">
                 <a name="/Properties"></a>
@@ -269,7 +247,7 @@ This field is publicly exposed only for the sake of other Algolia libraries.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">let</span> <span class="nv">timeout</span><span class="p">:</span> <span class="kt">NSTimeInterval</span> <span class="o">=</span> <span class="mi">30</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">timeout</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="mi">30</span></code></pre>
 
                         </div>
                       </div>
@@ -289,14 +267,14 @@ This field is publicly exposed only for the sake of other Algolia libraries.
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Timeout for search requests. Default: 5 seconds.</p>
+                        <p>Specific timeout for search requests. Default: 5 seconds.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">let</span> <span class="nv">searchTimeout</span><span class="p">:</span> <span class="kt">NSTimeInterval</span> <span class="o">=</span> <span class="mi">5</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">searchTimeout</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="mi">5</span></code></pre>
 
                         </div>
                       </div>
@@ -498,7 +476,7 @@ Change them only if you know what you are doing.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">setHosts</span><span class="p">(</span><span class="nv">hosts</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">setHosts</span><span class="p">(</span><span class="n">_</span> <span class="nv">hosts</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span></code></pre>
 
                         </div>
                       </div>
@@ -508,9 +486,9 @@ Change them only if you know what you are doing.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch6Client9setHeaderFTSS5valueGSqSS__T_"></a>
-                    <a name="//apple_ref/swift/Method/setHeader(_:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch6Client9setHeaderFTSS5valueGSqSS__T_">setHeader(_:value:)</a>
+                    <a name="/s:FC13AlgoliaSearch6Client9setHeaderFT8withNameSS2toGSqSS__T_"></a>
+                    <a name="//apple_ref/swift/Method/setHeader(withName:to:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch6Client9setHeaderFT8withNameSS2toGSqSS__T_">setHeader(withName:to:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -531,7 +509,7 @@ Change them only if you know what you are doing.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">setHeader</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">setHeader</span><span class="p">(</span><span class="n">withName</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">to</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
 
                         </div>
                       </div>
@@ -574,9 +552,9 @@ Change them only if you know what you are doing.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch6Client9getHeaderFSSGSqSS_"></a>
-                    <a name="//apple_ref/swift/Method/getHeader(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch6Client9getHeaderFSSGSqSS_">getHeader(_:)</a>
+                    <a name="/s:FC13AlgoliaSearch6Client6headerFT8withNameSS_GSqSS_"></a>
+                    <a name="//apple_ref/swift/Method/header(withName:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch6Client6headerFT8withNameSS_GSqSS_">header(withName:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -597,7 +575,7 @@ Change them only if you know what you are doing.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getHeader</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">header</span><span class="p">(</span><span class="n">withName</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -623,7 +601,66 @@ Change them only if you know what you are doing.
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>The header&rsquo;s value, or <code>nil</code> if the header does not exist.</p>
+                        <p>The header’s value, or <code>nil</code> if the header does not exist.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch6Client5indexFT8withNameSS_CS_5Index"></a>
+                    <a name="//apple_ref/swift/Method/index(withName:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch6Client5indexFT8withNameSS_CS_5Index">index(withName:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Obtain a proxy to an Algolia index (no server call required by this method).</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>Only one instance can exist for a given index name. Subsequent calls to this method with the same
+index name will return the same instance, unless it has already been released.</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">index</span><span class="p">(</span><span class="n">withName</span> <span class="nv">indexName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/Index.html">Index</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>indexName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The name of the index.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A proxy to the specified index.</p>
 
                       </div>
                     </section>
@@ -643,9 +680,9 @@ Change them only if you know what you are doing.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch6Client11listIndexesFFT7contentGSqGVs10DictionarySSPs9AnyObject___5errorGSqCSo7NSError__T_CSo11NSOperation"></a>
-                    <a name="//apple_ref/swift/Method/listIndexes(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch6Client11listIndexesFFT7contentGSqGVs10DictionarySSPs9AnyObject___5errorGSqCSo7NSError__T_CSo11NSOperation">listIndexes(_:)</a>
+                    <a name="/s:FC13AlgoliaSearch6Client11listIndexesFT17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="//apple_ref/swift/Method/listIndexes(completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch6Client11listIndexesFT17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">listIndexes(completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -660,7 +697,7 @@ Change them only if you know what you are doing.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">listIndexes</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSOperation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">listIndexes</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
@@ -676,7 +713,7 @@ Change them only if you know what you are doing.
                               </td>
                               <td>
                                 <div>
-                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                  <p>Completion handler to be notified of the request’s outcome.</p>
 
                                 </div>
                               </td>
@@ -695,9 +732,9 @@ Change them only if you know what you are doing.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch6Client11deleteIndexFTSS17completionHandlerGSqFT7contentGSqGVs10DictionarySSPs9AnyObject___5errorGSqCSo7NSError__T___CSo11NSOperation"></a>
-                    <a name="//apple_ref/swift/Method/deleteIndex(_:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch6Client11deleteIndexFTSS17completionHandlerGSqFT7contentGSqGVs10DictionarySSPs9AnyObject___5errorGSqCSo7NSError__T___CSo11NSOperation">deleteIndex(_:completionHandler:)</a>
+                    <a name="/s:FC13AlgoliaSearch6Client11deleteIndexFT8withNameSS17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation"></a>
+                    <a name="//apple_ref/swift/Method/deleteIndex(withName:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch6Client11deleteIndexFT8withNameSS17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation">deleteIndex(withName:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -712,7 +749,7 @@ Change them only if you know what you are doing.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteIndex</span><span class="p">(</span><span class="nv">indexName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSOperation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteIndex</span><span class="p">(</span><span class="n">withName</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
@@ -741,7 +778,7 @@ Change them only if you know what you are doing.
                               </td>
                               <td>
                                 <div>
-                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                  <p>Completion handler to be notified of the request’s outcome.</p>
 
                                 </div>
                               </td>
@@ -760,9 +797,9 @@ Change them only if you know what you are doing.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch6Client9moveIndexFTSS2toSS17completionHandlerGSqFT7contentGSqGVs10DictionarySSPs9AnyObject___5errorGSqCSo7NSError__T___CSo11NSOperation"></a>
-                    <a name="//apple_ref/swift/Method/moveIndex(_:to:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch6Client9moveIndexFTSS2toSS17completionHandlerGSqFT7contentGSqGVs10DictionarySSPs9AnyObject___5errorGSqCSo7NSError__T___CSo11NSOperation">moveIndex(_:to:completionHandler:)</a>
+                    <a name="/s:FC13AlgoliaSearch6Client9moveIndexFT4fromSS2toSS17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation"></a>
+                    <a name="//apple_ref/swift/Method/moveIndex(from:to:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch6Client9moveIndexFT4fromSS2toSS17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation">moveIndex(from:to:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -780,7 +817,7 @@ API keys will be added.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">moveIndex</span><span class="p">(</span><span class="nv">srcIndexName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">to</span> <span class="nv">dstIndexName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSOperation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">moveIndex</span><span class="p">(</span><span class="n">from</span> <span class="nv">srcIndexName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">to</span> <span class="nv">dstIndexName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
@@ -822,7 +859,7 @@ API keys will be added.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                  <p>Completion handler to be notified of the request’s outcome.</p>
 
                                 </div>
                               </td>
@@ -841,9 +878,9 @@ API keys will be added.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch6Client9copyIndexFTSS2toSS17completionHandlerGSqFT7contentGSqGVs10DictionarySSPs9AnyObject___5errorGSqCSo7NSError__T___CSo11NSOperation"></a>
-                    <a name="//apple_ref/swift/Method/copyIndex(_:to:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch6Client9copyIndexFTSS2toSS17completionHandlerGSqFT7contentGSqGVs10DictionarySSPs9AnyObject___5errorGSqCSo7NSError__T___CSo11NSOperation">copyIndex(_:to:completionHandler:)</a>
+                    <a name="/s:FC13AlgoliaSearch6Client9copyIndexFT4fromSS2toSS17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation"></a>
+                    <a name="//apple_ref/swift/Method/copyIndex(from:to:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch6Client9copyIndexFT4fromSS2toSS17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation">copyIndex(from:to:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -861,7 +898,7 @@ API keys will be added.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">copyIndex</span><span class="p">(</span><span class="nv">srcIndexName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">to</span> <span class="nv">dstIndexName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSOperation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">copyIndex</span><span class="p">(</span><span class="n">from</span> <span class="nv">srcIndexName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">to</span> <span class="nv">dstIndexName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
@@ -903,7 +940,7 @@ API keys will be added.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                  <p>Completion handler to be notified of the request’s outcome.</p>
 
                                 </div>
                               </td>
@@ -914,58 +951,6 @@ API keys will be added.</p>
                       <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC13AlgoliaSearch6Client8getIndexFSSCS_5Index"></a>
-                    <a name="//apple_ref/swift/Method/getIndex(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch6Client8getIndexFSSCS_5Index">getIndex(_:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Create a proxy to an Algolia index (no server call required by this method).</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getIndex</span><span class="p">(</span><span class="nv">indexName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/Index.html">Index</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>indexName</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The name of the index.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>A new proxy to the specified index.</p>
 
                       </div>
                     </section>
@@ -984,7 +969,7 @@ API keys will be added.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Strategy when running multiple queries. See <code><a href="../Classes/Client.html#/s:FC13AlgoliaSearch6Client15multipleQueriesFTGSaCS_10IndexQuery_8strategyGSqSS_17completionHandlerFT7contentGSqGVs10DictionarySSPs9AnyObject___5errorGSqCSo7NSError__T__CSo11NSOperation">Client.multipleQueries(...)</a></code>.</p>
+                        <p>Strategy when running multiple queries. See <code><a href="../Classes/Client.html#/s:FC13AlgoliaSearch6Client15multipleQueriesFTGSaCS_10IndexQuery_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">Client.multipleQueries(...)</a></code>.</p>
 
                         <a href="../Classes/Client/MultipleQueriesStrategy.html" class="slightly-smaller">See more</a>
                       </div>
@@ -1002,9 +987,9 @@ API keys will be added.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch6Client15multipleQueriesFTGSaCS_10IndexQuery_8strategyGSqSS_17completionHandlerFT7contentGSqGVs10DictionarySSPs9AnyObject___5errorGSqCSo7NSError__T__CSo11NSOperation"></a>
+                    <a name="/s:FC13AlgoliaSearch6Client15multipleQueriesFTGSaCS_10IndexQuery_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/multipleQueries(_:strategy:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch6Client15multipleQueriesFTGSaCS_10IndexQuery_8strategyGSqSS_17completionHandlerFT7contentGSqGVs10DictionarySSPs9AnyObject___5errorGSqCSo7NSError__T__CSo11NSOperation">multipleQueries(_:strategy:completionHandler:)</a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch6Client15multipleQueriesFTGSaCS_10IndexQuery_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">multipleQueries(_:strategy:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1019,7 +1004,7 @@ API keys will be added.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueries</span><span class="p">(</span><span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/IndexQuery.html">IndexQuery</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSOperation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueries</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/IndexQuery.html">IndexQuery</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
@@ -1061,7 +1046,7 @@ API keys will be added.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                  <p>Completion handler to be notified of the request’s outcome.</p>
 
                                 </div>
                               </td>
@@ -1080,9 +1065,9 @@ API keys will be added.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch6Client15multipleQueriesFTGSaCS_10IndexQuery_8strategyGSqOS0_23MultipleQueriesStrategy_17completionHandlerFT7contentGSqGVs10DictionarySSPs9AnyObject___5errorGSqCSo7NSError__T__CSo11NSOperation"></a>
+                    <a name="/s:FC13AlgoliaSearch6Client15multipleQueriesFTGSaCS_10IndexQuery_8strategyGSqOS0_23MultipleQueriesStrategy_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/multipleQueries(_:strategy:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch6Client15multipleQueriesFTGSaCS_10IndexQuery_8strategyGSqOS0_23MultipleQueriesStrategy_17completionHandlerFT7contentGSqGVs10DictionarySSPs9AnyObject___5errorGSqCSo7NSError__T__CSo11NSOperation">multipleQueries(_:strategy:completionHandler:)</a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch6Client15multipleQueriesFTGSaCS_10IndexQuery_8strategyGSqOS0_23MultipleQueriesStrategy_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">multipleQueries(_:strategy:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1097,7 +1082,7 @@ API keys will be added.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueries</span><span class="p">(</span><span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/IndexQuery.html">IndexQuery</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt"><a href="../Classes/Client/MultipleQueriesStrategy.html">MultipleQueriesStrategy</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSOperation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueries</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/IndexQuery.html">IndexQuery</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt"><a href="../Classes/Client/MultipleQueriesStrategy.html">MultipleQueriesStrategy</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
@@ -1139,7 +1124,7 @@ API keys will be added.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                  <p>Completion handler to be notified of the request’s outcome.</p>
 
                                 </div>
                               </td>
@@ -1158,9 +1143,9 @@ API keys will be added.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch6Client5batchFTGSaPs9AnyObject__17completionHandlerGSqFT7contentGSqGVs10DictionarySSPS1____5errorGSqCSo7NSError__T___CSo11NSOperation"></a>
-                    <a name="//apple_ref/swift/Method/batch(_:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch6Client5batchFTGSaPs9AnyObject__17completionHandlerGSqFT7contentGSqGVs10DictionarySSPS1____5errorGSqCSo7NSError__T___CSo11NSOperation">batch(_:completionHandler:)</a>
+                    <a name="/s:FC13AlgoliaSearch6Client5batchFT10operationsGSaP__17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation"></a>
+                    <a name="//apple_ref/swift/Method/batch(operations:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch6Client5batchFT10operationsGSaP__17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation">batch(operations:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1175,7 +1160,7 @@ API keys will be added.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">batch</span><span class="p">(</span><span class="nv">operations</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyObject</span><span class="p">],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSOperation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">batch</span><span class="p">(</span><span class="nv">operations</span><span class="p">:</span> <span class="p">[</span><span class="kt">Any</span><span class="p">],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
@@ -1204,7 +1189,7 @@ API keys will be added.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                  <p>Completion handler to be notified of the request’s outcome.</p>
 
                                 </div>
                               </td>
@@ -1223,9 +1208,9 @@ API keys will be added.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch6Client7isAliveFFT7contentGSqGVs10DictionarySSPs9AnyObject___5errorGSqCSo7NSError__T_CSo11NSOperation"></a>
-                    <a name="//apple_ref/swift/Method/isAlive(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch6Client7isAliveFFT7contentGSqGVs10DictionarySSPs9AnyObject___5errorGSqCSo7NSError__T_CSo11NSOperation">isAlive(_:)</a>
+                    <a name="/s:FC13AlgoliaSearch6Client7isAliveFT17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="//apple_ref/swift/Method/isAlive(completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch6Client7isAliveFT17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">isAlive(completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1241,7 +1226,7 @@ This method returns nothing except a message indicating that the server is alive
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">isAlive</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">NSOperation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">isAlive</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
@@ -1257,7 +1242,7 @@ This method returns nothing except a message indicating that the server is alive
                               </td>
                               <td>
                                 <div>
-                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                  <p>Completion handler to be notified of the request’s outcome.</p>
 
                                 </div>
                               </td>

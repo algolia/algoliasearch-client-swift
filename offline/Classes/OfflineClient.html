@@ -43,6 +43,27 @@
                 <a href="../Classes/Query.html">Query</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/Query/QueryType.html">– QueryType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/TypoTolerance.html">– TypoTolerance</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/RemoveWordsIfNoResults.html">– RemoveWordsIfNoResults</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/RemoveStopWords.html">– RemoveStopWords</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/ExactOnSingleWordQuery.html">– ExactOnSingleWordQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/AlternativesAsExact.html">– AlternativesAsExact</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/AroundRadius.html">– AroundRadius</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/BrowseIterator.html">BrowseIterator</a>
               </li>
             </ul>
@@ -82,16 +103,14 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a href="../Other Global Variables.html">Other Global Variables</a>
+            <a href="../Errors.html">Errors</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Other Global Variables.html#/s:v13AlgoliaSearch11ErrorDomainSS">ErrorDomain</a>
+                <a href="../Structs/HTTPError.html">HTTPError</a>
               </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a href="../Other Enums.html">Other Enums</a>
-            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/InvalidJSONError.html">InvalidJSONError</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../Enums/StatusCode.html">StatusCode</a>
               </li>
@@ -105,6 +124,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a>
               </li>
             </ul>
           </li>
@@ -150,7 +172,7 @@ key prior to calling any offline-related method.
 
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <p>Offline mode is disabled by default, until you call <code><a href="../Classes/OfflineClient.html#/s:FC13AlgoliaSearch13OfflineClient17enableOfflineModeFSST_">enableOfflineMode(...)</a></code>.</p>
+    <p>Offline mode is disabled by default, until you call <code><a href="../Classes/OfflineClient.html#/s:FC13AlgoliaSearch13OfflineClient17enableOfflineModeFT10licenseKeySS_T_">enableOfflineMode(...)</a></code>.</p>
 
 </div>
 
@@ -214,7 +236,7 @@ key prior to calling any offline-related method.
                       <div class="abstract">
                         <p>Path to directory where the local data is stored.
 Defaults to an <code>algolia</code> sub-directory inside the <code>Library/Application Support</code> directory.
-If you set it to another value, do so <em>before</em> calling <code><a href="../Classes/OfflineClient.html#/s:FC13AlgoliaSearch13OfflineClient17enableOfflineModeFSST_">enableOfflineMode(...)</a></code>.</p>
+If you set it to another value, do so <em>before</em> calling <code><a href="../Classes/OfflineClient.html#/s:FC13AlgoliaSearch13OfflineClient17enableOfflineModeFT10licenseKeySS_T_">enableOfflineMode(...)</a></code>.</p>
 
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
@@ -237,9 +259,9 @@ If you set it to another value, do so <em>before</em> calling <code><a href="../
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch13OfflineClient17enableOfflineModeFSST_"></a>
-                    <a name="//apple_ref/swift/Method/enableOfflineMode(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch13OfflineClient17enableOfflineModeFSST_">enableOfflineMode(_:)</a>
+                    <a name="/s:FC13AlgoliaSearch13OfflineClient17enableOfflineModeFT10licenseKeySS_T_"></a>
+                    <a name="//apple_ref/swift/Method/enableOfflineMode(licenseKey:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch13OfflineClient17enableOfflineModeFT10licenseKeySS_T_">enableOfflineMode(licenseKey:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -254,7 +276,7 @@ If you set it to another value, do so <em>before</em> calling <code><a href="../
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">enableOfflineMode</span><span class="p">(</span><span class="nv">licenseData</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">enableOfflineMode</span><span class="p">(</span><span class="nv">licenseKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -265,12 +287,12 @@ If you set it to another value, do so <em>before</em> calling <code><a href="../
                             <tr>
                               <td>
                                 <code>
-                                <em>licenseData</em>
+                                <em>licenseKey</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>license for Algolia&rsquo;s SDK</p>
+                                  <p>License key for Algolia’s SDK.</p>
 
                                 </div>
                               </td>
@@ -284,9 +306,9 @@ If you set it to another value, do so <em>before</em> calling <code><a href="../
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch13OfflineClient8getIndexFSSCS_13MirroredIndex"></a>
-                    <a name="//apple_ref/swift/Method/getIndex(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch13OfflineClient8getIndexFSSCS_13MirroredIndex">getIndex(_:)</a>
+                    <a name="/s:FC13AlgoliaSearch13OfflineClient5indexFT8withNameSS_CS_13MirroredIndex"></a>
+                    <a name="//apple_ref/swift/Method/index(withName:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch13OfflineClient5indexFT8withNameSS_CS_13MirroredIndex">index(withName:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -307,7 +329,7 @@ If you set it to another value, do so <em>before</em> calling <code><a href="../
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">override</span> <span class="kd">func</span> <span class="nf">getIndex</span><span class="p">(</span><span class="nv">indexName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/MirroredIndex.html">MirroredIndex</a></span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">override</span> <span class="kd">func</span> <span class="nf">index</span><span class="p">(</span><span class="n">withName</span> <span class="nv">indexName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/MirroredIndex.html">MirroredIndex</a></span></code></pre>
 
                         </div>
                       </div>

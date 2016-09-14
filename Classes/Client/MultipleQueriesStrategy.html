@@ -43,6 +43,27 @@
                 <a href="../../Classes/Query.html">Query</a>
               </li>
               <li class="nav-group-task">
+                <a href="../../Classes/Query/QueryType.html">– QueryType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/Query/TypoTolerance.html">– TypoTolerance</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/Query/RemoveWordsIfNoResults.html">– RemoveWordsIfNoResults</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/Query/RemoveStopWords.html">– RemoveStopWords</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/Query/ExactOnSingleWordQuery.html">– ExactOnSingleWordQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/Query/AlternativesAsExact.html">– AlternativesAsExact</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/Query/AroundRadius.html">– AroundRadius</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../../Classes/BrowseIterator.html">BrowseIterator</a>
               </li>
             </ul>
@@ -65,16 +86,14 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a href="../../Other Global Variables.html">Other Global Variables</a>
+            <a href="../../Errors.html">Errors</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../../Other Global Variables.html#/s:v13AlgoliaSearch11ErrorDomainSS">ErrorDomain</a>
+                <a href="../../Structs/HTTPError.html">HTTPError</a>
               </li>
-            </ul>
-          </li>
-          <li class="nav-group-name">
-            <a href="../../Other Enums.html">Other Enums</a>
-            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Structs/InvalidJSONError.html">InvalidJSONError</a>
+              </li>
               <li class="nav-group-task">
                 <a href="../../Enums/StatusCode.html">StatusCode</a>
               </li>
@@ -88,6 +107,9 @@
               </li>
               <li class="nav-group-task">
                 <a href="../../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a>
               </li>
             </ul>
           </li>
@@ -103,7 +125,7 @@
 
                 </div>
               </div>
-            <p>Strategy when running multiple queries. See <code><a href="../../Classes/Client.html#/s:FC13AlgoliaSearch6Client15multipleQueriesFTGSaCS_10IndexQuery_8strategyGSqSS_17completionHandlerFT7contentGSqGVs10DictionarySSPs9AnyObject___5errorGSqCSo7NSError__T__CSo11NSOperation">Client.multipleQueries(...)</a></code>.</p>
+            <p>Strategy when running multiple queries. See <code><a href="../../Classes/Client.html#/s:FC13AlgoliaSearch6Client15multipleQueriesFTGSaCS_10IndexQuery_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">Client.multipleQueries(...)</a></code>.</p>
 
           </section>
           <section class="section task-group-section">
@@ -112,9 +134,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FOC13AlgoliaSearch6Client23MultipleQueriesStrategy4NoneFMS1_S1_"></a>
-                    <a name="//apple_ref/swift/Element/None" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FOC13AlgoliaSearch6Client23MultipleQueriesStrategy4NoneFMS1_S1_">None</a>
+                    <a name="/s:FOC13AlgoliaSearch6Client23MultipleQueriesStrategy4noneFMS1_S1_"></a>
+                    <a name="//apple_ref/swift/Element/none" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOC13AlgoliaSearch6Client23MultipleQueriesStrategy4noneFMS1_S1_">none</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -124,12 +146,18 @@
                       <div class="abstract">
                         <p>Execute the sequence of queries until the end.</p>
 
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    Beware of confusion with <code>Optional.none</code> when using type inference!
+
+</div>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">None</span> <span class="o">=</span> <span class="s">"none"</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="k">none</span> <span class="o">=</span> <span class="s">"none"</span></code></pre>
 
                         </div>
                       </div>
@@ -143,9 +171,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FOC13AlgoliaSearch6Client23MultipleQueriesStrategy19StopIfEnoughMatchesFMS1_S1_"></a>
-                    <a name="//apple_ref/swift/Element/StopIfEnoughMatches" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FOC13AlgoliaSearch6Client23MultipleQueriesStrategy19StopIfEnoughMatchesFMS1_S1_">StopIfEnoughMatches</a>
+                    <a name="/s:FOC13AlgoliaSearch6Client23MultipleQueriesStrategy19stopIfEnoughMatchesFMS1_S1_"></a>
+                    <a name="//apple_ref/swift/Element/stopIfEnoughMatches" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FOC13AlgoliaSearch6Client23MultipleQueriesStrategy19stopIfEnoughMatchesFMS1_S1_">stopIfEnoughMatches</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -160,7 +188,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="kt">StopIfEnoughMatches</span> <span class="o">=</span> <span class="s">"stopIfEnoughMatches"</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">stopIfEnoughMatches</span> <span class="o">=</span> <span class="s">"stopIfEnoughMatches"</span></code></pre>
 
                         </div>
                       </div>
