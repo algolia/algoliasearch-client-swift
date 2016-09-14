@@ -22,7 +22,7 @@
 //
 
 import XCTest
-import AlgoliaSearch
+@testable import AlgoliaSearch
 
 class ClientTests: XCTestCase {
     let expectationTimeout: TimeInterval = 100
@@ -418,5 +418,23 @@ class ClientTests: XCTestCase {
             LibraryVersion(name: "DEF", version: "4.5.6")
         ]
         XCTAssertEqual(client.headers["User-Agent"], "ABC (1.2.3); DEF (4.5.6)")
+    }
+    
+    func testReusingIndices() {
+        let indexName = "name"
+        let initialCount = client.indices.count // another index is created during set up
+
+        autoreleasepool {
+            // Create twice the same index and verify that it is re-used.
+            let index1: Index? = client.index(withName: indexName)
+            XCTAssertEqual(initialCount + 1, client.indices.count)
+            let index2: Index? = client.index(withName: indexName)
+            XCTAssertEqual(initialCount + 1, client.indices.count)
+            XCTAssert(index1 === index2)
+        }
+        // Verify that the index instance has been destroyed.
+        // NOTE: It may (and probably will) still be in the map, so we cannot rely on the count.
+        let memorizedIndex = client.indices.object(forKey: indexName as NSString)
+        XCTAssertNil(memorizedIndex)
     }
 }

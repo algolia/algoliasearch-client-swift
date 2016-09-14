@@ -133,6 +133,16 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     // NOTE: Not constant only for the sake of mocking during unit tests.
     var session: URLSession
     
+    /// Cache of already created indices.
+    ///
+    /// This dictionary is used to avoid creating two instances to represent the same index, as it is (1) inefficient
+    /// and (2) potentially harmful since instances are stateful (that's especially true of mirrored/offline indices,
+    /// but also of online indices because of the search cache).
+    ///
+    /// + Note: The values are zeroing weak references to avoid leaking memory when an index is no longer used.
+    ///
+    var indices: NSMapTable<NSString, AnyObject> = NSMapTable(keyOptions: [.strongMemory], valueOptions: [.weakMemory])
+    
     /// Operation queue used to keep track of requests.
     /// `Request` instances are inherently asynchronous, since they are merely wrappers around `NSURLSessionTask`.
     /// The sole purpose of the queue is to retain them for the duration of their execution!
@@ -239,6 +249,26 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
         return headers[name]
     }
 
+    /// Obtain a proxy to an Algolia index (no server call required by this method).
+    ///
+    /// + Note: Only one instance can exist for a given index name. Subsequent calls to this method with the same
+    ///   index name will return the same instance, unless it has already been released.
+    ///
+    /// - parameter indexName: The name of the index.
+    /// - returns: A proxy to the specified index.
+    ///
+    @objc(indexWithName:)
+    public func index(withName indexName: String) -> Index {
+        if let index = indices.object(forKey: indexName as NSString) {
+            assert(index is Index, "An index with the same name but a different type has already been created") // may happen in offline mode
+            return index as! Index
+        } else {
+            let index = Index(client: self, name: indexName)
+            indices.setObject(index, forKey: indexName as NSString)
+            return index
+        }
+    }
+
     // MARK: - Operations
 
     /// List existing indexes.
@@ -305,19 +335,6 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
         return performHTTPQuery(path: path, method: .POST, body: request as [String : Any]?, hostnames: writeHosts, completionHandler: completionHandler)
     }
 
-    /// Create a proxy to an Algolia index (no server call required by this method).
-    ///
-    /// - parameter indexName: The name of the index.
-    /// - returns: A new proxy to the specified index.
-    ///
-    @objc(indexWithName:)
-    public func index(withName indexName: String) -> Index {
-        // IMPLEMENTATION NOTE: This method is called `initIndex` in other clients, which better conveys its semantics.
-        // However, methods prefixed by `init` are automatically considered as initializers by the Objective-C bridge.
-        // Therefore, `initIndex` would fail to compile in Objective-C, because its return type is not `instancetype`.
-        return Index(client: self, name: indexName)
-    }
-    
     /// Strategy when running multiple queries. See `Client.multipleQueries(...)`.
     ///
     public enum MultipleQueriesStrategy: String {

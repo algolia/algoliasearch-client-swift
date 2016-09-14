@@ -109,7 +109,14 @@ import Foundation
     /// + Note: The offline client returns mirror-capable indices.
     ///
     @objc public override func index(withName indexName: String) -> MirroredIndex {
-        return MirroredIndex(client: self, name: indexName)
+        if let index = indices.object(forKey: indexName as NSString) {
+            assert(index is MirroredIndex, "An index with the same name but a different type has already been created")
+            return index as! MirroredIndex
+        } else {
+            let index = MirroredIndex(client: self, name: indexName)
+            indices.setObject(index, forKey: indexName as NSString)
+            return index
+        }
     }
     
     // MARK: - Utils

@@ -44,6 +44,7 @@ Other improvements:
 - Improve cancellation of `Index.waitTask()`
 - Add tests for Objective-C bridging (online flavor only)
 - Make timeouts configurable
+- `Index` instances are now shared across a `Client`
 
 
 ## 3.7 (2016-09-07)
