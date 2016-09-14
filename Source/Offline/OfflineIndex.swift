@@ -167,6 +167,7 @@ public struct IOError: CustomNSError {
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
+    @discardableResult
     @objc public func getObject(withID objectID: String, completionHandler: @escaping CompletionHandler) -> Operation {
         return getObject(withID: objectID, attributesToRetrieve: nil, completionHandler: completionHandler)
     }
@@ -178,6 +179,7 @@ public struct IOError: CustomNSError {
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
+    @discardableResult
     @objc public func getObject(withID objectID: String, attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) -> Operation {
         let operation = BlockOperation() {
             let (content, error) = self.getObjectSync(withID: objectID, attributesToRetrieve: attributesToRetrieve)
@@ -197,7 +199,7 @@ public struct IOError: CustomNSError {
         var error: Error?
         let query = Query()
         query.attributesToRetrieve = attributesToRetrieve
-        let searchResults = self.localIndex.getObjects([objectID], parameters: query.build())
+        let searchResults = self.localIndex.getObjects(withIDs: [objectID], parameters: query.build())
         (content, error) = OfflineClient.parseSearchResults(searchResults)
         if let content = content {
             guard let results = content["results"] as? [JSONObject] else {
@@ -218,7 +220,8 @@ public struct IOError: CustomNSError {
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func getObjects(objectIDs: [String], completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult
+    @objc public func getObjects(withIDs objectIDs: [String], completionHandler: @escaping CompletionHandler) -> Operation {
         let operation = BlockOperation() {
             let (content, error) = self.getObjectsSync(withIDs: objectIDs)
             self.callCompletionHandler(completionHandler, content: content, error: error)
@@ -233,7 +236,7 @@ public struct IOError: CustomNSError {
     /// - returns: A mutually exclusive (content, error) pair.
     ///
     private func getObjectsSync(withIDs objectIDs: [String]) -> APIResponse {
-        let searchResults = self.localIndex.getObjects(objectIDs, parameters: nil)
+        let searchResults = self.localIndex.getObjects(withIDs: objectIDs, parameters: nil)
         return OfflineClient.parseSearchResults(searchResults)
     }
     
@@ -243,6 +246,7 @@ public struct IOError: CustomNSError {
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
+    @discardableResult
     @objc public func search(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         let operation = BlockOperation() {
             let (content, error) = self.searchSync(Query(copy: query))
@@ -267,6 +271,7 @@ public struct IOError: CustomNSError {
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
+    @discardableResult
     @objc public func getSettings(completionHandler: @escaping CompletionHandler) -> Operation {
         let operation = BlockOperation() {
             let (content, error) = self.getSettingsSync()
@@ -293,6 +298,7 @@ public struct IOError: CustomNSError {
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
+    @discardableResult
     @objc public func browse(query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         let operation = BlockOperation() {
             let (content, error) = self.browseSync(query: Query(copy: query))
@@ -322,6 +328,7 @@ public struct IOError: CustomNSError {
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
+    @discardableResult
     @objc public func browseFrom(cursor: String, completionHandler: @escaping CompletionHandler) -> Operation {
         let operation = BlockOperation() {
             let (content, error) = self.browseSync(from: cursor)
@@ -351,6 +358,7 @@ public struct IOError: CustomNSError {
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
+    @discardableResult
     @objc public func multipleQueries(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
         let operation = BlockOperation() {
             let (content, error) = self.multipleQueriesSync(queries, strategy: strategy)
@@ -380,6 +388,7 @@ public struct IOError: CustomNSError {
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
+    @discardableResult
     public func multipleQueries(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         return self.multipleQueries(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
@@ -641,7 +650,7 @@ public struct IOError: CustomNSError {
     /// - returns: A cancellable operation.
     ///
     @discardableResult
-    @objc public func addObject(object: JSONObject, completionHandler: CompletionHandler? = nil) -> Operation {
+    @objc public func addObject(_ object: JSONObject, completionHandler: CompletionHandler? = nil) -> Operation {
         return saveObject(object, completionHandler: completionHandler)
     }
     
@@ -654,7 +663,7 @@ public struct IOError: CustomNSError {
     /// - returns: A cancellable operation.
     ///
     @discardableResult
-    @objc public func addObject(object: JSONObject, withID objectID: String, completionHandler: CompletionHandler? = nil) -> Operation {
+    @objc public func addObject(_ object: JSONObject, withID objectID: String, completionHandler: CompletionHandler? = nil) -> Operation {
         var object = object
         object["objectID"] = objectID
         return saveObject(object, completionHandler: completionHandler)
@@ -666,7 +675,8 @@ public struct IOError: CustomNSError {
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func addObjects(objects: [JSONObject], completionHandler: CompletionHandler? = nil) -> Operation {
+    @discardableResult
+    @objc public func addObjects(_ objects: [JSONObject], completionHandler: CompletionHandler? = nil) -> Operation {
         return saveObjects(objects, completionHandler: completionHandler)
     }
     
@@ -677,7 +687,7 @@ public struct IOError: CustomNSError {
     /// - returns: A cancellable operation.
     ///
     @discardableResult
-    @objc public func deleteObject(objectID: String, completionHandler: CompletionHandler? = nil) -> Operation {
+    @objc public func deleteObject(withID objectID: String, completionHandler: CompletionHandler? = nil) -> Operation {
         assert(transaction != nil, "Write operations need to be wrapped inside a transaction")
         let operation = BlockOperation() {
             let (content, error) = self.deleteObjectSync(withID: objectID)
@@ -970,6 +980,7 @@ public struct IOError: CustomNSError {
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
+    @discardableResult
     @objc public func searchDisjunctiveFaceting(query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: @escaping CompletionHandler) -> Operation {
         return DisjunctiveFaceting(multipleQuerier: { (queries, completionHandler) in
             return self.multipleQueries(queries, completionHandler: completionHandler)

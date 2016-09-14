@@ -36,7 +36,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
 @objc public class OfflineClient : Client {
     // MARK: Properties
 
-    var sdk: Sdk = Sdk.shared() // TODO: Should be a var
+    var sdk: Sdk = Sdk.shared
 
     /// Path to directory where the local data is stored.
     /// Defaults to an `algolia` sub-directory inside the `Library/Application Support` directory.
@@ -110,7 +110,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
         }
         
         // Init the SDK.
-        sdk.initialize(licenseData: licenseKey)
+        sdk.initialize(licenseKey: licenseKey)
         // NOTE: Errors reported by the core itself.
     }
 
@@ -220,7 +220,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     /// - returns: A cancellable operation.
     ///
     @discardableResult
-    @objc public func deleteIndexOffline(indexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
+    @objc public func deleteIndexOffline(withName indexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
         let operation = BlockOperation() {
             let (content, error) = self.deleteIndexOfflineSync(withName: indexName)
             self.callCompletionHandler(completionHandler, content: content, error: error)
@@ -258,6 +258,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
+    @discardableResult
     @objc public func moveIndexOffline(from srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
         let operation = BlockOperation() {
             let (content, error) = self.moveIndexOfflineSync(from: srcIndexName, to: dstIndexName)
