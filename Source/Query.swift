@@ -1066,6 +1066,13 @@ public class Query : NSObject, NSCopying {
 
 @objc(Query)
 public class _objc_Query: Query {
+    /// MARK: `NSCopying` support
+
+    @objc public override func copy(with zone: NSZone?) -> Any {
+        // NOTE: As per the docs, the zone argument is ignored.
+        return _objc_Query(copy: self)
+    }
+    
     // MARK: Properties
     
     @objc(queryType)

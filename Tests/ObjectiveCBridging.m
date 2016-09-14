@@ -65,6 +65,7 @@
     
     // Copying.
     Query* query2 = [query copy];
+    XCTAssertEqualObjects([query2 class], [Query class]);
     XCTAssertEqualObjects(query, query2);
     
     // Building/parsing.
