@@ -453,6 +453,9 @@ public struct IOError: CustomNSError {
         /// Temporary in-memory cache for objects.
         private var tmpObjects: [JSONObject] = []
         
+        /// Dispatch queue used to serialize accesses to a transaction's data.
+        private var self_lock = DispatchQueue(label: String(reflecting: type(of: self)) + ".lock")
+        
         // MARK: Constants
         
         /// Maximum number of objects to keep in memory before flushing to disk.
@@ -486,10 +489,12 @@ public struct IOError: CustomNSError {
         /// - parameter object: New version of the object to update. Must contain an `objectID` attribute.
         ///
         func saveObject(_ object: JSONObject) throws {
-            assert(!finished)
             assert(object["objectID"] != nil, "Objects must contain an `objectID` attribute")
-            tmpObjects.append(object)
-            try flushObjectsToDisk(force: false)
+            try self_lock.sync {
+                assert(!finished)
+                tmpObjects.append(object)
+                try flushObjectsToDisk(force: false)
+            }
         }
         
         /// Update several objects.
@@ -497,9 +502,11 @@ public struct IOError: CustomNSError {
         /// - parameter objects: New versions of the objects to update. Each one must contain an `objectID` attribute.
         ///
         func saveObjects(_ objects: [JSONObject]) throws {
-            assert(!finished)
-            tmpObjects.append(contentsOf: objects)
-            try flushObjectsToDisk(force: false)
+            try self_lock.sync {
+                assert(!finished)
+                tmpObjects.append(contentsOf: objects)
+                try flushObjectsToDisk(force: false)
+            }
         }
         
         /// Delete an object.
@@ -507,8 +514,10 @@ public struct IOError: CustomNSError {
         /// - parameter objectID: Identifier of the object to delete.
         ///
         func deleteObject(withID objectID: String) throws {
-            assert(!finished)
-            deletedObjectIDs.insert(objectID)
+            self_lock.sync {
+                assert(!finished)
+                deletedObjectIDs.insert(objectID)
+            }
         }
         
         /// Delete several objects.
@@ -516,8 +525,10 @@ public struct IOError: CustomNSError {
         /// - parameter objectIDs: Identifiers of the objects to delete.
         ///
         func deleteObjects(withIDs objectIDs: [String]) throws {
-            assert(!finished)
-            deletedObjectIDs.formUnion(objectIDs)
+            self_lock.sync {
+                assert(!finished)
+                deletedObjectIDs.formUnion(objectIDs)
+            }
         }
         
         /// Set the index's settings.
@@ -528,73 +539,58 @@ public struct IOError: CustomNSError {
         /// - parameter settings: New settings.
         ///
         func setSettings(_ settings: JSONObject) throws {
-            assert(!finished)
-            settingsFilePath = try writeTmpJSONFile(json: settings)
+            try self_lock.sync {
+                assert(!finished)
+                settingsFilePath = try writeTmpJSONFile(json: settings)
+            }
         }
         
         /// Delete the index content without removing settings.
         ///
         func clearIndex() throws {
-            assert(!finished)
-            shouldClearIndex = true
-            deletedObjectIDs.removeAll()
-            objectFilePaths.removeAll()
+            self_lock.sync {
+                assert(!finished)
+                shouldClearIndex = true
+                deletedObjectIDs.removeAll()
+                objectFilePaths.removeAll()
+            }
         }
         
         // MARK: Completion
         
-        /// Commit the transaction (synchronously).
-        ///
-        /// + Warning: This method blocks until completion. Must not be called from the main thread.
+        /// Commit the transaction.
         ///
         func commit() throws {
             assert(!Thread.isMainThread)
-            // TODO: Would be easier with dispatch queue. See if we can use underlyingQueue (drop iOS 7 support).
-            var error: Error?
-            let operation = BlockOperation() {
-                do {
-                    try self._commit()
-                } catch let e {
-                    error = e
+            // Serialize calls with respect to this transaction.
+            try self_lock.sync {
+                assert(!finished)
+                try flushObjectsToDisk(force: true)
+                var error: Error?
+                // Also serialize build calls with respect to the client's build queue.
+                let buildOperation = BlockOperation() {
+                    let statusCode = Int(self.index.localIndex.build(settingsFile: self.settingsFilePath, objectFiles: self.objectFilePaths, clearIndex: self.shouldClearIndex, deletedObjectIDs: Array(self.deletedObjectIDs)))
+                    if statusCode != StatusCode.ok.rawValue {
+                        error = HTTPError(statusCode: statusCode)
+                    }
+                }
+                index.client.buildQueue.addOperation(buildOperation)
+                buildOperation.waitUntilFinished()
+                finished = true
+                if error != nil {
+                    throw error!
                 }
             }
-            index.client.buildQueue.addOperation(operation)
-            operation.waitUntilFinished()
-            if error != nil {
-                throw error!
-            }
-        }
-        
-        /// Commit the transaction (asynchronously).
-        func commit(completionHandler: CompletionHandler?) {
-            // TODO: Not sure it's needed.
-            let operation = BlockOperation() {
-                do {
-                    try self._commit()
-                    completionHandler?([:], nil)
-                } catch let e {
-                    completionHandler?(nil, e)
-                }
-            }
-            index.client.buildQueue.addOperation(operation)
-        }
-        
-        private func _commit() throws {
-            assert(!finished)
-            try flushObjectsToDisk(force: true)
-            let statusCode = Int(index.localIndex.build(settingsFile: settingsFilePath, objectFiles: objectFilePaths, clearIndex: shouldClearIndex, deletedObjectIDs: Array(deletedObjectIDs)))
-            if statusCode != StatusCode.ok.rawValue {
-                throw HTTPError(statusCode: statusCode)
-            }
-            finished = true
         }
         
         /// Rollback the transaction.
         /// The index will be left untouched.
         ///
         func rollback() {
-            _ = try? FileManager.default.removeItem(atPath: tmpDirPath)
-            finished = true
+            self_lock.sync {
+                _ = try? FileManager.default.removeItem(atPath: tmpDirPath)
+                finished = true
+            }
         }
         
         // MARK: Utils
@@ -630,11 +626,27 @@ public struct IOError: CustomNSError {
             transaction = WriteTransaction(index: self)
         }
     }
-    
-    public func commitTransaction(completionHandler: @escaping CompletionHandler) {
+
+    @discardableResult
+    public func commitTransaction(completionHandler: @escaping CompletionHandler) -> Operation {
         assert(transaction != nil, "No transaction is open")
-        transaction!.commit(completionHandler: completionHandler)
-        transaction = nil
+        let operation = BlockOperation() {
+            let transaction = self.transaction!
+            self.transaction = nil
+            do {
+                try transaction.commit()
+                self.callCompletionHandler(completionHandler, content: [:], error: nil)
+            } catch let e {
+                self.callCompletionHandler(completionHandler, content: nil, error: e)
+            }
+        }
+        transactionQueue.addOperation(operation)
+        return operation
+    }
+    
+    public func commitTransactionSync() throws {
+        assert(!Thread.isMainThread, "Synchronous methods should not be called from the main thread")
+        try transaction!.commit()
     }
     
     public func rollbackTransaction() {
