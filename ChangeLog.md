@@ -7,6 +7,8 @@ Change Log
 
 **Warning:** This version requires Swift 3; it will not compile with Swift 2.x.
 
+**Warning:** Cocoapods support for Swift 3 requires Cocoapods 1.1.0.rc.2 or later.
+
 You can find a detailed change log and migration instructions in the [Migration guide to version 4.x](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-to-version-4.x).
 
 Add support for **Swift 3**:
