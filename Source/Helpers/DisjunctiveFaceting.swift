@@ -27,12 +27,12 @@ import Foundation
 /// Disjunctive faceting helper.
 ///
 internal class DisjunctiveFaceting {
-    typealias MultipleQuerier = (queries: [Query], completionHandler: CompletionHandler) -> NSOperation
+    typealias MultipleQuerier = (_ queries: [Query], _ completionHandler: @escaping CompletionHandler) -> Operation
 
     /// Block used to perform the multiple queries.
     private let multipleQuerier: MultipleQuerier
 
-    internal init(multipleQuerier: MultipleQuerier) {
+    internal init(multipleQuerier: @escaping MultipleQuerier) {
         self.multipleQuerier = multipleQuerier
     }
     
@@ -44,19 +44,20 @@ internal class DisjunctiveFaceting {
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    func searchDisjunctiveFaceting(query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: CompletionHandler) -> NSOperation {
+    @discardableResult
+    func searchDisjunctiveFaceting(_ query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: @escaping CompletionHandler) -> Operation {
         var queries = [Query]()
         
         // Build the first, global query.
         let globalQuery = Query(copy: query)
-        globalQuery.facetFilters = DisjunctiveFaceting._buildFacetFilters(disjunctiveFacets, refinements: refinements, excludedFacet: nil)
+        globalQuery.facetFilters = DisjunctiveFaceting._buildFacetFilters(disjunctiveFacets: disjunctiveFacets, refinements: refinements, excludedFacet: nil)
         queries.append(globalQuery)
         
         // Build the refined queries.
         for disjunctiveFacet in disjunctiveFacets {
             let disjunctiveQuery = Query(copy: query)
             disjunctiveQuery.facets = [disjunctiveFacet]
-            disjunctiveQuery.facetFilters = DisjunctiveFaceting._buildFacetFilters(disjunctiveFacets, refinements: refinements, excludedFacet: disjunctiveFacet)
+            disjunctiveQuery.facetFilters = DisjunctiveFaceting._buildFacetFilters(disjunctiveFacets: disjunctiveFacets, refinements: refinements, excludedFacet: disjunctiveFacet)
             // We are not interested in the hits for this query, only the facet counts, so let's limit the output.
             disjunctiveQuery.hitsPerPage = 0
             disjunctiveQuery.attributesToRetrieve = []
@@ -68,36 +69,36 @@ internal class DisjunctiveFaceting {
         }
         
         // Run all the queries.
-        let operation = self.multipleQuerier(queries: queries, completionHandler: { (content, error) -> Void in
-            var finalContent: [String: AnyObject]? = nil
-            var finalError: NSError? = error
+        let operation = self.multipleQuerier(queries) { (content, error) -> Void in
+            var finalContent: JSONObject? = nil
+            var finalError: Error? = error
             if error == nil {
                 do {
-                    finalContent = try DisjunctiveFaceting._aggregateResults(disjunctiveFacets, refinements: refinements, content: content!)
-                } catch let e as NSError {
+                    finalContent = try DisjunctiveFaceting._aggregateResults(disjunctiveFacets: disjunctiveFacets, refinements: refinements, content: content!)
+                } catch let e {
                     finalError = e
                 }
             }
             assert(finalContent != nil || finalError != nil)
-            completionHandler(content: finalContent, error: finalError)
-        })
+            completionHandler(finalContent, finalError)
+        }
         return operation
     }
     
     /// Aggregate disjunctive faceting search results.
-    private class func _aggregateResults(disjunctiveFacets: [String], refinements: [String: [String]], content: [String: AnyObject]) throws -> [String: AnyObject] {
+    private class func _aggregateResults(disjunctiveFacets: [String], refinements: [String: [String]], content: JSONObject) throws -> JSONObject {
         guard let results = content["results"] as? [AnyObject] else {
-            throw NSError(domain: Client.ErrorDomain, code: StatusCode.InvalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "No results in response"])
+            throw InvalidJSONError(description: "No results in response")
         }
         // The first answer is used as the basis for the response.
-        guard var mainContent = results[0] as? [String: AnyObject] else {
-            throw NSError(domain: Client.ErrorDomain, code: StatusCode.InvalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "Invalid results in response"])
+        guard var mainContent = results[0] as? JSONObject else {
+            throw InvalidJSONError(description: "Invalid results in response")
         }
         // Following answers are just used for their facet counts.
-        var disjunctiveFacetCounts = [String: AnyObject]()
+        var disjunctiveFacetCounts = JSONObject()
         for i in 1..<results.count { // for each answer (= each disjunctive facet)
-            guard let result = results[i] as? [String: AnyObject], allFacetCounts = result["facets"] as? [String: [String: AnyObject]] else {
-                throw NSError(domain: Client.ErrorDomain, code: StatusCode.InvalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "Invalid results in response"])
+            guard let result = results[i] as? JSONObject, let allFacetCounts = result["facets"] as? [String: JSONObject] else {
+                throw InvalidJSONError(description:  "Invalid results in response")
             }
             // NOTE: Iterating, but there should be just one item.
             for (facetName, facetCounts) in allFacetCounts {
@@ -132,8 +133,8 @@ internal class DisjunctiveFaceting {
     /// - parameter excludedFacet: The disjunctive facet to exclude from the filters. If nil, no facet is
     ///   excluded (thus building the global filters).
     ///
-    private class func _buildFacetFilters(disjunctiveFacets: [String], refinements: [String: [String]], excludedFacet: String?) -> [AnyObject] {
-        var facetFilters: [AnyObject] = []
+    private class func _buildFacetFilters(disjunctiveFacets: [String], refinements: [String: [String]], excludedFacet: String?) -> [Any] {
+        var facetFilters: [Any] = []
         for (facetName, facetValues) in refinements {
             // Disjunctive facet: OR all values, and AND with the rest of the filters.
             if disjunctiveFacets.contains(facetName) {

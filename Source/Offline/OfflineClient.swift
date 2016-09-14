@@ -25,7 +25,7 @@ import AlgoliaSearchOfflineCore
 import Foundation
 
 
-typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
+typealias APIResponse = (content: JSONObject?, error: Error?)
 
 
 /// An API client that adds offline features on top of the regular online API client.
@@ -36,7 +36,7 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
 @objc public class OfflineClient : Client {
     // MARK: Properties
 
-    var sdk: Sdk = Sdk.sharedSdk()
+    var sdk: Sdk = Sdk.shared() // TODO: Should be a var
 
     /// Path to directory where the local data is stored.
     /// Defaults to an `algolia` sub-directory inside the `Library/Application Support` directory.
@@ -56,17 +56,17 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
     // resource consumption by the SDK.
     
     /// Queue used to build local indices in the background.
-    let buildQueue = NSOperationQueue()
+    let buildQueue = OperationQueue()
     
     /// Queue used to search local indices in the background.
-    let searchQueue = NSOperationQueue()
+    let searchQueue = OperationQueue()
     
     /// Queue for mixed online/offline operations.
     ///
     /// + Note: We could use `Client.requestQueue`, but since mixed operations are essentially aggregations of
     ///   individual operations, we wish to avoid deadlocks.
     ///
-    let mixedRequestQueue = NSOperationQueue()
+    let mixedRequestQueue = OperationQueue()
 
     // MARK: Initialization
     
@@ -83,7 +83,7 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
         searchQueue.name = "AlgoliaSearch-Search"
         searchQueue.maxConcurrentOperationCount = 1
         mixedRequestQueue.name = "AlgoliaSearch-Mixed"
-        rootDataDir = NSSearchPathForDirectoriesInDomains(.ApplicationSupportDirectory, .UserDomainMask, true).first! + "/algolia"
+        rootDataDir = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true).first! + "/algolia"
         super.init(appID: appID, apiKey: apiKey)
         mixedRequestQueue.maxConcurrentOperationCount = super.requestQueue.maxConcurrentOperationCount
         userAgents.append(LibraryVersion(name: "AlgoliaSearchOfflineCore-iOS", version: sdk.versionString))
@@ -91,25 +91,26 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
     
     /// Enable the offline mode.
     ///
-    /// - parameter licenseData: license for Algolia's SDK
+    /// - parameter licenseKey: License key for Algolia's SDK.
     ///
-    @objc public func enableOfflineMode(licenseData: String) {
+    @objc(enableOfflineModeWithLicenseKey:)
+    public func enableOfflineMode(licenseKey: String) {
         do {
             // Create the data directory.
-            try NSFileManager.defaultManager().createDirectoryAtPath(self.rootDataDir, withIntermediateDirectories: true, attributes: nil)
+            try FileManager.default.createDirectory(atPath: self.rootDataDir, withIntermediateDirectories: true, attributes: nil)
             
             // Exclude the data directory from iTunes backup.
             // DISCUSSION: Local indices are essentially a cache. But we cannot just use the `Caches` directory because
             // we would have no guarantee that all files pertaining to an index would be purged simultaneously.
-            let url = NSURL.fileURLWithPath(rootDataDir)
-            try url.setResourceValue(true, forKey: NSURLIsExcludedFromBackupKey)
+            let url = URL(fileURLWithPath: rootDataDir)
+            try (url as NSURL).setResourceValue(true, forKey: URLResourceKey.isExcludedFromBackupKey)
         } catch _ {
             // Report errors but do not throw: the offline mode will not work, but the online client is still viable.
             NSLog("Error: could not create data directory '%@'", self.rootDataDir)
         }
         
         // Init the SDK.
-        sdk.initialize(licenseData: licenseData)
+        sdk.initialize(licenseData: licenseKey)
         // NOTE: Errors reported by the core itself.
     }
 
@@ -117,8 +118,15 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
     ///
     /// + Note: The offline client returns mirror-capable indices.
     ///
-    @objc public override func getIndex(indexName: String) -> MirroredIndex {
-        return MirroredIndex(client: self, indexName: indexName)
+    @objc public override func index(withName indexName: String) -> MirroredIndex {
+        if let index = indices.object(forKey: indexName as NSString) {
+            assert(index is MirroredIndex, "An index with the same name but a different type has already been created")
+            return index as! MirroredIndex
+        } else {
+            let index = MirroredIndex(client: self, name: indexName)
+            indices.setObject(index, forKey: indexName as NSString)
+            return index
+        }
     }
     
     /// Create a purely offline index.
@@ -128,14 +136,14 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
     ///
     /// + Warning: The name should not overlap with any `MirroredIndex` (see `getIndex(_:)`).
     ///
-    @objc public func getOfflineIndex(name: String) -> OfflineIndex {
+    @objc public func getOfflineIndex(withName name: String) -> OfflineIndex {
         return OfflineIndex(client: self, name: name)
     }
     
     // MARK: - Accessors
     
-    private func indexDir(name: String) -> String {
-        return appDir + "/" + name
+    private func indexDir(indexName: String) -> String {
+        return appDir + "/" + indexName
     }
     
     // MARK: - Operations
@@ -149,9 +157,9 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
     /// - parameter name: The index's name.
     /// - returns: `true` if data exists on disk for this index, `false` otherwise.
     ///
-    @objc public func hasOfflineData(name: String) -> Bool {
+    @objc public func hasOfflineData(indexName: String) -> Bool {
         // TODO: Suboptimal; we should be able to test existence without instantiating a `LocalIndex`.
-        return LocalIndex(dataDir: rootDataDir, appID: appID, indexName: name).exists()
+        return LocalIndex(dataDir: rootDataDir, appID: appID, indexName: indexName).exists()
     }
 
     /// List existing offline indexes.
@@ -163,8 +171,9 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func listIndexesOffline(completionHandler: CompletionHandler) -> NSOperation {
-        let operation = NSBlockOperation() {
+    @discardableResult
+    @objc public func listIndexesOffline(completionHandler: @escaping CompletionHandler) -> Operation {
+        let operation = BlockOperation() {
             let (content, error) = self.listIndexesOfflineSync()
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
@@ -179,18 +188,18 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
     /// - returns: A mutally exclusive (content, error) pair.
     ///
     private func listIndexesOfflineSync() -> APIResponse {
-        var content: [String: AnyObject]?
+        var content: JSONObject?
         var error: NSError?
         do {
-            var items = [[String: AnyObject]]()
+            var items = [JSONObject]()
             var isDirectory: ObjCBool = false
-            if NSFileManager.defaultManager().fileExistsAtPath(appDir, isDirectory: &isDirectory) && isDirectory {
-                let files = try NSFileManager.defaultManager().contentsOfDirectoryAtPath(appDir)
+            if FileManager.default.fileExists(atPath: appDir, isDirectory: &isDirectory) && isDirectory.boolValue {
+                let files = try FileManager.default.contentsOfDirectory(atPath: appDir)
                 for file in files {
-                    if hasOfflineData(file) {
+                    if hasOfflineData(indexName: file) {
                         items.append([
                             "name": file
-                            ])
+                        ])
                         // TODO: Do we need other data as in the online API?
                     }
                 }
@@ -210,9 +219,10 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func deleteIndexOffline(indexName: String, completionHandler: CompletionHandler? = nil) -> NSOperation {
-        let operation = NSBlockOperation() {
-            let (content, error) = self.deleteIndexOfflineSync(indexName)
+    @discardableResult
+    @objc public func deleteIndexOffline(indexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
+        let operation = BlockOperation() {
+            let (content, error) = self.deleteIndexOfflineSync(withName: indexName)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         buildQueue.addOperation(operation)
@@ -225,14 +235,14 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
     ///
     /// - returns: A mutally exclusive (content, error) pair.
     ///
-    private func deleteIndexOfflineSync(indexName: String) -> APIResponse {
+    private func deleteIndexOfflineSync(withName indexName: String) -> APIResponse {
         do {
-            try NSFileManager.defaultManager().removeItemAtPath(indexDir(indexName))
-            let content: [String: AnyObject] = [
-                "deletedAt": NSDate().iso8601()
+            try FileManager.default.removeItem(atPath: indexDir(indexName: indexName))
+            let content: JSONObject = [
+                "deletedAt": Date().iso8601
             ]
             return (content, nil)
-        } catch let e as NSError {
+        } catch let e {
             return (nil, e)
         }
     }
@@ -248,9 +258,9 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func moveIndexOffline(srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> NSOperation {
-        let operation = NSBlockOperation() {
-            let (content, error) = self.moveIndexOfflineSync(srcIndexName, to: dstIndexName)
+    @objc public func moveIndexOffline(from srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
+        let operation = BlockOperation() {
+            let (content, error) = self.moveIndexOfflineSync(from: srcIndexName, to: dstIndexName)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         buildQueue.addOperation(operation)
@@ -267,19 +277,19 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
     /// - parameter dstIndexName: The new index name.
     /// - returns: A mutally exclusive (content, error) pair.
     ///
-    private func moveIndexOfflineSync(srcIndexName: String, to dstIndexName: String) -> APIResponse {
+    private func moveIndexOfflineSync(from srcIndexName: String, to dstIndexName: String) -> APIResponse {
         do {
-            let fromPath = indexDir(srcIndexName)
-            let toPath = indexDir(dstIndexName)
-            if NSFileManager.defaultManager().fileExistsAtPath(toPath) {
-                try NSFileManager.defaultManager().removeItemAtPath(toPath)
+            let fromPath = indexDir(indexName: srcIndexName)
+            let toPath = indexDir(indexName: dstIndexName)
+            if FileManager.default.fileExists(atPath: toPath) {
+                try FileManager.default.removeItem(atPath: toPath)
             }
-            try NSFileManager.defaultManager().moveItemAtPath(fromPath, toPath: toPath)
-            let content: [String: AnyObject] = [
-                "updatedAt": NSDate().iso8601()
+            try FileManager.default.moveItem(atPath: fromPath, toPath: toPath)
+            let content: JSONObject = [
+                "updatedAt": Date().iso8601
             ]
             return (content, nil)
-        } catch let e as NSError {
+        } catch let e {
             return (nil, e)
         }
     }
@@ -293,24 +303,24 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
     /// - parameter searchResults: Search results to parse.
     /// - returns: A (content, error) pair that can be passed to a `CompletionHandler`.
     ///
-    internal static func parseSearchResults(searchResults: SearchResults) -> (content: [String: AnyObject]?, error: NSError?) {
-        var content: [String: AnyObject]?
-        var error: NSError?
+    internal static func parseSearchResults(_ searchResults: SearchResults) -> APIResponse {
+        var content: JSONObject?
+        var error: Error?
         if searchResults.statusCode == 200 {
             assert(searchResults.data != nil)
             do {
-                let json = try NSJSONSerialization.JSONObjectWithData(searchResults.data!, options: NSJSONReadingOptions(rawValue: 0))
-                if json is [String: AnyObject] {
-                    content = (json as! [String: AnyObject])
+                let json = try JSONSerialization.jsonObject(with: searchResults.data!, options: [])
+                if json is JSONObject {
+                    content = (json as! JSONObject)
                     // NOTE: Origin tagging performed by the SDK.
                 } else {
-                    error = NSError(domain: Client.ErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON returned"])
+                    error = InvalidJSONError(description: "Invalid JSON returned")
                 }
-            } catch let _error as NSError {
+            } catch let _error {
                 error = _error
             }
         } else {
-            error = NSError(domain: Client.ErrorDomain, code: Int(searchResults.statusCode), userInfo: nil)
+            error = HTTPError(statusCode: Int(searchResults.statusCode))
         }
         assert(content != nil || error != nil)
         return (content: content, error: error)
@@ -322,11 +332,11 @@ typealias APIResponse = (content: [String: AnyObject]?, error: NSError?)
     /// - parameter content: The content to pass as a first argument to the completion handler.
     /// - parameter error: The error to pass as a second argument to the completion handler.
     ///
-    internal func callCompletionHandler(completionHandler: CompletionHandler?, content: [String: AnyObject]?, error: NSError?) {
+    internal func callCompletionHandler(_ completionHandler: CompletionHandler?, content: JSONObject?, error: Error?) {
         if let completionHandler = completionHandler {
-            dispatch_async(dispatch_get_main_queue(), {
-                completionHandler(content: content, error: error)
-            })
+            DispatchQueue.main.async {
+                completionHandler(content, error)
+            }
         }
     }
 }

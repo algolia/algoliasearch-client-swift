@@ -40,7 +40,7 @@ import Foundation
         self.maxObjects = maxObjects
     }
     
-    override public func isEqual(object: AnyObject?) -> Bool {
+    override public func isEqual(_ object: Any?) -> Bool {
         guard let rhs = object as? DataSelectionQuery else {
             return false
         }
@@ -83,25 +83,25 @@ import Foundation
     // MARK: Constants
     
     /// Notification sent when the sync has started.
-    @objc public static let SyncDidStartNotification = "AlgoliaSearch.MirroredIndex.SyncDidStartNotification"
+    @objc public static let SyncDidStartNotification = Notification.Name("AlgoliaSearch.MirroredIndex.SyncDidStartNotification")
     
     /// Notification sent when the sync has finished.
-    @objc public static let SyncDidFinishNotification = "AlgoliaSearch.MirroredIndex.SyncDidFinishNotification"
+    @objc public static let SyncDidFinishNotification = Notification.Name("AlgoliaSearch.MirroredIndex.SyncDidFinishNotification")
     
     /// Notification user info key used to pass the error, when an error occurred during the sync.
-    @objc public static let SyncErrorKey = "AlgoliaSearch.MirroredIndex.SyncErrorKey"
+    @objc public static let syncErrorKey = "AlgoliaSearch.MirroredIndex.syncErrorKey"
     
     /// Default minimum delay between two syncs.
-    @objc public static let DefaultDelayBetweenSyncs: NSTimeInterval = 60 * 60 * 24 // 1 day
+    @objc public static let defaultDelayBetweenSyncs: TimeInterval = 60 * 60 * 24 // 1 day
 
     /// Key used to indicate the origin of results in the returned JSON.
-    @objc public static let JSONKeyOrigin = "origin"
+    @objc public static let jsonKeyOrigin = "origin"
     
-    /// Value for `JSONKeyOrigin` indicating that the results come from the local mirror.
-    @objc public static let JSONValueOriginLocal = "local"
+    /// Value for `jsonKeyOrigin` indicating that the results come from the local mirror.
+    @objc public static let jsonValueOriginLocal = "local"
     
-    /// Value for `JSONKeyOrigin` indicating that the results come from the online API.
-    @objc public static let JSONValueOriginRemote = "remote"
+    /// Value for `jsonKeyOrigin` indicating that the results come from the online API.
+    @objc public static let jsonValueOriginRemote = "remote"
 
     // ----------------------------------------------------------------------
     // MARK: Properties
@@ -114,7 +114,7 @@ import Foundation
     }
     
     /// The local index mirroring this remote index (lazy instantiated, only if mirroring is activated).
-    lazy var localIndex: LocalIndex! = LocalIndex(dataDir: self.offlineClient.rootDataDir, appID: self.client.appID, indexName: self.indexName)
+    lazy var localIndex: LocalIndex = LocalIndex(dataDir: self.offlineClient.rootDataDir, appID: self.client.appID, indexName: self.name)
     
     /// The mirrored index settings.
     let mirrorSettings = MirrorSettings()
@@ -124,7 +124,7 @@ import Foundation
         didSet {
             if (mirrored) {
                 do {
-                    try NSFileManager.defaultManager().createDirectoryAtPath(self.indexDataDir, withIntermediateDirectories: true, attributes: nil)
+                    try FileManager.default.createDirectory(atPath: self.indexDataDir, withIntermediateDirectories: true, attributes: nil)
                 } catch _ {
                     // Ignore
                 }
@@ -141,30 +141,30 @@ import Foundation
         set {
             if (mirrorSettings.queries != newValue) {
                 mirrorSettings.queries = newValue
-                mirrorSettings.queriesModificationDate = NSDate()
+                mirrorSettings.queriesModificationDate = Date()
                 mirrorSettings.save(mirrorSettingsFilePath)
             }
         }
     }
     
     /// Minimum delay between two syncs.
-    @objc public var delayBetweenSyncs: NSTimeInterval = DefaultDelayBetweenSyncs
+    @objc public var delayBetweenSyncs: TimeInterval = defaultDelayBetweenSyncs
     
     /// Date of the last successful sync, or nil if the index has never been successfully synced.
-    @objc public var lastSuccessfulSyncDate: NSDate? {
+    @objc public var lastSuccessfulSyncDate: Date? {
         return mirrorSettings.lastSyncDate
     }
     
     /// Error encountered by the current/last sync (if any).
-    @objc public private(set) var syncError : NSError?
+    @objc public private(set) var syncError : Error?
 
     // ----------------------------------------------------------------------
     // MARK: - Init
     // ----------------------------------------------------------------------
-
-    @objc override internal init(client: Client, indexName name: String) {
-        assert(client is OfflineClient);
-        super.init(client: client, indexName: name)
+    
+    @objc override internal init(client: Client, name: String) {
+        assert(client is OfflineClient)
+        super.init(client: client, name: name)
     }
     
     // ----------------------------------------------------------------------
@@ -178,20 +178,20 @@ import Foundation
     private var syncing: Bool = false
     
     /// Path to the temporary directory for the current sync.
-    private var tmpDir : String!
+    private var tmpDir : String?
     
     /// The path to the settings file.
-    private var settingsFilePath: String!
+    private var settingsFilePath: String?
     
     /// Paths to object files/
-    private var objectsFilePaths: [String]!
+    private var objectsFilePaths: [String]?
     
     /// The current object file index. Object files are named `${i}.json`, where `i` is automatically incremented.
     private var objectFileIndex = 0
     
     /// The operation to build the index.
     /// NOTE: We need to store it because its dependencies are modified dynamically.
-    private var buildIndexOperation: NSOperation!
+    private var buildIndexOperation: Operation?
     
     /// Path to the persistent mirror settings.
     private var mirrorSettingsFilePath: String {
@@ -200,23 +200,24 @@ import Foundation
     
     /// Path to this index's offline data.
     private var indexDataDir: String {
-        get { return "\(self.offlineClient.rootDataDir)/\(self.client.appID)/\(self.indexName)" }
+        get { return "\(self.offlineClient.rootDataDir)/\(self.client.appID)/\(self.name)" }
     }
     
     /// Timeout for data synchronization queries.
     /// There is no need to use a too short timeout in this case: we don't need real-time performance, so failing
     /// too soon would only increase the likeliness of a failure.
-    private let SYNC_TIMEOUT: NSTimeInterval = 30
+    private let SYNC_TIMEOUT: TimeInterval = 30
 
     /// Add a data selection query to the local mirror.
     /// The query is not run immediately. It will be run during the subsequent refreshes.
     ///
     /// + Precondition: Mirroring must have been activated on this index (see the `mirrored` property).
     ///
-    @objc public func addDataSelectionQuery(query: DataSelectionQuery) {
+    @objc
+    public func addDataSelectionQuery(_ query: DataSelectionQuery) {
         assert(mirrored);
         mirrorSettings.queries.append(query)
-        mirrorSettings.queriesModificationDate = NSDate()
+        mirrorSettings.queriesModificationDate = Date()
         mirrorSettings.save(self.mirrorSettingsFilePath)
     }
     
@@ -225,10 +226,11 @@ import Foundation
     ///
     /// + Precondition: Mirroring must have been activated on this index (see the `mirrored` property).
     ///
-    @objc public func addDataSelectionQueries(queries: [DataSelectionQuery]) {
+    @objc
+    public func addDataSelectionQueries(_ queries: [DataSelectionQuery]) {
         assert(mirrored);
-        mirrorSettings.queries.appendContentsOf(queries)
-        mirrorSettings.queriesModificationDate = NSDate()
+        mirrorSettings.queries.append(contentsOf: queries)
+        mirrorSettings.queriesModificationDate = Date()
         mirrorSettings.save(self.mirrorSettingsFilePath)
     }
 
@@ -237,9 +239,10 @@ import Foundation
     ///
     /// + Precondition: Mirroring must have been activated on this index (see the `mirrored` property).
     ///
-    @objc public func sync() {
+    @objc
+    public func sync() {
         assert(self.mirrored, "Mirroring not activated on this index")
-        offlineClient.buildQueue.addOperationWithBlock() {
+        offlineClient.buildQueue.addOperation() {
             self._sync()
         }
     }
@@ -249,19 +252,20 @@ import Foundation
     ///
     /// + Precondition: Mirroring must have been activated on this index (see the `mirrored` property).
     ///
-    @objc public func syncIfNeeded() {
+    @objc
+    public func syncIfNeeded() {
         assert(self.mirrored, "Mirroring not activated on this index")
         if self.isSyncDelayExpired() || self.isMirrorSettingsDirty() {
-            offlineClient.buildQueue.addOperationWithBlock() {
+            offlineClient.buildQueue.addOperation() {
                 self._sync()
             }
         }
     }
     
     private func isSyncDelayExpired() -> Bool {
-        let currentDate = NSDate()
+        let currentDate = Date()
         if let lastSyncDate = mirrorSettings.lastSyncDate {
-            return currentDate.timeIntervalSinceDate(lastSyncDate) > self.delayBetweenSyncs
+            return currentDate.timeIntervalSince(lastSyncDate as Date) > self.delayBetweenSyncs
         } else {
             return true
         }
@@ -270,7 +274,7 @@ import Foundation
     private func isMirrorSettingsDirty() -> Bool {
         if let queriesModificationDate = mirrorSettings.queriesModificationDate {
             if let lastSyncDate = lastSuccessfulSyncDate {
-                return queriesModificationDate.compare(lastSyncDate) == .OrderedDescending
+                return queriesModificationDate.compare(lastSyncDate) == .orderedDescending
             } else {
                 return true
             }
@@ -284,8 +288,8 @@ import Foundation
     /// WARNING: Calls to this method must be synchronized by the caller.
     ///
     private func _sync() {
-        assert(!NSThread.isMainThread()) // make sure it's run in the background
-        assert(NSOperationQueue.currentQueue() == offlineClient.buildQueue) // ensure serial calls
+        assert(!Thread.isMainThread) // make sure it's run in the background
+        assert(OperationQueue.current == offlineClient.buildQueue) // ensure serial calls
         assert(!self.dataSelectionQueries.isEmpty)
 
         // If already syncing, abort.
@@ -295,60 +299,59 @@ import Foundation
         syncing = true
 
         // Notify observers.
-        dispatch_async(dispatch_get_main_queue()) {
-            NSNotificationCenter.defaultCenter().postNotificationName(MirroredIndex.SyncDidStartNotification, object: self)
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: MirroredIndex.SyncDidStartNotification, object: self)
         }
 
         // Create temporary directory.
         do {
-            tmpDir = NSTemporaryDirectory() + "/algolia/" + NSUUID().UUIDString
-            try NSFileManager.defaultManager().createDirectoryAtPath(tmpDir, withIntermediateDirectories: true, attributes: nil)
+            tmpDir = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("algolia").appendingPathComponent(UUID().uuidString).path
+            try FileManager.default.createDirectory(atPath: tmpDir!, withIntermediateDirectories: true, attributes: nil)
         } catch _ {
-            NSLog("ERROR: Could not create temporary directory '%@'", tmpDir)
+            NSLog("ERROR: Could not create temporary directory '%@'", tmpDir!)
         }
         
-        // NOTE: We use `NSOperation`s to handle dependencies between tasks.
+        // NOTE: We use `Operation`s to handle dependencies between tasks.
         syncError = nil
         
         // Task: Download index settings.
         // TODO: Factorize query construction with regular code.
-        let path = "1/indexes/\(urlEncodedIndexName)/settings"
-        let settingsOperation = client.newRequest(.GET, path: path, body: nil, hostnames: client.readHosts, isSearchQuery: false) {
-            (json: [String: AnyObject]?, error: NSError?) in
+        let path = "1/indexes/\(urlEncodedName)/settings"
+        let settingsOperation = client.newRequest(method: .GET, path: path, body: nil, hostnames: client.readHosts, isSearchQuery: false) {
+            (json, error) in
             if error != nil {
                 self.syncError = error
             } else {
-                assert(json != nil)
-                // Write results to disk.
-                if let data = try? NSJSONSerialization.dataWithJSONObject(json!, options: []) {
-                    self.settingsFilePath = "\(self.tmpDir)/settings.json"
-                    data.writeToFile(self.settingsFilePath, atomically: false)
-                    return // all other paths go to error
-                } else {
-                    self.syncError = NSError(domain: Client.ErrorDomain, code: StatusCode.Unknown.rawValue, userInfo: [NSLocalizedDescriptionKey: "Could not write index settings"])
+                do {
+                    assert(json != nil)
+                    // Write results to disk.
+                    let data = try JSONSerialization.data(withJSONObject: json!, options: [])
+                    self.settingsFilePath = URL(fileURLWithPath: self.tmpDir!).appendingPathComponent("settings.json").path
+                    try data.write(to: URL(fileURLWithPath: self.settingsFilePath!), options: [])
+                } catch let e {
+                    self.syncError = e
                 }
             }
-            assert(self.syncError != nil) // we should reach this point only in case of error (see above)
         }
         offlineClient.buildQueue.addOperation(settingsOperation)
         
         // Task: build the index using the downloaded files.
-        buildIndexOperation = NSBlockOperation() {
+        buildIndexOperation = BlockOperation() {
             if self.syncError == nil {
-                let status = self.localIndex.build(settingsFile: self.settingsFilePath, objectFiles: self.objectsFilePaths, clearIndex: true, deletedObjectIDs: nil)
+                let status = self.localIndex.build(settingsFile: self.settingsFilePath, objectFiles: self.objectsFilePaths!, clearIndex: true, deletedObjectIDs: nil)
                 if status != 200 {
-                    self.syncError = NSError(domain: Client.ErrorDomain, code: Int(status), userInfo: [NSLocalizedDescriptionKey: "Could not build local index"])
+                    self.syncError = HTTPError(statusCode: Int(status))
                 } else {
                     // Remember the sync's date
-                    self.mirrorSettings.lastSyncDate = NSDate()
+                    self.mirrorSettings.lastSyncDate = Date()
                     self.mirrorSettings.save(self.mirrorSettingsFilePath)
                 }
             }
             self._syncFinished()
         }
-        buildIndexOperation.name = "Build \(self)"
+        buildIndexOperation!.name = "Build \(self)"
         // Make sure this task is run after the settings task.
-        buildIndexOperation.addDependency(settingsOperation)
+        buildIndexOperation!.addDependency(settingsOperation)
 
         // Tasks: Perform data selection queries.
         objectFileIndex = 0
@@ -358,51 +361,50 @@ import Foundation
         }
         
         // Finally add the build index operation to the queue, now that dependencies are set up.
-        offlineClient.buildQueue.addOperation(buildIndexOperation)
+        offlineClient.buildQueue.addOperation(buildIndexOperation!)
     }
     
     // Auxiliary function, called:
     // - once synchronously, to initiate the browse;
     // - from 0 to many times asynchronously, to continue browsing.
     //
-    private func doBrowseQuery(dataSelectionQuery: DataSelectionQuery, browseQuery: Query, objectCount currentObjectCount: Int) {
+    private func doBrowseQuery(_ dataSelectionQuery: DataSelectionQuery, browseQuery: Query, objectCount currentObjectCount: Int) {
         objectFileIndex += 1
         let currentObjectFileIndex = objectFileIndex
-        let path = "1/indexes/\(urlEncodedIndexName)/browse"
-        let operation = client.newRequest(.POST, path: path, body: ["params": browseQuery.build()], hostnames: client.readHosts, isSearchQuery: false) {
-            (json: [String: AnyObject]?, error: NSError?) in
+        let path = "1/indexes/\(urlEncodedName)/browse"
+        let operation = client.newRequest(method: .POST, path: path, body: ["params": browseQuery.build()], hostnames: client.readHosts, isSearchQuery: false) {
+            (json, error) in
             if error != nil {
                 self.syncError = error
             } else {
-                assert(json != nil)
-                // Fetch cursor from data.
-                let cursor = json!["cursor"] as? String
-                if let hits = json!["hits"] as? [[String: AnyObject]] {
+                do {
+                    assert(json != nil)
+                    // Fetch cursor from data.
+                    let cursor = json!["cursor"] as? String
+                    guard let hits = json!["hits"] as? [JSONObject] else {
+                        self.syncError = InvalidJSONError(description: "No hits found when browsing")
+                        return
+                    }
                     // Update object count.
                     let newObjectCount = currentObjectCount + hits.count
                     
                     // Write results to disk.
-                    if let data = try? NSJSONSerialization.dataWithJSONObject(json!, options: []) {
-                        let objectFilePath = "\(self.tmpDir)/\(currentObjectFileIndex).json"
-                        self.objectsFilePaths.append(objectFilePath)
-                        data.writeToFile(objectFilePath, atomically: false)
-                        
-                        // Chain if needed.
-                        if cursor != nil && newObjectCount < dataSelectionQuery.maxObjects {
-                            self.doBrowseQuery(dataSelectionQuery, browseQuery: Query(parameters: ["cursor": cursor!]), objectCount: newObjectCount)
-                        }
-                        return // all other paths go to error
-                    } else {
-                        self.syncError = NSError(domain: Client.ErrorDomain, code: StatusCode.Unknown.rawValue, userInfo: [NSLocalizedDescriptionKey: "Could not write hits"])
+                    let data = try JSONSerialization.data(withJSONObject: json!, options: [])
+                    let objectFilePath = URL(fileURLWithPath: self.tmpDir!).appendingPathComponent("\(currentObjectFileIndex).json").path
+                    self.objectsFilePaths!.append(objectFilePath)
+                    try data.write(to: URL(fileURLWithPath: objectFilePath), options: [])
+                    
+                    // Chain if needed.
+                    if cursor != nil && newObjectCount < dataSelectionQuery.maxObjects {
+                        self.doBrowseQuery(dataSelectionQuery, browseQuery: Query(parameters: ["cursor": cursor!]), objectCount: newObjectCount)
                     }
-                } else {
-                    self.syncError = NSError(domain: Client.ErrorDomain, code: StatusCode.InvalidResponse.rawValue, userInfo: [NSLocalizedDescriptionKey: "No hits in server response"])
+                } catch let e {
+                    self.syncError = e
                 }
             }
-            assert(self.syncError != nil) // we should reach this point only in case of error (see above)
         }
         offlineClient.buildQueue.addOperation(operation)
-        buildIndexOperation.addDependency(operation)
+        buildIndexOperation!.addDependency(operation)
     }
 
     /// Wrap-up method, to be called at the end of each sync, *whatever the result*.
@@ -410,11 +412,11 @@ import Foundation
     /// WARNING: Calls to this method must be synchronized by the caller.
     ///
     private func _syncFinished() {
-        assert(NSOperationQueue.currentQueue() == offlineClient.buildQueue) // ensure serial calls
+        assert(OperationQueue.current == offlineClient.buildQueue) // ensure serial calls
 
         // Clean-up.
         do {
-            try NSFileManager.defaultManager().removeItemAtPath(tmpDir)
+            try FileManager.default.removeItem(atPath: tmpDir!)
         } catch _ {
             // Ignore error
         }
@@ -427,12 +429,12 @@ import Foundation
         self.syncing = false
         
         // Notify observers.
-        dispatch_async(dispatch_get_main_queue()) {
-            var userInfo: [String: AnyObject]? = nil
+        DispatchQueue.main.async {
+            var userInfo: [String: Any]? = nil
             if self.syncError != nil {
-                userInfo = [MirroredIndex.SyncErrorKey: self.syncError!]
+                userInfo = [MirroredIndex.syncErrorKey: self.syncError!]
             }
-            NSNotificationCenter.defaultCenter().postNotificationName(MirroredIndex.SyncDidFinishNotification, object: self, userInfo: userInfo)
+            NotificationCenter.default.post(name: MirroredIndex.SyncDidFinishNotification, object: self, userInfo: userInfo)
         }
     }
     
@@ -449,17 +451,17 @@ import Foundation
         /// + Note: You might consider that this defeats the purpose of having a mirror in the first place... But this
         /// is intended for applications wanting to manually manage their policy.
         ///
-        case OnlineOnly = 0
+        case onlineOnly = 0
 
         /// Search offline only.
         /// The search will fail when the offline mirror has not yet been synced.
         ///
-        case OfflineOnly = 1
+        case offlineOnly = 1
         
         /// Search online, then fallback to offline on failure.
         /// Please note that when online, this is likely to hit the request timeout on *every host* before failing.
         ///
-        case FallbackOnFailure = 2
+        case fallbackOnFailure = 2
         
         /// Fallback after a certain timeout.
         /// Will first try an online request, but fallback to offline in case of failure or when a timeout has been
@@ -467,29 +469,29 @@ import Foundation
         ///
         /// The timeout can be set through the `offlineFallbackTimeout` property.
         ///
-        case FallbackOnTimeout = 3
+        case fallbackOnTimeout = 3
     }
     
     /// Strategy to use for offline fallback. Default = `FallbackOnFailure`.
-    @objc public var requestStrategy: Strategy = .FallbackOnFailure
+    @objc public var requestStrategy: Strategy = .fallbackOnFailure
     
     /// Timeout used to control offline fallback.
     ///
     /// + Note: Only used by the `FallbackOnTimeout` strategy.
     ///
-    @objc public var offlineFallbackTimeout: NSTimeInterval = 1.0
+    @objc public var offlineFallbackTimeout: TimeInterval = 1.0
 
     /// A mixed online/offline request.
     /// This request encapsulates two concurrent online and offline requests, to optimize response time.
     ///
     private class OnlineOfflineOperation: AsyncOperation {
-        private let index: MirroredIndex
+        fileprivate let index: MirroredIndex
         let completionHandler: CompletionHandler
-        private var onlineRequest: NSOperation?
-        private var offlineRequest: NSOperation?
+        private var onlineRequest: Operation?
+        private var offlineRequest: Operation?
         private var mayRunOfflineRequest: Bool = true
         
-        init(index: MirroredIndex, completionHandler: CompletionHandler) {
+        init(index: MirroredIndex, completionHandler: @escaping CompletionHandler) {
             assert(index.mirrored)
             self.index = index
             self.completionHandler = completionHandler
@@ -500,19 +502,19 @@ import Foundation
             // Since most methods use the main thread for callbacks, we have to use it as well.
             
             // If the strategy is "offline only", well, go offline straight away.
-            if index.requestStrategy == .OfflineOnly {
+            if index.requestStrategy == .offlineOnly {
                 startOffline()
             }
             // Otherwise, always launch an online request.
             else {
-                if index.requestStrategy == .OnlineOnly || !index.localIndex.exists() {
+                if index.requestStrategy == .onlineOnly || !index.localIndex.exists() {
                     mayRunOfflineRequest = false
                 }
                 startOnline()
             }
-            if index.requestStrategy == .FallbackOnTimeout && mayRunOfflineRequest {
+            if index.requestStrategy == .fallbackOnTimeout && mayRunOfflineRequest {
                 // Schedule an offline request to start after a certain delay.
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(index.offlineFallbackTimeout * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + index.offlineFallbackTimeout) {
                     [weak self] in
                     // WARNING: Because dispatched blocks cannot be cancelled, and to avoid increasing the lifetime of
                     // the operation by the timeout delay, we do not retain self. => Gracefully fail if the operation
@@ -530,7 +532,7 @@ import Foundation
             if onlineRequest != nil {
                 return
             }
-            onlineRequest = startOnlineRequest({
+            onlineRequest = startOnlineRequest() {
                 [unowned self] // works because the operation is enqueued and retained by the queue
                 (content, error) in
                 // In case of transient error, run an offline request.
@@ -542,7 +544,7 @@ import Foundation
                     self.cancelOffline()
                     self.callCompletion(content, error: error)
                 }
-            })
+            }
         }
         
         private func startOffline() {
@@ -552,12 +554,12 @@ import Foundation
             if offlineRequest != nil {
                 return
             }
-            offlineRequest = startOfflineRequest({
+            offlineRequest = startOfflineRequest() {
                 [unowned self] // works because the operation is enqueued and retained by the queue
                 (content, error) in
                 self.onlineRequest?.cancel()
                 self.callCompletion(content, error: error)
-            })
+            }
         }
         
         private func cancelOffline() {
@@ -569,34 +571,35 @@ import Foundation
         }
         
         override func cancel() {
-            if !cancelled {
+            if !isCancelled {
                 onlineRequest?.cancel()
                 cancelOffline()
                 super.cancel()
             }
         }
         
-        private func callCompletion(content: [String: AnyObject]?, error: NSError?) {
+        private func callCompletion(_ content: JSONObject?, error: Error?) {
             if _finished {
                 return
             }
             if !_cancelled {
-                completionHandler(content: content, error: error)
+                completionHandler(content, error)
             }
             finish()
         }
         
-        func startOnlineRequest(completionHandler: CompletionHandler) -> NSOperation {
+        func startOnlineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
             preconditionFailure("To be implemented by derived classes")
         }
 
-        func startOfflineRequest(completionHandler: CompletionHandler) -> NSOperation {
+        func startOfflineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
             preconditionFailure("To be implemented by derived classes")
         }
     }
     
     /// Search using the current request strategy to choose between online and offline (or a combination of both).
-    @objc public override func search(query: Query, completionHandler: CompletionHandler) -> NSOperation {
+    @objc
+    @discardableResult public override func search(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         // IMPORTANT: A non-mirrored index must behave exactly as an online index.
         if (!mirrored) {
             return super.search(query, completionHandler: completionHandler);
@@ -613,44 +616,46 @@ import Foundation
     private class OnlineOfflineSearchOperation: OnlineOfflineOperation {
         let query: Query
         
-        init(index: MirroredIndex, query: Query, completionHandler: CompletionHandler) {
+        init(index: MirroredIndex, query: Query, completionHandler: @escaping CompletionHandler) {
             self.query = query
             super.init(index: index, completionHandler: completionHandler)
         }
         
-        override func startOnlineRequest(completionHandler: CompletionHandler) -> NSOperation {
+        override func startOnlineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
             return index.searchOnline(query, completionHandler: completionHandler)
         }
         
-        override func startOfflineRequest(completionHandler: CompletionHandler) -> NSOperation {
+        override func startOfflineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
             return index.searchOffline(query, completionHandler: completionHandler)
         }
     }
     
     /// Explicitly search the online API, and not the local mirror.
-    @objc public func searchOnline(query: Query, completionHandler: CompletionHandler) -> NSOperation {
+    @objc
+    @discardableResult public func searchOnline(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         return super.search(query, completionHandler: {
             (content, error) in
             // Tag results as having a remote origin.
-            var taggedContent: [String: AnyObject]? = content
+            var taggedContent: JSONObject? = content
             if taggedContent != nil {
-                taggedContent?[MirroredIndex.JSONKeyOrigin] = MirroredIndex.JSONValueOriginRemote
+                taggedContent?[MirroredIndex.jsonKeyOrigin] = MirroredIndex.jsonValueOriginRemote
             }
-            completionHandler(content: taggedContent, error: error)
+            completionHandler(taggedContent, error)
         })
     }
     
     /// Explicitly search the local mirror.
-    @objc public func searchOffline(query: Query, completionHandler: CompletionHandler) -> NSOperation {
+    @objc
+    @discardableResult public func searchOffline(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         assert(self.mirrored, "Mirroring not activated on this index")
         let queryCopy = Query(copy: query)
-        let callingQueue = NSOperationQueue.currentQueue() ?? NSOperationQueue.mainQueue()
-        let operation = NSBlockOperation()
+        let callingQueue = OperationQueue.current ?? OperationQueue.main
+        let operation = BlockOperation()
         operation.addExecutionBlock() {
             let (content, error) = self._searchOffline(queryCopy)
-            callingQueue.addOperationWithBlock() {
-                if !operation.cancelled {
-                    completionHandler(content: content, error: error)
+            callingQueue.addOperation() {
+                if !operation.isCancelled {
+                    completionHandler(content, error)
                 }
             }
         }
@@ -659,37 +664,18 @@ import Foundation
     }
 
     /// Search the local mirror synchronously.
-    private func _searchOffline(query: Query) -> (content: [String: AnyObject]?, error: NSError?) {
-        assert(!NSThread.isMainThread()) // make sure it's run in the background
-        
-        var content: [String: AnyObject]?
-        var error: NSError?
+    private func _searchOffline(_ query: Query) -> (content: JSONObject?, error: Error?) {
+        assert(!Thread.isMainThread) // make sure it's run in the background
         
         let searchResults = localIndex.search(query.build())
-        if searchResults.statusCode == 200 {
-            assert(searchResults.data != nil)
-            do {
-                let json = try NSJSONSerialization.JSONObjectWithData(searchResults.data!, options: NSJSONReadingOptions(rawValue: 0))
-                if json is [String: AnyObject] {
-                    content = (json as! [String: AnyObject])
-                    // NOTE: Origin tagging performed by the SDK.
-                } else {
-                    error = NSError(domain: Client.ErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON returned"])
-                }
-            } catch let _error as NSError {
-                error = _error
-            }
-        } else {
-            error = NSError(domain: Client.ErrorDomain, code: Int(searchResults.statusCode), userInfo: nil)
-        }
-        assert(content != nil || error != nil)
-        return (content: content, error: error)
+        return OfflineClient.parseSearchResults(searchResults)
     }
     
     // MARK: Multiple queries
     
     /// Run multiple queries using the current request strategy to choose between online and offline.
-    @objc override public func multipleQueries(queries: [Query], strategy: String?, completionHandler: CompletionHandler) -> NSOperation {
+    @objc
+    @discardableResult override public func multipleQueries(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
         // IMPORTANT: A non-mirrored index must behave exactly as an online index.
         if (!mirrored) {
             return super.multipleQueries(queries, strategy: strategy, completionHandler: completionHandler);
@@ -705,34 +691,35 @@ import Foundation
     private class OnlineOfflineMultipleQueriesOperation: OnlineOfflineOperation {
         let queries: [Query]
         
-        init(index: MirroredIndex, queries: [Query], completionHandler: CompletionHandler) {
+        init(index: MirroredIndex, queries: [Query], completionHandler: @escaping CompletionHandler) {
             self.queries = queries
             super.init(index: index, completionHandler: completionHandler)
         }
         
-        override func startOnlineRequest(completionHandler: CompletionHandler) -> NSOperation {
+        override func startOnlineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
             return index.multipleQueriesOnline(queries, completionHandler: completionHandler)
         }
         
-        override func startOfflineRequest(completionHandler: CompletionHandler) -> NSOperation {
+        override func startOfflineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
             return index.multipleQueriesOffline(queries, completionHandler: completionHandler)
         }
     }
     
     /// Run multiple queries on the online API, and not the local mirror.
-    @objc public func multipleQueriesOnline(queries: [Query], strategy: String?, completionHandler: CompletionHandler) -> NSOperation {
+    @objc
+    @discardableResult public func multipleQueriesOnline(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
         return super.multipleQueries(queries, strategy: strategy, completionHandler: {
             (content, error) in
             // Tag results as having a remote origin.
-            var taggedContent: [String: AnyObject]? = content
+            var taggedContent: JSONObject? = content
             if taggedContent != nil {
-                taggedContent?[MirroredIndex.JSONKeyOrigin] = MirroredIndex.JSONValueOriginRemote
+                taggedContent?[MirroredIndex.jsonKeyOrigin] = MirroredIndex.jsonValueOriginRemote
             }
-            completionHandler(content: taggedContent, error: error)
+            completionHandler(taggedContent, error)
         })
     }
 
-    public func multipleQueriesOnline(queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: CompletionHandler) -> NSOperation {
+    @discardableResult public func multipleQueriesOnline(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         return self.multipleQueriesOnline(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
 
@@ -744,17 +731,18 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func multipleQueriesOffline(queries: [Query], strategy: String?, completionHandler: CompletionHandler) -> NSOperation {
+    @objc
+    @discardableResult public func multipleQueriesOffline(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
         assert(self.mirrored, "Mirroring not activated on this index")
         
         // TODO: We should be doing a copy of the queries for better safety.
-        let callingQueue = NSOperationQueue.currentQueue() ?? NSOperationQueue.mainQueue()
-        let operation = NSBlockOperation()
+        let callingQueue = OperationQueue.current ?? OperationQueue.main
+        let operation = BlockOperation()
         operation.addExecutionBlock() {
             let (content, error) = self._multipleQueriesOffline(queries, strategy: strategy)
-            callingQueue.addOperationWithBlock() {
-                if !operation.cancelled {
-                    completionHandler(content: content, error: error)
+            callingQueue.addOperation() {
+                if !operation.isCancelled {
+                    completionHandler(content, error)
                 }
             }
         }
@@ -762,13 +750,13 @@ import Foundation
         return operation
     }
     
-    public func multipleQueriesOffline(queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: CompletionHandler) -> NSOperation {
+    @discardableResult public func multipleQueriesOffline(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         return self.multipleQueriesOffline(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
     
     /// Run multiple queries on the local mirror synchronously.
-    private func _multipleQueriesOffline(queries: [Query], strategy: String?) -> (content: [String: AnyObject]?, error: NSError?) {
-        return MultipleQueryEmulator(indexName: self.indexName, querier: self._searchOffline).multipleQueries(queries, strategy: strategy)
+    private func _multipleQueriesOffline(_ queries: [Query], strategy: String?) -> (content: JSONObject?, error: Error?) {
+        return MultipleQueryEmulator(indexName: self.name, querier: self._searchOffline).multipleQueries(queries, strategy: strategy)
     }
     
     // ----------------------------------------------------------------------
@@ -779,18 +767,19 @@ import Foundation
     // fall back could only work for the first query.
 
     /// Browse the local mirror (initial call).
-    /// Same semantics as `Index.browse(...)`.
+    /// Same semantics as `Index.browse(query:completionHandler:)`.
     ///
-    @objc public func browseMirror(query: Query, completionHandler: CompletionHandler) -> NSOperation {
+    @objc(browseMirrorWithQuery:completionHandler:)
+    @discardableResult public func browseMirror(query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         assert(self.mirrored, "Mirroring not activated on this index")
         let queryCopy = Query(copy: query)
-        let callingQueue = NSOperationQueue.currentQueue() ?? NSOperationQueue.mainQueue()
-        let operation = NSBlockOperation()
+        let callingQueue = OperationQueue.current ?? OperationQueue.main
+        let operation = BlockOperation()
         operation.addExecutionBlock() {
-            let (content, error) = self._browseMirror(queryCopy)
-            callingQueue.addOperationWithBlock() {
-                if !operation.cancelled {
-                    completionHandler(content: content, error: error)
+            let (content, error) = self._browseMirror(query: queryCopy)
+            callingQueue.addOperation() {
+                if !operation.isCancelled {
+                    completionHandler(content, error)
                 }
             }
         }
@@ -799,18 +788,19 @@ import Foundation
     }
 
     /// Browse the index from a cursor.
-    /// Same semantics as `Index.browseFrom(...)`.
+    /// Same semantics as `Index.browse(from:completionHandler:)`.
     ///
-    @objc public func browseMirrorFrom(cursor: String, completionHandler: CompletionHandler) -> NSOperation {
+    @objc(browseMirrorFromCursor:completionHandler:)
+    @discardableResult public func browseMirror(from cursor: String, completionHandler: @escaping CompletionHandler) -> Operation {
         assert(self.mirrored, "Mirroring not activated on this index")
-        let callingQueue = NSOperationQueue.currentQueue() ?? NSOperationQueue.mainQueue()
-        let operation = NSBlockOperation()
+        let callingQueue = OperationQueue.current ?? OperationQueue.main
+        let operation = BlockOperation()
         operation.addExecutionBlock() {
             let query = Query(parameters: ["cursor": cursor])
-            let (content, error) = self._browseMirror(query)
-            callingQueue.addOperationWithBlock() {
-                if !operation.cancelled {
-                    completionHandler(content: content, error: error)
+            let (content, error) = self._browseMirror(query: query)
+            callingQueue.addOperation() {
+                if !operation.isCancelled {
+                    completionHandler(content, error)
                 }
             }
         }
@@ -819,31 +809,10 @@ import Foundation
     }
 
     /// Browse the local mirror synchronously.
-    private func _browseMirror(query: Query) -> (content: [String: AnyObject]?, error: NSError?) {
-        assert(!NSThread.isMainThread()) // make sure it's run in the background
-        
-        var content: [String: AnyObject]?
-        var error: NSError?
+    private func _browseMirror(query: Query) -> (content: JSONObject?, error: Error?) {
+        assert(!Thread.isMainThread) // make sure it's run in the background
         
         let searchResults = localIndex.browse(query.build())
-        // TODO: Factorize this code with above and with online requests.
-        if searchResults.statusCode == 200 {
-            assert(searchResults.data != nil)
-            do {
-                let json = try NSJSONSerialization.JSONObjectWithData(searchResults.data!, options: NSJSONReadingOptions(rawValue: 0))
-                if json is [String: AnyObject] {
-                    content = (json as! [String: AnyObject])
-                    // NOTE: Origin tagging performed by the SDK.
-                } else {
-                    error = NSError(domain: Client.ErrorDomain, code: 500, userInfo: [NSLocalizedDescriptionKey: "Invalid JSON returned"])
-                }
-            } catch let _error as NSError {
-                error = _error
-            }
-        } else {
-            error = NSError(domain: Client.ErrorDomain, code: Int(searchResults.statusCode), userInfo: nil)
-        }
-        assert(content != nil || error != nil)
-        return (content: content, error: error)
+        return OfflineClient.parseSearchResults(searchResults)
     }
 }

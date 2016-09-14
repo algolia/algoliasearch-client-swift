@@ -19,7 +19,7 @@ If you were using **version 2.x** of our Swift client, read the [migration guide
 [Algolia Search](https://www.algolia.com) is a hosted full-text, numerical, and faceted search engine capable of delivering realtime results from the first keystroke.
 
 
-Our Swift client lets you easily use the [Algolia Search API](https://www.algolia.com/doc/rest) from your iOS, macOS and tvOS applications. It wraps the [Algolia Search REST API](https://www.algolia.com/doc/rest).
+Our Swift client lets you easily use the [Algolia Search API](https://www.algolia.com/doc/rest) from your iOS, macOS, tvOS and watchOS applications. It wraps the [Algolia Search REST API](https://www.algolia.com/doc/rest).
 
 
 
@@ -50,7 +50,7 @@ Our Swift client lets you easily use the [Algolia Search API](https://www.algoli
 Getting started
 
 1. [Install](#install)
-1. [Init index](#init-index---initindex)
+1. [Init index](#init-index---index)
 
 Search
 
@@ -62,7 +62,7 @@ Indexing
 
 1. [Add objects](#add-objects---addobjects)
 1. [Update objects](#update-objects---saveobjects)
-1. [Partial update](#partial-update---partialupdateobjects)
+1. [Partial update objects](#partial-update-objects---partialupdateobjects)
 1. [Delete objects](#delete-objects---deleteobjects)
 
 Settings
@@ -129,12 +129,12 @@ Check our [online guides](https://www.algolia.com/doc):
 
 
 1. Add a dependency on AlgoliaSearch-Client-Swift:
-    - CocoaPods: add `pod 'AlgoliaSearch-Client-Swift', '~> 3.0'` to your `Podfile`.
+    - CocoaPods: add `pod 'AlgoliaSearch-Client-Swift', '~> 4.0'` to your `Podfile`.
     - Carthage: add `github "algolia/algoliasearch-client-swift"` to your `Cartfile`.
 2. Add `import AlgoliaSearch` to your source files.
 
 
-### Init index - `initIndex`
+### Init index - `index`
 
 To initialize the client, you need your **Application ID** and **API Key**. You can find both of them on [your Algolia account](https://www.algolia.com/api-keys).
 
@@ -154,12 +154,12 @@ Without any prior configuration, you can start indexing [500 contacts](https://g
 
 ```swift
 // Load content file
-let jsonPath = NSBundle.mainBundle().pathForResource("contacts", ofType: "json")
-let jsonData = NSData(contentsOfFile: jsonPath)
-let dict = try! NSJSONSerialization.JSONObjectWithData(jsonData!, options: [])
+let jsonURL = Bundle.main.url(forResource: "contacts", withExtension: "json")
+let jsonData = try! Data(contentsOf: jsonURL!)
+let dict = try! JSONSerialization.jsonObject(with: jsonData!)
 
-// Load all objects of json file in an index named "contacts"
-let index = client.getIndex("contacts")
+// Load all objects in the JSON file into an index named "contacts".
+let index = client.index(withName: "contacts")
 index.addObjects(dict["objects"])
 ```
 
@@ -251,7 +251,7 @@ To perform a search, you only need to initialize the index and perform a call to
 The search query allows only to retrieve 1000 hits. If you need to retrieve more than 1000 hits (e.g. for SEO), you can use [Backup / Retrieve all index content](#backup--export-an-index).
 
 ```swift
-let index = client.getIndex("contacts")
+let index = client.index(withName: "contacts")
 index.search(Query(query: "s"), completionHandler: { (content, error) -> Void in
 	if error == nil {
 		print("Result: \(content!)")
@@ -357,11 +357,11 @@ The server response will look like:
 
 - `nbHits` (integer): Number of hits that the search query matched.
 
-- `page` (integer): Index of the current page (zero-based). See the [`page`](#page) search parameter.
+- `page` (integer): Index of the current page (zero-based). See the [`page`](#page) search parameter. *Note: Not returned if you use `offset`/`length` for pagination.*
 
-- `hitsPerPage` (integer): Maximum number of hits returned per page. See the [`hitsPerPage`](#hitsperpage) search parameter.
+- `hitsPerPage` (integer): Maximum number of hits returned per page. See the [`hitsPerPage`](#hitsperpage) search parameter. *Note: Not returned if you use `offset`/`length` for pagination.*
 
-- `nbPages` (integer): Number of pages corresponding to the number of hits. Basically, `ceil(nbHits / hitsPerPage)`.
+- `nbPages` (integer): Number of pages corresponding to the number of hits. Basically, `ceil(nbHits / hitsPerPage)`. *Note: Not returned if you use `offset`/`length` for pagination.*
 
 - `processingTimeMS` (integer): Time that the server took to process the request, in milliseconds. *Note: This does not include network time.*
 
@@ -381,7 +381,7 @@ When [`getRankingInfo`](#getrankinginfo) is set to `true`, the following additio
 
 - `serverUsed` (string): Actual host name of the server that processed the request. (Our DNS supports automatic failover and load balancing, so this may differ from the host name used in the request.)
 
-- `parsedQuery` (string): The query string that will be searched, after normalization.
+- `parsedQuery` (string): The query string that will be searched, after normalization. Normalization includes removing stop words (if [removeStopWords](#removestopwords) is enabled), and transforming portions of the query string into phrase queries (see [advancedSyntax](#advancedsyntax)).
 
 - `timeoutCounts` (boolean): Whether a timeout was hit when computing the facet counts. When `true`, the counts will be interpolated (i.e. approximate). See also `exhaustiveFacetsCount`.
 
@@ -425,6 +425,7 @@ Parameters that can also be used in a setSettings also have the `indexing` [scop
 **Attributes**
 
 - [attributesToRetrieve](#attributestoretrieve) `settings`, `search`
+- [restrictSearchableAttributes](#restrictsearchableattributes) `search`
 
 **Filtering / Faceting**
 
@@ -439,11 +440,14 @@ Parameters that can also be used in a setSettings also have the `indexing` [scop
 - [highlightPreTag](#highlightpretag) `settings`, `search`
 - [highlightPostTag](#highlightposttag) `settings`, `search`
 - [snippetEllipsisText](#snippetellipsistext) `settings`, `search`
+- [restrictHighlightAndSnippetArrays](#restricthighlightandsnippetarrays) `settings`, `search`
 
 **Pagination**
 
 - [page](#page) `search`
 - [hitsPerPage](#hitsperpage) `settings`, `search`
+- [offset](#offset) `search`
+- [length](#length) `search`
 
 **Typos**
 
@@ -471,6 +475,7 @@ Parameters that can also be used in a setSettings also have the `indexing` [scop
 - [advancedSyntax](#advancedsyntax) `settings`, `search`
 - [optionalWords](#optionalwords) `settings`, `search`
 - [removeStopWords](#removestopwords) `settings`, `search`
+- [disableExactOnAttributes](#disableexactonattributes) `settings`, `search`
 - [exactOnSingleWordQuery](#exactonsinglewordquery) `settings`, `search`
 - [alternativesAsExact](#alternativesasexact) `settings`, `search`
 
@@ -482,22 +487,65 @@ Parameters that can also be used in a setSettings also have the `indexing` [scop
 - [tagFilters (deprecated)](#tagfilters-deprecated) `search`
 - [facetFilters (deprecated)](#facetfilters-deprecated) `search`
 - [analytics](#analytics) `search`
+- [analyticsTags](#analyticstags) `search`
+- [synonyms](#synonyms) `search`
+- [replaceSynonymsInHighlight](#replacesynonymsinhighlight) `search`, `settings`
+- [minProximity](#minproximity) `search`, `settings`
 
 <!--/PARAMETERS_LINK-->
+
+### Multiple queries - `multipleQueries`
+
+You can send multiple queries with a single API call using a batch of queries:
+
+```swift
+// Perform 3 queries in a single API call:
+// 		- 1st query target index `categories`
+//		- 2nd and 3rd queries target index `products`
+let queries = [
+	IndexQuery(indexName: "categories", query: Query(query: "electronics")),
+	IndexQuery(indexName: "products", query: Query(query: "iPhone")),
+	IndexQuery(indexName: "products", query: Query(query: "Galaxy"))
+]
+client.multipleQueries(queries, completionHandler: { (content, error) -> Void in
+	if error == nil {
+		print("Result: \(content!)")
+	}
+})
+```
+
+You can specify a `strategy` parameter to optimize your multiple queries:
+
+- `none`: Execute the sequence of queries until the end.
+- `stopIfEnoughMatches`: Execute the sequence of queries until the number of hits is reached by the sum of hits.
+
+#### Response
+
+The resulting JSON contains the following fields:
+
+- `results` (array): The results for each request, in the order they were submitted. The contents are the same as in [Search in an index](#search-in-an-index---search).
+
+    Each result also includes the following additional fields:
+
+    - `index` (string): The name of the targeted index.
+
+    - `processed` (boolean, optional): *Note: Only returned when `strategy` is `stopIfEnoughmatches`.* Whether the query was processed.
+
+
 
 ### Find by IDs - `getObjects`
 
 You can easily retrieve an object using its `objectID` and optionally specify a comma separated list of attributes you want:
 
 ```swift
-// Retrieves all attributes
-index.getObject("myID", completionHandler: { (content, error) -> Void in
+// Retrieve all attributes.
+index.getObject(withID: "myID", completionHandler: { (content, error) -> Void in
 	if error == nil {
 		print("Object: \(content)")
 	}
 })
-// Retrieves only the firstname attribute
-index.getObject("myID", attributesToRetrieve: ["firstname"], completionHandler: { (content, error) -> Void in
+// Retrieve only the `firstname` attribute.
+index.getObject(withID: "myID", attributesToRetrieve: ["firstname"], completionHandler: { (content, error) -> Void in
 	if error == nil {
 		print("Object: \(content)")
 	}
@@ -507,7 +555,7 @@ index.getObject("myID", attributesToRetrieve: ["firstname"], completionHandler: 
 You can also retrieve a set of objects:
 
 ```swift
-index.getObjects(["myID1", "myID2"], completionHandler: { (content, error) -> {
+index.getObjects(withIDs: ["myID1", "myID2"], completionHandler: { (content, error) -> {
 	// do something
 })
 ```
@@ -524,14 +572,15 @@ By default, the cache is disabled.
 
 ```swift
 // Enable the search cache with default settings.
-index.enableSearchCache()
+index.searchCacheEnabled = true
 ```
 
 Or:
 
 ```swift
 // Enable the search cache with a TTL of 5 minutes.
-index.enableSearchCache(expiringTimeInterval: 300)
+index.searchCacheEnabled = true
+index.searchCacheExpiringTimeInterval = 300
 ```
 
 
@@ -546,26 +595,37 @@ index.enableSearchCache(expiringTimeInterval: 300)
 
 Each entry in an index has a unique identifier called `objectID`. There are two ways to add an entry to the index:
 
- 1. Using automatic `objectID` assignment. You will be able to access it in the answer.
- 2. Supplying your own `objectID`.
+ 1. Supplying your own `objectID`.
+ 2. Using automatic `objectID` assignment. You will be able to access it in the answer.
 
 You don't need to explicitly create an index, it will be automatically created the first time you add an object.
 Objects are schema less so you don't need any configuration to start indexing. If you wish to configure things, the settings section provides details about advanced settings.
 
-Example with automatic `objectID` assignment:
+Example with automatic `objectID` assignments:
 
 ```swift
-let newObject = ["firstname": "Jimmie", "lastname": "Barninger"]
-index.addObject(newObject, completionHandler: { (content, error) -> Void in
+let obj1 = ["firstname": "Jimmie", "lastname": "Barninger"]
+let obj2 = ["firstname": "Warren", "lastname": "Speach"]
+index.addObjects([obj1, obj2], completionHandler: { (content, error) -> Void in
 	if error == nil {
-		if let objectID = content!["objectID"] as? String {
-			print("Object ID: \(objectID)")
-		}
+		print("Object IDs: \(content!)")
 	}
 })
 ```
 
-Example with manual `objectID` assignment:
+Example with manual `objectID` assignments:
+
+```swift
+let obj1 = ["objectID": "1", firstname": "Jimmie", "lastname": "Barninger"]
+let obj2 = ["objectID": "2", "firstname": "Warren", "lastname": "Speach"]
+index.addObjects([obj1, obj2], completionHandler: { (content, error) -> Void in
+	if error == nil {
+		print("Object IDs: \(content!)")
+	}
+})
+```
+
+To add a single object, use the `[Add object](#add-object---addobject)` method:
 
 ```swift
 let newObject = ["firstname": "Jimmie", "lastname": "Barninger"]
@@ -578,7 +638,6 @@ index.addObject(newObject, withID: "myID", completionHandler: { (content, error)
 })
 ```
 
-
 ### Update objects - `saveObjects`
 
 You have three options when updating an existing object:
@@ -587,7 +646,19 @@ You have three options when updating an existing object:
  2. Replace only some attributes.
  3. Apply an operation to some attributes.
 
-Example on how to replace all attributes of an existing object:
+Example on how to replace all attributes existing objects:
+
+```swift
+let obj1 = ["firstname": "Jimmie", "lastname": "Barninger", "objectID": "myID1"]
+let obj2 = ["firstname": "Warren", "lastname": "Speach", "objectID": "myID2"]
+index.saveObjects([obj1, obj2], completionHandler: { (content, error) -> Void in
+	if error == nil {
+		print("Object IDs: \(content!)")
+	}
+})
+```
+
+To update a single object, you can use the `[Update object](#update-object---saveobject) method:
 
 ```swift
 let newObject = [
@@ -599,7 +670,8 @@ let newObject = [
 index.saveObject(newObject)
 ```
 
-### Partial update - `partialUpdateObjects`
+
+### Partial update objects - `partialUpdateObjects`
 
 You have many ways to update an object's attributes:
 
@@ -614,7 +686,7 @@ Example to update only the city attribute of an existing object:
 
 ```swift
 let partialObject = ["city": "San Francisco"]
-index.partialUpdateObject(partialObject, objectID: "myID")
+index.partialUpdateObject(partialObject, withID: "myID")
 ```
 
 Example to add a tag:
@@ -625,7 +697,7 @@ let operation = [
 	"_operation": "Add"
 ]
 let partialObject = ["_tags": operation]
-index.partialUpdateObject(partialObject, objectID: "myID")
+index.partialUpdateObject(partialObject, withID: "myID")
 ```
 
 Example to remove a tag:
@@ -636,7 +708,7 @@ let operation = [
 	"_operation": "Remove"
 ]
 let partialObject = ["_tags": operation]
-index.partialUpdateObject(partialObject, objectID: "myID")
+index.partialUpdateObject(partialObject, withID: "myID")
 ```
 
 Example to add a tag if it doesn't exist:
@@ -647,7 +719,7 @@ let operation = [
 	"_operation": "AddUnique"
 ]
 let partialObject = ["_tags": operation]
-index.partialUpdateObject(partialObject, objectID: "myID")
+index.partialUpdateObject(partialObject, withID: "myID")
 ```
 
 Example to increment a numeric value:
@@ -658,7 +730,7 @@ let operation = [
 	"_operation": "Increment"
 ]
 let partialObject = ["price": operation]
-index.partialUpdateObject(partialObject, objectID: "myID")
+index.partialUpdateObject(partialObject, withID: "myID")
 ```
 
 Note: Here we are incrementing the value by `42`. To increment just by one, put
@@ -672,19 +744,37 @@ let operation = [
 	"_operation": "Decrement"
 ]
 let partialObject = ["price": operation]
-index.partialUpdateObject(partialObject, objectID: "myID")
+index.partialUpdateObject(partialObject, withID: "myID")
 ```
 
 Note: Here we are decrementing the value by `42`. To decrement just by one, put
 `value:1`.
 
+To partial update multiple objects using one API call, you can use the `[Partial update objects](#partial-update-objects---partialupdateobjects)` method:
+
+```swift
+let obj1 = ["firstname": "Jimmie", "objectID": "myID1"]
+let obj2 = ["firstname": "Warren", "objectID": "myID2"]
+index.partialUpdateObjects([obj1, obj2], completionHandler: { (content, error) -> Void in
+	if error == nil {
+		print("Object IDs: \(content!)")
+	}
+})
+```
+
 
 ### Delete objects - `deleteObjects`
 
-You can delete an object using its `objectID`:
+You can delete objects using their `objectID`:
 
 ```swift
-index.deleteObject("myID")
+index.deleteObjects(withIDs: ["myID1", "myID2"])
+```
+
+To delete a single object, you can use the `[Delete object](#delete-object---deleteobject)` method:
+
+```swift
+index.deleteObject(withID: "myID")
 ```
 
 ### Delete by query - `deleteByQuery`
@@ -696,7 +786,11 @@ Take your precautions when using this method. Calling it with an empty query wil
 
 ```swift
 let query: Query = /* [...] */
-index.deleteByQuery(query)
+index.deleteByQuery(query, completionHandler: { (content, error) -> Void in
+    if error != nil {
+        print("Error deleting objects")
+    }
+})
 ```
 
 ### Wait for operations - `waitTask`
@@ -721,7 +815,7 @@ index.addObject(newObject, completionHandler: { (content, error) -> Void in
 	guard let taskID = content!["taskID"] as? Int else {
 		return // could not retrieve task ID
 	}
-	self.index.waitTask(taskID, completionHandler: { (content, error) -> Void in
+	self.index.waitTask(withID: taskID, completionHandler: { (content, error) -> Void in
 		if error == nil {
 			print("New object is indexed!")
 		}
@@ -768,7 +862,7 @@ You can forward all settings updates to the slaves of an index by using the `for
 
 ```swift
 let settings = ["attributesToRetrieve": "name", "birthdate"]
-index.setSettings(settings, forwardToSlaves: true, completionHandler: { (content, error) -> Void in
+index.setSettings(settings, forwardToReplicas: true, completionHandler: { (content, error) -> Void in
     // [...]
 })
 ```
@@ -871,11 +965,11 @@ They are three scopes:
 
 **Attributes**
 
-- [attributesForFaceting](#attributesforfaceting) `settings`
 - [attributesToIndex](#attributestoindex) `settings`
-- [attributesToRetrieve](#attributestoretrieve) `settings`, `search`
+- [attributesForFaceting](#attributesforfaceting) `settings`
 - [unretrievableAttributes](#unretrievableattributes) `settings`
-
+- [attributesToRetrieve](#attributestoretrieve) `settings`, `search`
+- [restrictSearchableAttributes](#restrictsearchableattributes) `search`
 
 **Ranking**
 
@@ -902,6 +996,8 @@ They are three scopes:
 
 - [page](#page) `search`
 - [hitsPerPage](#hitsperpage) `settings`, `search`
+- [offset](#offset) `search`
+- [length](#length) `search`
 
 **Typos**
 
@@ -946,8 +1042,12 @@ They are three scopes:
 - [tagFilters (deprecated)](#tagfilters-deprecated) `search`
 - [facetFilters (deprecated)](#facetfilters-deprecated) `search`
 - [analytics](#analytics) `search`
-- [altCorrections](#altcorrections) `settings`
+- [analyticsTags](#analyticstags) `search`
+- [synonyms](#synonyms) `search`
+- [replaceSynonymsInHighlight](#replacesynonymsinhighlight) `search`, `settings`
 - [placeholders](#placeholders) `settings`
+- [altCorrections](#altcorrections) `settings`
+- [minProximity](#minproximity) `search`, `settings`
 
 ### Search
 
@@ -1188,6 +1288,10 @@ Limit the number of facet values returned for each facet.
 
 For example, `maxValuesPerFacet=10` will retrieve a maximum of 10 values per facet.
 
+**Warnings**
+
+- The engine has a hard limit on the `maxValuesPerFacet` of `1000`. Any value above that will be interpreted by the engine as being `1000`.
+
 ### Highlighting / Snippeting
 
 #### attributesToHighlight
@@ -1286,6 +1390,28 @@ Pagination parameter used to select the page to retrieve.
 
 
 Pagination parameter used to select the number of hits per page.
+
+#### offset
+
+- scope: `search`
+- type: `integer`
+- default: `null`
+
+
+Offset of the first hit to return (zero-based).
+
+**Warning:** In most cases, `page`/`hitsPerPage` is the recommended method for pagination; `offset`/`length` is reserved for advanced use.
+
+#### length
+
+- scope: `search`
+- type: `integer`
+- default: `null`
+
+
+Number of hits to return.
+
+**Warning:** In most cases, `page`/`hitsPerPage` is the recommended method for pagination; `offset`/`length` is reserved for advanced use.
 
 ### Typos
 
@@ -1810,6 +1936,33 @@ For example, `[["category:Book","category:Movie"],"author:John%20Doe"]`.
 
 If set to false, this query will not be taken into account in the analytics feature.
 
+#### analyticsTags
+
+- scope: `search`
+- type: `array of strings`
+- default: `null`
+
+
+If set, tag your query with the specified identifiers. Tags can then be used in the Analytics to analyze a subset of searches only.
+
+#### synonyms
+
+- scope: `search`
+- type: `boolean`
+- default: `true`
+
+
+If set to `false`, the search will not use the synonyms defined for the targeted index.
+
+#### replaceSynonymsInHighlight
+
+- scope: `search`, `settings`
+- type: `boolean`
+- default: `true`
+
+
+If set to `false`, words matched via synonym expansion will not be replaced by the matched synonym in the highlighted result.
+
 #### placeholders
 
 - scope: `settings`
@@ -1857,6 +2010,19 @@ For example:
 ]
 ```
 
+#### minProximity
+
+- scope: `search`, `settings`
+- type: `integer`
+- default: `1`
+
+
+Configure the precision of the `proximity` ranking criterion. By default, the minimum (and best) proximity value distance between 2 matching words is 1. Setting it to 2 (or 3) would allow 1 (or 2) words to be found between the matching words without degrading the proximity ranking value.
+
+Considering the query *“javascript framework”*, if you set `minProximity=2`, the records *“JavaScript framework”* and *“JavaScript charting framework”* will get the same proximity score, even if the second contains a word between the two matching words.
+
+**Note:** the maximum `minProximity` that can be set is 7. Any higher value will disable the `proximity` criterion from the ranking formula.
+
 
 ## Manage Indices
 
@@ -1894,54 +2060,6 @@ client.listIndexes(completionHandler: { (content, error) -> Void in
 ### Custom batch - `batch`
 
 You may want to perform multiple operations with one API call to reduce latency.
-We expose four methods to perform batch operations:
-
-* Add objects - `addObjects`: Add an array of objects using automatic `objectID` assignment.
-* Update objects - `saveObjects`: Add or update an array of objects that contains an `objectID` attribute.
-* Delete objects - `deleteObjects`: Delete an array of objectIDs.
-* Partial update - `partialUpdateObjects`: Partially update an array of objects that contain an `objectID` attribute (only specified attributes will be updated).
-
-Example using automatic `objectID` assignment:
-
-```swift
-let obj1 = ["firstname": "Jimmie", "lastname": "Barninger"]
-let obj2 = ["firstname": "Warren", "lastname": "Speach"]
-index.addObjects([obj1, obj2], completionHandler: { (content, error) -> Void in
-	if error == nil {
-		print("Object IDs: \(content!)")
-	}
-})
-```
-
-Example with user defined `objectID` (add or update):
-
-```swift
-let obj1 = ["firstname": "Jimmie", "lastname": "Barninger", "objectID": "myID1"]
-let obj2 = ["firstname": "Warren", "lastname": "Speach", "objectID": "myID2"]
-index.saveObjects([obj1, obj2], completionHandler: { (content, error) -> Void in
-	if error == nil {
-		print("Object IDs: \(content!)")
-	}
-})
-```
-
-Example that deletes a set of records:
-
-```swift
-index.deleteObjects(["myID1", "myID2"])
-```
-
-Example that updates only the `firstname` attribute:
-
-```swift
-let obj1 = ["firstname": "Jimmie", "objectID": "myID1"]
-let obj2 = ["firstname": "Warren", "objectID": "myID2"]
-index.partialUpdateObjects([obj1, obj2], completionHandler: { (content, error) -> Void in
-	if error == nil {
-		print("Object IDs: \(content!)")
-	}
-})
-```
 
 
 
@@ -2023,14 +2141,14 @@ The following fields are provided for convenience purposes, and **only when the 
 Using the low-level methods:
 
 ```swift
-index.browse(Query(), completionHandler: { (content, error) in
+index.browse(query: Query(), completionHandler: { (content, error) in
 	if error != nil {
 		return
 	}
 	// Handle content [...]
 	// If there is more content...
 	if let cursor = content!["cursor"] as? String {
-		index.browseFrom(cursor, completionHandler: { (content, error) in
+		index.browse(from: cursor, completionHandler: { (content, error) in
 			// Handle more content [...]
 		})
 	}
@@ -2047,44 +2165,6 @@ let iterator = BrowseIterator(index: index, query: Query()) { (iterator, content
 }
 iterator.start()
 ```
-
-
-### Multiple queries - `multipleQueries`
-
-You can send multiple queries with a single API call using a batch of queries:
-
-```swift
-// Perform 3 queries in a single API call:
-// 		- 1st query target index `categories`
-//		- 2nd and 3rd queries target index `products`
-let queries = [
-	IndexQuery(indexName: "categories", query: Query(query: "electronics")),
-	IndexQuery(indexName: "products", query: Query(query: "iPhone")),
-	IndexQuery(indexName: "products", query: Query(query: "Galaxy"))
-]
-client.multipleQueries(queries, completionHandler: { (content, error) -> Void in
-	if error == nil {
-		print("Result: \(content!)")
-	}
-})
-```
-
-You can specify a `strategy` parameter to optimize your multiple queries:
-
-- `none`: Execute the sequence of queries until the end.
-- `stopIfEnoughMatches`: Execute the sequence of queries until the number of hits is reached by the sum of hits.
-
-#### Response
-
-The resulting JSON contains the following fields:
-
-- `results` (array): The results for each request, in the order they were submitted. The contents are the same as in [Search in an index](#search-in-an-index---search).
-
-    Each result also includes the following additional fields:
-
-    - `index` (string): The name of the targeted index.
-
-    - `processed` (boolean, optional): *Note: Only returned when `strategy` is `stopIfEnoughmatches`.* Whether the query was processed.
 
 
 

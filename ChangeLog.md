@@ -1,6 +1,62 @@
 Change Log
 ==========
 
+## 4.0 (2016-09-14)
+
+This is a new major version, bringing incompatible changes, most of them due to **Swift 3 support**.
+
+**Note:** You can find a detailed change log and migration instructions in the [Migration guide to version 4.x](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-to-version-4.x).
+
+**Warning:** This version requires Swift 3; it will not compile with Swift 2.x.
+
+**Warning:** Cocoapods support for Swift 3 requires Cocoapods 1.1.0.rc.2 or later.
+
+### Swift 3 support
+
+- Adapt to the new Foundation API
+- Follow the [Swift API Design Guidelines](https://swift.org/documentation/api-design-guidelines):
+    - Argument labels:
+        - Omit the first argument when the function name contains a complement (e.g. `addObject`) or when the purpose is obvious (`search`: with a query)
+        - Label the first argument when the purpose is not obvious and not contained in the method name (e.g. `batch(operations:)`)
+        - Label all completion handlers explicitly. This is the convention adopted by the system's libraries (e.g. `URLSession.dataTask(with:completionHandler:)`. Since the completion handler is likely to be a closure, the block can be moved out of the call site anyway, so the label is only required when passing a function/block reference.
+    - Method names:
+        - `browse` is now overloaded: `browse(query:)` and `browse(from:)`.
+    - Rename enum members to lower camel case
+    - Rename constants to lower camel case (except notification names)
+- Better Objective-C mappings
+    - Adjust method names when necessary for a better fit with this language
+    - Objective-C specific types are no longer visible in Swift (well, technically, they still are, but you have to look harder...)
+    - No underscore-suffixed properties any longer
+- Better typing
+    - Use `Error` instead of `NSError` in completion handlers
+        - Use dedicated error types
+    - Use `@discardableResult` for methods returning `Operation`
+    - Use `Notification.Name` for notifications
+- Prevent subclassing by *not* adopting the `open` access modifier
+
+### Other breaking changes
+
+- (Swift only) Better typing of complex properties through enums
+- Rename `Index.indexName` to `Index.name`.
+- Refactor index search cache handling into two properties to enable/disable (`searchCacheEnabled`) it and set the expiration delay (`searchCacheExpiringTimeInterval`), and one method to clear it (`clearSearchCache()`)
+- Rename "slaves" to "replicas"
+
+### Other improvements
+
+- Improve cancellation of `Index.waitTask()`
+- Add tests for Objective-C bridging (online flavor only)
+- Make timeouts configurable
+- `Index` instances are now shared across a `Client`
+
+
+## 3.7 (2016-09-07)
+
+- (#118) Add support for **watchOS**
+- (#120) Add an `Index.getObjects()` method with attributes to retrieve
+- Improve bandwidth usage of the "delete by query" helper
+- Fix memory leaks
+- Generate reference documentation for both the online and offline flavors
+
 ## 3.6 (2016-08-09)
 
 - Add explicit support for **tvOS** in the Cocoapods pod spec. (In fact, tvOS has been supported for a while in our code, but somehow never made it to the pod spec.) *Note: not supported by the offline mode.*
@@ -131,7 +187,7 @@ detailed instructions.
 ## 2.2.1 (2016-02-05)
 
 * Added support of snippet ellipsis query parameter
-	
+
 ## 2.2.0 (2015-12-11)
 
 * Added support for optional tag filters

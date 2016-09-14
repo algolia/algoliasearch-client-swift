@@ -24,6 +24,9 @@
 import Foundation
 
 
+/// A JSON object.
+public typealias JSONObject = [String: Any]
+
 /// Signature of most completion handlers used by this library.
 ///
 /// - parameter content: The JSON response (in case of success) or `nil` (in case of error).
@@ -31,7 +34,7 @@ import Foundation
 ///
 /// + Note: `content` and `error` are mutually exclusive: only one will be non-nil.
 ///
-public typealias CompletionHandler = (content: [String: AnyObject]?, error: NSError?) -> Void
+public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -> Void
 
 
 /// A version of a software library.
@@ -48,28 +51,22 @@ public typealias CompletionHandler = (content: [String: AnyObject]?, error: NSEr
         self.name = name
         self.version = version
     }
+    
+    // MARK: Equatable
+    
+    override public func isEqual(_ object: Any?) -> Bool {
+        if let rhs = object as? LibraryVersion {
+            return self.name == rhs.name && self.version == rhs.version
+        } else {
+            return false
+        }
+    }
 }
-
-public func ==(lhs: LibraryVersion, rhs: LibraryVersion) -> Bool {
-    return lhs.name == rhs.name && lhs.version == rhs.version
-}
-
-
-/// Error domain used for errors raised by this module.
-public let ErrorDomain = "AlgoliaSearch"
 
 
 /// Entry point into the Swift API.
 ///
 @objc public class Client : NSObject {
-    // MARK: Constants
-    
-    /// Error domain used for errors raised by this module.
-    ///
-    /// + Note: This shortcut is provided for Objective-C bridging. See the top-level `ErrorDomain` constant.
-    ///
-    @objc public static let ErrorDomain = AlgoliaSearch.ErrorDomain
-    
     // MARK: Properties
     
     /// HTTP headers that will be sent with every request.
@@ -97,14 +94,14 @@ public let ErrorDomain = "AlgoliaSearch"
         }
     }
     private func updateHeadersFromUserAgents() {
-        headers["User-Agent"] = userAgents.map({ return "\($0.name) (\($0.version))"}).joinWithSeparator("; ")
+        headers["User-Agent"] = userAgents.map({ return "\($0.name) (\($0.version))"}).joined(separator: "; ")
     }
 
     /// Default timeout for network requests. Default: 30 seconds.
-    @objc public let timeout: NSTimeInterval = 30
+    @objc public var timeout: TimeInterval = 30
     
-    /// Timeout for search requests. Default: 5 seconds.
-    @objc public let searchTimeout: NSTimeInterval = 5
+    /// Specific timeout for search requests. Default: 5 seconds.
+    @objc public var searchTimeout: TimeInterval = 5
 
     /// Algolia application ID.
     @objc public let appID: String
@@ -136,14 +133,24 @@ public let ErrorDomain = "AlgoliaSearch"
     // NOTE: Not constant only for the sake of mocking during unit tests.
     var session: URLSession
     
+    /// Cache of already created indices.
+    ///
+    /// This dictionary is used to avoid creating two instances to represent the same index, as it is (1) inefficient
+    /// and (2) potentially harmful since instances are stateful (that's especially true of mirrored/offline indices,
+    /// but also of online indices because of the search cache).
+    ///
+    /// + Note: The values are zeroing weak references to avoid leaking memory when an index is no longer used.
+    ///
+    var indices: NSMapTable<NSString, AnyObject> = NSMapTable(keyOptions: [.strongMemory], valueOptions: [.weakMemory])
+    
     /// Operation queue used to keep track of requests.
     /// `Request` instances are inherently asynchronous, since they are merely wrappers around `NSURLSessionTask`.
     /// The sole purpose of the queue is to retain them for the duration of their execution!
     ///
-    let requestQueue: NSOperationQueue
+    let requestQueue: OperationQueue
     
     /// Dispatch queue used to run completion handlers.
-    private var completionQueue = dispatch_get_main_queue()
+    private var completionQueue = DispatchQueue.main
     
     // MARK: Initialization
     
@@ -177,27 +184,27 @@ public let ErrorDomain = "AlgoliaSearch"
         let fixedHTTPHeaders = [
             "X-Algolia-Application-Id": self.appID
         ]
-        let configuration = NSURLSessionConfiguration.defaultSessionConfiguration()
-        configuration.HTTPAdditionalHeaders = fixedHTTPHeaders
-        session = NSURLSession(configuration: configuration)
+        let configuration = URLSessionConfiguration.default
+        configuration.httpAdditionalHeaders = fixedHTTPHeaders
+        session = Foundation.URLSession(configuration: configuration)
         
-        requestQueue = NSOperationQueue()
+        requestQueue = OperationQueue()
         requestQueue.maxConcurrentOperationCount = 8
         
         super.init()
         
         // Add this library's version to the user agents.
-        let version = NSBundle(forClass: self.dynamicType).infoDictionary!["CFBundleShortVersionString"] as! String
+        let version = Bundle(for: type(of: self)).infoDictionary!["CFBundleShortVersionString"] as! String
         self.userAgents = [ LibraryVersion(name: "Algolia for Swift", version: version) ]
         
         // Add the operating system's version to the user agents.
         if #available(iOS 8.0, OSX 10.0, tvOS 9.0, *) {
-            let osVersion = NSProcessInfo.processInfo().operatingSystemVersion
+            let osVersion = ProcessInfo.processInfo.operatingSystemVersion
             var osVersionString = "\(osVersion.majorVersion).\(osVersion.minorVersion)"
             if osVersion.patchVersion != 0 {
                 osVersionString += ".\(osVersion.patchVersion)"
             }
-            if let osName = getOSName() {
+            if let osName = osName {
                 self.userAgents.append(LibraryVersion(name: osName, version: osVersionString))
             }
         }
@@ -212,7 +219,8 @@ public let ErrorDomain = "AlgoliaSearch"
     /// + Warning: The default values should be appropriate for most use cases.
     /// Change them only if you know what you are doing.
     ///
-    @objc public func setHosts(hosts: [String]) {
+    @objc(setHosts:)
+    public func setHosts(_ hosts: [String]) {
         readHosts = hosts
         writeHosts = hosts
     }
@@ -224,7 +232,8 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter name: Header name.
     /// - parameter value: Value for the header. If `nil`, the header will be removed.
     ///
-    @objc public func setHeader(name: String, value: String?) {
+    @objc(setHeaderWithName:to:)
+    public func setHeader(withName name: String, to value: String?) {
         headers[name] = value
     }
     
@@ -235,8 +244,29 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter name: Header name.
     /// - returns: The header's value, or `nil` if the header does not exist.
     ///
-    @objc public func getHeader(name: String) -> String? {
+    @objc(headerWithName:)
+    public func header(withName name: String) -> String? {
         return headers[name]
+    }
+
+    /// Obtain a proxy to an Algolia index (no server call required by this method).
+    ///
+    /// + Note: Only one instance can exist for a given index name. Subsequent calls to this method with the same
+    ///   index name will return the same instance, unless it has already been released.
+    ///
+    /// - parameter indexName: The name of the index.
+    /// - returns: A proxy to the specified index.
+    ///
+    @objc(indexWithName:)
+    public func index(withName indexName: String) -> Index {
+        if let index = indices.object(forKey: indexName as NSString) {
+            assert(index is Index, "An index with the same name but a different type has already been created") // may happen in offline mode
+            return index as! Index
+        } else {
+            let index = Index(client: self, name: indexName)
+            indices.setObject(index, forKey: indexName as NSString)
+            return index
+        }
     }
 
     // MARK: - Operations
@@ -246,8 +276,9 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func listIndexes(completionHandler: CompletionHandler) -> NSOperation {
-        return performHTTPQuery("1/indexes", method: .GET, body: nil, hostnames: readHosts, completionHandler: completionHandler)
+    @objc(listIndexes:)
+    @discardableResult public func listIndexes(completionHandler: @escaping CompletionHandler) -> Operation {
+        return performHTTPQuery(path: "1/indexes", method: .GET, body: nil, hostnames: readHosts, completionHandler: completionHandler)
     }
 
     /// Delete an index.
@@ -256,9 +287,10 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func deleteIndex(indexName: String, completionHandler: CompletionHandler? = nil) -> NSOperation {
-        let path = "1/indexes/\(indexName.urlEncodedPathComponent())"
-        return performHTTPQuery(path, method: .DELETE, body: nil, hostnames: writeHosts, completionHandler: completionHandler)
+    @objc(deleteIndexWithName:completionHandler:)
+    @discardableResult public func deleteIndex(withName name: String, completionHandler: CompletionHandler? = nil) -> Operation {
+        let path = "1/indexes/\(name.urlEncodedPathComponent())"
+        return performHTTPQuery(path: path, method: .DELETE, body: nil, hostnames: writeHosts, completionHandler: completionHandler)
     }
 
     /// Move an existing index.
@@ -271,14 +303,15 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func moveIndex(srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> NSOperation {
+    @objc(moveIndexFrom:to:completionHandler:)
+    @discardableResult public func moveIndex(from srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(srcIndexName.urlEncodedPathComponent())/operation"
         let request = [
             "destination": dstIndexName,
             "operation": "move"
         ]
 
-        return performHTTPQuery(path, method: .POST, body: request, hostnames: writeHosts, completionHandler: completionHandler)
+        return performHTTPQuery(path: path, method: .POST, body: request as [String : Any]?, hostnames: writeHosts, completionHandler: completionHandler)
     }
 
     /// Copy an existing index.
@@ -291,35 +324,27 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func copyIndex(srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> NSOperation {
+    @objc(copyIndexFrom:to:completionHandler:)
+    @discardableResult public func copyIndex(from srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(srcIndexName.urlEncodedPathComponent())/operation"
         let request = [
             "destination": dstIndexName,
             "operation": "copy"
         ]
 
-        return performHTTPQuery(path, method: .POST, body: request, hostnames: writeHosts, completionHandler: completionHandler)
+        return performHTTPQuery(path: path, method: .POST, body: request as [String : Any]?, hostnames: writeHosts, completionHandler: completionHandler)
     }
 
-    /// Create a proxy to an Algolia index (no server call required by this method).
-    ///
-    /// - parameter indexName: The name of the index.
-    /// - returns: A new proxy to the specified index.
-    ///
-    @objc public func getIndex(indexName: String) -> Index {
-        // IMPLEMENTATION NOTE: This method is called `initIndex` in other clients, which better conveys its semantics.
-        // However, methods prefixed by `init` are automatically considered as initializers by the Objective-C bridge.
-        // Therefore, `initIndex` would fail to compile in Objective-C, because its return type is not `instancetype`.
-        return Index(client: self, indexName: indexName)
-    }
-    
     /// Strategy when running multiple queries. See `Client.multipleQueries(...)`.
     ///
     public enum MultipleQueriesStrategy: String {
         /// Execute the sequence of queries until the end.
-        case None = "none"
+        ///
+        /// + Warning: Beware of confusion with `Optional.none` when using type inference!
+        ///
+        case none = "none"
         /// Execute the sequence of queries until the number of hits is reached by the sum of hits.
-        case StopIfEnoughMatches = "stopIfEnoughMatches"
+        case stopIfEnoughMatches = "stopIfEnoughMatches"
     }
 
     /// Query multiple indexes with one API call.
@@ -329,23 +354,24 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func multipleQueries(queries: [IndexQuery], strategy: String?, completionHandler: CompletionHandler) -> NSOperation {
+    @objc(multipleQueries:strategy:completionHandler:)
+    @discardableResult public func multipleQueries(_ queries: [IndexQuery], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
         // IMPLEMENTATION NOTE: Objective-C bridgeable alternative.
         let path = "1/indexes/*/queries"
-        var requests = [[String: AnyObject]]()
+        var requests = [JSONObject]()
         requests.reserveCapacity(queries.count)
         for query in queries {
             requests.append([
-                "indexName": query.indexName,
-                "params": query.query.build()
+                "indexName": query.indexName as Any,
+                "params": query.query.build() as Any
             ])
         }
-        var request = [String: AnyObject]()
+        var request = JSONObject()
         request["requests"] = requests
         if strategy != nil {
             request["strategy"] = strategy
         }
-        return performHTTPQuery(path, method: .POST, body: request, hostnames: readHosts, completionHandler: completionHandler)
+        return performHTTPQuery(path: path, method: .POST, body: request, hostnames: readHosts, completionHandler: completionHandler)
     }
     
     /// Query multiple indexes with one API call.
@@ -355,7 +381,7 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    public func multipleQueries(queries: [IndexQuery], strategy: MultipleQueriesStrategy? = nil, completionHandler: CompletionHandler) -> NSOperation {
+    @discardableResult public func multipleQueries(_ queries: [IndexQuery], strategy: MultipleQueriesStrategy? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         // IMPLEMENTATION NOTE: Not Objective-C bridgeable because of enum.
         return multipleQueries(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
@@ -366,10 +392,11 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func batch(operations: [AnyObject], completionHandler: CompletionHandler? = nil) -> NSOperation {
+    @objc(batchOperations:completionHandler:)
+    @discardableResult public func batch(operations: [Any], completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/*/batch"
         let body = ["requests": operations]
-        return performHTTPQuery(path, method: .POST, body: body, hostnames: writeHosts, completionHandler: completionHandler)
+        return performHTTPQuery(path: path, method: .POST, body: body as [String : Any]?, hostnames: writeHosts, completionHandler: completionHandler)
     }
     
     /// Ping the server.
@@ -378,24 +405,24 @@ public let ErrorDomain = "AlgoliaSearch"
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func isAlive(completionHandler: CompletionHandler) -> NSOperation {
+    @objc(isAlive:)
+    @discardableResult public func isAlive(completionHandler: @escaping CompletionHandler) -> Operation {
         let path = "1/isalive"
-        return performHTTPQuery(path, method: .GET, body: nil, hostnames: readHosts, completionHandler: completionHandler)
+        return performHTTPQuery(path: path, method: .GET, body: nil, hostnames: readHosts, completionHandler: completionHandler)
     }
 
     // MARK: - Network
 
     /// Perform an HTTP Query.
-    func performHTTPQuery(path: String, method: HTTPMethod, body: [String: AnyObject]?, hostnames: [String], isSearchQuery: Bool = false, completionHandler: CompletionHandler? = nil) -> NSOperation {
-        var request: Request!
-        request = newRequest(method, path: path, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery, completion: completionHandler)
+    func performHTTPQuery(path: String, method: HTTPMethod, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, completionHandler: CompletionHandler? = nil) -> Operation {
+        let request = newRequest(method: method, path: path, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery, completion: completionHandler)
         request.completionQueue = self.completionQueue
         requestQueue.addOperation(request)
         return request
     }
     
     /// Create a request with this client's settings.
-    func newRequest(method: HTTPMethod, path: String, body: [String: AnyObject]?, hostnames: [String], isSearchQuery: Bool = false, completion: CompletionHandler? = nil) -> Request {
+    func newRequest(method: HTTPMethod, path: String, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, completion: CompletionHandler? = nil) -> Request {
         let currentTimeout = isSearchQuery ? searchTimeout : timeout
         let request = Request(session: session, method: method, hosts: hostnames, firstHostIndex: 0, path: path, headers: headers, jsonBody: body, timeout: currentTimeout, completion:  completion)
         return request

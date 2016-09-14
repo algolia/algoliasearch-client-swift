@@ -15,10 +15,14 @@ custom_categories:
         - Index
         - Query
         - BrowseIterator
-
     - name: Auxiliary types
       children:
         - GeoRect
         - IndexQuery
         - LatLng
         - LibraryVersion
+    - name: Errors
+      children:
+        - HTTPError
+        - InvalidJSONError
+        - StatusCode

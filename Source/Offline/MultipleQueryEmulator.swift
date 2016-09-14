@@ -27,29 +27,29 @@ import Foundation
 /// Emulates multiple queries.
 ///
 internal class MultipleQueryEmulator {
-    typealias SingleQuerier = (query: Query) -> (content: [String: AnyObject]?, error: NSError?)
+    typealias SingleQuerier = (_ query: Query) -> APIResponse
     
     private let querier: SingleQuerier
     private let indexName: String
     
-    internal init(indexName: String, querier: SingleQuerier) {
+    internal init(indexName: String, querier: @escaping SingleQuerier) {
         self.indexName = indexName
         self.querier = querier
     }
     
-    internal func multipleQueries(queries: [Query], strategy: String?) -> (content: [String: AnyObject]?, error: NSError?) {
+    internal func multipleQueries(_ queries: [Query], strategy: String?) -> APIResponse {
         // TODO: Should be moved to `LocalIndex` to factorize implementation between platforms.
-        assert(!NSThread.isMainThread()) // make sure it's run in the background
+        assert(!Thread.isMainThread) // make sure it's run in the background
         
-        var content: [String: AnyObject]?
-        var error: NSError?
-        var results: [[String: AnyObject]] = []
+        var content: JSONObject?
+        var error: Error?
+        var results: [JSONObject] = []
         
         var shouldProcess = true
         for query in queries {
             // Implement the "stop if enough matches" strategy.
             if !shouldProcess {
-                let returnedContent: [String: AnyObject] = [
+                let returnedContent: JSONObject = [
                     "hits": [],
                     "page": 0,
                     "nbHits": 0,
@@ -64,7 +64,7 @@ internal class MultipleQueryEmulator {
                 continue
             }
             
-            let (queryContent, queryError) = self.querier(query: query)
+            let (queryContent, queryError) = self.querier(query)
             assert(queryContent != nil || queryError != nil)
             if queryError != nil {
                 error = queryError
@@ -75,8 +75,8 @@ internal class MultipleQueryEmulator {
             results.append(returnedContent)
             
             // Implement the "stop if enough matches strategy".
-            if shouldProcess && strategy == Client.MultipleQueriesStrategy.StopIfEnoughMatches.rawValue {
-                if let nbHits = returnedContent["nbHits"] as? Int, hitsPerPage = returnedContent["hitsPerPage"] as? Int {
+            if shouldProcess && strategy == Client.MultipleQueriesStrategy.stopIfEnoughMatches.rawValue {
+                if let nbHits = returnedContent["nbHits"] as? Int, let hitsPerPage = returnedContent["hitsPerPage"] as? Int {
                     if nbHits >= hitsPerPage {
                         shouldProcess = false
                     }
@@ -89,7 +89,7 @@ internal class MultipleQueryEmulator {
                 // Tag results as having a local origin.
                 // NOTE: Each individual result is also automatically tagged, but having a top-level key allows for
                 // more uniform processing.
-                MirroredIndex.JSONKeyOrigin: MirroredIndex.JSONValueOriginLocal
+                MirroredIndex.jsonKeyOrigin: MirroredIndex.jsonValueOriginLocal
             ]
         }
         assert(content != nil || error != nil)

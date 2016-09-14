@@ -25,6 +25,29 @@ import AlgoliaSearchOfflineCore
 import Foundation
 
 
+public struct IOError: CustomNSError {
+    /// Further description of this error.
+    public let description: String
+    
+    public init(description: String) {
+        self.description = description
+    }
+    
+    // MARK: CustomNSError protocol
+    // ... for Objective-C bridging.
+    
+    public static var errorDomain: String = String(reflecting: InvalidJSONError.self)
+    
+    public var errorCode: Int { return 601 }
+    
+    public var errorUserInfo: [String : Any] {
+        return [
+            NSLocalizedDescriptionKey: description
+        ]
+    }
+}
+
+
 /// A purely offline index.
 /// Such an index has no online counterpart. It is updated and queried locally.
 ///
@@ -95,13 +118,13 @@ import Foundation
     lazy var localIndex: LocalIndex = LocalIndex(dataDir: self.client.rootDataDir, appID: self.client.appID, indexName: self.name)
 
     /// Queue used to run transaction bodies (but not the build).
-    private let transactionQueue: NSOperationQueue
+    private let transactionQueue: OperationQueue
     
     /// Serial number for transactions.
     private var transactionSeqNo: Int = 0
 
     /// Dispatch queue used to serialize access to `transactionSeqNo`.
-    private let transactionSeqNo_lock = dispatch_queue_create("OfflineIndex.transactionSeqNo.lock", nil)
+    private let transactionSeqNo_lock = DispatchQueue(label: "OfflineIndex.transactionSeqNo.lock")
     
     /// The current transaction, or `nil` if no transaction is currently open.
     private var transaction: WriteTransaction?
@@ -116,7 +139,7 @@ import Foundation
     internal init(client: OfflineClient, name: String) {
         self.client = client
         self.name = name
-        self.transactionQueue = NSOperationQueue()
+        self.transactionQueue = OperationQueue()
         self.transactionQueue.maxConcurrentOperationCount = 1
     }
     
@@ -129,7 +152,7 @@ import Foundation
     
     private func nextTransactionSeqNo() -> Int {
         var seqNo: Int = 0
-        dispatch_sync(transactionSeqNo_lock) { 
+        transactionSeqNo_lock.sync {
             self.transactionSeqNo += 1
             seqNo = self.transactionSeqNo
         }
@@ -144,8 +167,8 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func getObject(objectID: String, completionHandler: CompletionHandler) -> NSOperation {
-        return getObject(objectID, attributesToRetrieve: nil, completionHandler: completionHandler)
+    @objc public func getObject(withID objectID: String, completionHandler: @escaping CompletionHandler) -> Operation {
+        return getObject(withID: objectID, attributesToRetrieve: nil, completionHandler: completionHandler)
     }
     
     /// Get an object from this index, optionally restricting the retrieved content.
@@ -155,9 +178,9 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func getObject(objectID: String, attributesToRetrieve: [String]?, completionHandler: CompletionHandler) -> NSOperation {
-        let operation = NSBlockOperation() {
-            let (content, error) = self.getObjectSync(objectID, attributesToRetrieve: attributesToRetrieve)
+    @objc public func getObject(withID objectID: String, attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) -> Operation {
+        let operation = BlockOperation() {
+            let (content, error) = self.getObjectSync(withID: objectID, attributesToRetrieve: attributesToRetrieve)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.searchQueue.addOperation(operation)
@@ -169,19 +192,19 @@ import Foundation
     /// - parameter objectID: Identifier of the object to retrieve.
     /// - returns: A mutually exclusive (content, error) pair.
     ///
-    private func getObjectSync(objectID: String, attributesToRetrieve: [String]?) -> APIResponse {
-        var content: [String: AnyObject]?
-        var error: NSError?
+    private func getObjectSync(withID objectID: String, attributesToRetrieve: [String]?) -> APIResponse {
+        var content: JSONObject?
+        var error: Error?
         let query = Query()
         query.attributesToRetrieve = attributesToRetrieve
         let searchResults = self.localIndex.getObjects([objectID], parameters: query.build())
         (content, error) = OfflineClient.parseSearchResults(searchResults)
         if let content = content {
-            guard let results = content["results"] as? [[String: AnyObject]] else {
-                return (nil, NSError(domain: ErrorDomain, code: StatusCode.InternalServerError.rawValue, userInfo: nil)) // should never happen
+            guard let results = content["results"] as? [JSONObject] else {
+                return (nil, InvalidJSONError(description: "Invalid results returned")) // should never happen
             }
             guard results.count == 1 else {
-                return (nil, NSError(domain: ErrorDomain, code: StatusCode.InternalServerError.rawValue, userInfo: nil)) // should never happen
+                return (nil, InvalidJSONError(description: "Invalid results returned")) // should never happen
             }
             let object = results[0]
             return (object, nil)
@@ -195,9 +218,9 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func getObjects(objectIDs: [String], completionHandler: CompletionHandler) -> NSOperation {
-        let operation = NSBlockOperation() {
-            let (content, error) = self.getObjectsSync(objectIDs)
+    @objc public func getObjects(objectIDs: [String], completionHandler: @escaping CompletionHandler) -> Operation {
+        let operation = BlockOperation() {
+            let (content, error) = self.getObjectsSync(withIDs: objectIDs)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.searchQueue.addOperation(operation)
@@ -209,7 +232,7 @@ import Foundation
     /// - parameter objectIDs: Identifiers of objects to retrieve.
     /// - returns: A mutually exclusive (content, error) pair.
     ///
-    private func getObjectsSync(objectIDs: [String]) -> APIResponse {
+    private func getObjectsSync(withIDs objectIDs: [String]) -> APIResponse {
         let searchResults = self.localIndex.getObjects(objectIDs, parameters: nil)
         return OfflineClient.parseSearchResults(searchResults)
     }
@@ -220,8 +243,8 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func search(query: Query, completionHandler: CompletionHandler) -> NSOperation {
-        let operation = NSBlockOperation() {
+    @objc public func search(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
+        let operation = BlockOperation() {
             let (content, error) = self.searchSync(Query(copy: query))
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
@@ -234,7 +257,7 @@ import Foundation
     /// - parameter query: Search parameters.
     /// - returns: A mutually exclusive (content, error) pair.
     ///
-    private func searchSync(query: Query) -> APIResponse {
+    private func searchSync(_ query: Query) -> APIResponse {
         let searchResults = self.localIndex.search(query.build())
         return OfflineClient.parseSearchResults(searchResults)
     }
@@ -244,8 +267,8 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func getSettings(completionHandler: CompletionHandler) -> NSOperation {
-        let operation = NSBlockOperation() {
+    @objc public func getSettings(completionHandler: @escaping CompletionHandler) -> Operation {
+        let operation = BlockOperation() {
             let (content, error) = self.getSettingsSync()
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
@@ -270,9 +293,9 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func browse(query: Query, completionHandler: CompletionHandler) -> NSOperation {
-        let operation = NSBlockOperation() {
-            let (content, error) = self.browseSync(Query(copy: query))
+    @objc public func browse(query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
+        let operation = BlockOperation() {
+            let (content, error) = self.browseSync(query: Query(copy: query))
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.searchQueue.addOperation(operation)
@@ -299,9 +322,9 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func browseFrom(cursor: String, completionHandler: CompletionHandler) -> NSOperation {
-        let operation = NSBlockOperation() {
-            let (content, error) = self.browseFromSync(cursor)
+    @objc public func browseFrom(cursor: String, completionHandler: @escaping CompletionHandler) -> Operation {
+        let operation = BlockOperation() {
+            let (content, error) = self.browseSync(from: cursor)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.searchQueue.addOperation(operation)
@@ -316,7 +339,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    private func browseFromSync(cursor: String) -> APIResponse {
+    private func browseSync(from cursor: String) -> APIResponse {
         let searchResults = self.localIndex.browse(Query(parameters: ["cursor": cursor]).build())
         return OfflineClient.parseSearchResults(searchResults)
     }
@@ -328,8 +351,8 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func multipleQueries(queries: [Query], strategy: String?, completionHandler: CompletionHandler) -> NSOperation {
-        let operation = NSBlockOperation() {
+    @objc public func multipleQueries(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
+        let operation = BlockOperation() {
             let (content, error) = self.multipleQueriesSync(queries, strategy: strategy)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
@@ -343,7 +366,7 @@ import Foundation
     /// - parameter strategy: The strategy to use.
     /// - returns: A mutually exclusive (content, error) pair.
     ///
-    private func multipleQueriesSync(queries: [Query], strategy: String?) -> APIResponse {
+    private func multipleQueriesSync(_ queries: [Query], strategy: String?) -> APIResponse {
         let emulator = MultipleQueryEmulator(indexName: self.name, querier: { (query: Query) in
             return self.searchSync(query)
         })
@@ -357,7 +380,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    public func multipleQueries(queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: CompletionHandler) -> NSOperation {
+    public func multipleQueries(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         return self.multipleQueries(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
 
@@ -367,7 +390,7 @@ import Foundation
     /// - parameter strategy: The strategy to use.
     /// - returns: A mutually exclusive (content, error) pair.
     ///
-    private func multipleQueriesSync(queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil) -> APIResponse {
+    private func multipleQueriesSync(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil) -> APIResponse {
         return self.multipleQueriesSync(queries, strategy: strategy?.rawValue)
     }
     
@@ -419,7 +442,7 @@ import Foundation
         private let tmpDirPath: String
         
         /// Temporary in-memory cache for objects.
-        private var tmpObjects: [[String: AnyObject]] = []
+        private var tmpObjects: [JSONObject] = []
         
         // MARK: Constants
         
@@ -432,12 +455,12 @@ import Foundation
             self.index = index
             self.id = index.nextTransactionSeqNo()
             // TODO: Factorize into `OfflineClient`
-            let globalTmpDirPath = NSURL(fileURLWithPath: NSTemporaryDirectory()).URLByAppendingPathComponent("algolia")!.path!
-            self.tmpDirPath = NSURL(fileURLWithPath: globalTmpDirPath).URLByAppendingPathComponent(NSUUID().UUIDString)!.path!
+            let globalTmpDirPath = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("algolia").path
+            self.tmpDirPath = URL(fileURLWithPath: globalTmpDirPath).appendingPathComponent(NSUUID().uuidString).path
             super.init()
             
             // Create temporary directory.
-            try! NSFileManager.defaultManager().createDirectoryAtPath(tmpDirPath, withIntermediateDirectories: true, attributes: nil)
+            try! FileManager.default.createDirectory(atPath: tmpDirPath, withIntermediateDirectories: true, attributes: nil)
         }
         
         deinit {
@@ -453,28 +476,28 @@ import Foundation
         ///
         /// - parameter object: New version of the object to update. Must contain an `objectID` attribute.
         ///
-        func saveObject(object: [String: AnyObject]) throws {
+        func saveObject(_ object: JSONObject) throws {
             assert(!finished)
             assert(object["objectID"] != nil, "Objects must contain an `objectID` attribute")
             tmpObjects.append(object)
-            try flushObjectsToDisk(false)
+            try flushObjectsToDisk(force: false)
         }
         
         /// Update several objects.
         ///
         /// - parameter objects: New versions of the objects to update. Each one must contain an `objectID` attribute.
         ///
-        func saveObjects(objects: [[String: AnyObject]]) throws {
+        func saveObjects(_ objects: [JSONObject]) throws {
             assert(!finished)
-            tmpObjects.appendContentsOf(objects)
-            try flushObjectsToDisk(false)
+            tmpObjects.append(contentsOf: objects)
+            try flushObjectsToDisk(force: false)
         }
         
         /// Delete an object.
         ///
         /// - parameter objectID: Identifier of the object to delete.
         ///
-        func deleteObject(objectID: String) throws {
+        func deleteObject(withID objectID: String) throws {
             assert(!finished)
             deletedObjectIDs.insert(objectID)
         }
@@ -483,9 +506,9 @@ import Foundation
         ///
         /// - parameter objectIDs: Identifiers of the objects to delete.
         ///
-        func deleteObjects(objectIDs: [String]) throws {
+        func deleteObjects(withIDs objectIDs: [String]) throws {
             assert(!finished)
-            deletedObjectIDs.unionInPlace(objectIDs)
+            deletedObjectIDs.formUnion(objectIDs)
         }
         
         /// Set the index's settings.
@@ -495,9 +518,9 @@ import Foundation
         ///
         /// - parameter settings: New settings.
         ///
-        func setSettings(settings: [String: AnyObject]) throws {
+        func setSettings(_ settings: JSONObject) throws {
             assert(!finished)
-            settingsFilePath = try writeTmpJSONFile(settings)
+            settingsFilePath = try writeTmpJSONFile(json: settings)
         }
         
         /// Delete the index content without removing settings.
@@ -516,10 +539,10 @@ import Foundation
         /// + Warning: This method blocks until completion. Must not be called from the main thread.
         ///
         func commit() throws {
-            assert(!NSThread.isMainThread())
+            assert(!Thread.isMainThread)
             // TODO: Would be easier with dispatch queue. See if we can use underlyingQueue (drop iOS 7 support).
-            var error: ErrorType?
-            let operation = NSBlockOperation() {
+            var error: Error?
+            let operation = BlockOperation() {
                 do {
                     try self._commit()
                 } catch let e {
@@ -536,12 +559,12 @@ import Foundation
         /// Commit the transaction (asynchronously).
         func commit(completionHandler: CompletionHandler?) {
             // TODO: Not sure it's needed.
-            let operation = NSBlockOperation() {
+            let operation = BlockOperation() {
                 do {
                     try self._commit()
-                    completionHandler?(content: [:], error: nil)
+                    completionHandler?([:], nil)
                 } catch let e {
-                    completionHandler?(content: nil, error: e as NSError)
+                    completionHandler?(nil, e)
                 }
             }
             index.client.buildQueue.addOperation(operation)
@@ -549,10 +572,10 @@ import Foundation
         
         private func _commit() throws {
             assert(!finished)
-            try flushObjectsToDisk(true)
+            try flushObjectsToDisk(force: true)
             let statusCode = Int(index.localIndex.build(settingsFile: settingsFilePath, objectFiles: objectFilePaths, clearIndex: shouldClearIndex, deletedObjectIDs: Array(deletedObjectIDs)))
-            if statusCode != StatusCode.OK.rawValue {
-                throw NSError(domain: ErrorDomain, code: statusCode, userInfo: [NSLocalizedDescriptionKey: "Could not build index"])
+            if statusCode != StatusCode.ok.rawValue {
+                throw HTTPError(statusCode: statusCode)
             }
             finished = true
         }
@@ -561,7 +584,7 @@ import Foundation
         /// The index will be left untouched.
         ///
         func rollback() {
-            _ = try? NSFileManager.defaultManager().removeItemAtPath(tmpDirPath)
+            _ = try? FileManager.default.removeItem(atPath: tmpDirPath)
             finished = true
         }
         
@@ -569,20 +592,20 @@ import Foundation
         
         private func flushObjectsToDisk(force: Bool) throws {
             if force || tmpObjects.count >= WriteTransaction.maxObjectsInMemory {
-                let tmpFilePath = try writeTmpJSONFile(tmpObjects)
+                let tmpFilePath = try writeTmpJSONFile(json: tmpObjects)
                 objectFilePaths.append(tmpFilePath)
                 tmpObjects.removeAll()
             }
         }
         
-        private func writeTmpJSONFile(json: AnyObject) throws -> String {
-            let tmpFilePath = NSURL(fileURLWithPath: tmpDirPath).URLByAppendingPathComponent(NSUUID().UUIDString + ".json")!.path!
-            guard let stream = NSOutputStream(toFileAtPath: tmpFilePath, append: false) else {
-                throw NSError(domain: ErrorDomain, code: -1, userInfo: [NSLocalizedDescriptionKey: "Could not open output stream to \(tmpFilePath)"])
+        private func writeTmpJSONFile(json: Any) throws -> String {
+            let tmpFilePath = URL(fileURLWithPath: tmpDirPath).appendingPathComponent(NSUUID().uuidString + ".json").path
+            guard let stream = OutputStream(toFileAtPath: tmpFilePath, append: false) else {
+                throw IOError(description: "Could not open output stream to \(tmpFilePath)")
             }
             stream.open()
             var error: NSError? = nil
-            _ = NSJSONSerialization.writeJSONObject(json, toStream: stream, options: [], error: &error)
+            _ = JSONSerialization.writeJSONObject(json, to: stream, options: [], error: &error)
             stream.close()
             guard error == nil else {
                 throw error!
@@ -599,9 +622,9 @@ import Foundation
         }
     }
     
-    public func commitTransaction(completionHandler: CompletionHandler) {
+    public func commitTransaction(completionHandler: @escaping CompletionHandler) {
         assert(transaction != nil, "No transaction is open")
-        transaction!.commit(completionHandler)
+        transaction!.commit(completionHandler: completionHandler)
         transaction = nil
     }
     
@@ -617,7 +640,8 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func addObject(object: [String: AnyObject], completionHandler: CompletionHandler? = nil) -> NSOperation {
+    @discardableResult
+    @objc public func addObject(object: JSONObject, completionHandler: CompletionHandler? = nil) -> Operation {
         return saveObject(object, completionHandler: completionHandler)
     }
     
@@ -629,7 +653,8 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func addObject(object: [String: AnyObject], withID objectID: String, completionHandler: CompletionHandler? = nil) -> NSOperation {
+    @discardableResult
+    @objc public func addObject(object: JSONObject, withID objectID: String, completionHandler: CompletionHandler? = nil) -> Operation {
         var object = object
         object["objectID"] = objectID
         return saveObject(object, completionHandler: completionHandler)
@@ -641,7 +666,7 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func addObjects(objects: [[String: AnyObject]], completionHandler: CompletionHandler? = nil) -> NSOperation {
+    @objc public func addObjects(objects: [JSONObject], completionHandler: CompletionHandler? = nil) -> Operation {
         return saveObjects(objects, completionHandler: completionHandler)
     }
     
@@ -651,10 +676,11 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func deleteObject(objectID: String, completionHandler: CompletionHandler? = nil) -> NSOperation {
+    @discardableResult
+    @objc public func deleteObject(objectID: String, completionHandler: CompletionHandler? = nil) -> Operation {
         assert(transaction != nil, "Write operations need to be wrapped inside a transaction")
-        let operation = NSBlockOperation() {
-            let (content, error) = self.deleteObjectSync(objectID)
+        let operation = BlockOperation() {
+            let (content, error) = self.deleteObjectSync(withID: objectID)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         transactionQueue.addOperation(operation)
@@ -668,11 +694,11 @@ import Foundation
     /// - parameter objectID: Identifier of object to delete.
     /// - returns: A mutually exclusive (content, error) pair.
     ///
-    private func deleteObjectSync(objectID: String) -> APIResponse {
-        let (content, error) = deleteObjectsSync([objectID])
+    private func deleteObjectSync(withID objectID: String) -> APIResponse {
+        let (content, error) = deleteObjectsSync(withIDs: [objectID])
         if content != nil {
-            let newContent: [String: AnyObject] = [
-                "deletedAt": NSDate().iso8601()
+            let newContent: JSONObject = [
+                "deletedAt": Date().iso8601
             ]
             return (newContent, nil)
         }
@@ -685,10 +711,11 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func deleteObjects(objectIDs: [String], completionHandler: CompletionHandler? = nil) -> NSOperation {
+    @discardableResult
+    @objc public func deleteObjects(withIDs objectIDs: [String], completionHandler: CompletionHandler? = nil) -> Operation {
         assert(transaction != nil, "Write operations need to be wrapped inside a transaction")
-        let operation = NSBlockOperation() {
-            let (content, error) = self.deleteObjectsSync(objectIDs)
+        let operation = BlockOperation() {
+            let (content, error) = self.deleteObjectsSync(withIDs: objectIDs)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         transactionQueue.addOperation(operation)
@@ -702,12 +729,12 @@ import Foundation
     /// - parameter objectIDs: Identifiers of objects to delete.
     /// - returns: A mutually exclusive (content, error) pair.
     ///
-    private func deleteObjectsSync(objectIDs: [String]) -> APIResponse {
-        assert(!NSThread.isMainThread(), "Synchronous methods should not be called from the main thread")
-        var content: [String: AnyObject]?
+    private func deleteObjectsSync(withIDs objectIDs: [String]) -> APIResponse {
+        assert(!Thread.isMainThread, "Synchronous methods should not be called from the main thread")
+        var content: JSONObject?
         var error: NSError?
         do {
-            try transaction!.deleteObjects(objectIDs)
+            try transaction!.deleteObjects(withIDs: objectIDs)
             content = [
                 "objectIDs": objectIDs,
                 "taskID": transaction!.id
@@ -724,9 +751,10 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func saveObject(object: [String: AnyObject], completionHandler: CompletionHandler? = nil) -> NSOperation {
+    @discardableResult
+    @objc public func saveObject(_ object: JSONObject, completionHandler: CompletionHandler? = nil) -> Operation {
         assert(transaction != nil, "Write operations need to be wrapped inside a transaction")
-        let operation = NSBlockOperation() {
+        let operation = BlockOperation() {
             let (content, error) = self.saveObjectSync(object)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
@@ -739,12 +767,12 @@ import Foundation
     /// - parameter object: New version of the object to update. Must contain an `objectID` attribute.
     /// - returns: A mutually exclusive (content, error) pair.
     ///
-    private func saveObjectSync(object: [String: AnyObject]) -> APIResponse {
+    private func saveObjectSync(_ object: JSONObject) -> APIResponse {
         let (content, error) = saveObjectsSync([object])
         if let content = content {
-            let newContent: [String: AnyObject] = [
-                "updatedAt": NSDate().iso8601(),
-                "objectID": (content["objectIDs"] as! [AnyObject])[0], // should always succeed
+            let newContent: JSONObject = [
+                "updatedAt": Date().iso8601,
+                "objectID": (content["objectIDs"] as! [Any])[0], // should always succeed
             ]
             return (newContent, nil)
         } else {
@@ -758,9 +786,10 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func saveObjects(objects: [[String: AnyObject]], completionHandler: CompletionHandler? = nil) -> NSOperation {
+    @discardableResult
+    @objc public func saveObjects(_ objects: [JSONObject], completionHandler: CompletionHandler? = nil) -> Operation {
         assert(transaction != nil, "Write operations need to be wrapped inside a transaction")
-        let operation = NSBlockOperation() {
+        let operation = BlockOperation() {
             let (content, error) = self.saveObjectsSync(objects)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
@@ -775,14 +804,14 @@ import Foundation
     /// - parameter objects: New versions of the objects to update. Each one must contain an `objectID` attribute.
     /// - returns: A mutually exclusive (content, error) pair.
     ///
-    private func saveObjectsSync(objects: [[String: AnyObject]]) -> APIResponse {
-        assert(!NSThread.isMainThread(), "Synchronous methods should not be called from the main thread")
-        var content: [String: AnyObject]?
+    private func saveObjectsSync(_ objects: [JSONObject]) -> APIResponse {
+        assert(!Thread.isMainThread, "Synchronous methods should not be called from the main thread")
+        var content: JSONObject?
         var error: NSError?
         do {
-            let objectIDs = try objects.map({ (object: [String : AnyObject]) -> AnyObject in
+            let objectIDs = try objects.map({ (object: JSONObject) -> Any in
                 guard let objectID = object["objectID"] else {
-                    throw NSError(domain: ErrorDomain, code: StatusCode.BadRequest.rawValue, userInfo: [NSLocalizedDescriptionKey: "Object missing mandatory `objectID` attribute"])
+                    throw InvalidJSONError(description: "Object missing mandatory `objectID` attribute")
                 }
                 return objectID
             })
@@ -806,9 +835,10 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func setSettings(settings: [String: AnyObject], completionHandler: CompletionHandler? = nil) -> NSOperation {
+    @discardableResult
+    @objc public func setSettings(_ settings: JSONObject, completionHandler: CompletionHandler? = nil) -> Operation {
         assert(transaction != nil, "Write operations need to be wrapped inside a transaction")
-        let operation = NSBlockOperation() {
+        let operation = BlockOperation() {
             let (content, error) = self.setSettingsSync(settings)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
@@ -826,14 +856,14 @@ import Foundation
     /// - parameter settings: New settings.
     /// - returns: A mutually exclusive (content, error) pair.
     ///
-    private func setSettingsSync(settings: [String: AnyObject]) -> APIResponse {
-        assert(!NSThread.isMainThread(), "Synchronous methods should not be called from the main thread")
-        var content: [String: AnyObject]?
+    private func setSettingsSync(_ settings: JSONObject) -> APIResponse {
+        assert(!Thread.isMainThread, "Synchronous methods should not be called from the main thread")
+        var content: JSONObject?
         var error: NSError?
         do {
             try transaction!.setSettings(settings)
             content = [
-                "updatedAt": NSDate().iso8601(),
+                "updatedAt": Date().iso8601,
                 "taskID": transaction!.id
             ]
         } catch let e as NSError {
@@ -847,9 +877,10 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func clearIndex(completionHandler: CompletionHandler? = nil) -> NSOperation {
+    @discardableResult
+    @objc public func clearIndex(completionHandler: CompletionHandler? = nil) -> Operation {
         assert(transaction != nil, "Write operations need to be wrapped inside a transaction")
-        let operation = NSBlockOperation() {
+        let operation = BlockOperation() {
             let (content, error) = self.clearIndexSync()
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
@@ -862,13 +893,13 @@ import Foundation
     /// - returns: A mutually exclusive (content, error) pair.
     ///
     private func clearIndexSync() -> APIResponse {
-        assert(!NSThread.isMainThread(), "Synchronous methods should not be called from the main thread")
-        var content: [String: AnyObject]?
+        assert(!Thread.isMainThread, "Synchronous methods should not be called from the main thread")
+        var content: JSONObject?
         var error: NSError?
         do {
             try transaction!.clearIndex()
             content = [
-                "updatedAt": NSDate().iso8601(),
+                "updatedAt": Date().iso8601,
                 "taskID": transaction!.id
             ]
         } catch let e as NSError {
@@ -885,9 +916,10 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func deleteByQuery(query: Query, completionHandler: CompletionHandler? = nil) -> NSOperation {
+    @discardableResult
+    @objc public func deleteByQuery(_ query: Query, completionHandler: CompletionHandler? = nil) -> Operation {
         assert(transaction != nil, "Write operations need to be wrapped inside a transaction")
-        let operation = NSBlockOperation() {
+        let operation = BlockOperation() {
             let (content, error) = self.deleteByQuerySync(query)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
@@ -900,8 +932,8 @@ import Foundation
     /// - parameter query: The query that objects to delete must match.
     /// - returns: A mutually exclusive (content, error) pair.
     ///
-    private func deleteByQuerySync(query: Query) -> APIResponse {
-        assert(!NSThread.isMainThread(), "Synchronous methods should not be called from the main thread")
+    private func deleteByQuerySync(_ query: Query) -> APIResponse {
+        assert(!Thread.isMainThread, "Synchronous methods should not be called from the main thread")
         let browseQuery = Query(copy: query)
         browseQuery.attributesToRetrieve = ["objectID"]
         let queryParameters = browseQuery.build()
@@ -914,12 +946,12 @@ import Foundation
             guard let returnedContent = content else {
                 return (content, error)
             }
-            guard let hits = content!["hits"] as? [AnyObject] else {
-                return (nil, NSError(domain: Client.ErrorDomain, code: -1, userInfo: [NSLocalizedDescriptionKey: "No hits returned when browsing"]))
+            guard let hits = content!["hits"] as? [JSONObject] else {
+                return (nil, InvalidJSONError(description: "No hits returned when browsing"))
             }
             // Retrieve object IDs.
             for hit in hits {
-                if let objectID = (hit as? [String: AnyObject])?["objectID"] as? String {
+                if let objectID = hit["objectID"] as? String {
                     objectIDsToDelete.append(objectID)
                 }
             }
@@ -927,7 +959,7 @@ import Foundation
         }
         
         // Delete objects.
-        return deleteObjectsSync(objectIDsToDelete)
+        return deleteObjectsSync(withIDs: objectIDsToDelete)
     }
     
     /// Perform a search with disjunctive facets, generating as many queries as number of disjunctive facets (helper).
@@ -938,8 +970,8 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc public func searchDisjunctiveFaceting(query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: CompletionHandler) -> NSOperation {
-        return DisjunctiveFaceting(multipleQuerier: { (queries: [Query], completionHandler: CompletionHandler) in
+    @objc public func searchDisjunctiveFaceting(query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: @escaping CompletionHandler) -> Operation {
+        return DisjunctiveFaceting(multipleQuerier: { (queries, completionHandler) in
             return self.multipleQueries(queries, completionHandler: completionHandler)
         }).searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: completionHandler)
     }
@@ -952,12 +984,12 @@ import Foundation
     /// - parameter content: The content to pass as a first argument to the completion handler.
     /// - parameter error: The error to pass as a second argument to the completion handler.
     ///
-    private func callCompletionHandler(completionHandler: CompletionHandler?, content: [String: AnyObject]?, error: NSError?) {
+    private func callCompletionHandler(_ completionHandler: CompletionHandler?, content: JSONObject?, error: Error?) {
         // TODO: Factorize with `OfflineClient`.
         if let completionHandler = completionHandler {
-            dispatch_async(dispatch_get_main_queue(), {
-                completionHandler(content: content, error: error)
-            })
+            DispatchQueue.main.async {
+                completionHandler(content, error)
+            }
         }
     }
 }

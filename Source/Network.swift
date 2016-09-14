@@ -24,7 +24,7 @@
 import Foundation
 
 /// HTTP method definitions.
-enum HTTPMethod: String {
+internal enum HTTPMethod: String {
     case GET = "GET"
     case POST = "POST"
     case PUT = "PUT"
@@ -33,12 +33,12 @@ enum HTTPMethod: String {
 
 /// Abstraction of `NSURLSession`.
 /// Only for the sake of unit tests.
-protocol URLSession {
-    func dataTaskWithRequest(request: NSURLRequest, completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void) -> NSURLSessionDataTask
+internal protocol URLSession {
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
 }
 
 // Convince the compiler that NSURLSession does implements our custom protocol.
-extension NSURLSession: URLSession {
+extension Foundation.URLSession: URLSession {
 }
 
 
@@ -49,27 +49,27 @@ import SystemConfiguration
 
 /// Wrapper around an `NSURLSession`, adding logging facilities.
 ///
-class URLSessionLogger: NSObject, URLSession {
-    static var epoch: NSDate!
+internal class URLSessionLogger: NSObject, URLSession {
+    static var epoch: Date = Date()
     
     struct RequestStat {
         // TODO: Log network type.
-        let startTime: NSDate
+        let startTime: Date
         let host: String
         var networkType: String?
-        var responseTime: NSTimeInterval?
+        var responseTime: TimeInterval?
         var cancelled: Bool = false
         var dataSize: Int?
         var statusCode: Int?
         
-        init(startTime: NSDate, host: String) {
+        init(startTime: Date, host: String) {
             self.startTime = startTime
             self.host = host
         }
         
         var description: String {
-            var description = "@\(Int(startTime.timeIntervalSinceDate(URLSessionLogger.epoch) * 1000))ms; \(host); \(networkType != nil ? networkType! : "?")"
-            if let responseTime = responseTime, dataSize = dataSize, statusCode = statusCode {
+            var description = "@\(Int(startTime.timeIntervalSince(URLSessionLogger.epoch) * 1000))ms; \(host); \(networkType != nil ? networkType! : "?")"
+            if let responseTime = responseTime, let dataSize = dataSize, let statusCode = statusCode {
                 description += "; \(Int(responseTime * 1000))ms; \(dataSize)B; \(statusCode)"
             }
             return description
@@ -77,16 +77,16 @@ class URLSessionLogger: NSObject, URLSession {
     }
     
     /// The wrapped session.
-    let session: NSURLSession
+    let session: URLSession
     
     /// Stats.
     private(set) var stats: [RequestStat] = []
     
     /// Queue used to serialize concurrent accesses to this object.
-    private let queue = dispatch_queue_create(nil, DISPATCH_QUEUE_SERIAL)
+    private let queue = DispatchQueue(label: "URLSessionLogger.lock")
     
     /// Temporary stats under construction (ongoing requests).
-    private var tmpStats: [NSURLSessionTask: RequestStat] = [:]
+    private var tmpStats: [URLSessionTask: RequestStat] = [:]
     
     /// Used to determine overall network type.
     private let defaultRouteReachability: SCNetworkReachability
@@ -94,53 +94,54 @@ class URLSessionLogger: NSObject, URLSession {
     /// Used to get the mobile data network type.
     private let networkInfo = CTTelephonyNetworkInfo()
     
-    init(session: NSURLSession) {
+    init(session: URLSession) {
         self.session = session
-        var zeroAddress = sockaddr_in()
-        zeroAddress.sin_len = UInt8(sizeofValue(zeroAddress))
+        var zeroAddress: sockaddr_in = sockaddr_in()
+        zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
         zeroAddress.sin_family = sa_family_t(AF_INET)
-        defaultRouteReachability = withUnsafePointer(&zeroAddress) {
-            SCNetworkReachabilityCreateWithAddress(nil, UnsafePointer($0))!
+        defaultRouteReachability = withUnsafePointer(to: &zeroAddress) {
+            let zeroAddressAsSockaddr = UnsafePointer<sockaddr>(OpaquePointer($0))
+            return SCNetworkReachabilityCreateWithAddress(nil, zeroAddressAsSockaddr)!
         }
         
         // Reset the (global) epoch for logging.
-        URLSessionLogger.epoch = NSDate()
+        URLSessionLogger.epoch = Date()
     }
     
-    func dataTaskWithRequest(request: NSURLRequest, completionHandler: (NSData?, NSURLResponse?, NSError?) -> Void) -> NSURLSessionDataTask {
-        var task: NSURLSessionDataTask!
-        let startTime = NSDate()
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+        var task: URLSessionDataTask!
+        let startTime = Date()
         let networkType = getNetworkType()
-        task = session.dataTaskWithRequest(request, completionHandler: completionHandler)
-        dispatch_sync(self.queue) {
-            self.tmpStats[task] = RequestStat(startTime: startTime, host: request.URL!.host!)
+        task = session.dataTask(with: request, completionHandler: completionHandler)
+        self.queue.sync {
+            self.tmpStats[task] = RequestStat(startTime: startTime, host: request.url!.host!)
             self.tmpStats[task]?.networkType = networkType
         }
-        task.addObserver(self, forKeyPath: "state", options: .New, context: nil)
+        task.addObserver(self, forKeyPath: "state", options: .new, context: nil)
         return task
     }
     
-    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-        if let task = object as? NSURLSessionTask {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if let task = object as? URLSessionTask {
             if keyPath == "state" {
-                if task.state == .Canceling {
-                    dispatch_sync(self.queue) {
+                if task.state == .canceling {
+                    self.queue.sync {
                         self.tmpStats[task]!.cancelled = true
                     }
                 }
-                if task.state == .Completed {
+                if task.state == .completed {
                     let stopTime = NSDate()
-                    dispatch_sync(self.queue) {
+                    self.queue.sync {
                         var stat = self.tmpStats[task]!
-                        stat.responseTime = stopTime.timeIntervalSinceDate(stat.startTime)
+                        stat.responseTime = stopTime.timeIntervalSince(stat.startTime)
                         stat.dataSize = Int(task.countOfBytesReceived)
-                        if let response = task.response as? NSHTTPURLResponse {
+                        if let response = task.response as? HTTPURLResponse {
                             stat.statusCode = response.statusCode
-                        } else if let error = task.error {
+                        } else if let error = task.error as? NSError {
                             stat.statusCode = error.code
                         }
                         self.stats.append(stat)
-                        self.tmpStats.removeValueForKey(task)
+                        self.tmpStats.removeValue(forKey: task)
                     }
                     task.removeObserver(self, forKeyPath: "state")
                     dump()
@@ -150,7 +151,7 @@ class URLSessionLogger: NSObject, URLSession {
     }
     
     func dump() {
-        dispatch_sync(self.queue) {
+        self.queue.sync {
             for stat in self.stats {
                 print("[NET] \(stat.description)")
             }
@@ -165,9 +166,9 @@ class URLSessionLogger: NSObject, URLSession {
     private func getNetworkType() -> String? {
         var flags = SCNetworkReachabilityFlags()
         if SCNetworkReachabilityGetFlags(defaultRouteReachability, &flags) {
-            if flags.contains(.IsWWAN) {
+            if flags.contains(.isWWAN) {
                 if let technology = networkInfo.currentRadioAccessTechnology {
-                    return URLSessionLogger.radioAccessTechnologyDescription(technology)
+                    return URLSessionLogger.description(radioAccessTechnology: technology)
                 }
             } else {
                 return "WIFI"
@@ -178,7 +179,7 @@ class URLSessionLogger: NSObject, URLSession {
 
     /// Convert one of the enum-like `CTRadioAccessTechnology*` constants into a human-friendly string.
     ///
-    static func radioAccessTechnologyDescription(radioAccessTechnology: String) -> String {
+    static func description(radioAccessTechnology: String) -> String {
         switch (radioAccessTechnology) {
         case CTRadioAccessTechnologyGPRS: return "GPRS"
         case CTRadioAccessTechnologyEdge: return "EDGE"

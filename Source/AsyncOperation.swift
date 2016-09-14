@@ -25,37 +25,37 @@ import Foundation
 
 /// An asynchronous operation.
 ///
-/// This class provides its subclasses the way to manually control `NSOperation`'s standard properties:
+/// This class provides its subclasses the way to manually control `Operation`'s standard properties:
 ///
 /// - `executing`
 /// - `finished`
 /// - `cancel`
 ///
-class AsyncOperation: NSOperation {
+internal class AsyncOperation: Operation {
     
     // Mark this operation as aynchronous.
-    override var asynchronous: Bool {
+    override var isAsynchronous: Bool {
         get {
             return true
         }
     }
     
-    // NOTE: Overriding `NSOperation`'s properties
+    // NOTE: Overriding `Operation`'s properties
     // -------------------------------------------
-    // These properties are defined as read-only by `NSOperation`. As a consequence, they must be computed properties.
-    // But they must also fire KVO notifications, which are crucial for `NSOperationQueue` to work.
+    // These properties are defined as read-only by `Operation`. As a consequence, they must be computed properties.
+    // But they must also fire KVO notifications, which are crucial for `OperationQueue` to work.
     // This is why we use a private (underscore-prefixed) property to store the state.
     
     var _executing : Bool = false {
         willSet {
-            self.willChangeValueForKey("isExecuting")
+            self.willChangeValue(forKey: "isExecuting")
         }
         didSet {
-            self.didChangeValueForKey("isExecuting")
+            self.didChangeValue(forKey: "isExecuting")
         }
     }
     
-    override var executing: Bool {
+    override var isExecuting: Bool {
         get {
             return _executing
         }
@@ -63,14 +63,14 @@ class AsyncOperation: NSOperation {
     
     var _finished : Bool = false {
         willSet {
-            self.willChangeValueForKey("isFinished")
+            self.willChangeValue(forKey: "isFinished")
         }
         didSet {
-            self.didChangeValueForKey("isFinished")
+            self.didChangeValue(forKey: "isFinished")
         }
     }
     
-    override var finished: Bool {
+    override var isFinished: Bool {
         get {
             return _finished
         }
@@ -78,14 +78,14 @@ class AsyncOperation: NSOperation {
     
     var _cancelled : Bool = false {
         willSet {
-            self.willChangeValueForKey("isCancelled")
+            self.willChangeValue(forKey: "isCancelled")
         }
         didSet {
-            self.didChangeValueForKey("isCancelled")
+            self.didChangeValue(forKey: "isCancelled")
         }
     }
     
-    override var cancelled: Bool {
+    override var isCancelled: Bool {
         get {
             return _cancelled
         }

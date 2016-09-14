@@ -29,10 +29,10 @@ import Foundation
 /// Character set allowed as a component of the path portion of a URL.
 /// Basically it's just the default `NSCharacterSet.URLPathAllowedCharacterSet()` minus the slash character.
 ///
-let URLPathComponentAllowedCharacterSet: NSCharacterSet = {
-    let characterSet = NSMutableCharacterSet()
-    characterSet.formUnionWithCharacterSet(NSCharacterSet.URLPathAllowedCharacterSet())
-    characterSet.removeCharactersInString("/")
+internal let URLPathComponentAllowedCharacterSet: CharacterSet = {
+    var characterSet = CharacterSet()
+    characterSet.formUnion(CharacterSet.urlPathAllowed)
+    characterSet.remove(charactersIn: "/")
     return characterSet
 }()
 
@@ -46,7 +46,7 @@ let URLPathComponentAllowedCharacterSet: NSCharacterSet = {
 // - question mark ('?') and hash ('#') removed because they mark the beginning and the end of the query string.
 // - plus ('+') is removed because it is interpreted as a space by Algolia's servers.
 //
-let URLQueryParamAllowedCharacterSet = NSCharacterSet(charactersInString:
+let URLQueryParamAllowedCharacterSet = CharacterSet(charactersIn:
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~:/[]@!$'()*,;"
 )
 
@@ -54,12 +54,12 @@ let URLQueryParamAllowedCharacterSet = NSCharacterSet(charactersInString:
 extension String {
     /// Return an URL-encoded version of the string suitable for use as a component of the path portion of a URL.
     func urlEncodedPathComponent() -> String {
-        return stringByAddingPercentEncodingWithAllowedCharacters(URLPathComponentAllowedCharacterSet)!
+        return addingPercentEncoding(withAllowedCharacters: URLPathComponentAllowedCharacterSet)!
     }
     
     /// Return an URL-encoded version of the string suitable for use as a query parameter key or value.
     func urlEncodedQueryParam() -> String {
-        return stringByAddingPercentEncodingWithAllowedCharacters(URLQueryParamAllowedCharacterSet)!
+        return addingPercentEncoding(withAllowedCharacters: URLQueryParamAllowedCharacterSet)!
     }
 }
 
@@ -68,35 +68,35 @@ extension String {
 // NOTE: Those helpers are not used in the code, but let's keep them because they can be handy when debugging.
 
 /// Log the initialization of an object.
-func logInit(object: AnyObject) {
-    print("<INIT> \(unsafeAddressOf(object)) (\(object.dynamicType)) \(object.description)")
+func logInit(_ object: AnyObject) {
+    print("<INIT> \(Unmanaged.passUnretained(object).toOpaque()) (\(type(of: object))) \(object.description)")
 }
 
 /// Log the termination ("de-initialization" in Swift terms) of an object.
-func logTerm(object: AnyObject) {
-    print("<TERM> \(unsafeAddressOf(object)) (\(object.dynamicType)) \(object.description)")
+func logTerm(_ object: AnyObject) {
+    print("<TERM> \(Unmanaged.passUnretained(object).toOpaque()) (\(type(of: object))) \(object.description)")
 }
 
 // MARK: - Collection shuffling
 // Taken from <http://stackoverflow.com/questions/24026510/how-do-i-shuffle-an-array-in-swift>.
 
-extension CollectionType {
+extension Collection {
     /// Return a copy of `self` with its elements shuffled.
-    func shuffle() -> [Generator.Element] {
+    func shuffle() -> [Iterator.Element] {
         var list = Array(self)
         list.shuffleInPlace()
         return list
     }
 }
 
-extension MutableCollectionType where Index == Int {
+extension MutableCollection where Index == Int {
     /// Shuffle the elements of `self` in-place.
     mutating func shuffleInPlace() {
         // Empty and single-element collections don't shuffle.
         if count < 2 { return }
         
-        for i in 0..<count - 1 {
-            let j = Int(arc4random_uniform(UInt32(count - i))) + i
+        for i in 0..<self.endIndex {
+            let j = Int(arc4random_uniform(UInt32(self.endIndex - i))) + i
             guard i != j else { continue }
             swap(&self[i], &self[j])
         }
@@ -105,28 +105,28 @@ extension MutableCollectionType where Index == Int {
 
 // MARK: - Dates
 
-let iso8601DateFormatter: NSDateFormatter = {
-    let formatter = NSDateFormatter()
-    formatter.calendar = NSCalendar(calendarIdentifier: NSCalendarIdentifierISO8601)
-    formatter.locale = NSLocale(localeIdentifier: "en_US_POSIX")
-    formatter.timeZone = NSTimeZone(forSecondsFromGMT: 0)
+let iso8601DateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.calendar = Calendar(identifier: .iso8601)
+    formatter.locale = Locale(identifier: "en_US_POSIX")
+    formatter.timeZone = TimeZone(secondsFromGMT: 0)
     formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" // "2000-12-31T23:59:59.666Z"
     return formatter
 }()
 
-extension NSDate {
-    func iso8601() -> String {
-        return iso8601DateFormatter.stringFromDate(self)
+extension Date {
+    var iso8601: String {
+        return iso8601DateFormatter.string(from: self)
     }
 }
 
 // MARK: - Miscellaneous
 
-/// Get the operating system's name.
+/// The operating system's name.
 ///
 /// - returns: The operating system's name, or nil if it could not be determined.
 ///
-func getOSName() -> String? {
+internal var osName: String? {
     #if os(iOS)
         return "iOS"
     #elseif os(OSX)
