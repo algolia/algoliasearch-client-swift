@@ -1,17 +1,17 @@
 Change Log
 ==========
 
-## 4.0 (WIP)
+## 4.0 (2016-09-14)
 
-**Note:** This is a new major version, bringing incompatible changes, most of them due to Swift 3 support.
+This is a new major version, bringing incompatible changes, most of them due to **Swift 3 support**.
+
+**Note:** You can find a detailed change log and migration instructions in the [Migration guide to version 4.x](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-to-version-4.x).
 
 **Warning:** This version requires Swift 3; it will not compile with Swift 2.x.
 
 **Warning:** Cocoapods support for Swift 3 requires Cocoapods 1.1.0.rc.2 or later.
 
-You can find a detailed change log and migration instructions in the [Migration guide to version 4.x](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-to-version-4.x).
-
-Add support for **Swift 3**:
+### Swift 3 support
 
 - Adapt to the new Foundation API
 - Follow the [Swift API Design Guidelines](https://swift.org/documentation/api-design-guidelines):
@@ -34,14 +34,14 @@ Add support for **Swift 3**:
     - Use `Notification.Name` for notifications
 - Prevent subclassing by *not* adopting the `open` access modifier
 
-Other breaking changes:
+### Other breaking changes
 
 - (Swift only) Better typing of complex properties through enums
 - Rename `Index.indexName` to `Index.name`.
 - Refactor index search cache handling into two properties to enable/disable (`searchCacheEnabled`) it and set the expiration delay (`searchCacheExpiringTimeInterval`), and one method to clear it (`clearSearchCache()`)
 - Rename "slaves" to "replicas"
 
-Other improvements:
+### Other improvements
 
 - Improve cancellation of `Index.waitTask()`
 - Add tests for Objective-C bridging (online flavor only)
