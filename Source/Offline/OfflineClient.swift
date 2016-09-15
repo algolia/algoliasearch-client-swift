@@ -304,7 +304,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     /// - parameter searchResults: Search results to parse.
     /// - returns: A (content, error) pair that can be passed to a `CompletionHandler`.
     ///
-    internal static func parseSearchResults(_ searchResults: SearchResults) -> APIResponse {
+    internal static func parseResponse(_ searchResults: Response) -> APIResponse {
         var content: JSONObject?
         var error: Error?
         if searchResults.statusCode == 200 {

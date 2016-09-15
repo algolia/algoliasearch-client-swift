@@ -200,7 +200,7 @@ public struct IOError: CustomNSError {
         let query = Query()
         query.attributesToRetrieve = attributesToRetrieve
         let searchResults = self.localIndex.getObjects(withIDs: [objectID], parameters: query.build())
-        (content, error) = OfflineClient.parseSearchResults(searchResults)
+        (content, error) = OfflineClient.parseResponse(searchResults)
         if let content = content {
             guard let results = content["results"] as? [JSONObject] else {
                 return (nil, InvalidJSONError(description: "Invalid results returned")) // should never happen
@@ -237,7 +237,7 @@ public struct IOError: CustomNSError {
     ///
     private func getObjectsSync(withIDs objectIDs: [String]) -> APIResponse {
         let searchResults = self.localIndex.getObjects(withIDs: objectIDs, parameters: nil)
-        return OfflineClient.parseSearchResults(searchResults)
+        return OfflineClient.parseResponse(searchResults)
     }
     
     /// Search this index.
@@ -263,7 +263,7 @@ public struct IOError: CustomNSError {
     ///
     private func searchSync(_ query: Query) -> APIResponse {
         let searchResults = self.localIndex.search(query.build())
-        return OfflineClient.parseSearchResults(searchResults)
+        return OfflineClient.parseResponse(searchResults)
     }
 
     /// Get this index's settings.
@@ -287,7 +287,7 @@ public struct IOError: CustomNSError {
     ///
     private func getSettingsSync() -> APIResponse {
         let searchResults = self.localIndex.getSettings()
-        return OfflineClient.parseSearchResults(searchResults)
+        return OfflineClient.parseResponse(searchResults)
     }
     
     /// Browse all index content (initial call).
@@ -317,7 +317,7 @@ public struct IOError: CustomNSError {
     ///
     private func browseSync(query: Query) -> APIResponse {
         let searchResults = self.localIndex.browse(query.build())
-        return OfflineClient.parseSearchResults(searchResults)
+        return OfflineClient.parseResponse(searchResults)
     }
     
     /// Browse the index from a cursor.
@@ -348,7 +348,7 @@ public struct IOError: CustomNSError {
     ///
     private func browseSync(from cursor: String) -> APIResponse {
         let searchResults = self.localIndex.browse(Query(parameters: ["cursor": cursor]).build())
-        return OfflineClient.parseSearchResults(searchResults)
+        return OfflineClient.parseResponse(searchResults)
     }
 
     /// Run multiple queries on this index.
@@ -964,7 +964,7 @@ public struct IOError: CustomNSError {
         var objectIDsToDelete: [String] = []
         var hasMore = true
         while hasMore {
-            let (content, error) = OfflineClient.parseSearchResults(self.localIndex.browse(queryParameters))
+            let (content, error) = OfflineClient.parseResponse(self.localIndex.browse(queryParameters))
             guard let returnedContent = content else {
                 return (content, error)
             }

@@ -668,7 +668,7 @@ import Foundation
         assert(!Thread.isMainThread) // make sure it's run in the background
         
         let searchResults = localIndex.search(query.build())
-        return OfflineClient.parseSearchResults(searchResults)
+        return OfflineClient.parseResponse(searchResults)
     }
     
     // MARK: Multiple queries
@@ -813,6 +813,6 @@ import Foundation
         assert(!Thread.isMainThread) // make sure it's run in the background
         
         let searchResults = localIndex.browse(query.build())
-        return OfflineClient.parseSearchResults(searchResults)
+        return OfflineClient.parseResponse(searchResults)
     }
 }
