@@ -1,6 +1,11 @@
 Change Log
 ==========
 
+## 4.0.1 (2016-09-15)
+
+- Fix `NSCopying` support in Objective-C
+- [Offline mode] Upgrade to Offline Core 1.0
+
 ## 4.0 (2016-09-14)
 
 This is a new major version, bringing incompatible changes, most of them due to **Swift 3 support**.
