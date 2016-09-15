@@ -1,1 +1,103 @@
-{"warnings":[{"file":"/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Error.swift","line":34,"symbol":"init(description:)","symbol_kind":"source.lang.swift.decl.function.method.instance","warning":"undocumented"},{"file":"/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Error.swift","line":61,"symbol":"init(statusCode:message:)","symbol_kind":"source.lang.swift.decl.function.method.instance","warning":"undocumented"},{"file":"/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Offline/MirroredIndex.swift","line":43,"symbol":"isEqual(_:)","symbol_kind":"source.lang.swift.decl.function.method.instance","warning":"undocumented"},{"file":"/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Offline/MirroredIndex.swift","line":724,"symbol":"multipleQueriesOnline(_:strategy:completionHandler:)","symbol_kind":"source.lang.swift.decl.function.method.instance","warning":"undocumented"},{"file":"/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Offline/MirroredIndex.swift","line":755,"symbol":"multipleQueriesOffline(_:strategy:completionHandler:)","symbol_kind":"source.lang.swift.decl.function.method.instance","warning":"undocumented"},{"file":"/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift","line":130,"symbol":"isEqual(_:)","symbol_kind":"source.lang.swift.decl.function.method.instance","warning":"undocumented"},{"file":"/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift","line":162,"symbol":"isEqual(_:)","symbol_kind":"source.lang.swift.decl.function.method.instance","warning":"undocumented"},{"file":"/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift","line":851,"symbol":"insidePolygon","symbol_kind":"source.lang.swift.decl.var.instance","warning":"undocumented"},{"file":"/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift","line":883,"symbol":"description","symbol_kind":"source.lang.swift.decl.var.instance","warning":"undocumented"},{"file":"/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift","line":961,"symbol":"isEqual(_:)","symbol_kind":"source.lang.swift.decl.function.method.instance","warning":"undocumented"},{"file":"/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift","line":1068,"symbol":"_objc_Query","symbol_kind":"source.lang.swift.decl.class","warning":"undocumented"},{"file":"/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Client.swift","line":50,"symbol":"init(name:version:)","symbol_kind":"source.lang.swift.decl.function.method.instance","warning":"undocumented"},{"file":"/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Client.swift","line":57,"symbol":"isEqual(_:)","symbol_kind":"source.lang.swift.decl.function.method.instance","warning":"undocumented"},{"file":"/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Index.swift","line":52,"symbol":"description","symbol_kind":"source.lang.swift.decl.var.instance","warning":"undocumented"}],"source_directory":"/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift"}
+{
+  "warnings": [
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Client.swift",
+      "line": 50,
+      "symbol": "LibraryVersion.init(name:version:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Client.swift",
+      "line": 57,
+      "symbol": "LibraryVersion.isEqual(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Error.swift",
+      "line": 34,
+      "symbol": "InvalidJSONError.init(description:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Error.swift",
+      "line": 61,
+      "symbol": "HTTPError.init(statusCode:message:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Index.swift",
+      "line": 52,
+      "symbol": "Index.description",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Offline/MirroredIndex.swift",
+      "line": 43,
+      "symbol": "DataSelectionQuery.isEqual(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Offline/MirroredIndex.swift",
+      "line": 724,
+      "symbol": "MirroredIndex.multipleQueriesOnline(_:strategy:completionHandler:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Offline/MirroredIndex.swift",
+      "line": 755,
+      "symbol": "MirroredIndex.multipleQueriesOffline(_:strategy:completionHandler:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 130,
+      "symbol": "LatLng.isEqual(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 162,
+      "symbol": "GeoRect.isEqual(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 851,
+      "symbol": "Query.insidePolygon",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 883,
+      "symbol": "Query.description",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 961,
+      "symbol": "Query.isEqual(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1068,
+      "symbol": "_objc_Query",
+      "symbol_kind": "source.lang.swift.decl.class",
+      "warning": "undocumented"
+    }
+  ],
+  "source_directory": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift"
+}
