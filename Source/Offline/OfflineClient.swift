@@ -50,7 +50,7 @@ import Foundation
         userAgents.append(LibraryVersion(name: "AlgoliaSearchOfflineCore-iOS", version: sdk.versionString))
     }
 
-    var sdk: ASSdk = ASSdk.shared()
+    var sdk: Sdk = Sdk.shared
 
     /// Path to directory where the local data is stored.
     /// Defaults to an `algolia` sub-directory inside the `Library/Application Support` directory.
@@ -100,7 +100,7 @@ import Foundation
         }
         
         // Init the SDK.
-        sdk.initWithLicenseData(licenseKey)
+        sdk.initialize(licenseKey: licenseKey)
         // NOTE: Errors reported by the core itself.
     }
 
@@ -126,14 +126,14 @@ import Foundation
     /// - parameter searchResults: Search results to parse.
     /// - returns: A (content, error) pair that can be passed to a `CompletionHandler`.
     ///
-    internal static func parseSearchResults(searchResults: ASSearchResults) -> (content: JSONObject?, error: Error?) {
+    internal static func parseResponse(_ response: Response) -> (content: JSONObject?, error: Error?) {
         var content: JSONObject?
         var error: Error?
-        let statusCode = Int(searchResults.statusCode)
+        let statusCode = Int(response.statusCode)
         if statusCode == StatusCode.ok.rawValue {
-            assert(searchResults.data != nil)
+            assert(response.data != nil)
             do {
-                let json = try JSONSerialization.jsonObject(with: searchResults.data!, options: [])
+                let json = try JSONSerialization.jsonObject(with: response.data!, options: [])
                 if json is JSONObject {
                     content = (json as! JSONObject)
                     // NOTE: Origin tagging performed by the SDK.

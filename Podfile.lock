@@ -1,12 +1,12 @@
 PODS:
-  - AlgoliaSearchOfflineCore-iOS (0.2.1)
+  - AlgoliaSearchOfflineCore-iOS (1.0)
 
 DEPENDENCIES:
-  - AlgoliaSearchOfflineCore-iOS (~> 0.2)
+  - AlgoliaSearchOfflineCore-iOS (~> 1.0)
 
 SPEC CHECKSUMS:
-  AlgoliaSearchOfflineCore-iOS: 37d76ccada33254b6bad6529fb3c0d4ddcd70e94
+  AlgoliaSearchOfflineCore-iOS: b3eb50575f79c91396bc1aacc529fd3d8954f7ae
 
-PODFILE CHECKSUM: 70f8e7e3ce3a1a02df550109e528d546a9555548
+PODFILE CHECKSUM: 1b63159de2f97dc9b071134b68eb9eab928c59e2
 
 COCOAPODS: 1.1.0.rc.2

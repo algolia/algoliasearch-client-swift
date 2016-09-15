@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
 
     s.ios.deployment_target = '8.0'
 
-    s.dependency 'AlgoliaSearchOfflineCore-iOS', '~> 0.2'
+    s.dependency 'AlgoliaSearchOfflineCore-iOS', '~> 1.0'
 
     # Activate Core-dependent code.
     # WARNING: Specifying the preprocessor macro is not enough; it must be added to Swift flags as well.

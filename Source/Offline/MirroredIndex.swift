@@ -114,7 +114,7 @@ import Foundation
     }
     
     /// The local index mirroring this remote index (lazy instantiated, only if mirroring is activated).
-    lazy var localIndex: ASLocalIndex = ASLocalIndex(dataDir: self.offlineClient.rootDataDir, appID: self.client.appID, indexName: self.name)
+    lazy var localIndex: LocalIndex = LocalIndex(dataDir: self.offlineClient.rootDataDir, appID: self.client.appID, indexName: self.name)
     
     /// The mirrored index settings.
     let mirrorSettings = MirrorSettings()
@@ -338,7 +338,7 @@ import Foundation
         // Task: build the index using the downloaded files.
         buildIndexOperation = BlockOperation() {
             if self.syncError == nil {
-                let status = self.localIndex.build(fromSettingsFile: self.settingsFilePath!, objectFiles: self.objectsFilePaths!, clearIndex: true)
+                let status = self.localIndex.build(settingsFile: self.settingsFilePath!, objectFiles: self.objectsFilePaths!, clearIndex: true, deletedObjectIDs: nil)
                 if status != 200 {
                     self.syncError = HTTPError(statusCode: Int(status))
                 } else {
@@ -670,7 +670,7 @@ import Foundation
         assert(!Thread.isMainThread) // make sure it's run in the background
         
         let searchResults = localIndex.search(query.build())
-        return OfflineClient.parseSearchResults(searchResults: searchResults)
+        return OfflineClient.parseResponse(searchResults)
     }
     
     // MARK: Multiple queries
@@ -870,6 +870,6 @@ import Foundation
         assert(!Thread.isMainThread) // make sure it's run in the background
         
         let searchResults = localIndex.browse(query.build())
-        return OfflineClient.parseSearchResults(searchResults: searchResults)
+        return OfflineClient.parseResponse(searchResults)
     }
 }
