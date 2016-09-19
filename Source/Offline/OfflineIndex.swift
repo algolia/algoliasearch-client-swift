@@ -507,20 +507,7 @@ public struct IOError: CustomNSError {
         
         // MARK: Populating
         
-        /// Update an object.
-        ///
-        /// - parameter object: New version of the object to update. Must contain an `objectID` attribute.
-        ///
-        func saveObject(_ object: JSONObject) throws {
-            assert(object["objectID"] != nil, "Objects must contain an `objectID` attribute")
-            try self_lock.sync {
-                assert(!finished)
-                tmpObjects.append(object)
-                try flushObjectsToDisk(force: false)
-            }
-        }
-        
-        /// Update several objects.
+        /// Save objects.
         ///
         /// - parameter objects: New versions of the objects to update. Each one must contain an `objectID` attribute.
         ///
@@ -532,18 +519,7 @@ public struct IOError: CustomNSError {
             }
         }
         
-        /// Delete an object.
-        ///
-        /// - parameter objectID: Identifier of the object to delete.
-        ///
-        func deleteObject(withID objectID: String) throws {
-            self_lock.sync {
-                assert(!finished)
-                deletedObjectIDs.insert(objectID)
-            }
-        }
-        
-        /// Delete several objects.
+        /// Delete objects.
         ///
         /// - parameter objectIDs: Identifiers of the objects to delete.
         ///
