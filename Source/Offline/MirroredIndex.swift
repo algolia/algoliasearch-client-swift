@@ -705,7 +705,13 @@ import Foundation
         }
     }
     
-    /// Run multiple queries on the online API, and not the local mirror.
+    /// Run multiple queries on the online API, not the local mirror.
+    ///
+    /// - parameter queries: List of queries.
+    /// - parameter strategy: The strategy to use.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc
     @discardableResult public func multipleQueriesOnline(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
         return super.multipleQueries(queries, strategy: strategy, completionHandler: {
@@ -719,12 +725,19 @@ import Foundation
         })
     }
 
+    /// Run multiple queries on the online API, not the local mirror.
+    ///
+    /// - parameter queries: List of queries.
+    /// - parameter strategy: The strategy to use.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @discardableResult public func multipleQueriesOnline(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         return self.multipleQueriesOnline(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
 
     /// Run multiple queries on the local mirror.
-    /// This method is the offline equivalent of `Index.multipleQueries()`.
+    /// This method is the offline equivalent of `Index.multipleQueries(...)`.
     ///
     /// - parameter queries: List of queries.
     /// - parameter strategy: The strategy to use.
@@ -750,6 +763,14 @@ import Foundation
         return operation
     }
     
+    /// Run multiple queries on the local mirror.
+    /// This method is the offline equivalent of `Index.multipleQueries(...)`.
+    ///
+    /// - parameter queries: List of queries.
+    /// - parameter strategy: The strategy to use.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @discardableResult public func multipleQueriesOffline(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         return self.multipleQueriesOffline(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
