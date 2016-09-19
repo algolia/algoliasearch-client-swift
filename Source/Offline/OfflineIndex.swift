@@ -305,7 +305,8 @@ public struct IOError: CustomNSError {
     /// - returns: A cancellable operation.
     ///
     @discardableResult
-    @objc public func getSettings(completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc(getSettings:)
+    public func getSettings(completionHandler: @escaping CompletionHandler) -> Operation {
         let operation = BlockOperation() {
             let (content, error) = self.getSettingsSync()
             self.callCompletionHandler(completionHandler, content: content, error: error)
@@ -1032,7 +1033,8 @@ public struct IOError: CustomNSError {
     /// - returns: A cancellable operation.
     ///
     @discardableResult
-    @objc public func clearIndex(completionHandler: CompletionHandler? = nil) -> Operation {
+    @objc(clearIndex:)
+    public func clearIndex(completionHandler: CompletionHandler? = nil) -> Operation {
         assertTransaction()
         let operation = BlockOperation() {
             var content: JSONObject?
@@ -1147,7 +1149,7 @@ public struct IOError: CustomNSError {
     /// - returns: A cancellable operation.
     ///
     @discardableResult
-    @objc public func searchDisjunctiveFaceting(query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc public func searchDisjunctiveFaceting(_ query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: @escaping CompletionHandler) -> Operation {
         return DisjunctiveFaceting(multipleQuerier: { (queries, completionHandler) in
             return self.multipleQueries(queries, completionHandler: completionHandler)
         }).searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: completionHandler)

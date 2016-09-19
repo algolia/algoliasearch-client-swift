@@ -31,7 +31,7 @@ class OfflineClientTests: OfflineTestCase {
     func testListIndices() {
         let expectation = self.expectation(description: #function)
         let index = client.offlineIndex(withName: #function)
-        client.listIndexesOffline { (content, error) in
+        client.listOfflineIndexes { (content, error) in
             guard error == nil, let content = content else { XCTFail(); return }
             guard let items = content["items"] as? [JSONObject] else { XCTFail(); return }
             for item in items {
@@ -44,7 +44,7 @@ class OfflineClientTests: OfflineTestCase {
                 XCTAssertNil(error)
                 index.commitTransaction() { (content, error) in
                     guard error == nil else { XCTFail("Error encountered"); return }
-                    self.client.listIndexesOffline { (content, error) in
+                    self.client.listOfflineIndexes { (content, error) in
                         guard error == nil, let content = content else { XCTFail(); return }
                         guard let items = content["items"] as? [[String: AnyObject]] else { XCTFail(); return }
                         var found = false
@@ -73,7 +73,7 @@ class OfflineClientTests: OfflineTestCase {
             index.commitTransaction() { (content, error) in
                 guard error == nil else { XCTFail(); return }
                 XCTAssert(self.client.hasOfflineData(indexName: index.name))
-                self.client.deleteIndexOffline(withName: index.name) { (content, error) in
+                self.client.deleteOfflineIndex(withName: index.name) { (content, error) in
                     guard error == nil, let content = content else { XCTFail(); return }
                     XCTAssertNotNil(content["deletedAt"] as? String)
                     XCTAssertFalse(self.client.hasOfflineData(indexName: index.name))
@@ -95,7 +95,7 @@ class OfflineClientTests: OfflineTestCase {
                 guard error == nil else { XCTFail(); return }
                 XCTAssertTrue(self.client.hasOfflineData(indexName: srcIndex.name))
                 XCTAssertFalse(self.client.hasOfflineData(indexName: dstIndex.name))
-                self.client.moveIndexOffline(from: srcIndex.name, to: dstIndex.name) { (content, error) in
+                self.client.moveOfflineIndex(from: srcIndex.name, to: dstIndex.name) { (content, error) in
                     guard error == nil, let content = content else { XCTFail(); return }
                     XCTAssertNotNil(content["updatedAt"] as? String)
                     XCTAssert(!self.client.hasOfflineData(indexName: srcIndex.name))

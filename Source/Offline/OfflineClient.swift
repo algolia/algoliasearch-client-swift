@@ -190,9 +190,10 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     /// - returns: A cancellable operation.
     ///
     @discardableResult
-    @objc public func listIndexesOffline(completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc(listOfflineIndexes:)
+    public func listOfflineIndexes(completionHandler: @escaping CompletionHandler) -> Operation {
         let operation = BlockOperation() {
-            let (content, error) = self.listIndexesOfflineSync()
+            let (content, error) = self.listOfflineIndexesSync()
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         searchQueue.addOperation(operation)
@@ -205,7 +206,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     ///
     /// - returns: A mutally exclusive (content, error) pair.
     ///
-    private func listIndexesOfflineSync() -> APIResponse {
+    private func listOfflineIndexesSync() -> APIResponse {
         var content: JSONObject?
         var error: NSError?
         do {
@@ -238,9 +239,10 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     /// - returns: A cancellable operation.
     ///
     @discardableResult
-    @objc public func deleteIndexOffline(withName indexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
+    @objc(deleteOfflineIndexWithName:completionHandler:)
+    public func deleteOfflineIndex(withName indexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
         let operation = BlockOperation() {
-            let (content, error) = self.deleteIndexOfflineSync(withName: indexName)
+            let (content, error) = self.deleteOfflineIndexSync(withName: indexName)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         buildQueue.addOperation(operation)
@@ -254,7 +256,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     /// - parameter indexName: Name of the index to delete.
     /// - returns: A mutally exclusive (content, error) pair.
     ///
-    private func deleteIndexOfflineSync(withName indexName: String) -> APIResponse {
+    private func deleteOfflineIndexSync(withName indexName: String) -> APIResponse {
         do {
             try FileManager.default.removeItem(atPath: indexDir(indexName: indexName))
             let content: JSONObject = [
@@ -278,9 +280,9 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     /// - returns: A cancellable operation.
     ///
     @discardableResult
-    @objc public func moveIndexOffline(from srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
+    @objc public func moveOfflineIndex(from srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
         let operation = BlockOperation() {
-            let (content, error) = self.moveIndexOfflineSync(from: srcIndexName, to: dstIndexName)
+            let (content, error) = self.moveOfflineIndexSync(from: srcIndexName, to: dstIndexName)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         buildQueue.addOperation(operation)
@@ -297,7 +299,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     /// - parameter dstIndexName: The new index name.
     /// - returns: A mutally exclusive (content, error) pair.
     ///
-    private func moveIndexOfflineSync(from srcIndexName: String, to dstIndexName: String) -> APIResponse {
+    private func moveOfflineIndexSync(from srcIndexName: String, to dstIndexName: String) -> APIResponse {
         do {
             let fromPath = indexDir(indexName: srcIndexName)
             let toPath = indexDir(indexName: dstIndexName)
