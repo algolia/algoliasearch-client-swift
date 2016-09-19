@@ -30,7 +30,7 @@ class OfflineIndexTests: OfflineTestCase {
 
     func testAddGetDeleteObject() {
         let expectation = self.expectation(description: #function)
-        let index = client.getOfflineIndex(withName: #function)
+        let index = client.offlineIndex(withName: #function)
         index.beginTransaction()
         index.addObject(objects["snoopy"]!) { (content, error) in
             guard let content = content else { XCTFail(); return }
@@ -65,7 +65,7 @@ class OfflineIndexTests: OfflineTestCase {
     
     func testAddWithIDGetDeleteObject() {
         let expectation = self.expectation(description: #function)
-        let index = client.getOfflineIndex(withName: #function)
+        let index = client.offlineIndex(withName: #function)
         index.beginTransaction()
         index.addObject(["name": "unknown"], withID: "xxx") { (content, error) in
             guard let content = content else { XCTFail(); return }
@@ -100,7 +100,7 @@ class OfflineIndexTests: OfflineTestCase {
     
     func testAddGetDeleteObjects() {
         let expectation = self.expectation(description: #function)
-        let index = client.getOfflineIndex(withName: #function)
+        let index = client.offlineIndex(withName: #function)
         index.beginTransaction()
         index.addObjects(Array(objects.values)) { (content, error) in
             guard let content = content else { XCTFail(); return }
@@ -134,7 +134,7 @@ class OfflineIndexTests: OfflineTestCase {
     
     func testSearch() {
         let expectation = self.expectation(description: #function)
-        let index = client.getOfflineIndex(withName: #function)
+        let index = client.offlineIndex(withName: #function)
         index.beginTransaction()
         index.addObjects(Array(objects.values)) { (content, error) in
             XCTAssertNil(error)
@@ -158,7 +158,7 @@ class OfflineIndexTests: OfflineTestCase {
     
     func testGetSetSettings() {
         let expectation = self.expectation(description: #function)
-        let index = client.getOfflineIndex(withName: #function)
+        let index = client.offlineIndex(withName: #function)
         let settings: JSONObject = [
             "attributesToIndex": ["foo", "bar"]
         ]
@@ -180,7 +180,7 @@ class OfflineIndexTests: OfflineTestCase {
     
     func testClear() {
         let expectation = self.expectation(description: #function)
-        let index = client.getOfflineIndex(withName: #function)
+        let index = client.offlineIndex(withName: #function)
         index.beginTransaction()
         index.addObjects(Array(objects.values)) { (content, error) in
             XCTAssertNil(error)
@@ -207,7 +207,7 @@ class OfflineIndexTests: OfflineTestCase {
     
     func testBrowse() {
         let expectation = self.expectation(description: #function)
-        let index = client.getOfflineIndex(withName: #function)
+        let index = client.offlineIndex(withName: #function)
         index.beginTransaction()
         index.addObjects(Array(objects.values)) { (content, error) in
             XCTAssertNil(error)
@@ -229,7 +229,7 @@ class OfflineIndexTests: OfflineTestCase {
     
     func testDeleteByQuery() {
         let expectation = self.expectation(description: #function)
-        let index = client.getOfflineIndex(withName: #function)
+        let index = client.offlineIndex(withName: #function)
         index.beginTransaction()
         index.addObjects(Array(objects.values)) { (content, error) in
             XCTAssertNil(error)
@@ -256,7 +256,7 @@ class OfflineIndexTests: OfflineTestCase {
     
     func testMultipleQueries() {
         let expectation = self.expectation(description: #function)
-        let index = client.getOfflineIndex(withName: #function)
+        let index = client.offlineIndex(withName: #function)
         index.beginTransaction()
         index.addObjects(Array(objects.values)) { (content, error) in
             XCTAssertNil(error)

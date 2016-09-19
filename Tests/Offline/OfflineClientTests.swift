@@ -30,7 +30,7 @@ class OfflineClientTests: OfflineTestCase {
     
     func testListIndices() {
         let expectation = self.expectation(description: #function)
-        let index = client.getOfflineIndex(withName: #function)
+        let index = client.offlineIndex(withName: #function)
         client.listIndexesOffline { (content, error) in
             guard error == nil, let content = content else { XCTFail(); return }
             guard let items = content["items"] as? [JSONObject] else { XCTFail(); return }
@@ -66,7 +66,7 @@ class OfflineClientTests: OfflineTestCase {
     
     func testDeleteIndex() {
         let expectation = self.expectation(description: #function)
-        let index = client.getOfflineIndex(withName: #function)
+        let index = client.offlineIndex(withName: #function)
         index.beginTransaction()
         index.addObjects(Array(objects.values)) { (content, error) in
             XCTAssertNil(error)
@@ -86,8 +86,8 @@ class OfflineClientTests: OfflineTestCase {
     
     func testMoveIndex() {
         let expectation = self.expectation(description: #function)
-        let srcIndex = client.getOfflineIndex(withName: #function);
-        let dstIndex = client.getOfflineIndex(withName: #function + "_new")
+        let srcIndex = client.offlineIndex(withName: #function);
+        let dstIndex = client.offlineIndex(withName: #function + "_new")
         srcIndex.beginTransaction()
         srcIndex.addObjects(Array(objects.values)) { (content, error) in
             XCTAssertNil(error)

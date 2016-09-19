@@ -114,9 +114,17 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
         // NOTE: Errors reported by the core itself.
     }
 
-    /// Create a new index.
+    /// Obtain a mirrored index.
     ///
     /// + Note: The offline client returns mirror-capable indices.
+    ///
+    /// + Note: Only one instance can exist for a given index name. Subsequent calls to this method with the same
+    ///   index name will return the same instance, unless it has already been released.
+    ///
+    /// + Warning: The name should not overlap with any `OfflineIndex` (see `offlineIndex(withName:)`).
+    ///
+    /// - parameter indexName: The name of the index.
+    /// - returns: A proxy to the specified index.
     ///
     @objc public override func index(withName indexName: String) -> MirroredIndex {
         if let index = indices.object(forKey: indexName as NSString) {
@@ -129,15 +137,25 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
         }
     }
     
-    /// Create a purely offline index.
+    /// Obtain an offline index.
     ///
-    /// - parameter name: Name for the new index.
-    /// - returns: A new object representing the index.
+    /// + Note: Only one instance can exist for a given index name. Subsequent calls to this method with the same
+    ///   index name will return the same instance, unless it has already been released.
     ///
-    /// + Warning: The name should not overlap with any `MirroredIndex` (see `getIndex(_:)`).
+    /// + Warning: The name should not overlap with any `MirroredIndex` (see `index(withName:)`).
     ///
-    @objc public func getOfflineIndex(withName name: String) -> OfflineIndex {
-        return OfflineIndex(client: self, name: name)
+    /// - parameter indexName: The name of the index.
+    /// - returns: A proxy to the specified index.
+    ///
+    @objc public func offlineIndex(withName indexName: String) -> OfflineIndex {
+        if let index = indices.object(forKey: indexName as NSString) {
+            assert(index is OfflineIndex, "An index with the same name but a different type has already been created")
+            return index as! OfflineIndex
+        } else {
+            let index = OfflineIndex(client: self, name: indexName)
+            indices.setObject(index, forKey: indexName as NSString)
+            return index
+        }
     }
     
     // MARK: - Accessors
