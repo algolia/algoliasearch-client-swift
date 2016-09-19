@@ -438,10 +438,7 @@ public struct IOError: CustomNSError {
     /// 1. Avoid rebuilding the index for every individual operation, which would be astonishingly costly.
     /// 2. Avoid keeping all the necessary data in memory, e.g. by flushing added objects to temporary files on disk.
     ///
-    /// A transaction can be created by calling `OfflineIndex.newTransaction()`.
-    ///
-    /// Alternatively, you can call `OfflineIndex.update(_:)` with a block. A transaction will be created for you and
-    /// committed at the end of your block.
+    /// A transaction can be created by calling `OfflineIndex.beginTransaction()`.
     ///
     private class WriteTransaction: NSObject {
         /// The index on which this transaction will operate.
@@ -460,7 +457,7 @@ public struct IOError: CustomNSError {
         /// If `nil`, settings will be unchanged by this transaction.
         private var settingsFilePath: String? = nil
         
-        /// Path to the temporary files containing the objects that will be added/updated by this transaction.
+        /// Paths to the temporary files containing the objects that will be added/updated by this transaction.
         private var objectFilePaths: [String] = []
         
         /// Identifiers of objects that will be deleted by this transaction.
@@ -1105,6 +1102,6 @@ public struct IOError: CustomNSError {
     }
     
     private func assertTransaction() {
-        assert(transaction != nil, "Write operations need to be wrapped inside a transaction")
+        assert(transaction != nil, "Write operations must be wrapped inside a transaction")
     }
 }
