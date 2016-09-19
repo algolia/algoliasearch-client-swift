@@ -172,7 +172,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     ///
     /// + Warning: This method is synchronous!
     ///
-    /// - parameter name: The index's name.
+    /// - parameter indexName: The index's name.
     /// - returns: `true` if data exists on disk for this index, `false` otherwise.
     ///
     @objc public func hasOfflineData(indexName: String) -> Bool {
@@ -251,6 +251,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     ///
     /// + Note: This applies both to `MirroredIndex` and `OfflineIndex` instances.
     ///
+    /// - parameter indexName: Name of the index to delete.
     /// - returns: A mutally exclusive (content, error) pair.
     ///
     private func deleteIndexOfflineSync(withName indexName: String) -> APIResponse {

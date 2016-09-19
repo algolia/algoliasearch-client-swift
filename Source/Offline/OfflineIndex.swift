@@ -764,7 +764,7 @@ public struct IOError: CustomNSError {
     /// + Warning: This method will assert/crash if no transaction is currently open.
     ///
     /// - parameter object: The object to add.
-    /// - parameter withID: Identifier that you want to assign this object.
+    /// - parameter objectID: Identifier that you want to assign this object.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///

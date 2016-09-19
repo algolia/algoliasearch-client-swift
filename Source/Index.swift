@@ -73,7 +73,7 @@ import Foundation
     /// If an object already exists with the same object ID, the existing object will be overwritten.
     ///
     /// - parameter object: The object to add.
-    /// - parameter withID: Identifier that you want to assign this object.
+    /// - parameter objectID: Identifier that you want to assign this object.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -155,9 +155,9 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func getObject(withID objectID: String, attributesToRetrieve attributes: [String], completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult public func getObject(withID objectID: String, attributesToRetrieve: [String], completionHandler: @escaping CompletionHandler) -> Operation {
         let query = Query()
-        query.attributesToRetrieve = attributes
+        query.attributesToRetrieve = attributesToRetrieve
         let path = "1/indexes/\(urlEncodedName)/\(objectID.urlEncodedPathComponent())?\(query.build())"
         return client.performHTTPQuery(path: path, method: .GET, body: nil, hostnames: client.readHosts, completionHandler: completionHandler)
     }
