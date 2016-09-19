@@ -62,6 +62,44 @@ class OfflineIndexTests: OfflineTestCase {
         }
         waitForExpectations(timeout:  expectationTimeout, handler: nil)
     }
+
+    func testSaveGetDeleteObjectSync() {
+        let expectation = self.expectation(description: #function)
+        let index = client.offlineIndex(withName: #function)
+        let queue = DispatchQueue(label: #function)
+        queue.async {
+            do {
+                index.beginTransaction()
+                try index.saveObjectSync(self.objects["snoopy"]!)
+                try index.commitTransactionSync()
+                index.getObject(withID: "1") { (content, error) in
+                    guard let content = content else { XCTFail(); return }
+                    guard let name = content["name"] as? String else { XCTFail(); return }
+                    XCTAssertEqual(name, "Snoopy")
+                    queue.async {
+                        do {
+                            index.beginTransaction()
+                            try index.deleteObjectSync(withID: "1")
+                            try index.commitTransactionSync()
+                            index.getObject(withID: "1") { (content, error) in
+                                XCTAssertNotNil(error)
+                                guard let error = error as? HTTPError else { XCTFail("Error not of the right type"); return }
+                                XCTAssertEqual(error.statusCode, 404)
+                                expectation.fulfill()
+                            }
+                        } catch let e {
+                            XCTFail(e.localizedDescription)
+                            expectation.fulfill()
+                        }
+                    }
+                }
+            } catch let e {
+                XCTFail(e.localizedDescription)
+                expectation.fulfill()
+            }
+        }
+        waitForExpectations(timeout: expectationTimeout, handler: nil)
+    }
     
     func testAddWithIDGetDeleteObject() {
         let expectation = self.expectation(description: #function)
@@ -131,7 +169,46 @@ class OfflineIndexTests: OfflineTestCase {
         }
         waitForExpectations(timeout:  expectationTimeout, handler: nil)
     }
-    
+
+    func testSaveGetDeleteObjectsSync() {
+        let expectation = self.expectation(description: #function)
+        let index = client.offlineIndex(withName: #function)
+        let queue = DispatchQueue(label: #function)
+        queue.async {
+            do {
+                index.beginTransaction()
+                try index.saveObjectsSync(Array(self.objects.values))
+                try index.commitTransactionSync()
+                index.getObjects(withIDs: ["1", "2"]) { (content, error) in
+                    guard let content = content else { XCTFail(); return }
+                    guard let items = content["results"] as? [[String: AnyObject]] else { XCTFail(); return }
+                    XCTAssertEqual(items.count, 2)
+                    XCTAssertEqual(items[0]["name"] as! String, "Snoopy")
+                    queue.async {
+                        do {
+                            index.beginTransaction()
+                            try index.deleteObjectsSync(withIDs: ["1", "2"])
+                            try index.commitTransactionSync()
+                            index.getObject(withID: "2") { (content, error) in
+                                XCTAssertNotNil(error)
+                                guard let error = error as? HTTPError else { XCTFail("Error not of the right type"); return }
+                                XCTAssertEqual(error.statusCode, 404)
+                                expectation.fulfill()
+                            }
+                        } catch let e {
+                            XCTFail(e.localizedDescription)
+                            expectation.fulfill()
+                        }
+                    }
+                }
+            } catch let e {
+                XCTFail(e.localizedDescription)
+                expectation.fulfill()
+            }
+        }
+        waitForExpectations(timeout: expectationTimeout, handler: nil)
+    }
+
     func testSearch() {
         let expectation = self.expectation(description: #function)
         let index = client.offlineIndex(withName: #function)
@@ -177,7 +254,33 @@ class OfflineIndexTests: OfflineTestCase {
         }
         waitForExpectations(timeout:  expectationTimeout, handler: nil)
     }
-    
+
+    func testGetSetSettingsSync() {
+        let expectation = self.expectation(description: #function)
+        let index = client.offlineIndex(withName: #function)
+        let queue = DispatchQueue(label: #function)
+        let settings: JSONObject = [
+            "attributesToIndex": ["foo", "bar"]
+        ]
+        queue.async {
+            do {
+                index.beginTransaction()
+                try index.setSettingsSync(settings)
+                try index.commitTransactionSync()
+                index.getSettings() { (content, error) in
+                    guard let content = content else { XCTFail(); return }
+                    XCTAssertEqual(content["attributesToIndex"] as! NSObject, settings["attributesToIndex"] as! NSObject)
+                    XCTAssert(content["attributesToRetrieve"] as! NSObject == NSNull())
+                    expectation.fulfill()
+                }
+            } catch let e {
+                XCTFail(e.localizedDescription)
+                expectation.fulfill()
+            }
+        }
+        waitForExpectations(timeout: expectationTimeout, handler: nil)
+    }
+
     func testClear() {
         let expectation = self.expectation(description: #function)
         let index = client.offlineIndex(withName: #function)
@@ -204,7 +307,35 @@ class OfflineIndexTests: OfflineTestCase {
         }
         waitForExpectations(timeout:  expectationTimeout, handler: nil)
     }
-    
+
+    func testClearSync() {
+        let expectation = self.expectation(description: #function)
+        let index = client.offlineIndex(withName: #function)
+        let queue = DispatchQueue(label: #function)
+        queue.async {
+            do {
+                index.beginTransaction()
+                try index.saveObjectsSync(Array(self.objects.values))
+                try index.commitTransactionSync()
+
+                index.beginTransaction()
+                try index.clearIndexSync()
+                try index.commitTransactionSync()
+
+                index.browse(query: Query()) { (content, error) in
+                    guard let content = content else { XCTFail(); return }
+                    guard let nbHits = content["nbHits"] as? Int else { XCTFail(); return }
+                    XCTAssertEqual(nbHits, 0)
+                    expectation.fulfill()
+                }
+            } catch let e {
+                XCTFail(e.localizedDescription)
+                expectation.fulfill()
+            }
+        }
+        waitForExpectations(timeout: expectationTimeout, handler: nil)
+    }
+
     func testBrowse() {
         let expectation = self.expectation(description: #function)
         let index = client.offlineIndex(withName: #function)
