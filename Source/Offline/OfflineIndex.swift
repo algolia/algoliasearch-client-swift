@@ -500,9 +500,7 @@ public struct IOError: CustomNSError {
         init(index: OfflineIndex) {
             self.index = index
             self.id = index.nextTransactionSeqNo()
-            // TODO: Factorize into `OfflineClient`
-            let globalTmpDirPath = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("algolia").path
-            self.tmpDirPath = URL(fileURLWithPath: globalTmpDirPath).appendingPathComponent(NSUUID().uuidString).path
+            self.tmpDirPath = URL(fileURLWithPath: index.client.tmpDir).appendingPathComponent(NSUUID().uuidString).path
             super.init()
             
             // Create temporary directory.

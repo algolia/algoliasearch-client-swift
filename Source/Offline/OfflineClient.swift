@@ -67,6 +67,9 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     ///   individual operations, we wish to avoid deadlocks.
     ///
     let mixedRequestQueue = OperationQueue()
+    
+    /// Path to the root directory for temporary files.
+    var tmpDir: String
 
     // MARK: Initialization
     
@@ -84,6 +87,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
         searchQueue.maxConcurrentOperationCount = 1
         mixedRequestQueue.name = "AlgoliaSearch-Mixed"
         rootDataDir = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true).first! + "/algolia"
+        tmpDir = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("algolia").path
         super.init(appID: appID, apiKey: apiKey)
         mixedRequestQueue.maxConcurrentOperationCount = super.requestQueue.maxConcurrentOperationCount
         userAgents.append(LibraryVersion(name: "AlgoliaSearchOfflineCore-iOS", version: sdk.versionString))

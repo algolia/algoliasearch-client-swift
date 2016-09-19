@@ -305,7 +305,7 @@ import Foundation
 
         // Create temporary directory.
         do {
-            tmpDir = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("algolia").appendingPathComponent(UUID().uuidString).path
+            tmpDir = URL(fileURLWithPath: offlineClient.tmpDir).appendingPathComponent(UUID().uuidString).path
             try FileManager.default.createDirectory(atPath: tmpDir!, withIntermediateDirectories: true, attributes: nil)
         } catch _ {
             NSLog("ERROR: Could not create temporary directory '%@'", tmpDir!)
