@@ -180,6 +180,7 @@ public struct IOError: CustomNSError {
     ///
     /// - parameter objectID: Identifier of the object to retrieve.
     /// - parameter attributesToRetrieve: List of attributes to retrieve.
+    ///                                   If `nil`, all (retrievable) attributes will be retrieved.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -196,6 +197,8 @@ public struct IOError: CustomNSError {
     /// Get an object from this index (synchronous version).
     ///
     /// - parameter objectID: Identifier of the object to retrieve.
+    /// - parameter attributesToRetrieve: List of attributes to retrieve.
+    ///                                   If `nil`, all (retrievable) attributes will be retrieved.
     /// - returns: A mutually exclusive (content, error) pair.
     ///
     private func getObjectSync(withID objectID: String, attributesToRetrieve: [String]?) -> APIResponse {
@@ -226,12 +229,7 @@ public struct IOError: CustomNSError {
     ///
     @discardableResult
     @objc public func getObjects(withIDs objectIDs: [String], completionHandler: @escaping CompletionHandler) -> Operation {
-        let operation = BlockOperation() {
-            let (content, error) = self.getObjectsSync(withIDs: objectIDs)
-            self.callCompletionHandler(completionHandler, content: content, error: error)
-        }
-        client.searchQueue.addOperation(operation)
-        return operation
+        return getObjects(withIDs: objectIDs, attributesToRetrieve: nil, completionHandler: completionHandler)
     }
     
     /// Get several objects from this index (synchronous version).
@@ -240,10 +238,41 @@ public struct IOError: CustomNSError {
     /// - returns: A mutually exclusive (content, error) pair.
     ///
     private func getObjectsSync(withIDs objectIDs: [String]) -> APIResponse {
-        let searchResults = self.localIndex.getObjects(withIDs: objectIDs, parameters: nil)
-        return OfflineClient.parseResponse(searchResults)
+        return getObjectsSync(withIDs: objectIDs, attributesToRetrieve: nil)
+    }
+
+    /// Get several objects from this index, optionally restricting the retrieved content.
+    ///
+    /// - parameter objectIDs: Identifiers of objects to retrieve.
+    /// - parameter attributesToRetrieve: List of attributes to retrieve.
+    ///                                   If `nil`, all (retrievable) attributes will be retrieved.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @discardableResult
+    @objc public func getObjects(withIDs objectIDs: [String], attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) -> Operation {
+        let operation = BlockOperation() {
+            let (content, error) = self.getObjectsSync(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve)
+            self.callCompletionHandler(completionHandler, content: content, error: error)
+        }
+        client.searchQueue.addOperation(operation)
+        return operation
     }
     
+    /// Get several objects from this index, optionally restricting the retrieved content (synchronous version).
+    ///
+    /// - parameter objectIDs: Identifiers of objects to retrieve.
+    /// - parameter attributesToRetrieve: List of attributes to retrieve.
+    ///                                   If `nil`, all (retrievable) attributes will be retrieved.
+    /// - returns: A mutually exclusive (content, error) pair.
+    ///
+    private func getObjectsSync(withIDs objectIDs: [String], attributesToRetrieve: [String]?) -> APIResponse {
+        let query = Query()
+        query.attributesToRetrieve = attributesToRetrieve
+        let searchResults = self.localIndex.getObjects(withIDs: objectIDs, parameters: query.build())
+        return OfflineClient.parseResponse(searchResults)
+    }
+
     /// Search this index.
     ///
     /// - parameter query: Search parameters.
