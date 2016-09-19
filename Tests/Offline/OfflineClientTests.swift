@@ -40,7 +40,7 @@ class OfflineClientTests: OfflineTestCase {
                 XCTAssertNotEqual(name, index.name)
             }
             index.beginTransaction()
-            index.addObject(self.objects["snoopy"]!) { (content, error) in
+            index.saveObject(self.objects["snoopy"]!) { (content, error) in
                 XCTAssertNil(error)
                 index.commitTransaction() { (content, error) in
                     guard error == nil else { XCTFail("Error encountered"); return }
@@ -68,7 +68,7 @@ class OfflineClientTests: OfflineTestCase {
         let expectation = self.expectation(description: #function)
         let index = client.offlineIndex(withName: #function)
         index.beginTransaction()
-        index.addObjects(Array(objects.values)) { (content, error) in
+        index.saveObjects(Array(objects.values)) { (content, error) in
             XCTAssertNil(error)
             index.commitTransaction() { (content, error) in
                 guard error == nil else { XCTFail(); return }
@@ -89,7 +89,7 @@ class OfflineClientTests: OfflineTestCase {
         let srcIndex = client.offlineIndex(withName: #function);
         let dstIndex = client.offlineIndex(withName: #function + "_new")
         srcIndex.beginTransaction()
-        srcIndex.addObjects(Array(objects.values)) { (content, error) in
+        srcIndex.saveObjects(Array(objects.values)) { (content, error) in
             XCTAssertNil(error)
             srcIndex.commitTransaction() { (content, error) in
                 guard error == nil else { XCTFail(); return }

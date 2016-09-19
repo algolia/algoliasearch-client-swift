@@ -115,18 +115,6 @@
     // ------------------------
     NSDictionary<NSString*, id>* DUMMY_JSON = @{ @"objectID": @"snoopy", @"kind": @"dog" };
     [index beginTransaction];
-    XCTestExpectation* expectation_addObject = [self expectationWithDescription:@"addObject"];
-    [index addObject:DUMMY_JSON completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
-        [expectation_addObject fulfill];
-    }];
-    XCTestExpectation* expectation_addObjectWithID = [self expectationWithDescription:@"addObjectWithID"];
-    [index addObject:DUMMY_JSON withID:@"snoopy" completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
-        [expectation_addObjectWithID fulfill];
-    }];
-    XCTestExpectation* expectation_addObjects = [self expectationWithDescription:@"addObjects"];
-    [index addObjects:@[ DUMMY_JSON ] completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
-        [expectation_addObjects fulfill];
-    }];
     XCTestExpectation* expectation_saveObject = [self expectationWithDescription:@"saveObject"];
     [index saveObject:DUMMY_JSON completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
         [expectation_saveObject fulfill];

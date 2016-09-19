@@ -743,52 +743,6 @@ public struct IOError: CustomNSError {
     
     // MARK: - Write operations
     
-    /// Add an object to this index.
-    ///
-    /// + Warning: This method will assert/crash if no transaction is currently open.
-    ///
-    /// - parameter object: The object to add.
-    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
-    /// - returns: A cancellable operation.
-    ///
-    @discardableResult
-    @objc public func addObject(_ object: JSONObject, completionHandler: CompletionHandler? = nil) -> Operation {
-        assertTransaction()
-        return saveObject(object, completionHandler: completionHandler)
-    }
-    
-    /// Add an object to this index, assigning it the specified object ID.
-    /// If an object already exists with the same object ID, the existing object will be overwritten.
-    ///
-    /// + Warning: This method will assert/crash if no transaction is currently open.
-    ///
-    /// - parameter object: The object to add.
-    /// - parameter objectID: Identifier that you want to assign this object.
-    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
-    /// - returns: A cancellable operation.
-    ///
-    @discardableResult
-    @objc public func addObject(_ object: JSONObject, withID objectID: String, completionHandler: CompletionHandler? = nil) -> Operation {
-        assertTransaction()
-        var object = object
-        object["objectID"] = objectID
-        return saveObject(object, completionHandler: completionHandler)
-    }
-    
-    /// Add several objects to this index.
-    ///
-    /// + Warning: This method will assert/crash if no transaction is currently open.
-    ///
-    /// - parameter objects: Objects to add.
-    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
-    /// - returns: A cancellable operation.
-    ///
-    @discardableResult
-    @objc public func addObjects(_ objects: [JSONObject], completionHandler: CompletionHandler? = nil) -> Operation {
-        assertTransaction()
-        return saveObjects(objects, completionHandler: completionHandler)
-    }
-    
     /// Delete an object from this index.
     ///
     /// + Warning: This method will assert/crash if no transaction is currently open.
