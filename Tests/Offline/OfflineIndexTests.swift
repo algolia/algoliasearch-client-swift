@@ -372,4 +372,39 @@ class OfflineIndexTests: OfflineTestCase {
         }
         waitForExpectations(timeout:  expectationTimeout, handler: nil)
     }
+    
+    func testRollback() {
+        let expectation = self.expectation(description: #function)
+        let index = client.offlineIndex(withName: #function)
+        let queue = DispatchQueue(label: #function)
+        queue.async {
+            do {
+                index.beginTransaction()
+                try index.saveObjectsSync(Array(self.objects.values))
+                try index.rollbackTransactionSync()
+                XCTAssertFalse(self.client.hasOfflineData(indexName: #function))
+                
+                index.beginTransaction()
+                try index.saveObjectSync(self.objects["snoopy"]!)
+                try index.commitTransactionSync()
+                XCTAssertTrue(self.client.hasOfflineData(indexName: #function))
+
+                index.beginTransaction()
+                try index.saveObjectSync(self.objects["woodstock"]!)
+                try index.rollbackTransactionSync()
+
+                index.browse(query: Query()) { (content, error) in
+                    guard let content = content else { XCTFail(); return }
+                    guard let nbHits = content["nbHits"] as? Int else { XCTFail(); return }
+                    XCTAssertEqual(nbHits, 1)
+                    XCTAssertNil(content["cursor"])
+                    expectation.fulfill()
+                }
+            } catch let e {
+                XCTFail(e.localizedDescription)
+                expectation.fulfill()
+            }
+        }
+        waitForExpectations(timeout: expectationTimeout, handler: nil)
+    }
 }
