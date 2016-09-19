@@ -69,6 +69,7 @@
 		BC4BD2961D54E50000170ECC /* MirrorSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0A01611C9BEDE000CD4A7C /* MirrorSettings.swift */; };
 		BC4BD2971D54E50000170ECC /* OfflineClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0A01621C9BEDE000CD4A7C /* OfflineClient.swift */; };
 		BC582C5D1D82B453007B815A /* ObjectiveCBridging.m in Sources */ = {isa = PBXBuildFile; fileRef = BC582C5C1D82B453007B815A /* ObjectiveCBridging.m */; };
+		BC6267EE1D8FE4180014C767 /* OfflineObjcBridging.m in Sources */ = {isa = PBXBuildFile; fileRef = BC6267ED1D8FE4180014C767 /* OfflineObjcBridging.m */; };
 		BC68BC571CB69776007F9655 /* IndexQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC68BC561CB69776007F9655 /* IndexQuery.swift */; };
 		BC68BC581CB69776007F9655 /* IndexQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC68BC561CB69776007F9655 /* IndexQuery.swift */; };
 		BC85EA701D82C8C3009E9E7D /* ObjectiveCBridging.m in Sources */ = {isa = PBXBuildFile; fileRef = BC582C5C1D82B453007B815A /* ObjectiveCBridging.m */; };
@@ -174,6 +175,7 @@
 		BC4A7F3B1CB5373E00AF1DCB /* CancelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelTests.swift; sourceTree = "<group>"; };
 		BC4BD2931D54E48900170ECC /* AlgoliaSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlgoliaSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC582C5C1D82B453007B815A /* ObjectiveCBridging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectiveCBridging.m; sourceTree = "<group>"; };
+		BC6267ED1D8FE4180014C767 /* OfflineObjcBridging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OfflineObjcBridging.m; sourceTree = "<group>"; };
 		BC68BC561CB69776007F9655 /* IndexQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexQuery.swift; sourceTree = "<group>"; };
 		BC85EA721D82C8FD009E9E7D /* Tests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tests-Bridging-Header.h"; sourceTree = "<group>"; };
 		BCD1F54A1CC61C8D0006E227 /* AlgoliaSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlgoliaSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -393,6 +395,7 @@
 				BCD57D391D89B1EA00C5DE68 /* OfflineClientTests.swift */,
 				BCD57D3A1D89B1EA00C5DE68 /* OfflineIndexTests.swift */,
 				BCD57D3B1D89B1EA00C5DE68 /* OfflineTestCase.swift */,
+				BC6267ED1D8FE4180014C767 /* OfflineObjcBridging.m */,
 			);
 			path = Offline;
 			sourceTree = "<group>";
@@ -966,6 +969,7 @@
 				BCD57D3D1D89B1EA00C5DE68 /* OfflineIndexTests.swift in Sources */,
 				BCD57D3E1D89B1EA00C5DE68 /* OfflineTestCase.swift in Sources */,
 				BCD57D3C1D89B1EA00C5DE68 /* OfflineClientTests.swift in Sources */,
+				BC6267EE1D8FE4180014C767 /* OfflineObjcBridging.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
