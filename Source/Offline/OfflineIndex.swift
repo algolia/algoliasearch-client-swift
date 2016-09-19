@@ -154,15 +154,6 @@ public struct IOError: CustomNSError {
         }
     }
     
-    private func nextTransactionSeqNo() -> Int {
-        var seqNo: Int = 0
-        transactionSeqNo_lock.sync {
-            self.transactionSeqNo += 1
-            seqNo = self.transactionSeqNo
-        }
-        return seqNo
-    }
-    
     // MARK: - Read operations
     
     /// Get an object from this index.
@@ -1122,6 +1113,15 @@ public struct IOError: CustomNSError {
                 completionHandler(content, error)
             }
         }
+    }
+    
+    private func nextTransactionSeqNo() -> Int {
+        var seqNo: Int = 0
+        transactionSeqNo_lock.sync {
+            self.transactionSeqNo += 1
+            seqNo = self.transactionSeqNo
+        }
+        return seqNo
     }
     
     private func assertNotMainThread() {
