@@ -407,4 +407,30 @@ class OfflineIndexTests: OfflineTestCase {
         }
         waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
+    
+    /// Test that we can chain async write operations without waiting for the handler to be called, and that it
+    /// still works.
+    func testAsyncUpdatesInParallel() {
+        let expectation = self.expectation(description: #function)
+        let index = client.offlineIndex(withName: #function)
+        index.beginTransaction()
+        index.clearIndex()
+        index.saveObject(self.objects["snoopy"]!, completionHandler:  nil)
+        index.saveObject(self.objects["woodstock"]!, completionHandler:  nil)
+        index.deleteObject(withID: "1")
+        index.setSettings([:])
+        index.commitTransaction { (content, error) in
+            XCTAssertNil(error)
+            index.browse(query: Query()) { (content, error) in
+                guard let content = content else { XCTFail(); return }
+                guard let nbHits = content["nbHits"] as? Int else { XCTFail(); return }
+                XCTAssertEqual(nbHits, 1)
+                XCTAssertNil(content["cursor"])
+                guard let hits = content["hits"] as? [JSONObject] else { XCTFail(); return }
+                XCTAssertEqual(hits[0]["name"] as? String, "Woodstock")
+                expectation.fulfill()
+            }
+        }
+        waitForExpectations(timeout: expectationTimeout, handler: nil)
+    }
 }
