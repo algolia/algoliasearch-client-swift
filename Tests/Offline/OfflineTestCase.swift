@@ -36,7 +36,7 @@ class OfflineTestCase: XCTestCase {
         
         // Create client.
         client = OfflineClient(appID: String(reflecting: type(of: self)), apiKey: "NEVERMIND")
-        client.enableOfflineMode(licenseKey: "AkUGAQH/3YXDBf+GxMAFABxDbJYBbWVudCBMZSBQcm92b3N0IChBbGdvbGlhKRhjb20uYWxnb2xpYS5GYWtlVW5pdFRlc3QwLgIVANNt9d4exv+oUPNno7XkXLOQozbYAhUAzVNYI6t/KQy1eEZECvYA0/ScpQU=")
+        client.enableOfflineMode(licenseKey: "AkwCAQH/oOLBBf/y3rwFZBhBbGdvbGlhIERldmVsb3BtZW50IFRlYW0kY29tLmFsZ29saWEuQWxnb2xpYVNlYXJjaE9mZmxpbmVDb3JlMC0CFQCpars16hvMoy+mC2PZb56f6Ha+EgIUNUf/jiILSFwbiz3hOaLfbynt+iI=")
         
         // Clean-up data from potential previous runs.
         if FileManager.default.fileExists(atPath: client.rootDataDir) {
