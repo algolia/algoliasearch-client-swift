@@ -35,7 +35,9 @@ class OfflineTestCase: XCTestCase {
         super.setUp()
         
         // Create client.
-        client = OfflineClient(appID: String(reflecting: type(of: self)), apiKey: "NEVERMIND")
+        let appID = ProcessInfo.processInfo.environment["ALGOLIA_APPLICATION_ID"] ?? APP_ID
+        let apiKey = ProcessInfo.processInfo.environment["ALGOLIA_API_KEY"] ?? API_KEY
+        client = OfflineClient(appID: appID, apiKey: apiKey)
         client.enableOfflineMode(licenseKey: "AkwCAQH/oOLBBf/y3rwFZBhBbGdvbGlhIERldmVsb3BtZW50IFRlYW0kY29tLmFsZ29saWEuQWxnb2xpYVNlYXJjaE9mZmxpbmVDb3JlMC0CFQCpars16hvMoy+mC2PZb56f6Ha+EgIUNUf/jiILSFwbiz3hOaLfbynt+iI=")
         
         // Clean-up data from potential previous runs.

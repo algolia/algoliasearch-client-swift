@@ -109,6 +109,8 @@
 		BCDA73791CA546800082B197 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA73771CA546800082B197 /* NetworkTests.swift */; };
 		BCDA737E1CA555070082B197 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA737D1CA555070082B197 /* MockURLSession.swift */; };
 		BCDA737F1CA555070082B197 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA737D1CA555070082B197 /* MockURLSession.swift */; };
+		BCFC281C1D92660C00BFE0A0 /* MirroredIndexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFC281B1D92660C00BFE0A0 /* MirroredIndexTests.swift */; };
+		BCFC281D1D92670100BFE0A0 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D44D0261B362648008369AC /* Helpers.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -189,6 +191,7 @@
 		BCD57D3B1D89B1EA00C5DE68 /* OfflineTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineTestCase.swift; sourceTree = "<group>"; };
 		BCDA73771CA546800082B197 /* NetworkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
 		BCDA737D1CA555070082B197 /* MockURLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
+		BCFC281B1D92660C00BFE0A0 /* MirroredIndexTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MirroredIndexTests.swift; sourceTree = "<group>"; };
 		DD81F7D1CCD1D99E06CA0B7B /* Pods-AlgoliaSearch-Offline-iOS Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch-Offline-iOS Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS Tests/Pods-AlgoliaSearch-Offline-iOS Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		F52EEAD0E1031BA77193C0AF /* Pods_AlgoliaSearch_Offline_iOS_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlgoliaSearch_Offline_iOS_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -392,6 +395,7 @@
 		BCD57D381D89B1EA00C5DE68 /* Offline */ = {
 			isa = PBXGroup;
 			children = (
+				BCFC281B1D92660C00BFE0A0 /* MirroredIndexTests.swift */,
 				BCD57D391D89B1EA00C5DE68 /* OfflineClientTests.swift */,
 				BCD57D3A1D89B1EA00C5DE68 /* OfflineIndexTests.swift */,
 				BCD57D3B1D89B1EA00C5DE68 /* OfflineTestCase.swift */,
@@ -967,7 +971,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCD57D3D1D89B1EA00C5DE68 /* OfflineIndexTests.swift in Sources */,
+				BCFC281D1D92670100BFE0A0 /* Helpers.swift in Sources */,
 				BCD57D3E1D89B1EA00C5DE68 /* OfflineTestCase.swift in Sources */,
+				BCFC281C1D92660C00BFE0A0 /* MirroredIndexTests.swift in Sources */,
 				BCD57D3C1D89B1EA00C5DE68 /* OfflineClientTests.swift in Sources */,
 				BC6267EE1D8FE4180014C767 /* OfflineObjcBridging.m in Sources */,
 			);
