@@ -219,6 +219,20 @@ import Foundation
         return client.performHTTPQuery(path: path, method: .POST, body: partialObject, hostnames: client.writeHosts, completionHandler: completionHandler)
     }
     
+    /// Partially update an object.
+    ///
+    /// - parameter partialObject: New values/operations for the object.
+    /// - parameter objectID: Identifier of object to be updated.
+    /// - paramater createIfNotExists: Whether an update on a nonexistent object ID should create the object. Defaults to `true`.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc
+    @discardableResult public func partialUpdateObject(_ partialObject: JSONObject, withID objectID: String, createIfNotExists: Bool, completionHandler: CompletionHandler? = nil) -> Operation {
+        let path = "1/indexes/\(urlEncodedName)/\(objectID.urlEncodedPathComponent())/partial?createIfNotExists=\(String(createIfNotExists).urlEncodedQueryParam())"
+        return client.performHTTPQuery(path: path, method: .POST, body: partialObject, hostnames: client.writeHosts, completionHandler: completionHandler)
+    }
+
     /// Partially update several objects.
     ///
     /// - parameter objects: New values/operations for the objects. Each object must contain an `objectID` attribute.

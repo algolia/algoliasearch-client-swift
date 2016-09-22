@@ -408,6 +408,46 @@ class IndexTests: XCTestCase {
         
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
+
+    func testPartialUpdateObjectCreateIfNotExists() {
+        let expectation = self.expectation(description: "testPartialUpdateObject")
+        let objectID = "unknown"
+
+        // Partial update with `createIfNotExists=false` should not create object.
+        self.index.partialUpdateObject(["city": "Los Angeles"], withID: objectID, createIfNotExists: false) { (content, error) -> Void in
+            guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
+            self.index.waitTask(withID: content!["taskID"] as! Int) { (content, error) -> Void in
+                guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
+                self.index.getObject(withID: objectID) { (content, error) -> Void in
+                    guard let error = error else {
+                        XCTFail("The object should not have been created")
+                        expectation.fulfill()
+                        return
+                    }
+                    XCTAssertEqual(StatusCode.notFound.rawValue, (error as NSError).code)
+                    
+                    // Partial update with `createIfNotExists=true` should create object.
+                    self.index.partialUpdateObject(["city": "Los Angeles"], withID: objectID, createIfNotExists: true) { (content, error) -> Void in
+                        guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
+                        self.index.waitTask(withID: content!["taskID"] as! Int) { (content, error) -> Void in
+                            guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
+                            self.index.getObject(withID: objectID) { (content, error) -> Void in
+                                guard error == nil else {
+                                    XCTFail("The object should have been created (\(error!.localizedDescription))")
+                                    expectation.fulfill()
+                                    return
+                                }
+                                XCTAssertEqual(content?["objectID"] as? String, objectID)
+                                XCTAssertEqual(content?["city"] as? String, "Los Angeles")
+                                expectation.fulfill()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    }
     
     func testPartialUpdateObjects() {
         let expectation = self.expectation(description: "testPartialUpdateObjects")
