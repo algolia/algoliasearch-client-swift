@@ -497,7 +497,53 @@ class IndexTests: XCTestCase {
         
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
-    
+
+    func testPartialUpdateObjectsCreateIfNotExists() {
+        let expectation = self.expectation(description: #function)
+        let objectUpdates: [JSONObject] = [
+            ["city": "Paris", "objectID": "a/go/?à"],
+            ["city": "Strasbourg", "objectID": "a/go/?à$"]
+        ]
+        // Partial updates with `createIfNotExists=false` should not create objects.
+        self.index.partialUpdateObjects(objectUpdates, createIfNotExists: false) { (content, error) -> Void in
+            guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
+            self.index.waitTask(withID: content!["taskID"] as! Int) { (content, error) -> Void in
+                guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
+                self.index.getObjects(withIDs: ["a/go/?à", "a/go/?à$"]) { (content, error) -> Void in
+                    // NOTE: Multiple get does not return an error, but simply returns `null` for missing objects.
+                    guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
+                    guard let results = content?["results"] as? [Any] else { XCTFail("Invalid results"); expectation.fulfill(); return }
+                    XCTAssertEqual(results.count, 2)
+                    for i in 0..<2 {
+                        XCTAssert(results[i] is NSNull)
+                    }
+
+                    // Partial updates with `createIfNotExists=true` should create objects.
+                    self.index.partialUpdateObjects(objectUpdates, createIfNotExists: true) { (content, error) -> Void in
+                        guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
+                        self.index.waitTask(withID: content!["taskID"] as! Int) { (content, error) -> Void in
+                            guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
+                            self.index.getObjects(withIDs: ["a/go/?à", "a/go/?à$"]) { (content, error) -> Void in
+                                guard error == nil else {
+                                    XCTFail("Objects should have been created (\(error!.localizedDescription))")
+                                    expectation.fulfill()
+                                    return
+                                }
+                                guard let results = content?["results"] as? [JSONObject] else { XCTFail("Invalid results"); expectation.fulfill(); return }
+                                XCTAssertEqual(results.count, 2)
+                                for i in 0..<2 {
+                                    XCTAssertEqual(results[i]["objectID"] as? String, objectUpdates[i]["objectID"] as? String)
+                                }
+                                expectation.fulfill()
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    }
+
     func testSaveObject() {
         let expectation = self.expectation(description: "testSaveObject")
         let object: JSONObject = ["city": "New York", "initial": "NY", "objectID": "a/go/?à"]

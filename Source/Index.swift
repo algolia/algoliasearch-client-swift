@@ -213,6 +213,9 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
+    /// + Note: If the object does not exist, it will be created. You can avoid automatic creation of the object by
+    ///   passing `false` to `createIfNotExists` in `partialUpdateObject(_:withID:createIfNotExists:completionHandler:)`.
+    ///
     @objc
     @discardableResult public func partialUpdateObject(_ partialObject: JSONObject, withID objectID: String, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(urlEncodedName)/\(objectID.urlEncodedPathComponent())/partial"
@@ -223,7 +226,7 @@ import Foundation
     ///
     /// - parameter partialObject: New values/operations for the object.
     /// - parameter objectID: Identifier of object to be updated.
-    /// - paramater createIfNotExists: Whether an update on a nonexistent object ID should create the object. Defaults to `true`.
+    /// - parameter createIfNotExists: Whether an update on a nonexistent object ID should create the object.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -238,6 +241,9 @@ import Foundation
     /// - parameter objects: New values/operations for the objects. Each object must contain an `objectID` attribute.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
+    ///
+    /// + Note: If an object does not exist, it will be created. You can avoid automatic creation of objects by
+    ///   passing `false` to `createIfNotExists` in `partialUpdateObjects(_:createIfNotExists:completionHandler:)`.
     ///
     @objc
     @discardableResult public func partialUpdateObjects(_ objects: [JSONObject], completionHandler: CompletionHandler? = nil) -> Operation {
@@ -256,7 +262,32 @@ import Foundation
         
         return client.performHTTPQuery(path: path, method: .POST, body: request, hostnames: client.writeHosts, completionHandler: completionHandler)
     }
-    
+
+    /// Partially update several objects.
+    ///
+    /// - parameter objects: New values/operations for the objects. Each object must contain an `objectID` attribute.
+    /// - parameter createIfNotExists: Whether an update on a nonexistent object ID should create the object.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc
+    @discardableResult public func partialUpdateObjects(_ objects: [JSONObject], createIfNotExists: Bool, completionHandler: CompletionHandler? = nil) -> Operation {
+        let path = "1/indexes/\(urlEncodedName)/batch"
+        let action = createIfNotExists ? "partialUpdateObject" : "partialUpdateObjectNoCreate"
+        var requests = [Any]()
+        requests.reserveCapacity(objects.count)
+        for object in objects {
+            requests.append([
+                "action": action,
+                "objectID": object["objectID"] as! String,
+                "body": object
+                ])
+        }
+        let request = ["requests": requests]
+        
+        return client.performHTTPQuery(path: path, method: .POST, body: request, hostnames: client.writeHosts, completionHandler: completionHandler)
+    }
+
     /// Update an object.
     ///
     /// - parameter object: New version of the object to update. Must contain an `objectID` attribute.
