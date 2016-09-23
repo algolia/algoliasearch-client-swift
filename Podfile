@@ -3,7 +3,7 @@
 use_frameworks!
 
 def common_deps
-    pod 'AlgoliaSearchOfflineCore-iOS', '~> 0.2'
+    pod 'AlgoliaSearchOfflineCore-iOS', '~> 1.0'
 end
 
 target "AlgoliaSearch-Offline-iOS" do
