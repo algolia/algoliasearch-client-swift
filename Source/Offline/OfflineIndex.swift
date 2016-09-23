@@ -92,7 +92,7 @@ public struct IOError: CustomNSError {
 /// - Populate the transaction: call the asynchronous methods similar to those in the `Index` class (like `saveObjects`
 ///   or `deleteObjects`). Each method requires you to provide a completion handler.
 ///
-/// - Either commit (`commit()`) or rollback (`rollback()`) the transaction.
+/// - Either commit (`commitTransaction()`) or rollback (`rollbackTransaction()`) the transaction.
 ///
 /// #### Synchronous updates
 ///
@@ -104,7 +104,7 @@ public struct IOError: CustomNSError {
 ///
 /// ### Reading
 ///
-/// Read operations behave identically as on online indices.
+/// Read operations behave identically as with online indices.
 ///
 @objc public class OfflineIndex : NSObject {
     // TODO: Expose common behavior through a protocol.
