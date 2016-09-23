@@ -31,10 +31,17 @@ if [[ "$PLATFORM" != "OSX" ]]; then
 fi
 
 # Run tests.
+echo "Running tests..."
 if [ -n "$DESTINATION" ]; then
     xcodebuild -project AlgoliaSearch.xcodeproj -scheme "AlgoliaSearch $PLATFORM" -sdk "$SDK" -destination "$DESTINATION" test
 else
     xcodebuild -project AlgoliaSearch.xcodeproj -scheme "AlgoliaSearch $PLATFORM" -sdk "$SDK" test
+fi
+
+# Run offline variant.
+echo "Running offline tests..."
+if [[ "$OFFLINE" = true ]]; then
+    xcodebuild -workspace AlgoliaSearch.xcworkspace -scheme "AlgoliaSearch-Offline-$PLATFORM" -sdk "$SDK" -destination "$DESTINATION" test
 fi
 
 # Clean-up: revert patched file.
