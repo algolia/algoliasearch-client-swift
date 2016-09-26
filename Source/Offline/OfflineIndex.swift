@@ -87,20 +87,33 @@ public struct IOError: CustomNSError {
 ///
 /// The procedure to update an index is as follows:
 ///
-/// - Initiate a transaction by calling `beginTransaction()`.
+/// - Create a transaction by calling `newTransaction()`.
 ///
-/// - Populate the transaction: call the asynchronous methods similar to those in the `Index` class (like `saveObjects`
-///   or `deleteObjects`). Each method requires you to provide a completion handler.
+/// - Populate the transaction: call the various write methods on the `WriteTransaction` class.
 ///
-/// - Either commit (`commitTransaction()`) or rollback (`rollbackTransaction()`) the transaction.
+/// - Either commit (`commit()`) or rollback (`rollback()`) the transaction.
 ///
-/// #### Synchronous updates
+/// #### Synchronous vs asynchronous updates
+///
+/// Any write operation, especially (but not limited to) the final commit, is potentially lengthy. This is why all
+/// operations provide an asynchronous version, which accepts an optional completion handler that will be notified of
+/// the operation's completion (either successful or erroneous).
 ///
 /// If you already have a background thread/queue performing data-handling tasks, you may find it more convenient to
 /// use the synchronous versions of the write methods. They are named after the asynchronous versions, suffixed by
 /// `Sync`. The flow is identical to the asynchronous version (see above).
 ///
 /// + Warning: You must not call synchronous methods from the main thread. The methods will assert if you do so.
+///
+/// + Note: The synchronous methods can throw; you have to catch and handle the error.
+///
+/// #### Parallel transactions
+///
+/// Why it is possible to create parallel transactions, there is little interest in doing so, since each committed
+/// transaction results in an index rebuild. Multiplying transactions therefore only degrades performance.
+///
+/// Also, transactions are serially executed in the order they were committed, the latest transaction potentially
+/// overwriting the previous transactions' result.
 ///
 /// ### Reading
 ///
@@ -130,9 +143,6 @@ public struct IOError: CustomNSError {
     /// Dispatch queue used to serialize access to `transactionSeqNo`.
     private let transactionSeqNo_lock = DispatchQueue(label: "OfflineIndex.transactionSeqNo.lock")
     
-    /// The current transaction, or `nil` if no transaction is currently open.
-    private var transaction: WriteTransaction?
-
     // MARK: - Initialization
     
     /// Create a new offline index.
@@ -435,23 +445,23 @@ public struct IOError: CustomNSError {
     /// A transaction gathers all the operations that will be performed when the transaction is committed.
     /// Its purpose is twofold:
     ///
-    /// 1. Avoid rebuilding the index for every individual operation, which would be astonishingly costly.
+    /// 1. Avoid rebuilding the index for every individual operation, which would be very costly.
     /// 2. Avoid keeping all the necessary data in memory, e.g. by flushing added objects to temporary files on disk.
     ///
-    /// A transaction can be created by calling `OfflineIndex.beginTransaction()`.
+    /// A transaction can be created by calling `OfflineIndex.newTransaction()`.
     ///
-    private class WriteTransaction: NSObject {
+    @objc public class WriteTransaction: NSObject {
         /// The index on which this transaction will operate.
-        let index: OfflineIndex
+        @objc public let index: OfflineIndex
         
         /// This transaction's ID.
         /// Unique within the context of `index`.
         /// *Not* guaranteed to be unique across all indices.
         ///
-        let id: Int
+        @objc public let identifier: Int
         
         /// Whether this transaction has completed (committed or rolled back).
-        private var finished: Bool = false
+        @objc public private(set) var finished: Bool = false
 
         /// Path to the temporary file containing the new settings.
         /// If `nil`, settings will be unchanged by this transaction.
@@ -485,9 +495,9 @@ public struct IOError: CustomNSError {
         
         // MARK: Initialization
         
-        init(index: OfflineIndex) {
+        fileprivate init(index: OfflineIndex) {
             self.index = index
-            self.id = index.nextTransactionSeqNo()
+            self.identifier = index.nextTransactionSeqNo()
             self.tmpDirPath = URL(fileURLWithPath: index.client.tmpDir).appendingPathComponent(NSUUID().uuidString).path
             super.init()
             
@@ -496,19 +506,61 @@ public struct IOError: CustomNSError {
         }
         
         deinit {
-            assert(finished, "A transaction was never committed nor rolled back")
             if !finished {
-                rollback()
+                NSLog("[WARNING] Transaction %@ was never committed nor rolled back", self)
+                doRollback()
             }
         }
         
-        // MARK: Populating
+        override public var description: String { return "WriteTransaction{index: \(index), identifier: \(identifier)}" }
         
-        /// Save objects.
+        // MARK: Populating
+
+        /// Save an object (synchronously).
+        ///
+        /// - parameter object: Object to save. It must contain an `objectID` attribute.
+        ///
+        @objc public func saveObjectSync(_ object: JSONObject) throws {
+            assertNotMainThread()
+            try self_lock.sync {
+                assert(!finished)
+                tmpObjects.append(object)
+                try flushObjectsToDisk(force: false)
+            }
+        }
+        
+        /// Save an object.
+        ///
+        /// - parameter object: Object to save. It must contain an `objectID` attribute.
+        /// - parameter completionHandler: Completion handler to be notified when the transaction has been updated.
+        /// - returns: The corresponding operation.
+        ///
+        @discardableResult
+        @objc public func saveObject(_ object: JSONObject, completionHandler: CompletionHandler? = nil) -> Operation {
+            let operation = BlockOperation() {
+                do {
+                    try self.saveObjectSync(object)
+                    guard let objectID = object["objectID"] else {
+                        throw InvalidJSONError(description: "Object is missing required `objectID` attribute")
+                    }
+                    let content: JSONObject = [
+                        "objectID": objectID
+                    ]
+                    completionHandler?(content, nil)
+                } catch let e {
+                    completionHandler?(nil, e)
+                }
+            }
+            index.transactionQueue.addOperation(operation)
+            return operation
+        }
+
+        /// Save multiple objects (synchronously).
         ///
         /// - parameter objects: New versions of the objects to update. Each one must contain an `objectID` attribute.
         ///
-        func saveObjects(_ objects: [JSONObject]) throws {
+        @objc public func saveObjectsSync(_ objects: [JSONObject]) throws {
+            assertNotMainThread()
             try self_lock.sync {
                 assert(!finished)
                 tmpObjects.append(contentsOf: objects)
@@ -516,14 +568,117 @@ public struct IOError: CustomNSError {
             }
         }
         
-        /// Delete objects.
+        /// Save multiple objects.
+        ///
+        /// - parameter objects: New versions of the objects to update. Each one must contain an `objectID` attribute.
+        /// - parameter completionHandler: Completion handler to be notified when the transaction has been updated.
+        /// - returns: The corresponding operation.
+        ///
+        @discardableResult
+        @objc public func saveObjects(_ objects: [JSONObject], completionHandler: CompletionHandler? = nil) -> Operation {
+            let operation = BlockOperation() {
+                do {
+                    try self.saveObjectsSync(objects)
+                    let objectIDs = try objects.map({ (object: JSONObject) -> Any in
+                        guard let objectID = object["objectID"] else {
+                            throw InvalidJSONError(description: "Object is missing required `objectID` attribute")
+                        }
+                        return objectID
+                    })
+                    let content: JSONObject = [
+                        "objectIDs": objectIDs
+                    ]
+                    completionHandler?(content, nil)
+                } catch let e {
+                    completionHandler?(nil, e)
+                }
+            }
+            index.transactionQueue.addOperation(operation)
+            return operation
+        }
+        
+        /// Delete an object (synchronously).
+        ///
+        /// - parameter objectID: Identifier of the object to delete.
+        ///
+        @objc public func deleteObjectSync(withID objectID: String) throws {
+            assertNotMainThread()
+            self_lock.sync {
+                assert(!finished)
+                deletedObjectIDs.insert(objectID)
+            }
+        }
+        
+        /// Delete an object.
+        ///
+        /// - parameter objectID: Identifier of the object to delete.
+        /// - parameter completionHandler: Completion handler to be notified when the transaction has been updated.
+        /// - returns: The corresponding operation.
+        ///
+        @discardableResult
+        @objc public func deleteObject(withID objectID: String, completionHandler: CompletionHandler? = nil) -> Operation {
+            let operation = BlockOperation() {
+                do {
+                    try self.deleteObjectSync(withID: objectID)
+                    let content: JSONObject = [
+                        "objectID": objectID
+                    ]
+                    completionHandler?(content, nil)
+                } catch let e {
+                    completionHandler?(nil, e)
+                }
+            }
+            index.transactionQueue.addOperation(operation)
+            return operation
+        }
+
+        /// Delete multiple objects (synchronously).
         ///
         /// - parameter objectIDs: Identifiers of the objects to delete.
         ///
-        func deleteObjects(withIDs objectIDs: [String]) throws {
+        @objc public func deleteObjectsSync(withIDs objectIDs: [String]) throws {
+            assertNotMainThread()
             self_lock.sync {
                 assert(!finished)
                 deletedObjectIDs.formUnion(objectIDs)
+            }
+        }
+
+        /// Delete multiple objects.
+        ///
+        /// - parameter objectIDs: Identifiers of the objects to delete.
+        /// - parameter completionHandler: Completion handler to be notified when the transaction has been updated.
+        /// - returns: The corresponding operation.
+        ///
+        @discardableResult
+        @objc public func deleteObjects(withIDs objectIDs: [String], completionHandler: CompletionHandler? = nil) -> Operation {
+            let operation = BlockOperation() {
+                do {
+                    try self.deleteObjectsSync(withIDs: objectIDs)
+                    let content: JSONObject = [
+                        "objectIDs": objectIDs
+                    ]
+                    completionHandler?(content, nil)
+                } catch let e {
+                    completionHandler?(nil, e)
+                }
+            }
+            index.transactionQueue.addOperation(operation)
+            return operation
+        }
+
+        /// Set the index's settings (synchronously).
+        ///
+        /// Please refer to our [API documentation](https://www.algolia.com/doc/swift#index-settings) for the list of
+        /// supported settings.
+        ///
+        /// - parameter settings: New settings.
+        ///
+        @objc public func setSettingsSync(_ settings: JSONObject) throws {
+            assertNotMainThread()
+            try self_lock.sync {
+                assert(!finished)
+                settingsFilePath = try writeTmpJSONFile(json: settings)
             }
         }
         
@@ -533,17 +688,27 @@ public struct IOError: CustomNSError {
         /// supported settings.
         ///
         /// - parameter settings: New settings.
+        /// - parameter completionHandler: Completion handler to be notified when the transaction has been updated.
+        /// - returns: The corresponding operation.
         ///
-        func setSettings(_ settings: JSONObject) throws {
-            try self_lock.sync {
-                assert(!finished)
-                settingsFilePath = try writeTmpJSONFile(json: settings)
+        @discardableResult
+        @objc public func setSettings(_ settings: JSONObject, completionHandler: CompletionHandler? = nil) -> Operation {
+            let operation = BlockOperation() {
+                do {
+                    try self.setSettingsSync(settings)
+                    completionHandler?([:], nil)
+                } catch let e {
+                    completionHandler?(nil, e)
+                }
             }
+            index.transactionQueue.addOperation(operation)
+            return operation
         }
-        
-        /// Delete the index content without removing settings.
+
+        /// Delete the index content without removing settings (synchronously).
         ///
-        func clearIndex() throws {
+        @objc public func clearIndexSync() throws {
+            assertNotMainThread()
             self_lock.sync {
                 assert(!finished)
                 shouldClearIndex = true
@@ -551,44 +716,110 @@ public struct IOError: CustomNSError {
                 objectFilePaths.removeAll()
             }
         }
-        
+
+        /// Delete the index content without removing settings.
+        ///
+        /// - parameter completionHandler: Completion handler to be notified when the transaction has been updated.
+        /// - returns: The corresponding operation.
+        ///
+        @discardableResult
+        @objc(clearIndex:)
+        public func clearIndex(completionHandler: CompletionHandler? = nil) -> Operation {
+            let operation = BlockOperation() {
+                do {
+                    try self.clearIndexSync()
+                    completionHandler?([:], nil)
+                } catch let e {
+                    completionHandler?(nil, e)
+                }
+            }
+            index.transactionQueue.addOperation(operation)
+            return operation
+        }
+
         // MARK: Completion
+        
+        /// Commit the transaction (synchronously).
+        ///
+        @objc public func commitSync() throws {
+            assertNotMainThread()
+            try doCommit()
+        }
         
         /// Commit the transaction.
         ///
-        func commit() throws {
-            assert(!Thread.isMainThread)
-            // Serialize calls with respect to this transaction.
-            try self_lock.sync {
+        /// - parameter completionHandler: Completion handler to be notified when the transaction has been committed.
+        /// - returns: The corresponding operation.
+        ///
+        @discardableResult
+        @objc(commit:)
+        public func commit(completionHandler: CompletionHandler? = nil) -> Operation {
+            let operation = BlockOperation() {
+                do {
+                    try self.doCommit()
+                    completionHandler?([:], nil)
+                } catch let e {
+                    completionHandler?(nil, e)
+                }
+            }
+            index.transactionQueue.addOperation(operation)
+            return operation
+        }
+        
+        private func doCommit() throws {
+            self_lock.sync {
                 assert(!finished)
-                try flushObjectsToDisk(force: true)
-                var error: Error?
-                // Also serialize build calls with respect to the client's build queue.
-                let buildOperation = BlockOperation() {
-                    let statusCode = Int(self.index.localIndex.build(settingsFile: self.settingsFilePath, objectFiles: self.objectFilePaths, clearIndex: self.shouldClearIndex, deletedObjectIDs: Array(self.deletedObjectIDs)))
-                    if statusCode != StatusCode.ok.rawValue {
-                        error = HTTPError(statusCode: statusCode)
-                    }
-                }
-                index.client.buildQueue.addOperation(buildOperation)
-                buildOperation.waitUntilFinished()
                 finished = true
-                if error != nil {
-                    throw error!
+            }
+            try flushObjectsToDisk(force: true)
+            var error: Error?
+            // Serialize builds with respect to the client's build queue.
+            let buildOperation = BlockOperation() {
+                let statusCode = Int(self.index.localIndex.build(settingsFile: self.settingsFilePath, objectFiles: self.objectFilePaths, clearIndex: self.shouldClearIndex, deletedObjectIDs: Array(self.deletedObjectIDs)))
+                if statusCode != StatusCode.ok.rawValue {
+                    error = HTTPError(statusCode: statusCode)
                 }
+            }
+            index.client.buildQueue.addOperation(buildOperation)
+            buildOperation.waitUntilFinished()
+            if error != nil {
+                throw error!
             }
         }
         
+        /// Rollback the transaction (synchronously).
+        /// The index will be left untouched.
+        ///
+        @objc public func rollbackSync() {
+            assertNotMainThread()
+            doRollback()
+        }
+
         /// Rollback the transaction.
         /// The index will be left untouched.
         ///
-        func rollback() {
-            self_lock.sync {
-                _ = try? FileManager.default.removeItem(atPath: tmpDirPath)
-                finished = true
+        /// - parameter completionHandler: Completion handler to be notified when the transaction has been rolled back.
+        /// - returns: The corresponding operation.
+        ///
+        @discardableResult
+        @objc(rollback:)
+        public func rollback(completionHandler: CompletionHandler? = nil) -> Operation {
+            let operation = BlockOperation() {
+                self.doRollback()
+                completionHandler?([:], nil)
             }
+            index.transactionQueue.addOperation(operation)
+            return operation
         }
         
+        private func doRollback() {
+            self_lock.sync {
+                assert(!finished)
+                finished = true
+            }
+            _ = try? FileManager.default.removeItem(atPath: tmpDirPath)
+        }
+
         // MARK: Utils
         
         private func flushObjectsToDisk(force: Bool) throws {
@@ -619,367 +850,8 @@ public struct IOError: CustomNSError {
     ///
     /// + Warning: You cannot open parallel transactions. This method will assert if a transaction is already open.
     ///
-    @objc public func beginTransaction() {
-        assert(transaction == nil, "A transaction is already open")
-        if transaction == nil {
-            transaction = WriteTransaction(index: self)
-        }
-    }
-
-    /// Commit the current write transaction.
-    ///
-    /// + Warning: This method will assert/crash if no transaction is currently open.
-    ///
-    /// + Warning: Cancelling the returned operation does **not** roll back the transaction. The operation is returned
-    ///   for lifetime management purposes only.
-    ///
-    /// - parameter completionHandler: Completion handler to be notified of the transaction's outcome.
-    /// - returns: A cancellable operation (see warning for important caveat).
-    ///
-    @discardableResult
-    @objc(commitTransaction:)
-    public func commitTransaction(completionHandler: @escaping CompletionHandler) -> Operation {
-        assertTransaction()
-        let operation = BlockOperation() {
-            let transaction = self.transaction!
-            self.transaction = nil
-            do {
-                try transaction.commit()
-                self.callCompletionHandler(completionHandler, content: [:], error: nil)
-            } catch let e {
-                self.callCompletionHandler(completionHandler, content: nil, error: e)
-            }
-        }
-        transactionQueue.addOperation(operation)
-        return operation
-    }
-    
-    /// Commit the current write transaction (synchronously).
-    ///
-    /// + Warning: This method will assert/crash if no transaction is currently open.
-    ///
-    /// + Warning: This method must not be called from the main thread.
-    ///
-    @objc public func commitTransactionSync() throws {
-        assertNotMainThread()
-        assertTransaction()
-        let currentTransaction = self.transaction!
-        self.transaction = nil
-        try currentTransaction.commit()
-    }
-
-    /// Roll back the current write transaction.
-    ///
-    /// + Warning: This method will assert/crash if no transaction is currently open.
-    ///
-    /// + Warning: Cancelling the returned operation does **not** cancel the rollback. The operation is returned
-    ///   for lifetime management purposes only.
-    ///
-    /// - parameter completionHandler: Completion handler to be notified of the transaction's outcome.
-    /// - returns: A cancellable operation (see warning for important caveat).
-    ///
-    @objc(rollbackTransaction:)
-    public func rollbackTransaction(completionHandler: @escaping CompletionHandler) -> Operation {
-        assertTransaction()
-        let operation = BlockOperation() {
-            let transaction = self.transaction!
-            self.transaction = nil
-            transaction.rollback()
-            self.callCompletionHandler(completionHandler, content: [:], error: nil)
-        }
-        transactionQueue.addOperation(operation)
-        return operation
-    }
-
-    /// Roll back the current write transaction (synchronously).
-    ///
-    /// + Warning: This method will assert/crash if no transaction is currently open.
-    ///
-    /// + Warning: This method must not be called from the main thread.
-    ///
-    @objc public func rollbackTransactionSync() throws {
-        assertNotMainThread()
-        assertTransaction()
-        let currentTransaction = self.transaction!
-        self.transaction = nil
-        currentTransaction.rollback()
-    }
-    
-    // MARK: - Write operations
-    
-    /// Delete an object from this index.
-    ///
-    /// + Warning: This method will assert/crash if no transaction is currently open.
-    ///
-    /// - parameter objectID: Identifier of object to delete.
-    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
-    /// - returns: A cancellable operation.
-    ///
-    @discardableResult
-    @objc public func deleteObject(withID objectID: String, completionHandler: CompletionHandler? = nil) -> Operation {
-        assertTransaction()
-        let operation = BlockOperation() {
-            var content: JSONObject?
-            var error: Error?
-            do {
-                try self.deleteObjectSync(withID: objectID)
-                content = [
-                    "deletedAt": Date().iso8601
-                ]
-            } catch let e {
-                error = e
-            }
-            self.callCompletionHandler(completionHandler, content: content, error: error)
-        }
-        transactionQueue.addOperation(operation)
-        return operation
-    }
-    
-    /// Delete an object from this index (synchronous version).
-    ///
-    /// + Warning: This method will assert/crash if no transaction is currently open.
-    ///
-    /// + Warning: This method must not be called from the main thread.
-    ///
-    /// - parameter objectID: Identifier of object to delete.
-    ///
-    @objc public func deleteObjectSync(withID objectID: String) throws {
-        assertNotMainThread()
-        assertTransaction()
-        try deleteObjectsSync(withIDs: [objectID])
-    }
-    
-    /// Delete several objects from this index.
-    ///
-    /// + Warning: This method will assert/crash if no transaction is currently open.
-    ///
-    /// - parameter objectIDs: Identifiers of objects to delete.
-    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
-    /// - returns: A cancellable operation.
-    ///
-    @discardableResult
-    @objc public func deleteObjects(withIDs objectIDs: [String], completionHandler: CompletionHandler? = nil) -> Operation {
-        assertTransaction()
-        let operation = BlockOperation() {
-            var content: JSONObject?
-            var error: Error?
-            do {
-                try self.deleteObjectsSync(withIDs: objectIDs)
-                content = [
-                    "objectIDs": objectIDs,
-                    "taskID": self.transaction!.id
-                ]
-            } catch let e {
-                error = e
-            }
-            self.callCompletionHandler(completionHandler, content: content, error: error)
-        }
-        transactionQueue.addOperation(operation)
-        return operation
-    }
-    
-    /// Delete several objects from this index (synchronous version).
-    ///
-    /// + Warning: This method will assert/crash if no transaction is currently open.
-    ///
-    /// + Warning: This method must not be called from the main thread.
-    ///
-    /// - parameter objectIDs: Identifiers of objects to delete.
-    ///
-    @objc public func deleteObjectsSync(withIDs objectIDs: [String]) throws {
-        assertNotMainThread()
-        assertTransaction()
-        try transaction!.deleteObjects(withIDs: objectIDs)
-    }
-    
-    /// Update an object.
-    ///
-    /// + Warning: This method will assert/crash if no transaction is currently open.
-    ///
-    /// - parameter object: New version of the object to update. Must contain an `objectID` attribute.
-    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
-    /// - returns: A cancellable operation.
-    ///
-    @discardableResult
-    @objc public func saveObject(_ object: JSONObject, completionHandler: CompletionHandler? = nil) -> Operation {
-        assertTransaction()
-        let operation = BlockOperation() {
-            var content: JSONObject?
-            var error: Error?
-            do {
-                let objectID = try self.saveObjectSync(object)
-                content = [
-                    "objectID": objectID,
-                    "updatedAt": Date().iso8601,
-                    "taskID": self.transaction!.id
-                ]
-            } catch let e {
-                error = e
-            }
-            self.callCompletionHandler(completionHandler, content: content, error: error)
-        }
-        transactionQueue.addOperation(operation)
-        return operation
-    }
-    
-    /// Update an object (synchronous version).
-    ///
-    /// + Warning: This method will assert/crash if no transaction is currently open.
-    ///
-    /// + Warning: This method must not be called from the main thread.
-    ///
-    /// - parameter object: New version of the object to update. Must contain an `objectID` attribute.
-    /// - returns: Identifier of saved object.
-    ///
-    @objc @discardableResult
-    public func saveObjectSync(_ object: JSONObject) throws -> Any {
-        assertNotMainThread()
-        assertTransaction()
-        let objectIDs = try saveObjectsSync([object])
-        return objectIDs[0]
-    }
-    
-    /// Update several objects.
-    ///
-    /// + Warning: This method will assert/crash if no transaction is currently open.
-    ///
-    /// - parameter objects: New versions of the objects to update. Each one must contain an `objectID` attribute.
-    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
-    /// - returns: A cancellable operation.
-    ///
-    @discardableResult
-    @objc public func saveObjects(_ objects: [JSONObject], completionHandler: CompletionHandler? = nil) -> Operation {
-        assertTransaction()
-        let operation = BlockOperation() {
-            var content: JSONObject?
-            var error: Error?
-            do {
-                let objectIDs = try self.saveObjectsSync(objects)
-                content = [
-                    "objectIDs": objectIDs,
-                    "updatedAt": Date().iso8601,
-                    "taskID": self.transaction!.id
-                ]
-            } catch let e {
-                error = e
-            }
-            self.callCompletionHandler(completionHandler, content: content, error: error)
-        }
-        client.buildQueue.addOperation(operation)
-        return operation
-    }
-    
-    /// Update several objects (synchronous version).
-    ///
-    /// + Warning: This method will assert/crash if no transaction is currently open.
-    ///
-    /// + Warning: This method must not be called from the main thread.
-    ///
-    /// - parameter objects: New versions of the objects to update. Each one must contain an `objectID` attribute.
-    /// - returns: Identifiers of passed objects.
-    ///
-    @discardableResult
-    @objc public func saveObjectsSync(_ objects: [JSONObject]) throws -> [Any] {
-        assertNotMainThread()
-        assertTransaction()
-        let objectIDs = try objects.map({ (object: JSONObject) -> Any in
-            guard let objectID = object["objectID"] else {
-                throw InvalidJSONError(description: "Object missing mandatory `objectID` attribute")
-            }
-            return objectID
-        })
-        try transaction!.saveObjects(objects)
-        return objectIDs
-    }
-    
-    /// Set this index's settings.
-    ///
-    /// Please refer to our [API documentation](https://www.algolia.com/doc/swift#index-settings) for the list of
-    /// supported settings.
-    ///
-    /// + Warning: This method will assert/crash if no transaction is currently open.
-    ///
-    /// - parameter settings: New settings.
-    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
-    /// - returns: A cancellable operation.
-    ///
-    @discardableResult
-    @objc public func setSettings(_ settings: JSONObject, completionHandler: CompletionHandler? = nil) -> Operation {
-        assertTransaction()
-        let operation = BlockOperation() {
-            var content: JSONObject?
-            var error: NSError?
-            do {
-                try self.setSettingsSync(settings)
-                content = [
-                    "updatedAt": Date().iso8601,
-                    "taskID": self.transaction!.id
-                ]
-            } catch let e as NSError {
-                error = e
-            }
-            self.callCompletionHandler(completionHandler, content: content, error: error)
-        }
-        transactionQueue.addOperation(operation)
-        return operation
-    }
-    
-    /// Set this index's settings (synchronous version).
-    ///
-    /// Please refer to our [API documentation](https://www.algolia.com/doc/swift#index-settings) for the list of
-    /// supported settings.
-    ///
-    /// + Warning: This method will assert/crash if no transaction is currently open.
-    ///
-    /// + Warning: This method must not be called from the main thread.
-    ///
-    /// - parameter settings: New settings.
-    ///
-    @objc public func setSettingsSync(_ settings: JSONObject) throws {
-        assertNotMainThread()
-        assertTransaction()
-        try transaction!.setSettings(settings)
-    }
-    
-    /// Delete the index content without removing settings.
-    ///
-    /// + Warning: This method will assert/crash if no transaction is currently open.
-    ///
-    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
-    /// - returns: A cancellable operation.
-    ///
-    @discardableResult
-    @objc(clearIndex:)
-    public func clearIndex(completionHandler: CompletionHandler? = nil) -> Operation {
-        assertTransaction()
-        let operation = BlockOperation() {
-            var content: JSONObject?
-            var error: Error?
-            do {
-                try self.clearIndexSync()
-                content = [
-                    "updatedAt": Date().iso8601,
-                    "taskID": self.transaction!.id
-                ]
-            } catch let e {
-                error = e
-            }
-            self.callCompletionHandler(completionHandler, content: content, error: error)
-        }
-        transactionQueue.addOperation(operation)
-        return operation
-    }
-    
-    /// Delete the index content without removing settings.
-    ///
-    /// + Warning: This method will assert/crash if no transaction is currently open.
-    ///
-    /// + Warning: This method must not be called from the main thread.
-    ///
-    @objc public func clearIndexSync() throws {
-        assertNotMainThread()
-        assertTransaction()
-        try transaction!.clearIndex()
+    @objc public func newTransaction() -> WriteTransaction {
+        return WriteTransaction(index: self)
     }
     
     // MARK: - Helpers
@@ -994,23 +866,24 @@ public struct IOError: CustomNSError {
     ///
     @discardableResult
     @objc public func deleteByQuery(_ query: Query, completionHandler: CompletionHandler? = nil) -> Operation {
-        assertTransaction()
+        let transaction = newTransaction()
         let operation = BlockOperation() {
             var content: JSONObject?
             var error: Error?
             do {
-                let deletedObjectIDs = try self.deleteByQuerySync(query)
+                let deletedObjectIDs = try self.deleteByQuerySync(query, transaction: transaction)
+                try transaction.commitSync()
                 content = [
                     "objectIDs": deletedObjectIDs,
                     "updatedAt": Date().iso8601,
-                    "taskID": self.transaction!.id
+                    "taskID": transaction.identifier
                 ]
             } catch let e {
                 error = e
             }
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
-        client.buildQueue.addOperation(operation)
+        transactionQueue.addOperation(operation)
         return operation
     }
     
@@ -1024,8 +897,7 @@ public struct IOError: CustomNSError {
     /// - returns: List of deleted object IDs.
     ///
     @discardableResult
-    @objc public func deleteByQuerySync(_ query: Query) throws -> [String] {
-        assertTransaction()
+    @objc public func deleteByQuerySync(_ query: Query, transaction: WriteTransaction) throws -> [String] {
         assertNotMainThread()
         let browseQuery = Query(copy: query)
         browseQuery.attributesToRetrieve = ["objectID"]
@@ -1052,7 +924,7 @@ public struct IOError: CustomNSError {
         }
         
         // Delete objects.
-        try deleteObjectsSync(withIDs: objectIDsToDelete)
+        try transaction.deleteObjectsSync(withIDs: objectIDsToDelete)
         return objectIDsToDelete
     }
     
@@ -1096,12 +968,8 @@ public struct IOError: CustomNSError {
         }
         return seqNo
     }
-    
-    private func assertNotMainThread() {
-        assert(!Thread.isMainThread, "Synchronous methods should not be called from the main thread")
-    }
-    
-    private func assertTransaction() {
-        assert(transaction != nil, "Write operations must be wrapped inside a transaction")
-    }
+}
+
+fileprivate func assertNotMainThread() {
+    assert(!Thread.isMainThread, "Synchronous methods should not be called from the main thread")
 }

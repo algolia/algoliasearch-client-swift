@@ -114,33 +114,34 @@
     // Write operations (async)
     // ------------------------
     NSDictionary<NSString*, id>* DUMMY_JSON = @{ @"objectID": @"snoopy", @"kind": @"dog" };
-    [index beginTransaction];
+    WriteTransaction* transaction = [index newTransaction];
+    NSLog(@"Transaction #%ld on index %@: finished? %@", (long)transaction.identifier, transaction.index, transaction.finished ? @"YES" : @"NO");
     XCTestExpectation* expectation_saveObject = [self expectationWithDescription:@"saveObject"];
-    [index saveObject:DUMMY_JSON completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+    [transaction saveObject:DUMMY_JSON completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
         [expectation_saveObject fulfill];
     }];
     XCTestExpectation* expectation_saveObjects = [self expectationWithDescription:@"saveObjects"];
-    [index saveObjects:@[ DUMMY_JSON ] completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+    [transaction saveObjects:@[ DUMMY_JSON ] completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
         [expectation_saveObjects fulfill];
     }];
     XCTestExpectation* expectation_deleteObjectWithID = [self expectationWithDescription:@"deleteObjectWithID"];
-    [index deleteObjectWithID:@"snoopy" completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+    [transaction deleteObjectWithID:@"snoopy" completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
         [expectation_deleteObjectWithID fulfill];
     }];
     XCTestExpectation* expectation_deleteObjectsWithIDs = [self expectationWithDescription:@"deleteObjectsWithIDs"];
-    [index deleteObjectsWithIDs:@[ @"snoopy", @"woodstock" ] completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+    [transaction deleteObjectsWithIDs:@[ @"snoopy", @"woodstock" ] completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
         [expectation_deleteObjectsWithIDs fulfill];
     }];
     XCTestExpectation* expectation_setSettings = [self expectationWithDescription:@"setSettings"];
-    [index setSettings:DUMMY_JSON completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+    [transaction setSettings:DUMMY_JSON completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
         [expectation_setSettings fulfill];
     }];
     XCTestExpectation* expectation_clearIndex = [self expectationWithDescription:@"clearIndex"];
-    [index clearIndex:^(NSDictionary<NSString*,id>* content, NSError* error) {
+    [transaction clearIndex:^(NSDictionary<NSString*,id>* content, NSError* error) {
         [expectation_clearIndex fulfill];
     }];
     XCTestExpectation* expectation_rollbackTransaction = [self expectationWithDescription:@"rollbackTransaction"];
-    [index rollbackTransaction:^(NSDictionary<NSString*,id>* content, NSError* error) {
+    [transaction rollback:^(NSDictionary<NSString*,id>* content, NSError* error) {
         [expectation_rollbackTransaction fulfill];
     }];
     [self waitForExpectationsWithTimeout:10 handler:nil];
@@ -149,20 +150,20 @@
     // ------------------------
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0), ^{
         NSError* error = nil;
-        [index beginTransaction];
-        [index saveObjectSync:DUMMY_JSON error:&error];
+        WriteTransaction* transaction = [index newTransaction];
+        [transaction saveObjectSync:DUMMY_JSON error:&error];
         XCTAssertNil(error);
-        [index saveObjectsSync:@[ DUMMY_JSON ] error:&error];
+        [transaction saveObjectsSync:@[ DUMMY_JSON ] error:&error];
         XCTAssertNil(error);
-        [index deleteObjectSyncWithID:@"snoopy" error:&error];
+        [transaction deleteObjectSyncWithID:@"snoopy" error:&error];
         XCTAssertNil(error);
-        [index deleteObjectsSyncWithIDs:@[ @"snoopy", @"woodstock" ] error:&error];
+        [transaction deleteObjectsSyncWithIDs:@[ @"snoopy", @"woodstock" ] error:&error];
         XCTAssertNil(error);
-        [index setSettingsSync:DUMMY_JSON error:&error];
+        [transaction setSettingsSync:DUMMY_JSON error:&error];
         XCTAssertNil(error);
-        [index clearIndexSyncAndReturnError:&error];
+        [transaction clearIndexSyncAndReturnError:&error];
         XCTAssertNil(error);
-        [index commitTransactionSyncAndReturnError:&error];
+        [transaction commitSyncAndReturnError:&error];
         XCTAssertNil(error);
     });
 }
