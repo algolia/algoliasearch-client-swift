@@ -70,6 +70,9 @@
 		BC582C5D1D82B453007B815A /* ObjectiveCBridging.m in Sources */ = {isa = PBXBuildFile; fileRef = BC582C5C1D82B453007B815A /* ObjectiveCBridging.m */; };
 		BC68BC571CB69776007F9655 /* IndexQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC68BC561CB69776007F9655 /* IndexQuery.swift */; };
 		BC68BC581CB69776007F9655 /* IndexQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC68BC561CB69776007F9655 /* IndexQuery.swift */; };
+		BC72244D1D9C137B00B56908 /* OnlineTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC72244C1D9C137B00B56908 /* OnlineTestCase.swift */; };
+		BC72244E1D9C137B00B56908 /* OnlineTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC72244C1D9C137B00B56908 /* OnlineTestCase.swift */; };
+		BC72244F1D9C137B00B56908 /* OnlineTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC72244C1D9C137B00B56908 /* OnlineTestCase.swift */; };
 		BC85EA701D82C8C3009E9E7D /* ObjectiveCBridging.m in Sources */ = {isa = PBXBuildFile; fileRef = BC582C5C1D82B453007B815A /* ObjectiveCBridging.m */; };
 		BC85EA711D82C8C4009E9E7D /* ObjectiveCBridging.m in Sources */ = {isa = PBXBuildFile; fileRef = BC582C5C1D82B453007B815A /* ObjectiveCBridging.m */; };
 		BCD1F5541CC61C8D0006E227 /* AlgoliaSearch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCD1F54A1CC61C8D0006E227 /* AlgoliaSearch.framework */; };
@@ -155,6 +158,7 @@
 		BC4BD2931D54E48900170ECC /* AlgoliaSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlgoliaSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC582C5C1D82B453007B815A /* ObjectiveCBridging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectiveCBridging.m; sourceTree = "<group>"; };
 		BC68BC561CB69776007F9655 /* IndexQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndexQuery.swift; sourceTree = "<group>"; };
+		BC72244C1D9C137B00B56908 /* OnlineTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnlineTestCase.swift; sourceTree = "<group>"; };
 		BC85EA721D82C8FD009E9E7D /* Tests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tests-Bridging-Header.h"; sourceTree = "<group>"; };
 		BCD1F54A1CC61C8D0006E227 /* AlgoliaSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlgoliaSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD1F5531CC61C8D0006E227 /* AlgoliaSearch tvOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AlgoliaSearch tvOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -298,6 +302,7 @@
 				5D8FFA391AAB0AB80078869E /* IndexTests.swift */,
 				BCDA737D1CA555070082B197 /* MockURLSession.swift */,
 				BCDA73771CA546800082B197 /* NetworkTests.swift */,
+				BC72244C1D9C137B00B56908 /* OnlineTestCase.swift */,
 				BC0A01631C9C19CD00CD4A7C /* QueryTests.swift */,
 				5D74958E1A8E25A600B0263F /* Supporting Files */,
 				BC582C5C1D82B453007B815A /* ObjectiveCBridging.m */,
@@ -700,6 +705,7 @@
 			files = (
 				BC09F77C1CAE80B200ABB395 /* BrowseIteratorTests.swift in Sources */,
 				BC0A01641C9C19CD00CD4A7C /* QueryTests.swift in Sources */,
+				BC72244D1D9C137B00B56908 /* OnlineTestCase.swift in Sources */,
 				5D8FFA381AAB08830078869E /* ClientTests.swift in Sources */,
 				BCDA73781CA546800082B197 /* NetworkTests.swift in Sources */,
 				BCDA737E1CA555070082B197 /* MockURLSession.swift in Sources */,
@@ -734,6 +740,7 @@
 			files = (
 				BC09F77D1CAE80B300ABB395 /* BrowseIteratorTests.swift in Sources */,
 				BC0A01651C9C19CD00CD4A7C /* QueryTests.swift in Sources */,
+				BC72244E1D9C137B00B56908 /* OnlineTestCase.swift in Sources */,
 				5DB2515E1AAD9F3F00945339 /* ClientTests.swift in Sources */,
 				BCDA73791CA546800082B197 /* NetworkTests.swift in Sources */,
 				BCDA737F1CA555070082B197 /* MockURLSession.swift in Sources */,
@@ -807,6 +814,7 @@
 			files = (
 				BCD1F5731CC61DB80006E227 /* NetworkTests.swift in Sources */,
 				BCD1F5721CC61DB80006E227 /* MockURLSession.swift in Sources */,
+				BC72244F1D9C137B00B56908 /* OnlineTestCase.swift in Sources */,
 				BCD1F56D1CC61DB30006E227 /* BrowseIteratorTests.swift in Sources */,
 				BCD1F56F1CC61DB80006E227 /* ClientTests.swift in Sources */,
 				BCD1F5741CC61DB80006E227 /* QueryTests.swift in Sources */,

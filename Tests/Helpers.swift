@@ -29,9 +29,9 @@ let JOB_NUMBER = "JOB_NUMBER_REPLACE_ME"
 
 func safeIndexName(_ name: String) -> String {
     if let travisBuild = ProcessInfo.processInfo.environment["TRAVIS_JOB_NUMBER"] {
-        return "\(name)_travis-\(travisBuild)"
+        return "\(name)@\(travisBuild)"
     } else if JOB_NUMBER.range(of: "[1-9]+\\.[1-9]+", options: .regularExpression) != nil {
-        return "\(name)_travis-\(JOB_NUMBER)"
+        return "\(name)@\(JOB_NUMBER)"
     } else {
         return name
     }

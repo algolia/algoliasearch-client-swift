@@ -24,39 +24,7 @@
 import XCTest
 @testable import AlgoliaSearch
 
-class ClientTests: XCTestCase {
-    let expectationTimeout: TimeInterval = 100
-    
-    var client: Client!
-    var index: Index!
-    
-    override func setUp() {
-        super.setUp()
-        let appID = ProcessInfo.processInfo.environment["ALGOLIA_APPLICATION_ID"] ?? APP_ID
-        let apiKey = ProcessInfo.processInfo.environment["ALGOLIA_API_KEY"] ?? API_KEY
-        client = AlgoliaSearch.Client(appID: appID, apiKey: apiKey)
-        index = client.index(withName: safeIndexName("algol?à-swift"))
-        
-        let expectation = self.expectation(description: "Delete index")
-        client.deleteIndex(withName: index.name, completionHandler: { (content, error) -> Void in
-            XCTAssertNil(error, "Error during deleteIndex: \(error!)")
-            expectation.fulfill()
-        })
-        
-        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-        
-        let expectation = self.expectation(description: "Delete index")
-        client.deleteIndex(withName: index.name, completionHandler: { (content, error) -> Void in
-            XCTAssertNil(error, "Error during deleteIndex: \(error!)")
-            expectation.fulfill()
-        })
-        
-        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
-    }
+class ClientTests: OnlineTestCase {
     
     func testListIndexes() {
         let expectation = self.expectation(description: "testListIndexes")
