@@ -25,7 +25,7 @@ import Foundation
 
 /// An asynchronous operation.
 ///
-/// This class provides its subclasses the way to manually control `NSOperation`'s standard properties:
+/// This class provides its subclasses the way to manually control `Operation`'s standard properties:
 ///
 /// - `executing`
 /// - `finished`
@@ -40,10 +40,10 @@ internal class AsyncOperation: Operation {
         }
     }
     
-    // NOTE: Overriding `NSOperation`'s properties
-    // -------------------------------------------
-    // These properties are defined as read-only by `NSOperation`. As a consequence, they must be computed properties.
-    // But they must also fire KVO notifications, which are crucial for `NSOperationQueue` to work.
+    // NOTE: Overriding `Operation`'s properties
+    // -----------------------------------------
+    // These properties are defined as read-only by `Operation`. As a consequence, they must be computed properties.
+    // But they must also fire KVO notifications, which are crucial for `OperationQueue` to work.
     // This is why we use a private (underscore-prefixed) property to store the state.
     
     var _executing : Bool = false {
