@@ -24,27 +24,14 @@
 import XCTest
 import AlgoliaSearch
 
-class BrowseIteratorTests: XCTestCase {
-    let expectationTimeout: TimeInterval = 100
-    
-    var client: Client!
-    var index: Index!
+class BrowseIteratorTests: OnlineTestCase {
+    let cancelTimeout: TimeInterval = 10
     
     override func setUp() {
         super.setUp()
-        let appID = ProcessInfo.processInfo.environment["ALGOLIA_APPLICATION_ID"] ?? APP_ID
-        let apiKey = ProcessInfo.processInfo.environment["ALGOLIA_API_KEY"] ?? API_KEY
-        client = AlgoliaSearch.Client(appID: appID, apiKey: apiKey)
-        index = client.index(withName: safeIndexName("algol?à-swift"))
-        
-        let expectation = self.expectation(description: "Delete index")
-        client.deleteIndex(withName: index.name, completionHandler: { (content, error) -> Void in
-            XCTAssertNil(error, "Error during deleteIndex: \(error!)")
-            expectation.fulfill()
-        })
         
         // Add a bunch of objects to the index.
-        let expectation2 = self.expectation(description: "Add objects")
+        let expectation = self.expectation(description: "Add objects")
         var objects = [JSONObject]()
         for i in 0...1500 {
             objects.append(["i": i])
@@ -52,28 +39,16 @@ class BrowseIteratorTests: XCTestCase {
         index.addObjects(objects) { (content, error) -> Void in
             if error != nil {
                 XCTFail("Error during addObjects: \(error!)")
-                expectation2.fulfill()
+                expectation.fulfill()
             } else {
                 self.index.waitTask(withID: content!["taskID"] as! Int) { (content, error) -> Void in
                     if error != nil {
                         XCTFail("Error during waitTask: \(error!)")
                     }
-                    expectation2.fulfill()
+                    expectation.fulfill()
                 }
             }
         }
-        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-        
-        let expectation = self.expectation(description: "Delete index")
-        client.deleteIndex(withName: index.name, completionHandler: { (content, error) -> Void in
-            XCTAssertNil(error, "Error during deleteIndex: \(error!)")
-            expectation.fulfill()
-        })
-        
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
     
@@ -113,7 +88,7 @@ class BrowseIteratorTests: XCTestCase {
         iterator.start()
         // Manually run the run loop for a while to leave a chance to the completion handler to be called.
         // WARNING: We cannot use `self.waitForExpectations(timeout: )`, because a timeout always results in failure.
-        RunLoop.main.run(until: Date().addingTimeInterval(10))
+        RunLoop.main.run(until: Date().addingTimeInterval(cancelTimeout))
     }
 
 }
