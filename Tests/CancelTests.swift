@@ -29,6 +29,7 @@ import XCTest
 ///
 class CancelTests: XCTestCase {
     let expectationTimeout: TimeInterval = 100
+    let cancelTimeout: TimeInterval = 10
     
     var client: Client!
     var index: Index!
@@ -65,7 +66,7 @@ class CancelTests: XCTestCase {
         request1.cancel()
         // Manually run the run loop for a while to leave a chance to the completion handler to be called.
         // WARNING: We cannot use `self.waitForExpectations(timeout: )`, because a timeout always results in failure.
-        RunLoop.main.run(until: Date().addingTimeInterval(3))
+        RunLoop.main.run(until: Date().addingTimeInterval(cancelTimeout))
         XCTAssert(request1.isFinished)
         
         // Run the test again, but this time the session won't actually cancel the (mock) network call.
@@ -76,7 +77,7 @@ class CancelTests: XCTestCase {
             XCTFail("Completion handler should not be called when a request has been cancelled")
         }
         request2.cancel()
-        RunLoop.main.run(until: Date().addingTimeInterval(3))
+        RunLoop.main.run(until: Date().addingTimeInterval(cancelTimeout))
         XCTAssert(request2.isFinished)
     }
     
@@ -92,7 +93,7 @@ class CancelTests: XCTestCase {
         request1.cancel()
         // Manually run the run loop for a while to leave a chance to the completion handler to be called.
         // WARNING: We cannot use `self.waitForExpectations(timeout: )`, because a timeout always results in failure.
-        RunLoop.main.run(until: Date().addingTimeInterval(3))
+        RunLoop.main.run(until: Date().addingTimeInterval(cancelTimeout))
         XCTAssert(request1.isFinished)
 
         session.responses["https://\(client.writeHosts[0])/1/indexes/\(FAKE_INDEX_NAME)/task/\(taskID)"] = MockResponse(statusCode: 200, jsonBody: ["status": "notPublished", "pendingTask": true])
@@ -100,9 +101,9 @@ class CancelTests: XCTestCase {
             (content, error) in
             XCTFail("Completion handler should not be called when a request has been cancelled")
         }
-        RunLoop.main.run(until: Date().addingTimeInterval(1))
+        RunLoop.main.run(until: Date().addingTimeInterval(cancelTimeout))
         request2.cancel()
-        RunLoop.main.run(until: Date().addingTimeInterval(3))
+        RunLoop.main.run(until: Date().addingTimeInterval(cancelTimeout))
         XCTAssert(request2.isFinished)
     }
 }
