@@ -294,11 +294,12 @@ import Foundation
         // First try the in-memory query cache.
         let cacheKey = "\(path)_body_\(request)"
         if let content = searchCache?.objectForKey(cacheKey) {
-            // We *have* to return something, so we create a completionHandler operation.
+            // We *have* to return something, so we create a simple operation.
             // Note that its execution will be deferred until the next iteration of the main run loop.
-            let operation = BlockOperation() {
-                completionHandler(content, nil)
+            let operation = AsyncBlockOperation(completionHandler: completionHandler) {
+                return (content, nil)
             }
+            operation.completionQueue = client.completionQueue
             OperationQueue.main.addOperation(operation)
             return operation
         }
@@ -430,10 +431,9 @@ import Foundation
         return operation
     }
     
-    private class WaitOperation: AsyncOperation {
+    private class WaitOperation: AsyncOperationWithCompletion {
         let index: Index
         let taskID: Int
-        let completionHandler: CompletionHandler
         let path: String
         var iteration: Int = 0
         var operation: Operation?
@@ -444,8 +444,9 @@ import Foundation
         init(index: Index, taskID: Int, completionHandler: @escaping CompletionHandler) {
             self.index = index
             self.taskID = taskID
-            self.completionHandler = completionHandler
             path = "1/indexes/\(index.urlEncodedName)/task/\(taskID)"
+            super.init(completionHandler: completionHandler)
+            self.completionQueue = index.client.completionQueue
         }
         
         override func start() {
@@ -467,7 +468,7 @@ import Foundation
                 (content, error) -> Void in
                 if let content = content {
                     if (content["status"] as? String) == "published" {
-                        self.completionHandler(content, nil)
+                        self.callCompletion(content: content, error: nil)
                         self.finish()
                     } else {
                         // The delay between polls increases quadratically from the base delay up to the max delay.
@@ -476,7 +477,7 @@ import Foundation
                         self.startNext()
                     }
                 } else {
-                    self.completionHandler(content, error)
+                    self.callCompletion(content: content, error: error)
                     self.finish()
                 }
             }
@@ -496,15 +497,15 @@ import Foundation
         return operation
     }
     
-    private class DeleteByQueryOperation: AsyncOperation {
+    private class DeleteByQueryOperation: AsyncOperationWithCompletion {
         let index: Index
         let query: Query
-        let completionHandler: CompletionHandler?
         
         init(index: Index, query: Query, completionHandler: CompletionHandler?) {
             self.index = index
             self.query = Query(copy: query)
-            self.completionHandler = completionHandler
+            super.init(completionHandler: completionHandler)
+            self.completionQueue = index.client.completionQueue
         }
         
         override func start() {
@@ -543,7 +544,7 @@ import Foundation
                                         return
                                     }
                                     if error != nil || !hasMoreContent {
-                                        self.finish(content, error: error)
+                                        self.callCompletion(content: content, error: error)
                                     } else {
                                         // Browse again *from the beginning*, since the deletion invalidated the cursor.
                                         self.index.browse(query: self.query, completionHandler: self.handleResult)
@@ -554,7 +555,7 @@ import Foundation
                             }
                         }
                         if finalError != nil {
-                            self.finish(nil, error: finalError)
+                            self.callCompletion(content: nil, error: finalError)
                         }
                     })
                 } else {
@@ -562,15 +563,8 @@ import Foundation
                 }
             }
             if finalError != nil {
-                self.finish(nil, error: finalError)
+                self.callCompletion(content: nil, error: finalError)
             }
-        }
-        
-        private func finish(_ content: JSONObject?, error: Error?) {
-            if !isCancelled {
-                self.completionHandler?(nil, error)
-            }
-            self.finish()
         }
     }
     

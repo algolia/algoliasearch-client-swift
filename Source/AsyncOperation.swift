@@ -107,3 +107,64 @@ internal class AsyncOperation: Operation {
         _finished = true
     }
 }
+
+/// A specific type of async operation with a completion handler.
+///
+internal class AsyncOperationWithCompletion: AsyncOperation {
+    /// User completion block to be called.
+    let completion: CompletionHandler?
+    
+    /// Dispatch queue used to execute the completion handler.
+    var completionQueue: DispatchQueue?
+    
+    init(completionHandler: CompletionHandler?) {
+        self.completion = completionHandler
+    }
+    
+    /// Finish this operation.
+    /// This method should be called exactly once per operation.
+    internal func callCompletion(content: JSONObject?, error: Error?) {
+        if _cancelled {
+            return
+        }
+        if let completionQueue = completionQueue {
+            completionQueue.async {
+                self._callCompletion(content: content, error: error)
+            }
+        } else {
+            _callCompletion(content: content, error: error)
+        }
+    }
+    
+    internal func _callCompletion(content: JSONObject?, error: Error?) {
+        // WARNING: In case of asynchronous dispatch, the request could have been cancelled in the meantime
+        // => check again.
+        if !_cancelled {
+            if let completion = completion {
+                completion(content, error)
+            }
+            finish()
+        }
+    }
+}
+
+/// An asynchronous operation whose body is specified as a block.
+///
+internal class AsyncBlockOperation: AsyncOperationWithCompletion {
+    typealias OperationBlock = () -> (content: JSONObject?, error: Error?)
+    
+    /// The block that will be executed as part of the operation.
+    let block: OperationBlock
+    
+    internal init(completionHandler: CompletionHandler?, block: @escaping OperationBlock) {
+        self.block = block
+        super.init(completionHandler: completionHandler)
+    }
+    
+    /// Start this request.
+    override func start() {
+        super.start()
+        let (content, error) = block()
+        self.callCompletion(content: content, error: error)
+    }
+}

@@ -311,7 +311,7 @@ import Foundation
             NSLog("ERROR: Could not create temporary directory '%@'", tmpDir!)
         }
         
-        // NOTE: We use `NSOperation`s to handle dependencies between tasks.
+        // NOTE: We use `Operation`s to handle dependencies between tasks.
         syncError = nil
         
         // Task: Download index settings.
@@ -484,9 +484,8 @@ import Foundation
     /// A mixed online/offline request.
     /// This request encapsulates two concurrent online and offline requests, to optimize response time.
     ///
-    private class OnlineOfflineOperation: AsyncOperation {
+    private class OnlineOfflineOperation: AsyncOperationWithCompletion {
         fileprivate let index: MirroredIndex
-        let completionHandler: CompletionHandler
         private var onlineRequest: Operation?
         private var offlineRequest: Operation?
         private var mayRunOfflineRequest: Bool = true
@@ -494,7 +493,8 @@ import Foundation
         init(index: MirroredIndex, completionHandler: @escaping CompletionHandler) {
             assert(index.mirrored)
             self.index = index
-            self.completionHandler = completionHandler
+            super.init(completionHandler: completionHandler)
+            self.completionQueue = index.client.completionQueue
         }
         
         override func start() {
@@ -542,7 +542,7 @@ import Foundation
                 // Otherwise, just return the online results.
                 else {
                     self.cancelOffline()
-                    self.callCompletion(content, error: error)
+                    self.callCompletion(content: content, error: error)
                 }
             }
         }
@@ -558,7 +558,7 @@ import Foundation
                 [unowned self] // works because the operation is enqueued and retained by the queue
                 (content, error) in
                 self.onlineRequest?.cancel()
-                self.callCompletion(content, error: error)
+                self.callCompletion(content: content, error: error)
             }
         }
         
@@ -576,16 +576,6 @@ import Foundation
                 cancelOffline()
                 super.cancel()
             }
-        }
-        
-        private func callCompletion(_ content: JSONObject?, error: Error?) {
-            if _finished {
-                return
-            }
-            if !_cancelled {
-                completionHandler(content, error)
-            }
-            finish()
         }
         
         func startOnlineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
@@ -651,16 +641,10 @@ import Foundation
     @discardableResult public func searchOffline(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         assert(self.mirrored, "Mirroring not activated on this index")
         let queryCopy = Query(copy: query)
-        let callingQueue = OperationQueue.current ?? OperationQueue.main
-        let operation = BlockOperation()
-        operation.addExecutionBlock() {
-            let (content, error) = self._searchOffline(queryCopy)
-            callingQueue.addOperation() {
-                if !operation.isCancelled {
-                    completionHandler(content, error)
-                }
-            }
+        let operation = AsyncBlockOperation(completionHandler: completionHandler) {
+            return self._searchOffline(queryCopy)
         }
+        operation.completionQueue = client.completionQueue
         self.offlineClient.searchQueue.addOperation(operation)
         return operation
     }
@@ -738,16 +722,10 @@ import Foundation
         assert(self.mirrored, "Mirroring not activated on this index")
         
         // TODO: We should be doing a copy of the queries for better safety.
-        let callingQueue = OperationQueue.current ?? OperationQueue.main
-        let operation = BlockOperation()
-        operation.addExecutionBlock() {
-            let (content, error) = self._multipleQueriesOffline(queries, strategy: strategy)
-            callingQueue.addOperation() {
-                if !operation.isCancelled {
-                    completionHandler(content, error)
-                }
-            }
+        let operation = AsyncBlockOperation(completionHandler: completionHandler) {
+            return self._multipleQueriesOffline(queries, strategy: strategy)
         }
+        operation.completionQueue = client.completionQueue
         self.offlineClient.searchQueue.addOperation(operation)
         return operation
     }
@@ -830,16 +808,10 @@ import Foundation
     @discardableResult public func browseMirror(query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         assert(self.mirrored, "Mirroring not activated on this index")
         let queryCopy = Query(copy: query)
-        let callingQueue = OperationQueue.current ?? OperationQueue.main
-        let operation = BlockOperation()
-        operation.addExecutionBlock() {
-            let (content, error) = self._browseMirror(query: queryCopy)
-            callingQueue.addOperation() {
-                if !operation.isCancelled {
-                    completionHandler(content, error)
-                }
-            }
+        let operation = AsyncBlockOperation(completionHandler: completionHandler) {
+            return self._browseMirror(query: queryCopy)
         }
+        operation.completionQueue = client.completionQueue
         self.offlineClient.searchQueue.addOperation(operation)
         return operation
     }
@@ -850,17 +822,11 @@ import Foundation
     @objc(browseMirrorFromCursor:completionHandler:)
     @discardableResult public func browseMirror(from cursor: String, completionHandler: @escaping CompletionHandler) -> Operation {
         assert(self.mirrored, "Mirroring not activated on this index")
-        let callingQueue = OperationQueue.current ?? OperationQueue.main
-        let operation = BlockOperation()
-        operation.addExecutionBlock() {
+        let operation = AsyncBlockOperation(completionHandler: completionHandler) {
             let query = Query(parameters: ["cursor": cursor])
-            let (content, error) = self._browseMirror(query: query)
-            callingQueue.addOperation() {
-                if !operation.isCancelled {
-                    completionHandler(content, error)
-                }
-            }
+            return self._browseMirror(query: query)
         }
+        operation.completionQueue = client.completionQueue
         self.offlineClient.searchQueue.addOperation(operation)
         return operation
     }

@@ -29,7 +29,7 @@ import Foundation
 /// This class encapsulates a sequence of normally one (nominal case), potentially many (in case of retry) network
 /// calls into a high-level operation. This operation can be cancelled by the user.
 ///
-internal class Request: AsyncOperation {
+internal class Request: AsyncOperationWithCompletion {
     let session: URLSession
     
     /// Request method.
@@ -62,12 +62,6 @@ internal class Request: AsyncOperation {
     /// The current network task.
     var task: URLSessionTask?
     
-    /// User completion block to be called.
-    let completion: CompletionHandler?
-    
-    /// Dispatch queue used to execute the completion handler.
-    var completionQueue: DispatchQueue?
-    
     // MARK: - Initialization
     
     init(session: URLSession, method: HTTPMethod, hosts: [String], firstHostIndex: Int, path: String, headers: [String: String]?, jsonBody: JSONObject?, timeout: TimeInterval, completion: CompletionHandler?) {
@@ -84,8 +78,7 @@ internal class Request: AsyncOperation {
         assert(jsonBody == nil || (method == .POST || method == .PUT))
         self.timeout = timeout
         self.nextTimeout = timeout
-        self.completion = completion
-        super.init()
+        super.init(completionHandler: completion)
         // Assign a descriptive name, but let the caller may change it afterwards (in contrast to getter override).
         if #available(iOS 8.0, *) {
             self.name = "Request{\(method) /\(path)}"
@@ -171,7 +164,7 @@ internal class Request: AsyncOperation {
             
             // Success: call completion block.
             if finalError == nil {
-                self.callCompletion(json, error: nil)
+                self.callCompletion(content: json, error: nil)
             }
             // Transient error and host array not exhausted: retry.
             else if finalError!.isTransient() && self.nextHostIndex != self.firstHostIndex {
@@ -180,40 +173,14 @@ internal class Request: AsyncOperation {
             }
             // Non-transient error, or no more hosts to retry: report the error.
             else {
-                self.callCompletion(nil, error: finalError)
+                self.callCompletion(content: nil, error: finalError)
             }
         }
         task!.resume()
     }
     
-    /// Finish this operation.
-    /// This method should be called exactly once per operation.
-    private func callCompletion(_ content: JSONObject?, error: Error?) {
-        if _cancelled {
-            return
-        }
-        if let completionQueue = completionQueue {
-            completionQueue.async {
-                self._callCompletion(content, error: error)
-            }
-        } else {
-            _callCompletion(content, error: error)
-        }
-    }
-    
-    private func _callCompletion(_ content: JSONObject?, error: Error?) {
-        // WARNING: In case of asynchronous dispatch, the request could have been cancelled in the meantime
-        // => check again.
-        if !_cancelled {
-            if let completion = completion {
-                completion(content, error)
-            }
-            finish()
-        }
-    }
-    
     // ----------------------------------------------------------------------
-    // MARK: - NSOperation interface
+    // MARK: - Operation interface
     // ----------------------------------------------------------------------
     
     /// Start this request.

@@ -150,7 +150,7 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     let requestQueue: OperationQueue
     
     /// Dispatch queue used to run completion handlers.
-    private var completionQueue = DispatchQueue.main
+    internal var completionQueue = DispatchQueue.main
     
     // MARK: Initialization
     
