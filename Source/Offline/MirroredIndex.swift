@@ -78,6 +78,27 @@ import Foundation
 ///
 /// + Note: The strategy applies both to `search(...)` and `searchDisjunctiveFaceting(...)`.
 ///
+///
+/// ## Limitations
+///
+/// Algolia's core features are fully supported offline, including (but not limited to): **ranking**,
+/// **typo tolerance**, **filtering**, **faceting**, **highlighting/snippeting**...
+///
+/// However, and partly due to tight memory, CPU and disk space constraints, some features are disabled:
+///
+/// - **Synonyms** are only partially supported:
+///
+///     - Multi-way ("regular") synonyms are fully supported.
+///     - One-way synonyms are not supported.
+///     - Alternative corrections are limited to one alternative (compared to multiple alternatives with online indices).
+///     - Placeholders are fully supported.
+///
+/// - Dictionary-based **plurals** are not supported. ("Simple" plurals with a final S are supported.)
+///
+/// - **IP geolocation** (see `Query.aroundLatLngViaIP`) is not supported.
+///
+/// - **CJK segmentation** is not supported.
+///
 @objc public class MirroredIndex : Index {
     
     // MARK: Constants
