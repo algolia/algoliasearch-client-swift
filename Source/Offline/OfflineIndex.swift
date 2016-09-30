@@ -109,7 +109,7 @@ public struct IOError: CustomNSError {
 ///
 /// #### Parallel transactions
 ///
-/// Why it is possible to create parallel transactions, there is little interest in doing so, since each committed
+/// While it is possible to create parallel transactions, there is little interest in doing so, since each committed
 /// transaction results in an index rebuild. Multiplying transactions therefore only degrades performance.
 ///
 /// Also, transactions are serially executed in the order they were committed, the latest transaction potentially
