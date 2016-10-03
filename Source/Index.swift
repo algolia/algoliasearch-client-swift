@@ -73,7 +73,7 @@ import Foundation
     /// If an object already exists with the same object ID, the existing object will be overwritten.
     ///
     /// - parameter object: The object to add.
-    /// - parameter withID: Identifier that you want to assign this object.
+    /// - parameter objectID: Identifier that you want to assign this object.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
@@ -155,9 +155,9 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func getObject(withID objectID: String, attributesToRetrieve attributes: [String], completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult public func getObject(withID objectID: String, attributesToRetrieve: [String], completionHandler: @escaping CompletionHandler) -> Operation {
         let query = Query()
-        query.attributesToRetrieve = attributes
+        query.attributesToRetrieve = attributesToRetrieve
         let path = "1/indexes/\(urlEncodedName)/\(objectID.urlEncodedPathComponent())?\(query.build())"
         return client.performHTTPQuery(path: path, method: .GET, body: nil, hostnames: client.readHosts, completionHandler: completionHandler)
     }
@@ -578,43 +578,9 @@ import Foundation
     ///
     @objc
     @discardableResult public func searchDisjunctiveFaceting(_ query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: @escaping CompletionHandler) -> Operation {
-        var queries = [Query]()
-        
-        // Build the first, global query.
-        let globalQuery = Query(copy: query)
-        globalQuery.facetFilters = Index._buildFacetFilters(disjunctiveFacets: disjunctiveFacets, refinements: refinements, excludedFacet: nil)
-        queries.append(globalQuery)
-        
-        // Build the refined queries.
-        for disjunctiveFacet in disjunctiveFacets {
-            let disjunctiveQuery = Query(copy: query)
-            disjunctiveQuery.facets = [disjunctiveFacet]
-            disjunctiveQuery.facetFilters = Index._buildFacetFilters(disjunctiveFacets: disjunctiveFacets, refinements: refinements, excludedFacet: disjunctiveFacet)
-            // We are not interested in the hits for this query, only the facet counts, so let's limit the output.
-            disjunctiveQuery.hitsPerPage = 0
-            disjunctiveQuery.attributesToRetrieve = []
-            disjunctiveQuery.attributesToHighlight = []
-            disjunctiveQuery.attributesToSnippet = []
-            // Do not show this query in analytics, either.
-            disjunctiveQuery.analytics = false
-            queries.append(disjunctiveQuery)
-        }
-        
-        // Run all the queries.
-        let operation = self.multipleQueries(queries, completionHandler: { (content, error) -> Void in
-            var finalContent: JSONObject? = nil
-            var finalError: Error? = error
-            if error == nil {
-                do {
-                    finalContent = try Index._aggregateResults(disjunctiveFacets: disjunctiveFacets, refinements: refinements, content: content!)
-                } catch let e {
-                    finalError = e
-                }
-            }
-            assert(finalContent != nil || finalError != nil)
-            completionHandler(finalContent, finalError)
-        })
-        return operation
+        return DisjunctiveFaceting(multipleQuerier: { (queries, completionHandler) in
+            return self.multipleQueries(queries, completionHandler: completionHandler)
+        }).searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: completionHandler)
     }
     
     /// Run multiple queries on this index.
@@ -643,80 +609,6 @@ import Foundation
     ///
     @discardableResult public func multipleQueries(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         return self.multipleQueries(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
-    }
-    
-    /// Aggregate disjunctive faceting search results.
-    private class func _aggregateResults(disjunctiveFacets: [String], refinements: [String: [String]], content: JSONObject) throws -> JSONObject {
-        guard let results = content["results"] as? [Any] else {
-            throw InvalidJSONError(description: "No results in response")
-        }
-        // The first answer is used as the basis for the response.
-        guard var mainContent = results[0] as? JSONObject else {
-            throw InvalidJSONError(description: "Invalid results in response")
-        }
-        // Following answers are just used for their facet counts.
-        var disjunctiveFacetCounts = JSONObject()
-        for i in 1..<results.count { // for each answer (= each disjunctive facet)
-            guard let result = results[i] as? JSONObject, let allFacetCounts = result["facets"] as? [String: [String: Any]] else {
-                throw InvalidJSONError(description: "Invalid facets in response")
-            }
-            // NOTE: Iterating, but there should be just one item.
-            for (facetName, facetCounts) in allFacetCounts {
-                var newFacetCounts = facetCounts
-                // Add zeroes for missing values.
-                if disjunctiveFacets.contains(facetName) {
-                    if let refinedValues = refinements[facetName] {
-                        for refinedValue in refinedValues {
-                            if facetCounts[refinedValue] == nil {
-                                newFacetCounts[refinedValue] = 0
-                            }
-                        }
-                    }
-                }
-                disjunctiveFacetCounts[facetName] = newFacetCounts
-            }
-            // If facet counts are not exhaustive, propagate this information to the main results.
-            // Because disjunctive queries are less restrictive than the main query, it can happen that the main query
-            // returns exhaustive facet counts, while the disjunctive queries do not.
-            if let exhaustiveFacetsCount = result["exhaustiveFacetsCount"] as? Bool {
-                if !exhaustiveFacetsCount {
-                    mainContent["exhaustiveFacetsCount"] = false
-                }
-            }
-        }
-        mainContent["disjunctiveFacets"] = disjunctiveFacetCounts
-        return mainContent
-    }
-    
-    /// Build the facet filters, either global or for the selected disjunctive facet.
-    ///
-    /// - parameter excludedFacet: The disjunctive facet to exclude from the filters. If nil, no facet is
-    ///   excluded (thus building the global filters).
-    ///
-    private class func _buildFacetFilters(disjunctiveFacets: [String], refinements: [String: [String]], excludedFacet: String?) -> [Any] {
-        var facetFilters: [Any] = []
-        for (facetName, facetValues) in refinements {
-            // Disjunctive facet: OR all values, and AND with the rest of the filters.
-            if disjunctiveFacets.contains(facetName) {
-                // Skip the specified disjunctive facet, if any.
-                if facetName == excludedFacet {
-                    continue
-                }
-                var disjunctiveOperator = [String]()
-                for facetValue in facetValues {
-                    disjunctiveOperator.append("\(facetName):\(facetValue)")
-                }
-                facetFilters.append(disjunctiveOperator as Any)
-            }
-                // Conjunctive facet: AND all values with the rest of the filters.
-            else {
-                assert(facetName != excludedFacet)
-                for facetValue in facetValues {
-                    facetFilters.append("\(facetName):\(facetValue)")
-                }
-            }
-        }
-        return facetFilters
     }
 
     // MARK: - Search Cache

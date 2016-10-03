@@ -103,6 +103,23 @@ extension MutableCollection where Index == Int {
     }
 }
 
+// MARK: - Dates
+
+let iso8601DateFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.calendar = Calendar(identifier: .iso8601)
+    formatter.locale = Locale(identifier: "en_US_POSIX")
+    formatter.timeZone = TimeZone(secondsFromGMT: 0)
+    formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" // "2000-12-31T23:59:59.666Z"
+    return formatter
+}()
+
+extension Date {
+    var iso8601: String {
+        return iso8601DateFormatter.string(from: self)
+    }
+}
+
 // MARK: - Miscellaneous
 
 /// The operating system's name.

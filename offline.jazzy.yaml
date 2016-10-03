@@ -33,6 +33,7 @@ custom_categories:
         - OfflineClient
         - MirroredIndex
         - DataSelectionQuery
+        - OfflineIndex
     - name: Errors
       children:
         - HTTPError

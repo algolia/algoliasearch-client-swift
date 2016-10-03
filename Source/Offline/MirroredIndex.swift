@@ -184,7 +184,7 @@ import Foundation
     // ----------------------------------------------------------------------
     
     @objc override internal init(client: Client, name: String) {
-        assert(client is OfflineClient);
+        assert(client is OfflineClient)
         super.init(client: client, name: name)
     }
     
@@ -326,7 +326,7 @@ import Foundation
 
         // Create temporary directory.
         do {
-            tmpDir = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("algolia").appendingPathComponent(UUID().uuidString).path
+            tmpDir = URL(fileURLWithPath: offlineClient.tmpDir).appendingPathComponent(UUID().uuidString).path
             try FileManager.default.createDirectory(atPath: tmpDir!, withIntermediateDirectories: true, attributes: nil)
         } catch _ {
             NSLog("ERROR: Could not create temporary directory '%@'", tmpDir!)
@@ -608,8 +608,6 @@ import Foundation
         }
     }
     
-    // MARK: Regular search
-    
     /// Search using the current request strategy to choose between online and offline (or a combination of both).
     @objc
     @discardableResult public override func search(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
@@ -712,7 +710,13 @@ import Foundation
         }
     }
     
-    /// Run multiple queries on the online API, and not the local mirror.
+    /// Run multiple queries on the online API, not the local mirror.
+    ///
+    /// - parameter queries: List of queries.
+    /// - parameter strategy: The strategy to use.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @objc
     @discardableResult public func multipleQueriesOnline(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
         return super.multipleQueries(queries, strategy: strategy, completionHandler: {
@@ -726,12 +730,19 @@ import Foundation
         })
     }
 
+    /// Run multiple queries on the online API, not the local mirror.
+    ///
+    /// - parameter queries: List of queries.
+    /// - parameter strategy: The strategy to use.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @discardableResult public func multipleQueriesOnline(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         return self.multipleQueriesOnline(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
 
     /// Run multiple queries on the local mirror.
-    /// This method is the offline equivalent of `Index.multipleQueries()`.
+    /// This method is the offline equivalent of `Index.multipleQueries(...)`.
     ///
     /// - parameter queries: List of queries.
     /// - parameter strategy: The strategy to use.
@@ -751,68 +762,21 @@ import Foundation
         return operation
     }
     
+    /// Run multiple queries on the local mirror.
+    /// This method is the offline equivalent of `Index.multipleQueries(...)`.
+    ///
+    /// - parameter queries: List of queries.
+    /// - parameter strategy: The strategy to use.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
     @discardableResult public func multipleQueriesOffline(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         return self.multipleQueriesOffline(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
     }
     
     /// Run multiple queries on the local mirror synchronously.
     private func _multipleQueriesOffline(_ queries: [Query], strategy: String?) -> (content: JSONObject?, error: Error?) {
-        // TODO: Should be moved to `LocalIndex` to factorize implementation between platforms.
-        assert(!Thread.isMainThread) // make sure it's run in the background
-
-        var content: JSONObject?
-        var error: Error?
-        var results: [JSONObject] = []
-        
-        var shouldProcess = true
-        for query in queries {
-            // Implement the "stop if enough matches" strategy.
-            if !shouldProcess {
-                let returnedContent: JSONObject = [
-                    "hits": [],
-                    "page": 0,
-                    "nbHits": 0,
-                    "nbPages": 0,
-                    "hitsPerPage": 0,
-                    "processingTimeMS": 1,
-                    "params": query.build(),
-                    "index": self.name,
-                    "processed": false
-                ]
-                results.append(returnedContent)
-                continue
-            }
-            
-            let (queryContent, queryError) = self._searchOffline(query)
-            assert(queryContent != nil || queryError != nil)
-            if queryError != nil {
-                error = queryError
-                break
-            }
-            var returnedContent = queryContent!
-            returnedContent["index"] = self.name
-            results.append(returnedContent)
-            
-            // Implement the "stop if enough matches strategy".
-            if shouldProcess && strategy == Client.MultipleQueriesStrategy.stopIfEnoughMatches.rawValue {
-                if let nbHits = returnedContent["nbHits"] as? Int, let hitsPerPage = returnedContent["hitsPerPage"] as? Int {
-                    if nbHits >= hitsPerPage {
-                        shouldProcess = false
-                    }
-                }
-            }
-        }
-        if error == nil {
-            content = [
-                "results": results,
-                // Tag results as having a local origin.
-                // NOTE: Each individual result is also automatically tagged, but having a top-level key allows for
-                // more uniform processing.
-                MirroredIndex.jsonKeyOrigin: MirroredIndex.jsonValueOriginLocal
-            ]
-        }
-        assert(content != nil || error != nil)
-        return (content: content, error: error)
+        return MultipleQueryEmulator(indexName: self.name, querier: self._searchOffline).multipleQueries(queries, strategy: strategy)
     }
     
     // ----------------------------------------------------------------------

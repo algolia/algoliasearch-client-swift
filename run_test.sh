@@ -31,6 +31,7 @@ if [[ "$PLATFORM" != "OSX" ]]; then
 fi
 
 # Run tests.
+echo "Running tests..."
 if [ -n "$DESTINATION" ]; then
     xcodebuild -project AlgoliaSearch.xcodeproj -scheme "AlgoliaSearch $PLATFORM" -sdk "$SDK" -destination "$DESTINATION" test
 else

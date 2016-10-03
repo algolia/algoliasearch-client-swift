@@ -283,7 +283,7 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
 
     /// Delete an index.
     ///
-    /// - parameter indexName: Name of the index to delete.
+    /// - parameter name: Name of the index to delete.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///

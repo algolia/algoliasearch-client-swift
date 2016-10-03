@@ -847,8 +847,8 @@ public class Query : NSObject, NSCopying {
 
     /// Search entries inside a given area defined by a set of points (defined by a minimum of 3 points).
     /// You can pass several time the insidePolygon parameter to your query, the behavior will be a OR between all those polygons.
-    // FIXME: Union cannot work with this implementation, as at most one occurrence per parameter is supported.
     @objc public var insidePolygon: [LatLng]? {
+        // FIXME: Union cannot work with this implementation, as at most one occurrence per parameter is supported.
         get {
             if let fields = self["insidePolygon"]?.components(separatedBy: ",") {
                 if fields.count % 2 == 0 && fields.count / 2 >= 3 {

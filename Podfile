@@ -2,6 +2,14 @@
 
 use_frameworks!
 
-target "AlgoliaSearch-Offline-iOS" do
+def common_deps
     pod 'AlgoliaSearchOfflineCore-iOS', '~> 1.0'
+end
+
+target "AlgoliaSearch-Offline-iOS" do
+    common_deps
+end
+
+target "AlgoliaSearch-Offline-iOS Tests" do
+    common_deps
 end

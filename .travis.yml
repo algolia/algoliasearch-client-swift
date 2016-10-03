@@ -1,7 +1,7 @@
 branches:
   only:
     - master
-    - v4
+    - feat/offline-only-index
 osx_image: xcode8
 language: objective-c
 env:
