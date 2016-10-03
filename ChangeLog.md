@@ -1,10 +1,28 @@
 Change Log
 ==========
 
+## 4.1 (2016-10-03)
+
+### New features
+
+- Support the `createIfNotExists` parameter in partial updates
+- [offline] Offline-only indices
+
+### Bug fixes
+
+- (#134) Use new format version when retrieving index settings
+- Fix asynchronous dispatch of some completion handlers (were called outside the main thread)
+
+### Other changes
+
+- Rename `attributesToIndex` to `searchableAttributes`
+
+
 ## 4.0.1 (2016-09-15)
 
 - Fix `NSCopying` support in Objective-C
 - [Offline mode] Upgrade to Offline Core 1.0
+
 
 ## 4.0 (2016-09-14)
 
