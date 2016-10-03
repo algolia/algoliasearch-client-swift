@@ -323,10 +323,10 @@ public class Query : NSObject, NSCopying {
     }
     // NOTE: Objective-C bridge moved away to `_objc_Query`
     
-    /// List of attributes you want to use for textual search (must be a subset of the attributesToIndex index setting).
+    /// List of attributes you want to use for textual search (must be a subset of the `searchableAttributes` index setting).
     /// Attributes are separated with a comma (for example "name,address" ), you can also use a JSON string array
     /// encoding (for example encodeURIComponent('["name","address"]') ). By default, all attributes specified in
-    /// attributesToIndex settings are used to search.
+    /// `searchableAttributes` settings are used to search.
     @objc public var restrictSearchableAttributes: [String]? {
         get { return Query.parseStringArray(self["restrictSearchableAttributes"]) }
         set { self["restrictSearchableAttributes"] = Query.buildJSONArray(newValue) }
@@ -432,7 +432,7 @@ public class Query : NSObject, NSCopying {
     }
     // NOTE: Objective-C bridge moved away to `_objc_Query`
     
-    /// List of attributes on which you want to disable typo tolerance (must be a subset of the `attributesToIndex`
+    /// List of attributes on which you want to disable typo tolerance (must be a subset of the `searchableAttributes`
     /// index setting).
     @objc public var disableTypoToleranceOnAttributes: [String]? {
         get { return Query.parseStringArray(self["disableTypoToleranceOnAttributes"]) }
