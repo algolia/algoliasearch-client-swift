@@ -225,7 +225,13 @@
     [index partialUpdateObject:DUMMY_JSON withID:@"snoopy" completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
         // Do nothing.
     }];
+    [index partialUpdateObject:DUMMY_JSON withID:@"snoopy" createIfNotExists:NO completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+        // Do nothing.
+    }];
     [index partialUpdateObjects:@[ DUMMY_JSON ] completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+        // Do nothing.
+    }];
+    [index partialUpdateObjects:@[ DUMMY_JSON ] createIfNotExists:NO completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
         // Do nothing.
     }];
     [index search:[Query new] completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {

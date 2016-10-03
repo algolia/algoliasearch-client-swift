@@ -99,6 +99,9 @@ public enum StatusCode: Int {
     /// Operation unauthorized with the provided credentials.
     case forbidden                                              = 403
     
+    /// The targeted resource does not exist.
+    case notFound                                               = 404
+    
     /// The HTTP method used in the request is not supported for the targeted endpoint.
     ///
     /// + Note: Should never occur when using this library.
