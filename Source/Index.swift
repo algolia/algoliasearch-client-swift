@@ -370,7 +370,7 @@ import Foundation
     ///
     @objc(getSettings:)
     @discardableResult public func getSettings(completionHandler: @escaping CompletionHandler) -> Operation {
-        let path = "1/indexes/\(urlEncodedName)/settings"
+        let path = "1/indexes/\(urlEncodedName)/settings?getVersion=2"
         return client.performHTTPQuery(path: path, method: .GET, body: nil, hostnames: client.readHosts, completionHandler: completionHandler)
     }
     

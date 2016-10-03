@@ -336,8 +336,8 @@ import Foundation
         syncError = nil
         
         // Task: Download index settings.
-        // TODO: Factorize query construction with regular code.
-        let path = "1/indexes/\(urlEncodedName)/settings"
+        // WARNING: We must use the legacy format to retrieve synonyms, alternative corrections & placeholders.
+        let path = "1/indexes/\(urlEncodedName)/settings?getVersion=1"
         let settingsOperation = client.newRequest(method: .GET, path: path, body: nil, hostnames: client.readHosts, isSearchQuery: false) {
             (json, error) in
             if error != nil {
