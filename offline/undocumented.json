@@ -43,17 +43,24 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Offline/MirroredIndex.swift",
-      "line": 724,
-      "symbol": "MirroredIndex.multipleQueriesOnline(_:strategy:completionHandler:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Offline/OfflineIndex.swift",
+      "line": 28,
+      "symbol": "IOError",
+      "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Offline/MirroredIndex.swift",
-      "line": 755,
-      "symbol": "MirroredIndex.multipleQueriesOffline(_:strategy:completionHandler:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Offline/OfflineIndex.swift",
+      "line": 160,
+      "symbol": "OfflineIndex.description",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Offline/OfflineIndex.swift",
+      "line": 515,
+      "symbol": "OfflineIndex.WriteTransaction.description",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
@@ -68,13 +75,6 @@
       "line": 162,
       "symbol": "GeoRect.isEqual(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
-      "line": 851,
-      "symbol": "Query.insidePolygon",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {

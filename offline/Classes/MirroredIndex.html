@@ -100,6 +100,12 @@
               <li class="nav-group-task">
                 <a href="../Classes/DataSelectionQuery.html">DataSelectionQuery</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Classes/OfflineIndex.html">OfflineIndex</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/OfflineIndex/WriteTransaction.html">– WriteTransaction</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -186,6 +192,27 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
     <p>The strategy applies both to <code>search(...)</code> and <code>searchDisjunctiveFaceting(...)</code>.</p>
 
 </div>
+
+<p><a href='#limitations' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='limitations'>Limitations</h2></p>
+
+<p>Algolia&rsquo;s core features are fully supported offline, including (but not limited to): <strong>ranking</strong>,
+<strong>typo tolerance</strong>, <strong>filtering</strong>, <strong>faceting</strong>, <strong>highlighting/snippeting</strong>&hellip;</p>
+
+<p>However, and partly due to tight memory, CPU and disk space constraints, some features are disabled:</p>
+
+<ul>
+<li><p><strong>Synonyms</strong> are only partially supported:</p>
+
+<ul>
+<li>Multi-way (<q>regular</q>) synonyms are fully supported.</li>
+<li>One-way synonyms are not supported.</li>
+<li>Alternative corrections are limited to one alternative (compared to multiple alternatives with online indices).</li>
+<li>Placeholders are fully supported.</li>
+</ul></li>
+<li><p>Dictionary-based <strong>plurals</strong> are not supported. (<q>Simple</q> plurals with a final S are supported.)</p></li>
+<li><p><strong>IP geolocation</strong> (see <code><a href="../Classes/Query.html#/s:vC13AlgoliaSearch5Query17aroundLatLngViaIPGSqSb_">Query.aroundLatLngViaIP</a></code>) is not supported.</p></li>
+<li><p><strong>CJK segmentation</strong> is not supported.</p></li>
+</ul>
 
           </section>
           <section class="section task-group-section">
@@ -806,17 +833,6 @@ This takes into account the delay between syncs.</p>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Regular%20search"></a>
-                <a name="//apple_ref/swift/Section/Regular search" class="dashAnchor"></a>
-                <a href="#/Regular%20search">
-                  <h3 class="section-name">Regular search</h3>
-                </a>
-              </div>
-              <ul>
                 <li class="item">
                   <div>
                     <code>
@@ -949,7 +965,7 @@ This takes into account the delay between syncs.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Run multiple queries on the online API, and not the local mirror.</p>
+                        <p>Run multiple queries on the online API, not the local mirror.</p>
 
                       </div>
                       <div class="declaration">
@@ -959,6 +975,135 @@ This takes into account the delay between syncs.</p>
                           <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueriesOnline</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>queries</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>List of queries.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>strategy</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The strategy to use.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request’s outcome.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A cancellable operation.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch13MirroredIndex21multipleQueriesOnlineFTGSaCS_5Query_8strategyGSqOCS_6Client23MultipleQueriesStrategy_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="//apple_ref/swift/Method/multipleQueriesOnline(_:strategy:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch13MirroredIndex21multipleQueriesOnlineFTGSaCS_5Query_8strategyGSqOCS_6Client23MultipleQueriesStrategy_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">multipleQueriesOnline(_:strategy:completionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Run multiple queries on the online API, not the local mirror.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueriesOnline</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt"><a href="../Classes/Client.html">Client</a></span><span class="o">.</span><span class="kt">MultipleQueriesStrategy</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>queries</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>List of queries.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>strategy</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The strategy to use.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request’s outcome.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A cancellable operation.</p>
+
                       </div>
                     </section>
                   </div>
@@ -977,7 +1122,7 @@ This takes into account the delay between syncs.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Run multiple queries on the local mirror.
-This method is the offline equivalent of <code>Index.multipleQueries()</code>.</p>
+This method is the offline equivalent of <code><a href="../Classes/Index.html#/s:FC13AlgoliaSearch5Index15multipleQueriesFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">Index.multipleQueries(...)</a></code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -985,6 +1130,85 @@ This method is the offline equivalent of <code>Index.multipleQueries()</code>.</
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueriesOffline</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>queries</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>List of queries.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>strategy</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The strategy to use.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request’s outcome.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A cancellable operation.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch13MirroredIndex22multipleQueriesOfflineFTGSaCS_5Query_8strategyGSqOCS_6Client23MultipleQueriesStrategy_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="//apple_ref/swift/Method/multipleQueriesOffline(_:strategy:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch13MirroredIndex22multipleQueriesOfflineFTGSaCS_5Query_8strategyGSqOCS_6Client23MultipleQueriesStrategy_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">multipleQueriesOffline(_:strategy:completionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Run multiple queries on the local mirror.
+This method is the offline equivalent of <code><a href="../Classes/Index.html#/s:FC13AlgoliaSearch5Index15multipleQueriesFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">Index.multipleQueries(...)</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueriesOffline</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt"><a href="../Classes/Client.html">Client</a></span><span class="o">.</span><span class="kt">MultipleQueriesStrategy</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>

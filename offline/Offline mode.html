@@ -99,6 +99,12 @@
               <li class="nav-group-task">
                 <a href="Classes/DataSelectionQuery.html">DataSelectionQuery</a>
               </li>
+              <li class="nav-group-task">
+                <a href="Classes/OfflineIndex.html">OfflineIndex</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Classes/OfflineIndex/WriteTransaction.html">– WriteTransaction</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -237,6 +243,27 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
 
 </div>
 
+<p><a href='#limitations' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='limitations'>Limitations</h2></p>
+
+<p>Algolia&rsquo;s core features are fully supported offline, including (but not limited to): <strong>ranking</strong>,
+<strong>typo tolerance</strong>, <strong>filtering</strong>, <strong>faceting</strong>, <strong>highlighting/snippeting</strong>&hellip;</p>
+
+<p>However, and partly due to tight memory, CPU and disk space constraints, some features are disabled:</p>
+
+<ul>
+<li><p><strong>Synonyms</strong> are only partially supported:</p>
+
+<ul>
+<li>Multi-way (<q>regular</q>) synonyms are fully supported.</li>
+<li>One-way synonyms are not supported.</li>
+<li>Alternative corrections are limited to one alternative (compared to multiple alternatives with online indices).</li>
+<li>Placeholders are fully supported.</li>
+</ul></li>
+<li><p>Dictionary-based <strong>plurals</strong> are not supported. (<q>Simple</q> plurals with a final S are supported.)</p></li>
+<li><p><strong>IP geolocation</strong> (see <code><a href="Classes/Query.html#/s:vC13AlgoliaSearch5Query17aroundLatLngViaIPGSqSb_">Query.aroundLatLngViaIP</a></code>) is not supported.</p></li>
+<li><p><strong>CJK segmentation</strong> is not supported.</p></li>
+</ul>
+
                         <a href="Classes/MirroredIndex.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
@@ -272,6 +299,121 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">DataSelectionQuery</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:C13AlgoliaSearch12OfflineIndex"></a>
+                    <a name="//apple_ref/swift/Class/OfflineIndex" class="dashAnchor"></a>
+                    <a class="token" href="#/s:C13AlgoliaSearch12OfflineIndex">OfflineIndex</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A purely offline index.
+Such an index has no online counterpart. It is updated and queried locally.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    You cannot construct this class directly. Please use <code><a href="Classes/OfflineClient.html#/s:FC13AlgoliaSearch13OfflineClient12offlineIndexFT8withNameSS_CS_12OfflineIndex">OfflineClient.offlineIndex(withName:)</a></code> to obtain an
+instance.
+
+</div>
+
+<p><a href='#caveats' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='caveats'>Caveats</h2>
+<a href='#limitations' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='limitations'>Limitations</h3></p>
+
+<p>Though offline indices support most features of an online index, there are some limitations:</p>
+
+<ul>
+<li><p>Objects <strong>must contain an <code>objectID</code></strong> field. The SDK will refuse to index objects without an ID.</p></li>
+<li><p><strong>Partial updates</strong> are not supported.</p></li>
+<li><p><strong>Replica indices</strong> are not supported.</p></li>
+</ul>
+
+<p><a href='#differences' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='differences'>Differences</h3></p>
+
+<ul>
+<li><p><strong>Settings</strong> are not incremental: the new settings completely replace the previous ones. If a setting
+is omitted in the new version, it reverts back to its default value. (This is in contrast with the online API,
+where you can only specify the settings you want to change and omit the others.)</p></li>
+<li><p>You cannot batch arbitrary write operations in a single method call (as you would do with <code><a href="Classes/Index.html#/s:FC13AlgoliaSearch5Index5batchFT10operationsGSaGVs10DictionarySSP___17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">Index.batch(...)</a></code>).
+However, all write operations are <em>de facto</em> batches, since they must be wrapped inside a transaction (see below).</p></li>
+</ul>
+
+<p><a href='#operations' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='operations'>Operations</h2>
+<a href='#writing' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='writing'>Writing</h3></p>
+
+<p>Updating an index involves rebuilding it, which is an expensive and potentially lengthy operation. Therefore, all
+updates must be wrapped inside a <strong>transaction</strong>.</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    You cannot have several parallel transactions on a given index.
+
+</div>
+
+<p>The procedure to update an index is as follows:</p>
+
+<ul>
+<li><p>Create a transaction by calling <code>newTransaction()</code>.</p></li>
+<li><p>Populate the transaction: call the various write methods on the <code>WriteTransaction</code> class.</p></li>
+<li><p>Either commit (<code>commit()</code>) or rollback (<code>rollback()</code>) the transaction.</p></li>
+</ul>
+
+<p><a href='#synchronous-vs-asynchronous-updates' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='synchronous-vs-asynchronous-updates'>Synchronous vs asynchronous updates</h4></p>
+
+<p>Any write operation, especially (but not limited to) the final commit, is potentially lengthy. This is why all
+operations provide an asynchronous version, which accepts an optional completion handler that will be notified of
+the operation&rsquo;s completion (either successful or erroneous).</p>
+
+<p>If you already have a background thread/queue performing data-handling tasks, you may find it more convenient to
+use the synchronous versions of the write methods. They are named after the asynchronous versions, suffixed by
+<code>Sync</code>. The flow is identical to the asynchronous version (see above).</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    <p>You must not call synchronous methods from the main thread. The methods will assert if you do so.</p>
+
+</div>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>The synchronous methods can throw; you have to catch and handle the error.</p>
+
+</div>
+
+<p><a href='#parallel-transactions' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='parallel-transactions'>Parallel transactions</h4></p>
+
+<p>While it is possible to create parallel transactions, there is little interest in doing so, since each committed
+transaction results in an index rebuild. Multiplying transactions therefore only degrades performance.</p>
+
+<p>Also, transactions are serially executed in the order they were committed, the latest transaction potentially
+overwriting the previous transactions&rsquo; result.</p>
+
+<p><a href='#reading' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='reading'>Reading</h3></p>
+
+<p>Read operations behave identically as with online indices.</p>
+
+                        <a href="Classes/OfflineIndex.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">OfflineIndex</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
                         </div>
                       </div>

@@ -559,10 +559,10 @@ equal).</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>List of attributes you want to use for textual search (must be a subset of the attributesToIndex index setting).
+                        <p>List of attributes you want to use for textual search (must be a subset of the <code>searchableAttributes</code> index setting).
 Attributes are separated with a comma (for example <q>name,address</q> ), you can also use a JSON string array
 encoding (for example encodeURIComponent(&rsquo;[<q>name</q>,<q>address</q>]&rsquo;) ). By default, all attributes specified in
-attributesToIndex settings are used to search.</p>
+<code>searchableAttributes</code> settings are used to search.</p>
 
                       </div>
                       <div class="declaration">
@@ -852,7 +852,7 @@ to avoid having an empty result page. There are four different options:
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>List of attributes on which you want to disable typo tolerance (must be a subset of the <code>attributesToIndex</code>
+                        <p>List of attributes on which you want to disable typo tolerance (must be a subset of the <code>searchableAttributes</code>
 index setting).</p>
 
                       </div>
@@ -1809,6 +1809,34 @@ You can use several bounding boxes (OR) by passing more than 1 value.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">insideBoundingBox</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/GeoRect.html">GeoRect</a></span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query13insidePolygonGSqGSaCS_6LatLng__"></a>
+                    <a name="//apple_ref/swift/Property/insidePolygon" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query13insidePolygonGSqGSaCS_6LatLng__">insidePolygon</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Search entries inside a given area defined by a set of points (defined by a minimum of 3 points).
+You can pass several time the insidePolygon parameter to your query, the behavior will be a OR between all those polygons.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">insidePolygon</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/LatLng.html">LatLng</a></span><span class="p">]?</span></code></pre>
 
                         </div>
                       </div>

@@ -100,6 +100,12 @@
               <li class="nav-group-task">
                 <a href="../Classes/DataSelectionQuery.html">DataSelectionQuery</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Classes/OfflineIndex.html">OfflineIndex</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/OfflineIndex/WriteTransaction.html">– WriteTransaction</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -336,7 +342,7 @@ If an object already exists with the same object ID, the existing object will be
                             <tr>
                               <td>
                                 <code>
-                                <em>withID</em>
+                                <em>objectID</em>
                                 </code>
                               </td>
                               <td>
@@ -650,7 +656,7 @@ If an object already exists with the same object ID, the existing object will be
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObject</span><span class="p">(</span><span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">attributesToRetrieve</span> <span class="nv">attributes</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObject</span><span class="p">(</span><span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">attributesToRetrieve</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
@@ -866,6 +872,13 @@ If an object already exists with the same object ID, the existing object will be
                       <div class="abstract">
                         <p>Partially update an object.</p>
 
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>If the object does not exist, it will be created. You can avoid automatic creation of the object by
+passing <code>false</code> to <code>createIfNotExists</code> in <code><a href="../Classes/Index.html#/s:FC13AlgoliaSearch5Index19partialUpdateObjectFTGVs10DictionarySSP__6withIDSS17createIfNotExistsSb17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">partialUpdateObject(_:withID:createIfNotExists:completionHandler:)</a></code>.</p>
+
+</div>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -932,6 +945,97 @@ If an object already exists with the same object ID, the existing object will be
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:FC13AlgoliaSearch5Index19partialUpdateObjectFTGVs10DictionarySSP__6withIDSS17createIfNotExistsSb17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation"></a>
+                    <a name="//apple_ref/swift/Method/partialUpdateObject(_:withID:createIfNotExists:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch5Index19partialUpdateObjectFTGVs10DictionarySSP__6withIDSS17createIfNotExistsSb17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">partialUpdateObject(_:withID:createIfNotExists:completionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Partially update an object.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">partialUpdateObject</span><span class="p">(</span><span class="n">_</span> <span class="nv">partialObject</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a></span><span class="p">,</span> <span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">createIfNotExists</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>partialObject</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>New values/operations for the object.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objectID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Identifier of object to be updated.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>createIfNotExists</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Whether an update on a nonexistent object ID should create the object.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request’s outcome.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A cancellable operation.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:FC13AlgoliaSearch5Index20partialUpdateObjectsFTGSaGVs10DictionarySSP___17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/partialUpdateObjects(_:completionHandler:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:FC13AlgoliaSearch5Index20partialUpdateObjectsFTGSaGVs10DictionarySSP___17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">partialUpdateObjects(_:completionHandler:)</a>
@@ -943,6 +1047,13 @@ If an object already exists with the same object ID, the existing object will be
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Partially update several objects.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>If an object does not exist, it will be created. You can avoid automatic creation of objects by
+passing <code>false</code> to <code>createIfNotExists</code> in <code><a href="../Classes/Index.html#/s:FC13AlgoliaSearch5Index20partialUpdateObjectsFTGSaGVs10DictionarySSP___17createIfNotExistsSb17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">partialUpdateObjects(_:createIfNotExists:completionHandler:)</a></code>.</p>
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -966,6 +1077,84 @@ If an object already exists with the same object ID, the existing object will be
                               <td>
                                 <div>
                                   <p>New values/operations for the objects. Each object must contain an <code>objectID</code> attribute.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request’s outcome.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A cancellable operation.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch5Index20partialUpdateObjectsFTGSaGVs10DictionarySSP___17createIfNotExistsSb17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation"></a>
+                    <a name="//apple_ref/swift/Method/partialUpdateObjects(_:createIfNotExists:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch5Index20partialUpdateObjectsFTGSaGVs10DictionarySSP___17createIfNotExistsSb17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">partialUpdateObjects(_:createIfNotExists:completionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Partially update several objects.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">partialUpdateObjects</span><span class="p">(</span><span class="n">_</span> <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a></span><span class="p">],</span> <span class="nv">createIfNotExists</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objects</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>New values/operations for the objects. Each object must contain an <code>objectID</code> attribute.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>createIfNotExists</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Whether an update on a nonexistent object ID should create the object.</p>
 
                                 </div>
                               </td>
