@@ -1160,4 +1160,82 @@ class IndexTests: OnlineTestCase {
         }
         self.waitForExpectations(timeout: expectationTimeout + timeout * 4, handler: nil)
     }
+    
+    func testSearchInFacet() {
+        let expectation = self.expectation(description: #function)
+        let settings = [
+            "attributesForFaceting": [
+                "searchable(series)",
+                "kind"
+            ]
+        ]
+        let objects: [String: JSONObject] = [
+            "snoopy": [
+                "objectID": "1",
+                "name": "Snoopy",
+                "kind": [ "dog", "animal" ],
+                "born": 1950,
+                "series": "Peanuts"
+            ],
+            "woodstock": [
+                "objectID": "2",
+                "name": "Woodstock",
+                "kind": ["bird", "animal" ],
+                "born": 1960,
+                "series": "Peanuts"
+            ],
+            "charlie": [
+                "objectID": "3",
+                "name": "Charlie Brown",
+                "kind": [ "human" ],
+                "born": 1950,
+                "series": "Peanuts"
+            ],
+            "hobbes": [
+                "objectID": "4",
+                "name": "Hobbes",
+                "kind": [ "tiger", "animal", "teddy" ],
+                "born": 1985,
+                "series": "Calvin & Hobbes"
+            ],
+            "calvin": [
+                "objectID": "5",
+                "name": "Calvin",
+                "kind": [ "human" ],
+                "born": 1985,
+                "series": "Calvin & Hobbes"
+            ]
+        ]
+        
+        // Populate index.
+        index.setSettings(settings) { (content, error) in
+            guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
+            self.index.addObjects(Array(objects.values)) { (content, error) in
+                guard error == nil, let taskID = content!["taskID"] as? Int else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
+                self.index.waitTask(withID: taskID) { (content, error) in
+                    guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
+                    // Query with no extra search parameters.
+                    self.index.searchFacet("series", for: "Hobb") { (content, error) in
+                        guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
+                        guard let facetHits = content!["facetHits"] as? [JSONObject] else { XCTFail("No facet hits"); expectation.fulfill(); return }
+                        XCTAssertEqual(facetHits.count, 1)
+                        XCTAssertEqual(facetHits[0]["value"] as? String, "Calvin & Hobbes")
+                        XCTAssertEqual(facetHits[0]["count"] as? Int, 2)
+                        // Query with extra search parameters.
+                        let query = Query()
+                        query.facetFilters = ["kind:animal"]
+                        query.numericFilters = ["born >= 1955"]
+                        self.index.searchFacet("series", for: "Peanutz", query: query) { (content, error) in
+                            guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
+                            guard let facetHits = content!["facetHits"] as? [JSONObject] else { XCTFail("No facet hits"); expectation.fulfill(); return }
+                            XCTAssertEqual(facetHits[0]["value"] as? String, "Peanuts")
+                            XCTAssertEqual(facetHits[0]["count"] as? Int, 1)
+                            expectation.fulfill()
+                        }
+                    }
+                }
+            }
+        }
+        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    }
 }
