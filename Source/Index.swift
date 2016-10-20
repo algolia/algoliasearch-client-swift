@@ -370,7 +370,7 @@ import Foundation
     /// - parameter facetName: Name of the facet to search. It must have been declared in the index's
     ///       `attributesForFaceting` setting with the `searchable()` modifier.
     /// - parameter text: Text to search for in the facet's values.
-    /// - parameter query: An optional query to take extra search parameters into account. There parameters apply to
+    /// - parameter query: An optional query to take extra search parameters into account. These parameters apply to
     ///       index objects like in a regular search query. Only facet values contained in the matched objects will be
     ///       returned.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
