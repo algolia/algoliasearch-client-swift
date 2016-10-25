@@ -45,34 +45,32 @@ import Foundation
 // bridgeable, because all parameters are optional, and primitive optionals are
 // not bridgeable to Objective-C.
 //
-// To avoid polluting the Swift interface with suboptimal types, the following
-// policy is used:
-//
-// - The `Query` class is exposed to Objective-C as `BaseQuery`.
-//
-// - A special derived class `_objc_Query` is exposed in Objective-C as `Query`.
-//
-// - Any Objective-C specific artifact is **not** documented, so that it does
-//   not appear in the reference documentation.
+// To avoid polluting too much the Swift interface with suboptimal types, the
+// following policy is used:
 //
 // - Any parameter whose type is representable in Objective-C is implemented
-//   in the `Query` class and marked as `@objc`.
+//   directly in Swift and marked as `@objc`.
 //
-// - A parameter whose type is not representable in Objective-C is implemented:
-//     - in the `Query` class as a Swift-only type;
-//     - in the `_objc_Query` class as an Objective-C compatible type, by an
-//       underscore-prefixed property, that is then mapped to the name without
-//       underscore in Objective-C. (Is everyone still following?) =:)
+// - Any paramater whose type is *not* bridgeable to Objective-C is implemented
+//   a first time as a Swift-only type...
+//
+// - ... and supplemented by an Objective-C specific artifact. To guarantee
+//   optimal developer experience, this artifact is:
+//
+//     - Named with a `z_` prefix in Swift. This ensures that it always comes
+//       last in autocompletion drop-down menus in Swift.
+//
+//     - Exposed to Objective-C using the normal (unprefixed name).
+//
+//     - Not documented. This ensures that it does not appear in the reference
+//       documentation.
 //
 // This way, each platform sees a properties with the right name and the most
-// adequate type. The only drawback is the added clutter:
+// adequate type. The only drawback is the added clutter of the `z_`-prefixed
+// properties in Swift.
 //
-// - The `_objc_Query` class has unfortunately to be visible from Swift, but its
-//   odd name should deter any use.
-//
-// - The `BaseQuery` class is visible from Objective-C and is missing properties.
-//   However, since the documentation mentions `Query` and not `BaseQuery`,
-//   we hope it will not be too confusing.
+// There is also an edge case for the `aroundRadiusAll` constant, which is not
+// documented.
 //
 // ## The case of enums
 //
@@ -179,7 +177,7 @@ import Foundation
 ///
 /// + Warning: All parameters are **optional**. When a parameter is `nil`, the API applies a default value.
 ///
-@objc(BaseQuery) // moved away in Objective-C; "real" class is below
+@objc
 public class Query : NSObject, NSCopying {
     
     // MARK: - Low-level (untyped) parameters
@@ -256,7 +254,6 @@ public class Query : NSObject, NSCopying {
             self["queryType"] = newValue?.rawValue
         }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
     
     /// Values applicable to the `typoTolerance` parameter.
     public enum TypoTolerance: String {
@@ -290,21 +287,18 @@ public class Query : NSObject, NSCopying {
             self["typoTolerance"] = newValue?.rawValue
         }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
 
     /// The minimum number of characters in a query word to accept one typo in this word.
     public var minWordSizefor1Typo: UInt? {
         get { return Query.parseUInt(self["minWordSizefor1Typo"]) }
         set { self["minWordSizefor1Typo"] = Query.buildUInt(newValue) }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
     
     /// The minimum number of characters in a query word to accept two typos in this word.
     public var minWordSizefor2Typos: UInt? {
         get { return Query.parseUInt(self["minWordSizefor2Typos"]) }
         set { self["minWordSizefor2Typos"] = Query.buildUInt(newValue) }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
 
     /// If set to false, disable typo-tolerance on numeric tokens (=numbers) in the query word. For example the query
     /// "304" will match with "30450", but not with "40450" that would have been the case with typo-tolerance enabled.
@@ -313,7 +307,6 @@ public class Query : NSObject, NSCopying {
         get { return Query.parseBool(self["allowTyposOnNumericTokens"]) }
         set { self["allowTyposOnNumericTokens"] = Query.buildBool(newValue) }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
     
     /// If set to true, simple plural forms won’t be considered as typos (for example car/cars will be considered as
     /// equal).
@@ -321,7 +314,6 @@ public class Query : NSObject, NSCopying {
         get { return Query.parseBool(self["ignorePlurals"]) }
         set { self["ignorePlurals"] = Query.buildBool(newValue) }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
     
     /// List of attributes you want to use for textual search (must be a subset of the `searchableAttributes` index setting).
     /// Attributes are separated with a comma (for example "name,address" ), you can also use a JSON string array
@@ -337,14 +329,12 @@ public class Query : NSObject, NSCopying {
         get { return Query.parseBool(self["advancedSyntax"]) }
         set { self["advancedSyntax"] = Query.buildBool(newValue) }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
     
     /// If set to false, this query will not be taken into account for the Analytics.
     public var analytics: Bool? {
         get { return Query.parseBool(self["analytics"]) }
         set { self["analytics"] = Query.buildBool(newValue) }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
     
     /// If set, tag your query with the specified identifiers. Tags can then be used in the Analytics to analyze a
     /// subset of searches only.
@@ -358,7 +348,6 @@ public class Query : NSObject, NSCopying {
         get { return Query.parseBool(self["synonyms"]) }
         set { self["synonyms"] = Query.buildBool(newValue) }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
     
     /// If set to false, words matched via synonyms expansion will not be replaced by the matched synonym in the
     /// highlighted result.
@@ -366,7 +355,6 @@ public class Query : NSObject, NSCopying {
         get { return Query.parseBool(self["replaceSynonymsInHighlight"]) }
         set { self["replaceSynonymsInHighlight"] = Query.buildBool(newValue) }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
     
     /// Specify a list of words that should be considered as optional when found in the query. This list will be
     /// appended to the one defined in your index settings.
@@ -386,7 +374,6 @@ public class Query : NSObject, NSCopying {
         get { return Query.parseUInt(self["minProximity"]) }
         set { self["minProximity"] = Query.buildUInt(newValue) }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
 
     /// Applicable values for the `removeWordsIfNoResults` parameter.
     public enum RemoveWordsIfNoResults: String {
@@ -430,7 +417,6 @@ public class Query : NSObject, NSCopying {
             self["removeWordsIfNoResults"] = newValue?.rawValue
         }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
     
     /// List of attributes on which you want to disable typo tolerance (must be a subset of the `searchableAttributes`
     /// index setting).
@@ -494,7 +480,6 @@ public class Query : NSObject, NSCopying {
             }
         }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
     
     /// Applicable values for the `exactOnSingleWordQuery` parameter.
     public enum ExactOnSingleWordQuery: String {
@@ -522,7 +507,6 @@ public class Query : NSObject, NSCopying {
             self["exactOnSingleWordQuery"] = newValue?.rawValue
         }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
     
     /// Applicable values for the `alternativesAsExact` parameter.
     public enum AlternativesAsExact: String {
@@ -565,7 +549,6 @@ public class Query : NSObject, NSCopying {
             self["alternativesAsExact"] = Query.buildStringArray(rawValues)
         }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
     
     // MARK: Pagination parameters
     
@@ -575,14 +558,12 @@ public class Query : NSObject, NSCopying {
         get { return Query.parseUInt(self["page"]) }
         set { self["page"] = Query.buildUInt(newValue) }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
     
     /// Pagination parameter used to select the number of hits per page. Defaults to 20.
     public var hitsPerPage: UInt? {
         get { return Query.parseUInt(self["hitsPerPage"]) }
         set { self["hitsPerPage"] = Query.buildUInt(newValue) }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
     
     // MARK: Parameters to control results content
     
@@ -618,7 +599,6 @@ public class Query : NSObject, NSCopying {
         get { return Query.parseBool(self["getRankingInfo"]) }
         set { self["getRankingInfo"] = Query.buildBool(newValue) }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
     
     /// Specify the string that is inserted before the highlighted parts in the query result (defaults to `<em>`).
     @objc public var highlightPreTag: String? {
@@ -665,7 +645,6 @@ public class Query : NSObject, NSCopying {
         get { return Query.parseUInt(self["distinct"]) }
         set { self["distinct"] = Query.buildUInt(newValue) }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
     
     // MARK: Faceting parameters
     
@@ -690,7 +669,6 @@ public class Query : NSObject, NSCopying {
         get { return Query.parseUInt(self["maxValuesPerFacet"]) }
         set { self["maxValuesPerFacet"] = Query.buildUInt(newValue) }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
 
     // MARK: Unified filter parameter (SQL like)
 
@@ -742,7 +720,6 @@ public class Query : NSObject, NSCopying {
         get { return Query.parseBool(self["aroundLatLngViaIP"]) }
         set { self["aroundLatLngViaIP"] = Query.buildBool(newValue) }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
     
     /// Applicable values for the `aroundRadius` parameter.
     public enum AroundRadius: Equatable {
@@ -792,7 +769,6 @@ public class Query : NSObject, NSCopying {
             }
         }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
 
     /// Control the precision of a `aroundLatLng` query. In meter. For example if you set `aroundPrecision=100`, two
     /// objects that are in the range 0-99m will be considered as identical in the ranking for the .variable geo
@@ -801,7 +777,6 @@ public class Query : NSObject, NSCopying {
         get { return Query.parseUInt(self["aroundPrecision"]) }
         set { self["aroundPrecision"] = Query.buildUInt(newValue) }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
 
     /// Define the minimum radius used for `aroundLatLng` or `aroundLatLngViaIP` when `aroundRadius` is not set. The
     /// radius is computed automatically using the density of the area. You can retrieve the computed radius in the
@@ -810,7 +785,6 @@ public class Query : NSObject, NSCopying {
         get { return Query.parseUInt(self["minimumAroundRadius"]) }
         set { self["minimumAroundRadius"] = Query.buildUInt(newValue) }
     }
-    // NOTE: Objective-C bridge moved away to `_objc_Query`
     
     /// Search for entries inside a given area defined by the two extreme points of a rectangle.
     /// You can use several bounding boxes (OR) by passing more than 1 value.
@@ -931,7 +905,7 @@ public class Query : NSObject, NSCopying {
     }
 
     /// Parse a query from a URL query string.
-    @objc(parseBaseQuery:) // moved away in Objective-C; "real" implementation is below
+    @objc
     public static func parse(_ queryString: String) -> Query {
         let query = Query()
         parse(queryString, into: query)
@@ -1054,101 +1028,86 @@ public class Query : NSObject, NSCopying {
     class func toNumber(_ int: UInt?) -> NSNumber? {
         return int == nil ? nil : NSNumber(value: int!)
     }
-}
-
-// MARK: - Objective-C bridges
-
-// `Query` class derivation for better Objective-C bridgeability.
-//
-// NOTE: Should not be used from Swift.
-//
-// WARNING: Should not be documented.
-
-@objc(Query)
-public class _objc_Query: Query {
-    /// MARK: `NSCopying` support
-
-    @objc public override func copy(with zone: NSZone?) -> Any {
-        // NOTE: As per the docs, the zone argument is ignored.
-        return _objc_Query(copy: self)
-    }
     
-    // MARK: Properties
+    // MARK: - Objective-C bridges
+    // ---------------------------
+    // NOTE: Should not be used from Swift.
+    // WARNING: Should not be documented.
     
     @objc(queryType)
-    public var _queryType: String? {
+    public var z_queryType: String? {
         get { return queryType?.rawValue }
         set { queryType = newValue == nil ? nil : QueryType(rawValue: newValue!) }
     }
 
     @objc(typoTolerance)
-    public var _typoTolerance: String? {
+    public var z_typoTolerance: String? {
         get { return typoTolerance?.rawValue }
         set { typoTolerance = newValue == nil ? nil : TypoTolerance(rawValue: newValue!) }
     }
 
     @objc(minWordSizefor1Typo)
-    public var _minWordSizefor1Typo: NSNumber? {
+    public var z_minWordSizefor1Typo: NSNumber? {
         get { return Query.toNumber(self.minWordSizefor1Typo) }
         set { self.minWordSizefor1Typo = newValue?.uintValue }
     }
     
     @objc(minWordSizefor2Typos)
-    public var _minWordSizefor2Typos: NSNumber? {
+    public var z_minWordSizefor2Typos: NSNumber? {
         get { return Query.toNumber(self.minWordSizefor2Typos) }
         set { self.minWordSizefor2Typos = newValue?.uintValue }
     }
     
     @objc(allowTyposOnNumericTokens)
-    public var _allowTyposOnNumericTokens: NSNumber? {
+    public var z_allowTyposOnNumericTokens: NSNumber? {
         get { return Query.toNumber(self.allowTyposOnNumericTokens) }
         set { self.allowTyposOnNumericTokens = newValue?.boolValue }
     }
 
     @objc(ignorePlurals)
-    public var _ignorePlurals: NSNumber? {
+    public var z_ignorePlurals: NSNumber? {
         get { return Query.toNumber(self.ignorePlurals) }
         set { self.ignorePlurals = newValue?.boolValue }
     }
 
     @objc(advancedSyntax)
-    public var _advancedSyntax: NSNumber? {
+    public var z_advancedSyntax: NSNumber? {
         get { return Query.toNumber(self.advancedSyntax) }
         set { self.advancedSyntax = newValue?.boolValue }
     }
 
     @objc(analytics)
-    public var _analytics: NSNumber? {
+    public var z_analytics: NSNumber? {
         get { return Query.toNumber(self.analytics) }
         set { self.analytics = newValue?.boolValue }
     }
 
     @objc(synonyms)
-    public var _synonyms: NSNumber? {
+    public var z_synonyms: NSNumber? {
         get { return Query.toNumber(self.synonyms) }
         set { self.synonyms = newValue?.boolValue }
     }
 
     @objc(replaceSynonymsInHighlight)
-    public var _replaceSynonymsInHighlight: NSNumber? {
+    public var z_replaceSynonymsInHighlight: NSNumber? {
         get { return Query.toNumber(self.replaceSynonymsInHighlight) }
         set { self.replaceSynonymsInHighlight = newValue?.boolValue }
     }
 
     @objc(minProximity)
-    public var _minProximity: NSNumber? {
+    public var z_minProximity: NSNumber? {
         get { return Query.toNumber(self.minProximity) }
         set { self.minProximity = newValue?.uintValue }
     }
 
     @objc(removeWordsIfNoResults)
-    public var _removeWordsIfNoResults: String? {
+    public var z_removeWordsIfNoResults: String? {
         get { return removeWordsIfNoResults?.rawValue }
         set { removeWordsIfNoResults = newValue == nil ? nil : RemoveWordsIfNoResults(rawValue: newValue!) }
     }
 
     @objc(removeStopWords)
-    public var _removeStopWords: Any? {
+    public var z_removeStopWords: Any? {
         get {
             if let value = removeStopWords {
                 switch value {
@@ -1173,13 +1132,13 @@ public class _objc_Query: Query {
     }
 
     @objc(exactOnSingleWordQuery)
-    public var _exactOnSingleWordQuery: String? {
+    public var z_exactOnSingleWordQuery: String? {
         get { return exactOnSingleWordQuery?.rawValue }
         set { exactOnSingleWordQuery = newValue == nil ? nil : ExactOnSingleWordQuery(rawValue: newValue!) }
     }
 
     @objc(alternativesAsExact)
-    public var _alternativesAsExact: [String]? {
+    public var z_alternativesAsExact: [String]? {
         get {
             if let alternativesAsExact = alternativesAsExact {
                 return alternativesAsExact.map({ $0.rawValue })
@@ -1203,58 +1162,58 @@ public class _objc_Query: Query {
     }
 
     @objc(page)
-    public var _page: NSNumber? {
+    public var z_page: NSNumber? {
         get { return Query.toNumber(self.page) }
         set { self.page = newValue?.uintValue }
     }
 
     @objc(hitsPerPage)
-    public var _hitsPerPage: NSNumber? {
+    public var z_hitsPerPage: NSNumber? {
         get { return Query.toNumber(self.hitsPerPage) }
         set { self.hitsPerPage = newValue?.uintValue }
     }
 
     @objc(getRankingInfo)
-    public var _getRankingInfo: NSNumber? {
+    public var z_getRankingInfo: NSNumber? {
         get { return Query.toNumber(self.getRankingInfo) }
         set { self.getRankingInfo = newValue?.boolValue }
     }
 
     @objc(distinct)
-    public var _distinct: NSNumber? {
+    public var z_distinct: NSNumber? {
         get { return Query.toNumber(self.distinct) }
         set { self.distinct = newValue?.uintValue }
     }
 
     @objc(maxValuesPerFacet)
-    public var _maxValuesPerFacet: NSNumber? {
+    public var z_maxValuesPerFacet: NSNumber? {
         get { return Query.toNumber(self.maxValuesPerFacet) }
         set { self.maxValuesPerFacet = newValue?.uintValue }
     }
 
     @objc(aroundLatLngViaIP)
-    public var _aroundLatLngViaIP: NSNumber? {
+    public var z_aroundLatLngViaIP: NSNumber? {
         get { return Query.toNumber(self.aroundLatLngViaIP) }
         set { self.aroundLatLngViaIP = newValue?.boolValue }
     }
 
-    /// Special value for `aroundRadius` to compute the geo distance without filtering.
-    @objc public static let aroundRadiusAll: NSNumber = NSNumber(value: UInt.max)
+    // Special value for `aroundRadius` to compute the geo distance without filtering.
+    @objc(aroundRadiusAll) public static let z_aroundRadiusAll: NSNumber = NSNumber(value: UInt.max)
 
     @objc(aroundRadius)
-    public var _aroundRadius: NSNumber? {
+    public var z_aroundRadius: NSNumber? {
         get {
             if let aroundRadius = aroundRadius {
                 switch aroundRadius {
                 case let .explicit(value): return NSNumber(value: value)
-                case .all: return _objc_Query.aroundRadiusAll
+                case .all: return Query.z_aroundRadiusAll
                 }
             }
             return nil
         }
         set {
             if let newValue = newValue {
-                if newValue == _objc_Query.aroundRadiusAll {
+                if newValue == Query.z_aroundRadiusAll {
                     self.aroundRadius = .all
                 } else {
                     self.aroundRadius = .explicit(newValue.uintValue)
@@ -1266,22 +1225,14 @@ public class _objc_Query: Query {
     }
 
     @objc(aroundPrecision)
-    public var _aroundPrecision: NSNumber? {
+    public var z_aroundPrecision: NSNumber? {
         get { return Query.toNumber(self.aroundPrecision) }
         set { self.aroundPrecision = newValue?.uintValue }
     }
 
     @objc(minimumAroundRadius)
-    public var _minimumAroundRadius: NSNumber? {
+    public var z_minimumAroundRadius: NSNumber? {
         get { return Query.toNumber(self.minimumAroundRadius) }
         set { self.minimumAroundRadius = newValue?.uintValue }
-    }
-
-    // MARK: Utils
-
-    @objc(parse:) public static func _parse(_ queryString: String) -> _objc_Query {
-        let query = _objc_Query()
-        parse(queryString, into: query)
-        return query
     }
 }
