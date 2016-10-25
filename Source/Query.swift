@@ -57,8 +57,9 @@ import Foundation
 // - ... and supplemented by an Objective-C specific artifact. To guarantee
 //   optimal developer experience, this artifact is:
 //
-//     - Named with a `z_` prefix in Swift. This ensures that it always comes
-//       last in autocompletion drop-down menus in Swift.
+//     - Named with a `z_objc_` prefix in Swift. This makes it clear that they
+//       are Objective-C specific. The leading "z" ensures they are last in
+//       autocompletion.
 //
 //     - Exposed to Objective-C using the normal (unprefixed name).
 //
@@ -66,7 +67,7 @@ import Foundation
 //       documentation.
 //
 // This way, each platform sees a properties with the right name and the most
-// adequate type. The only drawback is the added clutter of the `z_`-prefixed
+// adequate type. The only drawback is the added clutter of the `z_objc_`-prefixed
 // properties in Swift.
 //
 // There is also an edge case for the `aroundRadiusAll` constant, which is not
@@ -1035,79 +1036,79 @@ public class Query : NSObject, NSCopying {
     // WARNING: Should not be documented.
     
     @objc(queryType)
-    public var z_queryType: String? {
+    public var z_objc_queryType: String? {
         get { return queryType?.rawValue }
         set { queryType = newValue == nil ? nil : QueryType(rawValue: newValue!) }
     }
 
     @objc(typoTolerance)
-    public var z_typoTolerance: String? {
+    public var z_objc_typoTolerance: String? {
         get { return typoTolerance?.rawValue }
         set { typoTolerance = newValue == nil ? nil : TypoTolerance(rawValue: newValue!) }
     }
 
     @objc(minWordSizefor1Typo)
-    public var z_minWordSizefor1Typo: NSNumber? {
+    public var z_objc_minWordSizefor1Typo: NSNumber? {
         get { return Query.toNumber(self.minWordSizefor1Typo) }
         set { self.minWordSizefor1Typo = newValue?.uintValue }
     }
     
     @objc(minWordSizefor2Typos)
-    public var z_minWordSizefor2Typos: NSNumber? {
+    public var z_objc_minWordSizefor2Typos: NSNumber? {
         get { return Query.toNumber(self.minWordSizefor2Typos) }
         set { self.minWordSizefor2Typos = newValue?.uintValue }
     }
     
     @objc(allowTyposOnNumericTokens)
-    public var z_allowTyposOnNumericTokens: NSNumber? {
+    public var z_objc_allowTyposOnNumericTokens: NSNumber? {
         get { return Query.toNumber(self.allowTyposOnNumericTokens) }
         set { self.allowTyposOnNumericTokens = newValue?.boolValue }
     }
 
     @objc(ignorePlurals)
-    public var z_ignorePlurals: NSNumber? {
+    public var z_objc_ignorePlurals: NSNumber? {
         get { return Query.toNumber(self.ignorePlurals) }
         set { self.ignorePlurals = newValue?.boolValue }
     }
 
     @objc(advancedSyntax)
-    public var z_advancedSyntax: NSNumber? {
+    public var z_objc_advancedSyntax: NSNumber? {
         get { return Query.toNumber(self.advancedSyntax) }
         set { self.advancedSyntax = newValue?.boolValue }
     }
 
     @objc(analytics)
-    public var z_analytics: NSNumber? {
+    public var z_objc_analytics: NSNumber? {
         get { return Query.toNumber(self.analytics) }
         set { self.analytics = newValue?.boolValue }
     }
 
     @objc(synonyms)
-    public var z_synonyms: NSNumber? {
+    public var z_objc_synonyms: NSNumber? {
         get { return Query.toNumber(self.synonyms) }
         set { self.synonyms = newValue?.boolValue }
     }
 
     @objc(replaceSynonymsInHighlight)
-    public var z_replaceSynonymsInHighlight: NSNumber? {
+    public var z_objc_replaceSynonymsInHighlight: NSNumber? {
         get { return Query.toNumber(self.replaceSynonymsInHighlight) }
         set { self.replaceSynonymsInHighlight = newValue?.boolValue }
     }
 
     @objc(minProximity)
-    public var z_minProximity: NSNumber? {
+    public var z_objc_minProximity: NSNumber? {
         get { return Query.toNumber(self.minProximity) }
         set { self.minProximity = newValue?.uintValue }
     }
 
     @objc(removeWordsIfNoResults)
-    public var z_removeWordsIfNoResults: String? {
+    public var z_objc_removeWordsIfNoResults: String? {
         get { return removeWordsIfNoResults?.rawValue }
         set { removeWordsIfNoResults = newValue == nil ? nil : RemoveWordsIfNoResults(rawValue: newValue!) }
     }
 
     @objc(removeStopWords)
-    public var z_removeStopWords: Any? {
+    public var z_objc_removeStopWords: Any? {
         get {
             if let value = removeStopWords {
                 switch value {
@@ -1132,13 +1133,13 @@ public class Query : NSObject, NSCopying {
     }
 
     @objc(exactOnSingleWordQuery)
-    public var z_exactOnSingleWordQuery: String? {
+    public var z_objc_exactOnSingleWordQuery: String? {
         get { return exactOnSingleWordQuery?.rawValue }
         set { exactOnSingleWordQuery = newValue == nil ? nil : ExactOnSingleWordQuery(rawValue: newValue!) }
     }
 
     @objc(alternativesAsExact)
-    public var z_alternativesAsExact: [String]? {
+    public var z_objc_alternativesAsExact: [String]? {
         get {
             if let alternativesAsExact = alternativesAsExact {
                 return alternativesAsExact.map({ $0.rawValue })
@@ -1162,58 +1163,58 @@ public class Query : NSObject, NSCopying {
     }
 
     @objc(page)
-    public var z_page: NSNumber? {
+    public var z_objc_page: NSNumber? {
         get { return Query.toNumber(self.page) }
         set { self.page = newValue?.uintValue }
     }
 
     @objc(hitsPerPage)
-    public var z_hitsPerPage: NSNumber? {
+    public var z_objc_hitsPerPage: NSNumber? {
         get { return Query.toNumber(self.hitsPerPage) }
         set { self.hitsPerPage = newValue?.uintValue }
     }
 
     @objc(getRankingInfo)
-    public var z_getRankingInfo: NSNumber? {
+    public var z_objc_getRankingInfo: NSNumber? {
         get { return Query.toNumber(self.getRankingInfo) }
         set { self.getRankingInfo = newValue?.boolValue }
     }
 
     @objc(distinct)
-    public var z_distinct: NSNumber? {
+    public var z_objc_distinct: NSNumber? {
         get { return Query.toNumber(self.distinct) }
         set { self.distinct = newValue?.uintValue }
     }
 
     @objc(maxValuesPerFacet)
-    public var z_maxValuesPerFacet: NSNumber? {
+    public var z_objc_maxValuesPerFacet: NSNumber? {
         get { return Query.toNumber(self.maxValuesPerFacet) }
         set { self.maxValuesPerFacet = newValue?.uintValue }
     }
 
     @objc(aroundLatLngViaIP)
-    public var z_aroundLatLngViaIP: NSNumber? {
+    public var z_objc_aroundLatLngViaIP: NSNumber? {
         get { return Query.toNumber(self.aroundLatLngViaIP) }
         set { self.aroundLatLngViaIP = newValue?.boolValue }
     }
 
     // Special value for `aroundRadius` to compute the geo distance without filtering.
-    @objc(aroundRadiusAll) public static let z_aroundRadiusAll: NSNumber = NSNumber(value: UInt.max)
+    @objc(aroundRadiusAll) public static let z_objc_aroundRadiusAll: NSNumber = NSNumber(value: UInt.max)
 
     @objc(aroundRadius)
-    public var z_aroundRadius: NSNumber? {
+    public var z_objc_aroundRadius: NSNumber? {
         get {
             if let aroundRadius = aroundRadius {
                 switch aroundRadius {
                 case let .explicit(value): return NSNumber(value: value)
-                case .all: return Query.z_aroundRadiusAll
+                case .all: return Query.z_objc_aroundRadiusAll
                 }
             }
             return nil
         }
         set {
             if let newValue = newValue {
-                if newValue == Query.z_aroundRadiusAll {
+                if newValue == Query.z_objc_aroundRadiusAll {
                     self.aroundRadius = .all
                 } else {
                     self.aroundRadius = .explicit(newValue.uintValue)
@@ -1225,13 +1226,13 @@ public class Query : NSObject, NSCopying {
     }
 
     @objc(aroundPrecision)
-    public var z_aroundPrecision: NSNumber? {
+    public var z_objc_aroundPrecision: NSNumber? {
         get { return Query.toNumber(self.aroundPrecision) }
         set { self.aroundPrecision = newValue?.uintValue }
     }
 
     @objc(minimumAroundRadius)
-    public var z_minimumAroundRadius: NSNumber? {
+    public var z_objc_minimumAroundRadius: NSNumber? {
         get { return Query.toNumber(self.minimumAroundRadius) }
         set { self.minimumAroundRadius = newValue?.uintValue }
     }
