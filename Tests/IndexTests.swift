@@ -892,8 +892,6 @@ class IndexTests: OnlineTestCase {
                                                 XCTFail(error!.localizedDescription)
                                                 expectation.fulfill()
                                             } else {
-                                                print(content)
-                                                
                                                 XCTAssertEqual(content!["nbHits"] as? Int, 3)
                                                 let disjunctiveFacetsResult = content!["disjunctiveFacets"] as? JSONObject
                                                 XCTAssertNotNil(disjunctiveFacetsResult)
