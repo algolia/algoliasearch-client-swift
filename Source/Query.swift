@@ -309,11 +309,49 @@ public class Query : NSObject, NSCopying {
         set { self["allowTyposOnNumericTokens"] = Query.buildBool(newValue) }
     }
     
-    /// If set to true, simple plural forms won’t be considered as typos (for example car/cars will be considered as
-    /// equal).
-    public var ignorePlurals: Bool? {
-        get { return Query.parseBool(self["ignorePlurals"]) }
-        set { self["ignorePlurals"] = Query.buildBool(newValue) }
+    /// Applicable values for the `ignorePlurals` parameter.
+    public enum IgnorePlurals: Equatable {
+        /// Enable/disable plurals on all supported languages.
+        case all(Bool)
+        /// Enable plurals on a specific set of languages, identified by their ISO code.
+        case selected([String])
+        
+        // NOTE: Associated values disable automatic conformance to `Equatable`, so we have to implement it ourselves.
+        static public func ==(lhs: IgnorePlurals, rhs: IgnorePlurals) -> Bool {
+            switch (lhs, rhs) {
+            case (let .all(lhsValue), let .all(rhsValue)): return lhsValue == rhsValue
+            case (let .selected(lhsValue), let .selected(rhsValue)): return lhsValue == rhsValue
+            default: return false
+            }
+        }
+    }
+    
+    /// Consider singular and plurals forms alike to be a match without typo. For example, "car" and "cars", or "foot"
+    /// and "feet", will be considered equivalent. This parameter can be:
+    ///
+    /// You may enable this option for all languages at once (`.all`) or for a specific subset (`.selected`).
+    ///
+    public var ignorePlurals: IgnorePlurals? {
+        get {
+            let stringValue = self["ignorePlurals"]
+            if let boolValue = Query.parseBool(stringValue) {
+                return .all(boolValue)
+            } else if let arrayValue = Query.parseStringArray(stringValue) {
+                return .selected(arrayValue)
+            } else {
+                return nil
+            }
+        }
+        set {
+            if let newValue = newValue {
+                switch newValue {
+                case let .all(boolValue): self["ignorePlurals"] = Query.buildBool(boolValue)
+                case let .selected(arrayValue): self["ignorePlurals"] = Query.buildStringArray(arrayValue)
+                }
+            } else {
+                self["ignorePlurals"] = nil
+            }
+        }
     }
     
     /// List of attributes you want to use for textual search (must be a subset of the `searchableAttributes` index setting).
@@ -1066,9 +1104,28 @@ public class Query : NSObject, NSCopying {
     }
 
     @objc(ignorePlurals)
-    public var z_objc_ignorePlurals: NSNumber? {
-        get { return Query.toNumber(self.ignorePlurals) }
-        set { self.ignorePlurals = newValue?.boolValue }
+    public var z_objc_ignorePlurals: Any? {
+        get {
+            if let value = ignorePlurals {
+                switch value {
+                case let .all(boolValue): return NSNumber(value: boolValue)
+                case let .selected(arrayValue): return arrayValue
+                }
+            } else {
+                return nil
+            }
+        }
+        set {
+            if let boolValue = newValue as? Bool {
+                ignorePlurals = .all(boolValue)
+            } else if let numberValue = newValue as? NSNumber {
+                ignorePlurals = .all(numberValue.boolValue)
+            } else if let arrayValue = newValue as? [String] {
+                ignorePlurals = .selected(arrayValue)
+            } else {
+                ignorePlurals = nil
+            }
+        }
     }
 
     @objc(advancedSyntax)

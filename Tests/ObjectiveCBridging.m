@@ -348,11 +348,19 @@
     Query* query1 = [Query new];
     XCTAssertNil(query1.ignorePlurals);
     
-    NSNumber* value = [NSNumber numberWithBool:YES];
-    query1.ignorePlurals = value;
-    XCTAssertEqualObjects(query1[@"ignorePlurals"], @"true");
-    Query* query2 = [Query parse:[query1 build]];
-    XCTAssertEqualObjects(query2.ignorePlurals, value);
+    NSArray* VALUES = @[ [NSNumber numberWithBool:YES], [NSNumber numberWithBool:NO], @[ @"de", @"en", @"fr"] ];
+    NSArray* RAW_VALUES = @[ @"true", @"false", @"de,en,fr" ];
+    for (int i = 0; i < VALUES.count; ++i) {
+        query1.ignorePlurals = VALUES[i];
+        XCTAssertEqualObjects(query1[@"ignorePlurals"], RAW_VALUES[i]);
+        Query* query2 = [Query parse:[query1 build]];
+        XCTAssertEqualObjects(query2.ignorePlurals, VALUES[i]);
+    }
+    
+    // WARNING: There is no validation of ISO codes, so any string is interpreted as a single language.
+    query1[@"ignorePlurals"] = @"invalid";
+    XCTAssertNotNil(query1.ignorePlurals);
+    XCTAssertEqual(1, ((NSArray*)query1.ignorePlurals).count);
 }
 
 - (void)test_advancedSyntax {

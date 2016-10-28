@@ -150,17 +150,33 @@ class QueryTests: XCTestCase {
     func test_ignorePlurals() {
         let query1 = Query()
         XCTAssertNil(query1.ignorePlurals)
-        query1.ignorePlurals = true
-        XCTAssertEqual(query1.ignorePlurals, true)
+
+        query1.ignorePlurals = .all(true)
+        XCTAssertEqual(query1.ignorePlurals, .all(true))
         XCTAssertEqual(query1["ignorePlurals"], "true")
-        let query2 = Query.parse(query1.build())
-        XCTAssertEqual(query2.ignorePlurals, true)
+        var query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.ignorePlurals, .all(true))
         
-        query1.ignorePlurals = false
-        XCTAssertEqual(query1.ignorePlurals, false)
+        query1.ignorePlurals = .all(false)
+        XCTAssertEqual(query1.ignorePlurals, .all(false))
         XCTAssertEqual(query1["ignorePlurals"], "false")
         let query3 = Query.parse(query1.build())
-        XCTAssertEqual(query3.ignorePlurals, false)
+        XCTAssertEqual(query3.ignorePlurals, .all(false))
+
+        let VALUE = ["de", "en", "fr"]
+        query1.ignorePlurals = .selected(VALUE)
+        XCTAssertEqual(query1.ignorePlurals, .selected(VALUE))
+        XCTAssertEqual(query1["ignorePlurals"], "de,en,fr")
+        query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.ignorePlurals, .selected(VALUE))
+        
+        // WARNING: There's no validation of ISO codes, so any string is interpreted as a single code.
+        query1["ignorePlurals"] = "invalid"
+        XCTAssertNotNil(query1.ignorePlurals)
+        switch query1.ignorePlurals! {
+        case let .selected(values): XCTAssertEqual(1, values.count)
+        default: XCTFail()
+        }
     }
 
     func test_distinct() {
