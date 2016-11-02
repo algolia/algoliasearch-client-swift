@@ -1,6 +1,23 @@
 Change Log
 ==========
 
+## 4.2 (2016-11-02)
+
+### New features
+
+- Add support for a list of languages in the `ignorePlurals` query parameter. **Warning:** This breaks backward-compatibility for this specific parameter.
+
+### Bug fixes
+
+- (#144) Fix compilation warning with Xcode 8.1
+
+### Other changes
+
+- (Objective-C bridging) Switch back to only one `Query` class. **Note:** This change is backward-compatible at the source level, provided that:
+    - Objective-C code did not reference the `BaseQuery` type explicitly
+    - Swift code did not reference the `_objc_Query` type explicitly
+
+
 ## 4.1 (2016-10-03)
 
 ### New features
