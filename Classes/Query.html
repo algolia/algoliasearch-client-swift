@@ -49,6 +49,9 @@
                 <a href="../Classes/Query/TypoTolerance.html">– TypoTolerance</a>
               </li>
               <li class="nav-group-task">
+                <a href="../Classes/Query/IgnorePlurals.html">– IgnorePlurals</a>
+              </li>
+              <li class="nav-group-task">
                 <a href="../Classes/Query/RemoveWordsIfNoResults.html">– RemoveWordsIfNoResults</a>
               </li>
               <li class="nav-group-task">
@@ -125,7 +128,22 @@
 
                 </div>
               </div>
-            
+            <p>Describes all parameters of a search query.</p>
+
+<p>There are two ways to access parameters:</p>
+
+<ol>
+<li>Using the high-level, <strong>typed properties</strong> for individual parameters (recommended).</li>
+<li>Using the low-level, <strong>untyped accessors</strong> <code>parameter(withName:)</code> and <code>setParameter(withName:to:)</code> or (better)
+the <strong>subscript operator</strong>. Use this approach if the parameter you wish to set is not supported by this class.</li>
+</ol>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    All parameters are <strong>optional</strong>. When a parameter is <code>nil</code>, the API applies a default value.
+
+</div>
+
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -521,9 +539,9 @@ Can be very useful on serial numbers and zip codes searches.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC13AlgoliaSearch5Query13ignorePluralsGSqSb_"></a>
-                    <a name="//apple_ref/swift/Property/ignorePlurals" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC13AlgoliaSearch5Query13ignorePluralsGSqSb_">ignorePlurals</a>
+                    <a name="/s:OC13AlgoliaSearch5Query13IgnorePlurals"></a>
+                    <a name="//apple_ref/swift/Enum/IgnorePlurals" class="dashAnchor"></a>
+                    <a class="token" href="#/s:OC13AlgoliaSearch5Query13IgnorePlurals">IgnorePlurals</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -531,15 +549,45 @@ Can be very useful on serial numbers and zip codes searches.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>If set to true, simple plural forms won’t be considered as typos (for example car/cars will be considered as
-equal).</p>
+                        <p>Applicable values for the <code><a href="../Classes/Query.html#/s:vC13AlgoliaSearch5Query13ignorePluralsGSqOS0_13IgnorePlurals_">ignorePlurals</a></code> parameter.</p>
+
+                        <a href="../Classes/Query/IgnorePlurals.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">IgnorePlurals</span><span class="p">:</span> <span class="kt">Equatable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query13ignorePluralsGSqOS0_13IgnorePlurals_"></a>
+                    <a name="//apple_ref/swift/Property/ignorePlurals" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query13ignorePluralsGSqOS0_13IgnorePlurals_">ignorePlurals</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Consider singular and plurals forms alike to be a match without typo. For example, <q>car</q> and <q>cars</q>, or <q>foot</q>
+and <q>feet</q>, will be considered equivalent. This parameter can be:</p>
+
+<p>You may enable this option for all languages at once (<code>.all</code>) or for a specific subset (<code>.selected</code>).</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">ignorePlurals</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">ignorePlurals</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query/IgnorePlurals.html">IgnorePlurals</a></span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -1038,7 +1086,7 @@ For most use cases, it is better to do not use this feature as people search by 
                         <p>Specify the list of approximation that should be considered as an exact match in the ranking formula.</p>
 
 <ul>
-<li><code><a href="../Classes/Query.html#/s:vC13AlgoliaSearch5Query13ignorePluralsGSqSb_">ignorePlurals</a></code>: alternative word added by the ignore plurals feature</li>
+<li><code><a href="../Classes/Query.html#/s:vC13AlgoliaSearch5Query13ignorePluralsGSqOS0_13IgnorePlurals_">ignorePlurals</a></code>: alternative word added by the ignore plurals feature</li>
 <li><code>singleWordSynonym</code>: single word synonym (For example “NY” = “NYC”)</li>
 <li><code>multiWordsSynonym</code>: synonym over multiple words (For example “NY” = “New York”)</li>
 </ul>
@@ -2046,7 +2094,8 @@ You can pass several time the insidePolygon parameter to your query, the behavio
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Parse a query from a URL query string.</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -2065,7 +2114,7 @@ You can pass several time the insidePolygon parameter to your query, the behavio
         </section>
         <section id="footer">
           <p>© Copyright 2016 <a class="link" href="https://www.algolia.com/" target="_blank" rel="external">Algolia</a>. All rights reserved.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

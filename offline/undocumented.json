@@ -65,37 +65,205 @@
     },
     {
       "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
-      "line": 130,
+      "line": 129,
       "symbol": "LatLng.isEqual(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
-      "line": 162,
+      "line": 161,
       "symbol": "GeoRect.isEqual(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
-      "line": 883,
+      "line": 896,
       "symbol": "Query.description",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
-      "line": 961,
+      "line": 974,
       "symbol": "Query.isEqual(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
-      "line": 1068,
-      "symbol": "_objc_Query",
-      "symbol_kind": "source.lang.swift.decl.class",
+      "line": 1077,
+      "symbol": "Query.z_objc_queryType",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1083,
+      "symbol": "Query.z_objc_typoTolerance",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1089,
+      "symbol": "Query.z_objc_minWordSizefor1Typo",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1095,
+      "symbol": "Query.z_objc_minWordSizefor2Typos",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1101,
+      "symbol": "Query.z_objc_allowTyposOnNumericTokens",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1107,
+      "symbol": "Query.z_objc_ignorePlurals",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1132,
+      "symbol": "Query.z_objc_advancedSyntax",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1138,
+      "symbol": "Query.z_objc_analytics",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1144,
+      "symbol": "Query.z_objc_synonyms",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1150,
+      "symbol": "Query.z_objc_replaceSynonymsInHighlight",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1156,
+      "symbol": "Query.z_objc_minProximity",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1162,
+      "symbol": "Query.z_objc_removeWordsIfNoResults",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1168,
+      "symbol": "Query.z_objc_removeStopWords",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1193,
+      "symbol": "Query.z_objc_exactOnSingleWordQuery",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1199,
+      "symbol": "Query.z_objc_alternativesAsExact",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1223,
+      "symbol": "Query.z_objc_page",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1229,
+      "symbol": "Query.z_objc_hitsPerPage",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1235,
+      "symbol": "Query.z_objc_getRankingInfo",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1241,
+      "symbol": "Query.z_objc_distinct",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1247,
+      "symbol": "Query.z_objc_maxValuesPerFacet",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1253,
+      "symbol": "Query.z_objc_aroundLatLngViaIP",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1259,
+      "symbol": "Query.z_objc_aroundRadiusAll",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1262,
+      "symbol": "Query.z_objc_aroundRadius",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1286,
+      "symbol": "Query.z_objc_aroundPrecision",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Query.swift",
+      "line": 1292,
+      "symbol": "Query.z_objc_minimumAroundRadius",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     }
   ],
