@@ -208,7 +208,7 @@ You can also configure the list of attributes you want to index by order of impo
 
 ```swift
 let customRanking = ["lastname", "firstname", "company", "email", "city", "address"]
-let settings = ["attributesToIndex": customRanking]
+let settings = ["searchableAttributes": customRanking]
 index.setSettings(settings, completionHandler: { (content, error) -> Void in
 	if error != nil {
 		print("Error when applying settings: \(error!)")
@@ -367,7 +367,7 @@ The server response will look like:
 
 - `query` (string): An echo of the query text. See the [`query`](#query) search parameter.
 
-- `queryAfterRemoval` (string, optional): *Note: Only returned when [`removeWordsIfNoResults`](#removewordsifnoresults) is set.* A markup text indicating which parts of the original query have been removed in order to retrieve a non-empty result set. The removed parts are surrounded by `<em>` tags.
+- `queryAfterRemoval` (string, optional): *Note: Only returned when [`removeWordsIfNoResults`](#removewordsifnoresults) is set to `lastWords` or `firstWords`.* A markup text indicating which parts of the original query have been removed in order to retrieve a non-empty result set. The removed parts are surrounded by `<em>` tags.
 
 - `params` (string, URL-encoded): An echo of all search parameters.
 
@@ -491,6 +491,7 @@ Parameters that can also be used in a setSettings also have the `indexing` [scop
 - [synonyms](#synonyms) `search`
 - [replaceSynonymsInHighlight](#replacesynonymsinhighlight) `search`, `settings`
 - [minProximity](#minproximity) `search`, `settings`
+- [responseFields](#responsefields) `search`, `settings`
 
 <!--/PARAMETERS_LINK-->
 
@@ -658,7 +659,7 @@ index.saveObjects([obj1, obj2], completionHandler: { (content, error) -> Void in
 })
 ```
 
-To update a single object, you can use the `[Update object](#update-object---saveobject) method:
+To update a single object, you can use the `saveObject` method:
 
 ```swift
 let newObject = [
@@ -856,9 +857,9 @@ index.setSettings(settings)
 
 Performance wise, it's better to do a `setSettings` before pushing the data
 
-#### Slave settings
+#### Replica settings
 
-You can forward all settings updates to the slaves of an index by using the `forwardToSlaves` option:
+You can forward all settings updates to the replicas of an index by using the `forwardToReplicas` option:
 
 ```swift
 let settings = ["attributesToRetrieve": "name", "birthdate"]
@@ -873,14 +874,14 @@ index.setSettings(settings, forwardToReplicas: true, completionHandler: { (conte
 
 <!--PARAMETERS_LINK-->
 
-Here is the list of parameters you can use with the set settings method (`indexing` [scope](#scope))
+Here is the list of parameters you can use with the set settings method (`settings` [scope](#scope)).
 
 
-Parameters that can be overridden at search time also have the `search` [scope](#scope)
+Parameters that can be overridden at search time also have the `search` [scope](#scope).
 
 **Attributes**
 
-- [attributesToIndex](#attributestoindex) `settings`
+- [searchableAttributes](#searchableattributes) `settings`
 - [attributesForFaceting](#attributesforfaceting) `settings`
 - [attributesToRetrieve](#attributestoretrieve) `settings`, `search`
 - [unretrievableAttributes](#unretrievableattributes) `settings`
@@ -889,7 +890,7 @@ Parameters that can be overridden at search time also have the `search` [scope](
 
 - [ranking](#ranking) `settings`
 - [customRanking](#customranking) `settings`
-- [slaves](#slaves) `settings`
+- [replicas](#replicas) `settings`
 
 **Filtering / Faceting**
 
@@ -933,7 +934,7 @@ Parameters that can be overridden at search time also have the `search` [scope](
 
 - [attributeForDistinct](#attributefordistinct) `settings`
 - [distinct](#distinct) `settings`, `search`
-- [numericAttributesToIndex](#numericattributestoindex) `settings`
+- [numericAttributesForFiltering](#numericattributesforfiltering) `settings`
 - [allowCompressionOfIntegerArray](#allowcompressionofintegerarray) `settings`
 - [altCorrections](#altcorrections) `settings`
 - [placeholders](#placeholders) `settings`
@@ -965,7 +966,7 @@ They are three scopes:
 
 **Attributes**
 
-- [attributesToIndex](#attributestoindex) `settings`
+- [searchableAttributes](#searchableattributes) `settings`
 - [attributesForFaceting](#attributesforfaceting) `settings`
 - [unretrievableAttributes](#unretrievableattributes) `settings`
 - [attributesToRetrieve](#attributestoretrieve) `settings`, `search`
@@ -975,7 +976,7 @@ They are three scopes:
 
 - [ranking](#ranking) `settings`
 - [customRanking](#customranking) `settings`
-- [slaves](#slaves) `settings`
+- [replicas](#replicas) `settings`
 
 **Filtering / Faceting**
 
@@ -1036,7 +1037,7 @@ They are three scopes:
 - [attributeForDistinct](#attributefordistinct) `settings`
 - [distinct](#distinct) `settings`, `search`
 - [getRankingInfo](#getrankinginfo) `search`
-- [numericAttributesToIndex](#numericattributestoindex) `settings`
+- [numericAttributesForFiltering](#numericattributesforfiltering) `settings`
 - [allowCompressionOfIntegerArray](#allowcompressionofintegerarray) `settings`
 - [numericFilters (deprecated)](#numericfilters-deprecated) `search`
 - [tagFilters (deprecated)](#tagfilters-deprecated) `search`
@@ -1048,6 +1049,7 @@ They are three scopes:
 - [placeholders](#placeholders) `settings`
 - [altCorrections](#altcorrections) `settings`
 - [minProximity](#minproximity) `search`, `settings`
+- [responseFields](#responsefields) `search`, `settings`
 
 ### Search
 
@@ -1062,11 +1064,12 @@ The instant search query string, used to set the string you want to search in yo
 
 ### Attributes
 
-#### attributesToIndex
+#### searchableAttributes
 
 - scope: `settings`
 - type: `array of strings`
 - default: `*`
+- formerly known as: `attributesToIndex`
 
 
 The list of attributes you want index (i.e. to make searchable).
@@ -1078,7 +1081,7 @@ This parameter has two important uses:
 
 1. **Limit the attributes to index.** For example, if you store the URL of a picture, you want to store it and be able to retrieve it, but you probably don't want to search in the URL.
 
-2. **Control part of the ranking.** The contents of the `attributesToIndex` parameter impacts ranking in two complementary ways:
+2. **Control part of the ranking.** The contents of the `searchableAttributes` parameter impacts ranking in two complementary ways:
 
     First, the order in which attributes are listed defines their ranking priority: matches in attributes at the beginning of the list will be considered more important than matches in attributes further down the list. To assign the same priority to several attributes, pass them within the same string, separated by commas. For example, by specifying `["title,"alternative_title", "text"]`, `title` and `alternative_title` will have the same priority, but a higher priority than `text`.
 
@@ -1133,13 +1136,13 @@ You can also use `*` to retrieve all values when an **attributesToRetrieve** set
 
 - scope: `search`
 - type: `array of strings`
-- default: `attributesToIndex`
+- default: `searchableAttributes`
 
 
-List of attributes you want to use for textual search (must be a subset of the `attributesToIndex` index setting).
+List of attributes you want to use for textual search (must be a subset of the `searchableAttributes` index setting).
 Attributes are separated with a comma such as `"name,address"`.
 You can also use JSON string array encoding such as `encodeURIComponent("[\"name\",\"address\"]")`.
-By default, all attributes specified in the `attributesToIndex` settings are used to search.
+By default, all attributes specified in the `searchableAttributes` settings are used to search.
 
 
 ### Ranking
@@ -1159,7 +1162,7 @@ We have nine available criterion:
 * `geo`: Sort according to decreasing distance when performing a geo location based search.
 * `words`: Sort according to the number of query words matched by decreasing order. This parameter is useful when you use the `optionalWords` query parameter to have results with the most matched words first.
 * `proximity`: Sort according to the proximity of the query words in hits.
-* `attribute`: Sort according to the order of attributes defined by attributesToIndex.
+* `attribute`: Sort according to the order of attributes defined by searchableAttributes.
 * `exact`:
   * If the user query contains one word: sort objects having an attribute that is exactly the query word before others. For example, if you search for the TV show "V", you want to find it with the "V" query and avoid getting all popular TV shows starting by the letter V before it.
   * If the user query contains multiple words: sort according to the number of words that matched exactly (not as a prefix).
@@ -1187,11 +1190,12 @@ For example, `"customRanking" => ["desc(population)", "asc(name)"]`.
 To get a full description of how the Custom Ranking works,
 you can have a look at our [Ranking guide](https://www.algolia.com/doc/guides/relevance/ranking).
 
-#### slaves
+#### replicas
 
 - scope: `settings`
 - type: `array of strings`
 - default: `[]`
+- formerly known as: `slaves`
 
 
 The list of indices on which you want to replicate all write operations.
@@ -1202,7 +1206,7 @@ If you want to use different ranking configurations depending of the use case,
 you need to create one index per ranking configuration.
 
 This option enables you to perform write operations only on this index and automatically
-update slave indices with the same operations.
+update replica indices with the same operations.
 
 ### Filtering / Faceting
 
@@ -1474,7 +1478,7 @@ If set to true, plural won't be considered as a typo. For example, car and cars,
 
 
 List of attributes on which you want to disable typo tolerance
-(must be a subset of the `attributesToIndex` index setting).
+(must be a subset of the `searchableAttributes` index setting).
 
 Attributes are separated with a comma such as `"name,address"`.
 You can also use JSON string array encoding such as `encodeURIComponent("[\"name\",\"address\"]")`.
@@ -1732,7 +1736,7 @@ For most use cases, it is better to not use this feature as people search by key
 
 
 List of attributes on which you want to disable prefix matching
-(must be a subset of the `attributesToIndex` index setting).
+(must be a subset of the `searchableAttributes` index setting).
 
 This setting is useful on attributes that contain string that should not be matched as a prefix
 (for example a product SKU).
@@ -1746,7 +1750,7 @@ This setting is useful on attributes that contain string that should not be matc
 
 
 List of attributes on which you want to disable the computation of `exact` criteria
-(must be a subset of the `attributesToIndex` index setting).
+(must be a subset of the `searchableAttributes` index setting).
 
 #### exactOnSingleWordQuery
 
@@ -1826,11 +1830,12 @@ you can have a look at our [guide on distinct](https://www.algolia.com/doc/searc
 If set to true,
 the result hits will contain ranking information in the **_rankingInfo** attribute.
 
-#### numericAttributesToIndex
+#### numericAttributesForFiltering
 
 - scope: `settings`
 - type: `array of strings`
 - default: ``
+- formerly known as: `numericAttributesToIndex`
 
 
 All numerical attributes are automatically indexed as numerical filters
@@ -2022,6 +2027,25 @@ Configure the precision of the `proximity` ranking criterion. By default, the mi
 Considering the query *“javascript framework”*, if you set `minProximity=2`, the records *“JavaScript framework”* and *“JavaScript charting framework”* will get the same proximity score, even if the second contains a word between the two matching words.
 
 **Note:** the maximum `minProximity` that can be set is 7. Any higher value will disable the `proximity` criterion from the ranking formula.
+
+#### responseFields
+
+- scope: `search`, `settings`
+- type: `array of strings`
+- default: `*`
+
+
+Choose which fields the response will contain. Applies to search and browse queries.
+
+By default, all fields are returned. If this parameter is specified, only the fields explicitly listed will be returned, unless `*` is used, in which case all fields are returned. Specifying an empty list or unknown field names is an error.
+
+This parameter is mainly intended to limit the response size. For example, for complex queries, echoing of request parameters in the response's `params` field can be undesirable.
+
+Some fields cannot be filtered out:
+
+- warning `message`
+- `cursor` in browse queries
+- fields triggered explicitly via [getRankingInfo](#getrankinginfo)
 
 
 ## Manage Indices
