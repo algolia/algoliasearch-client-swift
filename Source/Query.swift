@@ -24,150 +24,6 @@
 import Foundation
 
 
-// ----------------------------------------------------------------------------
-// IMPLEMENTATION NOTES
-// ----------------------------------------------------------------------------
-// # Typed vs untyped parameters
-//
-// All parameters are stored as untyped, string values. They can be
-// accessed via the low-level `get` and `set` methods (or the subscript
-// operator).
-//
-// Besides, the class provides typed properties, acting as wrappers on top
-// of the untyped storage (i.e. serializing to and parsing from string
-// values).
-//
-// # Bridgeability
-//
-// **This Swift client must be bridgeable to Objective-C.**
-//
-// Unfortunately, query parameters with primitive types (Int, Bool...) are not
-// bridgeable, because all parameters are optional, and primitive optionals are
-// not bridgeable to Objective-C.
-//
-// To avoid polluting too much the Swift interface with suboptimal types, the
-// following policy is used:
-//
-// - Any parameter whose type is representable in Objective-C is implemented
-//   directly in Swift and marked as `@objc`.
-//
-// - Any paramater whose type is *not* bridgeable to Objective-C is implemented
-//   a first time as a Swift-only type...
-//
-// - ... and supplemented by an Objective-C specific artifact. To guarantee
-//   optimal developer experience, this artifact is:
-//
-//     - Named with a `z_objc_` prefix in Swift. This makes it clear that they
-//       are Objective-C specific. The leading "z" ensures they are last in
-//       autocompletion.
-//
-//     - Exposed to Objective-C using the normal (unprefixed name).
-//
-//     - Not documented. This ensures that it does not appear in the reference
-//       documentation.
-//
-// This way, each platform sees a properties with the right name and the most
-// adequate type. The only drawback is the added clutter of the `z_objc_`-prefixed
-// properties in Swift.
-//
-// There is also an edge case for the `aroundRadiusAll` constant, which is not
-// documented.
-//
-// ## The case of enums
-//
-// Enums can only be bridged to Objective-C if their raw type is integral.
-// We could do that, but since parameters are optional and optional value types
-// cannot be bridged anyway (see above), this would be pointless: the type
-// safety of the enum would be lost in the wrapping into `NSNumber`. Therefore,
-// enums have a string raw value, and the Objective-C bridge uses a plain
-// `NSString`.
-//
-// ## The case of structs
-//
-// Auxiliary types used for query parameters, like `LatLng` or `GeoRect`, have
-// value semantics. However, structs are not bridgeable to Objective-C. Therefore
-// we use plain classes (inheriting from `NSObject`) and we make them immutable.
-//
-// Equality comparison is implemented in those classes only for the sake of
-// testability (we use comparisons extensively in unit tests).
-//
-// ## Annotations
-//
-// Properties and methods visible in Objective-C are annotated with `@objc`.
-// From an implementation point of view, this is not necessary, because `Query`
-// derives from `NSObject` and thus every brdigeable property/method is
-// automatically bridged. We use these annotations as hints for maintainers
-// (so please keep them).
-//
-// ----------------------------------------------------------------------------
-
-
-/// A pair of (latitude, longitude).
-/// Used in geo-search.
-///
-@objc public class LatLng: NSObject {
-    // IMPLEMENTATION NOTE: Cannot be `struct` because of Objective-C bridgeability.
-    
-    /// Latitude.
-    public let lat: Double
-    
-    /// Longitude.
-    public let lng: Double
-    
-    /// Create a geo location.
-    ///
-    /// - parameter lat: Latitude.
-    /// - parameter lng: Longitude.
-    ///
-    public init(lat: Double, lng: Double) {
-        self.lat = lat
-        self.lng = lng
-    }
-    
-    // MARK: Equatable
-    
-    public override func isEqual(_ object: Any?) -> Bool {
-        if let rhs = object as? LatLng {
-            return self.lat == rhs.lat && self.lng == rhs.lng
-        } else {
-            return false
-        }
-    }
-}
-
-
-/// A rectangle in geo coordinates.
-/// Used in geo-search.
-///
-@objc public class GeoRect: NSObject {
-    // IMPLEMENTATION NOTE: Cannot be `struct` because of Objective-C bridgeability.
-    
-    /// One of the rectangle's corners (typically the northwesternmost).
-    public let p1: LatLng
-    
-    /// Corner opposite from `p1` (typically the southeasternmost).
-    public let p2: LatLng
-    
-    /// Create a geo rectangle.
-    ///
-    /// - parameter p1: One of the rectangle's corners (typically the northwesternmost).
-    /// - parameter p2: Corner opposite from `p1` (typically the southeasternmost).
-    ///
-    public init(p1: LatLng, p2: LatLng) {
-        self.p1 = p1
-        self.p2 = p2
-    }
-    
-    public override func isEqual(_ object: Any?) -> Bool {
-        if let rhs = object as? GeoRect {
-            return self.p1 == rhs.p1 && self.p2 == rhs.p2
-        } else {
-            return false
-        }
-    }
-}
-
-
 /// Describes all parameters of a search query.
 ///
 /// There are two ways to access parameters:
@@ -179,45 +35,7 @@ import Foundation
 /// + Warning: All parameters are **optional**. When a parameter is `nil`, the API applies a default value.
 ///
 @objc
-public class Query : NSObject, NSCopying {
-    
-    // MARK: - Low-level (untyped) parameters
-    
-    /// Parameters, as untyped values.
-    private var parameters: [String: String] = [:]
-    
-    /// Get a parameter in an untyped fashion.
-    ///
-    /// - parameter name:   The parameter's name.
-    /// - returns: The parameter's value, or nil if a parameter with the specified name does not exist.
-    ///
-    @objc public func parameter(withName name: String) -> String? {
-        return parameters[name]
-    }
-    
-    /// Set a parameter in an untyped fashion.
-    /// This low-level accessor is intended to access parameters that this client does not yet support.
-    ///
-    /// - parameter name:   The parameter's name.
-    /// - parameter value:  The parameter's value, or nill to remove it.
-    ///
-    @objc public func setParameter(withName name: String, to value: String?) {
-        if value == nil {
-            parameters.removeValue(forKey: name)
-        } else {
-            parameters[name] = value!
-        }
-    }
-    
-    /// Convenience shortcut to `parameter(withName:)` and `setParameter(withName:to:)`.
-    @objc public subscript(index: String) -> String? {
-        get {
-            return parameter(withName: index)
-        }
-        set(newValue) {
-            setParameter(withName: index, to: newValue)
-        }
-    }
+public class Query : AbstractQuery {
     
     // MARK: -
     
@@ -891,57 +709,31 @@ public class Query : NSObject, NSCopying {
         }
     }
 
-    // MARK: - Miscellaneous
-
-    @objc override public var description: String {
-        get { return "Query{\(parameters)}" }
-    }
-    
     // MARK: - Initialization
 
-    /// Construct an empty query.
-    @objc public override init() {
-    }
-    
     /// Construct a query with the specified full text query.
     @objc public convenience init(query: String?) {
         self.init()
         self.query = query
     }
     
-    /// Construct a query with the specified low-level parameters.
-    @objc public init(parameters: [String: String]) {
-        self.parameters = parameters
-    }
-    
     /// Clone an existing query.
-    @objc public init(copy: Query) {
-        parameters = copy.parameters
+    @objc public convenience init(copy: Query) {
+        self.init(parameters: copy.parameters)
     }
-    
+
+    // MARK: NSCopying
+
     /// Support for `NSCopying`.
     ///
     /// + Note: Primarily intended for Objective-C use. Swift coders should use `init(copy:)`.
     ///
-    @objc public func copy(with zone: NSZone?) -> Any {
+    @objc public override func copy(with zone: NSZone?) -> Any {
         // NOTE: As per the docs, the zone argument is ignored.
         return Query(copy: self)
     }
 
     // MARK: Serialization & parsing
-
-    /// Return the final query string used in URL.
-    @objc public func build() -> String {
-        var components = [String]()
-        // Sort parameters by name to get predictable output.
-        let sortedParameters = parameters.sorted { $0.0 < $1.0 }
-        for (key, value) in sortedParameters {
-            let escapedKey = key.urlEncodedQueryParam()
-            let escapedValue = value.urlEncodedQueryParam()
-            components.append(escapedKey + "=" + escapedValue)
-        }
-        return components.joined(separator: "&")
-    }
 
     /// Parse a query from a URL query string.
     @objc
@@ -950,124 +742,7 @@ public class Query : NSObject, NSCopying {
         parse(queryString, into: query)
         return query
     }
-    
-    internal static func parse(_ queryString: String, into query: Query) {
-        let components = queryString.components(separatedBy: "&")
-        for component in components {
-            let fields = component.components(separatedBy: "=")
-            if fields.count < 1 || fields.count > 2 {
-                continue
-            }
-            if let name = fields[0].removingPercentEncoding {
-                let value: String? = fields.count >= 2 ? fields[1].removingPercentEncoding : nil
-                if value == nil {
-                    query.parameters.removeValue(forKey: name)
-                } else {
-                    query.parameters[name] = value!
-                }
-            }
-        }
-    }
-    
-    // MARK: Equatable
-    
-    override public func isEqual(_ object: Any?) -> Bool {
-        guard let rhs = object as? Query else {
-            return false
-        }
-        return self.parameters == rhs.parameters
-    }
-    
-    // MARK: - Helper methods to build & parse URL
-    
-    /// Build a plain, comma-separated array of strings.
-    ///
-    class func buildStringArray(_ array: [String]?) -> String? {
-        if array != nil {
-            return array!.joined(separator: ",")
-        }
-        return nil
-    }
-    
-    class func parseStringArray(_ string: String?) -> [String]? {
-        if string != nil {
-            // First try to parse the JSON notation:
-            do {
-                if let array = try JSONSerialization.jsonObject(with: string!.data(using: String.Encoding.utf8)!, options: JSONSerialization.ReadingOptions(rawValue: 0)) as? [String] {
-                    return array
-                }
-            } catch {
-            }
-            // Fallback on plain string parsing.
-            return string!.components(separatedBy: ",")
-        }
-        return nil
-    }
-    
-    class func buildJSONArray(_ array: [Any]?) -> String? {
-        if array != nil {
-            do {
-                let data = try JSONSerialization.data(withJSONObject: array!, options: JSONSerialization.WritingOptions(rawValue: 0))
-                if let string = String(data: data, encoding: String.Encoding.utf8) {
-                    return string
-                }
-            } catch {
-            }
-        }
-        return nil
-    }
-    
-    class func parseJSONArray(_ string: String?) -> [Any]? {
-        if string != nil {
-            do {
-                if let array = try JSONSerialization.jsonObject(with: string!.data(using: String.Encoding.utf8)!, options: JSONSerialization.ReadingOptions(rawValue: 0)) as? [Any] {
-                    return array
-                }
-            } catch {
-            }
-        }
-        return nil
-    }
-    
-    class func buildUInt(_ int: UInt?) -> String? {
-        return int == nil ? nil : String(int!)
-    }
-    
-    class func parseUInt(_ string: String?) -> UInt? {
-        if string != nil {
-            if let intValue = UInt(string!) {
-                return intValue
-            }
-        }
-        return nil
-    }
-    
-    class func buildBool(_ bool: Bool?) -> String? {
-        return bool == nil ? nil : String(bool!)
-    }
-    
-    class func parseBool(_ string: String?) -> Bool? {
-        if string != nil {
-            switch (string!.lowercased()) {
-                case "true": return true
-                case "false": return false
-                default:
-                    if let intValue = Int(string!) {
-                        return intValue != 0
-                    }
-            }
-        }
-        return nil
-    }
-    
-    class func toNumber(_ bool: Bool?) -> NSNumber? {
-        return bool == nil ? nil : NSNumber(value: bool!)
-    }
 
-    class func toNumber(_ int: UInt?) -> NSNumber? {
-        return int == nil ? nil : NSNumber(value: int!)
-    }
-    
     // MARK: - Objective-C bridges
     // ---------------------------
     // NOTE: Should not be used from Swift.
@@ -1087,19 +762,19 @@ public class Query : NSObject, NSCopying {
 
     @objc(minWordSizefor1Typo)
     public var z_objc_minWordSizefor1Typo: NSNumber? {
-        get { return Query.toNumber(self.minWordSizefor1Typo) }
+        get { return AbstractQuery.toNumber(self.minWordSizefor1Typo) }
         set { self.minWordSizefor1Typo = newValue?.uintValue }
     }
     
     @objc(minWordSizefor2Typos)
     public var z_objc_minWordSizefor2Typos: NSNumber? {
-        get { return Query.toNumber(self.minWordSizefor2Typos) }
+        get { return AbstractQuery.toNumber(self.minWordSizefor2Typos) }
         set { self.minWordSizefor2Typos = newValue?.uintValue }
     }
     
     @objc(allowTyposOnNumericTokens)
     public var z_objc_allowTyposOnNumericTokens: NSNumber? {
-        get { return Query.toNumber(self.allowTyposOnNumericTokens) }
+        get { return AbstractQuery.toNumber(self.allowTyposOnNumericTokens) }
         set { self.allowTyposOnNumericTokens = newValue?.boolValue }
     }
 
@@ -1130,31 +805,31 @@ public class Query : NSObject, NSCopying {
 
     @objc(advancedSyntax)
     public var z_objc_advancedSyntax: NSNumber? {
-        get { return Query.toNumber(self.advancedSyntax) }
+        get { return AbstractQuery.toNumber(self.advancedSyntax) }
         set { self.advancedSyntax = newValue?.boolValue }
     }
 
     @objc(analytics)
     public var z_objc_analytics: NSNumber? {
-        get { return Query.toNumber(self.analytics) }
+        get { return AbstractQuery.toNumber(self.analytics) }
         set { self.analytics = newValue?.boolValue }
     }
 
     @objc(synonyms)
     public var z_objc_synonyms: NSNumber? {
-        get { return Query.toNumber(self.synonyms) }
+        get { return AbstractQuery.toNumber(self.synonyms) }
         set { self.synonyms = newValue?.boolValue }
     }
 
     @objc(replaceSynonymsInHighlight)
     public var z_objc_replaceSynonymsInHighlight: NSNumber? {
-        get { return Query.toNumber(self.replaceSynonymsInHighlight) }
+        get { return AbstractQuery.toNumber(self.replaceSynonymsInHighlight) }
         set { self.replaceSynonymsInHighlight = newValue?.boolValue }
     }
 
     @objc(minProximity)
     public var z_objc_minProximity: NSNumber? {
-        get { return Query.toNumber(self.minProximity) }
+        get { return AbstractQuery.toNumber(self.minProximity) }
         set { self.minProximity = newValue?.uintValue }
     }
 
@@ -1221,37 +896,37 @@ public class Query : NSObject, NSCopying {
 
     @objc(page)
     public var z_objc_page: NSNumber? {
-        get { return Query.toNumber(self.page) }
+        get { return AbstractQuery.toNumber(self.page) }
         set { self.page = newValue?.uintValue }
     }
 
     @objc(hitsPerPage)
     public var z_objc_hitsPerPage: NSNumber? {
-        get { return Query.toNumber(self.hitsPerPage) }
+        get { return AbstractQuery.toNumber(self.hitsPerPage) }
         set { self.hitsPerPage = newValue?.uintValue }
     }
 
     @objc(getRankingInfo)
     public var z_objc_getRankingInfo: NSNumber? {
-        get { return Query.toNumber(self.getRankingInfo) }
+        get { return AbstractQuery.toNumber(self.getRankingInfo) }
         set { self.getRankingInfo = newValue?.boolValue }
     }
 
     @objc(distinct)
     public var z_objc_distinct: NSNumber? {
-        get { return Query.toNumber(self.distinct) }
+        get { return AbstractQuery.toNumber(self.distinct) }
         set { self.distinct = newValue?.uintValue }
     }
 
     @objc(maxValuesPerFacet)
     public var z_objc_maxValuesPerFacet: NSNumber? {
-        get { return Query.toNumber(self.maxValuesPerFacet) }
+        get { return AbstractQuery.toNumber(self.maxValuesPerFacet) }
         set { self.maxValuesPerFacet = newValue?.uintValue }
     }
 
     @objc(aroundLatLngViaIP)
     public var z_objc_aroundLatLngViaIP: NSNumber? {
-        get { return Query.toNumber(self.aroundLatLngViaIP) }
+        get { return AbstractQuery.toNumber(self.aroundLatLngViaIP) }
         set { self.aroundLatLngViaIP = newValue?.boolValue }
     }
 
@@ -1284,13 +959,13 @@ public class Query : NSObject, NSCopying {
 
     @objc(aroundPrecision)
     public var z_objc_aroundPrecision: NSNumber? {
-        get { return Query.toNumber(self.aroundPrecision) }
+        get { return AbstractQuery.toNumber(self.aroundPrecision) }
         set { self.aroundPrecision = newValue?.uintValue }
     }
 
     @objc(minimumAroundRadius)
     public var z_objc_minimumAroundRadius: NSNumber? {
-        get { return Query.toNumber(self.minimumAroundRadius) }
+        get { return AbstractQuery.toNumber(self.minimumAroundRadius) }
         set { self.minimumAroundRadius = newValue?.uintValue }
     }
 }

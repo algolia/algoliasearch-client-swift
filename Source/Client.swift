@@ -24,114 +24,19 @@
 import Foundation
 
 
-/// A JSON object.
-public typealias JSONObject = [String: Any]
-
-/// Signature of most completion handlers used by this library.
-///
-/// - parameter content: The JSON response (in case of success) or `nil` (in case of error).
-/// - parameter error: The encountered error (in case of error) or `nil` (in case of success).
-///
-/// + Note: `content` and `error` are mutually exclusive: only one will be non-nil.
-///
-public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -> Void
-
-
-/// A version of a software library.
-/// Used to construct the `User-Agent` header.
-///
-@objc public class LibraryVersion: NSObject {
-    /// Library name.
-    @objc public let name: String
-    
-    /// Version string.
-    @objc public let version: String
-    
-    @objc public init(name: String, version: String) {
-        self.name = name
-        self.version = version
-    }
-    
-    // MARK: Equatable
-    
-    override public func isEqual(_ object: Any?) -> Bool {
-        if let rhs = object as? LibraryVersion {
-            return self.name == rhs.name && self.version == rhs.version
-        } else {
-            return false
-        }
-    }
-}
-
-
 /// Entry point into the Swift API.
 ///
-@objc public class Client : NSObject {
+@objc public class Client : AbstractClient {
     // MARK: Properties
     
-    /// HTTP headers that will be sent with every request.
-    @objc public var headers = [String:String]()
-
+    /// Algolia application ID.
+    @objc public var appID: String { return _appID! } // will never be nil in this class
+    
     /// Algolia API key.
     @objc public var apiKey: String {
-        didSet {
-            updateHeadersFromAPIKey()
-        }
+        get { return _apiKey! }
+        set { _apiKey = newValue }
     }
-    private func updateHeadersFromAPIKey() {
-        headers["X-Algolia-API-Key"] = apiKey
-    }
-
-    /// The list of libraries used by this client, passed in the `User-Agent` HTTP header of every request.
-    /// It is initially set to contain only this API Client, but may be overridden to include other libraries.
-    ///
-    /// + WARNING: The user agent is crucial to proper statistics in your Algolia dashboard. Please leave it as is.
-    /// This field is publicly exposed only for the sake of other Algolia libraries.
-    ///
-    @objc public var userAgents: [LibraryVersion] = [] {
-        didSet {
-            updateHeadersFromUserAgents()
-        }
-    }
-    private func updateHeadersFromUserAgents() {
-        headers["User-Agent"] = userAgents.map({ return "\($0.name) (\($0.version))"}).joined(separator: "; ")
-    }
-
-    /// Default timeout for network requests. Default: 30 seconds.
-    @objc public var timeout: TimeInterval = 30
-    
-    /// Specific timeout for search requests. Default: 5 seconds.
-    @objc public var searchTimeout: TimeInterval = 5
-
-    /// Algolia application ID.
-    @objc public let appID: String
-
-    /// Hosts for read queries, in priority order.
-    /// The first host will always be used, then subsequent hosts in case of retry.
-    ///
-    /// + Warning: The default values should be appropriate for most use cases.
-    /// Change them only if you know what you are doing.
-    ///
-    @objc public var readHosts: [String] {
-        willSet {
-            assert(!newValue.isEmpty)
-        }
-    }
-    
-    /// Hosts for write queries, in priority order.
-    /// The first host will always be used, then subsequent hosts in case of retry.
-    ///
-    /// + Warning: The default values should be appropriate for most use cases.
-    /// Change them only if you know what you are doing.
-    ///
-    @objc public var writeHosts: [String] {
-        willSet {
-            assert(!newValue.isEmpty)
-        }
-    }
-    
-    // NOTE: Not constant only for the sake of mocking during unit tests.
-    var session: URLSession
     
     /// Cache of already created indices.
     ///
@@ -143,15 +48,6 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     ///
     var indices: NSMapTable<NSString, AnyObject> = NSMapTable(keyOptions: [.strongMemory], valueOptions: [.weakMemory])
     
-    /// Operation queue used to keep track of requests.
-    /// `Request` instances are inherently asynchronous, since they are merely wrappers around `NSURLSessionTask`.
-    /// The sole purpose of the queue is to retain them for the duration of their execution!
-    ///
-    let requestQueue: OperationQueue
-    
-    /// Dispatch queue used to run completion handlers.
-    internal var completionQueue = DispatchQueue.main
-    
     // MARK: Initialization
     
     /// Create a new Algolia Search client.
@@ -160,9 +56,6 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
     /// - parameter apiKey: A valid API key for the service.
     ///
     @objc public init(appID: String, apiKey: String) {
-        self.appID = appID
-        self.apiKey = apiKey
-
         // Initialize hosts to their default values.
         //
         // NOTE: The host list comes in two parts:
@@ -175,78 +68,10 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
             "\(appID)-1.algolianet.com",
             "\(appID)-2.algolianet.com",
             "\(appID)-3.algolianet.com"
-        ].shuffle()
-        readHosts = [ "\(appID)-dsn.algolia.net" ] + fallbackHosts
-        writeHosts = [ "\(appID).algolia.net" ] + fallbackHosts
-        
-        // WARNING: Those headers cannot be changed for the lifetime of the session.
-        // Other headers are likely to change during the lifetime of the session: they will be passed at every request.
-        let fixedHTTPHeaders = [
-            "X-Algolia-Application-Id": self.appID
-        ]
-        let configuration = URLSessionConfiguration.default
-        configuration.httpAdditionalHeaders = fixedHTTPHeaders
-        session = Foundation.URLSession(configuration: configuration)
-        
-        requestQueue = OperationQueue()
-        requestQueue.maxConcurrentOperationCount = 8
-        
-        super.init()
-        
-        // Add this library's version to the user agents.
-        let version = Bundle(for: type(of: self)).infoDictionary!["CFBundleShortVersionString"] as! String
-        self.userAgents = [ LibraryVersion(name: "Algolia for Swift", version: version) ]
-        
-        // Add the operating system's version to the user agents.
-        if #available(iOS 8.0, OSX 10.0, tvOS 9.0, *) {
-            let osVersion = ProcessInfo.processInfo.operatingSystemVersion
-            var osVersionString = "\(osVersion.majorVersion).\(osVersion.minorVersion)"
-            if osVersion.patchVersion != 0 {
-                osVersionString += ".\(osVersion.patchVersion)"
-            }
-            if let osName = osName {
-                self.userAgents.append(LibraryVersion(name: osName, version: osVersionString))
-            }
-        }
-        
-        // WARNING: `didSet` not called during initialization => we need to update the headers manually here.
-        updateHeadersFromAPIKey()
-        updateHeadersFromUserAgents()
-    }
-
-    /// Set read and write hosts to the same value (convenience method).
-    ///
-    /// + Warning: The default values should be appropriate for most use cases.
-    /// Change them only if you know what you are doing.
-    ///
-    @objc(setHosts:)
-    public func setHosts(_ hosts: [String]) {
-        readHosts = hosts
-        writeHosts = hosts
-    }
-    
-    /// Set an HTTP header that will be sent with every request.
-    ///
-    /// + Note: You may also use the `headers` property directly.
-    ///
-    /// - parameter name: Header name.
-    /// - parameter value: Value for the header. If `nil`, the header will be removed.
-    ///
-    @objc(setHeaderWithName:to:)
-    public func setHeader(withName name: String, to value: String?) {
-        headers[name] = value
-    }
-    
-    /// Get an HTTP header.
-    ///
-    /// + Note: You may also use the `headers` property directly.
-    ///
-    /// - parameter name: Header name.
-    /// - returns: The header's value, or `nil` if the header does not exist.
-    ///
-    @objc(headerWithName:)
-    public func header(withName name: String) -> String? {
-        return headers[name]
+            ].shuffle()
+        let readHosts = [ "\(appID)-dsn.algolia.net" ] + fallbackHosts
+        let writeHosts = [ "\(appID).algolia.net" ] + fallbackHosts
+        super.init(appID: appID, apiKey: apiKey, readHosts: readHosts, writeHosts: writeHosts)
     }
 
     /// Obtain a proxy to an Algolia index (no server call required by this method).
@@ -268,7 +93,7 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
             return index
         }
     }
-
+    
     // MARK: - Operations
 
     /// List existing indexes.
@@ -397,34 +222,5 @@ public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -
         let path = "1/indexes/*/batch"
         let body = ["requests": operations]
         return performHTTPQuery(path: path, method: .POST, body: body as [String : Any]?, hostnames: writeHosts, completionHandler: completionHandler)
-    }
-    
-    /// Ping the server.
-    /// This method returns nothing except a message indicating that the server is alive.
-    ///
-    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
-    /// - returns: A cancellable operation.
-    ///
-    @objc(isAlive:)
-    @discardableResult public func isAlive(completionHandler: @escaping CompletionHandler) -> Operation {
-        let path = "1/isalive"
-        return performHTTPQuery(path: path, method: .GET, body: nil, hostnames: readHosts, completionHandler: completionHandler)
-    }
-
-    // MARK: - Network
-
-    /// Perform an HTTP Query.
-    func performHTTPQuery(path: String, method: HTTPMethod, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, completionHandler: CompletionHandler? = nil) -> Operation {
-        let request = newRequest(method: method, path: path, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery, completion: completionHandler)
-        request.completionQueue = self.completionQueue
-        requestQueue.addOperation(request)
-        return request
-    }
-    
-    /// Create a request with this client's settings.
-    func newRequest(method: HTTPMethod, path: String, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, completion: CompletionHandler? = nil) -> Request {
-        let currentTimeout = isSearchQuery ? searchTimeout : timeout
-        let request = Request(session: session, method: method, hosts: hostnames, firstHostIndex: 0, path: path, headers: headers, jsonBody: body, timeout: currentTimeout, completion:  completion)
-        return request
     }
 }

@@ -582,4 +582,64 @@
     XCTAssertEqualObjects(query2.minimumAroundRadius, value);
 }
 
+// MARK: Places
+
+- (void)testPlacesClient {
+    PlacesClient* client = [[PlacesClient alloc] init];
+    PlacesQuery* query = [[PlacesQuery alloc] init];
+    [client search:query completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+        // Do nothing.
+    }];
+    client = [[PlacesClient alloc] initWithAppID:@"APP_ID" apiKey:@"API_KEY"];
+}
+
+- (void)testPlacesQuery_type {
+    PlacesQuery* query1 = [PlacesQuery new];
+    XCTAssertNil(query1.type);
+    
+    NSArray* VALUES = @[ @"city", @"country", @"address", @"busStop", @"trainStation", @"townhall", @"airport" ];
+    for (int i = 0; i < VALUES.count; ++i) {
+        query1.type = VALUES[i];
+        XCTAssertEqualObjects(query1[@"type"], VALUES[i]);
+        PlacesQuery* query2 = [PlacesQuery parse:[query1 build]];
+        XCTAssertEqualObjects(query2.type, VALUES[i]);
+    }
+    
+    query1[@"type"] = @"invalid";
+    XCTAssertNil(query1.type);
+}
+
+- (void)testPlacesQuery_hitsPerPage {
+    PlacesQuery* query1 = [PlacesQuery new];
+    XCTAssertNil(query1.hitsPerPage);
+    
+    NSNumber* value = [NSNumber numberWithInt:6];
+    query1.hitsPerPage = value;
+    XCTAssertEqualObjects(query1[@"hitsPerPage"], @"6");
+    PlacesQuery* query2 = [PlacesQuery parse:[query1 build]];
+    XCTAssertEqualObjects(query2.hitsPerPage, value);
+}
+
+- (void)testPlacesQuery_aroundLatLngViaIP {
+    PlacesQuery* query1 = [PlacesQuery new];
+    XCTAssertNil(query1.aroundLatLngViaIP);
+    
+    NSNumber* value = [NSNumber numberWithBool:YES];
+    query1.aroundLatLngViaIP = value;
+    XCTAssertEqualObjects(query1[@"aroundLatLngViaIP"], @"true");
+    PlacesQuery* query2 = [PlacesQuery parse:[query1 build]];
+    XCTAssertEqualObjects(query2.aroundLatLngViaIP, value);
+}
+
+- (void)testPlacesQuery_aroundRadius {
+    PlacesQuery* query1 = [PlacesQuery new];
+    XCTAssertNil(query1.aroundRadius);
+    
+    NSNumber* value = [NSNumber numberWithInt:6];
+    query1.aroundRadius = value;
+    XCTAssertEqualObjects(query1[@"aroundRadius"], @"6");
+    PlacesQuery* query2 = [PlacesQuery parse:[query1 build]];
+    XCTAssertEqualObjects(query2.aroundRadius, value);
+}
+
 @end

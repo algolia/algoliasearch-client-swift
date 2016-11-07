@@ -1,5 +1,5 @@
 //
-//  Copyright (c) 2015 Algolia
+//  Copyright (c) 2016 Algolia
 //  http://www.algolia.com/
 //
 //  Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,22 +23,15 @@
 
 import Foundation
 
-let APP_ID = "%ALGOLIA_APPLICATION_ID%"
-let API_KEY = "%ALGOLIA_API_KEY%"
-let PLACES_APP_ID = "%PLACES_APPLICATION_ID%"
-let PLACES_API_KEY = "%PLACES_API_KEY%"
-let JOB_NUMBER = "JOB_NUMBER_REPLACE_ME"
 
-func safeIndexName(_ name: String) -> String {
-    if let travisBuild = ProcessInfo.processInfo.environment["TRAVIS_JOB_NUMBER"] {
-        return "\(name)@\(travisBuild)"
-    } else if JOB_NUMBER.range(of: "[1-9]+\\.[1-9]+", options: .regularExpression) != nil {
-        return "\(name)@\(JOB_NUMBER)"
-    } else {
-        return name
-    }
-}
+/// A JSON object.
+public typealias JSONObject = [String: Any]
 
-func average(values: [Double]) -> Double {
-    return values.reduce(0, +) / Double(values.count)
-}
+/// Signature of most completion handlers used by this library.
+///
+/// - parameter content: The JSON response (in case of success) or `nil` (in case of error).
+/// - parameter error: The encountered error (in case of error) or `nil` (in case of success).
+///
+/// + Note: `content` and `error` are mutually exclusive: only one will be non-nil.
+///
+public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -> Void
