@@ -24,15 +24,9 @@
 import Foundation
 
 
-/// Describes all parameters of a search query.
+/// Search parameters for Algolia Places.
 ///
-/// There are two ways to access parameters:
-///
-/// 1. Using the high-level, **typed properties** for individual parameters (recommended).
-/// 2. Using the low-level, **untyped accessors** `parameter(withName:)` and `setParameter(withName:to:)` or (better)
-///    the **subscript operator**. Use this approach if the parameter you wish to set is not supported by this class.
-///
-/// + Warning: All parameters are **optional**. When a parameter is `nil`, the API applies a default value.
+/// + SeeAlso: `PlacesClient.search(...)`
 ///
 @objc
 public class PlacesQuery : AbstractQuery {
@@ -73,25 +67,36 @@ public class PlacesQuery : AbstractQuery {
     
     // MARK: - Parameters
     
-    /// The place to search for.
+    /// Full text query.
     @objc public var query: String? {
         get { return self["query"] }
         set { self["query"] = newValue }
     }
 
-    /// Applicable values for the `type` parameter.
+    /// Types of places that can be searched for.
+    ///
+    /// + SeeAlso: The `type` parameter.
+    ///
     public enum `Type`: String {
+        /// City.
         case city = "city"
+        /// Country.
         case country = "country"
+        /// Address.
         case address = "address"
+        /// Bus stop.
         case busStop = "busStop"
+        /// Train station.
         case trainStation = "trainStation"
+        /// Town hall.
         case townhall = "townhall"
+        /// Airport.
         case airport = "airport"
     }
 
     /// Restrict the search results to a specific type.
     /// If `nil`, searches in all types.
+    /// Default: `nil`.
     ///
     public var type: Type? {
         get {
@@ -152,7 +157,7 @@ public class PlacesQuery : AbstractQuery {
     }
     
     /// Whether or not to *first* search around the geolocation of the user found via his IP address.
-    /// This is `true` by default.
+    /// Default: `true`.
     ///
     public var aroundLatLngViaIP: Bool? {
         get { return Query.parseBool(self["aroundLatLngViaIP"]) }
@@ -204,13 +209,15 @@ public class PlacesQuery : AbstractQuery {
         }
     }
     
-    /// Specify the string that is inserted before the highlighted parts in the query result (defaults to `<em>`).
+    /// String marking the beginning of highlighted text in the response.
+    /// Default: `<em>`.
     @objc public var highlightPreTag: String? {
         get { return self["highlightPreTag"] }
         set { self["highlightPreTag"] = newValue }
     }
     
-    /// Specify the string that is inserted after the highlighted parts in the query result (defaults to `</em>`)
+    /// String marking the end of highlighted text in the response.
+    /// Default: `</em>`.
     @objc public var highlightPostTag: String? {
         get { return self["highlightPostTag"] }
         set { self["highlightPostTag"] = newValue }

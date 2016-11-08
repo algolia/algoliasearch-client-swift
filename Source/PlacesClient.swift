@@ -24,7 +24,7 @@
 import Foundation
 
 
-/// Entry point into the Swift API.
+/// Client for [Algolia Places](https://community.algolia.com/places/).
 ///
 @objc public class PlacesClient : AbstractClient {
     // MARK: Properties
@@ -41,6 +41,8 @@ import Foundation
     // MARK: Initialization
     
     /// Create a new Algolia Places client.
+    ///
+    /// + Note: You may omit the authentication credentials, but
     ///
     /// - parameter appID:  [optional] The application ID (available in your Algolia Dashboard).
     /// - parameter apiKey: [optional] A valid API key for the service.
@@ -73,7 +75,7 @@ import Foundation
         self.init(appID: appID, apiKey: apiKey)
     }
 
-    /// Create a new Algolia Places client without credentials.
+    /// Create a new unauthenticated Algolia Places client.
     ///
     /// + Note: The rate limit for the unauthenticated API is significantly lower than for the authenticated API.
     ///
