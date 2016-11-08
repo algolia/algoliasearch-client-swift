@@ -45,7 +45,8 @@ import Foundation
     /// - parameter appID:  [optional] The application ID (available in your Algolia Dashboard).
     /// - parameter apiKey: [optional] A valid API key for the service.
     ///
-    @objc public init(appID: String?, apiKey: String?) {
+    @objc(initWithOptionalAppID:apiKey:) // moved away to avoid conflict with public initializer below
+    internal init(appID: String?, apiKey: String?) {
         // Initialize hosts to their default values.
         //
         // NOTE: The host list comes in two parts:
@@ -61,6 +62,15 @@ import Foundation
         ].shuffle()
         let readHosts = [ "places-dsn.algolia.net" ] + fallbackHosts
         super.init(appID: appID, apiKey: apiKey, readHosts: readHosts, writeHosts: [])
+    }
+    
+    /// Create a new authenticated Algolia Places client.
+    ///
+    /// - parameter appID:  The application ID (available in your Algolia Dashboard).
+    /// - parameter apiKey: A valid API key for the service.
+    ///
+    @objc public convenience init(appID: String, apiKey: String) {
+        self.init(appID: appID, apiKey: apiKey)
     }
 
     /// Create a new Algolia Places client without credentials.
