@@ -108,12 +108,12 @@ class PlacesQueryTests: XCTestCase {
     }
 
     func test_countries() {
-        let VALUES: [String] = ["de", "en", "fr"]
+        let VALUES: [String] = ["de", "fr", "us"]
         let query1 = PlacesQuery()
         XCTAssertNil(query1.countries)
         query1.countries = VALUES
         XCTAssertEqual(query1.countries!, VALUES)
-        XCTAssertEqual(query1["countries"], "[\"de\",\"en\",\"fr\"]")
+        XCTAssertEqual(query1["countries"], "[\"de\",\"fr\",\"us\"]")
         let query2 = PlacesQuery.parse(query1.build())
         XCTAssertEqual(query2.countries!, VALUES)
     }

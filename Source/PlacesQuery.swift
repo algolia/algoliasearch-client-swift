@@ -126,7 +126,7 @@ public class PlacesQuery : AbstractQuery {
         set { self["language"] = newValue }
     }
 
-    /// If specified, restrict the search results to a specific list of comma-separated countries.
+    /// If specified, restrict the search results to a specific list of countries.
     /// You can pass two letters country codes ([ISO 3166-1](https://en.wikipedia.org/wiki/ISO_3166-1#Officially_assigned_code_elements)).
     ///
     /// Default: Search on the whole planet.

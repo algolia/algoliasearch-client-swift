@@ -42,8 +42,6 @@ import Foundation
     
     /// Create a new Algolia Places client.
     ///
-    /// + Note: You may omit the authentication credentials, but
-    ///
     /// - parameter appID:  [optional] The application ID (available in your Algolia Dashboard).
     /// - parameter apiKey: [optional] A valid API key for the service.
     ///
@@ -87,7 +85,7 @@ import Foundation
     
     /// Search for places.
     ///
-    /// - parameter params: Query parameters.
+    /// - parameter params: Search parameters.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
