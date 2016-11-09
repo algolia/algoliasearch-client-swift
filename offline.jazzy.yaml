@@ -22,6 +22,10 @@ custom_categories:
         - Index
         - Query
         - BrowseIterator
+    - name: Places
+      children:
+        - PlacesClient
+        - PlacesQuery
     - name: Auxiliary types
       children:
         - GeoRect
