@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+## 4.3 (2016-11-10)
+
+### New features
+
+- (#152) Add support for [Algolia Places](https://community.algolia.com/places/)
+
+
 ## 4.2 (2016-11-02)
 
 ### New features
