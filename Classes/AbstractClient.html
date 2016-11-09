@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>AbstractClient Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/AbstractClient" class="dashAnchor"></a>
+    <a title="AbstractClient Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">AlgoliaSearch Docs</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">AlgoliaSearch Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        AbstractClient Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../API Client.html">API Client</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/Client.html">Client</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Client/MultipleQueriesStrategy.html">– MultipleQueriesStrategy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Index.html">Index</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query.html">Query</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/QueryType.html">– QueryType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/TypoTolerance.html">– TypoTolerance</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/IgnorePlurals.html">– IgnorePlurals</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/RemoveWordsIfNoResults.html">– RemoveWordsIfNoResults</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/RemoveStopWords.html">– RemoveStopWords</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/ExactOnSingleWordQuery.html">– ExactOnSingleWordQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/AlternativesAsExact.html">– AlternativesAsExact</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/AroundRadius.html">– AroundRadius</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/BrowseIterator.html">BrowseIterator</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Places.html">Places</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/PlacesClient.html">PlacesClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/PlacesQuery.html">PlacesQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/PlacesQuery/Type.html">– Type</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/PlacesQuery/AroundRadius.html">– AroundRadius</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Auxiliary types.html">Auxiliary types</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/GeoRect.html">GeoRect</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IndexQuery.html">IndexQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/LatLng.html">LatLng</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/LibraryVersion.html">LibraryVersion</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Errors.html">Errors</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/HTTPError.html">HTTPError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/InvalidJSONError.html">InvalidJSONError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/StatusCode.html">StatusCode</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Other Classes.html">Other Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AbstractClient.html">AbstractClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AbstractQuery.html">AbstractQuery</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Other Typealiases.html">Other Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Other Typealiases.html#/s:13AlgoliaSearch21BrowseIteratorHandler">BrowseIteratorHandler</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>AbstractClient</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">AbstractClient</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+
+                </div>
+              </div>
+            <p>An abstract API client.</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    Not meant to be used directly. See <code><a href="../Classes/Client.html">Client</a></code> or <code><a href="../Classes/PlacesClient.html">PlacesClient</a></code> instead.
+
+</div>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Properties"></a>
+                <a name="//apple_ref/swift/Section/Properties" class="dashAnchor"></a>
+                <a href="#/Properties">
+                  <h3 class="section-name">Properties</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch14AbstractClient7headersGVs10DictionarySSSS_"></a>
+                    <a name="//apple_ref/swift/Property/headers" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch14AbstractClient7headersGVs10DictionarySSSS_">headers</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>HTTP headers that will be sent with every request.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">headers</span> <span class="o">=</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span><span class="kt">String</span><span class="p">]()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch14AbstractClient10userAgentsGSaCS_14LibraryVersion_"></a>
+                    <a name="//apple_ref/swift/Property/userAgents" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch14AbstractClient10userAgentsGSaCS_14LibraryVersion_">userAgents</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The list of libraries used by this client, passed in the <code>User-Agent</code> HTTP header of every request.
+It is initially set to contain only this API Client, but may be overridden to include other libraries.</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    The user agent is crucial to proper statistics in your Algolia dashboard. Please leave it as is.
+This field is publicly exposed only for the sake of other Algolia libraries.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">userAgents</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/LibraryVersion.html">LibraryVersion</a></span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch14AbstractClient7timeoutSd"></a>
+                    <a name="//apple_ref/swift/Property/timeout" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch14AbstractClient7timeoutSd">timeout</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Default timeout for network requests. Default: 30 seconds.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">timeout</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="mi">30</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch14AbstractClient13searchTimeoutSd"></a>
+                    <a name="//apple_ref/swift/Property/searchTimeout" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch14AbstractClient13searchTimeoutSd">searchTimeout</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Specific timeout for search requests. Default: 5 seconds.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">searchTimeout</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="mi">5</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch14AbstractClient9readHostsGSaSS_"></a>
+                    <a name="//apple_ref/swift/Property/readHosts" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch14AbstractClient9readHostsGSaSS_">readHosts</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Hosts for read queries, in priority order.
+The first host will always be used, then subsequent hosts in case of retry.</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    The default values should be appropriate for most use cases.
+Change them only if you know what you are doing.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">readHosts</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch14AbstractClient10writeHostsGSaSS_"></a>
+                    <a name="//apple_ref/swift/Property/writeHosts" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch14AbstractClient10writeHostsGSaSS_">writeHosts</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Hosts for write queries, in priority order.
+The first host will always be used, then subsequent hosts in case of retry.</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    The default values should be appropriate for most use cases.
+Change them only if you know what you are doing.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">writeHosts</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Initialization"></a>
+                <a name="//apple_ref/swift/Section/Initialization" class="dashAnchor"></a>
+                <a href="#/Initialization">
+                  <h3 class="section-name">Initialization</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch14AbstractClient8setHostsFGSaSS_T_"></a>
+                    <a name="//apple_ref/swift/Method/setHosts(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch14AbstractClient8setHostsFGSaSS_T_">setHosts(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Set read and write hosts to the same value (convenience method).</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    The default values should be appropriate for most use cases.
+Change them only if you know what you are doing.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">setHosts</span><span class="p">(</span><span class="n">_</span> <span class="nv">hosts</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch14AbstractClient9setHeaderFT8withNameSS2toGSqSS__T_"></a>
+                    <a name="//apple_ref/swift/Method/setHeader(withName:to:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch14AbstractClient9setHeaderFT8withNameSS2toGSqSS__T_">setHeader(withName:to:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Set an HTTP header that will be sent with every request.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>You may also use the <code><a href="../Classes/AbstractClient.html#/s:vC13AlgoliaSearch14AbstractClient7headersGVs10DictionarySSSS_">headers</a></code> property directly.</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">setHeader</span><span class="p">(</span><span class="n">withName</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">to</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Header name.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>value</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Value for the header. If <code>nil</code>, the header will be removed.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch14AbstractClient6headerFT8withNameSS_GSqSS_"></a>
+                    <a name="//apple_ref/swift/Method/header(withName:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch14AbstractClient6headerFT8withNameSS_GSqSS_">header(withName:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get an HTTP header.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>You may also use the <code><a href="../Classes/AbstractClient.html#/s:vC13AlgoliaSearch14AbstractClient7headersGVs10DictionarySSSS_">headers</a></code> property directly.</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">header</span><span class="p">(</span><span class="n">withName</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Header name.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The header’s value, or <code>nil</code> if the header does not exist.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Operations"></a>
+                <a name="//apple_ref/swift/Section/Operations" class="dashAnchor"></a>
+                <a href="#/Operations">
+                  <h3 class="section-name">Operations</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch14AbstractClient7isAliveFT17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="//apple_ref/swift/Method/isAlive(completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch14AbstractClient7isAliveFT17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">isAlive(completionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Ping the server.
+This method returns nothing except a message indicating that the server is alive.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">isAlive</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request’s outcome.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A cancellable operation.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>© Copyright 2016 <a class="link" href="https://www.algolia.com/" target="_blank" rel="external">Algolia</a>. All rights reserved.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>

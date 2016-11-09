@@ -72,6 +72,23 @@
             </ul>
           </li>
           <li class="nav-group-name">
+            <a href="../Places.html">Places</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/PlacesClient.html">PlacesClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/PlacesQuery.html">PlacesQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/PlacesQuery/Type.html">– Type</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/PlacesQuery/AroundRadius.html">– AroundRadius</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a href="../Auxiliary types.html">Auxiliary types</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -126,16 +143,21 @@
             </ul>
           </li>
           <li class="nav-group-name">
+            <a href="../Other Classes.html">Other Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AbstractClient.html">AbstractClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AbstractQuery.html">AbstractQuery</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a href="../Other Typealiases.html">Other Typealiases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Other Typealiases.html#/s:13AlgoliaSearch21BrowseIteratorHandler">BrowseIteratorHandler</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a>
-              </li>
-              <li class="nav-group-task">
-                <a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a>
               </li>
             </ul>
           </li>
@@ -856,7 +878,7 @@ This takes into account the delay between syncs.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="k">override</span> <span class="kd">func</span> <span class="nf">search</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="k">override</span> <span class="kd">func</span> <span class="nf">search</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
@@ -883,7 +905,7 @@ This takes into account the delay between syncs.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">searchOnline</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">searchOnline</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
@@ -910,7 +932,7 @@ This takes into account the delay between syncs.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">searchOffline</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">searchOffline</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
@@ -948,7 +970,7 @@ This takes into account the delay between syncs.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="k">override</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueries</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="k">override</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueries</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
@@ -975,7 +997,7 @@ This takes into account the delay between syncs.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueriesOnline</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueriesOnline</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
@@ -1053,7 +1075,7 @@ This takes into account the delay between syncs.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueriesOnline</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt"><a href="../Classes/Client.html">Client</a></span><span class="o">.</span><span class="kt">MultipleQueriesStrategy</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueriesOnline</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt"><a href="../Classes/Client.html">Client</a></span><span class="o">.</span><span class="kt">MultipleQueriesStrategy</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
@@ -1132,7 +1154,7 @@ This method is the offline equivalent of <code><a href="../Classes/Index.html#/s
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueriesOffline</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueriesOffline</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
@@ -1211,7 +1233,7 @@ This method is the offline equivalent of <code><a href="../Classes/Index.html#/s
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueriesOffline</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt"><a href="../Classes/Client.html">Client</a></span><span class="o">.</span><span class="kt">MultipleQueriesStrategy</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueriesOffline</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt"><a href="../Classes/Client.html">Client</a></span><span class="o">.</span><span class="kt">MultipleQueriesStrategy</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
@@ -1301,7 +1323,7 @@ Same semantics as <code><a href="../Classes/Index.html#/s:FC13AlgoliaSearch5Inde
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">browseMirror</span><span class="p">(</span><span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">browseMirror</span><span class="p">(</span><span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
@@ -1329,7 +1351,7 @@ Same semantics as <code><a href="../Classes/Index.html#/s:FC13AlgoliaSearch5Inde
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">browseMirror</span><span class="p">(</span><span class="n">from</span> <span class="nv">cursor</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">browseMirror</span><span class="p">(</span><span class="n">from</span> <span class="nv">cursor</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>

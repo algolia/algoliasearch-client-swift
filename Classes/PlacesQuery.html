@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>PlacesQuery Class Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset='utf-8'>
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+  </head>
+  <body>
+    <a name="//apple_ref/swift/Class/PlacesQuery" class="dashAnchor"></a>
+    <a title="PlacesQuery Class Reference"></a>
+    <header>
+      <div class="content-wrapper">
+        <p><a href="../index.html">AlgoliaSearch Docs</a></p>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <p id="breadcrumbs">
+        <a href="../index.html">AlgoliaSearch Reference</a>
+        <img id="carat" src="../img/carat.png" />
+        PlacesQuery Class Reference
+      </p>
+    </div>
+    <div class="content-wrapper">
+      <nav class="sidebar">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a href="../API Client.html">API Client</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/Client.html">Client</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Client/MultipleQueriesStrategy.html">– MultipleQueriesStrategy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Index.html">Index</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query.html">Query</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/QueryType.html">– QueryType</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/TypoTolerance.html">– TypoTolerance</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/IgnorePlurals.html">– IgnorePlurals</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/RemoveWordsIfNoResults.html">– RemoveWordsIfNoResults</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/RemoveStopWords.html">– RemoveStopWords</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/ExactOnSingleWordQuery.html">– ExactOnSingleWordQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/AlternativesAsExact.html">– AlternativesAsExact</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/Query/AroundRadius.html">– AroundRadius</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/BrowseIterator.html">BrowseIterator</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Places.html">Places</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/PlacesClient.html">PlacesClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/PlacesQuery.html">PlacesQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/PlacesQuery/Type.html">– Type</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/PlacesQuery/AroundRadius.html">– AroundRadius</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Auxiliary types.html">Auxiliary types</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/GeoRect.html">GeoRect</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/IndexQuery.html">IndexQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/LatLng.html">LatLng</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/LibraryVersion.html">LibraryVersion</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Errors.html">Errors</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Structs/HTTPError.html">HTTPError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Structs/InvalidJSONError.html">InvalidJSONError</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Enums/StatusCode.html">StatusCode</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Other Classes.html">Other Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Classes/AbstractClient.html">AbstractClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Classes/AbstractQuery.html">AbstractQuery</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a href="../Other Typealiases.html">Other Typealiases</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Other Typealiases.html#/s:13AlgoliaSearch21BrowseIteratorHandler">BrowseIteratorHandler</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+        <section>
+          <section class="section">
+            <h1>PlacesQuery</h1>
+              <div class="declaration">
+                <div class="language">
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">PlacesQuery</span> <span class="p">:</span> <span class="kt"><a href="../Classes/AbstractQuery.html">AbstractQuery</a></span></code></pre>
+
+                </div>
+              </div>
+            <p>Search parameters for Algolia Places.</p>
+
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <code><a href="../Classes/PlacesClient.html#/s:FC13AlgoliaSearch12PlacesClient6searchFTCS_11PlacesQuery17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">PlacesClient.search(...)</a></code>
+
+</div>
+
+          </section>
+          <section class="section task-group-section">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Initialization"></a>
+                <a name="//apple_ref/swift/Section/Initialization" class="dashAnchor"></a>
+                <a href="#/Initialization">
+                  <h3 class="section-name">Initialization</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch11PlacesQuerycFT5queryGSqSS__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(query:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch11PlacesQuerycFT5queryGSqSS__S0_">init(query:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Construct a query with the specified full text query.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">query</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch11PlacesQuerycFT4copyS0__S0_"></a>
+                    <a name="//apple_ref/swift/Method/init(copy:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch11PlacesQuerycFT4copyS0__S0_">init(copy:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Clone an existing query.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="n">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="nv">copy</span><span class="p">:</span> <span class="kt">PlacesQuery</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/NSCopying"></a>
+                <a name="//apple_ref/swift/Section/NSCopying" class="dashAnchor"></a>
+                <a href="#/NSCopying">
+                  <h3 class="section-name">NSCopying</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC13AlgoliaSearch11PlacesQuery4copyFT4withGSqV10ObjectiveC6NSZone__P_"></a>
+                    <a name="//apple_ref/swift/Method/copy(with:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch11PlacesQuery4copyFT4withGSqV10ObjectiveC6NSZone__P_">copy(with:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Support for <code>NSCopying</code>.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    Primarily intended for Objective-C use. Swift coders should use <code><a href="../Classes/PlacesQuery.html#/s:FC13AlgoliaSearch11PlacesQuerycFT4copyS0__S0_">init(copy:)</a></code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">override</span> <span class="kd">func</span> <span class="nf">copy</span><span class="p">(</span><span class="n">with</span> <span class="nv">zone</span><span class="p">:</span> <span class="kt">NSZone</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Any</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Serialization%20&amp;%20parsing"></a>
+                <a name="//apple_ref/swift/Section/Serialization &amp; parsing" class="dashAnchor"></a>
+                <a href="#/Serialization%20&amp;%20parsing">
+                  <h3 class="section-name">Serialization &amp; parsing</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZFC13AlgoliaSearch11PlacesQuery5parseFSSS0_"></a>
+                    <a name="//apple_ref/swift/Method/parse(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZFC13AlgoliaSearch11PlacesQuery5parseFSSS0_">parse(_:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Parse a query from a URL query string.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">parse</span><span class="p">(</span><span class="n">_</span> <span class="nv">queryString</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">PlacesQuery</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Parameters"></a>
+                <a name="//apple_ref/swift/Section/Parameters" class="dashAnchor"></a>
+                <a href="#/Parameters">
+                  <h3 class="section-name">Parameters</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch11PlacesQuery5queryGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/query" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch11PlacesQuery5queryGSqSS_">query</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Full text query.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">query</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:OC13AlgoliaSearch11PlacesQuery4Type"></a>
+                    <a name="//apple_ref/swift/Enum/Type" class="dashAnchor"></a>
+                    <a class="token" href="#/s:OC13AlgoliaSearch11PlacesQuery4Type">Type</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Types of places that can be searched for.</p>
+
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    The <code><a href="../Classes/PlacesQuery.html#/s:vC13AlgoliaSearch11PlacesQuery4typeGSqOS0_4Type_">type</a></code> parameter.
+
+</div>
+
+                        <a href="../Classes/PlacesQuery/Type.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="err">`</span><span class="k">Type</span><span class="err">`</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch11PlacesQuery4typeGSqOS0_4Type_"></a>
+                    <a name="//apple_ref/swift/Property/type" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch11PlacesQuery4typeGSqOS0_4Type_">type</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Restrict the search results to a specific type.
+If <code>nil</code>, searches in all types.
+Default: <code>nil</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">type</span><span class="p">:</span> <span class="k">Type</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch11PlacesQuery11hitsPerPageGSqSu_"></a>
+                    <a name="//apple_ref/swift/Property/hitsPerPage" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch11PlacesQuery11hitsPerPageGSqSu_">hitsPerPage</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Specifies how many results you want to retrieve per search.
+Default: 20.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">hitsPerPage</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch11PlacesQuery8languageGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/language" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch11PlacesQuery8languageGSqSS_">language</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>If specified, restrict the search results to a single language.
+You can pass two letters country codes (<a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes">ISO 639-1</a>).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">language</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch11PlacesQuery9countriesGSqGSaSS__"></a>
+                    <a name="//apple_ref/swift/Property/countries" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch11PlacesQuery9countriesGSqGSaSS__">countries</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>If specified, restrict the search results to a specific list of countries.
+You can pass two letters country codes (<a href="https://en.wikipedia.org/wiki/ISO_3166-1#Officially_assigned_code_elements">ISO 3166-1</a>).</p>
+
+<p>Default: Search on the whole planet.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">countries</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch11PlacesQuery12aroundLatLngGSqCS_6LatLng_"></a>
+                    <a name="//apple_ref/swift/Property/aroundLatLng" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch11PlacesQuery12aroundLatLngGSqCS_6LatLng_">aroundLatLng</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Force to <em>first</em> search around a specific latitude/longitude.</p>
+
+<p>The default is to search around the location of the user determined via his IP address (geoip).</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">aroundLatLng</span><span class="p">:</span> <span class="kt"><a href="../Classes/LatLng.html">LatLng</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch11PlacesQuery17aroundLatLngViaIPGSqSb_"></a>
+                    <a name="//apple_ref/swift/Property/aroundLatLngViaIP" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch11PlacesQuery17aroundLatLngViaIPGSqSb_">aroundLatLngViaIP</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Whether or not to <em>first</em> search around the geolocation of the user found via his IP address.
+Default: <code>true</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">aroundLatLngViaIP</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:OC13AlgoliaSearch11PlacesQuery12AroundRadius"></a>
+                    <a name="//apple_ref/swift/Enum/AroundRadius" class="dashAnchor"></a>
+                    <a class="token" href="#/s:OC13AlgoliaSearch11PlacesQuery12AroundRadius">AroundRadius</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Applicable values for the <code><a href="../Classes/PlacesQuery.html#/s:vC13AlgoliaSearch11PlacesQuery12aroundRadiusGSqOS0_12AroundRadius_">aroundRadius</a></code> parameter.</p>
+
+                        <a href="../Classes/PlacesQuery/AroundRadius.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">AroundRadius</span><span class="p">:</span> <span class="kt">Equatable</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch11PlacesQuery12aroundRadiusGSqOS0_12AroundRadius_"></a>
+                    <a name="//apple_ref/swift/Property/aroundRadius" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch11PlacesQuery12aroundRadiusGSqOS0_12AroundRadius_">aroundRadius</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Radius in meters to search around the latitude/longitutde.
+Otherwise a default radius is automatically computed given the area density.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">aroundRadius</span><span class="p">:</span> <span class="kt"><a href="../Classes/PlacesQuery/AroundRadius.html">AroundRadius</a></span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch11PlacesQuery15highlightPreTagGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/highlightPreTag" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch11PlacesQuery15highlightPreTagGSqSS_">highlightPreTag</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>String marking the beginning of highlighted text in the response.
+Default: <code>&lt;em&gt;</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">highlightPreTag</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch11PlacesQuery16highlightPostTagGSqSS_"></a>
+                    <a name="//apple_ref/swift/Property/highlightPostTag" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch11PlacesQuery16highlightPostTagGSqSS_">highlightPostTag</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>String marking the end of highlighted text in the response.
+Default: <code>&lt;/em&gt;</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">highlightPostTag</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </section>
+        </section>
+        <section id="footer">
+          <p>© Copyright 2016 <a class="link" href="https://www.algolia.com/" target="_blank" rel="external">Algolia</a>. All rights reserved.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+        </section>
+      </article>
+    </div>
+  </body>
+</div>
+</html>
