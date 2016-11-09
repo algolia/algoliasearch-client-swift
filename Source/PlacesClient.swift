@@ -40,13 +40,26 @@ import Foundation
     
     // MARK: Initialization
     
-    /// Create a new Algolia Places client.
+    /// Create a new authenticated Algolia Places client.
     ///
-    /// - parameter appID:  [optional] The application ID (available in your Algolia Dashboard).
-    /// - parameter apiKey: [optional] A valid API key for the service.
+    /// - parameter appID:  The application ID (available in your Algolia Dashboard).
+    /// - parameter apiKey: A valid API key for the service.
     ///
-    @objc(initWithOptionalAppID:apiKey:) // moved away to avoid conflict with public initializer below
-    internal init(appID: String?, apiKey: String?) {
+    @objc public init(appID: String, apiKey: String) {
+        super.init(appID: appID, apiKey: apiKey, readHosts: [], writeHosts: [])
+        initHosts()
+    }
+
+    /// Create a new unauthenticated Algolia Places client.
+    ///
+    /// + Note: The rate limit for the unauthenticated API is significantly lower than for the authenticated API.
+    ///
+    @objc public init() {
+        super.init(appID: nil, apiKey: nil, readHosts: [], writeHosts: [])
+        initHosts()
+    }
+
+    private func initHosts() {
         // Initialize hosts to their default values.
         //
         // NOTE: The host list comes in two parts:
@@ -59,26 +72,8 @@ import Foundation
             "places-1.algolianet.com",
             "places-2.algolianet.com",
             "places-3.algolianet.com"
-        ].shuffle()
-        let readHosts = [ "places-dsn.algolia.net" ] + fallbackHosts
-        super.init(appID: appID, apiKey: apiKey, readHosts: readHosts, writeHosts: [])
-    }
-    
-    /// Create a new authenticated Algolia Places client.
-    ///
-    /// - parameter appID:  The application ID (available in your Algolia Dashboard).
-    /// - parameter apiKey: A valid API key for the service.
-    ///
-    @objc public convenience init(appID: String, apiKey: String) {
-        self.init(appID: appID, apiKey: apiKey)
-    }
-
-    /// Create a new unauthenticated Algolia Places client.
-    ///
-    /// + Note: The rate limit for the unauthenticated API is significantly lower than for the authenticated API.
-    ///
-    @objc public convenience init() {
-        self.init(appID: nil, apiKey: nil)
+            ].shuffle()
+        self.readHosts = [ "places-dsn.algolia.net" ] + fallbackHosts
     }
     
     // MARK: - Operations
