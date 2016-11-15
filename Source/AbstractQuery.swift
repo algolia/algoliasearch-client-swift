@@ -231,7 +231,12 @@ open class AbstractQuery : NSObject, NSCopying {
     @objc public init(parameters: [String: String]) {
         self.parameters = parameters
     }
-    
+
+    /// Clear all parameters.
+    @objc open func clear() {
+        parameters.removeAll()
+    }
+
     // MARK: NSCopying
     
     /// Support for `NSCopying`.
