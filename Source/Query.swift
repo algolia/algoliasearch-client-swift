@@ -35,7 +35,7 @@ import Foundation
 /// + Warning: All parameters are **optional**. When a parameter is `nil`, the API applies a default value.
 ///
 @objc
-public class Query : AbstractQuery {
+open class Query : AbstractQuery {
     
     // MARK: -
     
@@ -728,7 +728,7 @@ public class Query : AbstractQuery {
     ///
     /// + Note: Primarily intended for Objective-C use. Swift coders should use `init(copy:)`.
     ///
-    @objc public override func copy(with zone: NSZone?) -> Any {
+    @objc open override func copy(with zone: NSZone?) -> Any {
         // NOTE: As per the docs, the zone argument is ignored.
         return Query(copy: self)
     }

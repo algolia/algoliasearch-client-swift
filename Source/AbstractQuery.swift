@@ -173,12 +173,12 @@ import Foundation
 /// + Warning: This class is not meant to be used directly. Please see `Query` or `PlacesQuery` instead.
 ///
 @objc
-public class AbstractQuery : NSObject, NSCopying {
+open class AbstractQuery : NSObject, NSCopying {
     
     // MARK: - Low-level (untyped) parameters
     
     /// Parameters, as untyped values.
-    internal var parameters: [String: String] = [:]
+    @objc public private(set) var parameters: [String: String] = [:]
     
     /// Get a parameter in an untyped fashion.
     ///
@@ -217,7 +217,7 @@ public class AbstractQuery : NSObject, NSCopying {
     
     // MARK: - Miscellaneous
     
-    @objc override public var description: String {
+    @objc override open var description: String {
         get { return "\(String(describing: type(of: self))){\(parameters)}" }
     }
     
@@ -238,7 +238,7 @@ public class AbstractQuery : NSObject, NSCopying {
     ///
     /// + Note: Primarily intended for Objective-C use. Swift coders should use `init(copy:)`.
     ///
-    @objc public func copy(with zone: NSZone?) -> Any {
+    @objc open func copy(with zone: NSZone?) -> Any {
         // NOTE: As per the docs, the zone argument is ignored.
         return AbstractQuery(parameters: self.parameters)
     }
@@ -278,7 +278,7 @@ public class AbstractQuery : NSObject, NSCopying {
     
     // MARK: Equatable
     
-    override public func isEqual(_ object: Any?) -> Bool {
+    override open func isEqual(_ object: Any?) -> Bool {
         guard let rhs = object as? AbstractQuery else {
             return false
         }
