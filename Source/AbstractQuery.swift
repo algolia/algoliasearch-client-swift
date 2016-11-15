@@ -251,7 +251,12 @@ open class AbstractQuery : NSObject, NSCopying {
     // MARK: Serialization & parsing
     
     /// Return the final query string used in URL.
-    @objc public func build() -> String {
+    @objc open func build() -> String {
+        return AbstractQuery.build(parameters: parameters)
+    }
+
+    /// Build a query string from a set of parameters.
+    @objc static public func build(parameters: [String: String]) -> String {
         var components = [String]()
         // Sort parameters by name to get predictable output.
         let sortedParameters = parameters.sorted { $0.0 < $1.0 }
