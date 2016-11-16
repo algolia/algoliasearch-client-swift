@@ -1161,7 +1161,7 @@ class IndexTests: OnlineTestCase {
         self.waitForExpectations(timeout: expectationTimeout + timeout * 4, handler: nil)
     }
     
-    func testSearchInFacet() {
+    func testSearchForFacetValues() {
         let expectation = self.expectation(description: #function)
         let settings = [
             "attributesForFaceting": [
@@ -1215,7 +1215,7 @@ class IndexTests: OnlineTestCase {
                 self.index.waitTask(withID: taskID) { (content, error) in
                     guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
                     // Query with no extra search parameters.
-                    self.index.searchFacet("series", for: "Hobb") { (content, error) in
+                    self.index.searchForFacetValues(of: "series", matching: "Hobb") { (content, error) in
                         guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
                         guard let facetHits = content!["facetHits"] as? [JSONObject] else { XCTFail("No facet hits"); expectation.fulfill(); return }
                         XCTAssertEqual(facetHits.count, 1)
@@ -1225,7 +1225,7 @@ class IndexTests: OnlineTestCase {
                         let query = Query()
                         query.facetFilters = ["kind:animal"]
                         query.numericFilters = ["born >= 1955"]
-                        self.index.searchFacet("series", for: "Peanutz", query: query) { (content, error) in
+                        self.index.searchForFacetValues(of: "series", matching: "Peanutz", query: query) { (content, error) in
                             guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
                             guard let facetHits = content!["facetHits"] as? [JSONObject] else { XCTFail("No facet hits"); expectation.fulfill(); return }
                             XCTAssertEqual(facetHits[0]["value"] as? String, "Peanuts")

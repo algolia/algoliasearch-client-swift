@@ -363,7 +363,7 @@ import Foundation
         }
     }
     
-    /// Search in a facet.
+    /// Search for facet values.
     /// This searches inside a facet's values, optionally restricting the returned values to those contained in objects
     /// matching other (regular) search criteria.
     ///
@@ -376,8 +376,8 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc(searchFacet:forText:query:completionHandler:)
-    @discardableResult public func searchFacet(_ facetName: String, for text: String, query: Query? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc(searchForFacetValuesOf:matching:query:completionHandler:)
+    @discardableResult public func searchForFacetValues(of facetName: String, matching text: String, query: Query? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         let path = "1/indexes/\(urlEncodedName)/facets/\(facetName.urlEncodedPathComponent())/query"
         let params = query != nil ? Query(copy: query!) : Query()
         params["facetQuery"] = text
