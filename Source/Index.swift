@@ -363,6 +363,30 @@ import Foundation
         }
     }
     
+    /// Search for facet values.
+    /// This searches inside a facet's values, optionally restricting the returned values to those contained in objects
+    /// matching other (regular) search criteria.
+    ///
+    /// - parameter facetName: Name of the facet to search. It must have been declared in the index's
+    ///       `attributesForFaceting` setting with the `searchable()` modifier.
+    /// - parameter text: Text to search for in the facet's values.
+    /// - parameter query: An optional query to take extra search parameters into account. These parameters apply to
+    ///       index objects like in a regular search query. Only facet values contained in the matched objects will be
+    ///       returned.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc(searchForFacetValuesOf:matching:query:completionHandler:)
+    @discardableResult public func searchForFacetValues(of facetName: String, matching text: String, query: Query? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        let path = "1/indexes/\(urlEncodedName)/facets/\(facetName.urlEncodedPathComponent())/query"
+        let params = query != nil ? Query(copy: query!) : Query()
+        params["facetQuery"] = text
+        let requestBody = [
+            "params": params.build()
+        ]
+        return client.performHTTPQuery(path: path, method: .POST, body: requestBody, hostnames: client.readHosts, isSearchQuery: true, completionHandler: completionHandler)
+    }
+    
     /// Get this index's settings.
     ///
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
