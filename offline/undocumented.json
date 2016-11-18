@@ -37,7 +37,7 @@
     },
     {
       "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/AbstractQuery.swift",
-      "line": 281,
+      "line": 291,
       "symbol": "AbstractQuery.isEqual(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"

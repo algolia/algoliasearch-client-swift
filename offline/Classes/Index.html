@@ -1406,6 +1406,99 @@ passing <code>false</code> to <code>createIfNotExists</code> in <code><a href=".
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:FC13AlgoliaSearch5Index20searchForFacetValuesFT2ofSS8matchingSS5queryGSqCS_5Query_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="//apple_ref/swift/Method/searchForFacetValues(of:matching:query:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch5Index20searchForFacetValuesFT2ofSS8matchingSS5queryGSqCS_5Query_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">searchForFacetValues(of:matching:query:completionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Search for facet values.
+This searches inside a facet&rsquo;s values, optionally restricting the returned values to those contained in objects
+matching other (regular) search criteria.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">searchForFacetValues</span><span class="p">(</span><span class="n">of</span> <span class="nv">facetName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">matching</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>facetName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Name of the facet to search. It must have been declared in the index’s <code>attributesForFaceting</code> setting with the <code>searchable()</code> modifier.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>text</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Text to search for in the facet’s values.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>query</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional query to take extra search parameters into account. These parameters apply to index objects like in a regular search query. Only facet values contained in the matched objects will be returned.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request’s outcome.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A cancellable operation.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:FC13AlgoliaSearch5Index11getSettingsFT17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/getSettings(completionHandler:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:FC13AlgoliaSearch5Index11getSettingsFT17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getSettings(completionHandler:)</a>
