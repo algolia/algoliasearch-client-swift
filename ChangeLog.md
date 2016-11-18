@@ -1,6 +1,19 @@
 Change Log
 ==========
 
+## 4.4 (2016-11-18)
+
+### New features
+
+- (#140) Support searching for facet values (`Index.searchForFacetValues(...)`)
+- New method `AbstractQuery.clear()` to remove all parameters
+
+### Other changes
+
+- Open the `Query` class (along with some of its methods) to allow subclassing in other libraries
+- Make available as a static utility the method to build a query string from a dictionary of parameters (`AbstractQuery.build(build(parameters:)`)
+
+
 ## 4.3 (2016-11-10)
 
 ### New features
