@@ -237,6 +237,9 @@
     [index search:[Query new] completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
         // Do nothing.
     }];
+    [index searchForFacetValuesOf:@"facet" matching:@"text" query:nil completionHandler:^(NSDictionary<NSString *,id>* content, NSError* error) {
+        // Do nothing.
+    }];
     [index getSettings:^(NSDictionary<NSString*,id>* content, NSError* error) {
         // Do nothing.
     }];
