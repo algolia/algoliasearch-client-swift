@@ -202,4 +202,58 @@ class NetworkTests: XCTestCase {
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
+
+    /// Test that the status of down hosts is correctly remembered.
+    func testHostStatus() {
+        let expectation = self.expectation(description: #function)
+        
+        client.hostStatusTimeout = 3
+
+        // First host is down, second is up.
+        session.responses["https://\(client.readHosts[0])/1/indexes"] = MockResponse(error: TIMEOUT_ERROR)
+        session.responses["https://\(client.readHosts[1])/1/indexes"] = MockResponse(statusCode: 200, jsonBody: ["from": "2nd host"])
+        
+        // Do a query: the 1st host will fail, and the client should transparently fallback to the 2nd host.
+        client.listIndexes(completionHandler: {
+            (content, error) -> Void in
+            // Check that the response is successful and comes from the 2nd host.
+            guard error == nil else { XCTFail(); expectation.fulfill(); return }
+            XCTAssertEqual(content?["from"] as? String, "2nd host")
+            
+            // Check that the failing host's status has been remembered.
+            guard let status = self.client.hostStatuses[self.client.readHosts[0]] else { XCTFail(); expectation.fulfill(); return }
+            XCTAssertFalse(status.up)
+            let statusTimestamp = status.lastModified
+
+            // First host is up again.
+            self.session.responses["https://\(self.client.readHosts[0])/1/indexes"] = MockResponse(statusCode: 200, jsonBody: ["from": "1st host"])
+            
+            // Do the same query again: the client should ignore the 1st host and target directly the 2nd host.
+            self.client.listIndexes(completionHandler: {
+                (content, error) -> Void in
+                // Check that the response is successful and still comes from the 2nd host.
+                guard error == nil else { XCTFail(); expectation.fulfill(); return }
+                XCTAssertEqual(content?["from"] as? String, "2nd host")
+                
+                // Wait for the down host to be forgotten.
+                Thread.sleep(forTimeInterval: self.client.hostStatusTimeout)
+                
+                // Do the same query again: the client should target the 1st host again.
+                self.client.listIndexes(completionHandler: {
+                    (content, error) -> Void in
+                    // Check that the response is successful and comes from the 1st host.
+                    guard error == nil else { XCTFail(); expectation.fulfill(); return }
+                    XCTAssertEqual(content?["from"] as? String, "1st host")
+                    
+                    // Check that the host's status has been updated.
+                    guard let status = self.client.hostStatuses[self.client.readHosts[0]] else { XCTFail(); expectation.fulfill(); return }
+                    XCTAssertTrue(status.up)
+                    XCTAssert(status.lastModified.compare(statusTimestamp) == .orderedDescending)
+                    
+                    expectation.fulfill()
+                })
+            })
+        })
+        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    }
 }

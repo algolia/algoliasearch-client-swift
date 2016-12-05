@@ -30,7 +30,8 @@ import Foundation
 /// calls into a high-level operation. This operation can be cancelled by the user.
 ///
 internal class Request: AsyncOperationWithCompletion {
-    let session: URLSession
+    /// The client to which this request is related.
+    let client: AbstractClient
     
     /// Request method.
     let method: HTTPMethod
@@ -64,10 +65,10 @@ internal class Request: AsyncOperationWithCompletion {
     
     // MARK: - Initialization
     
-    init(session: URLSession, method: HTTPMethod, hosts: [String], firstHostIndex: Int, path: String, headers: [String: String]?, jsonBody: JSONObject?, timeout: TimeInterval, completion: CompletionHandler?) {
-        self.session = session
+    init(client: AbstractClient, method: HTTPMethod, hosts: [String], firstHostIndex: Int, path: String, headers: [String: String]?, jsonBody: JSONObject?, timeout: TimeInterval, completion: CompletionHandler?) {
+        self.client = client
         self.method = method
-        self.hosts = hosts
+        self.hosts = client.upOrUnknownHosts(hosts)
         assert(!hosts.isEmpty)
         self.firstHostIndex = firstHostIndex
         self.nextHostIndex = firstHostIndex
@@ -127,9 +128,10 @@ internal class Request: AsyncOperationWithCompletion {
         if _cancelled {
             return
         }
-        let request = createRequest(nextHostIndex)
+        let currentHostIndex = nextHostIndex
+        let request = createRequest(currentHostIndex)
         nextHostIndex = (nextHostIndex + 1) % hosts.count
-        task = session.dataTask(with: request) {
+        task = client.session.dataTask(with: request) {
             (data: Data?, response: URLResponse?, error: Error?) in
             var json: JSONObject?
             var finalError: Error? = error
@@ -161,6 +163,10 @@ internal class Request: AsyncOperationWithCompletion {
                 }
             }
             assert(json != nil || finalError != nil)
+            
+            // Update host status.
+            let down = finalError != nil && finalError!.isTransient()
+            self.client.updateHostStatus(host: self.hosts[currentHostIndex], up: !down)
             
             // Success: call completion block.
             if finalError == nil {

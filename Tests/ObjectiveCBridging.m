@@ -147,6 +147,7 @@
     client.readHosts = [client.readHosts arrayByAddingObject:@"nowhere.net"];
     client.writeHosts = [client.writeHosts arrayByAddingObject:@"nobody.com"];
     [client setHosts:@[ @"nowhere.net", @"nobody.com", @"never.org" ]];
+    client.hostStatusTimeout = [Client defaultHostStatusTimeout];
     
     // Operations
     // ----------

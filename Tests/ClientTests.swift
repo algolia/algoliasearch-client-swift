@@ -405,4 +405,55 @@ class ClientTests: OnlineTestCase {
         let memorizedIndex = client.indices.object(forKey: indexName as NSString)
         XCTAssertNil(memorizedIndex)
     }
+
+    /// Test that the status of down hosts is correctly remembered.
+    func testHostStatus() {
+        let expectation = self.expectation(description: #function)
+        
+        client.readHosts[0] = uniqueAlgoliaBizHost()
+        let maxIterations = 10
+        let requestTimeout = client.searchTimeout
+        client.hostStatusTimeout = requestTimeout * (Double(maxIterations) * 2) // ensure that the status will be kept long enough
+        
+        let startTime = Date()
+        client.listIndexes(completionHandler: {
+            (content, error) -> Void in
+            if let error = error {
+                XCTFail("\(error)")
+                expectation.fulfill()
+                return
+            }
+            // Check that the timeout has been hit.
+            let stopTime = Date()
+            let duration = stopTime.timeIntervalSince(startTime)
+            XCTAssert(duration >= requestTimeout)
+
+            // Check that the failing host's status has been remembered.
+            guard let status = self.client.hostStatuses[self.client.readHosts[0]] else { XCTFail(); expectation.fulfill(); return }
+            XCTAssertFalse(status.up)
+            
+            // Check that further iterations do not hit the timeout.
+            func doTest(iteration: Int) {
+                self.client.listIndexes(completionHandler: {
+                    (content, error) -> Void in
+                    if let error = error {
+                        XCTFail("\(error)")
+                        expectation.fulfill()
+                        return
+                    }
+                    if iteration + 1 < maxIterations {
+                        doTest(iteration: iteration + 1)
+                    } else {
+                        // Check that the timeout has not been hit for all requests.
+                        let stopTime = Date()
+                        let duration = stopTime.timeIntervalSince(startTime)
+                        XCTAssert(duration < requestTimeout * Double(maxIterations + 1))
+                        expectation.fulfill()
+                    }
+                })
+            }
+            doTest(iteration: 0)
+        })
+        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    }
 }
