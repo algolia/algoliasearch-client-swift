@@ -523,12 +523,15 @@ class QueryTests: XCTestCase {
     func test_insidePolygon() {
         let query1 = Query()
         XCTAssertNil(query1.insidePolygon)
-        let box = [LatLng(lat: 11.111111, lng: 22.222222), LatLng(lat: 33.333333, lng: 44.444444), LatLng(lat: -55.555555, lng: -66.666666)]
-        query1.insidePolygon = box
-        XCTAssertEqual(query1.insidePolygon!, box)
-        XCTAssertEqual(query1["insidePolygon"], "11.111111,22.222222,33.333333,44.444444,-55.555555,-66.666666")
+        let POLYGONS: [[LatLng]] = [
+            [LatLng(lat: 11.111111, lng: 22.222222), LatLng(lat: 33.333333, lng: 44.444444), LatLng(lat: -55.555555, lng: -66.666667)],
+            [LatLng(lat: -77.777777, lng: -88.888887), LatLng(lat: 11.111111, lng: 22.222222), LatLng(lat: 0, lng: 0)]
+        ]
+        query1.insidePolygon = POLYGONS
+        XCTAssertEqual(query1.insidePolygon! as NSObject, POLYGONS as NSObject)
+        XCTAssertEqual(query1["insidePolygon"], "[[11.111111,22.222222,33.333333,44.444444,-55.555555,-66.666667],[-77.777777,-88.888887,11.111111,22.222222,0,0]]")
         let query2 = Query.parse(query1.build())
-        XCTAssertEqual(query2.insidePolygon!, box)
+        XCTAssertEqual(query2.insidePolygon! as NSObject, POLYGONS as NSObject)
     }
 
     func test_tagFilters() {
