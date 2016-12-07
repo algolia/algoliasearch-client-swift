@@ -117,7 +117,9 @@
     query.aroundPrecision = [NSNumber numberWithInt:66];
     query.minimumAroundRadius = [NSNumber numberWithInt:666];
     query.insideBoundingBox = @[ [[GeoRect alloc] initWithP1:[[LatLng alloc] initWithLat:123.45 lng:67.89] p2:[[LatLng alloc] initWithLat:129.99 lng:69.99]] ];
-    query.insidePolygon = @[ [[LatLng alloc] initWithLat:123.45 lng:67.89], [[LatLng alloc] initWithLat:129.99 lng:69.99], [[LatLng alloc] initWithLat:0.0 lng:0.0] ];
+    query.insidePolygon = @[
+        @[ [[LatLng alloc] initWithLat:123.45 lng:67.89], [[LatLng alloc] initWithLat:129.99 lng:69.99], [[LatLng alloc] initWithLat:0.0 lng:0.0] ]
+    ];
 }
 
 - (void)testClient {

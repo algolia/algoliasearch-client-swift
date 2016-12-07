@@ -676,35 +676,40 @@ open class Query : AbstractQuery {
         }
     }
 
-    /// Search entries inside a given area defined by a set of points (defined by a minimum of 3 points).
-    /// You can pass several time the insidePolygon parameter to your query, the behavior will be a OR between all those polygons.
-    @objc public var insidePolygon: [LatLng]? {
-        // FIXME: Union cannot work with this implementation, as at most one occurrence per parameter is supported.
+    /// Search entries inside a given area defined by a union of polygons.
+    /// Each polygon must be defined by a minimum of 3 points.
+    @objc public var insidePolygon: [[LatLng]]? {
         get {
-            if let fields = self["insidePolygon"]?.components(separatedBy: ",") {
-                if fields.count % 2 == 0 && fields.count / 2 >= 3 {
-                    var result = [LatLng]()
-                    for i in 0..<(fields.count / 2) {
-                        if let lat = Double(fields[2 * i + 0]), let lng = Double(fields[2 * i + 1]) {
-                            result.append(LatLng(lat: lat, lng: lng))
-                        }
+            if let data = self["insidePolygon"]?.data(using: .utf8, allowLossyConversion: false),
+               let srcPolygons = (try? JSONSerialization.jsonObject(with: data, options: [])) as? [[Double]] {
+                var dstPolygons = [[LatLng]]()
+                for srcPolygon in srcPolygons {
+                    var dstPolygon = [LatLng]()
+                    if srcPolygon.count % 2 != 0 { continue }
+                    for i in 0 ..< srcPolygon.count / 2 {
+                        let point = LatLng(lat: srcPolygon[2 * i], lng: srcPolygon[2 * i + 1])
+                        dstPolygon.append(point)
                     }
-                    return result
+                    dstPolygons.append(dstPolygon)
                 }
+                return dstPolygons
             }
             return nil
         }
         set {
-            if newValue == nil {
-                self["insidePolygon"] = nil
-            } else {
-                assert(newValue!.count >= 3)
-                var components = [String]()
-                for point in newValue! {
-                    components.append(String(point.lat))
-                    components.append(String(point.lng))
+            if let srcPolygons = newValue {
+                var dstPolygons = [[Double]]()
+                for srcPolygon in srcPolygons {
+                    var dstPolygon = [Double]()
+                    for point in srcPolygon {
+                        dstPolygon.append(point.lat)
+                        dstPolygon.append(point.lng)
+                    }
+                    dstPolygons.append(dstPolygon)
                 }
-                self["insidePolygon"] = components.joined(separator: ",")
+                self["insidePolygon"] = AbstractQuery.buildJSONArray(dstPolygons)
+            } else {
+                self["insidePolygon"] = nil
             }
         }
     }
