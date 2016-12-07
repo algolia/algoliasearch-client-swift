@@ -673,4 +673,14 @@ class QueryTests: XCTestCase {
         XCTAssertNotNil(query1.alternativesAsExact)
         XCTAssertEqual(0, query1.alternativesAsExact?.count)
     }
+    
+    func test_responseFields() {
+        let query1 = Query()
+        XCTAssertNil(query1.responseFields)
+        query1.responseFields = ["foo", "bar"]
+        XCTAssertEqual(query1.responseFields!, ["foo", "bar"])
+        XCTAssertEqual(query1["responseFields"], "[\"foo\",\"bar\"]")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.responseFields!, ["foo", "bar"])
+    }
 }
