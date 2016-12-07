@@ -1760,9 +1760,9 @@ You can use several bounding boxes (OR) by passing more than 1 value.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC13AlgoliaSearch5Query13insidePolygonGSqGSaCS_6LatLng__"></a>
+                    <a name="/s:vC13AlgoliaSearch5Query13insidePolygonGSqGSaGSaCS_6LatLng___"></a>
                     <a name="//apple_ref/swift/Property/insidePolygon" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC13AlgoliaSearch5Query13insidePolygonGSqGSaCS_6LatLng__">insidePolygon</a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query13insidePolygonGSqGSaGSaCS_6LatLng___">insidePolygon</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1770,15 +1770,68 @@ You can use several bounding boxes (OR) by passing more than 1 value.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Search entries inside a given area defined by a set of points (defined by a minimum of 3 points).
-You can pass several time the insidePolygon parameter to your query, the behavior will be a OR between all those polygons.</p>
+                        <p>Search entries inside a given area defined by a union of polygons.
+Each polygon must be defined by a minimum of 3 points.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">insidePolygon</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/LatLng.html">LatLng</a></span><span class="p">]?</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">insidePolygon</span><span class="p">:</span> <span class="p">[[</span><span class="kt"><a href="../Classes/LatLng.html">LatLng</a></span><span class="p">]]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Advanced"></a>
+                <a name="//apple_ref/swift/Section/Advanced" class="dashAnchor"></a>
+                <a href="#/Advanced">
+                  <h3 class="section-name">Advanced</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query14responseFieldsGSqGSaSS__"></a>
+                    <a name="//apple_ref/swift/Property/responseFields" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query14responseFieldsGSqGSaSS__">responseFields</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Choose which fields the response will contain. Applies to search and browse queries.</p>
+
+<p>By default, all fields are returned. If this parameter is specified, only the fields explicitly listed will be
+returned, unless <code>*</code> is used, in which case all fields are returned. Specifying an empty list or unknown field
+names is an error.</p>
+
+<p>This parameter is mainly intended to limit the response size. For example, for complex queries, echoing of
+request parameters in the response&rsquo;s params field can be undesirable.</p>
+
+<p>Some fields cannot be filtered out:</p>
+
+<ul>
+<li><code>warning</code> message</li>
+<li><code>cursor</code> in browse queries</li>
+<li>fields triggered explicitly via <code><a href="../Classes/Query.html#/s:vC13AlgoliaSearch5Query14getRankingInfoGSqSb_">getRankingInfo</a></code></li>
+</ul>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">responseFields</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span></code></pre>
 
                         </div>
                       </div>

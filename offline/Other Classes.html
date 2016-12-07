@@ -231,6 +231,17 @@
 
 </div>
 
+<p><a href='#stateful-hosts' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='stateful-hosts'>Stateful hosts</h2></p>
+
+<p>In order to avoid hitting timeouts at every request when one or more hosts are not working properly (whatever the
+reason: DNS failure, no route to host, server down&hellip;), the client maintains a <strong>known status</strong> for each host.
+That status can be either <em>up</em>, <em>down</em> or <em>unknown</em>. Initially, all hosts are in the <em>unknown</em> state. Then a given
+host&rsquo;s status is updated whenever a request to it returns a response or an error.</p>
+
+<p>When a host is flagged as <em>down</em>, it will not be considered for subsequent requests. However, to avoid discarding
+hosts permanently, statuses are only remembered for a given timeframe, indicated by <code>hostStatusTimeout</code>. (You may
+adjust it as needed, although the default value <code>defaultHostStatusTimeout</code> should make sense for most applications.)</p>
+
                         <a href="Classes/AbstractClient.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">

@@ -181,6 +181,17 @@
 
 </div>
 
+<p><a href='#stateful-hosts' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='stateful-hosts'>Stateful hosts</h2></p>
+
+<p>In order to avoid hitting timeouts at every request when one or more hosts are not working properly (whatever the
+reason: DNS failure, no route to host, server down&hellip;), the client maintains a <strong>known status</strong> for each host.
+That status can be either <em>up</em>, <em>down</em> or <em>unknown</em>. Initially, all hosts are in the <em>unknown</em> state. Then a given
+host&rsquo;s status is updated whenever a request to it returns a response or an error.</p>
+
+<p>When a host is flagged as <em>down</em>, it will not be considered for subsequent requests. However, to avoid discarding
+hosts permanently, statuses are only remembered for a given timeframe, indicated by <code>hostStatusTimeout</code>. (You may
+adjust it as needed, although the default value <code>defaultHostStatusTimeout</code> should make sense for most applications.)</p>
+
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -372,6 +383,71 @@ Change them only if you know what you are doing.
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">writeHosts</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch14AbstractClient17hostStatusTimeoutSd"></a>
+                    <a name="//apple_ref/swift/Property/hostStatusTimeout" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch14AbstractClient17hostStatusTimeoutSd">hostStatusTimeout</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The timeout for host statuses.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">hostStatusTimeout</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="n"><a href="../Classes/AbstractClient.html#/s:ZvC13AlgoliaSearch14AbstractClient24defaultHostStatusTimeoutSd">defaultHostStatusTimeout</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Constant"></a>
+                <a name="//apple_ref/swift/Section/Constant" class="dashAnchor"></a>
+                <a href="#/Constant">
+                  <h3 class="section-name">Constant</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC13AlgoliaSearch14AbstractClient24defaultHostStatusTimeoutSd"></a>
+                    <a name="//apple_ref/swift/Variable/defaultHostStatusTimeout" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC13AlgoliaSearch14AbstractClient24defaultHostStatusTimeoutSd">defaultHostStatusTimeout</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The default timeout for host statuses.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">defaultHostStatusTimeout</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="mi">5</span> <span class="o">*</span> <span class="mi">60</span></code></pre>
 
                         </div>
                       </div>
