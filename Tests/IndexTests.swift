@@ -1039,9 +1039,7 @@ class IndexTests: OnlineTestCase {
     func testDNSTimeout() {
         let expectation = self.expectation(description: #function)
 
-        // The DNS lookup for any host in the `algolia.biz` domain will time-out.
-        // We generate a new host name every time to avoid any cache effect.
-        client.readHosts[0] = "swift-\(UInt32(NSDate().timeIntervalSince1970)).algolia.biz"
+        client.readHosts[0] = uniqueAlgoliaBizHost()
         
         client.listIndexes(completionHandler: {
             (content, error) -> Void in

@@ -51,9 +51,37 @@ import Foundation
 }
 
 
+/// Describes what is the last known status of a given API host.
+///
+internal struct HostStatus {
+    /// Whether the host is "up" or "down".
+    /// "Up" means it answers normally, "down" means that it doesn't. This does not distinguish between the different
+    /// kinds of retriable failures: it could be DNS resolution failure, no route to host, response timeout, or server 
+    /// error. A non-retriable failure (e.g. `400 Bad Request`) is not considered for the "down" state.
+    ///
+    var up: Bool
+
+    /// When the status was last modified.
+    /// This is normally the moment when the client receives the response (or error).
+    ///
+    var lastModified: Date
+}
+
+
 /// An abstract API client.
 ///
 /// + Warning: Not meant to be used directly. See `Client` or `PlacesClient` instead.
+///
+/// ## Stateful hosts
+///
+/// In order to avoid hitting timeouts at every request when one or more hosts are not working properly (whatever the
+/// reason: DNS failure, no route to host, server down...), the client maintains a **known status** for each host.
+/// That status can be either *up*, *down* or *unknown*. Initially, all hosts are in the *unknown* state. Then a given
+/// host's status is updated whenever a request to it returns a response or an error.
+///
+/// When a host is flagged as *down*, it will not be considered for subsequent requests. However, to avoid discarding
+/// hosts permanently, statuses are only remembered for a given timeframe, indicated by `hostStatusTimeout`. (You may
+/// adjust it as needed, although the default value `defaultHostStatusTimeout` should make sense for most applications.)
 ///
 @objc public class AbstractClient : NSObject {
     // MARK: Properties
@@ -125,6 +153,21 @@ import Foundation
         }
     }
     
+    /// The last known statuses of hosts.
+    /// If a host is absent from this dictionary, it means its status is unknown.
+    ///
+    /// + Note: Hosts are never removed from this dictionary, which is a potential memory leak in theory, but does not
+    ///   matter in practice, because (1) the host arrays are provided at init time and seldom updated and (2) very
+    ///   short anyway.
+    ///
+    internal var hostStatuses: [String: HostStatus] = [:]
+
+    /// The timeout for host statuses.
+    @objc public var hostStatusTimeout: TimeInterval = defaultHostStatusTimeout
+
+    /// GCD queue to synchronize access to `hostStatuses`.
+    internal var hostStatusQueue = DispatchQueue(label: "AbstractClient.hostStatusQueue")
+    
     // NOTE: Not constant only for the sake of mocking during unit tests.
     var session: URLSession
     
@@ -136,6 +179,11 @@ import Foundation
     
     /// Dispatch queue used to run completion handlers.
     internal var completionQueue = DispatchQueue.main
+    
+    // MARK: Constant
+    
+    /// The default timeout for host statuses.
+    @objc public static let defaultHostStatusTimeout: TimeInterval = 5 * 60
     
     // MARK: Initialization
     
@@ -241,7 +289,39 @@ import Foundation
     /// Create a request with this client's settings.
     func newRequest(method: HTTPMethod, path: String, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, completion: CompletionHandler? = nil) -> Request {
         let currentTimeout = isSearchQuery ? searchTimeout : timeout
-        let request = Request(session: session, method: method, hosts: hostnames, firstHostIndex: 0, path: path, headers: headers, jsonBody: body, timeout: currentTimeout, completion:  completion)
+        let request = Request(client: self, method: method, hosts: hostnames, firstHostIndex: 0, path: path, headers: headers, jsonBody: body, timeout: currentTimeout, completion:  completion)
         return request
+    }
+
+    /// Filter a list of hosts according to the currently known statuses, keeping only those that are up or unknown.
+    ///
+    /// - parameter hosts: The list of hosts to filter.
+    /// - returns: A filtered list of hosts, or the original list if the result of filtering would be empty.
+    ///
+    func upOrUnknownHosts(_ hosts: [String]) -> [String] {
+        assert(!hosts.isEmpty)
+        let now = Date()
+        let filteredHosts = hostStatusQueue.sync {
+            return hosts.filter { (host) -> Bool in
+                if let status = self.hostStatuses[host] { // known status
+                    return status.up || now.timeIntervalSince(status.lastModified) >= self.hostStatusTimeout // include if up or obsolete
+                } else { // unknown status
+                    return true // always include
+                }
+            }
+        }
+        // Avoid returning an empty list.
+        return filteredHosts.isEmpty ? hosts : filteredHosts
+    }
+
+    /// Update the status for a given host.
+    ///
+    /// - parameter host: The name of the host to update.
+    /// - parameter up: Whether the host is currently up (true) or down (false).
+    ///
+    func updateHostStatus(host: String, up: Bool) {
+        hostStatusQueue.sync {
+            self.hostStatuses[host] = HostStatus(up: up, lastModified: Date())
+        }
     }
 }
