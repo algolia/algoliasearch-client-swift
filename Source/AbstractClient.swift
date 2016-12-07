@@ -183,7 +183,7 @@ internal struct HostStatus {
     // MARK: Constant
     
     /// The default timeout for host statuses.
-    @objc public static let defaultHostStatusTimeout: TimeInterval = 60
+    @objc public static let defaultHostStatusTimeout: TimeInterval = 5 * 60
     
     // MARK: Initialization
     
