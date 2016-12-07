@@ -708,6 +708,28 @@ open class Query : AbstractQuery {
             }
         }
     }
+    
+    // MARK: Advanced
+    
+    /// Choose which fields the response will contain. Applies to search and browse queries.
+    ///
+    /// By default, all fields are returned. If this parameter is specified, only the fields explicitly listed will be
+    /// returned, unless `*` is used, in which case all fields are returned. Specifying an empty list or unknown field
+    /// names is an error.
+    ///
+    /// This parameter is mainly intended to limit the response size. For example, for complex queries, echoing of
+    /// request parameters in the response's params field can be undesirable.
+    ///
+    /// Some fields cannot be filtered out:
+    ///
+    /// - `warning` message
+    /// - `cursor` in browse queries
+    /// - fields triggered explicitly via `getRankingInfo`
+    ///
+    @objc public var responseFields: [String]? {
+        get { return Query.parseStringArray(self["responseFields"]) }
+        set { self["responseFields"] = Query.buildJSONArray(newValue) }
+    }
 
     // MARK: - Initialization
 
