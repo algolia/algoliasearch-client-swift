@@ -1,6 +1,23 @@
 Change Log
 ==========
 
+## 4.5 (2016-12-07)
+
+**Note:** *This new version brings a major improvement in the request retry logic (fallback mechanism used when one or more API hosts are down or unreachable). For that reason, an upgrade to this or a later version is strongly recommended for all users of this API Client.*
+
+### New features
+
+- (#158) Support the `responseFields` query parameter
+
+### Bug fixes
+
+- (#157) New retry logic: stateful host statuses. This should help largely minimize the impact of DNS resolution failures or other long-lasting network problems. Note that the timeout for statuses can be controlled via the `AbstractClient.hostStatusTimeout` property.
+
+### Other changes
+
+- Support more than one polygon in the `insidePolygon` query parameter. **Warning:** This breaks backward-compatibility for this specific parameter.
+
+
 ## 4.4 (2016-11-18)
 
 ### New features
