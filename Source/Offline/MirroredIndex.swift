@@ -79,6 +79,53 @@ import Foundation
 /// + Note: The strategy applies both to `search(...)` and `searchDisjunctiveFaceting(...)`.
 ///
 ///
+/// ## Bootstrapping
+///
+/// Before the first sync has successfully completed, a mirrored index is not available offline, because it has simply
+/// no data to search in yet. In most cases, this is not a problem: the app will sync as soon as possible, so unless
+/// the device is offline when the app is started for the first time, or unless search is required right after the
+/// first launch, the user should not notice anything.
+///
+/// However, in some cases, you might need to have offline data available as soon as possible. To achieve that,
+/// `MirroredIndex` provides a **bootstrapping** feature.
+///
+/// Bootstrapping consists in prepackaging with your app the data necessary to build your index, in JSON format;
+/// namely:
+///
+/// - settings (one file)
+/// - objects (as many files as needed, each containing an array of objects)
+///
+/// Then, upon application startup, call the `bootstrap(...)` method. This will check if data already exists for the
+/// mirror and, if not, populate the mirror with the provided data. Notifications will be fired just like for a normal
+/// sync, allowing you to monitor progress. It also guarantees that a sync will not be started in the meantime, thus
+/// avoiding race conditions.
+///
+/// ### Discussion
+///
+/// + Warning: We strongly advise against prepackaging index files. While it may work in some cases, Algolia Offline
+///   makes no guarantee whatsoever that the index file format will remain backward-compatible forever, nor that it
+///   is independent of the hardware architecture (e.g. 32 bits vs 64 bits, or Little Endian vs Big Endian). Instead,
+///   always use the official bootstrapping feature.
+///
+/// While bootstrapping involves building the offline index on the device, and therefore incurs a small delay before
+/// the mirror is actually usable, using plain JSON offers a few advantages compared to prepackaging the index file
+/// itself:
+///
+/// - You only need to ship the raw object data, which is smaller than shipping an entire index file, which contains
+///   both the raw data *and* indexing metadata.
+///
+/// - Plain JSON compresses well with standard compression techniques like GZip, whereas an index file has a binary
+///   format which doesn't compress very efficiently.
+///
+/// - Build automation is facilitated: you can easily extract the required data from your back-end, whereas building
+///   an index would involve running the app on each mobile platform as part of your build process and capturing the
+///   filesystem.
+///
+/// Also, the build process is purposedly single-threaded across all indices, which means that on most modern devices
+/// with multi-core CPUs, the impact of bootstrapping on the app's performance will be very moderate, especially
+/// regarding UI responsiveness.
+///
+///
 /// ## Limitations
 ///
 /// Algolia's core features are fully supported offline, including (but not limited to): **ranking**,
@@ -101,16 +148,9 @@ import Foundation
 ///
 @objc public class MirroredIndex : Index {
     
+    // ----------------------------------------------------------------------
     // MARK: Constants
-    
-    /// Notification sent when the sync has started.
-    @objc public static let SyncDidStartNotification = Notification.Name("AlgoliaSearch.MirroredIndex.SyncDidStartNotification")
-    
-    /// Notification sent when the sync has finished.
-    @objc public static let SyncDidFinishNotification = Notification.Name("AlgoliaSearch.MirroredIndex.SyncDidFinishNotification")
-    
-    /// Notification user info key used to pass the error, when an error occurred during the sync.
-    @objc public static let syncErrorKey = "AlgoliaSearch.MirroredIndex.syncErrorKey"
+    // ----------------------------------------------------------------------
     
     /// Default minimum delay between two syncs.
     @objc public static let defaultDelayBetweenSyncs: TimeInterval = 60 * 60 * 24 // 1 day
@@ -457,6 +497,43 @@ import Foundation
             }
             NotificationCenter.default.post(name: MirroredIndex.SyncDidFinishNotification, object: self, userInfo: userInfo)
         }
+    }
+    
+    // ----------------------------------------------------------------------
+    // MARK: - Bootstrapping
+    // ----------------------------------------------------------------------
+    
+    /// Bootstrap the local mirror with local data.
+    /// This data is typically prepackaged with the application as resources.
+    ///
+    /// + Note: This method will do nothing if offline data is already available, making it safe to call at every
+    ///   application launch.
+    ///
+    /// - parameter settingsFile: Absolute path to the file containing the index settings, in JSON format.
+    /// - parameter objectFiles: Absolute path(s) to the file(s) containing the objects. Each file must contain an
+    ///   array of objects, in JSON format.
+    ///
+    @objc public func bootstrap(settingsFile: String, objectFiles: [String]) {
+        offlineClient.buildQueue.addOperation(BlockOperation() {
+            // Abort immediately if data already exists.
+            if self.localIndex.exists() {
+                return
+            }
+            // Notify observers.
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: MirroredIndex.BootstrapDidStartNotification, object: self)
+            }
+            // Build the index.
+            let status = self.localIndex.build(settingsFile: settingsFile, objectFiles: objectFiles, clearIndex: true, deletedObjectIDs: nil)
+            var userInfo: [String: Any] = [:]
+            if status != 200 {
+                userInfo[MirroredIndex.errorKey] = HTTPError(statusCode: Int(status), message: "Failed to build local index")
+            }
+            // Notify observers.
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(name: MirroredIndex.BootstrapDidFinishNotification, object: self, userInfo: userInfo)
+            }
+        })
     }
     
     // ----------------------------------------------------------------------
@@ -823,4 +900,27 @@ import Foundation
         let searchResults = localIndex.browse(query.build())
         return OfflineClient.parseResponse(searchResults)
     }
+    
+    // ----------------------------------------------------------------------
+    // MARK: - Notifications
+    // ----------------------------------------------------------------------
+
+    /// Notification sent when the sync has started.
+    @objc public static let SyncDidStartNotification = Notification.Name("AlgoliaSearch.MirroredIndex.SyncDidStartNotification")
+    
+    /// Notification sent when the sync has finished.
+    @objc public static let SyncDidFinishNotification = Notification.Name("AlgoliaSearch.MirroredIndex.SyncDidFinishNotification")
+    
+    /// Notification user info key used to pass the error, when an error occurred during the sync or bootstrap.
+    @objc public static let errorKey = "AlgoliaSearch.MirroredIndex.errorKey"
+
+    @available(*, deprecated: 4.6, message: "Please use `errorKey` instead")
+    @objc public static let syncErrorKey = errorKey
+    
+    /// Notification sent when bootstrapping has started.
+    /// This notification is not sent if bootstrapping has been ignored because offline data is already available.
+    @objc public static let BootstrapDidStartNotification = Notification.Name("AlgoliaSearch.MirroredIndex.BootstrapDidStartNotification")
+    
+    /// Notification sent when bootstrapping has finished.
+    @objc public static let BootstrapDidFinishNotification = Notification.Name("AlgoliaSearch.MirroredIndex.BootstrapDidFinishNotification")
 }
