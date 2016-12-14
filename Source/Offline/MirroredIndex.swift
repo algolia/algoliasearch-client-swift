@@ -522,8 +522,8 @@ import Foundation
             // WARNING: All callbacks must run sequentially; we cannot afford race conditions between them.
             // Since most methods use the main thread for callbacks, we have to use it as well.
             
-            // If the strategy is "offline only", well, go offline straight away.
-            if index.requestStrategy == .offlineOnly {
+            // If the strategy is "offline only" or if connectivity is unavailable, go offline straight away.
+            if index.requestStrategy == .offlineOnly || index.offlineClient.useReachability && !index.offlineClient.reachability.isReachable() {
                 startOffline()
             }
             // Otherwise, always launch an online request.
