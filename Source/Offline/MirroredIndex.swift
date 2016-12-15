@@ -523,7 +523,7 @@ import Foundation
             // Since most methods use the main thread for callbacks, we have to use it as well.
             
             // If the strategy is "offline only" or if connectivity is unavailable, go offline straight away.
-            if index.requestStrategy == .offlineOnly || index.offlineClient.useReachability && !index.offlineClient.reachability.isReachable() {
+            if index.requestStrategy == .offlineOnly || !index.client.shouldMakeNetworkCall() {
                 startOffline()
             }
             // Otherwise, always launch an online request.

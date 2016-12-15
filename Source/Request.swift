@@ -128,6 +128,15 @@ internal class Request: AsyncOperationWithCompletion {
         if _cancelled {
             return
         }
+        
+        // If there is no network reachability, don't even attempt to perform the request.
+        #if !os(watchOS)
+            if !client.shouldMakeNetworkCall() {
+                self.callCompletion(content: nil, error: NSError(domain: NSURLErrorDomain, code: NSURLErrorNotConnectedToInternet, userInfo: nil))
+                return
+            }
+        #endif // !os(watchOS)
+        
         let currentHostIndex = nextHostIndex
         let request = createRequest(currentHostIndex)
         nextHostIndex = (nextHostIndex + 1) % hosts.count

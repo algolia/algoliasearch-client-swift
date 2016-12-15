@@ -71,15 +71,6 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     /// Path to the root directory for temporary files.
     var tmpDir: String
 
-    /// Network reachability tester.
-    internal let reachability = NetworkReachability()
-    
-    /// Whether to use network reachability to decide whether to perform online requests. Default = true.
-    /// When false, online requests will always be attempted (if the strategy involves them), even if the network does
-    /// not seem to be reachable.
-    ///
-    @objc public var useReachability: Bool = true
-
     // MARK: Initialization
     
     /// Create a new offline-capable Algolia Search client.
