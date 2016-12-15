@@ -438,7 +438,7 @@ public struct IOError: CustomNSError {
         return self.multipleQueriesSync(queries, strategy: strategy?.rawValue)
     }
     
-    // MARK: - Transaction management
+    // MARK: - Write operations
     
     /// A transaction to update the index.
     ///
@@ -944,7 +944,17 @@ public struct IOError: CustomNSError {
     }
     
     // MARK: - Utils
-    
+
+    /// Test if this index has offline data on disk.
+    ///
+    /// + Warning: This method is synchronous!
+    ///
+    /// - returns: `true` if data exists on disk for this index, `false` otherwise.
+    ///
+    @objc public func hasOfflineData() -> Bool {
+        return localIndex.exists()
+    }
+
     /// Call a completion handler on the main queue.
     ///
     /// - parameter completionHandler: The completion handler to call. If `nil`, this function does nothing.

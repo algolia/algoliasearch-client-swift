@@ -51,6 +51,8 @@
     OfflineClient* client = [[OfflineClient alloc] initWithAppID:@"APPID" apiKey:@"APIKEY"];
     [client enableOfflineModeWithLicenseKey:@"LICENSE_KEY"];
 
+    [client hasOfflineDataWithIndexName:@"name"];
+
     // Operations
     // ----------
     [client listOfflineIndexes:^(NSDictionary<NSString*,id>* content, NSError* error) {
@@ -148,6 +150,7 @@
 
     // Write operations (sync)
     // ------------------------
+    [index hasOfflineData];
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0), ^{
         NSError* error = nil;
         WriteTransaction* transaction = [index newTransaction];
@@ -166,6 +169,13 @@
         [transaction commitSyncAndReturnError:&error];
         XCTAssertNil(error);
     });
+}
+
+- (void)testMirroredIndex {
+    OfflineClient* client = [[OfflineClient alloc] initWithAppID:@"APPID" apiKey:@"APIKEY"];
+    MirroredIndex* index = [client indexWithName:@"INDEX_NAME"];
+
+    [index hasOfflineData];
 }
 
 @end

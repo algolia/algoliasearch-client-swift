@@ -500,7 +500,7 @@ import Foundation
     }
     
     // ----------------------------------------------------------------------
-    // MARK: - Bootstrapping
+    // MARK: - Managing offline data
     // ----------------------------------------------------------------------
     
     /// Bootstrap the local mirror with local data.
@@ -534,6 +534,16 @@ import Foundation
                 NotificationCenter.default.post(name: MirroredIndex.BootstrapDidFinishNotification, object: self, userInfo: userInfo)
             }
         })
+    }
+
+    /// Test if this index has offline data on disk.
+    ///
+    /// + Warning: This method is synchronous!
+    ///
+    /// - returns: `true` if data exists on disk for this index, `false` otherwise.
+    ///
+    @objc public func hasOfflineData() -> Bool {
+        return localIndex.exists()
     }
     
     // ----------------------------------------------------------------------
