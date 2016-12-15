@@ -941,6 +941,78 @@ import Foundation
     }
     
     // ----------------------------------------------------------------------
+    // MARK: - Getting individual objects
+    // ----------------------------------------------------------------------
+    
+    /// Get several objects from this index, optionally restricting the retrieved content.
+    /// Same semantics as `Index.getObjects(withIDs:attributesToRetrieve:completionHandler:)`.
+    ///
+    @objc @discardableResult override public func getObjects(withIDs objectIDs: [String], attributesToRetrieve: [String]? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        if (!mirrored) {
+            return super.getObjects(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+        } else {
+            let operation = OnlineOfflineGetObjectsOperation(index: self, objectIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+            offlineClient.mixedRequestQueue.addOperation(operation)
+            return operation
+        }
+    }
+
+    private class OnlineOfflineGetObjectsOperation: OnlineOfflineOperation {
+        let objectIDs: [String]
+        let attributesToRetrieve: [String]?
+        
+        init(index: MirroredIndex, objectIDs: [String], attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) {
+            self.objectIDs = objectIDs
+            self.attributesToRetrieve = attributesToRetrieve
+            super.init(index: index, completionHandler: completionHandler)
+        }
+        
+        override func startOnlineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
+            return index.getObjectsOnline(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+        }
+        
+        override func startOfflineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
+            return index.getObjectsOffline(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+        }
+    }
+    
+    /// Get individual objects, explicitly targeting the online API, and not the offline mirror.
+    @objc
+    @discardableResult public func getObjectsOnline(withIDs objectIDs: [String], attributesToRetrieve: [String]? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        return super.getObjects(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: {
+            (content, error) in
+            // Tag results as having a remote origin.
+            var taggedContent: JSONObject? = content
+            if taggedContent != nil {
+                taggedContent?[MirroredIndex.jsonKeyOrigin] = MirroredIndex.jsonValueOriginRemote
+            }
+            completionHandler(taggedContent, error)
+        })
+    }
+    
+    /// Get individual objects, explicitly targeting the offline mirror, and not the online API.
+    @objc
+    @discardableResult public func getObjectsOffline(withIDs objectIDs: [String], attributesToRetrieve: [String]? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        assert(self.mirrored, "Mirroring not activated on this index")
+        let operation = AsyncBlockOperation(completionHandler: completionHandler) {
+            return self._getObjectsOffline(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve)
+        }
+        operation.completionQueue = client.completionQueue
+        self.offlineClient.searchQueue.addOperation(operation)
+        return operation
+    }
+    
+    /// Get individual objects from the local mirror synchronously.
+    ///
+    private func _getObjectsOffline(withIDs objectIDs: [String], attributesToRetrieve: [String]?) -> (content: JSONObject?, error: Error?) {
+        assert(!Thread.isMainThread) // make sure it's run in the background
+        let params = Query()
+        params.attributesToRetrieve = attributesToRetrieve
+        let searchResults = localIndex.getObjects(withIDs: objectIDs, parameters: params.build())
+        return OfflineClient.parseResponse(searchResults)
+    }
+    
+    // ----------------------------------------------------------------------
     // MARK: - Notifications
     // ----------------------------------------------------------------------
 
