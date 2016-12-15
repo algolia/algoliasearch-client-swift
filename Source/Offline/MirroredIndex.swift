@@ -519,21 +519,50 @@ import Foundation
             if self.localIndex.exists() {
                 return
             }
-            // Notify observers.
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(name: MirroredIndex.BootstrapDidStartNotification, object: self)
-            }
-            // Build the index.
-            let status = self.localIndex.build(settingsFile: settingsFile, objectFiles: objectFiles, clearIndex: true, deletedObjectIDs: nil)
-            var userInfo: [String: Any] = [:]
-            if status != 200 {
-                userInfo[MirroredIndex.errorKey] = HTTPError(statusCode: Int(status), message: "Failed to build local index")
-            }
-            // Notify observers.
-            DispatchQueue.main.async {
-                NotificationCenter.default.post(name: MirroredIndex.BootstrapDidFinishNotification, object: self, userInfo: userInfo)
-            }
+            self._buildOffline(settingsFile: settingsFile, objectFiles: objectFiles)
         })
+    }
+
+    /// Replace the the local mirror with local data.
+    ///
+    /// + Note: Contrary to `bootstrap(...)`, this method will *always* replace the local mirror with the specified
+    ///         data.
+    ///
+    /// - parameter settingsFile: Absolute path to the file containing the index settings, in JSON format.
+    /// - parameter objectFiles: Absolute path(s) to the file(s) containing the objects. Each file must contain an
+    ///   array of objects, in JSON format.
+    ///
+    @objc public func buildOffline(settingsFile: String, objectFiles: [String]) {
+        offlineClient.buildQueue.addOperation(BlockOperation() {
+            self._buildOffline(settingsFile: settingsFile, objectFiles: objectFiles)
+        })
+    }
+    
+    /// Build the offline mirror.
+    ///
+    /// + Warning: This method is synchronous: it blocks until completion.
+    ///
+    /// - parameter settingsFile: Absolute path to the file containing the index settings, in JSON format.
+    /// - parameter objectFiles: Absolute path(s) to the file(s) containing the objects. Each file must contain an
+    ///   array of objects, in JSON format.
+    ///
+    private func _buildOffline(settingsFile: String, objectFiles: [String]) {
+        assert(!Thread.isMainThread) // make sure it's run in the background
+        assert(OperationQueue.current == offlineClient.buildQueue) // ensure serial calls
+        // Notify observers.
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: MirroredIndex.BootstrapDidStartNotification, object: self)
+        }
+        // Build the index.
+        let status = self.localIndex.build(settingsFile: settingsFile, objectFiles: objectFiles, clearIndex: true, deletedObjectIDs: nil)
+        var userInfo: [String: Any] = [:]
+        if status != 200 {
+            userInfo[MirroredIndex.errorKey] = HTTPError(statusCode: Int(status), message: "Failed to build local index")
+        }
+        // Notify observers.
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: MirroredIndex.BootstrapDidFinishNotification, object: self, userInfo: userInfo)
+        }
     }
 
     /// Test if this index has offline data on disk.

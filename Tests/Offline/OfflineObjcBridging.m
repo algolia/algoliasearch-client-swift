@@ -176,6 +176,8 @@
     MirroredIndex* index = [client indexWithName:@"INDEX_NAME"];
 
     [index hasOfflineData];
+    [index bootstrapWithSettingsFile:@"settings.json" objectFiles:@[ @"objects.json" ]];
+    [index buildOfflineWithSettingsFile:@"settings.json" objectFiles:@[ @"objects.json" ]];
 }
 
 @end
