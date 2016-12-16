@@ -175,7 +175,7 @@ import Foundation
     }
     
     /// The local index mirroring this remote index (lazy instantiated, only if mirroring is activated).
-    lazy var localIndex: LocalIndex = LocalIndex(dataDir: self.offlineClient.rootDataDir, appID: self.client.appID, indexName: self.name)
+    var localIndex: LocalIndex!
     
     /// The mirrored index settings.
     let mirrorSettings = MirrorSettings()
@@ -186,10 +186,21 @@ import Foundation
             if (mirrored) {
                 do {
                     try FileManager.default.createDirectory(atPath: self.indexDataDir, withIntermediateDirectories: true, attributes: nil)
+                    // Lazy instantiate the local index.
+                    self.synchronized {
+                        if (self.localIndex == nil) {
+                            self.localIndex = LocalIndex(dataDir: self.offlineClient.rootDataDir, appID: self.client.appID, indexName: self.name)
+                        }
+                    }
                 } catch _ {
                     // Ignore
                 }
                 mirrorSettings.load(self.mirrorSettingsFilePath)
+            } else {
+                // Release the local index.
+                self.synchronized {
+                    self.localIndex = nil
+                }
             }
         }
     }
