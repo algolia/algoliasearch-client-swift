@@ -10,6 +10,6 @@ target "AlgoliaSearch-Offline-iOS" do
     common_deps
 end
 
-target "AlgoliaSearch-Offline-iOS Tests" do
+target "AlgoliaSearch-Offline-iOS-Tests" do
     common_deps
 end

@@ -180,7 +180,7 @@
 
 /* Begin PBXFileReference section */
 		023CDD2C3787987952D42EF3 /* Pods-AlgoliaSearch-Offline-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch-Offline-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS/Pods-AlgoliaSearch-Offline-iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		09F19900C9020ABB205059D3 /* Pods-AlgoliaSearch-Offline-iOS Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch-Offline-iOS Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS Tests/Pods-AlgoliaSearch-Offline-iOS Tests.release.xcconfig"; sourceTree = "<group>"; };
+		338B6F8A06C1FD27C2AFCE17 /* Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS-Tests/Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig"; sourceTree = "<group>"; };
 		56CE2ADBC0FD4C74E49C5EAB /* Pods-AlgoliaSearch-Offline-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch-Offline-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS/Pods-AlgoliaSearch-Offline-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		5D09E1DB1AC0773A00B799A6 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		5D44D0261B362648008369AC /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
@@ -197,6 +197,7 @@
 		5DB2513D1AAD9EE300945339 /* AlgoliaSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlgoliaSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DB251471AAD9EE400945339 /* AlgoliaSearch iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AlgoliaSearch iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DECA2D91A960BC5001A6088 /* Index.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Index.swift; sourceTree = "<group>"; };
+		5E6CE9BF44D9DA7D61A5AB03 /* Pods-AlgoliaSearch-Offline-iOS-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch-Offline-iOS-Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS-Tests/Pods-AlgoliaSearch-Offline-iOS-Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		62AD92C0BDA001803B5786C0 /* Pods_AlgoliaSearch_Offline_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlgoliaSearch_Offline_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC01E66C1CA43CEE0067670B /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		BC09F7761CAE743900ABB395 /* BrowseIterator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseIterator.swift; sourceTree = "<group>"; };
@@ -227,14 +228,13 @@
 		BCD57D1E1D89947500C5DE68 /* DisjunctiveFaceting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisjunctiveFaceting.swift; sourceTree = "<group>"; };
 		BCD57D241D89970D00C5DE68 /* MultipleQueryEmulator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultipleQueryEmulator.swift; sourceTree = "<group>"; };
 		BCD57D251D89970D00C5DE68 /* OfflineIndex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineIndex.swift; sourceTree = "<group>"; };
-		BCD57D2C1D89B12E00C5DE68 /* AlgoliaSearch-Offline-iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AlgoliaSearch-Offline-iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BCD57D2C1D89B12E00C5DE68 /* AlgoliaSearch-Offline-iOS-Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AlgoliaSearch-Offline-iOS-Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD57D391D89B1EA00C5DE68 /* OfflineClientTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineClientTests.swift; sourceTree = "<group>"; };
 		BCD57D3A1D89B1EA00C5DE68 /* OfflineIndexTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineIndexTests.swift; sourceTree = "<group>"; };
 		BCD57D3B1D89B1EA00C5DE68 /* OfflineTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineTestCase.swift; sourceTree = "<group>"; };
 		BCDA73771CA546800082B197 /* NetworkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
 		BCDA737D1CA555070082B197 /* MockURLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
 		BCFC281B1D92660C00BFE0A0 /* MirroredIndexTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MirroredIndexTests.swift; sourceTree = "<group>"; };
-		DD81F7D1CCD1D99E06CA0B7B /* Pods-AlgoliaSearch-Offline-iOS Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch-Offline-iOS Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS Tests/Pods-AlgoliaSearch-Offline-iOS Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		F52EEAD0E1031BA77193C0AF /* Pods_AlgoliaSearch_Offline_iOS_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlgoliaSearch_Offline_iOS_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -342,7 +342,7 @@
 				BCD1F5531CC61C8D0006E227 /* AlgoliaSearch tvOS Tests.xctest */,
 				BC4BD2931D54E48900170ECC /* AlgoliaSearch.framework */,
 				BC23A6EC1D63539A00DF9034 /* AlgoliaSearch.framework */,
-				BCD57D2C1D89B12E00C5DE68 /* AlgoliaSearch-Offline-iOS Tests.xctest */,
+				BCD57D2C1D89B12E00C5DE68 /* AlgoliaSearch-Offline-iOS-Tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -415,8 +415,8 @@
 			children = (
 				023CDD2C3787987952D42EF3 /* Pods-AlgoliaSearch-Offline-iOS.debug.xcconfig */,
 				56CE2ADBC0FD4C74E49C5EAB /* Pods-AlgoliaSearch-Offline-iOS.release.xcconfig */,
-				DD81F7D1CCD1D99E06CA0B7B /* Pods-AlgoliaSearch-Offline-iOS Tests.debug.xcconfig */,
-				09F19900C9020ABB205059D3 /* Pods-AlgoliaSearch-Offline-iOS Tests.release.xcconfig */,
+				5E6CE9BF44D9DA7D61A5AB03 /* Pods-AlgoliaSearch-Offline-iOS-Tests.debug.xcconfig */,
+				338B6F8A06C1FD27C2AFCE17 /* Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -640,9 +640,9 @@
 			productReference = BCD1F5531CC61C8D0006E227 /* AlgoliaSearch tvOS Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		BCD57D2B1D89B12E00C5DE68 /* AlgoliaSearch-Offline-iOS Tests */ = {
+		BCD57D2B1D89B12E00C5DE68 /* AlgoliaSearch-Offline-iOS-Tests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = BCD57D361D89B12E00C5DE68 /* Build configuration list for PBXNativeTarget "AlgoliaSearch-Offline-iOS Tests" */;
+			buildConfigurationList = BCD57D361D89B12E00C5DE68 /* Build configuration list for PBXNativeTarget "AlgoliaSearch-Offline-iOS-Tests" */;
 			buildPhases = (
 				0ED0CB692FFE96DE2E10E86A /* [CP] Check Pods Manifest.lock */,
 				BCD57D281D89B12E00C5DE68 /* Sources */,
@@ -656,9 +656,9 @@
 			dependencies = (
 				BCD57D331D89B12E00C5DE68 /* PBXTargetDependency */,
 			);
-			name = "AlgoliaSearch-Offline-iOS Tests";
+			name = "AlgoliaSearch-Offline-iOS-Tests";
 			productName = AlgoliaSearchTests;
-			productReference = BCD57D2C1D89B12E00C5DE68 /* AlgoliaSearch-Offline-iOS Tests.xctest */;
+			productReference = BCD57D2C1D89B12E00C5DE68 /* AlgoliaSearch-Offline-iOS-Tests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -724,7 +724,7 @@
 				BCD1F5491CC61C8D0006E227 /* AlgoliaSearch tvOS */,
 				BCD1F5521CC61C8D0006E227 /* AlgoliaSearch tvOS Tests */,
 				BC4BD2801D54E48900170ECC /* AlgoliaSearch-Offline-iOS */,
-				BCD57D2B1D89B12E00C5DE68 /* AlgoliaSearch-Offline-iOS Tests */,
+				BCD57D2B1D89B12E00C5DE68 /* AlgoliaSearch-Offline-iOS-Tests */,
 				BC23A6EB1D63539A00DF9034 /* AlgoliaSearch watchOS */,
 			);
 		};
@@ -847,7 +847,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS Tests/Pods-AlgoliaSearch-Offline-iOS Tests-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS-Tests/Pods-AlgoliaSearch-Offline-iOS-Tests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FFB15CD83AE3ED3EF70265E7 /* [CP] Embed Pods Frameworks */ = {
@@ -862,7 +862,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS Tests/Pods-AlgoliaSearch-Offline-iOS Tests-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS-Tests/Pods-AlgoliaSearch-Offline-iOS-Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1528,7 +1528,7 @@
 		};
 		BCD57D341D89B12E00C5DE68 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DD81F7D1CCD1D99E06CA0B7B /* Pods-AlgoliaSearch-Offline-iOS Tests.debug.xcconfig */;
+			baseConfigurationReference = 5E6CE9BF44D9DA7D61A5AB03 /* Pods-AlgoliaSearch-Offline-iOS-Tests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -1550,7 +1550,7 @@
 		};
 		BCD57D351D89B12E00C5DE68 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 09F19900C9020ABB205059D3 /* Pods-AlgoliaSearch-Offline-iOS Tests.release.xcconfig */;
+			baseConfigurationReference = 338B6F8A06C1FD27C2AFCE17 /* Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -1654,7 +1654,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BCD57D361D89B12E00C5DE68 /* Build configuration list for PBXNativeTarget "AlgoliaSearch-Offline-iOS Tests" */ = {
+		BCD57D361D89B12E00C5DE68 /* Build configuration list for PBXNativeTarget "AlgoliaSearch-Offline-iOS-Tests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				BCD57D341D89B12E00C5DE68 /* Debug */,
