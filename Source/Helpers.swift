@@ -120,6 +120,23 @@ extension Date {
     }
 }
 
+// MARK: - Thread synchronization
+
+extension NSObject {
+    /// Equivalent of Objective-C's `@synchronized` statement.
+    /// Actually leverages the same Objective-C runtime feature (this is why it's only available on `NSObject`).
+    ///
+    /// - paremeter block: Block to be executed serially on the object.
+    ///
+    func synchronized(_ block: () -> ()) {
+        objc_sync_enter(self)
+        defer {
+            objc_sync_exit(self)
+        }
+        block()
+    }
+}
+
 // MARK: - Miscellaneous
 
 /// The operating system's name.

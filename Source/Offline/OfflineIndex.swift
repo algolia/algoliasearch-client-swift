@@ -132,7 +132,7 @@ public struct IOError: CustomNSError {
     @objc public let client: OfflineClient
 
     /// The local index (lazy instantiated).
-    lazy var localIndex: LocalIndex = LocalIndex(dataDir: self.client.rootDataDir, appID: self.client.appID, indexName: self.name)
+    var localIndex: LocalIndex
 
     /// Queue used to run transaction bodies (but not the build).
     private let transactionQueue: OperationQueue
@@ -155,6 +155,7 @@ public struct IOError: CustomNSError {
         self.name = name
         self.transactionQueue = OperationQueue()
         self.transactionQueue.maxConcurrentOperationCount = 1
+        self.localIndex = LocalIndex(dataDir: self.client.rootDataDir, appID: self.client.appID, indexName: self.name)
     }
     
     override public var description: String {
