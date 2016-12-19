@@ -211,4 +211,60 @@ class MirroredIndexTests: OfflineTestCase {
         }
         waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
     }
+    
+    func testBuildOffline() {
+        let expectation_buildStart = self.expectation(description: "buildStart")
+        let expectation_buildFinish = self.expectation(description: "buildFinish")
+        let expectation_search = self.expectation(description: "search")
+
+        // Retrieve data files from resources.
+        let bundle = Bundle(for: type(of: self))
+        guard
+            let settingsFile = bundle.path(forResource: "settings", ofType: "json"),
+            let objectFile = bundle.path(forResource: "objects", ofType: "json")
+            else {
+                XCTFail("Cannot find resources")
+                return
+        }
+
+        // Create the index.
+        let index: MirroredIndex = client.index(withName: safeIndexName(#function))
+        index.mirrored = true
+
+        // Check that no offline data exists.
+        XCTAssertFalse(index.hasOfflineData)
+
+        // Build the index.
+        var observer1: NSObjectProtocol?
+        observer1 = NotificationCenter.default.addObserver(forName: MirroredIndex.BuildDidStartNotification, object: index, queue: OperationQueue.main) { (notification) in
+            // Check that start notification is sent.
+            NotificationCenter.default.removeObserver(observer1!)
+            expectation_buildStart.fulfill()
+        }
+        var observer2: NSObjectProtocol?
+        observer2 = NotificationCenter.default.addObserver(forName: MirroredIndex.BuildDidFinishNotification, object: index, queue: OperationQueue.main) { (notification) in
+            // Check that finish notification is sent.
+            NotificationCenter.default.removeObserver(observer2!)
+            let error = notification.userInfo?[MirroredIndex.errorKey] as? Error
+            XCTAssertNil(error)
+            expectation_buildFinish.fulfill()
+
+            // Check that offline data exists now.
+            XCTAssertTrue(index.hasOfflineData)
+
+            // Search.
+            let query = Query()
+            query.query = "peanuts"
+            query.filters = "kind:animal"
+            index.searchOffline(query) {
+                (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual(content?["nbHits"] as? Int, 2)
+                expectation_search.fulfill()
+            }
+        }
+        index.buildOffline(settingsFile: settingsFile, objectFiles: [objectFile])
+
+        waitForExpectations(timeout: 10, handler: nil)
+    }
 }
