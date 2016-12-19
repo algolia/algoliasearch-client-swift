@@ -1018,7 +1018,7 @@ import Foundation
     /// Get several objects from this index, optionally restricting the retrieved content.
     /// Same semantics as `Index.getObjects(withIDs:attributesToRetrieve:completionHandler:)`.
     ///
-    @objc @discardableResult override public func getObjects(withIDs objectIDs: [String], attributesToRetrieve: [String]? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc @discardableResult override public func getObjects(withIDs objectIDs: [String], attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) -> Operation {
         if (!mirrored) {
             return super.getObjects(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
         } else {
