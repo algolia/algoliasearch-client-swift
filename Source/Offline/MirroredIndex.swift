@@ -415,14 +415,15 @@ import Foundation
         // Task: build the index using the downloaded files.
         buildIndexOperation = BlockOperation() {
             if self.syncError == nil {
-                let status = self.localIndex.build(settingsFile: self.settingsFilePath!, objectFiles: self.objectsFilePaths!, clearIndex: true, deletedObjectIDs: nil)
-                if status != 200 {
-                    self.syncError = HTTPError(statusCode: Int(status))
-                } else {
-                    // Remember the sync's date
-                    self.mirrorSettings.lastSyncDate = Date()
-                    self.mirrorSettings.save(self.mirrorSettingsFilePath)
+                do {
+                    try self._buildOffline(settingsFile: self.settingsFilePath!, objectFiles: self.objectsFilePaths!)
+                } catch let error {
+                    self.syncError = error
+                    return
                 }
+                // Remember the sync's date
+                self.mirrorSettings.lastSyncDate = Date()
+                self.mirrorSettings.save(self.mirrorSettingsFilePath)
             }
             self._syncFinished()
         }
@@ -534,8 +535,9 @@ import Foundation
     ///   array of objects, in JSON format.
     ///
     @objc public func buildOffline(settingsFile: String, objectFiles: [String]) {
+        assert(self.mirrored, "Mirroring not activated on this index")
         offlineClient.buildQueue.addOperation(BlockOperation() {
-            self._buildOffline(settingsFile: settingsFile, objectFiles: objectFiles)
+            try? self._buildOffline(settingsFile: settingsFile, objectFiles: objectFiles)
         })
     }
     
@@ -547,7 +549,7 @@ import Foundation
     /// - parameter objectFiles: Absolute path(s) to the file(s) containing the objects. Each file must contain an
     ///   array of objects, in JSON format.
     ///
-    private func _buildOffline(settingsFile: String, objectFiles: [String]) {
+    private func _buildOffline(settingsFile: String, objectFiles: [String]) throws {
         assert(!Thread.isMainThread) // make sure it's run in the background
         assert(OperationQueue.current == offlineClient.buildQueue) // ensure serial calls
         // Notify observers.
@@ -556,13 +558,19 @@ import Foundation
         }
         // Build the index.
         let status = self.localIndex.build(settingsFile: settingsFile, objectFiles: objectFiles, clearIndex: true, deletedObjectIDs: nil)
-        var userInfo: [String: Any] = [:]
+        var error: Error? = nil
         if status != 200 {
-            userInfo[MirroredIndex.errorKey] = HTTPError(statusCode: Int(status), message: "Failed to build local index")
+            error = HTTPError(statusCode: Int(status), message: "Failed to build local index")
         }
         // Notify observers.
+        var userInfo: [String: Any] = [:]
+        userInfo[MirroredIndex.errorKey] = error
         DispatchQueue.main.async {
             NotificationCenter.default.post(name: MirroredIndex.BuildDidFinishNotification, object: self, userInfo: userInfo)
+        }
+        // Throw error if needed.
+        if let error = error {
+            throw error
         }
     }
 
