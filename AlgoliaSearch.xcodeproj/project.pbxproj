@@ -135,7 +135,7 @@
 		BCD57D231D89947500C5DE68 /* DisjunctiveFaceting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD57D1E1D89947500C5DE68 /* DisjunctiveFaceting.swift */; };
 		BCD57D261D89970D00C5DE68 /* MultipleQueryEmulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD57D241D89970D00C5DE68 /* MultipleQueryEmulator.swift */; };
 		BCD57D271D89970D00C5DE68 /* OfflineIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD57D251D89970D00C5DE68 /* OfflineIndex.swift */; };
-		BCD57D311D89B12E00C5DE68 /* AlgoliaSearch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC4BD2931D54E48900170ECC /* AlgoliaSearch.framework */; };
+		BCD57D311D89B12E00C5DE68 /* AlgoliaSearchOffline.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BC4BD2931D54E48900170ECC /* AlgoliaSearchOffline.framework */; };
 		BCD57D3C1D89B1EA00C5DE68 /* OfflineClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD57D391D89B1EA00C5DE68 /* OfflineClientTests.swift */; };
 		BCD57D3D1D89B1EA00C5DE68 /* OfflineIndexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD57D3A1D89B1EA00C5DE68 /* OfflineIndexTests.swift */; };
 		BCD57D3E1D89B1EA00C5DE68 /* OfflineTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD57D3B1D89B1EA00C5DE68 /* OfflineTestCase.swift */; };
@@ -212,7 +212,7 @@
 		BC23A6EC1D63539A00DF9034 /* AlgoliaSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlgoliaSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC4A7F381CB5308100AF1DCB /* AsyncOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
 		BC4A7F3B1CB5373E00AF1DCB /* CancelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelTests.swift; sourceTree = "<group>"; };
-		BC4BD2931D54E48900170ECC /* AlgoliaSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlgoliaSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BC4BD2931D54E48900170ECC /* AlgoliaSearchOffline.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlgoliaSearchOffline.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC4DDEEF1DD10E8B004D9A6E /* AbstractClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AbstractClient.swift; sourceTree = "<group>"; };
 		BC4DDEF51DD10EBA004D9A6E /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		BC4DDEFB1DD11527004D9A6E /* PlacesClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlacesClient.swift; sourceTree = "<group>"; };
@@ -307,7 +307,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BCD57D311D89B12E00C5DE68 /* AlgoliaSearch.framework in Frameworks */,
+				BCD57D311D89B12E00C5DE68 /* AlgoliaSearchOffline.framework in Frameworks */,
 				3A11AC4EE771A46C306173F7 /* Pods_AlgoliaSearch_Offline_iOS_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -344,7 +344,7 @@
 				5DB251471AAD9EE400945339 /* AlgoliaSearch iOS Tests.xctest */,
 				BCD1F54A1CC61C8D0006E227 /* AlgoliaSearch.framework */,
 				BCD1F5531CC61C8D0006E227 /* AlgoliaSearch tvOS Tests.xctest */,
-				BC4BD2931D54E48900170ECC /* AlgoliaSearch.framework */,
+				BC4BD2931D54E48900170ECC /* AlgoliaSearchOffline.framework */,
 				BC23A6EC1D63539A00DF9034 /* AlgoliaSearch.framework */,
 				BCD57D2C1D89B12E00C5DE68 /* AlgoliaSearch-Offline-iOS-Tests.xctest */,
 			);
@@ -607,7 +607,7 @@
 			);
 			name = "AlgoliaSearch-Offline-iOS";
 			productName = AlgoliaSarch;
-			productReference = BC4BD2931D54E48900170ECC /* AlgoliaSearch.framework */;
+			productReference = BC4BD2931D54E48900170ECC /* AlgoliaSearchOffline.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		BCD1F5491CC61C8D0006E227 /* AlgoliaSearch tvOS */ = {
@@ -1420,7 +1420,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.algolia.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = AlgoliaSearch;
+				PRODUCT_NAME = AlgoliaSearchOffline;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1442,7 +1442,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.algolia.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = AlgoliaSearch;
+				PRODUCT_NAME = AlgoliaSearchOffline;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
