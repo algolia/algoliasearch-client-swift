@@ -533,14 +533,20 @@ import Foundation
     /// - parameter settingsFile: Absolute path to the file containing the index settings, in JSON format.
     /// - parameter objectFiles: Absolute path(s) to the file(s) containing the objects. Each file must contain an
     ///   array of objects, in JSON format.
+    /// - parameter completionHandler: An optional completion handler to be notified when the build has finished.
     ///
-    @objc public func buildOffline(settingsFile: String, objectFiles: [String]) {
+    @objc public func buildOffline(settingsFile: String, objectFiles: [String], completionHandler: CompletionHandler? = nil) {
         assert(self.mirrored, "Mirroring not activated on this index")
         offlineClient.buildQueue.addOperation(BlockOperation() {
-            try? self._buildOffline(settingsFile: settingsFile, objectFiles: objectFiles)
+            do {
+                try self._buildOffline(settingsFile: settingsFile, objectFiles: objectFiles)
+                completionHandler?([:], nil)
+            } catch let e {
+                completionHandler?(nil, e)
+            }
         })
     }
-    
+
     /// Build the offline mirror.
     ///
     /// + Warning: This method is synchronous: it blocks until completion.

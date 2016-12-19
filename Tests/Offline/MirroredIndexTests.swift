@@ -248,10 +248,12 @@ class MirroredIndexTests: OfflineTestCase {
             let error = notification.userInfo?[MirroredIndex.errorKey] as? Error
             XCTAssertNil(error)
             expectation_buildFinish.fulfill()
-
+        }
+        index.buildOffline(settingsFile: settingsFile, objectFiles: [objectFile]) {
+            (content, error) in
             // Check that offline data exists now.
             XCTAssertTrue(index.hasOfflineData)
-
+            
             // Search.
             let query = Query()
             query.query = "peanuts"
@@ -263,8 +265,6 @@ class MirroredIndexTests: OfflineTestCase {
                 expectation_search.fulfill()
             }
         }
-        index.buildOffline(settingsFile: settingsFile, objectFiles: [objectFile])
-
         waitForExpectations(timeout: 10, handler: nil)
     }
     
