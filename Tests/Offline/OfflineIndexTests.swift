@@ -426,4 +426,45 @@ class OfflineIndexTests: OfflineTestCase {
         }
         waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
+    
+    func testBuild() {
+        let expectation = self.expectation(description: #function)
+        
+        // Retrieve data files from resources.
+        let bundle = Bundle(for: type(of: self))
+        guard
+            let settingsFile = bundle.path(forResource: "settings", ofType: "json"),
+            let objectFile = bundle.path(forResource: "objects", ofType: "json")
+            else {
+                XCTFail("Cannot find resources")
+                return
+        }
+        
+        // Create the index.
+        let index = client.offlineIndex(withName: #function)
+        
+        // Check that no offline data exists.
+        XCTAssertFalse(index.hasOfflineData)
+        
+        // Build the index.
+        index.build(settingsFile: settingsFile, objectFiles: [objectFile]) {
+            (content, error) in
+            XCTAssertNil(error)
+            
+            // Check that offline data exists now.
+            XCTAssertTrue(index.hasOfflineData)
+            
+            // Search.
+            let query = Query()
+            query.query = "peanuts"
+            query.filters = "kind:animal"
+            index.search(query) {
+                (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual(content?["nbHits"] as? Int, 2)
+                expectation.fulfill()
+            }
+        }
+        waitForExpectations(timeout: 10, handler: nil)
+    }
 }

@@ -169,6 +169,12 @@
         [transaction commitSyncAndReturnError:&error];
         XCTAssertNil(error);
     });
+
+    // Manual build
+    // ------------
+    [index buildWithSettingsFile:@"settings.json" objectFiles:@[ @"objects.json" ] completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+        // Do nothing.
+    }];
 }
 
 - (void)testMirroredIndex {

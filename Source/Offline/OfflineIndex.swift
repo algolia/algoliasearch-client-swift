@@ -855,6 +855,49 @@ public struct IOError: CustomNSError {
         return WriteTransaction(index: self)
     }
     
+    // ----------------------------------------------------------------------
+    // MARK: - Manual build
+    // ----------------------------------------------------------------------
+
+    /// Build the index from local files.
+    /// This method is a shortcut alternative to using write transactions if all of your data is already available as
+    /// plain JSON files on disk.
+    ///
+    /// - parameter settingsFile: Absolute path to the file containing the index settings, in JSON format.
+    /// - parameter objectFiles: Absolute path(s) to the file(s) containing the objects. Each file must contain an
+    ///   array of objects, in JSON format.
+    /// - parameter completionHandler: An optional completion handler to be notified when the build has finished.
+    ///
+    @objc public func build(settingsFile: String, objectFiles: [String], completionHandler: CompletionHandler? = nil) {
+        client.buildQueue.addOperation(BlockOperation() {
+            do {
+                try self._build(settingsFile: settingsFile, objectFiles: objectFiles)
+                completionHandler?([:], nil)
+            } catch let e {
+                completionHandler?(nil, e)
+            }
+        })
+    }
+    
+    /// Build the index from local files (synchronously).
+    ///
+    /// + Warning: This method is synchronous: it blocks until completion.
+    ///
+    /// - parameter settingsFile: Absolute path to the file containing the index settings, in JSON format.
+    /// - parameter objectFiles: Absolute path(s) to the file(s) containing the objects. Each file must contain an
+    ///   array of objects, in JSON format.
+    ///
+    private func _build(settingsFile: String, objectFiles: [String]) throws {
+        assert(!Thread.isMainThread) // make sure it's run in the background
+        assert(OperationQueue.current == client.buildQueue) // ensure serial calls
+
+        // Build the index.
+        let status = self.localIndex.build(settingsFile: settingsFile, objectFiles: objectFiles, clearIndex: true, deletedObjectIDs: nil)
+        if Int(status) != StatusCode.ok.rawValue {
+            throw HTTPError(statusCode: Int(status), message: "Failed to build local index")
+        }
+    }
+
     // MARK: - Helpers
     
     /// Delete all objects matching a query.
