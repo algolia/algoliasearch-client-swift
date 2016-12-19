@@ -143,19 +143,19 @@ import Foundation
     ///
     @objc
     @discardableResult public func getObject(withID objectID: String, completionHandler: @escaping CompletionHandler) -> Operation {
-        let path = "1/indexes/\(urlEncodedName)/\(objectID.urlEncodedPathComponent())"
-        return client.performHTTPQuery(path: path, method: .GET, body: nil, hostnames: client.readHosts, completionHandler: completionHandler)
+        return getObject(withID: objectID, attributesToRetrieve: nil, completionHandler: completionHandler)
     }
     
     /// Get an object from this index, optionally restricting the retrieved content.
     ///
     /// - parameter objectID: Identifier of the object to retrieve.
-    /// - parameter attributesToRetrieve: List of attributes to retrieve.
+    /// - parameter attributesToRetrieve: List of attributes to retrieve. If `nil`, all attributes are retrieved.
+    ///                                   If one of the elements is `"*"`, all attributes are retrieved.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func getObject(withID objectID: String, attributesToRetrieve: [String], completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult public func getObject(withID objectID: String, attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) -> Operation {
         let query = Query()
         query.attributesToRetrieve = attributesToRetrieve
         let path = "1/indexes/\(urlEncodedName)/\(objectID.urlEncodedPathComponent())?\(query.build())"
