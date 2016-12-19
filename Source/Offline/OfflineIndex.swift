@@ -131,7 +131,7 @@ public struct IOError: CustomNSError {
     /// API client used by this index.
     @objc public let client: OfflineClient
 
-    /// The local index (lazy instantiated).
+    /// The local index.
     var localIndex: LocalIndex
 
     /// Queue used to run transaction bodies (but not the build).
@@ -946,14 +946,12 @@ public struct IOError: CustomNSError {
     
     // MARK: - Utils
 
-    /// Test if this index has offline data on disk.
+    /// Whether this index has offline data on disk.
     ///
-    /// + Warning: This method is synchronous!
-    ///
-    /// - returns: `true` if data exists on disk for this index, `false` otherwise.
-    ///
-    @objc public func hasOfflineData() -> Bool {
-        return localIndex.exists()
+    @objc public var hasOfflineData: Bool {
+        get {
+            return localIndex.exists()
+        }
     }
 
     /// Call a completion handler on the main queue.
