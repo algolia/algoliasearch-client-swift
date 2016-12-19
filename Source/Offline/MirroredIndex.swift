@@ -1036,4 +1036,30 @@ import Foundation
     /// This notification is sent both for syncs or manual builds.
     ///
     @objc public static let BuildDidFinishNotification = Notification.Name("AlgoliaSearch.MirroredIndex.BuildDidFinishNotification")
+    
+    // ----------------------------------------------------------------------
+    // MARK: - Utils
+    // ----------------------------------------------------------------------
+
+    /// Tag some content as having remote origin.
+    ///
+    /// - parameter content: The content to tag. For convenience purposes, `nil` is allowed.
+    /// - returns: The tagged content, or `nil` if `content` was `nil`.
+    ///
+    private static func tagAsRemote(content: JSONObject?) -> JSONObject? {
+        var taggedContent: JSONObject? = content
+        taggedContent?[MirroredIndex.jsonKeyOrigin] = MirroredIndex.jsonValueOriginRemote
+        return taggedContent
+    }
+
+    /// Tag some content as having local origin.
+    ///
+    /// - parameter content: The content to tag. For convenience purposes, `nil` is allowed.
+    /// - returns: The tagged content, or `nil` if `content` was `nil`.
+    ///
+    private static func tagAsLocal(content: JSONObject?) -> JSONObject? {
+        var taggedContent: JSONObject? = content
+        taggedContent?[MirroredIndex.jsonKeyOrigin] = MirroredIndex.jsonValueOriginLocal
+        return taggedContent
+    }
 }
