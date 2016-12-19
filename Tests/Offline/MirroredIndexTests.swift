@@ -96,7 +96,7 @@ class MirroredIndexTests: OfflineTestCase {
                     var observer: NSObjectProtocol?
                     observer = NotificationCenter.default.addObserver(forName: MirroredIndex.SyncDidFinishNotification, object: index, queue: OperationQueue.main) { (notification) in
                         NotificationCenter.default.removeObserver(observer!)
-                        let error = notification.userInfo?[MirroredIndex.syncErrorKey] as? Error
+                        let error = notification.userInfo?[MirroredIndex.errorKey] as? Error
                         completionBlock(error)
                     }
                     index.sync()
@@ -131,7 +131,7 @@ class MirroredIndexTests: OfflineTestCase {
                 var observer: NSObjectProtocol?
                 observer = NotificationCenter.default.addObserver(forName: MirroredIndex.SyncDidFinishNotification, object: index, queue: OperationQueue.main) { (notification) in
                     NotificationCenter.default.removeObserver(observer!)
-                    let error = notification.userInfo?[MirroredIndex.syncErrorKey] as? Error
+                    let error = notification.userInfo?[MirroredIndex.errorKey] as? Error
                     XCTAssertNil(error)
                     expectation_indexing.fulfill()
                 }
