@@ -943,6 +943,78 @@ import Foundation
     // MARK: - Getting individual objects
     // ----------------------------------------------------------------------
     
+    /// Get an object from this index, optionally restricting the retrieved content.
+    /// Same semantics as `Index.getObject(withID:attributesToRetrieve:completionHandler:)`.
+    ///
+    @objc @discardableResult override public func getObject(withID objectID: String, attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) -> Operation {
+        if (!mirrored) {
+            return super.getObject(withID: objectID, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+        } else {
+            let operation = OnlineOfflineGetObjectOperation(index: self, objectID: objectID, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+            offlineClient.mixedRequestQueue.addOperation(operation)
+            return operation
+        }
+    }
+
+    private class OnlineOfflineGetObjectOperation: OnlineOfflineOperation {
+        let objectID: String
+        let attributesToRetrieve: [String]?
+        
+        init(index: MirroredIndex, objectID: String, attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) {
+            self.objectID = objectID
+            self.attributesToRetrieve = attributesToRetrieve
+            super.init(index: index, completionHandler: completionHandler)
+        }
+        
+        override func startOnlineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
+            return index.getObjectOnline(withID: objectID, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+        }
+        
+        override func startOfflineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
+            return index.getObjectOffline(withID: objectID, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+        }
+    }
+
+    /// Get an individual object, explicitly targeting the online API, and not the offline mirror.
+    @objc
+    @discardableResult public func getObjectOnline(withID objectID: String, attributesToRetrieve: [String]? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        return super.getObject(withID: objectID, attributesToRetrieve: attributesToRetrieve, completionHandler: {
+            (content, error) in
+            completionHandler(MirroredIndex.tagAsRemote(content: content), error)
+        })
+    }
+    
+    /// Get an individual object, explicitly targeting the offline mirror, and not the online API.
+    @objc
+    @discardableResult public func getObjectOffline(withID objectID: String, attributesToRetrieve: [String]? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        assert(self.mirrored, "Mirroring not activated on this index")
+        let operation = AsyncBlockOperation(completionHandler: completionHandler) {
+            return self._getObjectOffline(withID: objectID, attributesToRetrieve: attributesToRetrieve)
+        }
+        operation.completionQueue = client.completionQueue
+        self.offlineClient.searchQueue.addOperation(operation)
+        return operation
+    }
+    
+    /// Get an individual object from the local mirror synchronously.
+    ///
+    private func _getObjectOffline(withID objectID: String, attributesToRetrieve: [String]?) -> (content: JSONObject?, error: Error?) {
+        assert(!Thread.isMainThread) // make sure it's run in the background
+        let params = Query()
+        params.attributesToRetrieve = attributesToRetrieve
+        let searchResults = localIndex.getObjects(withIDs: [objectID], parameters: params.build())
+        var (content, error) = OfflineClient.parseResponse(searchResults)
+        if error == nil {
+            if let results = content?["results"] as? [JSONObject], results.count == 1 {
+                content = results[0]
+            } else {
+                content = nil
+                error = HTTPError(statusCode: StatusCode.internalServerError.rawValue) // should never happen
+            }
+        }
+        return (MirroredIndex.tagAsLocal(content: content), error)
+    }
+
     /// Get several objects from this index, optionally restricting the retrieved content.
     /// Same semantics as `Index.getObjects(withIDs:attributesToRetrieve:completionHandler:)`.
     ///
