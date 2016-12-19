@@ -267,4 +267,88 @@ class MirroredIndexTests: OfflineTestCase {
 
         waitForExpectations(timeout: 10, handler: nil)
     }
+    
+    func testGetObject() {
+        let expectation_indexing = self.expectation(description: "indexing")
+        let expectation_onlineQuery = self.expectation(description: "onlineQuery")
+        let expectation_offlineQuery = self.expectation(description: "offlineQuery")
+        let expectation_mixedQuery = self.expectation(description: "offlineQuery")
+        
+        // Populate the online index & sync the offline mirror.
+        let index: MirroredIndex = client.index(withName: safeIndexName(#function))
+        sync(index: index) { (error) in
+            if let error = error { XCTFail("\(error)"); return }
+            
+            // Query the online index explicitly.
+            index.getObjectOnline(withID: "1") { (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual("Snoopy", content?["name"] as? String)
+                XCTAssertEqual("remote", content?["origin"] as? String)
+                expectation_onlineQuery.fulfill()
+            }
+            
+            // Query the offline index explicitly.
+            index.getObjectOffline(withID: "2") { (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual("Woodstock", content?["name"] as? String)
+                XCTAssertEqual("local", content?["origin"] as? String)
+                expectation_offlineQuery.fulfill()
+            }
+            
+            // Test offline fallback.
+            self.client.readHosts = [ "unknown.algolia.com" ]
+            index.requestStrategy = .fallbackOnFailure
+            index.getObject(withID: "3") { (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual("Charlie Brown", content?["name"] as? String)
+                XCTAssertEqual("local", content?["origin"] as? String)
+                expectation_mixedQuery.fulfill()
+            }
+            
+            expectation_indexing.fulfill()
+        }
+        waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
+    }
+
+    func testGetObjects() {
+        let expectation_indexing = self.expectation(description: "indexing")
+        let expectation_onlineQuery = self.expectation(description: "onlineQuery")
+        let expectation_offlineQuery = self.expectation(description: "offlineQuery")
+        let expectation_mixedQuery = self.expectation(description: "offlineQuery")
+        
+        // Populate the online index & sync the offline mirror.
+        let index: MirroredIndex = client.index(withName: safeIndexName(#function))
+        sync(index: index) { (error) in
+            if let error = error { XCTFail("\(error)"); return }
+            
+            // Query the online index explicitly.
+            index.getObjectsOnline(withIDs: ["1"]) { (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual(1, (content?["results"] as? [JSONObject])?.count)
+                XCTAssertEqual("remote", content?["origin"] as? String)
+                expectation_onlineQuery.fulfill()
+            }
+            
+            // Query the offline index explicitly.
+            index.getObjectsOffline(withIDs: ["1", "2"]) { (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual(2, (content?["results"] as? [JSONObject])?.count)
+                XCTAssertEqual("local", content?["origin"] as? String)
+                expectation_offlineQuery.fulfill()
+            }
+            
+            // Test offline fallback.
+            self.client.readHosts = [ "unknown.algolia.com" ]
+            index.requestStrategy = .fallbackOnFailure
+            index.getObjects(withIDs: ["1", "2", "3"]) { (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual(3, (content?["results"] as? [JSONObject])?.count)
+                XCTAssertEqual("local", content?["origin"] as? String)
+                expectation_mixedQuery.fulfill()
+            }
+            
+            expectation_indexing.fulfill()
+        }
+        waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
+    }
 }

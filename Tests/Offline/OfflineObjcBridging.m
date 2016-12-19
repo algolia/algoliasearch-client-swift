@@ -177,6 +177,18 @@
 
     [index hasOfflineData];
     [index buildOfflineWithSettingsFile:@"settings.json" objectFiles:@[ @"objects.json" ]];
+    [index getObjectOnlineWithID:@"id" attributesToRetrieve:nil completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+        // Do nothing.
+    }];
+    [index getObjectsOnlineWithIDs:@[ @"id" ] attributesToRetrieve:nil completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+        // Do nothing.
+    }];
+    [index getObjectOfflineWithID:@"id" attributesToRetrieve:nil completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+        // Do nothing.
+    }];
+    [index getObjectsOfflineWithIDs:@[ @"id" ] attributesToRetrieve:nil completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+        // Do nothing.
+    }];
 }
 
 @end
