@@ -849,8 +849,6 @@ public struct IOError: CustomNSError {
     
     /// Create a new write transaction.
     ///
-    /// + Warning: You cannot open parallel transactions. This method will assert if a transaction is already open.
-    ///
     @objc public func newTransaction() -> WriteTransaction {
         return WriteTransaction(index: self)
     }

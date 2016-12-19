@@ -251,6 +251,8 @@ class MirroredIndexTests: OfflineTestCase {
         }
         index.buildOffline(settingsFile: settingsFile, objectFiles: [objectFile]) {
             (content, error) in
+            XCTAssertNil(error)
+            
             // Check that offline data exists now.
             XCTAssertTrue(index.hasOfflineData)
             
