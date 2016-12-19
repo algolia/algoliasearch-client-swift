@@ -761,12 +761,7 @@ import Foundation
     @discardableResult public func searchOnline(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         return super.search(query, completionHandler: {
             (content, error) in
-            // Tag results as having a remote origin.
-            var taggedContent: JSONObject? = content
-            if taggedContent != nil {
-                taggedContent?[MirroredIndex.jsonKeyOrigin] = MirroredIndex.jsonValueOriginRemote
-            }
-            completionHandler(taggedContent, error)
+            completionHandler(MirroredIndex.tagAsRemote(content: content), error)
         })
     }
     
@@ -836,12 +831,7 @@ import Foundation
     @discardableResult public func multipleQueriesOnline(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
         return super.multipleQueries(queries, strategy: strategy, completionHandler: {
             (content, error) in
-            // Tag results as having a remote origin.
-            var taggedContent: JSONObject? = content
-            if taggedContent != nil {
-                taggedContent?[MirroredIndex.jsonKeyOrigin] = MirroredIndex.jsonValueOriginRemote
-            }
-            completionHandler(taggedContent, error)
+            completionHandler(MirroredIndex.tagAsRemote(content: content), error)
         })
     }
 
@@ -1052,12 +1042,7 @@ import Foundation
     @discardableResult public func getObjectsOnline(withIDs objectIDs: [String], attributesToRetrieve: [String]? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         return super.getObjects(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: {
             (content, error) in
-            // Tag results as having a remote origin.
-            var taggedContent: JSONObject? = content
-            if taggedContent != nil {
-                taggedContent?[MirroredIndex.jsonKeyOrigin] = MirroredIndex.jsonValueOriginRemote
-            }
-            completionHandler(taggedContent, error)
+            completionHandler(MirroredIndex.tagAsRemote(content: content), error)
         })
     }
     
@@ -1080,7 +1065,8 @@ import Foundation
         let params = Query()
         params.attributesToRetrieve = attributesToRetrieve
         let searchResults = localIndex.getObjects(withIDs: objectIDs, parameters: params.build())
-        return OfflineClient.parseResponse(searchResults)
+        let (content, error) = OfflineClient.parseResponse(searchResults)
+        return (MirroredIndex.tagAsLocal(content: content), error)
     }
     
     // ----------------------------------------------------------------------
