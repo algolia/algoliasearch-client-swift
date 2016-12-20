@@ -54,14 +54,14 @@ import Foundation
 /// + Note: You cannot construct this class directly. Please use `OfflineClient.index(withName:)` to obtain an
 ///   instance.
 ///
-/// + Note: Requires Algolia's SDK. The `OfflineClient.enableOfflineMode(...)` method must be called with a valid
-/// license key prior to calling any offline-related method.
+/// + Note: Requires Algolia Offline Core. The `OfflineClient.enableOfflineMode(...)` method must be called with a
+///   valid license key prior to calling any offline-related method.
 ///
 /// When created, an instance of this class has its `mirrored` flag set to false, and behaves like a normal,
 /// online `Index`. When the `mirrored` flag is set to true, the index becomes capable of acting upon local data.
 ///
 /// + Warning: It is a programming error to call methods acting on the local data when `mirrored` is false. Doing so
-/// will result in an assertion error being raised.
+///   will result in an assertion error being raised.
 ///
 ///
 /// ## Request strategy
@@ -73,9 +73,14 @@ import Foundation
 /// failure (including network unavailability).
 ///
 /// + Note: If you want to explicitly target either the online API or the offline mirror, doing so is always possible
-/// using the `searchOnline(...)` or `searchOffline(...)` methods.
+///   using `searchOnline(...)` or `searchOffline(...)`.
 ///
-/// + Note: The strategy applies both to `search(...)` and `searchDisjunctiveFaceting(...)`.
+/// + Note: The strategy applies to:
+///   - `search(...)`
+///   - `searchDisjunctiveFaceting(...)`
+///   - `multipleQueries(...)`
+///   - `getObject(...)`
+///   - `getObjects(...)`
 ///
 ///
 /// ## Bootstrapping
@@ -1093,7 +1098,7 @@ import Foundation
     /// Notification sent when the sync has finished.
     @objc public static let SyncDidFinishNotification = Notification.Name("AlgoliaSearch.MirroredIndex.SyncDidFinishNotification")
     
-    /// Notification user info key used to pass the error, when an error occurred during the sync or bootstrap.
+    /// Notification user info key used to pass the error, when an error occurred during a sync or a build.
     @objc public static let errorKey = "AlgoliaSearch.MirroredIndex.errorKey"
 
     @available(*, deprecated: 4.6, message: "Please use `errorKey` instead")

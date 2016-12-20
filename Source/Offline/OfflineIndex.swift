@@ -54,6 +54,9 @@ public struct IOError: CustomNSError {
 /// + Note: You cannot construct this class directly. Please use `OfflineClient.offlineIndex(withName:)` to obtain an
 ///   instance.
 ///
+/// + Note: Requires Algolia Offline Core. `OfflineClient.enableOfflineMode(...)` must be called with a valid license
+///   key prior to calling any offline-related method.
+///
 ///
 /// ## Reading
 ///
@@ -71,7 +74,7 @@ public struct IOError: CustomNSError {
 ///
 /// - Populate the transaction: call the various write methods on the `WriteTransaction` class.
 ///
-/// - Either commit (`commit()`) or rollback (`rollback()`) the transaction.
+/// - Either `commit()` or `rollback()` the transaction.
 ///
 /// ### Synchronous vs asynchronous updates
 ///
@@ -103,8 +106,7 @@ public struct IOError: CustomNSError {
 /// - the **index settings** (one JSON file); and
 /// - the **objects** (as many JSON files as needed, each containing an array of objects)
 ///
-/// ... available as local files on disk, you can replace the index's content with that data by calling the
-/// `build(...)` method.
+/// ... available as local files on disk, you can replace the index's content with that data by calling `build(...)`.
 ///
 ///
 /// ## Caveats
