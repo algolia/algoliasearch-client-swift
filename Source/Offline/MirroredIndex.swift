@@ -51,21 +51,20 @@ import Foundation
 
 /// An online index that can also be mirrored locally.
 ///
+/// + Note: You cannot construct this class directly. Please use `OfflineClient.index(withName:)` to obtain an
+///   instance.
+///
+/// + Note: Requires Algolia's SDK. The `OfflineClient.enableOfflineMode(...)` method must be called with a valid
+/// license key prior to calling any offline-related method.
+///
 /// When created, an instance of this class has its `mirrored` flag set to false, and behaves like a normal,
 /// online `Index`. When the `mirrored` flag is set to true, the index becomes capable of acting upon local data.
 ///
 /// + Warning: It is a programming error to call methods acting on the local data when `mirrored` is false. Doing so
 /// will result in an assertion error being raised.
 ///
-/// Native resources are lazily instantiated at the first method call requiring them. They are released when the
-/// object is released. Although the client guards against concurrent accesses, it is strongly discouraged
-/// to create more than one `MirroredIndex` instance pointing to the same index, as that would duplicate
-/// native resources.
 ///
-/// + Note: Requires Algolia's SDK. The `OfflineClient.enableOfflineMode(...)` method must be called with a valid
-/// license key prior to calling any offline-related method.
-///
-/// ### Request strategy
+/// ## Request strategy
 ///
 /// When the index is mirrored and the device is online, it becomes possible to transparently switch between online and
 /// offline requests. There is no single best strategy for that, because it depends on the use case and the current
@@ -151,6 +150,12 @@ import Foundation
 ///
 /// - **CJK segmentation** is not supported.
 ///
+///
+/// ## Resource handling
+///
+/// Native resources are lazily instantiated when `mirrored` is set to `true`. They are released when the object is
+/// released, or if `mirrored` is set to `false` again.
+///
 @objc public class MirroredIndex : Index {
     
     // ----------------------------------------------------------------------
@@ -235,6 +240,14 @@ import Foundation
     /// Error encountered by the current/last sync (if any).
     @objc public private(set) var syncError : Error?
 
+    /// Whether this index has offline data on disk.
+    ///
+    @objc public var hasOfflineData: Bool {
+        get {
+            return localIndex.exists()
+        }
+    }
+    
     // ----------------------------------------------------------------------
     // MARK: - Init
     // ----------------------------------------------------------------------
@@ -517,16 +530,8 @@ import Foundation
     }
     
     // ----------------------------------------------------------------------
-    // MARK: - Managing offline data
+    // MARK: - Manual build
     // ----------------------------------------------------------------------
-    
-    /// Whether this index has offline data on disk.
-    ///
-    @objc public var hasOfflineData: Bool {
-        get {
-            return localIndex.exists()
-        }
-    }
     
     /// Replace the local mirror with local data.
     ///
