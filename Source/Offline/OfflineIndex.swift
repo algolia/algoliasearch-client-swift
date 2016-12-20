@@ -890,16 +890,19 @@ public struct IOError: CustomNSError {
     /// - parameter objectFiles: Absolute path(s) to the file(s) containing the objects. Each file must contain an
     ///   array of objects, in JSON format.
     /// - parameter completionHandler: An optional completion handler to be notified when the build has finished.
+    /// - returns: A cancellable operation.
     ///
-    @objc public func build(settingsFile: String, objectFiles: [String], completionHandler: CompletionHandler? = nil) {
-        client.buildQueue.addOperation(BlockOperation() {
-            do {
-                try self._build(settingsFile: settingsFile, objectFiles: objectFiles)
-                completionHandler?([:], nil)
-            } catch let e {
-                completionHandler?(nil, e)
-            }
-        })
+    /// + Note: Cancelling the request does *not* cancel the build; it merely prevents the completion handler from
+    ///    being called.
+    ///
+    @objc @discardableResult
+    public func build(settingsFile: String, objectFiles: [String], completionHandler: CompletionHandler? = nil) -> Operation {
+        let operation = AsyncBlockOperation(completionHandler: completionHandler) {
+            return self._build(settingsFile: settingsFile, objectFiles: objectFiles)
+        }
+        operation.completionQueue = client.completionQueue
+        client.buildQueue.addOperation(operation)
+        return operation
     }
     
     /// Build the index from local files (synchronously).
@@ -910,14 +913,16 @@ public struct IOError: CustomNSError {
     /// - parameter objectFiles: Absolute path(s) to the file(s) containing the objects. Each file must contain an
     ///   array of objects, in JSON format.
     ///
-    private func _build(settingsFile: String, objectFiles: [String]) throws {
+    private func _build(settingsFile: String, objectFiles: [String]) -> (JSONObject?, Error?) {
         assert(!Thread.isMainThread) // make sure it's run in the background
         assert(OperationQueue.current == client.buildQueue) // ensure serial calls
 
         // Build the index.
         let status = self.localIndex.build(settingsFile: settingsFile, objectFiles: objectFiles, clearIndex: true, deletedObjectIDs: nil)
-        if Int(status) != StatusCode.ok.rawValue {
-            throw HTTPError(statusCode: Int(status), message: "Failed to build local index")
+        if Int(status) == StatusCode.ok.rawValue {
+            return ([:], nil)
+        } else {
+            return (nil, HTTPError(statusCode: Int(status), message: "Failed to build local index"))
         }
     }
 

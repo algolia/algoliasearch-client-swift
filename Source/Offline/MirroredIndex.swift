@@ -428,9 +428,8 @@ import Foundation
         // Task: build the index using the downloaded files.
         buildIndexOperation = BlockOperation() {
             if self.syncError == nil {
-                do {
-                    try self._buildOffline(settingsFile: self.settingsFilePath!, objectFiles: self.objectsFilePaths!)
-                } catch let error {
+                let (_, error) = self._buildOffline(settingsFile: self.settingsFilePath!, objectFiles: self.objectsFilePaths!)
+                if let error = error {
                     self.syncError = error
                     return
                 }
@@ -539,17 +538,20 @@ import Foundation
     /// - parameter objectFiles: Absolute path(s) to the file(s) containing the objects. Each file must contain an
     ///   array of objects, in JSON format.
     /// - parameter completionHandler: An optional completion handler to be notified when the build has finished.
+    /// - returns: A cancellable operation.
     ///
-    @objc public func buildOffline(settingsFile: String, objectFiles: [String], completionHandler: CompletionHandler? = nil) {
+    /// + Note: Cancelling the request does *not* cancel the build; it merely prevents the completion handler from
+    ///    being called.
+    ///
+    @objc @discardableResult
+    public func buildOffline(settingsFile: String, objectFiles: [String], completionHandler: CompletionHandler? = nil) -> Operation {
         assert(self.mirrored, "Mirroring not activated on this index")
-        offlineClient.buildQueue.addOperation(BlockOperation() {
-            do {
-                try self._buildOffline(settingsFile: settingsFile, objectFiles: objectFiles)
-                completionHandler?([:], nil)
-            } catch let e {
-                completionHandler?(nil, e)
-            }
-        })
+        let operation = AsyncBlockOperation(completionHandler: completionHandler) {
+            return self._buildOffline(settingsFile: settingsFile, objectFiles: objectFiles)
+        }
+        operation.completionQueue = client.completionQueue
+        offlineClient.buildQueue.addOperation(operation)
+        return operation
     }
 
     /// Build the offline mirror.
@@ -560,17 +562,20 @@ import Foundation
     /// - parameter objectFiles: Absolute path(s) to the file(s) containing the objects. Each file must contain an
     ///   array of objects, in JSON format.
     ///
-    private func _buildOffline(settingsFile: String, objectFiles: [String]) throws {
+    private func _buildOffline(settingsFile: String, objectFiles: [String]) -> (JSONObject?, Error?) {
         assert(!Thread.isMainThread) // make sure it's run in the background
         assert(OperationQueue.current == offlineClient.buildQueue) // ensure serial calls
+        var content: JSONObject? = nil
+        var error: Error? = nil
         // Notify observers.
         DispatchQueue.main.async {
             NotificationCenter.default.post(name: MirroredIndex.BuildDidStartNotification, object: self)
         }
         // Build the index.
         let status = self.localIndex.build(settingsFile: settingsFile, objectFiles: objectFiles, clearIndex: true, deletedObjectIDs: nil)
-        var error: Error? = nil
-        if status != 200 {
+        if status == 200 {
+            content = [:]
+        } else {
             error = HTTPError(statusCode: Int(status), message: "Failed to build local index")
         }
         // Notify observers.
@@ -579,10 +584,7 @@ import Foundation
         DispatchQueue.main.async {
             NotificationCenter.default.post(name: MirroredIndex.BuildDidFinishNotification, object: self, userInfo: userInfo)
         }
-        // Throw error if needed.
-        if let error = error {
-            throw error
-        }
+        return (content, error)
     }
 
     // ----------------------------------------------------------------------
