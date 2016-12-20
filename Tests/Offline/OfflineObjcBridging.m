@@ -180,6 +180,7 @@
 - (void)testMirroredIndex {
     OfflineClient* client = [[OfflineClient alloc] initWithAppID:@"APPID" apiKey:@"APIKEY"];
     MirroredIndex* index = [client indexWithName:@"INDEX_NAME"];
+    index.mirrored = YES;
 
     [index hasOfflineData];
     [index buildOfflineWithSettingsFile:@"settings.json" objectFiles:@[ @"objects.json" ] completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {

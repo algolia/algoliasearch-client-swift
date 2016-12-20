@@ -244,6 +244,7 @@ import Foundation
     ///
     @objc public var hasOfflineData: Bool {
         get {
+            assert(mirrored, "Mirroring not activated for this index")
             return localIndex.exists()
         }
     }
