@@ -41,12 +41,18 @@ rm -rf "$DST_DIR"/*
 
 # Generate the documentations with [Jazzy](https://github.com/realm/jazzy).
 cd "$PROJECT_ROOT"
+
 # Online flavor -> root directory.
 echo "# Generating online flavor"
 jazzy --config .jazzy.yaml
+
 # Offline flavor -> `offline` subdirectory.
 echo "# Generating offline flavor"
 jazzy --config offline.jazzy.yaml
+# NOTE: The offline flavor will be generated with a module name set to "AlgoliaSearchOffline", as in the Xcode project.
+# But we wish to document it as "AlgoliaSearch" (same module name as the online client) because this is what is used
+# in the Cocoapods spec. => Patch the generated files.
+find "$DST_DIR/offline" -type f -exec sed -i '' -E 's/AlgoliaSearchOffline/AlgoliaSearch/g' {} \;
 
 cp "$PROJECT_ROOT/LICENSE" "$DST_DIR/LICENSE.md"
 
