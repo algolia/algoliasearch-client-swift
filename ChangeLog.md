@@ -1,6 +1,19 @@
 Change Log
 ==========
 
+## 4.6 (2016-12-28)
+
+### New features
+
+- [offline] Support manual building of local indices (`MirroredIndex` and `OfflineIndex`)
+- [offline] Support fallback logic when getting individual objects
+
+### Bug fixes
+
+- (#168) Use network reachability to decide whether to perform online requests
+- [offline] Fix race condition in instantiation of local index
+
+
 ## 4.5 (2016-12-07)
 
 **Note:** *This new version brings a major improvement in the request retry logic (fallback mechanism used when one or more API hosts are down or unreachable). For that reason, an upgrade to this or a later version is strongly recommended for all users of this API Client.*
