@@ -185,6 +185,24 @@ internal struct HostStatus {
     /// The default timeout for host statuses.
     @objc public static let defaultHostStatusTimeout: TimeInterval = 5 * 60
     
+    #if !os(watchOS)
+    
+    /// Network reachability tester.
+    internal let reachability = NetworkReachability()
+    
+    /// Whether to use network reachability to decide if online requests should be attempted.
+    ///
+    /// - When `true` (default), if the network reachability (as reported by the System Configuration framework) is
+    ///   down, online requests will not be attempted and report to fail immediately.
+    /// - When `false`, online requests will always be attempted (if the strategy involves them), even if the network
+    ///   does not seem to be reachable.
+    ///
+    /// + Note: Not available on watchOS (the System Configuration framework is not available there).
+    ///
+    @objc public var useReachability: Bool = true
+    
+    #endif // !os(watchOS)
+
     // MARK: Initialization
     
     internal init(appID: String?, apiKey: String?, readHosts: [String], writeHosts: [String]) {
@@ -324,4 +342,17 @@ internal struct HostStatus {
             self.hostStatuses[host] = HostStatus(up: up, lastModified: Date())
         }
     }
+    
+    #if !os(watchOS)
+    
+    /// Decide whether a network request should be attempted in the current conditions.
+    ///
+    /// - returns: `true` if a network request should be attempted, `false` if the client should fail fast with a
+    ///            network error.
+    ///
+    func shouldMakeNetworkCall() -> Bool {
+        return !useReachability || reachability.isReachable()
+    }
+
+    #endif // !os(watchOS)
 }

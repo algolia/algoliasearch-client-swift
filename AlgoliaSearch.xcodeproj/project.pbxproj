@@ -39,6 +39,7 @@
 		BC0A015B1C9BEDB200CD4A7C /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0A01591C9BEDB200CD4A7C /* Error.swift */; };
 		BC0A01641C9C19CD00CD4A7C /* QueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0A01631C9C19CD00CD4A7C /* QueryTests.swift */; };
 		BC0A01651C9C19CD00CD4A7C /* QueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0A01631C9C19CD00CD4A7C /* QueryTests.swift */; };
+		BC15FAC11E01C041005E3B56 /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC15FAC01E01C041005E3B56 /* NetworkReachability.swift */; };
 		BC23A6F41D63541500DF9034 /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4A7F381CB5308100AF1DCB /* AsyncOperation.swift */; };
 		BC23A6F51D63541500DF9034 /* Cache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D67400E1B4AA22600B326EC /* Cache.swift */; };
 		BC23A6F61D63541500DF9034 /* Client.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7495A01A8E277400B0263F /* Client.swift */; };
@@ -50,6 +51,9 @@
 		BC23A6FC1D63541500DF9034 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7495A61A8E499B00B0263F /* Query.swift */; };
 		BC23A6FD1D63541500DF9034 /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC01E66C1CA43CEE0067670B /* Request.swift */; };
 		BC23A6FE1D63541B00DF9034 /* BrowseIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC09F7761CAE743900ABB395 /* BrowseIterator.swift */; };
+		BC3DC7521E02DD7900862F5B /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC15FAC01E01C041005E3B56 /* NetworkReachability.swift */; };
+		BC3DC7531E02DD7A00862F5B /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC15FAC01E01C041005E3B56 /* NetworkReachability.swift */; };
+		BC3DC7541E02DD7B00862F5B /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC15FAC01E01C041005E3B56 /* NetworkReachability.swift */; };
 		BC4A7F391CB5308100AF1DCB /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4A7F381CB5308100AF1DCB /* AsyncOperation.swift */; };
 		BC4A7F3A1CB5308100AF1DCB /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4A7F381CB5308100AF1DCB /* AsyncOperation.swift */; };
 		BC4A7F3C1CB5373E00AF1DCB /* CancelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4A7F3B1CB5373E00AF1DCB /* CancelTests.swift */; };
@@ -207,6 +211,7 @@
 		BC0A01611C9BEDE000CD4A7C /* MirrorSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MirrorSettings.swift; sourceTree = "<group>"; };
 		BC0A01621C9BEDE000CD4A7C /* OfflineClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfflineClient.swift; sourceTree = "<group>"; };
 		BC0A01631C9C19CD00CD4A7C /* QueryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = QueryTests.swift; sourceTree = "<group>"; };
+		BC15FAC01E01C041005E3B56 /* NetworkReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkReachability.swift; sourceTree = "<group>"; };
 		BC23A6EC1D63539A00DF9034 /* AlgoliaSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlgoliaSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BC4A7F381CB5308100AF1DCB /* AsyncOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncOperation.swift; sourceTree = "<group>"; };
 		BC4A7F3B1CB5373E00AF1DCB /* CancelTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancelTests.swift; sourceTree = "<group>"; };
@@ -360,6 +365,7 @@
 				5DECA2D91A960BC5001A6088 /* Index.swift */,
 				BC68BC561CB69776007F9655 /* IndexQuery.swift */,
 				5D09E1DB1AC0773A00B799A6 /* Network.swift */,
+				BC15FAC01E01C041005E3B56 /* NetworkReachability.swift */,
 				BC4DDEFB1DD11527004D9A6E /* PlacesClient.swift */,
 				BC4DDF071DD12BCC004D9A6E /* PlacesQuery.swift */,
 				5D7495A61A8E499B00B0263F /* Query.swift */,
@@ -877,6 +883,7 @@
 				5D67400F1B4AA22600B326EC /* Cache.swift in Sources */,
 				BC4DDF081DD12BCC004D9A6E /* PlacesQuery.swift in Sources */,
 				BC4DDEF61DD10EBA004D9A6E /* Types.swift in Sources */,
+				BC3DC7541E02DD7B00862F5B /* NetworkReachability.swift in Sources */,
 				BC4A7F391CB5308100AF1DCB /* AsyncOperation.swift in Sources */,
 				5DECA2DA1A960BC5001A6088 /* Index.swift in Sources */,
 				BC4DDEFC1DD11527004D9A6E /* PlacesClient.swift in Sources */,
@@ -920,6 +927,7 @@
 				5D6740101B4AA22600B326EC /* Cache.swift in Sources */,
 				BC4DDF091DD12BCC004D9A6E /* PlacesQuery.swift in Sources */,
 				BC4DDEF71DD10EBA004D9A6E /* Types.swift in Sources */,
+				BC3DC7531E02DD7A00862F5B /* NetworkReachability.swift in Sources */,
 				BC4A7F3A1CB5308100AF1DCB /* AsyncOperation.swift in Sources */,
 				5DB2515C1AAD9F3300945339 /* Helpers.swift in Sources */,
 				BC4DDEFD1DD11527004D9A6E /* PlacesClient.swift in Sources */,
@@ -982,6 +990,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BC15FAC11E01C041005E3B56 /* NetworkReachability.swift in Sources */,
 				BC4BD2821D54E48900170ECC /* Error.swift in Sources */,
 				BCD57D261D89970D00C5DE68 /* MultipleQueryEmulator.swift in Sources */,
 				BC4BD2831D54E48900170ECC /* IndexQuery.swift in Sources */,
@@ -1016,6 +1025,7 @@
 				BCD1F5621CC61D020006E227 /* Cache.swift in Sources */,
 				BC4DDF0A1DD12BCC004D9A6E /* PlacesQuery.swift in Sources */,
 				BC4DDEF81DD10EBA004D9A6E /* Types.swift in Sources */,
+				BC3DC7521E02DD7900862F5B /* NetworkReachability.swift in Sources */,
 				BCD1F56C1CC61D2D0006E227 /* BrowseIterator.swift in Sources */,
 				BCD1F5681CC61D160006E227 /* Network.swift in Sources */,
 				BC4DDEFE1DD11527004D9A6E /* PlacesClient.swift in Sources */,
