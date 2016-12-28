@@ -60,12 +60,9 @@ keep versioning aligned (there is only one version number for both flavors).
 
 - **Publish the pods.** You have to publish each pod separately:
 
-    - `pod trunk push --allow-warnings AlgoliaSearch-Client-Swift.podspec`
+    - `pod trunk push AlgoliaSearch-Client-Swift.podspec`
 
-    - `pod trunk push --allow-warnings AlgoliaSearch-Offline-Swift.podspec`
-
-    NOTE: Currently, `--allow-warnings` is required. We get warnings about useless conditional compilation on iOS 8.0,
-    but iOS 7 is really supported; it's just that it cannot be supported via CocoaPods.
+    - `pod trunk push AlgoliaSearch-Offline-Swift.podspec`
 
 - Edit the **release notes**: in GitHub, edit the tag and copy-paste the Change Log section for this release.
 
