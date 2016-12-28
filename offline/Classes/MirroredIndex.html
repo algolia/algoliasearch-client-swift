@@ -157,7 +157,7 @@
             <a href="../Other Typealiases.html">Other Typealiases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Other Typealiases.html#/s:13AlgoliaSearch21BrowseIteratorHandler">BrowseIteratorHandler</a>
+                <a href="../Other Typealiases.html#/s:20AlgoliaSearch21BrowseIteratorHandler">BrowseIteratorHandler</a>
               </li>
             </ul>
           </li>
@@ -175,6 +175,20 @@
               </div>
             <p>An online index that can also be mirrored locally.</p>
 
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>You cannot construct this class directly. Please use <code><a href="../Classes/OfflineClient.html#/s:FC20AlgoliaSearch13OfflineClient5indexFT8withNameSS_CS_13MirroredIndex">OfflineClient.index(withName:)</a></code> to obtain an
+instance.</p>
+
+</div>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>Requires Algolia Offline Core. The <code><a href="../Classes/OfflineClient.html#/s:FC20AlgoliaSearch13OfflineClient17enableOfflineModeFT10licenseKeySS_T_">OfflineClient.enableOfflineMode(...)</a></code> method must be called with a
+valid license key prior to calling any offline-related method.</p>
+
+</div>
+
 <p>When created, an instance of this class has its <code>mirrored</code> flag set to false, and behaves like a normal,
 online <code><a href="../Classes/Index.html">Index</a></code>. When the <code>mirrored</code> flag is set to true, the index becomes capable of acting upon local data.</p>
 
@@ -185,19 +199,7 @@ will result in an assertion error being raised.
 
 </div>
 
-<p>Native resources are lazily instantiated at the first method call requiring them. They are released when the
-object is released. Although the client guards against concurrent accesses, it is strongly discouraged
-to create more than one <code>MirroredIndex</code> instance pointing to the same index, as that would duplicate
-native resources.</p>
-
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Requires Algolia&rsquo;s SDK. The <code><a href="../Classes/OfflineClient.html#/s:FC13AlgoliaSearch13OfflineClient17enableOfflineModeFT10licenseKeySS_T_">OfflineClient.enableOfflineMode(...)</a></code> method must be called with a valid
-license key prior to calling any offline-related method.
-
-</div>
-
-<p><a href='#request-strategy' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='request-strategy'>Request strategy</h3></p>
+<p><a href='#request-strategy' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='request-strategy'>Request strategy</h2></p>
 
 <p>When the index is mirrored and the device is online, it becomes possible to transparently switch between online and
 offline requests. There is no single best strategy for that, because it depends on the use case and the current
@@ -208,15 +210,79 @@ failure (including network unavailability).</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     <p>If you want to explicitly target either the online API or the offline mirror, doing so is always possible
-using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> methods.</p>
+using <code>searchOnline(...)</code> or <code>searchOffline(...)</code>.</p>
 
 </div>
 
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <p>The strategy applies both to <code>search(...)</code> and <code>searchDisjunctiveFaceting(...)</code>.</p>
+    <p>The strategy applies to:</p>
+
+<ul>
+<li><code>search(...)</code></li>
+<li><code>searchDisjunctiveFaceting(...)</code></li>
+<li><code>multipleQueries(...)</code></li>
+<li><code>getObject(...)</code></li>
+<li><code>getObjects(...)</code></li>
+</ul>
 
 </div>
+
+<p><a href='#bootstrapping' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='bootstrapping'>Bootstrapping</h2></p>
+
+<p>Before the first sync has successfully completed, a mirrored index is not available offline, because it has simply
+no data to search in yet. In most cases, this is not a problem: the app will sync as soon as instructed, so unless
+the device is offline when the app is started for the first time, or unless search is required right after the
+first launch, the user should not notice anything.</p>
+
+<p>However, in some cases, you might need to have offline data available as soon as possible. To achieve that,
+<code>MirroredIndex</code> provides a <strong>manual build</strong> feature.</p>
+
+<p><a href='#manual-build' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='manual-build'>Manual build</h3></p>
+
+<p>Manual building consists in specifying the source data for your index from local files, instead of downloading it
+from the API. Namely, you need:</p>
+
+<ul>
+<li>the <strong>index settings</strong> (one JSON file); and</li>
+<li>the <strong>objects</strong> (as many JSON files as needed, each containing an array of objects).</li>
+</ul>
+
+<p>Those files are typically embedded in the application as resources, although any other origin works too.</p>
+
+<p><a href='#conditional-bootstrapping' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='conditional-bootstrapping'>Conditional bootstrapping</h3></p>
+
+<p>To avoid replacing the local mirror every time the app is started (and potentially overwriting more recent data
+synced from the API), you should test whether the index already has offline data using the <code>hasOfflineData</code>
+property.</p>
+
+<p><a href='#discussion' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='discussion'>Discussion</h4>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    We strongly advise against prepackaging index files. While it may work in some cases, Algolia Offline
+makes no guarantee whatsoever that the index file format will remain backward-compatible forever, nor that it
+is independent of the hardware architecture (e.g. 32 bits vs 64 bits, or Little Endian vs Big Endian). Instead,
+always use the manual build feature.</p>
+
+<p></div></p>
+
+<p>While a manual build involves computing the offline index on the device, and therefore incurs a small delay before
+the mirror is actually usable, using plain JSON offers several advantages compared to prepackaging the index file
+itself:</p>
+
+<ul>
+<li><p>You only need to ship the raw object data, which is smaller than shipping an entire index file, which contains
+both the raw data <em>and</em> indexing metadata.</p></li>
+<li><p>Plain JSON compresses well with standard compression techniques like GZip, whereas an index file uses a binary
+format which doesn&rsquo;t compress very efficiently.</p></li>
+<li><p>Build automation is facilitated: you can easily extract the required data from your back-end, whereas building
+an index would involve running the app on each mobile platform as part of your build process and capturing the
+filesystem.</p></li>
+</ul>
+
+<p>Also, the build process is purposedly single-threaded across all indices, which means that on most modern devices
+with multi-core CPUs, the impact of manual building on the app&rsquo;s performance will be very moderate, especially
+regarding UI responsiveness.</p>
 
 <p><a href='#limitations' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='limitations'>Limitations</h2></p>
 
@@ -235,9 +301,14 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
 <li>Placeholders are fully supported.</li>
 </ul></li>
 <li><p>Dictionary-based <strong>plurals</strong> are not supported. (<q>Simple</q> plurals with a final S are supported.)</p></li>
-<li><p><strong>IP geolocation</strong> (see <code><a href="../Classes/Query.html#/s:vC13AlgoliaSearch5Query17aroundLatLngViaIPGSqSb_">Query.aroundLatLngViaIP</a></code>) is not supported.</p></li>
+<li><p><strong>IP geolocation</strong> (see <code><a href="../Classes/Query.html#/s:vC20AlgoliaSearch5Query17aroundLatLngViaIPGSqSb_">Query.aroundLatLngViaIP</a></code>) is not supported.</p></li>
 <li><p><strong>CJK segmentation</strong> is not supported.</p></li>
 </ul>
+
+<p><a href='#resource-handling' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='resource-handling'>Resource handling</h2></p>
+
+<p>Native resources are lazily instantiated when <code>mirrored</code> is set to <code>true</code>. They are released when the object is
+released, or if <code>mirrored</code> is set to <code>false</code> again.</p>
 
           </section>
           <section class="section task-group-section">
@@ -253,90 +324,9 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZvC13AlgoliaSearch13MirroredIndex24SyncDidStartNotificationVCSo14NSNotification4Name"></a>
-                    <a name="//apple_ref/swift/Variable/SyncDidStartNotification" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZvC13AlgoliaSearch13MirroredIndex24SyncDidStartNotificationVCSo14NSNotification4Name">SyncDidStartNotification</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Notification sent when the sync has started.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">SyncDidStartNotification</span> <span class="o">=</span> <span class="kt">Notification</span><span class="o">.</span><span class="kt">Name</span><span class="p">(</span><span class="s">"AlgoliaSearch.MirroredIndex.SyncDidStartNotification"</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:ZvC13AlgoliaSearch13MirroredIndex25SyncDidFinishNotificationVCSo14NSNotification4Name"></a>
-                    <a name="//apple_ref/swift/Variable/SyncDidFinishNotification" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZvC13AlgoliaSearch13MirroredIndex25SyncDidFinishNotificationVCSo14NSNotification4Name">SyncDidFinishNotification</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Notification sent when the sync has finished.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">SyncDidFinishNotification</span> <span class="o">=</span> <span class="kt">Notification</span><span class="o">.</span><span class="kt">Name</span><span class="p">(</span><span class="s">"AlgoliaSearch.MirroredIndex.SyncDidFinishNotification"</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:ZvC13AlgoliaSearch13MirroredIndex12syncErrorKeySS"></a>
-                    <a name="//apple_ref/swift/Variable/syncErrorKey" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZvC13AlgoliaSearch13MirroredIndex12syncErrorKeySS">syncErrorKey</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Notification user info key used to pass the error, when an error occurred during the sync.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">syncErrorKey</span> <span class="o">=</span> <span class="s">"AlgoliaSearch.MirroredIndex.syncErrorKey"</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:ZvC13AlgoliaSearch13MirroredIndex24defaultDelayBetweenSyncsSd"></a>
+                    <a name="/s:ZvC20AlgoliaSearch13MirroredIndex24defaultDelayBetweenSyncsSd"></a>
                     <a name="//apple_ref/swift/Variable/defaultDelayBetweenSyncs" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZvC13AlgoliaSearch13MirroredIndex24defaultDelayBetweenSyncsSd">defaultDelayBetweenSyncs</a>
+                    <a class="token" href="#/s:ZvC20AlgoliaSearch13MirroredIndex24defaultDelayBetweenSyncsSd">defaultDelayBetweenSyncs</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -361,9 +351,9 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZvC13AlgoliaSearch13MirroredIndex13jsonKeyOriginSS"></a>
+                    <a name="/s:ZvC20AlgoliaSearch13MirroredIndex13jsonKeyOriginSS"></a>
                     <a name="//apple_ref/swift/Variable/jsonKeyOrigin" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZvC13AlgoliaSearch13MirroredIndex13jsonKeyOriginSS">jsonKeyOrigin</a>
+                    <a class="token" href="#/s:ZvC20AlgoliaSearch13MirroredIndex13jsonKeyOriginSS">jsonKeyOrigin</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -388,9 +378,9 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZvC13AlgoliaSearch13MirroredIndex20jsonValueOriginLocalSS"></a>
+                    <a name="/s:ZvC20AlgoliaSearch13MirroredIndex20jsonValueOriginLocalSS"></a>
                     <a name="//apple_ref/swift/Variable/jsonValueOriginLocal" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZvC13AlgoliaSearch13MirroredIndex20jsonValueOriginLocalSS">jsonValueOriginLocal</a>
+                    <a class="token" href="#/s:ZvC20AlgoliaSearch13MirroredIndex20jsonValueOriginLocalSS">jsonValueOriginLocal</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -398,7 +388,7 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Value for <code><a href="../Classes/MirroredIndex.html#/s:ZvC13AlgoliaSearch13MirroredIndex13jsonKeyOriginSS">jsonKeyOrigin</a></code> indicating that the results come from the local mirror.</p>
+                        <p>Value for <code><a href="../Classes/MirroredIndex.html#/s:ZvC20AlgoliaSearch13MirroredIndex13jsonKeyOriginSS">jsonKeyOrigin</a></code> indicating that the results come from the local mirror.</p>
 
                       </div>
                       <div class="declaration">
@@ -415,9 +405,9 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZvC13AlgoliaSearch13MirroredIndex21jsonValueOriginRemoteSS"></a>
+                    <a name="/s:ZvC20AlgoliaSearch13MirroredIndex21jsonValueOriginRemoteSS"></a>
                     <a name="//apple_ref/swift/Variable/jsonValueOriginRemote" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZvC13AlgoliaSearch13MirroredIndex21jsonValueOriginRemoteSS">jsonValueOriginRemote</a>
+                    <a class="token" href="#/s:ZvC20AlgoliaSearch13MirroredIndex21jsonValueOriginRemoteSS">jsonValueOriginRemote</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -425,7 +415,7 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Value for <code><a href="../Classes/MirroredIndex.html#/s:ZvC13AlgoliaSearch13MirroredIndex13jsonKeyOriginSS">jsonKeyOrigin</a></code> indicating that the results come from the online API.</p>
+                        <p>Value for <code><a href="../Classes/MirroredIndex.html#/s:ZvC20AlgoliaSearch13MirroredIndex13jsonKeyOriginSS">jsonKeyOrigin</a></code> indicating that the results come from the online API.</p>
 
                       </div>
                       <div class="declaration">
@@ -453,9 +443,9 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC13AlgoliaSearch13MirroredIndex13offlineClientCS_13OfflineClient"></a>
+                    <a name="/s:vC20AlgoliaSearch13MirroredIndex13offlineClientCS_13OfflineClient"></a>
                     <a name="//apple_ref/swift/Property/offlineClient" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC13AlgoliaSearch13MirroredIndex13offlineClientCS_13OfflineClient">offlineClient</a>
+                    <a class="token" href="#/s:vC20AlgoliaSearch13MirroredIndex13offlineClientCS_13OfflineClient">offlineClient</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -480,9 +470,9 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC13AlgoliaSearch13MirroredIndex8mirroredSb"></a>
+                    <a name="/s:vC20AlgoliaSearch13MirroredIndex8mirroredSb"></a>
                     <a name="//apple_ref/swift/Property/mirrored" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC13AlgoliaSearch13MirroredIndex8mirroredSb">mirrored</a>
+                    <a class="token" href="#/s:vC20AlgoliaSearch13MirroredIndex8mirroredSb">mirrored</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -507,9 +497,9 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC13AlgoliaSearch13MirroredIndex20dataSelectionQueriesGSaCS_18DataSelectionQuery_"></a>
+                    <a name="/s:vC20AlgoliaSearch13MirroredIndex20dataSelectionQueriesGSaCS_18DataSelectionQuery_"></a>
                     <a name="//apple_ref/swift/Property/dataSelectionQueries" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC13AlgoliaSearch13MirroredIndex20dataSelectionQueriesGSaCS_18DataSelectionQuery_">dataSelectionQueries</a>
+                    <a class="token" href="#/s:vC20AlgoliaSearch13MirroredIndex20dataSelectionQueriesGSaCS_18DataSelectionQuery_">dataSelectionQueries</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -534,9 +524,9 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC13AlgoliaSearch13MirroredIndex17delayBetweenSyncsSd"></a>
+                    <a name="/s:vC20AlgoliaSearch13MirroredIndex17delayBetweenSyncsSd"></a>
                     <a name="//apple_ref/swift/Property/delayBetweenSyncs" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC13AlgoliaSearch13MirroredIndex17delayBetweenSyncsSd">delayBetweenSyncs</a>
+                    <a class="token" href="#/s:vC20AlgoliaSearch13MirroredIndex17delayBetweenSyncsSd">delayBetweenSyncs</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -551,7 +541,7 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">delayBetweenSyncs</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="n"><a href="../Classes/MirroredIndex.html#/s:ZvC13AlgoliaSearch13MirroredIndex24defaultDelayBetweenSyncsSd">defaultDelayBetweenSyncs</a></span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">delayBetweenSyncs</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="n"><a href="../Classes/MirroredIndex.html#/s:ZvC20AlgoliaSearch13MirroredIndex24defaultDelayBetweenSyncsSd">defaultDelayBetweenSyncs</a></span></code></pre>
 
                         </div>
                       </div>
@@ -561,9 +551,9 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC13AlgoliaSearch13MirroredIndex22lastSuccessfulSyncDateGSqV10Foundation4Date_"></a>
+                    <a name="/s:vC20AlgoliaSearch13MirroredIndex22lastSuccessfulSyncDateGSqV10Foundation4Date_"></a>
                     <a name="//apple_ref/swift/Property/lastSuccessfulSyncDate" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC13AlgoliaSearch13MirroredIndex22lastSuccessfulSyncDateGSqV10Foundation4Date_">lastSuccessfulSyncDate</a>
+                    <a class="token" href="#/s:vC20AlgoliaSearch13MirroredIndex22lastSuccessfulSyncDateGSqV10Foundation4Date_">lastSuccessfulSyncDate</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -588,9 +578,9 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC13AlgoliaSearch13MirroredIndex9syncErrorGSqPs5Error__"></a>
+                    <a name="/s:vC20AlgoliaSearch13MirroredIndex9syncErrorGSqPs5Error__"></a>
                     <a name="//apple_ref/swift/Property/syncError" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC13AlgoliaSearch13MirroredIndex9syncErrorGSqPs5Error__">syncError</a>
+                    <a class="token" href="#/s:vC20AlgoliaSearch13MirroredIndex9syncErrorGSqPs5Error__">syncError</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -612,6 +602,33 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC20AlgoliaSearch13MirroredIndex14hasOfflineDataSb"></a>
+                    <a name="//apple_ref/swift/Property/hasOfflineData" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC20AlgoliaSearch13MirroredIndex14hasOfflineDataSb">hasOfflineData</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Whether this index has offline data on disk.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">hasOfflineData</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
             <div class="task-group">
@@ -626,9 +643,9 @@ using the <code>searchOnline(...)</code> or <code>searchOffline(...)</code> meth
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch13MirroredIndex21addDataSelectionQueryFCS_18DataSelectionQueryT_"></a>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex21addDataSelectionQueryFCS_18DataSelectionQueryT_"></a>
                     <a name="//apple_ref/swift/Method/addDataSelectionQuery(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch13MirroredIndex21addDataSelectionQueryFCS_18DataSelectionQueryT_">addDataSelectionQuery(_:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex21addDataSelectionQueryFCS_18DataSelectionQueryT_">addDataSelectionQuery(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -641,7 +658,7 @@ The query is not run immediately. It will be run during the subsequent refreshes
 
 <div class="aside aside-precondition">
     <p class="aside-title">Precondition</p>
-    Mirroring must have been activated on this index (see the <code><a href="../Classes/MirroredIndex.html#/s:vC13AlgoliaSearch13MirroredIndex8mirroredSb">mirrored</a></code> property).
+    Mirroring must have been activated on this index (see the <code><a href="../Classes/MirroredIndex.html#/s:vC20AlgoliaSearch13MirroredIndex8mirroredSb">mirrored</a></code> property).
 
 </div>
 
@@ -660,9 +677,9 @@ The query is not run immediately. It will be run during the subsequent refreshes
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch13MirroredIndex23addDataSelectionQueriesFGSaCS_18DataSelectionQuery_T_"></a>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex23addDataSelectionQueriesFGSaCS_18DataSelectionQuery_T_"></a>
                     <a name="//apple_ref/swift/Method/addDataSelectionQueries(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch13MirroredIndex23addDataSelectionQueriesFGSaCS_18DataSelectionQuery_T_">addDataSelectionQueries(_:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex23addDataSelectionQueriesFGSaCS_18DataSelectionQuery_T_">addDataSelectionQueries(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -675,7 +692,7 @@ The query is not run immediately. It will be run during the subsequent refreshes
 
 <div class="aside aside-precondition">
     <p class="aside-title">Precondition</p>
-    Mirroring must have been activated on this index (see the <code><a href="../Classes/MirroredIndex.html#/s:vC13AlgoliaSearch13MirroredIndex8mirroredSb">mirrored</a></code> property).
+    Mirroring must have been activated on this index (see the <code><a href="../Classes/MirroredIndex.html#/s:vC20AlgoliaSearch13MirroredIndex8mirroredSb">mirrored</a></code> property).
 
 </div>
 
@@ -694,9 +711,9 @@ The query is not run immediately. It will be run during the subsequent refreshes
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch13MirroredIndex4syncFT_T_"></a>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex4syncFT_T_"></a>
                     <a name="//apple_ref/swift/Method/sync()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch13MirroredIndex4syncFT_T_">sync()</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex4syncFT_T_">sync()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -709,7 +726,7 @@ This unconditionally launches a sync, unless one is already running.</p>
 
 <div class="aside aside-precondition">
     <p class="aside-title">Precondition</p>
-    Mirroring must have been activated on this index (see the <code><a href="../Classes/MirroredIndex.html#/s:vC13AlgoliaSearch13MirroredIndex8mirroredSb">mirrored</a></code> property).
+    Mirroring must have been activated on this index (see the <code><a href="../Classes/MirroredIndex.html#/s:vC20AlgoliaSearch13MirroredIndex8mirroredSb">mirrored</a></code> property).
 
 </div>
 
@@ -728,9 +745,9 @@ This unconditionally launches a sync, unless one is already running.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch13MirroredIndex12syncIfNeededFT_T_"></a>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex12syncIfNeededFT_T_"></a>
                     <a name="//apple_ref/swift/Method/syncIfNeeded()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch13MirroredIndex12syncIfNeededFT_T_">syncIfNeeded()</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex12syncIfNeededFT_T_">syncIfNeeded()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -743,7 +760,7 @@ This takes into account the delay between syncs.</p>
 
 <div class="aside aside-precondition">
     <p class="aside-title">Precondition</p>
-    Mirroring must have been activated on this index (see the <code><a href="../Classes/MirroredIndex.html#/s:vC13AlgoliaSearch13MirroredIndex8mirroredSb">mirrored</a></code> property).
+    Mirroring must have been activated on this index (see the <code><a href="../Classes/MirroredIndex.html#/s:vC20AlgoliaSearch13MirroredIndex8mirroredSb">mirrored</a></code> property).
 
 </div>
 
@@ -763,6 +780,102 @@ This takes into account the delay between syncs.</p>
             </div>
             <div class="task-group">
               <div class="task-name-container">
+                <a name="/Manual%20build"></a>
+                <a name="//apple_ref/swift/Section/Manual build" class="dashAnchor"></a>
+                <a href="#/Manual%20build">
+                  <h3 class="section-name">Manual build</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex12buildOfflineFT12settingsFileSS11objectFilesGSaSS_17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation"></a>
+                    <a name="//apple_ref/swift/Method/buildOffline(settingsFile:objectFiles:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex12buildOfflineFT12settingsFileSS11objectFilesGSaSS_17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation">buildOffline(settingsFile:objectFiles:completionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Replace the local mirror with local data.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>Cancelling the request does <em>not</em> cancel the build; it merely prevents the completion handler from
+being called.</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">buildOffline</span><span class="p">(</span><span class="nv">settingsFile</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">objectFiles</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt">CompletionHandler</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>settingsFile</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Absolute path to the file containing the index settings, in JSON format.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objectFiles</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Absolute path(s) to the file(s) containing the objects. Each file must contain an array of objects, in JSON format.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional completion handler to be notified when the build has finished.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A cancellable operation.</p>
+
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
                 <a name="/Search"></a>
                 <a name="//apple_ref/swift/Section/Search" class="dashAnchor"></a>
                 <a href="#/Search">
@@ -773,9 +886,9 @@ This takes into account the delay between syncs.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:OC13AlgoliaSearch13MirroredIndex8Strategy"></a>
+                    <a name="/s:OC20AlgoliaSearch13MirroredIndex8Strategy"></a>
                     <a name="//apple_ref/swift/Enum/Strategy" class="dashAnchor"></a>
-                    <a class="token" href="#/s:OC13AlgoliaSearch13MirroredIndex8Strategy">Strategy</a>
+                    <a class="token" href="#/s:OC20AlgoliaSearch13MirroredIndex8Strategy">Strategy</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -801,9 +914,9 @@ This takes into account the delay between syncs.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC13AlgoliaSearch13MirroredIndex15requestStrategyOS0_8Strategy"></a>
+                    <a name="/s:vC20AlgoliaSearch13MirroredIndex15requestStrategyOS0_8Strategy"></a>
                     <a name="//apple_ref/swift/Property/requestStrategy" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC13AlgoliaSearch13MirroredIndex15requestStrategyOS0_8Strategy">requestStrategy</a>
+                    <a class="token" href="#/s:vC20AlgoliaSearch13MirroredIndex15requestStrategyOS0_8Strategy">requestStrategy</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -828,9 +941,9 @@ This takes into account the delay between syncs.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC13AlgoliaSearch13MirroredIndex22offlineFallbackTimeoutSd"></a>
+                    <a name="/s:vC20AlgoliaSearch13MirroredIndex22offlineFallbackTimeoutSd"></a>
                     <a name="//apple_ref/swift/Property/offlineFallbackTimeout" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC13AlgoliaSearch13MirroredIndex22offlineFallbackTimeoutSd">offlineFallbackTimeout</a>
+                    <a class="token" href="#/s:vC20AlgoliaSearch13MirroredIndex22offlineFallbackTimeoutSd">offlineFallbackTimeout</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -861,9 +974,9 @@ This takes into account the delay between syncs.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch13MirroredIndex6searchFTCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex6searchFTCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/search(_:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch13MirroredIndex6searchFTCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">search(_:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex6searchFTCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">search(_:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -888,9 +1001,9 @@ This takes into account the delay between syncs.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch13MirroredIndex12searchOnlineFTCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex12searchOnlineFTCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/searchOnline(_:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch13MirroredIndex12searchOnlineFTCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">searchOnline(_:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex12searchOnlineFTCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">searchOnline(_:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -915,9 +1028,9 @@ This takes into account the delay between syncs.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch13MirroredIndex13searchOfflineFTCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex13searchOfflineFTCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/searchOffline(_:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch13MirroredIndex13searchOfflineFTCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">searchOffline(_:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex13searchOfflineFTCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">searchOffline(_:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -953,9 +1066,9 @@ This takes into account the delay between syncs.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch13MirroredIndex15multipleQueriesFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex15multipleQueriesFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/multipleQueries(_:strategy:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch13MirroredIndex15multipleQueriesFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">multipleQueries(_:strategy:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex15multipleQueriesFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">multipleQueries(_:strategy:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -980,9 +1093,9 @@ This takes into account the delay between syncs.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch13MirroredIndex21multipleQueriesOnlineFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex21multipleQueriesOnlineFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/multipleQueriesOnline(_:strategy:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch13MirroredIndex21multipleQueriesOnlineFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">multipleQueriesOnline(_:strategy:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex21multipleQueriesOnlineFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">multipleQueriesOnline(_:strategy:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1058,9 +1171,9 @@ This takes into account the delay between syncs.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch13MirroredIndex21multipleQueriesOnlineFTGSaCS_5Query_8strategyGSqOCS_6Client23MultipleQueriesStrategy_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex21multipleQueriesOnlineFTGSaCS_5Query_8strategyGSqOCS_6Client23MultipleQueriesStrategy_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/multipleQueriesOnline(_:strategy:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch13MirroredIndex21multipleQueriesOnlineFTGSaCS_5Query_8strategyGSqOCS_6Client23MultipleQueriesStrategy_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">multipleQueriesOnline(_:strategy:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex21multipleQueriesOnlineFTGSaCS_5Query_8strategyGSqOCS_6Client23MultipleQueriesStrategy_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">multipleQueriesOnline(_:strategy:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1136,9 +1249,9 @@ This takes into account the delay between syncs.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch13MirroredIndex22multipleQueriesOfflineFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex22multipleQueriesOfflineFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/multipleQueriesOffline(_:strategy:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch13MirroredIndex22multipleQueriesOfflineFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">multipleQueriesOffline(_:strategy:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex22multipleQueriesOfflineFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">multipleQueriesOffline(_:strategy:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1147,7 +1260,7 @@ This takes into account the delay between syncs.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Run multiple queries on the local mirror.
-This method is the offline equivalent of <code><a href="../Classes/Index.html#/s:FC13AlgoliaSearch5Index15multipleQueriesFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">Index.multipleQueries(...)</a></code>.</p>
+This method is the offline equivalent of <code><a href="../Classes/Index.html#/s:FC20AlgoliaSearch5Index15multipleQueriesFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">Index.multipleQueries(...)</a></code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -1215,9 +1328,9 @@ This method is the offline equivalent of <code><a href="../Classes/Index.html#/s
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch13MirroredIndex22multipleQueriesOfflineFTGSaCS_5Query_8strategyGSqOCS_6Client23MultipleQueriesStrategy_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex22multipleQueriesOfflineFTGSaCS_5Query_8strategyGSqOCS_6Client23MultipleQueriesStrategy_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/multipleQueriesOffline(_:strategy:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch13MirroredIndex22multipleQueriesOfflineFTGSaCS_5Query_8strategyGSqOCS_6Client23MultipleQueriesStrategy_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">multipleQueriesOffline(_:strategy:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex22multipleQueriesOfflineFTGSaCS_5Query_8strategyGSqOCS_6Client23MultipleQueriesStrategy_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">multipleQueriesOffline(_:strategy:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1226,7 +1339,7 @@ This method is the offline equivalent of <code><a href="../Classes/Index.html#/s
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Run multiple queries on the local mirror.
-This method is the offline equivalent of <code><a href="../Classes/Index.html#/s:FC13AlgoliaSearch5Index15multipleQueriesFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">Index.multipleQueries(...)</a></code>.</p>
+This method is the offline equivalent of <code><a href="../Classes/Index.html#/s:FC20AlgoliaSearch5Index15multipleQueriesFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">Index.multipleQueries(...)</a></code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -1305,9 +1418,9 @@ This method is the offline equivalent of <code><a href="../Classes/Index.html#/s
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch13MirroredIndex12browseMirrorFT5queryCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex12browseMirrorFT5queryCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/browseMirror(query:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch13MirroredIndex12browseMirrorFT5queryCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">browseMirror(query:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex12browseMirrorFT5queryCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">browseMirror(query:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1316,7 +1429,7 @@ This method is the offline equivalent of <code><a href="../Classes/Index.html#/s
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Browse the local mirror (initial call).
-Same semantics as <code><a href="../Classes/Index.html#/s:FC13AlgoliaSearch5Index6browseFT5queryCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">Index.browse(query:completionHandler:)</a></code>.</p>
+Same semantics as <code><a href="../Classes/Index.html#/s:FC20AlgoliaSearch5Index6browseFT5queryCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">Index.browse(query:completionHandler:)</a></code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -1333,9 +1446,9 @@ Same semantics as <code><a href="../Classes/Index.html#/s:FC13AlgoliaSearch5Inde
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch13MirroredIndex12browseMirrorFT4fromSS17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex12browseMirrorFT4fromSS17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/browseMirror(from:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch13MirroredIndex12browseMirrorFT4fromSS17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">browseMirror(from:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex12browseMirrorFT4fromSS17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">browseMirror(from:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1344,7 +1457,7 @@ Same semantics as <code><a href="../Classes/Index.html#/s:FC13AlgoliaSearch5Inde
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Browse the index from a cursor.
-Same semantics as <code><a href="../Classes/Index.html#/s:FC13AlgoliaSearch5Index6browseFT4fromSS17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">Index.browse(from:completionHandler:)</a></code>.</p>
+Same semantics as <code><a href="../Classes/Index.html#/s:FC20AlgoliaSearch5Index6browseFT4fromSS17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">Index.browse(from:completionHandler:)</a></code>.</p>
 
                       </div>
                       <div class="declaration">
@@ -1352,6 +1465,329 @@ Same semantics as <code><a href="../Classes/Index.html#/s:FC13AlgoliaSearch5Inde
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">browseMirror</span><span class="p">(</span><span class="n">from</span> <span class="nv">cursor</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Getting%20individual%20objects"></a>
+                <a name="//apple_ref/swift/Section/Getting individual objects" class="dashAnchor"></a>
+                <a href="#/Getting%20individual%20objects">
+                  <h3 class="section-name">Getting individual objects</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex9getObjectFT6withIDSS20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="//apple_ref/swift/Method/getObject(withID:attributesToRetrieve:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex9getObjectFT6withIDSS20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObject(withID:attributesToRetrieve:completionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get an object from this index, optionally restricting the retrieved content.
+Same semantics as <code><a href="../Classes/Index.html#/s:FC20AlgoliaSearch5Index9getObjectFT6withIDSS20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">Index.getObject(withID:attributesToRetrieve:completionHandler:)</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">@discardableResult</span> <span class="k">override</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObject</span><span class="p">(</span><span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">attributesToRetrieve</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex15getObjectOnlineFT6withIDSS20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="//apple_ref/swift/Method/getObjectOnline(withID:attributesToRetrieve:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex15getObjectOnlineFT6withIDSS20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObjectOnline(withID:attributesToRetrieve:completionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get an individual object, explicitly targeting the online API, and not the offline mirror.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObjectOnline</span><span class="p">(</span><span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">attributesToRetrieve</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex16getObjectOfflineFT6withIDSS20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="//apple_ref/swift/Method/getObjectOffline(withID:attributesToRetrieve:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex16getObjectOfflineFT6withIDSS20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObjectOffline(withID:attributesToRetrieve:completionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get an individual object, explicitly targeting the offline mirror, and not the online API.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObjectOffline</span><span class="p">(</span><span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">attributesToRetrieve</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex10getObjectsFT7withIDsGSaSS_20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="//apple_ref/swift/Method/getObjects(withIDs:attributesToRetrieve:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex10getObjectsFT7withIDsGSaSS_20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObjects(withIDs:attributesToRetrieve:completionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get several objects from this index, optionally restricting the retrieved content.
+Same semantics as <code><a href="../Classes/Index.html#/s:FC20AlgoliaSearch5Index10getObjectsFT7withIDsGSaSS_20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">Index.getObjects(withIDs:attributesToRetrieve:completionHandler:)</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">@discardableResult</span> <span class="k">override</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObjects</span><span class="p">(</span><span class="n">withIDs</span> <span class="nv">objectIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">attributesToRetrieve</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex16getObjectsOnlineFT7withIDsGSaSS_20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="//apple_ref/swift/Method/getObjectsOnline(withIDs:attributesToRetrieve:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex16getObjectsOnlineFT7withIDsGSaSS_20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObjectsOnline(withIDs:attributesToRetrieve:completionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get individual objects, explicitly targeting the online API, and not the offline mirror.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObjectsOnline</span><span class="p">(</span><span class="n">withIDs</span> <span class="nv">objectIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">attributesToRetrieve</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC20AlgoliaSearch13MirroredIndex17getObjectsOfflineFT7withIDsGSaSS_20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="//apple_ref/swift/Method/getObjectsOffline(withIDs:attributesToRetrieve:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch13MirroredIndex17getObjectsOfflineFT7withIDsGSaSS_20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObjectsOffline(withIDs:attributesToRetrieve:completionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Get individual objects, explicitly targeting the offline mirror, and not the online API.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObjectsOffline</span><span class="p">(</span><span class="n">withIDs</span> <span class="nv">objectIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">attributesToRetrieve</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Notifications"></a>
+                <a name="//apple_ref/swift/Section/Notifications" class="dashAnchor"></a>
+                <a href="#/Notifications">
+                  <h3 class="section-name">Notifications</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC20AlgoliaSearch13MirroredIndex24SyncDidStartNotificationVCSo14NSNotification4Name"></a>
+                    <a name="//apple_ref/swift/Variable/SyncDidStartNotification" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC20AlgoliaSearch13MirroredIndex24SyncDidStartNotificationVCSo14NSNotification4Name">SyncDidStartNotification</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Notification sent when the sync has started.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">SyncDidStartNotification</span> <span class="o">=</span> <span class="kt">Notification</span><span class="o">.</span><span class="kt">Name</span><span class="p">(</span><span class="s">"AlgoliaSearch.MirroredIndex.SyncDidStartNotification"</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC20AlgoliaSearch13MirroredIndex25SyncDidFinishNotificationVCSo14NSNotification4Name"></a>
+                    <a name="//apple_ref/swift/Variable/SyncDidFinishNotification" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC20AlgoliaSearch13MirroredIndex25SyncDidFinishNotificationVCSo14NSNotification4Name">SyncDidFinishNotification</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Notification sent when the sync has finished.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">SyncDidFinishNotification</span> <span class="o">=</span> <span class="kt">Notification</span><span class="o">.</span><span class="kt">Name</span><span class="p">(</span><span class="s">"AlgoliaSearch.MirroredIndex.SyncDidFinishNotification"</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC20AlgoliaSearch13MirroredIndex8errorKeySS"></a>
+                    <a name="//apple_ref/swift/Variable/errorKey" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC20AlgoliaSearch13MirroredIndex8errorKeySS">errorKey</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Notification user info key used to pass the error, when an error occurred during a sync or a build.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">errorKey</span> <span class="o">=</span> <span class="s">"AlgoliaSearch.MirroredIndex.errorKey"</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC20AlgoliaSearch13MirroredIndex25BuildDidStartNotificationVCSo14NSNotification4Name"></a>
+                    <a name="//apple_ref/swift/Variable/BuildDidStartNotification" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC20AlgoliaSearch13MirroredIndex25BuildDidStartNotificationVCSo14NSNotification4Name">BuildDidStartNotification</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Notification sent when the build of the local mirror has started.
+This notification is sent both for syncs or manual builds.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">BuildDidStartNotification</span> <span class="o">=</span> <span class="kt">Notification</span><span class="o">.</span><span class="kt">Name</span><span class="p">(</span><span class="s">"AlgoliaSearch.MirroredIndex.BuildDidStartNotification"</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ZvC20AlgoliaSearch13MirroredIndex26BuildDidFinishNotificationVCSo14NSNotification4Name"></a>
+                    <a name="//apple_ref/swift/Variable/BuildDidFinishNotification" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ZvC20AlgoliaSearch13MirroredIndex26BuildDidFinishNotificationVCSo14NSNotification4Name">BuildDidFinishNotification</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Notification sent when the build of the local mirror has finished.
+This notification is sent both for syncs or manual builds.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">static</span> <span class="k">let</span> <span class="nv">BuildDidFinishNotification</span> <span class="o">=</span> <span class="kt">Notification</span><span class="o">.</span><span class="kt">Name</span><span class="p">(</span><span class="s">"AlgoliaSearch.MirroredIndex.BuildDidFinishNotification"</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>

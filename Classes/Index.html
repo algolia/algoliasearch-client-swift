@@ -641,9 +641,9 @@ If an object already exists with the same object ID, the existing object will be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index9getObjectFT6withIDSS20attributesToRetrieveGSaSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC13AlgoliaSearch5Index9getObjectFT6withIDSS20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/getObject(withID:attributesToRetrieve:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index9getObjectFT6withIDSS20attributesToRetrieveGSaSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObject(withID:attributesToRetrieve:completionHandler:)</a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch5Index9getObjectFT6withIDSS20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObject(withID:attributesToRetrieve:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -658,7 +658,7 @@ If an object already exists with the same object ID, the existing object will be
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObject</span><span class="p">(</span><span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">attributesToRetrieve</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObject</span><span class="p">(</span><span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">attributesToRetrieve</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
@@ -687,7 +687,7 @@ If an object already exists with the same object ID, the existing object will be
                               </td>
                               <td>
                                 <div>
-                                  <p>List of attributes to retrieve.</p>
+                                  <p>List of attributes to retrieve. If <code>nil</code>, all attributes are retrieved. If one of the elements is <code>&quot;*&quot;</code>, all attributes are retrieved.</p>
 
                                 </div>
                               </td>
@@ -784,9 +784,9 @@ If an object already exists with the same object ID, the existing object will be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index10getObjectsFT7withIDsGSaSS_20attributesToRetrieveGSaSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC13AlgoliaSearch5Index10getObjectsFT7withIDsGSaSS_20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/getObjects(withIDs:attributesToRetrieve:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index10getObjectsFT7withIDsGSaSS_20attributesToRetrieveGSaSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObjects(withIDs:attributesToRetrieve:completionHandler:)</a>
+                    <a class="token" href="#/s:FC13AlgoliaSearch5Index10getObjectsFT7withIDsGSaSS_20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObjects(withIDs:attributesToRetrieve:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -801,7 +801,7 @@ If an object already exists with the same object ID, the existing object will be
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObjects</span><span class="p">(</span><span class="n">withIDs</span> <span class="nv">objectIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">attributesToRetrieve</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObjects</span><span class="p">(</span><span class="n">withIDs</span> <span class="nv">objectIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">attributesToRetrieve</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt">CompletionHandler</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>

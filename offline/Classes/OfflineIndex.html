@@ -157,7 +157,7 @@
             <a href="../Other Typealiases.html">Other Typealiases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Other Typealiases.html#/s:13AlgoliaSearch21BrowseIteratorHandler">BrowseIteratorHandler</a>
+                <a href="../Other Typealiases.html#/s:20AlgoliaSearch21BrowseIteratorHandler">BrowseIteratorHandler</a>
               </li>
             </ul>
           </li>
@@ -178,53 +178,36 @@ Such an index has no online counterpart. It is updated and queried locally.</p>
 
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    You cannot construct this class directly. Please use <code><a href="../Classes/OfflineClient.html#/s:FC13AlgoliaSearch13OfflineClient12offlineIndexFT8withNameSS_CS_12OfflineIndex">OfflineClient.offlineIndex(withName:)</a></code> to obtain an
-instance.
+    <p>You cannot construct this class directly. Please use <code><a href="../Classes/OfflineClient.html#/s:FC20AlgoliaSearch13OfflineClient12offlineIndexFT8withNameSS_CS_12OfflineIndex">OfflineClient.offlineIndex(withName:)</a></code> to obtain an
+instance.</p>
 
 </div>
 
-<p><a href='#caveats' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='caveats'>Caveats</h2>
-<a href='#limitations' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='limitations'>Limitations</h3></p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>Requires Algolia Offline Core. <code><a href="../Classes/OfflineClient.html#/s:FC20AlgoliaSearch13OfflineClient17enableOfflineModeFT10licenseKeySS_T_">OfflineClient.enableOfflineMode(...)</a></code> must be called with a valid license
+key prior to calling any offline-related method.</p>
 
-<p>Though offline indices support most features of an online index, there are some limitations:</p>
+</div>
 
-<ul>
-<li><p>Objects <strong>must contain an <code>objectID</code></strong> field. The SDK will refuse to index objects without an ID.</p></li>
-<li><p><strong>Partial updates</strong> are not supported.</p></li>
-<li><p><strong>Replica indices</strong> are not supported.</p></li>
-</ul>
+<p><a href='#reading' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='reading'>Reading</h2></p>
 
-<p><a href='#differences' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='differences'>Differences</h3></p>
+<p>Read operations behave identically as with online indices.</p>
 
-<ul>
-<li><p><strong>Settings</strong> are not incremental: the new settings completely replace the previous ones. If a setting
-is omitted in the new version, it reverts back to its default value. (This is in contrast with the online API,
-where you can only specify the settings you want to change and omit the others.)</p></li>
-<li><p>You cannot batch arbitrary write operations in a single method call (as you would do with <code><a href="../Classes/Index.html#/s:FC13AlgoliaSearch5Index5batchFT10operationsGSaGVs10DictionarySSP___17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">Index.batch(...)</a></code>).
-However, all write operations are <em>de facto</em> batches, since they must be wrapped inside a transaction (see below).</p></li>
-</ul>
-
-<p><a href='#operations' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='operations'>Operations</h2>
-<a href='#writing' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='writing'>Writing</h3></p>
+<p><a href='#writing' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='writing'>Writing</h2></p>
 
 <p>Updating an index involves rebuilding it, which is an expensive and potentially lengthy operation. Therefore, all
 updates must be wrapped inside a <strong>transaction</strong>.</p>
-
-<div class="aside aside-warning">
-    <p class="aside-title">Warning</p>
-    You cannot have several parallel transactions on a given index.
-
-</div>
 
 <p>The procedure to update an index is as follows:</p>
 
 <ul>
 <li><p>Create a transaction by calling <code>newTransaction()</code>.</p></li>
 <li><p>Populate the transaction: call the various write methods on the <code>WriteTransaction</code> class.</p></li>
-<li><p>Either commit (<code>commit()</code>) or rollback (<code>rollback()</code>) the transaction.</p></li>
+<li><p>Either <code>commit()</code> or <code>rollback()</code> the transaction.</p></li>
 </ul>
 
-<p><a href='#synchronous-vs-asynchronous-updates' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='synchronous-vs-asynchronous-updates'>Synchronous vs asynchronous updates</h4></p>
+<p><a href='#synchronous-vs-asynchronous-updates' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='synchronous-vs-asynchronous-updates'>Synchronous vs asynchronous updates</h3></p>
 
 <p>Any write operation, especially (but not limited to) the final commit, is potentially lengthy. This is why all
 operations provide an asynchronous version, which accepts an optional completion handler that will be notified of
@@ -246,7 +229,7 @@ use the synchronous versions of the write methods. They are named after the asyn
 
 </div>
 
-<p><a href='#parallel-transactions' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='parallel-transactions'>Parallel transactions</h4></p>
+<p><a href='#parallel-transactions' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='parallel-transactions'>Parallel transactions</h3></p>
 
 <p>While it is possible to create parallel transactions, there is little interest in doing so, since each committed
 transaction results in an index rebuild. Multiplying transactions therefore only degrades performance.</p>
@@ -254,9 +237,38 @@ transaction results in an index rebuild. Multiplying transactions therefore only
 <p>Also, transactions are serially executed in the order they were committed, the latest transaction potentially
 overwriting the previous transactions&rsquo; result.</p>
 
-<p><a href='#reading' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='reading'>Reading</h3></p>
+<p><a href='#manual-build' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='manual-build'>Manual build</h3></p>
 
-<p>Read operations behave identically as with online indices.</p>
+<p>As an alternative to using write transactions, <code>OfflineIndex</code> also offers a <strong>manual build</strong> feature. Provided that
+you have:</p>
+
+<ul>
+<li>the <strong>index settings</strong> (one JSON file); and</li>
+<li>the <strong>objects</strong> (as many JSON files as needed, each containing an array of objects)</li>
+</ul>
+
+<p>&hellip; available as local files on disk, you can replace the index&rsquo;s content with that data by calling <code>build(...)</code>.</p>
+
+<p><a href='#caveats' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='caveats'>Caveats</h2>
+<a href='#limitations' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='limitations'>Limitations</h3></p>
+
+<p>Though offline indices support most features of an online index, there are some limitations:</p>
+
+<ul>
+<li><p>Objects <strong>must contain an <code>objectID</code></strong> field. The SDK will refuse to index objects without an ID.</p></li>
+<li><p><strong>Partial updates</strong> are not supported.</p></li>
+<li><p><strong>Replica indices</strong> are not supported.</p></li>
+</ul>
+
+<p><a href='#differences' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='differences'>Differences</h3></p>
+
+<ul>
+<li><p><strong>Settings</strong> are not incremental: the new settings completely replace the previous ones. If a setting
+is omitted in the new version, it reverts back to its default value. (This is in contrast with the online API,
+where you can only specify the settings you want to change and omit the others.)</p></li>
+<li><p>You cannot batch arbitrary write operations in a single method call (as you would do with <code><a href="../Classes/Index.html#/s:FC20AlgoliaSearch5Index5batchFT10operationsGSaGVs10DictionarySSP___17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">Index.batch(...)</a></code>).
+However, all write operations are <em>de facto</em> batches, since they must be wrapped inside a transaction (see below).</p></li>
+</ul>
 
           </section>
           <section class="section task-group-section">
@@ -272,9 +284,9 @@ overwriting the previous transactions&rsquo; result.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC13AlgoliaSearch12OfflineIndex4nameSS"></a>
+                    <a name="/s:vC20AlgoliaSearch12OfflineIndex4nameSS"></a>
                     <a name="//apple_ref/swift/Property/name" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC13AlgoliaSearch12OfflineIndex4nameSS">name</a>
+                    <a class="token" href="#/s:vC20AlgoliaSearch12OfflineIndex4nameSS">name</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -299,9 +311,9 @@ overwriting the previous transactions&rsquo; result.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC13AlgoliaSearch12OfflineIndex6clientCS_13OfflineClient"></a>
+                    <a name="/s:vC20AlgoliaSearch12OfflineIndex6clientCS_13OfflineClient"></a>
                     <a name="//apple_ref/swift/Property/client" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC13AlgoliaSearch12OfflineIndex6clientCS_13OfflineClient">client</a>
+                    <a class="token" href="#/s:vC20AlgoliaSearch12OfflineIndex6clientCS_13OfflineClient">client</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -323,6 +335,33 @@ overwriting the previous transactions&rsquo; result.</p>
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC20AlgoliaSearch12OfflineIndex14hasOfflineDataSb"></a>
+                    <a name="//apple_ref/swift/Property/hasOfflineData" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC20AlgoliaSearch12OfflineIndex14hasOfflineDataSb">hasOfflineData</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Whether this index has offline data on disk.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">hasOfflineData</span><span class="p">:</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
             <div class="task-group">
@@ -337,9 +376,9 @@ overwriting the previous transactions&rsquo; result.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch12OfflineIndex9getObjectFT6withIDSS17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch12OfflineIndex9getObjectFT6withIDSS17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/getObject(withID:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch12OfflineIndex9getObjectFT6withIDSS17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObject(withID:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch12OfflineIndex9getObjectFT6withIDSS17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObject(withID:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -402,9 +441,9 @@ overwriting the previous transactions&rsquo; result.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch12OfflineIndex9getObjectFT6withIDSS20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch12OfflineIndex9getObjectFT6withIDSS20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/getObject(withID:attributesToRetrieve:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch12OfflineIndex9getObjectFT6withIDSS20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObject(withID:attributesToRetrieve:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch12OfflineIndex9getObjectFT6withIDSS20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObject(withID:attributesToRetrieve:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -480,9 +519,9 @@ overwriting the previous transactions&rsquo; result.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch12OfflineIndex10getObjectsFT7withIDsGSaSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch12OfflineIndex10getObjectsFT7withIDsGSaSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/getObjects(withIDs:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch12OfflineIndex10getObjectsFT7withIDsGSaSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObjects(withIDs:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch12OfflineIndex10getObjectsFT7withIDsGSaSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObjects(withIDs:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -545,9 +584,9 @@ overwriting the previous transactions&rsquo; result.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch12OfflineIndex10getObjectsFT7withIDsGSaSS_20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch12OfflineIndex10getObjectsFT7withIDsGSaSS_20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/getObjects(withIDs:attributesToRetrieve:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch12OfflineIndex10getObjectsFT7withIDsGSaSS_20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObjects(withIDs:attributesToRetrieve:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch12OfflineIndex10getObjectsFT7withIDsGSaSS_20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObjects(withIDs:attributesToRetrieve:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -623,9 +662,9 @@ overwriting the previous transactions&rsquo; result.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch12OfflineIndex6searchFTCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch12OfflineIndex6searchFTCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/search(_:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch12OfflineIndex6searchFTCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">search(_:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch12OfflineIndex6searchFTCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">search(_:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -688,9 +727,9 @@ overwriting the previous transactions&rsquo; result.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch12OfflineIndex11getSettingsFT17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch12OfflineIndex11getSettingsFT17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/getSettings(completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch12OfflineIndex11getSettingsFT17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getSettings(completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch12OfflineIndex11getSettingsFT17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getSettings(completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -740,9 +779,9 @@ overwriting the previous transactions&rsquo; result.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch12OfflineIndex6browseFT5queryCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch12OfflineIndex6browseFT5queryCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/browse(query:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch12OfflineIndex6browseFT5queryCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">browse(query:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch12OfflineIndex6browseFT5queryCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">browse(query:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -807,9 +846,9 @@ unless the end of the index has been reached. To retrieve subsequent pages, call
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch12OfflineIndex10browseFromFT6cursorSS17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch12OfflineIndex10browseFromFT6cursorSS17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/browseFrom(cursor:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch12OfflineIndex10browseFromFT6cursorSS17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">browseFrom(cursor:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch12OfflineIndex10browseFromFT6cursorSS17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">browseFrom(cursor:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -818,7 +857,7 @@ unless the end of the index has been reached. To retrieve subsequent pages, call
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Browse the index from a cursor.
-This method should be called after an initial call to <code><a href="../Classes/OfflineIndex.html#/s:FC13AlgoliaSearch12OfflineIndex6browseFT5queryCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">browse(...)</a></code>. It returns a cursor, unless the end of the
+This method should be called after an initial call to <code><a href="../Classes/OfflineIndex.html#/s:FC20AlgoliaSearch12OfflineIndex6browseFT5queryCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">browse(...)</a></code>. It returns a cursor, unless the end of the
 index has been reached.</p>
 
                       </div>
@@ -874,9 +913,9 @@ index has been reached.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch12OfflineIndex15multipleQueriesFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch12OfflineIndex15multipleQueriesFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/multipleQueries(_:strategy:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch12OfflineIndex15multipleQueriesFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">multipleQueries(_:strategy:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch12OfflineIndex15multipleQueriesFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">multipleQueries(_:strategy:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -952,9 +991,9 @@ index has been reached.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch12OfflineIndex15multipleQueriesFTGSaCS_5Query_8strategyGSqOCS_6Client23MultipleQueriesStrategy_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch12OfflineIndex15multipleQueriesFTGSaCS_5Query_8strategyGSqOCS_6Client23MultipleQueriesStrategy_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/multipleQueries(_:strategy:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch12OfflineIndex15multipleQueriesFTGSaCS_5Query_8strategyGSqOCS_6Client23MultipleQueriesStrategy_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">multipleQueries(_:strategy:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch12OfflineIndex15multipleQueriesFTGSaCS_5Query_8strategyGSqOCS_6Client23MultipleQueriesStrategy_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">multipleQueries(_:strategy:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1031,19 +1070,19 @@ index has been reached.</p>
             </div>
             <div class="task-group">
               <div class="task-name-container">
-                <a name="/Transaction%20management"></a>
-                <a name="//apple_ref/swift/Section/Transaction management" class="dashAnchor"></a>
-                <a href="#/Transaction%20management">
-                  <h3 class="section-name">Transaction management</h3>
+                <a name="/Write%20operations"></a>
+                <a name="//apple_ref/swift/Section/Write operations" class="dashAnchor"></a>
+                <a href="#/Write%20operations">
+                  <h3 class="section-name">Write operations</h3>
                 </a>
               </div>
               <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:CC13AlgoliaSearch12OfflineIndex16WriteTransaction"></a>
+                    <a name="/s:CC20AlgoliaSearch12OfflineIndex16WriteTransaction"></a>
                     <a name="//apple_ref/swift/Class/WriteTransaction" class="dashAnchor"></a>
-                    <a class="token" href="#/s:CC13AlgoliaSearch12OfflineIndex16WriteTransaction">WriteTransaction</a>
+                    <a class="token" href="#/s:CC20AlgoliaSearch12OfflineIndex16WriteTransaction">WriteTransaction</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1061,7 +1100,7 @@ Its purpose is twofold:</p>
 <li>Avoid keeping all the necessary data in memory, e.g. by flushing added objects to temporary files on disk.</li>
 </ol>
 
-<p>A transaction can be created by calling <code><a href="../Classes/OfflineIndex.html#/s:FC13AlgoliaSearch12OfflineIndex14newTransactionFT_CS0_16WriteTransaction">OfflineIndex.newTransaction()</a></code>.</p>
+<p>A transaction can be created by calling <code><a href="../Classes/OfflineIndex.html#/s:FC20AlgoliaSearch12OfflineIndex14newTransactionFT_CS0_16WriteTransaction">OfflineIndex.newTransaction()</a></code>.</p>
 
                         <a href="../Classes/OfflineIndex/WriteTransaction.html" class="slightly-smaller">See more</a>
                       </div>
@@ -1079,9 +1118,9 @@ Its purpose is twofold:</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch12OfflineIndex14newTransactionFT_CS0_16WriteTransaction"></a>
+                    <a name="/s:FC20AlgoliaSearch12OfflineIndex14newTransactionFT_CS0_16WriteTransaction"></a>
                     <a name="//apple_ref/swift/Method/newTransaction()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch12OfflineIndex14newTransactionFT_CS0_16WriteTransaction">newTransaction()</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch12OfflineIndex14newTransactionFT_CS0_16WriteTransaction">newTransaction()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1091,12 +1130,6 @@ Its purpose is twofold:</p>
                       <div class="abstract">
                         <p>Create a new write transaction.</p>
 
-<div class="aside aside-warning">
-    <p class="aside-title">Warning</p>
-    You cannot open parallel transactions. This method will assert if a transaction is already open.
-
-</div>
-
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -1105,6 +1138,104 @@ Its purpose is twofold:</p>
                           <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">newTransaction</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/OfflineIndex/WriteTransaction.html">WriteTransaction</a></span></code></pre>
 
                         </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Manual%20build"></a>
+                <a name="//apple_ref/swift/Section/Manual build" class="dashAnchor"></a>
+                <a href="#/Manual%20build">
+                  <h3 class="section-name">Manual build</h3>
+                </a>
+              </div>
+              <ul>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:FC20AlgoliaSearch12OfflineIndex5buildFT12settingsFileSS11objectFilesGSaSS_17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation"></a>
+                    <a name="//apple_ref/swift/Method/build(settingsFile:objectFiles:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch12OfflineIndex5buildFT12settingsFileSS11objectFilesGSaSS_17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation">build(settingsFile:objectFiles:completionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Build the index from local files.
+This method is a shortcut alternative to using write transactions if all of your data is already available as
+plain JSON files on disk.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>Cancelling the request does <em>not</em> cancel the build; it merely prevents the completion handler from
+being called.</p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">build</span><span class="p">(</span><span class="nv">settingsFile</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">objectFiles</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt">CompletionHandler</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>settingsFile</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Absolute path to the file containing the index settings, in JSON format.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objectFiles</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Absolute path(s) to the file(s) containing the objects. Each file must contain an array of objects, in JSON format.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional completion handler to be notified when the build has finished.</p>
+
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A cancellable operation.</p>
+
                       </div>
                     </section>
                   </div>
@@ -1123,9 +1254,9 @@ Its purpose is twofold:</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch12OfflineIndex13deleteByQueryFTCS_5Query17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch12OfflineIndex13deleteByQueryFTCS_5Query17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/deleteByQuery(_:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch12OfflineIndex13deleteByQueryFTCS_5Query17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation">deleteByQuery(_:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch12OfflineIndex13deleteByQueryFTCS_5Query17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation">deleteByQuery(_:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1194,9 +1325,9 @@ Its purpose is twofold:</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch12OfflineIndex17deleteByQuerySyncFzTCS_5Query11transactionCS0_16WriteTransaction_GSaSS_"></a>
+                    <a name="/s:FC20AlgoliaSearch12OfflineIndex17deleteByQuerySyncFzTCS_5Query11transactionCS0_16WriteTransaction_GSaSS_"></a>
                     <a name="//apple_ref/swift/Method/deleteByQuerySync(_:transaction:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch12OfflineIndex17deleteByQuerySyncFzTCS_5Query11transactionCS0_16WriteTransaction_GSaSS_">deleteByQuerySync(_:transaction:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch12OfflineIndex17deleteByQuerySyncFzTCS_5Query11transactionCS0_16WriteTransaction_GSaSS_">deleteByQuerySync(_:transaction:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1258,9 +1389,9 @@ Its purpose is twofold:</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch12OfflineIndex25searchDisjunctiveFacetingFTCS_5Query17disjunctiveFacetsGSaSS_11refinementsGVs10DictionarySSGSaSS__17completionHandlerFTGSqGS2_SSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/s:FC20AlgoliaSearch12OfflineIndex25searchDisjunctiveFacetingFTCS_5Query17disjunctiveFacetsGSaSS_11refinementsGVs10DictionarySSGSaSS__17completionHandlerFTGSqGS2_SSP___GSqPs5Error___T__CSo9Operation"></a>
                     <a name="//apple_ref/swift/Method/searchDisjunctiveFaceting(_:disjunctiveFacets:refinements:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch12OfflineIndex25searchDisjunctiveFacetingFTCS_5Query17disjunctiveFacetsGSaSS_11refinementsGVs10DictionarySSGSaSS__17completionHandlerFTGSqGS2_SSP___GSqPs5Error___T__CSo9Operation">searchDisjunctiveFaceting(_:disjunctiveFacets:refinements:completionHandler:)</a>
+                    <a class="token" href="#/s:FC20AlgoliaSearch12OfflineIndex25searchDisjunctiveFacetingFTCS_5Query17disjunctiveFacetsGSaSS_11refinementsGVs10DictionarySSGSaSS__17completionHandlerFTGSqGS2_SSP___GSqPs5Error___T__CSo9Operation">searchDisjunctiveFaceting(_:disjunctiveFacets:refinements:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">

@@ -71,6 +71,13 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Offline/MirroredIndex.swift",
+      "line": 1105,
+      "symbol": "MirroredIndex.syncErrorKey",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Offline/OfflineIndex.swift",
       "line": 28,
       "symbol": "IOError",
@@ -79,14 +86,14 @@
     },
     {
       "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Offline/OfflineIndex.swift",
-      "line": 160,
+      "line": 184,
       "symbol": "OfflineIndex.description",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/clementlp/devt/workspace/clients-master/algoliasearch-client-swift/Source/Offline/OfflineIndex.swift",
-      "line": 515,
+      "line": 543,
       "symbol": "OfflineIndex.WriteTransaction.description",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"

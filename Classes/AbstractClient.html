@@ -431,6 +431,43 @@ Change them only if you know what you are doing.
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch14AbstractClient15useReachabilitySb"></a>
+                    <a name="//apple_ref/swift/Property/useReachability" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch14AbstractClient15useReachabilitySb">useReachability</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Whether to use network reachability to decide if online requests should be attempted.</p>
+
+<p><li>When <code>true</code> (default), if the network reachability (as reported by the System Configuration framework) is
+down, online requests will not be attempted and report to fail immediately.</li>
+<li><p>When <code>false</code>, online requests will always be attempted (if the strategy involves them), even if the network
+does not seem to be reachable.</p></li>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>Not available on watchOS (the System Configuration framework is not available there).</p></p>
+
+<p></div></p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">useReachability</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
             <div class="task-group">
