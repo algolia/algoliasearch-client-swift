@@ -54,6 +54,60 @@ public struct IOError: CustomNSError {
 /// + Note: You cannot construct this class directly. Please use `OfflineClient.offlineIndex(withName:)` to obtain an
 ///   instance.
 ///
+/// + Note: Requires Algolia Offline Core. `OfflineClient.enableOfflineMode(...)` must be called with a valid license
+///   key prior to calling any offline-related method.
+///
+///
+/// ## Reading
+///
+/// Read operations behave identically as with online indices.
+///
+///
+/// ## Writing
+///
+/// Updating an index involves rebuilding it, which is an expensive and potentially lengthy operation. Therefore, all
+/// updates must be wrapped inside a **transaction**.
+///
+/// The procedure to update an index is as follows:
+///
+/// - Create a transaction by calling `newTransaction()`.
+///
+/// - Populate the transaction: call the various write methods on the `WriteTransaction` class.
+///
+/// - Either `commit()` or `rollback()` the transaction.
+///
+/// ### Synchronous vs asynchronous updates
+///
+/// Any write operation, especially (but not limited to) the final commit, is potentially lengthy. This is why all
+/// operations provide an asynchronous version, which accepts an optional completion handler that will be notified of
+/// the operation's completion (either successful or erroneous).
+///
+/// If you already have a background thread/queue performing data-handling tasks, you may find it more convenient to
+/// use the synchronous versions of the write methods. They are named after the asynchronous versions, suffixed by
+/// `Sync`. The flow is identical to the asynchronous version (see above).
+///
+/// + Warning: You must not call synchronous methods from the main thread. The methods will assert if you do so.
+///
+/// + Note: The synchronous methods can throw; you have to catch and handle the error.
+///
+/// ### Parallel transactions
+///
+/// While it is possible to create parallel transactions, there is little interest in doing so, since each committed
+/// transaction results in an index rebuild. Multiplying transactions therefore only degrades performance.
+///
+/// Also, transactions are serially executed in the order they were committed, the latest transaction potentially
+/// overwriting the previous transactions' result.
+///
+/// ### Manual build
+///
+/// As an alternative to using write transactions, `OfflineIndex` also offers a **manual build** feature. Provided that
+/// you have:
+///
+/// - the **index settings** (one JSON file); and
+/// - the **objects** (as many JSON files as needed, each containing an array of objects)
+///
+/// ... available as local files on disk, you can replace the index's content with that data by calling `build(...)`.
+///
 ///
 /// ## Caveats
 ///
@@ -76,54 +130,13 @@ public struct IOError: CustomNSError {
 /// - You cannot batch arbitrary write operations in a single method call (as you would do with `Index.batch(...)`).
 ///   However, all write operations are *de facto* batches, since they must be wrapped inside a transaction (see below).
 ///
-/// ## Operations
-///
-/// ### Writing
-///
-/// Updating an index involves rebuilding it, which is an expensive and potentially lengthy operation. Therefore, all
-/// updates must be wrapped inside a **transaction**.
-///
-/// + Warning: You cannot have several parallel transactions on a given index.
-///
-/// The procedure to update an index is as follows:
-///
-/// - Create a transaction by calling `newTransaction()`.
-///
-/// - Populate the transaction: call the various write methods on the `WriteTransaction` class.
-///
-/// - Either commit (`commit()`) or rollback (`rollback()`) the transaction.
-///
-/// #### Synchronous vs asynchronous updates
-///
-/// Any write operation, especially (but not limited to) the final commit, is potentially lengthy. This is why all
-/// operations provide an asynchronous version, which accepts an optional completion handler that will be notified of
-/// the operation's completion (either successful or erroneous).
-///
-/// If you already have a background thread/queue performing data-handling tasks, you may find it more convenient to
-/// use the synchronous versions of the write methods. They are named after the asynchronous versions, suffixed by
-/// `Sync`. The flow is identical to the asynchronous version (see above).
-///
-/// + Warning: You must not call synchronous methods from the main thread. The methods will assert if you do so.
-///
-/// + Note: The synchronous methods can throw; you have to catch and handle the error.
-///
-/// #### Parallel transactions
-///
-/// While it is possible to create parallel transactions, there is little interest in doing so, since each committed
-/// transaction results in an index rebuild. Multiplying transactions therefore only degrades performance.
-///
-/// Also, transactions are serially executed in the order they were committed, the latest transaction potentially
-/// overwriting the previous transactions' result.
-///
-/// ### Reading
-///
-/// Read operations behave identically as with online indices.
-///
 @objc public class OfflineIndex : NSObject {
     // TODO: Expose common behavior through a protocol.
     // TODO: Factorize common behavior in a base class.
     
+    // ----------------------------------------------------------------------
     // MARK: Properties
+    // ----------------------------------------------------------------------
     
     /// This index's name.
     @objc public let name: String
@@ -131,7 +144,7 @@ public struct IOError: CustomNSError {
     /// API client used by this index.
     @objc public let client: OfflineClient
 
-    /// The local index (lazy instantiated).
+    /// The local index.
     var localIndex: LocalIndex
 
     /// Queue used to run transaction bodies (but not the build).
@@ -143,7 +156,17 @@ public struct IOError: CustomNSError {
     /// Dispatch queue used to serialize access to `transactionSeqNo`.
     private let transactionSeqNo_lock = DispatchQueue(label: "OfflineIndex.transactionSeqNo.lock")
     
+    /// Whether this index has offline data on disk.
+    ///
+    @objc public var hasOfflineData: Bool {
+        get {
+            return localIndex.exists()
+        }
+    }
+    
+    // ----------------------------------------------------------------------
     // MARK: - Initialization
+    // ----------------------------------------------------------------------
     
     /// Create a new offline index.
     ///
@@ -165,7 +188,9 @@ public struct IOError: CustomNSError {
         }
     }
     
+    // ----------------------------------------------------------------------
     // MARK: - Read operations
+    // ----------------------------------------------------------------------
     
     /// Get an object from this index.
     ///
@@ -439,7 +464,9 @@ public struct IOError: CustomNSError {
         return self.multipleQueriesSync(queries, strategy: strategy?.rawValue)
     }
     
-    // MARK: - Transaction management
+    // ----------------------------------------------------------------------
+    // MARK: - Write operations
+    // ----------------------------------------------------------------------
     
     /// A transaction to update the index.
     ///
@@ -849,13 +876,61 @@ public struct IOError: CustomNSError {
     
     /// Create a new write transaction.
     ///
-    /// + Warning: You cannot open parallel transactions. This method will assert if a transaction is already open.
-    ///
     @objc public func newTransaction() -> WriteTransaction {
         return WriteTransaction(index: self)
     }
     
+    // ----------------------------------------------------------------------
+    // MARK: - Manual build
+    // ----------------------------------------------------------------------
+
+    /// Build the index from local files.
+    /// This method is a shortcut alternative to using write transactions if all of your data is already available as
+    /// plain JSON files on disk.
+    ///
+    /// - parameter settingsFile: Absolute path to the file containing the index settings, in JSON format.
+    /// - parameter objectFiles: Absolute path(s) to the file(s) containing the objects. Each file must contain an
+    ///   array of objects, in JSON format.
+    /// - parameter completionHandler: An optional completion handler to be notified when the build has finished.
+    /// - returns: A cancellable operation.
+    ///
+    /// + Note: Cancelling the request does *not* cancel the build; it merely prevents the completion handler from
+    ///    being called.
+    ///
+    @objc @discardableResult
+    public func build(settingsFile: String, objectFiles: [String], completionHandler: CompletionHandler? = nil) -> Operation {
+        let operation = AsyncBlockOperation(completionHandler: completionHandler) {
+            return self._build(settingsFile: settingsFile, objectFiles: objectFiles)
+        }
+        operation.completionQueue = client.completionQueue
+        client.buildQueue.addOperation(operation)
+        return operation
+    }
+    
+    /// Build the index from local files (synchronously).
+    ///
+    /// + Warning: This method is synchronous: it blocks until completion.
+    ///
+    /// - parameter settingsFile: Absolute path to the file containing the index settings, in JSON format.
+    /// - parameter objectFiles: Absolute path(s) to the file(s) containing the objects. Each file must contain an
+    ///   array of objects, in JSON format.
+    ///
+    private func _build(settingsFile: String, objectFiles: [String]) -> (JSONObject?, Error?) {
+        assert(!Thread.isMainThread) // make sure it's run in the background
+        assert(OperationQueue.current == client.buildQueue) // ensure serial calls
+
+        // Build the index.
+        let status = self.localIndex.build(settingsFile: settingsFile, objectFiles: objectFiles, clearIndex: true, deletedObjectIDs: nil)
+        if Int(status) == StatusCode.ok.rawValue {
+            return ([:], nil)
+        } else {
+            return (nil, HTTPError(statusCode: Int(status), message: "Failed to build local index"))
+        }
+    }
+
+    // ----------------------------------------------------------------------
     // MARK: - Helpers
+    // ----------------------------------------------------------------------
     
     /// Delete all objects matching a query.
     ///
@@ -944,8 +1019,10 @@ public struct IOError: CustomNSError {
         }).searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: completionHandler)
     }
     
+    // ----------------------------------------------------------------------
     // MARK: - Utils
-    
+    // ----------------------------------------------------------------------
+
     /// Call a completion handler on the main queue.
     ///
     /// - parameter completionHandler: The completion handler to call. If `nil`, this function does nothing.

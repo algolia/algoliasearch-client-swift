@@ -23,7 +23,7 @@
 
 #import <XCTest/XCTest.h>
 
-@import AlgoliaSearch;
+@import AlgoliaSearchOffline;
 
 
 /// Verifies that all the features are accessible from Objective-C.
@@ -50,6 +50,8 @@
 - (void)testOfflineClient {
     OfflineClient* client = [[OfflineClient alloc] initWithAppID:@"APPID" apiKey:@"APIKEY"];
     [client enableOfflineModeWithLicenseKey:@"LICENSE_KEY"];
+
+    [client hasOfflineDataWithIndexName:@"name"];
 
     // Operations
     // ----------
@@ -148,6 +150,7 @@
 
     // Write operations (sync)
     // ------------------------
+    [index hasOfflineData];
     dispatch_async(dispatch_get_global_queue(QOS_CLASS_DEFAULT, 0), ^{
         NSError* error = nil;
         WriteTransaction* transaction = [index newTransaction];
@@ -166,6 +169,35 @@
         [transaction commitSyncAndReturnError:&error];
         XCTAssertNil(error);
     });
+
+    // Manual build
+    // ------------
+    [index buildWithSettingsFile:@"settings.json" objectFiles:@[ @"objects.json" ] completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+        // Do nothing.
+    }];
+}
+
+- (void)testMirroredIndex {
+    OfflineClient* client = [[OfflineClient alloc] initWithAppID:@"APPID" apiKey:@"APIKEY"];
+    MirroredIndex* index = [client indexWithName:@"INDEX_NAME"];
+    index.mirrored = YES;
+
+    [index hasOfflineData];
+    [index buildOfflineWithSettingsFile:@"settings.json" objectFiles:@[ @"objects.json" ] completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+        // Do nothing.
+    }];
+    [index getObjectOnlineWithID:@"id" attributesToRetrieve:nil completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+        // Do nothing.
+    }];
+    [index getObjectsOnlineWithIDs:@[ @"id" ] attributesToRetrieve:nil completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+        // Do nothing.
+    }];
+    [index getObjectOfflineWithID:@"id" attributesToRetrieve:nil completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+        // Do nothing.
+    }];
+    [index getObjectsOfflineWithIDs:@[ @"id" ] attributesToRetrieve:nil completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+        // Do nothing.
+    }];
 }
 
 @end

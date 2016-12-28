@@ -51,21 +51,20 @@ import Foundation
 
 /// An online index that can also be mirrored locally.
 ///
+/// + Note: You cannot construct this class directly. Please use `OfflineClient.index(withName:)` to obtain an
+///   instance.
+///
+/// + Note: Requires Algolia Offline Core. The `OfflineClient.enableOfflineMode(...)` method must be called with a
+///   valid license key prior to calling any offline-related method.
+///
 /// When created, an instance of this class has its `mirrored` flag set to false, and behaves like a normal,
 /// online `Index`. When the `mirrored` flag is set to true, the index becomes capable of acting upon local data.
 ///
 /// + Warning: It is a programming error to call methods acting on the local data when `mirrored` is false. Doing so
-/// will result in an assertion error being raised.
+///   will result in an assertion error being raised.
 ///
-/// Native resources are lazily instantiated at the first method call requiring them. They are released when the
-/// object is released. Although the client guards against concurrent accesses, it is strongly discouraged
-/// to create more than one `MirroredIndex` instance pointing to the same index, as that would duplicate
-/// native resources.
 ///
-/// + Note: Requires Algolia's SDK. The `OfflineClient.enableOfflineMode(...)` method must be called with a valid
-/// license key prior to calling any offline-related method.
-///
-/// ### Request strategy
+/// ## Request strategy
 ///
 /// When the index is mirrored and the device is online, it becomes possible to transparently switch between online and
 /// offline requests. There is no single best strategy for that, because it depends on the use case and the current
@@ -74,9 +73,66 @@ import Foundation
 /// failure (including network unavailability).
 ///
 /// + Note: If you want to explicitly target either the online API or the offline mirror, doing so is always possible
-/// using the `searchOnline(...)` or `searchOffline(...)` methods.
+///   using `searchOnline(...)` or `searchOffline(...)`.
 ///
-/// + Note: The strategy applies both to `search(...)` and `searchDisjunctiveFaceting(...)`.
+/// + Note: The strategy applies to:
+///   - `search(...)`
+///   - `searchDisjunctiveFaceting(...)`
+///   - `multipleQueries(...)`
+///   - `getObject(...)`
+///   - `getObjects(...)`
+///
+///
+/// ## Bootstrapping
+///
+/// Before the first sync has successfully completed, a mirrored index is not available offline, because it has simply
+/// no data to search in yet. In most cases, this is not a problem: the app will sync as soon as instructed, so unless
+/// the device is offline when the app is started for the first time, or unless search is required right after the
+/// first launch, the user should not notice anything.
+///
+/// However, in some cases, you might need to have offline data available as soon as possible. To achieve that,
+/// `MirroredIndex` provides a **manual build** feature.
+///
+/// ### Manual build
+///
+/// Manual building consists in specifying the source data for your index from local files, instead of downloading it
+/// from the API. Namely, you need:
+///
+/// - the **index settings** (one JSON file); and
+/// - the **objects** (as many JSON files as needed, each containing an array of objects).
+///
+/// Those files are typically embedded in the application as resources, although any other origin works too.
+///
+/// ### Conditional bootstrapping
+///
+/// To avoid replacing the local mirror every time the app is started (and potentially overwriting more recent data
+/// synced from the API), you should test whether the index already has offline data using the `hasOfflineData`
+/// property.
+///
+/// #### Discussion
+///
+/// + Warning: We strongly advise against prepackaging index files. While it may work in some cases, Algolia Offline
+///   makes no guarantee whatsoever that the index file format will remain backward-compatible forever, nor that it
+///   is independent of the hardware architecture (e.g. 32 bits vs 64 bits, or Little Endian vs Big Endian). Instead,
+///   always use the manual build feature.
+///
+/// While a manual build involves computing the offline index on the device, and therefore incurs a small delay before
+/// the mirror is actually usable, using plain JSON offers several advantages compared to prepackaging the index file
+/// itself:
+///
+/// - You only need to ship the raw object data, which is smaller than shipping an entire index file, which contains
+///   both the raw data *and* indexing metadata.
+///
+/// - Plain JSON compresses well with standard compression techniques like GZip, whereas an index file uses a binary
+///   format which doesn't compress very efficiently.
+///
+/// - Build automation is facilitated: you can easily extract the required data from your back-end, whereas building
+///   an index would involve running the app on each mobile platform as part of your build process and capturing the
+///   filesystem.
+///
+/// Also, the build process is purposedly single-threaded across all indices, which means that on most modern devices
+/// with multi-core CPUs, the impact of manual building on the app's performance will be very moderate, especially
+/// regarding UI responsiveness.
 ///
 ///
 /// ## Limitations
@@ -99,18 +155,17 @@ import Foundation
 ///
 /// - **CJK segmentation** is not supported.
 ///
+///
+/// ## Resource handling
+///
+/// Native resources are lazily instantiated when `mirrored` is set to `true`. They are released when the object is
+/// released, or if `mirrored` is set to `false` again.
+///
 @objc public class MirroredIndex : Index {
     
+    // ----------------------------------------------------------------------
     // MARK: Constants
-    
-    /// Notification sent when the sync has started.
-    @objc public static let SyncDidStartNotification = Notification.Name("AlgoliaSearch.MirroredIndex.SyncDidStartNotification")
-    
-    /// Notification sent when the sync has finished.
-    @objc public static let SyncDidFinishNotification = Notification.Name("AlgoliaSearch.MirroredIndex.SyncDidFinishNotification")
-    
-    /// Notification user info key used to pass the error, when an error occurred during the sync.
-    @objc public static let syncErrorKey = "AlgoliaSearch.MirroredIndex.syncErrorKey"
+    // ----------------------------------------------------------------------
     
     /// Default minimum delay between two syncs.
     @objc public static let defaultDelayBetweenSyncs: TimeInterval = 60 * 60 * 24 // 1 day
@@ -190,6 +245,15 @@ import Foundation
     /// Error encountered by the current/last sync (if any).
     @objc public private(set) var syncError : Error?
 
+    /// Whether this index has offline data on disk.
+    ///
+    @objc public var hasOfflineData: Bool {
+        get {
+            assert(mirrored, "Mirroring not activated for this index")
+            return localIndex.exists()
+        }
+    }
+    
     // ----------------------------------------------------------------------
     // MARK: - Init
     // ----------------------------------------------------------------------
@@ -370,14 +434,14 @@ import Foundation
         // Task: build the index using the downloaded files.
         buildIndexOperation = BlockOperation() {
             if self.syncError == nil {
-                let status = self.localIndex.build(settingsFile: self.settingsFilePath!, objectFiles: self.objectsFilePaths!, clearIndex: true, deletedObjectIDs: nil)
-                if status != 200 {
-                    self.syncError = HTTPError(statusCode: Int(status))
-                } else {
-                    // Remember the sync's date
-                    self.mirrorSettings.lastSyncDate = Date()
-                    self.mirrorSettings.save(self.mirrorSettingsFilePath)
+                let (_, error) = self._buildOffline(settingsFile: self.settingsFilePath!, objectFiles: self.objectsFilePaths!)
+                if let error = error {
+                    self.syncError = error
+                    return
                 }
+                // Remember the sync's date
+                self.mirrorSettings.lastSyncDate = Date()
+                self.mirrorSettings.save(self.mirrorSettingsFilePath)
             }
             self._syncFinished()
         }
@@ -464,12 +528,71 @@ import Foundation
         DispatchQueue.main.async {
             var userInfo: [String: Any]? = nil
             if self.syncError != nil {
-                userInfo = [MirroredIndex.syncErrorKey: self.syncError!]
+                userInfo = [MirroredIndex.errorKey: self.syncError!]
             }
             NotificationCenter.default.post(name: MirroredIndex.SyncDidFinishNotification, object: self, userInfo: userInfo)
         }
     }
     
+    // ----------------------------------------------------------------------
+    // MARK: - Manual build
+    // ----------------------------------------------------------------------
+    
+    /// Replace the local mirror with local data.
+    ///
+    /// - parameter settingsFile: Absolute path to the file containing the index settings, in JSON format.
+    /// - parameter objectFiles: Absolute path(s) to the file(s) containing the objects. Each file must contain an
+    ///   array of objects, in JSON format.
+    /// - parameter completionHandler: An optional completion handler to be notified when the build has finished.
+    /// - returns: A cancellable operation.
+    ///
+    /// + Note: Cancelling the request does *not* cancel the build; it merely prevents the completion handler from
+    ///    being called.
+    ///
+    @objc @discardableResult
+    public func buildOffline(settingsFile: String, objectFiles: [String], completionHandler: CompletionHandler? = nil) -> Operation {
+        assert(self.mirrored, "Mirroring not activated on this index")
+        let operation = AsyncBlockOperation(completionHandler: completionHandler) {
+            return self._buildOffline(settingsFile: settingsFile, objectFiles: objectFiles)
+        }
+        operation.completionQueue = client.completionQueue
+        offlineClient.buildQueue.addOperation(operation)
+        return operation
+    }
+
+    /// Build the offline mirror.
+    ///
+    /// + Warning: This method is synchronous: it blocks until completion.
+    ///
+    /// - parameter settingsFile: Absolute path to the file containing the index settings, in JSON format.
+    /// - parameter objectFiles: Absolute path(s) to the file(s) containing the objects. Each file must contain an
+    ///   array of objects, in JSON format.
+    ///
+    private func _buildOffline(settingsFile: String, objectFiles: [String]) -> (JSONObject?, Error?) {
+        assert(!Thread.isMainThread) // make sure it's run in the background
+        assert(OperationQueue.current == offlineClient.buildQueue) // ensure serial calls
+        var content: JSONObject? = nil
+        var error: Error? = nil
+        // Notify observers.
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: MirroredIndex.BuildDidStartNotification, object: self)
+        }
+        // Build the index.
+        let status = self.localIndex.build(settingsFile: settingsFile, objectFiles: objectFiles, clearIndex: true, deletedObjectIDs: nil)
+        if status == 200 {
+            content = [:]
+        } else {
+            error = HTTPError(statusCode: Int(status), message: "Failed to build local index")
+        }
+        // Notify observers.
+        var userInfo: [String: Any] = [:]
+        userInfo[MirroredIndex.errorKey] = error
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: MirroredIndex.BuildDidFinishNotification, object: self, userInfo: userInfo)
+        }
+        return (content, error)
+    }
+
     // ----------------------------------------------------------------------
     // MARK: - Search
     // ----------------------------------------------------------------------
@@ -657,12 +780,7 @@ import Foundation
     @discardableResult public func searchOnline(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         return super.search(query, completionHandler: {
             (content, error) in
-            // Tag results as having a remote origin.
-            var taggedContent: JSONObject? = content
-            if taggedContent != nil {
-                taggedContent?[MirroredIndex.jsonKeyOrigin] = MirroredIndex.jsonValueOriginRemote
-            }
-            completionHandler(taggedContent, error)
+            completionHandler(MirroredIndex.tagAsRemote(content: content), error)
         })
     }
     
@@ -732,12 +850,7 @@ import Foundation
     @discardableResult public func multipleQueriesOnline(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
         return super.multipleQueries(queries, strategy: strategy, completionHandler: {
             (content, error) in
-            // Tag results as having a remote origin.
-            var taggedContent: JSONObject? = content
-            if taggedContent != nil {
-                taggedContent?[MirroredIndex.jsonKeyOrigin] = MirroredIndex.jsonValueOriginRemote
-            }
-            completionHandler(taggedContent, error)
+            completionHandler(MirroredIndex.tagAsRemote(content: content), error)
         })
     }
 
@@ -833,5 +946,197 @@ import Foundation
         
         let searchResults = localIndex.browse(query.build())
         return OfflineClient.parseResponse(searchResults)
+    }
+    
+    // ----------------------------------------------------------------------
+    // MARK: - Getting individual objects
+    // ----------------------------------------------------------------------
+    
+    /// Get an object from this index, optionally restricting the retrieved content.
+    /// Same semantics as `Index.getObject(withID:attributesToRetrieve:completionHandler:)`.
+    ///
+    @objc @discardableResult override public func getObject(withID objectID: String, attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) -> Operation {
+        if (!mirrored) {
+            return super.getObject(withID: objectID, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+        } else {
+            let operation = OnlineOfflineGetObjectOperation(index: self, objectID: objectID, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+            offlineClient.mixedRequestQueue.addOperation(operation)
+            return operation
+        }
+    }
+
+    private class OnlineOfflineGetObjectOperation: OnlineOfflineOperation {
+        let objectID: String
+        let attributesToRetrieve: [String]?
+        
+        init(index: MirroredIndex, objectID: String, attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) {
+            self.objectID = objectID
+            self.attributesToRetrieve = attributesToRetrieve
+            super.init(index: index, completionHandler: completionHandler)
+        }
+        
+        override func startOnlineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
+            return index.getObjectOnline(withID: objectID, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+        }
+        
+        override func startOfflineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
+            return index.getObjectOffline(withID: objectID, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+        }
+    }
+
+    /// Get an individual object, explicitly targeting the online API, and not the offline mirror.
+    @objc
+    @discardableResult public func getObjectOnline(withID objectID: String, attributesToRetrieve: [String]? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        return super.getObject(withID: objectID, attributesToRetrieve: attributesToRetrieve, completionHandler: {
+            (content, error) in
+            completionHandler(MirroredIndex.tagAsRemote(content: content), error)
+        })
+    }
+    
+    /// Get an individual object, explicitly targeting the offline mirror, and not the online API.
+    @objc
+    @discardableResult public func getObjectOffline(withID objectID: String, attributesToRetrieve: [String]? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        assert(self.mirrored, "Mirroring not activated on this index")
+        let operation = AsyncBlockOperation(completionHandler: completionHandler) {
+            return self._getObjectOffline(withID: objectID, attributesToRetrieve: attributesToRetrieve)
+        }
+        operation.completionQueue = client.completionQueue
+        self.offlineClient.searchQueue.addOperation(operation)
+        return operation
+    }
+    
+    /// Get an individual object from the local mirror synchronously.
+    ///
+    private func _getObjectOffline(withID objectID: String, attributesToRetrieve: [String]?) -> (content: JSONObject?, error: Error?) {
+        assert(!Thread.isMainThread) // make sure it's run in the background
+        let params = Query()
+        params.attributesToRetrieve = attributesToRetrieve
+        let searchResults = localIndex.getObjects(withIDs: [objectID], parameters: params.build())
+        var (content, error) = OfflineClient.parseResponse(searchResults)
+        if error == nil {
+            if let results = content?["results"] as? [JSONObject], results.count == 1 {
+                content = results[0]
+            } else {
+                content = nil
+                error = HTTPError(statusCode: StatusCode.internalServerError.rawValue) // should never happen
+            }
+        }
+        return (MirroredIndex.tagAsLocal(content: content), error)
+    }
+
+    /// Get several objects from this index, optionally restricting the retrieved content.
+    /// Same semantics as `Index.getObjects(withIDs:attributesToRetrieve:completionHandler:)`.
+    ///
+    @objc @discardableResult override public func getObjects(withIDs objectIDs: [String], attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) -> Operation {
+        if (!mirrored) {
+            return super.getObjects(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+        } else {
+            let operation = OnlineOfflineGetObjectsOperation(index: self, objectIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+            offlineClient.mixedRequestQueue.addOperation(operation)
+            return operation
+        }
+    }
+
+    private class OnlineOfflineGetObjectsOperation: OnlineOfflineOperation {
+        let objectIDs: [String]
+        let attributesToRetrieve: [String]?
+        
+        init(index: MirroredIndex, objectIDs: [String], attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) {
+            self.objectIDs = objectIDs
+            self.attributesToRetrieve = attributesToRetrieve
+            super.init(index: index, completionHandler: completionHandler)
+        }
+        
+        override func startOnlineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
+            return index.getObjectsOnline(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+        }
+        
+        override func startOfflineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
+            return index.getObjectsOffline(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+        }
+    }
+    
+    /// Get individual objects, explicitly targeting the online API, and not the offline mirror.
+    @objc
+    @discardableResult public func getObjectsOnline(withIDs objectIDs: [String], attributesToRetrieve: [String]? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        return super.getObjects(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: {
+            (content, error) in
+            completionHandler(MirroredIndex.tagAsRemote(content: content), error)
+        })
+    }
+    
+    /// Get individual objects, explicitly targeting the offline mirror, and not the online API.
+    @objc
+    @discardableResult public func getObjectsOffline(withIDs objectIDs: [String], attributesToRetrieve: [String]? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        assert(self.mirrored, "Mirroring not activated on this index")
+        let operation = AsyncBlockOperation(completionHandler: completionHandler) {
+            return self._getObjectsOffline(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve)
+        }
+        operation.completionQueue = client.completionQueue
+        self.offlineClient.searchQueue.addOperation(operation)
+        return operation
+    }
+    
+    /// Get individual objects from the local mirror synchronously.
+    ///
+    private func _getObjectsOffline(withIDs objectIDs: [String], attributesToRetrieve: [String]?) -> (content: JSONObject?, error: Error?) {
+        assert(!Thread.isMainThread) // make sure it's run in the background
+        let params = Query()
+        params.attributesToRetrieve = attributesToRetrieve
+        let searchResults = localIndex.getObjects(withIDs: objectIDs, parameters: params.build())
+        let (content, error) = OfflineClient.parseResponse(searchResults)
+        return (MirroredIndex.tagAsLocal(content: content), error)
+    }
+    
+    // ----------------------------------------------------------------------
+    // MARK: - Notifications
+    // ----------------------------------------------------------------------
+
+    /// Notification sent when the sync has started.
+    @objc public static let SyncDidStartNotification = Notification.Name("AlgoliaSearch.MirroredIndex.SyncDidStartNotification")
+    
+    /// Notification sent when the sync has finished.
+    @objc public static let SyncDidFinishNotification = Notification.Name("AlgoliaSearch.MirroredIndex.SyncDidFinishNotification")
+    
+    /// Notification user info key used to pass the error, when an error occurred during a sync or a build.
+    @objc public static let errorKey = "AlgoliaSearch.MirroredIndex.errorKey"
+
+    @available(*, deprecated: 4.6, message: "Please use `errorKey` instead")
+    @objc public static let syncErrorKey = errorKey
+    
+    /// Notification sent when the build of the local mirror has started.
+    /// This notification is sent both for syncs or manual builds.
+    ///
+    @objc public static let BuildDidStartNotification = Notification.Name("AlgoliaSearch.MirroredIndex.BuildDidStartNotification")
+    
+    /// Notification sent when the build of the local mirror has finished.
+    /// This notification is sent both for syncs or manual builds.
+    ///
+    @objc public static let BuildDidFinishNotification = Notification.Name("AlgoliaSearch.MirroredIndex.BuildDidFinishNotification")
+    
+    // ----------------------------------------------------------------------
+    // MARK: - Utils
+    // ----------------------------------------------------------------------
+
+    /// Tag some content as having remote origin.
+    ///
+    /// - parameter content: The content to tag. For convenience purposes, `nil` is allowed.
+    /// - returns: The tagged content, or `nil` if `content` was `nil`.
+    ///
+    private static func tagAsRemote(content: JSONObject?) -> JSONObject? {
+        var taggedContent: JSONObject? = content
+        taggedContent?[MirroredIndex.jsonKeyOrigin] = MirroredIndex.jsonValueOriginRemote
+        return taggedContent
+    }
+
+    /// Tag some content as having local origin.
+    ///
+    /// - parameter content: The content to tag. For convenience purposes, `nil` is allowed.
+    /// - returns: The tagged content, or `nil` if `content` was `nil`.
+    ///
+    private static func tagAsLocal(content: JSONObject?) -> JSONObject? {
+        var taggedContent: JSONObject? = content
+        taggedContent?[MirroredIndex.jsonKeyOrigin] = MirroredIndex.jsonValueOriginLocal
+        return taggedContent
     }
 }

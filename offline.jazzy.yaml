@@ -1,5 +1,6 @@
 # In the case of the offline flavor, the Xcode project is not standalone: we need the Cocoapods-generated workspace
 # to draw dependencies.
+module: AlgoliaSearchOffline
 xcodebuild_arguments:
     - -workspace
     - AlgoliaSearch.xcworkspace

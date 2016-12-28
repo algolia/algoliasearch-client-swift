@@ -283,9 +283,9 @@ class IndexTests: OnlineTestCase {
                             if let error = error {
                                 XCTFail("Error during getObjects: \(error)")
                             } else {
-                                let items = content!["results"] as! [[String: String]]
-                                XCTAssertEqual(items[0]["city"]!, objects[0]["city"]! as? String, "GetObjects return the wrong object")
-                                XCTAssertEqual(items[1]["city"]!, objects[1]["city"]! as? String, "GetObjects return the wrong object")
+                                let items = content!["results"] as! [JSONObject]
+                                XCTAssertEqual(items[0]["city"] as? String, objects[0]["city"] as? String, "GetObjects return the wrong object")
+                                XCTAssertEqual(items[1]["city"] as? String, objects[1]["city"] as? String, "GetObjects return the wrong object")
                             }
                             
                             expectation.fulfill()
@@ -322,10 +322,10 @@ class IndexTests: OnlineTestCase {
                         expectation.fulfill()
                         return
                     }
-                    let items = content["results"] as! [[String: String]]
+                    let items = content["results"] as! [JSONObject]
                     XCTAssertEqual(2, items.count)
-                    XCTAssertEqual(items[0]["name"]! as String, "Snoopy")
-                    XCTAssertEqual(items[1]["name"]! as String, "Woodstock")
+                    XCTAssertEqual(items[0]["name"] as? String, "Snoopy")
+                    XCTAssertEqual(items[1]["name"] as? String, "Woodstock")
                     XCTAssertNil(items[0]["kind"])
                     XCTAssertNil(items[1]["kind"])
                     expectation.fulfill()

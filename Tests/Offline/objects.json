@@ -1,0 +1,37 @@
+[
+    {
+        "objectID": "1",
+        "name": "Snoopy",
+        "kind": [ "dog", "animal" ],
+        "born": 1967,
+        "series": "Peanuts"
+    },
+    {
+        "objectID": "2",
+        "name": "Woodstock",
+        "kind": ["bird", "animal" ],
+        "born": 1970,
+        "series": "Peanuts"
+    },
+    {
+        "objectID": "3",
+        "name": "Charlie Brown",
+        "kind": [ "human" ],
+        "born": 1950,
+        "series": "Peanuts"
+    },
+    {
+        "objectID": "4",
+        "name": "Hobbes",
+        "kind": [ "tiger", "animal", "teddy" ],
+        "born": 1985,
+        "series": "Calvin & Hobbes"
+    },
+    {
+        "objectID": "5",
+        "name": "Calvin",
+        "kind": [ "human" ],
+        "born": 1985,
+        "series": "Calvin & Hobbes"
+    }
+]

@@ -21,7 +21,7 @@
 //  THE SOFTWARE.
 //
 
-import AlgoliaSearch
+import AlgoliaSearchOffline
 import XCTest
 
 
@@ -96,7 +96,7 @@ class MirroredIndexTests: OfflineTestCase {
                     var observer: NSObjectProtocol?
                     observer = NotificationCenter.default.addObserver(forName: MirroredIndex.SyncDidFinishNotification, object: index, queue: OperationQueue.main) { (notification) in
                         NotificationCenter.default.removeObserver(observer!)
-                        let error = notification.userInfo?[MirroredIndex.syncErrorKey] as? Error
+                        let error = notification.userInfo?[MirroredIndex.errorKey] as? Error
                         completionBlock(error)
                     }
                     index.sync()
@@ -131,7 +131,7 @@ class MirroredIndexTests: OfflineTestCase {
                 var observer: NSObjectProtocol?
                 observer = NotificationCenter.default.addObserver(forName: MirroredIndex.SyncDidFinishNotification, object: index, queue: OperationQueue.main) { (notification) in
                     NotificationCenter.default.removeObserver(observer!)
-                    let error = notification.userInfo?[MirroredIndex.syncErrorKey] as? Error
+                    let error = notification.userInfo?[MirroredIndex.errorKey] as? Error
                     XCTAssertNil(error)
                     expectation_indexing.fulfill()
                 }
@@ -205,6 +205,148 @@ class MirroredIndexTests: OfflineTestCase {
                 XCTAssertNil(error)
                 XCTAssertEqual(3, content?["nbHits"] as? Int)
                 expectation_offlineQuery.fulfill()
+            }
+            
+            expectation_indexing.fulfill()
+        }
+        waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
+    }
+    
+    func testBuildOffline() {
+        let expectation_buildStart = self.expectation(description: "buildStart")
+        let expectation_buildFinish = self.expectation(description: "buildFinish")
+        let expectation_search = self.expectation(description: "search")
+
+        // Retrieve data files from resources.
+        let bundle = Bundle(for: type(of: self))
+        guard
+            let settingsFile = bundle.path(forResource: "settings", ofType: "json"),
+            let objectFile = bundle.path(forResource: "objects", ofType: "json")
+            else {
+                XCTFail("Cannot find resources")
+                return
+        }
+
+        // Create the index.
+        let index: MirroredIndex = client.index(withName: safeIndexName(#function))
+        index.mirrored = true
+
+        // Check that no offline data exists.
+        XCTAssertFalse(index.hasOfflineData)
+
+        // Build the index.
+        var observer1: NSObjectProtocol?
+        observer1 = NotificationCenter.default.addObserver(forName: MirroredIndex.BuildDidStartNotification, object: index, queue: OperationQueue.main) { (notification) in
+            // Check that start notification is sent.
+            NotificationCenter.default.removeObserver(observer1!)
+            expectation_buildStart.fulfill()
+        }
+        var observer2: NSObjectProtocol?
+        observer2 = NotificationCenter.default.addObserver(forName: MirroredIndex.BuildDidFinishNotification, object: index, queue: OperationQueue.main) { (notification) in
+            // Check that finish notification is sent.
+            NotificationCenter.default.removeObserver(observer2!)
+            let error = notification.userInfo?[MirroredIndex.errorKey] as? Error
+            XCTAssertNil(error)
+            expectation_buildFinish.fulfill()
+        }
+        index.buildOffline(settingsFile: settingsFile, objectFiles: [objectFile]) {
+            (content, error) in
+            XCTAssertNil(error)
+            
+            // Check that offline data exists now.
+            XCTAssertTrue(index.hasOfflineData)
+            
+            // Search.
+            let query = Query()
+            query.query = "peanuts"
+            query.filters = "kind:animal"
+            index.searchOffline(query) {
+                (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual(content?["nbHits"] as? Int, 2)
+                expectation_search.fulfill()
+            }
+        }
+        waitForExpectations(timeout: 10, handler: nil)
+    }
+    
+    func testGetObject() {
+        let expectation_indexing = self.expectation(description: "indexing")
+        let expectation_onlineQuery = self.expectation(description: "onlineQuery")
+        let expectation_offlineQuery = self.expectation(description: "offlineQuery")
+        let expectation_mixedQuery = self.expectation(description: "offlineQuery")
+        
+        // Populate the online index & sync the offline mirror.
+        let index: MirroredIndex = client.index(withName: safeIndexName(#function))
+        sync(index: index) { (error) in
+            if let error = error { XCTFail("\(error)"); return }
+            
+            // Query the online index explicitly.
+            index.getObjectOnline(withID: "1") { (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual("Snoopy", content?["name"] as? String)
+                XCTAssertEqual("remote", content?["origin"] as? String)
+                expectation_onlineQuery.fulfill()
+            }
+            
+            // Query the offline index explicitly.
+            index.getObjectOffline(withID: "2") { (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual("Woodstock", content?["name"] as? String)
+                XCTAssertEqual("local", content?["origin"] as? String)
+                expectation_offlineQuery.fulfill()
+            }
+            
+            // Test offline fallback.
+            self.client.readHosts = [ "unknown.algolia.com" ]
+            index.requestStrategy = .fallbackOnFailure
+            index.getObject(withID: "3") { (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual("Charlie Brown", content?["name"] as? String)
+                XCTAssertEqual("local", content?["origin"] as? String)
+                expectation_mixedQuery.fulfill()
+            }
+            
+            expectation_indexing.fulfill()
+        }
+        waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
+    }
+
+    func testGetObjects() {
+        let expectation_indexing = self.expectation(description: "indexing")
+        let expectation_onlineQuery = self.expectation(description: "onlineQuery")
+        let expectation_offlineQuery = self.expectation(description: "offlineQuery")
+        let expectation_mixedQuery = self.expectation(description: "offlineQuery")
+        
+        // Populate the online index & sync the offline mirror.
+        let index: MirroredIndex = client.index(withName: safeIndexName(#function))
+        sync(index: index) { (error) in
+            if let error = error { XCTFail("\(error)"); return }
+            
+            // Query the online index explicitly.
+            index.getObjectsOnline(withIDs: ["1"]) { (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual(1, (content?["results"] as? [JSONObject])?.count)
+                XCTAssertEqual("remote", content?["origin"] as? String)
+                expectation_onlineQuery.fulfill()
+            }
+            
+            // Query the offline index explicitly.
+            index.getObjectsOffline(withIDs: ["1", "2"]) { (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual(2, (content?["results"] as? [JSONObject])?.count)
+                XCTAssertEqual("local", content?["origin"] as? String)
+                expectation_offlineQuery.fulfill()
+            }
+            
+            // Test offline fallback.
+            self.client.readHosts = [ "unknown.algolia.com" ]
+            index.requestStrategy = .fallbackOnFailure
+            index.getObjects(withIDs: ["1", "2", "3"]) { (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual(3, (content?["results"] as? [JSONObject])?.count)
+                XCTAssertEqual("local", content?["origin"] as? String)
+                expectation_mixedQuery.fulfill()
             }
             
             expectation_indexing.fulfill()

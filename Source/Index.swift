@@ -143,19 +143,19 @@ import Foundation
     ///
     @objc
     @discardableResult public func getObject(withID objectID: String, completionHandler: @escaping CompletionHandler) -> Operation {
-        let path = "1/indexes/\(urlEncodedName)/\(objectID.urlEncodedPathComponent())"
-        return client.performHTTPQuery(path: path, method: .GET, body: nil, hostnames: client.readHosts, completionHandler: completionHandler)
+        return getObject(withID: objectID, attributesToRetrieve: nil, completionHandler: completionHandler)
     }
     
     /// Get an object from this index, optionally restricting the retrieved content.
     ///
     /// - parameter objectID: Identifier of the object to retrieve.
-    /// - parameter attributesToRetrieve: List of attributes to retrieve.
+    /// - parameter attributesToRetrieve: List of attributes to retrieve. If `nil`, all attributes are retrieved.
+    ///                                   If one of the elements is `"*"`, all attributes are retrieved.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func getObject(withID objectID: String, attributesToRetrieve: [String], completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult public func getObject(withID objectID: String, attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) -> Operation {
         let query = Query()
         query.attributesToRetrieve = attributesToRetrieve
         let path = "1/indexes/\(urlEncodedName)/\(objectID.urlEncodedPathComponent())?\(query.build())"
@@ -170,16 +170,7 @@ import Foundation
     ///
     @objc
     @discardableResult public func getObjects(withIDs objectIDs: [String], completionHandler: @escaping CompletionHandler) -> Operation {
-        let path = "1/indexes/*/objects"
-        
-        var requests = [Any]()
-        requests.reserveCapacity(objectIDs.count)
-        for id in objectIDs {
-            requests.append(["indexName": self.name, "objectID": id])
-        }
-        let request = ["requests": requests]
-        
-        return client.performHTTPQuery(path: path, method: .POST, body: request, hostnames: client.readHosts, completionHandler: completionHandler)
+        return getObjects(withIDs: objectIDs, attributesToRetrieve: nil, completionHandler: completionHandler)
     }
 
     /// Get several objects from this index, optionally restricting the retrieved content.
@@ -191,16 +182,16 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func getObjects(withIDs objectIDs: [String], attributesToRetrieve: [String], completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult public func getObjects(withIDs objectIDs: [String], attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) -> Operation {
         let path = "1/indexes/*/objects"
         var requests = [Any]()
         requests.reserveCapacity(objectIDs.count)
         for id in objectIDs {
-            let request = [
+            var request = [
                 "indexName": self.name,
                 "objectID": id,
-                "attributesToRetrieve": attributesToRetrieve.joined(separator: ",")
             ]
+            request["attributesToRetrieve"] = attributesToRetrieve?.joined(separator: ",")
             requests.append(request as Any)
         }
         return client.performHTTPQuery(path: path, method: .POST, body: ["requests": requests], hostnames: client.readHosts, completionHandler: completionHandler)
