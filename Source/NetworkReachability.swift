@@ -21,6 +21,8 @@
 //  THE SOFTWARE.
 //
 
+#if !os(watchOS)
+
 import Foundation
 import SystemConfiguration
 
@@ -70,3 +72,5 @@ class NetworkReachability {
         return address
     }()
 }
+
+#endif // !os(watchOS)

@@ -132,6 +132,7 @@
 		BCD1F5721CC61DB80006E227 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA737D1CA555070082B197 /* MockURLSession.swift */; };
 		BCD1F5731CC61DB80006E227 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA73771CA546800082B197 /* NetworkTests.swift */; };
 		BCD1F5741CC61DB80006E227 /* QueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC0A01631C9C19CD00CD4A7C /* QueryTests.swift */; };
+		BCD4B5351E13FE5E00838E02 /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC15FAC01E01C041005E3B56 /* NetworkReachability.swift */; };
 		BCD57D1F1D89947500C5DE68 /* DisjunctiveFaceting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD57D1E1D89947500C5DE68 /* DisjunctiveFaceting.swift */; };
 		BCD57D201D89947500C5DE68 /* DisjunctiveFaceting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD57D1E1D89947500C5DE68 /* DisjunctiveFaceting.swift */; };
 		BCD57D211D89947500C5DE68 /* DisjunctiveFaceting.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD57D1E1D89947500C5DE68 /* DisjunctiveFaceting.swift */; };
@@ -979,6 +980,7 @@
 				BC23A6F51D63541500DF9034 /* Cache.swift in Sources */,
 				BC4DDF0C1DD12BCC004D9A6E /* PlacesQuery.swift in Sources */,
 				BC4DDEFA1DD10EBA004D9A6E /* Types.swift in Sources */,
+				BCD4B5351E13FE5E00838E02 /* NetworkReachability.swift in Sources */,
 				BC23A6FB1D63541500DF9034 /* Network.swift in Sources */,
 				BC23A6F91D63541500DF9034 /* Index.swift in Sources */,
 				BC4DDF001DD11527004D9A6E /* PlacesClient.swift in Sources */,
