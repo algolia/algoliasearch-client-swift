@@ -21,7 +21,7 @@
 //  THE SOFTWARE.
 //
 
-import AlgoliaSearchOffline
+@testable import AlgoliaSearchOffline
 import XCTest
 
 
@@ -350,6 +350,179 @@ class MirroredIndexTests: OfflineTestCase {
             }
             
             expectation_indexing.fulfill()
+        }
+        waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
+    }
+
+    /// Test the `onlineOnly` request strategy.
+    ///
+    func testRequestStrategyOnlineOnly() {
+        let expectation = self.expectation(description: #function)
+
+        // Mock reachability.
+        let reachability = MockNetworkReachability()
+        client.reachability = reachability
+
+        // Populate the online index & sync the offline mirror.
+        let index: MirroredIndex = client.index(withName: safeIndexName(#function))
+        index.requestStrategy = .onlineOnly
+        sync(index: index) { (error) in
+            if let error = error { XCTFail("\(error)"); return }
+
+            // Test success.
+            index.search(Query()) { (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual(5, content?["nbHits"] as? Int)
+                XCTAssertEqual("remote", content?["origin"] as? String)
+
+                // Test that reachability is observed.
+                reachability.reachable = false
+                let startTime = Date()
+                index.search(Query()) { (content, error) in
+                    let stopTime = Date()
+                    let duration = stopTime.timeIntervalSince(startTime)
+                    guard let error = error as? NSError else { XCTFail("Request should have failed"); expectation.fulfill(); return }
+                    XCTAssertEqual(NSURLErrorDomain, error.domain)
+                    XCTAssertEqual(NSURLErrorNotConnectedToInternet, error.code)
+                    XCTAssert(duration < min(self.client.searchTimeout, self.client.timeout)) // check that we failed without waiting for the timeout
+                
+                    // Test real network failure.
+                    reachability.reachable = true
+                    self.client.readHosts = [ "unknown.algolia.com" ]
+                    index.search(Query()) { (content, error) in
+                        guard let error = error as? NSError else { XCTFail("Request should have failed"); expectation.fulfill(); return }
+                        XCTAssertEqual(NSURLErrorDomain, error.domain)
+                        // Check that we failed with something else than a connectivity error caused by reachability.
+                        XCTAssertNotEqual(NSURLErrorNotConnectedToInternet, error.code)
+
+                        expectation.fulfill()
+                    }
+                }
+            }
+        }
+        waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
+    }
+
+    /// Test the `offlineOnly` request strategy.
+    ///
+    func testRequestStrategyOfflineOnly() {
+        let expectation = self.expectation(description: #function)
+
+        let index: MirroredIndex = client.index(withName: safeIndexName(#function))
+        index.mirrored = true
+        index.requestStrategy = .offlineOnly
+
+        // Check that a request without local data fails.
+        index.search(Query()) { (content, error) in
+            XCTAssertNotNil(error)
+
+            // Populate the online index & sync the offline mirror.
+            self.sync(index: index) { (error) in
+                if let error = error { XCTFail("\(error)"); expectation.fulfill(); return }
+                
+                // Test success.
+                index.search(Query()) { (content, error) in
+                    XCTAssertNil(error)
+                    XCTAssertEqual(3, content?["nbHits"] as? Int)
+                    XCTAssertEqual("local", content?["origin"] as? String)
+                    
+                    expectation.fulfill()
+                }
+            }
+        }
+        waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
+    }
+    
+    /// Test the `fallbackOnFailure` request strategy.
+    ///
+    func testRequestStrategyFallbackOnFailure() {
+        let expectation = self.expectation(description: #function)
+
+        // Mock reachability.
+        let reachability = MockNetworkReachability()
+        client.reachability = reachability
+        
+        // Populate the online index & sync the offline mirror.
+        let index: MirroredIndex = client.index(withName: safeIndexName(#function))
+        index.requestStrategy = .fallbackOnFailure
+        sync(index: index) { (error) in
+            if let error = error { XCTFail("\(error)"); return }
+            
+            // Test success.
+            index.search(Query()) { (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual(5, content?["nbHits"] as? Int)
+                XCTAssertEqual("remote", content?["origin"] as? String)
+                
+                // Test that reachability is observed.
+                reachability.reachable = false
+                index.search(Query()) { (content, error) in
+                    XCTAssertNil(error)
+                    XCTAssertEqual(3, content?["nbHits"] as? Int)
+                    XCTAssertEqual("local", content?["origin"] as? String)
+                    
+                    // Test real network failure.
+                    reachability.reachable = true
+                    self.client.readHosts = [ "unknown.algolia.com" ]
+                    index.search(Query()) { (content, error) in
+                        XCTAssertNil(error)
+                        XCTAssertEqual(3, content?["nbHits"] as? Int)
+                        XCTAssertEqual("local", content?["origin"] as? String)
+                        
+                        expectation.fulfill()
+                    }
+                }
+            }
+        }
+        waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
+    }
+
+    /// Test the `fallbackOnTimeout` request strategy.
+    ///
+    func testRequestStrategyFallbackOnTimeout() {
+        let expectation = self.expectation(description: #function)
+        
+        // Mock reachability.
+        let reachability = MockNetworkReachability()
+        client.reachability = reachability
+        
+        // Populate the online index & sync the offline mirror.
+        let index: MirroredIndex = client.index(withName: safeIndexName(#function))
+        index.requestStrategy = .fallbackOnTimeout
+        sync(index: index) { (error) in
+            if let error = error { XCTFail("\(error)"); return }
+            
+            // Test success.
+            index.search(Query()) { (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual(5, content?["nbHits"] as? Int)
+                XCTAssertEqual("remote", content?["origin"] as? String)
+                
+                // Test that reachability is observed.
+                reachability.reachable = false
+                index.search(Query()) { (content, error) in
+                    XCTAssertNil(error)
+                    XCTAssertEqual(3, content?["nbHits"] as? Int)
+                    XCTAssertEqual("local", content?["origin"] as? String)
+                    
+                    // Test real network failure.
+                    reachability.reachable = true
+                    self.client.readHosts = [ uniqueAlgoliaBizHost() ]
+                    let startTime = Date()
+                    index.search(Query()) { (content, error) in
+                        let stopTime = Date()
+                        let duration = stopTime.timeIntervalSince(startTime)
+                        XCTAssertNil(error)
+                        XCTAssertEqual(3, content?["nbHits"] as? Int)
+                        XCTAssertEqual("local", content?["origin"] as? String)
+                        // Check that we hit the fallback time out, but not the complete online timeout.
+                        XCTAssert(duration >= index.offlineFallbackTimeout)
+                        XCTAssert(duration < min(self.client.searchTimeout, self.client.timeout))
+                        
+                        expectation.fulfill()
+                    }
+                }
+            }
         }
         waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
     }
