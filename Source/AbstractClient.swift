@@ -187,8 +187,9 @@ internal struct HostStatus {
     
     #if !os(watchOS)
     
-    /// Network reachability tester.
-    internal let reachability = NetworkReachability()
+    /// Network reachability detecter.
+    internal var reachability: NetworkReachability = SystemNetworkReachability()
+    // ^ NOTE: Not constant only for the sake of mocking during unit tests.
     
     /// Whether to use network reachability to decide if online requests should be attempted.
     ///

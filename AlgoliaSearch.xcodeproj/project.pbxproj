@@ -148,6 +148,10 @@
 		BCDA73791CA546800082B197 /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA73771CA546800082B197 /* NetworkTests.swift */; };
 		BCDA737E1CA555070082B197 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA737D1CA555070082B197 /* MockURLSession.swift */; };
 		BCDA737F1CA555070082B197 /* MockURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCDA737D1CA555070082B197 /* MockURLSession.swift */; };
+		BCE2E9851E23949D00F189F3 /* MockNetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE2E9841E23949D00F189F3 /* MockNetworkReachability.swift */; };
+		BCE2E9861E23949D00F189F3 /* MockNetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE2E9841E23949D00F189F3 /* MockNetworkReachability.swift */; };
+		BCE2E9871E23949D00F189F3 /* MockNetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE2E9841E23949D00F189F3 /* MockNetworkReachability.swift */; };
+		BCE2E9881E23949D00F189F3 /* MockNetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCE2E9841E23949D00F189F3 /* MockNetworkReachability.swift */; };
 		BCEE36811E0830810091D113 /* settings.json in Resources */ = {isa = PBXBuildFile; fileRef = BCEE36801E0830810091D113 /* settings.json */; };
 		BCEE36831E08309F0091D113 /* objects.json in Resources */ = {isa = PBXBuildFile; fileRef = BCEE36821E08309F0091D113 /* objects.json */; };
 		BCFC281C1D92660C00BFE0A0 /* MirroredIndexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFC281B1D92660C00BFE0A0 /* MirroredIndexTests.swift */; };
@@ -242,6 +246,7 @@
 		BCD57D3B1D89B1EA00C5DE68 /* OfflineTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OfflineTestCase.swift; sourceTree = "<group>"; };
 		BCDA73771CA546800082B197 /* NetworkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
 		BCDA737D1CA555070082B197 /* MockURLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockURLSession.swift; sourceTree = "<group>"; };
+		BCE2E9841E23949D00F189F3 /* MockNetworkReachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockNetworkReachability.swift; sourceTree = "<group>"; };
 		BCEE36801E0830810091D113 /* settings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = settings.json; sourceTree = "<group>"; };
 		BCEE36821E08309F0091D113 /* objects.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = objects.json; sourceTree = "<group>"; };
 		BCFC281B1D92660C00BFE0A0 /* MirroredIndexTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MirroredIndexTests.swift; sourceTree = "<group>"; };
@@ -399,6 +404,7 @@
 				5D8FFA371AAB08830078869E /* ClientTests.swift */,
 				5D44D0261B362648008369AC /* Helpers.swift */,
 				5D8FFA391AAB0AB80078869E /* IndexTests.swift */,
+				BCE2E9841E23949D00F189F3 /* MockNetworkReachability.swift */,
 				BCDA737D1CA555070082B197 /* MockURLSession.swift */,
 				BCDA73771CA546800082B197 /* NetworkTests.swift */,
 				BC72244C1D9C137B00B56908 /* OnlineTestCase.swift */,
@@ -920,6 +926,7 @@
 				BCDA737E1CA555070082B197 /* MockURLSession.swift in Sources */,
 				BC4DDF131DD13423004D9A6E /* PlacesQueryTests.swift in Sources */,
 				BC4A7F3C1CB5373E00AF1DCB /* CancelTests.swift in Sources */,
+				BCE2E9851E23949D00F189F3 /* MockNetworkReachability.swift in Sources */,
 				5D44D0271B362648008369AC /* Helpers.swift in Sources */,
 				5D8FFA3A1AAB0AB80078869E /* IndexTests.swift in Sources */,
 				BC85EA701D82C8C3009E9E7D /* ObjectiveCBridging.m in Sources */,
@@ -964,6 +971,7 @@
 				BCDA737F1CA555070082B197 /* MockURLSession.swift in Sources */,
 				BC4DDF141DD13423004D9A6E /* PlacesQueryTests.swift in Sources */,
 				BC4A7F3D1CB5373E00AF1DCB /* CancelTests.swift in Sources */,
+				BCE2E9861E23949D00F189F3 /* MockNetworkReachability.swift in Sources */,
 				5D44D0281B362648008369AC /* Helpers.swift in Sources */,
 				5DB2515D1AAD9F3B00945339 /* IndexTests.swift in Sources */,
 				BC582C5D1D82B453007B815A /* ObjectiveCBridging.m in Sources */,
@@ -1063,6 +1071,7 @@
 				BCD1F5741CC61DB80006E227 /* QueryTests.swift in Sources */,
 				BC4DDF151DD13423004D9A6E /* PlacesQueryTests.swift in Sources */,
 				BCD1F5711CC61DB80006E227 /* IndexTests.swift in Sources */,
+				BCE2E9871E23949D00F189F3 /* MockNetworkReachability.swift in Sources */,
 				BCD1F56E1CC61DB80006E227 /* CancelTests.swift in Sources */,
 				BCD1F5701CC61DB80006E227 /* Helpers.swift in Sources */,
 				BC85EA711D82C8C4009E9E7D /* ObjectiveCBridging.m in Sources */,
@@ -1076,6 +1085,7 @@
 			files = (
 				BCD57D3D1D89B1EA00C5DE68 /* OfflineIndexTests.swift in Sources */,
 				BCFC281D1D92670100BFE0A0 /* Helpers.swift in Sources */,
+				BCE2E9881E23949D00F189F3 /* MockNetworkReachability.swift in Sources */,
 				BCD57D3E1D89B1EA00C5DE68 /* OfflineTestCase.swift in Sources */,
 				BCFC281C1D92660C00BFE0A0 /* MirroredIndexTests.swift in Sources */,
 				BCD57D3C1D89B1EA00C5DE68 /* OfflineClientTests.swift in Sources */,

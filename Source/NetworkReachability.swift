@@ -27,9 +27,21 @@ import Foundation
 import SystemConfiguration
 
 
-/// Tests network reachability.
+/// Detects network reachability.
 ///
-class NetworkReachability {
+protocol NetworkReachability {
+    // MARK: Properties
+    
+    /// Test if network connectivity is currently available.
+    ///
+    /// - returns: true if network connectivity is available, false otherwise.
+    ///
+    func isReachable() -> Bool
+}
+    
+/// Detects network reachability using the system's built-in mechanism.
+///
+class SystemNetworkReachability: NetworkReachability {
     // MARK: Properties
 
     /// Reachability handle used to test connectivity.
@@ -39,7 +51,7 @@ class NetworkReachability {
     
     init() {
         // Create reachability handle to an all-zeroes address.
-        var zeroAddress = NetworkReachability.zeroAddress
+        var zeroAddress = SystemNetworkReachability.zeroAddress
         reachability = withUnsafePointer(to: &zeroAddress) {
             $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
                 SCNetworkReachabilityCreateWithAddress(nil, $0)

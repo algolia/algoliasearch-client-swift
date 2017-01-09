@@ -456,4 +456,35 @@ class ClientTests: OnlineTestCase {
         })
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
+
+    /// Test that we take reachability into account when making requests, unless `useReachability` is set to false.
+    ///
+    func testUseReachability() {
+        let expectation = self.expectation(description: #function)
+
+        // Pretend that we are offline.
+        let reachability = MockNetworkReachability()
+        client.reachability = reachability
+        reachability.reachable = false
+        
+        // Check that requests fail right away.
+        let startTime = Date()
+        client.listIndexes { (content, error) in
+            let stopTime = Date()
+            let duration = stopTime.timeIntervalSince(startTime)
+            guard let error = error as? NSError else { XCTFail("Request should have failed"); expectation.fulfill(); return }
+            XCTAssertEqual(NSURLErrorDomain, error.domain)
+            XCTAssertEqual(NSURLErrorNotConnectedToInternet, error.code)
+            XCTAssert(duration < min(self.client.searchTimeout, self.client.timeout)) // check that we failed without waiting for the timeout
+
+            // Choose to ignore reachability now, and check that requests are performed, although network is supposedly down.
+            self.client.useReachability = false
+            self.client.listIndexes { (content, error) in
+                // The request should work, since we are actually connected (fake reachability)!
+                XCTAssertNil(error)
+                expectation.fulfill()
+            }
+        }
+        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    }
 }
