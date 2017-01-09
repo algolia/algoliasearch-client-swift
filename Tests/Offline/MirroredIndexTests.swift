@@ -76,32 +76,47 @@ class MirroredIndexTests: OfflineTestCase {
         super.tearDown()
     }
     
-    private func sync(index: MirroredIndex, completionBlock: @escaping (Error?) -> Void) {
+    private func populate(index: MirroredIndex, completionBlock: @escaping (Error?) -> Void) {
         // Delete the index.
         client.deleteIndex(withName: index.name) { (content, error) -> Void in
             XCTAssertNil(error)
+            if error != nil {
+                completionBlock(error)
+                return
+            }
             // Populate the online index.
             index.addObjects(Array(self.moreObjects.values)) { (content, error) in
                 guard let taskID = content?["taskID"] as? Int else { XCTFail(); return }
                 index.waitTask(withID: taskID) { (content, error) in
                     XCTAssertNil(error)
-                    
-                    // Sync the offline mirror.
-                    index.mirrored = true
-                    let query = Query()
-                    query.numericFilters = ["born < 1980"]
-                    index.dataSelectionQueries = [
-                        DataSelectionQuery(query: query, maxObjects: 10)
-                    ]
-                    var observer: NSObjectProtocol?
-                    observer = NotificationCenter.default.addObserver(forName: MirroredIndex.SyncDidFinishNotification, object: index, queue: OperationQueue.main) { (notification) in
-                        NotificationCenter.default.removeObserver(observer!)
-                        let error = notification.userInfo?[MirroredIndex.errorKey] as? Error
-                        completionBlock(error)
-                    }
-                    index.sync()
+                    completionBlock(error)
                 }
             }
+        }
+    }
+    
+    private func sync(index: MirroredIndex, completionBlock: @escaping (Error?) -> Void) {
+        populate(index:  index) { (error) -> Void in
+            XCTAssertNil(error)
+            if error != nil {
+                completionBlock(error)
+                return
+            }
+
+            // Sync the offline mirror.
+            index.mirrored = true
+            let query = Query()
+            query.numericFilters = ["born < 1980"]
+            index.dataSelectionQueries = [
+                DataSelectionQuery(query: query, maxObjects: 10)
+            ]
+            var observer: NSObjectProtocol?
+            observer = NotificationCenter.default.addObserver(forName: MirroredIndex.SyncDidFinishNotification, object: index, queue: OperationQueue.main) { (notification) in
+                NotificationCenter.default.removeObserver(observer!)
+                let error = notification.userInfo?[MirroredIndex.errorKey] as? Error
+                completionBlock(error)
+            }
+            index.sync()
         }
     }
     
@@ -524,6 +539,51 @@ class MirroredIndexTests: OfflineTestCase {
                 }
             }
         }
+        waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
+    }
+    
+    /// Test that a non-mirrored index behaves like a purely online index.
+    ///
+    func testNotMirrored() {
+        let expectation_populate = self.expectation(description: #function + " (populate)")
+        let expectation_search = self.expectation(description: #function + " (search)")
+        let expectation_browse = self.expectation(description: #function + " (browse)")
+        let expectation_get_object = self.expectation(description: #function + " (get object)")
+        let expectation_get_objects = self.expectation(description: #function + " (get objects)")
+        
+        let index: MirroredIndex = client.index(withName: safeIndexName(#function))
+        // Check that the index is *not* mirrored by default.
+        XCTAssertFalse(index.mirrored)
+
+        populate(index: index) { (error) in
+            // Check that a non-mirrored index returns online results without origin tagging.
+            index.search(Query()) { (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual(5, content?["nbHits"] as? Int)
+                XCTAssertNil(content?["origin"])
+                expectation_search.fulfill()
+            }
+            index.browse(query: Query()) { (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual(5, content?["nbHits"] as? Int)
+                XCTAssertNil(content?["origin"])
+                expectation_browse.fulfill()
+            }
+            index.getObject(withID: "1") { (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual("Snoopy", content?["name"] as? String)
+                XCTAssertNil(content?["origin"])
+                expectation_get_object.fulfill()
+            }
+            index.getObjects(withIDs: ["1", "2"]) { (content, error) in
+                XCTAssertNil(error)
+                XCTAssertEqual(2, (content?["results"] as? [JSONObject])?.count)
+                XCTAssertNil(content?["origin"])
+                expectation_get_objects.fulfill()
+            }
+            expectation_populate.fulfill()
+        }
+        
         waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
     }
 }
