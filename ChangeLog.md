@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+## 4.6.1 (2017-01-10)
+
+### Bug fixes
+
+- [offline] Fix reachability handling in `onlineOnly` request strategy
+
+
 ## 4.6 (2016-12-28)
 
 ### New features
