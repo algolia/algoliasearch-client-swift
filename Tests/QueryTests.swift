@@ -686,4 +686,14 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.responseFields!, ["foo", "bar"])
     }
+    
+    func test_facetingAfterDistinct() {
+        let query1 = Query()
+        XCTAssertNil(query1.facetingAfterDistinct)
+        query1.facetingAfterDistinct = true
+        XCTAssertEqual(query1.facetingAfterDistinct, true)
+        XCTAssertEqual(query1["facetingAfterDistinct"], "true")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.facetingAfterDistinct, true)
+    }
 }

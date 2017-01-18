@@ -526,6 +526,16 @@ open class Query : AbstractQuery {
         get { return Query.parseUInt(self["maxValuesPerFacet"]) }
         set { self["maxValuesPerFacet"] = Query.buildUInt(newValue) }
     }
+    
+    /// Force faceting to be applied after de-duplication.
+    ///
+    /// + Warning: There are strong requirements and caveats to this feature (including a performance impact),
+    ///   so please refer to the online documentation before enabling it.
+    ///
+    public var facetingAfterDistinct: Bool? {
+        get { return Query.parseBool(self["facetingAfterDistinct"]) }
+        set { self["facetingAfterDistinct"] = Query.buildBool(newValue) }
+    }
 
     // MARK: Unified filter parameter (SQL like)
 
@@ -994,5 +1004,11 @@ open class Query : AbstractQuery {
     public var z_objc_minimumAroundRadius: NSNumber? {
         get { return AbstractQuery.toNumber(self.minimumAroundRadius) }
         set { self.minimumAroundRadius = newValue?.uintValue }
+    }
+    
+    @objc(facetingAfterDistinct)
+    public var z_objc_facetingAfterDistinct: NSNumber? {
+        get { return AbstractQuery.toNumber(self.facetingAfterDistinct) }
+        set { self.facetingAfterDistinct = newValue?.boolValue }
     }
 }
