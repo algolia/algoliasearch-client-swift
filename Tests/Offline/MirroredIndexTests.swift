@@ -586,4 +586,43 @@ class MirroredIndexTests: OfflineTestCase {
         
         waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
     }
+    
+    /// Test that we can switch an index from not mirrored to mirrored and back without causing any harm.
+    ///
+    /// + Bug: [#285](https://github.com/algolia/algoliasearch-client-swift/issues/285).
+    ///
+    func testMirroredSetUnset() {
+        let expectation_property = self.expectation(description: #function + " (property)")
+        let expectation_search = self.expectation(description: #function + " (search)")
+
+        let index: MirroredIndex = client.index(withName: safeIndexName(#function))
+
+        // NOTE: We don't care about the search results here. We are just interested in not crashing.
+        //
+        let propertyQueue = DispatchQueue(label: "Property queue")
+        let OUTER_ITERATIONS = 100
+        let INNER_ITERATIONS = 100
+        var completedProperties = 0
+        var completedSearches = 0
+        for _ in 1...OUTER_ITERATIONS {
+            propertyQueue.async {
+                for i in 1...INNER_ITERATIONS {
+                    index.mirrored = i % 2 == 1
+                }
+                completedProperties += 1
+                if completedProperties == OUTER_ITERATIONS {
+                    expectation_property.fulfill()
+                }
+            }
+            for _ in 1...1 {
+                index.search(Query()) { (content, error) in
+                    completedSearches += 1
+                    if completedSearches == OUTER_ITERATIONS {
+                        expectation_search.fulfill()
+                    }
+                }
+            }
+        }
+        waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
+    }
 }

@@ -128,12 +128,12 @@ extension NSObject {
     ///
     /// - paremeter block: Block to be executed serially on the object.
     ///
-    func synchronized(_ block: () -> ()) {
+    func synchronized<T>(_ block: () -> T) -> T {
         objc_sync_enter(self)
         defer {
             objc_sync_exit(self)
         }
-        block()
+        return block()
     }
 }
 

@@ -196,30 +196,41 @@ import Foundation
     let mirrorSettings = MirrorSettings()
     
     /// Whether the index is mirrored locally. Default = false.
-    @objc public var mirrored: Bool = false {
+    ///
+    /// + Note: Setting this property to `true` create the resources required to access the local mirror.
+    ///   Setting it to `false` does *not* deallocate those resources.
+    ///
+    @objc public var mirrored: Bool {
+        get {
+            return self.synchronized { self._mirrored }
+        }
+        set {
+            self.synchronized { self._mirrored = newValue }
+        }
+    }
+    
+    /// Storage for the `mirrored` property.
+    ///
+    /// + Warning: **DO NOT** ACCESS THIS VARIABLE DIRECTLY.
+    ///
+    private var _mirrored: Bool = false {
+        // NOTE: Synchronization performed by the `mirrored` property.
         didSet {
-            if (mirrored) {
+            if (_mirrored) {
                 do {
                     try FileManager.default.createDirectory(atPath: self.indexDataDir, withIntermediateDirectories: true, attributes: nil)
                     // Lazy instantiate the local index.
-                    self.synchronized {
-                        if (self.localIndex == nil) {
-                            self.localIndex = LocalIndex(dataDir: self.offlineClient.rootDataDir, appID: self.client.appID, indexName: self.name)
-                        }
+                    if (self.localIndex == nil) {
+                        self.localIndex = LocalIndex(dataDir: self.offlineClient.rootDataDir, appID: self.client.appID, indexName: self.name)
                     }
                 } catch _ {
                     // Ignore
                 }
                 mirrorSettings.load(self.mirrorSettingsFilePath)
-            } else {
-                // Release the local index.
-                self.synchronized {
-                    self.localIndex = nil
-                }
             }
         }
     }
-    
+
     /// Data selection queries.
     @objc public var dataSelectionQueries: [DataSelectionQuery] {
         get {
@@ -646,7 +657,6 @@ import Foundation
         private var mayRunOfflineRequest: Bool = true
         
         init(index: MirroredIndex, completionHandler: @escaping CompletionHandler) {
-            assert(index.mirrored)
             self.index = index
             super.init(completionHandler: completionHandler)
             self.completionQueue = index.client.completionQueue
