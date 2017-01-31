@@ -10,6 +10,7 @@ output: build/doc/offline
 # Avoid putting the DocSet within the HTML docs.
 # WARNING: The path is relative to the output directory.
 docset_path: ../../docset-offline
+docset_icon: doc/img/icon.png
 hide_documentation_coverage: true
 skip_undocumented: true
 # Avoid putting the current date into the docs (this makes the diff quite noisy).
