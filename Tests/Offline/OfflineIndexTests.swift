@@ -467,4 +467,29 @@ class OfflineIndexTests: OfflineTestCase {
         }
         waitForExpectations(timeout: 10, handler: nil)
     }
+
+    func testSearchForFacetValues() {
+        let expectation = self.expectation(description: #function)
+        let index = client.offlineIndex(withName: #function)
+        let transaction = index.newTransaction()
+        transaction.setSettings(settings) { (content, error) in
+            XCTAssertNil(error)
+            transaction.saveObjects(Array(self.objects.values)) { (content, error) in
+                XCTAssertNil(error)
+                transaction.commit() { (content, error) in
+                    guard error == nil else { XCTFail(); return }
+                    let query = Query(query: "snoopy")
+                    index.searchForFacetValues(of: "series", matching: "pea", query: query) { (content, error) in
+                        guard let content = content else { XCTFail(); return }
+                        guard let facetHits = content["facetHits"] as? [JSONObject] else { XCTFail(); return }
+                        XCTAssertEqual(1, facetHits.count)
+                        XCTAssertEqual("Peanuts", facetHits[0]["value"] as? String)
+                        XCTAssertEqual(1, facetHits[0]["count"] as? Int)
+                        expectation.fulfill()
+                    }
+                }
+            }
+        }
+        waitForExpectations(timeout:  expectationTimeout, handler: nil)
+    }
 }
