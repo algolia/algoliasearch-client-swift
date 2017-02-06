@@ -85,11 +85,14 @@ class MirroredIndexTests: OfflineTestCase {
                 return
             }
             // Populate the online index.
-            index.addObjects(Array(self.moreObjects.values)) { (content, error) in
-                guard let taskID = content?["taskID"] as? Int else { XCTFail(); return }
-                index.waitTask(withID: taskID) { (content, error) in
-                    XCTAssertNil(error)
-                    completionBlock(error)
+            index.setSettings(self.settings) { (content, error) in
+                XCTAssertNil(error)
+                index.addObjects(Array(self.moreObjects.values)) { (content, error) in
+                    guard let taskID = content?["taskID"] as? Int else { XCTFail(); return }
+                    index.waitTask(withID: taskID) { (content, error) in
+                        XCTAssertNil(error)
+                        completionBlock(error)
+                    }
                 }
             }
         }
@@ -622,6 +625,57 @@ class MirroredIndexTests: OfflineTestCase {
                     }
                 }
             }
+        }
+        waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
+    }
+
+    func testSearchForFacetValues() {
+        let expectation_indexing = self.expectation(description: "indexing")
+        let expectation_onlineQuery = self.expectation(description: "onlineQuery")
+        let expectation_offlineQuery = self.expectation(description: "offlineQuery")
+        let expectation_mixedQuery = self.expectation(description: "offlineQuery")
+        
+        // Populate the online index & sync the offline mirror.
+        let index: MirroredIndex = client.index(withName: safeIndexName(#function))
+        sync(index: index) { (error) in
+            if let error = error { XCTFail("\(error)"); return }
+            
+            // Query the online index explicitly.
+            index.searchForFacetValuesOnline(of: "series", matching: "") { (content, error) in
+                XCTAssertNil(error)
+                guard let facetHits = content?["facetHits"] as? [JSONObject] else { XCTFail(); return }
+                XCTAssertEqual(2, facetHits.count)
+                XCTAssertEqual("remote", content?["origin"] as? String)
+                expectation_onlineQuery.fulfill()
+            }
+            
+            // Query the offline index explicitly.
+            index.searchForFacetValuesOffline(of: "series", matching: "") { (content, error) in
+                XCTAssertNil(error)
+                guard let facetHits = content?["facetHits"] as? [JSONObject] else { XCTFail(); return }
+                XCTAssertEqual(1, facetHits.count)
+                XCTAssertEqual("Peanuts", facetHits[0]["value"] as? String)
+                XCTAssertEqual(3, facetHits[0]["count"] as? Int)
+                XCTAssertEqual("local", content?["origin"] as? String)
+                expectation_offlineQuery.fulfill()
+            }
+            
+            // Test offline fallback.
+            self.client.readHosts = [ "unknown.algolia.com" ]
+            index.requestStrategy = .fallbackOnFailure
+            let query = Query()
+            query.query = "snoopy"
+            index.searchForFacetValues(of: "series", matching: "pea", query: query) { (content, error) in
+                XCTAssertNil(error)
+                guard let facetHits = content?["facetHits"] as? [JSONObject] else { XCTFail(); return }
+                XCTAssertEqual(1, facetHits.count)
+                XCTAssertEqual("Peanuts", facetHits[0]["value"] as? String)
+                XCTAssertEqual(1, facetHits[0]["count"] as? Int)
+                XCTAssertEqual("local", content?["origin"] as? String)
+                expectation_mixedQuery.fulfill()
+            }
+            
+            expectation_indexing.fulfill()
         }
         waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
     }

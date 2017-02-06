@@ -50,6 +50,11 @@ class OfflineTestCase: XCTestCase {
         super.tearDown()
     }
     
+    let settings: [String: Any] = [
+        "searchableAttributes": ["name", "kind", "series"],
+        "attributesForFaceting": ["searchable(series)"]
+    ]
+    
     let objects: [String: JSONObject] = [
         "snoopy": [
             "objectID": "1",
