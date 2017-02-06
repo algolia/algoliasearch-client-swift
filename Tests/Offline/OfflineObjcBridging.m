@@ -51,7 +51,7 @@
     OfflineClient* client = [[OfflineClient alloc] initWithAppID:@"APPID" apiKey:@"APIKEY"];
     [client enableOfflineModeWithLicenseKey:@"LICENSE_KEY"];
 
-    [client hasOfflineDataWithIndexName:@"name"];
+    XCTAssertFalse([client hasOfflineDataWithIndexName:@"nonexistent"]);
 
     // Operations
     // ----------
