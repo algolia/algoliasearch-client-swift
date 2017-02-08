@@ -746,6 +746,20 @@ open class Query : AbstractQuery {
         set { self["responseFields"] = Query.buildJSONArray(newValue) }
     }
 
+    /// Maximum number of facet hits to return during a search for facet values.
+    ///
+    /// + Note: Does not apply to regular search queries.
+    ///
+    /// + Note: For performance reasons, the maximum allowed number of returned values is 100.
+    ///   Any value outside the range [1, 100] will be rejected.
+    ///
+    /// + SeeAlso: `Index.searchForFacetValues(...)`
+    ///
+    public var maxFacetHits: UInt? {
+        get { return Query.parseUInt(self["maxFacetHits"]) }
+        set { self["maxFacetHits"] = Query.buildUInt(newValue) }
+    }
+
     // MARK: - Initialization
 
     /// Construct a query with the specified full text query.
@@ -1010,5 +1024,11 @@ open class Query : AbstractQuery {
     public var z_objc_facetingAfterDistinct: NSNumber? {
         get { return AbstractQuery.toNumber(self.facetingAfterDistinct) }
         set { self.facetingAfterDistinct = newValue?.boolValue }
+    }
+
+    @objc(maxFacetHits)
+    public var z_objc_maxFacetHits: NSNumber? {
+        get { return AbstractQuery.toNumber(self.maxFacetHits) }
+        set { self.maxFacetHits = newValue?.uintValue }
     }
 }

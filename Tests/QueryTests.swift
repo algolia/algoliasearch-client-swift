@@ -696,4 +696,14 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.facetingAfterDistinct, true)
     }
+
+    func test_maxFacetHits() {
+        let query1 = Query()
+        XCTAssertNil(query1.maxFacetHits)
+        query1.maxFacetHits = 66
+        XCTAssertEqual(query1.maxFacetHits, 66)
+        XCTAssertEqual(query1["maxFacetHits"], "66")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.maxFacetHits, query1.maxFacetHits)
+    }
 }
