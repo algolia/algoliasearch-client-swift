@@ -1,2 +1,4 @@
 /undocumented.json
+# Strange hidden, empty files produced by Jazzy.
+.*.png
 

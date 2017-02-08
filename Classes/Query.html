@@ -1465,6 +1465,40 @@ max 10 values per facet.</p>
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query21facetingAfterDistinctGSqSb_"></a>
+                    <a name="//apple_ref/swift/Property/facetingAfterDistinct" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query21facetingAfterDistinctGSqSb_">facetingAfterDistinct</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Force faceting to be applied after de-duplication.</p>
+
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    There are strong requirements and caveats to this feature (including a performance impact),
+so please refer to the online documentation before enabling it.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">facetingAfterDistinct</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
             <div class="task-group">
@@ -1809,6 +1843,52 @@ request parameters in the response&rsquo;s params field can be undesirable.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">responseFields</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC13AlgoliaSearch5Query12maxFacetHitsGSqSu_"></a>
+                    <a name="//apple_ref/swift/Property/maxFacetHits" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC13AlgoliaSearch5Query12maxFacetHitsGSqSu_">maxFacetHits</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Maximum number of facet hits to return during a search for facet values.</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>Does not apply to regular search queries.</p>
+
+</div>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    <p>For performance reasons, the maximum allowed number of returned values is 100.
+Any value outside the range [1, 100] will be rejected.</p>
+
+</div>
+
+<div class="aside aside-see-also">
+    <p class="aside-title">See also</p>
+    <p><code><a href="../Classes/Index.html#/s:FC13AlgoliaSearch5Index20searchForFacetValuesFT2ofSS8matchingSS5queryGSqCS_5Query_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">Index.searchForFacetValues(...)</a></code></p>
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">maxFacetHits</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
