@@ -44,8 +44,6 @@ keep versioning aligned (there is only one version number for both flavors).
 
     - clearing Xcode derived data in `~/Library/Developer/Xcode/DerivedData`.
 
-    NOTE: Currently, there are warnings we cannot avoid (see below).
-
 - **Push to GitHub**:
 
     - `git commit -m "Version X.Y.Z"`
