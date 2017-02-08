@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
     s.name = 'AlgoliaSearch-Offline-Swift'
     s.module_name = 'AlgoliaSearch'
-    s.version = '4.6.1'
+    s.version = '4.7'
     s.license = 'MIT'
     s.summary = 'Algolia Search API Client for iOS & OS X written in Swift.'
     s.homepage = 'https://github.com/algolia/algoliasearch-client-swift'
@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
 
     s.ios.deployment_target = '8.0'
 
-    s.dependency 'AlgoliaSearchOfflineCore-iOS', '~> 1.1'
+    s.dependency 'AlgoliaSearchOfflineCore-iOS', '~> 1.1.0'
 
     # Activate Core-dependent code.
     # WARNING: Specifying the preprocessor macro is not enough; it must be added to Swift flags as well.

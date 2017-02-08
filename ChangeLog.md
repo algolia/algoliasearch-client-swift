@@ -1,6 +1,23 @@
 Change Log
 ==========
 
+## 4.7 (2017-02-08)
+
+### New features
+
+- Support `facetingAfterDistinct` query parameter
+- Support `maxFacetHits` parameter when searching for facet values
+- [offline] Support offline search for facet values
+
+### Bug fixes
+
+- (#285) Fix race condition when searching while activating mirrored mode
+
+### Other changes
+
+- Update URL of generated reference documentation
+
+
 ## 4.6.1 (2017-01-10)
 
 ### Bug fixes
