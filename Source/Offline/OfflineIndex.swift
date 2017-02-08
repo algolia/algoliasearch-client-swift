@@ -464,6 +464,28 @@ public struct IOError: CustomNSError {
         return self.multipleQueriesSync(queries, strategy: strategy?.rawValue)
     }
     
+    /// Search for facet values.
+    /// Same parameters as `Index.searchForFacetValues(...)`.
+    ///
+    @discardableResult
+    @objc(searchForFacetValuesOf:matching:query:completionHandler:)
+    public func searchForFacetValues(of facetName: String, matching text: String, query: Query? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        let queryCopy = query != nil ? Query(copy: query!) : nil
+        let operation = BlockOperation() {
+            let (content, error) = self.searchForFacetValuesSync(of: facetName, matching: text, query: queryCopy)
+            self.callCompletionHandler(completionHandler, content: content, error: error)
+        }
+        client.searchQueue.addOperation(operation)
+        return operation
+    }
+
+    /// Search for facet values (synchronous version).
+    ///
+    private func searchForFacetValuesSync(of facetName: String, matching text: String, query: Query? = nil) -> APIResponse {
+        let searchResults = self.localIndex.searchForFacetValues(of: facetName, matching: text, parameters: query?.build())
+        return OfflineClient.parseResponse(searchResults)
+    }
+
     // ----------------------------------------------------------------------
     // MARK: - Write operations
     // ----------------------------------------------------------------------

@@ -1097,7 +1097,81 @@ import Foundation
         let (content, error) = OfflineClient.parseResponse(searchResults)
         return (MirroredIndex.tagAsLocal(content: content), error)
     }
+
+    // ----------------------------------------------------------------------
+    // MARK: - Search for facet values
+    // ----------------------------------------------------------------------
     
+    /// Search for facet values, using the current request strategy to choose between online and offline.
+    /// Same parameters as `Index.searchForFacetValues(...)`.
+    ///
+    @objc(searchForFacetValuesOf:matching:query:completionHandler:)
+    @discardableResult override public func searchForFacetValues(of facetName: String, matching text: String, query: Query? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        // IMPORTANT: A non-mirrored index must behave exactly as an online index.
+        if (!mirrored) {
+            return super.searchForFacetValues(of: facetName, matching: text, query: query, completionHandler: completionHandler)
+        }
+        // A mirrored index launches a mixed offline/online request.
+        else {
+            let operation = MixedSearchFacetOperation(index: self, facetName: facetName, facetQuery: text, query: query, completionHandler: completionHandler)
+            offlineClient.mixedRequestQueue.addOperation(operation)
+            return operation
+        }
+    }
+    
+    private class MixedSearchFacetOperation: OnlineOfflineOperation {
+        let facetName: String
+        let facetQuery: String
+        let query: Query?
+        
+        init(index: MirroredIndex, facetName: String, facetQuery: String, query: Query?, completionHandler: @escaping CompletionHandler) {
+            self.facetName = facetName
+            self.facetQuery = facetQuery
+            self.query = query
+            super.init(index: index, completionHandler: completionHandler)
+        }
+        
+        override func startOnlineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
+            return index.searchForFacetValuesOnline(of: facetName, matching: facetQuery, query: query, completionHandler: completionHandler)
+        }
+        
+        override func startOfflineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
+            return index.searchForFacetValuesOffline(of: facetName, matching: facetQuery, query: query, completionHandler: completionHandler)
+        }
+    }
+    
+    /// Search for facet values on the online API, not the local mirror.
+    /// This method is an alias of `Index.searchForFacetValues(...)`.
+    ///
+    @objc(searchForFacetValuesOnlineOf:matching:query:completionHandler:)
+    @discardableResult public func searchForFacetValuesOnline(of facetName: String, matching text: String, query: Query? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        return super.searchForFacetValues(of: facetName, matching: text, query: query, completionHandler: {
+            (content, error) in
+            completionHandler(MirroredIndex.tagAsRemote(content: content), error)
+        })
+    }
+    
+    /// Search for facet values on the local mirror, not the online API.
+    /// This method is the offline equivalent of `Index.searchForFacetValues(...)`.
+    ///
+    @objc(searchForFacetValuesOfflineOf:matching:query:completionHandler:)
+    @discardableResult public func searchForFacetValuesOffline(of facetName: String, matching text: String, query: Query? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        assert(self.mirrored, "Mirroring not activated on this index")
+        let operation = AsyncBlockOperation(completionHandler: completionHandler) {
+            return self._searchForFacetValuesOffline(of: facetName, matching: text, query: query)
+        }
+        operation.completionQueue = client.completionQueue
+        self.offlineClient.searchQueue.addOperation(operation)
+        return operation
+    }
+    
+    /// Search for facet values on the local mirror synchronously.
+    private func _searchForFacetValuesOffline(of facetName: String, matching text: String, query: Query?) -> (content: JSONObject?, error: Error?) {
+        assert(!Thread.isMainThread) // make sure it's run in the background
+        let searchResults = localIndex.searchForFacetValues(of: facetName, matching: text, parameters: query?.build())
+        return OfflineClient.parseResponse(searchResults)
+    }
+
     // ----------------------------------------------------------------------
     // MARK: - Notifications
     // ----------------------------------------------------------------------
