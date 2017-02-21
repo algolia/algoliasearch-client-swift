@@ -130,7 +130,7 @@ public struct IOError: CustomNSError {
 /// - You cannot batch arbitrary write operations in a single method call (as you would do with `Index.batch(...)`).
 ///   However, all write operations are *de facto* batches, since they must be wrapped inside a transaction (see below).
 ///
-@objc public class OfflineIndex : NSObject {
+@objc public class OfflineIndex : NSObject, Searchable {
     // TODO: Expose common behavior through a protocol.
     // TODO: Factorize common behavior in a base class.
     
