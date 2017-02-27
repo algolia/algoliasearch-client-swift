@@ -171,11 +171,19 @@ internal struct HostStatus {
     // NOTE: Not constant only for the sake of mocking during unit tests.
     var session: URLSession
     
-    /// Operation queue used to keep track of requests.
+    /// Operation queue used to keep track of network requests.
     /// `Request` instances are inherently asynchronous, since they are merely wrappers around `NSURLSessionTask`.
-    /// The sole purpose of the queue is to retain them for the duration of their execution!
+    /// The sole purpose of this queue is to retain them for the duration of their execution!
     ///
-    let requestQueue: OperationQueue
+    /// + Warning: This queue must allow enough parallel executions to avoid stalling when the response time is high.
+    ///   Because it's merely a memory management tool, we don't want it to be the limiting factor; `URLSession`
+    ///   already has its own logic of connection pooling.
+    ///
+    let onlineRequestQueue: OperationQueue
+    
+    /// Maximum number of concurrent requests we allow per connection.
+    /// This setting is used to dimension `onlineRequestQueue`.
+    private let maxConcurrentRequestCountPerConnection = 4
     
     /// Dispatch queue used to run completion handlers.
     internal var completionQueue = DispatchQueue.main
@@ -220,8 +228,9 @@ internal struct HostStatus {
         configuration.httpAdditionalHeaders = fixedHTTPHeaders
         session = Foundation.URLSession(configuration: configuration)
         
-        requestQueue = OperationQueue()
-        requestQueue.maxConcurrentOperationCount = 8
+        onlineRequestQueue = OperationQueue()
+        onlineRequestQueue.name = "AlgoliaSearch online requests"
+        onlineRequestQueue.maxConcurrentOperationCount = configuration.httpMaximumConnectionsPerHost * maxConcurrentRequestCountPerConnection
         
         super.init()
         
@@ -301,7 +310,7 @@ internal struct HostStatus {
     func performHTTPQuery(path: String, method: HTTPMethod, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, completionHandler: CompletionHandler? = nil) -> Operation {
         let request = newRequest(method: method, path: path, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery, completion: completionHandler)
         request.completionQueue = self.completionQueue
-        requestQueue.addOperation(request)
+        onlineRequestQueue.addOperation(request)
         return request
     }
     

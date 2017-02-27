@@ -349,7 +349,7 @@ import Foundation
     @objc
     public func sync() {
         assert(self.mirrored, "Mirroring not activated on this index")
-        offlineClient.buildQueue.addOperation() {
+        offlineClient.offlineBuildQueue.addOperation() {
             self._sync()
         }
     }
@@ -363,7 +363,7 @@ import Foundation
     public func syncIfNeeded() {
         assert(self.mirrored, "Mirroring not activated on this index")
         if self.isSyncDelayExpired() || self.isMirrorSettingsDirty() {
-            offlineClient.buildQueue.addOperation() {
+            offlineClient.offlineBuildQueue.addOperation() {
                 self._sync()
             }
         }
@@ -396,7 +396,7 @@ import Foundation
     ///
     private func _sync() {
         assert(!Thread.isMainThread) // make sure it's run in the background
-        assert(OperationQueue.current == offlineClient.buildQueue) // ensure serial calls
+        assert(OperationQueue.current == offlineClient.offlineBuildQueue) // ensure serial calls
         assert(!self.dataSelectionQueries.isEmpty)
 
         // If already syncing, abort.
@@ -440,7 +440,7 @@ import Foundation
                 }
             }
         }
-        offlineClient.buildQueue.addOperation(settingsOperation)
+        offlineClient.offlineBuildQueue.addOperation(settingsOperation)
         
         // Task: build the index using the downloaded files.
         buildIndexOperation = BlockOperation() {
@@ -468,7 +468,7 @@ import Foundation
         }
         
         // Finally add the build index operation to the queue, now that dependencies are set up.
-        offlineClient.buildQueue.addOperation(buildIndexOperation!)
+        offlineClient.offlineBuildQueue.addOperation(buildIndexOperation!)
     }
     
     // Auxiliary function, called:
@@ -510,7 +510,7 @@ import Foundation
                 }
             }
         }
-        offlineClient.buildQueue.addOperation(operation)
+        offlineClient.offlineBuildQueue.addOperation(operation)
         buildIndexOperation!.addDependency(operation)
     }
 
@@ -519,7 +519,7 @@ import Foundation
     /// WARNING: Calls to this method must be synchronized by the caller.
     ///
     private func _syncFinished() {
-        assert(OperationQueue.current == offlineClient.buildQueue) // ensure serial calls
+        assert(OperationQueue.current == offlineClient.offlineBuildQueue) // ensure serial calls
 
         // Clean-up.
         do {
@@ -567,7 +567,7 @@ import Foundation
             return self._buildOffline(settingsFile: settingsFile, objectFiles: objectFiles)
         }
         operation.completionQueue = client.completionQueue
-        offlineClient.buildQueue.addOperation(operation)
+        offlineClient.offlineBuildQueue.addOperation(operation)
         return operation
     }
 
@@ -581,7 +581,7 @@ import Foundation
     ///
     private func _buildOffline(settingsFile: String, objectFiles: [String]) -> (JSONObject?, Error?) {
         assert(!Thread.isMainThread) // make sure it's run in the background
-        assert(OperationQueue.current == offlineClient.buildQueue) // ensure serial calls
+        assert(OperationQueue.current == offlineClient.offlineBuildQueue) // ensure serial calls
         var content: JSONObject? = nil
         var error: Error? = nil
         // Notify observers.
@@ -803,7 +803,7 @@ import Foundation
             return self._searchOffline(queryCopy)
         }
         operation.completionQueue = client.completionQueue
-        self.offlineClient.searchQueue.addOperation(operation)
+        self.offlineClient.offlineSearchQueue.addOperation(operation)
         return operation
     }
 
@@ -892,7 +892,7 @@ import Foundation
             return self._multipleQueriesOffline(queries, strategy: strategy)
         }
         operation.completionQueue = client.completionQueue
-        self.offlineClient.searchQueue.addOperation(operation)
+        self.offlineClient.offlineSearchQueue.addOperation(operation)
         return operation
     }
     
@@ -931,7 +931,7 @@ import Foundation
             return self._browseMirror(query: queryCopy)
         }
         operation.completionQueue = client.completionQueue
-        self.offlineClient.searchQueue.addOperation(operation)
+        self.offlineClient.offlineSearchQueue.addOperation(operation)
         return operation
     }
 
@@ -946,7 +946,7 @@ import Foundation
             return self._browseMirror(query: query)
         }
         operation.completionQueue = client.completionQueue
-        self.offlineClient.searchQueue.addOperation(operation)
+        self.offlineClient.offlineSearchQueue.addOperation(operation)
         return operation
     }
 
@@ -1011,7 +1011,7 @@ import Foundation
             return self._getObjectOffline(withID: objectID, attributesToRetrieve: attributesToRetrieve)
         }
         operation.completionQueue = client.completionQueue
-        self.offlineClient.searchQueue.addOperation(operation)
+        self.offlineClient.offlineSearchQueue.addOperation(operation)
         return operation
     }
     
@@ -1083,7 +1083,7 @@ import Foundation
             return self._getObjectsOffline(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve)
         }
         operation.completionQueue = client.completionQueue
-        self.offlineClient.searchQueue.addOperation(operation)
+        self.offlineClient.offlineSearchQueue.addOperation(operation)
         return operation
     }
     
@@ -1161,7 +1161,7 @@ import Foundation
             return self._searchForFacetValuesOffline(of: facetName, matching: text, query: query)
         }
         operation.completionQueue = client.completionQueue
-        self.offlineClient.searchQueue.addOperation(operation)
+        self.offlineClient.offlineSearchQueue.addOperation(operation)
         return operation
     }
     
