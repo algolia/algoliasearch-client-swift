@@ -353,7 +353,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
         return (content: content, error: error)
     }
     
-    /// Call a completion handler on the main queue.
+    /// Call a completion handler on the completion queue.
     ///
     /// - parameter completionHandler: The completion handler to call. If `nil`, this function does nothing.
     /// - parameter content: The content to pass as a first argument to the completion handler.
@@ -361,7 +361,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     ///
     internal func callCompletionHandler(_ completionHandler: CompletionHandler?, content: JSONObject?, error: Error?) {
         if let completionHandler = completionHandler {
-            DispatchQueue.main.async {
+            completionQueue!.addOperation {
                 completionHandler(content, error)
             }
         }

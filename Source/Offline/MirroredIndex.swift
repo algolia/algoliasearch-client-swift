@@ -406,7 +406,9 @@ import Foundation
         syncing = true
 
         // Notify observers.
-        DispatchQueue.main.async {
+        // TODO: Asynchronous notifications are superfluous since the observers can choose their own queue with
+        // `NotificationCenter.addObserver(forName:object:queue:using:)`.
+        client.completionQueue!.addOperation {
             NotificationCenter.default.post(name: MirroredIndex.SyncDidStartNotification, object: self)
         }
 
@@ -536,7 +538,9 @@ import Foundation
         self.syncing = false
         
         // Notify observers.
-        DispatchQueue.main.async {
+        // TODO: Asynchronous notifications are superfluous since the observers can choose their own queue with
+        // `NotificationCenter.addObserver(forName:object:queue:using:)`.
+        client.completionQueue!.addOperation {
             var userInfo: [String: Any]? = nil
             if self.syncError != nil {
                 userInfo = [MirroredIndex.errorKey: self.syncError!]
@@ -585,7 +589,9 @@ import Foundation
         var content: JSONObject? = nil
         var error: Error? = nil
         // Notify observers.
-        DispatchQueue.main.async {
+        // TODO: Asynchronous notifications are superfluous since the observers can choose their own queue with
+        // `NotificationCenter.addObserver(forName:object:queue:using:)`.
+        client.completionQueue!.addOperation {
             NotificationCenter.default.post(name: MirroredIndex.BuildDidStartNotification, object: self)
         }
         // Build the index.
@@ -598,7 +604,9 @@ import Foundation
         // Notify observers.
         var userInfo: [String: Any] = [:]
         userInfo[MirroredIndex.errorKey] = error
-        DispatchQueue.main.async {
+        // TODO: Asynchronous notifications are superfluous since the observers can choose their own queue with
+        // `NotificationCenter.addObserver(forName:object:queue:using:)`.
+        client.completionQueue!.addOperation {
             NotificationCenter.default.post(name: MirroredIndex.BuildDidFinishNotification, object: self, userInfo: userInfo)
         }
         return (content, error)
@@ -650,12 +658,19 @@ import Foundation
     /// A mixed online/offline request.
     /// This request encapsulates two concurrent online and offline requests, to optimize response time.
     ///
+    /// + Warning: The fallback logic requires that all phases are run sequentially. Since we have no guaranteee that
+    ///   the completion handlers run on a serial queue (and since the mixed request queue itself is heavily parallel),
+    ///   we explicitly synchronize the blocks using a serial dispatch queue specific to this operation.
+    ///
     private class OnlineOfflineOperation: AsyncOperationWithCompletion {
         fileprivate let index: MirroredIndex
         private var onlineRequest: Operation?
         private var offlineRequest: Operation?
         private var mayRunOfflineRequest: Bool = true
-        
+
+        /// Dispatch queue used to serialize the fallback logic.
+        private let lock = DispatchQueue(label: "MirroredIndex.OnlineOfflineOperation.lock")
+
         init(index: MirroredIndex, completionHandler: @escaping CompletionHandler) {
             self.index = index
             super.init(completionHandler: completionHandler)
@@ -663,30 +678,29 @@ import Foundation
         }
         
         override func start() {
-            // WARNING: All callbacks must run sequentially; we cannot afford race conditions between them.
-            // Since most methods use the main thread for callbacks, we have to use it as well.
-            
-            // If the strategy is "offline only" or if connectivity is unavailable, go offline straight away.
-            if index.requestStrategy == .offlineOnly || index.requestStrategy != .onlineOnly && !index.client.shouldMakeNetworkCall() {
-                startOffline()
-            }
-            // Otherwise, always launch an online request.
-            else {
-                if index.requestStrategy == .onlineOnly || !index.localIndex.exists() {
-                    mayRunOfflineRequest = false
+            lock.sync {
+                // If the strategy is "offline only" or if connectivity is unavailable, go offline straight away.
+                if index.requestStrategy == .offlineOnly || index.requestStrategy != .onlineOnly && !index.client.shouldMakeNetworkCall() {
+                    startOffline()
                 }
-                startOnline()
-            }
-            if index.requestStrategy == .fallbackOnTimeout && mayRunOfflineRequest {
-                // Schedule an offline request to start after a certain delay.
-                DispatchQueue.main.asyncAfter(deadline: .now() + index.offlineFallbackTimeout) {
-                    [weak self] in
-                    // WARNING: Because dispatched blocks cannot be cancelled, and to avoid increasing the lifetime of
-                    // the operation by the timeout delay, we do not retain self. => Gracefully fail if the operation
-                    // has already finished.
-                    guard let this = self else { return }
-                    if this.mayRunOfflineRequest {
-                        this.startOffline()
+                    // Otherwise, always launch an online request.
+                else {
+                    if index.requestStrategy == .onlineOnly || !index.localIndex.exists() {
+                        mayRunOfflineRequest = false
+                    }
+                    startOnline()
+                }
+                if index.requestStrategy == .fallbackOnTimeout && mayRunOfflineRequest {
+                    // Schedule an offline request to start after a certain delay.
+                    lock.asyncAfter(deadline: .now() + index.offlineFallbackTimeout) {
+                        [weak self] in
+                        // WARNING: Because dispatched blocks cannot be cancelled, and to avoid increasing the lifetime of
+                        // the operation by the timeout delay, we do not retain self. => Gracefully fail if the operation
+                        // has already finished.
+                        guard let this = self else { return }
+                        if this.mayRunOfflineRequest {
+                            this.startOffline()
+                        }
                     }
                 }
             }
@@ -700,14 +714,16 @@ import Foundation
             onlineRequest = startOnlineRequest() {
                 [unowned self] // works because the operation is enqueued and retained by the queue
                 (content, error) in
-                // In case of transient error, run an offline request.
-                if error != nil && error!.isTransient() && self.mayRunOfflineRequest {
-                    self.startOffline()
-                }
-                // Otherwise, just return the online results.
-                else {
-                    self.cancelOffline()
-                    self.callCompletion(content: content, error: error)
+                self.lock.sync {
+                    // In case of transient error, run an offline request.
+                    if error != nil && error!.isTransient() && self.mayRunOfflineRequest {
+                        self.startOffline()
+                    }
+                        // Otherwise, just return the online results.
+                    else {
+                        self.cancelOffline()
+                        self.callCompletion(content: content, error: error)
+                    }
                 }
             }
         }
@@ -722,8 +738,10 @@ import Foundation
             offlineRequest = startOfflineRequest() {
                 [unowned self] // works because the operation is enqueued and retained by the queue
                 (content, error) in
-                self.onlineRequest?.cancel()
-                self.callCompletion(content: content, error: error)
+                self.lock.sync {
+                    self.onlineRequest?.cancel()
+                    self.callCompletion(content: content, error: error)
+                }
             }
         }
         
@@ -736,10 +754,12 @@ import Foundation
         }
         
         override func cancel() {
-            if !isCancelled {
-                onlineRequest?.cancel()
-                cancelOffline()
-                super.cancel()
+            lock.sync {
+                if !isCancelled {
+                    onlineRequest?.cancel()
+                    cancelOffline()
+                    super.cancel()
+                }
             }
         }
         

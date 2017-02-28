@@ -331,12 +331,11 @@ import Foundation
         let cacheKey = "\(path)_body_\(request)"
         if let content = searchCache?.objectForKey(cacheKey) {
             // We *have* to return something, so we create a simple operation.
-            // Note that its execution will be deferred until the next iteration of the main run loop.
             let operation = AsyncBlockOperation(completionHandler: completionHandler) {
                 return (content, nil)
             }
             operation.completionQueue = client.completionQueue
-            OperationQueue.main.addOperation(operation)
+            client.inMemoryQueue.addOperation(operation)
             return operation
         }
         // Otherwise, run an online query.
@@ -487,7 +486,7 @@ import Foundation
     @objc
     @discardableResult public func waitTask(withID taskID: Int, completionHandler: @escaping CompletionHandler) -> Operation {
         let operation = WaitOperation(index: self, taskID: taskID, completionHandler: completionHandler)
-        operation.start()
+        client.inMemoryQueue.addOperation(operation)
         return operation
     }
     
@@ -553,7 +552,7 @@ import Foundation
     @objc
     @discardableResult public func deleteByQuery(_ query: Query, completionHandler: CompletionHandler? = nil) -> Operation {
         let operation = DeleteByQueryOperation(index: self, query: query, completionHandler: completionHandler)
-        operation.start()
+        client.inMemoryQueue.addOperation(operation)
         return operation
     }
     

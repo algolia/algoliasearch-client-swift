@@ -114,13 +114,19 @@ internal class AsyncOperationWithCompletion: AsyncOperation {
     /// User completion block to be called.
     let completion: CompletionHandler?
     
-    /// Dispatch queue used to execute the completion handler.
-    var completionQueue: DispatchQueue?
+    /// Operation queue used to execute the completion handler.
+    weak var completionQueue: OperationQueue?
     
     init(completionHandler: CompletionHandler?) {
         self.completion = completionHandler
     }
+
+    override func start() {
+        // The completion queue should not be the same as this operation's queue, otherwise a deadlock will result.
+        assert(OperationQueue.current != self.completionQueue)
+    }
     
+
     /// Finish this operation.
     /// This method should be called exactly once per operation.
     internal func callCompletion(content: JSONObject?, error: Error?) {
@@ -128,7 +134,7 @@ internal class AsyncOperationWithCompletion: AsyncOperation {
             return
         }
         if let completionQueue = completionQueue {
-            completionQueue.async {
+            completionQueue.addOperation {
                 self._callCompletion(content: content, error: error)
             }
         } else {

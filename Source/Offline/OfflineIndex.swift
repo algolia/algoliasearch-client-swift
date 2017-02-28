@@ -1054,7 +1054,7 @@ public struct IOError: CustomNSError {
     private func callCompletionHandler(_ completionHandler: CompletionHandler?, content: JSONObject?, error: Error?) {
         // TODO: Factorize with `OfflineClient`.
         if let completionHandler = completionHandler {
-            DispatchQueue.main.async {
+            client.completionQueue!.addOperation {
                 completionHandler(content, error)
             }
         }

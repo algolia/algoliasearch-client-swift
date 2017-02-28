@@ -185,8 +185,15 @@ internal struct HostStatus {
     /// This setting is used to dimension `onlineRequestQueue`.
     private let maxConcurrentRequestCountPerConnection = 4
     
-    /// Dispatch queue used to run completion handlers.
-    internal var completionQueue = DispatchQueue.main
+    /// Operation queue used to run completion handlers.
+    /// Default = main queue.
+    ///
+    /// + Note: This will affect completion handlers of all methods on all indices attached to this client.
+    ///
+    /// + Warning: The queue is not retained by the client. You must ensure that it remains valid for the lifetime of
+    ///   the client.
+    ///
+    @objc public weak var completionQueue = OperationQueue.main
     
     // MARK: Constant
     
