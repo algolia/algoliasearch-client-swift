@@ -311,6 +311,22 @@ internal struct HostStatus {
         return performHTTPQuery(path: path, method: .GET, body: nil, hostnames: readHosts, completionHandler: completionHandler)
     }
     
+    // ----------------------------------------------------------------------
+    // MARK: - Request management
+    // ----------------------------------------------------------------------
+    
+    /// Cancel all pending requests issued by this client and the associated indices.
+    ///
+    /// + Note: This method is primarily intended for resource cleanup upon exiting the scope of the search.
+    ///   If you want to cancel only specific requests, you should keep track of the `Operation` instances returned by
+    ///   the various methods, and cancel them individually.
+    ///
+    @objc public func cancelPendingRequests() {
+        onlineRequestQueue.cancelAllOperations()
+        // NOTE: Completion queue should be cleared last. => Subclasses should call super after their own cleanup.
+        completionQueue?.cancelAllOperations()
+    }
+    
     // MARK: - Network
     
     /// Perform an HTTP Query.

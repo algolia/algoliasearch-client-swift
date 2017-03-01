@@ -106,4 +106,19 @@ class CancelTests: XCTestCase {
         RunLoop.main.run(until: Date().addingTimeInterval(cancelTimeout))
         XCTAssert(request2.isFinished)
     }
+    
+    /// Test cancelling all pending requests.
+    ///
+    func testCancelPendingRequests() {
+        // Run the test again, but this time the session won't actually cancel the (mock) network call.
+        // This checks that the `Request` class still mutes the completion handler when cancelled.
+        let request = index.search(Query()) {
+            (content, error) -> Void in
+            XCTFail("Completion handler should not be called when all requests have been cancelled")
+        }
+        XCTAssert(!request.isFinished)
+        client.cancelPendingRequests()
+        RunLoop.main.run(until: Date().addingTimeInterval(cancelTimeout))
+        XCTAssert(request.isFinished)
+    }
 }

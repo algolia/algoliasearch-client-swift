@@ -229,4 +229,13 @@ import Foundation
         let body = ["requests": operations]
         return performHTTPQuery(path: path, method: .POST, body: body as [String : Any]?, hostnames: writeHosts, completionHandler: completionHandler)
     }
+
+    // ----------------------------------------------------------------------
+    // MARK: - Request management
+    // ----------------------------------------------------------------------
+    
+    @objc override public func cancelPendingRequests() {
+        inMemoryQueue.cancelAllOperations()
+        super.cancelPendingRequests()
+    }
 }

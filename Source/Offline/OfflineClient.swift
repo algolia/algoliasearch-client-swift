@@ -321,7 +321,26 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     }
     
     // NOTE: Copy not supported because it would be too resource-intensive.
+
+    // ----------------------------------------------------------------------
+    // MARK: - Request management
+    // ----------------------------------------------------------------------
     
+    /// Cancel all pending requests issued by this client and the associated indices.
+    ///
+    /// + Note: This method is primarily intended for resource cleanup upon exiting the scope of the search.
+    ///   If you want to cancel only specific requests, you should keep track of the `Operation` instances returned by
+    ///   the various methods, and cancel them individually.
+    ///
+    /// + Warning: This will also abort any ongoing sync.
+    ///
+    @objc override public func cancelPendingRequests() {
+        offlineBuildQueue.cancelAllOperations()
+        offlineSearchQueue.cancelAllOperations()
+        mixedRequestQueue.cancelAllOperations()
+        super.cancelPendingRequests()
+    }
+
     // MARK: - Utils
     
     /// Parse search results returned by the Offline Core into a (content, error) pair suitable for completion handlers.
