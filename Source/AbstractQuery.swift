@@ -172,6 +172,10 @@ import Foundation
 ///
 /// + Warning: This class is not meant to be used directly. Please see `Query` or `PlacesQuery` instead.
 ///
+/// ## KVO
+///
+/// Every parameter is observable via KVO under its own name.
+///
 @objc
 open class AbstractQuery : NSObject, NSCopying {
     
@@ -196,10 +200,17 @@ open class AbstractQuery : NSObject, NSCopying {
     /// - parameter value:  The parameter's value, or nill to remove it.
     ///
     @objc public func setParameter(withName name: String, to value: String?) {
+        let oldValue = parameters[name]
+        if value != oldValue {
+            self.willChangeValue(forKey: name)
+        }
         if value == nil {
             parameters.removeValue(forKey: name)
         } else {
             parameters[name] = value!
+        }
+        if value != oldValue {
+            self.didChangeValue(forKey: name)
         }
     }
     
