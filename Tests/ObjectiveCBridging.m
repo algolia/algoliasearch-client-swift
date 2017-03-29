@@ -103,6 +103,7 @@
     query.highlightPreTag = @"<mark>";
     query.highlightPostTag = @"</mark>";
     query.snippetEllipsisText = @"...";
+    query.restrictHighlightAndSnippetArrays = false;
     query.numericFilters = @[ @"foo > 0", @"baz < 1000" ];
     query.tagFilters = @[ @"foo", @"bar" ];
     query.distinct = [NSNumber numberWithInt:6];
@@ -522,6 +523,17 @@
     XCTAssertEqualObjects(query1[@"getRankingInfo"], @"true");
     Query* query2 = [Query parse:[query1 build]];
     XCTAssertEqualObjects(query2.getRankingInfo, value);
+}
+
+- (void)test_restrictHighlightAndSnippetArrays {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.restrictHighlightAndSnippetArrays);
+    
+    NSNumber* value = [NSNumber numberWithBool:FALSE];
+    query1.restrictHighlightAndSnippetArrays = value;
+    XCTAssertEqualObjects(query1[@"restrictHighlightAndSnippetArrays"], @"false");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.restrictHighlightAndSnippetArrays, value);
 }
 
 - (void)test_distinct {
