@@ -590,6 +590,17 @@
     XCTAssertEqualObjects(query2.minimumAroundRadius, value);
 }
 
+- (void)test_percentileComputation {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.percentileComputation);
+    
+    NSNumber* value = [NSNumber numberWithBool:FALSE];
+    query1.percentileComputation = value;
+    XCTAssertEqualObjects(query1[@"percentileComputation"], @"false");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.percentileComputation, value);
+}
+
 // MARK: Places
 
 - (void)testPlacesClient {

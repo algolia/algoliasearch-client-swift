@@ -760,6 +760,17 @@ open class Query : AbstractQuery {
         set { self["maxFacetHits"] = Query.buildUInt(newValue) }
     }
 
+    /// Whether to include the query in processing time percentile computation.
+    ///
+    /// When true, the API records the processing time of the search query and includes it when computing the 90% and
+    /// 99% percentiles, available in your Algolia dashboard. When `false`, the search query is excluded from
+    /// percentile computation.
+    ///
+    public var percentileComputation: Bool? {
+        get { return Query.parseBool(self["percentileComputation"]) }
+        set { self["percentileComputation"] = Query.buildBool(newValue) }
+    }
+    
     // MARK: - Initialization
 
     /// Construct a query with the specified full text query.
@@ -1030,5 +1041,11 @@ open class Query : AbstractQuery {
     public var z_objc_maxFacetHits: NSNumber? {
         get { return AbstractQuery.toNumber(self.maxFacetHits) }
         set { self.maxFacetHits = newValue?.uintValue }
+    }
+
+    @objc(percentileComputation)
+    public var z_objc_percentileComputation: NSNumber? {
+        get { return AbstractQuery.toNumber(self.percentileComputation) }
+        set { self.percentileComputation = newValue?.boolValue }
     }
 }
