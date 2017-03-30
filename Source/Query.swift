@@ -475,6 +475,13 @@ open class Query : AbstractQuery {
         set { self["snippetEllipsisText"] = newValue }
     }
     
+    /// Restrict arrays in highlight and snippet results to items that matched the query. (defaults to `false`).
+    /// When `false`, all array items are highlighted/snippeted. When `true`, only array items that matched at least partially are highlighted/snippeted.
+    public var restrictHighlightAndSnippetArrays: Bool? {
+        get { return Query.parseBool(self["restrictHighlightAndSnippetArrays"]) }
+        set { self["restrictHighlightAndSnippetArrays"] = Query.buildBool(newValue) }
+    }
+    
     // MARK: Numeric search parameters
 
     /// Filter on numeric attributes.
@@ -961,6 +968,12 @@ open class Query : AbstractQuery {
     public var z_objc_getRankingInfo: NSNumber? {
         get { return AbstractQuery.toNumber(self.getRankingInfo) }
         set { self.getRankingInfo = newValue?.boolValue }
+    }
+    
+    @objc(restrictHighlightAndSnippetArrays)
+    public var z_objc_restrictHighlightAndSnippetArrays: NSNumber? {
+        get { return AbstractQuery.toNumber(self.restrictHighlightAndSnippetArrays) }
+        set { self.restrictHighlightAndSnippetArrays = newValue?.boolValue }
     }
 
     @objc(distinct)

@@ -435,6 +435,16 @@ class QueryTests: XCTestCase {
         XCTAssertEqual(query2.snippetEllipsisText, "…")
     }
     
+    func test_restrictHighlightAndSnippetArrays() {
+        let query1 = Query()
+        XCTAssertNil(query1.restrictHighlightAndSnippetArrays)
+        query1.restrictHighlightAndSnippetArrays = false
+        XCTAssertEqual(query1.restrictHighlightAndSnippetArrays, false)
+        XCTAssertEqual(query1["restrictHighlightAndSnippetArrays"], "false")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.restrictHighlightAndSnippetArrays, false)
+    }
+    
     func test_analyticsTags() {
         let query1 = Query()
         XCTAssertNil(query1.analyticsTags)
