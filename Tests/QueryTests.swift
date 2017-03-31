@@ -98,6 +98,60 @@ class QueryTests: XCTestCase {
         query["b"] = nil
         XCTAssertNil(query["b"])
     }
+    
+    // MARK: KVO
+    
+    func testKVO() {
+        let query = Query()
+        query.addObserver(self, forKeyPath: "hitsPerPage", options: [.new, .old], context: nil)
+        query.addObserver(self, forKeyPath: "attributesToRetrieve", options: [.new, .old], context: nil)
+        defer {
+            query.removeObserver(self, forKeyPath: "hitsPerPage")
+            query.removeObserver(self, forKeyPath: "attributesToRetrieve")
+        }
+        query.hitsPerPage = 666
+        query.hitsPerPage = 666 // setting the same value again should not trigger any call
+        query.hitsPerPage = nil
+        query.attributesToRetrieve = ["abc", "xyz"]
+        query.attributesToRetrieve = ["abc", "xyz"] // setting the same value again should not trigger any call
+        query.attributesToRetrieve = nil
+        XCTAssertEqual(4, iteration)
+    }
+
+    /// Tracks the number of calls to `observeValue(forKeyPath:of:change:context:)`.
+    var iteration: Int = 0
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        iteration += 1
+        switch iteration {
+        case 1:
+            XCTAssertEqual(keyPath, "hitsPerPage")
+            let old = change![.oldKey] as? Int
+            let new = change![.newKey] as? Int
+            XCTAssert(nil == old)
+            XCTAssertEqual(666, new)
+        case 2:
+            XCTAssertEqual(keyPath, "hitsPerPage")
+            let old = change![.oldKey] as? Int
+            let new = change![.newKey] as? Int
+            XCTAssertEqual(666, old)
+            XCTAssert(nil == new)
+        case 3:
+            XCTAssertEqual(keyPath, "attributesToRetrieve")
+            let old = change![.oldKey] as? [String]
+            let new = change![.newKey] as? [String]
+            XCTAssert(nil == old)
+            XCTAssertEqual(["abc", "xyz"], new!)
+        case 4:
+            XCTAssertEqual(keyPath, "attributesToRetrieve")
+            let old = change![.oldKey] as? [String]
+            let new = change![.newKey] as? [String]
+            XCTAssertEqual(["abc", "xyz"], old!)
+            XCTAssert(nil == new)
+        default:
+            XCTFail("Unexpected call to `observeValue(forKeyPath:of:change:context:)`")
+        }
+    }
 
     // MARK: High-level
 
