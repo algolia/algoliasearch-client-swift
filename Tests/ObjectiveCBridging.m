@@ -141,9 +141,6 @@
     [headers setValue:@"baz" forKey:@"Foo-Bar"];
     client.headers = headers;
 
-    // User agents.
-    client.userAgents = [client.userAgents arrayByAddingObject:[[LibraryVersion alloc] initWithName:@"FooBar" version:@"1.2.3"]];
-
     // Timeouts.
     client.timeout = client.timeout + 10;
     client.searchTimeout = client.searchTimeout + 5;
