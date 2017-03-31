@@ -338,6 +338,13 @@ open class Query : AbstractQuery {
         }
     }
     
+    /// List of attributes on which you want to disable computation of the `exact` ranking criterion
+    /// The list must be a subset of the `searchableAttributes` index setting.
+    @objc public var disableExactOnAttributes: [String]? {
+        get { return Query.parseStringArray(self["disableExactOnAttributes"]) }
+        set { self["disableExactOnAttributes"] = Query.buildJSONArray(newValue) }
+    }
+    
     /// Applicable values for the `exactOnSingleWordQuery` parameter.
     public enum ExactOnSingleWordQuery: String {
         /// No exact on single word query.
@@ -420,6 +427,22 @@ open class Query : AbstractQuery {
     public var hitsPerPage: UInt? {
         get { return Query.parseUInt(self["hitsPerPage"]) }
         set { self["hitsPerPage"] = Query.buildUInt(newValue) }
+    }
+    
+    /// Offset of the first hit to return (zero-based).
+    ///
+    /// + Note: In most cases, page/hitsPerPage is the recommended method for pagination.
+    public var offset: UInt? {
+        get { return Query.parseUInt(self["offset"]) }
+        set { self["offset"] = Query.buildUInt(newValue) }
+    }
+    
+    /// Maximum number of hits to return. (1000 is the maximum)
+    ///
+    /// +Note: In most cases, page/hitsPerPage is the recommended method for pagination.
+    public var length: UInt? {
+        get { return Query.parseUInt(self["length"]) }
+        set { self["length"] = Query.buildUInt(newValue) }
     }
     
     // MARK: Parameters to control results content
@@ -962,6 +985,18 @@ open class Query : AbstractQuery {
     public var z_objc_hitsPerPage: NSNumber? {
         get { return AbstractQuery.toNumber(self.hitsPerPage) }
         set { self.hitsPerPage = newValue?.uintValue }
+    }
+    
+    @objc(offset)
+    public var z_objc_offset: NSNumber? {
+        get { return AbstractQuery.toNumber(self.offset) }
+        set { self.offset = newValue?.uintValue }
+    }
+    
+    @objc(length)
+    public var z_objc_length: NSNumber? {
+        get { return AbstractQuery.toNumber(self.length) }
+        set { self.length = newValue?.uintValue }
     }
 
     @objc(getRankingInfo)

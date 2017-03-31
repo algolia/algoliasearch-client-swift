@@ -92,10 +92,13 @@
     query.removeWordsIfNoResults = @"allOptional";
     query.disableTypoToleranceOnAttributes = @[ @"foo", @"bar" ];
     query.removeStopWords = @[ @"en", @"fr" ];
+    query.disableExactOnAttributes = @[ @"foo", @"bar" ];
     query.exactOnSingleWordQuery = @"attribute";
     query.alternativesAsExact = @[ @"foo", @"bar" ];
     query.page = [NSNumber numberWithInt:6];
     query.hitsPerPage = [NSNumber numberWithInt:66];
+    query.offset = [NSNumber numberWithInt:4];
+    query.length = [NSNumber numberWithInt:4];
     query.attributesToRetrieve = @[ @"foo", @"bar" ];
     query.attributesToHighlight = @[ @"foo", @"bar" ];
     query.attributesToSnippet = @[ @"foo", @"bar" ];
@@ -512,6 +515,28 @@
     XCTAssertEqualObjects(query1[@"hitsPerPage"], @"6");
     Query* query2 = [Query parse:[query1 build]];
     XCTAssertEqualObjects(query2.hitsPerPage, value);
+}
+
+- (void)test_offset {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.offset);
+    
+    NSNumber* value = [NSNumber numberWithInt:4];
+    query1.offset = value;
+    XCTAssertEqualObjects(query1[@"offset"], @"4");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.offset, value);
+}
+
+- (void)test_length {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.length);
+    
+    NSNumber* value = [NSNumber numberWithInt:4];
+    query1.length = value;
+    XCTAssertEqualObjects(query1[@"length"], @"4");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.length, value);
 }
 
 - (void)test_getRankingInfo {
