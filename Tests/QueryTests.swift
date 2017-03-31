@@ -263,6 +263,26 @@ class QueryTests: XCTestCase {
         XCTAssertEqual(query2.hitsPerPage, 50)
     }
     
+    func test_offset() {
+        let query1 = Query()
+        XCTAssertNil(query1.offset)
+        query1.offset = 4
+        XCTAssertEqual(query1.offset, 4)
+        XCTAssertEqual(query1["offset"], "4")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.offset, 4)
+    }
+    
+    func test_length() {
+        let query1 = Query()
+        XCTAssertNil(query1.length)
+        query1.length = 4
+        XCTAssertEqual(query1.length, 4)
+        XCTAssertEqual(query1["length"], "4")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.length, 4)
+    }
+    
     func test_allowTyposOnNumericTokens() {
         let query1 = Query()
         XCTAssertNil(query1.allowTyposOnNumericTokens)
@@ -701,6 +721,16 @@ class QueryTests: XCTestCase {
         XCTAssertEqual(query1["filters"], VALUE)
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.filters, VALUE)
+    }
+    
+    func test_disableExactOnAttributes() {
+        let query1 = Query()
+        XCTAssertNil(query1.disableExactOnAttributes)
+        query1.disableExactOnAttributes = ["foo", "bar"]
+        XCTAssertEqual(query1.disableExactOnAttributes!, ["foo", "bar"])
+        XCTAssertEqual(query1["disableExactOnAttributes"], "[\"foo\",\"bar\"]")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.disableExactOnAttributes!, ["foo", "bar"])
     }
     
     func test_exactOnSingleWordQuery() {
