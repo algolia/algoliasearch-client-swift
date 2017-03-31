@@ -490,4 +490,22 @@ class ClientTests: OnlineTestCase {
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
+    
+    /// Test that the completion queue is used.
+    ///
+    func testCompletionQueue() {
+        let expectation = self.expectation(description: #function)
+        let operationQueue = OperationQueue()
+        self.client.listIndexes { (content, error) in
+            XCTAssert(OperationQueue.current == OperationQueue.main)
+            
+            self.client.completionQueue = operationQueue
+            self.client.listIndexes { (content, error) in
+                XCTAssert(OperationQueue.current != OperationQueue.main)
+                XCTAssert(OperationQueue.current == operationQueue)
+                expectation.fulfill()
+            }
+        }
+        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    }
 }

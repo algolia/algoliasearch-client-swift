@@ -48,6 +48,11 @@ import Foundation
     ///
     var indices: NSMapTable<NSString, AnyObject> = NSMapTable(keyOptions: [.strongMemory], valueOptions: [.weakMemory])
     
+    /// Queue for purely in-memory operations (no I/Os).
+    /// Typically used for aggregate, concurrent operations.
+    ///
+    internal var inMemoryQueue: OperationQueue = OperationQueue()
+    
     // MARK: Initialization
     
     /// Create a new Algolia Search client.
@@ -72,6 +77,7 @@ import Foundation
         let readHosts = [ "\(appID)-dsn.algolia.net" ] + fallbackHosts
         let writeHosts = [ "\(appID).algolia.net" ] + fallbackHosts
         super.init(appID: appID, apiKey: apiKey, readHosts: readHosts, writeHosts: writeHosts)
+        inMemoryQueue.maxConcurrentOperationCount = onlineRequestQueue.maxConcurrentOperationCount
     }
 
     /// Obtain a proxy to an Algolia index (no server call required by this method).

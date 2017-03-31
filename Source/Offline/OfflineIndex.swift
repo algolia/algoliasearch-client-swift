@@ -217,7 +217,7 @@ public struct IOError: CustomNSError {
             let (content, error) = self.getObjectSync(withID: objectID, attributesToRetrieve: attributesToRetrieve)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
-        client.searchQueue.addOperation(operation)
+        client.offlineSearchQueue.addOperation(operation)
         return operation
     }
     
@@ -282,7 +282,7 @@ public struct IOError: CustomNSError {
             let (content, error) = self.getObjectsSync(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
-        client.searchQueue.addOperation(operation)
+        client.offlineSearchQueue.addOperation(operation)
         return operation
     }
     
@@ -312,7 +312,7 @@ public struct IOError: CustomNSError {
             let (content, error) = self.searchSync(Query(copy: query))
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
-        client.searchQueue.addOperation(operation)
+        client.offlineSearchQueue.addOperation(operation)
         return operation
     }
 
@@ -338,7 +338,7 @@ public struct IOError: CustomNSError {
             let (content, error) = self.getSettingsSync()
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
-        client.searchQueue.addOperation(operation)
+        client.offlineSearchQueue.addOperation(operation)
         return operation
     }
     
@@ -365,7 +365,7 @@ public struct IOError: CustomNSError {
             let (content, error) = self.browseSync(query: Query(copy: query))
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
-        client.searchQueue.addOperation(operation)
+        client.offlineSearchQueue.addOperation(operation)
         return operation
     }
     
@@ -395,7 +395,7 @@ public struct IOError: CustomNSError {
             let (content, error) = self.browseSync(from: cursor)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
-        client.searchQueue.addOperation(operation)
+        client.offlineSearchQueue.addOperation(operation)
         return operation
     }
 
@@ -425,7 +425,7 @@ public struct IOError: CustomNSError {
             let (content, error) = self.multipleQueriesSync(queries, strategy: strategy)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
-        client.searchQueue.addOperation(operation)
+        client.offlineSearchQueue.addOperation(operation)
         return operation
     }
 
@@ -475,7 +475,7 @@ public struct IOError: CustomNSError {
             let (content, error) = self.searchForFacetValuesSync(of: facetName, matching: text, query: queryCopy)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
-        client.searchQueue.addOperation(operation)
+        client.offlineSearchQueue.addOperation(operation)
         return operation
     }
 
@@ -830,7 +830,7 @@ public struct IOError: CustomNSError {
                     error = HTTPError(statusCode: statusCode)
                 }
             }
-            index.client.buildQueue.addOperation(buildOperation)
+            index.client.offlineBuildQueue.addOperation(buildOperation)
             buildOperation.waitUntilFinished()
             if error != nil {
                 throw error!
@@ -925,7 +925,7 @@ public struct IOError: CustomNSError {
             return self._build(settingsFile: settingsFile, objectFiles: objectFiles)
         }
         operation.completionQueue = client.completionQueue
-        client.buildQueue.addOperation(operation)
+        client.offlineBuildQueue.addOperation(operation)
         return operation
     }
     
@@ -939,7 +939,7 @@ public struct IOError: CustomNSError {
     ///
     private func _build(settingsFile: String, objectFiles: [String]) -> (JSONObject?, Error?) {
         assert(!Thread.isMainThread) // make sure it's run in the background
-        assert(OperationQueue.current == client.buildQueue) // ensure serial calls
+        assert(OperationQueue.current == client.offlineBuildQueue) // ensure serial calls
 
         // Build the index.
         let status = self.localIndex.build(settingsFile: settingsFile, objectFiles: objectFiles, clearIndex: true, deletedObjectIDs: nil)
@@ -1054,7 +1054,7 @@ public struct IOError: CustomNSError {
     private func callCompletionHandler(_ completionHandler: CompletionHandler?, content: JSONObject?, error: Error?) {
         // TODO: Factorize with `OfflineClient`.
         if let completionHandler = completionHandler {
-            DispatchQueue.main.async {
+            client.completionQueue!.addOperation {
                 completionHandler(content, error)
             }
         }

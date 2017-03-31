@@ -154,6 +154,9 @@
     [client setHosts:@[ @"nowhere.net", @"nobody.com", @"never.org" ]];
     client.hostStatusTimeout = [Client defaultHostStatusTimeout];
 
+    // Completion queue.
+    client.completionQueue = NSOperationQueue.mainQueue;
+    
     // Operations
     // ----------
     [client listIndexes:^(NSDictionary<NSString*,id>* content, NSError* error) {

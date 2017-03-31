@@ -56,14 +56,14 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     // resource consumption by the SDK.
     
     /// Queue used to build local indices in the background.
-    let buildQueue = OperationQueue()
+    let offlineBuildQueue = OperationQueue()
     
     /// Queue used to search local indices in the background.
-    let searchQueue = OperationQueue()
+    let offlineSearchQueue = OperationQueue()
     
     /// Queue for mixed online/offline operations.
     ///
-    /// + Note: We could use `Client.requestQueue`, but since mixed operations are essentially aggregations of
+    /// + Note: We could use `Client.onlineRequestQueue`, but since mixed operations are essentially aggregations of
     ///   individual operations, we wish to avoid deadlocks.
     ///
     let mixedRequestQueue = OperationQueue()
@@ -87,15 +87,15 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     /// - parameter apiKey: a valid API key for the service
     ///
     @objc public override init(appID: String, apiKey: String) {
-        buildQueue.name = "AlgoliaSearch-Build"
-        buildQueue.maxConcurrentOperationCount = 1
-        searchQueue.name = "AlgoliaSearch-Search"
-        searchQueue.maxConcurrentOperationCount = 1
-        mixedRequestQueue.name = "AlgoliaSearch-Mixed"
+        offlineBuildQueue.name = "AlgoliaSearch offline build"
+        offlineBuildQueue.maxConcurrentOperationCount = 1
+        offlineSearchQueue.name = "AlgoliaSearch offline search"
+        offlineSearchQueue.maxConcurrentOperationCount = 1
+        mixedRequestQueue.name = "AlgoliaSearch mixed requests"
         rootDataDir = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true).first! + "/algolia"
         tmpDir = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("algolia").path
         super.init(appID: appID, apiKey: apiKey)
-        mixedRequestQueue.maxConcurrentOperationCount = super.requestQueue.maxConcurrentOperationCount
+        mixedRequestQueue.maxConcurrentOperationCount = super.onlineRequestQueue.maxConcurrentOperationCount
         // IMPORTANT: Update user agent. This will only be invoked once (static property).
         OfflineClient._initUserAgent
     }
@@ -207,7 +207,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
             let (content, error) = self.listOfflineIndexesSync()
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
-        searchQueue.addOperation(operation)
+        offlineSearchQueue.addOperation(operation)
         return operation
     }
     
@@ -256,7 +256,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
             let (content, error) = self.deleteOfflineIndexSync(withName: indexName)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
-        buildQueue.addOperation(operation)
+        offlineBuildQueue.addOperation(operation)
         return operation
     }
     
@@ -296,7 +296,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
             let (content, error) = self.moveOfflineIndexSync(from: srcIndexName, to: dstIndexName)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
-        buildQueue.addOperation(operation)
+        offlineBuildQueue.addOperation(operation)
         return operation
     }
     
@@ -360,7 +360,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
         return (content: content, error: error)
     }
     
-    /// Call a completion handler on the main queue.
+    /// Call a completion handler on the completion queue.
     ///
     /// - parameter completionHandler: The completion handler to call. If `nil`, this function does nothing.
     /// - parameter content: The content to pass as a first argument to the completion handler.
@@ -368,7 +368,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     ///
     internal func callCompletionHandler(_ completionHandler: CompletionHandler?, content: JSONObject?, error: Error?) {
         if let completionHandler = completionHandler {
-            DispatchQueue.main.async {
+            completionQueue!.addOperation {
                 completionHandler(content, error)
             }
         }
