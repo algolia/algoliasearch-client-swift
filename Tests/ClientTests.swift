@@ -374,18 +374,21 @@ class ClientTests: OnlineTestCase {
     
     func testUserAgentHeader() {
         // Test that the initial value of the header is correct.
-        XCTAssert(client.headers["User-Agent"]?.range(of: "^Algolia for Swift \\([0-9.]+\\); (iOS|macOS|tvOS) \\([0-9.]+\\)$", options: .regularExpression) != nil)
+        NSLog("User-Agent 1: \(Client.userAgentHeader!)")
+        XCTAssert(Client.userAgentHeader!.range(of: "^Algolia for Swift \\([0-9.]+\\); (iOS|macOS|tvOS) \\([0-9.]+\\)$", options: .regularExpression) != nil)
         
         // Test equality comparison on the `LibraryVersion` class.
         XCTAssertEqual(LibraryVersion(name: "XYZ", version: "7.8.9"), LibraryVersion(name: "XYZ", version: "7.8.9"))
         XCTAssertNotEqual(LibraryVersion(name: "XYZ", version: "7.8.9"), LibraryVersion(name: "XXX", version: "6.6.6"))
         
-        // Test that changing the user agents results in a proper format.
-        client.userAgents = [
-            LibraryVersion(name: "ABC", version: "1.2.3"),
-            LibraryVersion(name: "DEF", version: "4.5.6")
-        ]
-        XCTAssertEqual(client.headers["User-Agent"], "ABC (1.2.3); DEF (4.5.6)")
+        // Test adding a user agent.
+        Client.addUserAgent(LibraryVersion(name: "ABC", version: "1.2.3"))
+        let userAgentHeader = Client.userAgentHeader!
+        NSLog("User-Agent 2: \(Client.userAgentHeader!)")
+        XCTAssert(Client.userAgentHeader!.range(of: "^Algolia for Swift \\([0-9.]+\\); (iOS|macOS|tvOS) \\([0-9.]+\\); ABC \\(1.2.3\\)$", options: .regularExpression) != nil)
+        // Test that adding the same user agent a second time is a no-op.
+        Client.addUserAgent(LibraryVersion(name: "ABC", version: "1.2.3"))
+        XCTAssert(Client.userAgentHeader! == userAgentHeader)
     }
     
     func testReusingIndices() {
@@ -472,7 +475,7 @@ class ClientTests: OnlineTestCase {
         client.listIndexes { (content, error) in
             let stopTime = Date()
             let duration = stopTime.timeIntervalSince(startTime)
-            guard let error = error as? NSError else { XCTFail("Request should have failed"); expectation.fulfill(); return }
+            guard let error = error as NSError? else { XCTFail("Request should have failed"); expectation.fulfill(); return }
             XCTAssertEqual(NSURLErrorDomain, error.domain)
             XCTAssertEqual(NSURLErrorNotConnectedToInternet, error.code)
             XCTAssert(duration < min(self.client.searchTimeout, self.client.timeout)) // check that we failed without waiting for the timeout

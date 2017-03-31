@@ -102,19 +102,33 @@ internal struct HostStatus {
         headers["X-Algolia-API-Key"] = _apiKey
     }
     
-    /// The list of libraries used by this client, passed in the `User-Agent` HTTP header of every request.
-    /// It is initially set to contain only this API Client, but may be overridden to include other libraries.
+    /// The list of libraries used by this client.
+    ///
+    /// + Warning: Deprecated. Now a static property of the `Client` class. The instance properties are just an alias
+    ///   for the static property.
+    ///
+    @available(*, deprecated: 4.8)
+    @objc public var userAgents: [LibraryVersion] {
+        get { return AbstractClient.userAgents }
+    }
+
+    /// The list of libraries used by instances of this class.
+    /// They are passed in the `User-Agent` HTTP header of every request.
+    /// It is initially set to contain only this library and the OS, but may be overridden to include other libraries.
     ///
     /// + WARNING: The user agent is crucial to proper statistics in your Algolia dashboard. Please leave it as is.
-    /// This field is publicly exposed only for the sake of other Algolia libraries.
+    ///   This field is publicly exposed only for the sake of other Algolia libraries.
     ///
-    @objc public var userAgents: [LibraryVersion] = [] {
+    @objc public private(set) static var userAgents: [LibraryVersion] = defaultUserAgents() {
         didSet {
-            updateHeadersFromUserAgents()
+            userAgentHeader = computeUserAgentHeader()
         }
     }
-    private func updateHeadersFromUserAgents() {
-        headers["User-Agent"] = userAgents.map({ return "\($0.name) (\($0.version))"}).joined(separator: "; ")
+    /// Precomputed `User-Agent` header (cached for improved performance).
+    internal private(set) static var userAgentHeader: String? = computeUserAgentHeader()
+    
+    private static func computeUserAgentHeader() -> String {
+        return userAgents.map({ return "\($0.name) (\($0.version))"}).joined(separator: "; ")
     }
     
     /// Default timeout for network requests. Default: 30 seconds.
@@ -241,25 +255,8 @@ internal struct HostStatus {
         
         super.init()
         
-        // Add this library's version to the user agents.
-        let version = Bundle(for: type(of: self)).infoDictionary!["CFBundleShortVersionString"] as! String
-        self.userAgents = [ LibraryVersion(name: "Algolia for Swift", version: version) ]
-        
-        // Add the operating system's version to the user agents.
-        if #available(iOS 8.0, OSX 10.0, tvOS 9.0, *) {
-            let osVersion = ProcessInfo.processInfo.operatingSystemVersion
-            var osVersionString = "\(osVersion.majorVersion).\(osVersion.minorVersion)"
-            if osVersion.patchVersion != 0 {
-                osVersionString += ".\(osVersion.patchVersion)"
-            }
-            if let osName = osName {
-                self.userAgents.append(LibraryVersion(name: osName, version: osVersionString))
-            }
-        }
-        
         // WARNING: `didSet` not called during initialization => we need to update the headers manually here.
         updateHeadersFromAPIKey()
-        updateHeadersFromUserAgents()
     }
 
     /// Set read and write hosts to the same value (convenience method).
@@ -295,6 +292,41 @@ internal struct HostStatus {
     @objc(headerWithName:)
     public func header(withName name: String) -> String? {
         return headers[name]
+    }
+    
+    /// Compute the default user agents for this library.
+    ///
+    /// - returns: Default user agents for this library.
+    ///
+    private static func defaultUserAgents() -> [LibraryVersion] {
+        // Add this library's version to the user agents.
+        let version = Bundle(for: Client.self).infoDictionary!["CFBundleShortVersionString"] as! String
+        var userAgents = [ LibraryVersion(name: "Algolia for Swift", version: version) ]
+        
+        // Add the operating system's version to the user agents.
+        if #available(iOS 8.0, OSX 10.0, tvOS 9.0, *) {
+            let osVersion = ProcessInfo.processInfo.operatingSystemVersion
+            var osVersionString = "\(osVersion.majorVersion).\(osVersion.minorVersion)"
+            if osVersion.patchVersion != 0 {
+                osVersionString += ".\(osVersion.patchVersion)"
+            }
+            if let osName = osName {
+                userAgents.append(LibraryVersion(name: osName, version: osVersionString))
+            }
+        }
+        return userAgents
+    }
+    
+    /// Add a library version to the global list of user agents.
+    ///
+    /// + Note: It is safe to call this function multiple times. Adding an already existing library is a no-op.
+    ///
+    /// - parameter libraryVersion: Library version to add.
+    ///
+    @objc public static func addUserAgent(_ libraryVersion: LibraryVersion) {
+        if userAgents.index(where: { $0 == libraryVersion }) == nil {
+            userAgents.append(libraryVersion)
+        }
     }
     
     // MARK: - Operations

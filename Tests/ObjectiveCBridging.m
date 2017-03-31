@@ -58,7 +58,7 @@
     // -------
     // Parameter accessors.
     [query setParameterWithName:@"foo" to:@"bar"];
-    [query parameterWithName:@"foo"];
+    XCTAssertNotNil([query parameterWithName:@"foo"]);
 
     // Subscript.
     query[@"foo"] = [query[@"foo"] stringByAppendingString:@"baz"];
@@ -92,10 +92,13 @@
     query.removeWordsIfNoResults = @"allOptional";
     query.disableTypoToleranceOnAttributes = @[ @"foo", @"bar" ];
     query.removeStopWords = @[ @"en", @"fr" ];
+    query.disableExactOnAttributes = @[ @"foo", @"bar" ];
     query.exactOnSingleWordQuery = @"attribute";
     query.alternativesAsExact = @[ @"foo", @"bar" ];
     query.page = [NSNumber numberWithInt:6];
     query.hitsPerPage = [NSNumber numberWithInt:66];
+    query.offset = [NSNumber numberWithInt:4];
+    query.length = [NSNumber numberWithInt:4];
     query.attributesToRetrieve = @[ @"foo", @"bar" ];
     query.attributesToHighlight = @[ @"foo", @"bar" ];
     query.attributesToSnippet = @[ @"foo", @"bar" ];
@@ -103,6 +106,7 @@
     query.highlightPreTag = @"<mark>";
     query.highlightPostTag = @"</mark>";
     query.snippetEllipsisText = @"...";
+    query.restrictHighlightAndSnippetArrays = false;
     query.numericFilters = @[ @"foo > 0", @"baz < 1000" ];
     query.tagFilters = @[ @"foo", @"bar" ];
     query.distinct = [NSNumber numberWithInt:6];
@@ -139,9 +143,6 @@
     NSMutableDictionary* headers = [NSMutableDictionary dictionaryWithDictionary:[client headers]];
     [headers setValue:@"baz" forKey:@"Foo-Bar"];
     client.headers = headers;
-
-    // User agents.
-    client.userAgents = [client.userAgents arrayByAddingObject:[[LibraryVersion alloc] initWithName:@"FooBar" version:@"1.2.3"]];
 
     // Timeouts.
     client.timeout = client.timeout + 10;
@@ -516,6 +517,28 @@
     XCTAssertEqualObjects(query2.hitsPerPage, value);
 }
 
+- (void)test_offset {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.offset);
+    
+    NSNumber* value = [NSNumber numberWithInt:4];
+    query1.offset = value;
+    XCTAssertEqualObjects(query1[@"offset"], @"4");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.offset, value);
+}
+
+- (void)test_length {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.length);
+    
+    NSNumber* value = [NSNumber numberWithInt:4];
+    query1.length = value;
+    XCTAssertEqualObjects(query1[@"length"], @"4");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.length, value);
+}
+
 - (void)test_getRankingInfo {
     Query* query1 = [Query new];
     XCTAssertNil(query1.getRankingInfo);
@@ -525,6 +548,17 @@
     XCTAssertEqualObjects(query1[@"getRankingInfo"], @"true");
     Query* query2 = [Query parse:[query1 build]];
     XCTAssertEqualObjects(query2.getRankingInfo, value);
+}
+
+- (void)test_restrictHighlightAndSnippetArrays {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.restrictHighlightAndSnippetArrays);
+    
+    NSNumber* value = [NSNumber numberWithBool:FALSE];
+    query1.restrictHighlightAndSnippetArrays = value;
+    XCTAssertEqualObjects(query1[@"restrictHighlightAndSnippetArrays"], @"false");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.restrictHighlightAndSnippetArrays, value);
 }
 
 - (void)test_distinct {
@@ -591,6 +625,17 @@
     XCTAssertEqualObjects(query1[@"minimumAroundRadius"], @"6");
     Query* query2 = [Query parse:[query1 build]];
     XCTAssertEqualObjects(query2.minimumAroundRadius, value);
+}
+
+- (void)test_percentileComputation {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.percentileComputation);
+    
+    NSNumber* value = [NSNumber numberWithBool:FALSE];
+    query1.percentileComputation = value;
+    XCTAssertEqualObjects(query1[@"percentileComputation"], @"false");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.percentileComputation, value);
 }
 
 // MARK: Places

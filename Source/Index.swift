@@ -27,7 +27,7 @@ import Foundation
 ///
 /// + Note: You cannot construct this class directly. Please use `Client.index(withName:)` to obtain an instance.
 ///
-@objc public class Index : NSObject {
+@objc public class Index : NSObject, Searchable {
     // MARK: Properties
     
     /// This index's name.

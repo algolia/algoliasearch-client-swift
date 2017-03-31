@@ -338,6 +338,13 @@ open class Query : AbstractQuery {
         }
     }
     
+    /// List of attributes on which you want to disable computation of the `exact` ranking criterion
+    /// The list must be a subset of the `searchableAttributes` index setting.
+    @objc public var disableExactOnAttributes: [String]? {
+        get { return Query.parseStringArray(self["disableExactOnAttributes"]) }
+        set { self["disableExactOnAttributes"] = Query.buildJSONArray(newValue) }
+    }
+    
     /// Applicable values for the `exactOnSingleWordQuery` parameter.
     public enum ExactOnSingleWordQuery: String {
         /// No exact on single word query.
@@ -422,6 +429,22 @@ open class Query : AbstractQuery {
         set { self["hitsPerPage"] = Query.buildUInt(newValue) }
     }
     
+    /// Offset of the first hit to return (zero-based).
+    ///
+    /// + Note: In most cases, page/hitsPerPage is the recommended method for pagination.
+    public var offset: UInt? {
+        get { return Query.parseUInt(self["offset"]) }
+        set { self["offset"] = Query.buildUInt(newValue) }
+    }
+    
+    /// Maximum number of hits to return. (1000 is the maximum)
+    ///
+    /// +Note: In most cases, page/hitsPerPage is the recommended method for pagination.
+    public var length: UInt? {
+        get { return Query.parseUInt(self["length"]) }
+        set { self["length"] = Query.buildUInt(newValue) }
+    }
+    
     // MARK: Parameters to control results content
     
     /// List of object attributes you want to retrieve (let you minimize the answer size). You can also use `*` to
@@ -473,6 +496,13 @@ open class Query : AbstractQuery {
     @objc public var snippetEllipsisText : String? {
         get { return self["snippetEllipsisText"] }
         set { self["snippetEllipsisText"] = newValue }
+    }
+    
+    /// Restrict arrays in highlight and snippet results to items that matched the query. (defaults to `false`).
+    /// When `false`, all array items are highlighted/snippeted. When `true`, only array items that matched at least partially are highlighted/snippeted.
+    public var restrictHighlightAndSnippetArrays: Bool? {
+        get { return Query.parseBool(self["restrictHighlightAndSnippetArrays"]) }
+        set { self["restrictHighlightAndSnippetArrays"] = Query.buildBool(newValue) }
     }
     
     // MARK: Numeric search parameters
@@ -760,6 +790,17 @@ open class Query : AbstractQuery {
         set { self["maxFacetHits"] = Query.buildUInt(newValue) }
     }
 
+    /// Whether to include the query in processing time percentile computation.
+    ///
+    /// When true, the API records the processing time of the search query and includes it when computing the 90% and
+    /// 99% percentiles, available in your Algolia dashboard. When `false`, the search query is excluded from
+    /// percentile computation.
+    ///
+    public var percentileComputation: Bool? {
+        get { return Query.parseBool(self["percentileComputation"]) }
+        set { self["percentileComputation"] = Query.buildBool(newValue) }
+    }
+    
     // MARK: - Initialization
 
     /// Construct a query with the specified full text query.
@@ -956,11 +997,29 @@ open class Query : AbstractQuery {
         get { return AbstractQuery.toNumber(self.hitsPerPage) }
         set { self.hitsPerPage = newValue?.uintValue }
     }
+    
+    @objc(offset)
+    public var z_objc_offset: NSNumber? {
+        get { return AbstractQuery.toNumber(self.offset) }
+        set { self.offset = newValue?.uintValue }
+    }
+    
+    @objc(length)
+    public var z_objc_length: NSNumber? {
+        get { return AbstractQuery.toNumber(self.length) }
+        set { self.length = newValue?.uintValue }
+    }
 
     @objc(getRankingInfo)
     public var z_objc_getRankingInfo: NSNumber? {
         get { return AbstractQuery.toNumber(self.getRankingInfo) }
         set { self.getRankingInfo = newValue?.boolValue }
+    }
+    
+    @objc(restrictHighlightAndSnippetArrays)
+    public var z_objc_restrictHighlightAndSnippetArrays: NSNumber? {
+        get { return AbstractQuery.toNumber(self.restrictHighlightAndSnippetArrays) }
+        set { self.restrictHighlightAndSnippetArrays = newValue?.boolValue }
     }
 
     @objc(distinct)
@@ -1030,5 +1089,11 @@ open class Query : AbstractQuery {
     public var z_objc_maxFacetHits: NSNumber? {
         get { return AbstractQuery.toNumber(self.maxFacetHits) }
         set { self.maxFacetHits = newValue?.uintValue }
+    }
+
+    @objc(percentileComputation)
+    public var z_objc_percentileComputation: NSNumber? {
+        get { return AbstractQuery.toNumber(self.percentileComputation) }
+        set { self.percentileComputation = newValue?.boolValue }
     }
 }

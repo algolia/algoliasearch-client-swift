@@ -399,7 +399,7 @@ class MirroredIndexTests: OfflineTestCase {
                 index.search(Query()) { (content, error) in
                     let stopTime = Date()
                     let duration = stopTime.timeIntervalSince(startTime)
-                    guard let error = error as? NSError else { XCTFail("Request should have failed"); expectation.fulfill(); return }
+                    guard let error = error as NSError? else { XCTFail("Request should have failed"); expectation.fulfill(); return }
                     XCTAssertEqual(NSURLErrorDomain, error.domain)
                     XCTAssertEqual(NSURLErrorNotConnectedToInternet, error.code)
                     XCTAssert(duration < min(self.client.searchTimeout, self.client.timeout)) // check that we failed without waiting for the timeout
@@ -408,7 +408,7 @@ class MirroredIndexTests: OfflineTestCase {
                     reachability.reachable = true
                     self.client.readHosts = [ "unknown.algolia.com" ]
                     index.search(Query()) { (content, error) in
-                        guard let error = error as? NSError else { XCTFail("Request should have failed"); expectation.fulfill(); return }
+                        guard let error = error as NSError? else { XCTFail("Request should have failed"); expectation.fulfill(); return }
                         XCTAssertEqual(NSURLErrorDomain, error.domain)
                         // Check that we failed with something else than a connectivity error caused by reachability.
                         XCTAssertNotEqual(NSURLErrorNotConnectedToInternet, error.code)

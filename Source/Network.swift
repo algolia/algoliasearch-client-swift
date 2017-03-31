@@ -137,7 +137,7 @@ internal class URLSessionLogger: NSObject, URLSession {
                         stat.dataSize = Int(task.countOfBytesReceived)
                         if let response = task.response as? HTTPURLResponse {
                             stat.statusCode = response.statusCode
-                        } else if let error = task.error as? NSError {
+                        } else if let error = task.error as NSError? {
                             stat.statusCode = error.code
                         }
                         self.stats.append(stat)

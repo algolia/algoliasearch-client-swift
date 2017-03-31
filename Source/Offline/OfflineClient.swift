@@ -73,6 +73,12 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
 
     // MARK: Initialization
     
+    // Fake global property to act as static initializer. This is the recommended (and only, AFAIK) way, as per the doc.
+    // See <http://stackoverflow.com/a/37887068/5838753>
+    private static let _initUserAgent: Void = {
+        addUserAgent(LibraryVersion(name: "AlgoliaSearchOfflineCore-iOS", version: Sdk.shared.versionString))
+    }()
+    
     /// Create a new offline-capable Algolia Search client.
     ///
     /// + Note: Offline mode is disabled by default, until you call `enableOfflineMode(...)`.
@@ -90,7 +96,8 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
         tmpDir = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("algolia").path
         super.init(appID: appID, apiKey: apiKey)
         mixedRequestQueue.maxConcurrentOperationCount = super.onlineRequestQueue.maxConcurrentOperationCount
-        userAgents.append(LibraryVersion(name: "AlgoliaSearchOfflineCore-iOS", version: sdk.versionString))
+        // IMPORTANT: Update user agent. This will only be invoked once (static property).
+        OfflineClient._initUserAgent
     }
     
     /// Enable the offline mode.

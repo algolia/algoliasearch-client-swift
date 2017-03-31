@@ -98,6 +98,60 @@ class QueryTests: XCTestCase {
         query["b"] = nil
         XCTAssertNil(query["b"])
     }
+    
+    // MARK: KVO
+    
+    func testKVO() {
+        let query = Query()
+        query.addObserver(self, forKeyPath: "hitsPerPage", options: [.new, .old], context: nil)
+        query.addObserver(self, forKeyPath: "attributesToRetrieve", options: [.new, .old], context: nil)
+        defer {
+            query.removeObserver(self, forKeyPath: "hitsPerPage")
+            query.removeObserver(self, forKeyPath: "attributesToRetrieve")
+        }
+        query.hitsPerPage = 666
+        query.hitsPerPage = 666 // setting the same value again should not trigger any call
+        query.hitsPerPage = nil
+        query.attributesToRetrieve = ["abc", "xyz"]
+        query.attributesToRetrieve = ["abc", "xyz"] // setting the same value again should not trigger any call
+        query.attributesToRetrieve = nil
+        XCTAssertEqual(4, iteration)
+    }
+
+    /// Tracks the number of calls to `observeValue(forKeyPath:of:change:context:)`.
+    var iteration: Int = 0
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        iteration += 1
+        switch iteration {
+        case 1:
+            XCTAssertEqual(keyPath, "hitsPerPage")
+            let old = change![.oldKey] as? Int
+            let new = change![.newKey] as? Int
+            XCTAssert(nil == old)
+            XCTAssertEqual(666, new)
+        case 2:
+            XCTAssertEqual(keyPath, "hitsPerPage")
+            let old = change![.oldKey] as? Int
+            let new = change![.newKey] as? Int
+            XCTAssertEqual(666, old)
+            XCTAssert(nil == new)
+        case 3:
+            XCTAssertEqual(keyPath, "attributesToRetrieve")
+            let old = change![.oldKey] as? [String]
+            let new = change![.newKey] as? [String]
+            XCTAssert(nil == old)
+            XCTAssertEqual(["abc", "xyz"], new!)
+        case 4:
+            XCTAssertEqual(keyPath, "attributesToRetrieve")
+            let old = change![.oldKey] as? [String]
+            let new = change![.newKey] as? [String]
+            XCTAssertEqual(["abc", "xyz"], old!)
+            XCTAssert(nil == new)
+        default:
+            XCTFail("Unexpected call to `observeValue(forKeyPath:of:change:context:)`")
+        }
+    }
 
     // MARK: High-level
 
@@ -207,6 +261,26 @@ class QueryTests: XCTestCase {
         XCTAssertEqual(query1["hitsPerPage"], "50")
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.hitsPerPage, 50)
+    }
+    
+    func test_offset() {
+        let query1 = Query()
+        XCTAssertNil(query1.offset)
+        query1.offset = 4
+        XCTAssertEqual(query1.offset, 4)
+        XCTAssertEqual(query1["offset"], "4")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.offset, 4)
+    }
+    
+    func test_length() {
+        let query1 = Query()
+        XCTAssertNil(query1.length)
+        query1.length = 4
+        XCTAssertEqual(query1.length, 4)
+        XCTAssertEqual(query1["length"], "4")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.length, 4)
     }
     
     func test_allowTyposOnNumericTokens() {
@@ -435,6 +509,16 @@ class QueryTests: XCTestCase {
         XCTAssertEqual(query2.snippetEllipsisText, "…")
     }
     
+    func test_restrictHighlightAndSnippetArrays() {
+        let query1 = Query()
+        XCTAssertNil(query1.restrictHighlightAndSnippetArrays)
+        query1.restrictHighlightAndSnippetArrays = false
+        XCTAssertEqual(query1.restrictHighlightAndSnippetArrays, false)
+        XCTAssertEqual(query1["restrictHighlightAndSnippetArrays"], "false")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.restrictHighlightAndSnippetArrays, false)
+    }
+    
     func test_analyticsTags() {
         let query1 = Query()
         XCTAssertNil(query1.analyticsTags)
@@ -639,6 +723,16 @@ class QueryTests: XCTestCase {
         XCTAssertEqual(query2.filters, VALUE)
     }
     
+    func test_disableExactOnAttributes() {
+        let query1 = Query()
+        XCTAssertNil(query1.disableExactOnAttributes)
+        query1.disableExactOnAttributes = ["foo", "bar"]
+        XCTAssertEqual(query1.disableExactOnAttributes!, ["foo", "bar"])
+        XCTAssertEqual(query1["disableExactOnAttributes"], "[\"foo\",\"bar\"]")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.disableExactOnAttributes!, ["foo", "bar"])
+    }
+    
     func test_exactOnSingleWordQuery() {
         let query1 = Query()
         XCTAssertNil(query1.exactOnSingleWordQuery)
@@ -705,5 +799,15 @@ class QueryTests: XCTestCase {
         XCTAssertEqual(query1["maxFacetHits"], "66")
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.maxFacetHits, query1.maxFacetHits)
+    }
+
+    func test_percentileComputation() {
+        let query1 = Query()
+        XCTAssertNil(query1.percentileComputation)
+        query1.percentileComputation = false
+        XCTAssertEqual(query1.percentileComputation, false)
+        XCTAssertEqual(query1["percentileComputation"], "false")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.percentileComputation, false)
     }
 }

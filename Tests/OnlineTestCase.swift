@@ -52,7 +52,7 @@ class OnlineTestCase: XCTestCase {
         // Although it's not shared with other test functions, it could remain from a previous execution.
         let expectation = self.expectation(description: "Delete index")
         client.deleteIndex(withName: index.name) { (content, error) -> Void in
-            XCTAssertNil(error, "Error during deleteIndex: \(error)")
+            XCTAssertNil(error)
             expectation.fulfill()
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
@@ -63,7 +63,7 @@ class OnlineTestCase: XCTestCase {
         
         let expectation = self.expectation(description: "Delete index")
         client.deleteIndex(withName: index.name) { (content, error) -> Void in
-            XCTAssertNil(error, "Error during deleteIndex: \(error)")
+            XCTAssertNil(error)
             expectation.fulfill()
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
