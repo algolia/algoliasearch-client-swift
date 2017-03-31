@@ -770,4 +770,14 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.maxFacetHits, query1.maxFacetHits)
     }
+
+    func test_percentileComputation() {
+        let query1 = Query()
+        XCTAssertNil(query1.percentileComputation)
+        query1.percentileComputation = false
+        XCTAssertEqual(query1.percentileComputation, false)
+        XCTAssertEqual(query1["percentileComputation"], "false")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.percentileComputation, false)
+    }
 }
