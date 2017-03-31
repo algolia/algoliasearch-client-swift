@@ -82,9 +82,8 @@ class NetworkTests: XCTestCase {
             (content, error) -> Void in
             XCTAssertNil(content)
             XCTAssertNotNil(error)
-            XCTAssert(error is NSError)
-            XCTAssert((error as! NSError).domain == NSURLErrorDomain)
-            XCTAssert((error as! NSError).code == NSURLErrorTimedOut)
+            XCTAssertEqual((error! as NSError).domain, NSURLErrorDomain)
+            XCTAssertEqual((error! as NSError).code, NSURLErrorTimedOut)
             expectation.fulfill()
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
@@ -145,7 +144,7 @@ class NetworkTests: XCTestCase {
             (content, error) -> Void in
             XCTAssertNil(content)
             XCTAssertNotNil(error)
-            let nsError = error as! NSError
+            let nsError = error! as NSError
             XCTAssertEqual(NSCocoaErrorDomain, nsError.domain)
             XCTAssertEqual(NSPropertyListReadCorruptError, nsError.code)
             expectation.fulfill()
@@ -160,7 +159,7 @@ class NetworkTests: XCTestCase {
         client.listIndexes {
             (content, error) -> Void in
             XCTAssertNil(content)
-            let nsError = error as! NSError
+            let nsError = error! as NSError
             XCTAssertEqual(NSCocoaErrorDomain, nsError.domain)
             XCTAssertEqual(NSPropertyListReadCorruptError, nsError.code)
             expectation.fulfill()
@@ -178,7 +177,7 @@ class NetworkTests: XCTestCase {
             (content, error) -> Void in
             XCTAssertNil(content)
             XCTAssertNotNil(error)
-            let nsError = error as! NSError
+            let nsError = error! as NSError
             XCTAssertEqual(NSCocoaErrorDomain, nsError.domain)
             XCTAssertEqual(NSPropertyListReadCorruptError, nsError.code)
             expectation.fulfill()

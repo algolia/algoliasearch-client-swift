@@ -306,19 +306,19 @@ class IndexTests: OnlineTestCase {
         ]
         index.addObjects(objects, completionHandler: { (content, error) -> Void in
             guard let content = content else {
-                XCTFail("Error during addObjetcs: \(error)")
+                XCTFail(String(describing: error))
                 expectation.fulfill()
                 return
             }
             self.index.waitTask(withID: content["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                 guard error == nil else {
-                    XCTFail("Error during waitTask: \(error)")
+                    XCTFail(String(describing: error))
                     expectation.fulfill()
                     return
                 }
                 self.index.getObjects(withIDs: ["1", "2"], attributesToRetrieve: ["name", "nonexistent"], completionHandler: { (content, error) -> Void in
                     guard let content = content else {
-                        XCTFail("Error during getObjects: \(error)")
+                        XCTFail(String(describing: error))
                         expectation.fulfill()
                         return
                     }
@@ -1110,20 +1110,20 @@ class IndexTests: OnlineTestCase {
         index.searchCacheExpiringTimeInterval = timeout
         index.addObjects(objects) { (content, error) in
             guard error == nil else {
-                XCTFail("Error during addObjects: \(error)")
+                XCTFail(String(describing: error))
                 expectation.fulfill()
                 return
             }
             self.index.waitTask(withID: content!["taskID"] as! Int) { (content, error) in
                 guard error == nil else {
-                    XCTFail("Error during waitTask: \(error)")
+                    XCTFail(String(describing: error))
                     expectation.fulfill()
                     return
                 }
                 // Search a first time: there should be no cache.
                 self.index.search(Query()) { (content, error) in
                     guard error == nil else {
-                        XCTFail("Error during search #1: \(error)")
+                        XCTFail(String(describing: error))
                         expectation.fulfill()
                         return
                     }
@@ -1136,7 +1136,7 @@ class IndexTests: OnlineTestCase {
                     // Search a second time with the same query: we should hit the cache and not return an error.
                     self.index.search(Query()) { (content, error) in
                         guard error == nil else {
-                            XCTFail("Error during search #2: \(error)")
+                            XCTFail(String(describing: error))
                             expectation.fulfill()
                             return
                         }

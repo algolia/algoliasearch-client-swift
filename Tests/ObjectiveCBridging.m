@@ -58,7 +58,7 @@
     // -------
     // Parameter accessors.
     [query setParameterWithName:@"foo" to:@"bar"];
-    [query parameterWithName:@"foo"];
+    XCTAssertNotNil([query parameterWithName:@"foo"]);
 
     // Subscript.
     query[@"foo"] = [query[@"foo"] stringByAppendingString:@"baz"];

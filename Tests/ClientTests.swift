@@ -472,7 +472,7 @@ class ClientTests: OnlineTestCase {
         client.listIndexes { (content, error) in
             let stopTime = Date()
             let duration = stopTime.timeIntervalSince(startTime)
-            guard let error = error as? NSError else { XCTFail("Request should have failed"); expectation.fulfill(); return }
+            guard let error = error as NSError? else { XCTFail("Request should have failed"); expectation.fulfill(); return }
             XCTAssertEqual(NSURLErrorDomain, error.domain)
             XCTAssertEqual(NSURLErrorNotConnectedToInternet, error.code)
             XCTAssert(duration < min(self.client.searchTimeout, self.client.timeout)) // check that we failed without waiting for the timeout
