@@ -1,6 +1,26 @@
 Change Log
 ==========
 
+## 4.8 (2017-04-03)
+
+### New features
+
+- **Compatibility with Swift 3.1.** (#294) *Note: Swift 3.1 being source-compatible with Swift 3.0, version 4.7 was already compatible out of the box, but this one eliminates a few compile-time warnings.*
+- Support **new search parameters** in the `Query` class:
+    - `disableExactOnAttributes` (#369)
+    - `offset` & `length` (#369)
+    - `percentileComputation` (#365)
+    - `restrictHighlightAndSnippetArrays` (#366)
+- Properties of the query classes (`AbstractQuery` and its derivates) are now **KVO-observable**
+- Add an option to choose a **custom queue** for completion handlers (#334). By default, the main queue is used.
+
+### Other changes
+
+- The `userAgents` property (managing the `User-Agent` HTTP header) is now a static property of the `Client` class. This should ease its use by other libraries, most notably [InstantSearch Core](https://github.com/algolia/instantsearch-core-swift).
+- [offline] Unify `Index` and `OfflineIndex` under a new `Searchable` protocol. This makes possible generic algorithms that work with any kind of index (`MirroredIndex` being a subclass of `Index` already).
+- Shorter README. The complete reference is now only on <https://www.algolia.com/doc/api-client/swift/>.
+
+
 ## 4.7 (2017-02-08)
 
 ### New features
