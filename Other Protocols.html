@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Errors  Reference</title>
+    <title>Other Protocols  Reference</title>
     <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,7 +10,7 @@
     
   </head>
   <body>
-    <a title="Errors  Reference"></a>
+    <a title="Other Protocols  Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="index.html">AlgoliaSearch Docs</a></p>
@@ -20,7 +20,7 @@
       <p id="breadcrumbs">
         <a href="index.html">AlgoliaSearch Reference</a>
         <img id="carat" src="img/carat.png" />
-        Errors  Reference
+        Other Protocols  Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -156,8 +156,9 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>Errors</h1>
-            
+            <h1>Other Protocols</h1>
+            <p>The following protocols are available globally.</p>
+
           </section>
           <section class="section task-group-section">
             <div class="task-group">
@@ -165,9 +166,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:V13AlgoliaSearch9HTTPError"></a>
-                    <a name="//apple_ref/swift/Struct/HTTPError" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V13AlgoliaSearch9HTTPError">HTTPError</a>
+                    <a name="/s:P13AlgoliaSearch10Searchable"></a>
+                    <a name="//apple_ref/swift/Protocol/Searchable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:P13AlgoliaSearch10Searchable">Searchable</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -175,78 +176,15 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>A non-OK HTTP status code.</p>
+                        <p>A searchable source of data.</p>
 
-                        <a href="Structs/HTTPError.html" class="slightly-smaller">See more</a>
+                        <a href="Protocols/Searchable.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">HTTPError</span><span class="p">:</span> <span class="kt">CustomNSError</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:V13AlgoliaSearch16InvalidJSONError"></a>
-                    <a name="//apple_ref/swift/Struct/InvalidJSONError" class="dashAnchor"></a>
-                    <a class="token" href="#/s:V13AlgoliaSearch16InvalidJSONError">InvalidJSONError</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The returned JSON is syntactically correct, but grammatically invalid.
-For example, it a mandatory attribute is missing, or an attribute is not of the expected type.</p>
-
-                        <a href="Structs/InvalidJSONError.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">InvalidJSONError</span><span class="p">:</span> <span class="kt">CustomNSError</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:O13AlgoliaSearch10StatusCode"></a>
-                    <a name="//apple_ref/swift/Enum/StatusCode" class="dashAnchor"></a>
-                    <a class="token" href="#/s:O13AlgoliaSearch10StatusCode">StatusCode</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>HTTP status codes.</p>
-
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    Only those likely to be used by Algolia&rsquo;s servers and SDK are listed here.
-
-</div>
-
-                        <a href="Enums/StatusCode.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">StatusCode</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Searchable</span><span class="p">:</span> <span class="kd">class</span></code></pre>
 
                         </div>
                       </div>

@@ -154,10 +154,24 @@
             </ul>
           </li>
           <li class="nav-group-name">
+            <a href="../Other Protocols.html">Other Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../Protocols/Searchable.html">Searchable</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a href="../Other Typealiases.html">Other Typealiases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Other Typealiases.html#/s:20AlgoliaSearch21BrowseIteratorHandler">BrowseIteratorHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Other Typealiases.html#/s:20AlgoliaSearch17CompletionHandler">CompletionHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Other Typealiases.html#/s:20AlgoliaSearch10JSONObject">JSONObject</a>
               </li>
             </ul>
           </li>
@@ -884,6 +898,34 @@ For most use cases, it is better to do not use this feature as people search by 
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:vC20AlgoliaSearch5Query24disableExactOnAttributesGSqGSaSS__"></a>
+                    <a name="//apple_ref/swift/Property/disableExactOnAttributes" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC20AlgoliaSearch5Query24disableExactOnAttributesGSqGSaSS__">disableExactOnAttributes</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>List of attributes on which you want to disable computation of the <code>exact</code> ranking criterion
+The list must be a subset of the <code>searchableAttributes</code> index setting.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">disableExactOnAttributes</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:OC20AlgoliaSearch5Query22ExactOnSingleWordQuery"></a>
                     <a name="//apple_ref/swift/Enum/ExactOnSingleWordQuery" class="dashAnchor"></a>
                     <a class="token" href="#/s:OC20AlgoliaSearch5Query22ExactOnSingleWordQuery">ExactOnSingleWordQuery</a>
@@ -1059,6 +1101,68 @@ retrieve the 10th page you need to set <code>page=9</code></p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">hitsPerPage</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC20AlgoliaSearch5Query6offsetGSqSu_"></a>
+                    <a name="//apple_ref/swift/Property/offset" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC20AlgoliaSearch5Query6offsetGSqSu_">offset</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Offset of the first hit to return (zero-based).</p>
+
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    In most cases, page/hitsPerPage is the recommended method for pagination.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">offset</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC20AlgoliaSearch5Query6lengthGSqSu_"></a>
+                    <a name="//apple_ref/swift/Property/length" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC20AlgoliaSearch5Query6lengthGSqSu_">length</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Maximum number of hits to return. (1000 is the maximum)</p>
+
+<p>+Note: In most cases, page/hitsPerPage is the recommended method for pagination.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">length</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -1268,6 +1372,34 @@ By default no snippet is computed.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">snippetEllipsisText</span> <span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC20AlgoliaSearch5Query33restrictHighlightAndSnippetArraysGSqSb_"></a>
+                    <a name="//apple_ref/swift/Property/restrictHighlightAndSnippetArrays" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC20AlgoliaSearch5Query33restrictHighlightAndSnippetArraysGSqSb_">restrictHighlightAndSnippetArrays</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Restrict arrays in highlight and snippet results to items that matched the query. (defaults to <code>false</code>).
+When <code>false</code>, all array items are highlighted/snippeted. When <code>true</code>, only array items that matched at least partially are highlighted/snippeted.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">restrictHighlightAndSnippetArrays</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -1912,6 +2044,37 @@ Any value outside the range [1, 100] will be rejected.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">maxFacetHits</span><span class="p">:</span> <span class="kt">UInt</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:vC20AlgoliaSearch5Query21percentileComputationGSqSb_"></a>
+                    <a name="//apple_ref/swift/Property/percentileComputation" class="dashAnchor"></a>
+                    <a class="token" href="#/s:vC20AlgoliaSearch5Query21percentileComputationGSqSb_">percentileComputation</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Whether to include the query in processing time percentile computation.</p>
+
+<p>When true, the API records the processing time of the search query and includes it when computing the 90% and
+99% percentiles, available in your Algolia dashboard. When <code>false</code>, the search query is excluded from
+percentile computation.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">percentileComputation</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
