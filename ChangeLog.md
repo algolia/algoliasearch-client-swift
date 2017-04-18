@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+## 4.8.1 (2017-04-18)
+
+### Miscellaneous changes
+
+- [offline] Better error reporting when building offline indices
+
+
 ## 4.8 (2017-04-03)
 
 ### New features
