@@ -825,9 +825,9 @@ public struct IOError: CustomNSError {
             var error: Error?
             // Serialize builds with respect to the client's build queue.
             let buildOperation = BlockOperation() {
-                let statusCode = Int(self.index.localIndex.build(settingsFile: self.settingsFilePath, objectFiles: self.objectFilePaths, clearIndex: self.shouldClearIndex, deletedObjectIDs: Array(self.deletedObjectIDs)))
-                if statusCode != StatusCode.ok.rawValue {
-                    error = HTTPError(statusCode: statusCode)
+                let response = OfflineClient.parseResponse(self.index.localIndex.build(settingsFile: self.settingsFilePath, objectFiles: self.objectFilePaths, clearIndex: self.shouldClearIndex, deletedObjectIDs: Array(self.deletedObjectIDs)))
+                if response.error != nil {
+                    error = response.error
                 }
             }
             index.client.offlineBuildQueue.addOperation(buildOperation)
@@ -942,12 +942,8 @@ public struct IOError: CustomNSError {
         assert(OperationQueue.current == client.offlineBuildQueue) // ensure serial calls
 
         // Build the index.
-        let status = self.localIndex.build(settingsFile: settingsFile, objectFiles: objectFiles, clearIndex: true, deletedObjectIDs: nil)
-        if Int(status) == StatusCode.ok.rawValue {
-            return ([:], nil)
-        } else {
-            return (nil, HTTPError(statusCode: Int(status), message: "Failed to build local index"))
-        }
+        let response = self.localIndex.build(settingsFile: settingsFile, objectFiles: objectFiles, clearIndex: true, deletedObjectIDs: nil)
+        return OfflineClient.parseResponse(response)
     }
 
     // ----------------------------------------------------------------------

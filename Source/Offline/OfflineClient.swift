@@ -341,20 +341,23 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
         var error: Error?
         let statusCode = Int(response.statusCode)
         if statusCode == StatusCode.ok.rawValue {
-            assert(response.data != nil)
-            do {
-                let json = try JSONSerialization.jsonObject(with: response.data!, options: [])
-                if json is JSONObject {
-                    content = (json as! JSONObject)
-                    // NOTE: Origin tagging performed by the SDK.
-                } else {
-                    error = InvalidJSONError(description: "Invalid JSON returned")
+            if let data = response.data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    if json is JSONObject {
+                        content = (json as! JSONObject)
+                        // NOTE: Origin tagging performed by the SDK.
+                    } else {
+                        error = InvalidJSONError(description: "Invalid JSON returned")
+                    }
+                } catch let _error {
+                    error = _error
                 }
-            } catch let _error {
-                error = _error
+            } else { // may happen in case of empty response (e.g. when building)
+                content = JSONObject()
             }
         } else {
-            error = HTTPError(statusCode: statusCode)
+            error = HTTPError(statusCode: statusCode, message: response.errorMessage)
         }
         assert(content != nil || error != nil)
         return (content: content, error: error)

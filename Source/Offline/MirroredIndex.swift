@@ -586,8 +586,6 @@ import Foundation
     private func _buildOffline(settingsFile: String, objectFiles: [String]) -> (JSONObject?, Error?) {
         assert(!Thread.isMainThread) // make sure it's run in the background
         assert(OperationQueue.current == offlineClient.offlineBuildQueue) // ensure serial calls
-        var content: JSONObject? = nil
-        var error: Error? = nil
         // Notify observers.
         // TODO: Asynchronous notifications are superfluous since the observers can choose their own queue with
         // `NotificationCenter.addObserver(forName:object:queue:using:)`.
@@ -595,21 +593,16 @@ import Foundation
             NotificationCenter.default.post(name: MirroredIndex.BuildDidStartNotification, object: self)
         }
         // Build the index.
-        let status = self.localIndex.build(settingsFile: settingsFile, objectFiles: objectFiles, clearIndex: true, deletedObjectIDs: nil)
-        if status == 200 {
-            content = [:]
-        } else {
-            error = HTTPError(statusCode: Int(status), message: "Failed to build local index")
-        }
+        let response = OfflineClient.parseResponse(self.localIndex.build(settingsFile: settingsFile, objectFiles: objectFiles, clearIndex: true, deletedObjectIDs: nil))
         // Notify observers.
         var userInfo: [String: Any] = [:]
-        userInfo[MirroredIndex.errorKey] = error
+        userInfo[MirroredIndex.errorKey] = response.error
         // TODO: Asynchronous notifications are superfluous since the observers can choose their own queue with
         // `NotificationCenter.addObserver(forName:object:queue:using:)`.
         client.completionQueue!.addOperation {
             NotificationCenter.default.post(name: MirroredIndex.BuildDidFinishNotification, object: self, userInfo: userInfo)
         }
-        return (content, error)
+        return response
     }
 
     // ----------------------------------------------------------------------
