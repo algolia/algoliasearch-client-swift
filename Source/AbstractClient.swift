@@ -346,17 +346,24 @@ internal struct HostStatus {
     // MARK: - Network
     
     /// Perform an HTTP Query.
-    func performHTTPQuery(path: String, method: HTTPMethod, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, completionHandler: CompletionHandler? = nil) -> Operation {
-        let request = newRequest(method: method, path: path, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery, completion: completionHandler)
+    func performHTTPQuery(path: String, urlParameters: [String: String]? = nil, method: HTTPMethod, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
+        let request = self.newRequest(method: method, path: path, urlParameters: urlParameters, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery, requestOptions: requestOptions, completion: completionHandler)
         request.completionQueue = self.completionQueue
         onlineRequestQueue.addOperation(request)
         return request
     }
     
     /// Create a request with this client's settings.
-    func newRequest(method: HTTPMethod, path: String, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, completion: CompletionHandler? = nil) -> Request {
+    func newRequest(method: HTTPMethod, path: String, urlParameters: [String: String]? = nil, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, requestOptions: RequestOptions? = nil, completion: CompletionHandler? = nil) -> Request {
         let currentTimeout = isSearchQuery ? searchTimeout : timeout
-        let request = Request(client: self, method: method, hosts: hostnames, firstHostIndex: 0, path: path, headers: headers, jsonBody: body, timeout: currentTimeout, completion:  completion)
+        // Patch the headers with the request's options, if provided.
+        var headers = self.headers
+        if let requestOptions = requestOptions {
+            for (key, value) in requestOptions.headers {
+                headers[key] = value
+            }
+        }
+        let request = Request(client: self, method: method, hosts: hostnames, firstHostIndex: 0, path: path, urlParameters: urlParameters, headers: headers, jsonBody: body, timeout: currentTimeout, completion:  completion)
         return request
     }
 

@@ -60,13 +60,19 @@ import Foundation
     /// Add an object to this index.
     ///
     /// - parameter object: The object to add.
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func addObject(_ object: JSONObject, completionHandler: CompletionHandler? = nil) -> Operation {
+    @discardableResult public func addObject(_ object: JSONObject, requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(urlEncodedName)"
-        return client.performHTTPQuery(path: path, method: .POST, body: object, hostnames: client.writeHosts, completionHandler: completionHandler)
+        return client.performHTTPQuery(path: path, method: .POST, body: object, hostnames: client.writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
+    }
+    
+    @objc(addObject:completionHandler:)
+    @discardableResult public func z_objc_addObject(_ object: JSONObject, completionHandler: CompletionHandler?) -> Operation {
+        return self.addObject(object, requestOptions: nil, completionHandler: completionHandler)
     }
     
     /// Add an object to this index, assigning it the specified object ID.
@@ -74,23 +80,30 @@ import Foundation
     ///
     /// - parameter object: The object to add.
     /// - parameter objectID: Identifier that you want to assign this object.
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func addObject(_ object: JSONObject, withID objectID: String, completionHandler: CompletionHandler? = nil) -> Operation {
+    @discardableResult public func addObject(_ object: JSONObject, withID objectID: String, requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(urlEncodedName)/\(objectID.urlEncodedPathComponent())"
-        return client.performHTTPQuery(path: path, method: .PUT, body: object, hostnames: client.writeHosts, completionHandler: completionHandler)
+        return client.performHTTPQuery(path: path, method: .PUT, body: object, hostnames: client.writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
+    }
+    
+    @objc(addObject:withID:completionHandler:)
+    @discardableResult public func z_objc_addObject(_ object: JSONObject, withID objectID: String, completionHandler: CompletionHandler?) -> Operation {
+        return self.addObject(object, withID: objectID, completionHandler: completionHandler)
     }
     
     /// Add several objects to this index.
     ///
     /// - parameter objects: Objects to add.
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func addObjects(_ objects: [JSONObject], completionHandler: CompletionHandler? = nil) -> Operation {
+    @discardableResult public func addObjects(_ objects: [JSONObject], requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(urlEncodedName)/batch"
         
         var requests = [Any]()
@@ -100,29 +113,41 @@ import Foundation
         }
         let request = ["requests": requests]
         
-        return client.performHTTPQuery(path: path, method: .POST, body: request, hostnames: client.writeHosts, completionHandler: completionHandler)
+        return client.performHTTPQuery(path: path, method: .POST, body: request, hostnames: client.writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
+    }
+    
+    @objc(addObjects:completionHandler:)
+    @discardableResult public func z_objc_addObjects(_ objects: [JSONObject], completionHandler: CompletionHandler?) -> Operation {
+        return self.addObjects(objects, completionHandler: completionHandler)
     }
     
     /// Delete an object from this index.
     ///
     /// - parameter objectID: Identifier of object to delete.
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func deleteObject(withID objectID: String, completionHandler: CompletionHandler? = nil) -> Operation {
+    @discardableResult public func deleteObject(withID objectID: String, requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(urlEncodedName)/\(objectID.urlEncodedPathComponent())"
-        return client.performHTTPQuery(path: path, method: .DELETE, body: nil, hostnames: client.writeHosts, completionHandler: completionHandler)
+        return client.performHTTPQuery(path: path, method: .DELETE, body: nil, hostnames: client.writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
+    }
+    
+    @objc(deleteObjectWithID:completionHandler:)
+    @discardableResult public func z_objc_deleteObject(withID objectID: String, completionHandler: CompletionHandler?) -> Operation {
+        return self.deleteObject(withID: objectID, completionHandler: completionHandler)
     }
     
     /// Delete several objects from this index.
     ///
     /// - parameter objectIDs: Identifiers of objects to delete.
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func deleteObjects(withIDs objectIDs: [String], completionHandler: CompletionHandler? = nil) -> Operation {
+    @discardableResult public func deleteObjects(withIDs objectIDs: [String], requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(urlEncodedName)/batch"
         
         var requests = [Any]()
@@ -132,18 +157,12 @@ import Foundation
         }
         let request = ["requests": requests]
         
-        return client.performHTTPQuery(path: path, method: .POST, body: request, hostnames: client.writeHosts, completionHandler: completionHandler)
+        return client.performHTTPQuery(path: path, method: .POST, body: request, hostnames: client.writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
     }
     
-    /// Get an object from this index.
-    ///
-    /// - parameter objectID: Identifier of the object to retrieve.
-    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
-    /// - returns: A cancellable operation.
-    ///
-    @objc
-    @discardableResult public func getObject(withID objectID: String, completionHandler: @escaping CompletionHandler) -> Operation {
-        return getObject(withID: objectID, attributesToRetrieve: nil, completionHandler: completionHandler)
+    @objc(deleteObjectsWithIDs:completionHandler:)
+    @discardableResult public func z_objc_deleteObjects(withIDs objectIDs: [String], completionHandler: CompletionHandler?) -> Operation {
+        return self.deleteObjects(withIDs: objectIDs, completionHandler: completionHandler)
     }
     
     /// Get an object from this index, optionally restricting the retrieved content.
@@ -151,38 +170,39 @@ import Foundation
     /// - parameter objectID: Identifier of the object to retrieve.
     /// - parameter attributesToRetrieve: List of attributes to retrieve. If `nil`, all attributes are retrieved.
     ///                                   If one of the elements is `"*"`, all attributes are retrieved.
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func getObject(withID objectID: String, attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult public func getObject(withID objectID: String, attributesToRetrieve: [String]? = nil, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         let query = Query()
         query.attributesToRetrieve = attributesToRetrieve
-        let path = "1/indexes/\(urlEncodedName)/\(objectID.urlEncodedPathComponent())?\(query.build())"
-        return client.performHTTPQuery(path: path, method: .GET, body: nil, hostnames: client.readHosts, completionHandler: completionHandler)
+        let path = "1/indexes/\(urlEncodedName)/\(objectID.urlEncodedPathComponent())"
+        return client.performHTTPQuery(path: path, urlParameters: query.parameters, method: .GET, body: nil, hostnames: client.readHosts, requestOptions: requestOptions, completionHandler: completionHandler)
     }
     
-    /// Get several objects from this index.
-    ///
-    /// - parameter objectIDs: Identifiers of objects to retrieve.
-    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
-    /// - returns: A cancellable operation.
-    ///
-    @objc
-    @discardableResult public func getObjects(withIDs objectIDs: [String], completionHandler: @escaping CompletionHandler) -> Operation {
-        return getObjects(withIDs: objectIDs, attributesToRetrieve: nil, completionHandler: completionHandler)
+    @objc(getObjectWithID:completionHandler:)
+    @discardableResult public func z_objc_getObject(withID objectID: String, completionHandler: @escaping CompletionHandler) -> Operation {
+        return getObject(withID: objectID, completionHandler: completionHandler)
     }
-
+    
+    @objc(getObjectWithID:attributesToRetrieve:completionHandler:)
+    @discardableResult public func z_objc_getObject(withID objectID: String, attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) -> Operation {
+        return self.getObject(withID: objectID, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+    }
+    
     /// Get several objects from this index, optionally restricting the retrieved content.
     ///
     /// - parameter objectIDs: Identifiers of objects to retrieve.
     /// - parameter attributesToRetrieve: List of attributes to retrieve. If `nil`, all attributes are retrieved.
     ///                                   If one of the elements is `"*"`, all attributes are retrieved.
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func getObjects(withIDs objectIDs: [String], attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult public func getObjects(withIDs objectIDs: [String], attributesToRetrieve: [String]? = nil, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         let path = "1/indexes/*/objects"
         var requests = [Any]()
         requests.reserveCapacity(objectIDs.count)
@@ -194,76 +214,60 @@ import Foundation
             request["attributesToRetrieve"] = attributesToRetrieve?.joined(separator: ",")
             requests.append(request as Any)
         }
-        return client.performHTTPQuery(path: path, method: .POST, body: ["requests": requests], hostnames: client.readHosts, completionHandler: completionHandler)
+        return client.performHTTPQuery(path: path, method: .POST, body: ["requests": requests], hostnames: client.readHosts, requestOptions: requestOptions, completionHandler: completionHandler)
+    }
+    
+    @objc(getObjectsWithIDs:completionHandler:)
+    @discardableResult public func z_objc_getObjects(withIDs objectIDs: [String], completionHandler: @escaping CompletionHandler) -> Operation {
+        return getObjects(withIDs: objectIDs, attributesToRetrieve: nil, completionHandler: completionHandler)
+    }
+    
+    @objc(getObjectsWithIDs:attributesToRetrieve:completionHandler:)
+    @discardableResult public func z_objc_getObjects(withIDs objectIDs: [String], attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) -> Operation {
+        return getObjects(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
     }
     
     /// Partially update an object.
     ///
     /// - parameter partialObject: New values/operations for the object.
     /// - parameter objectID: Identifier of object to be updated.
+    /// - parameter createIfNotExists: Whether an update on a nonexistent object ID should create the object.
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    /// + Note: If the object does not exist, it will be created. You can avoid automatic creation of the object by
-    ///   passing `false` to `createIfNotExists` in `partialUpdateObject(_:withID:createIfNotExists:completionHandler:)`.
-    ///
-    @objc
-    @discardableResult public func partialUpdateObject(_ partialObject: JSONObject, withID objectID: String, completionHandler: CompletionHandler? = nil) -> Operation {
+    @discardableResult public func partialUpdateObject(_ partialObject: JSONObject, withID objectID: String, createIfNotExists: Bool? = nil, requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(urlEncodedName)/\(objectID.urlEncodedPathComponent())/partial"
-        return client.performHTTPQuery(path: path, method: .POST, body: partialObject, hostnames: client.writeHosts, completionHandler: completionHandler)
+        let urlParameters = createIfNotExists != nil ? ["createIfNotExists": String(createIfNotExists!)] : nil
+        return client.performHTTPQuery(path: path, urlParameters: urlParameters, method: .POST, body: partialObject, hostnames: client.writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
     }
     
-    /// Partially update an object.
-    ///
-    /// - parameter partialObject: New values/operations for the object.
-    /// - parameter objectID: Identifier of object to be updated.
-    /// - parameter createIfNotExists: Whether an update on a nonexistent object ID should create the object.
-    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
-    /// - returns: A cancellable operation.
-    ///
-    @objc
-    @discardableResult public func partialUpdateObject(_ partialObject: JSONObject, withID objectID: String, createIfNotExists: Bool, completionHandler: CompletionHandler? = nil) -> Operation {
-        let path = "1/indexes/\(urlEncodedName)/\(objectID.urlEncodedPathComponent())/partial?createIfNotExists=\(String(createIfNotExists).urlEncodedQueryParam())"
-        return client.performHTTPQuery(path: path, method: .POST, body: partialObject, hostnames: client.writeHosts, completionHandler: completionHandler)
+    @objc(partialUpdateObject:withID:completionHandler:)
+    @discardableResult public func z_objc_partialUpdateObject(_ partialObject: JSONObject, withID objectID: String, completionHandler: CompletionHandler?) -> Operation {
+        return self.partialUpdateObject(partialObject, withID: objectID, completionHandler: completionHandler)
     }
-
-    /// Partially update several objects.
-    ///
-    /// - parameter objects: New values/operations for the objects. Each object must contain an `objectID` attribute.
-    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
-    /// - returns: A cancellable operation.
-    ///
-    /// + Note: If an object does not exist, it will be created. You can avoid automatic creation of objects by
-    ///   passing `false` to `createIfNotExists` in `partialUpdateObjects(_:createIfNotExists:completionHandler:)`.
-    ///
-    @objc
-    @discardableResult public func partialUpdateObjects(_ objects: [JSONObject], completionHandler: CompletionHandler? = nil) -> Operation {
-        let path = "1/indexes/\(urlEncodedName)/batch"
-        
-        var requests = [Any]()
-        requests.reserveCapacity(objects.count)
-        for object in objects {
-            requests.append([
-                "action": "partialUpdateObject",
-                "objectID": object["objectID"] as! String,
-                "body": object
-            ])
-        }
-        let request = ["requests": requests]
-        
-        return client.performHTTPQuery(path: path, method: .POST, body: request, hostnames: client.writeHosts, completionHandler: completionHandler)
+    
+    @objc(partialUpdateObject:withID:createIfNotExists:completionHandler:)
+    @discardableResult public func z_objc_partialUpdateObject(_ partialObject: JSONObject, withID objectID: String, createIfNotExists: Bool, completionHandler: CompletionHandler?) -> Operation {
+        return self.partialUpdateObject(partialObject, withID: objectID, createIfNotExists: createIfNotExists, completionHandler: completionHandler)
     }
-
+    
+    @objc(partialUpdateObject:withID:createIfNotExists:requestOptions:completionHandler:)
+    @discardableResult public func z_objc_partialUpdateObject(_ partialObject: JSONObject, withID objectID: String, createIfNotExists: Bool, requestOptions: RequestOptions?, completionHandler: CompletionHandler?) -> Operation {
+        return self.partialUpdateObject(partialObject, withID: objectID, createIfNotExists: createIfNotExists, requestOptions: requestOptions, completionHandler: completionHandler)
+    }
+    
     /// Partially update several objects.
     ///
     /// - parameter objects: New values/operations for the objects. Each object must contain an `objectID` attribute.
     /// - parameter createIfNotExists: Whether an update on a nonexistent object ID should create the object.
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc
-    @discardableResult public func partialUpdateObjects(_ objects: [JSONObject], createIfNotExists: Bool, completionHandler: CompletionHandler? = nil) -> Operation {
+    @discardableResult public func partialUpdateObjects(_ objects: [JSONObject], createIfNotExists: Bool? = nil, requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(urlEncodedName)/batch"
+        let createIfNotExists = createIfNotExists ?? true
         let action = createIfNotExists ? "partialUpdateObject" : "partialUpdateObjectNoCreate"
         var requests = [Any]()
         requests.reserveCapacity(objects.count)
@@ -276,30 +280,52 @@ import Foundation
         }
         let request = ["requests": requests]
         
-        return client.performHTTPQuery(path: path, method: .POST, body: request, hostnames: client.writeHosts, completionHandler: completionHandler)
+        return client.performHTTPQuery(path: path, method: .POST, body: request, hostnames: client.writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
     }
 
+    @objc(partialUpdateObjects:completionHandler:)
+    @discardableResult public func z_objc_partialUpdateObjects(_ objects: [JSONObject], completionHandler: CompletionHandler?) -> Operation {
+        return self.partialUpdateObjects(objects, completionHandler: completionHandler)
+    }
+    
+    @objc(partialUpdateObjects:createIfNotExists:completionHandler:)
+    @discardableResult public func z_objc_partialUpdateObjects(_ objects: [JSONObject], createIfNotExists: Bool, completionHandler: CompletionHandler?) -> Operation {
+        return self.partialUpdateObjects(objects, createIfNotExists: createIfNotExists, completionHandler: completionHandler)
+    }
+    
+    @objc(partialUpdateObjects:createIfNotExists:requestOptions:completionHandler:)
+    @discardableResult public func z_objc_partialUpdateObjects(_ objects: [JSONObject], createIfNotExists: Bool, requestOptions: RequestOptions?, completionHandler: CompletionHandler?) -> Operation {
+        return self.partialUpdateObjects(objects, createIfNotExists: createIfNotExists, requestOptions: requestOptions, completionHandler: completionHandler)
+    }
+    
     /// Update an object.
     ///
     /// - parameter object: New version of the object to update. Must contain an `objectID` attribute.
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func saveObject(_ object: JSONObject, completionHandler: CompletionHandler? = nil) -> Operation {
+    @discardableResult public func saveObject(_ object: JSONObject, requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
         let objectID = object["objectID"] as! String
         let path = "1/indexes/\(urlEncodedName)/\(objectID.urlEncodedPathComponent())"
-        return client.performHTTPQuery(path: path, method: .PUT, body: object, hostnames: client.writeHosts, completionHandler: completionHandler)
+        return client.performHTTPQuery(path: path, method: .PUT, body: object, hostnames: client.writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
+    }
+    
+    @objc(saveObject:completionHandler:)
+    @discardableResult public func z_objc_saveObject(_ object: JSONObject, completionHandler: CompletionHandler?) -> Operation {
+        return self.saveObject(object, completionHandler: completionHandler)
     }
     
     /// Update several objects.
     ///
     /// - parameter objects: New versions of the objects to update. Each one must contain an `objectID` attribute.
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func saveObjects(_ objects: [JSONObject], completionHandler: CompletionHandler? = nil) -> Operation {
+    @discardableResult public func saveObjects(_ objects: [JSONObject], requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(urlEncodedName)/batch"
         
         var requests = [Any]()
@@ -313,21 +339,27 @@ import Foundation
         }
         let request = ["requests": requests]
         
-        return client.performHTTPQuery(path: path, method: .POST, body: request, hostnames: client.writeHosts, completionHandler: completionHandler)
+        return client.performHTTPQuery(path: path, method: .POST, body: request, hostnames: client.writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
     }
     
+    @objc(saveObjects:completionHandler:)
+    @discardableResult public func z_objc_saveObjects(_ objects: [JSONObject], completionHandler: CompletionHandler?) -> Operation {
+        return self.saveObjects(objects, completionHandler: completionHandler)
+    }
     /// Search this index.
     ///
     /// - parameter query: Search parameters.
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func search(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult public func search(_ query: Query, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         let path = "1/indexes/\(urlEncodedName)/query"
         let request = ["params": query.build()]
         
         // First try the in-memory query cache.
+        // FIXME: We should not cache result if the request options have changed.
         let cacheKey = "\(path)_body_\(request)"
         if let content = searchCache?.objectForKey(cacheKey) {
             // We *have* to return something, so we create a simple operation.
@@ -340,7 +372,7 @@ import Foundation
         }
         // Otherwise, run an online query.
         else {
-            return client.performHTTPQuery(path: path, method: .POST, body: request, hostnames: client.readHosts, isSearchQuery: true) {
+            return client.performHTTPQuery(path: path, method: .POST, body: request, hostnames: client.readHosts, isSearchQuery: true, requestOptions: requestOptions) {
                 (content, error) -> Void in
                 assert(content != nil || error != nil)
                 
@@ -353,6 +385,11 @@ import Foundation
         }
     }
     
+    @objc(search:completionHandler:)
+    @discardableResult public func z_objc_search(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
+        return self.search(query, completionHandler: completionHandler)
+    }
+    
     /// Search for facet values.
     /// This searches inside a facet's values, optionally restricting the returned values to those contained in objects
     /// matching other (regular) search criteria.
@@ -363,46 +400,43 @@ import Foundation
     /// - parameter query: An optional query to take extra search parameters into account. These parameters apply to
     ///       index objects like in a regular search query. Only facet values contained in the matched objects will be
     ///       returned.
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc(searchForFacetValuesOf:matching:query:completionHandler:)
-    @discardableResult public func searchForFacetValues(of facetName: String, matching text: String, query: Query? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult public func searchForFacetValues(of facetName: String, matching text: String, query: Query? = nil, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         let path = "1/indexes/\(urlEncodedName)/facets/\(facetName.urlEncodedPathComponent())/query"
         let params = query != nil ? Query(copy: query!) : Query()
         params["facetQuery"] = text
         let requestBody = [
             "params": params.build()
         ]
-        return client.performHTTPQuery(path: path, method: .POST, body: requestBody, hostnames: client.readHosts, isSearchQuery: true, completionHandler: completionHandler)
+        return client.performHTTPQuery(path: path, method: .POST, body: requestBody, hostnames: client.readHosts, isSearchQuery: true, requestOptions: requestOptions, completionHandler: completionHandler)
+    }
+    
+    @objc(searchForFacetValuesOf:matching:query:completionHandler:)
+    @discardableResult public func z_objc_searchForFacetValues(of facetName: String, matching text: String, query: Query?, completionHandler: @escaping CompletionHandler) -> Operation {
+        return self.searchForFacetValues(of: facetName, matching: text, query: query, completionHandler: completionHandler)
     }
     
     /// Get this index's settings.
     ///
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc(getSettings:)
-    @discardableResult public func getSettings(completionHandler: @escaping CompletionHandler) -> Operation {
-        let path = "1/indexes/\(urlEncodedName)/settings?getVersion=2"
-        return client.performHTTPQuery(path: path, method: .GET, body: nil, hostnames: client.readHosts, completionHandler: completionHandler)
+    @objc(getSettingsWithRequestOptions:completionHandler:)
+    @discardableResult public func getSettings(requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        let path = "1/indexes/\(urlEncodedName)/settings"
+        let urlParameters = ["getVersion": "2"]
+        return client.performHTTPQuery(path: path, urlParameters: urlParameters, method: .GET, body: nil, hostnames: client.readHosts, requestOptions: requestOptions, completionHandler: completionHandler)
     }
     
-    /// Set this index's settings.
-    ///
-    /// Please refer to our [API documentation](https://www.algolia.com/doc/swift#index-settings) for the list of
-    /// supported settings.
-    ///
-    /// - parameter settings: New settings.
-    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
-    /// - returns: A cancellable operation.
-    ///
-    @objc
-    @discardableResult public func setSettings(_ settings: JSONObject, completionHandler: CompletionHandler? = nil) -> Operation {
-        let path = "1/indexes/\(urlEncodedName)/settings"
-        return client.performHTTPQuery(path: path, method: .PUT, body: settings, hostnames: client.writeHosts, completionHandler: completionHandler)
+    @objc(getSettings:)
+    @discardableResult public func z_objc_getSettings(completionHandler: @escaping CompletionHandler) -> Operation {
+        return self.getSettings(completionHandler:completionHandler)
     }
-
+    
     /// Set this index's settings, optionally forwarding the change to replicas.
     ///
     /// Please refer to our [API documentation](https://www.algolia.com/doc/swift#index-settings) for the list of
@@ -410,37 +444,60 @@ import Foundation
     ///
     /// - parameter settings: New settings.
     /// - parameter forwardToReplicas: When true, the change is also applied to replicas of this index.
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc
-    @discardableResult public func setSettings(_ settings: JSONObject, forwardToReplicas: Bool, completionHandler: CompletionHandler? = nil) -> Operation {
-        let path = "1/indexes/\(urlEncodedName)/settings?forwardToReplicas=\(forwardToReplicas)"
-        return client.performHTTPQuery(path: path, method: .PUT, body: settings, hostnames: client.writeHosts, completionHandler: completionHandler)
+    @discardableResult public func setSettings(_ settings: JSONObject, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
+        let path = "1/indexes/\(urlEncodedName)/settings"
+        let urlParameters = forwardToReplicas != nil ? ["forwardToReplicas": String(forwardToReplicas!)] : nil
+        return client.performHTTPQuery(path: path, urlParameters: urlParameters, method: .PUT, body: settings, hostnames: client.writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
     }
-
+    
+    @objc(setSettings:completionHandler:)
+    @discardableResult public func z_objc_setSettings(_ settings: JSONObject, completionHandler: CompletionHandler?) -> Operation {
+        return self.setSettings(settings, completionHandler: completionHandler)
+    }
+    
+    @objc(setSettings:forwardToReplicas:completionHandler:)
+    @discardableResult public func z_objc_setSettings(_ settings: JSONObject, forwardToReplicas: Bool, completionHandler: CompletionHandler?) -> Operation {
+        return self.setSettings(settings, forwardToReplicas: forwardToReplicas, completionHandler: completionHandler)
+    }
+    
     /// Delete the index content without removing settings and index specific API keys.
     ///
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc(clearIndex:)
-    @discardableResult public func clearIndex(completionHandler: CompletionHandler? = nil) -> Operation {
+    @objc(clearIndexWithRequestOptions:completionHandler:)
+    @discardableResult public func clearIndex(requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(urlEncodedName)/clear"
-        return client.performHTTPQuery(path: path, method: .POST, body: nil, hostnames: client.writeHosts, completionHandler: completionHandler)
+        return client.performHTTPQuery(path: path, method: .POST, body: nil, hostnames: client.writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
+    }
+    
+    @objc(clearIndex:)
+    @discardableResult public func z_objc_clearIndex(completionHandler: CompletionHandler?) -> Operation {
+        return self.clearIndex(completionHandler: completionHandler)
     }
     
     /// Batch operations.
     ///
     /// - parameter operations: The array of actions.
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc(batchOperations:completionHandler:)
-    @discardableResult public func batch(operations: [JSONObject], completionHandler: CompletionHandler? = nil) -> Operation {
+    @objc(batchOperations:requestOptions:completionHandler:)
+    @discardableResult public func batch(operations: [JSONObject], requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(urlEncodedName)/batch"
         let body = ["requests": operations]
-        return client.performHTTPQuery(path: path, method: .POST, body: body, hostnames: client.writeHosts, completionHandler: completionHandler)
+        return client.performHTTPQuery(path: path, method: .POST, body: body, hostnames: client.writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
+    }
+    
+    @objc(batchOperations:completionHandler:)
+    @discardableResult public func z_objc_batch(operations: [JSONObject], completionHandler: CompletionHandler? = nil) -> Operation {
+        return self.batch(operations: operations, completionHandler: completionHandler)
     }
     
     /// Browse all index content (initial call).
@@ -448,16 +505,22 @@ import Foundation
     /// unless the end of the index has been reached. To retrieve subsequent pages, call `browseFrom` with that cursor.
     ///
     /// - parameter query: The query parameters for the browse.
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @objc(browseWithQuery:completionHandler:)
-    @discardableResult public func browse(query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc(browseWithQuery:requestOptions:completionHandler:)
+    @discardableResult public func browse(query: Query, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         let path = "1/indexes/\(urlEncodedName)/browse"
         let body = [
             "params": query.build()
         ]
-        return client.performHTTPQuery(path: path, method: .POST, body: body, hostnames: client.readHosts, completionHandler: completionHandler)
+        return client.performHTTPQuery(path: path, method: .POST, body: body, hostnames: client.readHosts, requestOptions: requestOptions, completionHandler: completionHandler)
+    }
+    
+    @objc(browseWithQuery:completionHandler:)
+    @discardableResult public func z_objc_browse(query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
+        return self.browse(query: query, completionHandler: completionHandler)
     }
     
     /// Browse the index from a cursor.
@@ -465,13 +528,20 @@ import Foundation
     /// index has been reached.
     ///
     /// - parameter cursor: The cursor of the next page to retrieve
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
+    @objc(browseFromCursor:requestOptions:completionHandler:)
+    @discardableResult public func browse(from cursor: String, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        let path = "1/indexes/\(urlEncodedName)/browse"
+        let urlParameters = ["cursor": cursor]
+        return client.performHTTPQuery(path: path, urlParameters: urlParameters, method: .GET, body: nil, hostnames: client.readHosts, requestOptions: requestOptions, completionHandler: completionHandler)
+    }
+    
     @objc(browseFromCursor:completionHandler:)
-    @discardableResult public func browse(from cursor: String, completionHandler: @escaping CompletionHandler) -> Operation {
-        let path = "1/indexes/\(urlEncodedName)/browse?cursor=\(cursor.urlEncodedQueryParam())"
-        return client.performHTTPQuery(path: path, method: .GET, body: nil, hostnames: client.readHosts, completionHandler: completionHandler)
+    @discardableResult public func z_objc_browse(from cursor: String, completionHandler: @escaping CompletionHandler) -> Operation {
+        return self.browse(from: cursor, completionHandler: completionHandler)
     }
     
     // MARK: - Helpers
@@ -480,19 +550,26 @@ import Foundation
     /// All server tasks are asynchronous. This method helps you check that a task is published.
     ///
     /// - parameter taskID: Identifier of the task (as returned by the server).
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func waitTask(withID taskID: Int, completionHandler: @escaping CompletionHandler) -> Operation {
-        let operation = WaitOperation(index: self, taskID: taskID, completionHandler: completionHandler)
+    @discardableResult public func waitTask(withID taskID: Int, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        let operation = WaitOperation(index: self, taskID: taskID, requestOptions: requestOptions, completionHandler: completionHandler)
         client.inMemoryQueue.addOperation(operation)
         return operation
     }
     
+    @objc(waitTaskWithID:completionHandler:)
+    @discardableResult public func z_objc_waitTask(withID taskID: Int, completionHandler: @escaping CompletionHandler) -> Operation {
+        return self.waitTask(withID: taskID, completionHandler: completionHandler)
+    }
+
     private class WaitOperation: AsyncOperationWithCompletion {
         let index: Index
         let taskID: Int
+        let requestOptions: RequestOptions?
         let path: String
         var iteration: Int = 0
         var operation: Operation?
@@ -500,9 +577,10 @@ import Foundation
         static let BASE_DELAY = 0.1     ///< Minimum wait delay.
         static let MAX_DELAY  = 5.0     ///< Maximum wait delay.
         
-        init(index: Index, taskID: Int, completionHandler: @escaping CompletionHandler) {
+        init(index: Index, taskID: Int, requestOptions: RequestOptions?, completionHandler: @escaping CompletionHandler) {
             self.index = index
             self.taskID = taskID
+            self.requestOptions = requestOptions
             path = "1/indexes/\(index.urlEncodedName)/task/\(taskID)"
             super.init(completionHandler: completionHandler)
             self.completionQueue = index.client.completionQueue
@@ -523,7 +601,7 @@ import Foundation
                 return
             }
             iteration += 1
-            operation = index.client.performHTTPQuery(path: path, method: .GET, body: nil, hostnames: index.client.writeHosts) {
+            operation = index.client.performHTTPQuery(path: path, method: .GET, body: nil, hostnames: index.client.writeHosts, requestOptions: requestOptions) {
                 (content, error) -> Void in
                 if let content = content {
                     if (content["status"] as? String) == "published" {
@@ -546,23 +624,31 @@ import Foundation
     /// Delete all objects matching a query (helper).
     ///
     /// - parameter query: The query that objects to delete must match.
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func deleteByQuery(_ query: Query, completionHandler: CompletionHandler? = nil) -> Operation {
-        let operation = DeleteByQueryOperation(index: self, query: query, completionHandler: completionHandler)
+    @discardableResult public func deleteByQuery(_ query: Query, requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
+        let operation = DeleteByQueryOperation(index: self, query: query, requestOptions: requestOptions, completionHandler: completionHandler)
         client.inMemoryQueue.addOperation(operation)
         return operation
+    }
+    
+    @objc(deleteByQuery:completionHandler:)
+    @discardableResult public func z_objc_deleteByQuery(_ query: Query, completionHandler: CompletionHandler?) -> Operation {
+        return self.deleteByQuery(query, completionHandler: completionHandler)
     }
     
     private class DeleteByQueryOperation: AsyncOperationWithCompletion {
         let index: Index
         let query: Query
+        let requestOptions: RequestOptions?
         
-        init(index: Index, query: Query, completionHandler: CompletionHandler?) {
+        init(index: Index, query: Query, requestOptions: RequestOptions?, completionHandler: CompletionHandler?) {
             self.index = index
             self.query = Query(copy: query)
+            self.requestOptions = requestOptions
             super.init(completionHandler: completionHandler)
             self.completionQueue = index.client.completionQueue
         }
@@ -571,7 +657,7 @@ import Foundation
             super.start()
             // Save bandwidth by retrieving only the `objectID` attribute.
             query.attributesToRetrieve = ["objectID"]
-            index.browse(query: query, completionHandler: self.handleResult)
+            index.browse(query: query, requestOptions: requestOptions, completionHandler: self.handleResult)
         }
         
         private func handleResult(_ content: JSONObject?, error: Error?) {
@@ -590,7 +676,7 @@ import Foundation
                         }
                     }
                     // Delete the objects.
-                    self.index.deleteObjects(withIDs: objectIDs, completionHandler: { (content, error) in
+                    self.index.deleteObjects(withIDs: objectIDs, requestOptions: self.requestOptions, completionHandler: { (content, error) in
                         if self.isCancelled {
                             return
                         }
@@ -598,7 +684,7 @@ import Foundation
                         if finalError == nil {
                             if let taskID = content?["taskID"] as? Int {
                                 // Wait for the deletion to be effective.
-                                self.index.waitTask(withID: taskID, completionHandler: { (content, error) in
+                                self.index.waitTask(withID: taskID, requestOptions: self.requestOptions, completionHandler: { (content, error) in
                                     if self.isCancelled {
                                         return
                                     }
@@ -606,7 +692,7 @@ import Foundation
                                         self.callCompletion(content: content, error: error)
                                     } else {
                                         // Browse again *from the beginning*, since the deletion invalidated the cursor.
-                                        self.index.browse(query: self.query, completionHandler: self.handleResult)
+                                        self.index.browse(query: self.query, requestOptions: self.requestOptions, completionHandler: self.handleResult)
                                     }
                                 })
                             } else {
@@ -632,30 +718,42 @@ import Foundation
     /// - parameter query: The query.
     /// - parameter disjunctiveFacets: List of disjunctive facets.
     /// - parameter refinements: The current refinements, mapping facet names to a list of values.
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func searchDisjunctiveFaceting(_ query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult public func searchDisjunctiveFaceting(_ query: Query, disjunctiveFacets: [String], refinements: [String: [String]], requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         return DisjunctiveFaceting(multipleQuerier: { (queries, completionHandler) in
-            return self.multipleQueries(queries, completionHandler: completionHandler)
+            return self.multipleQueries(queries, requestOptions: requestOptions, completionHandler: completionHandler)
         }).searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: completionHandler)
+    }
+    
+    @objc(searchDisjunctiveFaceting:disjunctiveFacets:refinements:completionHandler:)
+    @discardableResult public func z_objc_searchDisjunctiveFaceting(_ query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: @escaping CompletionHandler) -> Operation {
+        return self.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: completionHandler)
     }
     
     /// Run multiple queries on this index.
     /// This method is a variant of `Client.multipleQueries(...)` where the targeted index is always the receiver.
     ///
     /// - parameter queries: The queries to run.
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func multipleQueries(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult public func multipleQueries(_ queries: [Query], strategy: String?, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         var requests = [IndexQuery]()
         for query in queries {
             requests.append(IndexQuery(index: self, query: query))
         }
-        return client.multipleQueries(requests, strategy: strategy, completionHandler: completionHandler)
+        return client.multipleQueries(requests, strategy: strategy, requestOptions: requestOptions, completionHandler: completionHandler)
+    }
+    
+    @objc(multipleQueries:strategy:completionHandler:)
+    @discardableResult public func z_objc_multipleQueries(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
+        return self.multipleQueries(queries, strategy: strategy, completionHandler: completionHandler)
     }
     
     /// Run multiple queries on this index.
@@ -663,11 +761,12 @@ import Foundation
     ///
     /// - parameter queries: The queries to run.
     /// - parameter strategy: The strategy to use.
+    /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult public func multipleQueries(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
-        return self.multipleQueries(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
+    @discardableResult public func multipleQueries(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        return self.multipleQueries(queries, strategy: strategy?.rawValue, requestOptions: requestOptions, completionHandler: completionHandler)
     }
 
     // MARK: - Search Cache
