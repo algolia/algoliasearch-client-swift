@@ -508,4 +508,19 @@ class ClientTests: OnlineTestCase {
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
+    
+    /// Test that request options are used.
+    ///
+    func testRequestOptions() {
+        let expectation = self.expectation(description: #function)
+        let requestOptions = RequestOptions()
+        requestOptions.headers["X-Algolia-API-Key"] = "ThisIsNotAValidAPIKey"
+        self.client.listIndexes(requestOptions: requestOptions) { (content, error) in
+            XCTAssertNotNil(error)
+            XCTAssert(error is HTTPError)
+            XCTAssertEqual((error as! HTTPError).statusCode, 403)
+            expectation.fulfill()
+        }
+        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    }
 }
