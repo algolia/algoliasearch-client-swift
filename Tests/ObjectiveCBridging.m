@@ -82,7 +82,9 @@
     query.allowTyposOnNumericTokens = [NSNumber numberWithBool:YES];
     query.ignorePlurals = [NSNumber numberWithBool:YES];
     query.restrictSearchableAttributes = @[ @"foo", @"bar" ];
+    query.ruleContexts = @[ @"foo", @"bar" ];
     query.advancedSyntax = [NSNumber numberWithBool:YES];
+    query.enableRules = [NSNumber numberWithBool:YES];
     query.analytics = [NSNumber numberWithBool:YES];
     query.analyticsTags = @[ @"foo", @"bar" ];
     query.synonyms = [NSNumber numberWithBool:YES];
@@ -384,6 +386,17 @@
     XCTAssertEqualObjects(query1[@"advancedSyntax"], @"true");
     Query* query2 = [Query parse:[query1 build]];
     XCTAssertEqualObjects(query2.advancedSyntax, value);
+}
+
+- (void)test_enableRules {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.enableRules);
+    
+    NSNumber* value = [NSNumber numberWithBool:YES];
+    query1.enableRules = value;
+    XCTAssertEqualObjects(query1[@"enableRules"], @"true");
+    Query* query2 = [Query parse:[query1 build]];
+    XCTAssertEqualObjects(query2.enableRules, value);
 }
 
 - (void)test_analytics {

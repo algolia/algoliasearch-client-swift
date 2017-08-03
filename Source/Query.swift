@@ -181,6 +181,20 @@ open class Query : AbstractQuery {
         set { self["restrictSearchableAttributes"] = Query.buildJSONArray(newValue) }
     }
     
+    /// List of contexts for which rules are enabled.
+    /// Contextual rules matching any of these contexts are eligible, as well as generic rules.
+    /// When empty, only generic rules are eligible.
+    @objc public var ruleContexts: [String]? {
+        get { return Query.parseStringArray(self["ruleContexts"]) }
+        set { self["ruleContexts"] = Query.buildJSONArray(newValue) }
+    }
+    
+    /// If set to false, rules processing is disabled: no rule will match the query. Defaults to true.
+    public var enableRules: Bool? {
+        get { return Query.parseBool(self["enableRules"]) }
+        set { self["enableRules"] = Query.buildBool(newValue) }
+    }
+    
     /// Enable the advanced query syntax.
     public var advancedSyntax: Bool? {
         get { return Query.parseBool(self["advancedSyntax"]) }
@@ -895,6 +909,12 @@ open class Query : AbstractQuery {
         }
     }
 
+    @objc(enableRules)
+    public var z_objc_enableRules: NSNumber? {
+        get { return AbstractQuery.toNumber(self.enableRules) }
+        set { self.enableRules = newValue?.boolValue }
+    }
+    
     @objc(advancedSyntax)
     public var z_objc_advancedSyntax: NSNumber? {
         get { return AbstractQuery.toNumber(self.advancedSyntax) }

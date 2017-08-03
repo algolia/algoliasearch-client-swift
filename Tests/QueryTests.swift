@@ -479,6 +479,17 @@ class QueryTests: XCTestCase {
         XCTAssertEqual(query2.restrictSearchableAttributes!, ["foo", "bar"])
     }
 
+    func test_ruleContexts() {
+        let query1 = Query()
+        XCTAssertNil(query1.ruleContexts)
+        query1.ruleContexts = ["foo", "bar"]
+        XCTAssertEqual(query1.ruleContexts!, ["foo", "bar"])
+        XCTAssertEqual(query1["ruleContexts"], "[\"foo\",\"bar\"]")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.ruleContexts!, ["foo", "bar"])
+    }
+
+    
     func test_highlightPreTag() {
         let query1 = Query()
         XCTAssertNil(query1.highlightPreTag)
@@ -648,6 +659,16 @@ class QueryTests: XCTestCase {
         XCTAssertEqual(query1["advancedSyntax"], "true")
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.advancedSyntax, true)
+    }
+    
+    func test_enableRules() {
+        let query1 = Query()
+        XCTAssertNil(query1.enableRules)
+        query1.enableRules = true
+        XCTAssertEqual(query1.enableRules, true)
+        XCTAssertEqual(query1["enableRules"], "true")
+        let query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.enableRules, true)
     }
 
     func test_removeStopWords() {
