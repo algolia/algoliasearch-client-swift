@@ -37,6 +37,10 @@ public class RequestOptions : NSObject, NSCopying {
     /// HTTP headers, as untyped values.
     @objc public var headers: [String: String] = [:]
     
+    /// URL parameters, as untyped values.
+    /// These will go into the query string part of the URL (after the question mark).
+    @objc public var urlParameters: [String: String] = [:]
+    
     // MARK: - Miscellaneous
     
     @objc override open var description: String {
@@ -48,8 +52,11 @@ public class RequestOptions : NSObject, NSCopying {
     /// Construct request options.
     ///
     /// - param headers: HTTP headers (default: empty).
+    /// - param urlParameters: URL parameters (default: empty).
     ///
-    @objc public init(headers: [String: String] = [:]) {
+    @objc public init(headers: [String: String] = [:], urlParameters: [String: String] = [:]) {
+        self.headers = headers
+        self.urlParameters = urlParameters
     }
     
     // MARK: - NSCopying

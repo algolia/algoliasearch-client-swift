@@ -356,14 +356,27 @@ internal struct HostStatus {
     /// Create a request with this client's settings.
     func newRequest(method: HTTPMethod, path: String, urlParameters: [String: String]? = nil, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, requestOptions: RequestOptions? = nil, completion: CompletionHandler? = nil) -> Request {
         let currentTimeout = isSearchQuery ? searchTimeout : timeout
-        // Patch the headers with the request's options, if provided.
+        // Patch the headers with the request options, if provided.
         var headers = self.headers
         if let requestOptions = requestOptions {
             for (key, value) in requestOptions.headers {
                 headers[key] = value
             }
         }
-        let request = Request(client: self, method: method, hosts: hostnames, firstHostIndex: 0, path: path, urlParameters: urlParameters, headers: headers, jsonBody: body, timeout: currentTimeout, completion:  completion)
+        // Patch the URL parameters with request options, if provided.
+        var finalURLParameters: [String: String]? = nil
+        if let urlParameters = urlParameters {
+            finalURLParameters = urlParameters
+        }
+        if let requestOptions = requestOptions {
+            if finalURLParameters == nil {
+                finalURLParameters = [:]
+            }
+            for (key, value) in requestOptions.urlParameters {
+                finalURLParameters![key] = value
+            }
+        }
+        let request = Request(client: self, method: method, hosts: hostnames, firstHostIndex: 0, path: path, urlParameters: finalURLParameters, headers: headers, jsonBody: body, timeout: currentTimeout, completion:  completion)
         return request
     }
 
