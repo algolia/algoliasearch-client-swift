@@ -21,3 +21,5 @@ DerivedData
 /*.xcworkspace
 /Pods
 
+# Cartage Build
+Tools/Carthage
