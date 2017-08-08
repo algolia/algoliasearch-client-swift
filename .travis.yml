@@ -15,4 +15,4 @@ before_script:
   - gem install xcpretty -N
 script:
   - set -o pipefail
-  - travis_retry bash run_test.sh
+  - travis_retry travis_wait 30 bash run_test.sh
