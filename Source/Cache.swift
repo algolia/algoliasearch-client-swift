@@ -34,7 +34,7 @@ internal class ExpiringCacheItem {
 }
 
 internal class ExpiringCache {
-    private  let cache = NSCache<NSString, ExpiringCacheItem>()
+    private let cache = NSCache<NSString, ExpiringCacheItem>()
     var expiringTimeInterval: TimeInterval {
         didSet {
             updateTimer()
