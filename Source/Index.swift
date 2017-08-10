@@ -238,7 +238,7 @@ import Foundation
     ///
     @discardableResult public func partialUpdateObject(_ partialObject: JSONObject, withID objectID: String, createIfNotExists: Bool? = nil, requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(urlEncodedName)/\(objectID.urlEncodedPathComponent())/partial"
-        let urlParameters = createIfNotExists != nil ? ["createIfNotExists": String(createIfNotExists!)] : nil
+        let urlParameters: [String: String] = createIfNotExists != nil ? ["createIfNotExists": String(createIfNotExists!)] : [:]
         return client.performHTTPQuery(path: path, urlParameters: urlParameters, method: .POST, body: partialObject, hostnames: client.writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
     }
     
@@ -450,7 +450,7 @@ import Foundation
     ///
     @discardableResult public func setSettings(_ settings: JSONObject, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
         let path = "1/indexes/\(urlEncodedName)/settings"
-        let urlParameters = forwardToReplicas != nil ? ["forwardToReplicas": String(forwardToReplicas!)] : nil
+        let urlParameters: [String: String] = forwardToReplicas != nil ? ["forwardToReplicas": String(forwardToReplicas!)] : [:]
         return client.performHTTPQuery(path: path, urlParameters: urlParameters, method: .PUT, body: settings, hostnames: client.writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
     }
     
