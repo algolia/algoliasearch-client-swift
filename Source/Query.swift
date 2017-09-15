@@ -718,13 +718,9 @@ open class Query : AbstractQuery {
             if newValue == nil {
                 self["insideBoundingBox"] = nil
             } else {
-                var components = [String]()
-                for box in newValue! {
-                    components.append(String(box.p1.lat))
-                    components.append(String(box.p1.lng))
-                    components.append(String(box.p2.lat))
-                    components.append(String(box.p2.lng))
-                }
+                let components = newValue!.flatMap({
+                  [String($0.p1.lat), String($0.p1.lng), String($0.p2.lat), String($0.p2.lng)]
+                })
                 self["insideBoundingBox"] = components.joined(separator: ",")
             }
         }
@@ -752,16 +748,10 @@ open class Query : AbstractQuery {
         }
         set {
             if let srcPolygons = newValue {
-                var dstPolygons = [[Double]]()
-                for srcPolygon in srcPolygons {
-                    var dstPolygon = [Double]()
-                    for point in srcPolygon {
-                        dstPolygon.append(point.lat)
-                        dstPolygon.append(point.lng)
-                    }
-                    dstPolygons.append(dstPolygon)
-                }
-                self["insidePolygon"] = AbstractQuery.buildJSONArray(dstPolygons)
+                let componets = srcPolygons.map({
+                  "[" + $0.map({ "\(String($0.lat)),\(String($0.lng))"}).joined(separator: ",") + "]"
+                })
+                self["insidePolygon"] = "[" + componets.joined(separator: ",") + "]"
             } else {
                 self["insidePolygon"] = nil
             }
