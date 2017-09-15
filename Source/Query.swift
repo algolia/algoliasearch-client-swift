@@ -715,13 +715,13 @@ open class Query : AbstractQuery {
             return nil
         }
         set {
-            if newValue == nil {
-                self["insideBoundingBox"] = nil
-            } else {
-                let components = newValue!.flatMap({
+            if let dstPolygons = newValue {
+                let components = dstPolygons.flatMap({
                   [String($0.p1.lat), String($0.p1.lng), String($0.p2.lat), String($0.p2.lng)]
                 })
                 self["insideBoundingBox"] = components.joined(separator: ",")
+            } else {
+              self["insideBoundingBox"] = nil
             }
         }
     }
@@ -748,10 +748,10 @@ open class Query : AbstractQuery {
         }
         set {
             if let srcPolygons = newValue {
-                let componets = srcPolygons.map({
+                let components = srcPolygons.map({
                   "[" + $0.map({ "\(String($0.lat)),\(String($0.lng))"}).joined(separator: ",") + "]"
                 })
-                self["insidePolygon"] = "[" + componets.joined(separator: ",") + "]"
+                self["insidePolygon"] = "[" + components.joined(separator: ",") + "]"
             } else {
                 self["insidePolygon"] = nil
             }
