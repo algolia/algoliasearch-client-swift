@@ -16,6 +16,7 @@ As a complement to this readme, you can browse the automatically generated [refe
 
 **&lt;Welcome Objective-C developers&gt;**
 
+
 In July 2015, we released a **new version** of our Swift client, able to work with Swift and Objective-C.
 As of version 3 (April 2016), Swift has become the reference implementation for both Swift and Objective-C projects.
 The [Objective-C API Client](https://github.com/algolia/algoliasearch-client-objc) is no longer under active development.
