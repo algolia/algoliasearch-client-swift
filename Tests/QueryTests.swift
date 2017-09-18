@@ -624,7 +624,7 @@ class QueryTests: XCTestCase {
         ]
         query1.insidePolygon = POLYGONS
         XCTAssertEqual(query1.insidePolygon! as NSObject, POLYGONS as NSObject)
-        XCTAssertEqual(query1["insidePolygon"], "[[11.111111,22.222222,33.333333,44.444444,-55.555555,-66.666667],[-77.777777,-88.888887,11.111111,22.222222,0,0]]")
+        XCTAssertEqual(query1["insidePolygon"], "[[11.111111,22.222222,33.333333,44.444444,-55.555555,-66.666667],[-77.777777,-88.888887,11.111111,22.222222,0.0,0.0]]")
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.insidePolygon! as NSObject, POLYGONS as NSObject)
     }
