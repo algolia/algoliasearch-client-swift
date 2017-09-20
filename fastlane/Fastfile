@@ -55,5 +55,5 @@ end
 
 after_all do
   sh "../cleanup_test.sh"
-  slack
+  #slack
 end
