@@ -1,0 +1,2008 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Test Results | xcpretty</title>
+    <style type="text/css">
+      body { font-family:Avenir Next, Helvetica Neue, sans-serif; color: #4A4A4A; background-color: #F0F3FB; margin:0;}
+      h1 { font-weight: normal; font-size: 24px; margin: 10px 0 0 0;}
+      h3 { font-weight: normal; margin: 2px; font-size: 1.1em;}
+      header { position: fixed;width: 100%;background: rgba(249, 254, 255, 0.9);margin: 0;padding: 10px;}
+      header:before, header:after { content:""; display:table;}
+      header:after { clear:both;}
+      a:link { color: #A1D761;}
+      footer { clear: both;position: relative;z-index: 10;height: 40px;margin-top: -10px; margin-left:30px; font-size:12px;}
+      table { width:100%; border-collapse: collapse;}
+      tr td:first-child { width:7%}
+      .left { float: left; margin-left:30px;}
+      .right { float: right; margin-right: 40px; margin-top: 0; margin-bottom:0;}
+      .test-suite { margin: 0 0 30px 0;}
+      .test-suite > .heading { font-family:Menlo, Monaco, monospace; font-weight: bold; border-color: #A1D761; background-color: #B8E986; border-width: 1px;}
+      .test-suite.failing > .heading { border-color: #C84F5E; background-color: #E58591;}
+      .test-suite > .heading > .title { margin-top: 4px; margin-left: 10px;}
+      .tests { overflow: scroll;margin: 0 30px 0 60px;}
+      .test, .test-suite > .heading { height: 30px; overflow: hidden; margin: 0 30px;}
+      .test, .test-suite > .heading { border-width: 1px; border-collapse: collapse; border-style: solid; }
+      .test { margin-left: 30px; border-top:none;}
+      .test.failing { border-color: #C84F5E; background-color: #F4DDE0;}
+      .test.passing { border-color: #A1D761;}
+      .test.failing { background-color: #E7A1AA;}
+      .test.passing { background-color: #CAF59F;}
+      .test.failing.odd { background-color: #EEC7CC;}
+      .test.passing.odd { background-color: #E5FBCF;}
+      .details { background-color: #F4DDE0; border: 1px solid #C84F5E;}
+      .test .test-detail:last-child { padding-bottom: 8px;}
+      .test .title { float: left; font-size: 0.9em; margin-top: 8px; font-family: Menlo, Monaco, monospace;}
+      .test .time { float: left;margin: 4px 10px 0 20px;}
+      .test-detail { font-family:Menlo, Monaco, monospace; font-size: 0.9em; margin: 5px 0 5px 0px;}
+      .screenshots { height: auto; overflow: hidden; padding: 4px 4px 0 4px; background-color: #B8E986; border: #A1D761; border-width: 0 1px; border-style: solid; }
+      .screenshots.failing { border-color: #C84F5E; background-color: #E58591; }
+      .screenshot { max-height: 60px; float: left; transition: max-height 0.2s; margin: 0 4px 4px 0 }
+      .screenshot.selected { max-height: 568px; }
+      #test-suites { display: inline-block; width: 100%;margin-top:100px;}
+      #segment-bar { margin-top: 10px;margin-left: 14px;float:right;}
+      #segment-bar a:first-child { border-radius: 9px 0 0 9px; border-right: none;}
+      #segment-bar a:last-child { border-radius: 0 9px 9px 0; border-left: none;}
+      #segment-bar > a { color: #565656; border: 2px solid  #7B7B7B; width: 80px; font-weight: bold; display:inline-block;text-align:center; font-weight: normal;}
+      #segment-bar > a.selected { background-color: #979797; color: #F0F3FB;}
+      #counters { float: left;margin: 10px;text-align: right;}
+      #counters h2 { font-size: 16px; font-family: Avenir, sans-serif; font-weight: lighter; display:inline;}
+      #counters .number { font-size: 20px;}
+      #fail-count { color: #D0021B; margin-left:10px;}
+      @media (max-width: 640px) {
+        h1, #counters, #segment-bar { margin: 5px auto; text-align:center;}
+        header, #segment-bar { width: 100%; position: relative; background:none;}
+        .left, .right { float:none; margin:0;}
+        #test-suites { margin-top: 0;}
+        #counters { float:none;}
+      }
+    </style>
+    <script type="text/javascript">
+      var hide = function(element) { element.style.display = 'none';}
+      var show = function(element) { element.style.display = '';}
+      var isHidden = function(element) { return element.style.display == 'none';}
+      var isSelected = function(element) { return element.classList.contains("selected");}
+      var deselect = function(element) { return element.classList.remove("selected");}
+      var select = function(element) { return element.classList.add("selected");}
+      var toggle = function(element) { isHidden(element) ? show(element) : hide(element);};
+      var toggleTests = function(heading) { toggle(heading.parentNode.children[1]);};
+      var toggleDetails = function(detailClass) {
+        var details = document.querySelectorAll('.' + detailClass);
+        for (var i = details.length - 1; i >= 0; i--) { toggle(details[i]);};
+      };
+      var hideAll = function(collection) {
+        for (var i = collection.length - 1; i >= 0; i--) { hide(collection[i]); };
+      }
+      var showAll = function(collection) {
+        for (var i = collection.length - 1; i >= 0; i--) { show(collection[i]); };
+      }
+      var selectSegment = function(segment) {
+        if (isSelected(segment)) return;
+        var segments = document.querySelectorAll('#segment-bar > a');
+        for (var i = segments.length - 1; i >= 0; i--) { deselect(segments[i]);};
+        select(segment);
+        if (segment.id == "all-segment") {
+          showAll(document.querySelectorAll('.test-suite'));
+          showAll(document.querySelectorAll('.test'));
+        } else if (segment.id == "failing-segment") {
+          hideAll(document.querySelectorAll('.test.passing'));
+          showAll(document.querySelectorAll('.test.failing'));
+          hideAll(document.querySelectorAll('.test-suite.passing'));
+          showAll(document.querySelectorAll('.test-suite.failing'));
+        } else if (segment.id == "passing-segment") {
+          hideAll(document.querySelectorAll('.test.failing'));
+          showAll(document.querySelectorAll('.test.passing'));
+          hideAll(document.querySelectorAll('.test-suite.failing'));
+          showAll(document.querySelectorAll('.test-suite.passing'));
+        }
+      }
+      var toggleScreenshot = function(suiteName, index) {
+        var screenshot = document.getElementById("screenshot-" + suiteName + "-" + index);
+        isSelected(screenshot) ? deselect(screenshot) : select(screenshot);
+      }
+    </script>
+  </head>
+  <body>
+    <header>
+      <section class="left">
+        <h1>Test Results</h1>
+      </section>
+      <section class="right">
+        <section id="counters">
+          <h2 id="test-count"><span class="number">159</span> tests</h2>
+          
+            <h2 id="fail-count"><span class="number">1</span> failures</h2>
+          
+        </section>
+        <section id="segment-bar">
+          <a id="all-segment" onclick="selectSegment(this);" class="selected">All</a><a id="failing-segment" onclick="selectSegment(this);">Failing</a><a id="passing-segment" onclick="selectSegment(this);">Passing</a>
+        </section>
+      </section>
+    </header>
+    <section id="test-suites">
+      
+        
+        <section class="test-suite passing" id="AlgoliaSearch_iOS_Tests.BrowseIteratorTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">AlgoliaSearch_iOS_Tests.BrowseIteratorTests</h3>
+          </section>
+          <section class="tests">
+            
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testCancel');">
+                <td>
+                  
+                    <h3 class="time">13.928s</h3>
+                  
+                </td>
+                <td><h3 class="title">testCancel</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testNominal');">
+                <td>
+                  
+                    <h3 class="time">3.245s</h3>
+                  
+                </td>
+                <td><h3 class="title">testNominal</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="AlgoliaSearch_iOS_Tests.CancelTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">AlgoliaSearch_iOS_Tests.CancelTests</h3>
+          </section>
+          <section class="tests">
+            
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testSearch');">
+                <td>
+                  
+                    <h3 class="time">20.007s</h3>
+                  
+                </td>
+                <td><h3 class="title">testSearch</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testWaitTask');">
+                <td>
+                  
+                    <h3 class="time">34.033s</h3>
+                  
+                </td>
+                <td><h3 class="title">testWaitTask</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="AlgoliaSearch_iOS_Tests.ClientTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">AlgoliaSearch_iOS_Tests.ClientTests</h3>
+          </section>
+          <section class="tests">
+            
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testBatch');">
+                <td>
+                  
+                    <h3 class="time">3.197s</h3>
+                  
+                </td>
+                <td><h3 class="title">testBatch</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testCompletionQueue');">
+                <td>
+                  
+                    <h3 class="time">0.094s</h3>
+                  
+                </td>
+                <td><h3 class="title">testCompletionQueue</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testCopyIndex');">
+                <td>
+                  
+                    <h3 class="time">10.849s</h3>
+                  
+                </td>
+                <td><h3 class="title">testCopyIndex</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testHeaders');">
+                <td>
+                  
+                    <h3 class="time">1.135s</h3>
+                  
+                </td>
+                <td><h3 class="title">testHeaders</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testHostStatus');">
+                <td>
+                  
+                    <h3 class="time">10.218s</h3>
+                  
+                </td>
+                <td><h3 class="title">testHostStatus</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testIndexNameWithSpace');">
+                <td>
+                  
+                    <h3 class="time">0.066s</h3>
+                  
+                </td>
+                <td><h3 class="title">testIndexNameWithSpace</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testIsAlive');">
+                <td>
+                  
+                    <h3 class="time">0.089s</h3>
+                  
+                </td>
+                <td><h3 class="title">testIsAlive</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testListIndexes');">
+                <td>
+                  
+                    <h3 class="time">3.218s</h3>
+                  
+                </td>
+                <td><h3 class="title">testListIndexes</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testMoveIndex');">
+                <td>
+                  
+                    <h3 class="time">6.474s</h3>
+                  
+                </td>
+                <td><h3 class="title">testMoveIndex</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testMultipleQueries');">
+                <td>
+                  
+                    <h3 class="time">5.666s</h3>
+                  
+                </td>
+                <td><h3 class="title">testMultipleQueries</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testMultipleQueries_stopIfEnoughMatches');">
+                <td>
+                  
+                    <h3 class="time">3.401s</h3>
+                  
+                </td>
+                <td><h3 class="title">testMultipleQueries_stopIfEnoughMatches</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testReusingIndices');">
+                <td>
+                  
+                    <h3 class="time">0.090s</h3>
+                  
+                </td>
+                <td><h3 class="title">testReusingIndices</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testUserAgentHeader');">
+                <td>
+                  
+                    <h3 class="time">0.046s</h3>
+                  
+                </td>
+                <td><h3 class="title">testUserAgentHeader</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testUseReachability');">
+                <td>
+                  
+                    <h3 class="time">0.325s</h3>
+                  
+                </td>
+                <td><h3 class="title">testUseReachability</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite failing" id="AlgoliaSearch_iOS_Tests.IndexTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">AlgoliaSearch_iOS_Tests.IndexTests</h3>
+          </section>
+          <section class="tests">
+            
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testAdd');">
+                <td>
+                  
+                    <h3 class="time">3.201s</h3>
+                  
+                </td>
+                <td><h3 class="title">testAdd</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testAddObjects');">
+                <td>
+                  
+                    <h3 class="time">3.456s</h3>
+                  
+                </td>
+                <td><h3 class="title">testAddObjects</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testAddWithObjectID');">
+                <td>
+                  
+                    <h3 class="time">3.178s</h3>
+                  
+                </td>
+                <td><h3 class="title">testAddWithObjectID</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testBatch');">
+                <td>
+                  
+                    <h3 class="time">3.183s</h3>
+                  
+                </td>
+                <td><h3 class="title">testBatch</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testBrowse');">
+                <td>
+                  
+                    <h3 class="time">3.225s</h3>
+                  
+                </td>
+                <td><h3 class="title">testBrowse</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testClear');">
+                <td>
+                  
+                    <h3 class="time">3.230s</h3>
+                  
+                </td>
+                <td><h3 class="title">testClear</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testDelete');">
+                <td>
+                  
+                    <h3 class="time">3.268s</h3>
+                  
+                </td>
+                <td><h3 class="title">testDelete</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testDeleteByQuery');">
+                <td>
+                  
+                    <h3 class="time">7.885s</h3>
+                  
+                </td>
+                <td><h3 class="title">testDeleteByQuery</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testDeleteObjects');">
+                <td>
+                  
+                    <h3 class="time">3.268s</h3>
+                  
+                </td>
+                <td><h3 class="title">testDeleteObjects</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testDNSTimeout');">
+                <td>
+                  
+                    <h3 class="time">8.932s</h3>
+                  
+                </td>
+                <td><h3 class="title">testDNSTimeout</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testGet');">
+                <td>
+                  
+                    <h3 class="time">2.659s</h3>
+                  
+                </td>
+                <td><h3 class="title">testGet</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testGetObjects');">
+                <td>
+                  
+                    <h3 class="time">0.989s</h3>
+                  
+                </td>
+                <td><h3 class="title">testGetObjects</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testGetObjectsFiltered');">
+                <td>
+                  
+                    <h3 class="time">0.683s</h3>
+                  
+                </td>
+                <td><h3 class="title">testGetObjectsFiltered</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testMultipleQueries');">
+                <td>
+                  
+                    <h3 class="time">1.587s</h3>
+                  
+                </td>
+                <td><h3 class="title">testMultipleQueries</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testPartialUpdateObject');">
+                <td>
+                  
+                    <h3 class="time">0.694s</h3>
+                  
+                </td>
+                <td><h3 class="title">testPartialUpdateObject</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testPartialUpdateObjectCreateIfNotExists');">
+                <td>
+                  
+                    <h3 class="time">3.275s</h3>
+                  
+                </td>
+                <td><h3 class="title">testPartialUpdateObjectCreateIfNotExists</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testPartialUpdateObjects');">
+                <td>
+                  
+                    <h3 class="time">1.866s</h3>
+                  
+                </td>
+                <td><h3 class="title">testPartialUpdateObjects</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testPartialUpdateObjectsCreateIfNotExists');">
+                <td>
+                  
+                    <h3 class="time">2.171s</h3>
+                  
+                </td>
+                <td><h3 class="title">testPartialUpdateObjectsCreateIfNotExists</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testSaveObject');">
+                <td>
+                  
+                    <h3 class="time">3.507s</h3>
+                  
+                </td>
+                <td><h3 class="title">testSaveObject</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testSaveObjects');">
+                <td>
+                  
+                    <h3 class="time">3.306s</h3>
+                  
+                </td>
+                <td><h3 class="title">testSaveObjects</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testSearchCache');">
+                <td>
+                  
+                    <h3 class="time">18.364s</h3>
+                  
+                </td>
+                <td><h3 class="title">testSearchCache</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testSearchDisjunctiveFaceting');">
+                <td>
+                  
+                    <h3 class="time">4.704s</h3>
+                  
+                </td>
+                <td><h3 class="title">testSearchDisjunctiveFaceting</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testSearchDisjunctiveFaceting2');">
+                <td>
+                  
+                    <h3 class="time">6.445s</h3>
+                  
+                </td>
+                <td><h3 class="title">testSearchDisjunctiveFaceting2</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test failing odd"  onclick="toggleDetails('testSearchForFacetValues');">
+                <td>
+                  
+                </td>
+                <td><h3 class="title">testSearchForFacetValues</h3></td>
+              </tr>
+              
+                <tr class="details testSearchForFacetValues">
+                  <td></td>
+                  <td>
+                    
+                      <section class="test-detail reason">failed - This feature is not enabled on this application</section>
+                    
+                    
+                      <section class="test-detail snippet"><pre class="highlight"><code>                    <span class="k">self</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="nf">searchForFacetValues</span><span class="p">(</span><span class="nv">of</span><span class="p">:</span> <span class="s">"series"</span><span class="p">,</span> <span class="nv">matching</span><span class="p">:</span> <span class="s">"Hobb"</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+                        <span class="k">guard</span> <span class="n">error</span> <span class="o">==</span> <span class="kc">nil</span> <span class="k">else</span> <span class="p">{</span> <span class="kt">XCTFail</span><span class="p">(</span><span class="n">error</span><span class="o">!.</span><span class="n">localizedDescription</span><span class="p">);</span> <span class="n">expectation</span><span class="o">.</span><span class="nf">fulfill</span><span class="p">();</span> <span class="k">return</span> <span class="p">}</span>
+                        <span class="k">guard</span> <span class="k">let</span> <span class="nv">facetHits</span> <span class="o">=</span> <span class="n">content</span><span class="o">!</span><span class="p">[</span><span class="s">"facetHits"</span><span class="p">]</span> <span class="k">as?</span> <span class="p">[</span><span class="kt">JSONObject</span><span class="p">]</span> <span class="k">else</span> <span class="p">{</span> <span class="kt">XCTFail</span><span class="p">(</span><span class="s">"No facet hits"</span><span class="p">);</span> <span class="n">expectation</span><span class="o">.</span><span class="nf">fulfill</span><span class="p">();</span> <span class="k">return</span> <span class="p">}</span>
+</code></pre>
+</section>
+                      <section class="test-detail">/Users/robertmogos/Dev/algoliasearch-client-swift/Tests/IndexTests.swift:1215</section>
+                    
+                  </td>
+                </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testSettings');">
+                <td>
+                  
+                    <h3 class="time">4.143s</h3>
+                  
+                </td>
+                <td><h3 class="title">testSettings</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testSettings_forwardToReplicas');">
+                <td>
+                  
+                    <h3 class="time">5.724s</h3>
+                  
+                </td>
+                <td><h3 class="title">testSettings_forwardToReplicas</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testTCPDrop');">
+                <td>
+                  
+                    <h3 class="time">30.287s</h3>
+                  
+                </td>
+                <td><h3 class="title">testTCPDrop</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testWaitTask');">
+                <td>
+                  
+                    <h3 class="time">5.634s</h3>
+                  
+                </td>
+                <td><h3 class="title">testWaitTask</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="AlgoliaSearch_iOS_Tests.NetworkTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">AlgoliaSearch_iOS_Tests.NetworkTests</h3>
+          </section>
+          <section class="tests">
+            
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testClientError');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testClientError</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testDNSError');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testDNSError</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testEmptyErrorMessage');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">testEmptyErrorMessage</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testEmptyErrorResponse');">
+                <td>
+                  
+                    <h3 class="time">0.003s</h3>
+                  
+                </td>
+                <td><h3 class="title">testEmptyErrorResponse</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testEmptyResponse');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">testEmptyResponse</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testHostStatus');">
+                <td>
+                  
+                    <h3 class="time">3.006s</h3>
+                  
+                </td>
+                <td><h3 class="title">testHostStatus</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testIllFormedResponse');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testIllFormedResponse</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testServerError');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testServerError</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testTimeout_AllHosts');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testTimeout_AllHosts</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testTimeout_OneHost');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testTimeout_OneHost</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="AlgoliaSearch_iOS_Tests.PlacesClientTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">AlgoliaSearch_iOS_Tests.PlacesClientTests</h3>
+          </section>
+          <section class="tests">
+            
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testSearch');">
+                <td>
+                  
+                    <h3 class="time">0.066s</h3>
+                  
+                </td>
+                <td><h3 class="title">testSearch</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="AlgoliaSearch_iOS_Tests.PlacesQueryTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">AlgoliaSearch_iOS_Tests.PlacesQueryTests</h3>
+          </section>
+          <section class="tests">
+            
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_aroundLatLng');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_aroundLatLng</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_aroundLatLngViaIP');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_aroundLatLngViaIP</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_aroundRadius');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_aroundRadius</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_countries');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_countries</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_hitsPerPage');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_hitsPerPage</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_language');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_language</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_query');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_query</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_type');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_type</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="AlgoliaSearch_iOS_Tests.QueryTests">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">AlgoliaSearch_iOS_Tests.QueryTests</h3>
+          </section>
+          <section class="tests">
+            
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_advancedSyntax');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_advancedSyntax</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_allowTyposOnNumericTokens');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_allowTyposOnNumericTokens</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_alternativesAsExact');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_alternativesAsExact</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_analytics');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_analytics</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_analyticsTags');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_analyticsTags</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_aroundLatLng');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_aroundLatLng</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_aroundLatLngViaIP');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_aroundLatLngViaIP</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_aroundPrecision');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_aroundPrecision</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_aroundRadius');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_aroundRadius</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_attributesToHighlight');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_attributesToHighlight</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_attributesToRetrieve');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_attributesToRetrieve</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_attributesToSnippet');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_attributesToSnippet</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_disableExactOnAttributes');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_disableExactOnAttributes</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_disableTypoToleranceOnAttributes');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_disableTypoToleranceOnAttributes</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_distinct');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_distinct</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_enableRules');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_enableRules</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_exactOnSingleWordQuery');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_exactOnSingleWordQuery</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_facetFilters');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_facetFilters</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_facetingAfterDistinct');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_facetingAfterDistinct</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_facets');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_facets</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_filters');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_filters</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_getRankingInfo');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_getRankingInfo</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_highlightPostTag');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_highlightPostTag</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_highlightPreTag');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_highlightPreTag</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_hitsPerPage');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_hitsPerPage</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_ignorePlurals');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_ignorePlurals</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_insideBoundingBox');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_insideBoundingBox</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_insidePolygon');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_insidePolygon</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_length');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_length</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_maxFacetHits');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_maxFacetHits</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_maxValuesPerFacet');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_maxValuesPerFacet</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_minimumAroundRadius');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_minimumAroundRadius</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_minProximity');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_minProximity</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_minWordSizefor1Typo');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_minWordSizefor1Typo</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_minWordSizefor2Typos');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_minWordSizefor2Typos</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_numericFilters');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_numericFilters</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_offset');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_offset</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_optionalWords');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_optionalWords</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_page');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_page</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_percentileComputation');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_percentileComputation</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_query');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_query</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_queryType');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_queryType</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_removeStopWords');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_removeStopWords</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_removeWordsIfNoResults');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_removeWordsIfNoResults</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_responseFields');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_responseFields</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_restrictHighlightAndSnippetArrays');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_restrictHighlightAndSnippetArrays</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_restrictSearchableAttributes');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_restrictSearchableAttributes</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_ruleContexts');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_ruleContexts</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_snippetEllipsisText');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_snippetEllipsisText</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_synonyms');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_synonyms</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_tagFilters');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_tagFilters</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_typoTolerance');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_typoTolerance</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testBuild');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">testBuild</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testEscape');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">testEscape</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testGetSet');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">testGetSet</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testKVO');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">testKVO</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testParse');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">testParse</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+        
+        <section class="test-suite passing" id="ObjectiveCBridging">
+          <section class="heading" onclick="toggleTests(this);">
+            <h3 class="title">ObjectiveCBridging</h3>
+          </section>
+          <section class="tests">
+            
+            <table>
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_advancedSyntax');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_advancedSyntax</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_allowTyposOnNumericTokens');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_allowTyposOnNumericTokens</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_alternativesAsExact');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_alternativesAsExact</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_analytics');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_analytics</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_aroundLatLngViaIP');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_aroundLatLngViaIP</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_aroundPrecision');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_aroundPrecision</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_aroundRadius');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_aroundRadius</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_distinct');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_distinct</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_enableRules');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_enableRules</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_exactOnSingleWordQuery');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_exactOnSingleWordQuery</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_getRankingInfo');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_getRankingInfo</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_hitsPerPage');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_hitsPerPage</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_ignorePlurals');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_ignorePlurals</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_length');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_length</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_maxValuesPerFacet');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_maxValuesPerFacet</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_minimumAroundRadius');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_minimumAroundRadius</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_minProximity');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_minProximity</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_minWordSizefor1Typo');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_minWordSizefor1Typo</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_minWordSizefor2Typos');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_minWordSizefor2Typos</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_offset');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_offset</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_page');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_page</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_percentileComputation');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_percentileComputation</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_queryType');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_queryType</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_removeStopWords');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_removeStopWords</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_removeWordsIfNoResults');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_removeWordsIfNoResults</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_replaceSynonymsInHighlight');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_replaceSynonymsInHighlight</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_restrictHighlightAndSnippetArrays');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_restrictHighlightAndSnippetArrays</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('test_synonyms');">
+                <td>
+                  
+                    <h3 class="time">0.000s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_synonyms</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('test_typoTolerance');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">test_typoTolerance</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testClient');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">testClient</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testIndex');">
+                <td>
+                  
+                    <h3 class="time">0.004s</h3>
+                  
+                </td>
+                <td><h3 class="title">testIndex</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testPlacesClient');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">testPlacesClient</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testPlacesQuery_aroundLatLngViaIP');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">testPlacesQuery_aroundLatLngViaIP</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testPlacesQuery_aroundRadius');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">testPlacesQuery_aroundRadius</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testPlacesQuery_hitsPerPage');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">testPlacesQuery_hitsPerPage</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing odd"  onclick="toggleDetails('testPlacesQuery_type');">
+                <td>
+                  
+                    <h3 class="time">0.001s</h3>
+                  
+                </td>
+                <td><h3 class="title">testPlacesQuery_type</h3></td>
+              </tr>
+              
+            
+              
+              <tr class="test passing "  onclick="toggleDetails('testQuery');">
+                <td>
+                  
+                    <h3 class="time">0.002s</h3>
+                  
+                </td>
+                <td><h3 class="title">testQuery</h3></td>
+              </tr>
+              
+            
+            </table>
+          </section>
+        </section>
+      
+    </section>
+    <footer>Report generated with <a href="https://github.com/supermarin/xcpretty">xcpretty</a></footer>
+  </body>
+</html>
