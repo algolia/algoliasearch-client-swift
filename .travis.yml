@@ -6,13 +6,13 @@ osx_image: xcode9
 language: objective-c
 env:
   matrix:
-    - PLATFORM="OSX"    SDK="macosx10.13"
-    - PLATFORM="iOS"    SDK="iphonesimulator11.0"    DESTINATION="OS=11.0,name=iPhone 6"
-    - PLATFORM="tvOS"   SDK="appletvsimulator11.0"   DESTINATION="OS=11.0,name=Apple TV 1080p"
-install:
-  - pod install --repo-update
+    - FASTLANE_TARGET="mac"
+    - FASTLANE_TARGET="ios"
+    - FASTLANE_TARGET="tv"
+install: true
 before_script:
   - gem install xcpretty -N
+  - gem update fastlane
 script:
   - set -o pipefail
-  - travis_retry travis_wait 30 bash run_test.sh
+  - fastlane ${FASTLANE_TARGET} test

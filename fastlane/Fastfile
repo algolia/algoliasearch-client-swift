@@ -10,7 +10,6 @@ generated_fastfile_id "612c5898-e580-45c0-9e4d-9dace4a242b3"
 
 before_all do
 	sh "../prepare_test.sh"
-	cocoapods
 end
 
 platform :ios do
@@ -53,7 +52,12 @@ platform :watch do
 	end
 end
 
+lane :deploy do
+	puts last_git_tag
+	add_git_tag
+end
+
 after_all do
   sh "../cleanup_test.sh"
-  slack
+  #slack
 end
