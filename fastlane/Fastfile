@@ -1,0 +1,63 @@
+# More documentation about how to customize your build
+# can be found here:
+# https://docs.fastlane.tools
+fastlane_version "1.109.0"
+
+# This value helps us track success metrics for Fastfiles
+# we automatically generate. Feel free to remove this line
+# once you get things running smoothly!
+generated_fastfile_id "612c5898-e580-45c0-9e4d-9dace4a242b3"
+
+before_all do
+	sh "../prepare_test.sh"
+end
+
+platform :ios do
+	lane :test do
+		scan(
+			scheme: "AlgoliaSearch iOS",
+			configuration: "Release",
+			clean: true
+		)
+	end
+end
+
+platform :mac do
+	lane :test do
+		scan(
+			scheme: "AlgoliaSearch OSX",
+			configuration: "Release",
+			clean: true
+		)
+	end
+end
+
+platform :tv do
+	lane :test do
+		scan(
+			scheme: "AlgoliaSearch tvOS",
+			configuration: "Release",
+			clean: true
+		)
+	end
+end
+
+platform :watch do
+	lane :test do
+		scan(
+			scheme: "AlgoliaSearch watchOS",
+			configuration: "Release",
+			clean: true
+		)
+	end
+end
+
+lane :deploy do
+	puts last_git_tag
+	add_git_tag
+end
+
+after_all do
+  sh "../cleanup_test.sh"
+  #slack
+end
