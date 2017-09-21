@@ -53,6 +53,11 @@ platform :watch do
 	end
 end
 
+lane :deploy do
+	puts last_git_tag
+	add_git_tag
+end
+
 after_all do
   sh "../cleanup_test.sh"
   #slack

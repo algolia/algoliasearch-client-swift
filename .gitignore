@@ -17,9 +17,12 @@ DerivedData
 *.ipa
 *.xcuserstate
 
+Tests/Helpers.swift.bak
+Tests/Helpers.swift.tmp
 # Cocoapods
 /*.xcworkspace
 /Pods
+Podfile.lock
 
 # Cartage Build
 Tools/Carthage
@@ -35,3 +38,4 @@ fastlane/screenshots
 
 # scan temporary files
 fastlane/test_output
+fastlane/README.md
