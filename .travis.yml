@@ -9,8 +9,7 @@ env:
     - PLATFORM="OSX"    SDK="macosx10.12"                                                             FASTLANE_TARGET="ios"
     - PLATFORM="iOS"    SDK="iphonesimulator10.0"    DESTINATION="OS=10.0,name=iPhone 6"              FASTLANE_TARGET="mac"
     - PLATFORM="tvOS"   SDK="appletvsimulator10.0"   DESTINATION="OS=10.0,name=Apple TV 1080p"        FASTLANE_TARGET="tv"
-install:
-  - pod install --repo-update
+install: true
 before_script:
   - gem install xcpretty -N
 script:
