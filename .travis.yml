@@ -12,6 +12,7 @@ env:
 install: true
 before_script:
   - gem install xcpretty -N
+  - gem update fastlane
 script:
   - set -o pipefail
   - fastlane ${FASTLANE_TARGET} test
