@@ -10,7 +10,6 @@ generated_fastfile_id "612c5898-e580-45c0-9e4d-9dace4a242b3"
 
 before_all do
 	sh "../prepare_test.sh"
-	cocoapods
 end
 
 platform :ios do
