@@ -23,10 +23,10 @@
 
 import Foundation
 
-let APP_ID = "1M1U6ZWKZP"
-let API_KEY = "a31eb4b36a610d9f7bb4635b005b8d52"
-let PLACES_APP_ID = ""
-let PLACES_API_KEY = ""
+let APP_ID = "%ALGOLIA_APPLICATION_ID%"
+let API_KEY = "%ALGOLIA_API_KEY%"
+let PLACES_APP_ID = "%PLACES_APPLICATION_ID%"
+let PLACES_API_KEY = "%PLACES_API_KEY%"
 let JOB_NUMBER = "JOB_NUMBER_REPLACE_ME"
 
 func safeIndexName(_ name: String) -> String {
