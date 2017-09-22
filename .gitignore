@@ -39,3 +39,4 @@ fastlane/screenshots
 # scan temporary files
 fastlane/test_output
 fastlane/README.md
+fastlane/report.xml

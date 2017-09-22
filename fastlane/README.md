@@ -29,29 +29,45 @@ xcode-select --install
 </table>
 
 # Available Actions
-### test
+### deploy
 ```
-fastlane test
+fastlane deploy
+```
+Available options: type:major|minor|patch
+
+----
+
+## iOS
+### ios test
+```
+fastlane ios test
 ```
 
-### test_ios
+
+----
+
+## Mac
+### mac test
 ```
-fastlane test_ios
+fastlane mac test
 ```
 
-### test_osx
+
+----
+
+## tv
+### tv test
 ```
-fastlane test_osx
+fastlane tv test
 ```
 
-### test_tvOS
-```
-fastlane test_tvOS
-```
 
-### test_watchOS
+----
+
+## watch
+### watch test
 ```
-fastlane test_watchOS
+fastlane watch test
 ```
 
 
