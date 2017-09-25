@@ -3,13 +3,8 @@
 # https://docs.fastlane.tools
 fastlane_version "1.109.0"
 
-# This value helps us track success metrics for Fastfiles
-# we automatically generate. Feel free to remove this line
-# once you get things running smoothly!
-generated_fastfile_id "612c5898-e580-45c0-9e4d-9dace4a242b3"
-
 before_all do
-	sh "../prepare_test.sh"
+	
 end
 
 platform :ios do
@@ -17,7 +12,8 @@ platform :ios do
 		scan(
 			scheme: "AlgoliaSearch iOS",
 			configuration: "Release",
-			clean: true
+			clean: true,
+			xcargs: prepare_api_keys
 		)
 	end
 end
@@ -27,7 +23,8 @@ platform :mac do
 		scan(
 			scheme: "AlgoliaSearch OSX",
 			configuration: "Release",
-			clean: true
+			clean: true,
+			xcargs: prepare_api_keys
 		)
 	end
 end
@@ -37,7 +34,8 @@ platform :tv do
 		scan(
 			scheme: "AlgoliaSearch tvOS",
 			configuration: "Release",
-			clean: true
+			clean: true,
+			xcargs: prepare_api_keys
 		)
 	end
 end
@@ -47,7 +45,8 @@ platform :watch do
 		scan(
 			scheme: "AlgoliaSearch watchOS",
 			configuration: "Release",
-			clean: true
+			clean: true,
+			xcargs: prepare_api_keys
 		)
 	end
 end
@@ -62,10 +61,16 @@ lane :deploy do |options|
 		bump_type: options[:type],
 		path: "AlgoliaSearch-Client-Swift.podspec"
 	)
+
+	version_bump_podspec(
+		bump_type: options[:type],
+		path: "AlgoliaSearch-Offline-Swift.podspec"
+	)
+
 	#puts changelog_from_git_commits
 	git_commit(
-		path: ["AlgoliaSearch-Client-Swift.podspec", "Source/Info.plist" ,"Tests/Info.plist"], 
-		message: "Version #{new_build_number} deploy"
+		path: ["AlgoliaSearch-Client-Swift.podspec", "AlgoliaSearch-Offline-Swift.podspec", "Source/Info.plist" ,"Tests/Info.plist"], 
+		message: "Version #{new_build_number}"
 	)
 	add_git_tag(
 		build_number: new_build_number,
@@ -75,6 +80,9 @@ lane :deploy do |options|
 	pod_push(
 		path: "AlgoliaSearch-Client-Swift.podspec"
 	)
+	pod_push(
+		path: "AlgoliaSearch-Offline-Swift.podspec"
+	)
 end
 
 def prepare_git(branch)
@@ -83,7 +91,30 @@ def prepare_git(branch)
 	git_pull
 end
 
+def prepare_api_keys()
+	xcargs = []  
+	api_key = ENV["ALGOLIA_API_KEY"]
+	if api_key
+		xcargs << %Q[ALGOLIA_API_KEY="#{api_key}"]
+	end
+	
+	api_id = ENV["ALGOLIA_APPLICATION_ID"]
+	if api_id
+		xcargs << %Q[ALGOLIA_APPLICATION_ID="#{api_id}"]
+	end
+
+	places_api_id = ENV["PLACES_APPLICATION_ID"]
+	if places_api_id
+		xcargs << %Q[PLACES_APPLICATION_ID="#{places_api_id}"]
+	end
+	
+	places_api_key = ENV["PLACES_API_KEY"]
+	if places_api_key
+		xcargs << %Q[PLACES_API_KEY="#{places_api_key}"]
+	end
+	return xcargs.join(" ")
+end
+
 after_all do
-  sh "../cleanup_test.sh"
   #slack
 end
