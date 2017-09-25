@@ -307,7 +307,7 @@ public struct IOError: CustomNSError {
     /// - returns: A cancellable operation.
     ///
     @discardableResult
-    @objc public func search(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc public func search(_ query: Query, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         let operation = BlockOperation() {
             let (content, error) = self.searchSync(Query(copy: query))
             self.callCompletionHandler(completionHandler, content: content, error: error)
@@ -315,7 +315,12 @@ public struct IOError: CustomNSError {
         client.offlineSearchQueue.addOperation(operation)
         return operation
     }
-
+    
+    @objc(search:completionHandler:)
+    @discardableResult public func z_objc_search(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
+        return self.search(query, completionHandler: completionHandler)
+    }
+    
     /// Search this index (synchronous version).
     ///
     /// - parameter query: Search parameters.
@@ -468,8 +473,8 @@ public struct IOError: CustomNSError {
     /// Same parameters as `Index.searchForFacetValues(...)`.
     ///
     @discardableResult
-    @objc(searchForFacetValuesOf:matching:query:completionHandler:)
-    public func searchForFacetValues(of facetName: String, matching text: String, query: Query? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc(searchForFacetValuesOf:matching:query:requestOptions:completionHandler:)
+    public func searchForFacetValues(of facetName: String, matching text: String, query: Query? = nil, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         let queryCopy = query != nil ? Query(copy: query!) : nil
         let operation = BlockOperation() {
             let (content, error) = self.searchForFacetValuesSync(of: facetName, matching: text, query: queryCopy)
@@ -478,7 +483,12 @@ public struct IOError: CustomNSError {
         client.offlineSearchQueue.addOperation(operation)
         return operation
     }
-
+    
+    @objc(searchForFacetValuesOf:matching:query:completionHandler:)
+    @discardableResult public func z_objc_searchForFacetValues(of facetName: String, matching text: String, query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
+        return self.searchForFacetValues(of: facetName, matching: text, query: query, completionHandler: completionHandler)
+    }
+        
     /// Search for facet values (synchronous version).
     ///
     private func searchForFacetValuesSync(of facetName: String, matching text: String, query: Query? = nil) -> APIResponse {
@@ -1031,12 +1041,17 @@ public struct IOError: CustomNSError {
     /// - returns: A cancellable operation.
     ///
     @discardableResult
-    @objc public func searchDisjunctiveFaceting(_ query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc public func searchDisjunctiveFaceting(_ query: Query, disjunctiveFacets: [String], refinements: [String: [String]], requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         return DisjunctiveFaceting(multipleQuerier: { (queries, completionHandler) in
             return self.multipleQueries(queries, completionHandler: completionHandler)
         }).searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: completionHandler)
     }
     
+    @objc(searchDisjunctiveFaceting:disjunctiveFacets:refinements:completionHandler:)
+    @discardableResult public func z_objc_searchDisjunctiveFaceting(_ query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: @escaping CompletionHandler) -> Operation {
+        return self.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: completionHandler)
+    }
+        
     // ----------------------------------------------------------------------
     // MARK: - Utils
     // ----------------------------------------------------------------------

@@ -35,7 +35,7 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func search(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation
+    @discardableResult func search(_ query: Query, requestOptions: RequestOptions?, completionHandler: @escaping CompletionHandler) -> Operation
     
     /// Perform a search with disjunctive facets, generating as many queries as number of disjunctive facets (helper).
     ///
@@ -46,8 +46,7 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult func searchDisjunctiveFaceting(_ query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: @escaping CompletionHandler) -> Operation
-
+    @discardableResult func searchDisjunctiveFaceting(_ query: Query, disjunctiveFacets: [String], refinements: [String: [String]], requestOptions: RequestOptions?, completionHandler: @escaping CompletionHandler) -> Operation
 
     /// Search for facet values.
     /// This searches inside a facet's values, optionally restricting the returned values to those contained in objects
@@ -63,6 +62,6 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @discardableResult
-    @objc(searchForFacetValuesOf:matching:query:completionHandler:)
-    func searchForFacetValues(of facetName: String, matching text: String, query: Query?, completionHandler: @escaping CompletionHandler) -> Operation
+    @objc(searchForFacetValuesOf:matching:query:requestOptions:completionHandler:)
+    func searchForFacetValues(of facetName: String, matching text: String, query: Query?, requestOptions: RequestOptions?, completionHandler: @escaping CompletionHandler) -> Operation
 }
