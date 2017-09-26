@@ -37,8 +37,8 @@ class OnlineTestCase: XCTestCase {
         super.setUp()
         
         // Init client.
-        let appID = ProcessInfo.processInfo.environment["ALGOLIA_APPLICATION_ID"] ?? APP_ID
-        let apiKey = ProcessInfo.processInfo.environment["ALGOLIA_API_KEY"] ?? API_KEY
+        let appID = Bundle(for: type(of: self)).object(forInfoDictionaryKey: "ALGOLIA_APPLICATION_ID") as? String ?? ""
+        let apiKey = Bundle(for: type(of: self)).object(forInfoDictionaryKey: "ALGOLIA_API_KEY") as? String ?? ""
         client = AlgoliaSearch.Client(appID: appID, apiKey: apiKey)
         
         // Init index.

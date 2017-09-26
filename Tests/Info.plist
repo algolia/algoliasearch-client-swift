@@ -2,6 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>PLACES_API_KEY</key>
+	<string>$(PLACES_API_KEY)</string>
+	<key>PLACES_APPLICATION_ID</key>
+	<string>$(PLACES_APPLICATION_ID)</string>
+	<key>ALGOLIA_APPLICATION_ID</key>
+	<string>$(ALGOLIA_APPLICATION_ID)</string>
+	<key>ALGOLIA_API_KEY</key>
+	<string>$(ALGOLIA_API_KEY)</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>

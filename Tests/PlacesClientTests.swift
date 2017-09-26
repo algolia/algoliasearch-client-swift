@@ -34,8 +34,8 @@ class PlacesClientTests: XCTestCase {
         super.setUp()
         
         // Init client.
-        let appID = ProcessInfo.processInfo.environment["PLACES_APPLICATION_ID"] ?? PLACES_APP_ID
-        let apiKey = ProcessInfo.processInfo.environment["PLACES_API_KEY"] ?? PLACES_API_KEY
+        let appID = Bundle(for: type(of: self)).object(forInfoDictionaryKey: "PLACES_APPLICATION_ID") as? String ?? ""
+        let apiKey = Bundle(for: type(of: self)).object(forInfoDictionaryKey: "PLACES_API_KEY") as? String ?? ""
         places = PlacesClient(appID: appID, apiKey: apiKey)
     }
     

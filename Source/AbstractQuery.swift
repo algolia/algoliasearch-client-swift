@@ -119,7 +119,7 @@ import Foundation
     /// - parameter lat: Latitude.
     /// - parameter lng: Longitude.
     ///
-    public init(lat: Double, lng: Double) {
+    @objc public init(lat: Double, lng: Double) {
         self.lat = lat
         self.lng = lng
     }
@@ -153,7 +153,7 @@ import Foundation
     /// - parameter p1: One of the rectangle's corners (typically the northwesternmost).
     /// - parameter p2: Corner opposite from `p1` (typically the southeasternmost).
     ///
-    public init(p1: LatLng, p2: LatLng) {
+    @objc public init(p1: LatLng, p2: LatLng) {
         self.p1 = p1
         self.p2 = p2
     }
