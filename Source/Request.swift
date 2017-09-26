@@ -45,8 +45,11 @@ internal class Request: AsyncOperationWithCompletion {
     /// Index of the next host to be tried.
     var nextHostIndex: Int
     
-    /// The URL path (actually everything after the host, so including the query string).
+    /// The URL path (part after the host and before the query string).
     let path: String
+    
+    /// URL parameters (query string part of the URL).
+    let urlParameters: [String: String]?
     
     /// Optional HTTP headers.
     let headers: [String: String]?
@@ -65,7 +68,7 @@ internal class Request: AsyncOperationWithCompletion {
     
     // MARK: - Initialization
     
-    init(client: AbstractClient, method: HTTPMethod, hosts: [String], firstHostIndex: Int, path: String, headers: [String: String]?, jsonBody: JSONObject?, timeout: TimeInterval, completion: CompletionHandler?) {
+    init(client: AbstractClient, method: HTTPMethod, hosts: [String], firstHostIndex: Int, path: String, urlParameters: [String: String]?, headers: [String: String]?, jsonBody: JSONObject?, timeout: TimeInterval, completion: CompletionHandler?) {
         self.client = client
         self.method = method
         self.hosts = client.upOrUnknownHosts(hosts)
@@ -74,6 +77,7 @@ internal class Request: AsyncOperationWithCompletion {
         self.nextHostIndex = firstHostIndex
         assert(firstHostIndex < hosts.count)
         self.path = path
+        self.urlParameters = urlParameters
         // IMPORTANT: Enforce the `User-Agent` header on all requests.
         var patchedHeaders = headers ?? [:]
         patchedHeaders["User-Agent"] = AbstractClient.userAgentHeader
@@ -105,8 +109,12 @@ internal class Request: AsyncOperationWithCompletion {
     
     /// Create a URL request for the specified host index.
     private func createRequest(_ hostIndex: Int) -> URLRequest {
-        let url = URL(string: "https://\(hosts[hostIndex])/\(path)")
-        var request = URLRequest(url: url!)
+        var urlString = "https://\(hosts[hostIndex])/\(path)"
+        if let urlParameters = self.urlParameters {
+            urlString += "?" + AbstractQuery.build(parameters: urlParameters)
+        }
+        let url = URL(string: urlString)! // the URL should always be well-formed, it's a programming error otherwise
+        var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         request.timeoutInterval = nextTimeout
         if headers != nil {

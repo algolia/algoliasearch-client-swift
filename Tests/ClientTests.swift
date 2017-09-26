@@ -508,4 +508,44 @@ class ClientTests: OnlineTestCase {
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
+    
+    /// Test that headers from the request options are used.
+    ///
+    func testRequestOptionsHeaders() {
+        let expectation = self.expectation(description: #function)
+        let requestOptions = RequestOptions()
+        requestOptions.headers["X-Algolia-API-Key"] = "ThisIsNotAValidAPIKey"
+        self.client.listIndexes(requestOptions: requestOptions) { (content, error) in
+            XCTAssertNotNil(error)
+            XCTAssert(error is HTTPError)
+            XCTAssertEqual((error as! HTTPError).statusCode, 403)
+            expectation.fulfill()
+        }
+        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    }
+    
+    /// Test that URL parameters from the request options are used.
+    ///
+    func testRequestOptionsURLParameters() {
+        let expectation1 = self.expectation(description: #function)
+        let expectation2 = self.expectation(description: #function)
+        // Listing indices without options should return at least one item.
+        self.client.listIndexes() { (content, error) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(content)
+            XCTAssert(!(content!["items"] as! [JSONObject]).isEmpty)
+            expectation1.fulfill()
+        }
+        // Listing indices with a `page` URL parameter very high should return no items.
+        let requestOptions = RequestOptions()
+        requestOptions.urlParameters["page"] = "666"
+        self.client.listIndexes(requestOptions: requestOptions) { (content, error) in
+            XCTAssertNil(error)
+            XCTAssertNotNil(content)
+            XCTAssert((content!["items"] as! [JSONObject]).isEmpty)
+            expectation2.fulfill()
+        }
+        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    }
+    
 }

@@ -767,15 +767,15 @@ import Foundation
     
     /// Search using the current request strategy to choose between online and offline (or a combination of both).
     @objc
-    @discardableResult public override func search(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult public override func search(_ query: Query, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         // IMPORTANT: A non-mirrored index must behave exactly as an online index.
         if (!mirrored) {
-            return super.search(query, completionHandler: completionHandler);
+            return super.search(query, requestOptions: requestOptions, completionHandler: completionHandler);
         }
         // A mirrored index launches a mixed offline/online request.
         else {
             let queryCopy = Query(copy: query)
-            let operation = OnlineOfflineSearchOperation(index: self, query: queryCopy, completionHandler: completionHandler)
+            let operation = OnlineOfflineSearchOperation(index: self, query: queryCopy, requestOptions: requestOptions, completionHandler: completionHandler)
             offlineClient.mixedRequestQueue.addOperation(operation)
             return operation
         }
@@ -783,14 +783,16 @@ import Foundation
     
     private class OnlineOfflineSearchOperation: OnlineOfflineOperation {
         let query: Query
+        let requestOptions: RequestOptions?
         
-        init(index: MirroredIndex, query: Query, completionHandler: @escaping CompletionHandler) {
+        init(index: MirroredIndex, query: Query, requestOptions: RequestOptions?, completionHandler: @escaping CompletionHandler) {
             self.query = query
+            self.requestOptions = requestOptions
             super.init(index: index, completionHandler: completionHandler)
         }
         
         override func startOnlineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
-            return index.searchOnline(query, completionHandler: completionHandler)
+            return index.searchOnline(query, requestOptions: requestOptions, completionHandler: completionHandler)
         }
         
         override func startOfflineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
@@ -800,7 +802,7 @@ import Foundation
     
     /// Explicitly search the online API, and not the local mirror.
     @objc
-    @discardableResult public func searchOnline(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult public func searchOnline(_ query: Query, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         return super.search(query, completionHandler: {
             (content, error) in
             completionHandler(MirroredIndex.tagAsRemote(content: content), error)
@@ -832,14 +834,14 @@ import Foundation
     
     /// Run multiple queries using the current request strategy to choose between online and offline.
     @objc
-    @discardableResult override public func multipleQueries(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
+    @discardableResult override public func multipleQueries(_ queries: [Query], strategy: String?, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         // IMPORTANT: A non-mirrored index must behave exactly as an online index.
         if (!mirrored) {
-            return super.multipleQueries(queries, strategy: strategy, completionHandler: completionHandler);
+            return super.multipleQueries(queries, strategy: strategy, requestOptions: requestOptions, completionHandler: completionHandler);
         }
         // A mirrored index launches a mixed offline/online request.
         else {
-            let operation = OnlineOfflineMultipleQueriesOperation(index: self, queries: queries, completionHandler: completionHandler)
+            let operation = OnlineOfflineMultipleQueriesOperation(index: self, queries: queries, requestOptions: requestOptions, completionHandler: completionHandler)
             offlineClient.mixedRequestQueue.addOperation(operation)
             return operation
         }
@@ -847,14 +849,16 @@ import Foundation
     
     private class OnlineOfflineMultipleQueriesOperation: OnlineOfflineOperation {
         let queries: [Query]
+        let requestOptions: RequestOptions?
         
-        init(index: MirroredIndex, queries: [Query], completionHandler: @escaping CompletionHandler) {
+        init(index: MirroredIndex, queries: [Query], requestOptions: RequestOptions?, completionHandler: @escaping CompletionHandler) {
             self.queries = queries
+            self.requestOptions = requestOptions
             super.init(index: index, completionHandler: completionHandler)
         }
         
         override func startOnlineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
-            return index.multipleQueriesOnline(queries, completionHandler: completionHandler)
+            return index.multipleQueriesOnline(queries, requestOptions: requestOptions, completionHandler: completionHandler)
         }
         
         override func startOfflineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
@@ -870,8 +874,8 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @objc
-    @discardableResult public func multipleQueriesOnline(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
-        return super.multipleQueries(queries, strategy: strategy, completionHandler: {
+    @discardableResult public func multipleQueriesOnline(_ queries: [Query], strategy: String?, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        return super.multipleQueries(queries, strategy: strategy, requestOptions: requestOptions, completionHandler: {
             (content, error) in
             completionHandler(MirroredIndex.tagAsRemote(content: content), error)
         })
@@ -884,8 +888,8 @@ import Foundation
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
     ///
-    @discardableResult public func multipleQueriesOnline(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
-        return self.multipleQueriesOnline(queries, strategy: strategy?.rawValue, completionHandler: completionHandler)
+    @discardableResult public func multipleQueriesOnline(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        return self.multipleQueriesOnline(queries, strategy: strategy?.rawValue, requestOptions: requestOptions, completionHandler: completionHandler)
     }
 
     /// Run multiple queries on the local mirror.
@@ -978,11 +982,11 @@ import Foundation
     /// Get an object from this index, optionally restricting the retrieved content.
     /// Same semantics as `Index.getObject(withID:attributesToRetrieve:completionHandler:)`.
     ///
-    @objc @discardableResult override public func getObject(withID objectID: String, attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc @discardableResult override public func getObject(withID objectID: String, attributesToRetrieve: [String]? = nil, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         if (!mirrored) {
-            return super.getObject(withID: objectID, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+            return super.getObject(withID: objectID, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions, completionHandler: completionHandler)
         } else {
-            let operation = OnlineOfflineGetObjectOperation(index: self, objectID: objectID, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+            let operation = OnlineOfflineGetObjectOperation(index: self, objectID: objectID, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions, completionHandler: completionHandler)
             offlineClient.mixedRequestQueue.addOperation(operation)
             return operation
         }
@@ -991,15 +995,17 @@ import Foundation
     private class OnlineOfflineGetObjectOperation: OnlineOfflineOperation {
         let objectID: String
         let attributesToRetrieve: [String]?
+        let requestOptions: RequestOptions?
         
-        init(index: MirroredIndex, objectID: String, attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) {
+        init(index: MirroredIndex, objectID: String, attributesToRetrieve: [String]?, requestOptions: RequestOptions?, completionHandler: @escaping CompletionHandler) {
             self.objectID = objectID
             self.attributesToRetrieve = attributesToRetrieve
+            self.requestOptions = requestOptions
             super.init(index: index, completionHandler: completionHandler)
         }
         
         override func startOnlineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
-            return index.getObjectOnline(withID: objectID, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+            return index.getObjectOnline(withID: objectID, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions, completionHandler: completionHandler)
         }
         
         override func startOfflineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
@@ -1009,11 +1015,16 @@ import Foundation
 
     /// Get an individual object, explicitly targeting the online API, and not the offline mirror.
     @objc
-    @discardableResult public func getObjectOnline(withID objectID: String, attributesToRetrieve: [String]? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
-        return super.getObject(withID: objectID, attributesToRetrieve: attributesToRetrieve, completionHandler: {
+    @discardableResult public func getObjectOnline(withID objectID: String, attributesToRetrieve: [String]? = nil, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        return super.getObject(withID: objectID, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions, completionHandler: {
             (content, error) in
             completionHandler(MirroredIndex.tagAsRemote(content: content), error)
         })
+    }
+    
+    @objc(getObjectOnlineWithID:attributesToRetrieve:completionHandler:)
+    @discardableResult public func z_objc_getObjectOnline(withID objectID: String, attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) -> Operation {
+        return self.getObjectOnline(withID: objectID, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
     }
     
     /// Get an individual object, explicitly targeting the offline mirror, and not the online API.
@@ -1050,11 +1061,11 @@ import Foundation
     /// Get several objects from this index, optionally restricting the retrieved content.
     /// Same semantics as `Index.getObjects(withIDs:attributesToRetrieve:completionHandler:)`.
     ///
-    @objc @discardableResult override public func getObjects(withIDs objectIDs: [String], attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc @discardableResult override public func getObjects(withIDs objectIDs: [String], attributesToRetrieve: [String]? = nil, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         if (!mirrored) {
-            return super.getObjects(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+            return super.getObjects(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions, completionHandler: completionHandler)
         } else {
-            let operation = OnlineOfflineGetObjectsOperation(index: self, objectIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+            let operation = OnlineOfflineGetObjectsOperation(index: self, objectIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions, completionHandler: completionHandler)
             offlineClient.mixedRequestQueue.addOperation(operation)
             return operation
         }
@@ -1063,15 +1074,17 @@ import Foundation
     private class OnlineOfflineGetObjectsOperation: OnlineOfflineOperation {
         let objectIDs: [String]
         let attributesToRetrieve: [String]?
+        let requestOptions: RequestOptions?
         
-        init(index: MirroredIndex, objectIDs: [String], attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) {
+        init(index: MirroredIndex, objectIDs: [String], attributesToRetrieve: [String]?, requestOptions: RequestOptions?, completionHandler: @escaping CompletionHandler) {
             self.objectIDs = objectIDs
             self.attributesToRetrieve = attributesToRetrieve
+            self.requestOptions = requestOptions
             super.init(index: index, completionHandler: completionHandler)
         }
         
         override func startOnlineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
-            return index.getObjectsOnline(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
+            return index.getObjectsOnline(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions, completionHandler: completionHandler)
         }
         
         override func startOfflineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
@@ -1081,11 +1094,16 @@ import Foundation
     
     /// Get individual objects, explicitly targeting the online API, and not the offline mirror.
     @objc
-    @discardableResult public func getObjectsOnline(withIDs objectIDs: [String], attributesToRetrieve: [String]? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
-        return super.getObjects(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: {
+    @discardableResult public func getObjectsOnline(withIDs objectIDs: [String], attributesToRetrieve: [String]? = nil, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        return super.getObjects(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions, completionHandler: {
             (content, error) in
             completionHandler(MirroredIndex.tagAsRemote(content: content), error)
         })
+    }
+    
+    @objc(getObjectsOnlineWithIDs:attributesToRetrieve:completionHandler:)
+    @discardableResult public func z_objc_getObjectsOnline(withIDs objectIDs: [String], attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) -> Operation {
+        return self.getObjectsOnline(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: completionHandler)
     }
     
     /// Get individual objects, explicitly targeting the offline mirror, and not the online API.
@@ -1118,15 +1136,15 @@ import Foundation
     /// Search for facet values, using the current request strategy to choose between online and offline.
     /// Same parameters as `Index.searchForFacetValues(...)`.
     ///
-    @objc(searchForFacetValuesOf:matching:query:completionHandler:)
-    @discardableResult override public func searchForFacetValues(of facetName: String, matching text: String, query: Query? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+    @objc(searchForFacetValuesOf:matching:query:requestOptions:completionHandler:)
+    @discardableResult override public func searchForFacetValues(of facetName: String, matching text: String, query: Query? = nil, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         // IMPORTANT: A non-mirrored index must behave exactly as an online index.
         if (!mirrored) {
-            return super.searchForFacetValues(of: facetName, matching: text, query: query, completionHandler: completionHandler)
+            return super.searchForFacetValues(of: facetName, matching: text, query: query, requestOptions: requestOptions, completionHandler: completionHandler)
         }
         // A mirrored index launches a mixed offline/online request.
         else {
-            let operation = MixedSearchFacetOperation(index: self, facetName: facetName, facetQuery: text, query: query, completionHandler: completionHandler)
+            let operation = MixedSearchFacetOperation(index: self, facetName: facetName, facetQuery: text, query: query, requestOptions: requestOptions, completionHandler: completionHandler)
             offlineClient.mixedRequestQueue.addOperation(operation)
             return operation
         }
@@ -1136,16 +1154,18 @@ import Foundation
         let facetName: String
         let facetQuery: String
         let query: Query?
+        let requestOptions: RequestOptions?
         
-        init(index: MirroredIndex, facetName: String, facetQuery: String, query: Query?, completionHandler: @escaping CompletionHandler) {
+        init(index: MirroredIndex, facetName: String, facetQuery: String, query: Query?, requestOptions: RequestOptions?, completionHandler: @escaping CompletionHandler) {
             self.facetName = facetName
             self.facetQuery = facetQuery
             self.query = query
+            self.requestOptions = requestOptions
             super.init(index: index, completionHandler: completionHandler)
         }
         
         override func startOnlineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
-            return index.searchForFacetValuesOnline(of: facetName, matching: facetQuery, query: query, completionHandler: completionHandler)
+            return index.searchForFacetValuesOnline(of: facetName, matching: facetQuery, query: query, requestOptions: requestOptions, completionHandler: completionHandler)
         }
         
         override func startOfflineRequest(completionHandler: @escaping CompletionHandler) -> Operation {
@@ -1156,9 +1176,9 @@ import Foundation
     /// Search for facet values on the online API, not the local mirror.
     /// This method is an alias of `Index.searchForFacetValues(...)`.
     ///
-    @objc(searchForFacetValuesOnlineOf:matching:query:completionHandler:)
-    @discardableResult public func searchForFacetValuesOnline(of facetName: String, matching text: String, query: Query? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
-        return super.searchForFacetValues(of: facetName, matching: text, query: query, completionHandler: {
+    @objc(searchForFacetValuesOnlineOf:matching:query:requestOptions:completionHandler:)
+    @discardableResult public func searchForFacetValuesOnline(of facetName: String, matching text: String, query: Query? = nil, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
+        return super.searchForFacetValues(of: facetName, matching: text, query: query, requestOptions: requestOptions, completionHandler: {
             (content, error) in
             completionHandler(MirroredIndex.tagAsRemote(content: content), error)
         })
