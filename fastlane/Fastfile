@@ -54,6 +54,7 @@ end
 desc "Available options: type:major|minor|patch"
 lane :deploy do |options|
 	prepare_git('master')
+	pod_lib_lint(verbose: true)
 	increment_version_number(
   		bump_type: options[:type]
 	)

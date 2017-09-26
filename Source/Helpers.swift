@@ -69,12 +69,12 @@ extension String {
 
 /// Log the initialization of an object.
 func logInit(_ object: AnyObject) {
-    print("<INIT> \(Unmanaged.passUnretained(object).toOpaque()) (\(type(of: object))) \(object.description)")
+    print("<INIT> \(Unmanaged.passUnretained(object).toOpaque()) (\(type(of: object))) \(String(describing: object))")
 }
 
 /// Log the termination ("de-initialization" in Swift terms) of an object.
 func logTerm(_ object: AnyObject) {
-    print("<TERM> \(Unmanaged.passUnretained(object).toOpaque()) (\(type(of: object))) \(object.description)")
+    print("<TERM> \(Unmanaged.passUnretained(object).toOpaque()) (\(type(of: object))) \(String(describing: object))")
 }
 
 // MARK: - Collection shuffling
