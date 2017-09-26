@@ -80,6 +80,7 @@ lane :deploy do |options|
 	pod_push(
 		path: "AlgoliaSearch-Client-Swift.podspec"
 	)
+
 	pod_push(
 		path: "AlgoliaSearch-Offline-Swift.podspec"
 	)
