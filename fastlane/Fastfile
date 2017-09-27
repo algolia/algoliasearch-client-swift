@@ -87,6 +87,14 @@ lane :deploy do |options|
 	)
 end
 
+desc "Upgrade Swift Version in .swift-version"
+# Force cocoapods to compile with 'swift-version'
+lane :upgrade_swift do |options|
+    version = options[:version]
+    sh("echo #{version} > ../.swift-version")
+    puts "\e[31m\e[5mDon't forget to update the swift version in the dependecies: .podspecs & cartfile'\e[0m"
+end
+
 def prepare_git(branch)
 	ensure_git_status_clean
 	ensure_git_branch(branch:branch)
