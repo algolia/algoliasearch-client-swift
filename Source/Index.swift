@@ -620,6 +620,28 @@ import Foundation
             }
         }
     }
+    
+    /// Delete all objects matching a query.
+    ///
+    /// - parameter query: The query that objects to delete must match.
+    /// - parameter requestOptions: Request-specific options.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    /// + Warning: Deprecated, use deleteBy instead.
+    ///
+    @objc
+    @discardableResult public func deleteBy(_ query: Query, requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
+        let path = "1/indexes/\(urlEncodedName)/deleteByQuery"
+        let body = [
+            "params": query.build()
+        ]
+        return client.performHTTPQuery(path: path, method: .POST, body: body, hostnames: client.writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
+    }
+    
+    @objc(deleteBy:completionHandler:)
+    @discardableResult public func z_objc_deleteBy(_ query: Query, completionHandler: CompletionHandler?) -> Operation {
+        return self.deleteBy(query, completionHandler: completionHandler)
+    }
 
     /// Delete all objects matching a query (helper).
     ///
@@ -627,6 +649,7 @@ import Foundation
     /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
+    /// + Warning: Deprecated, use deleteBy instead.
     ///
     @objc
     @discardableResult public func deleteByQuery(_ query: Query, requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
