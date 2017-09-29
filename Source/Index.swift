@@ -635,7 +635,7 @@ import Foundation
         let body = [
             "params": query.build()
         ]
-        return client.performHTTPQuery(path: path, method: .POST, body: body, hostnames: client.readHosts, requestOptions: requestOptions, completionHandler: completionHandler)
+        return client.performHTTPQuery(path: path, method: .POST, body: body, hostnames: client.writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
     }
     
     @objc(deleteBy:completionHandler:)
