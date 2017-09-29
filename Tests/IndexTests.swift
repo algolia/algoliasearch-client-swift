@@ -864,23 +864,31 @@ class IndexTests: OnlineTestCase {
                         expectation.fulfill()
                     } else {
                         // Delete by query.
-                        let query = Query()
+                        let query = Query(query: "")
                         query.numericFilters = ["dummy < 1500"]
                         self.index.deleteBy(query, completionHandler: { (content, error) -> Void in
                             if error != nil {
                                 XCTFail(error!.localizedDescription)
                                 expectation.fulfill()
                             } else {
-                                // Check that the deleted objects no longer exist.
-                                self.index.browse(query: query, completionHandler: { (content, error) in
+                                self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
                                     if error != nil {
                                         XCTFail(error!.localizedDescription)
+                                        expectation.fulfill()
                                     } else {
-                                        XCTAssertEqual((content!["hits"] as? [Any])?.count, 0)
-                                        XCTAssertNil(content!["cursor"])
+                                        // Check that the deleted objects no longer exist.
+                                        self.index.browse(query: query, completionHandler: { (content, error) in
+                                            if error != nil {
+                                                XCTFail(error!.localizedDescription)
+                                            } else {
+                                                XCTAssertEqual((content!["hits"] as? [Any])?.count, 0)
+                                                XCTAssertNil(content!["cursor"])
+                                            }
+                                            expectation.fulfill()
+                                        })
                                     }
-                                    expectation.fulfill()
                                 })
+                                
                             }
                         })
                     }
