@@ -89,4 +89,15 @@ import Foundation
         let request = ["params": params.build()]
         return performHTTPQuery(path: "1/places/query", method: .POST, body: request, hostnames: self.readHosts, isSearchQuery: true, completionHandler: completionHandler)
     }
+    
+    /// Get a place by its objectID.
+    ///
+    /// - parameter objectID: Identifier of the object to retrieve.
+    /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
+    /// - returns: A cancellable operation.
+    ///
+    @objc
+    @discardableResult public func getObject(withID objectID: String, completionHandler: @escaping CompletionHandler) -> Operation {
+        return performHTTPQuery(path: "1/places/\(objectID.urlEncodedPathComponent())", method: .GET, body: nil, hostnames: self.readHosts, completionHandler: completionHandler)
+    }
 }
