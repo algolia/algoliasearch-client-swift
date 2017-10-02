@@ -57,4 +57,15 @@ class PlacesClientTests: XCTestCase {
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
+    
+    func testGetObject() {
+        let expectation = self.expectation(description: #function)
+        
+        places.getObject(withID: "171457082_7444") { (content, error) in
+            XCTAssertEqual("171457082_7444", content!["objectID"] as! String)
+            expectation.fulfill()
+        }
+        
+        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    }
 }
