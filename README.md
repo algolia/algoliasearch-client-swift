@@ -70,7 +70,7 @@ and is usable from both **Swift** and **Objective-C**.
 ## Install
 
 1. Add a dependency on AlgoliaSearch-Client-Swift:
-    - CocoaPods: add `pod 'AlgoliaSearch-Client-Swift', '~> 4.0'` to your `Podfile`.
+    - CocoaPods: add `pod 'AlgoliaSearch-Client-Swift', '~> 5.0'` to your `Podfile`.
     - Carthage: add `github "algolia/algoliasearch-client-swift"` to your `Cartfile`.
 2. Add `import AlgoliaSearch` to your source files.
 

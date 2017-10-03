@@ -1,6 +1,13 @@
 Change Log
 ==========
 
+# 5.0.3 (2017-10-03)
+
+### New features
+
+- Index: Add `deleteBy` method and deprecate `deleteByQuery` method
+- PlacesClient: Add `getObject(withID:completionHandler)` method
+
 # 5.0.2 (2017-10-01)
 
 ### New features
