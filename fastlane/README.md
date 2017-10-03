@@ -34,6 +34,11 @@ xcode-select --install
 fastlane deploy
 ```
 Available options: type:major|minor|patch
+### upgrade_swift
+```
+fastlane upgrade_swift
+```
+Upgrade Swift Version in .swift-version
 
 ----
 
