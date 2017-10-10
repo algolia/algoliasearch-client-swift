@@ -530,10 +530,11 @@ import Foundation
                         self.callCompletion(content: content, error: nil)
                         self.finish()
                     } else {
-                        // The delay between polls increases quadratically from the base delay up to the max delay.
-                        let delay = min(WaitOperation.BASE_DELAY * Double(self.iteration * self.iteration), WaitOperation.MAX_DELAY)
-                        Thread.sleep(forTimeInterval: delay)
-                        self.startNext()
+                      // The delay between polls increases quadratically from the base delay up to the max delay.
+                      let delay = min(WaitOperation.BASE_DELAY * Double(self.iteration * self.iteration), WaitOperation.MAX_DELAY)
+                      DispatchQueue.global().asyncAfter(deadline: .now() + delay, execute: {
+                          self.startNext()
+                      })
                     }
                 } else {
                     self.callCompletion(content: content, error: error)
