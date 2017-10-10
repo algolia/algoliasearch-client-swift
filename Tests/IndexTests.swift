@@ -844,6 +844,61 @@ class IndexTests: OnlineTestCase {
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
     
+    func testDeleteBy() {
+        let expectation = self.expectation(description: #function)
+        var objects: [JSONObject] = []
+        for i in 0..<3000 {
+            objects.append(["dummy": i])
+        }
+        
+        // Add a batch of objects.
+        index.addObjects(objects, completionHandler: { (content, error) -> Void in
+            if error != nil {
+                XCTFail(error!.localizedDescription)
+                expectation.fulfill()
+            } else {
+                // Wait for the objects to be indexed.
+                self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
+                    if error != nil {
+                        XCTFail(error!.localizedDescription)
+                        expectation.fulfill()
+                    } else {
+                        // Delete by query.
+                        let query = Query(query: "")
+                        query.numericFilters = ["dummy < 1500"]
+                        self.index.deleteBy(query, completionHandler: { (content, error) -> Void in
+                            if error != nil {
+                                XCTFail(error!.localizedDescription)
+                                expectation.fulfill()
+                            } else {
+                                self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
+                                    if error != nil {
+                                        XCTFail(error!.localizedDescription)
+                                        expectation.fulfill()
+                                    } else {
+                                        // Check that the deleted objects no longer exist.
+                                        self.index.browse(query: query, completionHandler: { (content, error) in
+                                            if error != nil {
+                                                XCTFail(error!.localizedDescription)
+                                            } else {
+                                                XCTAssertEqual((content!["hits"] as? [Any])?.count, 0)
+                                                XCTAssertNil(content!["cursor"])
+                                            }
+                                            expectation.fulfill()
+                                        })
+                                    }
+                                })
+                                
+                            }
+                        })
+                    }
+                })
+            }
+        })
+        
+        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    }
+    
     func testSearchDisjunctiveFaceting() {
         let expectation = self.expectation(description: "testAddObjects")
         let objects: [JSONObject] = [
