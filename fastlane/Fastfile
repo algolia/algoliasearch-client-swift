@@ -1,0 +1,132 @@
+# More documentation about how to customize your build
+# can be found here:
+# https://docs.fastlane.tools
+fastlane_version "1.109.0"
+
+before_all do
+	
+end
+
+platform :ios do
+	lane :test do
+		scan(
+			scheme: "AlgoliaSearch iOS",
+			configuration: "Release",
+			clean: true,
+			xcargs: prepare_api_keys
+		)
+	end
+end
+
+platform :mac do
+	lane :test do
+		scan(
+			scheme: "AlgoliaSearch OSX",
+			configuration: "Release",
+			clean: true,
+			xcargs: prepare_api_keys
+		)
+	end
+end
+
+platform :tv do
+	lane :test do
+		scan(
+			scheme: "AlgoliaSearch tvOS",
+			configuration: "Release",
+			clean: true,
+			xcargs: prepare_api_keys
+		)
+	end
+end
+
+platform :watch do
+	lane :test do
+		scan(
+			scheme: "AlgoliaSearch watchOS",
+			configuration: "Release",
+			clean: true,
+			xcargs: prepare_api_keys
+		)
+	end
+end
+
+desc "Available options: type:major|minor|patch"
+lane :deploy do |options|
+
+	branch = options[:branch] || "master"
+	prepare_git(branch)
+	pod_lib_lint(verbose: true)
+	increment_version_number(
+  		bump_type: options[:type]
+	)
+	new_build_number = version_bump_podspec(
+		bump_type: options[:type],
+		path: "AlgoliaSearch-Client-Swift.podspec"
+	)
+
+	version_bump_podspec(
+		bump_type: options[:type],
+		path: "AlgoliaSearch-Offline-Swift.podspec"
+	)
+
+	#puts changelog_from_git_commits
+	git_commit(
+		path: ["AlgoliaSearch-Client-Swift.podspec", "AlgoliaSearch-Offline-Swift.podspec", "Source/Info.plist" ,"Tests/Info.plist"], 
+		message: "Version #{new_build_number}"
+	)
+	add_git_tag(
+		build_number: new_build_number,
+		tag: new_build_number
+	)
+	push_to_git_remote(remote: "origin")
+	pod_push(
+		path: "AlgoliaSearch-Client-Swift.podspec"
+	)
+
+	pod_push(
+		path: "AlgoliaSearch-Offline-Swift.podspec"
+	)
+end
+
+desc "Upgrade Swift Version in .swift-version"
+# Force cocoapods to compile with 'swift-version'
+lane :upgrade_swift do |options|
+    version = options[:version]
+    sh("echo #{version} > ../.swift-version")
+    puts "\e[31m\e[5mDon't forget to update the swift version in the dependecies: .podspecs & cartfile'\e[0m"
+end
+
+def prepare_git(branch)
+	ensure_git_status_clean
+	ensure_git_branch(branch:branch)
+	git_pull
+end
+
+def prepare_api_keys()
+	xcargs = []  
+	api_key = ENV["ALGOLIA_API_KEY"]
+	if api_key
+		xcargs << %Q[ALGOLIA_API_KEY="#{api_key}"]
+	end
+	
+	api_id = ENV["ALGOLIA_APPLICATION_ID"]
+	if api_id
+		xcargs << %Q[ALGOLIA_APPLICATION_ID="#{api_id}"]
+	end
+
+	places_api_id = ENV["PLACES_APPLICATION_ID"]
+	if places_api_id
+		xcargs << %Q[PLACES_APPLICATION_ID="#{places_api_id}"]
+	end
+	
+	places_api_key = ENV["PLACES_API_KEY"]
+	if places_api_key
+		xcargs << %Q[PLACES_API_KEY="#{places_api_key}"]
+	end
+	return xcargs.join(" ")
+end
+
+after_all do
+  #slack
+end
