@@ -72,7 +72,7 @@ lane :deploy do |options|
 
 	#puts changelog_from_git_commits
 	git_commit(
-		path: ["AlgoliaSearch-Client-Swift.podspec", "AlgoliaSearch-Offline-Swift.podspec", "Source/Info.plist" ,"Tests/Info.plist"], 
+		path: ["AlgoliaSearch-Client-Swift.podspec", "AlgoliaSearch-Offline-Swift.podspec", "Sources/Info.plist" ,"Tests/Info.plist"], 
 		message: "Version #{new_build_number}"
 	)
 	add_git_tag(
