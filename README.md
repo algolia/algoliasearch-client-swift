@@ -5,6 +5,7 @@ The **Algolia Search API Client for Swift** lets you easily use the [Algolia Sea
 
 [![Build Status](https://travis-ci.org/algolia/algoliasearch-client-swift.svg?branch=master)](https://travis-ci.org/algolia/algoliasearch-client-swift)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![SwiftPM Compatible](https://img.shields.io/badge/SwiftPM-Compatible-brightgreen.svg)](https://swift.org/package-manager/)
 [![CocoaPods](https://img.shields.io/cocoapods/v/AlgoliaSearch-Client-Swift.svg)]()
 [![CocoaPods](https://img.shields.io/cocoapods/l/AlgoliaSearch-Client-Swift.svg)]()
 [![](https://img.shields.io/badge/OS%20X-10.9%2B-lightgrey.svg)]()
@@ -72,6 +73,7 @@ and is usable from both **Swift** and **Objective-C**.
 1. Add a dependency on AlgoliaSearch-Client-Swift:
     - CocoaPods: add `pod 'AlgoliaSearch-Client-Swift', '~> 5.0'` to your `Podfile`.
     - Carthage: add `github "algolia/algoliasearch-client-swift"` to your `Cartfile`.
+	- SwiftPM: add `.package(url:"https://github.com/algolia/algoliasearch-client-swift", from: "5.0.0")` to your package dependencies array in `Package.swift`, then add `AlgoliaSearch` to your target dependencies.
 2. Add `import AlgoliaSearch` to your source files.
 
 ## Quick Start
