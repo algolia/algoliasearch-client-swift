@@ -20,8 +20,7 @@ Pod::Spec.new do |s|
         'OTHER_SWIFT_FLAGS' => '-DALGOLIA_SDK'
     }
     s.source_files = [
-        'Source/*.swift',
-        'Source/Helpers/*.swift',
-        'Source/Offline/*.swift'
+        'Sources/AlgoliaSearch-Client/**/*.{swift}',
+        'Sources/AlgoliaSearch-Offline/**/*.{swift}'
     ]
 end
