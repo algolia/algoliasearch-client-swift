@@ -128,6 +128,9 @@
               <li class="nav-group-task">
                 <a href="../Classes/AbstractQuery.html">AbstractQuery</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RequestOptions.html">RequestOptions</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -142,13 +145,13 @@
             <a href="../Other Typealiases.html">Other Typealiases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Other Typealiases.html#/s:13AlgoliaSearch21BrowseIteratorHandler">BrowseIteratorHandler</a>
+                <a href="../Other Typealiases.html#/s:13AlgoliaSearch21BrowseIteratorHandlera">BrowseIteratorHandler</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a>
+                <a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a>
+                <a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObjecta">JSONObject</a>
               </li>
             </ul>
           </li>
@@ -165,10 +168,9 @@
                 </div>
               </div>
             <p>A proxy to an Algolia index.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    You cannot construct this class directly. Please use <code><a href="../Classes/Client.html#/s:FC13AlgoliaSearch6Client5indexFT8withNameSS_CS_5Index">Client.index(withName:)</a></code> to obtain an instance.
+    You cannot construct this class directly. Please use <code><a href="../Classes/Client.html#/c:@M@AlgoliaSearch@objc(cs)Client(im)indexWithName:">Client.index(withName:)</a></code> to obtain an instance.
 
 </div>
 
@@ -186,9 +188,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC13AlgoliaSearch5Index4nameSS"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(py)name"></a>
                     <a name="//apple_ref/swift/Property/name" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC13AlgoliaSearch5Index4nameSS">name</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(py)name">name</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -213,9 +215,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC13AlgoliaSearch5Index6clientCS_6Client"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(py)client"></a>
                     <a name="//apple_ref/swift/Property/client" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC13AlgoliaSearch5Index6clientCS_6Client">client</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(py)client">client</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -251,9 +253,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index9addObjectFTGVs10DictionarySSP__17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/addObject(_:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index9addObjectFTGVs10DictionarySSP__17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">addObject(_:completionHandler:)</a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)addObject:requestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/addObject(_:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)addObject:requestOptions:completionHandler:">addObject(_:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -268,47 +270,13 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObject</span><span class="p">(</span><span class="n">_</span> <span class="nv">object</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a></span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObject</span><span class="p">(</span><span class="n">_</span> <span class="nv">object</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObjecta">JSONObject</a></span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>object</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The object to add.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -316,9 +284,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index9addObjectFTGVs10DictionarySSP__6withIDSS17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/addObject(_:withID:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index9addObjectFTGVs10DictionarySSP__6withIDSS17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">addObject(_:withID:completionHandler:)</a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)addObject:withID:requestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/addObject(_:withID:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)addObject:withID:requestOptions:completionHandler:">addObject(_:withID:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -334,60 +302,13 @@ If an object already exists with the same object ID, the existing object will be
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObject</span><span class="p">(</span><span class="n">_</span> <span class="nv">object</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a></span><span class="p">,</span> <span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObject</span><span class="p">(</span><span class="n">_</span> <span class="nv">object</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObjecta">JSONObject</a></span><span class="p">,</span> <span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>object</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The object to add.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>objectID</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Identifier that you want to assign this object.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -395,9 +316,9 @@ If an object already exists with the same object ID, the existing object will be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index10addObjectsFTGSaGVs10DictionarySSP___17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/addObjects(_:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index10addObjectsFTGSaGVs10DictionarySSP___17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">addObjects(_:completionHandler:)</a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)addObjects:requestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/addObjects(_:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)addObjects:requestOptions:completionHandler:">addObjects(_:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -412,47 +333,13 @@ If an object already exists with the same object ID, the existing object will be
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObjects</span><span class="p">(</span><span class="n">_</span> <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a></span><span class="p">],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObjects</span><span class="p">(</span><span class="n">_</span> <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObjecta">JSONObject</a></span><span class="p">],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>objects</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Objects to add.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -460,9 +347,9 @@ If an object already exists with the same object ID, the existing object will be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index12deleteObjectFT6withIDSS17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/deleteObject(withID:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index12deleteObjectFT6withIDSS17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation">deleteObject(withID:completionHandler:)</a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)deleteObjectWithID:requestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/deleteObject(withID:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)deleteObjectWithID:requestOptions:completionHandler:">deleteObject(withID:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -477,47 +364,13 @@ If an object already exists with the same object ID, the existing object will be
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteObject</span><span class="p">(</span><span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteObject</span><span class="p">(</span><span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>objectID</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Identifier of object to delete.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -525,9 +378,9 @@ If an object already exists with the same object ID, the existing object will be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index13deleteObjectsFT7withIDsGSaSS_17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/deleteObjects(withIDs:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index13deleteObjectsFT7withIDsGSaSS_17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation">deleteObjects(withIDs:completionHandler:)</a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)deleteObjectsWithIDs:requestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/deleteObjects(withIDs:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)deleteObjectsWithIDs:requestOptions:completionHandler:">deleteObjects(withIDs:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -542,47 +395,13 @@ If an object already exists with the same object ID, the existing object will be
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteObjects</span><span class="p">(</span><span class="n">withIDs</span> <span class="nv">objectIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteObjects</span><span class="p">(</span><span class="n">withIDs</span> <span class="nv">objectIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>objectIDs</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Identifiers of objects to delete.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -590,74 +409,9 @@ If an object already exists with the same object ID, the existing object will be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index9getObjectFT6withIDSS17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/getObject(withID:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index9getObjectFT6withIDSS17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObject(withID:completionHandler:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Get an object from this index.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObject</span><span class="p">(</span><span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>objectID</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Identifier of the object to retrieve.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>A cancellable operation.</p>
-
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC13AlgoliaSearch5Index9getObjectFT6withIDSS20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/getObject(withID:attributesToRetrieve:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index9getObjectFT6withIDSS20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObject(withID:attributesToRetrieve:completionHandler:)</a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)getObjectWithID:attributesToRetrieve:requestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/getObject(withID:attributesToRetrieve:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)getObjectWithID:attributesToRetrieve:requestOptions:completionHandler:">getObject(withID:attributesToRetrieve:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -672,60 +426,13 @@ If an object already exists with the same object ID, the existing object will be
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObject</span><span class="p">(</span><span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">attributesToRetrieve</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObject</span><span class="p">(</span><span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">attributesToRetrieve</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>objectID</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Identifier of the object to retrieve.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>attributesToRetrieve</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>List of attributes to retrieve. If <code>nil</code>, all attributes are retrieved. If one of the elements is <code>&quot;*&quot;</code>, all attributes are retrieved.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -733,74 +440,9 @@ If an object already exists with the same object ID, the existing object will be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index10getObjectsFT7withIDsGSaSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/getObjects(withIDs:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index10getObjectsFT7withIDsGSaSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObjects(withIDs:completionHandler:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Get several objects from this index.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObjects</span><span class="p">(</span><span class="n">withIDs</span> <span class="nv">objectIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>objectIDs</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Identifiers of objects to retrieve.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>A cancellable operation.</p>
-
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC13AlgoliaSearch5Index10getObjectsFT7withIDsGSaSS_20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/getObjects(withIDs:attributesToRetrieve:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index10getObjectsFT7withIDsGSaSS_20attributesToRetrieveGSqGSaSS__17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getObjects(withIDs:attributesToRetrieve:completionHandler:)</a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)getObjectsWithIDs:attributesToRetrieve:requestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/getObjects(withIDs:attributesToRetrieve:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)getObjectsWithIDs:attributesToRetrieve:requestOptions:completionHandler:">getObjects(withIDs:attributesToRetrieve:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -815,60 +457,13 @@ If an object already exists with the same object ID, the existing object will be
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObjects</span><span class="p">(</span><span class="n">withIDs</span> <span class="nv">objectIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">attributesToRetrieve</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObjects</span><span class="p">(</span><span class="n">withIDs</span> <span class="nv">objectIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">attributesToRetrieve</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>objectIDs</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Identifiers of objects to retrieve.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>attributesToRetrieve</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>List of attributes to retrieve. If <code>nil</code>, all attributes are retrieved. If one of the elements is <code>&quot;*&quot;</code>, all attributes are retrieved.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -876,94 +471,9 @@ If an object already exists with the same object ID, the existing object will be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index19partialUpdateObjectFTGVs10DictionarySSP__6withIDSS17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/partialUpdateObject(_:withID:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index19partialUpdateObjectFTGVs10DictionarySSP__6withIDSS17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">partialUpdateObject(_:withID:completionHandler:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Partially update an object.</p>
-
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    <p>If the object does not exist, it will be created. You can avoid automatic creation of the object by
-passing <code>false</code> to <code>createIfNotExists</code> in <code><a href="../Classes/Index.html#/s:FC13AlgoliaSearch5Index19partialUpdateObjectFTGVs10DictionarySSP__6withIDSS17createIfNotExistsSb17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">partialUpdateObject(_:withID:createIfNotExists:completionHandler:)</a></code>.</p>
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">partialUpdateObject</span><span class="p">(</span><span class="n">_</span> <span class="nv">partialObject</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a></span><span class="p">,</span> <span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>partialObject</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>New values/operations for the object.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>objectID</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Identifier of object to be updated.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>A cancellable operation.</p>
-
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC13AlgoliaSearch5Index19partialUpdateObjectFTGVs10DictionarySSP__6withIDSS17createIfNotExistsSb17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/partialUpdateObject(_:withID:createIfNotExists:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index19partialUpdateObjectFTGVs10DictionarySSP__6withIDSS17createIfNotExistsSb17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">partialUpdateObject(_:withID:createIfNotExists:completionHandler:)</a>
+                    <a name="/s:13AlgoliaSearch5IndexC19partialUpdateObjectSo9OperationCs10DictionaryVySSypG_SS6withIDSbSg17createIfNotExistsAA14RequestOptionsCSg07requestP0yAISg_s5Error_pSgtcSg17completionHandlertF"></a>
+                    <a name="//apple_ref/swift/Method/partialUpdateObject(_:withID:createIfNotExists:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:13AlgoliaSearch5IndexC19partialUpdateObjectSo9OperationCs10DictionaryVySSypG_SS6withIDSbSg17createIfNotExistsAA14RequestOptionsCSg07requestP0yAISg_s5Error_pSgtcSg17completionHandlertF">partialUpdateObject(_:withID:createIfNotExists:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -978,73 +488,13 @@ passing <code>false</code> to <code>createIfNotExists</code> in <code><a href=".
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">partialUpdateObject</span><span class="p">(</span><span class="n">_</span> <span class="nv">partialObject</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a></span><span class="p">,</span> <span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">createIfNotExists</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">partialUpdateObject</span><span class="p">(</span><span class="n">_</span> <span class="nv">partialObject</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObjecta">JSONObject</a></span><span class="p">,</span> <span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">createIfNotExists</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>partialObject</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>New values/operations for the object.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>objectID</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Identifier of object to be updated.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>createIfNotExists</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Whether an update on a nonexistent object ID should create the object.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -1052,81 +502,9 @@ passing <code>false</code> to <code>createIfNotExists</code> in <code><a href=".
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index20partialUpdateObjectsFTGSaGVs10DictionarySSP___17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/partialUpdateObjects(_:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index20partialUpdateObjectsFTGSaGVs10DictionarySSP___17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">partialUpdateObjects(_:completionHandler:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Partially update several objects.</p>
-
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    <p>If an object does not exist, it will be created. You can avoid automatic creation of objects by
-passing <code>false</code> to <code>createIfNotExists</code> in <code><a href="../Classes/Index.html#/s:FC13AlgoliaSearch5Index20partialUpdateObjectsFTGSaGVs10DictionarySSP___17createIfNotExistsSb17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">partialUpdateObjects(_:createIfNotExists:completionHandler:)</a></code>.</p>
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">partialUpdateObjects</span><span class="p">(</span><span class="n">_</span> <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a></span><span class="p">],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>objects</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>New values/operations for the objects. Each object must contain an <code>objectID</code> attribute.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>A cancellable operation.</p>
-
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC13AlgoliaSearch5Index20partialUpdateObjectsFTGSaGVs10DictionarySSP___17createIfNotExistsSb17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/partialUpdateObjects(_:createIfNotExists:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index20partialUpdateObjectsFTGSaGVs10DictionarySSP___17createIfNotExistsSb17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">partialUpdateObjects(_:createIfNotExists:completionHandler:)</a>
+                    <a name="/s:13AlgoliaSearch5IndexC20partialUpdateObjectsSo9OperationCSays10DictionaryVySSypGG_SbSg17createIfNotExistsAA14RequestOptionsCSg07requestN0yAISg_s5Error_pSgtcSg17completionHandlertF"></a>
+                    <a name="//apple_ref/swift/Method/partialUpdateObjects(_:createIfNotExists:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:13AlgoliaSearch5IndexC20partialUpdateObjectsSo9OperationCSays10DictionaryVySSypGG_SbSg17createIfNotExistsAA14RequestOptionsCSg07requestN0yAISg_s5Error_pSgtcSg17completionHandlertF">partialUpdateObjects(_:createIfNotExists:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1141,60 +519,13 @@ passing <code>false</code> to <code>createIfNotExists</code> in <code><a href=".
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">partialUpdateObjects</span><span class="p">(</span><span class="n">_</span> <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a></span><span class="p">],</span> <span class="nv">createIfNotExists</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">partialUpdateObjects</span><span class="p">(</span><span class="n">_</span> <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObjecta">JSONObject</a></span><span class="p">],</span> <span class="nv">createIfNotExists</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>objects</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>New values/operations for the objects. Each object must contain an <code>objectID</code> attribute.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>createIfNotExists</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Whether an update on a nonexistent object ID should create the object.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -1202,9 +533,9 @@ passing <code>false</code> to <code>createIfNotExists</code> in <code><a href=".
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index10saveObjectFTGVs10DictionarySSP__17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/saveObject(_:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index10saveObjectFTGVs10DictionarySSP__17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">saveObject(_:completionHandler:)</a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)saveObject:requestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/saveObject(_:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)saveObject:requestOptions:completionHandler:">saveObject(_:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1219,47 +550,13 @@ passing <code>false</code> to <code>createIfNotExists</code> in <code><a href=".
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">saveObject</span><span class="p">(</span><span class="n">_</span> <span class="nv">object</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a></span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">saveObject</span><span class="p">(</span><span class="n">_</span> <span class="nv">object</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObjecta">JSONObject</a></span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>object</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>New version of the object to update. Must contain an <code>objectID</code> attribute.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -1267,9 +564,9 @@ passing <code>false</code> to <code>createIfNotExists</code> in <code><a href=".
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index11saveObjectsFTGSaGVs10DictionarySSP___17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/saveObjects(_:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index11saveObjectsFTGSaGVs10DictionarySSP___17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">saveObjects(_:completionHandler:)</a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)saveObjects:requestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/saveObjects(_:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)saveObjects:requestOptions:completionHandler:">saveObjects(_:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1284,47 +581,13 @@ passing <code>false</code> to <code>createIfNotExists</code> in <code><a href=".
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">saveObjects</span><span class="p">(</span><span class="n">_</span> <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a></span><span class="p">],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">saveObjects</span><span class="p">(</span><span class="n">_</span> <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObjecta">JSONObject</a></span><span class="p">],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>objects</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>New versions of the objects to update. Each one must contain an <code>objectID</code> attribute.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -1332,9 +595,9 @@ passing <code>false</code> to <code>createIfNotExists</code> in <code><a href=".
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index6searchFTCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/search(_:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index6searchFTCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">search(_:completionHandler:)</a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)search:requestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/search(_:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)search:requestOptions:completionHandler:">search(_:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1349,47 +612,13 @@ passing <code>false</code> to <code>createIfNotExists</code> in <code><a href=".
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">search</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">search</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>query</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Search parameters.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -1397,9 +626,9 @@ passing <code>false</code> to <code>createIfNotExists</code> in <code><a href=".
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index20searchForFacetValuesFT2ofSS8matchingSS5queryGSqCS_5Query_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/searchForFacetValues(of:matching:query:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index20searchForFacetValuesFT2ofSS8matchingSS5queryGSqCS_5Query_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">searchForFacetValues(of:matching:query:completionHandler:)</a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)searchForFacetValuesOf:matching:query:requestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/searchForFacetValues(of:matching:query:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)searchForFacetValuesOf:matching:query:requestOptions:completionHandler:">searchForFacetValues(of:matching:query:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1416,73 +645,13 @@ matching other (regular) search criteria.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">searchForFacetValues</span><span class="p">(</span><span class="n">of</span> <span class="nv">facetName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">matching</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">searchForFacetValues</span><span class="p">(</span><span class="n">of</span> <span class="nv">facetName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">matching</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>facetName</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Name of the facet to search. It must have been declared in the index’s <code>attributesForFaceting</code> setting with the <code>searchable()</code> modifier.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>text</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Text to search for in the facet’s values.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>query</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>An optional query to take extra search parameters into account. These parameters apply to index objects like in a regular search query. Only facet values contained in the matched objects will be returned.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -1490,9 +659,9 @@ matching other (regular) search criteria.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index11getSettingsFT17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/getSettings(completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index11getSettingsFT17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">getSettings(completionHandler:)</a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)getSettingsWithRequestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/getSettings(requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)getSettingsWithRequestOptions:completionHandler:">getSettings(requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1507,34 +676,13 @@ matching other (regular) search criteria.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getSettings</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getSettings</span><span class="p">(</span><span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -1542,77 +690,9 @@ matching other (regular) search criteria.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index11setSettingsFTGVs10DictionarySSP__17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/setSettings(_:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index11setSettingsFTGVs10DictionarySSP__17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">setSettings(_:completionHandler:)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Set this index&rsquo;s settings.</p>
-
-<p>Please refer to our <a href="https://www.algolia.com/doc/swift#index-settings">API documentation</a> for the list of
-supported settings.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">setSettings</span><span class="p">(</span><span class="n">_</span> <span class="nv">settings</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a></span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>settings</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>New settings.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>A cancellable operation.</p>
-
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:FC13AlgoliaSearch5Index11setSettingsFTGVs10DictionarySSP__17forwardToReplicasSb17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/setSettings(_:forwardToReplicas:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index11setSettingsFTGVs10DictionarySSP__17forwardToReplicasSb17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">setSettings(_:forwardToReplicas:completionHandler:)</a>
+                    <a name="/s:13AlgoliaSearch5IndexC11setSettingsSo9OperationCs10DictionaryVySSypG_SbSg17forwardToReplicasAA14RequestOptionsCSg07requestL0yAISg_s5Error_pSgtcSg17completionHandlertF"></a>
+                    <a name="//apple_ref/swift/Method/setSettings(_:forwardToReplicas:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:13AlgoliaSearch5IndexC11setSettingsSo9OperationCs10DictionaryVySSypG_SbSg17forwardToReplicasAA14RequestOptionsCSg07requestL0yAISg_s5Error_pSgtcSg17completionHandlertF">setSettings(_:forwardToReplicas:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1630,60 +710,13 @@ supported settings.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">setSettings</span><span class="p">(</span><span class="n">_</span> <span class="nv">settings</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a></span><span class="p">,</span> <span class="nv">forwardToReplicas</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">setSettings</span><span class="p">(</span><span class="n">_</span> <span class="nv">settings</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObjecta">JSONObject</a></span><span class="p">,</span> <span class="nv">forwardToReplicas</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>settings</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>New settings.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>forwardToReplicas</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>When true, the change is also applied to replicas of this index.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -1691,9 +724,9 @@ supported settings.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index10clearIndexFT17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/clearIndex(completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index10clearIndexFT17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation">clearIndex(completionHandler:)</a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)clearIndexWithRequestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/clearIndex(requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)clearIndexWithRequestOptions:completionHandler:">clearIndex(requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1708,34 +741,13 @@ supported settings.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">clearIndex</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">clearIndex</span><span class="p">(</span><span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -1743,9 +755,9 @@ supported settings.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index5batchFT10operationsGSaGVs10DictionarySSP___17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/batch(operations:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index5batchFT10operationsGSaGVs10DictionarySSP___17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">batch(operations:completionHandler:)</a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)batchOperations:requestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/batch(operations:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)batchOperations:requestOptions:completionHandler:">batch(operations:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1760,47 +772,13 @@ supported settings.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">batch</span><span class="p">(</span><span class="nv">operations</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a></span><span class="p">],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">batch</span><span class="p">(</span><span class="nv">operations</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch10JSONObjecta">JSONObject</a></span><span class="p">],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>operations</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The array of actions.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -1808,9 +786,9 @@ supported settings.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index6browseFT5queryCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/browse(query:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index6browseFT5queryCS_5Query17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">browse(query:completionHandler:)</a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)browseWithQuery:requestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/browse(query:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)browseWithQuery:requestOptions:completionHandler:">browse(query:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1827,47 +805,13 @@ unless the end of the index has been reached. To retrieve subsequent pages, call
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">browse</span><span class="p">(</span><span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">browse</span><span class="p">(</span><span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>query</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The query parameters for the browse.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -1875,9 +819,9 @@ unless the end of the index has been reached. To retrieve subsequent pages, call
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index6browseFT4fromSS17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/browse(from:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index6browseFT4fromSS17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">browse(from:completionHandler:)</a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)browseFromCursor:requestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/browse(from:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)browseFromCursor:requestOptions:completionHandler:">browse(from:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1894,47 +838,13 @@ index has been reached.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">browse</span><span class="p">(</span><span class="n">from</span> <span class="nv">cursor</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">browse</span><span class="p">(</span><span class="n">from</span> <span class="nv">cursor</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>cursor</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The cursor of the next page to retrieve</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -1953,9 +863,9 @@ index has been reached.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index8waitTaskFT6withIDSi17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/waitTask(withID:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index8waitTaskFT6withIDSi17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">waitTask(withID:completionHandler:)</a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)waitTaskWithID:requestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/waitTask(withID:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)waitTaskWithID:requestOptions:completionHandler:">waitTask(withID:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1971,47 +881,13 @@ All server tasks are asynchronous. This method helps you check that a task is pu
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">waitTask</span><span class="p">(</span><span class="n">withID</span> <span class="nv">taskID</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">waitTask</span><span class="p">(</span><span class="n">withID</span> <span class="nv">taskID</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>taskID</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Identifier of the task (as returned by the server).</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -2019,9 +895,45 @@ All server tasks are asynchronous. This method helps you check that a task is pu
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index13deleteByQueryFTCS_5Query17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/deleteByQuery(_:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index13deleteByQueryFTCS_5Query17completionHandlerGSqFTGSqGVs10DictionarySSP___GSqPs5Error___T___CSo9Operation">deleteByQuery(_:completionHandler:)</a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)deleteBy:requestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/deleteBy(_:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)deleteBy:requestOptions:completionHandler:">deleteBy(_:requestOptions:completionHandler:)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Delete all objects matching a query.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    Deprecated, use deleteBy instead.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteBy</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A cancellable operation.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)deleteByQuery:requestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/deleteByQuery(_:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)deleteByQuery:requestOptions:completionHandler:">deleteByQuery(_:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2030,53 +942,24 @@ All server tasks are asynchronous. This method helps you check that a task is pu
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Delete all objects matching a query (helper).</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    Deprecated, use deleteBy instead.
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteByQuery</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteByQuery</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>query</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The query that objects to delete must match.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -2084,9 +967,9 @@ All server tasks are asynchronous. This method helps you check that a task is pu
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index25searchDisjunctiveFacetingFTCS_5Query17disjunctiveFacetsGSaSS_11refinementsGVs10DictionarySSGSaSS__17completionHandlerFTGSqGS2_SSP___GSqPs5Error___T__CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/searchDisjunctiveFaceting(_:disjunctiveFacets:refinements:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index25searchDisjunctiveFacetingFTCS_5Query17disjunctiveFacetsGSaSS_11refinementsGVs10DictionarySSGSaSS__17completionHandlerFTGSqGS2_SSP___GSqPs5Error___T__CSo9Operation">searchDisjunctiveFaceting(_:disjunctiveFacets:refinements:completionHandler:)</a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)searchDisjunctiveFaceting:disjunctiveFacets:refinements:requestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/searchDisjunctiveFaceting(_:disjunctiveFacets:refinements:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)searchDisjunctiveFaceting:disjunctiveFacets:refinements:requestOptions:completionHandler:">searchDisjunctiveFaceting(_:disjunctiveFacets:refinements:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2101,73 +984,13 @@ All server tasks are asynchronous. This method helps you check that a task is pu
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">searchDisjunctiveFaceting</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">disjunctiveFacets</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">refinements</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]],</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">searchDisjunctiveFaceting</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">disjunctiveFacets</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">refinements</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>query</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The query.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>disjunctiveFacets</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>List of disjunctive facets.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>refinements</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The current refinements, mapping facet names to a list of values.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -2175,9 +998,9 @@ All server tasks are asynchronous. This method helps you check that a task is pu
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index15multipleQueriesFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/multipleQueries(_:strategy:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index15multipleQueriesFTGSaCS_5Query_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">multipleQueries(_:strategy:completionHandler:)</a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)multipleQueries:strategy:requestOptions:completionHandler:"></a>
+                    <a name="//apple_ref/swift/Method/multipleQueries(_:strategy:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)multipleQueries:strategy:requestOptions:completionHandler:">multipleQueries(_:strategy:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2186,54 +1009,20 @@ All server tasks are asynchronous. This method helps you check that a task is pu
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Run multiple queries on this index.
-This method is a variant of <code><a href="../Classes/Client.html#/s:FC13AlgoliaSearch6Client15multipleQueriesFTGSaCS_10IndexQuery_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">Client.multipleQueries(...)</a></code> where the targeted index is always the receiver.</p>
+This method is a variant of <code><a href="../Classes/Client.html#/c:@M@AlgoliaSearch@objc(cs)Client(im)multipleQueries:strategy:requestOptions:completionHandler:">Client.multipleQueries(...)</a></code> where the targeted index is always the receiver.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueries</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueries</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>queries</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The queries to run.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -2241,9 +1030,9 @@ This method is a variant of <code><a href="../Classes/Client.html#/s:FC13Algolia
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index15multipleQueriesFTGSaCS_5Query_8strategyGSqOCS_6Client23MultipleQueriesStrategy_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
-                    <a name="//apple_ref/swift/Method/multipleQueries(_:strategy:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index15multipleQueriesFTGSaCS_5Query_8strategyGSqOCS_6Client23MultipleQueriesStrategy_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">multipleQueries(_:strategy:completionHandler:)</a>
+                    <a name="/s:13AlgoliaSearch5IndexC15multipleQueriesSo9OperationCSayAA5QueryCG_AA6ClientC08MultipleE8StrategyOSg8strategyAA14RequestOptionsCSg07requestM0ys10DictionaryVySSypGSg_s5Error_pSgtc17completionHandlertF"></a>
+                    <a name="//apple_ref/swift/Method/multipleQueries(_:strategy:requestOptions:completionHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:13AlgoliaSearch5IndexC15multipleQueriesSo9OperationCSayAA5QueryCG_AA6ClientC08MultipleE8StrategyOSg8strategyAA14RequestOptionsCSg07requestM0ys10DictionaryVySSypGSg_s5Error_pSgtc17completionHandlertF">multipleQueries(_:strategy:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2252,67 +1041,20 @@ This method is a variant of <code><a href="../Classes/Client.html#/s:FC13Algolia
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Run multiple queries on this index.
-This method is a variant of <code><a href="../Classes/Client.html#/s:FC13AlgoliaSearch6Client15multipleQueriesFTGSaCS_10IndexQuery_8strategyGSqSS_17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">Client.multipleQueries(...)</a></code> where the targeted index is always the receiver.</p>
+This method is a variant of <code><a href="../Classes/Client.html#/c:@M@AlgoliaSearch@objc(cs)Client(im)multipleQueries:strategy:requestOptions:completionHandler:">Client.multipleQueries(...)</a></code> where the targeted index is always the receiver.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueries</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt"><a href="../Classes/Client.html">Client</a></span><span class="o">.</span><span class="kt">MultipleQueriesStrategy</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueries</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt"><a href="../Classes/Client.html">Client</a></span><span class="o">.</span><span class="kt">MultipleQueriesStrategy</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>queries</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The queries to run.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>strategy</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The strategy to use.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -2331,9 +1073,9 @@ This method is a variant of <code><a href="../Classes/Client.html#/s:FC13Algolia
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC13AlgoliaSearch5Index18searchCacheEnabledSb"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(py)searchCacheEnabled"></a>
                     <a name="//apple_ref/swift/Property/searchCacheEnabled" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC13AlgoliaSearch5Index18searchCacheEnabledSb">searchCacheEnabled</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(py)searchCacheEnabled">searchCacheEnabled</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2358,9 +1100,9 @@ This method is a variant of <code><a href="../Classes/Client.html#/s:FC13Algolia
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC13AlgoliaSearch5Index31searchCacheExpiringTimeIntervalSd"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(py)searchCacheExpiringTimeInterval"></a>
                     <a name="//apple_ref/swift/Property/searchCacheExpiringTimeInterval" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC13AlgoliaSearch5Index31searchCacheExpiringTimeIntervalSd">searchCacheExpiringTimeInterval</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(py)searchCacheExpiringTimeInterval">searchCacheExpiringTimeInterval</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2369,7 +1111,6 @@ This method is a variant of <code><a href="../Classes/Client.html#/s:FC13Algolia
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Expiration delay for items in the search cache. Default: 2 minutes.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     The delay is a minimum threshold. Items may survive longer in cache.
@@ -2391,9 +1132,9 @@ This method is a variant of <code><a href="../Classes/Client.html#/s:FC13Algolia
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC13AlgoliaSearch5Index16clearSearchCacheFT_T_"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)clearSearchCache"></a>
                     <a name="//apple_ref/swift/Method/clearSearchCache()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC13AlgoliaSearch5Index16clearSearchCacheFT_T_">clearSearchCache()</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)clearSearchCache">clearSearchCache()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2421,7 +1162,7 @@ This method is a variant of <code><a href="../Classes/Client.html#/s:FC13Algolia
         </section>
         <section id="footer">
           <p>© Copyright 2016 <a class="link" href="https://www.algolia.com/" target="_blank" rel="external">Algolia</a>. All rights reserved.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

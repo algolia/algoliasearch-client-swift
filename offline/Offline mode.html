@@ -150,6 +150,9 @@
               <li class="nav-group-task">
                 <a href="Classes/AbstractQuery.html">AbstractQuery</a>
               </li>
+              <li class="nav-group-task">
+                <a href="Classes/RequestOptions.html">RequestOptions</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -164,13 +167,13 @@
             <a href="Other Typealiases.html">Other Typealiases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Other Typealiases.html#/s:20AlgoliaSearch21BrowseIteratorHandler">BrowseIteratorHandler</a>
+                <a href="Other Typealiases.html#/s:20AlgoliaSearch21BrowseIteratorHandlera">BrowseIteratorHandler</a>
               </li>
               <li class="nav-group-task">
-                <a href="Other Typealiases.html#/s:20AlgoliaSearch17CompletionHandler">CompletionHandler</a>
+                <a href="Other Typealiases.html#/s:20AlgoliaSearch17CompletionHandlera">CompletionHandler</a>
               </li>
               <li class="nav-group-task">
-                <a href="Other Typealiases.html#/s:20AlgoliaSearch10JSONObject">JSONObject</a>
+                <a href="Other Typealiases.html#/s:20AlgoliaSearch10JSONObjecta">JSONObject</a>
               </li>
             </ul>
           </li>
@@ -188,9 +191,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:C20AlgoliaSearch13OfflineClient"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)OfflineClient"></a>
                     <a name="//apple_ref/swift/Class/OfflineClient" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C20AlgoliaSearch13OfflineClient">OfflineClient</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)OfflineClient">OfflineClient</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -199,7 +202,6 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>An API client that adds offline features on top of the regular online API client.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     Requires Algolia&rsquo;s Offline Core SDK. The <code>enableOfflineMode(...)</code> method must be called with a valid license
@@ -227,9 +229,9 @@ key prior to calling any offline-related method.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:C20AlgoliaSearch13MirroredIndex"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)MirroredIndex"></a>
                     <a name="//apple_ref/swift/Class/MirroredIndex" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C20AlgoliaSearch13MirroredIndex">MirroredIndex</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)MirroredIndex">MirroredIndex</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -238,46 +240,40 @@ key prior to calling any offline-related method.
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>An online index that can also be mirrored locally.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <p>You cannot construct this class directly. Please use <code><a href="Classes/OfflineClient.html#/s:FC20AlgoliaSearch13OfflineClient5indexFT8withNameSS_CS_13MirroredIndex">OfflineClient.index(withName:)</a></code> to obtain an
+    <p>You cannot construct this class directly. Please use <code><a href="Classes/OfflineClient.html#/c:@M@AlgoliaSearch@objc(cs)OfflineClient(im)indexWithName:">OfflineClient.index(withName:)</a></code> to obtain an
 instance.</p>
 
 </div>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <p>Requires Algolia Offline Core. The <code><a href="Classes/OfflineClient.html#/s:FC20AlgoliaSearch13OfflineClient17enableOfflineModeFT10licenseKeySS_T_">OfflineClient.enableOfflineMode(...)</a></code> method must be called with a
+    <p>Requires Algolia Offline Core. The <code><a href="Classes/OfflineClient.html#/c:@M@AlgoliaSearch@objc(cs)OfflineClient(im)enableOfflineModeWithLicenseKey:">OfflineClient.enableOfflineMode(...)</a></code> method must be called with a
 valid license key prior to calling any offline-related method.</p>
 
 </div>
 
 <p>When created, an instance of this class has its <code>mirrored</code> flag set to false, and behaves like a normal,
 online <code><a href="Classes/Index.html">Index</a></code>. When the <code>mirrored</code> flag is set to true, the index becomes capable of acting upon local data.</p>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     It is a programming error to call methods acting on the local data when <code>mirrored</code> is false. Doing so
 will result in an assertion error being raised.
 
 </div>
-
-<p><a href='#request-strategy' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='request-strategy'>Request strategy</h2></p>
+<h2 id='request-strategy' class='heading'>Request strategy</h2>
 
 <p>When the index is mirrored and the device is online, it becomes possible to transparently switch between online and
 offline requests. There is no single best strategy for that, because it depends on the use case and the current
 network conditions. You can choose the strategy through the <code>requestStrategy</code> property. The default is
 <code>FallbackOnFailure</code>, which will always target the online API first, then fallback to the offline mirror in case of
 failure (including network unavailability).</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     <p>If you want to explicitly target either the online API or the offline mirror, doing so is always possible
 using <code>searchOnline(...)</code> or <code>searchOffline(...)</code>.</p>
 
 </div>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     <p>The strategy applies to:</p>
@@ -291,8 +287,7 @@ using <code>searchOnline(...)</code> or <code>searchOffline(...)</code>.</p>
 </ul>
 
 </div>
-
-<p><a href='#bootstrapping' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='bootstrapping'>Bootstrapping</h2></p>
+<h2 id='bootstrapping' class='heading'>Bootstrapping</h2>
 
 <p>Before the first sync has successfully completed, a mirrored index is not available offline, because it has simply
 no data to search in yet. In most cases, this is not a problem: the app will sync as soon as instructed, so unless
@@ -301,8 +296,7 @@ first launch, the user should not notice anything.</p>
 
 <p>However, in some cases, you might need to have offline data available as soon as possible. To achieve that,
 <code>MirroredIndex</code> provides a <strong>manual build</strong> feature.</p>
-
-<p><a href='#manual-build' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='manual-build'>Manual build</h3></p>
+<h3 id='manual-build' class='heading'>Manual build</h3>
 
 <p>Manual building consists in specifying the source data for your index from local files, instead of downloading it
 from the API. Namely, you need:</p>
@@ -313,22 +307,20 @@ from the API. Namely, you need:</p>
 </ul>
 
 <p>Those files are typically embedded in the application as resources, although any other origin works too.</p>
-
-<p><a href='#conditional-bootstrapping' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='conditional-bootstrapping'>Conditional bootstrapping</h3></p>
+<h3 id='conditional-bootstrapping' class='heading'>Conditional bootstrapping</h3>
 
 <p>To avoid replacing the local mirror every time the app is started (and potentially overwriting more recent data
 synced from the API), you should test whether the index already has offline data using the <code>hasOfflineData</code>
 property.</p>
-
-<p><a href='#discussion' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h4 id='discussion'>Discussion</h4>
+<h4 id='discussion' class='heading'>Discussion</h4>
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     We strongly advise against prepackaging index files. While it may work in some cases, Algolia Offline
 makes no guarantee whatsoever that the index file format will remain backward-compatible forever, nor that it
 is independent of the hardware architecture (e.g. 32 bits vs 64 bits, or Little Endian vs Big Endian). Instead,
-always use the manual build feature.</p>
+always use the manual build feature.
 
-<p></div></p>
+</div>
 
 <p>While a manual build involves computing the offline index on the device, and therefore incurs a small delay before
 the mirror is actually usable, using plain JSON offers several advantages compared to prepackaging the index file
@@ -347,8 +339,7 @@ filesystem.</p></li>
 <p>Also, the build process is purposedly single-threaded across all indices, which means that on most modern devices
 with multi-core CPUs, the impact of manual building on the app&rsquo;s performance will be very moderate, especially
 regarding UI responsiveness.</p>
-
-<p><a href='#limitations' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='limitations'>Limitations</h2></p>
+<h2 id='limitations' class='heading'>Limitations</h2>
 
 <p>Algolia&rsquo;s core features are fully supported offline, including (but not limited to): <strong>ranking</strong>,
 <strong>typo tolerance</strong>, <strong>filtering</strong>, <strong>faceting</strong>, <strong>highlighting/snippeting</strong>&hellip;</p>
@@ -365,11 +356,10 @@ regarding UI responsiveness.</p>
 <li>Placeholders are fully supported.</li>
 </ul></li>
 <li><p>Dictionary-based <strong>plurals</strong> are not supported. (<q>Simple</q> plurals with a final S are supported.)</p></li>
-<li><p><strong>IP geolocation</strong> (see <code><a href="Classes/Query.html#/s:vC20AlgoliaSearch5Query17aroundLatLngViaIPGSqSb_">Query.aroundLatLngViaIP</a></code>) is not supported.</p></li>
+<li><p><strong>IP geolocation</strong> (see <code><a href="Classes/Query.html#/s:20AlgoliaSearch5QueryC17aroundLatLngViaIPSbSgv">Query.aroundLatLngViaIP</a></code>) is not supported.</p></li>
 <li><p><strong>CJK segmentation</strong> is not supported.</p></li>
 </ul>
-
-<p><a href='#resource-handling' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='resource-handling'>Resource handling</h2></p>
+<h2 id='resource-handling' class='heading'>Resource handling</h2>
 
 <p>Native resources are lazily instantiated when <code>mirrored</code> is set to <code>true</code>. They are released when the object is
 released, or if <code>mirrored</code> is set to <code>false</code> again.</p>
@@ -390,9 +380,9 @@ released, or if <code>mirrored</code> is set to <code>false</code> again.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:C20AlgoliaSearch18DataSelectionQuery"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)DataSelectionQuery"></a>
                     <a name="//apple_ref/swift/Class/DataSelectionQuery" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C20AlgoliaSearch18DataSelectionQuery">DataSelectionQuery</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)DataSelectionQuery">DataSelectionQuery</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -422,9 +412,9 @@ released, or if <code>mirrored</code> is set to <code>false</code> again.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:C20AlgoliaSearch12OfflineIndex"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)OfflineIndex"></a>
                     <a name="//apple_ref/swift/Class/OfflineIndex" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C20AlgoliaSearch12OfflineIndex">OfflineIndex</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)OfflineIndex">OfflineIndex</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -434,26 +424,22 @@ released, or if <code>mirrored</code> is set to <code>false</code> again.</p>
                       <div class="abstract">
                         <p>A purely offline index.
 Such an index has no online counterpart. It is updated and queried locally.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <p>You cannot construct this class directly. Please use <code><a href="Classes/OfflineClient.html#/s:FC20AlgoliaSearch13OfflineClient12offlineIndexFT8withNameSS_CS_12OfflineIndex">OfflineClient.offlineIndex(withName:)</a></code> to obtain an
+    <p>You cannot construct this class directly. Please use <code><a href="Classes/OfflineClient.html#/c:@M@AlgoliaSearch@objc(cs)OfflineClient(im)offlineIndexWithName:">OfflineClient.offlineIndex(withName:)</a></code> to obtain an
 instance.</p>
 
 </div>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <p>Requires Algolia Offline Core. <code><a href="Classes/OfflineClient.html#/s:FC20AlgoliaSearch13OfflineClient17enableOfflineModeFT10licenseKeySS_T_">OfflineClient.enableOfflineMode(...)</a></code> must be called with a valid license
+    <p>Requires Algolia Offline Core. <code><a href="Classes/OfflineClient.html#/c:@M@AlgoliaSearch@objc(cs)OfflineClient(im)enableOfflineModeWithLicenseKey:">OfflineClient.enableOfflineMode(...)</a></code> must be called with a valid license
 key prior to calling any offline-related method.</p>
 
 </div>
-
-<p><a href='#reading' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='reading'>Reading</h2></p>
+<h2 id='reading' class='heading'>Reading</h2>
 
 <p>Read operations behave identically as with online indices.</p>
-
-<p><a href='#writing' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='writing'>Writing</h2></p>
+<h2 id='writing' class='heading'>Writing</h2>
 
 <p>Updating an index involves rebuilding it, which is an expensive and potentially lengthy operation. Therefore, all
 updates must be wrapped inside a <strong>transaction</strong>.</p>
@@ -465,8 +451,7 @@ updates must be wrapped inside a <strong>transaction</strong>.</p>
 <li><p>Populate the transaction: call the various write methods on the <code>WriteTransaction</code> class.</p></li>
 <li><p>Either <code>commit()</code> or <code>rollback()</code> the transaction.</p></li>
 </ul>
-
-<p><a href='#synchronous-vs-asynchronous-updates' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='synchronous-vs-asynchronous-updates'>Synchronous vs asynchronous updates</h3></p>
+<h3 id='synchronous-vs-asynchronous-updates' class='heading'>Synchronous vs asynchronous updates</h3>
 
 <p>Any write operation, especially (but not limited to) the final commit, is potentially lengthy. This is why all
 operations provide an asynchronous version, which accepts an optional completion handler that will be notified of
@@ -475,28 +460,24 @@ the operation&rsquo;s completion (either successful or erroneous).</p>
 <p>If you already have a background thread/queue performing data-handling tasks, you may find it more convenient to
 use the synchronous versions of the write methods. They are named after the asynchronous versions, suffixed by
 <code>Sync</code>. The flow is identical to the asynchronous version (see above).</p>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     <p>You must not call synchronous methods from the main thread. The methods will assert if you do so.</p>
 
 </div>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     <p>The synchronous methods can throw; you have to catch and handle the error.</p>
 
 </div>
-
-<p><a href='#parallel-transactions' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='parallel-transactions'>Parallel transactions</h3></p>
+<h3 id='parallel-transactions' class='heading'>Parallel transactions</h3>
 
 <p>While it is possible to create parallel transactions, there is little interest in doing so, since each committed
 transaction results in an index rebuild. Multiplying transactions therefore only degrades performance.</p>
 
 <p>Also, transactions are serially executed in the order they were committed, the latest transaction potentially
 overwriting the previous transactions&rsquo; result.</p>
-
-<p><a href='#manual-build' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='manual-build'>Manual build</h3></p>
+<h3 id='manual-build' class='heading'>Manual build</h3>
 
 <p>As an alternative to using write transactions, <code>OfflineIndex</code> also offers a <strong>manual build</strong> feature. Provided that
 you have:</p>
@@ -507,9 +488,8 @@ you have:</p>
 </ul>
 
 <p>&hellip; available as local files on disk, you can replace the index&rsquo;s content with that data by calling <code>build(...)</code>.</p>
-
-<p><a href='#caveats' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='caveats'>Caveats</h2>
-<a href='#limitations' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='limitations'>Limitations</h3></p>
+<h2 id='caveats' class='heading'>Caveats</h2>
+<h3 id='limitations' class='heading'>Limitations</h3>
 
 <p>Though offline indices support most features of an online index, there are some limitations:</p>
 
@@ -518,14 +498,13 @@ you have:</p>
 <li><p><strong>Partial updates</strong> are not supported.</p></li>
 <li><p><strong>Replica indices</strong> are not supported.</p></li>
 </ul>
-
-<p><a href='#differences' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h3 id='differences'>Differences</h3></p>
+<h3 id='differences' class='heading'>Differences</h3>
 
 <ul>
 <li><p><strong>Settings</strong> are not incremental: the new settings completely replace the previous ones. If a setting
 is omitted in the new version, it reverts back to its default value. (This is in contrast with the online API,
 where you can only specify the settings you want to change and omit the others.)</p></li>
-<li><p>You cannot batch arbitrary write operations in a single method call (as you would do with <code><a href="Classes/Index.html#/s:FC20AlgoliaSearch5Index5batchFT10operationsGSaGVs10DictionarySSP___17completionHandlerGSqFTGSqGS1_SSP___GSqPs5Error___T___CSo9Operation">Index.batch(...)</a></code>).
+<li><p>You cannot batch arbitrary write operations in a single method call (as you would do with <code><a href="Classes/Index.html#/c:@M@AlgoliaSearch@objc(cs)Index(im)batchOperations:requestOptions:completionHandler:">Index.batch(...)</a></code>).
 However, all write operations are <em>de facto</em> batches, since they must be wrapped inside a transaction (see below).</p></li>
 </ul>
 
@@ -548,7 +527,7 @@ However, all write operations are <em>de facto</em> batches, since they must be 
         </section>
         <section id="footer">
           <p>© Copyright 2016 <a class="link" href="https://www.algolia.com/" target="_blank" rel="external">Algolia</a>. All rights reserved.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

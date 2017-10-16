@@ -127,6 +127,9 @@
               <li class="nav-group-task">
                 <a href="Classes/AbstractQuery.html">AbstractQuery</a>
               </li>
+              <li class="nav-group-task">
+                <a href="Classes/RequestOptions.html">RequestOptions</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -141,13 +144,13 @@
             <a href="Other Typealiases.html">Other Typealiases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Other Typealiases.html#/s:13AlgoliaSearch21BrowseIteratorHandler">BrowseIteratorHandler</a>
+                <a href="Other Typealiases.html#/s:13AlgoliaSearch21BrowseIteratorHandlera">BrowseIteratorHandler</a>
               </li>
               <li class="nav-group-task">
-                <a href="Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandler">CompletionHandler</a>
+                <a href="Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a>
               </li>
               <li class="nav-group-task">
-                <a href="Other Typealiases.html#/s:13AlgoliaSearch10JSONObject">JSONObject</a>
+                <a href="Other Typealiases.html#/s:13AlgoliaSearch10JSONObjecta">JSONObject</a>
               </li>
             </ul>
           </li>
@@ -165,9 +168,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:C13AlgoliaSearch6Client"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Client"></a>
                     <a name="//apple_ref/swift/Class/Client" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C13AlgoliaSearch6Client">Client</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Client">Client</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -197,9 +200,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:C13AlgoliaSearch5Index"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index"></a>
                     <a name="//apple_ref/swift/Class/Index" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C13AlgoliaSearch5Index">Index</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index">Index</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -208,10 +211,9 @@
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>A proxy to an Algolia index.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    You cannot construct this class directly. Please use <code><a href="Classes/Client.html#/s:FC13AlgoliaSearch6Client5indexFT8withNameSS_CS_5Index">Client.index(withName:)</a></code> to obtain an instance.
+    You cannot construct this class directly. Please use <code><a href="Classes/Client.html#/c:@M@AlgoliaSearch@objc(cs)Client(im)indexWithName:">Client.index(withName:)</a></code> to obtain an instance.
 
 </div>
 
@@ -235,9 +237,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:C13AlgoliaSearch5Query"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)Query"></a>
                     <a name="//apple_ref/swift/Class/Query" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C13AlgoliaSearch5Query">Query</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Query">Query</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -254,7 +256,6 @@
 <li>Using the low-level, <strong>untyped accessors</strong> <code>parameter(withName:)</code> and <code>setParameter(withName:to:)</code> or (better)
 the <strong>subscript operator</strong>. Use this approach if the parameter you wish to set is not supported by this class.</li>
 </ol>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     All parameters are <strong>optional</strong>. When a parameter is <code>nil</code>, the API applies a default value.
@@ -281,9 +282,9 @@ the <strong>subscript operator</strong>. Use this approach if the parameter you 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:C13AlgoliaSearch14BrowseIterator"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)BrowseIterator"></a>
                     <a name="//apple_ref/swift/Class/BrowseIterator" class="dashAnchor"></a>
-                    <a class="token" href="#/s:C13AlgoliaSearch14BrowseIterator">BrowseIterator</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)BrowseIterator">BrowseIterator</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -293,10 +294,13 @@ the <strong>subscript operator</strong>. Use this approach if the parameter you 
                       <div class="abstract">
                         <p>Iterator to browse all index content.</p>
 
-<p>This helper takes care of chaining API requests and calling back the completion handler with the results, until:
-- the end of the index has been reached;
-- an error has been encountered;
-- or the user cancelled the iteration.</p>
+<p>This helper takes care of chaining API requests and calling back the completion handler with the results, until:</p>
+
+<ul>
+<li>the end of the index has been reached;</li>
+<li>an error has been encountered;</li>
+<li>or the user cancelled the iteration.</li>
+</ul>
 
                         <a href="Classes/BrowseIterator.html" class="slightly-smaller">See more</a>
                       </div>
@@ -317,7 +321,7 @@ the <strong>subscript operator</strong>. Use this approach if the parameter you 
         </section>
         <section id="footer">
           <p>© Copyright 2016 <a class="link" href="https://www.algolia.com/" target="_blank" rel="external">Algolia</a>. All rights reserved.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

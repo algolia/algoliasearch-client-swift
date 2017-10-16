@@ -151,6 +151,9 @@
               <li class="nav-group-task">
                 <a href="../Classes/AbstractQuery.html">AbstractQuery</a>
               </li>
+              <li class="nav-group-task">
+                <a href="../Classes/RequestOptions.html">RequestOptions</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -165,13 +168,13 @@
             <a href="../Other Typealiases.html">Other Typealiases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Other Typealiases.html#/s:20AlgoliaSearch21BrowseIteratorHandler">BrowseIteratorHandler</a>
+                <a href="../Other Typealiases.html#/s:20AlgoliaSearch21BrowseIteratorHandlera">BrowseIteratorHandler</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Other Typealiases.html#/s:20AlgoliaSearch17CompletionHandler">CompletionHandler</a>
+                <a href="../Other Typealiases.html#/s:20AlgoliaSearch17CompletionHandlera">CompletionHandler</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Other Typealiases.html#/s:20AlgoliaSearch10JSONObject">JSONObject</a>
+                <a href="../Other Typealiases.html#/s:20AlgoliaSearch10JSONObjecta">JSONObject</a>
               </li>
             </ul>
           </li>
@@ -188,14 +191,12 @@
                 </div>
               </div>
             <p>An abstract API client.</p>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     Not meant to be used directly. See <code><a href="../Classes/Client.html">Client</a></code> or <code><a href="../Classes/PlacesClient.html">PlacesClient</a></code> instead.
 
 </div>
-
-<p><a href='#stateful-hosts' class='anchor' aria-hidden=true><span class="header-anchor"></span></a><h2 id='stateful-hosts'>Stateful hosts</h2></p>
+<h2 id='stateful-hosts' class='heading'>Stateful hosts</h2>
 
 <p>In order to avoid hitting timeouts at every request when one or more hosts are not working properly (whatever the
 reason: DNS failure, no route to host, server down&hellip;), the client maintains a <strong>known status</strong> for each host.
@@ -220,9 +221,9 @@ adjust it as needed, although the default value <code>defaultHostStatusTimeout</
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC20AlgoliaSearch14AbstractClient7headersGVs10DictionarySSSS_"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)AbstractClient(py)headers"></a>
                     <a name="//apple_ref/swift/Property/headers" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC20AlgoliaSearch14AbstractClient7headersGVs10DictionarySSSS_">headers</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)AbstractClient(py)headers">headers</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -247,9 +248,9 @@ adjust it as needed, although the default value <code>defaultHostStatusTimeout</
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC20AlgoliaSearch14AbstractClient10userAgentsGSaCS_14LibraryVersion_"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)AbstractClient(py)userAgents"></a>
                     <a name="//apple_ref/swift/Property/userAgents" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC20AlgoliaSearch14AbstractClient10userAgentsGSaCS_14LibraryVersion_">userAgents</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)AbstractClient(py)userAgents">userAgents</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -258,7 +259,6 @@ adjust it as needed, although the default value <code>defaultHostStatusTimeout</
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>The list of libraries used by this client.</p>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     Deprecated. Now a static property of the <code><a href="../Classes/Client.html">Client</a></code> class. The instance properties are just an alias
@@ -281,9 +281,9 @@ for the static property.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZvC20AlgoliaSearch14AbstractClient10userAgentsGSaCS_14LibraryVersion_"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)AbstractClient(cpy)userAgents"></a>
                     <a name="//apple_ref/swift/Variable/userAgents" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZvC20AlgoliaSearch14AbstractClient10userAgentsGSaCS_14LibraryVersion_">userAgents</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)AbstractClient(cpy)userAgents">userAgents</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -294,7 +294,6 @@ for the static property.
                         <p>The list of libraries used by instances of this class.
 They are passed in the <code>User-Agent</code> HTTP header of every request.
 It is initially set to contain only this library and the OS, but may be overridden to include other libraries.</p>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     The user agent is crucial to proper statistics in your Algolia dashboard. Please leave it as is.
@@ -317,9 +316,9 @@ This field is publicly exposed only for the sake of other Algolia libraries.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC20AlgoliaSearch14AbstractClient7timeoutSd"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)AbstractClient(py)timeout"></a>
                     <a name="//apple_ref/swift/Property/timeout" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC20AlgoliaSearch14AbstractClient7timeoutSd">timeout</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)AbstractClient(py)timeout">timeout</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -344,9 +343,9 @@ This field is publicly exposed only for the sake of other Algolia libraries.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC20AlgoliaSearch14AbstractClient13searchTimeoutSd"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)AbstractClient(py)searchTimeout"></a>
                     <a name="//apple_ref/swift/Property/searchTimeout" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC20AlgoliaSearch14AbstractClient13searchTimeoutSd">searchTimeout</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)AbstractClient(py)searchTimeout">searchTimeout</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -371,9 +370,9 @@ This field is publicly exposed only for the sake of other Algolia libraries.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC20AlgoliaSearch14AbstractClient9readHostsGSaSS_"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)AbstractClient(py)readHosts"></a>
                     <a name="//apple_ref/swift/Property/readHosts" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC20AlgoliaSearch14AbstractClient9readHostsGSaSS_">readHosts</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)AbstractClient(py)readHosts">readHosts</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -383,7 +382,6 @@ This field is publicly exposed only for the sake of other Algolia libraries.
                       <div class="abstract">
                         <p>Hosts for read queries, in priority order.
 The first host will always be used, then subsequent hosts in case of retry.</p>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     The default values should be appropriate for most use cases.
@@ -406,9 +404,9 @@ Change them only if you know what you are doing.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC20AlgoliaSearch14AbstractClient10writeHostsGSaSS_"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)AbstractClient(py)writeHosts"></a>
                     <a name="//apple_ref/swift/Property/writeHosts" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC20AlgoliaSearch14AbstractClient10writeHostsGSaSS_">writeHosts</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)AbstractClient(py)writeHosts">writeHosts</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -418,7 +416,6 @@ Change them only if you know what you are doing.
                       <div class="abstract">
                         <p>Hosts for write queries, in priority order.
 The first host will always be used, then subsequent hosts in case of retry.</p>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     The default values should be appropriate for most use cases.
@@ -441,9 +438,9 @@ Change them only if you know what you are doing.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC20AlgoliaSearch14AbstractClient17hostStatusTimeoutSd"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)AbstractClient(py)hostStatusTimeout"></a>
                     <a name="//apple_ref/swift/Property/hostStatusTimeout" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC20AlgoliaSearch14AbstractClient17hostStatusTimeoutSd">hostStatusTimeout</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)AbstractClient(py)hostStatusTimeout">hostStatusTimeout</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -458,7 +455,7 @@ Change them only if you know what you are doing.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">hostStatusTimeout</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="n"><a href="../Classes/AbstractClient.html#/s:ZvC20AlgoliaSearch14AbstractClient24defaultHostStatusTimeoutSd">defaultHostStatusTimeout</a></span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">hostStatusTimeout</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="n"><a href="../Classes/AbstractClient.html#/c:@M@AlgoliaSearch@objc(cs)AbstractClient(cpy)defaultHostStatusTimeout">defaultHostStatusTimeout</a></span></code></pre>
 
                         </div>
                       </div>
@@ -468,9 +465,9 @@ Change them only if you know what you are doing.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC20AlgoliaSearch14AbstractClient15completionQueueXwGSqCSo14OperationQueue_"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)AbstractClient(py)completionQueue"></a>
                     <a name="//apple_ref/swift/Property/completionQueue" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC20AlgoliaSearch14AbstractClient15completionQueueXwGSqCSo14OperationQueue_">completionQueue</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)AbstractClient(py)completionQueue">completionQueue</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -480,13 +477,11 @@ Change them only if you know what you are doing.
                       <div class="abstract">
                         <p>Operation queue used to run completion handlers.
 Default = main queue.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     <p>This will affect completion handlers of all methods on all indices attached to this client.</p>
 
 </div>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     <p>The queue is not retained by the client. You must ensure that it remains valid for the lifetime of
@@ -520,9 +515,9 @@ the client.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZvC20AlgoliaSearch14AbstractClient24defaultHostStatusTimeoutSd"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)AbstractClient(cpy)defaultHostStatusTimeout"></a>
                     <a name="//apple_ref/swift/Variable/defaultHostStatusTimeout" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZvC20AlgoliaSearch14AbstractClient24defaultHostStatusTimeoutSd">defaultHostStatusTimeout</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)AbstractClient(cpy)defaultHostStatusTimeout">defaultHostStatusTimeout</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -547,9 +542,9 @@ the client.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:vC20AlgoliaSearch14AbstractClient15useReachabilitySb"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)AbstractClient(py)useReachability"></a>
                     <a name="//apple_ref/swift/Property/useReachability" class="dashAnchor"></a>
-                    <a class="token" href="#/s:vC20AlgoliaSearch14AbstractClient15useReachabilitySb">useReachability</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)AbstractClient(py)useReachability">useReachability</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -558,16 +553,15 @@ the client.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Whether to use network reachability to decide if online requests should be attempted.</p>
-
-<p><li>When <code>true</code> (default), if the network reachability (as reported by the System Configuration framework) is
+<li>When <code>true</code> (default), if the network reachability (as reported by the System Configuration framework) is
 down, online requests will not be attempted and report to fail immediately.</li>
 <li><p>When <code>false</code>, online requests will always be attempted (if the strategy involves them), even if the network
 does not seem to be reachable.</p></li>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <p>Not available on watchOS (the System Configuration framework is not available there).</p></p>
+    <p>Not available on watchOS (the System Configuration framework is not available there).</p>
 
-<p></div></p>
+</div>
 
                       </div>
                       <div class="declaration">
@@ -595,9 +589,9 @@ does not seem to be reachable.</p></li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC20AlgoliaSearch14AbstractClient8setHostsFGSaSS_T_"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)AbstractClient(im)setHosts:"></a>
                     <a name="//apple_ref/swift/Method/setHosts(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC20AlgoliaSearch14AbstractClient8setHostsFGSaSS_T_">setHosts(_:)</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)AbstractClient(im)setHosts:">setHosts(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -606,7 +600,6 @@ does not seem to be reachable.</p></li>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Set read and write hosts to the same value (convenience method).</p>
-
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     The default values should be appropriate for most use cases.
@@ -629,9 +622,9 @@ Change them only if you know what you are doing.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC20AlgoliaSearch14AbstractClient9setHeaderFT8withNameSS2toGSqSS__T_"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)AbstractClient(im)setHeaderWithName:to:"></a>
                     <a name="//apple_ref/swift/Method/setHeader(withName:to:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC20AlgoliaSearch14AbstractClient9setHeaderFT8withNameSS2toGSqSS__T_">setHeader(withName:to:)</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)AbstractClient(im)setHeaderWithName:to:">setHeader(withName:to:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -640,10 +633,9 @@ Change them only if you know what you are doing.
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Set an HTTP header that will be sent with every request.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <p>You may also use the <code><a href="../Classes/AbstractClient.html#/s:vC20AlgoliaSearch14AbstractClient7headersGVs10DictionarySSSS_">headers</a></code> property directly.</p>
+    <p>You may also use the <code><a href="../Classes/AbstractClient.html#/c:@M@AlgoliaSearch@objc(cs)AbstractClient(py)headers">headers</a></code> property directly.</p>
 
 </div>
 
@@ -656,48 +648,15 @@ Change them only if you know what you are doing.
 
                         </div>
                       </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>name</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Header name.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>value</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Value for the header. If <code>nil</code>, the header will be removed.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
                     </section>
                   </div>
                 </li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC20AlgoliaSearch14AbstractClient6headerFT8withNameSS_GSqSS_"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)AbstractClient(im)headerWithName:"></a>
                     <a name="//apple_ref/swift/Method/header(withName:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC20AlgoliaSearch14AbstractClient6headerFT8withNameSS_GSqSS_">header(withName:)</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)AbstractClient(im)headerWithName:">header(withName:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -706,10 +665,9 @@ Change them only if you know what you are doing.
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Get an HTTP header.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <p>You may also use the <code><a href="../Classes/AbstractClient.html#/s:vC20AlgoliaSearch14AbstractClient7headersGVs10DictionarySSSS_">headers</a></code> property directly.</p>
+    <p>You may also use the <code><a href="../Classes/AbstractClient.html#/c:@M@AlgoliaSearch@objc(cs)AbstractClient(py)headers">headers</a></code> property directly.</p>
 
 </div>
 
@@ -723,29 +681,8 @@ Change them only if you know what you are doing.
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>name</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Header name.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
-                        <p>The header’s value, or <code>nil</code> if the header does not exist.</p>
-
+                        <p>The header&rsquo;s value, or <code>nil</code> if the header does not exist.</p>
                       </div>
                     </section>
                   </div>
@@ -753,9 +690,9 @@ Change them only if you know what you are doing.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ZFC20AlgoliaSearch14AbstractClient12addUserAgentFCS_14LibraryVersionT_"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)AbstractClient(cm)addUserAgent:"></a>
                     <a name="//apple_ref/swift/Method/addUserAgent(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ZFC20AlgoliaSearch14AbstractClient12addUserAgentFCS_14LibraryVersionT_">addUserAgent(_:)</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)AbstractClient(cm)addUserAgent:">addUserAgent(_:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -764,7 +701,6 @@ Change them only if you know what you are doing.
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Add a library version to the global list of user agents.</p>
-
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     <p>It is safe to call this function multiple times. Adding an already existing library is a no-op.</p>
@@ -779,26 +715,6 @@ Change them only if you know what you are doing.
                           <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">addUserAgent</span><span class="p">(</span><span class="n">_</span> <span class="nv">libraryVersion</span><span class="p">:</span> <span class="kt"><a href="../Classes/LibraryVersion.html">LibraryVersion</a></span><span class="p">)</span></code></pre>
 
                         </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>libraryVersion</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Library version to add.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
                       </div>
                     </section>
                   </div>
@@ -817,9 +733,9 @@ Change them only if you know what you are doing.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:FC20AlgoliaSearch14AbstractClient7isAliveFT17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation"></a>
+                    <a name="/c:@M@AlgoliaSearch@objc(cs)AbstractClient(im)isAlive:"></a>
                     <a name="//apple_ref/swift/Method/isAlive(completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:FC20AlgoliaSearch14AbstractClient7isAliveFT17completionHandlerFTGSqGVs10DictionarySSP___GSqPs5Error___T__CSo9Operation">isAlive(completionHandler:)</a>
+                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)AbstractClient(im)isAlive:">isAlive(completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -835,34 +751,13 @@ This method returns nothing except a message indicating that the server is alive
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">isAlive</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:20AlgoliaSearch17CompletionHandler">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">isAlive</span><span class="p">(</span><span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:20AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
                       </div>
                       <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completionHandler</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Completion handler to be notified of the request’s outcome.</p>
-
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
                         <h4>Return Value</h4>
                         <p>A cancellable operation.</p>
-
                       </div>
                     </section>
                   </div>
@@ -873,7 +768,7 @@ This method returns nothing except a message indicating that the server is alive
         </section>
         <section id="footer">
           <p>© Copyright 2016 <a class="link" href="https://www.algolia.com/" target="_blank" rel="external">Algolia</a>. All rights reserved.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.7.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
