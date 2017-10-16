@@ -296,28 +296,28 @@
     },
     {
       "file": "/Users/guydaher/Developer/Algolia/iOS/algoliasearch-client-swift/Sources/AlgoliaSearch-Client/Index.swift",
-      "line": 643,
+      "line": 642,
       "symbol": "Index.z_objc_deleteBy(_:completionHandler:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/guydaher/Developer/Algolia/iOS/algoliasearch-client-swift/Sources/AlgoliaSearch-Client/Index.swift",
-      "line": 663,
+      "line": 662,
       "symbol": "Index.z_objc_deleteByQuery(_:completionHandler:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/guydaher/Developer/Algolia/iOS/algoliasearch-client-swift/Sources/AlgoliaSearch-Client/Index.swift",
-      "line": 757,
+      "line": 756,
       "symbol": "Index.z_objc_searchDisjunctiveFaceting(_:disjunctiveFacets:refinements:completionHandler:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/guydaher/Developer/Algolia/iOS/algoliasearch-client-swift/Sources/AlgoliaSearch-Client/Index.swift",
-      "line": 779,
+      "line": 778,
       "symbol": "Index.z_objc_multipleQueries(_:strategy:completionHandler:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
