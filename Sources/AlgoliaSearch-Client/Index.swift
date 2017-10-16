@@ -628,7 +628,6 @@ import Foundation
     /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
-    /// + Warning: Deprecated, use deleteBy instead.
     ///
     @objc
     @discardableResult public func deleteBy(_ query: Query, requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
