@@ -10,6 +10,9 @@ GIT_REPO_URL=$(cd "$PROJECT_ROOT" && git remote get-url origin)
 BRANCH_NAME="gh-pages"
 DST_DIR="$PROJECT_ROOT/build/doc"
 
+echo "Cleaning destination directory"
+rm -rf "$DST_DIR"/*
+
 # Prepare the destination directory
 # ---------------------------------
 # If the destination directory exists, make sure that it's a Git checkout of the `gh-pages` branch.
