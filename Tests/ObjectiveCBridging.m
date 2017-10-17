@@ -128,6 +128,7 @@
     ];
     query.responseFields = @[ @"foo", @"bar" ];
     query.facetingAfterDistinct = @YES;
+    query.sortFacetValuesBy = @"alpha";
 }
 
 - (void)testClient {
@@ -712,6 +713,21 @@
     XCTAssertEqualObjects(query1[@"aroundRadius"], @"6");
     PlacesQuery* query2 = [PlacesQuery parse:[query1 build]];
     XCTAssertEqualObjects(query2.aroundRadius, value);
+}
+
+- (void)test_sortFacetValuesBy {
+    Query* query1 = [Query new];
+    XCTAssertNil(query1.sortFacetValuesBy);
+    
+    for (NSString* value in @[ @"count", @"alpha"]) {
+        query1.sortFacetValuesBy = value;
+        XCTAssertEqualObjects(query1[@"sortFacetValuesBy"], value);
+        Query* query2 = [Query parse:[query1 build]];
+        XCTAssertEqualObjects(query2.sortFacetValuesBy, value);
+    }
+    
+    query1[@"sortFacetValuesBy"] = @"invalid";
+    XCTAssertNil(query1.sortFacetValuesBy);
 }
 
 @end

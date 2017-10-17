@@ -831,4 +831,24 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.percentileComputation, false)
     }
+    
+    func test_sortFacetValuesBy() {
+        let query1 = Query()
+        XCTAssertNil(query1.sortFacetValuesBy)
+        
+        query1.sortFacetValuesBy = .count
+        XCTAssertEqual(query1.sortFacetValuesBy, .count)
+        XCTAssertEqual(query1["sortFacetValuesBy"], "count")
+        var query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.sortFacetValuesBy, .count)
+        
+        query1.sortFacetValuesBy = .alpha
+        XCTAssertEqual(query1.sortFacetValuesBy, .alpha)
+        XCTAssertEqual(query1["sortFacetValuesBy"], "alpha")
+        query2 = Query.parse(query1.build())
+        XCTAssertEqual(query2.sortFacetValuesBy, .alpha)
+        
+        query1["sortFacetValuesBy"] = "invalid"
+        XCTAssertNil(query1.sortFacetValuesBy)
+    }
 }
