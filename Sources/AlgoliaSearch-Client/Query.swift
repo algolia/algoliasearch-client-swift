@@ -63,11 +63,9 @@ open class Query : AbstractQuery {
     /// - `prefixNone`: no query word is interpreted as a prefix. This option is not recommended.
     public var queryType: QueryType? {
         get {
-            if let value = self["queryType"] {
-                return QueryType(rawValue: value)
-            } else {
-                return nil
-            }
+            guard let value = self["queryType"] else { return nil }
+            
+            return QueryType(rawValue: value)
         }
         set {
             self["queryType"] = newValue?.rawValue
@@ -96,11 +94,9 @@ open class Query : AbstractQuery {
     /// option is useful if you want to avoid as much as possible false positive.
     public var typoTolerance: TypoTolerance? {
         get {
-            if let value = self["typoTolerance"] {
-                return TypoTolerance(rawValue: value)
-            } else {
-                return nil
-            }
+            guard let value = self["typoTolerance"] else { return nil }
+            
+            return TypoTolerance(rawValue: value)
         }
         set {
             self["typoTolerance"] = newValue?.rawValue
@@ -278,11 +274,9 @@ open class Query : AbstractQuery {
     /// - `none`: No specific processing is done when a query does not return any result.
     public var removeWordsIfNoResults: RemoveWordsIfNoResults? {
         get {
-            if let value = self["removeWordsIfNoResults"] {
-                return RemoveWordsIfNoResults(rawValue: value)
-            } else {
-                return nil
-            }
+            guard let value = self["removeWordsIfNoResults"] else { return nil }
+            
+            return RemoveWordsIfNoResults(rawValue: value)
         }
         set {
             self["removeWordsIfNoResults"] = newValue?.rawValue
@@ -375,11 +369,9 @@ open class Query : AbstractQuery {
     /// This parameter control how the exact ranking criterion is computed when the query contains one word.
     public var exactOnSingleWordQuery: ExactOnSingleWordQuery? {
         get {
-            if let value = self["exactOnSingleWordQuery"] {
-                return ExactOnSingleWordQuery(rawValue: value)
-            } else {
-                return nil
-            }
+            guard let value = self["exactOnSingleWordQuery"] else { return nil }
+            
+            return ExactOnSingleWordQuery(rawValue: value)
         }
         set {
             self["exactOnSingleWordQuery"] = newValue?.rawValue
@@ -816,11 +808,9 @@ open class Query : AbstractQuery {
     /// Controls how the facet values are sorted within each faceted attribute.
     public var sortFacetValuesBy: SortFacetValuesBy? {
         get {
-            if let value = self["sortFacetValuesBy"] {
-                return SortFacetValuesBy(rawValue: value)
-            } else {
-                return nil
-            }
+            guard let value = self["sortFacetValuesBy"] else { return nil }
+            
+            return SortFacetValuesBy(rawValue: value)
         }
         set {
             self["sortFacetValuesBy"] = newValue?.rawValue
