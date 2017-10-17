@@ -805,6 +805,28 @@ open class Query : AbstractQuery {
         set { self["percentileComputation"] = Query.buildBool(newValue) }
     }
     
+    /// Values applicable to the `sortFacetValuesBy` parameter.
+    public enum SortFacetValuesBy: String {
+        /// Facet values are sorted by decreasing count, the count being the number of records containing this facet value in the results of the query (default behavior).
+        case count = "count"
+        /// Facet values are sorted by increasing alphabetical order.
+        case alpha = "alpha"
+    }
+    
+    /// Controls how the facet values are sorted within each faceted attribute.
+    public var sortFacetValuesBy: SortFacetValuesBy? {
+        get {
+            if let value = self["sortFacetValuesBy"] {
+                return SortFacetValuesBy(rawValue: value)
+            } else {
+                return nil
+            }
+        }
+        set {
+            self["sortFacetValuesBy"] = newValue?.rawValue
+        }
+    }
+    
     // MARK: - Initialization
 
     /// Construct a query with the specified full text query.
@@ -1105,5 +1127,11 @@ open class Query : AbstractQuery {
     public var z_objc_percentileComputation: NSNumber? {
         get { return AbstractQuery.toNumber(self.percentileComputation) }
         set { self.percentileComputation = newValue?.boolValue }
+    }
+    
+    @objc(sortFacetValuesBy)
+    public var z_objc_sortFacetValuesBy: String? {
+        get { return sortFacetValuesBy?.rawValue }
+        set { sortFacetValuesBy = newValue == nil ? nil : SortFacetValuesBy(rawValue: newValue!) }
     }
 }
