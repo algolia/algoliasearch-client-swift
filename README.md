@@ -34,7 +34,7 @@ If you were using **version 2.x** of our Swift client, read the [migration guide
 
 ## API Documentation
 
-You can find the full reference on the [Algolia's website](https://www.algolia.com/doc/api-client/swift/).
+You can find the full reference on [Algolia's website](https://www.algolia.com/doc/api-client/swift/).
 
 
 ## Table of Contents
