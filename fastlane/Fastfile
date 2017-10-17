@@ -87,6 +87,8 @@ lane :deploy do |options|
 	pod_push(
 		path: "AlgoliaSearch-Offline-Swift.podspec"
 	)
+
+	deploy_api_reference
 end
 
 desc "Upgrade Swift Version in .swift-version"
@@ -95,6 +97,11 @@ lane :upgrade_swift do |options|
     version = options[:version]
     sh("echo #{version} > ../.swift-version")
     puts "\e[31m\e[5mDon't forget to update the swift version in the dependecies: .podspecs & cartfile'\e[0m"
+end
+
+lane :deploy_api_reference do
+	sh("../tools/make-doc.sh")
+	sh("cd ../build/doc && git add . && git commit -m 'update api reference' && git push")
 end
 
 def prepare_git(branch)
