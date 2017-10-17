@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>AlternativesAsExact Enum Reference</title>
+    <title>SortFacetValuesBy Enum Reference</title>
     <link rel="stylesheet" type="text/css" href="../../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../../css/highlight.css" />
     <meta charset='utf-8'>
@@ -10,8 +10,8 @@
     
   </head>
   <body>
-    <a name="//apple_ref/swift/Enum/AlternativesAsExact" class="dashAnchor"></a>
-    <a title="AlternativesAsExact Enum Reference"></a>
+    <a name="//apple_ref/swift/Enum/SortFacetValuesBy" class="dashAnchor"></a>
+    <a title="SortFacetValuesBy Enum Reference"></a>
     <header>
       <div class="content-wrapper">
         <p><a href="../../index.html">AlgoliaSearch Docs</a></p>
@@ -21,7 +21,7 @@
       <p id="breadcrumbs">
         <a href="../../index.html">AlgoliaSearch Reference</a>
         <img id="carat" src="../../img/carat.png" />
-        AlternativesAsExact Enum Reference
+        SortFacetValuesBy Enum Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -109,6 +109,29 @@
             </ul>
           </li>
           <li class="nav-group-name">
+            <a href="../../Offline mode.html">Offline mode</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a href="../../Classes/OfflineClient.html">OfflineClient</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/MirroredIndex.html">MirroredIndex</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/MirroredIndex/Strategy.html">– Strategy</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/DataSelectionQuery.html">DataSelectionQuery</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/OfflineIndex.html">OfflineIndex</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Classes/OfflineIndex/WriteTransaction.html">– WriteTransaction</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a href="../../Errors.html">Errors</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -148,13 +171,13 @@
             <a href="../../Other Typealiases.html">Other Typealiases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../../Other Typealiases.html#/s:13AlgoliaSearch21BrowseIteratorHandlera">BrowseIteratorHandler</a>
+                <a href="../../Other Typealiases.html#/s:20AlgoliaSearch21BrowseIteratorHandlera">BrowseIteratorHandler</a>
               </li>
               <li class="nav-group-task">
-                <a href="../../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a>
+                <a href="../../Other Typealiases.html#/s:20AlgoliaSearch17CompletionHandlera">CompletionHandler</a>
               </li>
               <li class="nav-group-task">
-                <a href="../../Other Typealiases.html#/s:13AlgoliaSearch10JSONObjecta">JSONObject</a>
+                <a href="../../Other Typealiases.html#/s:20AlgoliaSearch10JSONObjecta">JSONObject</a>
               </li>
             </ul>
           </li>
@@ -163,14 +186,14 @@
       <article class="main-content">
         <section>
           <section class="section">
-            <h1>AlternativesAsExact</h1>
+            <h1>SortFacetValuesBy</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">AlternativesAsExact</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                  <pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">SortFacetValuesBy</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                 </div>
               </div>
-            <p>Applicable values for the <code><a href="../../Classes/Query.html#/s:13AlgoliaSearch5QueryC19alternativesAsExactSayAC012AlternativeseF0OGSgv">alternativesAsExact</a></code> parameter.</p>
+            <p>Values applicable to the <code><a href="../../Classes/Query.html#/s:20AlgoliaSearch5QueryC17sortFacetValuesByAC04SortfgH0OSgv">sortFacetValuesBy</a></code> parameter.</p>
 
           </section>
           <section class="section task-group-section">
@@ -179,9 +202,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:13AlgoliaSearch5QueryC19AlternativesAsExactO13ignorePluralsA2EmF"></a>
-                    <a name="//apple_ref/swift/Element/ignorePlurals" class="dashAnchor"></a>
-                    <a class="token" href="#/s:13AlgoliaSearch5QueryC19AlternativesAsExactO13ignorePluralsA2EmF">ignorePlurals</a>
+                    <a name="/s:20AlgoliaSearch5QueryC17SortFacetValuesByO5countA2EmF"></a>
+                    <a name="//apple_ref/swift/Element/count" class="dashAnchor"></a>
+                    <a class="token" href="#/s:20AlgoliaSearch5QueryC17SortFacetValuesByO5countA2EmF">count</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -189,14 +212,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Alternative word added by the ignore plurals feature.</p>
+                        <p>Facet values are sorted by decreasing count, the count being the number of records containing this facet value in the results of the query (default behavior).</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">ignorePlurals</span> <span class="o">=</span> <span class="s">"ignorePlurals"</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">count</span> <span class="o">=</span> <span class="s">"count"</span></code></pre>
 
                         </div>
                       </div>
@@ -210,9 +233,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:13AlgoliaSearch5QueryC19AlternativesAsExactO17singleWordSynonymA2EmF"></a>
-                    <a name="//apple_ref/swift/Element/singleWordSynonym" class="dashAnchor"></a>
-                    <a class="token" href="#/s:13AlgoliaSearch5QueryC19AlternativesAsExactO17singleWordSynonymA2EmF">singleWordSynonym</a>
+                    <a name="/s:20AlgoliaSearch5QueryC17SortFacetValuesByO5alphaA2EmF"></a>
+                    <a name="//apple_ref/swift/Element/alpha" class="dashAnchor"></a>
+                    <a class="token" href="#/s:20AlgoliaSearch5QueryC17SortFacetValuesByO5alphaA2EmF">alpha</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -220,45 +243,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Single word synonym (For example “NY” = “NYC”).</p>
+                        <p>Facet values are sorted by increasing alphabetical order.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">singleWordSynonym</span> <span class="o">=</span> <span class="s">"singleWordSynonym"</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:13AlgoliaSearch5QueryC19AlternativesAsExactO17multiWordsSynonymA2EmF"></a>
-                    <a name="//apple_ref/swift/Element/multiWordsSynonym" class="dashAnchor"></a>
-                    <a class="token" href="#/s:13AlgoliaSearch5QueryC19AlternativesAsExactO17multiWordsSynonymA2EmF">multiWordsSynonym</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Synonym over multiple words (For example “NY” = “New York”).</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">multiWordsSynonym</span> <span class="o">=</span> <span class="s">"multiWordsSynonym"</span></code></pre>
+                          <pre class="highlight"><code><span class="k">case</span> <span class="n">alpha</span> <span class="o">=</span> <span class="s">"alpha"</span></code></pre>
 
                         </div>
                       </div>
