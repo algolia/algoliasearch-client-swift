@@ -10,6 +10,8 @@ The **Algolia Search API Client for Swift** lets you easily use the [Algolia Sea
 [![CocoaPods](https://img.shields.io/cocoapods/l/AlgoliaSearch-Client-Swift.svg)]()
 [![](https://img.shields.io/badge/OS%20X-10.9%2B-lightgrey.svg)]()
 [![](https://img.shields.io/badge/iOS-7.0%2B-lightgrey.svg)]()
+[![Swift 4.0](https://img.shields.io/badge/Swift-4.0-orange.svg)]()
+<a href="https://developer.apple.com/documentation/objectivec"><img src="https://img.shields.io/badge/Objective--C-compatible-blue.svg" alt="Objective-C compatible" /></a>
 
 
 As a complement to this readme, you can browse the automatically generated [reference documentation](https://community.algolia.com/algoliasearch-client-swift/).
