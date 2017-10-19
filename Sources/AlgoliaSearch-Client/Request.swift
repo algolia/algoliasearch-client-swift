@@ -55,7 +55,7 @@ internal class Request: AsyncOperationWithCompletion {
     let headers: [String: String]?
     
     /// Optional body, in JSON format.
-    let jsonBody: JSONObject?
+    let jsonBody: [String: Any]?
     
     /// Timeout for individual network queries.
     let timeout: TimeInterval
@@ -68,7 +68,7 @@ internal class Request: AsyncOperationWithCompletion {
     
     // MARK: - Initialization
     
-    init(client: AbstractClient, method: HTTPMethod, hosts: [String], firstHostIndex: Int, path: String, urlParameters: [String: String]?, headers: [String: String]?, jsonBody: JSONObject?, timeout: TimeInterval, completion: CompletionHandler?) {
+    init(client: AbstractClient, method: HTTPMethod, hosts: [String], firstHostIndex: Int, path: String, urlParameters: [String: String]?, headers: [String: String]?, jsonBody: [String: Any]?, timeout: TimeInterval, completion: CompletionHandler?) {
         self.client = client
         self.method = method
         self.hosts = client.upOrUnknownHosts(hosts)
@@ -153,7 +153,7 @@ internal class Request: AsyncOperationWithCompletion {
         nextHostIndex = (nextHostIndex + 1) % hosts.count
         task = client.session.dataTask(with: request) {
             (data: Data?, response: URLResponse?, error: Error?) in
-            var json: JSONObject?
+            var json: [String: Any]?
             var finalError: Error? = error
             // Shortcut in case of cancellation.
             if self.isCancelled {
@@ -166,7 +166,7 @@ internal class Request: AsyncOperationWithCompletion {
                 // Parse JSON response.
                 // NOTE: We parse JSON even in case of failure to get the error message.
                 do {
-                    json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? JSONObject
+                    json = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? [String: Any]
                     if json == nil {
                         finalError = InvalidJSONError(description: "Server response not a JSON object")
                     }

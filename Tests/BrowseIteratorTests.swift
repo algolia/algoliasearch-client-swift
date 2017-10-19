@@ -32,7 +32,7 @@ class BrowseIteratorTests: OnlineTestCase {
         
         // Add a bunch of objects to the index.
         let expectation = self.expectation(description: "Add objects")
-        var objects = [JSONObject]()
+        var objects = [[String: Any]]()
         for i in 0...1500 {
             objects.append(["i": i])
         }

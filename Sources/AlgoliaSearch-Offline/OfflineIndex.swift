@@ -229,14 +229,14 @@ public struct IOError: CustomNSError {
     /// - returns: A mutually exclusive (content, error) pair.
     ///
     private func getObjectSync(withID objectID: String, attributesToRetrieve: [String]?) -> APIResponse {
-        var content: JSONObject?
+        var content: [String: Any]?
         var error: Error?
         let query = Query()
         query.attributesToRetrieve = attributesToRetrieve
         let searchResults = self.localIndex.getObjects(withIDs: [objectID], parameters: query.build())
         (content, error) = OfflineClient.parseResponse(searchResults)
         if let content = content {
-            guard let results = content["results"] as? [JSONObject] else {
+            guard let results = content["results"] as? [[String: Any]] else {
                 return (nil, InvalidJSONError(description: "Invalid results returned")) // should never happen
             }
             guard results.count == 1 else {
@@ -543,7 +543,7 @@ public struct IOError: CustomNSError {
         private let tmpDirPath: String
         
         /// Temporary in-memory cache for objects.
-        private var tmpObjects: [JSONObject] = []
+        private var tmpObjects: [[String: Any]] = []
         
         /// Dispatch queue used to serialize accesses to a transaction's data.
         private var self_lock = DispatchQueue(label: String(reflecting: type(of: self)) + ".lock")
@@ -580,7 +580,7 @@ public struct IOError: CustomNSError {
         ///
         /// - parameter object: Object to save. It must contain an `objectID` attribute.
         ///
-        @objc public func saveObjectSync(_ object: JSONObject) throws {
+        @objc public func saveObjectSync(_ object: [String: Any]) throws {
             assertNotMainThread()
             try self_lock.sync {
                 assert(!finished)
@@ -596,14 +596,14 @@ public struct IOError: CustomNSError {
         /// - returns: The corresponding operation.
         ///
         @discardableResult
-        @objc public func saveObject(_ object: JSONObject, completionHandler: CompletionHandler? = nil) -> Operation {
+        @objc public func saveObject(_ object: [String: Any], completionHandler: CompletionHandler? = nil) -> Operation {
             let operation = BlockOperation() {
                 do {
                     try self.saveObjectSync(object)
                     guard let objectID = object["objectID"] else {
                         throw InvalidJSONError(description: "Object is missing required `objectID` attribute")
                     }
-                    let content: JSONObject = [
+                    let content: [String: Any] = [
                         "objectID": objectID
                     ]
                     completionHandler?(content, nil)
@@ -619,7 +619,7 @@ public struct IOError: CustomNSError {
         ///
         /// - parameter objects: New versions of the objects to update. Each one must contain an `objectID` attribute.
         ///
-        @objc public func saveObjectsSync(_ objects: [JSONObject]) throws {
+        @objc public func saveObjectsSync(_ objects: [[String: Any]]) throws {
             assertNotMainThread()
             try self_lock.sync {
                 assert(!finished)
@@ -635,17 +635,17 @@ public struct IOError: CustomNSError {
         /// - returns: The corresponding operation.
         ///
         @discardableResult
-        @objc public func saveObjects(_ objects: [JSONObject], completionHandler: CompletionHandler? = nil) -> Operation {
+        @objc public func saveObjects(_ objects: [[String: Any]], completionHandler: CompletionHandler? = nil) -> Operation {
             let operation = BlockOperation() {
                 do {
                     try self.saveObjectsSync(objects)
-                    let objectIDs = try objects.map({ (object: JSONObject) -> Any in
+                    let objectIDs = try objects.map({ (object: [String: Any]) -> Any in
                         guard let objectID = object["objectID"] else {
                             throw InvalidJSONError(description: "Object is missing required `objectID` attribute")
                         }
                         return objectID
                     })
-                    let content: JSONObject = [
+                    let content: [String: Any] = [
                         "objectIDs": objectIDs
                     ]
                     completionHandler?(content, nil)
@@ -680,7 +680,7 @@ public struct IOError: CustomNSError {
             let operation = BlockOperation() {
                 do {
                     try self.deleteObjectSync(withID: objectID)
-                    let content: JSONObject = [
+                    let content: [String: Any] = [
                         "objectID": objectID
                     ]
                     completionHandler?(content, nil)
@@ -715,7 +715,7 @@ public struct IOError: CustomNSError {
             let operation = BlockOperation() {
                 do {
                     try self.deleteObjectsSync(withIDs: objectIDs)
-                    let content: JSONObject = [
+                    let content: [String: Any] = [
                         "objectIDs": objectIDs
                     ]
                     completionHandler?(content, nil)
@@ -734,7 +734,7 @@ public struct IOError: CustomNSError {
         ///
         /// - parameter settings: New settings.
         ///
-        @objc public func setSettingsSync(_ settings: JSONObject) throws {
+        @objc public func setSettingsSync(_ settings: [String: Any]) throws {
             assertNotMainThread()
             try self_lock.sync {
                 assert(!finished)
@@ -752,7 +752,7 @@ public struct IOError: CustomNSError {
         /// - returns: The corresponding operation.
         ///
         @discardableResult
-        @objc public func setSettings(_ settings: JSONObject, completionHandler: CompletionHandler? = nil) -> Operation {
+        @objc public func setSettings(_ settings: [String: Any], completionHandler: CompletionHandler? = nil) -> Operation {
             let operation = BlockOperation() {
                 do {
                     try self.setSettingsSync(settings)
@@ -897,7 +897,7 @@ public struct IOError: CustomNSError {
             }
             stream.open()
             var error: NSError? = nil
-            _ = JSONSerialization.writeJSONObject(json, to: stream, options: [], error: &error)
+            _ = JSONSerialization.write[String: Any](json, to: stream, options: [], error: &error)
             stream.close()
             guard error == nil else {
                 throw error!
@@ -947,7 +947,7 @@ public struct IOError: CustomNSError {
     /// - parameter objectFiles: Absolute path(s) to the file(s) containing the objects. Each file must contain an
     ///   array of objects, in JSON format.
     ///
-    private func _build(settingsFile: String, objectFiles: [String]) -> (JSONObject?, Error?) {
+    private func _build(settingsFile: String, objectFiles: [String]) -> ([String: Any]?, Error?) {
         assert(!Thread.isMainThread) // make sure it's run in the background
         assert(OperationQueue.current == client.offlineBuildQueue) // ensure serial calls
 
@@ -972,7 +972,7 @@ public struct IOError: CustomNSError {
     @objc public func deleteByQuery(_ query: Query, completionHandler: CompletionHandler? = nil) -> Operation {
         let transaction = newTransaction()
         let operation = BlockOperation() {
-            var content: JSONObject?
+            var content: [String: Any]?
             var error: Error?
             do {
                 let deletedObjectIDs = try self.deleteByQuerySync(query, transaction: transaction)
@@ -1015,7 +1015,7 @@ public struct IOError: CustomNSError {
             guard let returnedContent = content else {
                 throw error!
             }
-            guard let hits = content!["hits"] as? [JSONObject] else {
+            guard let hits = content!["hits"] as? [[String: Any]] else {
                 throw InvalidJSONError(description: "No hits returned when browsing")
             }
             // Retrieve object IDs.
@@ -1062,7 +1062,7 @@ public struct IOError: CustomNSError {
     /// - parameter content: The content to pass as a first argument to the completion handler.
     /// - parameter error: The error to pass as a second argument to the completion handler.
     ///
-    private func callCompletionHandler(_ completionHandler: CompletionHandler?, content: JSONObject?, error: Error?) {
+    private func callCompletionHandler(_ completionHandler: CompletionHandler?, content: [String: Any]?, error: Error?) {
         // TODO: Factorize with `OfflineClient`.
         if let completionHandler = completionHandler {
             client.completionQueue!.addOperation {

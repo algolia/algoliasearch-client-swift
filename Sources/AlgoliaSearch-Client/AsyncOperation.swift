@@ -129,7 +129,7 @@ internal class AsyncOperationWithCompletion: AsyncOperation {
 
     /// Finish this operation.
     /// This method should be called exactly once per operation.
-    internal func callCompletion(content: JSONObject?, error: Error?) {
+    internal func callCompletion(content: [String: Any]?, error: Error?) {
         if _cancelled {
             return
         }
@@ -142,7 +142,7 @@ internal class AsyncOperationWithCompletion: AsyncOperation {
         }
     }
     
-    internal func _callCompletion(content: JSONObject?, error: Error?) {
+    internal func _callCompletion(content: [String: Any]?, error: Error?) {
         // WARNING: In case of asynchronous dispatch, the request could have been cancelled in the meantime
         // => check again.
         if !_cancelled {
@@ -157,7 +157,7 @@ internal class AsyncOperationWithCompletion: AsyncOperation {
 /// An asynchronous operation whose body is specified as a block.
 ///
 internal class AsyncBlockOperation: AsyncOperationWithCompletion {
-    typealias OperationBlock = () -> (content: JSONObject?, error: Error?)
+    typealias OperationBlock = () -> (content: [String: Any]?, error: Error?)
     
     /// The block that will be executed as part of the operation.
     let block: OperationBlock

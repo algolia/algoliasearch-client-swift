@@ -93,7 +93,7 @@ class IndexTests: OnlineTestCase {
     
     func testAddObjects() {
         let expectation = self.expectation(description: "testAddObjects")
-        let objects: [JSONObject] = [
+        let objects: [[String: Any]] = [
             ["city": "San Francisco"],
             ["city": "New York"]
         ]
@@ -191,7 +191,7 @@ class IndexTests: OnlineTestCase {
     
     func testDeleteObjects() {
         let expectation = self.expectation(description: "testDeleteObjects")
-        let objects: [JSONObject] = [
+        let objects: [[String: Any]] = [
             ["city": "San Francisco", "objectID": "a/go/?à"],
             ["city": "New York", "objectID": "a/go/?à$"]
         ]
@@ -264,7 +264,7 @@ class IndexTests: OnlineTestCase {
     
     func testGetObjects() {
         let expectation = self.expectation(description: "testGetObjects")
-        let objects: [JSONObject] = [
+        let objects: [[String: Any]] = [
             ["city": "San Francisco", "objectID": "a/go/?à"],
             ["city": "New York", "objectID": "a/go/?à$"]
         ]
@@ -283,7 +283,7 @@ class IndexTests: OnlineTestCase {
                             if let error = error {
                                 XCTFail("Error during getObjects: \(error)")
                             } else {
-                                let items = content!["results"] as! [JSONObject]
+                                let items = content!["results"] as! [[String: Any]]
                                 XCTAssertEqual(items[0]["city"] as? String, objects[0]["city"] as? String, "GetObjects return the wrong object")
                                 XCTAssertEqual(items[1]["city"] as? String, objects[1]["city"] as? String, "GetObjects return the wrong object")
                             }
@@ -300,7 +300,7 @@ class IndexTests: OnlineTestCase {
     
     func testGetObjectsFiltered() {
         let expectation = self.expectation(description: #function)
-        let objects: [JSONObject] = [
+        let objects: [[String: Any]] = [
             ["objectID": "1", "name": "Snoopy", "kind": "dog"],
             ["objectID": "2", "name": "Woodstock", "kind": "bird"]
         ]
@@ -322,7 +322,7 @@ class IndexTests: OnlineTestCase {
                         expectation.fulfill()
                         return
                     }
-                    let items = content["results"] as! [JSONObject]
+                    let items = content["results"] as! [[String: Any]]
                     XCTAssertEqual(2, items.count)
                     XCTAssertEqual(items[0]["name"] as? String, "Snoopy")
                     XCTAssertEqual(items[1]["name"] as? String, "Woodstock")
@@ -419,7 +419,7 @@ class IndexTests: OnlineTestCase {
     
     func testPartialUpdateObjects() {
         let expectation = self.expectation(description: "testPartialUpdateObjects")
-        let objects: [JSONObject] = [
+        let objects: [[String: Any]] = [
             ["city": "San Francisco", "initial": "SF", "objectID": "a/go/?à"],
             ["city": "New York", "initial": "NY", "objectID": "a/go/?à$"]
         ]
@@ -429,7 +429,7 @@ class IndexTests: OnlineTestCase {
                 XCTFail("Error during addObjects: \(error)")
                 expectation.fulfill()
             } else {
-                let objectsToUpdate: [JSONObject] = [
+                let objectsToUpdate: [[String: Any]] = [
                     ["city": "Paris", "objectID": "a/go/?à"],
                     ["city": "Strasbourg", "objectID": "a/go/?à$"]
                 ]
@@ -468,7 +468,7 @@ class IndexTests: OnlineTestCase {
 
     func testPartialUpdateObjectsCreateIfNotExists() {
         let expectation = self.expectation(description: #function)
-        let objectUpdates: [JSONObject] = [
+        let objectUpdates: [[String: Any]] = [
             ["city": "Paris", "objectID": "a/go/?à"],
             ["city": "Strasbourg", "objectID": "a/go/?à$"]
         ]
@@ -497,7 +497,7 @@ class IndexTests: OnlineTestCase {
                                     expectation.fulfill()
                                     return
                                 }
-                                guard let results = content?["results"] as? [JSONObject] else { XCTFail("Invalid results"); expectation.fulfill(); return }
+                                guard let results = content?["results"] as? [[String: Any]] else { XCTFail("Invalid results"); expectation.fulfill(); return }
                                 XCTAssertEqual(results.count, 2)
                                 for i in 0..<2 {
                                     XCTAssertEqual(results[i]["objectID"] as? String, objectUpdates[i]["objectID"] as? String)
@@ -514,7 +514,7 @@ class IndexTests: OnlineTestCase {
 
     func testSaveObject() {
         let expectation = self.expectation(description: "testSaveObject")
-        let object: JSONObject = ["city": "New York", "initial": "NY", "objectID": "a/go/?à"]
+        let object: [String: Any] = ["city": "New York", "initial": "NY", "objectID": "a/go/?à"]
         
         index.addObject(object, completionHandler: { (content, error) -> Void in
             if let error = error {
@@ -555,7 +555,7 @@ class IndexTests: OnlineTestCase {
     
     func testSaveObjects() {
         let expectation = self.expectation(description: "testSaveObjects")
-        let objects: [JSONObject] = [
+        let objects: [[String: Any]] = [
             ["city": "San Francisco", "initial": "SF", "objectID": "a/go/?à"],
             ["city": "New York", "initial": "NY", "objectID": "a/go/?à$"]
         ]
@@ -565,7 +565,7 @@ class IndexTests: OnlineTestCase {
                 XCTFail("Error during addObjects: \(error)")
                 expectation.fulfill()
             } else {
-                let objectsToSave: [JSONObject] = [
+                let objectsToSave: [[String: Any]] = [
                     ["city": "Paris", "objectID": "a/go/?à"],
                     ["city": "Strasbourg", "initial": "SBG", "objectID": "a/go/?à$"]
                 ]
@@ -604,7 +604,7 @@ class IndexTests: OnlineTestCase {
     
     func testClear() {
         let expectation = self.expectation(description: "testClear")
-        let object: JSONObject = ["city": "San Francisco", "objectID": "a/go/?à"]
+        let object: [String: Any] = ["city": "San Francisco", "objectID": "a/go/?à"]
         
         index.addObject(object, completionHandler: { (content, error) -> Void in
             if let error = error {
@@ -707,7 +707,7 @@ class IndexTests: OnlineTestCase {
 
     func testBrowse() {
         let expectation = self.expectation(description: "testBrowseWithQuery")
-        var objects: [JSONObject] = []
+        var objects: [[String: Any]] = []
         for i in 0...1500 {
             objects.append(["i": i])
         }
@@ -757,7 +757,7 @@ class IndexTests: OnlineTestCase {
     
     func testBatch() {
         let expectation = self.expectation(description: #function)
-        let actions: [JSONObject] = [
+        let actions: [[String: Any]] = [
             [
                 "action": "addObject",
                 "body": [ "city": "San Francisco" ]
@@ -799,7 +799,7 @@ class IndexTests: OnlineTestCase {
     
     func testDeleteByQuery() {
         let expectation = self.expectation(description: #function)
-        var objects: [JSONObject] = []
+        var objects: [[String: Any]] = []
         for i in 0..<3000 {
             objects.append(["dummy": i])
         }
@@ -846,7 +846,7 @@ class IndexTests: OnlineTestCase {
     
     func testDeleteBy() {
         let expectation = self.expectation(description: #function)
-        var objects: [JSONObject] = []
+        var objects: [[String: Any]] = []
         for i in 0..<3000 {
             objects.append(["dummy": i])
         }
@@ -901,7 +901,7 @@ class IndexTests: OnlineTestCase {
     
     func testSearchDisjunctiveFaceting() {
         let expectation = self.expectation(description: "testAddObjects")
-        let objects: [JSONObject] = [
+        let objects: [[String: Any]] = [
             ["name": "iPhone 6",                "brand": "Apple",       "category": "device",       "stars": 4],
             ["name": "iPhone 6 Plus",           "brand": "Apple",       "category": "device",       "stars": 5],
             ["name": "iPhone cover",            "brand": "Apple",       "category": "accessory",    "stars": 3],
@@ -948,9 +948,9 @@ class IndexTests: OnlineTestCase {
                                                 expectation.fulfill()
                                             } else {
                                                 XCTAssertEqual(content!["nbHits"] as? Int, 3)
-                                                let disjunctiveFacetsResult = content!["disjunctiveFacets"] as? JSONObject
+                                                let disjunctiveFacetsResult = content!["disjunctiveFacets"] as? [String: Any]
                                                 XCTAssertNotNil(disjunctiveFacetsResult)
-                                                let brandFacetCounts = disjunctiveFacetsResult!["brand"] as? JSONObject
+                                                let brandFacetCounts = disjunctiveFacetsResult!["brand"] as? [String: Any]
                                                 XCTAssertNotNil(brandFacetCounts)
                                                 XCTAssertEqual(brandFacetCounts!["Apple"] as? Int, 2)
                                                 XCTAssertEqual(brandFacetCounts!["Samsung"] as? Int, 1)
@@ -977,7 +977,7 @@ class IndexTests: OnlineTestCase {
         let expectation4 = self.expectation(description: "stars (2 values) + city")
         let expectations = [expectation, expectation1, expectation2, expectation3, expectation4]
         
-        let objects: [JSONObject] = [
+        let objects: [[String: Any]] = [
             ["name": "Hotel A", "stars": "*", "facilities": ["wifi", "bath", "spa"], "city": "Paris"],
             ["name": "Hotel B", "stars": "*", "facilities": ["wifi"], "city": "Paris"],
             ["name": "Hotel C", "stars": "**", "facilities": ["bath"], "city": "San Fancisco"],
@@ -1022,8 +1022,8 @@ class IndexTests: OnlineTestCase {
                                 XCTFail(error!.localizedDescription)
                             } else {
                                 XCTAssertEqual(5, content!["nbHits"] as? Int)
-                                XCTAssertEqual(1, (content!["facets"] as? JSONObject)?.count)
-                                XCTAssertEqual(2, (content!["disjunctiveFacets"] as? JSONObject)?.count)
+                                XCTAssertEqual(1, (content!["facets"] as? [String: Any])?.count)
+                                XCTAssertEqual(2, (content!["disjunctiveFacets"] as? [String: Any])?.count)
                             }
                             expectation1.fulfill()
                         })
@@ -1034,11 +1034,11 @@ class IndexTests: OnlineTestCase {
                                 XCTFail(error!.localizedDescription)
                             } else {
                                 XCTAssertEqual(2, content!["nbHits"] as? Int)
-                                XCTAssertEqual(1, (content!["facets"] as? JSONObject)?.count)
-                                let disjunctiveFacets = content!["disjunctiveFacets"] as? JSONObject
+                                XCTAssertEqual(1, (content!["facets"] as? [String: Any])?.count)
+                                let disjunctiveFacets = content!["disjunctiveFacets"] as? [String: Any]
                                 XCTAssertNotNil(disjunctiveFacets)
                                 XCTAssertEqual(2, disjunctiveFacets?.count)
-                                let starsCounts = disjunctiveFacets?["stars"] as? JSONObject
+                                let starsCounts = disjunctiveFacets?["stars"] as? [String: Any]
                                 XCTAssertNotNil(starsCounts)
                                 XCTAssertEqual(2, starsCounts?["*"] as? Int);
                                 XCTAssertEqual(1, starsCounts?["**"] as? Int);
@@ -1053,11 +1053,11 @@ class IndexTests: OnlineTestCase {
                                 XCTFail(error!.localizedDescription)
                             } else {
                                 XCTAssertEqual(2, content!["nbHits"] as? Int)
-                                XCTAssertEqual(1, (content!["facets"] as? JSONObject)?.count)
-                                let disjunctiveFacets = content!["disjunctiveFacets"] as? JSONObject
+                                XCTAssertEqual(1, (content!["facets"] as? [String: Any])?.count)
+                                let disjunctiveFacets = content!["disjunctiveFacets"] as? [String: Any]
                                 XCTAssertNotNil(disjunctiveFacets)
                                 XCTAssertEqual(2, disjunctiveFacets?.count)
-                                let starsCounts = disjunctiveFacets?["stars"] as? JSONObject
+                                let starsCounts = disjunctiveFacets?["stars"] as? [String: Any]
                                 XCTAssertNotNil(starsCounts)
                                 XCTAssertEqual(2, starsCounts?["*"] as? Int);
                                 XCTAssertEqual(1, starsCounts?["****"] as? Int);
@@ -1071,11 +1071,11 @@ class IndexTests: OnlineTestCase {
                                 XCTFail(error!.localizedDescription)
                             } else {
                                 XCTAssertEqual(3, content!["nbHits"] as? Int)
-                                XCTAssertEqual(1, (content!["facets"] as? JSONObject)?.count)
-                                let disjunctiveFacets = content!["disjunctiveFacets"] as? JSONObject
+                                XCTAssertEqual(1, (content!["facets"] as? [String: Any])?.count)
+                                let disjunctiveFacets = content!["disjunctiveFacets"] as? [String: Any]
                                 XCTAssertNotNil(disjunctiveFacets)
                                 XCTAssertEqual(2, disjunctiveFacets?.count)
-                                let starsCounts = disjunctiveFacets?["stars"] as? JSONObject
+                                let starsCounts = disjunctiveFacets?["stars"] as? [String: Any]
                                 XCTAssertNotNil(starsCounts)
                                 XCTAssertEqual(2, starsCounts?["*"] as? Int);
                                 XCTAssertEqual(1, starsCounts?["****"] as? Int);
@@ -1141,7 +1141,7 @@ class IndexTests: OnlineTestCase {
                             if let error = error {
                                 XCTFail("Error during multipleQueries: \(error)")
                             } else {
-                                let items = content!["results"] as! [JSONObject]
+                                let items = content!["results"] as! [[String: Any]]
                                 XCTAssertEqual(items[0]["nbHits"] as? Int, 1, "Wrong number of object in the index")
                             }
                             expectation.fulfill()
@@ -1155,7 +1155,7 @@ class IndexTests: OnlineTestCase {
 
     func testSearchCache() {
         let expectation = self.expectation(description: #function)
-        let objects: [JSONObject] = [
+        let objects: [[String: Any]] = [
             ["city": "San Francisco"],
             ["city": "New York"]
         ]
@@ -1183,7 +1183,7 @@ class IndexTests: OnlineTestCase {
                         return
                     }
                     XCTAssertNotNil(content)
-                    let firstResponse: JSONObject = content!
+                    let firstResponse: [String: Any] = content!
 
                     // Alter the hosts so that any search request should fail.
                     self.client.readHosts = ["alwaysfail.algolia.com"]
@@ -1220,7 +1220,7 @@ class IndexTests: OnlineTestCase {
                 "kind"
             ]
         ]
-        let objects: [String: JSONObject] = [
+        let objects: [String: [String: Any]] = [
             "snoopy": [
                 "objectID": "1",
                 "name": "Snoopy",
@@ -1268,7 +1268,7 @@ class IndexTests: OnlineTestCase {
                     // Query with no extra search parameters.
                     self.index.searchForFacetValues(of: "series", matching: "Hobb") { (content, error) in
                         guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
-                        guard let facetHits = content!["facetHits"] as? [JSONObject] else { XCTFail("No facet hits"); expectation.fulfill(); return }
+                        guard let facetHits = content!["facetHits"] as? [[String: Any]] else { XCTFail("No facet hits"); expectation.fulfill(); return }
                         XCTAssertEqual(facetHits.count, 1)
                         XCTAssertEqual(facetHits[0]["value"] as? String, "Calvin & Hobbes")
                         XCTAssertEqual(facetHits[0]["count"] as? Int, 2)
@@ -1278,7 +1278,7 @@ class IndexTests: OnlineTestCase {
                         query.numericFilters = ["born >= 1955"]
                         self.index.searchForFacetValues(of: "series", matching: "Peanutz", query: query) { (content, error) in
                             guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
-                            guard let facetHits = content!["facetHits"] as? [JSONObject] else { XCTFail("No facet hits"); expectation.fulfill(); return }
+                            guard let facetHits = content!["facetHits"] as? [[String: Any]] else { XCTFail("No facet hits"); expectation.fulfill(); return }
                             XCTAssertEqual(facetHits[0]["value"] as? String, "Peanuts")
                             XCTAssertEqual(facetHits[0]["count"] as? Int, 1)
                             expectation.fulfill()

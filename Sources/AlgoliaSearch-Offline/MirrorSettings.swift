@@ -31,7 +31,7 @@ internal class MirrorSettings {
     
     /// Serialize the settings to a plist and save them to disk.
     func save(_ filePath: String) {
-        var queriesJson: [JSONObject] = []
+        var queriesJson: [[String: Any]] = []
         for query in queries {
             queriesJson.append([
                 "query": query.query.build(),
@@ -53,7 +53,7 @@ internal class MirrorSettings {
             if let lastSyncDate = settings["lastSyncDate"] as? Date {
                 self.lastSyncDate = lastSyncDate
             }
-            if let queriesJson = settings["queries"] as? [JSONObject] {
+            if let queriesJson = settings["queries"] as? [[String: Any]] {
                 for queryJson in queriesJson {
                     if let queryString = queryJson["query"] as? String, let maxObjects = queryJson["maxObjects"] as? Int {
                         self.queries.append(DataSelectionQuery(query: Query.parse(queryString), maxObjects: maxObjects))

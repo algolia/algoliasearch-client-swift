@@ -30,7 +30,7 @@ import Foundation
 /// - parameter content:    The content returned by the server, in case of success.
 /// - parameter error:      The error that was encountered, in case of failure.
 ///
-public typealias BrowseIteratorHandler = (_ iterator: BrowseIterator, _ content: JSONObject?, _ error: Error?) -> Void
+public typealias BrowseIteratorHandler = (_ iterator: BrowseIterator, _ content: [String: Any]?, _ error: Error?) -> Void
 
 
 /// Iterator to browse all index content.
@@ -93,7 +93,7 @@ public typealias BrowseIteratorHandler = (_ iterator: BrowseIterator, _ content:
         cancelled = true
     }
     
-    private func handleResult(_ content: JSONObject?, error: Error?) {
+    private func handleResult(_ content: [String: Any]?, error: Error?) {
         request = nil
         cursor = content?["cursor"] as? String
         if !cancelled {

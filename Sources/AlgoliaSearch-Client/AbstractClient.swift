@@ -346,7 +346,7 @@ internal struct HostStatus {
     // MARK: - Network
     
     /// Perform an HTTP Query.
-    func performHTTPQuery(path: String, urlParameters: [String: String]? = nil, method: HTTPMethod, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
+    func performHTTPQuery(path: String, urlParameters: [String: String]? = nil, method: HTTPMethod, body: [String: Any]?, hostnames: [String], isSearchQuery: Bool = false, requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
         let request = self.newRequest(method: method, path: path, urlParameters: urlParameters, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery, requestOptions: requestOptions, completion: completionHandler)
         request.completionQueue = self.completionQueue
         onlineRequestQueue.addOperation(request)
@@ -354,7 +354,7 @@ internal struct HostStatus {
     }
     
     /// Create a request with this client's settings.
-    func newRequest(method: HTTPMethod, path: String, urlParameters: [String: String]? = nil, body: JSONObject?, hostnames: [String], isSearchQuery: Bool = false, requestOptions: RequestOptions? = nil, completion: CompletionHandler? = nil) -> Request {
+    func newRequest(method: HTTPMethod, path: String, urlParameters: [String: String]? = nil, body: [String: Any]?, hostnames: [String], isSearchQuery: Bool = false, requestOptions: RequestOptions? = nil, completion: CompletionHandler? = nil) -> Request {
         let currentTimeout = isSearchQuery ? searchTimeout : timeout
         // Patch the headers with the request options, if provided.
         var headers = self.headers

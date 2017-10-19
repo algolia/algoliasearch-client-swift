@@ -41,15 +41,15 @@ internal class MultipleQueryEmulator {
         // TODO: Should be moved to `LocalIndex` to factorize implementation between platforms.
         assert(!Thread.isMainThread) // make sure it's run in the background
         
-        var content: JSONObject?
+        var content: [String: Any]?
         var error: Error?
-        var results: [JSONObject] = []
+        var results: [[String: Any]] = []
         
         var shouldProcess = true
         for query in queries {
             // Implement the "stop if enough matches" strategy.
             if !shouldProcess {
-                let returnedContent: JSONObject = [
+                let returnedContent: [String: Any] = [
                     "hits": [],
                     "page": 0,
                     "nbHits": 0,
