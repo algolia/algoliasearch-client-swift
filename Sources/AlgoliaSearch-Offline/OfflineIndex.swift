@@ -897,7 +897,7 @@ public struct IOError: CustomNSError {
             }
             stream.open()
             var error: NSError? = nil
-            _ = JSONSerialization.write[String: Any](json, to: stream, options: [], error: &error)
+            _ = JSONSerialization.writeJSONObject(json, to: stream, options: [], error: &error)
             stream.close()
             guard error == nil else {
                 throw error!

@@ -434,7 +434,7 @@ import Foundation
                 do {
                     assert(json != nil)
                     // Write results to disk.
-                    let data = try JSONSerialization.data(with[String: Any]: json!, options: [])
+                    let data = try JSONSerialization.data(withJSONObject: json!, options: [])
                     self.settingsFilePath = URL(fileURLWithPath: self.tmpDir!).appendingPathComponent("settings.json").path
                     try data.write(to: URL(fileURLWithPath: self.settingsFilePath!), options: [])
                 } catch let e {
@@ -498,7 +498,7 @@ import Foundation
                     let newObjectCount = currentObjectCount + hits.count
                     
                     // Write results to disk.
-                    let data = try JSONSerialization.data(with[String: Any]: json!, options: [])
+                    let data = try JSONSerialization.data(withJSONObject: json!, options: [])
                     let objectFilePath = URL(fileURLWithPath: self.tmpDir!).appendingPathComponent("\(currentObjectFileIndex).json").path
                     self.objectsFilePaths!.append(objectFilePath)
                     try data.write(to: URL(fileURLWithPath: objectFilePath), options: [])
