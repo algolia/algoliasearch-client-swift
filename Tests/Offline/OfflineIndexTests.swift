@@ -199,7 +199,7 @@ class OfflineIndexTests: OfflineTestCase {
     func testGetSetSettings() {
         let expectation = self.expectation(description: #function)
         let index = client.offlineIndex(withName: #function)
-        let settings: JSONObject = [
+        let settings: [String: Any] = [
             "attributesToIndex": ["foo", "bar"]
         ]
         let transaction = index.newTransaction()
@@ -222,7 +222,7 @@ class OfflineIndexTests: OfflineTestCase {
         let expectation = self.expectation(description: #function)
         let index = client.offlineIndex(withName: #function)
         let queue = DispatchQueue(label: #function)
-        let settings: JSONObject = [
+        let settings: [String: Any] = [
             "attributesToIndex": ["foo", "bar"]
         ]
         queue.async {
@@ -419,7 +419,7 @@ class OfflineIndexTests: OfflineTestCase {
                 guard let nbHits = content["nbHits"] as? Int else { XCTFail(); return }
                 XCTAssertEqual(nbHits, 1)
                 XCTAssertNil(content["cursor"])
-                guard let hits = content["hits"] as? [JSONObject] else { XCTFail(); return }
+                guard let hits = content["hits"] as? [[String: Any]] else { XCTFail(); return }
                 XCTAssertEqual(hits[0]["name"] as? String, "Woodstock")
                 expectation.fulfill()
             }
@@ -481,7 +481,7 @@ class OfflineIndexTests: OfflineTestCase {
                     let query = Query(query: "snoopy")
                     index.searchForFacetValues(of: "series", matching: "pea", query: query) { (content, error) in
                         guard let content = content else { XCTFail(); return }
-                        guard let facetHits = content["facetHits"] as? [JSONObject] else { XCTFail(); return }
+                        guard let facetHits = content["facetHits"] as? [[String: Any]] else { XCTFail(); return }
                         XCTAssertEqual(1, facetHits.count)
                         XCTAssertEqual("Peanuts", facetHits[0]["value"] as? String)
                         XCTAssertEqual(1, facetHits[0]["count"] as? Int)

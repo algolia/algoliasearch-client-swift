@@ -25,7 +25,7 @@ import AlgoliaSearchOfflineCore
 import Foundation
 
 
-typealias APIResponse = (content: JSONObject?, error: Error?)
+typealias APIResponse = (content: [String: Any]?, error: Error?)
 
 
 /// An API client that adds offline features on top of the regular online API client.
@@ -218,10 +218,10 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     /// - returns: A mutally exclusive (content, error) pair.
     ///
     private func listOfflineIndexesSync() -> APIResponse {
-        var content: JSONObject?
+        var content: [String: Any]?
         var error: NSError?
         do {
-            var items = [JSONObject]()
+            var items = [[String: Any]]()
             var isDirectory: ObjCBool = false
             if FileManager.default.fileExists(atPath: appDir, isDirectory: &isDirectory) && isDirectory.boolValue {
                 let files = try FileManager.default.contentsOfDirectory(atPath: appDir)
@@ -270,7 +270,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     private func deleteOfflineIndexSync(withName indexName: String) -> APIResponse {
         do {
             try FileManager.default.removeItem(atPath: indexDir(indexName: indexName))
-            let content: JSONObject = [
+            let content: [String: Any] = [
                 "deletedAt": Date().iso8601
             ]
             return (content, nil)
@@ -318,7 +318,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
                 try FileManager.default.removeItem(atPath: toPath)
             }
             try FileManager.default.moveItem(atPath: fromPath, toPath: toPath)
-            let content: JSONObject = [
+            let content: [String: Any] = [
                 "updatedAt": Date().iso8601
             ]
             return (content, nil)
@@ -337,15 +337,15 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     /// - returns: A (content, error) pair that can be passed to a `CompletionHandler`.
     ///
     internal static func parseResponse(_ response: Response) -> APIResponse {
-        var content: JSONObject?
+        var content: [String: Any]?
         var error: Error?
         let statusCode = Int(response.statusCode)
         if statusCode == StatusCode.ok.rawValue {
             if let data = response.data {
                 do {
                     let json = try JSONSerialization.jsonObject(with: data, options: [])
-                    if json is JSONObject {
-                        content = (json as! JSONObject)
+                    if json is [String: Any] {
+                        content = (json as! [String: Any])
                         // NOTE: Origin tagging performed by the SDK.
                     } else {
                         error = InvalidJSONError(description: "Invalid JSON returned")
@@ -354,7 +354,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
                     error = _error
                 }
             } else { // may happen in case of empty response (e.g. when building)
-                content = JSONObject()
+                content = [String: Any]()
             }
         } else {
             error = HTTPError(statusCode: statusCode, message: response.errorMessage)
@@ -369,7 +369,7 @@ typealias APIResponse = (content: JSONObject?, error: Error?)
     /// - parameter content: The content to pass as a first argument to the completion handler.
     /// - parameter error: The error to pass as a second argument to the completion handler.
     ///
-    internal func callCompletionHandler(_ completionHandler: CompletionHandler?, content: JSONObject?, error: Error?) {
+    internal func callCompletionHandler(_ completionHandler: CompletionHandler?, content: [String: Any]?, error: Error?) {
         if let completionHandler = completionHandler {
             completionQueue!.addOperation {
                 completionHandler(content, error)

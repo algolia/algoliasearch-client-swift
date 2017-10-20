@@ -70,7 +70,7 @@ internal class DisjunctiveFaceting {
         
         // Run all the queries.
         let operation = self.multipleQuerier(queries) { (content, error) -> Void in
-            var finalContent: JSONObject? = nil
+            var finalContent: [String: Any]? = nil
             var finalError: Error? = error
             if error == nil {
                 do {
@@ -86,18 +86,18 @@ internal class DisjunctiveFaceting {
     }
     
     /// Aggregate disjunctive faceting search results.
-    private class func _aggregateResults(disjunctiveFacets: [String], refinements: [String: [String]], content: JSONObject) throws -> JSONObject {
+    private class func _aggregateResults(disjunctiveFacets: [String], refinements: [String: [String]], content: [String: Any]) throws -> [String: Any] {
         guard let results = content["results"] as? [AnyObject] else {
             throw InvalidJSONError(description: "No results in response")
         }
         // The first answer is used as the basis for the response.
-        guard var mainContent = results[0] as? JSONObject else {
+        guard var mainContent = results[0] as? [String: Any] else {
             throw InvalidJSONError(description: "Invalid results in response")
         }
         // Following answers are just used for their facet counts.
-        var disjunctiveFacetCounts = JSONObject()
+        var disjunctiveFacetCounts = [String: Any]()
         for i in 1..<results.count { // for each answer (= each disjunctive facet)
-            guard let result = results[i] as? JSONObject, let allFacetCounts = result["facets"] as? [String: JSONObject] else {
+            guard let result = results[i] as? [String: Any], let allFacetCounts = result["facets"] as? [String: [String: Any]] else {
                 throw InvalidJSONError(description:  "Invalid results in response")
             }
             // NOTE: Iterating, but there should be just one item.

@@ -30,7 +30,7 @@ class MirroredIndexTests: OfflineTestCase {
     /// Higher timeout for online queries.
     let onlineExpectationTimeout: TimeInterval = 100.0
     
-    let moreObjects: [String: JSONObject] = [
+    let moreObjects: [String: [String: Any]] = [
         "snoopy": [
             "objectID": "1",
             "name": "Snoopy",
@@ -344,7 +344,7 @@ class MirroredIndexTests: OfflineTestCase {
             // Query the online index explicitly.
             index.getObjectsOnline(withIDs: ["1"]) { (content, error) in
                 XCTAssertNil(error)
-                XCTAssertEqual(1, (content?["results"] as? [JSONObject])?.count)
+                XCTAssertEqual(1, (content?["results"] as? [[String: Any]])?.count)
                 XCTAssertEqual("remote", content?["origin"] as? String)
                 expectation_onlineQuery.fulfill()
             }
@@ -352,7 +352,7 @@ class MirroredIndexTests: OfflineTestCase {
             // Query the offline index explicitly.
             index.getObjectsOffline(withIDs: ["1", "2"]) { (content, error) in
                 XCTAssertNil(error)
-                XCTAssertEqual(2, (content?["results"] as? [JSONObject])?.count)
+                XCTAssertEqual(2, (content?["results"] as? [[String: Any]])?.count)
                 XCTAssertEqual("local", content?["origin"] as? String)
                 expectation_offlineQuery.fulfill()
             }
@@ -362,7 +362,7 @@ class MirroredIndexTests: OfflineTestCase {
             index.requestStrategy = .fallbackOnFailure
             index.getObjects(withIDs: ["1", "2", "3"]) { (content, error) in
                 XCTAssertNil(error)
-                XCTAssertEqual(3, (content?["results"] as? [JSONObject])?.count)
+                XCTAssertEqual(3, (content?["results"] as? [[String: Any]])?.count)
                 XCTAssertEqual("local", content?["origin"] as? String)
                 expectation_mixedQuery.fulfill()
             }
@@ -580,7 +580,7 @@ class MirroredIndexTests: OfflineTestCase {
             }
             index.getObjects(withIDs: ["1", "2"]) { (content, error) in
                 XCTAssertNil(error)
-                XCTAssertEqual(2, (content?["results"] as? [JSONObject])?.count)
+                XCTAssertEqual(2, (content?["results"] as? [[String: Any]])?.count)
                 XCTAssertNil(content?["origin"])
                 expectation_get_objects.fulfill()
             }
@@ -643,7 +643,7 @@ class MirroredIndexTests: OfflineTestCase {
             // Query the online index explicitly.
             index.searchForFacetValuesOnline(of: "series", matching: "") { (content, error) in
                 XCTAssertNil(error)
-                guard let facetHits = content?["facetHits"] as? [JSONObject] else { XCTFail(); return }
+                guard let facetHits = content?["facetHits"] as? [[String: Any]] else { XCTFail(); return }
                 XCTAssertEqual(2, facetHits.count)
                 XCTAssertEqual("remote", content?["origin"] as? String)
                 expectation_onlineQuery.fulfill()
@@ -652,7 +652,7 @@ class MirroredIndexTests: OfflineTestCase {
             // Query the offline index explicitly.
             index.searchForFacetValuesOffline(of: "series", matching: "") { (content, error) in
                 XCTAssertNil(error)
-                guard let facetHits = content?["facetHits"] as? [JSONObject] else { XCTFail(); return }
+                guard let facetHits = content?["facetHits"] as? [[String: Any]] else { XCTFail(); return }
                 XCTAssertEqual(1, facetHits.count)
                 XCTAssertEqual("Peanuts", facetHits[0]["value"] as? String)
                 XCTAssertEqual(3, facetHits[0]["count"] as? Int)
@@ -667,7 +667,7 @@ class MirroredIndexTests: OfflineTestCase {
             query.query = "snoopy"
             index.searchForFacetValues(of: "series", matching: "pea", query: query) { (content, error) in
                 XCTAssertNil(error)
-                guard let facetHits = content?["facetHits"] as? [JSONObject] else { XCTFail(); return }
+                guard let facetHits = content?["facetHits"] as? [[String: Any]] else { XCTFail(); return }
                 XCTAssertEqual(1, facetHits.count)
                 XCTAssertEqual("Peanuts", facetHits[0]["value"] as? String)
                 XCTAssertEqual(1, facetHits[0]["count"] as? Int)

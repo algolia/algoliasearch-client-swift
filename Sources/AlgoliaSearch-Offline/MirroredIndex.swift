@@ -434,7 +434,7 @@ import Foundation
                 do {
                     assert(json != nil)
                     // Write results to disk.
-                    let data = try JSONSerialization.data(withJSONObject: json!, options: [])
+                    let data = try JSONSerialization.data(with[String: Any]: json!, options: [])
                     self.settingsFilePath = URL(fileURLWithPath: self.tmpDir!).appendingPathComponent("settings.json").path
                     try data.write(to: URL(fileURLWithPath: self.settingsFilePath!), options: [])
                 } catch let e {
@@ -490,7 +490,7 @@ import Foundation
                     assert(json != nil)
                     // Fetch cursor from data.
                     let cursor = json!["cursor"] as? String
-                    guard let hits = json!["hits"] as? [JSONObject] else {
+                    guard let hits = json!["hits"] as? [[String: Any]] else {
                         self.syncError = InvalidJSONError(description: "No hits found when browsing")
                         return
                     }
@@ -498,7 +498,7 @@ import Foundation
                     let newObjectCount = currentObjectCount + hits.count
                     
                     // Write results to disk.
-                    let data = try JSONSerialization.data(withJSONObject: json!, options: [])
+                    let data = try JSONSerialization.data(with[String: Any]: json!, options: [])
                     let objectFilePath = URL(fileURLWithPath: self.tmpDir!).appendingPathComponent("\(currentObjectFileIndex).json").path
                     self.objectsFilePaths!.append(objectFilePath)
                     try data.write(to: URL(fileURLWithPath: objectFilePath), options: [])
@@ -583,7 +583,7 @@ import Foundation
     /// - parameter objectFiles: Absolute path(s) to the file(s) containing the objects. Each file must contain an
     ///   array of objects, in JSON format.
     ///
-    private func _buildOffline(settingsFile: String, objectFiles: [String]) -> (JSONObject?, Error?) {
+    private func _buildOffline(settingsFile: String, objectFiles: [String]) -> ([String: Any]?, Error?) {
         assert(!Thread.isMainThread) // make sure it's run in the background
         assert(OperationQueue.current == offlineClient.offlineBuildQueue) // ensure serial calls
         // Notify observers.
@@ -823,7 +823,7 @@ import Foundation
     }
 
     /// Search the local mirror synchronously.
-    private func _searchOffline(_ query: Query) -> (content: JSONObject?, error: Error?) {
+    private func _searchOffline(_ query: Query) -> (content: [String: Any]?, error: Error?) {
         assert(!Thread.isMainThread) // make sure it's run in the background
         
         let searchResults = localIndex.search(query.build())
@@ -926,7 +926,7 @@ import Foundation
     }
     
     /// Run multiple queries on the local mirror synchronously.
-    private func _multipleQueriesOffline(_ queries: [Query], strategy: String?) -> (content: JSONObject?, error: Error?) {
+    private func _multipleQueriesOffline(_ queries: [Query], strategy: String?) -> (content: [String: Any]?, error: Error?) {
         return MultipleQueryEmulator(indexName: self.name, querier: self._searchOffline).multipleQueries(queries, strategy: strategy)
     }
     
@@ -968,7 +968,7 @@ import Foundation
     }
 
     /// Browse the local mirror synchronously.
-    private func _browseMirror(query: Query) -> (content: JSONObject?, error: Error?) {
+    private func _browseMirror(query: Query) -> (content: [String: Any]?, error: Error?) {
         assert(!Thread.isMainThread) // make sure it's run in the background
         
         let searchResults = localIndex.browse(query.build())
@@ -1041,14 +1041,14 @@ import Foundation
     
     /// Get an individual object from the local mirror synchronously.
     ///
-    private func _getObjectOffline(withID objectID: String, attributesToRetrieve: [String]?) -> (content: JSONObject?, error: Error?) {
+    private func _getObjectOffline(withID objectID: String, attributesToRetrieve: [String]?) -> (content: [String: Any]?, error: Error?) {
         assert(!Thread.isMainThread) // make sure it's run in the background
         let params = Query()
         params.attributesToRetrieve = attributesToRetrieve
         let searchResults = localIndex.getObjects(withIDs: [objectID], parameters: params.build())
         var (content, error) = OfflineClient.parseResponse(searchResults)
         if error == nil {
-            if let results = content?["results"] as? [JSONObject], results.count == 1 {
+            if let results = content?["results"] as? [[String: Any]], results.count == 1 {
                 content = results[0]
             } else {
                 content = nil
@@ -1120,7 +1120,7 @@ import Foundation
     
     /// Get individual objects from the local mirror synchronously.
     ///
-    private func _getObjectsOffline(withIDs objectIDs: [String], attributesToRetrieve: [String]?) -> (content: JSONObject?, error: Error?) {
+    private func _getObjectsOffline(withIDs objectIDs: [String], attributesToRetrieve: [String]?) -> (content: [String: Any]?, error: Error?) {
         assert(!Thread.isMainThread) // make sure it's run in the background
         let params = Query()
         params.attributesToRetrieve = attributesToRetrieve
@@ -1199,7 +1199,7 @@ import Foundation
     }
     
     /// Search for facet values on the local mirror synchronously.
-    private func _searchForFacetValuesOffline(of facetName: String, matching text: String, query: Query?) -> (content: JSONObject?, error: Error?) {
+    private func _searchForFacetValuesOffline(of facetName: String, matching text: String, query: Query?) -> (content: [String: Any]?, error: Error?) {
         assert(!Thread.isMainThread) // make sure it's run in the background
         let searchResults = localIndex.searchForFacetValues(of: facetName, matching: text, parameters: query?.build())
         return OfflineClient.parseResponse(searchResults)
@@ -1240,8 +1240,8 @@ import Foundation
     /// - parameter content: The content to tag. For convenience purposes, `nil` is allowed.
     /// - returns: The tagged content, or `nil` if `content` was `nil`.
     ///
-    private static func tagAsRemote(content: JSONObject?) -> JSONObject? {
-        var taggedContent: JSONObject? = content
+    private static func tagAsRemote(content: [String: Any]?) -> [String: Any]? {
+        var taggedContent: [String: Any]? = content
         taggedContent?[MirroredIndex.jsonKeyOrigin] = MirroredIndex.jsonValueOriginRemote
         return taggedContent
     }
@@ -1251,8 +1251,8 @@ import Foundation
     /// - parameter content: The content to tag. For convenience purposes, `nil` is allowed.
     /// - returns: The tagged content, or `nil` if `content` was `nil`.
     ///
-    private static func tagAsLocal(content: JSONObject?) -> JSONObject? {
-        var taggedContent: JSONObject? = content
+    private static func tagAsLocal(content: [String: Any]?) -> [String: Any]? {
+        var taggedContent: [String: Any]? = content
         taggedContent?[MirroredIndex.jsonKeyOrigin] = MirroredIndex.jsonValueOriginLocal
         return taggedContent
     }

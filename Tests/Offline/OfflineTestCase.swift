@@ -55,7 +55,7 @@ class OfflineTestCase: XCTestCase {
         "attributesForFaceting": ["searchable(series)"]
     ]
     
-    let objects: [String: JSONObject] = [
+    let objects: [String: [String: Any]] = [
         "snoopy": [
             "objectID": "1",
             "name": "Snoopy",

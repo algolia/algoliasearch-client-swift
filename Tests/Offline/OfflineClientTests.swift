@@ -33,7 +33,7 @@ class OfflineClientTests: OfflineTestCase {
         let index = client.offlineIndex(withName: #function)
         client.listOfflineIndexes { (content, error) in
             guard error == nil, let content = content else { XCTFail(); return }
-            guard let items = content["items"] as? [JSONObject] else { XCTFail(); return }
+            guard let items = content["items"] as? [[String: Any]] else { XCTFail(); return }
             for item in items {
                 guard let name = item["name"] as? String else { XCTFail(); return }
                 // Check that the index does not exist yet.

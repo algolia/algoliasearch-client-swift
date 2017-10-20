@@ -51,8 +51,8 @@ class PlacesClientTests: XCTestCase {
         query.countries = ["fr", "us"]
         places.search(query) { (content, error) in
             XCTAssert(content != nil)
-            XCTAssertNotNil(content?["hits"] as? [JSONObject])
-            XCTAssertFalse((content!["hits"] as! [JSONObject]).isEmpty)
+            XCTAssertNotNil(content?["hits"] as? [[String: Any]])
+            XCTAssertFalse((content!["hits"] as! [[String: Any]]).isEmpty)
             expectation.fulfill()
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)

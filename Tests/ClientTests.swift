@@ -44,7 +44,7 @@ class ClientTests: OnlineTestCase {
                             if let error = error {
                                 XCTFail("Error during listIndexes: \(error)")
                             } else {
-                                let items = content!["items"] as! [JSONObject]
+                                let items = content!["items"] as! [[String: Any]]
                                 
                                 var found = false
                                 for item in items {
@@ -222,7 +222,7 @@ class ClientTests: OnlineTestCase {
                             if let error = error {
                                 XCTFail("Error during multipleQueries: \(error)")
                             } else {
-                                let items = content!["results"] as! [JSONObject]
+                                let items = content!["results"] as! [[String: Any]]
                                 let nbHits = items[0]["nbHits"] as! Int
                                 XCTAssertEqual(nbHits, 1, "Wrong number of object in the index")
                             }
@@ -262,7 +262,7 @@ class ClientTests: OnlineTestCase {
                             if let error = error {
                                 XCTFail("Error during multipleQueries: \(error)")
                             } else {
-                                let items = content!["results"] as! [JSONObject]
+                                let items = content!["results"] as! [[String: Any]]
                                 XCTAssert(items.count == 2) // each query should return an item...
                                 XCTAssertEqual(items[0]["nbHits"] as? Int, 1, "Wrong number of object in the index")
                                 // ... but the second query should not have been processed
@@ -321,7 +321,7 @@ class ClientTests: OnlineTestCase {
             (content, error) -> Void in
             if error != nil {
                 XCTFail(error!.localizedDescription)
-            } else if let taskID = (content!["taskID"] as? JSONObject)?[self.index.name] as? Int {
+            } else if let taskID = (content!["taskID"] as? [String: Any])?[self.index.name] as? Int {
                 // Wait for the batch to be processed.
                 self.index.waitTask(withID: taskID) {
                     (content, error) in
@@ -533,7 +533,7 @@ class ClientTests: OnlineTestCase {
         self.client.listIndexes() { (content, error) in
             XCTAssertNil(error)
             XCTAssertNotNil(content)
-            XCTAssert(!(content!["items"] as! [JSONObject]).isEmpty)
+            XCTAssert(!(content!["items"] as! [[String: Any]]).isEmpty)
             expectation1.fulfill()
         }
         // Listing indices with a `page` URL parameter very high should return no items.
@@ -542,7 +542,7 @@ class ClientTests: OnlineTestCase {
         self.client.listIndexes(requestOptions: requestOptions) { (content, error) in
             XCTAssertNil(error)
             XCTAssertNotNil(content)
-            XCTAssert((content!["items"] as! [JSONObject]).isEmpty)
+            XCTAssert((content!["items"] as! [[String: Any]]).isEmpty)
             expectation2.fulfill()
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)

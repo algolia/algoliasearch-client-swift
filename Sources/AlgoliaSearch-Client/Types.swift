@@ -25,6 +25,7 @@ import Foundation
 
 
 /// A JSON object.
+@available(*, deprecated, message: "Use [String: Any] instead")
 public typealias JSONObject = [String: Any]
 
 /// Signature of most completion handlers used by this library.
@@ -34,4 +35,4 @@ public typealias JSONObject = [String: Any]
 ///
 /// + Note: `content` and `error` are mutually exclusive: only one will be non-nil.
 ///
-public typealias CompletionHandler = (_ content: JSONObject?, _ error: Error?) -> Void
+public typealias CompletionHandler = (_ content: [String: Any]?, _ error: Error?) -> Void

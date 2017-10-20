@@ -212,7 +212,7 @@ import Foundation
     @discardableResult public func multipleQueries(_ queries: [IndexQuery], strategy: String?, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         // IMPLEMENTATION NOTE: Objective-C bridgeable alternative.
         let path = "1/indexes/*/queries"
-        var requests = [JSONObject]()
+        var requests = [[String: Any]]()
         requests.reserveCapacity(queries.count)
         for query in queries {
             requests.append([
@@ -220,7 +220,7 @@ import Foundation
                 "params": query.query.build() as Any
             ])
         }
-        var request = JSONObject()
+        var request = [String: Any]()
         request["requests"] = requests
         if strategy != nil {
             request["strategy"] = strategy
