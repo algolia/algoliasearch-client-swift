@@ -1,7 +1,7 @@
-# Algolia Search API Client for Swift
+# Algolia Search API Client for Swift and Objective-C
 
 [Algolia Search](https://www.algolia.com) is a hosted full-text, numerical, and faceted search engine capable of delivering realtime results from the first keystroke.
-The **Algolia Search API Client for Swift** lets you easily use the [Algolia Search REST API](https://www.algolia.com/doc/rest-api/search) from your Swift code.
+The **Algolia Search API Client** lets you easily use the [Algolia Search REST API](https://www.algolia.com/doc/rest-api/search) from your Swift code.
 
 [![Build Status](https://travis-ci.org/algolia/algoliasearch-client-swift.svg?branch=master)](https://travis-ci.org/algolia/algoliasearch-client-swift)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
