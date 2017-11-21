@@ -61,8 +61,8 @@ class PlacesClientTests: XCTestCase {
     func testGetObject() {
         let expectation = self.expectation(description: #function)
         
-        places.getObject(withID: "171457082_7444") { (content, error) in
-            XCTAssertEqual("171457082_7444", content!["objectID"] as! String)
+        places.getObject(withID: "afd71bb8613f70ca495d8996923b5fd5") { (content, error) in
+            XCTAssertEqual("afd71bb8613f70ca495d8996923b5fd5", content!["objectID"] as! String)
             expectation.fulfill()
         }
         
