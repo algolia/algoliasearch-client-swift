@@ -1,10 +1,3 @@
-# Algolia Search API Client for Swift and Objective-C
-
-[Algolia Search](https://www.algolia.com) is a hosted full-text, numerical, and faceted search engine capable of delivering realtime results from the first keystroke.
-The **Algolia Search API Client** lets you easily use the [Algolia Search REST API](https://www.algolia.com/doc/rest-api/search) from your Swift code.
-
-**That being said, the library is 100% compatible with Objective-C**
-
 [![Build Status](https://travis-ci.org/algolia/algoliasearch-client-swift.svg?branch=master)](https://travis-ci.org/algolia/algoliasearch-client-swift)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![SwiftPM Compatible](https://img.shields.io/badge/SwiftPM-Compatible-brightgreen.svg)](https://swift.org/package-manager/)
@@ -15,26 +8,15 @@ The **Algolia Search API Client** lets you easily use the [Algolia Search REST A
 [![Swift 4.0](https://img.shields.io/badge/Swift-4.0-orange.svg)]()
 <a href="https://developer.apple.com/documentation/objectivec"><img src="https://img.shields.io/badge/Objective--C-compatible-blue.svg" alt="Objective-C compatible" /></a>
 
+# Algolia Search API Client for Swift and Objective-C
+
+[Algolia Search](https://www.algolia.com) is a hosted full-text, numerical, and faceted search engine capable of delivering realtime results from the first keystroke.
+The **Algolia Search API Client** lets you easily use the [Algolia Search REST API](https://www.algolia.com/doc/rest-api/search) from your Swift code.
+
+**That being said, the library is 100% compatible with Objective-C**
 
 As a complement to this readme, you can browse the automatically generated [reference documentation](https://community.algolia.com/algoliasearch-client-swift/).
 (See also the [offline-enabled version](https://community.algolia.com/algoliasearch-client-swift/offline/).)
-
-**&lt;Welcome Objective-C developers&gt;**
-
-
-In July 2015, we released a **new version** of our Swift client, able to work with Swift and Objective-C.
-As of version 3 (April 2016), Swift has become the reference implementation for both Swift and Objective-C projects.
-The [Objective-C API Client](https://github.com/algolia/algoliasearch-client-objc) is no longer under active development.
-It is still supported for bug fixes, but will not receive new features.
-
-If you were using our Objective-C client, read the [migration guide from Objective-C](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-from-Objective-C-to-Swift-API-Client).
-
-**&lt;/Welcome Objective-C developers&gt;**
-
-If you were using **version 2.x** of our Swift client, read the [migration guide to version 3.x](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-to-version-3.x).
-
-
-
 
 ## API Documentation
 
@@ -167,6 +149,26 @@ index.setSettings(settings, completionHandler: { (content, error) -> Void in
 	}
 })
 ```
+
+## Notes
+
+### Previous Objective-C API Client
+
+In July 2015, we released a **new version** of our Swift client, able to work with Swift and Objective-C.
+As of version 3 (April 2016), Swift has become the reference implementation for both Swift and Objective-C projects.
+The [Objective-C API Client](https://github.com/algolia/algoliasearch-client-objc) is no longer under active development.
+It is still supported for bug fixes, but will not receive new features. If you were using our Objective-C client, read the [migration guide from Objective-C](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-from-Objective-C-to-Swift-API-Client).
+
+### Migration guides
+
+If you were using **version 2.x** of our Swift client, read the [migration guide to version 3.x](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-to-version-3.x).
+
+### Swift 3
+
+You can use this library with Swift by one of the following ways:
+
+- `pod 'AlgoliaSearch-Client-Swift', '~> 4.8.1'`
+- `pod 'AlgoliaSearch-Client-Swift', :git => 'https://github.com/algolia/algoliasearch-client-swift.git', :branch => 'swift-3'`
 
 ## Getting Help
 
