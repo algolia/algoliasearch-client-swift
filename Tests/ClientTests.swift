@@ -302,6 +302,28 @@ class ClientTests: OnlineTestCase {
         
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
+  
+  func testLongAPIKey() {
+    let validAPIKey = self.client.apiKey
+    defer {
+      // Restore the valid API key (otherwise tear down will fail).
+      self.client.headers["X-Algolia-API-Key"] = validAPIKey
+    }
+    
+    // Override the API key and check the call fails.
+    let longAPIKey = "d6NdYTE1nFai7Pwt5wVmuRzLx8flSvFMq6O7HL5UFhQbfUfZQREp8gRYplxgdQFsejcstDhBIcbYkRqzED9r2gVaj3IQSVDRVxEWDGsZu3wuq4eRUvgy3lPLDK8spwHRKLFCunvvnpzg48UT8s4uSVA268vOYT3JjHPexrRNxItFep4HKyKtysKWokvaASODJzxZluCvxpnG0L79MLd75bqdzqgaCGXdwIkRseUytphdxjHsyfLotYPFAysnDKrgXJQIKEGSMTH6EHXDvOPzBX5vlloMW72y9hB6iHbeqq2Tv7WvUZDuAfAZXnafz58M2LJHkOljD9FarDmzwlTjUiOtci5ObPW9E86Cy2tGMGXJarJXbDRJyZbWGAnD8Zqjy3Ny1MPCqbE15l9rCArRUOQrV3XGsxSHuDfXFEOkcMwwp63pus7jSWDg6Ntonbm82NeUMVqJQhnpOLeEKGj6YLxtdrcC7S38YaPyK32iDpI8PWPF73sHGRCGP427A6IflPhfmHGpuGq1DQZqKAWQ1I5RJJkjmoyxkplsUwlG1DvASccSsioBnHR3KrlkilvKU5MDTI62nbGsVVlmNftTFZIp"
+    self.client.apiKey = longAPIKey
+    
+    let request = self.client.newRequest(method: .POST, path: "/dummyPath", body: [:], hostnames: ["dummyHost1"])
+    XCTAssertNil(request.headers!["X-Algolia-API-Key"])
+    XCTAssertNotNil(request.jsonBody)
+    
+    guard let jsonBody = request.jsonBody, let apiKey = jsonBody["apiKey"] as? String else {
+      XCTFail("The long api should be in the body")
+      return
+    }
+    XCTAssertEqual(longAPIKey, apiKey)
+  }
     
     func testBatch() {
         let expectation = self.expectation(description: #function)
