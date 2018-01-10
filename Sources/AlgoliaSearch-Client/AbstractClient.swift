@@ -103,6 +103,7 @@ internal struct HostStatus {
     internal let _maxAPIKeyLength: Int = 500
   
     internal static let xAlgoliaAPIKey = "X-Algolia-API-Key"
+    internal static let bodyApiKey = "apiKey"
   
     /// Update the headers with the API key ONLY if the key length is smaller than `_maxAPIKeyLength`
     private func updateHeadersFromAPIKey() {
@@ -391,8 +392,8 @@ internal struct HostStatus {
         var tBody = body
       
         // If API key is too big, send it in the request's body (if applicable).
-        if let apiKey = _apiKey, tBody != nil, apiKey.count >= _maxAPIKeyLength {
-          tBody!["apiKey"] = apiKey
+        if let bodyApiKey = _apiKey, tBody != nil, bodyApiKey.count >= _maxAPIKeyLength {
+          tBody![AbstractClient.bodyApiKey] = bodyApiKey
         }
         let request = Request(client: self, method: method, hosts: hostnames, firstHostIndex: 0, path: path, urlParameters: finalURLParameters, headers: headers, jsonBody: tBody, timeout: currentTimeout, completion:  completion)
         return request

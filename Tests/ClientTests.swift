@@ -307,7 +307,7 @@ class ClientTests: OnlineTestCase {
     let validAPIKey = self.client.apiKey
     defer {
       // Restore the valid API key (otherwise tear down will fail).
-      self.client.headers["X-Algolia-API-Key"] = validAPIKey
+      self.client.headers[AbstractClient.xAlgoliaAPIKey] = validAPIKey
     }
     
     // Override the API key and check the call fails.
@@ -315,10 +315,10 @@ class ClientTests: OnlineTestCase {
     self.client.apiKey = longAPIKey
     
     let request = self.client.newRequest(method: .POST, path: "/dummyPath", body: [:], hostnames: ["dummyHost1"])
-    XCTAssertNil(request.headers!["X-Algolia-API-Key"])
+    XCTAssertNil(request.headers![AbstractClient.xAlgoliaAPIKey])
     XCTAssertNotNil(request.jsonBody)
     
-    guard let jsonBody = request.jsonBody, let apiKey = jsonBody["apiKey"] as? String else {
+    guard let jsonBody = request.jsonBody, let apiKey = jsonBody[AbstractClient.bodyApiKey] as? String else {
       XCTFail("The long api should be in the body")
       return
     }
