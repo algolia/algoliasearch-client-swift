@@ -96,6 +96,7 @@ internal class DisjunctiveFaceting {
         }
         // Following answers are just used for their facet counts.
         var disjunctiveFacetCounts = [String: Any]()
+        var facetsStats = [String: Any]()
         for i in 1..<results.count { // for each answer (= each disjunctive facet)
             guard let result = results[i] as? [String: Any], let allFacetCounts = result["facets"] as? [String: [String: Any]] else {
                 throw InvalidJSONError(description:  "Invalid results in response")
@@ -123,8 +124,15 @@ internal class DisjunctiveFaceting {
                     mainContent["exhaustiveFacetsCount"] = false
                 }
             }
+            // Facets stats
+            if let allStats = result["facets_stats"] as? [String: [String: Any]] {
+                for (facetName, stats) in allStats {
+                    facetsStats[facetName] = stats
+                }
+            }
         }
         mainContent["disjunctiveFacets"] = disjunctiveFacetCounts
+        mainContent["facets_stats"] = facetsStats
         return mainContent
     }
     
