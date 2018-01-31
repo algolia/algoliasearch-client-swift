@@ -43,3 +43,7 @@ fastlane/report.xml
 
 # Swift Package Manager
 .build/
+
+
+# Ignore FOR NOW bitrise.yml
+bitrise.yml

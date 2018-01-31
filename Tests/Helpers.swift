@@ -23,13 +23,11 @@
 
 import Foundation
 
-let JOB_NUMBER = "JOB_NUMBER_REPLACE_ME"
-
 func safeIndexName(_ name: String) -> String {
     if let travisBuild = ProcessInfo.processInfo.environment["TRAVIS_JOB_NUMBER"] {
-        return "\(name)@\(travisBuild)"
-    } else if JOB_NUMBER.range(of: "[1-9]+\\.[1-9]+", options: .regularExpression) != nil {
-        return "\(name)@\(JOB_NUMBER)"
+        return "\(name)_travis_@\(travisBuild)"
+    } else if let bitriseBuild = ProcessInfo.processInfo.environment["BITRISE_BUILD_NUMBER"] {
+      return "\(name)_bitrise_@\(bitriseBuild)"
     } else {
         return name
     }
