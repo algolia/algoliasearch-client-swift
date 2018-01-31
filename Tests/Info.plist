@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>BITRISE_BUILD_NUMBER</key>
+	<string>$(BITRISE_BUILD_NUMBER)</string>
 	<key>PLACES_API_KEY</key>
 	<string>$(PLACES_API_KEY)</string>
 	<key>PLACES_APPLICATION_ID</key>

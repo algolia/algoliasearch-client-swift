@@ -26,7 +26,7 @@ import Foundation
 func safeIndexName(_ name: String) -> String {
     if let travisBuild = ProcessInfo.processInfo.environment["TRAVIS_JOB_NUMBER"] {
         return "\(name)_travis_@\(travisBuild)"
-    } else if let bitriseBuild = ProcessInfo.processInfo.environment["BITRISE_BUILD_NUMBER"] {
+    } else if let bitriseBuild = Bundle(for: OnlineTestCase.classForCoder()).object(forInfoDictionaryKey: "BITRISE_BUILD_NUMBER") as? String {
       return "\(name)_bitrise_@\(bitriseBuild)"
     } else {
         return name

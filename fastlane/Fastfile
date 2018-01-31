@@ -131,6 +131,12 @@ def prepare_api_keys()
 	if places_api_key
 		xcargs << %Q[PLACES_API_KEY="#{places_api_key}"]
 	end
+
+	bitrise_build_number = ENV["BITRISE_BUILD_NUMBER"]
+	if bitrise_build_number
+		xcargs << %Q[BITRISE_BUILD_NUMBER="#{bitrise_build_number}"]
+	end
+
 	return xcargs.join(" ")
 end
 
