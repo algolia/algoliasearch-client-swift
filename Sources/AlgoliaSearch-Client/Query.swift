@@ -708,8 +708,13 @@ open class Query : AbstractQuery {
         }
         set {
             if let dstPolygons = newValue {
-                let components = dstPolygons.flatMap({
-                  [String($0.p1.lat), String($0.p1.lng), String($0.p2.lat), String($0.p2.lng)]
+                let components = dstPolygons.flatMap({ dstPolygon -> [String] in
+                    let p1Lat = String(dstPolygon.p1.lat)
+                    let p1Lng = String(dstPolygon.p1.lng)
+                    let p2Lat = String(dstPolygon.p2.lat)
+                    let p2Lng = String(dstPolygon.p2.lng)
+                    
+                    return [p1Lat, p1Lng, p2Lat, p2Lng]
                 })
                 self["insideBoundingBox"] = components.joined(separator: ",")
             } else {
@@ -741,7 +746,10 @@ open class Query : AbstractQuery {
         set {
             if let srcPolygons = newValue {
                 let components = srcPolygons.map({
-                  "[" + $0.map({ "\(String($0.lat)),\(String($0.lng))"}).joined(separator: ",") + "]"
+                  "[" + $0.map({ latLng in
+                    let lat = String(latLng.lat)
+                    let lng = String(latLng.lng)
+                    return "\(lat),\(lng)"}).joined(separator: ",") + "]"
                 })
                 self["insidePolygon"] = "[" + components.joined(separator: ",") + "]"
             } else {
