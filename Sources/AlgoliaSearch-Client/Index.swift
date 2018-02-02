@@ -83,6 +83,7 @@ import Foundation
     /// - parameter requestOptions: Request-specific options.
     /// - parameter completionHandler: Completion handler to be notified of the request's outcome.
     /// - returns: A cancellable operation.
+    /// + Warning: Deprecated, use addObject(_:) instead.
     ///
     @objc
     @discardableResult public func addObject(_ object: [String: Any], withID objectID: String, requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
