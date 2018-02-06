@@ -29,125 +29,68 @@ class IndexTests: OnlineTestCase {
   
   func testAdd() {
     let expectation = self.expectation(description: "testAdd")
-    let object = ["city": "San Francisco"]
+    let mockObject = ["city": "San Francisco"]
     
-    index.addObject(object, completionHandler: { (content, error) -> Void in
-      if let error = error {
-        XCTFail("Error during addObject: \(error)")
-        expectation.fulfill()
-      } else {
-        self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-          if let error = error {
-            XCTFail("Error during waitTask: \(error)")
-            expectation.fulfill()
-          } else {
-            self.index.search(Query(), completionHandler: { (content, error) -> Void in
-              if let error = error {
-                XCTFail("Error during search: \(error)")
-              } else {
-                let nbHits = content!["nbHits"] as! Int
-                XCTAssertEqual(nbHits, 1, "Wrong number of object in the index")
-              }
-              
-              expectation.fulfill()
-            })
-          }
-        })
-      }
-    })
-    
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
-  }
-  
-  func testAddWithObjectID() {
-    let expectation = self.expectation(description: "testAddWithObjectID")
-    let object = ["city": "San José"]
-    let objectID = "a/go/?à"
-    
-    index.addObject(object, withID: objectID, completionHandler: { (content, error) -> Void in
-      if let error = error {
-        XCTFail("Error during addObject: \(error)")
-        expectation.fulfill()
-      } else {
-        self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-          if let error = error {
-            XCTFail("Error during waitTask: \(error)")
-            expectation.fulfill()
-          } else {
-            self.index.getObject(withID: objectID, completionHandler: { (content, error) -> Void in
-              if let error = error {
-                XCTFail("Error during getObject: \(error)")
-              } else {
-                let city = content!["city"] as! String
-                XCTAssertEqual(city, object["city"]!, "Get object return a bad object")
-              }
-              
-              expectation.fulfill()
-            })
-          }
-        })
-      }
-    })
-    
+    firstly{
+      self.addObject(mockObject)
+    }.then { object in
+      self.waitTask(object)
+    }.then { _ in
+      self.query()
+    }.then { content in
+      self.getHitsCount(content)
+    }.then { hitsCount in
+      XCTAssertEqual(hitsCount, 1, "Wrong number of object in the index")
+    }.catch { error in
+      XCTFail("Error : \(error)")
+    }.always {
+      expectation.fulfill()
+    }
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
   
   func testAddObjects() {
     let expectation = self.expectation(description: "testAddObjects")
-    let objects: [[String: Any]] = [
+    let mockObjects: [[String: Any]] = [
       ["city": "San Francisco"],
       ["city": "New York"]
     ]
     
-    index.addObjects(objects, completionHandler: { (content, error) -> Void in
-      if let error = error {
-        XCTFail("Error during addObjects: \(error)")
+    firstly{
+      self.addObjects(mockObjects)
+      }.then { object in
+        self.waitTask(object)
+      }.then { _ in
+        self.query()
+      }.then { content in
+        self.getValuePromise(content, key: "nbHits")
+      }.then { hitsCount in
+        XCTAssertEqual(hitsCount, 2, "Wrong number of object in the index")
+      }.catch { error in
+        XCTFail("Error : \(error)")
+      }.always {
         expectation.fulfill()
-      } else {
-        self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-          if let error = error {
-            XCTFail("Error during waitTask: \(error)")
-            expectation.fulfill()
-          } else {
-            self.index.search(Query(), completionHandler: { (content, error) -> Void in
-              if let error = error {
-                XCTFail("Error during search: \(error)")
-              } else {
-                let nbHits = content!["nbHits"] as! Int
-                XCTAssertEqual(nbHits, 2, "Wrong number of object in the index")
-              }
-              
-              expectation.fulfill()
-            })
-          }
-        })
-      }
-    })
-    
+    }
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
   
   func testWaitTask() {
     let expectation = self.expectation(description: "testWaitTask")
-    let object = ["city": "Paris", "objectID": "a/go/?à"]
+    let mockObject = ["city": "Paris", "objectID": "a/go/?à"]
     
-    index.addObject(object, completionHandler: { (content, error) -> Void in
-      if let error = error {
-        XCTFail("Error during addObject: \(error)")
-        expectation.fulfill()
-      } else {
-        self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-          if let error = error {
-            XCTFail("Error during waitTask: \(error)")
-          } else {
-            XCTAssertEqual((content!["status"] as! String), "published", "Wait task failed")
-          }
-          
-          expectation.fulfill()
-        })
-      }
-    })
-    
+    firstly{
+      self.addObject(mockObject)
+    }.then { object in
+      self.waitTask(object)
+    }.then { waitContent in
+      self.getValuePromise(waitContent, key: "status")
+    }.then { status in
+      XCTAssertEqual(status, "published", "Wait task failed")
+    }.catch { error in
+      XCTFail("Error : \(error)")
+    }.always {
+      expectation.fulfill()
+    }
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
   
@@ -165,7 +108,7 @@ class IndexTests: OnlineTestCase {
     }.then { object in
       self.waitTask(object)
     }.then { _ in
-      self.emptyQuery()
+      self.query()
     }
     
     promise.then { content in
@@ -199,7 +142,7 @@ class IndexTests: OnlineTestCase {
       }.then { object in
         self.waitTask(object)
       }.then { _ in
-        self.emptyQuery()
+        self.query()
       }
     
       promise.then { content in

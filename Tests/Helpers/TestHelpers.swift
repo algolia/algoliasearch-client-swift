@@ -47,15 +47,20 @@ extension IndexTests {
     })
   }
   
-  func emptyQuery() -> Promise<[String: Any]> {
+  func query(_ query: String? = "") -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in
-      self.index.search(Query(), completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+      self.index.search(Query(query:query), completionHandler: completionWrap(fulfill: fulfill, reject: reject))
     })
   }
   
   func getHitsCount(_ content:[String: Any]) -> Promise<Int>{
     let nbHits = content["nbHits"] as! Int
     return Promise(value: nbHits)
+  }
+  
+  func getValuePromise<T>(_ content:[String: Any], key:String) -> Promise<T>{
+    let value = content[key] as! T
+    return Promise(value: value)
   }
   
 }
