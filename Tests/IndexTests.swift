@@ -191,36 +191,38 @@ class IndexTests: OnlineTestCase {
   
   func testGetObjects() {
     let expectation = self.expectation(description: "testGetObjects")
-    let objects: [[String: Any]] = [
+    let mockObjects: [[String: Any]] = [
       ["city": "San Francisco", "objectID": "a/go/?à"],
       ["city": "New York", "objectID": "a/go/?à$"]
     ]
     
-    index.addObjects(objects, completionHandler: { (content, error) -> Void in
-      if let error = error {
-        XCTFail("Error during addObjetcs: \(error)")
-        expectation.fulfill()
-      } else {
-        self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-          if let error = error {
-            XCTFail("Error during waitTask: \(error)")
-            expectation.fulfill()
-          } else {
-            self.index.getObjects(withIDs: ["a/go/?à", "a/go/?à$"], completionHandler: { (content, error) -> Void in
-              if let error = error {
-                XCTFail("Error during getObjects: \(error)")
-              } else {
-                let items = content!["results"] as! [[String: Any]]
-                XCTAssertEqual(items[0]["city"] as? String, objects[0]["city"] as? String, "GetObjects return the wrong object")
-                XCTAssertEqual(items[1]["city"] as? String, objects[1]["city"] as? String, "GetObjects return the wrong object")
-              }
-              
-              expectation.fulfill()
-            })
-          }
-        })
+    let mockObjectsIds: [String] = mockObjects.flatMap({ $0["objectID"] as? String })
+    let mockObjectsValues: [String] = mockObjects.flatMap({ $0["city"] as? String })
+    
+    func assertSameCities(expected: [String], actual:[String: Any]) {
+      let cityObjects = actual["results"] as? [[String: Any]]
+      guard let cities = cityObjects?.flatMap({ $0["city"] as? String}) else {
+        XCTFail("GetObjects return the wrong object")
+        return
       }
-    })
+      XCTAssertEqual(cities, expected, "GetObjects return the wrong object")
+    }
+    
+    let promise = firstly{
+      self.addObjects(mockObjects)
+    }.then { object in
+      self.waitTask(object)
+    }.then { waitContent in
+      self.getObjects(mockObjectsIds)
+    }.then { objectsContent in
+      assertSameCities(expected: mockObjectsValues, actual: objectsContent)
+    }
+    
+    promise.catch { error in
+      XCTFail("Error : \(error)")
+    }.always {
+        expectation.fulfill()
+    }
     
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
