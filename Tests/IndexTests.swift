@@ -230,79 +230,77 @@ class IndexTests: OnlineTestCase {
   
   func testGetObjectsFiltered() {
     let expectation = self.expectation(description: #function)
-    let objects: [[String: Any]] = [
+    let mockObjects: [[String: Any]] = [
       ["objectID": "1", "name": "Snoopy", "kind": "dog"],
       ["objectID": "2", "name": "Woodstock", "kind": "bird"]
     ]
-    index.addObjects(objects, completionHandler: { (content, error) -> Void in
-      guard let content = content else {
-        XCTFail(String(describing: error))
-        expectation.fulfill()
-        return
-      }
-      self.index.waitTask(withID: content["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-        guard error == nil else {
-          XCTFail(String(describing: error))
-          expectation.fulfill()
-          return
-        }
-        self.index.getObjects(withIDs: ["1", "2"], attributesToRetrieve: ["name", "nonexistent"], completionHandler: { (content, error) -> Void in
-          guard let content = content else {
-            XCTFail(String(describing: error))
+    let mockObjectsIds: [String] = mockObjects.flatMap({ $0["objectID"] as? String })
+    let mockObjectsNames: [String] = mockObjects.flatMap({ $0["name"] as? String })
+    
+    let promise = firstly{
+        self.addObjects(mockObjects)
+        }.then { object in
+            self.waitTask(object)
+        }.then { waitContent in
+            self.getObjects(mockObjectsIds, attributesToRetrieve: ["name", "nonexistent"])
+        }.then { objectsContent in
+            assertSameNamesWithNoKind(expected: mockObjectsNames, actual: objectsContent)
+    }
+    
+    promise.catch { error in
+        XCTFail("Error : \(error)")
+        }.always {
             expectation.fulfill()
-            return
-          }
-          let items = content["results"] as! [[String: Any]]
-          XCTAssertEqual(2, items.count)
-          XCTAssertEqual(items[0]["name"] as? String, "Snoopy")
-          XCTAssertEqual(items[1]["name"] as? String, "Woodstock")
-          XCTAssertNil(items[0]["kind"])
-          XCTAssertNil(items[1]["kind"])
-          expectation.fulfill()
-        })
-      })
-    })
+    }
+    
+    func assertSameNamesWithNoKind(expected: [String], actual:[String: Any]) {
+        let items = actual["results"] as! [[String: Any]]
+        XCTAssertEqual(2, items.count)
+        XCTAssertEqual(items[0]["name"] as? String, expected[0])
+        XCTAssertEqual(items[1]["name"] as? String, expected[1])
+        XCTAssertNil(items[0]["kind"])
+        XCTAssertNil(items[1]["kind"])
+    }
     
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
   
   func testPartialUpdateObject() {
     let expectation = self.expectation(description: "testPartialUpdateObject")
-    let object = ["city": "New York", "initial": "NY", "objectID": "a/go/?à"]
+    let mockObject = ["city": "New York", "initial": "NY", "objectID": "a/go/?à"]
     
-    index.addObject(object, completionHandler: { (content, error) -> Void in
-      if let error = error {
-        XCTFail("Error during addObject: \(error)")
-        expectation.fulfill()
-      } else {
-        self.index.partialUpdateObject(["city": "Los Angeles"], withID: object["objectID"]!, completionHandler: { (content, error) -> Void in
-          if let error = error {
-            XCTFail("Error during partialUpdateObject: \(error)")
-            expectation.fulfill()
-          } else {
-            self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-              if let error = error {
-                XCTFail("Error during waitTask: \(error)")
-                expectation.fulfill()
-              } else {
-                self.index.getObject(withID: object["objectID"]!, completionHandler: { (content, error) -> Void in
-                  if let error = error {
-                    XCTFail("Error during getObject: \(error)")
-                  } else {
-                    let city = content!["city"] as! String
-                    let initial = content!["initial"] as! String
-                    XCTAssertEqual(city, "Los Angeles", "Partial update is not applied")
-                    XCTAssertEqual(initial, "NY", "Partial update failed")
-                  }
-                  
-                  expectation.fulfill()
-                })
-              }
-            })
-          }
-        })
+    
+    let promise = firstly{
+      self.addObject(mockObject)
+      }.then { object in
+        self.waitTask(object)
       }
-    })
+    
+    let promise2 = promise.then { _ in
+      self.partialUpdateObject(["city": "Los Angeles"], withID: mockObject["objectID"]!)
+      }.then { object in
+        self.waitTask(object)
+    }
+    
+    let promise3 = promise2.then { _ in
+      self.getObject(mockObject["objectID"]!)
+      }.then { content in
+        assertSuccessfulUpdate(content: content)
+    }
+    
+    promise3.catch { error in
+      XCTFail("Error : \(error)")
+      }.always {
+        expectation.fulfill()
+    }
+    
+    func assertSuccessfulUpdate(content: [String: Any]) {
+
+      let city = content["city"] as! String
+      let initial = content["initial"] as! String
+      XCTAssertEqual(city, "Los Angeles", "Partial update is not applied")
+      XCTAssertEqual(initial, "NY", "Partial update failed")
+    }
     
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }

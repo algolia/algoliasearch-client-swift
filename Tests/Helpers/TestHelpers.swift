@@ -37,9 +37,9 @@ extension IndexTests {
     })
   }
   
-  func getObjects(_ objectIDs:[String]) -> Promise<[String: Any]> {
+    func getObjects(_ objectIDs:[String], attributesToRetrieve: [String]? = nil) -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in
-      self.index.getObjects(withIDs: objectIDs, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+      self.index.getObjects(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
     })
   }
     
@@ -63,6 +63,12 @@ extension IndexTests {
     return promiseWrap({ fulfill, reject in
       self.index.search(Query(query:query), completionHandler: completionWrap(fulfill: fulfill, reject: reject))
     })
+  }
+    
+  func partialUpdateObject(_ object:[String: Any], withID objectID: String, createIfNotExists: Bool? = nil) -> Promise<[String: Any]> {
+      return promiseWrap({ fulfill, reject in
+          self.index.partialUpdateObject(object, withID: objectID, createIfNotExists: createIfNotExists, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+      })
   }
   
   func getHitsCount(_ content:[String: Any]) -> Promise<Int>{
