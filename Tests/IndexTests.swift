@@ -58,13 +58,15 @@ class IndexTests: OnlineTestCase {
       ["city": "New York"]
     ]
 
-    firstly{
+    let promise = firstly{
       self.addObjects(mockObjects)
       }.then { object in
         self.waitTask(object)
       }.then { _ in
         self.query()
-      }.then { content in
+      }
+    
+      promise.then { content in
         self.getValuePromise(content, key: "nbHits")
       }.then { hitsCount in
         XCTAssertEqual(hitsCount, 2, "Wrong number of object in the index")
@@ -80,11 +82,13 @@ class IndexTests: OnlineTestCase {
     let expectation = self.expectation(description: "testWaitTask")
     let mockObject = ["city": "Paris", "objectID": "a/go/?à"]
 
-    firstly{
+    let promise = firstly{
       self.addObject(mockObject)
     }.then { object in
       self.waitTask(object)
-    }.then { waitContent in
+    }
+    
+    promise.then { waitContent in
       self.getValuePromise(waitContent, key: "status")
     }.then { status in
       XCTAssertEqual(status, "published", "Wait task failed")
