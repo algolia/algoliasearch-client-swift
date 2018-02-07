@@ -28,7 +28,7 @@ import PromiseKit
 class IndexTests: OnlineTestCase {
   
   func testAdd() {
-    let expectation = self.expectation(description: "testAdd")
+    let expectation = self.expectation(description: #function)
     let mockObject = ["city": "San Francisco"]
     
     firstly{
@@ -50,7 +50,7 @@ class IndexTests: OnlineTestCase {
   }
   
   func testAddObjects() {
-    let expectation = self.expectation(description: "testAddObjects")
+    let expectation = self.expectation(description: #function)
     let mockObjects: [[String: Any]] = [
       ["city": "San Francisco"],
       ["city": "New York"]
@@ -96,7 +96,7 @@ class IndexTests: OnlineTestCase {
   
   
   func testDelete() {
-    let expectation = self.expectation(description: "testDelete")
+    let expectation = self.expectation(description: #function)
     let mockObject = ["city": "Las Vegas", "objectID": "a/go/?à"]
     
     let promise = firstly{
@@ -125,7 +125,7 @@ class IndexTests: OnlineTestCase {
   }
   
   func testDeleteObjects() {
-    let expectation = self.expectation(description: "testDeleteObjects")
+    let expectation = self.expectation(description: #function)
     let mockObjects: [[String: Any]] = [
       ["city": "San Francisco", "objectID": "a/go/?à"],
       ["city": "New York", "objectID": "a/go/?à$"]
@@ -158,7 +158,7 @@ class IndexTests: OnlineTestCase {
   }
   
   func testGet() {
-    let expectation = self.expectation(description: "testGet")
+    let expectation = self.expectation(description: #function)
     let object = ["city": "Los Angeles", "objectID": "a/go/?à"]
     
     index.addObject(object, completionHandler: { (content, error) -> Void in
@@ -190,7 +190,7 @@ class IndexTests: OnlineTestCase {
   }
   
   func testGetObjects() {
-    let expectation = self.expectation(description: "testGetObjects")
+    let expectation = self.expectation(description: #function)
     let mockObjects: [[String: Any]] = [
       ["city": "San Francisco", "objectID": "a/go/?à"],
       ["city": "New York", "objectID": "a/go/?à$"]
