@@ -42,6 +42,12 @@ extension IndexTests {
       self.index.getObjects(withIDs: objectIDs, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
     })
   }
+    
+  func getObject(_ objectID: String) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+        self.index.getObject(withID: objectID, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
   
   func waitTask(_ object:[String: Any]) -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in

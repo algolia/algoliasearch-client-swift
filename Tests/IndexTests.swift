@@ -30,14 +30,16 @@ class IndexTests: OnlineTestCase {
   func testAdd() {
     let expectation = self.expectation(description: #function)
     let mockObject = ["city": "San Francisco"]
-    
-    firstly{
+
+    let promise = firstly{
       self.addObject(mockObject)
     }.then { object in
       self.waitTask(object)
     }.then { _ in
       self.query()
-    }.then { content in
+    }
+    
+    promise.then { content in
       self.getHitsCount(content)
     }.then { hitsCount in
       XCTAssertEqual(hitsCount, 1, "Wrong number of object in the index")
@@ -55,7 +57,7 @@ class IndexTests: OnlineTestCase {
       ["city": "San Francisco"],
       ["city": "New York"]
     ]
-    
+
     firstly{
       self.addObjects(mockObjects)
       }.then { object in
@@ -73,11 +75,11 @@ class IndexTests: OnlineTestCase {
     }
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
-  
+
   func testWaitTask() {
     let expectation = self.expectation(description: "testWaitTask")
     let mockObject = ["city": "Paris", "objectID": "a/go/?à"]
-    
+
     firstly{
       self.addObject(mockObject)
     }.then { object in
@@ -93,12 +95,12 @@ class IndexTests: OnlineTestCase {
     }
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
-  
-  
+
+
   func testDelete() {
     let expectation = self.expectation(description: #function)
     let mockObject = ["city": "Las Vegas", "objectID": "a/go/?à"]
-    
+
     let promise = firstly{
       self.addObject(mockObject)
     }.then { object in
@@ -110,7 +112,7 @@ class IndexTests: OnlineTestCase {
     }.then { _ in
       self.query()
     }
-    
+
     promise.then { content in
       self.getHitsCount(content)
     }.then { hitsCount in
@@ -120,19 +122,19 @@ class IndexTests: OnlineTestCase {
     }.always {
       expectation.fulfill()
     }
-    
+
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
-  
+
   func testDeleteObjects() {
     let expectation = self.expectation(description: #function)
     let mockObjects: [[String: Any]] = [
       ["city": "San Francisco", "objectID": "a/go/?à"],
       ["city": "New York", "objectID": "a/go/?à$"]
     ]
-    
+
     let mockObjectsIDs = mockObjects.flatMap { $0["objectID"] as? String }
-    
+
     let promise = firstly {
         self.addObjects(mockObjects)
       }.then { object in
@@ -144,7 +146,7 @@ class IndexTests: OnlineTestCase {
       }.then { _ in
         self.query()
       }
-    
+
       promise.then { content in
         self.getHitsCount(content)
       }.then { hitsCount in
@@ -156,49 +158,44 @@ class IndexTests: OnlineTestCase {
       }
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
-  
+
   func testGet() {
     let expectation = self.expectation(description: #function)
     let object = ["city": "Los Angeles", "objectID": "a/go/?à"]
-    
-    index.addObject(object, completionHandler: { (content, error) -> Void in
-      if let error = error {
-        XCTFail("Error during addObject: \(error)")
-        expectation.fulfill()
-      } else {
-        self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-          if let error = error {
-            XCTFail("Error during waitTask: \(error)")
+    let objectId = object["objectID"]!
+    let expectedCity = object["city"]!
+
+    let promise = firstly {
+        self.addObject(object)
+        }.then { object in
+            self.waitTask(object)
+        }.then { _ in
+            self.getObject(objectId)
+        }.then { content in
+            self.getValuePromise(content, key: "city")
+        }.then { actualyCity in
+            XCTAssertEqual(expectedCity, actualyCity, "Get object return a bad object")
+        }
+
+    promise.catch { error in
+        XCTFail("Error : \(error)")
+        }.always {
             expectation.fulfill()
-          } else {
-            self.index.getObject(withID: object["objectID"]!, completionHandler: { (content, error) -> Void in
-              if let error = error {
-                XCTFail("Error during getObject: \(error)")
-              } else {
-                let city = content!["city"] as! String
-                XCTAssertEqual(city, object["city"]!, "Get object return a bad object")
-              }
-              
-              expectation.fulfill()
-            })
-          }
-        })
-      }
-    })
-    
+        }
+
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
-  
+
   func testGetObjects() {
     let expectation = self.expectation(description: #function)
     let mockObjects: [[String: Any]] = [
       ["city": "San Francisco", "objectID": "a/go/?à"],
       ["city": "New York", "objectID": "a/go/?à$"]
     ]
-    
+
     let mockObjectsIds: [String] = mockObjects.flatMap({ $0["objectID"] as? String })
     let mockObjectsValues: [String] = mockObjects.flatMap({ $0["city"] as? String })
-    
+
     func assertSameCities(expected: [String], actual:[String: Any]) {
       let cityObjects = actual["results"] as? [[String: Any]]
       guard let cities = cityObjects?.flatMap({ $0["city"] as? String}) else {
@@ -207,7 +204,7 @@ class IndexTests: OnlineTestCase {
       }
       XCTAssertEqual(cities, expected, "GetObjects return the wrong object")
     }
-    
+
     let promise = firstly{
       self.addObjects(mockObjects)
     }.then { object in
@@ -217,13 +214,13 @@ class IndexTests: OnlineTestCase {
     }.then { objectsContent in
       assertSameCities(expected: mockObjectsValues, actual: objectsContent)
     }
-    
+
     promise.catch { error in
       XCTFail("Error : \(error)")
     }.always {
         expectation.fulfill()
     }
-    
+
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
   
