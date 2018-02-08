@@ -23,47 +23,35 @@
 
 import XCTest
 @testable import AlgoliaSearch
+import PromiseKit
 
 class ClientTests: OnlineTestCase {
     
     func testListIndexes() {
         let expectation = self.expectation(description: "testListIndexes")
-        let object = ["city": "San Francisco", "objectID": "a/go/?à"]
-        
-        index.addObject(object, completionHandler: { (content, error) -> Void in
-            if let error = error {
-                XCTFail("Error during addObject: \(error)")
-                expectation.fulfill()
-            } else {
-                self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-                    if let error = error {
-                        XCTFail("Error during waitTask: \(error)")
-                        expectation.fulfill()
-                    } else {
-                        self.client.listIndexes(completionHandler: { (content, error) -> Void in
-                            if let error = error {
-                                XCTFail("Error during listIndexes: \(error)")
-                            } else {
-                                let items = content!["items"] as! [[String: Any]]
-                                
-                                var found = false
-                                for item in items {
-                                    if (item["name"] as! String) == self.index.name {
-                                        found = true
-                                        break
-                                    }
-                                }
-                                
-                                XCTAssertTrue(found, "List indexes failed")
-                            }
-                            
-                            expectation.fulfill()
-                        })
-                    }
-                })
-            }
-        })
-        
+        let mockObject = ["city": "San Francisco", "objectID": "a/go/?à"]
+      
+        func checkIndexes(_ indexes: [[String: Any]]) {
+          let index = indexes.filter({ $0["name"] as? String == self.index.name })
+          XCTAssertNotNil(index, "List indexes failed")
+        }
+      
+        let promise = firstly{
+          self.addObject(mockObject)
+        }.then { object in
+          self.waitTask(object)
+        }.then { _ in
+          self.listIndexes()
+        }
+
+        promise.then { indexesContent in
+          checkIndexes(indexesContent["items"] as! [[String: Any]])
+        }.catch { error in
+          XCTFail("Error : \(error)")
+        }.always {
+          expectation.fulfill()
+        }
+      
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
     

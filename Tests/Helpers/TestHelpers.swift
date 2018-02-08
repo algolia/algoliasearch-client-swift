@@ -11,7 +11,7 @@ import AlgoliaSearch
 import PromiseKit
 import XCTest
 
-extension IndexTests {
+extension OnlineTestCase {
   
   func addObject(_ object:[String: Any]) -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in
@@ -83,10 +83,19 @@ extension IndexTests {
       })
   }
   
+  func listIndexes() -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.client.listIndexes(completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
   func getHitsCount(_ content:[String: Any]) -> Promise<Int>{
     let nbHits = content["nbHits"] as! Int
     return Promise(value: nbHits)
   }
+  
+  
+  // Helpers
   
   func getValuePromise<T>(_ content:[String: Any], key:String) -> Promise<T>{
     let value = content[key] as! T
