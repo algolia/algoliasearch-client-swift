@@ -25,6 +25,18 @@ extension IndexTests {
     })
   }
   
+  func saveObject(_ object:[String: Any]) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.index.saveObject(object, completionHandler:completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
+  func saveObjects(_ objects:[[String: Any]]) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.index.saveObjects(objects, completionHandler:completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
   func deleteObject(_ object:[String: Any]) -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in
       self.index.deleteObject(withID: object["objectID"]! as! String, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
@@ -37,15 +49,15 @@ extension IndexTests {
     })
   }
   
-    func getObjects(_ objectIDs:[String], attributesToRetrieve: [String]? = nil) -> Promise<[String: Any]> {
-    return promiseWrap({ fulfill, reject in
-      self.index.getObjects(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
-    })
-  }
-    
   func getObject(_ objectID: String) -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in
-        self.index.getObject(withID: objectID, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+      self.index.getObject(withID: objectID, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
+  func getObjects(_ objectIDs:[String], attributesToRetrieve: [String]? = nil) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.index.getObjects(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
     })
   }
   

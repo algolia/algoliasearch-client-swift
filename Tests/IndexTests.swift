@@ -442,90 +442,80 @@ class IndexTests: OnlineTestCase {
   
   func testSaveObject() {
     let expectation = self.expectation(description: "testSaveObject")
-    let object: [String: Any] = ["city": "New York", "initial": "NY", "objectID": "a/go/?à"]
+    let mockObject: [String: Any] = ["city": "New York", "initial": "NY", "objectID": "a/go/?à"]
+    let laMockObject = ["city": "Los Angeles", "objectID": "a/go/?à"]
     
-    index.addObject(object, completionHandler: { (content, error) -> Void in
-      if let error = error {
-        XCTFail("Error during addObject: \(error)")
-        expectation.fulfill()
-      } else {
-        self.index.saveObject(["city": "Los Angeles", "objectID": "a/go/?à"], completionHandler: { (content, error) -> Void in
-          if let error = error {
-            XCTFail("Error during saveObject: \(error)")
-            expectation.fulfill()
-          } else {
-            self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-              if let error = error {
-                XCTFail("Error during waitTask: \(error)")
-                expectation.fulfill()
-              } else {
-                self.index.getObject(withID: object["objectID"]! as! String, completionHandler: { (content, error) -> Void in
-                  if let error = error {
-                    XCTFail("Error during getObject: \(error)")
-                  } else {
-                    let city = content!["city"] as! String
-                    let initial: Any? = content!["initial"]
-                    XCTAssertEqual(city, "Los Angeles", "Save object is not applied")
-                    XCTAssertNil(initial, "Save object failed")
-                  }
-                  
-                  expectation.fulfill()
-                })
-              }
-            })
-          }
-        })
-      }
-    })
+    func verifyCityExists(_ cityContent: [String: Any]) {
+      let city = cityContent["city"] as! String
+      let initial: Any? = cityContent["initial"]
+      XCTAssertEqual(city, "Los Angeles", "Save object is not applied")
+      XCTAssertNil(initial, "Save object failed")
+    }
     
+    let promise = firstly{
+    self.addObject(mockObject)
+    }.then { object in
+      self.waitTask(object)
+    }.then { _ in
+      self.saveObject(laMockObject)
+    }
+    
+    let promise2 = promise.then { object in
+      self.waitTask(object)
+    }.then { _ in
+      self.getObject(mockObject["objectID"] as! String)
+    }.then { cityContent in
+      verifyCityExists(cityContent)
+    }
+    
+    promise2.catch { error in
+      XCTFail("Error : \(error)")
+    }.always {
+      expectation.fulfill()
+    }
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
   
   func testSaveObjects() {
     let expectation = self.expectation(description: "testSaveObjects")
-    let objects: [[String: Any]] = [
+    let mockObjects: [[String: Any]] = [
       ["city": "San Francisco", "initial": "SF", "objectID": "a/go/?à"],
       ["city": "New York", "initial": "NY", "objectID": "a/go/?à$"]
     ]
     
-    index.addObjects(objects, completionHandler: { (content, error) -> Void in
-      if let error = error {
-        XCTFail("Error during addObjects: \(error)")
+    let objectsToSave: [[String: Any]] = [
+      ["city": "Paris", "objectID": "a/go/?à"],
+      ["city": "Strasbourg", "initial": "SBG", "objectID": "a/go/?à$"]
+    ]
+    
+    func verifyCitiesExists(_ cities: [[String: String]]) {
+      XCTAssertEqual(cities[0]["city"]!, "Paris", "saveObjects failed")
+      XCTAssertNil(cities[0]["initial"], "saveObjects failed")
+      XCTAssertEqual(cities[1]["city"]!, "Strasbourg", "saveObjects failed")
+      XCTAssertNotNil(cities[1]["initial"], "saveObjects failed")
+    }
+    
+    let promise = firstly{
+      self.addObjects(mockObjects)
+      }.then { object in
+        self.waitTask(object)
+      }.then { _ in
+        self.saveObjects(objectsToSave)
+    }
+    
+    let promise2 = promise.then { object in
+      self.waitTask(object)
+    }.then { _ in
+      self.getObjects(["a/go/?à", "a/go/?à$"])
+    }.then { citiesContent in
+      verifyCitiesExists(citiesContent["results"] as! [[String: String]])
+    }
+    
+    promise2.catch { error in
+      XCTFail("Error : \(error)")
+      }.always {
         expectation.fulfill()
-      } else {
-        let objectsToSave: [[String: Any]] = [
-          ["city": "Paris", "objectID": "a/go/?à"],
-          ["city": "Strasbourg", "initial": "SBG", "objectID": "a/go/?à$"]
-        ]
-        self.index.saveObjects(objectsToSave, completionHandler: { (content, error) -> Void in
-          if let error = error {
-            XCTFail("Error during saveObjects: \(error)")
-            expectation.fulfill()
-          } else {
-            self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-              if let error = error {
-                XCTFail("Error during waitTask: \(error)")
-                expectation.fulfill()
-              } else {
-                self.index.getObjects(withIDs: ["a/go/?à", "a/go/?à$"], completionHandler: { (content, error) -> Void in
-                  if let error = error {
-                    XCTFail("Error during getObjects: \(error)")
-                  } else {
-                    let items = content!["results"] as! [[String: String]]
-                    XCTAssertEqual(items[0]["city"]!, "Paris", "saveObjects failed")
-                    XCTAssertNil(items[0]["initial"], "saveObjects failed")
-                    XCTAssertEqual(items[1]["city"]!, "Strasbourg", "saveObjects failed")
-                    XCTAssertNotNil(items[1]["initial"], "saveObjects failed")
-                  }
-                  
-                  expectation.fulfill()
-                })
-              }
-            })
-          }
-        })
-      }
-    })
+    }
     
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
