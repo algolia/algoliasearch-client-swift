@@ -77,9 +77,21 @@ extension OnlineTestCase {
     })
   }
   
+  func query(index: Index, query: String? = "") -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      index.search(Query(query:query), completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
   func browse(_ query: Query) -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in
       self.index.browse(query: query, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
+  func deletexIndex(_ name: String) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.client.deleteIndex(withName: name, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
     })
   }
   
@@ -140,6 +152,18 @@ extension OnlineTestCase {
   func listIndexes() -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in
       self.client.listIndexes(completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
+  func moveIndex(from srcIndexName: String, to dstIndexName: String) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.client.moveIndex(from: srcIndexName, to: dstIndexName, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
+  func copyIndex(from srcIndexName: String, to dstIndexName: String) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.client.copyIndex(from: srcIndexName, to: dstIndexName, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
     })
   }
   

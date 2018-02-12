@@ -55,140 +55,90 @@ class ClientTests: OnlineTestCase {
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
     
-    func testMoveIndex() {
-        let expecation = self.expectation(description: "testMoveIndex")
-        let object = ["city": "San Francisco", "objectID": "a/go/?à"]
-        
-        index.addObject(object, completionHandler: { (content, error) -> Void in
-            if let error = error {
-                XCTFail("Error during addObject: \(error)")
-                expecation.fulfill()
-            } else {
-                self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-                    if let error = error {
-                        XCTFail("Error during waitTask: \(error)")
-                        expecation.fulfill()
-                    } else {
-                        XCTAssertEqual((content!["status"] as! String), "published", "Wait task failed")
-                        
-                        self.client.moveIndex(from: self.index.name, to: safeIndexName("algol?à-swift2"), completionHandler: { (content, error) -> Void in
-                            if let error = error {
-                                XCTFail("Error during moveIndex: \(error)")
-                                expecation.fulfill()
-                            } else {
-                                self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-                                    if let error = error {
-                                        XCTFail("Error during waitTask: \(error)")
-                                        expecation.fulfill()
-                                    } else {
-                                        let dstIndex = self.client.index(withName: safeIndexName("algol?à-swift2"))
-                                        dstIndex.search(Query(), completionHandler: { (content, error) -> Void in
-                                            if let error = error {
-                                                XCTFail("Error during search: \(error)")
-                                            } else {
-                                                let nbHits = content!["nbHits"] as! Int
-                                                XCTAssertEqual(nbHits, 1, "Wrong number of object in the index")
-                                            }
-                                            
-                                            expecation.fulfill()
-                                        })
-                                    }
-                                })
-                            }
-                        })
-                    }
-                })
-            }
-        })
-        
-        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
-        
-        let deleteExpectation = self.expectation(description: "Delete index")
-        client.deleteIndex(withName: safeIndexName("algol?à-swift2"), completionHandler: { (content, error) -> Void in
-            XCTAssertNil(error, "Error during deleteIndex: \(error!)")
-            deleteExpectation.fulfill()
-        })
-        
-        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+  func testMoveIndex() {
+    let expectation = self.expectation(description: "testMoveIndex")
+    let object = ["city": "San Francisco", "objectID": "a/go/?à"]
+    let dstIndex = self.client.index(withName: safeIndexName("algol?à-swift2"))
+    
+    let promise = firstly {
+      self.addObject(object)
+      }.then { object in
+        self.waitTask(object)
     }
     
+    let promise2 = promise.then { _ in
+      self.moveIndex(from: self.index.name, to: safeIndexName("algol?à-swift2"))
+      }.then { object in
+        self.waitTask(object)
+    }
+    
+    let promise3 = promise2.then { _ in
+      self.query(index: dstIndex)
+      }.then { object in
+        assertEqual(object)
+      }.then { _ in
+        self.deletexIndex(safeIndexName("algol?à-swift2"))
+    }
+    
+    promise3.catch { error in
+      XCTFail("Error : \(error)")
+      }.always {
+        expectation.fulfill()
+    }
+    
+    func assertEqual(_ content: [String: Any]) {
+      let nbHits = content["nbHits"] as! Int
+      XCTAssertEqual(nbHits, 1, "Wrong number of object in the index")
+    }
+    
+    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+  }
+    
     func testCopyIndex() {
-        let expecation = self.expectation(description: "testCopyIndex")
-        let srcIndexExpectation = self.expectation(description: "srcIndex")
-        let dstIndexExpectation = self.expectation(description: "dstIndex")
+        let expectation = self.expectation(description: "testCopyIndex")
         
         let object = ["city": "San Francisco", "objectID": "a/go/?à"]
+      let dstIndex = self.client.index(withName: safeIndexName("algol?à-swift2"))
+      
+      let promise = firstly {
+        self.addObject(object)
+        }.then { object in
+          self.waitTask(object)
+      }
+      
+      let promise2 = promise.then { _ in
+        self.copyIndex(from: self.index.name, to: safeIndexName("algol?à-swift2"))
+        }.then { object in
+          self.waitTask(object)
+      }
+      
+      let promise3 = promise2.then { _ in
+        self.query()
+        }.then { object in
+          assertEqual(object)
+        }
         
-        index.addObject(object, completionHandler: { (content, error) -> Void in
-            guard let taskID = content?["taskID"] as? Int else {
-                XCTFail("Error fetching taskID")
-                expecation.fulfill()
-                return
-            }
-
-            if let error = error {
-                XCTFail("Error during addObject: \(error)")
-                expecation.fulfill()
-            } else {
-                self.index.waitTask(withID: taskID, completionHandler: { (content, error) -> Void in
-                    if let error = error {
-                        XCTFail("Error during waitTask: \(error)")
-                        expecation.fulfill()
-                    } else {
-                        XCTAssertEqual((content!["status"] as! String), "published", "Wait task failed")
-                        
-                        self.client.copyIndex(from: self.index.name, to: safeIndexName("algol?à-swift2"), completionHandler: { (content, error) -> Void in
-                            if let error = error {
-                                XCTFail("Error during copyIndex: \(error)")
-                                expecation.fulfill()
-                            } else {
-                                self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-                                    if let error = error {
-                                        XCTFail("Error during waitTask: \(error)")
-                                    } else {
-                                        self.index.search(Query(), completionHandler: { (content, error) -> Void in
-                                            if let error = error {
-                                                XCTFail("Error during search: \(error)")
-                                            } else {
-                                                let nbHits = content!["nbHits"] as! Int
-                                                XCTAssertEqual(nbHits, 1, "Wrong number of object in the index")
-                                            }
-                                            
-                                            srcIndexExpectation.fulfill()
-                                        })
-                                        
-                                        let dstIndex = self.client.index(withName: safeIndexName("algol?à-swift2"))
-                                        dstIndex.search(Query(), completionHandler: { (content, error) -> Void in
-                                            if let error = error {
-                                                XCTFail("Error during search: \(error)")
-                                            } else {
-                                                let nbHits = content!["nbHits"] as! Int
-                                                XCTAssertEqual(nbHits, 1, "Wrong number of object in the index")
-                                            }
-                                            
-                                            dstIndexExpectation.fulfill()
-                                        })
-                                    }
-                                    
-                                    expecation.fulfill()
-                                })
-                            }
-                        })
-                    }
-                })
-            }
-        })
-        
-        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
-        
-        let deleteExpectation = self.expectation(description: "Delete index")
-        client.deleteIndex(withName: safeIndexName("algol?à-swift2"), completionHandler: { (content, error) -> Void in
-            XCTAssertNil(error, "Error during deleteIndex: \(error!)")
-            deleteExpectation.fulfill()
-        })
-        
-        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
-    }
+      let promise4 = promise3.then { _ in
+        self.query(index: dstIndex)
+        }.then { object in
+          assertEqual(object)
+        }.then { _ in
+          self.deletexIndex(safeIndexName("algol?à-swift2"))
+      }
+      
+      promise4.catch { error in
+        XCTFail("Error : \(error)")
+        }.always {
+          expectation.fulfill()
+      }
+      
+      func assertEqual(_ content: [String: Any]) {
+        let nbHits = content["nbHits"] as! Int
+        XCTAssertEqual(nbHits, 1, "Wrong number of object in the index")
+      }
+      
+      self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+  }
     
     func testMultipleQueries() {
         let expectation = self.expectation(description: "testMultipleQueries")
