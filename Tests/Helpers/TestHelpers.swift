@@ -112,6 +112,12 @@ extension OnlineTestCase {
       self.index.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
     })
   }
+  
+  func searchForFacetValues(of facetName: String, matching text: String, query: Query? = nil) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.index.searchForFacetValues(of: facetName, matching: text, query: query, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
     
   func partialUpdateObject(_ object:[String: Any], withID objectID: String, createIfNotExists: Bool? = nil) -> Promise<[String: Any]> {
       return promiseWrap({ fulfill, reject in

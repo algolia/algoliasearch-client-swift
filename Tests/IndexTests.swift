@@ -1047,56 +1047,52 @@ class IndexTests: OnlineTestCase {
       ["city": "San Francisco"],
       ["city": "New York"]
     ]
+    var firstResponse: [String: Any]!
     
     let timeout: TimeInterval = 5
     index.searchCacheEnabled = true
     index.searchCacheExpiringTimeInterval = timeout
-    index.addObjects(objects) { (content, error) in
-      guard error == nil else {
-        XCTFail(String(describing: error))
-        expectation.fulfill()
-        return
+    
+    var promise = firstly {
+      self.addObjects(objects)
+      }.then { object in
+        self.waitTask(object)
+    }
+    
+    let promise2 = promise.then { _ in
+      self.query()
+      }.then { (content) -> Promise<Void> in
+        XCTAssertNotNil(content)
+        firstResponse = content
+        
+        // Alter the hosts so that any search request should fail.
+        self.client.readHosts = ["alwaysfail.algolia.com"]
+        return Promise()
+    }
+    
+    let promise3 = promise2.then { object in
+      self.query()
+      }.then { (content) -> Promise<Void> in
+        XCTAssertNotNil(content)
+        XCTAssertEqual(firstResponse as NSObject, content as NSObject)
+        return Promise()
+      }.then { _ in
+        SearchThirdTimeButWaitForCacheToExpire()
+    }
+    
+    promise3.catch { error in
+      XCTFail("Error : \(error)")
       }
-      self.index.waitTask(withID: content!["taskID"] as! Int) { (content, error) in
-        guard error == nil else {
-          XCTFail(String(describing: error))
-          expectation.fulfill()
-          return
-        }
-        // Search a first time: there should be no cache.
+    
+    func SearchThirdTimeButWaitForCacheToExpire() {
+      DispatchQueue.main.asyncAfter(deadline: .now() + timeout * 3) {
         self.index.search(Query()) { (content, error) in
-          guard error == nil else {
-            XCTFail(String(describing: error))
-            expectation.fulfill()
-            return
-          }
-          XCTAssertNotNil(content)
-          let firstResponse: [String: Any] = content!
-          
-          // Alter the hosts so that any search request should fail.
-          self.client.readHosts = ["alwaysfail.algolia.com"]
-          
-          // Search a second time with the same query: we should hit the cache and not return an error.
-          self.index.search(Query()) { (content, error) in
-            guard error == nil else {
-              XCTFail(String(describing: error))
-              expectation.fulfill()
-              return
-            }
-            XCTAssertNotNil(content)
-            XCTAssertEqual(firstResponse as NSObject, content! as NSObject)
-            
-            // Search a third time, but wait for the cache to expire.
-            DispatchQueue.main.asyncAfter(deadline: .now() + timeout * 3) {
-              self.index.search(Query()) { (content, error) in
-                XCTAssertNotNil(error)
-                expectation.fulfill()
-              }
-            }
-          }
+          XCTAssertNotNil(error)
+          expectation.fulfill()
         }
       }
     }
+  
     self.waitForExpectations(timeout: expectationTimeout + timeout * 4, handler: nil)
   }
   
@@ -1145,36 +1141,57 @@ class IndexTests: OnlineTestCase {
         "series": "Calvin & Hobbes"
       ]
     ]
+    let query = Query()
+    query.facetFilters = ["kind:animal"]
+    query.numericFilters = ["born >= 1955"]
     
-    // Populate index.
-    index.setSettings(settings) { (content, error) in
-      guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
-      self.index.addObjects(Array(objects.values)) { (content, error) in
-        guard error == nil, let taskID = content!["taskID"] as? Int else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
-        self.index.waitTask(withID: taskID) { (content, error) in
-          guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
-          // Query with no extra search parameters.
-          self.index.searchForFacetValues(of: "series", matching: "Hobb") { (content, error) in
-            guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
-            guard let facetHits = content!["facetHits"] as? [[String: Any]] else { XCTFail("No facet hits"); expectation.fulfill(); return }
-            XCTAssertEqual(facetHits.count, 1)
-            XCTAssertEqual(facetHits[0]["value"] as? String, "Calvin & Hobbes")
-            XCTAssertEqual(facetHits[0]["count"] as? Int, 2)
-            // Query with extra search parameters.
-            let query = Query()
-            query.facetFilters = ["kind:animal"]
-            query.numericFilters = ["born >= 1955"]
-            self.index.searchForFacetValues(of: "series", matching: "Peanutz", query: query) { (content, error) in
-              guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
-              guard let facetHits = content!["facetHits"] as? [[String: Any]] else { XCTFail("No facet hits"); expectation.fulfill(); return }
-              XCTAssertEqual(facetHits[0]["value"] as? String, "Peanuts")
-              XCTAssertEqual(facetHits[0]["count"] as? Int, 1)
-              expectation.fulfill()
-            }
-          }
-        }
-      }
+    var promise = firstly {
+      self.setSettings(settings)
+      }.then { object in
+        self.waitTask(object)
     }
+    
+    let promise2 = promise.then { _ in
+      self.addObjects(Array(objects.values))
+      }.then { object in
+        self.waitTask(object)
+    }
+    
+    let promise3 = promise2.then { object in
+      self.searchForFacetValues(of: "series", matching: "Hobb")
+      }.then { object in
+        assertEqual1(object)
+    }
+    
+    let promise4 = promise3.then { object in
+      self.searchForFacetValues(of: "series", matching: "Peanutz", query: query)
+      }.then { object in
+        assertEqual2(object)
+    }
+    
+    promise4.catch { error in
+      XCTFail("Error : \(error)")
+      }.always {
+        expectation.fulfill()
+    }
+    
+    func assertEqual1(_ content: [String: Any]) {
+      guard let facetHits = content["facetHits"] as? [[String: Any]] else {
+        XCTFail("No facet hits")
+        expectation.fulfill()
+        return
+      }
+      XCTAssertEqual(facetHits.count, 1)
+      XCTAssertEqual(facetHits[0]["value"] as? String, "Calvin & Hobbes")
+      XCTAssertEqual(facetHits[0]["count"] as? Int, 2)
+    }
+    
+    func assertEqual2(_ content: [String: Any]) {
+      guard let facetHits = content["facetHits"] as? [[String: Any]] else { XCTFail("No facet hits"); expectation.fulfill(); return }
+      XCTAssertEqual(facetHits[0]["value"] as? String, "Peanuts")
+      XCTAssertEqual(facetHits[0]["count"] as? Int, 1)
+    }
+  
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 }
