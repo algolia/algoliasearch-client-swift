@@ -327,9 +327,9 @@ class IndexTests: OnlineTestCase {
         expectation.fulfill()
     }
     
-    func assertEqual(_ content: [String: Any]?) {
-      XCTAssertEqual(content?["objectID"] as? String, objectID)
-      XCTAssertEqual(content?["city"] as? String, "Los Angeles")
+    func assertEqual(_ content: [String: Any]) {
+      XCTAssertEqual(content["objectID"] as? String, objectID)
+      XCTAssertEqual(content["city"] as? String, "Los Angeles")
     }
     
     self.waitForExpectations(timeout: expectationTimeout)
@@ -339,13 +339,13 @@ class IndexTests: OnlineTestCase {
     let expectation = self.expectation(description: #function)
     let objectID = "unknown"
     
-    var promise = firstly {
+    let promise = firstly {
       self.partialUpdateObject(["city": "Los Angeles"], withID: objectID, createIfNotExists: false)
       }.then { object in
         self.waitTask(object)
       }
     
-    promise = promise.then { _ in
+    promise.then { _ in
       self.getObject(objectID)
       }.catch { error in // The object should not have been created
       XCTAssertEqual(StatusCode.notFound.rawValue, (error as NSError).code)
@@ -358,97 +358,130 @@ class IndexTests: OnlineTestCase {
   }
   
   func testPartialUpdateObjects() {
-    let expectation = self.expectation(description: "testPartialUpdateObjects")
+    let expectation = self.expectation(description: #function)
     let objects: [[String: Any]] = [
       ["city": "San Francisco", "initial": "SF", "objectID": "a/go/?à"],
       ["city": "New York", "initial": "NY", "objectID": "a/go/?à$"]
     ]
     
-    index.addObjects(objects, completionHandler: { (content, error) -> Void in
-      if let error = error {
-        XCTFail("Error during addObjects: \(error)")
-        expectation.fulfill()
-      } else {
-        let objectsToUpdate: [[String: Any]] = [
-          ["city": "Paris", "objectID": "a/go/?à"],
-          ["city": "Strasbourg", "objectID": "a/go/?à$"]
-        ]
-        self.index.partialUpdateObjects(objectsToUpdate, completionHandler: { (content, error) -> Void in
-          if let error = error {
-            XCTFail("Error during partialUpdateObjects: \(error)")
-            expectation.fulfill()
-          } else {
-            self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-              if let error = error {
-                XCTFail("Error during waitTask: \(error)")
-                expectation.fulfill()
-              } else {
-                self.index.getObjects(withIDs: ["a/go/?à", "a/go/?à$"], completionHandler: { (content, error) -> Void in
-                  if let error = error {
-                    XCTFail("Error during getObjects: \(error)")
-                  } else {
-                    let items = content!["results"] as! [[String: String]]
-                    XCTAssertEqual(items[0]["city"]!, "Paris", "partialUpdateObjects failed")
-                    XCTAssertEqual(items[0]["initial"]!, "SF", "partialUpdateObjects failed")
-                    XCTAssertEqual(items[1]["city"]!, "Strasbourg", "partialUpdateObjects failed")
-                    XCTAssertEqual(items[1]["initial"]!, "NY", "partialUpdateObjects failed")
-                  }
-                  
-                  expectation.fulfill()
-                })
-              }
-            })
-          }
-        })
-      }
-    })
+    let objectsToUpdate: [[String: Any]] = [
+      ["city": "Paris", "objectID": "a/go/?à"],
+      ["city": "Strasbourg", "objectID": "a/go/?à$"]
+    ]
     
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    let promise = firstly {
+      self.addObjects(objects)
+      }.then { object in
+        self.waitTask(object)
+    }
+    
+    let promise2 = promise.then { _ in
+      self.partialUpdateObjects(objectsToUpdate)
+      }.then { object in
+        self.waitTask(object)
+    }
+    
+    let promise3 = promise2.then { _ in
+      self.getObjects(["a/go/?à", "a/go/?à$"])
+      }.then { object in
+        assertEqual(object)
+    }
+    
+    promise3.catch { error in
+      XCTFail("Error : \(error)")
+      }.always {
+        expectation.fulfill()
+    }
+    
+    func assertEqual(_ content: [String: Any]) {
+      let items = content["results"] as! [[String: String]]
+      XCTAssertEqual(items[0]["city"]!, "Paris", "partialUpdateObjects failed")
+      XCTAssertEqual(items[0]["initial"]!, "SF", "partialUpdateObjects failed")
+      XCTAssertEqual(items[1]["city"]!, "Strasbourg", "partialUpdateObjects failed")
+      XCTAssertEqual(items[1]["initial"]!, "NY", "partialUpdateObjects failed")
+    }
+    
+    self.waitForExpectations(timeout: expectationTimeout)
   }
   
-  func testPartialUpdateObjectsCreateIfNotExists() {
+  func testPartialUpdateObjectsCreateIfNotExistsFalse() {
     let expectation = self.expectation(description: #function)
     let objectUpdates: [[String: Any]] = [
       ["city": "Paris", "objectID": "a/go/?à"],
       ["city": "Strasbourg", "objectID": "a/go/?à$"]
     ]
-    // Partial updates with `createIfNotExists=false` should not create objects.
-    self.index.partialUpdateObjects(objectUpdates, createIfNotExists: false) { (content, error) -> Void in
-      guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
-      self.index.waitTask(withID: content!["taskID"] as! Int) { (content, error) -> Void in
-        guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
-        self.index.getObjects(withIDs: ["a/go/?à", "a/go/?à$"]) { (content, error) -> Void in
-          // NOTE: Multiple get does not return an error, but simply returns `null` for missing objects.
-          guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
-          guard let results = content?["results"] as? [Any] else { XCTFail("Invalid results"); expectation.fulfill(); return }
-          XCTAssertEqual(results.count, 2)
-          for i in 0..<2 {
-            XCTAssert(results[i] is NSNull)
-          }
-          
-          // Partial updates with `createIfNotExists=true` should create objects.
-          self.index.partialUpdateObjects(objectUpdates, createIfNotExists: true) { (content, error) -> Void in
-            guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
-            self.index.waitTask(withID: content!["taskID"] as! Int) { (content, error) -> Void in
-              guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
-              self.index.getObjects(withIDs: ["a/go/?à", "a/go/?à$"]) { (content, error) -> Void in
-                guard error == nil else {
-                  XCTFail("Objects should have been created (\(error!.localizedDescription))")
-                  expectation.fulfill()
-                  return
-                }
-                guard let results = content?["results"] as? [[String: Any]] else { XCTFail("Invalid results"); expectation.fulfill(); return }
-                XCTAssertEqual(results.count, 2)
-                for i in 0..<2 {
-                  XCTAssertEqual(results[i]["objectID"] as? String, objectUpdates[i]["objectID"] as? String)
-                }
-                expectation.fulfill()
-              }
-            }
-          }
-        }
+    
+    var promise = firstly {
+      self.partialUpdateObjects(objectUpdates, createIfNotExists: false)
+      }.then { object in
+        self.waitTask(object)
+    }
+    
+    let promise2 = promise.then { _ in
+      self.getObjects(["a/go/?à", "a/go/?à$"])
+      }.then { object in
+        assertEqual(object)
+    }
+      
+    promise2.catch { error in
+      XCTFail("Error : \(error)")
+      }.always {
+        expectation.fulfill()
+    }
+    
+    func assertEqual(_ content: [String: Any]) {
+      guard let results = content["results"] as? [Any] else {
+        XCTFail("Invalid results")
+        return
+      }
+      
+      XCTAssertEqual(results.count, 2)
+      for i in 0..<2 {
+        XCTAssert(results[i] is NSNull)
       }
     }
+    
+    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+  }
+  
+  // Partial updates with `createIfNotExists=true` should create objects.
+  func testPartialUpdateObjectsCreateIfNotExistsTrue() {
+    let expectation = self.expectation(description: #function)
+    let objectUpdates: [[String: Any]] = [
+      ["city": "Paris", "objectID": "a/go/?à"],
+      ["city": "Strasbourg", "objectID": "a/go/?à$"]
+    ]
+    
+    var promise = firstly {
+      self.partialUpdateObjects(objectUpdates, createIfNotExists: true)
+      }.then { object in
+        self.waitTask(object)
+    }
+    
+    let promise2 = promise.then { _ in
+      self.getObjects(["a/go/?à", "a/go/?à$"])
+      }.then { object in
+        assertEqual(object)
+    }
+    
+    promise2.catch { error in
+      XCTFail("Error : \(error)")
+      }.always {
+        expectation.fulfill()
+    }
+    
+    func assertEqual(_ content: [String: Any]) {
+      guard let results = content["results"] as? [[String: Any]] else {
+        XCTFail("Invalid results")
+        return
+      }
+      
+      XCTAssertEqual(results.count, 2)
+      for i in 0..<2 {
+        XCTAssertEqual(results[i]["objectID"] as? String, objectUpdates[i]["objectID"] as? String)
+      }
+    }
+    
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
   
