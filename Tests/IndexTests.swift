@@ -743,43 +743,33 @@ class IndexTests: OnlineTestCase {
     for i in 0..<3000 {
       objects.append(["dummy": i])
     }
+    let query = Query()
+    query.numericFilters = ["dummy < 1500"]
     
-    // Add a batch of objects.
-    index.addObjects(objects, completionHandler: { (content, error) -> Void in
-      if error != nil {
-        XCTFail(error!.localizedDescription)
+    var promise = firstly {
+      self.addObjects(objects)
+      }.then { object in
+        self.waitTask(object)
+    }
+    
+    let promise2 = promise.then { _ in
+      self.deleteByQuery(query)
+      }.then { object in
+      self.browse(query)
+      }.then { object in
+        assertEqual(object)
+    }
+    
+    promise2.catch { error in
+      XCTFail("Error : \(error)")
+      }.always {
         expectation.fulfill()
-      } else {
-        // Wait for the objects to be indexed.
-        self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-          if error != nil {
-            XCTFail(error!.localizedDescription)
-            expectation.fulfill()
-          } else {
-            // Delete by query.
-            let query = Query()
-            query.numericFilters = ["dummy < 1500"]
-            self.index.deleteByQuery(query, completionHandler: { (content, error) -> Void in
-              if error != nil {
-                XCTFail(error!.localizedDescription)
-                expectation.fulfill()
-              } else {
-                // Check that the deleted objects no longer exist.
-                self.index.browse(query: query, completionHandler: { (content, error) in
-                  if error != nil {
-                    XCTFail(error!.localizedDescription)
-                  } else {
-                    XCTAssertEqual((content!["hits"] as? [Any])?.count, 0)
-                    XCTAssertNil(content!["cursor"])
-                  }
-                  expectation.fulfill()
-                })
-              }
-            })
-          }
-        })
-      }
-    })
+    }
+    
+    func assertEqual(_ content: [String: Any]) {
+      XCTAssertEqual((content["hits"] as? [Any])?.count, 0)
+      XCTAssertNil(content["cursor"])
+    }
     
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
@@ -790,51 +780,37 @@ class IndexTests: OnlineTestCase {
     for i in 0..<3000 {
       objects.append(["dummy": i])
     }
+    let query = Query(query: "")
+    query.numericFilters = ["dummy < 1500"]
     
-    // Add a batch of objects.
-    index.addObjects(objects, completionHandler: { (content, error) -> Void in
-      if error != nil {
-        XCTFail(error!.localizedDescription)
+    var promise = firstly {
+      self.addObjects(objects)
+      }.then { object in
+        self.waitTask(object)
+    }
+    
+    let promise2 = promise.then { _ in
+      self.deleteBy(query)
+      }.then { object in
+        self.waitTask(object)
+    }
+    
+    let promise3 = promise2.then { object in
+      self.browse(query)
+      }.then { object in
+        assertEqual(object)
+    }
+    
+    promise3.catch { error in
+      XCTFail("Error : \(error)")
+      }.always {
         expectation.fulfill()
-      } else {
-        // Wait for the objects to be indexed.
-        self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-          if error != nil {
-            XCTFail(error!.localizedDescription)
-            expectation.fulfill()
-          } else {
-            // Delete by query.
-            let query = Query(query: "")
-            query.numericFilters = ["dummy < 1500"]
-            self.index.deleteBy(query, completionHandler: { (content, error) -> Void in
-              if error != nil {
-                XCTFail(error!.localizedDescription)
-                expectation.fulfill()
-              } else {
-                self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-                  if error != nil {
-                    XCTFail(error!.localizedDescription)
-                    expectation.fulfill()
-                  } else {
-                    // Check that the deleted objects no longer exist.
-                    self.index.browse(query: query, completionHandler: { (content, error) in
-                      if error != nil {
-                        XCTFail(error!.localizedDescription)
-                      } else {
-                        XCTAssertEqual((content!["hits"] as? [Any])?.count, 0)
-                        XCTAssertNil(content!["cursor"])
-                      }
-                      expectation.fulfill()
-                    })
-                  }
-                })
-                
-              }
-            })
-          }
-        })
-      }
-    })
+    }
+    
+    func assertEqual(_ content: [String: Any]) {
+      XCTAssertEqual((content["hits"] as? [Any])?.count, 0)
+      XCTAssertNil(content["cursor"])
+    }
     
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
@@ -851,61 +827,49 @@ class IndexTests: OnlineTestCase {
       ["name": "Lame Phone",              "brand": "Whatever",    "category": "device",       "stars": 1],
       ["name": "Lame Phone cover",        "brand": "Whatever",    "category": "accessory",    "stars": 1]
     ]
+    let disjunctiveFacets = ["brand"]
+    let refinements = [
+      "brand": ["Apple", "Samsung"], // disjunctive
+      "category": ["device"] // conjunctive
+    ]
+    let query = Query(query: "phone")
+    query.facets = ["brand", "category", "stars"]
     
-    // Change index settings.
-    index.setSettings(["attributesForFaceting": ["brand", "category", "stars"]], completionHandler: { (content, error) -> Void in
-      if error != nil {
-        XCTFail(error!.localizedDescription)
+    var promise = firstly {
+      self.setSettings(["attributesForFaceting": ["brand", "category", "stars"]])
+      }.then { object in
+        self.waitTask(object)
+    }
+    
+    let promise2 = promise.then { _ in
+      self.addObjects(objects)
+      }.then { object in
+        self.waitTask(object)
+    }
+    
+    let promise3 = promise2.then { object in
+      self.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements)
+      }.then { object in
+        assertEqual(object)
+    }
+    
+    promise3.catch { error in
+      XCTFail("Error : \(error)")
+      }.always {
         expectation.fulfill()
-      } else {
-        self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-          if error != nil {
-            XCTFail(error!.localizedDescription)
-            expectation.fulfill()
-          } else {
-            // Add objects.
-            self.index.addObjects(objects, completionHandler: { (content, error) -> Void in
-              if error != nil {
-                XCTFail(error!.localizedDescription)
-                expectation.fulfill()
-              } else {
-                self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-                  if error != nil {
-                    XCTFail(error!.localizedDescription)
-                    expectation.fulfill()
-                  } else {
-                    // Search.
-                    let disjunctiveFacets = ["brand"]
-                    let refinements = [
-                      "brand": ["Apple", "Samsung"], // disjunctive
-                      "category": ["device"] // conjunctive
-                    ]
-                    let query = Query(query: "phone")
-                    query.facets = ["brand", "category", "stars"]
-                    self.index.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: { (content, error) -> Void in
-                      if error != nil {
-                        XCTFail(error!.localizedDescription)
-                        expectation.fulfill()
-                      } else {
-                        XCTAssertEqual(content!["nbHits"] as? Int, 3)
-                        let disjunctiveFacetsResult = content!["disjunctiveFacets"] as? [String: Any]
-                        XCTAssertNotNil(disjunctiveFacetsResult)
-                        let brandFacetCounts = disjunctiveFacetsResult!["brand"] as? [String: Any]
-                        XCTAssertNotNil(brandFacetCounts)
-                        XCTAssertEqual(brandFacetCounts!["Apple"] as? Int, 2)
-                        XCTAssertEqual(brandFacetCounts!["Samsung"] as? Int, 1)
-                        XCTAssertEqual(brandFacetCounts!["Whatever"] as? Int, 1)
-                        expectation.fulfill()
-                      }
-                    })
-                  }
-                })
-              }
-            })
-          }
-        })
-      }
-    })
+    }
+    
+    func assertEqual(_ content: [String: Any]) {
+      XCTAssertEqual(content["nbHits"] as? Int, 3)
+      let disjunctiveFacetsResult = content["disjunctiveFacets"] as? [String: Any]
+      XCTAssertNotNil(disjunctiveFacetsResult)
+      let brandFacetCounts = disjunctiveFacetsResult!["brand"] as? [String: Any]
+      XCTAssertNotNil(brandFacetCounts)
+      XCTAssertEqual(brandFacetCounts!["Apple"] as? Int, 2)
+      XCTAssertEqual(brandFacetCounts!["Samsung"] as? Int, 1)
+      XCTAssertEqual(brandFacetCounts!["Whatever"] as? Int, 1)
+    }
+    
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
   

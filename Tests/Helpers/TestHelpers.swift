@@ -88,6 +88,24 @@ extension OnlineTestCase {
       self.index.browse(from: cursor, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
     })
   }
+  
+  func deleteBy(_ query: Query) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.index.deleteBy(query, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
+  func deleteByQuery(_ query: Query) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.index.deleteByQuery(query, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
+  func searchDisjunctiveFaceting(_ query: Query, disjunctiveFacets: [String], refinements: [String: [String]]) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.index.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
     
   func partialUpdateObject(_ object:[String: Any], withID objectID: String, createIfNotExists: Bool? = nil) -> Promise<[String: Any]> {
       return promiseWrap({ fulfill, reject in
