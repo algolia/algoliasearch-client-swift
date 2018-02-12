@@ -83,6 +83,12 @@ extension OnlineTestCase {
       })
   }
   
+  func partialUpdateObjects(_ objects:[[String: Any]], createIfNotExists: Bool? = nil) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.index.partialUpdateObjects(objects, createIfNotExists: createIfNotExists, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
   func listIndexes() -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in
       self.client.listIndexes(completionHandler: completionWrap(fulfill: fulfill, reject: reject))

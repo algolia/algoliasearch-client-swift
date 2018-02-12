@@ -266,29 +266,29 @@ class IndexTests: OnlineTestCase {
   }
   
   func testPartialUpdateObject() {
-    let expectation = self.expectation(description: "testPartialUpdateObject")
+    let expectation = self.expectation(description: #function)
     let mockObject = ["city": "New York", "initial": "NY", "objectID": "a/go/?à"]
     
     
-    let promise = firstly{
+    var promise = firstly{
       self.addObject(mockObject)
       }.then { object in
         self.waitTask(object)
       }
     
-    let promise2 = promise.then { _ in
+    promise = promise.then { _ in
       self.partialUpdateObject(["city": "Los Angeles"], withID: mockObject["objectID"]!)
       }.then { object in
         self.waitTask(object)
     }
     
-    let promise3 = promise2.then { _ in
+    let promise2 = promise.then { _ in
       self.getObject(mockObject["objectID"]!)
       }.then { content in
         assertSuccessfulUpdate(content: content)
     }
     
-    promise3.catch { error in
+    promise2.catch { error in
       XCTFail("Error : \(error)")
       }.always {
         expectation.fulfill()
@@ -305,43 +305,55 @@ class IndexTests: OnlineTestCase {
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
   
-  func testPartialUpdateObjectCreateIfNotExists() {
-    let expectation = self.expectation(description: "testPartialUpdateObject")
+  func testPartialUpdateObjectCreateIfNotExistsTrue() {
+    let expectation = self.expectation(description: #function)
     let objectID = "unknown"
     
-    // Partial update with `createIfNotExists=false` should not create object.
-    self.index.partialUpdateObject(["city": "Los Angeles"], withID: objectID, createIfNotExists: false) { (content, error) -> Void in
-      guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
-      self.index.waitTask(withID: content!["taskID"] as! Int) { (content, error) -> Void in
-        guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
-        self.index.getObject(withID: objectID) { (content, error) -> Void in
-          guard let error = error else {
-            XCTFail("The object should not have been created")
-            expectation.fulfill()
-            return
-          }
-          XCTAssertEqual(StatusCode.notFound.rawValue, (error as NSError).code)
-          
-          // Partial update with `createIfNotExists=true` should create object.
-          self.index.partialUpdateObject(["city": "Los Angeles"], withID: objectID, createIfNotExists: true) { (content, error) -> Void in
-            guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
-            self.index.waitTask(withID: content!["taskID"] as! Int) { (content, error) -> Void in
-              guard error == nil else { XCTFail(error!.localizedDescription); expectation.fulfill(); return }
-              self.index.getObject(withID: objectID) { (content, error) -> Void in
-                guard error == nil else {
-                  XCTFail("The object should have been created (\(error!.localizedDescription))")
-                  expectation.fulfill()
-                  return
-                }
-                XCTAssertEqual(content?["objectID"] as? String, objectID)
-                XCTAssertEqual(content?["city"] as? String, "Los Angeles")
-                expectation.fulfill()
-              }
-            }
-          }
-        }
-      }
+    let promise = firstly {
+      self.partialUpdateObject(["city": "Los Angeles"], withID: objectID, createIfNotExists: true)
+      }.then { object in
+        self.waitTask(object)
     }
+    
+    let promise2 = promise.then { _ in
+      self.getObject(objectID)
+      }.then { object in
+        assertEqual(object)
+    }
+    
+    promise2.catch { error in
+        XCTFail("Error : \(error)")
+      }.always {
+        expectation.fulfill()
+    }
+    
+    func assertEqual(_ content: [String: Any]?) {
+      XCTAssertEqual(content?["objectID"] as? String, objectID)
+      XCTAssertEqual(content?["city"] as? String, "Los Angeles")
+    }
+    
+    self.waitForExpectations(timeout: expectationTimeout)
+  }
+  
+  func testPartialUpdateObjectCreateIfNotExistsFalse() {
+    let expectation = self.expectation(description: #function)
+    let objectID = "unknown"
+    
+    var promise = firstly {
+      self.partialUpdateObject(["city": "Los Angeles"], withID: objectID, createIfNotExists: false)
+      }.then { object in
+        self.waitTask(object)
+      }
+    
+    promise = promise.then { _ in
+      self.getObject(objectID)
+      }.catch { error in // The object should not have been created
+      XCTAssertEqual(StatusCode.notFound.rawValue, (error as NSError).code)
+      }.always {
+        expectation.fulfill()
+    }
+    
+ 
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
   
