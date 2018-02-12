@@ -569,37 +569,35 @@ class IndexTests: OnlineTestCase {
     let expectation = self.expectation(description: "testClear")
     let object: [String: Any] = ["city": "San Francisco", "objectID": "a/go/?à"]
     
-    index.addObject(object, completionHandler: { (content, error) -> Void in
-      if let error = error {
-        XCTFail("Error during addObject: \(error)")
+    
+    var promise = firstly {
+      self.addObject(object)
+      }.then { object in
+        self.waitTask(object)
+    }
+    
+    let promise2 = promise.then { _ in
+      self.clearIndex()
+      }.then { object in
+        self.waitTask(object)
+    }
+    
+    let promise3 = promise2.then { _ in
+      self.query()
+      }.then { object in
+        assertEqual(object)
+    }
+    
+    promise3.catch { error in
+      XCTFail("Error : \(error)")
+      }.always {
         expectation.fulfill()
-      } else {
-        self.index.clearIndex(completionHandler: { (content, error) -> Void in
-          if let error = error {
-            XCTFail("Error during clearIndex: \(error)")
-            expectation.fulfill()
-          } else {
-            self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-              if let error = error {
-                XCTFail("Error during waitTask: \(error)")
-                expectation.fulfill()
-              } else {
-                self.index.search(Query(), completionHandler: { (content, error) -> Void in
-                  if let error = error {
-                    XCTFail("Error during search: \(error)")
-                  } else {
-                    let nbHits = content!["nbHits"] as! Int
-                    XCTAssertEqual(nbHits, 0, "Clear index failed")
-                  }
-                  
-                  expectation.fulfill()
-                })
-              }
-            })
-          }
-        })
-      }
-    })
+    }
+    
+    func assertEqual(_ content: [String: Any]) {
+      let nbHits = content["nbHits"] as! Int
+      XCTAssertEqual(nbHits, 0, "Clear index failed")
+    }
     
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
@@ -608,30 +606,28 @@ class IndexTests: OnlineTestCase {
     let expectation = self.expectation(description: "testSettings")
     let settings = ["attributesToRetrieve": ["name"]]
     
-    index.setSettings(settings, completionHandler: { (content, error) -> Void in
-      if let error = error {
-        XCTFail("Error during setSettings: \(error)")
+    var promise = firstly {
+      self.setSettings(settings)
+      }.then { object in
+        self.waitTask(object)
+    }
+
+    let promise2 = promise.then { _ in
+      self.getSettings()
+      }.then { object in
+        assertEqual(object)
+    }
+
+    promise2.catch { error in
+      XCTFail("Error : \(error)")
+      }.always {
         expectation.fulfill()
-      } else {
-        self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-          if let error = error {
-            XCTFail("Error during waitTask: \(error)")
-            expectation.fulfill()
-          } else {
-            self.index.getSettings(completionHandler: { (content, error) -> Void in
-              if let error = error {
-                XCTFail("Error during getSettings: \(error)")
-              } else {
-                let attributesToRetrieve = content!["attributesToRetrieve"] as! [String]
-                XCTAssertEqual(attributesToRetrieve, settings["attributesToRetrieve"]!, "Set settings failed")
-              }
-              
-              expectation.fulfill()
-            })
-          }
-        })
-      }
-    })
+    }
+
+    func assertEqual(_ content: [String: Any]) {
+      let attributesToRetrieve = content["attributesToRetrieve"] as! [String]
+      XCTAssertEqual(attributesToRetrieve, settings["attributesToRetrieve"]!, "Set settings failed")
+    }
     
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
@@ -640,30 +636,28 @@ class IndexTests: OnlineTestCase {
     let expectation = self.expectation(description: "testSettings")
     let settings = ["attributesToRetrieve": ["name"]]
     
-    index.setSettings(settings, forwardToReplicas: true, completionHandler: { (content, error) -> Void in
-      if let error = error {
-        XCTFail("Error during setSettings: \(error)")
+    var promise = firstly {
+      self.setSettings(settings, forwardToReplicas: true)
+      }.then { object in
+        self.waitTask(object)
+    }
+    
+    let promise2 = promise.then { _ in
+      self.getSettings()
+      }.then { object in
+        assertEqual(object)
+    }
+    
+    promise2.catch { error in
+      XCTFail("Error : \(error)")
+      }.always {
         expectation.fulfill()
-      } else {
-        self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-          if let error = error {
-            XCTFail("Error during waitTask: \(error)")
-            expectation.fulfill()
-          } else {
-            self.index.getSettings(completionHandler: { (content, error) -> Void in
-              if let error = error {
-                XCTFail("Error during getSettings: \(error)")
-              } else {
-                let attributesToRetrieve = content!["attributesToRetrieve"] as! [String]
-                XCTAssertEqual(attributesToRetrieve, settings["attributesToRetrieve"]!, "Set settings failed")
-              }
-              
-              expectation.fulfill()
-            })
-          }
-        })
-      }
-    })
+    }
+    
+    func assertEqual(_ content: [String: Any]) {
+      let attributesToRetrieve = content["attributesToRetrieve"] as! [String]
+      XCTAssertEqual(attributesToRetrieve, settings["attributesToRetrieve"]!, "Set settings failed")
+    }
     
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
@@ -675,45 +669,36 @@ class IndexTests: OnlineTestCase {
       objects.append(["i": i])
     }
     
-    index.addObjects(objects, completionHandler: { (content, error) -> Void in
-      if let error = error {
-        XCTFail("Error during addObjects: \(error)")
-        expectation.fulfill()
-      } else {
-        self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-          if let error = error {
-            XCTFail("Error during waitTask: \(error)")
-            expectation.fulfill()
-          } else {
-            let query = Query()
-            query.hitsPerPage = 1000
-            self.index.browse(query: query, completionHandler: { (content, error) -> Void in
-              if error != nil {
-                XCTFail("Error during browse: \(error!)")
-              } else {
-                if let cursor = content?["cursor"] as? String {
-                  self.index.browse(from: cursor) { (content, error) in
-                    if error != nil {
-                      XCTFail("Error during browse: \(error!)")
-                    } else {
-                      if content?["cursor"] as? String != nil {
-                        XCTFail("The end should have been reached")
-                        expectation.fulfill()
-                      } else {
-                        expectation.fulfill()
-                      }
-                    }
-                  }
-                } else {
-                  XCTFail("The end should not be reached")
-                  expectation.fulfill()
-                }
-              }
-            })
-          }
-        })
+    let query = Query()
+    query.hitsPerPage = 1000
+    
+    var promise = firstly {
+      self.addObjects(objects)
+      }.then { object in
+        self.waitTask(object)
+    }
+    
+    let promise2 = promise.then { _ in
+      self.browse(query)
+      }.then { object in
+        self.getValuePromise(object, key: "cursor")
+      }.then { cursor in
+        self.browse(from: cursor)
       }
-    })
+    
+    promise2.then { object in
+      assertEqual(object)
+      }.catch { error in
+      XCTFail("Error : \(error)")
+      }.always {
+        expectation.fulfill()
+    }
+    
+    func assertEqual(_ content: [String: Any]) {
+      if content["cursor"] as? String != nil {
+        XCTFail("The end should have been reached")
+      }
+    }
     
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
@@ -730,33 +715,25 @@ class IndexTests: OnlineTestCase {
         "body": [ "city": "Paris" ]
       ]
     ]
-    index.batch(operations: actions) {
-      (content, error) -> Void in
-      if error != nil {
-        XCTFail(error!.localizedDescription)
-      } else if let taskID = content!["taskID"] as? Int {
-        // Wait for the batch to be processed.
-        self.index.waitTask(withID: taskID) {
-          (content, error) in
-          if error != nil {
-            XCTFail(error!.localizedDescription)
-          } else {
-            // Check that objects have been indexed.
-            self.index.search(Query(query: "Francisco")) {
-              (content, error) in
-              if error != nil {
-                XCTFail(error!.localizedDescription)
-              } else {
-                XCTAssertEqual(content!["nbHits"] as? Int, 1)
-                expectation.fulfill()
-              }
-            }
-          }
-        }
-      } else {
-        XCTFail("Could not find task ID")
-      }
+    
+    let promise = firstly {
+      self.batch(actions)
+      }.then { object in
+        self.waitTask(object)
     }
+    
+    let promise2 = promise.then { _ in
+      self.query("Francisco")
+      }.then { object in
+        XCTAssertEqual(object["nbHits"] as? Int, 1)
+    }
+    
+    promise2.catch { error in
+      XCTFail("Error : \(error)")
+      }.always {
+        expectation.fulfill()
+    }
+    
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
   

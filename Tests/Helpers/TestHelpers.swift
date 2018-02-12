@@ -76,6 +76,18 @@ extension OnlineTestCase {
       self.index.search(Query(query:query), completionHandler: completionWrap(fulfill: fulfill, reject: reject))
     })
   }
+  
+  func browse(_ query: Query) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.index.browse(query: query, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
+  func browse(from cursor: String) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.index.browse(from: cursor, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
     
   func partialUpdateObject(_ object:[String: Any], withID objectID: String, createIfNotExists: Bool? = nil) -> Promise<[String: Any]> {
       return promiseWrap({ fulfill, reject in
@@ -89,9 +101,33 @@ extension OnlineTestCase {
     })
   }
   
+  func batch(_ operations:[[String: Any]]) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.index.batch(operations: operations, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
   func listIndexes() -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in
       self.client.listIndexes(completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
+  func clearIndex() -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.index.clearIndex(completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
+  func setSettings(_ settings: [String: Any], forwardToReplicas: Bool? = nil) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.index.setSettings(settings, forwardToReplicas: forwardToReplicas, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
+  func getSettings() -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.index.getSettings(completionHandler: completionWrap(fulfill: fulfill, reject: reject))
     })
   }
   
