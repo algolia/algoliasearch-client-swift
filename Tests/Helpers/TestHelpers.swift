@@ -71,6 +71,16 @@ extension OnlineTestCase {
     })
   }
   
+  func batchWaitTask(_ object:[String: Any]) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      guard let taskID = (object["taskID"] as? [String: Any])?[self.index.name] as? Int else {
+        reject(NSError(domain: "com.algolia.com", code: -1, userInfo: [NSLocalizedDescriptionKey:"Wait task failed"]))
+        return
+      }
+      self.index.waitTask(withID: taskID, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
   func query(_ query: String? = "") -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in
       self.index.search(Query(query:query), completionHandler: completionWrap(fulfill: fulfill, reject: reject))
@@ -119,6 +129,18 @@ extension OnlineTestCase {
     })
   }
   
+  func clientMultipleQueries(_ queries: [IndexQuery]) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.client.multipleQueries(queries, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
+  func clientMultipleQueriesStopIfEnoughMatches(_ queries: [IndexQuery]) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.client.multipleQueries(queries, strategy: .stopIfEnoughMatches, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
   func searchDisjunctiveFaceting(_ query: Query, disjunctiveFacets: [String], refinements: [String: [String]]) -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in
       self.index.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
@@ -146,6 +168,12 @@ extension OnlineTestCase {
   func batch(_ operations:[[String: Any]]) -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in
       self.index.batch(operations: operations, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
+  func clientBatch(_ operations:[[String: Any]]) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.client.batch(operations: operations, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
     })
   }
   

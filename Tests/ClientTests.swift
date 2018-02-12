@@ -141,81 +141,70 @@ class ClientTests: OnlineTestCase {
   }
     
     func testMultipleQueries() {
-        let expectation = self.expectation(description: "testMultipleQueries")
-        let object = ["city": "San Francisco"]
+      let expectation = self.expectation(description: "testMultipleQueries")
+      let object = ["city": "San Francisco"]
+      let queries = [IndexQuery(index: self.index, query: Query())]
+      
+      let promise = firstly {
+        self.addObject(object)
+        }.then { object in
+          self.waitTask(object)
+      }
+      
+      let promise2 = promise.then { _ in
+        self.clientMultipleQueries(queries)
+        }.then { (content) -> Promise<Void> in
+          let items = content["results"] as! [[String: Any]]
+          let nbHits = items[0]["nbHits"] as! Int
+          XCTAssertEqual(nbHits, 1, "Wrong number of object in the index")
+          return Promise()
+      }
+      
+      promise2.catch { error in
+        XCTFail("Error : \(error)")
+        }.always {
+          expectation.fulfill()
+      }
         
-        index.addObject(object, completionHandler: { (content, error) -> Void in
-            if let error = error {
-                XCTFail("Error during addObject: \(error)")
-                expectation.fulfill()
-            } else {
-                self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-                    if let error = error {
-                        XCTFail("Error during waitTask: \(error)")
-                        expectation.fulfill()
-                    } else {
-                        let queries = [IndexQuery(index: self.index, query: Query())]
-                        
-                        self.client.multipleQueries(queries, completionHandler: { (content, error) -> Void in
-                            if let error = error {
-                                XCTFail("Error during multipleQueries: \(error)")
-                            } else {
-                                let items = content!["results"] as! [[String: Any]]
-                                let nbHits = items[0]["nbHits"] as! Int
-                                XCTAssertEqual(nbHits, 1, "Wrong number of object in the index")
-                            }
-                            
-                            expectation.fulfill()
-                        })
-                    }
-                })
-            }
-        })
-        
-        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
-    }
+      self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+  }
 
     func testMultipleQueries_stopIfEnoughMatches() {
-        let expectation = self.expectation(description: "testMultipleQueries")
-        let object = ["city": "San Francisco"]
+      let expectation = self.expectation(description: "testMultipleQueries")
+      let object = ["city": "San Francisco"]
+      let query = Query()
+      query.hitsPerPage = 1
+      let queries = [
+        IndexQuery(index: self.index, query: query),
+        IndexQuery(index: self.index, query: query)
+      ]
+      
+      let promise = firstly {
+          self.addObject(object)
+        }.then { object in
+          self.waitTask(object)
+      }
+      
+      let promise2 = promise.then { _ in
+          self.clientMultipleQueriesStopIfEnoughMatches(queries)
+        }.then { (content) -> Promise<Void> in
+          let items = content["results"] as! [[String: Any]]
+          XCTAssert(items.count == 2) // each query should return an item...
+          XCTAssertEqual(items[0]["nbHits"] as? Int, 1, "Wrong number of object in the index")
+          // ... but the second query should not have been processed
+          XCTAssertEqual(items[1]["processed"] as? Bool, false)
+          XCTAssertEqual(items[1]["nbHits"] as? Int, 0, "Wrong number of object in the index")
+          return Promise()
+      }
+      
+      promise2.catch { error in
+          XCTFail("Error : \(error)")
+        }.always {
+          expectation.fulfill()
+      }
         
-        index.addObject(object, completionHandler: { (content, error) -> Void in
-            if let error = error {
-                XCTFail("Error during addObject: \(error)")
-                expectation.fulfill()
-            } else {
-                self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-                    if let error = error {
-                        XCTFail("Error during waitTask: \(error)")
-                        expectation.fulfill()
-                    } else {
-                        let query = Query()
-                        query.hitsPerPage = 1
-                        let queries = [
-                            IndexQuery(index: self.index, query: query),
-                            IndexQuery(index: self.index, query: query)
-                        ]
-                        
-                        self.client.multipleQueries(queries, strategy: .stopIfEnoughMatches, completionHandler: { (content, error) -> Void in
-                            if let error = error {
-                                XCTFail("Error during multipleQueries: \(error)")
-                            } else {
-                                let items = content!["results"] as! [[String: Any]]
-                                XCTAssert(items.count == 2) // each query should return an item...
-                                XCTAssertEqual(items[0]["nbHits"] as? Int, 1, "Wrong number of object in the index")
-                                // ... but the second query should not have been processed
-                                XCTAssertEqual(items[1]["processed"] as? Bool, false)
-                                XCTAssertEqual(items[1]["nbHits"] as? Int, 0, "Wrong number of object in the index")
-                            }
-                            expectation.fulfill()
-                        })
-                    }
-                })
-            }
-        })
-        
-        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
-    }
+      self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+  }
 
     func testHeaders() {
         // Make a call with a valid API key.
@@ -277,35 +266,27 @@ class ClientTests: OnlineTestCase {
                 "body": [ "city": "Paris" ]
             ]
         ]
-        client.batch(operations: actions) {
-            (content, error) -> Void in
-            if error != nil {
-                XCTFail(error!.localizedDescription)
-            } else if let taskID = (content!["taskID"] as? [String: Any])?[self.index.name] as? Int {
-                // Wait for the batch to be processed.
-                self.index.waitTask(withID: taskID) {
-                    (content, error) in
-                    if error != nil {
-                        XCTFail(error!.localizedDescription)
-                    } else {
-                        // Check that objects have been indexed.
-                        self.index.search(Query(query: "Francisco")) {
-                            (content, error) in
-                            if error != nil {
-                                XCTFail(error!.localizedDescription)
-                            } else {
-                                XCTAssertEqual(content!["nbHits"] as? Int, 1)
-                                expectation.fulfill()
-                            }
-                        }
-                    }
-                }
-            } else {
-                XCTFail("Could not find task ID")
-            }
-        }
-        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
-    }
+      
+      let promise = firstly {
+        self.clientBatch(actions)
+        }.then { object in
+          self.batchWaitTask(object)
+      }
+      
+      let promise2 = promise.then { _ in
+        self.query("Francisco")
+        }.then { object in
+          XCTAssertEqual(object["nbHits"] as? Int, 1)
+      }
+      
+      promise2.catch { error in
+        XCTFail("Error : \(error)")
+        }.always {
+          expectation.fulfill()
+      }
+      
+      self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+  }
     
     func testIsAlive() {
         let expectation = self.expectation(description: #function)
