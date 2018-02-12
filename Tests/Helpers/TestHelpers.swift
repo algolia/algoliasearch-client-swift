@@ -101,6 +101,12 @@ extension OnlineTestCase {
     })
   }
   
+  func multipleQueries(_ queries: [Query]) -> Promise<[String: Any]> {
+    return promiseWrap({ fulfill, reject in
+      self.index.multipleQueries(queries, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
+  }
+  
   func searchDisjunctiveFaceting(_ query: Query, disjunctiveFacets: [String], refinements: [String: [String]]) -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in
       self.index.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: completionWrap(fulfill: fulfill, reject: reject))

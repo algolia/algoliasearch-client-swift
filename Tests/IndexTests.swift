@@ -875,11 +875,6 @@ class IndexTests: OnlineTestCase {
   
   func testSearchDisjunctiveFaceting2() {
     let expectation = self.expectation(description: #function)
-    let expectation1 = self.expectation(description: "empty refinements")
-    let expectation2 = self.expectation(description: "stars (1 value)")
-    let expectation3 = self.expectation(description: "stars (1 value) + city")
-    let expectation4 = self.expectation(description: "stars (2 values) + city")
-    let expectations = [expectation, expectation1, expectation2, expectation3, expectation4]
     
     let objects: [[String: Any]] = [
       ["name": "Hotel A", "stars": "*", "facilities": ["wifi", "bath", "spa"], "city": "Paris"],
@@ -888,110 +883,103 @@ class IndexTests: OnlineTestCase {
       ["name": "Hotel D", "stars": "****", "facilities": ["spa"], "city": "Paris"],
       ["name": "Hotel E", "stars": "****", "facilities": ["spa"], "city": "New York"]
     ]
+    let query = Query(query: "h")
+    query.facets = ["city"]
+    let disjunctiveFacets = ["stars", "facilities"]
+    var refinements = [String: [String]]()
     
-    // Set index settings.
-    index.setSettings(["attributesForFaceting": ["city", "stars", "facilities"]], completionHandler: { (content, error) -> Void in
-      if error != nil {
-        XCTFail(error!.localizedDescription)
-        expectations.forEach() { e in e.fulfill() }
-        return
-      }
-      self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-        if error != nil {
-          XCTFail(error!.localizedDescription)
-          expectations.forEach() { e in e.fulfill() }
-          return
-        }
-        // Add objects.
-        self.index.addObjects(objects, completionHandler: { (content, error) in
-          if error != nil {
-            XCTFail(error!.localizedDescription)
-            expectations.forEach() { e in e.fulfill() }
-            return
-          }
-          self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-            if error != nil {
-              XCTFail(error!.localizedDescription)
-              expectations.forEach() { e in e.fulfill() }
-              return
-            }
-            // Search.
-            let query = Query(query: "h")
-            query.facets = ["city"]
-            let disjunctiveFacets = ["stars", "facilities"]
-            var refinements = [String: [String]]()
-            
-            self.index.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: { (content, error) in
-              if error != nil {
-                XCTFail(error!.localizedDescription)
-              } else {
-                XCTAssertEqual(5, content!["nbHits"] as? Int)
-                XCTAssertEqual(1, (content!["facets"] as? [String: Any])?.count)
-                XCTAssertEqual(2, (content!["disjunctiveFacets"] as? [String: Any])?.count)
-              }
-              expectation1.fulfill()
-            })
-            
-            refinements["stars"] = ["*"]
-            self.index.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: { (content, error) in
-              if error != nil {
-                XCTFail(error!.localizedDescription)
-              } else {
-                XCTAssertEqual(2, content!["nbHits"] as? Int)
-                XCTAssertEqual(1, (content!["facets"] as? [String: Any])?.count)
-                let disjunctiveFacets = content!["disjunctiveFacets"] as? [String: Any]
-                XCTAssertNotNil(disjunctiveFacets)
-                XCTAssertEqual(2, disjunctiveFacets?.count)
-                let starsCounts = disjunctiveFacets?["stars"] as? [String: Any]
-                XCTAssertNotNil(starsCounts)
-                XCTAssertEqual(2, starsCounts?["*"] as? Int);
-                XCTAssertEqual(1, starsCounts?["**"] as? Int);
-                XCTAssertEqual(2, starsCounts?["****"] as? Int);
-              }
-              expectation2.fulfill()
-            })
-            
-            refinements["city"] = ["Paris"]
-            self.index.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: { (content, error) in
-              if error != nil {
-                XCTFail(error!.localizedDescription)
-              } else {
-                XCTAssertEqual(2, content!["nbHits"] as? Int)
-                XCTAssertEqual(1, (content!["facets"] as? [String: Any])?.count)
-                let disjunctiveFacets = content!["disjunctiveFacets"] as? [String: Any]
-                XCTAssertNotNil(disjunctiveFacets)
-                XCTAssertEqual(2, disjunctiveFacets?.count)
-                let starsCounts = disjunctiveFacets?["stars"] as? [String: Any]
-                XCTAssertNotNil(starsCounts)
-                XCTAssertEqual(2, starsCounts?["*"] as? Int);
-                XCTAssertEqual(1, starsCounts?["****"] as? Int);
-              }
-              expectation3.fulfill()
-            })
-            
-            refinements["stars"] = ["*", "****"]
-            self.index.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: { (content, error) in
-              if error != nil {
-                XCTFail(error!.localizedDescription)
-              } else {
-                XCTAssertEqual(3, content!["nbHits"] as? Int)
-                XCTAssertEqual(1, (content!["facets"] as? [String: Any])?.count)
-                let disjunctiveFacets = content!["disjunctiveFacets"] as? [String: Any]
-                XCTAssertNotNil(disjunctiveFacets)
-                XCTAssertEqual(2, disjunctiveFacets?.count)
-                let starsCounts = disjunctiveFacets?["stars"] as? [String: Any]
-                XCTAssertNotNil(starsCounts)
-                XCTAssertEqual(2, starsCounts?["*"] as? Int);
-                XCTAssertEqual(1, starsCounts?["****"] as? Int);
-              }
-              expectation4.fulfill()
-            })
-            
-            expectation.fulfill()
-          })
-        })
+    var promise = firstly {
+      self.setSettings(["attributesForFaceting": ["city", "stars", "facilities"]])
+      }.then { object in
+        self.waitTask(object)
+    }
+    
+    let promise2 = promise.then { _ in
+      self.addObjects(objects)
+      }.then(execute: { (object) -> (Promise<[String : Any]>) in
+        print("hi")
+        return self.waitTask(object)
       })
-    })
+    
+    let promise3 = promise2.then { object in
+      self.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements)
+      }.then { object in
+        assertEqual1(object)
+      }
+    
+    let promise4 = promise3.then {
+      refinements["stars"] = ["*"]
+      }.then { _ in
+        self.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements)
+      }.then { object in
+        assertEqual2(object)
+    }
+    
+    let promise5 = promise4.then {
+      refinements["city"] = ["Paris"]
+      }.then {
+        self.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements)
+      }.then { object in
+        assertEqual3(object)
+    }
+    
+    let promise6 = promise5.then {
+      refinements["stars"] = ["*", "****"]
+      }.then {
+        self.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements)
+      }.then { object in
+        assertEqual4(object)
+    }
+    
+    promise6.catch { error in
+      XCTFail("Error : \(error)")
+      }.always {
+        expectation.fulfill()
+    }
+    
+    func assertEqual1(_ content: [String: Any]) {
+      XCTAssertEqual(5, content["nbHits"] as? Int)
+      XCTAssertEqual(1, (content["facets"] as? [String: Any])?.count)
+      XCTAssertEqual(2, (content["disjunctiveFacets"] as? [String: Any])?.count)
+    }
+    
+    func assertEqual2(_ content: [String: Any]) {
+      XCTAssertEqual(2, content["nbHits"] as? Int)
+      XCTAssertEqual(1, (content["facets"] as? [String: Any])?.count)
+      let disjunctiveFacets = content["disjunctiveFacets"] as? [String: Any]
+      XCTAssertNotNil(disjunctiveFacets)
+      XCTAssertEqual(2, disjunctiveFacets?.count)
+      let starsCounts = disjunctiveFacets?["stars"] as? [String: Any]
+      XCTAssertNotNil(starsCounts)
+      XCTAssertEqual(2, starsCounts?["*"] as? Int);
+      XCTAssertEqual(1, starsCounts?["**"] as? Int);
+      XCTAssertEqual(2, starsCounts?["****"] as? Int);
+    }
+    
+    func assertEqual3(_ content: [String: Any]) {
+      XCTAssertEqual(2, content["nbHits"] as? Int)
+      XCTAssertEqual(1, (content["facets"] as? [String: Any])?.count)
+      let disjunctiveFacets = content["disjunctiveFacets"] as? [String: Any]
+      XCTAssertNotNil(disjunctiveFacets)
+      XCTAssertEqual(2, disjunctiveFacets?.count)
+      let starsCounts = disjunctiveFacets?["stars"] as? [String: Any]
+      XCTAssertNotNil(starsCounts)
+      XCTAssertEqual(2, starsCounts?["*"] as? Int);
+      XCTAssertEqual(1, starsCounts?["****"] as? Int);
+    }
+    
+    func assertEqual4(_ content: [String: Any]) {
+      XCTAssertEqual(3, content["nbHits"] as? Int)
+      XCTAssertEqual(1, (content["facets"] as? [String: Any])?.count)
+      let disjunctiveFacets = content["disjunctiveFacets"] as? [String: Any]
+      XCTAssertNotNil(disjunctiveFacets)
+      XCTAssertEqual(2, disjunctiveFacets?.count)
+      let starsCounts = disjunctiveFacets?["stars"] as? [String: Any]
+      XCTAssertNotNil(starsCounts)
+      XCTAssertEqual(2, starsCounts?["*"] as? Int);
+      XCTAssertEqual(1, starsCounts?["****"] as? Int);
+    }
+    
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
   
@@ -1030,30 +1018,26 @@ class IndexTests: OnlineTestCase {
     let expectation = self.expectation(description: #function)
     let object = ["city": "San Francisco"]
     
-    index.addObject(object, completionHandler: { (content, error) -> Void in
-      if let error = error {
-        XCTFail("Error during addObject: \(error)")
-        expectation.fulfill()
-      } else {
-        self.index.waitTask(withID: content!["taskID"] as! Int, completionHandler: { (content, error) -> Void in
-          if let error = error {
-            XCTFail("Error during waitTask: \(error)")
-            expectation.fulfill()
-          } else {
-            let queries = [Query()]
-            self.index.multipleQueries(queries, completionHandler: { (content, error) -> Void in
-              if let error = error {
-                XCTFail("Error during multipleQueries: \(error)")
-              } else {
-                let items = content!["results"] as! [[String: Any]]
-                XCTAssertEqual(items[0]["nbHits"] as? Int, 1, "Wrong number of object in the index")
-              }
-              expectation.fulfill()
-            })
-          }
-        })
+    let promise = firstly {
+      self.addObject(object)
+      }.then { object in
+        self.waitTask(object)
+    }
+    
+    let promise2 = promise.then { _ in
+      self.multipleQueries([Query()])
+      }.then { (content) -> Promise<Void> in
+        let items = content["results"] as! [[String: Any]]
+        XCTAssertEqual(items[0]["nbHits"] as? Int, 1, "Wrong number of object in the index")
+        return Promise()
       }
-    })
+    
+    promise2.catch { error in
+      XCTFail("Error : \(error)")
+      }.always {
+        expectation.fulfill()
+    }
+    
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
   
