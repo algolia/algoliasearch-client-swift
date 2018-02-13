@@ -50,22 +50,22 @@ class OnlineTestCase: XCTestCase {
       
         // Delete the index.
         // Although it's not shared with other test functions, it could remain from a previous execution.
-//        let expectation = self.expectation(description: "Delete index")
-//        client.deleteIndex(withName: index.name) { (content, error) -> Void in
-//            if let error = error {
-//              XCTFail(error.localizedDescription)
-//              return
-//            }
-//            guard let content = content, let taskID = content["taskID"] as? Int else {
-//              XCTFail("Task ID not returned for deleteIndex")
-//              return
-//            }
-//            self.index.waitTask(withID: taskID) { content , error in
-//              XCTAssertNil(error)
-//              expectation.fulfill()
-//            }
-//        }
-//        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+        let expectation = self.expectation(description: "Delete index")
+        client.deleteIndex(withName: index.name) { (content, error) -> Void in
+            if let error = error {
+              XCTFail(error.localizedDescription)
+              return
+            }
+            guard let content = content, let taskID = content["taskID"] as? Int else {
+              XCTFail("Task ID not returned for deleteIndex")
+              return
+            }
+            self.index.waitTask(withID: taskID) { content , error in
+              XCTAssertNil(error)
+              expectation.fulfill()
+            }
+        }
+        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
     
     override func tearDown() {

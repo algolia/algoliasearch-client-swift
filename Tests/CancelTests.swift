@@ -29,7 +29,7 @@ import XCTest
 ///
 class CancelTests: XCTestCase {
     let expectationTimeout: TimeInterval = 100
-    let cancelTimeout: TimeInterval = 20
+    let cancelTimeout: TimeInterval = 10
     
     var client: Client!
     var index: Index!
