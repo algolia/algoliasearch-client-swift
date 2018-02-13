@@ -134,12 +134,6 @@ internal class DisjunctiveFaceting {
                     mainContent["exhaustiveFacetsCount"] = false
                 }
             }
-            // Facets stats
-            if let allStats = result["facets_stats"] as? [String: [String: Any]] {
-                for (facetName, stats) in allStats {
-                    facetsStats[facetName] = stats
-                }
-            }
         }
         mainContent["disjunctiveFacets"] = disjunctiveFacetCounts
         mainContent["facets_stats"] = facetsStats
