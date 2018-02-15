@@ -51,6 +51,11 @@ platform :watch do
 	end
 end
 
+lane :deploytest do
+
+end
+
+
 desc "Available options: type:major|minor|patch"
 lane :deploy do |options|
 
@@ -106,7 +111,15 @@ end
 
 def prepare_git(branch)
 	ensure_git_status_clean
-	ensure_git_branch(branch:branch)
+
+	# ensure_git_branch(branch:branch)
+	masterHash = sh("git rev-parse master")
+	headHash = sh("git rev-parse HEAD")
+	
+	if masterHash != headHash 
+		raise "Error: Master and Head Hashes do not match, meaning that we are probably not on Master and therefore can't deploy"
+	end
+	
 	git_pull
 end
 
