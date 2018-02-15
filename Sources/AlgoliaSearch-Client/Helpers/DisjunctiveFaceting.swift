@@ -98,7 +98,7 @@ internal class DisjunctiveFaceting {
         var disjunctiveFacetCounts = [String: Any]()
         var facetsStats = [String: Any]()
         for i in 0..<results.count { // for each answer (= each disjunctive facet)
-            guard let result = results[i] as? [String: Any], let allFacetCounts = result["facets"] as? [String: [String: Any]] else {
+            guard let result = results[i] as? [String: Any] else {
                 throw InvalidJSONError(description:  "Invalid results in response")
             }
             // Facets stats, starts from element 0
@@ -110,6 +110,9 @@ internal class DisjunctiveFaceting {
             // Disjunctive facet should start from element 1
             if i <= 0 {
                 continue
+            }
+            guard let allFacetCounts = result["facets"] as? [String: [String: Any]] else {
+                throw InvalidJSONError(description:  "Invalid results in response")
             }
             // NOTE: Iterating, but there should be just one item.
             for (facetName, facetCounts) in allFacetCounts {
