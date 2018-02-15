@@ -1,0 +1,10 @@
+{
+    "attributesToIndex": [
+        "name",
+        "kind",
+        "series"
+    ],
+    "attributesForFaceting": [
+        "kind"
+    ]
+}
