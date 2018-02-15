@@ -13,3 +13,19 @@ end
 target "AlgoliaSearch-Offline-iOS-Tests" do
     common_deps
 end
+
+def testing_pods
+  pod 'PromiseKit', '~> 4.4'
+end
+
+target 'AlgoliaSearch iOS Tests' do
+  testing_pods
+end
+
+target 'AlgoliaSearch OSX Tests' do
+  testing_pods
+end
+
+target 'AlgoliaSearch tvOS Tests' do
+  testing_pods
+end

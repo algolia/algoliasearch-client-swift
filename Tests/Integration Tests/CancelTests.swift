@@ -85,7 +85,7 @@ class CancelTests: XCTestCase {
     func testWaitTask() {
         // NOTE: We are faking network calls, so we don't need a real task ID!
         let taskID = 666
-        session.responses["https://\(client.writeHosts[0])/1/indexes/\(FAKE_INDEX_NAME)/task/\(taskID)"] = MockResponse(statusCode: 200, jsonBody: ["status": "published", "pendingTask": false])
+        session.responses["https://\(client.readHosts[0])/1/indexes/\(FAKE_INDEX_NAME)/task/\(taskID)"] = MockResponse(statusCode: 200, jsonBody: ["status": "published", "pendingTask": false])
         let request1 = index.waitTask(withID: taskID) {
             (content, error) in
             XCTFail("Completion handler should not be called when a request has been cancelled")
@@ -96,7 +96,7 @@ class CancelTests: XCTestCase {
         RunLoop.main.run(until: Date().addingTimeInterval(cancelTimeout))
         XCTAssert(request1.isFinished)
 
-        session.responses["https://\(client.writeHosts[0])/1/indexes/\(FAKE_INDEX_NAME)/task/\(taskID)"] = MockResponse(statusCode: 200, jsonBody: ["status": "notPublished", "pendingTask": true])
+        session.responses["https://\(client.readHosts[0])/1/indexes/\(FAKE_INDEX_NAME)/task/\(taskID)"] = MockResponse(statusCode: 200, jsonBody: ["status": "notPublished", "pendingTask": true])
         let request2 = index.waitTask(withID: taskID) {
             (content, error) in
             XCTFail("Completion handler should not be called when a request has been cancelled")

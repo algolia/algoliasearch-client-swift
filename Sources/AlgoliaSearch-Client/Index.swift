@@ -602,7 +602,7 @@ import Foundation
                 return
             }
             iteration += 1
-            operation = index.client.performHTTPQuery(path: path, method: .GET, body: nil, hostnames: index.client.writeHosts, requestOptions: requestOptions) {
+            operation = index.client.performHTTPQuery(path: path, method: .GET, body: nil, hostnames: index.client.readHosts, requestOptions: requestOptions) {
                 (content, error) -> Void in
                 if let content = content {
                     if (content["status"] as? String) == "published" {

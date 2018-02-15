@@ -7,7 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3A11AC4EE771A46C306173F7 /* Pods_AlgoliaSearch_Offline_iOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F52EEAD0E1031BA77193C0AF /* Pods_AlgoliaSearch_Offline_iOS_Tests.framework */; };
+		117194A31C49F185C9FF4C19 /* Pods_AlgoliaSearch_iOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EA23E78BBBCA8286E353311 /* Pods_AlgoliaSearch_iOS_Tests.framework */; };
+		1DCC9E272029EC1B00F3FBE0 /* PromisesHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCC9E252029EB3C00F3FBE0 /* PromisesHelpers.swift */; };
+		1DCC9E282029EC1C00F3FBE0 /* PromisesHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCC9E252029EB3C00F3FBE0 /* PromisesHelpers.swift */; };
+		1DCC9E292029EC1D00F3FBE0 /* PromisesHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCC9E252029EB3C00F3FBE0 /* PromisesHelpers.swift */; };
+		1DCC9E2D2029F22D00F3FBE0 /* TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCC9E2B2029EE8B00F3FBE0 /* TestHelpers.swift */; };
+		1DCC9E2E2029F22E00F3FBE0 /* TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCC9E2B2029EE8B00F3FBE0 /* TestHelpers.swift */; };
+		1DCC9E2F2029F23000F3FBE0 /* TestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCC9E2B2029EE8B00F3FBE0 /* TestHelpers.swift */; };
+		461E7D1973739CFD2E5FA8EE /* Pods_AlgoliaSearch_OSX_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 60654F117FAF9118BBF6C55A /* Pods_AlgoliaSearch_OSX_Tests.framework */; };
 		5D09E1DC1AC0773A00B799A6 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D09E1DB1AC0773A00B799A6 /* Network.swift */; };
 		5D09E1DD1AC0773A00B799A6 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D09E1DB1AC0773A00B799A6 /* Network.swift */; };
 		5D44D0271B362648008369AC /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D44D0261B362648008369AC /* Helpers.swift */; };
@@ -28,7 +35,7 @@
 		5DB2515D1AAD9F3B00945339 /* IndexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8FFA391AAB0AB80078869E /* IndexTests.swift */; };
 		5DB2515E1AAD9F3F00945339 /* ClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8FFA371AAB08830078869E /* ClientTests.swift */; };
 		5DECA2DA1A960BC5001A6088 /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DECA2D91A960BC5001A6088 /* Index.swift */; };
-		88FD5E84BE34111D1B284BE0 /* Pods_AlgoliaSearch_Offline_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62AD92C0BDA001803B5786C0 /* Pods_AlgoliaSearch_Offline_iOS.framework */; };
+		6B364CD21EC180AF4A752092 /* Pods_AlgoliaSearch_Offline_iOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88AA9A9207EC4D018D67FCA0 /* Pods_AlgoliaSearch_Offline_iOS_Tests.framework */; };
 		BC01E66D1CA43CEE0067670B /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC01E66C1CA43CEE0067670B /* Request.swift */; };
 		BC01E66E1CA43CEE0067670B /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC01E66C1CA43CEE0067670B /* Request.swift */; };
 		BC09F7771CAE743900ABB395 /* BrowseIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC09F7761CAE743900ABB395 /* BrowseIterator.swift */; };
@@ -59,6 +66,7 @@
 		BC3DC7521E02DD7900862F5B /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC15FAC01E01C041005E3B56 /* NetworkReachability.swift */; };
 		BC3DC7531E02DD7A00862F5B /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC15FAC01E01C041005E3B56 /* NetworkReachability.swift */; };
 		BC3DC7541E02DD7B00862F5B /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC15FAC01E01C041005E3B56 /* NetworkReachability.swift */; };
+		BC44DBFB79F5D20227956704 /* Pods_AlgoliaSearch_Offline_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05719951E812D7618E318291 /* Pods_AlgoliaSearch_Offline_iOS.framework */; };
 		BC4A7F391CB5308100AF1DCB /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4A7F381CB5308100AF1DCB /* AsyncOperation.swift */; };
 		BC4A7F3A1CB5308100AF1DCB /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4A7F381CB5308100AF1DCB /* AsyncOperation.swift */; };
 		BC4A7F3C1CB5373E00AF1DCB /* CancelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4A7F3B1CB5373E00AF1DCB /* CancelTests.swift */; };
@@ -165,7 +173,7 @@
 		BCEE36811E0830810091D113 /* settings.json in Resources */ = {isa = PBXBuildFile; fileRef = BCEE36801E0830810091D113 /* settings.json */; };
 		BCEE36831E08309F0091D113 /* objects.json in Resources */ = {isa = PBXBuildFile; fileRef = BCEE36821E08309F0091D113 /* objects.json */; };
 		BCFC281C1D92660C00BFE0A0 /* MirroredIndexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCFC281B1D92660C00BFE0A0 /* MirroredIndexTests.swift */; };
-		BCFC281D1D92670100BFE0A0 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D44D0261B362648008369AC /* Helpers.swift */; };
+		CEF836B9AC12053460EFE24F /* Pods_AlgoliaSearch_tvOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30AB2EB7EC068AD6910C9221 /* Pods_AlgoliaSearch_tvOS_Tests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -200,9 +208,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		023CDD2C3787987952D42EF3 /* Pods-AlgoliaSearch-Offline-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch-Offline-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS/Pods-AlgoliaSearch-Offline-iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		338B6F8A06C1FD27C2AFCE17 /* Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS-Tests/Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig"; sourceTree = "<group>"; };
-		56CE2ADBC0FD4C74E49C5EAB /* Pods-AlgoliaSearch-Offline-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch-Offline-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS/Pods-AlgoliaSearch-Offline-iOS.release.xcconfig"; sourceTree = "<group>"; };
+		0402A8873E7262EB82B6CDBE /* Pods-AlgoliaSearch-Offline-iOS-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch-Offline-iOS-Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS-Tests/Pods-AlgoliaSearch-Offline-iOS-Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		05719951E812D7618E318291 /* Pods_AlgoliaSearch_Offline_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlgoliaSearch_Offline_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DCC9E252029EB3C00F3FBE0 /* PromisesHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromisesHelpers.swift; sourceTree = "<group>"; };
+		1DCC9E2B2029EE8B00F3FBE0 /* TestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestHelpers.swift; sourceTree = "<group>"; };
+		27C396E18D4BE30F6D9342C8 /* Pods-AlgoliaSearch-Offline-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch-Offline-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS/Pods-AlgoliaSearch-Offline-iOS.release.xcconfig"; sourceTree = "<group>"; };
+		30AB2EB7EC068AD6910C9221 /* Pods_AlgoliaSearch_tvOS_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlgoliaSearch_tvOS_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3B30F90654D810AF26B9F723 /* Pods-AlgoliaSearch iOS Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch iOS Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch iOS Tests/Pods-AlgoliaSearch iOS Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		4EA23E78BBBCA8286E353311 /* Pods_AlgoliaSearch_iOS_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlgoliaSearch_iOS_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D09E1DB1AC0773A00B799A6 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
 		5D44D0261B362648008369AC /* Helpers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		5D67400E1B4AA22600B326EC /* Cache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Cache.swift; sourceTree = "<group>"; };
@@ -218,8 +231,10 @@
 		5DB2513D1AAD9EE300945339 /* AlgoliaSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlgoliaSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DB251471AAD9EE400945339 /* AlgoliaSearch iOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AlgoliaSearch iOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5DECA2D91A960BC5001A6088 /* Index.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Index.swift; sourceTree = "<group>"; };
-		5E6CE9BF44D9DA7D61A5AB03 /* Pods-AlgoliaSearch-Offline-iOS-Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch-Offline-iOS-Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS-Tests/Pods-AlgoliaSearch-Offline-iOS-Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		62AD92C0BDA001803B5786C0 /* Pods_AlgoliaSearch_Offline_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlgoliaSearch_Offline_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		60654F117FAF9118BBF6C55A /* Pods_AlgoliaSearch_OSX_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlgoliaSearch_OSX_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		73F0D0837C9D6195F00B03B7 /* Pods-AlgoliaSearch-Offline-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch-Offline-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS/Pods-AlgoliaSearch-Offline-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		88AA9A9207EC4D018D67FCA0 /* Pods_AlgoliaSearch_Offline_iOS_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlgoliaSearch_Offline_iOS_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB63831D5434F98EB5F2AFF2 /* Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS-Tests/Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig"; sourceTree = "<group>"; };
 		BC01E66C1CA43CEE0067670B /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		BC09F7761CAE743900ABB395 /* BrowseIterator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseIterator.swift; sourceTree = "<group>"; };
 		BC09F7791CAE7FDF00ABB395 /* BrowseIteratorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseIteratorTests.swift; sourceTree = "<group>"; };
@@ -247,6 +262,7 @@
 		BC72244C1D9C137B00B56908 /* OnlineTestCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnlineTestCase.swift; sourceTree = "<group>"; };
 		BC85EA721D82C8FD009E9E7D /* Tests-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Tests-Bridging-Header.h"; sourceTree = "<group>"; };
 		BCC83C3D1F0E76BF002CD846 /* RequestOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestOptions.swift; sourceTree = "<group>"; };
+		BCCB243A41D45E49858436E2 /* Pods-AlgoliaSearch tvOS Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch tvOS Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch tvOS Tests/Pods-AlgoliaSearch tvOS Tests.release.xcconfig"; sourceTree = "<group>"; };
 		BCD1F54A1CC61C8D0006E227 /* AlgoliaSearch.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AlgoliaSearch.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD1F5531CC61C8D0006E227 /* AlgoliaSearch tvOS Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "AlgoliaSearch tvOS Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD57D1E1D89947500C5DE68 /* DisjunctiveFaceting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisjunctiveFaceting.swift; sourceTree = "<group>"; };
@@ -263,7 +279,10 @@
 		BCEE36801E0830810091D113 /* settings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = settings.json; sourceTree = "<group>"; };
 		BCEE36821E08309F0091D113 /* objects.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = objects.json; sourceTree = "<group>"; };
 		BCFC281B1D92660C00BFE0A0 /* MirroredIndexTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MirroredIndexTests.swift; sourceTree = "<group>"; };
-		F52EEAD0E1031BA77193C0AF /* Pods_AlgoliaSearch_Offline_iOS_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlgoliaSearch_Offline_iOS_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C76A31501E48DAFABA2CF4F7 /* Pods-AlgoliaSearch OSX Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch OSX Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch OSX Tests/Pods-AlgoliaSearch OSX Tests.release.xcconfig"; sourceTree = "<group>"; };
+		D99F5C527454719A00B0430D /* Pods-AlgoliaSearch OSX Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch OSX Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch OSX Tests/Pods-AlgoliaSearch OSX Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		DE7C98AC39B5A3FAA228D0BA /* Pods-AlgoliaSearch tvOS Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch tvOS Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch tvOS Tests/Pods-AlgoliaSearch tvOS Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		F27CAB9F608BD85B3EC56E49 /* Pods-AlgoliaSearch iOS Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch iOS Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch iOS Tests/Pods-AlgoliaSearch iOS Tests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -279,6 +298,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5D74958A1A8E25A600B0263F /* AlgoliaSearch.framework in Frameworks */,
+				461E7D1973739CFD2E5FA8EE /* Pods_AlgoliaSearch_OSX_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,6 +314,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5DB251481AAD9EE400945339 /* AlgoliaSearch.framework in Frameworks */,
+				117194A31C49F185C9FF4C19 /* Pods_AlgoliaSearch_iOS_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,7 +329,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				88FD5E84BE34111D1B284BE0 /* Pods_AlgoliaSearch_Offline_iOS.framework in Frameworks */,
+				BC44DBFB79F5D20227956704 /* Pods_AlgoliaSearch_Offline_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,6 +345,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCD1F5541CC61C8D0006E227 /* AlgoliaSearch.framework in Frameworks */,
+				CEF836B9AC12053460EFE24F /* Pods_AlgoliaSearch_tvOS_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,20 +354,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCD57D311D89B12E00C5DE68 /* AlgoliaSearchOffline.framework in Frameworks */,
-				3A11AC4EE771A46C306173F7 /* Pods_AlgoliaSearch_Offline_iOS_Tests.framework in Frameworks */,
+				6B364CD21EC180AF4A752092 /* Pods_AlgoliaSearch_Offline_iOS_Tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		51431E2CFD7615D7B8C6F352 /* Frameworks */ = {
+		1DCC9E242029EB0A00F3FBE0 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				62AD92C0BDA001803B5786C0 /* Pods_AlgoliaSearch_Offline_iOS.framework */,
-				F52EEAD0E1031BA77193C0AF /* Pods_AlgoliaSearch_Offline_iOS_Tests.framework */,
+				1DCC9E252029EB3C00F3FBE0 /* PromisesHelpers.swift */,
+				1DCC9E2B2029EE8B00F3FBE0 /* TestHelpers.swift */,
+				5D44D0261B362648008369AC /* Helpers.swift */,
+				BCE2E9841E23949D00F189F3 /* MockNetworkReachability.swift */,
+				BCDA737D1CA555070082B197 /* MockURLSession.swift */,
 			);
-			name = Frameworks;
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		5D7495741A8E25A600B0263F = {
@@ -354,8 +379,8 @@
 				5D7495801A8E25A600B0263F /* Sources */,
 				5D74958D1A8E25A600B0263F /* Tests */,
 				5D74957F1A8E25A600B0263F /* Products */,
-				7C5DBBEB5C2A87A8C7209842 /* Pods */,
-				51431E2CFD7615D7B8C6F352 /* Frameworks */,
+				9C74CEF4B710657EA9073119 /* Pods */,
+				60F44B4FA8592E4811944FF8 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -396,21 +421,12 @@
 		5D74958D1A8E25A600B0263F /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				BC09F7791CAE7FDF00ABB395 /* BrowseIteratorTests.swift */,
-				BC4A7F3B1CB5373E00AF1DCB /* CancelTests.swift */,
-				5D8FFA371AAB08830078869E /* ClientTests.swift */,
-				5D44D0261B362648008369AC /* Helpers.swift */,
-				5D8FFA391AAB0AB80078869E /* IndexTests.swift */,
-				BCE2E9841E23949D00F189F3 /* MockNetworkReachability.swift */,
-				BCDA737D1CA555070082B197 /* MockURLSession.swift */,
-				BCDA73771CA546800082B197 /* NetworkTests.swift */,
-				BC72244C1D9C137B00B56908 /* OnlineTestCase.swift */,
-				BC4DDF0D1DD133AD004D9A6E /* PlacesClientTests.swift */,
-				BC4DDF121DD13423004D9A6E /* PlacesQueryTests.swift */,
-				BC0A01631C9C19CD00CD4A7C /* QueryTests.swift */,
-				BCD57D381D89B1EA00C5DE68 /* Offline */,
+				1DCC9E242029EB0A00F3FBE0 /* Helpers */,
+				E2F5BB1D20359B4900C14978 /* Objc Tests */,
+				E2F5BB1C20359A6000C14978 /* Integration Tests */,
+				E2F5BB1B20359A4600C14978 /* Unit Tests */,
+				BCD57D381D89B1EA00C5DE68 /* Offline Tests */,
 				5D74958E1A8E25A600B0263F /* Supporting Files */,
-				BC582C5C1D82B453007B815A /* ObjectiveCBridging.m */,
 				BC85EA721D82C8FD009E9E7D /* Tests-Bridging-Header.h */,
 			);
 			path = Tests;
@@ -424,13 +440,31 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		7C5DBBEB5C2A87A8C7209842 /* Pods */ = {
+		60F44B4FA8592E4811944FF8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				023CDD2C3787987952D42EF3 /* Pods-AlgoliaSearch-Offline-iOS.debug.xcconfig */,
-				56CE2ADBC0FD4C74E49C5EAB /* Pods-AlgoliaSearch-Offline-iOS.release.xcconfig */,
-				5E6CE9BF44D9DA7D61A5AB03 /* Pods-AlgoliaSearch-Offline-iOS-Tests.debug.xcconfig */,
-				338B6F8A06C1FD27C2AFCE17 /* Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig */,
+				60654F117FAF9118BBF6C55A /* Pods_AlgoliaSearch_OSX_Tests.framework */,
+				4EA23E78BBBCA8286E353311 /* Pods_AlgoliaSearch_iOS_Tests.framework */,
+				30AB2EB7EC068AD6910C9221 /* Pods_AlgoliaSearch_tvOS_Tests.framework */,
+				05719951E812D7618E318291 /* Pods_AlgoliaSearch_Offline_iOS.framework */,
+				88AA9A9207EC4D018D67FCA0 /* Pods_AlgoliaSearch_Offline_iOS_Tests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9C74CEF4B710657EA9073119 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				D99F5C527454719A00B0430D /* Pods-AlgoliaSearch OSX Tests.debug.xcconfig */,
+				C76A31501E48DAFABA2CF4F7 /* Pods-AlgoliaSearch OSX Tests.release.xcconfig */,
+				3B30F90654D810AF26B9F723 /* Pods-AlgoliaSearch iOS Tests.debug.xcconfig */,
+				F27CAB9F608BD85B3EC56E49 /* Pods-AlgoliaSearch iOS Tests.release.xcconfig */,
+				DE7C98AC39B5A3FAA228D0BA /* Pods-AlgoliaSearch tvOS Tests.debug.xcconfig */,
+				BCCB243A41D45E49858436E2 /* Pods-AlgoliaSearch tvOS Tests.release.xcconfig */,
+				73F0D0837C9D6195F00B03B7 /* Pods-AlgoliaSearch-Offline-iOS.debug.xcconfig */,
+				27C396E18D4BE30F6D9342C8 /* Pods-AlgoliaSearch-Offline-iOS.release.xcconfig */,
+				0402A8873E7262EB82B6CDBE /* Pods-AlgoliaSearch-Offline-iOS-Tests.debug.xcconfig */,
+				AB63831D5434F98EB5F2AFF2 /* Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -456,11 +490,11 @@
 			path = "AlgoliaSearch-Offline";
 			sourceTree = "<group>";
 		};
-		BCD57D381D89B1EA00C5DE68 /* Offline */ = {
+		BCD57D381D89B1EA00C5DE68 /* Offline Tests */ = {
 			isa = PBXGroup;
 			children = (
-				BCFC281B1D92660C00BFE0A0 /* MirroredIndexTests.swift */,
 				BCE2E9891E239D5C00F189F3 /* MockNetworkReachability.swift */,
+				BCFC281B1D92660C00BFE0A0 /* MirroredIndexTests.swift */,
 				BCD57D391D89B1EA00C5DE68 /* OfflineClientTests.swift */,
 				BCD57D3A1D89B1EA00C5DE68 /* OfflineIndexTests.swift */,
 				BCD57D3B1D89B1EA00C5DE68 /* OfflineTestCase.swift */,
@@ -468,7 +502,7 @@
 				BCEE36801E0830810091D113 /* settings.json */,
 				BCEE36821E08309F0091D113 /* objects.json */,
 			);
-			path = Offline;
+			path = "Offline Tests";
 			sourceTree = "<group>";
 		};
 		E237B4361F8F9CF400DD0D79 /* AlgoliaSearch-Client */ = {
@@ -495,6 +529,37 @@
 				BC09F7751CAE742800ABB395 /* Helpers */,
 			);
 			path = "AlgoliaSearch-Client";
+			sourceTree = "<group>";
+		};
+		E2F5BB1B20359A4600C14978 /* Unit Tests */ = {
+			isa = PBXGroup;
+			children = (
+				BC0A01631C9C19CD00CD4A7C /* QueryTests.swift */,
+				BC4DDF121DD13423004D9A6E /* PlacesQueryTests.swift */,
+			);
+			path = "Unit Tests";
+			sourceTree = "<group>";
+		};
+		E2F5BB1C20359A6000C14978 /* Integration Tests */ = {
+			isa = PBXGroup;
+			children = (
+				BC09F7791CAE7FDF00ABB395 /* BrowseIteratorTests.swift */,
+				BC4A7F3B1CB5373E00AF1DCB /* CancelTests.swift */,
+				5D8FFA371AAB08830078869E /* ClientTests.swift */,
+				5D8FFA391AAB0AB80078869E /* IndexTests.swift */,
+				BCDA73771CA546800082B197 /* NetworkTests.swift */,
+				BC72244C1D9C137B00B56908 /* OnlineTestCase.swift */,
+				BC4DDF0D1DD133AD004D9A6E /* PlacesClientTests.swift */,
+			);
+			path = "Integration Tests";
+			sourceTree = "<group>";
+		};
+		E2F5BB1D20359B4900C14978 /* Objc Tests */ = {
+			isa = PBXGroup;
+			children = (
+				BC582C5C1D82B453007B815A /* ObjectiveCBridging.m */,
+			);
+			path = "Objc Tests";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -559,9 +624,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5D7495971A8E25A600B0263F /* Build configuration list for PBXNativeTarget "AlgoliaSearch OSX Tests" */;
 			buildPhases = (
+				0FD0ACE56A9F566DB07C227B /* [CP] Check Pods Manifest.lock */,
 				5D7495851A8E25A600B0263F /* Sources */,
 				5D7495861A8E25A600B0263F /* Frameworks */,
 				5D7495871A8E25A600B0263F /* Resources */,
+				955DDF65EE90A986C9414EC4 /* [CP] Embed Pods Frameworks */,
+				30E53EC73CBB4F402A1D6376 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -595,9 +663,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5DB251531AAD9EE400945339 /* Build configuration list for PBXNativeTarget "AlgoliaSearch iOS Tests" */;
 			buildPhases = (
+				C8C6069E1A0964384F278A73 /* [CP] Check Pods Manifest.lock */,
 				5DB251431AAD9EE400945339 /* Sources */,
 				5DB251441AAD9EE400945339 /* Frameworks */,
 				5DB251451AAD9EE400945339 /* Resources */,
+				D0D2AB6CBBF6DDE3F7C9E1F5 /* [CP] Embed Pods Frameworks */,
+				8718D4D67FAC559B2B4028EB /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -631,12 +702,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BC4BD2901D54E48900170ECC /* Build configuration list for PBXNativeTarget "AlgoliaSearch-Offline-iOS" */;
 			buildPhases = (
-				3AF37CBD602CFF400AC66E66 /* [CP] Check Pods Manifest.lock */,
+				92FD3B0A0A9E6E56891BB0D8 /* [CP] Check Pods Manifest.lock */,
 				BC4BD2811D54E48900170ECC /* Sources */,
 				BC4BD28D1D54E48900170ECC /* Frameworks */,
 				BC4BD28E1D54E48900170ECC /* Headers */,
 				BC4BD28F1D54E48900170ECC /* Resources */,
-				3E9ACF76AC43DF35A9A2C8CF /* [CP] Copy Pods Resources */,
+				27AF0047476C5A6F86E92C1A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -669,9 +740,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BCD1F5601CC61C8D0006E227 /* Build configuration list for PBXNativeTarget "AlgoliaSearch tvOS Tests" */;
 			buildPhases = (
+				4EBF0DC007308BABE086F82A /* [CP] Check Pods Manifest.lock */,
 				BCD1F54F1CC61C8D0006E227 /* Sources */,
 				BCD1F5501CC61C8D0006E227 /* Frameworks */,
 				BCD1F5511CC61C8D0006E227 /* Resources */,
+				1E076298F2E81EE01B2C25DA /* [CP] Embed Pods Frameworks */,
+				1093FADD907BEE74846B2D1B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -687,12 +761,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BCD57D361D89B12E00C5DE68 /* Build configuration list for PBXNativeTarget "AlgoliaSearch-Offline-iOS-Tests" */;
 			buildPhases = (
-				0ED0CB692FFE96DE2E10E86A /* [CP] Check Pods Manifest.lock */,
+				EA509541FF12E58AC57B3715 /* [CP] Check Pods Manifest.lock */,
 				BCD57D281D89B12E00C5DE68 /* Sources */,
 				BCD57D291D89B12E00C5DE68 /* Frameworks */,
 				BCD57D2A1D89B12E00C5DE68 /* Resources */,
-				FFB15CD83AE3ED3EF70265E7 /* [CP] Embed Pods Frameworks */,
-				90D597CF2D46D3B93CB42DA0 /* [CP] Copy Pods Resources */,
+				8FD9FF12FB4668186BA7BCF5 /* [CP] Embed Pods Frameworks */,
+				FE671C87E93A295DCC3A5770 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -841,7 +915,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0ED0CB692FFE96DE2E10E86A /* [CP] Check Pods Manifest.lock */ = {
+		0FD0ACE56A9F566DB07C227B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -852,14 +926,128 @@
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-AlgoliaSearch-Offline-iOS-Tests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-AlgoliaSearch OSX Tests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3AF37CBD602CFF400AC66E66 /* [CP] Check Pods Manifest.lock */ = {
+		1093FADD907BEE74846B2D1B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch tvOS Tests/Pods-AlgoliaSearch tvOS Tests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1E076298F2E81EE01B2C25DA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch tvOS Tests/Pods-AlgoliaSearch tvOS Tests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit-tvOS/PromiseKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch tvOS Tests/Pods-AlgoliaSearch tvOS Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		27AF0047476C5A6F86E92C1A /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS/Pods-AlgoliaSearch-Offline-iOS-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		30E53EC73CBB4F402A1D6376 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch OSX Tests/Pods-AlgoliaSearch OSX Tests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4EBF0DC007308BABE086F82A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AlgoliaSearch tvOS Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8718D4D67FAC559B2B4028EB /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch iOS Tests/Pods-AlgoliaSearch iOS Tests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8FD9FF12FB4668186BA7BCF5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS-Tests/Pods-AlgoliaSearch-Offline-iOS-Tests-frameworks.sh",
+				"${PODS_ROOT}/AlgoliaSearchOfflineCore-iOS/AlgoliaSearchOfflineCore.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlgoliaSearchOfflineCore.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS-Tests/Pods-AlgoliaSearch-Offline-iOS-Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		92FD3B0A0A9E6E56891BB0D8 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -877,22 +1065,79 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		3E9ACF76AC43DF35A9A2C8CF /* [CP] Copy Pods Resources */ = {
+		955DDF65EE90A986C9414EC4 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch OSX Tests/Pods-AlgoliaSearch OSX Tests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit-macOS/PromiseKit.framework",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS/Pods-AlgoliaSearch-Offline-iOS-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch OSX Tests/Pods-AlgoliaSearch OSX Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		90D597CF2D46D3B93CB42DA0 /* [CP] Copy Pods Resources */ = {
+		C8C6069E1A0964384F278A73 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AlgoliaSearch iOS Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D0D2AB6CBBF6DDE3F7C9E1F5 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch iOS Tests/Pods-AlgoliaSearch iOS Tests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/PromiseKit-iOS/PromiseKit.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PromiseKit.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch iOS Tests/Pods-AlgoliaSearch iOS Tests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EA509541FF12E58AC57B3715 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-AlgoliaSearch-Offline-iOS-Tests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FE671C87E93A295DCC3A5770 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -905,24 +1150,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS-Tests/Pods-AlgoliaSearch-Offline-iOS-Tests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FFB15CD83AE3ED3EF70265E7 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS-Tests/Pods-AlgoliaSearch-Offline-iOS-Tests-frameworks.sh",
-				"${PODS_ROOT}/AlgoliaSearchOfflineCore-iOS/AlgoliaSearchOfflineCore.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlgoliaSearchOfflineCore.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS-Tests/Pods-AlgoliaSearch-Offline-iOS-Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -968,7 +1195,9 @@
 				BC4DDF131DD13423004D9A6E /* PlacesQueryTests.swift in Sources */,
 				BC4A7F3C1CB5373E00AF1DCB /* CancelTests.swift in Sources */,
 				BCE2E9851E23949D00F189F3 /* MockNetworkReachability.swift in Sources */,
+				1DCC9E272029EC1B00F3FBE0 /* PromisesHelpers.swift in Sources */,
 				5D44D0271B362648008369AC /* Helpers.swift in Sources */,
+				1DCC9E2D2029F22D00F3FBE0 /* TestHelpers.swift in Sources */,
 				5D8FFA3A1AAB0AB80078869E /* IndexTests.swift in Sources */,
 				BC85EA701D82C8C3009E9E7D /* ObjectiveCBridging.m in Sources */,
 				BC4DDF0E1DD133AD004D9A6E /* PlacesClientTests.swift in Sources */,
@@ -1015,7 +1244,9 @@
 				BC4DDF141DD13423004D9A6E /* PlacesQueryTests.swift in Sources */,
 				BC4A7F3D1CB5373E00AF1DCB /* CancelTests.swift in Sources */,
 				BCE2E9861E23949D00F189F3 /* MockNetworkReachability.swift in Sources */,
+				1DCC9E282029EC1C00F3FBE0 /* PromisesHelpers.swift in Sources */,
 				5D44D0281B362648008369AC /* Helpers.swift in Sources */,
+				1DCC9E2E2029F22E00F3FBE0 /* TestHelpers.swift in Sources */,
 				5DB2515D1AAD9F3B00945339 /* IndexTests.swift in Sources */,
 				BC582C5D1D82B453007B815A /* ObjectiveCBridging.m in Sources */,
 				BC4DDF0F1DD133AD004D9A6E /* PlacesClientTests.swift in Sources */,
@@ -1121,7 +1352,9 @@
 				BC4DDF151DD13423004D9A6E /* PlacesQueryTests.swift in Sources */,
 				BCD1F5711CC61DB80006E227 /* IndexTests.swift in Sources */,
 				BCE2E9871E23949D00F189F3 /* MockNetworkReachability.swift in Sources */,
+				1DCC9E292029EC1D00F3FBE0 /* PromisesHelpers.swift in Sources */,
 				BCD1F56E1CC61DB80006E227 /* CancelTests.swift in Sources */,
+				1DCC9E2F2029F23000F3FBE0 /* TestHelpers.swift in Sources */,
 				BCD1F5701CC61DB80006E227 /* Helpers.swift in Sources */,
 				BC85EA711D82C8C4009E9E7D /* ObjectiveCBridging.m in Sources */,
 				BC4DDF101DD133AD004D9A6E /* PlacesClientTests.swift in Sources */,
@@ -1133,7 +1366,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCD57D3D1D89B1EA00C5DE68 /* OfflineIndexTests.swift in Sources */,
-				BCFC281D1D92670100BFE0A0 /* Helpers.swift in Sources */,
 				BCE2E98A1E239D5C00F189F3 /* MockNetworkReachability.swift in Sources */,
 				BCD57D3E1D89B1EA00C5DE68 /* OfflineTestCase.swift in Sources */,
 				BCFC281C1D92660C00BFE0A0 /* MirroredIndexTests.swift in Sources */,
@@ -1333,6 +1565,7 @@
 		};
 		5D7495981A8E25A600B0263F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D99F5C527454719A00B0430D /* Pods-AlgoliaSearch OSX Tests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -1353,6 +1586,7 @@
 		};
 		5D7495991A8E25A600B0263F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C76A31501E48DAFABA2CF4F7 /* Pods-AlgoliaSearch OSX Tests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -1422,6 +1656,7 @@
 		};
 		5DB251541AAD9EE400945339 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3B30F90654D810AF26B9F723 /* Pods-AlgoliaSearch iOS Tests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -1445,6 +1680,7 @@
 		};
 		5DB251551AAD9EE400945339 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F27CAB9F608BD85B3EC56E49 /* Pods-AlgoliaSearch iOS Tests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
@@ -1521,7 +1757,7 @@
 		};
 		BC4BD2911D54E48900170ECC /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 023CDD2C3787987952D42EF3 /* Pods-AlgoliaSearch-Offline-iOS.debug.xcconfig */;
+			baseConfigurationReference = 73F0D0837C9D6195F00B03B7 /* Pods-AlgoliaSearch-Offline-iOS.debug.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -1550,7 +1786,7 @@
 		};
 		BC4BD2921D54E48900170ECC /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 56CE2ADBC0FD4C74E49C5EAB /* Pods-AlgoliaSearch-Offline-iOS.release.xcconfig */;
+			baseConfigurationReference = 27C396E18D4BE30F6D9342C8 /* Pods-AlgoliaSearch-Offline-iOS.release.xcconfig */;
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -1631,6 +1867,7 @@
 		};
 		BCD1F55D1CC61C8D0006E227 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DE7C98AC39B5A3FAA228D0BA /* Pods-AlgoliaSearch tvOS Tests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -1651,6 +1888,7 @@
 		};
 		BCD1F55E1CC61C8D0006E227 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BCCB243A41D45E49858436E2 /* Pods-AlgoliaSearch tvOS Tests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -1672,7 +1910,7 @@
 		};
 		BCD57D341D89B12E00C5DE68 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5E6CE9BF44D9DA7D61A5AB03 /* Pods-AlgoliaSearch-Offline-iOS-Tests.debug.xcconfig */;
+			baseConfigurationReference = 0402A8873E7262EB82B6CDBE /* Pods-AlgoliaSearch-Offline-iOS-Tests.debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -1696,7 +1934,7 @@
 		};
 		BCD57D351D89B12E00C5DE68 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 338B6F8A06C1FD27C2AFCE17 /* Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig */;
+			baseConfigurationReference = AB63831D5434F98EB5F2AFF2 /* Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ENABLE_MODULES = YES;
