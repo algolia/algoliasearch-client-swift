@@ -120,7 +120,8 @@ def prepare_git(branch)
 		raise "Error: Master and Head Hashes do not match, meaning that we are probably not on Master and therefore can't deploy"
 	end
 	
-	git_pull
+	# We already pull in bitrise before doing anything, so no need for this step anymore.
+	# git_pull
 end
 
 def prepare_api_keys()
