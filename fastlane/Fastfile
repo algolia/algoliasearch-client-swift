@@ -113,7 +113,7 @@ def prepare_git(branch)
 	ensure_git_status_clean
 
 	# ensure_git_branch(branch:branch)
-	masterHash = sh("git rev-parse master")
+	masterHash = sh("git rev-parse origin/master")
 	headHash = sh("git rev-parse HEAD")
 	
 	if masterHash != headHash 
