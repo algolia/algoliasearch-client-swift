@@ -145,7 +145,7 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a href="../Other Typealiases.html">Other Typealiases</a>
+            <a href="../Other Typealiases.html">Other Type Aliases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a href="../Other Typealiases.html#/s:13AlgoliaSearch21BrowseIteratorHandlera">BrowseIteratorHandler</a>
@@ -163,7 +163,7 @@
             <h1>Searchable</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Searchable</span><span class="p">:</span> <span class="kd">class</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Searchable</span><span class="p">:</span> <span class="kd">class</span></code></pre>
 
                 </div>
               </div>
@@ -193,9 +193,40 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">func</span> <span class="nf">search</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span> <span class="kd">func</span> <span class="nf">search</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>query</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Search parameters.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -224,9 +255,64 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">func</span> <span class="nf">searchDisjunctiveFaceting</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">disjunctiveFacets</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">refinements</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span> <span class="kd">func</span> <span class="nf">searchDisjunctiveFaceting</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">disjunctiveFacets</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">refinements</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>query</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The query.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>disjunctiveFacets</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>List of disjunctive facets.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>refinements</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The current refinements, mapping facet names to a list of values.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -257,9 +343,67 @@ matching other (regular) search criteria.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">func</span> <span class="nf">searchForFacetValues</span><span class="p">(</span><span class="n">of</span> <span class="nv">facetName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">matching</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">?,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">searchForFacetValues</span><span class="p">(</span><span class="n">of</span> <span class="nv">facetName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">matching</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">?,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>facetName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Name of the facet to search. It must have been declared in the index&rsquo;s
+  <code>attributesForFaceting</code> setting with the <code>searchable()</code> modifier.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>text</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Text to search for in the facet&rsquo;s values.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>query</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional query to take extra search parameters into account. These parameters apply to
+  index objects like in a regular search query. Only facet values contained in the matched objects will be
+  returned.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -274,7 +418,7 @@ matching other (regular) search criteria.</p>
         </section>
         <section id="footer">
           <p>© Copyright 2016 <a class="link" href="https://www.algolia.com/" target="_blank" rel="external">Algolia</a>. All rights reserved.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.1</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
