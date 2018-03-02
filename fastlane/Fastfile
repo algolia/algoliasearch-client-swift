@@ -119,6 +119,9 @@ def prepare_git(branch)
 	if masterHash != headHash 
 		raise "Error: Master and Head Hashes do not match, meaning that we are probably not on Master and therefore can't deploy"
 	end
+
+	# checkout master to be able to push tag there.
+	sh("git checkout master")
 	
 	# We already pull in bitrise before doing anything, so no need for this step anymore.
 	# git_pull
