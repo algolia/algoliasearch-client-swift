@@ -105,8 +105,8 @@ lane :upgrade_swift do |options|
 end
 
 lane :deploy_api_reference do
-	sh("../tools/make-doc.sh")
-	sh("cd ../build/doc && git add . && git commit -m 'update api reference' && git push")
+	sh("../tools/make-doc.sh") # dependency on Jazzy
+	sh("cd ../build/doc && git add . && git commit -m 'update api reference' && git push") # push to gh-pages
 end
 
 def prepare_git(branch)
