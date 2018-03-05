@@ -96,6 +96,15 @@ internal class URLSessionLogger: NSObject, URLSession {
     
     init(session: URLSession) {
         self.session = session
+      if #available(iOS 9, OSX 10.11, *) {
+        var zeroAddress6: sockaddr_in6 = sockaddr_in6()
+        zeroAddress6.sin6_len = UInt8(MemoryLayout.size(ofValue: zeroAddress6))
+        zeroAddress6.sin6_family = sa_family_t(AF_INET6)
+        defaultRouteReachability = withUnsafePointer(to: &zeroAddress6) {
+          let zeroAddressAsSockaddr = UnsafePointer<sockaddr>(OpaquePointer($0))
+          return SCNetworkReachabilityCreateWithAddress(nil, zeroAddressAsSockaddr)!
+        }
+      } else {
         var zeroAddress: sockaddr_in = sockaddr_in()
         zeroAddress.sin_len = UInt8(MemoryLayout.size(ofValue: zeroAddress))
         zeroAddress.sin_family = sa_family_t(AF_INET)
@@ -103,6 +112,7 @@ internal class URLSessionLogger: NSObject, URLSession {
             let zeroAddressAsSockaddr = UnsafePointer<sockaddr>(OpaquePointer($0))
             return SCNetworkReachabilityCreateWithAddress(nil, zeroAddressAsSockaddr)!
         }
+      }
         
         // Reset the (global) epoch for logging.
         URLSessionLogger.epoch = Date()
