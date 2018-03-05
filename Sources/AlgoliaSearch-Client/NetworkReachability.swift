@@ -51,12 +51,21 @@ class SystemNetworkReachability: NetworkReachability {
     
     init() {
         // Create reachability handle to an all-zeroes address.
+      if #available(iOS 9, OSX 10.11, tvOS 9, *) {
+        var zeroAddress6 = SystemNetworkReachability.zeroAddress6
+        reachability = withUnsafePointer(to: &zeroAddress6) {
+          $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+            SCNetworkReachabilityCreateWithAddress(nil, $0)
+          }
+          }!
+      } else {
         var zeroAddress = SystemNetworkReachability.zeroAddress
         reachability = withUnsafePointer(to: &zeroAddress) {
-            $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
-                SCNetworkReachabilityCreateWithAddress(nil, $0)
-            }
-        }!
+          $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
+            SCNetworkReachabilityCreateWithAddress(nil, $0)
+          }
+          }!
+      }
     }
     
     /// Test if network connectivity is currently available.
@@ -83,6 +92,14 @@ class SystemNetworkReachability: NetworkReachability {
         address.sin_family = sa_family_t(AF_INET)
         return address
     }()
+  
+  /// An all zeroes IP address.
+  static let zeroAddress6: sockaddr_in6 = {
+    var address = sockaddr_in6()
+    address.sin6_len = UInt8(MemoryLayout<sockaddr_in6>.size)
+    address.sin6_family = sa_family_t(AF_INET6)
+    return address
+  }()
 }
 
 #endif // !os(watchOS)
