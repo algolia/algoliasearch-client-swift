@@ -106,7 +106,11 @@ end
 
 lane :deploy_api_reference do
 	sh("../tools/make-doc.sh") # dependency on Jazzy
-	sh("cd ../build/doc && git add . && git commit -m 'update api reference' && git push") # push to gh-pages
+	if are_doc_files_changed()  # push to gh-pages if files have been changed
+		sh("cd ../build/doc git add . && git commit -m 'update api reference' && git push")
+	else 
+		puts "No files were changed for the api documentation, so no need to push to gh-pages"
+	end
 end
 
 def prepare_git(branch)
@@ -125,6 +129,11 @@ def prepare_git(branch)
 	
 	# We already pull in bitrise before doing anything, so no need for this step anymore.
 	# git_pull
+end
+
+def are_doc_files_changed()
+	git_status = sh("cd ../build/doc && git status --porcelain")
+	return !git_status.to_s.strip.empty?
 end
 
 def prepare_api_keys()
