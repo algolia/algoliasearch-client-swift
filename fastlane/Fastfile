@@ -117,7 +117,7 @@ def prepare_git(branch)
 	ensure_git_status_clean
 
 	# ensure_git_branch(branch:branch)
-	masterHash = sh("git rev-parse origin/master")
+	masterHash = sh("git rev-parse origin/#{branch}")
 	headHash = sh("git rev-parse HEAD")
 	
 	if masterHash != headHash 
@@ -125,7 +125,7 @@ def prepare_git(branch)
 	end
 
 	# checkout master to be able to push tag there.
-	sh("git checkout master")
+	sh("git checkout #{branch}")
 	
 	# We already pull in bitrise before doing anything, so no need for this step anymore.
 	# git_pull

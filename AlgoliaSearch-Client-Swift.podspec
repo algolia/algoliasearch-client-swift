@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
-    s.name = 'AlgoliaSearch-Client-Swift'
-    s.module_name = 'AlgoliaSearch'
+    s.name = 'InstantSearchClient'
+    s.module_name = 'InstantSearchClient'
     s.version = '5.1.6'
     s.license = 'MIT'
     s.summary = 'Algolia Search API Client for iOS & OS X written in Swift.'
