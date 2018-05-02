@@ -151,13 +151,12 @@ internal class Request: AsyncOperationWithCompletion {
         let currentHostIndex = nextHostIndex
         let request = createRequest(currentHostIndex)
         nextHostIndex = (nextHostIndex + 1) % hosts.count
-        task = client.session.dataTask(with: request) { [weak self]
+        task = client.session.dataTask(with: request) {
             (data: Data?, response: URLResponse?, error: Error?) in
-            guard let this = self else { return }
             var json: [String: Any]?
             var finalError: Error? = error
             // Shortcut in case of cancellation.
-            if this.isCancelled {
+            if self.isCancelled {
                 return
             }
             if (finalError == nil) {
@@ -187,20 +186,20 @@ internal class Request: AsyncOperationWithCompletion {
             
             // Update host status.
             let down = finalError != nil && finalError!.isTransient()
-            this.client.updateHostStatus(host: this.hosts[currentHostIndex], up: !down)
+            self.client.updateHostStatus(host: self.hosts[currentHostIndex], up: !down)
             
             // Success: call completion block.
             if finalError == nil {
-                this.callCompletion(content: json, error: nil)
+                self.callCompletion(content: json, error: nil)
             }
             // Transient error and host array not exhausted: retry.
-            else if finalError!.isTransient() && this.nextHostIndex != this.firstHostIndex {
-                this.nextTimeout += this.timeout // raise the timeout
-                this.startNext()
+            else if finalError!.isTransient() && self.nextHostIndex != self.firstHostIndex {
+                self.nextTimeout += self.timeout // raise the timeout
+                self.startNext()
             }
             // Non-transient error, or no more hosts to retry: report the error.
             else {
-                this.callCompletion(content: nil, error: finalError)
+                self.callCompletion(content: nil, error: finalError)
             }
         }
         task!.resume()
