@@ -868,6 +868,10 @@ class IndexTests: OnlineTestCase {
       XCTAssertEqual(brandFacetCounts!["Apple"] as? Int, 2)
       XCTAssertEqual(brandFacetCounts!["Samsung"] as? Int, 1)
       XCTAssertEqual(brandFacetCounts!["Whatever"] as? Int, 1)
+      let facetsStats = content["facets_stats"] as? [String: [String: Any]]
+      let starStats = facetsStats!["stars"]
+      XCTAssertEqual(starStats!["max"] as? Int, 5)
+      XCTAssertEqual(starStats!["min"] as? Int, 4)
     }
     
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)

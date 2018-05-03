@@ -270,6 +270,10 @@ internal struct HostStatus {
         // WARNING: `didSet` not called during initialization => we need to update the headers manually here.
         updateHeadersFromAPIKey()
     }
+    
+    deinit {
+        session.finishTasksAndInvalidate()
+    }
 
     /// Set read and write hosts to the same value (convenience method).
     ///
