@@ -35,6 +35,7 @@ internal enum HTTPMethod: String {
 /// Only for the sake of unit tests.
 internal protocol URLSession {
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+    func finishTasksAndInvalidate()
 }
 
 // Convince the compiler that NSURLSession does implements our custom protocol.
@@ -129,6 +130,10 @@ internal class URLSessionLogger: NSObject, URLSession {
         }
         task.addObserver(self, forKeyPath: "state", options: .new, context: nil)
         return task
+    }
+    
+    func finishTasksAndInvalidate() {
+        session.finishTasksAndInvalidate()
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {

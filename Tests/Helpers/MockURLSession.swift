@@ -74,6 +74,7 @@ public struct MockResponse {
 /// A replacement for `NSURLSession` used for mocking network requests.
 ///
 public class MockURLSession: AlgoliaSearch.URLSession {
+    
     /// Predefined set of responses for the specified URLs.
     public var responses: [String: MockResponse] = [String: MockResponse]()
     
@@ -87,6 +88,10 @@ public class MockURLSession: AlgoliaSearch.URLSession {
         let task = MockURLSessionDataTask(request: request, details: details, completionHandler: completionHandler)
         task.cancellable = self.cancellable
         return task
+    }
+    
+    public func finishTasksAndInvalidate() {
+        // do nothing
     }
 }
 

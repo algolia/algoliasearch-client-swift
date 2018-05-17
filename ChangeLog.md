@@ -1,6 +1,12 @@
 Change Log
 ==========
 
+# 5.1.7 (2018-05-04)
+
+### Bug Fix
+- Aggregate "facet_stats" to the response when doing disjunctive faceting #522 
+- Also fix a memory leak coming from NRURLSession #522 
+
 # 5.0.3 (2017-10-03)
 
 ### New features
