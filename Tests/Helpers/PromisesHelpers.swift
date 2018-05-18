@@ -8,7 +8,7 @@
 
 import Foundation
 import PromiseKit
-import AlgoliaSearch
+import InstantSearchClient
 
 public typealias FulfillHandler = ([String:Any]) -> Void
 public typealias RejectHandler = (Error) -> Void

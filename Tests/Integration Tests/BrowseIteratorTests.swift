@@ -22,7 +22,7 @@
 //
 
 import XCTest
-import AlgoliaSearch
+import InstantSearchClient
 
 class BrowseIteratorTests: OnlineTestCase {
     let cancelTimeout: TimeInterval = 10

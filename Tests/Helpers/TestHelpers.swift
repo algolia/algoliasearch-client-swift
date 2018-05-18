@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import AlgoliaSearch
+import InstantSearchClient
 import PromiseKit
 import XCTest
 

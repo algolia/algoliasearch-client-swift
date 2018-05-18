@@ -23,7 +23,7 @@
 
 import Foundation
 
-@testable import AlgoliaSearch
+@testable import InstantSearchClient
 
 
 /// A mock response for a mock URL session.

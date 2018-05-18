@@ -22,7 +22,7 @@
 //
 
 import XCTest
-import AlgoliaSearch
+import InstantSearchClient
 import PromiseKit
 
 class IndexTests: OnlineTestCase {
