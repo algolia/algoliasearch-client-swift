@@ -33,7 +33,7 @@ import Foundation
 
 /// A simple mock of `NetworkReachability` that just returns a stored state.
 ///
-public class MockNetworkReachability: AlgoliaSearchOffline.NetworkReachability {
+public class MockNetworkReachability: InstantSearchClientOffline.NetworkReachability {
     public var reachable: Bool = true
     
     public func isReachable() -> Bool {

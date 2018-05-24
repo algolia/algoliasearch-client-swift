@@ -23,7 +23,7 @@
 
 #import <XCTest/XCTest.h>
 
-@import AlgoliaSearchOffline;
+@import InstantSearchClientOffline;
 
 
 /// Verifies that all the features are accessible from Objective-C.

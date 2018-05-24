@@ -39,7 +39,7 @@ class OnlineTestCase: XCTestCase {
         // Init client.
         let appID = Bundle(for: type(of: self)).object(forInfoDictionaryKey: "ALGOLIA_APPLICATION_ID") as? String ?? ""
         let apiKey = Bundle(for: type(of: self)).object(forInfoDictionaryKey: "ALGOLIA_API_KEY") as? String ?? ""
-        client = AlgoliaSearch.Client(appID: appID, apiKey: apiKey)
+        client = InstantSearchClient.Client(appID: appID, apiKey: apiKey)
         
         // Init index.
         // NOTE: We use a different index name for each test function.

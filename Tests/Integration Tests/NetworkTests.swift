@@ -48,7 +48,7 @@ class NetworkTests: XCTestCase {
     
     override func setUp() {
         super.setUp()
-        client = AlgoliaSearch.Client(appID: FAKE_APP_ID, apiKey: FAKE_API_KEY)
+        client = InstantSearchClient.Client(appID: FAKE_APP_ID, apiKey: FAKE_API_KEY)
         client.session = session
         index = client.index(withName: FAKE_INDEX_NAME)
     }

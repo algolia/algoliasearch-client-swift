@@ -21,7 +21,7 @@
 //  THE SOFTWARE.
 //
 
-import AlgoliaSearchOffline
+import InstantSearchClientOffline
 import Foundation
 import XCTest
 

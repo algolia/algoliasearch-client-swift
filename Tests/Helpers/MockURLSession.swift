@@ -73,7 +73,7 @@ public struct MockResponse {
 
 /// A replacement for `NSURLSession` used for mocking network requests.
 ///
-public class MockURLSession: AlgoliaSearch.URLSession {
+public class MockURLSession: InstantSearchClient.URLSession {
     
     /// Predefined set of responses for the specified URLs.
     public var responses: [String: MockResponse] = [String: MockResponse]()
