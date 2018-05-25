@@ -56,11 +56,11 @@ and is usable from both **Swift** and **Objective-C**.
 
 ## Install
 
-1. Add a dependency on AlgoliaSearch-Client-Swift:
+1. Add a dependency on InstantSearchClient:
     - CocoaPods: add `pod 'InstantSearchClient', '~> 5.0'` to your `Podfile`.
     - Carthage: add `github "algolia/algoliasearch-client-swift"` to your `Cartfile`.
-	- SwiftPM: add `.package(url:"https://github.com/algolia/algoliasearch-client-swift", from: "5.0.0")` to your package dependencies array in `Package.swift`, then add `AlgoliaSearch` to your target dependencies.
-2. Add `import AlgoliaSearch` to your source files.
+	- SwiftPM: add `.package(url:"https://github.com/algolia/algoliasearch-client-swift", from: "5.0.0")` to your package dependencies array in `Package.swift`, then add `InstantSearchClient` to your target dependencies.
+2. Add `import InstantSearchClient` to your source files.
 
 ## Quick Start
 
