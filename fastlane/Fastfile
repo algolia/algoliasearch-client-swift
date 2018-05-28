@@ -93,7 +93,9 @@ lane :deploy do |options|
 		path: "InstantSearchClientOffline.podspec"
 	)
 
-	deploy_api_reference
+	# This is failing when no files are changed. So we added this step in Bitrise instead along with is_skippable: true.
+	# 
+	# deploy_api_reference
 end
 
 desc "Upgrade Swift Version in .swift-version"
