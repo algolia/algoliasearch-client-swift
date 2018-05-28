@@ -40,7 +40,7 @@ public typealias BrowseIteratorHandler = (_ iterator: BrowseIterator, _ content:
 /// - an error has been encountered;
 /// - or the user cancelled the iteration.
 ///
-@objc public class BrowseIterator: NSObject {
+@objcMembers public class BrowseIterator: NSObject {
     /// The index being browsed.
     public let index: Index
     

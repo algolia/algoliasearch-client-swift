@@ -105,7 +105,7 @@ import Foundation
 /// A pair of (latitude, longitude).
 /// Used in geo-search.
 ///
-@objc public class LatLng: NSObject {
+@objcMembers public class LatLng: NSObject {
     // IMPLEMENTATION NOTE: Cannot be `struct` because of Objective-C bridgeability.
     
     /// Latitude.
@@ -139,7 +139,7 @@ import Foundation
 /// A rectangle in geo coordinates.
 /// Used in geo-search.
 ///
-@objc public class GeoRect: NSObject {
+@objcMembers public class GeoRect: NSObject {
     // IMPLEMENTATION NOTE: Cannot be `struct` because of Objective-C bridgeability.
     
     /// One of the rectangle's corners (typically the northwesternmost).

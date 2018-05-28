@@ -26,7 +26,7 @@ import Foundation
 
 /// Entry point into the Swift API.
 ///
-@objc public class Client : AbstractClient {
+@objcMembers public class Client : AbstractClient {
     // MARK: Properties
     
     /// Algolia application ID.

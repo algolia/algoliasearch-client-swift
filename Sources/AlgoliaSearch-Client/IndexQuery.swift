@@ -26,7 +26,7 @@ import Foundation
 
 /// A search query targeting a specific index.
 ///
-@objc public class IndexQuery: NSObject {
+@objcMembers public class IndexQuery: NSObject {
     /// Name of the targeted index.
     @objc public let indexName: String
     

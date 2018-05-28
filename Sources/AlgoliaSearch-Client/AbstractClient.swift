@@ -27,7 +27,7 @@ import Foundation
 /// A version of a software library.
 /// Used to construct the `User-Agent` header.
 ///
-@objc public class LibraryVersion: NSObject {
+@objcMembers public class LibraryVersion: NSObject {
     /// Library name.
     @objc public let name: String
     
@@ -83,7 +83,7 @@ internal struct HostStatus {
 /// hosts permanently, statuses are only remembered for a given timeframe, indicated by `hostStatusTimeout`. (You may
 /// adjust it as needed, although the default value `defaultHostStatusTimeout` should make sense for most applications.)
 ///
-@objc public class AbstractClient : NSObject {
+@objcMembers public class AbstractClient : NSObject {
     // MARK: Properties
     
     /// HTTP headers that will be sent with every request.
