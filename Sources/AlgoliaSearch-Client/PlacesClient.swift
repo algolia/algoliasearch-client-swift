@@ -26,7 +26,7 @@ import Foundation
 
 /// Client for [Algolia Places](https://community.algolia.com/places/).
 ///
-@objc public class PlacesClient : AbstractClient {
+@objcMembers public class PlacesClient : AbstractClient {
     // MARK: Properties
     
     /// Algolia application ID.

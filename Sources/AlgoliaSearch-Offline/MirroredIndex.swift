@@ -27,7 +27,7 @@ import Foundation
 
 /// A data selection query, used to select data to be mirrored locally by a `MirroredIndex`.
 ///
-@objc public class DataSelectionQuery: NSObject {
+@objcMembers public class DataSelectionQuery: NSObject {
     /// Query used to select data.
     @objc public let query: Query
     
@@ -161,7 +161,7 @@ import Foundation
 /// Native resources are lazily instantiated when `mirrored` is set to `true`. They are released when the object is
 /// released, or if `mirrored` is set to `false` again.
 ///
-@objc public class MirroredIndex : Index {
+@objcMembers public class MirroredIndex : Index {
     
     // ----------------------------------------------------------------------
     // MARK: Constants

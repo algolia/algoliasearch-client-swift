@@ -33,7 +33,7 @@ typealias APIResponse = (content: [String: Any]?, error: Error?)
 /// + Note: Requires Algolia's Offline Core SDK. The `enableOfflineMode(...)` method must be called with a valid license
 /// key prior to calling any offline-related method.
 ///
-@objc public class OfflineClient : Client {
+@objcMembers public class OfflineClient : Client {
     // MARK: Properties
 
     var sdk: Sdk = Sdk.shared
