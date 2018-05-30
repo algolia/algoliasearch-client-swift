@@ -14,12 +14,12 @@
     <a title="Index Class Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../index.html">AlgoliaSearch Docs</a></p>
+        <p><a href="../index.html">InstantSearchClient Docs</a></p>
       </div>
     </header>
     <div class="content-wrapper">
       <p id="breadcrumbs">
-        <a href="../index.html">AlgoliaSearch Reference</a>
+        <a href="../index.html">InstantSearchClient Reference</a>
         <img id="carat" src="../img/carat.png" />
         Index Class Reference
       </p>
@@ -145,13 +145,16 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a href="../Other Typealiases.html">Other Typealiases</a>
+            <a href="../Other Typealiases.html">Other Type Aliases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../Other Typealiases.html#/s:13AlgoliaSearch21BrowseIteratorHandlera">BrowseIteratorHandler</a>
+                <a href="../Other Typealiases.html#/s:19InstantSearchClient21BrowseIteratorHandlera">BrowseIteratorHandler</a>
               </li>
               <li class="nav-group-task">
-                <a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a>
+                <a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../Other Typealiases.html#/s:19InstantSearchClient10JSONObjecta">JSONObject</a>
               </li>
             </ul>
           </li>
@@ -163,14 +166,15 @@
             <h1>Index</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">Index</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="../Protocols/Searchable.html">Searchable</a></span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">Index</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="../Protocols/Searchable.html">Searchable</a></span></code></pre>
 
                 </div>
               </div>
             <p>A proxy to an Algolia index.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    You cannot construct this class directly. Please use <code><a href="../Classes/Client.html#/c:@M@AlgoliaSearch@objc(cs)Client(im)indexWithName:">Client.index(withName:)</a></code> to obtain an instance.
+    You cannot construct this class directly. Please use <code><a href="../Classes/Client.html#/c:@M@InstantSearchClient@objc(cs)Client(im)indexWithName:">Client.index(withName:)</a></code> to obtain an instance.
 
 </div>
 
@@ -188,9 +192,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(py)name"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(py)name"></a>
                     <a name="//apple_ref/swift/Property/name" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(py)name">name</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(py)name">name</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -205,7 +209,8 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="k">let</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
@@ -215,9 +220,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(py)client"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(py)client"></a>
                     <a name="//apple_ref/swift/Property/client" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(py)client">client</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(py)client">client</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -232,7 +237,8 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">let</span> <span class="nv">client</span><span class="p">:</span> <span class="kt"><a href="../Classes/Client.html">Client</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="k">let</span> <span class="nv">client</span><span class="p">:</span> <span class="kt"><a href="../Classes/Client.html">Client</a></span></code></pre>
 
                         </div>
                       </div>
@@ -253,9 +259,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)addObject:requestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)addObject:requestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/addObject(_:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)addObject:requestOptions:completionHandler:">addObject(_:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)addObject:requestOptions:completionHandler:">addObject(_:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -270,9 +276,54 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObject</span><span class="p">(</span><span class="n">_</span> <span class="nv">object</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObject</span><span class="p">(</span><span class="n">_</span> <span class="nv">object</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>object</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The object to add.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -284,9 +335,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)addObject:withID:requestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)addObject:withID:requestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/addObject(_:withID:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)addObject:withID:requestOptions:completionHandler:">addObject(_:withID:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)addObject:withID:requestOptions:completionHandler:">addObject(_:withID:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -307,9 +358,66 @@ If an object already exists with the same object ID, the existing object will be
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObject</span><span class="p">(</span><span class="n">_</span> <span class="nv">object</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObject</span><span class="p">(</span><span class="n">_</span> <span class="nv">object</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>object</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The object to add.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objectID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Identifier that you want to assign this object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -321,9 +429,9 @@ If an object already exists with the same object ID, the existing object will be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)addObjects:requestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)addObjects:requestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/addObjects(_:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)addObjects:requestOptions:completionHandler:">addObjects(_:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)addObjects:requestOptions:completionHandler:">addObjects(_:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -338,9 +446,54 @@ If an object already exists with the same object ID, the existing object will be
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObjects</span><span class="p">(</span><span class="n">_</span> <span class="nv">objects</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">addObjects</span><span class="p">(</span><span class="n">_</span> <span class="nv">objects</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objects</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Objects to add.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -352,9 +505,9 @@ If an object already exists with the same object ID, the existing object will be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)deleteObjectWithID:requestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)deleteObjectWithID:requestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/deleteObject(withID:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)deleteObjectWithID:requestOptions:completionHandler:">deleteObject(withID:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)deleteObjectWithID:requestOptions:completionHandler:">deleteObject(withID:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -369,9 +522,54 @@ If an object already exists with the same object ID, the existing object will be
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteObject</span><span class="p">(</span><span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteObject</span><span class="p">(</span><span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objectID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Identifier of object to delete.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -383,9 +581,9 @@ If an object already exists with the same object ID, the existing object will be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)deleteObjectsWithIDs:requestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)deleteObjectsWithIDs:requestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/deleteObjects(withIDs:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)deleteObjectsWithIDs:requestOptions:completionHandler:">deleteObjects(withIDs:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)deleteObjectsWithIDs:requestOptions:completionHandler:">deleteObjects(withIDs:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -400,9 +598,54 @@ If an object already exists with the same object ID, the existing object will be
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteObjects</span><span class="p">(</span><span class="n">withIDs</span> <span class="nv">objectIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteObjects</span><span class="p">(</span><span class="n">withIDs</span> <span class="nv">objectIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objectIDs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Identifiers of objects to delete.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -414,9 +657,9 @@ If an object already exists with the same object ID, the existing object will be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)getObjectWithID:attributesToRetrieve:requestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)getObjectWithID:attributesToRetrieve:requestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/getObject(withID:attributesToRetrieve:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)getObjectWithID:attributesToRetrieve:requestOptions:completionHandler:">getObject(withID:attributesToRetrieve:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)getObjectWithID:attributesToRetrieve:requestOptions:completionHandler:">getObject(withID:attributesToRetrieve:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -431,9 +674,67 @@ If an object already exists with the same object ID, the existing object will be
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObject</span><span class="p">(</span><span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">attributesToRetrieve</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObject</span><span class="p">(</span><span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">attributesToRetrieve</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objectID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Identifier of the object to retrieve.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>attributesToRetrieve</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>List of attributes to retrieve. If <code>nil</code>, all attributes are retrieved.
+                              If one of the elements is <code>&quot;*&quot;</code>, all attributes are retrieved.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -445,9 +746,9 @@ If an object already exists with the same object ID, the existing object will be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)getObjectsWithIDs:attributesToRetrieve:requestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)getObjectsWithIDs:attributesToRetrieve:requestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/getObjects(withIDs:attributesToRetrieve:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)getObjectsWithIDs:attributesToRetrieve:requestOptions:completionHandler:">getObjects(withIDs:attributesToRetrieve:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)getObjectsWithIDs:attributesToRetrieve:requestOptions:completionHandler:">getObjects(withIDs:attributesToRetrieve:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -462,9 +763,67 @@ If an object already exists with the same object ID, the existing object will be
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObjects</span><span class="p">(</span><span class="n">withIDs</span> <span class="nv">objectIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">attributesToRetrieve</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">getObjects</span><span class="p">(</span><span class="n">withIDs</span> <span class="nv">objectIDs</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">attributesToRetrieve</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objectIDs</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Identifiers of objects to retrieve.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>attributesToRetrieve</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>List of attributes to retrieve. If <code>nil</code>, all attributes are retrieved.
+                              If one of the elements is <code>&quot;*&quot;</code>, all attributes are retrieved.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -476,9 +835,9 @@ If an object already exists with the same object ID, the existing object will be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:13AlgoliaSearch5IndexC19partialUpdateObjectSo9OperationCs10DictionaryVySSypG_SS6withIDSbSg17createIfNotExistsAA14RequestOptionsCSg07requestP0yAISg_s5Error_pSgtcSg17completionHandlertF"></a>
+                    <a name="/s:19InstantSearchClient5IndexC19partialUpdateObjectSo9OperationCs10DictionaryVySSypG_SS6withIDSbSg17createIfNotExistsAA14RequestOptionsCSg07requestQ0yAISg_s5Error_pSgtcSg17completionHandlertF"></a>
                     <a name="//apple_ref/swift/Method/partialUpdateObject(_:withID:createIfNotExists:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:13AlgoliaSearch5IndexC19partialUpdateObjectSo9OperationCs10DictionaryVySSypG_SS6withIDSbSg17createIfNotExistsAA14RequestOptionsCSg07requestP0yAISg_s5Error_pSgtcSg17completionHandlertF">partialUpdateObject(_:withID:createIfNotExists:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/s:19InstantSearchClient5IndexC19partialUpdateObjectSo9OperationCs10DictionaryVySSypG_SS6withIDSbSg17createIfNotExistsAA14RequestOptionsCSg07requestQ0yAISg_s5Error_pSgtcSg17completionHandlertF">partialUpdateObject(_:withID:createIfNotExists:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -493,9 +852,77 @@ If an object already exists with the same object ID, the existing object will be
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">partialUpdateObject</span><span class="p">(</span><span class="n">_</span> <span class="nv">partialObject</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">createIfNotExists</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">partialUpdateObject</span><span class="p">(</span><span class="n">_</span> <span class="nv">partialObject</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="n">withID</span> <span class="nv">objectID</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">createIfNotExists</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>partialObject</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>New values/operations for the object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objectID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Identifier of object to be updated.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>createIfNotExists</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Whether an update on a nonexistent object ID should create the object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -507,9 +934,9 @@ If an object already exists with the same object ID, the existing object will be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:13AlgoliaSearch5IndexC20partialUpdateObjectsSo9OperationCSays10DictionaryVySSypGG_SbSg17createIfNotExistsAA14RequestOptionsCSg07requestN0yAISg_s5Error_pSgtcSg17completionHandlertF"></a>
+                    <a name="/s:19InstantSearchClient5IndexC20partialUpdateObjectsSo9OperationCSays10DictionaryVySSypGG_SbSg17createIfNotExistsAA14RequestOptionsCSg07requestO0yAISg_s5Error_pSgtcSg17completionHandlertF"></a>
                     <a name="//apple_ref/swift/Method/partialUpdateObjects(_:createIfNotExists:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:13AlgoliaSearch5IndexC20partialUpdateObjectsSo9OperationCSays10DictionaryVySSypGG_SbSg17createIfNotExistsAA14RequestOptionsCSg07requestN0yAISg_s5Error_pSgtcSg17completionHandlertF">partialUpdateObjects(_:createIfNotExists:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/s:19InstantSearchClient5IndexC20partialUpdateObjectsSo9OperationCSays10DictionaryVySSypGG_SbSg17createIfNotExistsAA14RequestOptionsCSg07requestO0yAISg_s5Error_pSgtcSg17completionHandlertF">partialUpdateObjects(_:createIfNotExists:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -524,9 +951,65 @@ If an object already exists with the same object ID, the existing object will be
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">partialUpdateObjects</span><span class="p">(</span><span class="n">_</span> <span class="nv">objects</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]],</span> <span class="nv">createIfNotExists</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">partialUpdateObjects</span><span class="p">(</span><span class="n">_</span> <span class="nv">objects</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]],</span> <span class="nv">createIfNotExists</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objects</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>New values/operations for the objects. Each object must contain an <code>objectID</code> attribute.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>createIfNotExists</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Whether an update on a nonexistent object ID should create the object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -538,9 +1021,9 @@ If an object already exists with the same object ID, the existing object will be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)saveObject:requestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)saveObject:requestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/saveObject(_:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)saveObject:requestOptions:completionHandler:">saveObject(_:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)saveObject:requestOptions:completionHandler:">saveObject(_:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -555,9 +1038,54 @@ If an object already exists with the same object ID, the existing object will be
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">saveObject</span><span class="p">(</span><span class="n">_</span> <span class="nv">object</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">saveObject</span><span class="p">(</span><span class="n">_</span> <span class="nv">object</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>object</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>New version of the object to update. Must contain an <code>objectID</code> attribute.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -569,9 +1097,9 @@ If an object already exists with the same object ID, the existing object will be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)saveObjects:requestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)saveObjects:requestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/saveObjects(_:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)saveObjects:requestOptions:completionHandler:">saveObjects(_:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)saveObjects:requestOptions:completionHandler:">saveObjects(_:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -586,9 +1114,54 @@ If an object already exists with the same object ID, the existing object will be
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">saveObjects</span><span class="p">(</span><span class="n">_</span> <span class="nv">objects</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">saveObjects</span><span class="p">(</span><span class="n">_</span> <span class="nv">objects</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objects</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>New versions of the objects to update. Each one must contain an <code>objectID</code> attribute.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -600,9 +1173,9 @@ If an object already exists with the same object ID, the existing object will be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)search:requestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)search:requestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/search(_:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)search:requestOptions:completionHandler:">search(_:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)search:requestOptions:completionHandler:">search(_:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -617,9 +1190,54 @@ If an object already exists with the same object ID, the existing object will be
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">search</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">search</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>query</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Search parameters.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -631,9 +1249,9 @@ If an object already exists with the same object ID, the existing object will be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)searchForFacetValuesOf:matching:query:requestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)searchForFacetValuesOf:matching:query:requestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/searchForFacetValues(of:matching:query:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)searchForFacetValuesOf:matching:query:requestOptions:completionHandler:">searchForFacetValues(of:matching:query:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)searchForFacetValuesOf:matching:query:requestOptions:completionHandler:">searchForFacetValues(of:matching:query:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -650,9 +1268,80 @@ matching other (regular) search criteria.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">searchForFacetValues</span><span class="p">(</span><span class="n">of</span> <span class="nv">facetName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">matching</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">searchForFacetValues</span><span class="p">(</span><span class="n">of</span> <span class="nv">facetName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">matching</span> <span class="nv">text</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>facetName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Name of the facet to search. It must have been declared in the index&rsquo;s
+  <code>attributesForFaceting</code> setting with the <code>searchable()</code> modifier.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>text</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Text to search for in the facet&rsquo;s values.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>query</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An optional query to take extra search parameters into account. These parameters apply to
+  index objects like in a regular search query. Only facet values contained in the matched objects will be
+  returned.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -664,9 +1353,9 @@ matching other (regular) search criteria.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)getSettingsWithRequestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)getSettingsWithRequestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/getSettings(requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)getSettingsWithRequestOptions:completionHandler:">getSettings(requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)getSettingsWithRequestOptions:completionHandler:">getSettings(requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -681,9 +1370,42 @@ matching other (regular) search criteria.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">getSettings</span><span class="p">(</span><span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">@objc(getSettingsWithRequestOptions:completionHandler:)</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">getSettings</span><span class="p">(</span><span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -695,9 +1417,9 @@ matching other (regular) search criteria.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:13AlgoliaSearch5IndexC11setSettingsSo9OperationCs10DictionaryVySSypG_SbSg17forwardToReplicasAA14RequestOptionsCSg07requestL0yAISg_s5Error_pSgtcSg17completionHandlertF"></a>
+                    <a name="/s:19InstantSearchClient5IndexC11setSettingsSo9OperationCs10DictionaryVySSypG_SbSg17forwardToReplicasAA14RequestOptionsCSg07requestM0yAISg_s5Error_pSgtcSg17completionHandlertF"></a>
                     <a name="//apple_ref/swift/Method/setSettings(_:forwardToReplicas:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:13AlgoliaSearch5IndexC11setSettingsSo9OperationCs10DictionaryVySSypG_SbSg17forwardToReplicasAA14RequestOptionsCSg07requestL0yAISg_s5Error_pSgtcSg17completionHandlertF">setSettings(_:forwardToReplicas:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/s:19InstantSearchClient5IndexC11setSettingsSo9OperationCs10DictionaryVySSypG_SbSg17forwardToReplicasAA14RequestOptionsCSg07requestM0yAISg_s5Error_pSgtcSg17completionHandlertF">setSettings(_:forwardToReplicas:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -715,9 +1437,65 @@ supported settings.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">setSettings</span><span class="p">(</span><span class="n">_</span> <span class="nv">settings</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="nv">forwardToReplicas</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">setSettings</span><span class="p">(</span><span class="n">_</span> <span class="nv">settings</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">],</span> <span class="nv">forwardToReplicas</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>settings</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>New settings.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>forwardToReplicas</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>When true, the change is also applied to replicas of this index.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -729,9 +1507,9 @@ supported settings.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)clearIndexWithRequestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)clearIndexWithRequestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/clearIndex(requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)clearIndexWithRequestOptions:completionHandler:">clearIndex(requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)clearIndexWithRequestOptions:completionHandler:">clearIndex(requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -746,9 +1524,42 @@ supported settings.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">clearIndex</span><span class="p">(</span><span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">@objc(clearIndexWithRequestOptions:completionHandler:)</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">clearIndex</span><span class="p">(</span><span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -760,9 +1571,9 @@ supported settings.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)batchOperations:requestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)batchOperations:requestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/batch(operations:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)batchOperations:requestOptions:completionHandler:">batch(operations:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)batchOperations:requestOptions:completionHandler:">batch(operations:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -777,9 +1588,54 @@ supported settings.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">batch</span><span class="p">(</span><span class="nv">operations</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">@objc(batchOperations:requestOptions:completionHandler:)</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">batch</span><span class="p">(</span><span class="nv">operations</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>operations</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The array of actions.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -791,9 +1647,9 @@ supported settings.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)browseWithQuery:requestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)browseWithQuery:requestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/browse(query:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)browseWithQuery:requestOptions:completionHandler:">browse(query:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)browseWithQuery:requestOptions:completionHandler:">browse(query:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -810,9 +1666,54 @@ unless the end of the index has been reached. To retrieve subsequent pages, call
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">browse</span><span class="p">(</span><span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">@objc(browseWithQuery:requestOptions:completionHandler:)</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">browse</span><span class="p">(</span><span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>query</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The query parameters for the browse.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -824,9 +1725,9 @@ unless the end of the index has been reached. To retrieve subsequent pages, call
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)browseFromCursor:requestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)browseFromCursor:requestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/browse(from:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)browseFromCursor:requestOptions:completionHandler:">browse(from:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)browseFromCursor:requestOptions:completionHandler:">browse(from:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -843,9 +1744,54 @@ index has been reached.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">browse</span><span class="p">(</span><span class="n">from</span> <span class="nv">cursor</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">@objc(browseFromCursor:requestOptions:completionHandler:)</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">browse</span><span class="p">(</span><span class="n">from</span> <span class="nv">cursor</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>cursor</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The cursor of the next page to retrieve</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -868,9 +1814,9 @@ index has been reached.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)waitTaskWithID:requestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)waitTaskWithID:requestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/waitTask(withID:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)waitTaskWithID:requestOptions:completionHandler:">waitTask(withID:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)waitTaskWithID:requestOptions:completionHandler:">waitTask(withID:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -886,9 +1832,54 @@ All server tasks are asynchronous. This method helps you check that a task is pu
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">waitTask</span><span class="p">(</span><span class="n">withID</span> <span class="nv">taskID</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">waitTask</span><span class="p">(</span><span class="n">withID</span> <span class="nv">taskID</span><span class="p">:</span> <span class="kt">Int</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>taskID</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Identifier of the task (as returned by the server).</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -900,9 +1891,9 @@ All server tasks are asynchronous. This method helps you check that a task is pu
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)deleteBy:requestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)deleteBy:requestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/deleteBy(_:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)deleteBy:requestOptions:completionHandler:">deleteBy(_:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)deleteBy:requestOptions:completionHandler:">deleteBy(_:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -917,9 +1908,54 @@ All server tasks are asynchronous. This method helps you check that a task is pu
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteBy</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteBy</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>query</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The query that objects to delete must match.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -931,9 +1967,9 @@ All server tasks are asynchronous. This method helps you check that a task is pu
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)deleteByQuery:requestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)deleteByQuery:requestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/deleteByQuery(_:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)deleteByQuery:requestOptions:completionHandler:">deleteByQuery(_:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)deleteByQuery:requestOptions:completionHandler:">deleteByQuery(_:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -953,9 +1989,54 @@ All server tasks are asynchronous. This method helps you check that a task is pu
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteByQuery</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">deleteByQuery</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>query</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The query that objects to delete must match.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -967,9 +2048,9 @@ All server tasks are asynchronous. This method helps you check that a task is pu
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)searchDisjunctiveFaceting:disjunctiveFacets:refinements:requestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)searchDisjunctiveFaceting:disjunctiveFacets:refinements:requestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/searchDisjunctiveFaceting(_:disjunctiveFacets:refinements:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)searchDisjunctiveFaceting:disjunctiveFacets:refinements:requestOptions:completionHandler:">searchDisjunctiveFaceting(_:disjunctiveFacets:refinements:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)searchDisjunctiveFaceting:disjunctiveFacets:refinements:requestOptions:completionHandler:">searchDisjunctiveFaceting(_:disjunctiveFacets:refinements:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -984,9 +2065,78 @@ All server tasks are asynchronous. This method helps you check that a task is pu
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">searchDisjunctiveFaceting</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">disjunctiveFacets</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">refinements</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">searchDisjunctiveFaceting</span><span class="p">(</span><span class="n">_</span> <span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">,</span> <span class="nv">disjunctiveFacets</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">],</span> <span class="nv">refinements</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]],</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>query</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The query.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>disjunctiveFacets</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>List of disjunctive facets.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>refinements</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The current refinements, mapping facet names to a list of values.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -998,9 +2148,9 @@ All server tasks are asynchronous. This method helps you check that a task is pu
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)multipleQueries:strategy:requestOptions:completionHandler:"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)multipleQueries:strategy:requestOptions:completionHandler:"></a>
                     <a name="//apple_ref/swift/Method/multipleQueries(_:strategy:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)multipleQueries:strategy:requestOptions:completionHandler:">multipleQueries(_:strategy:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)multipleQueries:strategy:requestOptions:completionHandler:">multipleQueries(_:strategy:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1009,16 +2159,61 @@ All server tasks are asynchronous. This method helps you check that a task is pu
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Run multiple queries on this index.
-This method is a variant of <code><a href="../Classes/Client.html#/c:@M@AlgoliaSearch@objc(cs)Client(im)multipleQueries:strategy:requestOptions:completionHandler:">Client.multipleQueries(...)</a></code> where the targeted index is always the receiver.</p>
+This method is a variant of <code><a href="../Classes/Client.html#/c:@M@InstantSearchClient@objc(cs)Client(im)multipleQueries:strategy:requestOptions:completionHandler:">Client.multipleQueries(...)</a></code> where the targeted index is always the receiver.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueries</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueries</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt">String</span><span class="p">?,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>queries</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queries to run.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -1030,9 +2225,9 @@ This method is a variant of <code><a href="../Classes/Client.html#/c:@M@AlgoliaS
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:13AlgoliaSearch5IndexC15multipleQueriesSo9OperationCSayAA5QueryCG_AA6ClientC08MultipleE8StrategyOSg8strategyAA14RequestOptionsCSg07requestM0ys10DictionaryVySSypGSg_s5Error_pSgtc17completionHandlertF"></a>
+                    <a name="/s:19InstantSearchClient5IndexC15multipleQueriesSo9OperationCSayAA5QueryCG_AA0C0C08MultipleF8StrategyOSg8strategyAA14RequestOptionsCSg07requestM0ys10DictionaryVySSypGSg_s5Error_pSgtc17completionHandlertF"></a>
                     <a name="//apple_ref/swift/Method/multipleQueries(_:strategy:requestOptions:completionHandler:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:13AlgoliaSearch5IndexC15multipleQueriesSo9OperationCSayAA5QueryCG_AA6ClientC08MultipleE8StrategyOSg8strategyAA14RequestOptionsCSg07requestM0ys10DictionaryVySSypGSg_s5Error_pSgtc17completionHandlertF">multipleQueries(_:strategy:requestOptions:completionHandler:)</a>
+                    <a class="token" href="#/s:19InstantSearchClient5IndexC15multipleQueriesSo9OperationCSayAA5QueryCG_AA0C0C08MultipleF8StrategyOSg8strategyAA14RequestOptionsCSg07requestM0ys10DictionaryVySSypGSg_s5Error_pSgtc17completionHandlertF">multipleQueries(_:strategy:requestOptions:completionHandler:)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1041,16 +2236,72 @@ This method is a variant of <code><a href="../Classes/Client.html#/c:@M@AlgoliaS
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Run multiple queries on this index.
-This method is a variant of <code><a href="../Classes/Client.html#/c:@M@AlgoliaSearch@objc(cs)Client(im)multipleQueries:strategy:requestOptions:completionHandler:">Client.multipleQueries(...)</a></code> where the targeted index is always the receiver.</p>
+This method is a variant of <code><a href="../Classes/Client.html#/c:@M@InstantSearchClient@objc(cs)Client(im)multipleQueries:strategy:requestOptions:completionHandler:">Client.multipleQueries(...)</a></code> where the targeted index is always the receiver.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@discardableResult</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueries</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt"><a href="../Classes/Client.html">Client</a></span><span class="o">.</span><span class="kt">MultipleQueriesStrategy</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:13AlgoliaSearch17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@discardableResult</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">multipleQueries</span><span class="p">(</span><span class="n">_</span> <span class="nv">queries</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query.html">Query</a></span><span class="p">],</span> <span class="nv">strategy</span><span class="p">:</span> <span class="kt"><a href="../Classes/Client.html">Client</a></span><span class="o">.</span><span class="kt">MultipleQueriesStrategy</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">requestOptions</span><span class="p">:</span> <span class="kt"><a href="../Classes/RequestOptions.html">RequestOptions</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">completionHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="kt"><a href="../Other Typealiases.html#/s:19InstantSearchClient17CompletionHandlera">CompletionHandler</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Operation</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>queries</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queries to run.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>strategy</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The strategy to use.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>requestOptions</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Request-specific options.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completionHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Completion handler to be notified of the request&rsquo;s outcome.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -1073,9 +2324,9 @@ This method is a variant of <code><a href="../Classes/Client.html#/c:@M@AlgoliaS
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(py)searchCacheEnabled"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(py)searchCacheEnabled"></a>
                     <a name="//apple_ref/swift/Property/searchCacheEnabled" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(py)searchCacheEnabled">searchCacheEnabled</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(py)searchCacheEnabled">searchCacheEnabled</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1090,7 +2341,8 @@ This method is a variant of <code><a href="../Classes/Client.html#/c:@M@AlgoliaS
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">searchCacheEnabled</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="k">var</span> <span class="nv">searchCacheEnabled</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -1100,9 +2352,9 @@ This method is a variant of <code><a href="../Classes/Client.html#/c:@M@AlgoliaS
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(py)searchCacheExpiringTimeInterval"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(py)searchCacheExpiringTimeInterval"></a>
                     <a name="//apple_ref/swift/Property/searchCacheExpiringTimeInterval" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(py)searchCacheExpiringTimeInterval">searchCacheExpiringTimeInterval</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(py)searchCacheExpiringTimeInterval">searchCacheExpiringTimeInterval</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1122,7 +2374,8 @@ This method is a variant of <code><a href="../Classes/Client.html#/c:@M@AlgoliaS
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="k">var</span> <span class="nv">searchCacheExpiringTimeInterval</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="o">=</span> <span class="mi">120</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="k">var</span> <span class="nv">searchCacheExpiringTimeInterval</span><span class="p">:</span> <span class="kt">TimeInterval</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -1132,9 +2385,9 @@ This method is a variant of <code><a href="../Classes/Client.html#/c:@M@AlgoliaS
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)Index(im)clearSearchCache"></a>
+                    <a name="/c:@M@InstantSearchClient@objc(cs)Index(im)clearSearchCache"></a>
                     <a name="//apple_ref/swift/Method/clearSearchCache()" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)Index(im)clearSearchCache">clearSearchCache()</a>
+                    <a class="token" href="#/c:@M@InstantSearchClient@objc(cs)Index(im)clearSearchCache">clearSearchCache()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1149,7 +2402,8 @@ This method is a variant of <code><a href="../Classes/Client.html#/c:@M@AlgoliaS
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">clearSearchCache</span><span class="p">()</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">clearSearchCache</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>
@@ -1162,7 +2416,7 @@ This method is a variant of <code><a href="../Classes/Client.html#/c:@M@AlgoliaS
         </section>
         <section id="footer">
           <p>© Copyright 2016 <a class="link" href="https://www.algolia.com/" target="_blank" rel="external">Algolia</a>. All rights reserved.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

@@ -10,15 +10,16 @@
     
   </head>
   <body>
+    <a name="//apple_ref/swift/Section/Offline mode" class="dashAnchor"></a>
     <a title="Offline mode  Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="index.html">AlgoliaSearch Docs</a></p>
+        <p><a href="index.html">InstantSearchClientOffline Docs</a></p>
       </div>
     </header>
     <div class="content-wrapper">
       <p id="breadcrumbs">
-        <a href="index.html">AlgoliaSearch Reference</a>
+        <a href="index.html">InstantSearchClientOffline Reference</a>
         <img id="carat" src="img/carat.png" />
         Offline mode  Reference
       </p>
@@ -167,13 +168,16 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a href="Other Typealiases.html">Other Typealiases</a>
+            <a href="Other Typealiases.html">Other Type Aliases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="Other Typealiases.html#/s:20AlgoliaSearch21BrowseIteratorHandlera">BrowseIteratorHandler</a>
+                <a href="Other Typealiases.html#/s:26InstantSearchClientOffline21BrowseIteratorHandlera">BrowseIteratorHandler</a>
               </li>
               <li class="nav-group-task">
-                <a href="Other Typealiases.html#/s:20AlgoliaSearch17CompletionHandlera">CompletionHandler</a>
+                <a href="Other Typealiases.html#/s:26InstantSearchClientOffline17CompletionHandlera">CompletionHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="Other Typealiases.html#/s:26InstantSearchClientOffline10JSONObjecta">JSONObject</a>
               </li>
             </ul>
           </li>
@@ -191,9 +195,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)OfflineClient"></a>
+                    <a name="/c:@M@InstantSearchClientOffline@objc(cs)OfflineClient"></a>
                     <a name="//apple_ref/swift/Class/OfflineClient" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)OfflineClient">OfflineClient</a>
+                    <a class="token" href="#/c:@M@InstantSearchClientOffline@objc(cs)OfflineClient">OfflineClient</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -215,7 +219,8 @@ key prior to calling any offline-related method.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">OfflineClient</span> <span class="p">:</span> <span class="kt"><a href="Classes/Client.html">Client</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">OfflineClient</span> <span class="p">:</span> <span class="kt"><a href="Classes/Client.html">Client</a></span></code></pre>
 
                         </div>
                       </div>
@@ -229,9 +234,9 @@ key prior to calling any offline-related method.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)MirroredIndex"></a>
+                    <a name="/c:@M@InstantSearchClientOffline@objc(cs)MirroredIndex"></a>
                     <a name="//apple_ref/swift/Class/MirroredIndex" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)MirroredIndex">MirroredIndex</a>
+                    <a class="token" href="#/c:@M@InstantSearchClientOffline@objc(cs)MirroredIndex">MirroredIndex</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -242,13 +247,13 @@ key prior to calling any offline-related method.
                         <p>An online index that can also be mirrored locally.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <p>You cannot construct this class directly. Please use <code><a href="Classes/OfflineClient.html#/c:@M@AlgoliaSearch@objc(cs)OfflineClient(im)indexWithName:">OfflineClient.index(withName:)</a></code> to obtain an
+    <p>You cannot construct this class directly. Please use <code><a href="Classes/OfflineClient.html#/c:@M@InstantSearchClientOffline@objc(cs)OfflineClient(im)indexWithName:">OfflineClient.index(withName:)</a></code> to obtain an
 instance.</p>
 
 </div>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <p>Requires Algolia Offline Core. The <code><a href="Classes/OfflineClient.html#/c:@M@AlgoliaSearch@objc(cs)OfflineClient(im)enableOfflineModeWithLicenseKey:">OfflineClient.enableOfflineMode(...)</a></code> method must be called with a
+    <p>Requires Algolia Offline Core. The <code><a href="Classes/OfflineClient.html#/c:@M@InstantSearchClientOffline@objc(cs)OfflineClient(im)enableOfflineModeWithLicenseKey:">OfflineClient.enableOfflineMode(...)</a></code> method must be called with a
 valid license key prior to calling any offline-related method.</p>
 
 </div>
@@ -356,7 +361,7 @@ regarding UI responsiveness.</p>
 <li>Placeholders are fully supported.</li>
 </ul></li>
 <li><p>Dictionary-based <strong>plurals</strong> are not supported. (<q>Simple</q> plurals with a final S are supported.)</p></li>
-<li><p><strong>IP geolocation</strong> (see <code><a href="Classes/Query.html#/s:20AlgoliaSearch5QueryC17aroundLatLngViaIPSbSgv">Query.aroundLatLngViaIP</a></code>) is not supported.</p></li>
+<li><p><strong>IP geolocation</strong> (see <code><a href="Classes/Query.html#/s:26InstantSearchClientOffline5QueryC17aroundLatLngViaIPSbSgvp">Query.aroundLatLngViaIP</a></code>) is not supported.</p></li>
 <li><p><strong>CJK segmentation</strong> is not supported.</p></li>
 </ul>
 <h2 id='resource-handling' class='heading'>Resource handling</h2>
@@ -370,7 +375,8 @@ released, or if <code>mirrored</code> is set to <code>false</code> again.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">MirroredIndex</span> <span class="p">:</span> <span class="kt"><a href="Classes/Index.html">Index</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">MirroredIndex</span> <span class="p">:</span> <span class="kt"><a href="Classes/Index.html">Index</a></span></code></pre>
 
                         </div>
                       </div>
@@ -380,9 +386,9 @@ released, or if <code>mirrored</code> is set to <code>false</code> again.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)DataSelectionQuery"></a>
+                    <a name="/c:@M@InstantSearchClientOffline@objc(cs)DataSelectionQuery"></a>
                     <a name="//apple_ref/swift/Class/DataSelectionQuery" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)DataSelectionQuery">DataSelectionQuery</a>
+                    <a class="token" href="#/c:@M@InstantSearchClientOffline@objc(cs)DataSelectionQuery">DataSelectionQuery</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -398,7 +404,8 @@ released, or if <code>mirrored</code> is set to <code>false</code> again.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">DataSelectionQuery</span><span class="p">:</span> <span class="kt">NSObject</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">DataSelectionQuery</span> <span class="p">:</span> <span class="kt">NSObject</span></code></pre>
 
                         </div>
                       </div>
@@ -412,9 +419,9 @@ released, or if <code>mirrored</code> is set to <code>false</code> again.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/c:@M@AlgoliaSearch@objc(cs)OfflineIndex"></a>
+                    <a name="/c:@M@InstantSearchClientOffline@objc(cs)OfflineIndex"></a>
                     <a name="//apple_ref/swift/Class/OfflineIndex" class="dashAnchor"></a>
-                    <a class="token" href="#/c:@M@AlgoliaSearch@objc(cs)OfflineIndex">OfflineIndex</a>
+                    <a class="token" href="#/c:@M@InstantSearchClientOffline@objc(cs)OfflineIndex">OfflineIndex</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -426,13 +433,13 @@ released, or if <code>mirrored</code> is set to <code>false</code> again.</p>
 Such an index has no online counterpart. It is updated and queried locally.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <p>You cannot construct this class directly. Please use <code><a href="Classes/OfflineClient.html#/c:@M@AlgoliaSearch@objc(cs)OfflineClient(im)offlineIndexWithName:">OfflineClient.offlineIndex(withName:)</a></code> to obtain an
+    <p>You cannot construct this class directly. Please use <code><a href="Classes/OfflineClient.html#/c:@M@InstantSearchClientOffline@objc(cs)OfflineClient(im)offlineIndexWithName:">OfflineClient.offlineIndex(withName:)</a></code> to obtain an
 instance.</p>
 
 </div>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <p>Requires Algolia Offline Core. <code><a href="Classes/OfflineClient.html#/c:@M@AlgoliaSearch@objc(cs)OfflineClient(im)enableOfflineModeWithLicenseKey:">OfflineClient.enableOfflineMode(...)</a></code> must be called with a valid license
+    <p>Requires Algolia Offline Core. <code><a href="Classes/OfflineClient.html#/c:@M@InstantSearchClientOffline@objc(cs)OfflineClient(im)enableOfflineModeWithLicenseKey:">OfflineClient.enableOfflineMode(...)</a></code> must be called with a valid license
 key prior to calling any offline-related method.</p>
 
 </div>
@@ -504,7 +511,7 @@ you have:</p>
 <li><p><strong>Settings</strong> are not incremental: the new settings completely replace the previous ones. If a setting
 is omitted in the new version, it reverts back to its default value. (This is in contrast with the online API,
 where you can only specify the settings you want to change and omit the others.)</p></li>
-<li><p>You cannot batch arbitrary write operations in a single method call (as you would do with <code><a href="Classes/Index.html#/c:@M@AlgoliaSearch@objc(cs)Index(im)batchOperations:requestOptions:completionHandler:">Index.batch(...)</a></code>).
+<li><p>You cannot batch arbitrary write operations in a single method call (as you would do with <code><a href="Classes/Index.html#/c:@M@InstantSearchClientOffline@objc(cs)Index(im)batchOperations:requestOptions:completionHandler:">Index.batch(...)</a></code>).
 However, all write operations are <em>de facto</em> batches, since they must be wrapped inside a transaction (see below).</p></li>
 </ul>
 
@@ -514,7 +521,8 @@ However, all write operations are <em>de facto</em> batches, since they must be 
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">class</span> <span class="kt">OfflineIndex</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="Protocols/Searchable.html">Searchable</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">@objcMembers</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="kt">OfflineIndex</span> <span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt"><a href="Protocols/Searchable.html">Searchable</a></span></code></pre>
 
                         </div>
                       </div>
@@ -527,7 +535,7 @@ However, all write operations are <em>de facto</em> batches, since they must be 
         </section>
         <section id="footer">
           <p>© Copyright 2016 <a class="link" href="https://www.algolia.com/" target="_blank" rel="external">Algolia</a>. All rights reserved.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>

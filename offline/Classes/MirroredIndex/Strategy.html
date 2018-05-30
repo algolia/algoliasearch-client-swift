@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Strategy Enum Reference</title>
+    <title>Strategy Enumeration Reference</title>
     <link rel="stylesheet" type="text/css" href="../../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../../css/highlight.css" />
     <meta charset='utf-8'>
@@ -11,17 +11,17 @@
   </head>
   <body>
     <a name="//apple_ref/swift/Enum/Strategy" class="dashAnchor"></a>
-    <a title="Strategy Enum Reference"></a>
+    <a title="Strategy Enumeration Reference"></a>
     <header>
       <div class="content-wrapper">
-        <p><a href="../../index.html">AlgoliaSearch Docs</a></p>
+        <p><a href="../../index.html">InstantSearchClientOffline Docs</a></p>
       </div>
     </header>
     <div class="content-wrapper">
       <p id="breadcrumbs">
-        <a href="../../index.html">AlgoliaSearch Reference</a>
+        <a href="../../index.html">InstantSearchClientOffline Reference</a>
         <img id="carat" src="../../img/carat.png" />
-        Strategy Enum Reference
+        Strategy Enumeration Reference
       </p>
     </div>
     <div class="content-wrapper">
@@ -168,13 +168,16 @@
             </ul>
           </li>
           <li class="nav-group-name">
-            <a href="../../Other Typealiases.html">Other Typealiases</a>
+            <a href="../../Other Typealiases.html">Other Type Aliases</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a href="../../Other Typealiases.html#/s:20AlgoliaSearch21BrowseIteratorHandlera">BrowseIteratorHandler</a>
+                <a href="../../Other Typealiases.html#/s:26InstantSearchClientOffline21BrowseIteratorHandlera">BrowseIteratorHandler</a>
               </li>
               <li class="nav-group-task">
-                <a href="../../Other Typealiases.html#/s:20AlgoliaSearch17CompletionHandlera">CompletionHandler</a>
+                <a href="../../Other Typealiases.html#/s:26InstantSearchClientOffline17CompletionHandlera">CompletionHandler</a>
+              </li>
+              <li class="nav-group-task">
+                <a href="../../Other Typealiases.html#/s:26InstantSearchClientOffline10JSONObjecta">JSONObject</a>
               </li>
             </ul>
           </li>
@@ -186,7 +189,8 @@
             <h1>Strategy</h1>
               <div class="declaration">
                 <div class="language">
-                  <pre class="highlight"><code><span class="kd">@objc</span> <span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Strategy</span><span class="p">:</span> <span class="kt">Int</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">@objc</span>
+<span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Strategy</span> <span class="p">:</span> <span class="kt">Int</span></code></pre>
 
                 </div>
               </div>
@@ -199,9 +203,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:20AlgoliaSearch13MirroredIndexC8StrategyO10onlineOnlyA2EmF"></a>
+                    <a name="/s:26InstantSearchClientOffline13MirroredIndexC8StrategyO10onlineOnlyA2EmF"></a>
                     <a name="//apple_ref/swift/Element/onlineOnly" class="dashAnchor"></a>
-                    <a class="token" href="#/s:20AlgoliaSearch13MirroredIndexC8StrategyO10onlineOnlyA2EmF">onlineOnly</a>
+                    <a class="token" href="#/s:26InstantSearchClientOffline13MirroredIndexC8StrategyO10onlineOnlyA2EmF">onlineOnly</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -223,23 +227,19 @@ is intended for applications wanting to manually manage their policy.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">onlineOnly</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">onlineOnly</span> <span class="o">=</span> <span class="mi">0</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:20AlgoliaSearch13MirroredIndexC8StrategyO11offlineOnlyA2EmF"></a>
+                    <a name="/s:26InstantSearchClientOffline13MirroredIndexC8StrategyO11offlineOnlyA2EmF"></a>
                     <a name="//apple_ref/swift/Element/offlineOnly" class="dashAnchor"></a>
-                    <a class="token" href="#/s:20AlgoliaSearch13MirroredIndexC8StrategyO11offlineOnlyA2EmF">offlineOnly</a>
+                    <a class="token" href="#/s:26InstantSearchClientOffline13MirroredIndexC8StrategyO11offlineOnlyA2EmF">offlineOnly</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -255,23 +255,19 @@ The search will fail when the offline mirror has not yet been synced.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">offlineOnly</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">offlineOnly</span> <span class="o">=</span> <span class="mi">1</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:20AlgoliaSearch13MirroredIndexC8StrategyO17fallbackOnFailureA2EmF"></a>
+                    <a name="/s:26InstantSearchClientOffline13MirroredIndexC8StrategyO17fallbackOnFailureA2EmF"></a>
                     <a name="//apple_ref/swift/Element/fallbackOnFailure" class="dashAnchor"></a>
-                    <a class="token" href="#/s:20AlgoliaSearch13MirroredIndexC8StrategyO17fallbackOnFailureA2EmF">fallbackOnFailure</a>
+                    <a class="token" href="#/s:26InstantSearchClientOffline13MirroredIndexC8StrategyO17fallbackOnFailureA2EmF">fallbackOnFailure</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -287,23 +283,19 @@ Please note that when online, this is likely to hit the request timeout on <em>e
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">fallbackOnFailure</span> <span class="o">=</span> <span class="mi">2</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">fallbackOnFailure</span> <span class="o">=</span> <span class="mi">2</span></code></pre>
 
                         </div>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <ul>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:20AlgoliaSearch13MirroredIndexC8StrategyO17fallbackOnTimeoutA2EmF"></a>
+                    <a name="/s:26InstantSearchClientOffline13MirroredIndexC8StrategyO17fallbackOnTimeoutA2EmF"></a>
                     <a name="//apple_ref/swift/Element/fallbackOnTimeout" class="dashAnchor"></a>
-                    <a class="token" href="#/s:20AlgoliaSearch13MirroredIndexC8StrategyO17fallbackOnTimeoutA2EmF">fallbackOnTimeout</a>
+                    <a class="token" href="#/s:26InstantSearchClientOffline13MirroredIndexC8StrategyO17fallbackOnTimeoutA2EmF">fallbackOnTimeout</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -315,14 +307,14 @@ Please note that when online, this is likely to hit the request timeout on <em>e
 Will first try an online request, but fallback to offline in case of failure or when a timeout has been
 reached, whichever comes first.</p>
 
-<p>The timeout can be set through the <code><a href="../../Classes/MirroredIndex.html#/c:@M@AlgoliaSearch@objc(cs)MirroredIndex(py)offlineFallbackTimeout">offlineFallbackTimeout</a></code> property.</p>
+<p>The timeout can be set through the <code><a href="../../Classes/MirroredIndex.html#/c:@M@InstantSearchClientOffline@objc(cs)MirroredIndex(py)offlineFallbackTimeout">offlineFallbackTimeout</a></code> property.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight"><code><span class="k">case</span> <span class="n">fallbackOnTimeout</span> <span class="o">=</span> <span class="mi">3</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">fallbackOnTimeout</span> <span class="o">=</span> <span class="mi">3</span></code></pre>
 
                         </div>
                       </div>
@@ -335,7 +327,7 @@ reached, whichever comes first.</p>
         </section>
         <section id="footer">
           <p>© Copyright 2016 <a class="link" href="https://www.algolia.com/" target="_blank" rel="external">Algolia</a>. All rights reserved.</p>
-          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.8.2</a>, a <a class="link" href="http://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+          <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.9.3</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
         </section>
       </article>
     </div>
