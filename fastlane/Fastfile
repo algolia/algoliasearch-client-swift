@@ -110,7 +110,7 @@ lane :deploy_api_reference do
 	sh("../tools/make-doc.sh") # dependency on Jazzy
 	if are_doc_files_changed()  # push to gh-pages if files have been changed. Q: Not sure if it works on Bitrise? works locally though.
 		begin
-			sh("cd ../build/doc git add . && git commit -m 'update api reference' && git push")
+			sh("cd ../build/doc && git add . && git commit -m 'update api reference' && git pull -X ours && git push")
 		rescue => ex
 			UI.message("updating api reference didn't happen because either there are no changes made to it or due to an exception stated below")
 			UI.message(ex)
