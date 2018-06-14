@@ -130,6 +130,7 @@ public struct IOError: CustomNSError {
 /// - You cannot batch arbitrary write operations in a single method call (as you would do with `Index.batch(...)`).
 ///   However, all write operations are *de facto* batches, since they must be wrapped inside a transaction (see below).
 ///
+
 @objcMembers public class OfflineIndex : NSObject, Searchable {
     // TODO: Expose common behavior through a protocol.
     // TODO: Factorize common behavior in a base class.
@@ -510,7 +511,8 @@ public struct IOError: CustomNSError {
     ///
     /// A transaction can be created by calling `OfflineIndex.newTransaction()`.
     ///
-    @objcMembers public class WriteTransaction: NSObject {
+  
+    @objc @objcMembers public class WriteTransaction: NSObject {
         /// The index on which this transaction will operate.
         @objc public let index: OfflineIndex
         

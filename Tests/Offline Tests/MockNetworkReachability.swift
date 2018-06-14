@@ -21,7 +21,7 @@
 //  THE SOFTWARE.
 //
 
-@testable import AlgoliaSearchOffline
+@testable import InstantSearchClientOffline
 import Foundation
 
 // ----------------------------------------------------------------------

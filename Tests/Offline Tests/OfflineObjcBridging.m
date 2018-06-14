@@ -22,9 +22,7 @@
 //
 
 #import <XCTest/XCTest.h>
-
 @import InstantSearchClientOffline;
-
 
 /// Verifies that all the features are accessible from Objective-C.
 ///
