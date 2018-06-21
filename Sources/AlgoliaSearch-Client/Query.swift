@@ -202,6 +202,12 @@ open class Query : AbstractQuery {
         get { return Query.parseBool(self["analytics"]) }
         set { self["analytics"] = Query.buildBool(newValue) }
     }
+  
+  /// If set to false, this query will not be taken into account for the Click Analytics.
+    public var clickAnalytics: Bool? {
+      get { return Query.parseBool(self["clickAnalytics"]) }
+      set { self["clickAnalytics"] = Query.buildBool(newValue) }
+    }
     
     /// If set, tag your query with the specified identifiers. Tags can then be used in the Analytics to analyze a
     /// subset of searches only.
@@ -221,6 +227,13 @@ open class Query : AbstractQuery {
     public var replaceSynonymsInHighlight: Bool? {
         get { return Query.parseBool(self["replaceSynonymsInHighlight"]) }
         set { self["replaceSynonymsInHighlight"] = Query.buildBool(newValue) }
+    }
+  
+    /// When sumOrFiltersScores is false, max score will be kept.
+    /// When sumOrFiltersScores is true, score will be summed
+    public var sumOrFiltersScores: Bool? {
+      get { return Query.parseBool(self["sumOrFiltersScores"]) }
+      set { self["sumOrFiltersScores"] = Query.buildBool(newValue) }
     }
     
     /// Specify a list of words that should be considered as optional when found in the query. This list will be
@@ -777,6 +790,14 @@ open class Query : AbstractQuery {
             self["sortFacetValuesBy"] = newValue?.rawValue
         }
     }
+  
+    // MARK: Personalization
+  
+    /// Specify filters for ranking purposes, to rank higher records that contain the filters
+    @objc public var optionalFilters: [String]? {
+      get { return Query.parseStringArray(self["optionalFilters"]) }
+      set { self["optionalFilters"] = Query.buildJSONArray(newValue) }
+    }
     
     // MARK: Advanced
     
@@ -936,6 +957,12 @@ open class Query : AbstractQuery {
         get { return AbstractQuery.toNumber(self.analytics) }
         set { self.analytics = newValue?.boolValue }
     }
+  
+    @objc(clickAnalytics)
+    public var z_objc_clickAnalytics: NSNumber? {
+      get { return AbstractQuery.toNumber(self.clickAnalytics) }
+      set { self.clickAnalytics = newValue?.boolValue }
+    }
 
     @objc(synonyms)
     public var z_objc_synonyms: NSNumber? {
@@ -948,6 +975,14 @@ open class Query : AbstractQuery {
         get { return AbstractQuery.toNumber(self.replaceSynonymsInHighlight) }
         set { self.replaceSynonymsInHighlight = newValue?.boolValue }
     }
+  
+    @objc(sumOrFiltersScores)
+    public var z_objc_sumOrFiltersScores: NSNumber? {
+      get { return AbstractQuery.toNumber(self.sumOrFiltersScores) }
+      set { self.sumOrFiltersScores = newValue?.boolValue }
+    }
+  
+  
 
     @objc(minProximity)
     public var z_objc_minProximity: NSNumber? {
