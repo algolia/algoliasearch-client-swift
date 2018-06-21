@@ -24,13 +24,12 @@
 import Foundation
 
 func safeIndexName(_ name: String) -> String {
-  
-    var targetName = Bundle(for: OnlineTestCase.classForCoder()).object(forInfoDictionaryKey: "BUILD_TARGET_NAME") as? String ?? ""
+    var targetName = Bundle.main.object(forInfoDictionaryKey: "BUILD_TARGET_NAME") as? String ?? ""
     targetName = targetName.replacingOccurrences(of: " ", with: "-")
   
     if let travisBuild = ProcessInfo.processInfo.environment["TRAVIS_JOB_NUMBER"] {
         return "\(name)_travis_\(travisBuild)"
-    } else if let bitriseBuild = Bundle(for: OnlineTestCase.classForCoder()).object(forInfoDictionaryKey: "BITRISE_BUILD_NUMBER") as? String {
+    } else if let bitriseBuild = Bundle.main.object(forInfoDictionaryKey: "BITRISE_BUILD_NUMBER") as? String {
       return "\(name)_bitrise_\(bitriseBuild)_\(targetName)"
     } else {
         return name

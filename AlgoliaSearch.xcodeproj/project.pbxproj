@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		117194A31C49F185C9FF4C19 /* Pods_AlgoliaSearch_iOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EA23E78BBBCA8286E353311 /* Pods_AlgoliaSearch_iOS_Tests.framework */; };
+		1DC153B420D27164004F9498 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D44D0261B362648008369AC /* Helpers.swift */; };
 		1DCC9E272029EC1B00F3FBE0 /* PromisesHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCC9E252029EB3C00F3FBE0 /* PromisesHelpers.swift */; };
 		1DCC9E282029EC1C00F3FBE0 /* PromisesHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCC9E252029EB3C00F3FBE0 /* PromisesHelpers.swift */; };
 		1DCC9E292029EC1D00F3FBE0 /* PromisesHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCC9E252029EB3C00F3FBE0 /* PromisesHelpers.swift */; };
@@ -1286,6 +1287,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCD57D3D1D89B1EA00C5DE68 /* OfflineIndexTests.swift in Sources */,
+				1DC153B420D27164004F9498 /* Helpers.swift in Sources */,
 				BCE2E98A1E239D5C00F189F3 /* MockNetworkReachability.swift in Sources */,
 				BCD57D3E1D89B1EA00C5DE68 /* OfflineTestCase.swift in Sources */,
 				BCFC281C1D92660C00BFE0A0 /* MirroredIndexTests.swift in Sources */,
