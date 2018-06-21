@@ -228,6 +228,13 @@ open class Query : AbstractQuery {
         get { return Query.parseBool(self["replaceSynonymsInHighlight"]) }
         set { self["replaceSynonymsInHighlight"] = Query.buildBool(newValue) }
     }
+  
+    /// When sumOrFiltersScores is false, max score will be kept.
+    /// When sumOrFiltersScores is true, score will be summed
+    public var sumOrFiltersScores: Bool? {
+      get { return Query.parseBool(self["sumOrFiltersScores"]) }
+      set { self["sumOrFiltersScores"] = Query.buildBool(newValue) }
+    }
     
     /// Specify a list of words that should be considered as optional when found in the query. This list will be
     /// appended to the one defined in your index settings.
@@ -783,6 +790,14 @@ open class Query : AbstractQuery {
             self["sortFacetValuesBy"] = newValue?.rawValue
         }
     }
+  
+    // MARK: Personalization
+  
+    /// Specify filters for ranking purposes, to rank higher records that contain the filters
+    @objc public var optionalFilters: [String]? {
+      get { return Query.parseStringArray(self["optionalFilters"]) }
+      set { self["optionalFilters"] = Query.buildJSONArray(newValue) }
+    }
     
     // MARK: Advanced
     
@@ -960,6 +975,14 @@ open class Query : AbstractQuery {
         get { return AbstractQuery.toNumber(self.replaceSynonymsInHighlight) }
         set { self.replaceSynonymsInHighlight = newValue?.boolValue }
     }
+  
+    @objc(sumOrFiltersScores)
+    public var z_objc_sumOrFiltersScores: NSNumber? {
+      get { return AbstractQuery.toNumber(self.sumOrFiltersScores) }
+      set { self.sumOrFiltersScores = newValue?.boolValue }
+    }
+  
+  
 
     @objc(minProximity)
     public var z_objc_minProximity: NSNumber? {

@@ -89,6 +89,7 @@
     query.analyticsTags = @[ @"foo", @"bar" ];
     query.synonyms = [NSNumber numberWithBool:YES];
     query.replaceSynonymsInHighlight = [NSNumber numberWithBool:YES];
+    query.sumOrFiltersScores = [NSNumber numberWithBool:YES];;
     query.optionalWords = @[ @"foo", @"bar" ];
     query.minProximity = [NSNumber numberWithInt:6];
     query.removeWordsIfNoResults = @"allOptional";
@@ -110,6 +111,7 @@
     query.snippetEllipsisText = @"...";
     query.restrictHighlightAndSnippetArrays = false;
     query.numericFilters = @[ @"foo > 0", @"baz < 1000" ];
+    query.optionalFilters = @[@"category:Book", @"author:John Doe"];
     query.tagFilters = @[ @"foo", @"bar" ];
     query.distinct = [NSNumber numberWithInt:6];
     query.facets = @[ @"foo", @"bar" ];
