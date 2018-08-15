@@ -13,7 +13,8 @@ platform :ios do
 			scheme: "AlgoliaSearch iOS",
 			configuration: "Release",
 			clean: true,
-			xcargs: prepare_api_keys
+			xcargs: prepare_api_keys,
+			device: "iPhone 8 Plus"
 		)
 	end
 end
