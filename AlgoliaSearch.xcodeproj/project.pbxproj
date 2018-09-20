@@ -788,6 +788,7 @@
 					5D74957D1A8E25A600B0263F = {
 						CreatedOnToolsVersion = 6.1.1;
 						LastSwiftMigration = 0900;
+						ProvisioningStyle = Automatic;
 					};
 					5D7495881A8E25A600B0263F = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -935,7 +936,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch tvOS Tests/Pods-AlgoliaSearch tvOS Tests-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-AlgoliaSearch tvOS Tests/Pods-AlgoliaSearch tvOS Tests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit-tvOS/PromiseKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -944,7 +945,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch tvOS Tests/Pods-AlgoliaSearch tvOS Tests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AlgoliaSearch tvOS Tests/Pods-AlgoliaSearch tvOS Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4EBF0DC007308BABE086F82A /* [CP] Check Pods Manifest.lock */ = {
@@ -971,7 +972,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS-Tests/Pods-AlgoliaSearch-Offline-iOS-Tests-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-AlgoliaSearch-Offline-iOS-Tests/Pods-AlgoliaSearch-Offline-iOS-Tests-frameworks.sh",
 				"${PODS_ROOT}/AlgoliaSearchOfflineCore-iOS/AlgoliaSearchOfflineCore.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -980,7 +981,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS-Tests/Pods-AlgoliaSearch-Offline-iOS-Tests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AlgoliaSearch-Offline-iOS-Tests/Pods-AlgoliaSearch-Offline-iOS-Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		92FD3B0A0A9E6E56891BB0D8 /* [CP] Check Pods Manifest.lock */ = {
@@ -1007,7 +1008,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch OSX Tests/Pods-AlgoliaSearch OSX Tests-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-AlgoliaSearch OSX Tests/Pods-AlgoliaSearch OSX Tests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit-macOS/PromiseKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -1016,7 +1017,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch OSX Tests/Pods-AlgoliaSearch OSX Tests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AlgoliaSearch OSX Tests/Pods-AlgoliaSearch OSX Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		C8C6069E1A0964384F278A73 /* [CP] Check Pods Manifest.lock */ = {
@@ -1043,7 +1044,7 @@
 			files = (
 			);
 			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch iOS Tests/Pods-AlgoliaSearch iOS Tests-frameworks.sh",
+				"${PODS_ROOT}/Target Support Files/Pods-AlgoliaSearch iOS Tests/Pods-AlgoliaSearch iOS Tests-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/PromiseKit-iOS/PromiseKit.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
@@ -1052,7 +1053,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AlgoliaSearch iOS Tests/Pods-AlgoliaSearch iOS Tests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AlgoliaSearch iOS Tests/Pods-AlgoliaSearch iOS Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EA509541FF12E58AC57B3715 /* [CP] Check Pods Manifest.lock */ = {
@@ -1441,8 +1442,11 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -1452,6 +1456,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.algolia.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = InstantSearchClient;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1466,8 +1471,11 @@
 				APPLICATION_EXTENSION_API_ONLY = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -1477,6 +1485,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.algolia.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = InstantSearchClient;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;

@@ -22,7 +22,6 @@ Tests/Helpers.swift.tmp
 # Cocoapods
 /*.xcworkspace
 /Pods
-Podfile.lock
 
 # Cartage Build
 Tools/Carthage
