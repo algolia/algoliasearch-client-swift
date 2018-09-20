@@ -1,0 +1,30 @@
+PODS:
+  - AlgoliaSearchOfflineCore-iOS (1.2.1)
+  - PromiseKit (4.4.0):
+    - PromiseKit/Foundation (= 4.4.0)
+    - PromiseKit/QuartzCore (= 4.4.0)
+    - PromiseKit/UIKit (= 4.4.0)
+  - PromiseKit/CorePromise (4.4.0)
+  - PromiseKit/Foundation (4.4.0):
+    - PromiseKit/CorePromise
+  - PromiseKit/QuartzCore (4.4.0):
+    - PromiseKit/CorePromise
+  - PromiseKit/UIKit (4.4.0):
+    - PromiseKit/CorePromise
+
+DEPENDENCIES:
+  - AlgoliaSearchOfflineCore-iOS (~> 1.2)
+  - PromiseKit (~> 4.4)
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - AlgoliaSearchOfflineCore-iOS
+    - PromiseKit
+
+SPEC CHECKSUMS:
+  AlgoliaSearchOfflineCore-iOS: 985aedec9ce18691f55098acab42849e816087d3
+  PromiseKit: ecf5fe92275d57ee77c9ede858af47a162e9b97e
+
+PODFILE CHECKSUM: 6a84a4eada474315f0e394fa18031f32df0658a4
+
+COCOAPODS: 1.6.0.beta.1

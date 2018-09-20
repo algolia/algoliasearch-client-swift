@@ -200,30 +200,34 @@ class QueryTests: XCTestCase {
         let query3 = Query.parse(query1.build())
         XCTAssertEqual(query3.getRankingInfo, false)
     }
-
+  
     func test_ignorePlurals() {
         let query1 = Query()
         XCTAssertNil(query1.ignorePlurals)
-
         query1.ignorePlurals = .all(true)
         XCTAssertEqual(query1.ignorePlurals, .all(true))
         XCTAssertEqual(query1["ignorePlurals"], "true")
         var query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.ignorePlurals, .all(true))
-        
+
         query1.ignorePlurals = .all(false)
         XCTAssertEqual(query1.ignorePlurals, .all(false))
         XCTAssertEqual(query1["ignorePlurals"], "false")
         let query3 = Query.parse(query1.build())
         XCTAssertEqual(query3.ignorePlurals, .all(false))
 
+        ignorePluralsPart2(query1, &query2)
+    }
+  
+    func ignorePluralsPart2(_ query1: Query, _ query2: inout Query) {
         let VALUE = ["de", "en", "fr"]
         query1.ignorePlurals = .selected(VALUE)
         XCTAssertEqual(query1.ignorePlurals, .selected(VALUE))
         XCTAssertEqual(query1["ignorePlurals"], "de,en,fr")
         query2 = Query.parse(query1.build())
+        print("something useless")
         XCTAssertEqual(query2.ignorePlurals, .selected(VALUE))
-        
+      
         // WARNING: There's no validation of ISO codes, so any string is interpreted as a single code.
         query1["ignorePlurals"] = "invalid"
         XCTAssertNotNil(query1.ignorePlurals)
@@ -671,7 +675,7 @@ class QueryTests: XCTestCase {
         XCTAssertEqual(query2.enableRules, true)
     }
 
-    func test_removeStopWords() {
+  func test_removeStopWords() {
         let query1 = Query()
         XCTAssertNil(query1.removeStopWords)
         query1.removeStopWords = .all(true)
@@ -686,22 +690,26 @@ class QueryTests: XCTestCase {
         query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.removeStopWords, .all(false))
 
-        let VALUE = ["de", "es", "fr"]
-        query1.removeStopWords = .selected(VALUE)
-        XCTAssertEqual(query1.removeStopWords, .selected(VALUE))
-        XCTAssertEqual(query1["removeStopWords"], "de,es,fr")
-        query2 = Query.parse(query1.build())
-        XCTAssertEqual(query2.removeStopWords, .selected(VALUE))
-        
-        // WARNING: There's no validation of ISO codes, so any string is interpreted as a single code.
-        query1["removeStopWords"] = "invalid"
-        XCTAssertNotNil(query1.removeStopWords)
-        switch query1.removeStopWords! {
-        case let .selected(values): XCTAssertEqual(1, values.count)
-        default: XCTFail()
-        }
+        removeStopWordsPart2(query1, &query2)
     }
-    
+  
+    func removeStopWordsPart2(_ query1: Query, _ query2: inout Query) {
+      let VALUE = ["de", "es", "fr"]
+      query1.removeStopWords = .selected(VALUE)
+      XCTAssertEqual(query1.removeStopWords, .selected(VALUE))
+      XCTAssertEqual(query1["removeStopWords"], "de,es,fr")
+      query2 = Query.parse(query1.build())
+      XCTAssertEqual(query2.removeStopWords, .selected(VALUE))
+      
+      // WARNING: There's no validation of ISO codes, so any string is interpreted as a single code.
+      query1["removeStopWords"] = "invalid"
+      XCTAssertNotNil(query1.removeStopWords)
+      switch query1.removeStopWords! {
+      case let .selected(values): XCTAssertEqual(1, values.count)
+      default: XCTFail()
+      }
+    }
+  
     func test_maxValuesPerFacet() {
         let query1 = Query()
         XCTAssertNil(query1.maxValuesPerFacet)
