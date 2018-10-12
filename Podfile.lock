@@ -1,5 +1,5 @@
 PODS:
-  - AlgoliaSearchOfflineCore-iOS (1.2.1)
+  - AlgoliaSearchOfflineCore-iOS (1.2.2)
   - PromiseKit (4.4.0):
     - PromiseKit/Foundation (= 4.4.0)
     - PromiseKit/QuartzCore (= 4.4.0)
@@ -22,7 +22,7 @@ SPEC REPOS:
     - PromiseKit
 
 SPEC CHECKSUMS:
-  AlgoliaSearchOfflineCore-iOS: 985aedec9ce18691f55098acab42849e816087d3
+  AlgoliaSearchOfflineCore-iOS: 8cc5fbb3ba00fc28a9a66ce302d3ce3a739e6eea
   PromiseKit: ecf5fe92275d57ee77c9ede858af47a162e9b97e
 
 PODFILE CHECKSUM: 6a84a4eada474315f0e394fa18031f32df0658a4
