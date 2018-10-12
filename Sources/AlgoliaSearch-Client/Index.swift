@@ -406,21 +406,24 @@ import Foundation
     /// - returns: A cancellable operation.
     ///
     @discardableResult public func searchForFacetValues(of facetName: String, matching text: String, query: Query? = nil, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
-        let path = "1/indexes/\(urlEncodedName)/facets/\(facetName.urlEncodedPathComponent())/query"
+      
+      let path = "1/indexes/\(urlEncodedName)/facets/\(facetName.urlEncodedPathComponent())/query"
+      var requestBody: [String: Any]?
+      
       if let params = query {
         params["facetQuery"] = text
-        let requestBody = [
+        requestBody = [
           "params": params.build()
         ]
-        return client.performHTTPQuery(path: path, method: .POST, body: requestBody, hostnames: client.readHosts, isSearchQuery: true, requestOptions: requestOptions, completionHandler: completionHandler)
       } else {
         let params = Query()
         params["facetQuery"] = text
-        let requestBody = [
+        requestBody = [
           "params": params.build()
         ]
-        return client.performHTTPQuery(path: path, method: .POST, body: requestBody, hostnames: client.readHosts, isSearchQuery: true, requestOptions: requestOptions, completionHandler: completionHandler)
       }
+      
+      return client.performHTTPQuery(path: path, method: .POST, body: requestBody, hostnames: client.readHosts, isSearchQuery: true, requestOptions: requestOptions, completionHandler: completionHandler)
     }
     
     @objc(searchForFacetValuesOf:matching:query:completionHandler:)
