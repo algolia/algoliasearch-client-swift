@@ -38,7 +38,7 @@ class OfflineTestCase: XCTestCase {
         let appID = Bundle(for: type(of: self)).object(forInfoDictionaryKey: "ALGOLIA_APPLICATION_ID") as? String ?? ""
         let apiKey = Bundle(for: type(of: self)).object(forInfoDictionaryKey: "ALGOLIA_API_KEY") as? String ?? ""
         client = OfflineClient(appID: appID, apiKey: apiKey)
-        client.enableOfflineMode(licenseKey: "AkwCAQH/pIS5Bf+zpLUFZBhBbGdvbGlhIERldmVsb3BtZW50IFRlYW0kY29tLmFsZ29saWEuQWxnb2xpYVNlYXJjaE9mZmxpbmVDb3JlMC0CFQCSwJj+WYy+dsAvx5hfEcJSpBgF0wIUOYM+9+UMzdAtu1s31jz1qh0jeWo=")
+        client.enableOfflineMode(licenseKey: "AioCAQH/uLqiBf+k1Z4FlwcYQWxnb2xpYSBEZXZlbG9wbWVudCBUZWFtASowLgIVALmd8rEYFPy+FzhmQskzabybdGqWAhUAuXwHnlD1Sb9v/FdPfJ1FmQ5Iid0=")
         
         // Clean-up data from potential previous runs.
         if FileManager.default.fileExists(atPath: client.rootDataDir) {
