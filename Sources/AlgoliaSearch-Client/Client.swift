@@ -23,21 +23,20 @@
 
 import Foundation
 
-
 /// Entry point into the Swift API.
 ///
-@objcMembers public class Client : AbstractClient {
+@objcMembers public class Client: AbstractClient {
     // MARK: Properties
-    
+
     /// Algolia application ID.
     @objc public var appID: String { return _appID! } // will never be nil in this class
-    
+
     /// Algolia API key.
     @objc public var apiKey: String {
         get { return _apiKey! }
         set { _apiKey = newValue }
     }
-    
+
     /// Cache of already created indices.
     ///
     /// This dictionary is used to avoid creating two instances to represent the same index, as it is (1) inefficient
@@ -47,14 +46,14 @@ import Foundation
     /// + Note: The values are zeroing weak references to avoid leaking memory when an index is no longer used.
     ///
     var indices: NSMapTable<NSString, AnyObject> = NSMapTable(keyOptions: [.strongMemory], valueOptions: [.weakMemory])
-    
+
     /// Queue for purely in-memory operations (no I/Os).
     /// Typically used for aggregate, concurrent operations.
     ///
     internal var inMemoryQueue: OperationQueue = OperationQueue()
-    
+
     // MARK: - Initialization
-    
+
     /// Create a new Algolia Search client.
     ///
     /// - parameter appID:  The application ID (available in your Algolia Dashboard).
@@ -99,7 +98,7 @@ import Foundation
             return index
         }
     }
-    
+
     // MARK: - Operations
 
     /// List existing indexes.
@@ -112,12 +111,12 @@ import Foundation
     @discardableResult public func listIndexes(requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         return self.performHTTPQuery(path: "1/indexes", method: .GET, body: nil, hostnames: readHosts, requestOptions: requestOptions, completionHandler: completionHandler)
     }
-    
+
     @objc(listIndexes:)
     @discardableResult public func z_objc_listIndexes(completionHandler: @escaping CompletionHandler) -> Operation {
         return self.listIndexes(completionHandler: completionHandler)
     }
-        
+
     /// Delete an index.
     ///
     /// - parameter name: Name of the index to delete.
@@ -130,12 +129,12 @@ import Foundation
         let path = "1/indexes/\(name.urlEncodedPathComponent())"
         return self.performHTTPQuery(path: path, method: .DELETE, body: nil, hostnames: writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
     }
-    
+
     @objc(deleteIndexWithName:completionHandler:)
     @discardableResult public func z_objc_deleteIndex(withName name: String, completionHandler: CompletionHandler?) -> Operation {
         return self.deleteIndex(withName: name, completionHandler: completionHandler)
     }
-    
+
     /// Move an existing index.
     ///
     /// If the destination index already exists, its specific API keys will be preserved and the source index specific
@@ -156,12 +155,12 @@ import Foundation
         ]
         return self.performHTTPQuery(path: path, method: .POST, body: request as [String : Any]?, hostnames: writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
     }
-    
+
     @objc(moveIndexFrom:to:completionHandler:)
     @discardableResult public func z_objc_moveIndex(from srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler?) -> Operation {
         return self.moveIndex(from: srcIndexName, to: dstIndexName, completionHandler: completionHandler)
     }
-    
+
     /// Copy an existing index.
     ///
     /// If the destination index already exists, its specific API keys will be preserved and the source index specific
@@ -182,12 +181,12 @@ import Foundation
         ]
         return self.performHTTPQuery(path: path, method: .POST, body: request as [String : Any]?, hostnames: writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
     }
-    
+
     @objc(copyIndexFrom:to:completionHandler:)
     @discardableResult public func z_objc_copyIndex(from srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler?) -> Operation {
         return self.copyIndex(from: srcIndexName, to: dstIndexName, completionHandler: completionHandler)
     }
-    
+
     /// Strategy when running multiple queries. See `Client.multipleQueries(...)`.
     ///
     public enum MultipleQueriesStrategy: String {
@@ -195,9 +194,9 @@ import Foundation
         ///
         /// + Warning: Beware of confusion with `Optional.none` when using type inference!
         ///
-        case none = "none"
+        case none
         /// Execute the sequence of queries until the number of hits is reached by the sum of hits.
-        case stopIfEnoughMatches = "stopIfEnoughMatches"
+        case stopIfEnoughMatches
     }
 
     /// Query multiple indexes with one API call.
@@ -227,12 +226,12 @@ import Foundation
         }
         return self.performHTTPQuery(path: path, method: .POST, body: request, hostnames: readHosts, requestOptions: requestOptions, completionHandler: completionHandler)
     }
-    
+
     @objc(multipleQueries:strategy:completionHandler:)
     @discardableResult public func z_objc_multipleQueries(_ queries: [IndexQuery], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
         return self.multipleQueries(queries, strategy: strategy, completionHandler: completionHandler)
     }
-    
+
     /// Query multiple indexes with one API call.
     ///
     /// - parameter queries: List of queries.
@@ -245,7 +244,7 @@ import Foundation
         // IMPLEMENTATION NOTE: Not Objective-C bridgeable because of enum.
         return self.multipleQueries(queries, strategy: strategy?.rawValue, requestOptions: requestOptions, completionHandler: completionHandler)
     }
-    
+
     /// Batch operations.
     ///
     /// - parameter operations: List of operations.
@@ -259,7 +258,7 @@ import Foundation
         let body = ["requests": operations]
         return self.performHTTPQuery(path: path, method: .POST, body: body as [String : Any]?, hostnames: writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
     }
-    
+
     @objc(batchOperations:completionHandler:)
     @discardableResult public func z_objc_batch(operations: [Any], completionHandler: CompletionHandler?) -> Operation {
         return self.batch(operations: operations, completionHandler: completionHandler)

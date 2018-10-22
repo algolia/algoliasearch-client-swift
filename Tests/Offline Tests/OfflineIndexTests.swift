@@ -25,7 +25,6 @@ import InstantSearchClientOffline
 import Foundation
 import XCTest
 
-
 class OfflineIndexTests: OfflineTestCase {
 
     func testSaveGetDeleteObject() {
@@ -36,7 +35,7 @@ class OfflineIndexTests: OfflineTestCase {
             guard let content = content else { XCTFail(); return }
             guard let objectID = content["objectID"] as? String else { XCTFail(); return }
             XCTAssertEqual("1", objectID)
-            transaction1.commit() { (content, error) in
+            transaction1.commit { (content, error) in
                 guard error == nil else { XCTFail(); return }
                 index.getObject(withID: "1") { (content, error) in
                     guard let content = content else { XCTFail(); return }
@@ -45,7 +44,7 @@ class OfflineIndexTests: OfflineTestCase {
                     let transaction2 = index.newTransaction()
                     transaction2.deleteObjects(withIDs: ["1"]) { (content, error) in
                         guard content != nil else { XCTFail(); return }
-                        transaction2.commit() { (content, error) in
+                        transaction2.commit { (content, error) in
                             guard error == nil else { XCTFail(); return }
                             index.getObject(withID: "1") { (content, error) in
                                 XCTAssertNotNil(error)
@@ -98,7 +97,7 @@ class OfflineIndexTests: OfflineTestCase {
         }
         waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
-    
+
     func testSaveGetDeleteObjects() {
         let expectation = self.expectation(description: #function)
         let index = client.offlineIndex(withName: #function)
@@ -106,7 +105,7 @@ class OfflineIndexTests: OfflineTestCase {
         transaction1.saveObjects(Array(objects.values)) { (content, error) in
             guard let content = content else { XCTFail(); return }
             XCTAssertNotNil(content["objectIDs"] as? [AnyObject])
-            transaction1.commit() { (content, error) in
+            transaction1.commit { (content, error) in
                 guard error == nil else { XCTFail(); return }
                 index.getObjects(withIDs: ["1", "2"]) { (content, error) in
                     guard let content = content else { XCTFail(); return }
@@ -117,7 +116,7 @@ class OfflineIndexTests: OfflineTestCase {
                     transaction2.deleteObjects(withIDs: ["1", "2"]) { (content, error) in
                         guard let content = content else { XCTFail(); return }
                         XCTAssertNotNil(content["objectIDs"] as? [AnyObject])
-                        transaction2.commit() { (content, error) in
+                        transaction2.commit { (content, error) in
                             guard error == nil else { XCTFail(); return }
                             index.getObject(withID: "2") { (content, error) in
                                 XCTAssertNotNil(error)
@@ -178,7 +177,7 @@ class OfflineIndexTests: OfflineTestCase {
         let transaction = index.newTransaction()
         transaction.saveObjects(Array(objects.values)) { (content, error) in
             XCTAssertNil(error)
-            transaction.commit() { (content, error) in
+            transaction.commit { (content, error) in
                 guard error == nil else { XCTFail(); return }
                 let query = Query(query: "snoopy")
                 index.search(query) { (content, error) in
@@ -195,7 +194,7 @@ class OfflineIndexTests: OfflineTestCase {
         }
         waitForExpectations(timeout:  expectationTimeout, handler: nil)
     }
-    
+
     func testGetSetSettings() {
         let expectation = self.expectation(description: #function)
         let index = client.offlineIndex(withName: #function)
@@ -205,9 +204,9 @@ class OfflineIndexTests: OfflineTestCase {
         let transaction = index.newTransaction()
         transaction.setSettings(settings) { (content, error) in
             XCTAssertNil(error)
-            transaction.commit() { (content, error) in
+            transaction.commit { (content, error) in
                 guard error == nil else { XCTFail(); return }
-                index.getSettings() { (content, error) in
+                index.getSettings { (content, error) in
                     guard let content = content else { XCTFail(); return }
                     XCTAssertEqual(content["attributesToIndex"] as! NSObject, settings["attributesToIndex"] as! NSObject)
                     XCTAssert(content["attributesToRetrieve"] as! NSObject == NSNull())
@@ -230,7 +229,7 @@ class OfflineIndexTests: OfflineTestCase {
                 let transaction = index.newTransaction()
                 try transaction.setSettingsSync(settings)
                 try transaction.commitSync()
-                index.getSettings() { (content, error) in
+                index.getSettings { (content, error) in
                     guard let content = content else { XCTFail(); return }
                     XCTAssertEqual(content["attributesToIndex"] as! NSObject, settings["attributesToIndex"] as! NSObject)
                     XCTAssert(content["attributesToRetrieve"] as! NSObject == NSNull())
@@ -250,12 +249,12 @@ class OfflineIndexTests: OfflineTestCase {
         let transaction1 = index.newTransaction()
         transaction1.saveObjects(Array(objects.values)) { (content, error) in
             XCTAssertNil(error)
-            transaction1.commit() { (content, error) in
+            transaction1.commit { (content, error) in
                 guard error == nil else { XCTFail(); return }
                 let transaction2 = index.newTransaction()
-                transaction2.clearIndex() { (content, error) in
+                transaction2.clearIndex { (content, error) in
                     guard content != nil else { XCTFail(); return }
-                    transaction2.commit() { (content, error) in
+                    transaction2.commit { (content, error) in
                         guard error == nil else { XCTFail(); return }
                         index.browse(query: Query()) { (content, error) in
                             guard let content = content else { XCTFail(); return }
@@ -304,7 +303,7 @@ class OfflineIndexTests: OfflineTestCase {
         let transaction = index.newTransaction()
         transaction.saveObjects(Array(objects.values)) { (content, error) in
             XCTAssertNil(error)
-            transaction.commit() { (content, error) in
+            transaction.commit { (content, error) in
                 guard error == nil else { XCTFail(); return }
                 index.browse(query: Query(parameters: ["hitsPerPage": "1"])) { (content, error) in
                     guard let content = content else { XCTFail(); return }
@@ -319,14 +318,14 @@ class OfflineIndexTests: OfflineTestCase {
         }
         waitForExpectations(timeout:  expectationTimeout, handler: nil)
     }
-    
+
     func testDeleteByQuery() {
         let expectation = self.expectation(description: #function)
         let index = client.offlineIndex(withName: #function)
         let transaction1 = index.newTransaction()
         transaction1.saveObjects(Array(objects.values)) { (content, error) in
             XCTAssertNil(error)
-            transaction1.commit() { (content, error) in
+            transaction1.commit { (content, error) in
                 guard error == nil else { XCTFail(); return }
                 index.deleteByQuery(Query(parameters: ["numericFilters": "born < 1970"])) { (content, error) in
                     guard error == nil else { XCTFail(); return }
@@ -342,14 +341,14 @@ class OfflineIndexTests: OfflineTestCase {
         }
         waitForExpectations(timeout: 1000 * expectationTimeout, handler: nil)
     }
-    
+
     func testMultipleQueries() {
         let expectation = self.expectation(description: #function)
         let index = client.offlineIndex(withName: #function)
         let transaction = index.newTransaction()
         transaction.saveObjects(Array(objects.values)) { (content, error) in
             XCTAssertNil(error)
-            transaction.commit() { (content, error) in
+            transaction.commit { (content, error) in
                 guard error == nil else { XCTFail(); return }
                 index.multipleQueries([Query(query: "snoopy"), Query(query: "woodstock")]) { (content, error) in
                     guard let content = content else { XCTFail(); return }
@@ -365,7 +364,7 @@ class OfflineIndexTests: OfflineTestCase {
         }
         waitForExpectations(timeout:  expectationTimeout, handler: nil)
     }
-    
+
     func testRollback() {
         let expectation = self.expectation(description: #function)
         let index = client.offlineIndex(withName: #function)
@@ -376,7 +375,7 @@ class OfflineIndexTests: OfflineTestCase {
                 try transaction1.saveObjectsSync(Array(self.objects.values))
                 transaction1.rollbackSync()
                 XCTAssertFalse(self.client.hasOfflineData(indexName: #function))
-                
+
                 let transaction2 = index.newTransaction()
                 try transaction2.saveObjectSync(self.objects["snoopy"]!)
                 try transaction2.commitSync()
@@ -400,7 +399,7 @@ class OfflineIndexTests: OfflineTestCase {
         }
         waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
-    
+
     /// Test that we can chain async write operations without waiting for the handler to be called, and that it
     /// still works.
     func testAsyncUpdatesInParallel() {
@@ -412,7 +411,7 @@ class OfflineIndexTests: OfflineTestCase {
         transaction.saveObject(self.objects["woodstock"]!)
         transaction.deleteObjects(withIDs: ["1"])
         transaction.setSettings([:])
-        transaction.commit() { (content, error) in
+        transaction.commit { (content, error) in
             XCTAssertNil(error)
             index.browse(query: Query()) { (content, error) in
                 guard let content = content else { XCTFail(); return }
@@ -426,10 +425,10 @@ class OfflineIndexTests: OfflineTestCase {
         }
         waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
-    
+
     func testBuild() {
         let expectation = self.expectation(description: #function)
-        
+
         // Retrieve data files from resources.
         let bundle = Bundle(for: type(of: self))
         guard
@@ -439,21 +438,21 @@ class OfflineIndexTests: OfflineTestCase {
                 XCTFail("Cannot find resources")
                 return
         }
-        
+
         // Create the index.
         let index = client.offlineIndex(withName: #function)
-        
+
         // Check that no offline data exists.
         XCTAssertFalse(index.hasOfflineData)
-        
+
         // Build the index.
         index.build(settingsFile: settingsFile, objectFiles: [objectFile]) {
             (content, error) in
             XCTAssertNil(error)
-            
+
             // Check that offline data exists now.
             XCTAssertTrue(index.hasOfflineData)
-            
+
             // Search.
             let query = Query()
             query.query = "peanuts"
@@ -476,7 +475,7 @@ class OfflineIndexTests: OfflineTestCase {
             XCTAssertNil(error)
             transaction.saveObjects(Array(self.objects.values)) { (content, error) in
                 XCTAssertNil(error)
-                transaction.commit() { (content, error) in
+                transaction.commit { (content, error) in
                     guard error == nil else { XCTFail(); return }
                     let query = Query(query: "snoopy")
                     index.searchForFacetValues(of: "series", matching: "pea", query: query) { (content, error) in

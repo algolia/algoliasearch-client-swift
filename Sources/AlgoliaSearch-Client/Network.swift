@@ -25,10 +25,10 @@ import Foundation
 
 /// HTTP method definitions.
 internal enum HTTPMethod: String {
-    case GET = "GET"
-    case POST = "POST"
-    case PUT = "PUT"
-    case DELETE = "DELETE"
+    case GET
+    case POST
+    case PUT
+    case DELETE
 }
 
 /// Abstraction of `NSURLSession`.
@@ -42,7 +42,6 @@ internal protocol URLSession {
 extension Foundation.URLSession: URLSession {
 }
 
-
 #if os(iOS) && DEBUG
 
 import CoreTelephony
@@ -52,7 +51,7 @@ import SystemConfiguration
 ///
 internal class URLSessionLogger: NSObject, URLSession {
     static var epoch: Date = Date()
-    
+
     struct RequestStat {
         // TODO: Log network type.
         let startTime: Date
@@ -62,12 +61,12 @@ internal class URLSessionLogger: NSObject, URLSession {
         var cancelled: Bool = false
         var dataSize: Int?
         var statusCode: Int?
-        
+
         init(startTime: Date, host: String) {
             self.startTime = startTime
             self.host = host
         }
-        
+
         var description: String {
             var description = "@\(Int(startTime.timeIntervalSince(URLSessionLogger.epoch) * 1000))ms; \(host); \(networkType != nil ? networkType! : "?")"
             if let responseTime = responseTime, let dataSize = dataSize, let statusCode = statusCode {
@@ -76,25 +75,25 @@ internal class URLSessionLogger: NSObject, URLSession {
             return description
         }
     }
-    
+
     /// The wrapped session.
     let session: URLSession
-    
+
     /// Stats.
     private(set) var stats: [RequestStat] = []
-    
+
     /// Queue used to serialize concurrent accesses to this object.
     private let queue = DispatchQueue(label: "URLSessionLogger.lock")
-    
+
     /// Temporary stats under construction (ongoing requests).
     private var tmpStats: [URLSessionTask: RequestStat] = [:]
-    
+
     /// Used to determine overall network type.
     private let defaultRouteReachability: SCNetworkReachability
-    
+
     /// Used to get the mobile data network type.
     private let networkInfo = CTTelephonyNetworkInfo()
-    
+
     init(session: URLSession) {
         self.session = session
       if #available(iOS 9, OSX 10.11, *) {
@@ -114,11 +113,11 @@ internal class URLSessionLogger: NSObject, URLSession {
             return SCNetworkReachabilityCreateWithAddress(nil, zeroAddressAsSockaddr)!
         }
       }
-        
+
         // Reset the (global) epoch for logging.
         URLSessionLogger.epoch = Date()
     }
-    
+
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
         var task: URLSessionDataTask!
         let startTime = Date()
@@ -131,11 +130,11 @@ internal class URLSessionLogger: NSObject, URLSession {
         task.addObserver(self, forKeyPath: "state", options: .new, context: nil)
         return task
     }
-    
+
     func finishTasksAndInvalidate() {
         session.finishTasksAndInvalidate()
     }
-    
+
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if let task = object as? URLSessionTask {
             if keyPath == "state" {
@@ -164,7 +163,7 @@ internal class URLSessionLogger: NSObject, URLSession {
             }
         }
     }
-    
+
     func dump() {
         self.queue.sync {
             for stat in self.stats {
@@ -173,9 +172,9 @@ internal class URLSessionLogger: NSObject, URLSession {
             self.stats.removeAll()
         }
     }
-    
+
     // MARK: Network status
-    
+
     /// Return the current network type as a human-friendly string.
     ///
     private func getNetworkType() -> String? {

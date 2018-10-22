@@ -23,23 +23,22 @@
 
 import Foundation
 
-
 /// Client for [Algolia Places](https://community.algolia.com/places/).
 ///
-@objcMembers public class PlacesClient : AbstractClient {
+@objcMembers public class PlacesClient: AbstractClient {
     // MARK: Properties
-    
+
     /// Algolia application ID.
     @objc public var appID: String? { return _appID }
-    
+
     /// Algolia API key.
     @objc public var apiKey: String? {
         get { return _apiKey }
         set { _apiKey = newValue }
     }
-    
+
     // MARK: Initialization
-    
+
     /// Create a new authenticated Algolia Places client.
     ///
     /// - parameter appID:  The application ID (available in your Algolia Dashboard).
@@ -75,9 +74,9 @@ import Foundation
             ].shuffle()
         self.readHosts = [ "places-dsn.algolia.net" ] + fallbackHosts
     }
-    
+
     // MARK: - Operations
-    
+
     /// Search for places.
     ///
     /// - parameter params: Search parameters.
@@ -89,7 +88,7 @@ import Foundation
         let request = ["params": params.build()]
         return performHTTPQuery(path: "1/places/query", method: .POST, body: request, hostnames: self.readHosts, isSearchQuery: true, completionHandler: completionHandler)
     }
-    
+
     /// Get a place by its objectID.
     ///
     /// - parameter objectID: Identifier of the object to retrieve.

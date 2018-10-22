@@ -24,7 +24,6 @@
 import XCTest
 @testable import InstantSearchClient
 
-
 /// Tests for the network logic.
 ///
 /// NOTE: We use `listIndexes()` to test, but we could use roughly any other function, since we don't really care
@@ -32,31 +31,31 @@ import XCTest
 ///
 class NetworkTests: XCTestCase {
     let expectationTimeout: TimeInterval = 100
-    
+
     var client: Client!
     var index: Index!
-    
+
     let FAKE_APP_ID = "FAKE_APPID"
     let FAKE_API_KEY = "FAKE_API_KEY"
     let FAKE_INDEX_NAME = "FAKE_INDEX_NAME"
-    
+
     let session: MockURLSession = MockURLSession()
-    
+
     // Well-known errors:
-    
+
     let TIMEOUT_ERROR = NSError(domain: NSURLErrorDomain, code: NSURLErrorTimedOut, userInfo: nil)
-    
+
     override func setUp() {
         super.setUp()
         client = InstantSearchClient.Client(appID: FAKE_APP_ID, apiKey: FAKE_API_KEY)
         client.session = session
         index = client.index(withName: FAKE_INDEX_NAME)
     }
-    
+
     override func tearDown() {
         super.tearDown()
     }
-    
+
     /// In case of time-out on one host, check that the next host is tried.
     func testTimeout_OneHost() {
         let expectation = self.expectation(description: #function)
@@ -103,7 +102,7 @@ class NetworkTests: XCTestCase {
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
-    
+
     /// In case of server error on one host, check that the next host is tried.
     func testServerError() {
         let expectation = self.expectation(description: #function)
@@ -118,7 +117,7 @@ class NetworkTests: XCTestCase {
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
-    
+
     /// In case of client error, check that the next host is *not* tried.
     func testClientError() {
         let expectation = self.expectation(description: #function)
@@ -135,7 +134,7 @@ class NetworkTests: XCTestCase {
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
-    
+
     /// Test when the server returns a success, but no JSON.
     func testEmptyResponse() {
         let expectation = self.expectation(description: #function)
@@ -166,7 +165,6 @@ class NetworkTests: XCTestCase {
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
-    
 
     /// Test when the server returns an error status code, but no JSON.
     func testEmptyErrorResponse() {
@@ -184,7 +182,7 @@ class NetworkTests: XCTestCase {
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
-    
+
     /// Test when the server returns an error status code and valid JSON, but no error message in the JSON.
     func testEmptyErrorMessage() {
         let expectation = self.expectation(description: #function)
@@ -205,20 +203,20 @@ class NetworkTests: XCTestCase {
     /// Test that the status of down hosts is correctly remembered.
     func testHostStatus() {
         let expectation = self.expectation(description: #function)
-        
+
         client.hostStatusTimeout = 3
 
         // First host is down, second is up.
         session.responses["https://\(client.readHosts[0])/1/indexes"] = MockResponse(error: TIMEOUT_ERROR)
         session.responses["https://\(client.readHosts[1])/1/indexes"] = MockResponse(statusCode: 200, jsonBody: ["from": "2nd host"])
-        
+
         // Do a query: the 1st host will fail, and the client should transparently fallback to the 2nd host.
         client.listIndexes(completionHandler: {
             (content, error) -> Void in
             // Check that the response is successful and comes from the 2nd host.
             guard error == nil else { XCTFail(); expectation.fulfill(); return }
             XCTAssertEqual(content?["from"] as? String, "2nd host")
-            
+
             // Check that the failing host's status has been remembered.
             guard let status = self.client.hostStatuses[self.client.readHosts[0]] else { XCTFail(); expectation.fulfill(); return }
             XCTAssertFalse(status.up)
@@ -226,29 +224,29 @@ class NetworkTests: XCTestCase {
 
             // First host is up again.
             self.session.responses["https://\(self.client.readHosts[0])/1/indexes"] = MockResponse(statusCode: 200, jsonBody: ["from": "1st host"])
-            
+
             // Do the same query again: the client should ignore the 1st host and target directly the 2nd host.
             self.client.listIndexes(completionHandler: {
                 (content, error) -> Void in
                 // Check that the response is successful and still comes from the 2nd host.
                 guard error == nil else { XCTFail(); expectation.fulfill(); return }
                 XCTAssertEqual(content?["from"] as? String, "2nd host")
-                
+
                 // Wait for the down host to be forgotten.
                 Thread.sleep(forTimeInterval: self.client.hostStatusTimeout)
-                
+
                 // Do the same query again: the client should target the 1st host again.
                 self.client.listIndexes(completionHandler: {
                     (content, error) -> Void in
                     // Check that the response is successful and comes from the 1st host.
                     guard error == nil else { XCTFail(); expectation.fulfill(); return }
                     XCTAssertEqual(content?["from"] as? String, "1st host")
-                    
+
                     // Check that the host's status has been updated.
                     guard let status = self.client.hostStatuses[self.client.readHosts[0]] else { XCTFail(); expectation.fulfill(); return }
                     XCTAssertTrue(status.up)
                     XCTAssert(status.lastModified.compare(statusTimestamp) == .orderedDescending)
-                    
+
                     expectation.fulfill()
                 })
             })

@@ -12,7 +12,7 @@ import InstantSearchClient
 
 public typealias FulfillHandler = ([String:Any]) -> Void
 public typealias RejectHandler = (Error) -> Void
-public typealias ShellHandler =  (@escaping FulfillHandler, @escaping RejectHandler) -> ()
+public typealias ShellHandler =  (@escaping FulfillHandler, @escaping RejectHandler) -> Void
 
 func promiseWrap(_ bodyHandler: @escaping ShellHandler) -> Promise<[String:Any]> {
   return Promise<[String:Any]> { fulfill, reject in

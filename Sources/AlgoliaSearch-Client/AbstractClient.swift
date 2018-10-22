@@ -23,24 +23,23 @@
 
 import Foundation
 
-
 /// A version of a software library.
 /// Used to construct the `User-Agent` header.
 ///
 @objcMembers public class LibraryVersion: NSObject {
     /// Library name.
     @objc public let name: String
-    
+
     /// Version string.
     @objc public let version: String
-    
+
     @objc public init(name: String, version: String) {
         self.name = name
         self.version = version
     }
-    
+
     // MARK: Equatable
-    
+
     override public func isEqual(_ object: Any?) -> Bool {
         if let rhs = object as? LibraryVersion {
             return self.name == rhs.name && self.version == rhs.version
@@ -49,7 +48,6 @@ import Foundation
         }
     }
 }
-
 
 /// Describes what is the last known status of a given API host.
 ///
@@ -67,7 +65,6 @@ internal struct HostStatus {
     var lastModified: Date
 }
 
-
 /// An abstract API client.
 ///
 /// + Warning: Not meant to be used directly. See `Client` or `PlacesClient` instead.
@@ -83,12 +80,12 @@ internal struct HostStatus {
 /// hosts permanently, statuses are only remembered for a given timeframe, indicated by `hostStatusTimeout`. (You may
 /// adjust it as needed, although the default value `defaultHostStatusTimeout` should make sense for most applications.)
 ///
-@objcMembers public class AbstractClient : NSObject {
+@objcMembers public class AbstractClient: NSObject {
     // MARK: Properties
-    
+
     /// HTTP headers that will be sent with every request.
-    @objc public var headers = [String:String]()
-    
+    @objc public var headers = [String: String]()
+
     /// Algolia API key.
     ///
     /// + Note: Optional version, for internal use only.
@@ -98,13 +95,13 @@ internal struct HostStatus {
             updateHeadersFromAPIKey()
         }
     }
-  
+
     /// + Note: Maximum size for an API key to be sent in the HTTP headers. Bigger keys will go inside the body
     internal let _maxAPIKeyLength: Int = 500
-  
+
     internal static let xAlgoliaAPIKey = "X-Algolia-API-Key"
     internal static let bodyApiKey = "apiKey"
-  
+
     /// Update the headers with the API key ONLY if the key length is smaller than `_maxAPIKeyLength`
     private func updateHeadersFromAPIKey() {
       guard let apiKey = _apiKey, apiKey.count <= _maxAPIKeyLength else {
@@ -113,7 +110,7 @@ internal struct HostStatus {
       }
       headers[AbstractClient.xAlgoliaAPIKey] = apiKey
     }
-    
+
     /// The list of libraries used by this client.
     ///
     /// + Warning: Deprecated. Now a static property of the `Client` class. The instance properties are just an alias
@@ -138,23 +135,23 @@ internal struct HostStatus {
     }
     /// Precomputed `User-Agent` header (cached for improved performance).
     internal private(set) static var userAgentHeader: String? = computeUserAgentHeader()
-    
+
     private static func computeUserAgentHeader() -> String {
         return userAgents.map({ return "\($0.name) (\($0.version))"}).joined(separator: "; ")
     }
-    
+
     /// Default timeout for network requests. Default: 30 seconds.
     @objc public var timeout: TimeInterval = 30
-    
+
     /// Specific timeout for search requests. Default: 5 seconds.
     @objc public var searchTimeout: TimeInterval = 5
-    
+
     /// Algolia application ID.
     ///
     /// + Note: Optional version, for internal use only.
     ///
     @objc internal let _appID: String?
-    
+
     /// Hosts for read queries, in priority order.
     /// The first host will always be used, then subsequent hosts in case of retry.
     ///
@@ -166,7 +163,7 @@ internal struct HostStatus {
             assert(!newValue.isEmpty)
         }
     }
-    
+
     /// Hosts for write queries, in priority order.
     /// The first host will always be used, then subsequent hosts in case of retry.
     ///
@@ -178,7 +175,7 @@ internal struct HostStatus {
             assert(!newValue.isEmpty)
         }
     }
-    
+
     /// The last known statuses of hosts.
     /// If a host is absent from this dictionary, it means its status is unknown.
     ///
@@ -193,10 +190,10 @@ internal struct HostStatus {
 
     /// GCD queue to synchronize access to `hostStatuses`.
     internal var hostStatusQueue = DispatchQueue(label: "AbstractClient.hostStatusQueue")
-    
+
     // NOTE: Not constant only for the sake of mocking during unit tests.
     var session: URLSession
-    
+
     /// Operation queue used to keep track of network requests.
     /// `Request` instances are inherently asynchronous, since they are merely wrappers around `NSURLSessionTask`.
     /// The sole purpose of this queue is to retain them for the duration of their execution!
@@ -206,11 +203,11 @@ internal struct HostStatus {
     ///   already has its own logic of connection pooling.
     ///
     let onlineRequestQueue: OperationQueue
-    
+
     /// Maximum number of concurrent requests we allow per connection.
     /// This setting is used to dimension `onlineRequestQueue`.
     private let maxConcurrentRequestCountPerConnection = 4
-    
+
     /// Operation queue used to run completion handlers.
     /// Default = main queue.
     ///
@@ -220,18 +217,18 @@ internal struct HostStatus {
     ///   the client.
     ///
     @objc public weak var completionQueue = OperationQueue.main
-    
+
     // MARK: Constant
-    
+
     /// The default timeout for host statuses.
     @objc public static let defaultHostStatusTimeout: TimeInterval = 5 * 60
-    
+
     #if !os(watchOS)
-    
+
     /// Network reachability detecter.
     internal var reachability: NetworkReachability = SystemNetworkReachability()
     // ^ NOTE: Not constant only for the sake of mocking during unit tests.
-    
+
     /// Whether to use network reachability to decide if online requests should be attempted.
     ///
     /// - When `true` (default), if the network reachability (as reported by the System Configuration framework) is
@@ -242,17 +239,17 @@ internal struct HostStatus {
     /// + Note: Not available on watchOS (the System Configuration framework is not available there).
     ///
     @objc public var useReachability: Bool = true
-    
+
     #endif // !os(watchOS)
 
     // MARK: Initialization
-    
+
     internal init(appID: String?, apiKey: String?, readHosts: [String], writeHosts: [String]) {
         self._appID = appID
         self._apiKey = apiKey
         self.readHosts = readHosts
         self.writeHosts = writeHosts
-        
+
         // WARNING: Those headers cannot be changed for the lifetime of the session.
         // Other headers are likely to change during the lifetime of the session: they will be passed at every request.
         var fixedHTTPHeaders: [String: String] = [:]
@@ -260,17 +257,17 @@ internal struct HostStatus {
         let configuration = URLSessionConfiguration.default
         configuration.httpAdditionalHeaders = fixedHTTPHeaders
         session = Foundation.URLSession(configuration: configuration)
-        
+
         onlineRequestQueue = OperationQueue()
         onlineRequestQueue.name = "AlgoliaSearch online requests"
         onlineRequestQueue.maxConcurrentOperationCount = configuration.httpMaximumConnectionsPerHost * maxConcurrentRequestCountPerConnection
-        
+
         super.init()
-        
+
         // WARNING: `didSet` not called during initialization => we need to update the headers manually here.
         updateHeadersFromAPIKey()
     }
-    
+
     deinit {
         session.finishTasksAndInvalidate()
     }
@@ -285,7 +282,7 @@ internal struct HostStatus {
         readHosts = hosts
         writeHosts = hosts
     }
-    
+
     /// Set an HTTP header that will be sent with every request.
     ///
     /// + Note: You may also use the `headers` property directly.
@@ -297,7 +294,7 @@ internal struct HostStatus {
     public func setHeader(withName name: String, to value: String?) {
         headers[name] = value
     }
-    
+
     /// Get an HTTP header.
     ///
     /// + Note: You may also use the `headers` property directly.
@@ -309,7 +306,7 @@ internal struct HostStatus {
     public func header(withName name: String) -> String? {
         return headers[name]
     }
-    
+
     /// Compute the default user agents for this library.
     ///
     /// - returns: Default user agents for this library.
@@ -318,7 +315,7 @@ internal struct HostStatus {
         // Add this library's version to the user agents.
         let version = Bundle(for: Client.self).infoDictionary!["CFBundleShortVersionString"] as! String
         var userAgents = [ LibraryVersion(name: "Algolia for Swift", version: version) ]
-        
+
         // Add the operating system's version to the user agents.
         if #available(iOS 8.0, OSX 10.0, tvOS 9.0, *) {
             let osVersion = ProcessInfo.processInfo.operatingSystemVersion
@@ -332,7 +329,7 @@ internal struct HostStatus {
         }
         return userAgents
     }
-    
+
     /// Add a library version to the global list of user agents.
     ///
     /// + Note: It is safe to call this function multiple times. Adding an already existing library is a no-op.
@@ -344,9 +341,9 @@ internal struct HostStatus {
             userAgents.append(libraryVersion)
         }
     }
-    
+
     // MARK: - Operations
-    
+
     /// Ping the server.
     /// This method returns nothing except a message indicating that the server is alive.
     ///
@@ -358,9 +355,9 @@ internal struct HostStatus {
         let path = "1/isalive"
         return performHTTPQuery(path: path, method: .GET, body: nil, hostnames: readHosts, completionHandler: completionHandler)
     }
-    
+
     // MARK: - Network
-    
+
     /// Perform an HTTP Query.
     func performHTTPQuery(path: String, urlParameters: [String: String]? = nil, method: HTTPMethod, body: [String: Any]?, hostnames: [String], isSearchQuery: Bool = false, requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
         let request = self.newRequest(method: method, path: path, urlParameters: urlParameters, body: body, hostnames: hostnames, isSearchQuery: isSearchQuery, requestOptions: requestOptions, completion: completionHandler)
@@ -368,7 +365,7 @@ internal struct HostStatus {
         onlineRequestQueue.addOperation(request)
         return request
     }
-    
+
     /// Create a request with this client's settings.
     func newRequest(method: HTTPMethod, path: String, urlParameters: [String: String]? = nil, body: [String: Any]?, hostnames: [String], isSearchQuery: Bool = false, requestOptions: RequestOptions? = nil, completion: CompletionHandler? = nil) -> Request {
         let currentTimeout = isSearchQuery ? searchTimeout : timeout
@@ -392,9 +389,9 @@ internal struct HostStatus {
                 finalURLParameters![key] = value
             }
         }
-      
+
         var tBody = body
-      
+
         // If API key is too big, send it in the request's body (if applicable).
         if let bodyApiKey = _apiKey, tBody != nil, bodyApiKey.count >= _maxAPIKeyLength {
           tBody![AbstractClient.bodyApiKey] = bodyApiKey
@@ -434,9 +431,9 @@ internal struct HostStatus {
             self.hostStatuses[host] = HostStatus(up: up, lastModified: Date())
         }
     }
-    
+
     #if !os(watchOS)
-    
+
     /// Decide whether a network request should be attempted in the current conditions.
     ///
     /// - returns: `true` if a network request should be attempted, `false` if the client should fail fast with a

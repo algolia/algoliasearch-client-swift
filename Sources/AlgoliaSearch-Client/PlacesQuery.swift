@@ -23,29 +23,28 @@
 
 import Foundation
 
-
 /// Search parameters for Algolia Places.
 ///
 /// + SeeAlso: `PlacesClient.search(...)`
 ///
 @objc
-public class PlacesQuery : AbstractQuery {
-    
+public class PlacesQuery: AbstractQuery {
+
     // MARK: - Initialization
-    
+
     /// Construct a query with the specified full text query.
     @objc public convenience init(query: String?) {
         self.init()
         self.query = query
     }
-    
+
     /// Clone an existing query.
     @objc public convenience init(copy: PlacesQuery) {
         self.init(parameters: copy.parameters)
     }
-    
+
     // MARK: NSCopying
-    
+
     /// Support for `NSCopying`.
     ///
     /// + Note: Primarily intended for Objective-C use. Swift coders should use `init(copy:)`.
@@ -54,9 +53,9 @@ public class PlacesQuery : AbstractQuery {
         // NOTE: As per the docs, the zone argument is ignored.
         return PlacesQuery(copy: self)
     }
-    
+
     // MARK: Serialization & parsing
-    
+
     /// Parse a query from a URL query string.
     @objc
     public static func parse(_ queryString: String) -> PlacesQuery {
@@ -64,9 +63,9 @@ public class PlacesQuery : AbstractQuery {
         parse(queryString, into: query)
         return query
     }
-    
+
     // MARK: - Parameters
-    
+
     /// Full text query.
     @objc public var query: String? {
         get { return self["query"] }
@@ -79,19 +78,19 @@ public class PlacesQuery : AbstractQuery {
     ///
     public enum `Type`: String {
         /// City.
-        case city = "city"
+        case city
         /// Country.
-        case country = "country"
+        case country
         /// Address.
-        case address = "address"
+        case address
         /// Bus stop.
-        case busStop = "busStop"
+        case busStop
         /// Train station.
-        case trainStation = "trainStation"
+        case trainStation
         /// Town hall.
-        case townhall = "townhall"
+        case townhall
         /// Airport.
-        case airport = "airport"
+        case airport
     }
 
     /// Restrict the search results to a specific type.
@@ -110,7 +109,7 @@ public class PlacesQuery : AbstractQuery {
             self["type"] = newValue?.rawValue
         }
     }
-    
+
     /// Specifies how many results you want to retrieve per search.
     /// Default: 20.
     ///
@@ -118,7 +117,7 @@ public class PlacesQuery : AbstractQuery {
         get { return Query.parseUInt(self["hitsPerPage"]) }
         set { self["hitsPerPage"] = Query.buildUInt(newValue) }
     }
-    
+
     /// If specified, restrict the search results to a single language.
     /// You can pass two letters country codes ([ISO 639-1](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes)).
     @objc public var language: String? {
@@ -155,7 +154,7 @@ public class PlacesQuery : AbstractQuery {
             self["aroundLatLng"] = newValue == nil ? nil : "\(newValue!.lat),\(newValue!.lng)"
         }
     }
-    
+
     /// Whether or not to *first* search around the geolocation of the user found via his IP address.
     /// Default: `true`.
     ///
@@ -163,18 +162,18 @@ public class PlacesQuery : AbstractQuery {
         get { return Query.parseBool(self["aroundLatLngViaIP"]) }
         set { self["aroundLatLngViaIP"] = Query.buildBool(newValue) }
     }
-    
+
     /// Applicable values for the `aroundRadius` parameter.
     public enum AroundRadius: Equatable {
         /// Specify an explicit value (in meters).
         case explicit(UInt)
-        
+
         /// Compute the geo distance without filtering in a geo area.
         /// This option will be faster than specifying a big integer.
         case all
-        
+
         // NOTE: Associated values disable automatic conformance to `Equatable`, so we have to implement it ourselves.
-        static public func ==(lhs: AroundRadius, rhs: AroundRadius) -> Bool {
+        static public func == (lhs: AroundRadius, rhs: AroundRadius) -> Bool {
             switch (lhs, rhs) {
             case (let .explicit(lhsValue), let .explicit(rhsValue)): return lhsValue == rhsValue
             case (.all, .all): return true
@@ -182,7 +181,7 @@ public class PlacesQuery : AbstractQuery {
             }
         }
     }
-    
+
     /// Radius in meters to search around the latitude/longitutde.
     /// Otherwise a default radius is automatically computed given the area density.
     ///
@@ -208,26 +207,26 @@ public class PlacesQuery : AbstractQuery {
             }
         }
     }
-    
+
     /// String marking the beginning of highlighted text in the response.
     /// Default: `<em>`.
     @objc public var highlightPreTag: String? {
         get { return self["highlightPreTag"] }
         set { self["highlightPreTag"] = newValue }
     }
-    
+
     /// String marking the end of highlighted text in the response.
     /// Default: `</em>`.
     @objc public var highlightPostTag: String? {
         get { return self["highlightPostTag"] }
         set { self["highlightPostTag"] = newValue }
     }
-    
+
     // MARK: - Objective-C bridges
     // ---------------------------
     // NOTE: Should not be used from Swift.
     // WARNING: Should not be documented.
-    
+
     @objc(hitsPerPage)
     public var z_objc_hitsPerPage: NSNumber? {
         get { return AbstractQuery.toNumber(self.hitsPerPage) }
@@ -239,17 +238,16 @@ public class PlacesQuery : AbstractQuery {
         get { return type?.rawValue }
         set { type = newValue == nil ? nil : Type(rawValue: newValue!) }
     }
-    
 
     @objc(aroundLatLngViaIP)
     public var z_objc_aroundLatLngViaIP: NSNumber? {
         get { return AbstractQuery.toNumber(self.aroundLatLngViaIP) }
         set { self.aroundLatLngViaIP = newValue?.boolValue }
     }
-    
+
     // Special value for `aroundRadius` to compute the geo distance without filtering.
     @objc(aroundRadiusAll) public static let z_objc_aroundRadiusAll: NSNumber = NSNumber(value: UInt.max)
-    
+
     @objc(aroundRadius)
     public var z_objc_aroundRadius: NSNumber? {
         get {

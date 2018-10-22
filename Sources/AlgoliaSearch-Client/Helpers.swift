@@ -23,7 +23,6 @@
 
 import Foundation
 
-
 // MARK: - URL encoding
 
 /// Character set allowed as a component of the path portion of a URL.
@@ -50,13 +49,12 @@ let URLQueryParamAllowedCharacterSet = CharacterSet(charactersIn:
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~:/[]@!$'()*,;"
 )
 
-
 extension String {
     /// Return an URL-encoded version of the string suitable for use as a component of the path portion of a URL.
     func urlEncodedPathComponent() -> String {
         return addingPercentEncoding(withAllowedCharacters: URLPathComponentAllowedCharacterSet)!
     }
-    
+
     /// Return an URL-encoded version of the string suitable for use as a query parameter key or value.
     func urlEncodedQueryParam() -> String {
         return addingPercentEncoding(withAllowedCharacters: URLQueryParamAllowedCharacterSet)!
@@ -94,7 +92,7 @@ extension MutableCollection where Index == Int {
     mutating func shuffleInPlace() {
         // Empty and single-element collections don't shuffle.
         if count < 2 { return }
-        
+
         for i in 0..<self.endIndex {
             let j = Int(arc4random_uniform(UInt32(self.endIndex - i))) + i
             guard i != j else { continue }

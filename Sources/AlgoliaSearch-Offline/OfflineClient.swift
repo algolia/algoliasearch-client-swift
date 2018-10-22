@@ -24,16 +24,14 @@
 import AlgoliaSearchOfflineCore
 import Foundation
 
-
 typealias APIResponse = (content: [String: Any]?, error: Error?)
-
 
 /// An API client that adds offline features on top of the regular online API client.
 ///
 /// + Note: Requires Algolia's Offline Core SDK. The `enableOfflineMode(...)` method must be called with a valid license
 /// key prior to calling any offline-related method.
 ///
-@objcMembers public class OfflineClient : Client {
+@objcMembers public class OfflineClient: Client {
     // MARK: Properties
 
     var sdk: Sdk = Sdk.shared
@@ -45,40 +43,40 @@ typealias APIResponse = (content: [String: Any]?, error: Error?)
     /// + Warning: This directory will be explicitly excluded from iCloud/iTunes backup.
     ///
     @objc public var rootDataDir: String
-    
+
     /// The local data directory for this client's app ID.
     private var appDir: String { return rootDataDir + "/" + appID }
-    
+
     // NOTE: The build and search queues must be serial to prevent concurrent searches or builds on a given index, but
     // may be distinct because building can be done in parallel with search.
     //
     // NOTE: Although serialization is only strictly needed at the index level, we use global queues as a way to limit
     // resource consumption by the SDK.
-    
+
     /// Queue used to build local indices in the background.
     let offlineBuildQueue = OperationQueue()
-    
+
     /// Queue used to search local indices in the background.
     let offlineSearchQueue = OperationQueue()
-    
+
     /// Queue for mixed online/offline operations.
     ///
     /// + Note: We could use `Client.onlineRequestQueue`, but since mixed operations are essentially aggregations of
     ///   individual operations, we wish to avoid deadlocks.
     ///
     let mixedRequestQueue = OperationQueue()
-    
+
     /// Path to the root directory for temporary files.
     var tmpDir: String
 
     // MARK: Initialization
-    
+
     // Fake global property to act as static initializer. This is the recommended (and only, AFAIK) way, as per the doc.
     // See <http://stackoverflow.com/a/37887068/5838753>
     private static let _initUserAgent: Void = {
         addUserAgent(LibraryVersion(name: "AlgoliaSearchOfflineCore-iOS", version: Sdk.shared.versionString))
     }()
-    
+
     /// Create a new offline-capable Algolia Search client.
     ///
     /// + Note: Offline mode is disabled by default, until you call `enableOfflineMode(...)`.
@@ -99,7 +97,7 @@ typealias APIResponse = (content: [String: Any]?, error: Error?)
         // IMPORTANT: Update user agent. This will only be invoked once (static property).
         OfflineClient._initUserAgent
     }
-    
+
     /// Enable the offline mode.
     ///
     /// - parameter licenseKey: License key for Algolia's SDK.
@@ -109,7 +107,7 @@ typealias APIResponse = (content: [String: Any]?, error: Error?)
         do {
             // Create the data directory.
             try FileManager.default.createDirectory(atPath: self.rootDataDir, withIntermediateDirectories: true, attributes: nil)
-            
+
             // Exclude the data directory from iTunes backup.
             // DISCUSSION: Local indices are essentially a cache. But we cannot just use the `Caches` directory because
             // we would have no guarantee that all files pertaining to an index would be purged simultaneously.
@@ -119,7 +117,7 @@ typealias APIResponse = (content: [String: Any]?, error: Error?)
             // Report errors but do not throw: the offline mode will not work, but the online client is still viable.
             NSLog("Error: could not create data directory '%@'", self.rootDataDir)
         }
-        
+
         // Init the SDK.
         sdk.initialize(licenseKey: licenseKey)
         // NOTE: Errors reported by the core itself.
@@ -147,7 +145,7 @@ typealias APIResponse = (content: [String: Any]?, error: Error?)
             return index
         }
     }
-    
+
     /// Obtain an offline index.
     ///
     /// + Note: Only one instance can exist for a given index name. Subsequent calls to this method with the same
@@ -168,15 +166,15 @@ typealias APIResponse = (content: [String: Any]?, error: Error?)
             return index
         }
     }
-    
+
     // MARK: - Accessors
-    
+
     private func indexDir(indexName: String) -> String {
         return appDir + "/" + indexName
     }
-    
+
     // MARK: - Operations
-    
+
     /// Test if an index has offline data on disk.
     ///
     /// + Note: This applies both to `MirroredIndex` and `OfflineIndex` instances.
@@ -203,14 +201,14 @@ typealias APIResponse = (content: [String: Any]?, error: Error?)
     @discardableResult
     @objc(listOfflineIndexes:)
     public func listOfflineIndexes(completionHandler: @escaping CompletionHandler) -> Operation {
-        let operation = BlockOperation() {
+        let operation = BlockOperation {
             let (content, error) = self.listOfflineIndexesSync()
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         offlineSearchQueue.addOperation(operation)
         return operation
     }
-    
+
     /// List existing offline indexes (synchronously).
     /// Only indices that *actually exist* on disk are listed. If an instance was created but never synced or written
     /// to, it will not appear in the list.
@@ -240,7 +238,7 @@ typealias APIResponse = (content: [String: Any]?, error: Error?)
         }
         return (content, error)
     }
-    
+
     /// Delete an offline index.
     ///
     /// + Note: This applies both to `MirroredIndex` and `OfflineIndex` instances.
@@ -252,14 +250,14 @@ typealias APIResponse = (content: [String: Any]?, error: Error?)
     @discardableResult
     @objc(deleteOfflineIndexWithName:completionHandler:)
     public func deleteOfflineIndex(withName indexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
-        let operation = BlockOperation() {
+        let operation = BlockOperation {
             let (content, error) = self.deleteOfflineIndexSync(withName: indexName)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         offlineBuildQueue.addOperation(operation)
         return operation
     }
-    
+
     /// Delete an offline index (synchronously).
     ///
     /// + Note: This applies both to `MirroredIndex` and `OfflineIndex` instances.
@@ -278,7 +276,7 @@ typealias APIResponse = (content: [String: Any]?, error: Error?)
             return (nil, e)
         }
     }
-    
+
     /// Move an existing index.
     ///
     /// + Warning: This will overwrite the destination index if it exists.
@@ -292,14 +290,14 @@ typealias APIResponse = (content: [String: Any]?, error: Error?)
     ///
     @discardableResult
     @objc public func moveOfflineIndex(from srcIndexName: String, to dstIndexName: String, completionHandler: CompletionHandler? = nil) -> Operation {
-        let operation = BlockOperation() {
+        let operation = BlockOperation {
             let (content, error) = self.moveOfflineIndexSync(from: srcIndexName, to: dstIndexName)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         offlineBuildQueue.addOperation(operation)
         return operation
     }
-    
+
     /// Move an existing index (synchronously).
     ///
     /// + Warning: This will overwrite the destination index if it exists.
@@ -326,11 +324,11 @@ typealias APIResponse = (content: [String: Any]?, error: Error?)
             return (nil, e)
         }
     }
-    
+
     // NOTE: Copy not supported because it would be too resource-intensive.
-    
+
     // MARK: - Utils
-    
+
     /// Parse search results returned by the Offline Core into a (content, error) pair suitable for completion handlers.
     ///
     /// - parameter searchResults: Search results to parse.
@@ -362,7 +360,7 @@ typealias APIResponse = (content: [String: Any]?, error: Error?)
         assert(content != nil || error != nil)
         return (content: content, error: error)
     }
-    
+
     /// Call a completion handler on the completion queue.
     ///
     /// - parameter completionHandler: The completion handler to call. If `nil`, this function does nothing.

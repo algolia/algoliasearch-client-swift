@@ -23,7 +23,6 @@
 
 import Foundation
 
-
 /// An API request.
 ///
 /// This class encapsulates a sequence of normally one (nominal case), potentially many (in case of retry) network
@@ -32,42 +31,42 @@ import Foundation
 internal class Request: AsyncOperationWithCompletion {
     /// The client to which this request is related.
     let client: AbstractClient
-    
+
     /// Request method.
     let method: HTTPMethod
-    
+
     /// Hosts to which the request will be sent.
     let hosts: [String]
-    
+
     /// Index of the first host that will be tried.
     let firstHostIndex: Int
-    
+
     /// Index of the next host to be tried.
     var nextHostIndex: Int
-    
+
     /// The URL path (part after the host and before the query string).
     let path: String
-    
+
     /// URL parameters (query string part of the URL).
     let urlParameters: [String: String]?
-    
+
     /// Optional HTTP headers.
     let headers: [String: String]?
-    
+
     /// Optional body, in JSON format.
     let jsonBody: [String: Any]?
-    
+
     /// Timeout for individual network queries.
     let timeout: TimeInterval
-    
+
     /// Timeout to be used for the next query.
     var nextTimeout: TimeInterval
-    
+
     /// The current network task.
     var task: URLSessionTask?
-    
+
     // MARK: - Initialization
-    
+
     init(client: AbstractClient, method: HTTPMethod, hosts: [String], firstHostIndex: Int, path: String, urlParameters: [String: String]?, headers: [String: String]?, jsonBody: [String: Any]?, timeout: TimeInterval, completion: CompletionHandler?) {
         self.client = client
         self.method = method
@@ -92,9 +91,9 @@ internal class Request: AsyncOperationWithCompletion {
             self.name = "Request{\(method) /\(path)}"
         }
     }
-    
+
     // MARK: - Debug
-    
+
     override var description: String {
         get {
             if #available(iOS 8.0, *) {
@@ -104,9 +103,9 @@ internal class Request: AsyncOperationWithCompletion {
             }
         }
     }
-    
+
     // MARK: - Request logic
-    
+
     /// Create a URL request for the specified host index.
     private func createRequest(_ hostIndex: Int) -> URLRequest {
         var urlString = "https://\(hosts[hostIndex])/\(path)"
@@ -133,13 +132,13 @@ internal class Request: AsyncOperationWithCompletion {
         }
         return request
     }
-    
+
     private func startNext() {
         // Shortcut when cancelled.
         if _cancelled {
             return
         }
-        
+
         // If there is no network reachability, don't even attempt to perform the request.
         #if !os(watchOS)
             if !client.shouldMakeNetworkCall() {
@@ -147,7 +146,7 @@ internal class Request: AsyncOperationWithCompletion {
                 return
             }
         #endif // !os(watchOS)
-        
+
         let currentHostIndex = nextHostIndex
         let request = createRequest(currentHostIndex)
         nextHostIndex = (nextHostIndex + 1) % hosts.count
@@ -162,7 +161,7 @@ internal class Request: AsyncOperationWithCompletion {
             if (finalError == nil) {
                 assert(data != nil)
                 assert(response != nil)
-                
+
                 // Parse JSON response.
                 // NOTE: We parse JSON even in case of failure to get the error message.
                 do {
@@ -173,7 +172,7 @@ internal class Request: AsyncOperationWithCompletion {
                 } catch let jsonError {
                     finalError = jsonError
                 }
-                
+
                 // Handle HTTP status code.
                 let httpResponse = response! as! HTTPURLResponse
                 if (finalError == nil && !StatusCode.isSuccess(httpResponse.statusCode)) {
@@ -183,11 +182,11 @@ internal class Request: AsyncOperationWithCompletion {
                 }
             }
             assert(json != nil || finalError != nil)
-            
+
             // Update host status.
             let down = finalError != nil && finalError!.isTransient()
             self.client.updateHostStatus(host: self.hosts[currentHostIndex], up: !down)
-            
+
             // Success: call completion block.
             if finalError == nil {
                 self.callCompletion(content: json, error: nil)
@@ -204,17 +203,17 @@ internal class Request: AsyncOperationWithCompletion {
         }
         task!.resume()
     }
-    
+
     // ----------------------------------------------------------------------
     // MARK: - Operation interface
     // ----------------------------------------------------------------------
-    
+
     /// Start this request.
     override func start() {
         super.start()
         startNext()
     }
-    
+
     /// Cancel this request.
     /// The completion block (if any was provided) will not be called after a request has been cancelled.
     ///
@@ -227,7 +226,7 @@ internal class Request: AsyncOperationWithCompletion {
         task = nil
         super.cancel()
     }
-    
+
     override func finish() {
         task = nil
         super.finish()

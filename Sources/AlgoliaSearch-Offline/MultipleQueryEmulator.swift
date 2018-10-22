@@ -23,28 +23,27 @@
 
 import Foundation
 
-
 /// Emulates multiple queries.
 ///
 internal class MultipleQueryEmulator {
     typealias SingleQuerier = (_ query: Query) -> APIResponse
-    
+
     private let querier: SingleQuerier
     private let indexName: String
-    
+
     internal init(indexName: String, querier: @escaping SingleQuerier) {
         self.indexName = indexName
         self.querier = querier
     }
-    
+
     internal func multipleQueries(_ queries: [Query], strategy: String?) -> APIResponse {
         // TODO: Should be moved to `LocalIndex` to factorize implementation between platforms.
         assert(!Thread.isMainThread) // make sure it's run in the background
-        
+
         var content: [String: Any]?
         var error: Error?
         var results: [[String: Any]] = []
-        
+
         var shouldProcess = true
         for query in queries {
             // Implement the "stop if enough matches" strategy.
@@ -63,7 +62,7 @@ internal class MultipleQueryEmulator {
                 results.append(returnedContent)
                 continue
             }
-            
+
             let (queryContent, queryError) = self.querier(query)
             assert(queryContent != nil || queryError != nil)
             if queryError != nil {
@@ -73,7 +72,7 @@ internal class MultipleQueryEmulator {
             var returnedContent = queryContent!
             returnedContent["index"] = self.indexName
             results.append(returnedContent)
-            
+
             // Implement the "stop if enough matches strategy".
             if shouldProcess && strategy == Client.MultipleQueriesStrategy.stopIfEnoughMatches.rawValue {
                 if let nbHits = returnedContent["nbHits"] as? Int, let hitsPerPage = returnedContent["hitsPerPage"] as? Int {

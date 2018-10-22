@@ -32,21 +32,21 @@ import Foundation
 /// - `cancel`
 ///
 internal class AsyncOperation: Operation {
-    
+
     // Mark this operation as aynchronous.
     override var isAsynchronous: Bool {
         get {
             return true
         }
     }
-    
+
     // NOTE: Overriding `Operation`'s properties
     // -----------------------------------------
     // These properties are defined as read-only by `Operation`. As a consequence, they must be computed properties.
     // But they must also fire KVO notifications, which are crucial for `OperationQueue` to work.
     // This is why we use a private (underscore-prefixed) property to store the state.
-    
-    var _executing : Bool = false {
+
+    var _executing: Bool = false {
         willSet {
             self.willChangeValue(forKey: "isExecuting")
         }
@@ -54,14 +54,14 @@ internal class AsyncOperation: Operation {
             self.didChangeValue(forKey: "isExecuting")
         }
     }
-    
+
     override var isExecuting: Bool {
         get {
             return _executing
         }
     }
-    
-    var _finished : Bool = false {
+
+    var _finished: Bool = false {
         willSet {
             self.willChangeValue(forKey: "isFinished")
         }
@@ -69,14 +69,14 @@ internal class AsyncOperation: Operation {
             self.didChangeValue(forKey: "isFinished")
         }
     }
-    
+
     override var isFinished: Bool {
         get {
             return _finished
         }
     }
-    
-    var _cancelled : Bool = false {
+
+    var _cancelled: Bool = false {
         willSet {
             self.willChangeValue(forKey: "isCancelled")
         }
@@ -84,7 +84,7 @@ internal class AsyncOperation: Operation {
             self.didChangeValue(forKey: "isCancelled")
         }
     }
-    
+
     override var isCancelled: Bool {
         get {
             return _cancelled
@@ -100,7 +100,7 @@ internal class AsyncOperation: Operation {
         _cancelled = true
         finish()
     }
-    
+
     /// Mark the operation as finished.
     func finish() {
         _executing = false
@@ -113,10 +113,10 @@ internal class AsyncOperation: Operation {
 internal class AsyncOperationWithCompletion: AsyncOperation {
     /// User completion block to be called.
     let completion: CompletionHandler?
-    
+
     /// Operation queue used to execute the completion handler.
     weak var completionQueue: OperationQueue?
-    
+
     init(completionHandler: CompletionHandler?) {
         self.completion = completionHandler
     }
@@ -125,7 +125,6 @@ internal class AsyncOperationWithCompletion: AsyncOperation {
         // The completion queue should not be the same as this operation's queue, otherwise a deadlock will result.
         assert(OperationQueue.current != self.completionQueue)
     }
-    
 
     /// Finish this operation.
     /// This method should be called exactly once per operation.
@@ -141,7 +140,7 @@ internal class AsyncOperationWithCompletion: AsyncOperation {
             _callCompletion(content: content, error: error)
         }
     }
-    
+
     internal func _callCompletion(content: [String: Any]?, error: Error?) {
         // WARNING: In case of asynchronous dispatch, the request could have been cancelled in the meantime
         // => check again.
@@ -158,15 +157,15 @@ internal class AsyncOperationWithCompletion: AsyncOperation {
 ///
 internal class AsyncBlockOperation: AsyncOperationWithCompletion {
     typealias OperationBlock = () -> (content: [String: Any]?, error: Error?)
-    
+
     /// The block that will be executed as part of the operation.
     let block: OperationBlock
-    
+
     internal init(completionHandler: CompletionHandler?, block: @escaping OperationBlock) {
         self.block = block
         super.init(completionHandler: completionHandler)
     }
-    
+
     /// Start this request.
     override func start() {
         super.start()

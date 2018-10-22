@@ -25,9 +25,8 @@ import InstantSearchClientOffline
 import Foundation
 import XCTest
 
-
 class OfflineClientTests: OfflineTestCase {
-    
+
     func testListIndices() {
         let expectation = self.expectation(description: #function)
         let index = client.offlineIndex(withName: #function)
@@ -42,7 +41,7 @@ class OfflineClientTests: OfflineTestCase {
             let transaction = index.newTransaction()
             transaction.saveObject(self.objects["snoopy"]!) { (content, error) in
                 XCTAssertNil(error)
-                transaction.commit() { (content, error) in
+                transaction.commit { (content, error) in
                     guard error == nil else { XCTFail("Error encountered"); return }
                     self.client.listOfflineIndexes { (content, error) in
                         guard error == nil, let content = content else { XCTFail(); return }
@@ -63,14 +62,14 @@ class OfflineClientTests: OfflineTestCase {
         }
         waitForExpectations(timeout:  expectationTimeout, handler: nil)
     }
-    
+
     func testDeleteIndex() {
         let expectation = self.expectation(description: #function)
         let index = client.offlineIndex(withName: #function)
         let transaction = index.newTransaction()
         transaction.saveObjects(Array(objects.values)) { (content, error) in
             XCTAssertNil(error)
-            transaction.commit() { (content, error) in
+            transaction.commit { (content, error) in
                 guard error == nil else { XCTFail(); return }
                 XCTAssert(self.client.hasOfflineData(indexName: index.name))
                 self.client.deleteOfflineIndex(withName: index.name) { (content, error) in
@@ -83,15 +82,15 @@ class OfflineClientTests: OfflineTestCase {
         }
         waitForExpectations(timeout:  expectationTimeout, handler: nil)
     }
-    
+
     func testMoveIndex() {
         let expectation = self.expectation(description: #function)
-        let srcIndex = client.offlineIndex(withName: #function);
+        let srcIndex = client.offlineIndex(withName: #function)
         let dstIndex = client.offlineIndex(withName: #function + "_new")
         let transaction = srcIndex.newTransaction()
         transaction.saveObjects(Array(objects.values)) { (content, error) in
             XCTAssertNil(error)
-            transaction.commit() { (content, error) in
+            transaction.commit { (content, error) in
                 guard error == nil else { XCTFail(); return }
                 XCTAssertTrue(self.client.hasOfflineData(indexName: srcIndex.name))
                 XCTAssertFalse(self.client.hasOfflineData(indexName: dstIndex.name))

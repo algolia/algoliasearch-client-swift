@@ -26,17 +26,17 @@ import XCTest
 import PromiseKit
 
 class ClientTests: OnlineTestCase {
-    
+
     func testListIndexes() {
         let expectation = self.expectation(description: "testListIndexes")
         let mockObject = ["city": "San Francisco", "objectID": "a/go/?à"]
-      
+
         func checkIndexes(_ indexes: [[String: Any]]) {
           let index = indexes.filter({ $0["name"] as? String == self.index.name })
           XCTAssertNotNil(index, "List indexes failed")
         }
-      
-        let promise = firstly{
+
+        let promise = firstly {
           self.addObject(mockObject)
         }.then { object in
           self.waitTask(object)
@@ -51,27 +51,27 @@ class ClientTests: OnlineTestCase {
         }.always {
           expectation.fulfill()
         }
-      
+
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
-    
+
   func testMoveIndex() {
     let expectation = self.expectation(description: "testMoveIndex")
     let object = ["city": "San Francisco", "objectID": "a/go/?à"]
     let dstIndex = self.client.index(withName: safeIndexName("algol?à-swift2"))
-    
+
     let promise = firstly {
       self.addObject(object)
       }.then { object in
         self.waitTask(object)
     }
-    
+
     let promise2 = promise.then { _ in
       self.moveIndex(from: self.index.name, to: safeIndexName("algol?à-swift2"))
       }.then { object in
         self.waitTask(object)
     }
-    
+
     let promise3 = promise2.then { _ in
       self.query(index: dstIndex)
       }.then { object in
@@ -79,45 +79,45 @@ class ClientTests: OnlineTestCase {
       }.then { _ in
         self.deletexIndex(safeIndexName("algol?à-swift2"))
     }
-    
+
     promise3.catch { error in
       XCTFail("Error : \(error)")
       }.always {
         expectation.fulfill()
     }
-    
+
     func assertEqual(_ content: [String: Any]) {
       let nbHits = content["nbHits"] as! Int
       XCTAssertEqual(nbHits, 1, "Wrong number of object in the index")
     }
-    
+
     self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
-    
+
     func testCopyIndex() {
         let expectation = self.expectation(description: "testCopyIndex")
-        
+
         let object = ["city": "San Francisco", "objectID": "a/go/?à"]
       let dstIndex = self.client.index(withName: safeIndexName("algol?à-swift2"))
-      
+
       let promise = firstly {
         self.addObject(object)
         }.then { object in
           self.waitTask(object)
       }
-      
+
       let promise2 = promise.then { _ in
         self.copyIndex(from: self.index.name, to: safeIndexName("algol?à-swift2"))
         }.then { object in
           self.waitTask(object)
       }
-      
+
       let promise3 = promise2.then { _ in
         self.query()
         }.then { object in
           assertEqual(object)
         }
-        
+
       let promise4 = promise3.then { _ in
         self.query(index: dstIndex)
         }.then { object in
@@ -125,32 +125,32 @@ class ClientTests: OnlineTestCase {
         }.then { _ in
           self.deletexIndex(safeIndexName("algol?à-swift2"))
       }
-      
+
       promise4.catch { error in
         XCTFail("Error : \(error)")
         }.always {
           expectation.fulfill()
       }
-      
+
       func assertEqual(_ content: [String: Any]) {
         let nbHits = content["nbHits"] as! Int
         XCTAssertEqual(nbHits, 1, "Wrong number of object in the index")
       }
-      
+
       self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
-    
+
     func testMultipleQueries() {
       let expectation = self.expectation(description: "testMultipleQueries")
       let object = ["city": "San Francisco"]
       let queries = [IndexQuery(index: self.index, query: Query())]
-      
+
       let promise = firstly {
         self.addObject(object)
         }.then { object in
           self.waitTask(object)
       }
-      
+
       let promise2 = promise.then { _ in
         self.clientMultipleQueries(queries)
         }.then { (content) -> Promise<Void> in
@@ -159,13 +159,13 @@ class ClientTests: OnlineTestCase {
           XCTAssertEqual(nbHits, 1, "Wrong number of object in the index")
           return Promise()
       }
-      
+
       promise2.catch { error in
         XCTFail("Error : \(error)")
         }.always {
           expectation.fulfill()
       }
-        
+
       self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
@@ -178,13 +178,13 @@ class ClientTests: OnlineTestCase {
         IndexQuery(index: self.index, query: query),
         IndexQuery(index: self.index, query: query)
       ]
-      
+
       let promise = firstly {
           self.addObject(object)
         }.then { object in
           self.waitTask(object)
       }
-      
+
       let promise2 = promise.then { _ in
           self.clientMultipleQueriesStopIfEnoughMatches(queries)
         }.then { (content) -> Promise<Void> in
@@ -196,13 +196,13 @@ class ClientTests: OnlineTestCase {
           XCTAssertEqual(items[1]["nbHits"] as? Int, 0, "Wrong number of object in the index")
           return Promise()
       }
-      
+
       promise2.catch { error in
           XCTFail("Error : \(error)")
         }.always {
           expectation.fulfill()
       }
-        
+
       self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
@@ -214,7 +214,7 @@ class ClientTests: OnlineTestCase {
             XCTAssertNil(error)
             expectation1.fulfill()
         }
-        
+
         // Override the API key and check the call fails.
         self.client.headers["X-Algolia-API-Key"] = "NOT_A_VALID_API_KEY"
         let expectation2 = self.expectation(description: "Invalid API key")
@@ -226,32 +226,32 @@ class ClientTests: OnlineTestCase {
 
         // Restore the valid API key (otherwise tear down will fail).
         self.client.headers["X-Algolia-API-Key"] = self.client.apiKey
-        
+
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
-  
+
   func testLongAPIKey() {
     let validAPIKey = self.client.apiKey
     defer {
       // Restore the valid API key (otherwise tear down will fail).
       self.client.headers[AbstractClient.xAlgoliaAPIKey] = validAPIKey
     }
-    
+
     // Override the API key and check the call fails.
     let longAPIKey = "d6NdYTE1nFai7Pwt5wVmuRzLx8flSvFMq6O7HL5UFhQbfUfZQREp8gRYplxgdQFsejcstDhBIcbYkRqzED9r2gVaj3IQSVDRVxEWDGsZu3wuq4eRUvgy3lPLDK8spwHRKLFCunvvnpzg48UT8s4uSVA268vOYT3JjHPexrRNxItFep4HKyKtysKWokvaASODJzxZluCvxpnG0L79MLd75bqdzqgaCGXdwIkRseUytphdxjHsyfLotYPFAysnDKrgXJQIKEGSMTH6EHXDvOPzBX5vlloMW72y9hB6iHbeqq2Tv7WvUZDuAfAZXnafz58M2LJHkOljD9FarDmzwlTjUiOtci5ObPW9E86Cy2tGMGXJarJXbDRJyZbWGAnD8Zqjy3Ny1MPCqbE15l9rCArRUOQrV3XGsxSHuDfXFEOkcMwwp63pus7jSWDg6Ntonbm82NeUMVqJQhnpOLeEKGj6YLxtdrcC7S38YaPyK32iDpI8PWPF73sHGRCGP427A6IflPhfmHGpuGq1DQZqKAWQ1I5RJJkjmoyxkplsUwlG1DvASccSsioBnHR3KrlkilvKU5MDTI62nbGsVVlmNftTFZIp"
     self.client.apiKey = longAPIKey
-    
+
     let request = self.client.newRequest(method: .POST, path: "/dummyPath", body: [:], hostnames: ["dummyHost1"])
     XCTAssertNil(request.headers![AbstractClient.xAlgoliaAPIKey])
     XCTAssertNotNil(request.jsonBody)
-    
+
     guard let jsonBody = request.jsonBody, let apiKey = jsonBody[AbstractClient.bodyApiKey] as? String else {
       XCTFail("The long api should be in the body")
       return
     }
     XCTAssertEqual(longAPIKey, apiKey)
   }
-    
+
     func testBatch() {
         let expectation = self.expectation(description: #function)
         let actions = [
@@ -266,32 +266,32 @@ class ClientTests: OnlineTestCase {
                 "body": [ "city": "Paris" ]
             ]
         ]
-      
+
       let promise = firstly {
         self.clientBatch(actions)
         }.then { object in
           self.batchWaitTask(object)
       }
-      
+
       let promise2 = promise.then { _ in
         self.query("Francisco")
         }.then { object in
           XCTAssertEqual(object["nbHits"] as? Int, 1)
       }
-      
+
       promise2.catch { error in
         XCTFail("Error : \(error)")
         }.always {
           expectation.fulfill()
       }
-      
+
       self.waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
-    
+
     func testIsAlive() {
         let expectation = self.expectation(description: #function)
-        
-        client.isAlive() { (content, error) -> Void in
+
+        client.isAlive { (content, error) -> Void in
             if let error = error {
                 XCTFail("\(error)")
             } else {
@@ -312,16 +312,16 @@ class ClientTests: OnlineTestCase {
         })
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
-    
+
     func testUserAgentHeader() {
         // Test that the initial value of the header is correct.
         NSLog("User-Agent 1: \(Client.userAgentHeader!)")
         XCTAssert(Client.userAgentHeader!.range(of: "^Algolia for Swift \\([0-9.]+\\); (iOS|macOS|tvOS) \\([0-9.]+\\)$", options: .regularExpression) != nil)
-        
+
         // Test equality comparison on the `LibraryVersion` class.
         XCTAssertEqual(LibraryVersion(name: "XYZ", version: "7.8.9"), LibraryVersion(name: "XYZ", version: "7.8.9"))
         XCTAssertNotEqual(LibraryVersion(name: "XYZ", version: "7.8.9"), LibraryVersion(name: "XXX", version: "6.6.6"))
-        
+
         // Test adding a user agent.
         Client.addUserAgent(LibraryVersion(name: "ABC", version: "1.2.3"))
         let userAgentHeader = Client.userAgentHeader!
@@ -331,7 +331,7 @@ class ClientTests: OnlineTestCase {
         Client.addUserAgent(LibraryVersion(name: "ABC", version: "1.2.3"))
         XCTAssert(Client.userAgentHeader! == userAgentHeader)
     }
-    
+
     func testReusingIndices() {
         let indexName = "name"
         let initialCount = client.indices.count // another index is created during set up
@@ -411,7 +411,7 @@ class ClientTests: OnlineTestCase {
         let reachability = MockNetworkReachability()
         client.reachability = reachability
         reachability.reachable = false
-        
+
         // Check that requests fail right away.
         let startTime = Date()
         client.listIndexes { (content, error) in
@@ -432,7 +432,7 @@ class ClientTests: OnlineTestCase {
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
-    
+
     /// Test that the completion queue is used.
     ///
     func testCompletionQueue() {
@@ -440,7 +440,7 @@ class ClientTests: OnlineTestCase {
         let operationQueue = OperationQueue()
         self.client.listIndexes { (content, error) in
             XCTAssert(OperationQueue.current == OperationQueue.main)
-            
+
             self.client.completionQueue = operationQueue
             self.client.listIndexes { (content, error) in
                 XCTAssert(OperationQueue.current != OperationQueue.main)
@@ -450,7 +450,7 @@ class ClientTests: OnlineTestCase {
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
-    
+
     /// Test that headers from the request options are used.
     ///
     func testRequestOptionsHeaders() {
@@ -465,14 +465,14 @@ class ClientTests: OnlineTestCase {
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
-    
+
     /// Test that URL parameters from the request options are used.
     ///
     func testRequestOptionsURLParameters() {
         let expectation1 = self.expectation(description: #function)
         let expectation2 = self.expectation(description: #function)
         // Listing indices without options should return at least one item.
-        self.client.listIndexes() { (content, error) in
+        self.client.listIndexes { (content, error) in
             XCTAssertNil(error)
             XCTAssertNotNil(content)
             XCTAssert(!(content!["items"] as! [[String: Any]]).isEmpty)
@@ -489,5 +489,5 @@ class ClientTests: OnlineTestCase {
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
-    
+
 }

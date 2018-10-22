@@ -29,13 +29,13 @@ class QueryTests: XCTestCase {
     override func setUp() {
         super.setUp()
     }
-    
+
     override func tearDown() {
         super.tearDown()
     }
-    
+
     // MARK: Build & parse
-    
+
     /// Test serializing a query into a URL query string.
     func testBuild() {
         let query = Query()
@@ -53,7 +53,7 @@ class QueryTests: XCTestCase {
         query1["foo"] = "bar"
         query1["abc"] = "xyz"
         let queryString = query1.build()
-        
+
         // Parse the URL into another query.
         let query2 = Query.parse(queryString)
         XCTAssertEqual(query1, query2)
@@ -66,22 +66,22 @@ class QueryTests: XCTestCase {
         query1["escaped"] = " %&=#+"
         let queryString = query1.build()
         XCTAssertEqual(queryString, "accented=%C3%A9%C3%AA%C3%A8%C3%A0%C3%B4%C3%B9&escaped=%20%25%26%3D%23%2B")
-        
+
         // Test parsing of escaped characters.
         let query2 = Query.parse(queryString)
         XCTAssertEqual(query1, query2)
     }
-    
+
     // MARK: Low-level
-    
+
     /// Test low-level accessors.
     func testGetSet() {
         let query = Query()
-        
+
         // Test accessors.
         query.setParameter(withName: "a", to: "A")
         XCTAssertEqual(query.parameter(withName: "a"), "A")
-        
+
         // Test subscript.
         query["b"] = "B"
         XCTAssertEqual(query["b"], "B")
@@ -98,9 +98,9 @@ class QueryTests: XCTestCase {
         query["b"] = nil
         XCTAssertNil(query["b"])
     }
-    
+
     // MARK: KVO
-    
+
     func testKVO() {
         let query = Query()
         query.addObserver(self, forKeyPath: "hitsPerPage", options: [.new, .old], context: nil)
@@ -120,7 +120,7 @@ class QueryTests: XCTestCase {
 
     /// Tracks the number of calls to `observeValue(forKeyPath:of:change:context:)`.
     var iteration: Int = 0
-    
+
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         iteration += 1
         switch iteration {
@@ -200,7 +200,7 @@ class QueryTests: XCTestCase {
         let query3 = Query.parse(query1.build())
         XCTAssertEqual(query3.getRankingInfo, false)
     }
-  
+
     func test_ignorePlurals() {
         let query1 = Query()
         XCTAssertNil(query1.ignorePlurals)
@@ -218,7 +218,7 @@ class QueryTests: XCTestCase {
 
         ignorePluralsPart2(query1, &query2)
     }
-  
+
     func ignorePluralsPart2(_ query1: Query, _ query2: inout Query) {
         let VALUE = ["de", "en", "fr"]
         query1.ignorePlurals = .selected(VALUE)
@@ -227,7 +227,7 @@ class QueryTests: XCTestCase {
         query2 = Query.parse(query1.build())
         print("something useless")
         XCTAssertEqual(query2.ignorePlurals, .selected(VALUE))
-      
+
         // WARNING: There's no validation of ISO codes, so any string is interpreted as a single code.
         query1["ignorePlurals"] = "invalid"
         XCTAssertNotNil(query1.ignorePlurals)
@@ -266,7 +266,7 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.hitsPerPage, 50)
     }
-    
+
     func test_offset() {
         let query1 = Query()
         XCTAssertNil(query1.offset)
@@ -276,7 +276,7 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.offset, 4)
     }
-    
+
     func test_length() {
         let query1 = Query()
         XCTAssertNil(query1.length)
@@ -286,7 +286,7 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.length, 4)
     }
-    
+
     func test_allowTyposOnNumericTokens() {
         let query1 = Query()
         XCTAssertNil(query1.allowTyposOnNumericTokens)
@@ -295,7 +295,7 @@ class QueryTests: XCTestCase {
         XCTAssertEqual(query1["allowTyposOnNumericTokens"], "true")
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.allowTyposOnNumericTokens, true)
-        
+
         query1.allowTyposOnNumericTokens = false
         XCTAssertEqual(query1.allowTyposOnNumericTokens, false)
         XCTAssertEqual(query1["allowTyposOnNumericTokens"], "false")
@@ -312,7 +312,7 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.analytics, true)
     }
-    
+
     func test_synonyms() {
         let query1 = Query()
         XCTAssertNil(query1.synonyms)
@@ -362,7 +362,7 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.query, "supercalifragilisticexpialidocious")
     }
-    
+
     func test_queryType() {
         let query1 = Query()
         XCTAssertNil(query1.queryType)
@@ -392,63 +392,63 @@ class QueryTests: XCTestCase {
     func test_removeWordsIfNoResults() {
         let query1 = Query()
         XCTAssertNil(query1.removeWordsIfNoResults)
-        
+
         query1.removeWordsIfNoResults = .allOptional
         XCTAssertEqual(query1.removeWordsIfNoResults, .allOptional)
         XCTAssertEqual(query1["removeWordsIfNoResults"], "allOptional")
         var query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.removeWordsIfNoResults, .allOptional)
-        
+
         query1.removeWordsIfNoResults = .firstWords
         XCTAssertEqual(query1.removeWordsIfNoResults, .firstWords)
         XCTAssertEqual(query1["removeWordsIfNoResults"], "firstWords")
         query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.removeWordsIfNoResults, .firstWords)
-        
+
         query1.removeWordsIfNoResults = .lastWords
         XCTAssertEqual(query1.removeWordsIfNoResults, .lastWords)
         XCTAssertEqual(query1["removeWordsIfNoResults"], "lastWords")
         query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.removeWordsIfNoResults, .lastWords)
-        
+
         query1.removeWordsIfNoResults = Query.RemoveWordsIfNoResults.none // WARNING: Possible confusion with `Optional.none`!
         XCTAssertEqual(query1.removeWordsIfNoResults, Query.RemoveWordsIfNoResults.none)
         XCTAssertEqual(query1["removeWordsIfNoResults"], "none")
         query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.removeWordsIfNoResults, Query.RemoveWordsIfNoResults.none)
-        
+
         query1["removeWordsIfNoResults"] = "invalid"
         XCTAssertNil(query1.removeWordsIfNoResults)
     }
-    
+
     func test_typoTolerance() {
         let query1 = Query()
         XCTAssertNil(query1.typoTolerance)
-        
+
         query1.typoTolerance = .true
         XCTAssertEqual(query1.typoTolerance, .true)
         XCTAssertEqual(query1["typoTolerance"], "true")
         var query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.typoTolerance, .true)
-        
+
         query1.typoTolerance = .false
         XCTAssertEqual(query1.typoTolerance, .false)
         XCTAssertEqual(query1["typoTolerance"], "false")
         query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.typoTolerance, .false)
-        
+
         query1.typoTolerance = .min
         XCTAssertEqual(query1.typoTolerance, .min)
         XCTAssertEqual(query1["typoTolerance"], "min")
         query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.typoTolerance, .min)
-        
+
         query1.typoTolerance = .strict
         XCTAssertEqual(query1.typoTolerance, .strict)
         XCTAssertEqual(query1["typoTolerance"], "strict")
         query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.typoTolerance, .strict)
-        
+
         query1["typoTolerance"] = "invalid"
         XCTAssertNil(query1.typoTolerance)
     }
@@ -493,7 +493,6 @@ class QueryTests: XCTestCase {
         XCTAssertEqual(query2.ruleContexts!, ["foo", "bar"])
     }
 
-    
     func test_highlightPreTag() {
         let query1 = Query()
         XCTAssertNil(query1.highlightPreTag)
@@ -503,7 +502,7 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.highlightPreTag, "<PRE[")
     }
-    
+
     func test_highlightPostTag() {
         let query1 = Query()
         XCTAssertNil(query1.highlightPostTag)
@@ -513,7 +512,7 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.highlightPostTag, "]POST>")
     }
-    
+
     func test_snippetEllipsisText() {
         let query1 = Query()
         XCTAssertNil(query1.snippetEllipsisText)
@@ -523,7 +522,7 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.snippetEllipsisText, "…")
     }
-    
+
     func test_restrictHighlightAndSnippetArrays() {
         let query1 = Query()
         XCTAssertNil(query1.restrictHighlightAndSnippetArrays)
@@ -533,7 +532,7 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.restrictHighlightAndSnippetArrays, false)
     }
-    
+
     func test_analyticsTags() {
         let query1 = Query()
         XCTAssertNil(query1.analyticsTags)
@@ -543,7 +542,7 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.analyticsTags!, ["foo", "bar"])
     }
-    
+
     func test_disableTypoToleranceOnAttributes() {
         let query1 = Query()
         XCTAssertNil(query1.disableTypoToleranceOnAttributes)
@@ -563,7 +562,7 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.aroundPrecision, 12345)
     }
-    
+
     func test_aroundRadius() {
         let query1 = Query()
         XCTAssertNil(query1.aroundRadius)
@@ -572,14 +571,14 @@ class QueryTests: XCTestCase {
         XCTAssertEqual(query1["aroundRadius"], "987")
         var query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.aroundRadius, .explicit(987))
-        
+
         query1.aroundRadius = .all
         XCTAssertEqual(query1.aroundRadius, .all)
         XCTAssertEqual(query1["aroundRadius"], "all")
         query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.aroundRadius, .all)
     }
-    
+
     func test_aroundLatLngViaIP() {
         let query1 = Query()
         XCTAssertNil(query1.aroundLatLngViaIP)
@@ -589,7 +588,7 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.aroundLatLngViaIP, true)
     }
-    
+
     func test_aroundLatLng() {
         let query1 = Query()
         XCTAssertNil(query1.aroundLatLng)
@@ -599,7 +598,7 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.aroundLatLng!, LatLng(lat: 89.76, lng: -123.45))
     }
-    
+
     func test_insideBoundingBox() {
         let query1 = Query()
         XCTAssertNil(query1.insideBoundingBox)
@@ -609,7 +608,7 @@ class QueryTests: XCTestCase {
         XCTAssertEqual(query1["insideBoundingBox"], "11.111111,22.222222,33.333333,44.444444")
         var query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.insideBoundingBox!, [box1])
-        
+
         let box2 = GeoRect(p1: LatLng(lat: -55.555555, lng: -66.666666), p2: LatLng(lat: -77.777777, lng: -88.888888))
         let boxes = [box1, box2]
         query1.insideBoundingBox = boxes
@@ -643,7 +642,7 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.tagFilters! as NSObject, VALUE as NSObject)
     }
-    
+
     func test_facetFilters() {
         let VALUE: [Any] = [["category:Book", "category:Movie"], "author:John Doe"]
         let query1 = Query()
@@ -664,7 +663,7 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.advancedSyntax, true)
     }
-    
+
     func test_enableRules() {
         let query1 = Query()
         XCTAssertNil(query1.enableRules)
@@ -692,7 +691,7 @@ class QueryTests: XCTestCase {
 
         removeStopWordsPart2(query1, &query2)
     }
-  
+
     func removeStopWordsPart2(_ query1: Query, _ query2: inout Query) {
       let VALUE = ["de", "es", "fr"]
       query1.removeStopWords = .selected(VALUE)
@@ -700,7 +699,7 @@ class QueryTests: XCTestCase {
       XCTAssertEqual(query1["removeStopWords"], "de,es,fr")
       query2 = Query.parse(query1.build())
       XCTAssertEqual(query2.removeStopWords, .selected(VALUE))
-      
+
       // WARNING: There's no validation of ISO codes, so any string is interpreted as a single code.
       query1["removeStopWords"] = "invalid"
       XCTAssertNotNil(query1.removeStopWords)
@@ -709,7 +708,7 @@ class QueryTests: XCTestCase {
       default: XCTFail()
       }
     }
-  
+
     func test_maxValuesPerFacet() {
         let query1 = Query()
         XCTAssertNil(query1.maxValuesPerFacet)
@@ -719,7 +718,7 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.maxValuesPerFacet, 456)
     }
-    
+
     func test_minimumAroundRadius() {
         let query1 = Query()
         XCTAssertNil(query1.minimumAroundRadius)
@@ -729,7 +728,7 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.minimumAroundRadius, 1000)
     }
-    
+
     func test_numericFilters() {
         let VALUE: [Any] = ["code=1", ["price:0 to 10", "price:1000 to 2000"]]
         let query1 = Query()
@@ -740,7 +739,7 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.numericFilters! as NSObject, VALUE as NSObject)
     }
-  
+
     func test_OptionalFilters() {
       let optionalFilters = ["category:Book", "author:John Doe"]
       let query = Query()
@@ -749,7 +748,7 @@ class QueryTests: XCTestCase {
       XCTAssertEqual(query.optionalFilters!, optionalFilters)
       XCTAssertEqual(query["optionalFilters"], "[\"category:Book\",\"author:John Doe\"]")
     }
-  
+
     func test_filters() {
         let VALUE = "available=1 AND (category:Book OR NOT category:Ebook) AND publication_date: 1441745506 TO 1441755506 AND inStock > 0 AND author:\"John Doe\""
         let query1 = Query()
@@ -760,7 +759,7 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.filters, VALUE)
     }
-    
+
     func test_disableExactOnAttributes() {
         let query1 = Query()
         XCTAssertNil(query1.disableExactOnAttributes)
@@ -770,11 +769,11 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.disableExactOnAttributes!, ["foo", "bar"])
     }
-    
+
     func test_exactOnSingleWordQuery() {
         let query1 = Query()
         XCTAssertNil(query1.exactOnSingleWordQuery)
-        
+
         let ALL_VALUES: [Query.ExactOnSingleWordQuery] = [.none, .word, .attribute]
         for value in ALL_VALUES {
             query1.exactOnSingleWordQuery = value
@@ -782,15 +781,15 @@ class QueryTests: XCTestCase {
             XCTAssertEqual(query1["exactOnSingleWordQuery"], value.rawValue)
             let query2 = Query.parse(query1.build())
             XCTAssertEqual(query2.exactOnSingleWordQuery, value)
-            
+
             XCTAssertEqual(query1.exactOnSingleWordQuery, value)
             XCTAssertEqual(query1["exactOnSingleWordQuery"], value.rawValue)
         }
-        
+
         query1["exactOnSingleWordQuery"] = "invalid"
         XCTAssertNil(query1.exactOnSingleWordQuery)
     }
-    
+
     func test_alternativesAsExact() {
         let query1 = Query()
         XCTAssertNil(query1.alternativesAsExact)
@@ -802,13 +801,13 @@ class QueryTests: XCTestCase {
         XCTAssertEqual(query1["alternativesAsExact"], RAW_VALUES.joined(separator: ","))
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.alternativesAsExact!, VALUES)
-        
+
         // WARNING: There's a catch: since this parameter is an array, invalid values are just filtered out.
         query1["alternativesAsExact"] = "invalid"
         XCTAssertNotNil(query1.alternativesAsExact)
         XCTAssertEqual(0, query1.alternativesAsExact?.count)
     }
-    
+
     func test_responseFields() {
         let query1 = Query()
         XCTAssertNil(query1.responseFields)
@@ -818,7 +817,7 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.responseFields!, ["foo", "bar"])
     }
-    
+
     func test_facetingAfterDistinct() {
         let query1 = Query()
         XCTAssertNil(query1.facetingAfterDistinct)
@@ -848,23 +847,23 @@ class QueryTests: XCTestCase {
         let query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.percentileComputation, false)
     }
-    
+
     func test_sortFacetValuesBy() {
         let query1 = Query()
         XCTAssertNil(query1.sortFacetValuesBy)
-        
+
         query1.sortFacetValuesBy = .count
         XCTAssertEqual(query1.sortFacetValuesBy, .count)
         XCTAssertEqual(query1["sortFacetValuesBy"], "count")
         var query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.sortFacetValuesBy, .count)
-        
+
         query1.sortFacetValuesBy = .alpha
         XCTAssertEqual(query1.sortFacetValuesBy, .alpha)
         XCTAssertEqual(query1["sortFacetValuesBy"], "alpha")
         query2 = Query.parse(query1.build())
         XCTAssertEqual(query2.sortFacetValuesBy, .alpha)
-        
+
         query1["sortFacetValuesBy"] = "invalid"
         XCTAssertNil(query1.sortFacetValuesBy)
     }

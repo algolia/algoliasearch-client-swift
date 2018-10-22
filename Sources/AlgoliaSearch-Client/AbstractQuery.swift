@@ -23,7 +23,6 @@
 
 import Foundation
 
-
 // ----------------------------------------------------------------------------
 // IMPLEMENTATION NOTES
 // ----------------------------------------------------------------------------
@@ -101,19 +100,18 @@ import Foundation
 //
 // ----------------------------------------------------------------------------
 
-
 /// A pair of (latitude, longitude).
 /// Used in geo-search.
 ///
 @objcMembers public class LatLng: NSObject {
     // IMPLEMENTATION NOTE: Cannot be `struct` because of Objective-C bridgeability.
-    
+
     /// Latitude.
     public let lat: Double
-    
+
     /// Longitude.
     public let lng: Double
-    
+
     /// Create a geo location.
     ///
     /// - parameter lat: Latitude.
@@ -123,9 +121,9 @@ import Foundation
         self.lat = lat
         self.lng = lng
     }
-    
+
     // MARK: Equatable
-    
+
     public override func isEqual(_ object: Any?) -> Bool {
         if let rhs = object as? LatLng {
             return self.lat == rhs.lat && self.lng == rhs.lng
@@ -135,19 +133,18 @@ import Foundation
     }
 }
 
-
 /// A rectangle in geo coordinates.
 /// Used in geo-search.
 ///
 @objcMembers public class GeoRect: NSObject {
     // IMPLEMENTATION NOTE: Cannot be `struct` because of Objective-C bridgeability.
-    
+
     /// One of the rectangle's corners (typically the northwesternmost).
     public let p1: LatLng
-    
+
     /// Corner opposite from `p1` (typically the southeasternmost).
     public let p2: LatLng
-    
+
     /// Create a geo rectangle.
     ///
     /// - parameter p1: One of the rectangle's corners (typically the northwesternmost).
@@ -157,7 +154,7 @@ import Foundation
         self.p1 = p1
         self.p2 = p2
     }
-    
+
     public override func isEqual(_ object: Any?) -> Bool {
         if let rhs = object as? GeoRect {
             return self.p1 == rhs.p1 && self.p2 == rhs.p2
@@ -166,7 +163,6 @@ import Foundation
         }
     }
 }
-
 
 /// An abstract search query.
 ///
@@ -177,13 +173,13 @@ import Foundation
 /// Every parameter is observable via KVO under its own name.
 ///
 @objc
-open class AbstractQuery : NSObject, NSCopying {
-    
+open class AbstractQuery: NSObject, NSCopying {
+
     // MARK: - Low-level (untyped) parameters
-    
+
     /// Parameters, as untyped values.
     @objc public private(set) var parameters: [String: String] = [:]
-    
+
     /// Get a parameter in an untyped fashion.
     ///
     /// - parameter name:   The parameter's name.
@@ -192,7 +188,7 @@ open class AbstractQuery : NSObject, NSCopying {
     @objc public func parameter(withName name: String) -> String? {
         return parameters[name]
     }
-    
+
     /// Set a parameter in an untyped fashion.
     /// This low-level accessor is intended to access parameters that this client does not yet support.
     ///
@@ -213,7 +209,7 @@ open class AbstractQuery : NSObject, NSCopying {
             self.didChangeValue(forKey: name)
         }
     }
-    
+
     /// Convenience shortcut to `parameter(withName:)` and `setParameter(withName:to:)`.
     @objc public subscript(index: String) -> String? {
         get {
@@ -223,21 +219,21 @@ open class AbstractQuery : NSObject, NSCopying {
             setParameter(withName: index, to: newValue)
         }
     }
-    
+
     // MARK: -
-    
+
     // MARK: - Miscellaneous
-    
+
     @objc override open var description: String {
         get { return "\(String(describing: type(of: self))){\(parameters)}" }
     }
-    
+
     // MARK: - Initialization
-    
+
     /// Construct an empty query.
     @objc public override init() {
     }
-    
+
     /// Construct a query with the specified low-level parameters.
     @objc public init(parameters: [String: String]) {
         self.parameters = parameters
@@ -249,7 +245,7 @@ open class AbstractQuery : NSObject, NSCopying {
     }
 
     // MARK: NSCopying
-    
+
     /// Support for `NSCopying`.
     ///
     /// + Note: Primarily intended for Objective-C use. Swift coders should use `init(copy:)`.
@@ -258,9 +254,9 @@ open class AbstractQuery : NSObject, NSCopying {
         // NOTE: As per the docs, the zone argument is ignored.
         return AbstractQuery(parameters: self.parameters)
     }
-    
+
     // MARK: Serialization & parsing
-    
+
     /// Return the final query string used in URL.
     @objc open func build() -> String {
         return AbstractQuery.build(parameters: parameters)
@@ -278,7 +274,7 @@ open class AbstractQuery : NSObject, NSCopying {
         }
         return components.joined(separator: "&")
     }
-    
+
     internal static func parse(_ queryString: String, into query: AbstractQuery) {
         let components = queryString.components(separatedBy: "&")
         for component in components {
@@ -296,18 +292,18 @@ open class AbstractQuery : NSObject, NSCopying {
             }
         }
     }
-    
+
     // MARK: Equatable
-    
+
     override open func isEqual(_ object: Any?) -> Bool {
         guard let rhs = object as? AbstractQuery else {
             return false
         }
         return self.parameters == rhs.parameters
     }
-    
+
     // MARK: - Helper methods to build & parse URL
-    
+
     /// Build a plain, comma-separated array of strings.
     ///
     internal static func buildStringArray(_ array: [String]?) -> String? {
@@ -316,7 +312,7 @@ open class AbstractQuery : NSObject, NSCopying {
         }
         return nil
     }
-    
+
     internal static func parseStringArray(_ string: String?) -> [String]? {
         if string != nil {
             // First try to parse the JSON notation:
@@ -331,7 +327,7 @@ open class AbstractQuery : NSObject, NSCopying {
         }
         return nil
     }
-    
+
     internal static func buildJSONArray(_ array: [Any]?) -> String? {
         if array != nil {
             do {
@@ -344,7 +340,7 @@ open class AbstractQuery : NSObject, NSCopying {
         }
         return nil
     }
-    
+
     internal static func parseJSONArray(_ string: String?) -> [Any]? {
         if string != nil {
             do {
@@ -356,11 +352,11 @@ open class AbstractQuery : NSObject, NSCopying {
         }
         return nil
     }
-    
+
     internal static func buildUInt(_ int: UInt?) -> String? {
         return int == nil ? nil : String(int!)
     }
-    
+
     internal static func parseUInt(_ string: String?) -> UInt? {
         if string != nil {
             if let intValue = UInt(string!) {
@@ -369,11 +365,11 @@ open class AbstractQuery : NSObject, NSCopying {
         }
         return nil
     }
-    
+
     internal static func buildBool(_ bool: Bool?) -> String? {
         return bool == nil ? nil : String(bool!)
     }
-    
+
     internal static func parseBool(_ string: String?) -> Bool? {
         if string != nil {
             switch (string!.lowercased()) {
@@ -387,11 +383,11 @@ open class AbstractQuery : NSObject, NSCopying {
         }
         return nil
     }
-    
+
     internal static func toNumber(_ bool: Bool?) -> NSNumber? {
         return bool == nil ? nil : NSNumber(value: bool!)
     }
-    
+
     internal static func toNumber(_ int: UInt?) -> NSNumber? {
         return int == nil ? nil : NSNumber(value: int!)
     }

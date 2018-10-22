@@ -24,12 +24,11 @@
 @testable import InstantSearchClientOffline
 import XCTest
 
-
 class MirroredIndexTests: OfflineTestCase {
-    
+
     /// Higher timeout for online queries.
     let onlineExpectationTimeout: TimeInterval = 100.0
-    
+
     let moreObjects: [String: [String: Any]] = [
         "snoopy": [
             "objectID": "1",
@@ -67,15 +66,15 @@ class MirroredIndexTests: OfflineTestCase {
             "series": "Calvin & Hobbes"
         ]
     ]
-    
+
     override func setUp() {
         super.setUp()
     }
-    
+
     override func tearDown() {
         super.tearDown()
     }
-    
+
     private func populate(index: MirroredIndex, completionBlock: @escaping (Error?) -> Void) {
         // Delete the index.
         client.deleteIndex(withName: index.name) { (content, error) -> Void in
@@ -97,7 +96,7 @@ class MirroredIndexTests: OfflineTestCase {
             }
         }
     }
-    
+
     private func sync(index: MirroredIndex, completionBlock: @escaping (Error?) -> Void) {
         populate(index:  index) { (error) -> Void in
             XCTAssertNil(error)
@@ -122,16 +121,16 @@ class MirroredIndexTests: OfflineTestCase {
             index.sync()
         }
     }
-    
+
     func testSync() {
         let expectation_indexing = self.expectation(description: "indexing")
         let waitTimeout = 5.0
-        
+
         // Populate the online index & sync the offline mirror.
         let index: MirroredIndex = client.index(withName: safeIndexName(#function))
         sync(index: index) { (error) in
             if let error = error { XCTFail("\(error)"); return }
-            
+
             // Check that a call to `syncIfNeeded()` does *not* trigger a new sync.
             var observer: NSObjectProtocol?
             observer = NotificationCenter.default.addObserver(forName: MirroredIndex.SyncDidStartNotification, object: index, queue: OperationQueue.main) { (notification) in
@@ -143,7 +142,7 @@ class MirroredIndexTests: OfflineTestCase {
             // Wait to leave a chance for the sync to start.
             DispatchQueue.main.asyncAfter(deadline: .now() + waitTimeout) {
                 NotificationCenter.default.removeObserver(observer!)
-                
+
                 // Check that changing the data selection queries makes a new sync needed.
                 index.dataSelectionQueries = [DataSelectionQuery(query: Query(), maxObjects: 6)]
                 var observer: NSObjectProtocol?
@@ -158,18 +157,18 @@ class MirroredIndexTests: OfflineTestCase {
         }
         waitForExpectations(timeout: onlineExpectationTimeout * 2 + waitTimeout, handler: nil)
     }
-    
+
     func testSearch() {
         let expectation_indexing = self.expectation(description: "indexing")
         let expectation_onlineQuery = self.expectation(description: "onlineQuery")
         let expectation_offlineQuery = self.expectation(description: "offlineQuery")
         let expectation_mixedQuery = self.expectation(description: "offlineQuery")
-        
+
         // Populate the online index & sync the offline mirror.
         let index: MirroredIndex = client.index(withName: safeIndexName(#function))
         sync(index: index) { (error) in
             if let error = error { XCTFail("\(error)"); return }
-            
+
             // Query the online index explicitly.
             index.searchOnline(Query()) { (content, error) in
                 XCTAssertNil(error)
@@ -177,7 +176,7 @@ class MirroredIndexTests: OfflineTestCase {
                 XCTAssertEqual("remote", content?["origin"] as? String)
                 expectation_onlineQuery.fulfill()
             }
-            
+
             // Query the offline index explicitly.
             index.searchOffline(Query()) { (content, error) in
                 XCTAssertNil(error)
@@ -185,7 +184,7 @@ class MirroredIndexTests: OfflineTestCase {
                 XCTAssertEqual("local", content?["origin"] as? String)
                 expectation_offlineQuery.fulfill()
             }
-            
+
             // Test offline fallback.
             self.client.readHosts = [ "unknown.algolia.com" ]
             index.requestStrategy = .fallbackOnFailure
@@ -195,7 +194,7 @@ class MirroredIndexTests: OfflineTestCase {
                 XCTAssertEqual("local", content?["origin"] as? String)
                 expectation_mixedQuery.fulfill()
             }
-            
+
             expectation_indexing.fulfill()
         }
         waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
@@ -205,31 +204,31 @@ class MirroredIndexTests: OfflineTestCase {
         let expectation_indexing = self.expectation(description: "indexing")
         let expectation_onlineQuery = self.expectation(description: "onlineQuery")
         let expectation_offlineQuery = self.expectation(description: "offlineQuery")
-        
+
         // Populate the online index & sync the offline mirror.
         let index: MirroredIndex = client.index(withName: safeIndexName(#function))
         sync(index: index) { (error) in
             if let error = error { XCTFail("\(error)"); return }
-            
+
             // Browse the online index explicitly.
             index.browse(query: Query()) { (content, error) in
                 XCTAssertNil(error)
                 XCTAssertEqual(5, content?["nbHits"] as? Int)
                 expectation_onlineQuery.fulfill()
             }
-            
+
             // Browse the offline index explicitly.
             index.browseMirror(query: Query()) { (content, error) in
                 XCTAssertNil(error)
                 XCTAssertEqual(3, content?["nbHits"] as? Int)
                 expectation_offlineQuery.fulfill()
             }
-            
+
             expectation_indexing.fulfill()
         }
         waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
     }
-    
+
     func testBuildOffline() {
         let expectation_buildStart = self.expectation(description: "buildStart")
         let expectation_buildFinish = self.expectation(description: "buildFinish")
@@ -270,10 +269,10 @@ class MirroredIndexTests: OfflineTestCase {
         index.buildOffline(settingsFile: settingsFile, objectFiles: [objectFile]) {
             (content, error) in
             XCTAssertNil(error)
-            
+
             // Check that offline data exists now.
             XCTAssertTrue(index.hasOfflineData)
-            
+
             // Search.
             let query = Query()
             query.query = "peanuts"
@@ -287,18 +286,18 @@ class MirroredIndexTests: OfflineTestCase {
         }
         waitForExpectations(timeout: 10, handler: nil)
     }
-    
+
     func testGetObject() {
         let expectation_indexing = self.expectation(description: "indexing")
         let expectation_onlineQuery = self.expectation(description: "onlineQuery")
         let expectation_offlineQuery = self.expectation(description: "offlineQuery")
         let expectation_mixedQuery = self.expectation(description: "offlineQuery")
-        
+
         // Populate the online index & sync the offline mirror.
         let index: MirroredIndex = client.index(withName: safeIndexName(#function))
         sync(index: index) { (error) in
             if let error = error { XCTFail("\(error)"); return }
-            
+
             // Query the online index explicitly.
             index.getObjectOnline(withID: "1") { (content, error) in
                 XCTAssertNil(error)
@@ -306,7 +305,7 @@ class MirroredIndexTests: OfflineTestCase {
                 XCTAssertEqual("remote", content?["origin"] as? String)
                 expectation_onlineQuery.fulfill()
             }
-            
+
             // Query the offline index explicitly.
             index.getObjectOffline(withID: "2") { (content, error) in
                 XCTAssertNil(error)
@@ -314,7 +313,7 @@ class MirroredIndexTests: OfflineTestCase {
                 XCTAssertEqual("local", content?["origin"] as? String)
                 expectation_offlineQuery.fulfill()
             }
-            
+
             // Test offline fallback.
             self.client.readHosts = [ "unknown.algolia.com" ]
             index.requestStrategy = .fallbackOnFailure
@@ -324,7 +323,7 @@ class MirroredIndexTests: OfflineTestCase {
                 XCTAssertEqual("local", content?["origin"] as? String)
                 expectation_mixedQuery.fulfill()
             }
-            
+
             expectation_indexing.fulfill()
         }
         waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
@@ -335,12 +334,12 @@ class MirroredIndexTests: OfflineTestCase {
         let expectation_onlineQuery = self.expectation(description: "onlineQuery")
         let expectation_offlineQuery = self.expectation(description: "offlineQuery")
         let expectation_mixedQuery = self.expectation(description: "offlineQuery")
-        
+
         // Populate the online index & sync the offline mirror.
         let index: MirroredIndex = client.index(withName: safeIndexName(#function))
         sync(index: index) { (error) in
             if let error = error { XCTFail("\(error)"); return }
-            
+
             // Query the online index explicitly.
             index.getObjectsOnline(withIDs: ["1"]) { (content, error) in
                 XCTAssertNil(error)
@@ -348,7 +347,7 @@ class MirroredIndexTests: OfflineTestCase {
                 XCTAssertEqual("remote", content?["origin"] as? String)
                 expectation_onlineQuery.fulfill()
             }
-            
+
             // Query the offline index explicitly.
             index.getObjectsOffline(withIDs: ["1", "2"]) { (content, error) in
                 XCTAssertNil(error)
@@ -356,7 +355,7 @@ class MirroredIndexTests: OfflineTestCase {
                 XCTAssertEqual("local", content?["origin"] as? String)
                 expectation_offlineQuery.fulfill()
             }
-            
+
             // Test offline fallback.
             self.client.readHosts = [ "unknown.algolia.com" ]
             index.requestStrategy = .fallbackOnFailure
@@ -366,7 +365,7 @@ class MirroredIndexTests: OfflineTestCase {
                 XCTAssertEqual("local", content?["origin"] as? String)
                 expectation_mixedQuery.fulfill()
             }
-            
+
             expectation_indexing.fulfill()
         }
         waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
@@ -403,7 +402,7 @@ class MirroredIndexTests: OfflineTestCase {
                     XCTAssertEqual(NSURLErrorDomain, error.domain)
                     XCTAssertEqual(NSURLErrorNotConnectedToInternet, error.code)
                     XCTAssert(duration < min(self.client.searchTimeout, self.client.timeout)) // check that we failed without waiting for the timeout
-                
+
                     // Test real network failure.
                     reachability.reachable = true
                     self.client.readHosts = [ "unknown.algolia.com" ]
@@ -437,20 +436,20 @@ class MirroredIndexTests: OfflineTestCase {
             // Populate the online index & sync the offline mirror.
             self.sync(index: index) { (error) in
                 if let error = error { XCTFail("\(error)"); expectation.fulfill(); return }
-                
+
                 // Test success.
                 index.search(Query()) { (content, error) in
                     XCTAssertNil(error)
                     XCTAssertEqual(3, content?["nbHits"] as? Int)
                     XCTAssertEqual("local", content?["origin"] as? String)
-                    
+
                     expectation.fulfill()
                 }
             }
         }
         waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
     }
-    
+
     /// Test the `fallbackOnFailure` request strategy.
     ///
     func testRequestStrategyFallbackOnFailure() {
@@ -459,26 +458,26 @@ class MirroredIndexTests: OfflineTestCase {
         // Mock reachability.
         let reachability = MockNetworkReachability()
         client.reachability = reachability
-        
+
         // Populate the online index & sync the offline mirror.
         let index: MirroredIndex = client.index(withName: safeIndexName(#function))
         index.requestStrategy = .fallbackOnFailure
         sync(index: index) { (error) in
             if let error = error { XCTFail("\(error)"); return }
-            
+
             // Test success.
             index.search(Query()) { (content, error) in
                 XCTAssertNil(error)
                 XCTAssertEqual(5, content?["nbHits"] as? Int)
                 XCTAssertEqual("remote", content?["origin"] as? String)
-                
+
                 // Test that reachability is observed.
                 reachability.reachable = false
                 index.search(Query()) { (content, error) in
                     XCTAssertNil(error)
                     XCTAssertEqual(3, content?["nbHits"] as? Int)
                     XCTAssertEqual("local", content?["origin"] as? String)
-                    
+
                     // Test real network failure.
                     reachability.reachable = true
                     self.client.readHosts = [ "unknown.algolia.com" ]
@@ -486,7 +485,7 @@ class MirroredIndexTests: OfflineTestCase {
                         XCTAssertNil(error)
                         XCTAssertEqual(3, content?["nbHits"] as? Int)
                         XCTAssertEqual("local", content?["origin"] as? String)
-                        
+
                         expectation.fulfill()
                     }
                 }
@@ -499,30 +498,30 @@ class MirroredIndexTests: OfflineTestCase {
     ///
     func testRequestStrategyFallbackOnTimeout() {
         let expectation = self.expectation(description: #function)
-        
+
         // Mock reachability.
         let reachability = MockNetworkReachability()
         client.reachability = reachability
-        
+
         // Populate the online index & sync the offline mirror.
         let index: MirroredIndex = client.index(withName: safeIndexName(#function))
         index.requestStrategy = .fallbackOnTimeout
         sync(index: index) { (error) in
             if let error = error { XCTFail("\(error)"); return }
-            
+
             // Test success.
             index.search(Query()) { (content, error) in
                 XCTAssertNil(error)
                 XCTAssertEqual(5, content?["nbHits"] as? Int)
                 XCTAssertEqual("remote", content?["origin"] as? String)
-                
+
                 // Test that reachability is observed.
                 reachability.reachable = false
                 index.search(Query()) { (content, error) in
                     XCTAssertNil(error)
                     XCTAssertEqual(3, content?["nbHits"] as? Int)
                     XCTAssertEqual("local", content?["origin"] as? String)
-                    
+
                     // Test real network failure.
                     reachability.reachable = true
                     self.client.readHosts = [ uniqueAlgoliaBizHost() ]
@@ -536,7 +535,7 @@ class MirroredIndexTests: OfflineTestCase {
                         // Check that we hit the fallback time out, but not the complete online timeout.
                         XCTAssert(duration >= index.offlineFallbackTimeout)
                         XCTAssert(duration < min(self.client.searchTimeout, self.client.timeout))
-                        
+
                         expectation.fulfill()
                     }
                 }
@@ -544,7 +543,7 @@ class MirroredIndexTests: OfflineTestCase {
         }
         waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
     }
-    
+
     /// Test that a non-mirrored index behaves like a purely online index.
     ///
     func testNotMirrored() {
@@ -553,7 +552,7 @@ class MirroredIndexTests: OfflineTestCase {
         let expectation_browse = self.expectation(description: #function + " (browse)")
         let expectation_get_object = self.expectation(description: #function + " (get object)")
         let expectation_get_objects = self.expectation(description: #function + " (get objects)")
-        
+
         let index: MirroredIndex = client.index(withName: safeIndexName(#function))
         // Check that the index is *not* mirrored by default.
         XCTAssertFalse(index.mirrored)
@@ -586,10 +585,10 @@ class MirroredIndexTests: OfflineTestCase {
             }
             expectation_populate.fulfill()
         }
-        
+
         waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)
     }
-    
+
     /// Test that we can switch an index from not mirrored to mirrored and back without causing any harm.
     ///
     /// + Bug: [#285](https://github.com/algolia/algoliasearch-client-swift/issues/285).
@@ -634,12 +633,12 @@ class MirroredIndexTests: OfflineTestCase {
         let expectation_onlineQuery = self.expectation(description: "onlineQuery")
         let expectation_offlineQuery = self.expectation(description: "offlineQuery")
         let expectation_mixedQuery = self.expectation(description: "offlineQuery")
-        
+
         // Populate the online index & sync the offline mirror.
         let index: MirroredIndex = client.index(withName: safeIndexName(#function))
         sync(index: index) { (error) in
             if let error = error { XCTFail("\(error)"); return }
-            
+
             // Query the online index explicitly.
             index.searchForFacetValuesOnline(of: "series", matching: "") { (content, error) in
                 XCTAssertNil(error)
@@ -648,7 +647,7 @@ class MirroredIndexTests: OfflineTestCase {
                 XCTAssertEqual("remote", content?["origin"] as? String)
                 expectation_onlineQuery.fulfill()
             }
-            
+
             // Query the offline index explicitly.
             index.searchForFacetValuesOffline(of: "series", matching: "") { (content, error) in
                 XCTAssertNil(error)
@@ -659,7 +658,7 @@ class MirroredIndexTests: OfflineTestCase {
                 XCTAssertEqual("local", content?["origin"] as? String)
                 expectation_offlineQuery.fulfill()
             }
-            
+
             // Test offline fallback.
             self.client.readHosts = [ "unknown.algolia.com" ]
             index.requestStrategy = .fallbackOnFailure
@@ -674,7 +673,7 @@ class MirroredIndexTests: OfflineTestCase {
                 XCTAssertEqual("local", content?["origin"] as? String)
                 expectation_mixedQuery.fulfill()
             }
-            
+
             expectation_indexing.fulfill()
         }
         waitForExpectations(timeout: onlineExpectationTimeout, handler: nil)

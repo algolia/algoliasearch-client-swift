@@ -23,32 +23,31 @@
 
 import Foundation
 
-
 /// Per-request options.
 /// This class allows specifying options at the request level, overriding default options at the `Client` level.
 ///
 /// + Note: These are reserved for advanced use cases. In most situations, they shouldn't be needed.
 ///
 @objc
-public class RequestOptions : NSObject, NSCopying {
-    
+public class RequestOptions: NSObject, NSCopying {
+
     // MARK: - Low-level storage
-    
+
     /// HTTP headers, as untyped values.
     @objc public var headers: [String: String] = [:]
-    
+
     /// URL parameters, as untyped values.
     /// These will go into the query string part of the URL (after the question mark).
     @objc public var urlParameters: [String: String] = [:]
-    
+
     // MARK: - Miscellaneous
-    
+
     @objc override open var description: String {
         get { return "\(String(describing: type(of: self))){\(headers)}" }
     }
-    
+
     // MARK: - Initialization
-    
+
     /// Construct request options.
     ///
     /// - param headers: HTTP headers (default: empty).
@@ -58,18 +57,18 @@ public class RequestOptions : NSObject, NSCopying {
         self.headers = headers
         self.urlParameters = urlParameters
     }
-    
+
     // MARK: - NSCopying
-    
+
     /// Support for `NSCopying`.
     ///
     @objc open func copy(with zone: NSZone?) -> Any {
         // NOTE: As per the docs, the zone argument is ignored.
         return RequestOptions(headers: self.headers)
     }
-    
+
     // MARK: - Equatable
-    
+
     override open func isEqual(_ object: Any?) -> Bool {
         guard let rhs = object as? RequestOptions else {
             return false

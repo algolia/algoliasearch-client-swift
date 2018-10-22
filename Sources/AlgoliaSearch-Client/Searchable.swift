@@ -23,11 +23,10 @@
 
 import Foundation
 
-
 /// A searchable source of data.
 ///
 @objc public protocol Searchable: class {
-    
+
     /// Perform a search.
     ///
     /// - parameter query: Search parameters.
@@ -36,7 +35,7 @@ import Foundation
     ///
     @objc
     @discardableResult func search(_ query: Query, requestOptions: RequestOptions?, completionHandler: @escaping CompletionHandler) -> Operation
-    
+
     /// Perform a search with disjunctive facets, generating as many queries as number of disjunctive facets (helper).
     ///
     /// - parameter query: The query.

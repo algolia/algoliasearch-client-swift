@@ -23,7 +23,6 @@
 
 import Foundation
 
-
 /// Disjunctive faceting helper.
 ///
 internal class DisjunctiveFaceting {
@@ -35,7 +34,7 @@ internal class DisjunctiveFaceting {
     internal init(multipleQuerier: @escaping MultipleQuerier) {
         self.multipleQuerier = multipleQuerier
     }
-    
+
     /// Perform a search with disjunctive facets, generating as many queries as number of disjunctive facets (helper).
     ///
     /// - parameter query: The query.
@@ -47,12 +46,12 @@ internal class DisjunctiveFaceting {
     @discardableResult
     func searchDisjunctiveFaceting(_ query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: @escaping CompletionHandler) -> Operation {
         var queries = [Query]()
-        
+
         // Build the first, global query.
         let globalQuery = Query(copy: query)
         globalQuery.facetFilters = DisjunctiveFaceting._buildFacetFilters(disjunctiveFacets: disjunctiveFacets, refinements: refinements, excludedFacet: nil)
         queries.append(globalQuery)
-        
+
         // Build the refined queries.
         for disjunctiveFacet in disjunctiveFacets {
             let disjunctiveQuery = Query(copy: query)
@@ -67,7 +66,7 @@ internal class DisjunctiveFaceting {
             disjunctiveQuery.analytics = false
             queries.append(disjunctiveQuery)
         }
-        
+
         // Run all the queries.
         let operation = self.multipleQuerier(queries) { (content, error) -> Void in
             var finalContent: [String: Any]? = nil
@@ -84,7 +83,7 @@ internal class DisjunctiveFaceting {
         }
         return operation
     }
-    
+
     /// Aggregate disjunctive faceting search results.
     private class func _aggregateResults(disjunctiveFacets: [String], refinements: [String: [String]], content: [String: Any]) throws -> [String: Any] {
         guard let results = content["results"] as? [AnyObject] else {
@@ -120,10 +119,8 @@ internal class DisjunctiveFaceting {
                 // Add zeroes for missing values.
                 if disjunctiveFacets.contains(facetName) {
                     if let refinedValues = refinements[facetName] {
-                        for refinedValue in refinedValues {
-                            if facetCounts[refinedValue] == nil {
-                                newFacetCounts[refinedValue] = 0
-                            }
+                        for refinedValue in refinedValues where facetCounts[refinedValue] == nil {
+                            newFacetCounts[refinedValue] = 0
                         }
                     }
                 }
@@ -142,7 +139,7 @@ internal class DisjunctiveFaceting {
         mainContent["facets_stats"] = facetsStats
         return mainContent
     }
-    
+
     /// Build the facet filters, either global or for the selected disjunctive facet.
     ///
     /// - parameter excludedFacet: The disjunctive facet to exclude from the filters. If nil, no facet is

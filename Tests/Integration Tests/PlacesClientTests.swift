@@ -24,21 +24,20 @@
 import XCTest
 @testable import InstantSearchClient
 
-
 class PlacesClientTests: XCTestCase {
     let expectationTimeout: TimeInterval = 100
 
     var places: PlacesClient!
-    
+
     override func setUp() {
         super.setUp()
-        
+
         // Init client.
         let appID = Bundle(for: type(of: self)).object(forInfoDictionaryKey: "PLACES_APPLICATION_ID") as? String ?? ""
         let apiKey = Bundle(for: type(of: self)).object(forInfoDictionaryKey: "PLACES_API_KEY") as? String ?? ""
         places = PlacesClient(appID: appID, apiKey: apiKey)
     }
-    
+
 //    func testSearch() {
 //        let expectation = self.expectation(description: #function)
 //        let query = PlacesQuery()
@@ -60,12 +59,12 @@ class PlacesClientTests: XCTestCase {
 
     func testGetObject() {
         let expectation = self.expectation(description: #function)
-        
+
         places.getObject(withID: "afd71bb8613f70ca495d8996923b5fd5") { (content, error) in
             XCTAssertEqual("afd71bb8613f70ca495d8996923b5fd5", content!["objectID"] as! String)
             expectation.fulfill()
         }
-        
+
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
 }

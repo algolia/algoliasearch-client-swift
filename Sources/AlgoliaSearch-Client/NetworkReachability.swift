@@ -26,19 +26,18 @@
 import Foundation
 import SystemConfiguration
 
-
 /// Detects network reachability.
 ///
 protocol NetworkReachability {
     // MARK: Properties
-    
+
     /// Test if network connectivity is currently available.
     ///
     /// - returns: true if network connectivity is available, false otherwise.
     ///
     func isReachable() -> Bool
 }
-    
+
 /// Detects network reachability using the system's built-in mechanism.
 ///
 class SystemNetworkReachability: NetworkReachability {
@@ -46,9 +45,9 @@ class SystemNetworkReachability: NetworkReachability {
 
     /// Reachability handle used to test connectivity.
     private var reachability: SCNetworkReachability
-    
+
     // MARK: Initialization
-    
+
     init() {
         // Create reachability handle to an all-zeroes address.
       if #available(iOS 9, OSX 10.11, tvOS 9, *) {
@@ -67,7 +66,7 @@ class SystemNetworkReachability: NetworkReachability {
           }!
       }
     }
-    
+
     /// Test if network connectivity is currently available.
     ///
     /// - returns: true if network connectivity is available, false otherwise.
@@ -77,12 +76,12 @@ class SystemNetworkReachability: NetworkReachability {
         if !SCNetworkReachabilityGetFlags(reachability, &flags) {
             return false
         }
-        
+
         let reachable = flags.contains(.reachable)
         let connectionRequired = flags.contains(.connectionRequired)
         return reachable && !connectionRequired
     }
-    
+
     // MARK: Constants
 
     /// An all zeroes IP address.
@@ -92,7 +91,7 @@ class SystemNetworkReachability: NetworkReachability {
         address.sin_family = sa_family_t(AF_INET)
         return address
     }()
-  
+
   /// An all zeroes IP address.
   static let zeroAddress6: sockaddr_in6 = {
     var address = sockaddr_in6()

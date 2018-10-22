@@ -649,6 +649,7 @@
 				5DB251391AAD9EE300945339 /* Frameworks */,
 				5DB2513A1AAD9EE300945339 /* Headers */,
 				5DB2513B1AAD9EE300945339 /* Resources */,
+				E2620F41217E1D6F003F7741 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1055,6 +1056,23 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AlgoliaSearch iOS Tests/Pods-AlgoliaSearch iOS Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		E2620F41217E1D6F003F7741 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint --config config/.swiftlint.yml\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		EA509541FF12E58AC57B3715 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -26,10 +26,10 @@ import InstantSearchClient
 
 class BrowseIteratorTests: OnlineTestCase {
     let cancelTimeout: TimeInterval = 10
-    
+
     override func setUp() {
         super.setUp()
-        
+
         // Add a bunch of objects to the index.
         let expectation = self.expectation(description: "Add objects")
         var objects = [[String: Any]]()
@@ -51,7 +51,7 @@ class BrowseIteratorTests: OnlineTestCase {
         }
         self.waitForExpectations(timeout: expectationTimeout, handler: nil)
     }
-    
+
     func testNominal() {
         let expectation = self.expectation(description: #function)
         var pageCount = 0

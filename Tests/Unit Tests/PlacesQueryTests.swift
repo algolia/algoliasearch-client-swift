@@ -24,7 +24,6 @@
 import XCTest
 @testable import InstantSearchClient
 
-
 class PlacesQueryTests: XCTestCase {
 
     func test_query() {
@@ -40,7 +39,7 @@ class PlacesQueryTests: XCTestCase {
     func test_type() {
         let query1 = PlacesQuery()
         XCTAssertNil(query1.type)
-        
+
         query1.type = .city
         XCTAssertEqual(query1.type, .city)
         XCTAssertEqual(query1["type"], "city")
@@ -127,7 +126,7 @@ class PlacesQueryTests: XCTestCase {
         let query2 = PlacesQuery.parse(query1.build())
         XCTAssertEqual(query2.aroundLatLng!, LatLng(lat: 89.76, lng: -123.45))
     }
-    
+
     func test_aroundLatLngViaIP() {
         let query1 = PlacesQuery()
         XCTAssertNil(query1.aroundLatLngViaIP)
@@ -137,7 +136,7 @@ class PlacesQueryTests: XCTestCase {
         let query2 = PlacesQuery.parse(query1.build())
         XCTAssertEqual(query2.aroundLatLngViaIP, true)
     }
-    
+
     func test_aroundRadius() {
         let query1 = PlacesQuery()
         XCTAssertNil(query1.aroundRadius)
@@ -146,7 +145,7 @@ class PlacesQueryTests: XCTestCase {
         XCTAssertEqual(query1["aroundRadius"], "987")
         var query2 = PlacesQuery.parse(query1.build())
         XCTAssertEqual(query2.aroundRadius, .explicit(987))
-        
+
         query1.aroundRadius = .all
         XCTAssertEqual(query1.aroundRadius, .all)
         XCTAssertEqual(query1["aroundRadius"], "all")

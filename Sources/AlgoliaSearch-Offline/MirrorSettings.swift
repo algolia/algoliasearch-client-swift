@@ -23,12 +23,11 @@
 
 import Foundation
 
-
 internal class MirrorSettings {
     var lastSyncDate: Date?
-    var queries : [DataSelectionQuery] = []
+    var queries: [DataSelectionQuery] = []
     var queriesModificationDate: Date?
-    
+
     /// Serialize the settings to a plist and save them to disk.
     func save(_ filePath: String) {
         var queriesJson: [[String: Any]] = []
@@ -66,4 +65,3 @@ internal class MirrorSettings {
         }
     }
 }
-

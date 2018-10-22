@@ -24,29 +24,27 @@
 import AlgoliaSearchOfflineCore
 import Foundation
 
-
 public struct IOError: CustomNSError {
     /// Further description of this error.
     public let description: String
-    
+
     public init(description: String) {
         self.description = description
     }
-    
+
     // MARK: CustomNSError protocol
     // ... for Objective-C bridging.
-    
+
     public static var errorDomain: String = String(reflecting: InvalidJSONError.self)
-    
+
     public var errorCode: Int { return 601 }
-    
+
     public var errorUserInfo: [String : Any] {
         return [
             NSLocalizedDescriptionKey: description
         ]
     }
 }
-
 
 /// A purely offline index.
 /// Such an index has no online counterpart. It is updated and queried locally.
@@ -131,17 +129,17 @@ public struct IOError: CustomNSError {
 ///   However, all write operations are *de facto* batches, since they must be wrapped inside a transaction (see below).
 ///
 
-@objcMembers public class OfflineIndex : NSObject, Searchable {
+@objcMembers public class OfflineIndex: NSObject, Searchable {
     // TODO: Expose common behavior through a protocol.
     // TODO: Factorize common behavior in a base class.
-    
+
     // ----------------------------------------------------------------------
     // MARK: Properties
     // ----------------------------------------------------------------------
-    
+
     /// This index's name.
     @objc public let name: String
-    
+
     /// API client used by this index.
     @objc public let client: OfflineClient
 
@@ -150,13 +148,13 @@ public struct IOError: CustomNSError {
 
     /// Queue used to run transaction bodies (but not the build).
     private let transactionQueue: OperationQueue
-    
+
     /// Serial number for transactions.
     private var transactionSeqNo: Int = 0
 
     /// Dispatch queue used to serialize access to `transactionSeqNo`.
     private let transactionSeqNo_lock = DispatchQueue(label: "OfflineIndex.transactionSeqNo.lock")
-    
+
     /// Whether this index has offline data on disk.
     ///
     @objc public var hasOfflineData: Bool {
@@ -164,11 +162,11 @@ public struct IOError: CustomNSError {
             return localIndex.exists()
         }
     }
-    
+
     // ----------------------------------------------------------------------
     // MARK: - Initialization
     // ----------------------------------------------------------------------
-    
+
     /// Create a new offline index.
     ///
     /// - parameter client: The offline client used by this index.
@@ -181,18 +179,18 @@ public struct IOError: CustomNSError {
         self.transactionQueue.maxConcurrentOperationCount = 1
         self.localIndex = LocalIndex(dataDir: self.client.rootDataDir, appID: self.client.appID, indexName: self.name)
     }
-    
+
     override public var description: String {
         get {
             // TODO: Move to a higher level.
             return "Index{\"\(name)\"}"
         }
     }
-    
+
     // ----------------------------------------------------------------------
     // MARK: - Read operations
     // ----------------------------------------------------------------------
-    
+
     /// Get an object from this index.
     ///
     /// - parameter objectID: Identifier of the object to retrieve.
@@ -203,7 +201,7 @@ public struct IOError: CustomNSError {
     @objc public func getObject(withID objectID: String, completionHandler: @escaping CompletionHandler) -> Operation {
         return getObject(withID: objectID, attributesToRetrieve: nil, completionHandler: completionHandler)
     }
-    
+
     /// Get an object from this index, optionally restricting the retrieved content.
     ///
     /// - parameter objectID: Identifier of the object to retrieve.
@@ -214,14 +212,14 @@ public struct IOError: CustomNSError {
     ///
     @discardableResult
     @objc public func getObject(withID objectID: String, attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) -> Operation {
-        let operation = BlockOperation() {
+        let operation = BlockOperation {
             let (content, error) = self.getObjectSync(withID: objectID, attributesToRetrieve: attributesToRetrieve)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.offlineSearchQueue.addOperation(operation)
         return operation
     }
-    
+
     /// Get an object from this index (synchronous version).
     ///
     /// - parameter objectID: Identifier of the object to retrieve.
@@ -248,7 +246,7 @@ public struct IOError: CustomNSError {
         }
         return (nil, error)
     }
-    
+
     /// Get several objects from this index.
     ///
     /// - parameter objectIDs: Identifiers of objects to retrieve.
@@ -259,7 +257,7 @@ public struct IOError: CustomNSError {
     @objc public func getObjects(withIDs objectIDs: [String], completionHandler: @escaping CompletionHandler) -> Operation {
         return getObjects(withIDs: objectIDs, attributesToRetrieve: nil, completionHandler: completionHandler)
     }
-    
+
     /// Get several objects from this index (synchronous version).
     ///
     /// - parameter objectIDs: Identifiers of objects to retrieve.
@@ -279,14 +277,14 @@ public struct IOError: CustomNSError {
     ///
     @discardableResult
     @objc public func getObjects(withIDs objectIDs: [String], attributesToRetrieve: [String]?, completionHandler: @escaping CompletionHandler) -> Operation {
-        let operation = BlockOperation() {
+        let operation = BlockOperation {
             let (content, error) = self.getObjectsSync(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.offlineSearchQueue.addOperation(operation)
         return operation
     }
-    
+
     /// Get several objects from this index, optionally restricting the retrieved content (synchronous version).
     ///
     /// - parameter objectIDs: Identifiers of objects to retrieve.
@@ -309,19 +307,19 @@ public struct IOError: CustomNSError {
     ///
     @discardableResult
     @objc public func search(_ query: Query, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
-        let operation = BlockOperation() {
+        let operation = BlockOperation {
             let (content, error) = self.searchSync(Query(copy: query))
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.offlineSearchQueue.addOperation(operation)
         return operation
     }
-    
+
     @objc(search:completionHandler:)
     @discardableResult public func z_objc_search(_ query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         return self.search(query, completionHandler: completionHandler)
     }
-    
+
     /// Search this index (synchronous version).
     ///
     /// - parameter query: Search parameters.
@@ -340,14 +338,14 @@ public struct IOError: CustomNSError {
     @discardableResult
     @objc(getSettings:)
     public func getSettings(completionHandler: @escaping CompletionHandler) -> Operation {
-        let operation = BlockOperation() {
+        let operation = BlockOperation {
             let (content, error) = self.getSettingsSync()
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.offlineSearchQueue.addOperation(operation)
         return operation
     }
-    
+
     /// Get this index's settings (synchronous version).
     ///
     /// - returns: A mutually exclusive (content, error) pair.
@@ -356,7 +354,7 @@ public struct IOError: CustomNSError {
         let searchResults = self.localIndex.getSettings()
         return OfflineClient.parseResponse(searchResults)
     }
-    
+
     /// Browse all index content (initial call).
     /// This method should be called once to initiate a browse. It will return the first page of results and a cursor,
     /// unless the end of the index has been reached. To retrieve subsequent pages, call `browseFrom` with that cursor.
@@ -367,14 +365,14 @@ public struct IOError: CustomNSError {
     ///
     @discardableResult
     @objc public func browse(query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
-        let operation = BlockOperation() {
+        let operation = BlockOperation {
             let (content, error) = self.browseSync(query: Query(copy: query))
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.offlineSearchQueue.addOperation(operation)
         return operation
     }
-    
+
     /// Browse all index content (initial call) (synchronous version).
     /// This method should be called once to initiate a browse. It will return the first page of results and a cursor,
     /// unless the end of the index has been reached. To retrieve subsequent pages, call `browseFrom` with that cursor.
@@ -386,7 +384,7 @@ public struct IOError: CustomNSError {
         let searchResults = self.localIndex.browse(query.build())
         return OfflineClient.parseResponse(searchResults)
     }
-    
+
     /// Browse the index from a cursor.
     /// This method should be called after an initial call to `browse(...)`. It returns a cursor, unless the end of the
     /// index has been reached.
@@ -397,7 +395,7 @@ public struct IOError: CustomNSError {
     ///
     @discardableResult
     @objc public func browseFrom(cursor: String, completionHandler: @escaping CompletionHandler) -> Operation {
-        let operation = BlockOperation() {
+        let operation = BlockOperation {
             let (content, error) = self.browseSync(from: cursor)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
@@ -427,7 +425,7 @@ public struct IOError: CustomNSError {
     ///
     @discardableResult
     @objc public func multipleQueries(_ queries: [Query], strategy: String?, completionHandler: @escaping CompletionHandler) -> Operation {
-        let operation = BlockOperation() {
+        let operation = BlockOperation {
             let (content, error) = self.multipleQueriesSync(queries, strategy: strategy)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
@@ -469,7 +467,7 @@ public struct IOError: CustomNSError {
     private func multipleQueriesSync(_ queries: [Query], strategy: Client.MultipleQueriesStrategy? = nil) -> APIResponse {
         return self.multipleQueriesSync(queries, strategy: strategy?.rawValue)
     }
-    
+
     /// Search for facet values.
     /// Same parameters as `Index.searchForFacetValues(...)`.
     ///
@@ -477,19 +475,19 @@ public struct IOError: CustomNSError {
     @objc(searchForFacetValuesOf:matching:query:requestOptions:completionHandler:)
     public func searchForFacetValues(of facetName: String, matching text: String, query: Query? = nil, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
         let queryCopy = query != nil ? Query(copy: query!) : nil
-        let operation = BlockOperation() {
+        let operation = BlockOperation {
             let (content, error) = self.searchForFacetValuesSync(of: facetName, matching: text, query: queryCopy)
             self.callCompletionHandler(completionHandler, content: content, error: error)
         }
         client.offlineSearchQueue.addOperation(operation)
         return operation
     }
-    
+
     @objc(searchForFacetValuesOf:matching:query:completionHandler:)
     @discardableResult public func z_objc_searchForFacetValues(of facetName: String, matching text: String, query: Query, completionHandler: @escaping CompletionHandler) -> Operation {
         return self.searchForFacetValues(of: facetName, matching: text, query: query, completionHandler: completionHandler)
     }
-        
+
     /// Search for facet values (synchronous version).
     ///
     private func searchForFacetValuesSync(of facetName: String, matching text: String, query: Query? = nil) -> APIResponse {
@@ -500,7 +498,7 @@ public struct IOError: CustomNSError {
     // ----------------------------------------------------------------------
     // MARK: - Write operations
     // ----------------------------------------------------------------------
-    
+
     /// A transaction to update the index.
     ///
     /// A transaction gathers all the operations that will be performed when the transaction is committed.
@@ -511,71 +509,73 @@ public struct IOError: CustomNSError {
     ///
     /// A transaction can be created by calling `OfflineIndex.newTransaction()`.
     ///
-  
+
     @objc @objcMembers public class WriteTransaction: NSObject {
         /// The index on which this transaction will operate.
         @objc public let index: OfflineIndex
-        
+
         /// This transaction's ID.
         /// Unique within the context of `index`.
         /// *Not* guaranteed to be unique across all indices.
         ///
         @objc public let identifier: Int
-        
+
         /// Whether this transaction has completed (committed or rolled back).
         @objc public private(set) var finished: Bool = false
 
         /// Path to the temporary file containing the new settings.
         /// If `nil`, settings will be unchanged by this transaction.
-        private var settingsFilePath: String? = nil
-        
+        private var settingsFilePath: String?
+
         /// Paths to the temporary files containing the objects that will be added/updated by this transaction.
         private var objectFilePaths: [String] = []
-        
+
         /// Identifiers of objects that will be deleted by this transaction.
         ///
         /// + Warning: Deleted objects have higher precedence than added/updated objects.
         ///
         private var deletedObjectIDs: Set<String> = Set<String>()
-        
+
         /// Whether the index should be cleared before executing this transaction.
         private var shouldClearIndex: Bool = false
-        
+
         /// Temporary directory for this transaction.
         private let tmpDirPath: String
-        
+
         /// Temporary in-memory cache for objects.
         private var tmpObjects: [[String: Any]] = []
-        
+
         /// Dispatch queue used to serialize accesses to a transaction's data.
         private var self_lock = DispatchQueue(label: String(reflecting: type(of: self)) + ".lock")
-        
+
         // MARK: Constants
-        
+
         /// Maximum number of objects to keep in memory before flushing to disk.
         private static let maxObjectsInMemory = 100
-        
+
         // MARK: Initialization
-        
+
         fileprivate init(index: OfflineIndex) {
             self.index = index
             self.identifier = index.nextTransactionSeqNo()
             self.tmpDirPath = URL(fileURLWithPath: index.client.tmpDir).appendingPathComponent(NSUUID().uuidString).path
             super.init()
-            
+
+            // swiftlint:disable force_try
             // Create temporary directory.
             try! FileManager.default.createDirectory(atPath: tmpDirPath, withIntermediateDirectories: true, attributes: nil)
+            // swiftlint:enable force_try
         }
-        
+
         deinit {
             if !finished {
                 NSLog("[WARNING] Transaction %@ was never committed nor rolled back", self)
                 doRollback()
             }
         }
-        
+
         override public var description: String { return "WriteTransaction{index: \(index), identifier: \(identifier)}" }
-        
+
         // MARK: Populating
 
         /// Save an object (synchronously).
@@ -590,7 +590,7 @@ public struct IOError: CustomNSError {
                 try flushObjectsToDisk(force: false)
             }
         }
-        
+
         /// Save an object.
         ///
         /// - parameter object: Object to save. It must contain an `objectID` attribute.
@@ -599,7 +599,7 @@ public struct IOError: CustomNSError {
         ///
         @discardableResult
         @objc public func saveObject(_ object: [String: Any], completionHandler: CompletionHandler? = nil) -> Operation {
-            let operation = BlockOperation() {
+            let operation = BlockOperation {
                 do {
                     try self.saveObjectSync(object)
                     guard let objectID = object["objectID"] else {
@@ -629,7 +629,7 @@ public struct IOError: CustomNSError {
                 try flushObjectsToDisk(force: false)
             }
         }
-        
+
         /// Save multiple objects.
         ///
         /// - parameter objects: New versions of the objects to update. Each one must contain an `objectID` attribute.
@@ -638,7 +638,7 @@ public struct IOError: CustomNSError {
         ///
         @discardableResult
         @objc public func saveObjects(_ objects: [[String: Any]], completionHandler: CompletionHandler? = nil) -> Operation {
-            let operation = BlockOperation() {
+            let operation = BlockOperation {
                 do {
                     try self.saveObjectsSync(objects)
                     let objectIDs = try objects.map({ (object: [String: Any]) -> Any in
@@ -658,7 +658,7 @@ public struct IOError: CustomNSError {
             index.transactionQueue.addOperation(operation)
             return operation
         }
-        
+
         /// Delete an object (synchronously).
         ///
         /// - parameter objectID: Identifier of the object to delete.
@@ -670,7 +670,7 @@ public struct IOError: CustomNSError {
                 deletedObjectIDs.insert(objectID)
             }
         }
-        
+
         /// Delete an object.
         ///
         /// - parameter objectID: Identifier of the object to delete.
@@ -679,7 +679,7 @@ public struct IOError: CustomNSError {
         ///
         @discardableResult
         @objc public func deleteObject(withID objectID: String, completionHandler: CompletionHandler? = nil) -> Operation {
-            let operation = BlockOperation() {
+            let operation = BlockOperation {
                 do {
                     try self.deleteObjectSync(withID: objectID)
                     let content: [String: Any] = [
@@ -714,7 +714,7 @@ public struct IOError: CustomNSError {
         ///
         @discardableResult
         @objc public func deleteObjects(withIDs objectIDs: [String], completionHandler: CompletionHandler? = nil) -> Operation {
-            let operation = BlockOperation() {
+            let operation = BlockOperation {
                 do {
                     try self.deleteObjectsSync(withIDs: objectIDs)
                     let content: [String: Any] = [
@@ -743,7 +743,7 @@ public struct IOError: CustomNSError {
                 settingsFilePath = try writeTmpJSONFile(json: settings)
             }
         }
-        
+
         /// Set the index's settings.
         ///
         /// Please refer to our [API documentation](https://www.algolia.com/doc/swift#index-settings) for the list of
@@ -755,7 +755,7 @@ public struct IOError: CustomNSError {
         ///
         @discardableResult
         @objc public func setSettings(_ settings: [String: Any], completionHandler: CompletionHandler? = nil) -> Operation {
-            let operation = BlockOperation() {
+            let operation = BlockOperation {
                 do {
                     try self.setSettingsSync(settings)
                     completionHandler?([:], nil)
@@ -787,7 +787,7 @@ public struct IOError: CustomNSError {
         @discardableResult
         @objc(clearIndex:)
         public func clearIndex(completionHandler: CompletionHandler? = nil) -> Operation {
-            let operation = BlockOperation() {
+            let operation = BlockOperation {
                 do {
                     try self.clearIndexSync()
                     completionHandler?([:], nil)
@@ -800,14 +800,14 @@ public struct IOError: CustomNSError {
         }
 
         // MARK: Completion
-        
+
         /// Commit the transaction (synchronously).
         ///
         @objc public func commitSync() throws {
             assertNotMainThread()
             try doCommit()
         }
-        
+
         /// Commit the transaction.
         ///
         /// - parameter completionHandler: Completion handler to be notified when the transaction has been committed.
@@ -816,7 +816,7 @@ public struct IOError: CustomNSError {
         @discardableResult
         @objc(commit:)
         public func commit(completionHandler: CompletionHandler? = nil) -> Operation {
-            let operation = BlockOperation() {
+            let operation = BlockOperation {
                 do {
                     try self.doCommit()
                     completionHandler?([:], nil)
@@ -827,7 +827,7 @@ public struct IOError: CustomNSError {
             index.transactionQueue.addOperation(operation)
             return operation
         }
-        
+
         private func doCommit() throws {
             self_lock.sync {
                 assert(!finished)
@@ -836,7 +836,7 @@ public struct IOError: CustomNSError {
             try flushObjectsToDisk(force: true)
             var error: Error?
             // Serialize builds with respect to the client's build queue.
-            let buildOperation = BlockOperation() {
+            let buildOperation = BlockOperation {
                 let response = OfflineClient.parseResponse(self.index.localIndex.build(settingsFile: self.settingsFilePath, objectFiles: self.objectFilePaths, clearIndex: self.shouldClearIndex, deletedObjectIDs: Array(self.deletedObjectIDs)))
                 if response.error != nil {
                     error = response.error
@@ -848,7 +848,7 @@ public struct IOError: CustomNSError {
                 throw error!
             }
         }
-        
+
         /// Rollback the transaction (synchronously).
         /// The index will be left untouched.
         ///
@@ -866,14 +866,14 @@ public struct IOError: CustomNSError {
         @discardableResult
         @objc(rollback:)
         public func rollback(completionHandler: CompletionHandler? = nil) -> Operation {
-            let operation = BlockOperation() {
+            let operation = BlockOperation {
                 self.doRollback()
                 completionHandler?([:], nil)
             }
             index.transactionQueue.addOperation(operation)
             return operation
         }
-        
+
         private func doRollback() {
             self_lock.sync {
                 assert(!finished)
@@ -883,7 +883,7 @@ public struct IOError: CustomNSError {
         }
 
         // MARK: Utils
-        
+
         private func flushObjectsToDisk(force: Bool) throws {
             if force || tmpObjects.count >= WriteTransaction.maxObjectsInMemory {
                 let tmpFilePath = try writeTmpJSONFile(json: tmpObjects)
@@ -891,7 +891,7 @@ public struct IOError: CustomNSError {
                 tmpObjects.removeAll()
             }
         }
-        
+
         private func writeTmpJSONFile(json: Any) throws -> String {
             let tmpFilePath = URL(fileURLWithPath: tmpDirPath).appendingPathComponent(NSUUID().uuidString + ".json").path
             guard let stream = OutputStream(toFileAtPath: tmpFilePath, append: false) else {
@@ -907,13 +907,13 @@ public struct IOError: CustomNSError {
             return tmpFilePath
         }
     }
-    
+
     /// Create a new write transaction.
     ///
     @objc public func newTransaction() -> WriteTransaction {
         return WriteTransaction(index: self)
     }
-    
+
     // ----------------------------------------------------------------------
     // MARK: - Manual build
     // ----------------------------------------------------------------------
@@ -940,7 +940,7 @@ public struct IOError: CustomNSError {
         client.offlineBuildQueue.addOperation(operation)
         return operation
     }
-    
+
     /// Build the index from local files (synchronously).
     ///
     /// + Warning: This method is synchronous: it blocks until completion.
@@ -961,7 +961,7 @@ public struct IOError: CustomNSError {
     // ----------------------------------------------------------------------
     // MARK: - Helpers
     // ----------------------------------------------------------------------
-    
+
     /// Delete all objects matching a query.
     ///
     /// + Warning: This method will assert/crash if no transaction is currently open.
@@ -973,7 +973,7 @@ public struct IOError: CustomNSError {
     @discardableResult
     @objc public func deleteByQuery(_ query: Query, completionHandler: CompletionHandler? = nil) -> Operation {
         let transaction = newTransaction()
-        let operation = BlockOperation() {
+        let operation = BlockOperation {
             var content: [String: Any]?
             var error: Error?
             do {
@@ -992,7 +992,7 @@ public struct IOError: CustomNSError {
         transactionQueue.addOperation(operation)
         return operation
     }
-    
+
     /// Delete all objects matching a query (synchronously).
     ///
     /// + Warning: This method will assert/crash if no transaction is currently open.
@@ -1008,7 +1008,7 @@ public struct IOError: CustomNSError {
         let browseQuery = Query(copy: query)
         browseQuery.attributesToRetrieve = ["objectID"]
         let queryParameters = browseQuery.build()
-        
+
         // Gather object IDs to delete.
         var objectIDsToDelete: [String] = []
         var hasMore = true
@@ -1028,12 +1028,12 @@ public struct IOError: CustomNSError {
             }
             hasMore = returnedContent["cursor"] != nil
         }
-        
+
         // Delete objects.
         try transaction.deleteObjectsSync(withIDs: objectIDsToDelete)
         return objectIDsToDelete
     }
-    
+
     /// Perform a search with disjunctive facets, generating as many queries as number of disjunctive facets (helper).
     ///
     /// - parameter query: The query.
@@ -1048,12 +1048,12 @@ public struct IOError: CustomNSError {
             return self.multipleQueries(queries, completionHandler: completionHandler)
         }).searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: completionHandler)
     }
-    
+
     @objc(searchDisjunctiveFaceting:disjunctiveFacets:refinements:completionHandler:)
     @discardableResult public func z_objc_searchDisjunctiveFaceting(_ query: Query, disjunctiveFacets: [String], refinements: [String: [String]], completionHandler: @escaping CompletionHandler) -> Operation {
         return self.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements, completionHandler: completionHandler)
     }
-        
+
     // ----------------------------------------------------------------------
     // MARK: - Utils
     // ----------------------------------------------------------------------
@@ -1072,7 +1072,7 @@ public struct IOError: CustomNSError {
             }
         }
     }
-    
+
     private func nextTransactionSeqNo() -> Int {
         var seqNo: Int = 0
         transactionSeqNo_lock.sync {
@@ -1083,6 +1083,6 @@ public struct IOError: CustomNSError {
     }
 }
 
-fileprivate func assertNotMainThread() {
+private func assertNotMainThread() {
     assert(!Thread.isMainThread, "Synchronous methods should not be called from the main thread")
 }
