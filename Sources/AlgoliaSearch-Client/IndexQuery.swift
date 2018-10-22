@@ -40,7 +40,7 @@ import Foundation
 
   /// Create an index query from an `Index` instance and a query.
   @objc public init(index: Index, query: Query) {
-    self.indexName = index.name
+    indexName = index.name
     self.query = query
   }
 }

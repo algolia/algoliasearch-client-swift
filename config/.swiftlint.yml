@@ -10,6 +10,7 @@ disabled_rules: # rule identifiers to exclude from running
   - implicit_getter
   - control_statement
   - cyclomatic_complexity
+  - trailing_comma
 opt_in_rules: # some rules are only opt-in
   - empty_count
   # Find all the available rules by running:
@@ -17,7 +18,7 @@ opt_in_rules: # some rules are only opt-in
 included: # paths to include during linting. `--path` is ignored if present.
   - Sources
 
-line_length: 120
+line_length: 300
 file_length: 600
 function_body_length: 50
 type_body_length: 250

@@ -26,72 +26,72 @@ import Foundation
 /// Emulates multiple queries.
 ///
 internal class MultipleQueryEmulator {
-    typealias SingleQuerier = (_ query: Query) -> APIResponse
+  typealias SingleQuerier = (_ query: Query) -> APIResponse
 
-    private let querier: SingleQuerier
-    private let indexName: String
+  private let querier: SingleQuerier
+  private let indexName: String
 
-    internal init(indexName: String, querier: @escaping SingleQuerier) {
-        self.indexName = indexName
-        self.querier = querier
-    }
+  internal init(indexName: String, querier: @escaping SingleQuerier) {
+    self.indexName = indexName
+    self.querier = querier
+  }
 
-    internal func multipleQueries(_ queries: [Query], strategy: String?) -> APIResponse {
-        // TODO: Should be moved to `LocalIndex` to factorize implementation between platforms.
-        assert(!Thread.isMainThread) // make sure it's run in the background
+  internal func multipleQueries(_ queries: [Query], strategy: String?) -> APIResponse {
+    // TODO: Should be moved to `LocalIndex` to factorize implementation between platforms.
+    assert(!Thread.isMainThread) // make sure it's run in the background
 
-        var content: [String: Any]?
-        var error: Error?
-        var results: [[String: Any]] = []
+    var content: [String: Any]?
+    var error: Error?
+    var results: [[String: Any]] = []
 
-        var shouldProcess = true
-        for query in queries {
-            // Implement the "stop if enough matches" strategy.
-            if !shouldProcess {
-                let returnedContent: [String: Any] = [
-                    "hits": [],
-                    "page": 0,
-                    "nbHits": 0,
-                    "nbPages": 0,
-                    "hitsPerPage": 0,
-                    "processingTimeMS": 1,
-                    "params": query.build(),
-                    "index": self.indexName,
-                    "processed": false
-                ]
-                results.append(returnedContent)
-                continue
-            }
+    var shouldProcess = true
+    for query in queries {
+      // Implement the "stop if enough matches" strategy.
+      if !shouldProcess {
+        let returnedContent: [String: Any] = [
+          "hits": [],
+          "page": 0,
+          "nbHits": 0,
+          "nbPages": 0,
+          "hitsPerPage": 0,
+          "processingTimeMS": 1,
+          "params": query.build(),
+          "index": self.indexName,
+          "processed": false,
+        ]
+        results.append(returnedContent)
+        continue
+      }
 
-            let (queryContent, queryError) = self.querier(query)
-            assert(queryContent != nil || queryError != nil)
-            if queryError != nil {
-                error = queryError
-                break
-            }
-            var returnedContent = queryContent!
-            returnedContent["index"] = self.indexName
-            results.append(returnedContent)
+      let (queryContent, queryError) = querier(query)
+      assert(queryContent != nil || queryError != nil)
+      if queryError != nil {
+        error = queryError
+        break
+      }
+      var returnedContent = queryContent!
+      returnedContent["index"] = indexName
+      results.append(returnedContent)
 
-            // Implement the "stop if enough matches strategy".
-            if shouldProcess && strategy == Client.MultipleQueriesStrategy.stopIfEnoughMatches.rawValue {
-                if let nbHits = returnedContent["nbHits"] as? Int, let hitsPerPage = returnedContent["hitsPerPage"] as? Int {
-                    if nbHits >= hitsPerPage {
-                        shouldProcess = false
-                    }
-                }
-            }
+      // Implement the "stop if enough matches strategy".
+      if shouldProcess && strategy == Client.MultipleQueriesStrategy.stopIfEnoughMatches.rawValue {
+        if let nbHits = returnedContent["nbHits"] as? Int, let hitsPerPage = returnedContent["hitsPerPage"] as? Int {
+          if nbHits >= hitsPerPage {
+            shouldProcess = false
+          }
         }
-        if error == nil {
-            content = [
-                "results": results,
-                // Tag results as having a local origin.
-                // NOTE: Each individual result is also automatically tagged, but having a top-level key allows for
-                // more uniform processing.
-                MirroredIndex.jsonKeyOrigin: MirroredIndex.jsonValueOriginLocal
-            ]
-        }
-        assert(content != nil || error != nil)
-        return (content: content, error: error)
+      }
     }
+    if error == nil {
+      content = [
+        "results": results,
+        // Tag results as having a local origin.
+        // NOTE: Each individual result is also automatically tagged, but having a top-level key allows for
+        // more uniform processing.
+        MirroredIndex.jsonKeyOrigin: MirroredIndex.jsonValueOriginLocal,
+      ]
+    }
+    assert(content != nil || error != nil)
+    return (content: content, error: error)
+  }
 }

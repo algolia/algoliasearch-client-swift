@@ -10,19 +10,19 @@ import AlgoliaSearch
 import UIKit
 
 class ViewController: UIViewController {
-    var offlineClientTests = OfflineClientTests()
-    var offlineIndexTests = OfflineIndexTests()
+  var offlineClientTests = OfflineClientTests()
+  var offlineIndexTests = OfflineIndexTests()
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+  override func viewDidLoad() {
+    super.viewDidLoad()
 
-        // Clean-up.
-        let client = OfflineClient(appID: "DONTCARE", apiKey: "NEVERMIND")
-        if NSFileManager.defaultManager().fileExistsAtPath(client.rootDataDir) {
-            try! NSFileManager.defaultManager().removeItemAtPath(client.rootDataDir)
-        }
-
-        offlineClientTests.test()
-        offlineIndexTests.test()
+    // Clean-up.
+    let client = OfflineClient(appID: "DONTCARE", apiKey: "NEVERMIND")
+    if NSFileManager.defaultManager().fileExistsAtPath(client.rootDataDir) {
+      try! NSFileManager.defaultManager().removeItemAtPath(client.rootDataDir)
     }
+
+    offlineClientTests.test()
+    offlineIndexTests.test()
+  }
 }

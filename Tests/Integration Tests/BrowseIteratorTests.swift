@@ -21,74 +21,73 @@
 //  THE SOFTWARE.
 //
 
-import XCTest
 import InstantSearchClient
+import XCTest
 
 class BrowseIteratorTests: OnlineTestCase {
-    let cancelTimeout: TimeInterval = 10
+  let cancelTimeout: TimeInterval = 10
 
-    override func setUp() {
-        super.setUp()
+  override func setUp() {
+    super.setUp()
 
-        // Add a bunch of objects to the index.
-        let expectation = self.expectation(description: "Add objects")
-        var objects = [[String: Any]]()
-        for i in 0...1500 {
-            objects.append(["i": i])
-        }
-        index.addObjects(objects) { (content, error) -> Void in
-            if error != nil {
-                XCTFail("Error during addObjects: \(error!)")
-                expectation.fulfill()
-            } else {
-                self.index.waitTask(withID: content!["taskID"] as! Int) { (content, error) -> Void in
-                    if error != nil {
-                        XCTFail("Error during waitTask: \(error!)")
-                    }
-                    expectation.fulfill()
-                }
-            }
-        }
-        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    // Add a bunch of objects to the index.
+    let expectation = self.expectation(description: "Add objects")
+    var objects = [[String: Any]]()
+    for i in 0 ... 1500 {
+      objects.append(["i": i])
     }
-
-    func testNominal() {
-        let expectation = self.expectation(description: #function)
-        var pageCount = 0
-        let iterator = BrowseIterator(index: index, query: Query()) { (iterator, content, error) in
-            pageCount += 1
-            if error != nil {
-                XCTFail("Error encountered: \(error!)")
-            }
-            if pageCount == 1 {
-                XCTAssertTrue(iterator.hasNext())
-            } else if pageCount == 2 {
-                XCTAssertFalse(iterator.hasNext())
-                expectation.fulfill()
-            }
+    index.addObjects(objects) { (content, error) -> Void in
+      if error != nil {
+        XCTFail("Error during addObjects: \(error!)")
+        expectation.fulfill()
+      } else {
+        self.index.waitTask(withID: content!["taskID"] as! Int) { (_, error) -> Void in
+          if error != nil {
+            XCTFail("Error during waitTask: \(error!)")
+          }
+          expectation.fulfill()
         }
-        iterator.start()
-        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+      }
     }
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
+  }
 
-    func testCancel() {
-        var pageCount = 0
-        let iterator = BrowseIterator(index: index, query: Query()) { (iterator, content, error) in
-            if error != nil {
-                XCTFail("Error encountered: \(error!)")
-            } else {
-                pageCount += 1
-                if pageCount == 1 {
-                    iterator.cancel()
-                } else if pageCount >= 2 {
-                    XCTFail("Should never reach this point")
-                }
-            }
+  func testNominal() {
+    let expectation = self.expectation(description: #function)
+    var pageCount = 0
+    let iterator = BrowseIterator(index: index, query: Query()) { iterator, _, error in
+      pageCount += 1
+      if error != nil {
+        XCTFail("Error encountered: \(error!)")
+      }
+      if pageCount == 1 {
+        XCTAssertTrue(iterator.hasNext())
+      } else if pageCount == 2 {
+        XCTAssertFalse(iterator.hasNext())
+        expectation.fulfill()
+      }
+    }
+    iterator.start()
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
+  }
+
+  func testCancel() {
+    var pageCount = 0
+    let iterator = BrowseIterator(index: index, query: Query()) { iterator, _, error in
+      if error != nil {
+        XCTFail("Error encountered: \(error!)")
+      } else {
+        pageCount += 1
+        if pageCount == 1 {
+          iterator.cancel()
+        } else if pageCount >= 2 {
+          XCTFail("Should never reach this point")
         }
-        iterator.start()
-        // Manually run the run loop for a while to leave a chance to the completion handler to be called.
-        // WARNING: We cannot use `self.waitForExpectations(timeout: )`, because a timeout always results in failure.
-        RunLoop.main.run(until: Date().addingTimeInterval(cancelTimeout))
+      }
     }
-
+    iterator.start()
+    // Manually run the run loop for a while to leave a chance to the completion handler to be called.
+    // WARNING: We cannot use `self.waitForExpectations(timeout: )`, because a timeout always results in failure.
+    RunLoop.main.run(until: Date().addingTimeInterval(cancelTimeout))
+  }
 }

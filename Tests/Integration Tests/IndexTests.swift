@@ -21,12 +21,11 @@
 //  THE SOFTWARE.
 //
 
-import XCTest
 import InstantSearchClient
 import PromiseKit
+import XCTest
 
 class IndexTests: OnlineTestCase {
-
   func testAdd() {
     let expectation = self.expectation(description: #function)
     let mockObject = ["city": "San Francisco"]
@@ -48,34 +47,34 @@ class IndexTests: OnlineTestCase {
     }.always {
       expectation.fulfill()
     }
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testAddObjects() {
     let expectation = self.expectation(description: #function)
     let mockObjects: [[String: Any]] = [
       ["city": "San Francisco"],
-      ["city": "New York"]
+      ["city": "New York"],
     ]
 
     let promise = firstly {
       self.addObjects(mockObjects)
-      }.then { object in
-        self.waitTask(object)
-      }.then { _ in
-        self.query()
-      }
-
-      promise.then { content in
-        self.getValuePromise(content, key: "nbHits")
-      }.then { hitsCount in
-        XCTAssertEqual(hitsCount, 2, "Wrong number of object in the index")
-      }.catch { error in
-        XCTFail("Error : \(error)")
-      }.always {
-        expectation.fulfill()
+    }.then { object in
+      self.waitTask(object)
+    }.then { _ in
+      self.query()
     }
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+
+    promise.then { content in
+      self.getValuePromise(content, key: "nbHits")
+    }.then { hitsCount in
+      XCTAssertEqual(hitsCount, 2, "Wrong number of object in the index")
+    }.catch { error in
+      XCTFail("Error : \(error)")
+    }.always {
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testWaitTask() {
@@ -97,7 +96,7 @@ class IndexTests: OnlineTestCase {
     }.always {
       expectation.fulfill()
     }
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testDelete() {
@@ -119,47 +118,47 @@ class IndexTests: OnlineTestCase {
     promise.then { content in
       self.getHitsCount(content)
     }.then { hitsCount in
-        XCTAssertEqual(hitsCount, 0, "Wrong number of object in the index")
+      XCTAssertEqual(hitsCount, 0, "Wrong number of object in the index")
     }.catch { error in
-        XCTFail("Error : \(error)")
+      XCTFail("Error : \(error)")
     }.always {
       expectation.fulfill()
     }
 
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testDeleteObjects() {
     let expectation = self.expectation(description: #function)
     let mockObjects: [[String: Any]] = [
       ["city": "San Francisco", "objectID": "a/go/?à"],
-      ["city": "New York", "objectID": "a/go/?à$"]
+      ["city": "New York", "objectID": "a/go/?à$"],
     ]
 
     let mockObjectsIDs = mockObjects.flatMap { $0["objectID"] as? String }
 
     let promise = firstly {
-        self.addObjects(mockObjects)
-      }.then { object in
-        self.waitTask(object)
-      }.then { _ in
-        self.deleteObjects(mockObjectsIDs)
-      }.then { object in
-        self.waitTask(object)
-      }.then { _ in
-        self.query()
-      }
+      self.addObjects(mockObjects)
+    }.then { object in
+      self.waitTask(object)
+    }.then { _ in
+      self.deleteObjects(mockObjectsIDs)
+    }.then { object in
+      self.waitTask(object)
+    }.then { _ in
+      self.query()
+    }
 
-      promise.then { content in
-        self.getHitsCount(content)
-      }.then { hitsCount in
-        XCTAssertEqual(hitsCount, 0, "Wrong number of object in the index")
-      }.catch { error in
-        XCTFail("Error : \(error)")
-      }.always {
-        expectation.fulfill()
-      }
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    promise.then { content in
+      self.getHitsCount(content)
+    }.then { hitsCount in
+      XCTAssertEqual(hitsCount, 0, "Wrong number of object in the index")
+    }.catch { error in
+      XCTFail("Error : \(error)")
+    }.always {
+      expectation.fulfill()
+    }
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testGet() {
@@ -169,31 +168,31 @@ class IndexTests: OnlineTestCase {
     let expectedCity = object["city"]!
 
     let promise = firstly {
-        self.addObject(object)
-        }.then { object in
-            self.waitTask(object)
-        }.then { _ in
-            self.getObject(objectId)
-        }.then { content in
-            self.getValuePromise(content, key: "city")
-        }.then { actualyCity in
-            XCTAssertEqual(expectedCity, actualyCity, "Get object return a bad object")
-        }
+      self.addObject(object)
+    }.then { object in
+      self.waitTask(object)
+    }.then { _ in
+      self.getObject(objectId)
+    }.then { content in
+      self.getValuePromise(content, key: "city")
+    }.then { actualyCity in
+      XCTAssertEqual(expectedCity, actualyCity, "Get object return a bad object")
+    }
 
     promise.catch { error in
-        XCTFail("Error : \(error)")
-        }.always {
-            expectation.fulfill()
-        }
+      XCTFail("Error : \(error)")
+    }.always {
+      expectation.fulfill()
+    }
 
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testGetObjects() {
     let expectation = self.expectation(description: #function)
     let mockObjects: [[String: Any]] = [
       ["city": "San Francisco", "objectID": "a/go/?à"],
-      ["city": "New York", "objectID": "a/go/?à$"]
+      ["city": "New York", "objectID": "a/go/?à$"],
     ]
 
     let mockObjectsIds: [String] = mockObjects.flatMap({ $0["objectID"] as? String })
@@ -201,7 +200,7 @@ class IndexTests: OnlineTestCase {
 
     func assertSameCities(expected: [String], actual: [String: Any]) {
       let cityObjects = actual["results"] as? [[String: Any]]
-      guard let cities = cityObjects?.flatMap({ $0["city"] as? String}) else {
+      guard let cities = cityObjects?.flatMap({ $0["city"] as? String }) else {
         XCTFail("GetObjects return the wrong object")
         return
       }
@@ -212,7 +211,7 @@ class IndexTests: OnlineTestCase {
       self.addObjects(mockObjects)
     }.then { object in
       self.waitTask(object)
-    }.then { waitContent in
+    }.then { _ in
       self.getObjects(mockObjectsIds)
     }.then { objectsContent in
       assertSameCities(expected: mockObjectsValues, actual: objectsContent)
@@ -221,47 +220,47 @@ class IndexTests: OnlineTestCase {
     promise.catch { error in
       XCTFail("Error : \(error)")
     }.always {
-        expectation.fulfill()
+      expectation.fulfill()
     }
 
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testGetObjectsFiltered() {
     let expectation = self.expectation(description: #function)
     let mockObjects: [[String: Any]] = [
       ["objectID": "1", "name": "Snoopy", "kind": "dog"],
-      ["objectID": "2", "name": "Woodstock", "kind": "bird"]
+      ["objectID": "2", "name": "Woodstock", "kind": "bird"],
     ]
     let mockObjectsIds: [String] = mockObjects.flatMap({ $0["objectID"] as? String })
     let mockObjectsNames: [String] = mockObjects.flatMap({ $0["name"] as? String })
 
     let promise = firstly {
-        self.addObjects(mockObjects)
-        }.then { object in
-            self.waitTask(object)
-        }.then { waitContent in
-            self.getObjects(mockObjectsIds, attributesToRetrieve: ["name", "nonexistent"])
-        }.then { objectsContent in
-            assertSameNamesWithNoKind(expected: mockObjectsNames, actual: objectsContent)
+      self.addObjects(mockObjects)
+    }.then { object in
+      self.waitTask(object)
+    }.then { _ in
+      self.getObjects(mockObjectsIds, attributesToRetrieve: ["name", "nonexistent"])
+    }.then { objectsContent in
+      assertSameNamesWithNoKind(expected: mockObjectsNames, actual: objectsContent)
     }
 
     promise.catch { error in
-        XCTFail("Error : \(error)")
-        }.always {
-            expectation.fulfill()
+      XCTFail("Error : \(error)")
+    }.always {
+      expectation.fulfill()
     }
 
     func assertSameNamesWithNoKind(expected: [String], actual: [String: Any]) {
-        let items = actual["results"] as! [[String: Any]]
-        XCTAssertEqual(2, items.count)
-        XCTAssertEqual(items[0]["name"] as? String, expected[0])
-        XCTAssertEqual(items[1]["name"] as? String, expected[1])
-        XCTAssertNil(items[0]["kind"])
-        XCTAssertNil(items[1]["kind"])
+      let items = actual["results"] as! [[String: Any]]
+      XCTAssertEqual(2, items.count)
+      XCTAssertEqual(items[0]["name"] as? String, expected[0])
+      XCTAssertEqual(items[1]["name"] as? String, expected[1])
+      XCTAssertNil(items[0]["kind"])
+      XCTAssertNil(items[1]["kind"])
     }
 
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testPartialUpdateObject() {
@@ -269,38 +268,37 @@ class IndexTests: OnlineTestCase {
     let mockObject = ["city": "New York", "initial": "NY", "objectID": "a/go/?à"]
 
     var promise = firstly {
-      self.addObject(mockObject)
-      }.then { object in
-        self.waitTask(object)
-      }
+      addObject(mockObject)
+    }.then { object in
+      self.waitTask(object)
+    }
 
     promise = promise.then { _ in
       self.partialUpdateObject(["city": "Los Angeles"], withID: mockObject["objectID"]!)
-      }.then { object in
-        self.waitTask(object)
+    }.then { object in
+      self.waitTask(object)
     }
 
     let promise2 = promise.then { _ in
       self.getObject(mockObject["objectID"]!)
-      }.then { content in
-        assertSuccessfulUpdate(content: content)
+    }.then { content in
+      assertSuccessfulUpdate(content: content)
     }
 
     promise2.catch { error in
       XCTFail("Error : \(error)")
-      }.always {
-        expectation.fulfill()
+    }.always {
+      expectation.fulfill()
     }
 
     func assertSuccessfulUpdate(content: [String: Any]) {
-
       let city = content["city"] as! String
       let initial = content["initial"] as! String
       XCTAssertEqual(city, "Los Angeles", "Partial update is not applied")
       XCTAssertEqual(initial, "NY", "Partial update failed")
     }
 
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testPartialUpdateObjectCreateIfNotExistsTrue() {
@@ -309,20 +307,20 @@ class IndexTests: OnlineTestCase {
 
     let promise = firstly {
       self.partialUpdateObject(["city": "Los Angeles"], withID: objectID, createIfNotExists: true)
-      }.then { object in
-        self.waitTask(object)
+    }.then { object in
+      self.waitTask(object)
     }
 
     let promise2 = promise.then { _ in
       self.getObject(objectID)
-      }.then { object in
-        assertEqual(object)
+    }.then { object in
+      assertEqual(object)
     }
 
     promise2.catch { error in
-        XCTFail("Error : \(error)")
-      }.always {
-        expectation.fulfill()
+      XCTFail("Error : \(error)")
+    }.always {
+      expectation.fulfill()
     }
 
     func assertEqual(_ content: [String: Any]) {
@@ -330,7 +328,7 @@ class IndexTests: OnlineTestCase {
       XCTAssertEqual(content["city"] as? String, "Los Angeles")
     }
 
-    self.waitForExpectations(timeout: expectationTimeout)
+    waitForExpectations(timeout: expectationTimeout)
   }
 
   func testPartialUpdateObjectCreateIfNotExistsFalse() {
@@ -339,55 +337,55 @@ class IndexTests: OnlineTestCase {
 
     let promise = firstly {
       self.partialUpdateObject(["city": "Los Angeles"], withID: objectID, createIfNotExists: false)
-      }.then { object in
-        self.waitTask(object)
-      }
+    }.then { object in
+      self.waitTask(object)
+    }
 
     promise.then { _ in
       self.getObject(objectID)
-      }.catch { error in // The object should not have been created
+    }.catch { error in // The object should not have been created
       XCTAssertEqual(StatusCode.notFound.rawValue, (error as NSError).code)
-      }.always {
-        expectation.fulfill()
+    }.always {
+      expectation.fulfill()
     }
 
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testPartialUpdateObjects() {
     let expectation = self.expectation(description: #function)
     let objects: [[String: Any]] = [
       ["city": "San Francisco", "initial": "SF", "objectID": "a/go/?à"],
-      ["city": "New York", "initial": "NY", "objectID": "a/go/?à$"]
+      ["city": "New York", "initial": "NY", "objectID": "a/go/?à$"],
     ]
 
     let objectsToUpdate: [[String: Any]] = [
       ["city": "Paris", "objectID": "a/go/?à"],
-      ["city": "Strasbourg", "objectID": "a/go/?à$"]
+      ["city": "Strasbourg", "objectID": "a/go/?à$"],
     ]
 
     let promise = firstly {
       self.addObjects(objects)
-      }.then { object in
-        self.waitTask(object)
+    }.then { object in
+      self.waitTask(object)
     }
 
     let promise2 = promise.then { _ in
       self.partialUpdateObjects(objectsToUpdate)
-      }.then { object in
-        self.waitTask(object)
+    }.then { object in
+      self.waitTask(object)
     }
 
     let promise3 = promise2.then { _ in
       self.getObjects(["a/go/?à", "a/go/?à$"])
-      }.then { object in
-        assertEqual(object)
+    }.then { object in
+      assertEqual(object)
     }
 
     promise3.catch { error in
       XCTFail("Error : \(error)")
-      }.always {
-        expectation.fulfill()
+    }.always {
+      expectation.fulfill()
     }
 
     func assertEqual(_ content: [String: Any]) {
@@ -398,32 +396,32 @@ class IndexTests: OnlineTestCase {
       XCTAssertEqual(items[1]["initial"]!, "NY", "partialUpdateObjects failed")
     }
 
-    self.waitForExpectations(timeout: expectationTimeout)
+    waitForExpectations(timeout: expectationTimeout)
   }
 
   func testPartialUpdateObjectsCreateIfNotExistsFalse() {
     let expectation = self.expectation(description: #function)
     let objectUpdates: [[String: Any]] = [
       ["city": "Paris", "objectID": "a/go/?à"],
-      ["city": "Strasbourg", "objectID": "a/go/?à$"]
+      ["city": "Strasbourg", "objectID": "a/go/?à$"],
     ]
 
     var promise = firstly {
-      self.partialUpdateObjects(objectUpdates, createIfNotExists: false)
-      }.then { object in
-        self.waitTask(object)
+      partialUpdateObjects(objectUpdates, createIfNotExists: false)
+    }.then { object in
+      self.waitTask(object)
     }
 
     let promise2 = promise.then { _ in
       self.getObjects(["a/go/?à", "a/go/?à$"])
-      }.then { object in
-        assertEqual(object)
+    }.then { object in
+      assertEqual(object)
     }
 
     promise2.catch { error in
       XCTFail("Error : \(error)")
-      }.always {
-        expectation.fulfill()
+    }.always {
+      expectation.fulfill()
     }
 
     func assertEqual(_ content: [String: Any]) {
@@ -433,12 +431,12 @@ class IndexTests: OnlineTestCase {
       }
 
       XCTAssertEqual(results.count, 2)
-      for i in 0..<2 {
+      for i in 0 ..< 2 {
         XCTAssert(results[i] is NSNull)
       }
     }
 
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   // Partial updates with `createIfNotExists=true` should create objects.
@@ -446,25 +444,25 @@ class IndexTests: OnlineTestCase {
     let expectation = self.expectation(description: #function)
     let objectUpdates: [[String: Any]] = [
       ["city": "Paris", "objectID": "a/go/?à"],
-      ["city": "Strasbourg", "objectID": "a/go/?à$"]
+      ["city": "Strasbourg", "objectID": "a/go/?à$"],
     ]
 
     var promise = firstly {
-      self.partialUpdateObjects(objectUpdates, createIfNotExists: true)
-      }.then { object in
-        self.waitTask(object)
+      partialUpdateObjects(objectUpdates, createIfNotExists: true)
+    }.then { object in
+      self.waitTask(object)
     }
 
     let promise2 = promise.then { _ in
       self.getObjects(["a/go/?à", "a/go/?à$"])
-      }.then { object in
-        assertEqual(object)
+    }.then { object in
+      assertEqual(object)
     }
 
     promise2.catch { error in
       XCTFail("Error : \(error)")
-      }.always {
-        expectation.fulfill()
+    }.always {
+      expectation.fulfill()
     }
 
     func assertEqual(_ content: [String: Any]) {
@@ -474,12 +472,12 @@ class IndexTests: OnlineTestCase {
       }
 
       XCTAssertEqual(results.count, 2)
-      for i in 0..<2 {
+      for i in 0 ..< 2 {
         XCTAssertEqual(results[i]["objectID"] as? String, objectUpdates[i]["objectID"] as? String)
       }
     }
 
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testSaveObject() {
@@ -495,7 +493,7 @@ class IndexTests: OnlineTestCase {
     }
 
     let promise = firstly {
-    self.addObject(mockObject)
+      self.addObject(mockObject)
     }.then { object in
       self.waitTask(object)
     }.then { _ in
@@ -515,19 +513,19 @@ class IndexTests: OnlineTestCase {
     }.always {
       expectation.fulfill()
     }
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testSaveObjects() {
     let expectation = self.expectation(description: "testSaveObjects")
     let mockObjects: [[String: Any]] = [
       ["city": "San Francisco", "initial": "SF", "objectID": "a/go/?à"],
-      ["city": "New York", "initial": "NY", "objectID": "a/go/?à$"]
+      ["city": "New York", "initial": "NY", "objectID": "a/go/?à$"],
     ]
 
     let objectsToSave: [[String: Any]] = [
       ["city": "Paris", "objectID": "a/go/?à"],
-      ["city": "Strasbourg", "initial": "SBG", "objectID": "a/go/?à$"]
+      ["city": "Strasbourg", "initial": "SBG", "objectID": "a/go/?à$"],
     ]
 
     func verifyCitiesExists(_ cities: [[String: String]]) {
@@ -539,10 +537,10 @@ class IndexTests: OnlineTestCase {
 
     let promise = firstly {
       self.addObjects(mockObjects)
-      }.then { object in
-        self.waitTask(object)
-      }.then { _ in
-        self.saveObjects(objectsToSave)
+    }.then { object in
+      self.waitTask(object)
+    }.then { _ in
+      self.saveObjects(objectsToSave)
     }
 
     let promise2 = promise.then { object in
@@ -555,11 +553,11 @@ class IndexTests: OnlineTestCase {
 
     promise2.catch { error in
       XCTFail("Error : \(error)")
-      }.always {
-        expectation.fulfill()
+    }.always {
+      expectation.fulfill()
     }
 
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testClear() {
@@ -567,27 +565,27 @@ class IndexTests: OnlineTestCase {
     let object: [String: Any] = ["city": "San Francisco", "objectID": "a/go/?à"]
 
     var promise = firstly {
-      self.addObject(object)
-      }.then { object in
-        self.waitTask(object)
+      addObject(object)
+    }.then { object in
+      self.waitTask(object)
     }
 
     let promise2 = promise.then { _ in
       self.clearIndex()
-      }.then { object in
-        self.waitTask(object)
+    }.then { object in
+      self.waitTask(object)
     }
 
     let promise3 = promise2.then { _ in
       self.query()
-      }.then { object in
-        assertEqual(object)
+    }.then { object in
+      assertEqual(object)
     }
 
     promise3.catch { error in
       XCTFail("Error : \(error)")
-      }.always {
-        expectation.fulfill()
+    }.always {
+      expectation.fulfill()
     }
 
     func assertEqual(_ content: [String: Any]) {
@@ -595,7 +593,7 @@ class IndexTests: OnlineTestCase {
       XCTAssertEqual(nbHits, 0, "Clear index failed")
     }
 
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testSettings() {
@@ -603,21 +601,21 @@ class IndexTests: OnlineTestCase {
     let settings = ["attributesToRetrieve": ["name"]]
 
     var promise = firstly {
-      self.setSettings(settings)
-      }.then { object in
-        self.waitTask(object)
+      setSettings(settings)
+    }.then { object in
+      self.waitTask(object)
     }
 
     let promise2 = promise.then { _ in
       self.getSettings()
-      }.then { object in
-        assertEqual(object)
+    }.then { object in
+      assertEqual(object)
     }
 
     promise2.catch { error in
       XCTFail("Error : \(error)")
-      }.always {
-        expectation.fulfill()
+    }.always {
+      expectation.fulfill()
     }
 
     func assertEqual(_ content: [String: Any]) {
@@ -625,7 +623,7 @@ class IndexTests: OnlineTestCase {
       XCTAssertEqual(attributesToRetrieve, settings["attributesToRetrieve"]!, "Set settings failed")
     }
 
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testSettings_forwardToReplicas() {
@@ -633,21 +631,21 @@ class IndexTests: OnlineTestCase {
     let settings = ["attributesToRetrieve": ["name"]]
 
     var promise = firstly {
-      self.setSettings(settings, forwardToReplicas: true)
-      }.then { object in
-        self.waitTask(object)
+      setSettings(settings, forwardToReplicas: true)
+    }.then { object in
+      self.waitTask(object)
     }
 
     let promise2 = promise.then { _ in
       self.getSettings()
-      }.then { object in
-        assertEqual(object)
+    }.then { object in
+      assertEqual(object)
     }
 
     promise2.catch { error in
       XCTFail("Error : \(error)")
-      }.always {
-        expectation.fulfill()
+    }.always {
+      expectation.fulfill()
     }
 
     func assertEqual(_ content: [String: Any]) {
@@ -655,13 +653,13 @@ class IndexTests: OnlineTestCase {
       XCTAssertEqual(attributesToRetrieve, settings["attributesToRetrieve"]!, "Set settings failed")
     }
 
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testBrowse() {
     let expectation = self.expectation(description: "testBrowseWithQuery")
     var objects: [[String: Any]] = []
-    for i in 0...1500 {
+    for i in 0 ... 1500 {
       objects.append(["i": i])
     }
 
@@ -669,25 +667,25 @@ class IndexTests: OnlineTestCase {
     query.hitsPerPage = 1000
 
     var promise = firstly {
-      self.addObjects(objects)
-      }.then { object in
-        self.waitTask(object)
+      addObjects(objects)
+    }.then { object in
+      self.waitTask(object)
     }
 
     let promise2 = promise.then { _ in
       self.browse(query)
-      }.then { object in
-        self.getValuePromise(object, key: "cursor")
-      }.then { cursor in
-        self.browse(from: cursor)
-      }
+    }.then { object in
+      self.getValuePromise(object, key: "cursor")
+    }.then { cursor in
+      self.browse(from: cursor)
+    }
 
     promise2.then { object in
       assertEqual(object)
-      }.catch { error in
+    }.catch { error in
       XCTFail("Error : \(error)")
-      }.always {
-        expectation.fulfill()
+    }.always {
+      expectation.fulfill()
     }
 
     func assertEqual(_ content: [String: Any]) {
@@ -696,7 +694,7 @@ class IndexTests: OnlineTestCase {
       }
     }
 
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testBatch() {
@@ -704,62 +702,62 @@ class IndexTests: OnlineTestCase {
     let actions: [[String: Any]] = [
       [
         "action": "addObject",
-        "body": [ "city": "San Francisco" ]
+        "body": ["city": "San Francisco"],
       ],
       [
         "action": "addObject",
-        "body": [ "city": "Paris" ]
-      ]
+        "body": ["city": "Paris"],
+      ],
     ]
 
     let promise = firstly {
       self.batch(actions)
-      }.then { object in
-        self.waitTask(object)
+    }.then { object in
+      self.waitTask(object)
     }
 
     let promise2 = promise.then { _ in
       self.query("Francisco")
-      }.then { object in
-        XCTAssertEqual(object["nbHits"] as? Int, 1)
+    }.then { object in
+      XCTAssertEqual(object["nbHits"] as? Int, 1)
     }
 
     promise2.catch { error in
       XCTFail("Error : \(error)")
-      }.always {
-        expectation.fulfill()
+    }.always {
+      expectation.fulfill()
     }
 
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testDeleteByQuery() {
     let expectation = self.expectation(description: #function)
     var objects: [[String: Any]] = []
-    for i in 0..<3000 {
+    for i in 0 ..< 3000 {
       objects.append(["dummy": i])
     }
     let query = Query()
     query.numericFilters = ["dummy < 1500"]
 
     var promise = firstly {
-      self.addObjects(objects)
-      }.then { object in
-        self.waitTask(object)
+      addObjects(objects)
+    }.then { object in
+      self.waitTask(object)
     }
 
     let promise2 = promise.then { _ in
       self.deleteByQuery(query)
-      }.then { object in
+    }.then { _ in
       self.browse(query)
-      }.then { object in
-        assertEqual(object)
+    }.then { object in
+      assertEqual(object)
     }
 
     promise2.catch { error in
       XCTFail("Error : \(error)")
-      }.always {
-        expectation.fulfill()
+    }.always {
+      expectation.fulfill()
     }
 
     func assertEqual(_ content: [String: Any]) {
@@ -767,40 +765,40 @@ class IndexTests: OnlineTestCase {
       XCTAssertNil(content["cursor"])
     }
 
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testDeleteBy() {
     let expectation = self.expectation(description: #function)
     var objects: [[String: Any]] = []
-    for i in 0..<3000 {
+    for i in 0 ..< 3000 {
       objects.append(["dummy": i])
     }
     let query = Query(query: "")
     query.numericFilters = ["dummy < 1500"]
 
     var promise = firstly {
-      self.addObjects(objects)
-      }.then { object in
-        self.waitTask(object)
+      addObjects(objects)
+    }.then { object in
+      self.waitTask(object)
     }
 
     let promise2 = promise.then { _ in
       self.deleteBy(query)
-      }.then { object in
-        self.waitTask(object)
+    }.then { object in
+      self.waitTask(object)
     }
 
-    let promise3 = promise2.then { object in
+    let promise3 = promise2.then { _ in
       self.browse(query)
-      }.then { object in
-        assertEqual(object)
+    }.then { object in
+      assertEqual(object)
     }
 
     promise3.catch { error in
       XCTFail("Error : \(error)")
-      }.always {
-        expectation.fulfill()
+    }.always {
+      expectation.fulfill()
     }
 
     func assertEqual(_ content: [String: Any]) {
@@ -808,7 +806,7 @@ class IndexTests: OnlineTestCase {
       XCTAssertNil(content["cursor"])
     }
 
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testSearchDisjunctiveFaceting() {
@@ -821,38 +819,38 @@ class IndexTests: OnlineTestCase {
       ["name": "Wonder Phone", "brand": "Samsung", "category": "device", "stars": 5],
       ["name": "Platinum Phone Cover", "brand": "Samsung", "category": "accessory", "stars": 2],
       ["name": "Lame Phone", "brand": "Whatever", "category": "device", "stars": 1],
-      ["name": "Lame Phone cover", "brand": "Whatever", "category": "accessory", "stars": 1]
+      ["name": "Lame Phone cover", "brand": "Whatever", "category": "accessory", "stars": 1],
     ]
     let disjunctiveFacets = ["brand"]
     let refinements = [
       "brand": ["Apple", "Samsung"], // disjunctive
-      "category": ["device"] // conjunctive
+      "category": ["device"], // conjunctive
     ]
     let query = Query(query: "phone")
     query.facets = ["brand", "category", "stars"]
 
     var promise = firstly {
-      self.setSettings(["attributesForFaceting": ["brand", "category", "stars"]])
-      }.then { object in
-        self.waitTask(object)
+      setSettings(["attributesForFaceting": ["brand", "category", "stars"]])
+    }.then { object in
+      self.waitTask(object)
     }
 
     let promise2 = promise.then { _ in
       self.addObjects(objects)
-      }.then { object in
-        self.waitTask(object)
+    }.then { object in
+      self.waitTask(object)
     }
 
-    let promise3 = promise2.then { object in
+    let promise3 = promise2.then { _ in
       self.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements)
-      }.then { object in
-        assertEqual(object)
+    }.then { object in
+      assertEqual(object)
     }
 
     promise3.catch { error in
       XCTFail("Error : \(error)")
-      }.always {
-        expectation.fulfill()
+    }.always {
+      expectation.fulfill()
     }
 
     func assertEqual(_ content: [String: Any]) {
@@ -870,7 +868,7 @@ class IndexTests: OnlineTestCase {
       XCTAssertEqual(starStats!["min"] as? Int, 4)
     }
 
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testSearchDisjunctiveFaceting2() {
@@ -881,7 +879,7 @@ class IndexTests: OnlineTestCase {
       ["name": "Hotel B", "stars": "*", "facilities": ["wifi"], "city": "Paris"],
       ["name": "Hotel C", "stars": "**", "facilities": ["bath"], "city": "San Fancisco"],
       ["name": "Hotel D", "stars": "****", "facilities": ["spa"], "city": "Paris"],
-      ["name": "Hotel E", "stars": "****", "facilities": ["spa"], "city": "New York"]
+      ["name": "Hotel E", "stars": "****", "facilities": ["spa"], "city": "New York"],
     ]
     let query = Query(query: "h")
     query.facets = ["city"]
@@ -889,52 +887,52 @@ class IndexTests: OnlineTestCase {
     var refinements = [String: [String]]()
 
     var promise = firstly {
-      self.setSettings(["attributesForFaceting": ["city", "stars", "facilities"]])
-      }.then { object in
-        self.waitTask(object)
+      setSettings(["attributesForFaceting": ["city", "stars", "facilities"]])
+    }.then { object in
+      self.waitTask(object)
     }
 
     let promise2 = promise.then { _ in
       self.addObjects(objects)
-      }.then(execute: { (object) -> (Promise<[String : Any]>) in
-        print("hi")
-        return self.waitTask(object)
-      })
+    }.then(execute: { (object) -> (Promise<[String: Any]>) in
+      print("hi")
+      return self.waitTask(object)
+    })
 
-    let promise3 = promise2.then { object in
+    let promise3 = promise2.then { _ in
       self.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements)
-      }.then { object in
-        assertEqual1(object)
-      }
+    }.then { object in
+      assertEqual1(object)
+    }
 
     let promise4 = promise3.then {
       refinements["stars"] = ["*"]
-      }.then { _ in
-        self.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements)
-      }.then { object in
-        assertEqual2(object)
+    }.then { _ in
+      self.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements)
+    }.then { object in
+      assertEqual2(object)
     }
 
     let promise5 = promise4.then {
       refinements["city"] = ["Paris"]
-      }.then {
-        self.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements)
-      }.then { object in
-        assertEqual3(object)
+    }.then {
+      self.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements)
+    }.then { object in
+      assertEqual3(object)
     }
 
     let promise6 = promise5.then {
       refinements["stars"] = ["*", "****"]
-      }.then {
-        self.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements)
-      }.then { object in
-        assertEqual4(object)
+    }.then {
+      self.searchDisjunctiveFaceting(query, disjunctiveFacets: disjunctiveFacets, refinements: refinements)
+    }.then { object in
+      assertEqual4(object)
     }
 
     promise6.catch { error in
       XCTFail("Error : \(error)")
-      }.always {
-        expectation.fulfill()
+    }.always {
+      expectation.fulfill()
     }
 
     func assertEqual1(_ content: [String: Any]) {
@@ -980,7 +978,7 @@ class IndexTests: OnlineTestCase {
       XCTAssertEqual(1, starsCounts?["****"] as? Int)
     }
 
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testDNSTimeout() {
@@ -989,13 +987,13 @@ class IndexTests: OnlineTestCase {
     client.readHosts[0] = uniqueAlgoliaBizHost()
 
     client.listIndexes(completionHandler: {
-      (content, error) -> Void in
+      (_, error) -> Void in
       if let error = error {
         XCTFail("\(error)")
       }
       expectation.fulfill()
     })
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testTCPDrop() {
@@ -1005,13 +1003,13 @@ class IndexTests: OnlineTestCase {
     client.readHosts[0] = "notcp-xx-1.algolianet.com"
 
     client.listIndexes(completionHandler: {
-      (content, error) -> Void in
+      (_, error) -> Void in
       if let error = error {
         XCTFail("\(error)")
       }
       expectation.fulfill()
     })
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testMultipleQueries() {
@@ -1020,32 +1018,32 @@ class IndexTests: OnlineTestCase {
 
     let promise = firstly {
       self.addObject(object)
-      }.then { object in
-        self.waitTask(object)
+    }.then { object in
+      self.waitTask(object)
     }
 
     let promise2 = promise.then { _ in
       self.multipleQueries([Query()])
-      }.then { (content) -> Promise<Void> in
-        let items = content["results"] as! [[String: Any]]
-        XCTAssertEqual(items[0]["nbHits"] as? Int, 1, "Wrong number of object in the index")
-        return Promise()
-      }
+    }.then { (content) -> Promise<Void> in
+      let items = content["results"] as! [[String: Any]]
+      XCTAssertEqual(items[0]["nbHits"] as? Int, 1, "Wrong number of object in the index")
+      return Promise()
+    }
 
     promise2.catch { error in
       XCTFail("Error : \(error)")
-      }.always {
-        expectation.fulfill()
+    }.always {
+      expectation.fulfill()
     }
 
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 
   func testSearchCache() {
     let expectation = self.expectation(description: #function)
     let objects: [[String: Any]] = [
       ["city": "San Francisco"],
-      ["city": "New York"]
+      ["city": "New York"],
     ]
     var firstResponse: [String: Any]!
 
@@ -1054,46 +1052,46 @@ class IndexTests: OnlineTestCase {
     index.searchCacheExpiringTimeInterval = timeout
 
     var promise = firstly {
-      self.addObjects(objects)
-      }.then { object in
-        self.waitTask(object)
+      addObjects(objects)
+    }.then { object in
+      self.waitTask(object)
     }
 
     let promise2 = promise.then { _ in
       self.query()
-      }.then { (content) -> Promise<Void> in
-        XCTAssertNotNil(content)
-        firstResponse = content
+    }.then { (content) -> Promise<Void> in
+      XCTAssertNotNil(content)
+      firstResponse = content
 
-        // Alter the hosts so that any search request should fail.
-        self.client.readHosts = ["alwaysfail.algolia.com"]
-        return Promise()
+      // Alter the hosts so that any search request should fail.
+      self.client.readHosts = ["alwaysfail.algolia.com"]
+      return Promise()
     }
 
-    let promise3 = promise2.then { object in
+    let promise3 = promise2.then { _ in
       self.query()
-      }.then { (content) -> Promise<Void> in
-        XCTAssertNotNil(content)
-        XCTAssertEqual(firstResponse as NSObject, content as NSObject)
-        return Promise()
-      }.then { _ in
-        SearchThirdTimeButWaitForCacheToExpire()
+    }.then { (content) -> Promise<Void> in
+      XCTAssertNotNil(content)
+      XCTAssertEqual(firstResponse as NSObject, content as NSObject)
+      return Promise()
+    }.then { _ in
+      SearchThirdTimeButWaitForCacheToExpire()
     }
 
     promise3.catch { error in
       XCTFail("Error : \(error)")
-      }
+    }
 
     func SearchThirdTimeButWaitForCacheToExpire() {
       DispatchQueue.main.asyncAfter(deadline: .now() + timeout * 3) {
-        self.index.search(Query()) { (content, error) in
+        self.index.search(Query()) { _, error in
           XCTAssertNotNil(error)
           expectation.fulfill()
         }
       }
     }
 
-    self.waitForExpectations(timeout: expectationTimeout + timeout * 4, handler: nil)
+    waitForExpectations(timeout: expectationTimeout + timeout * 4, handler: nil)
   }
 
   func testSearchForFacetValues() {
@@ -1101,78 +1099,78 @@ class IndexTests: OnlineTestCase {
     let settings = [
       "attributesForFaceting": [
         "searchable(series)",
-        "kind"
-      ]
+        "kind",
+      ],
     ]
     let objects: [String: [String: Any]] = [
       "snoopy": [
         "objectID": "1",
         "name": "Snoopy",
-        "kind": [ "dog", "animal" ],
+        "kind": ["dog", "animal"],
         "born": 1950,
-        "series": "Peanuts"
+        "series": "Peanuts",
       ],
       "woodstock": [
         "objectID": "2",
         "name": "Woodstock",
-        "kind": ["bird", "animal" ],
+        "kind": ["bird", "animal"],
         "born": 1960,
-        "series": "Peanuts"
+        "series": "Peanuts",
       ],
       "charlie": [
         "objectID": "3",
         "name": "Charlie Brown",
-        "kind": [ "human" ],
+        "kind": ["human"],
         "born": 1950,
-        "series": "Peanuts"
+        "series": "Peanuts",
       ],
       "hobbes": [
         "objectID": "4",
         "name": "Hobbes",
-        "kind": [ "tiger", "animal", "teddy" ],
+        "kind": ["tiger", "animal", "teddy"],
         "born": 1985,
-        "series": "Calvin & Hobbes"
+        "series": "Calvin & Hobbes",
       ],
       "calvin": [
         "objectID": "5",
         "name": "Calvin",
-        "kind": [ "human" ],
+        "kind": ["human"],
         "born": 1985,
-        "series": "Calvin & Hobbes"
-      ]
+        "series": "Calvin & Hobbes",
+      ],
     ]
     let query = Query()
     query.facetFilters = ["kind:animal"]
     query.numericFilters = ["born >= 1955"]
 
     var promise = firstly {
-      self.setSettings(settings)
-      }.then { object in
-        self.waitTask(object)
+      setSettings(settings)
+    }.then { object in
+      self.waitTask(object)
     }
 
     let promise2 = promise.then { _ in
       self.addObjects(Array(objects.values))
-      }.then { object in
-        self.waitTask(object)
+    }.then { object in
+      self.waitTask(object)
     }
 
-    let promise3 = promise2.then { object in
+    let promise3 = promise2.then { _ in
       self.searchForFacetValues(of: "series", matching: "Hobb")
-      }.then { object in
-        assertEqual1(object)
+    }.then { object in
+      assertEqual1(object)
     }
 
-    let promise4 = promise3.then { object in
+    let promise4 = promise3.then { _ in
       self.searchForFacetValues(of: "series", matching: "Peanutz", query: query)
-      }.then { object in
-        assertEqual2(object)
+    }.then { object in
+      assertEqual2(object)
     }
 
     promise4.catch { error in
       XCTFail("Error : \(error)")
-      }.always {
-        expectation.fulfill()
+    }.always {
+      expectation.fulfill()
     }
 
     func assertEqual1(_ content: [String: Any]) {
@@ -1192,6 +1190,6 @@ class IndexTests: OnlineTestCase {
       XCTAssertEqual(facetHits[0]["count"] as? Int, 1)
     }
 
-    self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
   }
 }

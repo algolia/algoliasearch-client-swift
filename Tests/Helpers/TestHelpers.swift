@@ -12,28 +12,27 @@ import PromiseKit
 import XCTest
 
 extension OnlineTestCase {
-
   func addObject(_ object: [String: Any]) -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in
-      self.index.addObject(object, completionHandler:completionWrap(fulfill: fulfill, reject: reject))
+      self.index.addObject(object, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
     })
   }
 
   func addObjects(_ objects: [[String: Any]]) -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in
-      self.index.addObjects(objects, completionHandler:completionWrap(fulfill: fulfill, reject: reject))
+      self.index.addObjects(objects, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
     })
   }
 
   func saveObject(_ object: [String: Any]) -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in
-      self.index.saveObject(object, completionHandler:completionWrap(fulfill: fulfill, reject: reject))
+      self.index.saveObject(object, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
     })
   }
 
   func saveObjects(_ objects: [[String: Any]]) -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in
-      self.index.saveObjects(objects, completionHandler:completionWrap(fulfill: fulfill, reject: reject))
+      self.index.saveObjects(objects, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
     })
   }
 
@@ -83,13 +82,13 @@ extension OnlineTestCase {
 
   func query(_ query: String? = "") -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in
-      self.index.search(Query(query:query), completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+      self.index.search(Query(query: query), completionHandler: completionWrap(fulfill: fulfill, reject: reject))
     })
   }
 
   func query(index: Index, query: String? = "") -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in
-      index.search(Query(query:query), completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+      index.search(Query(query: query), completionHandler: completionWrap(fulfill: fulfill, reject: reject))
     })
   }
 
@@ -154,9 +153,9 @@ extension OnlineTestCase {
   }
 
   func partialUpdateObject(_ object: [String: Any], withID objectID: String, createIfNotExists: Bool? = nil) -> Promise<[String: Any]> {
-      return promiseWrap({ fulfill, reject in
-          self.index.partialUpdateObject(object, withID: objectID, createIfNotExists: createIfNotExists, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
-      })
+    return promiseWrap({ fulfill, reject in
+      self.index.partialUpdateObject(object, withID: objectID, createIfNotExists: createIfNotExists, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
+    })
   }
 
   func partialUpdateObjects(_ objects: [[String: Any]], createIfNotExists: Bool? = nil) -> Promise<[String: Any]> {
@@ -224,5 +223,4 @@ extension OnlineTestCase {
     let value = content[key] as! T
     return Promise(value: value)
   }
-
 }
