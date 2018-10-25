@@ -370,8 +370,7 @@ import Foundation
       client.inMemoryQueue.addOperation(operation)
       return operation
     } else {
-      return client.performHTTPQuery(path: path, method: .POST, body: request, hostnames: client.readHosts, isSearchQuery: true, requestOptions: requestOptions) {
-        (content, error) -> Void in
+      return client.performHTTPQuery(path: path, method: .POST, body: request, hostnames: client.readHosts, isSearchQuery: true, requestOptions: requestOptions) { (content, error) -> Void in
         assert(content != nil || error != nil)
 
         // Update local cache in case of success.
@@ -609,8 +608,7 @@ import Foundation
         return
       }
       iteration += 1
-      operation = index.client.performHTTPQuery(path: path, method: .GET, body: nil, hostnames: index.client.readHosts, requestOptions: requestOptions) {
-        (content, error) -> Void in
+      operation = index.client.performHTTPQuery(path: path, method: .GET, body: nil, hostnames: index.client.readHosts, requestOptions: requestOptions) { (content, error) -> Void in
         if let content = content {
           if (content["status"] as? String) == "published" {
             self.callCompletion(content: content, error: nil)

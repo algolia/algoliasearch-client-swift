@@ -148,8 +148,7 @@ internal class Request: AsyncOperationWithCompletion {
     let currentHostIndex = nextHostIndex
     let request = createRequest(currentHostIndex)
     nextHostIndex = (nextHostIndex + 1) % hosts.count
-    task = client.session.dataTask(with: request) {
-      (data: Data?, response: URLResponse?, error: Error?) in
+    task = client.session.dataTask(with: request) { (data: Data?, response: URLResponse?, error: Error?) in
       var json: [String: Any]?
       var finalError: Error? = error
       // Shortcut in case of cancellation.

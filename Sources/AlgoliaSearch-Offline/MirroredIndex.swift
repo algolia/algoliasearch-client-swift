@@ -425,8 +425,7 @@ import Foundation
     // Task: Download index settings.
     // WARNING: We must use the legacy format to retrieve synonyms, alternative corrections & placeholders.
     let path = "1/indexes/\(urlEncodedName)/settings?getVersion=1"
-    let settingsOperation = client.newRequest(method: .GET, path: path, body: nil, hostnames: client.readHosts, isSearchQuery: false) {
-      json, error in
+    let settingsOperation = client.newRequest(method: .GET, path: path, body: nil, hostnames: client.readHosts, isSearchQuery: false) { json, error in
       if error != nil {
         self.syncError = error
       } else {
@@ -480,8 +479,7 @@ import Foundation
     objectFileIndex += 1
     let currentObjectFileIndex = objectFileIndex
     let path = "1/indexes/\(urlEncodedName)/browse"
-    let operation = client.newRequest(method: .POST, path: path, body: ["params": browseQuery.build()], hostnames: client.readHosts, isSearchQuery: false) {
-      json, error in
+    let operation = client.newRequest(method: .POST, path: path, body: ["params": browseQuery.build()], hostnames: client.readHosts, isSearchQuery: false) { json, error in
       if error != nil {
         self.syncError = error
       } else {
@@ -705,9 +703,9 @@ import Foundation
       if onlineRequest != nil {
         return
       }
-      onlineRequest = startOnlineRequest {
-        [unowned self] // works because the operation is enqueued and retained by the queue
-        content, error in
+      // works because the operation is enqueued and retained by the queue
+      onlineRequest = startOnlineRequest { [unowned self] content, error in
+
         self.lock.sync {
           // In case of transient error, run an offline request.
           if error != nil && error!.isTransient() && self.mayRunOfflineRequest {
@@ -727,9 +725,8 @@ import Foundation
       if offlineRequest != nil {
         return
       }
-      offlineRequest = startOfflineRequest {
-        [unowned self] // works because the operation is enqueued and retained by the queue
-        content, error in
+      // works because the operation is enqueued and retained by the queue
+      offlineRequest = startOfflineRequest { [unowned self] content, error in
         self.lock.sync {
           self.onlineRequest?.cancel()
           self.callCompletion(content: content, error: error)
@@ -800,8 +797,7 @@ import Foundation
   /// Explicitly search the online API, and not the local mirror.
   @objc
   @discardableResult public func searchOnline(_ query: Query, requestOptions _: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
-    return super.search(query, completionHandler: {
-      content, error in
+    return super.search(query, completionHandler: { content, error in
       completionHandler(MirroredIndex.tagAsRemote(content: content), error)
     })
   }
@@ -870,8 +866,7 @@ import Foundation
   ///
   @objc
   @discardableResult public func multipleQueriesOnline(_ queries: [Query], strategy: String?, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
-    return super.multipleQueries(queries, strategy: strategy, requestOptions: requestOptions, completionHandler: {
-      content, error in
+    return super.multipleQueries(queries, strategy: strategy, requestOptions: requestOptions, completionHandler: { content, error in
       completionHandler(MirroredIndex.tagAsRemote(content: content), error)
     })
   }
@@ -1015,8 +1010,7 @@ import Foundation
   /// Get an individual object, explicitly targeting the online API, and not the offline mirror.
   @objc
   @discardableResult public func getObjectOnline(withID objectID: String, attributesToRetrieve: [String]? = nil, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
-    return super.getObject(withID: objectID, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions, completionHandler: {
-      content, error in
+    return super.getObject(withID: objectID, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions, completionHandler: { content, error in
       completionHandler(MirroredIndex.tagAsRemote(content: content), error)
     })
   }
@@ -1094,8 +1088,7 @@ import Foundation
   /// Get individual objects, explicitly targeting the online API, and not the offline mirror.
   @objc
   @discardableResult public func getObjectsOnline(withIDs objectIDs: [String], attributesToRetrieve: [String]? = nil, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
-    return super.getObjects(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions, completionHandler: {
-      content, error in
+    return super.getObjects(withIDs: objectIDs, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions, completionHandler: { content, error in
       completionHandler(MirroredIndex.tagAsRemote(content: content), error)
     })
   }
@@ -1177,8 +1170,7 @@ import Foundation
   ///
   @objc(searchForFacetValuesOnlineOf:matching:query:requestOptions:completionHandler:)
   @discardableResult public func searchForFacetValuesOnline(of facetName: String, matching text: String, query: Query? = nil, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
-    return super.searchForFacetValues(of: facetName, matching: text, query: query, requestOptions: requestOptions, completionHandler: {
-      content, error in
+    return super.searchForFacetValues(of: facetName, matching: text, query: query, requestOptions: requestOptions, completionHandler: { content, error in
       completionHandler(MirroredIndex.tagAsRemote(content: content), error)
     })
   }
