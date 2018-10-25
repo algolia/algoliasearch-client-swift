@@ -17,7 +17,7 @@ git subtree add --prefix=config config/master --squash
 ### Contribution Daily work
 
 ```
-git subtree pull --prefix=config config/master --squash
+git subtree pull --prefix=config config master --squash
 
-git subtree push --prefix=config config/master
+git subtree push --prefix=config config master
 ```
