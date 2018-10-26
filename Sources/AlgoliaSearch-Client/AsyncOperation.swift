@@ -32,145 +32,135 @@ import Foundation
 /// - `cancel`
 ///
 internal class AsyncOperation: Operation {
-    
-    // Mark this operation as aynchronous.
-    override var isAsynchronous: Bool {
-        get {
-            return true
-        }
-    }
-    
-    // NOTE: Overriding `Operation`'s properties
-    // -----------------------------------------
-    // These properties are defined as read-only by `Operation`. As a consequence, they must be computed properties.
-    // But they must also fire KVO notifications, which are crucial for `OperationQueue` to work.
-    // This is why we use a private (underscore-prefixed) property to store the state.
-    
-    var _executing : Bool = false {
-        willSet {
-            self.willChangeValue(forKey: "isExecuting")
-        }
-        didSet {
-            self.didChangeValue(forKey: "isExecuting")
-        }
-    }
-    
-    override var isExecuting: Bool {
-        get {
-            return _executing
-        }
-    }
-    
-    var _finished : Bool = false {
-        willSet {
-            self.willChangeValue(forKey: "isFinished")
-        }
-        didSet {
-            self.didChangeValue(forKey: "isFinished")
-        }
-    }
-    
-    override var isFinished: Bool {
-        get {
-            return _finished
-        }
-    }
-    
-    var _cancelled : Bool = false {
-        willSet {
-            self.willChangeValue(forKey: "isCancelled")
-        }
-        didSet {
-            self.didChangeValue(forKey: "isCancelled")
-        }
-    }
-    
-    override var isCancelled: Bool {
-        get {
-            return _cancelled
-        }
-    }
+  // Mark this operation as aynchronous.
+  override var isAsynchronous: Bool {
+    return true
+  }
 
-    override func start() {
-        assert(!_executing)
-        self._executing = true
-    }
+  // NOTE: Overriding `Operation`'s properties
+  // -----------------------------------------
+  // These properties are defined as read-only by `Operation`. As a consequence, they must be computed properties.
+  // But they must also fire KVO notifications, which are crucial for `OperationQueue` to work.
+  // This is why we use a private (underscore-prefixed) property to store the state.
 
-    override func cancel() {
-        _cancelled = true
-        finish()
+  var _executing: Bool = false {
+    willSet {
+      self.willChangeValue(forKey: "isExecuting")
     }
-    
-    /// Mark the operation as finished.
-    func finish() {
-        _executing = false
-        _finished = true
+    didSet {
+      self.didChangeValue(forKey: "isExecuting")
     }
+  }
+
+  override var isExecuting: Bool {
+    return _executing
+  }
+
+  var _finished: Bool = false {
+    willSet {
+      self.willChangeValue(forKey: "isFinished")
+    }
+    didSet {
+      self.didChangeValue(forKey: "isFinished")
+    }
+  }
+
+  override var isFinished: Bool {
+    return _finished
+  }
+
+  var _cancelled: Bool = false {
+    willSet {
+      self.willChangeValue(forKey: "isCancelled")
+    }
+    didSet {
+      self.didChangeValue(forKey: "isCancelled")
+    }
+  }
+
+  override var isCancelled: Bool {
+    return _cancelled
+  }
+
+  override func start() {
+    assert(!_executing)
+    _executing = true
+  }
+
+  override func cancel() {
+    _cancelled = true
+    finish()
+  }
+
+  /// Mark the operation as finished.
+  func finish() {
+    _executing = false
+    _finished = true
+  }
 }
 
 /// A specific type of async operation with a completion handler.
 ///
 internal class AsyncOperationWithCompletion: AsyncOperation {
-    /// User completion block to be called.
-    let completion: CompletionHandler?
-    
-    /// Operation queue used to execute the completion handler.
-    weak var completionQueue: OperationQueue?
-    
-    init(completionHandler: CompletionHandler?) {
-        self.completion = completionHandler
-    }
+  /// User completion block to be called.
+  let completion: CompletionHandler?
 
-    override func start() {
-        // The completion queue should not be the same as this operation's queue, otherwise a deadlock will result.
-        assert(OperationQueue.current != self.completionQueue)
-    }
-    
+  /// Operation queue used to execute the completion handler.
+  weak var completionQueue: OperationQueue?
 
-    /// Finish this operation.
-    /// This method should be called exactly once per operation.
-    internal func callCompletion(content: [String: Any]?, error: Error?) {
-        if _cancelled {
-            return
-        }
-        if let completionQueue = completionQueue {
-            completionQueue.addOperation {
-                self._callCompletion(content: content, error: error)
-            }
-        } else {
-            _callCompletion(content: content, error: error)
-        }
+  init(completionHandler: CompletionHandler?) {
+    completion = completionHandler
+  }
+
+  override func start() {
+    // The completion queue should not be the same as this operation's queue, otherwise a deadlock will result.
+    assert(OperationQueue.current != completionQueue)
+  }
+
+  /// Finish this operation.
+  /// This method should be called exactly once per operation.
+  internal func callCompletion(content: [String: Any]?, error: Error?) {
+    if _cancelled {
+      return
     }
-    
-    internal func _callCompletion(content: [String: Any]?, error: Error?) {
-        // WARNING: In case of asynchronous dispatch, the request could have been cancelled in the meantime
-        // => check again.
-        if !_cancelled {
-            if let completion = completion {
-                completion(content, error)
-            }
-            finish()
-        }
+    if let completionQueue = completionQueue {
+      completionQueue.addOperation {
+        self._callCompletion(content: content, error: error)
+      }
+    } else {
+      _callCompletion(content: content, error: error)
     }
+  }
+
+  internal func _callCompletion(content: [String: Any]?, error: Error?) {
+    // WARNING: In case of asynchronous dispatch, the request could have been cancelled in the meantime
+    // => check again.
+    if !_cancelled {
+      if let completion = completion {
+        completion(content, error)
+      }
+      finish()
+    }
+  }
 }
 
 /// An asynchronous operation whose body is specified as a block.
 ///
 internal class AsyncBlockOperation: AsyncOperationWithCompletion {
-    typealias OperationBlock = () -> (content: [String: Any]?, error: Error?)
-    
-    /// The block that will be executed as part of the operation.
-    let block: OperationBlock
-    
-    internal init(completionHandler: CompletionHandler?, block: @escaping OperationBlock) {
-        self.block = block
-        super.init(completionHandler: completionHandler)
-    }
-    
-    /// Start this request.
-    override func start() {
-        super.start()
-        let (content, error) = block()
-        self.callCompletion(content: content, error: error)
-    }
+  typealias OperationBlock = () -> (content: [String: Any]?, error: Error?)
+
+  /// The block that will be executed as part of the operation.
+  let block: OperationBlock
+
+  internal init(completionHandler: CompletionHandler?, block: @escaping OperationBlock) {
+    self.block = block
+    super.init(completionHandler: completionHandler)
+  }
+
+  /// Start this request.
+  override func start() {
+    super.start()
+    let (content, error) = block()
+    callCompletion(content: content, error: error)
+  }
 }

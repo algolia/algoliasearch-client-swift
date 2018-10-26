@@ -23,7 +23,6 @@
 
 import Foundation
 
-
 // ----------------------------------------------------------------------------
 // IMPLEMENTATION NOTES
 // ----------------------------------------------------------------------------
@@ -101,72 +100,69 @@ import Foundation
 //
 // ----------------------------------------------------------------------------
 
-
 /// A pair of (latitude, longitude).
 /// Used in geo-search.
 ///
 @objcMembers public class LatLng: NSObject {
-    // IMPLEMENTATION NOTE: Cannot be `struct` because of Objective-C bridgeability.
-    
-    /// Latitude.
-    public let lat: Double
-    
-    /// Longitude.
-    public let lng: Double
-    
-    /// Create a geo location.
-    ///
-    /// - parameter lat: Latitude.
-    /// - parameter lng: Longitude.
-    ///
-    @objc public init(lat: Double, lng: Double) {
-        self.lat = lat
-        self.lng = lng
-    }
-    
-    // MARK: Equatable
-    
-    public override func isEqual(_ object: Any?) -> Bool {
-        if let rhs = object as? LatLng {
-            return self.lat == rhs.lat && self.lng == rhs.lng
-        } else {
-            return false
-        }
-    }
-}
+  // IMPLEMENTATION NOTE: Cannot be `struct` because of Objective-C bridgeability.
 
+  /// Latitude.
+  public let lat: Double
+
+  /// Longitude.
+  public let lng: Double
+
+  /// Create a geo location.
+  ///
+  /// - parameter lat: Latitude.
+  /// - parameter lng: Longitude.
+  ///
+  @objc public init(lat: Double, lng: Double) {
+    self.lat = lat
+    self.lng = lng
+  }
+
+  // MARK: Equatable
+
+  public override func isEqual(_ object: Any?) -> Bool {
+    if let rhs = object as? LatLng {
+      return lat == rhs.lat && lng == rhs.lng
+    } else {
+      return false
+    }
+  }
+}
 
 /// A rectangle in geo coordinates.
 /// Used in geo-search.
 ///
 @objcMembers public class GeoRect: NSObject {
-    // IMPLEMENTATION NOTE: Cannot be `struct` because of Objective-C bridgeability.
-    
-    /// One of the rectangle's corners (typically the northwesternmost).
-    public let p1: LatLng
-    
-    /// Corner opposite from `p1` (typically the southeasternmost).
-    public let p2: LatLng
-    
-    /// Create a geo rectangle.
-    ///
-    /// - parameter p1: One of the rectangle's corners (typically the northwesternmost).
-    /// - parameter p2: Corner opposite from `p1` (typically the southeasternmost).
-    ///
-    @objc public init(p1: LatLng, p2: LatLng) {
-        self.p1 = p1
-        self.p2 = p2
-    }
-    
-    public override func isEqual(_ object: Any?) -> Bool {
-        if let rhs = object as? GeoRect {
-            return self.p1 == rhs.p1 && self.p2 == rhs.p2
-        } else {
-            return false
-        }
-    }
-}
+  // IMPLEMENTATION NOTE: Cannot be `struct` because of Objective-C bridgeability.
 
+  /// One of the rectangle's corners (typically the northwesternmost).
+  public let p1: LatLng
+
+  /// Corner opposite from `p1` (typically the southeasternmost).
+  public let p2: LatLng
+
+  /// Create a geo rectangle.
+  ///
+  /// - parameter p1: One of the rectangle's corners (typically the northwesternmost).
+  /// - parameter p2: Corner opposite from `p1` (typically the southeasternmost).
+  ///
+  @objc public init(p1: LatLng, p2: LatLng) {
+    self.p1 = p1
+    self.p2 = p2
+  }
+
+  public override func isEqual(_ object: Any?) -> Bool {
+    if let rhs = object as? GeoRect {
+      return p1 == rhs.p1 && p2 == rhs.p2
+    } else {
+      return false
+    }
+  }
+}
 
 /// An abstract search query.
 ///
@@ -177,222 +173,215 @@ import Foundation
 /// Every parameter is observable via KVO under its own name.
 ///
 @objc
-open class AbstractQuery : NSObject, NSCopying {
-    
-    // MARK: - Low-level (untyped) parameters
-    
-    /// Parameters, as untyped values.
-    @objc public private(set) var parameters: [String: String] = [:]
-    
-    /// Get a parameter in an untyped fashion.
-    ///
-    /// - parameter name:   The parameter's name.
-    /// - returns: The parameter's value, or nil if a parameter with the specified name does not exist.
-    ///
-    @objc public func parameter(withName name: String) -> String? {
-        return parameters[name]
+open class AbstractQuery: NSObject, NSCopying {
+  // MARK: - Low-level (untyped) parameters
+
+  /// Parameters, as untyped values.
+  @objc public private(set) var parameters: [String: String] = [:]
+
+  /// Get a parameter in an untyped fashion.
+  ///
+  /// - parameter name:   The parameter's name.
+  /// - returns: The parameter's value, or nil if a parameter with the specified name does not exist.
+  ///
+  @objc public func parameter(withName name: String) -> String? {
+    return parameters[name]
+  }
+
+  /// Set a parameter in an untyped fashion.
+  /// This low-level accessor is intended to access parameters that this client does not yet support.
+  ///
+  /// - parameter name:   The parameter's name.
+  /// - parameter value:  The parameter's value, or nill to remove it.
+  ///
+  @objc public func setParameter(withName name: String, to value: String?) {
+    let oldValue = parameters[name]
+    if value != oldValue {
+      willChangeValue(forKey: name)
     }
-    
-    /// Set a parameter in an untyped fashion.
-    /// This low-level accessor is intended to access parameters that this client does not yet support.
-    ///
-    /// - parameter name:   The parameter's name.
-    /// - parameter value:  The parameter's value, or nill to remove it.
-    ///
-    @objc public func setParameter(withName name: String, to value: String?) {
-        let oldValue = parameters[name]
-        if value != oldValue {
-            self.willChangeValue(forKey: name)
-        }
+    if value == nil {
+      parameters.removeValue(forKey: name)
+    } else {
+      parameters[name] = value!
+    }
+    if value != oldValue {
+      didChangeValue(forKey: name)
+    }
+  }
+
+  /// Convenience shortcut to `parameter(withName:)` and `setParameter(withName:to:)`.
+  @objc public subscript(index: String) -> String? {
+    get {
+      return parameter(withName: index)
+    }
+    set(newValue) {
+      setParameter(withName: index, to: newValue)
+    }
+  }
+
+  // MARK: -
+
+  // MARK: - Miscellaneous
+
+  @objc open override var description: String { return "\(String(describing: type(of: self))){\(parameters)}" }
+
+  // MARK: - Initialization
+
+  /// Construct an empty query.
+  @objc public override init() {}
+
+  /// Construct a query with the specified low-level parameters.
+  @objc public init(parameters: [String: String]) {
+    self.parameters = parameters
+  }
+
+  /// Clear all parameters.
+  @objc open func clear() {
+    parameters.removeAll()
+  }
+
+  // MARK: NSCopying
+
+  /// Support for `NSCopying`.
+  ///
+  /// + Note: Primarily intended for Objective-C use. Swift coders should use `init(copy:)`.
+  ///
+  @objc open func copy(with _: NSZone?) -> Any {
+    // NOTE: As per the docs, the zone argument is ignored.
+    return AbstractQuery(parameters: parameters)
+  }
+
+  // MARK: Serialization & parsing
+
+  /// Return the final query string used in URL.
+  @objc open func build() -> String {
+    return AbstractQuery.build(parameters: parameters)
+  }
+
+  /// Build a query string from a set of parameters.
+  @objc public static func build(parameters: [String: String]) -> String {
+    var components = [String]()
+    // Sort parameters by name to get predictable output.
+    let sortedParameters = parameters.sorted { $0.0 < $1.0 }
+    for (key, value) in sortedParameters {
+      let escapedKey = key.urlEncodedQueryParam()
+      let escapedValue = value.urlEncodedQueryParam()
+      components.append(escapedKey + "=" + escapedValue)
+    }
+    return components.joined(separator: "&")
+  }
+
+  internal static func parse(_ queryString: String, into query: AbstractQuery) {
+    let components = queryString.components(separatedBy: "&")
+    for component in components {
+      let fields = component.components(separatedBy: "=")
+      if fields.count < 1 || fields.count > 2 {
+        continue
+      }
+      if let name = fields[0].removingPercentEncoding {
+        let value: String? = fields.count >= 2 ? fields[1].removingPercentEncoding : nil
         if value == nil {
-            parameters.removeValue(forKey: name)
+          query.parameters.removeValue(forKey: name)
         } else {
-            parameters[name] = value!
+          query.parameters[name] = value!
         }
-        if value != oldValue {
-            self.didChangeValue(forKey: name)
-        }
+      }
     }
-    
-    /// Convenience shortcut to `parameter(withName:)` and `setParameter(withName:to:)`.
-    @objc public subscript(index: String) -> String? {
-        get {
-            return parameter(withName: index)
-        }
-        set(newValue) {
-            setParameter(withName: index, to: newValue)
-        }
-    }
-    
-    // MARK: -
-    
-    // MARK: - Miscellaneous
-    
-    @objc override open var description: String {
-        get { return "\(String(describing: type(of: self))){\(parameters)}" }
-    }
-    
-    // MARK: - Initialization
-    
-    /// Construct an empty query.
-    @objc public override init() {
-    }
-    
-    /// Construct a query with the specified low-level parameters.
-    @objc public init(parameters: [String: String]) {
-        self.parameters = parameters
-    }
+  }
 
-    /// Clear all parameters.
-    @objc open func clear() {
-        parameters.removeAll()
-    }
+  // MARK: Equatable
 
-    // MARK: NSCopying
-    
-    /// Support for `NSCopying`.
-    ///
-    /// + Note: Primarily intended for Objective-C use. Swift coders should use `init(copy:)`.
-    ///
-    @objc open func copy(with zone: NSZone?) -> Any {
-        // NOTE: As per the docs, the zone argument is ignored.
-        return AbstractQuery(parameters: self.parameters)
+  open override func isEqual(_ object: Any?) -> Bool {
+    guard let rhs = object as? AbstractQuery else {
+      return false
     }
-    
-    // MARK: Serialization & parsing
-    
-    /// Return the final query string used in URL.
-    @objc open func build() -> String {
-        return AbstractQuery.build(parameters: parameters)
-    }
+    return parameters == rhs.parameters
+  }
 
-    /// Build a query string from a set of parameters.
-    @objc static public func build(parameters: [String: String]) -> String {
-        var components = [String]()
-        // Sort parameters by name to get predictable output.
-        let sortedParameters = parameters.sorted { $0.0 < $1.0 }
-        for (key, value) in sortedParameters {
-            let escapedKey = key.urlEncodedQueryParam()
-            let escapedValue = value.urlEncodedQueryParam()
-            components.append(escapedKey + "=" + escapedValue)
+  // MARK: - Helper methods to build & parse URL
+
+  /// Build a plain, comma-separated array of strings.
+  ///
+  internal static func buildStringArray(_ array: [String]?) -> String? {
+    if array != nil {
+      return array!.joined(separator: ",")
+    }
+    return nil
+  }
+
+  internal static func parseStringArray(_ string: String?) -> [String]? {
+    if string != nil {
+      // First try to parse the JSON notation:
+      do {
+        if let array = try JSONSerialization.jsonObject(with: string!.data(using: String.Encoding.utf8)!, options: JSONSerialization.ReadingOptions(rawValue: 0)) as? [String] {
+          return array
         }
-        return components.joined(separator: "&")
+      } catch {}
+      // Fallback on plain string parsing.
+      return string!.components(separatedBy: ",")
     }
-    
-    internal static func parse(_ queryString: String, into query: AbstractQuery) {
-        let components = queryString.components(separatedBy: "&")
-        for component in components {
-            let fields = component.components(separatedBy: "=")
-            if fields.count < 1 || fields.count > 2 {
-                continue
-            }
-            if let name = fields[0].removingPercentEncoding {
-                let value: String? = fields.count >= 2 ? fields[1].removingPercentEncoding : nil
-                if value == nil {
-                    query.parameters.removeValue(forKey: name)
-                } else {
-                    query.parameters[name] = value!
-                }
-            }
+    return nil
+  }
+
+  internal static func buildJSONArray(_ array: [Any]?) -> String? {
+    if array != nil {
+      do {
+        let data = try JSONSerialization.data(withJSONObject: array!, options: JSONSerialization.WritingOptions(rawValue: 0))
+        if let string = String(data: data, encoding: String.Encoding.utf8) {
+          return string
         }
+      } catch {}
     }
-    
-    // MARK: Equatable
-    
-    override open func isEqual(_ object: Any?) -> Bool {
-        guard let rhs = object as? AbstractQuery else {
-            return false
+    return nil
+  }
+
+  internal static func parseJSONArray(_ string: String?) -> [Any]? {
+    if string != nil {
+      do {
+        if let array = try JSONSerialization.jsonObject(with: string!.data(using: String.Encoding.utf8)!, options: JSONSerialization.ReadingOptions(rawValue: 0)) as? [Any] {
+          return array
         }
-        return self.parameters == rhs.parameters
+      } catch {}
     }
-    
-    // MARK: - Helper methods to build & parse URL
-    
-    /// Build a plain, comma-separated array of strings.
-    ///
-    internal static func buildStringArray(_ array: [String]?) -> String? {
-        if array != nil {
-            return array!.joined(separator: ",")
+    return nil
+  }
+
+  internal static func buildUInt(_ int: UInt?) -> String? {
+    return int == nil ? nil : String(int!)
+  }
+
+  internal static func parseUInt(_ string: String?) -> UInt? {
+    if string != nil {
+      if let intValue = UInt(string!) {
+        return intValue
+      }
+    }
+    return nil
+  }
+
+  internal static func buildBool(_ bool: Bool?) -> String? {
+    return bool == nil ? nil : String(bool!)
+  }
+
+  internal static func parseBool(_ string: String?) -> Bool? {
+    if string != nil {
+      switch string!.lowercased() {
+      case "true": return true
+      case "false": return false
+      default:
+        if let intValue = Int(string!) {
+          return intValue != 0
         }
-        return nil
+      }
     }
-    
-    internal static func parseStringArray(_ string: String?) -> [String]? {
-        if string != nil {
-            // First try to parse the JSON notation:
-            do {
-                if let array = try JSONSerialization.jsonObject(with: string!.data(using: String.Encoding.utf8)!, options: JSONSerialization.ReadingOptions(rawValue: 0)) as? [String] {
-                    return array
-                }
-            } catch {
-            }
-            // Fallback on plain string parsing.
-            return string!.components(separatedBy: ",")
-        }
-        return nil
-    }
-    
-    internal static func buildJSONArray(_ array: [Any]?) -> String? {
-        if array != nil {
-            do {
-                let data = try JSONSerialization.data(withJSONObject: array!, options: JSONSerialization.WritingOptions(rawValue: 0))
-                if let string = String(data: data, encoding: String.Encoding.utf8) {
-                    return string
-                }
-            } catch {
-            }
-        }
-        return nil
-    }
-    
-    internal static func parseJSONArray(_ string: String?) -> [Any]? {
-        if string != nil {
-            do {
-                if let array = try JSONSerialization.jsonObject(with: string!.data(using: String.Encoding.utf8)!, options: JSONSerialization.ReadingOptions(rawValue: 0)) as? [Any] {
-                    return array
-                }
-            } catch {
-            }
-        }
-        return nil
-    }
-    
-    internal static func buildUInt(_ int: UInt?) -> String? {
-        return int == nil ? nil : String(int!)
-    }
-    
-    internal static func parseUInt(_ string: String?) -> UInt? {
-        if string != nil {
-            if let intValue = UInt(string!) {
-                return intValue
-            }
-        }
-        return nil
-    }
-    
-    internal static func buildBool(_ bool: Bool?) -> String? {
-        return bool == nil ? nil : String(bool!)
-    }
-    
-    internal static func parseBool(_ string: String?) -> Bool? {
-        if string != nil {
-            switch (string!.lowercased()) {
-            case "true": return true
-            case "false": return false
-            default:
-                if let intValue = Int(string!) {
-                    return intValue != 0
-                }
-            }
-        }
-        return nil
-    }
-    
-    internal static func toNumber(_ bool: Bool?) -> NSNumber? {
-        return bool == nil ? nil : NSNumber(value: bool!)
-    }
-    
-    internal static func toNumber(_ int: UInt?) -> NSNumber? {
-        return int == nil ? nil : NSNumber(value: int!)
-    }
+    return nil
+  }
+
+  internal static func toNumber(_ bool: Bool?) -> NSNumber? {
+    return bool == nil ? nil : NSNumber(value: bool!)
+  }
+
+  internal static func toNumber(_ int: UInt?) -> NSNumber? {
+    return int == nil ? nil : NSNumber(value: int!)
+  }
 }

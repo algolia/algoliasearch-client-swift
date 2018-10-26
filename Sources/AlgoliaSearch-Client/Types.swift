@@ -23,7 +23,6 @@
 
 import Foundation
 
-
 /// A JSON object.
 @available(*, deprecated, message: "Use [String: Any] instead")
 public typealias JSONObject = [String: Any]

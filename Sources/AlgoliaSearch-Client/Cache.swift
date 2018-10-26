@@ -24,79 +24,79 @@
 import Foundation
 
 internal class ExpiringCacheItem {
-    let expiringCacheItemDate: Date
-    let content: [String: Any]
-    
-    init(content: [String: Any]) {
-        self.content = content
-        self.expiringCacheItemDate = Date()
-    }
+  let expiringCacheItemDate: Date
+  let content: [String: Any]
+
+  init(content: [String: Any]) {
+    self.content = content
+    expiringCacheItemDate = Date()
+  }
 }
 
 internal class ExpiringCache {
-    private let cache = NSCache<NSString, ExpiringCacheItem>()
-    var expiringTimeInterval: TimeInterval {
-        didSet {
-            updateTimer()
+  private let cache = NSCache<NSString, ExpiringCacheItem>()
+  var expiringTimeInterval: TimeInterval {
+    didSet {
+      updateTimer()
+    }
+  }
+
+  private var cacheKeys = [String]()
+  private var timer: Timer?
+
+  init(expiringTimeInterval: TimeInterval) {
+    self.expiringTimeInterval = expiringTimeInterval
+    updateTimer()
+  }
+
+  private func updateTimer() {
+    timer?.invalidate()
+    timer = Timer(timeInterval: 2 * expiringTimeInterval, target: self, selector: #selector(ExpiringCache.clearExpiredCache), userInfo: nil, repeats: true)
+    timer!.tolerance = expiringTimeInterval * 0.5
+    RunLoop.main.add(timer!, forMode: RunLoop.Mode.default)
+  }
+
+  deinit {
+    timer?.invalidate()
+  }
+
+  func objectForKey(_ key: String) -> [String: Any]? {
+    if let object = cache.object(forKey: key as NSString) {
+      let timeSinceCache = abs(object.expiringCacheItemDate.timeIntervalSinceNow)
+      if timeSinceCache > expiringTimeInterval {
+        cache.removeObject(forKey: key as NSString)
+      } else {
+        return object.content
+      }
+    }
+
+    return nil
+  }
+
+  func setObject(_ obj: [String: Any], forKey key: String) {
+    cache.setObject(ExpiringCacheItem(content: obj), forKey: key as NSString)
+    cacheKeys.append(key)
+  }
+
+  func clearCache() {
+    cache.removeAllObjects()
+    cacheKeys.removeAll(keepingCapacity: true)
+  }
+
+  @objc func clearExpiredCache() {
+    var tmp = [String]()
+
+    for key in cacheKeys {
+      if let object = cache.object(forKey: key as NSString) {
+        let timeSinceCache = abs(object.expiringCacheItemDate.timeIntervalSinceNow)
+        if timeSinceCache > expiringTimeInterval {
+          cache.removeObject(forKey: key as NSString)
+        } else {
+          tmp.append(key)
         }
+      }
     }
-    
-    private var cacheKeys = [String]()
-    private var timer: Timer? = nil
-    
-    init(expiringTimeInterval: TimeInterval) {
-        self.expiringTimeInterval = expiringTimeInterval
-        updateTimer()
-    }
-    
-    private func updateTimer() {
-        timer?.invalidate()
-        timer = Timer(timeInterval: 2 * expiringTimeInterval, target: self, selector: #selector(ExpiringCache.clearExpiredCache), userInfo: nil, repeats: true)
-        timer!.tolerance = expiringTimeInterval * 0.5
-      RunLoop.main.add(timer!, forMode: RunLoop.Mode.default)
-    }
-    
-    deinit {
-        timer?.invalidate()
-    }
-    
-    func objectForKey(_ key: String) -> [String: Any]? {
-        if let object = cache.object(forKey: key as NSString) {
-            let timeSinceCache = abs(object.expiringCacheItemDate.timeIntervalSinceNow)
-            if timeSinceCache > expiringTimeInterval {
-                cache.removeObject(forKey: key as NSString)
-            } else {
-                return object.content
-            }
-        }
-        
-        return nil
-    }
-    
-    func setObject(_ obj: [String: Any], forKey key: String) {
-        cache.setObject(ExpiringCacheItem(content: obj), forKey: key as NSString)
-        cacheKeys.append(key)
-    }
-    
-    func clearCache() {
-        cache.removeAllObjects()
-        cacheKeys.removeAll(keepingCapacity: true)
-    }
-    
-    @objc func clearExpiredCache() {
-        var tmp = [String]()
-        
-        for key in cacheKeys {
-            if let object = cache.object(forKey: key as NSString) {
-                let timeSinceCache = abs(object.expiringCacheItemDate.timeIntervalSinceNow)
-                if timeSinceCache > expiringTimeInterval {
-                    cache.removeObject(forKey: key as NSString)
-                } else {
-                    tmp.append(key)
-                }
-            }
-        }
-        
-        cacheKeys = tmp
-    }
+
+    cacheKeys = tmp
+  }
 }

@@ -3,6 +3,8 @@
 # https://docs.fastlane.tools
 fastlane_version "1.109.0"
 
+import '../config/Fastfile'
+
 before_all do
 	
 end
@@ -15,6 +17,7 @@ platform :ios do
 			clean: true,
 			xcargs: prepare_api_keys
 		)
+		run_swift_lint
 	end
 end
 
@@ -51,10 +54,9 @@ platform :watch do
 	end
 end
 
-lane :deploytest do
-
+lane :runswiftlint do
+	run_swift_lint # From ../config/Fastile
 end
-
 
 desc "Available options: type:major|minor|patch"
 lane :deploy do |options|

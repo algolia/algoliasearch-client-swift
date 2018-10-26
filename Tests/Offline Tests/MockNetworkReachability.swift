@@ -21,8 +21,8 @@
 //  THE SOFTWARE.
 //
 
-@testable import InstantSearchClientOffline
 import Foundation
+@testable import InstantSearchClientOffline
 
 // ----------------------------------------------------------------------
 // NOTE: Duplicate of the file with the same name in the online tests.
@@ -30,13 +30,12 @@ import Foundation
 // (thanks Cocoapods!).
 // ----------------------------------------------------------------------
 
-
 /// A simple mock of `NetworkReachability` that just returns a stored state.
 ///
 public class MockNetworkReachability: InstantSearchClientOffline.NetworkReachability {
-    public var reachable: Bool = true
-    
-    public func isReachable() -> Bool {
-        return reachable
-    }
+  public var reachable: Bool = true
+
+  public func isReachable() -> Bool {
+    return reachable
+  }
 }

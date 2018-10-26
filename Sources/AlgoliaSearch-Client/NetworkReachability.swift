@@ -23,83 +23,82 @@
 
 #if !os(watchOS)
 
-import Foundation
-import SystemConfiguration
+  import Foundation
+  import SystemConfiguration
 
-
-/// Detects network reachability.
-///
-protocol NetworkReachability {
+  /// Detects network reachability.
+  ///
+  protocol NetworkReachability {
     // MARK: Properties
-    
+
     /// Test if network connectivity is currently available.
     ///
     /// - returns: true if network connectivity is available, false otherwise.
     ///
     func isReachable() -> Bool
-}
-    
-/// Detects network reachability using the system's built-in mechanism.
-///
-class SystemNetworkReachability: NetworkReachability {
+  }
+
+  /// Detects network reachability using the system's built-in mechanism.
+  ///
+  class SystemNetworkReachability: NetworkReachability {
     // MARK: Properties
 
     /// Reachability handle used to test connectivity.
     private var reachability: SCNetworkReachability
-    
+
     // MARK: Initialization
-    
+
     init() {
-        // Create reachability handle to an all-zeroes address.
+      // Create reachability handle to an all-zeroes address.
       if #available(iOS 9, OSX 10.11, tvOS 9, *) {
         var zeroAddress6 = SystemNetworkReachability.zeroAddress6
         reachability = withUnsafePointer(to: &zeroAddress6) {
           $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
             SCNetworkReachabilityCreateWithAddress(nil, $0)
           }
-          }!
+        }!
       } else {
         var zeroAddress = SystemNetworkReachability.zeroAddress
         reachability = withUnsafePointer(to: &zeroAddress) {
           $0.withMemoryRebound(to: sockaddr.self, capacity: 1) {
             SCNetworkReachabilityCreateWithAddress(nil, $0)
           }
-          }!
+        }!
       }
     }
-    
+
     /// Test if network connectivity is currently available.
     ///
     /// - returns: true if network connectivity is available, false otherwise.
     ///
     func isReachable() -> Bool {
-        var flags: SCNetworkReachabilityFlags = []
-        if !SCNetworkReachabilityGetFlags(reachability, &flags) {
-            return false
-        }
-        
-        let reachable = flags.contains(.reachable)
-        let connectionRequired = flags.contains(.connectionRequired)
-        return reachable && !connectionRequired
+      var flags: SCNetworkReachabilityFlags = []
+      if !SCNetworkReachabilityGetFlags(reachability, &flags) {
+        return false
+      }
+
+      let reachable = flags.contains(.reachable)
+      let connectionRequired = flags.contains(.connectionRequired)
+      return reachable && !connectionRequired
     }
-    
+
     // MARK: Constants
 
     /// An all zeroes IP address.
     static let zeroAddress: sockaddr_in = {
-        var address = sockaddr_in()
-        address.sin_len = UInt8(MemoryLayout<sockaddr_in>.size)
-        address.sin_family = sa_family_t(AF_INET)
-        return address
+      var address = sockaddr_in()
+      address.sin_len = UInt8(MemoryLayout<sockaddr_in>.size)
+      address.sin_family = sa_family_t(AF_INET)
+      return address
     }()
-  
-  /// An all zeroes IP address.
-  static let zeroAddress6: sockaddr_in6 = {
-    var address = sockaddr_in6()
-    address.sin6_len = UInt8(MemoryLayout<sockaddr_in6>.size)
-    address.sin6_family = sa_family_t(AF_INET6)
-    return address
-  }()
-}
+
+    /// An all zeroes IP address.
+    static let zeroAddress6: sockaddr_in6 = {
+      var address = sockaddr_in6()
+      address.sin6_len = UInt8(MemoryLayout<sockaddr_in6>.size)
+      address.sin6_family = sa_family_t(AF_INET6)
+      return address
+    }()
+  }
 
 #endif // !os(watchOS)

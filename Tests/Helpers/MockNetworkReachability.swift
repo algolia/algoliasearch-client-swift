@@ -21,16 +21,15 @@
 //  THE SOFTWARE.
 //
 
-@testable import InstantSearchClient
 import Foundation
-
+@testable import InstantSearchClient
 
 /// A simple mock of `NetworkReachability` that just returns a stored state.
 ///
 public class MockNetworkReachability: InstantSearchClient.NetworkReachability {
-    public var reachable: Bool = true
-    
-    public func isReachable() -> Bool {
-        return reachable
-    }
+  public var reachable: Bool = true
+
+  public func isReachable() -> Bool {
+    return reachable
+  }
 }

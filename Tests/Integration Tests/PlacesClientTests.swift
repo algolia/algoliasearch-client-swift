@@ -21,24 +21,23 @@
 //  THE SOFTWARE.
 //
 
-import XCTest
 @testable import InstantSearchClient
-
+import XCTest
 
 class PlacesClientTests: XCTestCase {
-    let expectationTimeout: TimeInterval = 100
+  let expectationTimeout: TimeInterval = 100
 
-    var places: PlacesClient!
-    
-    override func setUp() {
-        super.setUp()
-        
-        // Init client.
-        let appID = Bundle(for: type(of: self)).object(forInfoDictionaryKey: "PLACES_APPLICATION_ID") as? String ?? ""
-        let apiKey = Bundle(for: type(of: self)).object(forInfoDictionaryKey: "PLACES_API_KEY") as? String ?? ""
-        places = PlacesClient(appID: appID, apiKey: apiKey)
-    }
-    
+  var places: PlacesClient!
+
+  override func setUp() {
+    super.setUp()
+
+    // Init client.
+    let appID = Bundle(for: type(of: self)).object(forInfoDictionaryKey: "PLACES_APPLICATION_ID") as? String ?? ""
+    let apiKey = Bundle(for: type(of: self)).object(forInfoDictionaryKey: "PLACES_API_KEY") as? String ?? ""
+    places = PlacesClient(appID: appID, apiKey: apiKey)
+  }
+
 //    func testSearch() {
 //        let expectation = self.expectation(description: #function)
 //        let query = PlacesQuery()
@@ -47,8 +46,8 @@ class PlacesClientTests: XCTestCase {
 //        query.hitsPerPage = 10
 //        query.aroundLatLngViaIP = false
 //        query.aroundLatLng = LatLng(lat: 32.7767, lng: -96.7970) // Dallas, TX, USA
-////        query.language = "en"
-////        query.countries = ["fr", "us"]
+  ////        query.language = "en"
+  ////        query.countries = ["fr", "us"]
 //        places.search(query) { (content, error) in
 //            XCTAssert(content != nil)
 //            XCTAssertNotNil(content?["hits"] as? [[String: Any]])
@@ -58,14 +57,14 @@ class PlacesClientTests: XCTestCase {
 //        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
 //    }
 
-    func testGetObject() {
-        let expectation = self.expectation(description: #function)
-        
-        places.getObject(withID: "afd71bb8613f70ca495d8996923b5fd5") { (content, error) in
-            XCTAssertEqual("afd71bb8613f70ca495d8996923b5fd5", content!["objectID"] as! String)
-            expectation.fulfill()
-        }
-        
-        self.waitForExpectations(timeout: expectationTimeout, handler: nil)
+  func testGetObject() {
+    let expectation = self.expectation(description: #function)
+
+    places.getObject(withID: "afd71bb8613f70ca495d8996923b5fd5") { content, _ in
+      XCTAssertEqual("afd71bb8613f70ca495d8996923b5fd5", content!["objectID"] as! String)
+      expectation.fulfill()
     }
+
+    waitForExpectations(timeout: expectationTimeout, handler: nil)
+  }
 }
