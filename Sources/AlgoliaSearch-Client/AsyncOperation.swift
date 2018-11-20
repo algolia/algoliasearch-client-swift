@@ -84,6 +84,10 @@ internal class AsyncOperation: Operation {
 
   override func start() {
     assert(!_executing)
+    if _cancelled {
+      _finished = true
+      return
+    }
     _executing = true
   }
 
