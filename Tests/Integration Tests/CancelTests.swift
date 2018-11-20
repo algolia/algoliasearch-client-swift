@@ -66,7 +66,7 @@ class CancelTests: XCTestCase {
     // Manually run the run loop for a while to leave a chance to the completion handler to be called.
     // WARNING: We cannot use `self.waitForExpectations(timeout: )`, because a timeout always results in failure.
     RunLoop.main.run(until: Date().addingTimeInterval(cancelTimeout))
-    XCTAssert(!request1.isFinished)
+    XCTAssert(request1.isFinished)
 
     // Run the test again, but this time the session won't actually cancel the (mock) network call.
     // This checks that the `Request` class still mutes the completion handler when cancelled.
@@ -77,7 +77,7 @@ class CancelTests: XCTestCase {
     }
     request2.cancel()
     RunLoop.main.run(until: Date().addingTimeInterval(cancelTimeout))
-    XCTAssert(!request2.isFinished)
+    XCTAssert(request2.isFinished)
   }
 
   // `waitTask` is a composite operation, so it has its own cancellation logic.
@@ -93,7 +93,7 @@ class CancelTests: XCTestCase {
     // Manually run the run loop for a while to leave a chance to the completion handler to be called.
     // WARNING: We cannot use `self.waitForExpectations(timeout: )`, because a timeout always results in failure.
     RunLoop.main.run(until: Date().addingTimeInterval(cancelTimeout))
-    XCTAssert(!request1.isFinished)
+    XCTAssert(request1.isFinished)
 
     session.responses["https://\(client.readHosts[0])/1/indexes/\(FAKE_INDEX_NAME)/task/\(taskID)"] = MockResponse(statusCode: 200, jsonBody: ["status": "notPublished", "pendingTask": true])
     let request2 = index.waitTask(withID: taskID) {
@@ -103,6 +103,6 @@ class CancelTests: XCTestCase {
     RunLoop.main.run(until: Date().addingTimeInterval(cancelTimeout))
     request2.cancel()
     RunLoop.main.run(until: Date().addingTimeInterval(cancelTimeout))
-    XCTAssert(!request2.isFinished)
+    XCTAssert(request2.isFinished)
   }
 }
