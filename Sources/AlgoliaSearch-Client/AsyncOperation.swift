@@ -89,7 +89,9 @@ internal class AsyncOperation: Operation {
 
   override func cancel() {
     _cancelled = true
-    finish()
+    if _executing {
+      finish()
+    }
   }
 
   /// Mark the operation as finished.
