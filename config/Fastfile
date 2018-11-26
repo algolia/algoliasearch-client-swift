@@ -12,6 +12,7 @@ lane :run_swift_lint do
     strict: false, # Fail on warnings? (true/false)
     executable: "config/swiftlint"
   )
+<<<<<<< HEAD
 end
 
 lane :check_alpha_beta_dependencies do
@@ -31,4 +32,6 @@ lane :check_alpha_beta_dependencies do
     puts "No Alpha or Beta dependencies found in Podfile, proceeding..."
   end
 
+=======
+>>>>>>> a823f6f75f1b28de27d6b225290b208cdb07e4e3
 end
