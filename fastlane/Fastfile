@@ -17,6 +17,7 @@ platform :ios do
 			clean: true,
 			xcargs: prepare_api_keys
 		)
+		code_coverage
 		run_swift_lint
 	end
 end
