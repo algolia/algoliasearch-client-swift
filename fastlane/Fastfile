@@ -188,7 +188,7 @@ lane :code_coverage do
 		workspace: "AlgoliaSearch.xcworkspace",
 		scheme: "AlgoliaSearch iOS",
 		output_directory: "build/xcov_output",
-		slack_url: "https://hooks.slack.com/services/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",
+		slack_url: ENV['SLACK_WEBHOOK'],
 		slack_channel: "#notif-deploy-mobile",
 		slack_message: "InstantSearchClient code coverage report",
 		include_targets: "InstantSearchClient.framework"
