@@ -543,7 +543,7 @@ import Foundation
   @discardableResult public func browse(from cursor: String, requestOptions: RequestOptions? = nil, completionHandler: @escaping CompletionHandler) -> Operation {
     let path = "1/indexes/\(urlEncodedName)/browse"
     let bodyParams = ["cursor": cursor]
-    return client.performHTTPQuery(path: path, urlParameters: nil, method: .POST, body: bodyParams, hostnames: client.readHosts, requestOptions: requestOptions, completionHandler: completionHandler)completionHandler: completionHandler)
+    return client.performHTTPQuery(path: path, urlParameters: nil, method: .POST, body: bodyParams, hostnames: client.readHosts, requestOptions: requestOptions, completionHandler: completionHandler)
   }
 
   @objc(browseFromCursor:completionHandler:)
