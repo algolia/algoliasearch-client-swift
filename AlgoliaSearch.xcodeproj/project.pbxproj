@@ -190,6 +190,14 @@
 		E2CCA00A21BEC6EF00B8516D /* Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CCA00821BEC6EF00B8516D /* Attribute.swift */; };
 		E2CCA00B21BEC6EF00B8516D /* Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CCA00821BEC6EF00B8516D /* Attribute.swift */; };
 		E2CCA00C21BEC6EF00B8516D /* Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CCA00821BEC6EF00B8516D /* Attribute.swift */; };
+		E2FA909121C406080015F19E /* NumericOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA909021C406080015F19E /* NumericOperator.swift */; };
+		E2FA909221C406080015F19E /* NumericOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA909021C406080015F19E /* NumericOperator.swift */; };
+		E2FA909321C406080015F19E /* NumericOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA909021C406080015F19E /* NumericOperator.swift */; };
+		E2FA909421C406080015F19E /* NumericOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA909021C406080015F19E /* NumericOperator.swift */; };
+		E2FA909621C40EE00015F19E /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA909521C40EE00015F19E /* Group.swift */; };
+		E2FA909721C40EE00015F19E /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA909521C40EE00015F19E /* Group.swift */; };
+		E2FA909821C40EE00015F19E /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA909521C40EE00015F19E /* Group.swift */; };
+		E2FA909921C40EE00015F19E /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA909521C40EE00015F19E /* Group.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -302,6 +310,8 @@
 		E2CC9FFF21BA815900B8516D /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		E2CCA00421BEA85800B8516D /* FilterBuilterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterBuilterTests.swift; sourceTree = "<group>"; };
 		E2CCA00821BEC6EF00B8516D /* Attribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attribute.swift; sourceTree = "<group>"; };
+		E2FA909021C406080015F19E /* NumericOperator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericOperator.swift; sourceTree = "<group>"; };
+		E2FA909521C40EE00015F19E /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		F27CAB9F608BD85B3EC56E49 /* Pods-AlgoliaSearch iOS Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch iOS Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch iOS Tests/Pods-AlgoliaSearch iOS Tests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -557,7 +567,9 @@
 			children = (
 				E2CC9FF921BA7BFE00B8516D /* FilterBuilder.swift */,
 				E2CC9FFF21BA815900B8516D /* Filter.swift */,
+				E2FA909521C40EE00015F19E /* Group.swift */,
 				E2CCA00821BEC6EF00B8516D /* Attribute.swift */,
+				E2FA909021C406080015F19E /* NumericOperator.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -1133,6 +1145,7 @@
 				BCC83C3E1F0E76BF002CD846 /* RequestOptions.swift in Sources */,
 				BC0A015A1C9BEDB200CD4A7C /* Error.swift in Sources */,
 				BC68BC571CB69776007F9655 /* IndexQuery.swift in Sources */,
+				E2FA909621C40EE00015F19E /* Group.swift in Sources */,
 				5D67400F1B4AA22600B326EC /* Cache.swift in Sources */,
 				BC4DDF081DD12BCC004D9A6E /* PlacesQuery.swift in Sources */,
 				BC4DDEF61DD10EBA004D9A6E /* Types.swift in Sources */,
@@ -1145,6 +1158,7 @@
 				BC4DDF021DD11697004D9A6E /* AbstractQuery.swift in Sources */,
 				BC28C4D71E5B5A0E00EFC4A0 /* Searchable.swift in Sources */,
 				E2CCA00021BA815900B8516D /* Filter.swift in Sources */,
+				E2FA909121C406080015F19E /* NumericOperator.swift in Sources */,
 				BC4DDEF01DD10E8B004D9A6E /* AbstractClient.swift in Sources */,
 				5D09E1DC1AC0773A00B799A6 /* Network.swift in Sources */,
 				5D7495A21A8E277400B0263F /* Client.swift in Sources */,
@@ -1186,6 +1200,7 @@
 				BCC83C3F1F0E76BF002CD846 /* RequestOptions.swift in Sources */,
 				BC0A015B1C9BEDB200CD4A7C /* Error.swift in Sources */,
 				BC68BC581CB69776007F9655 /* IndexQuery.swift in Sources */,
+				E2FA909721C40EE00015F19E /* Group.swift in Sources */,
 				5D6740101B4AA22600B326EC /* Cache.swift in Sources */,
 				BC4DDF091DD12BCC004D9A6E /* PlacesQuery.swift in Sources */,
 				BC4DDEF71DD10EBA004D9A6E /* Types.swift in Sources */,
@@ -1198,6 +1213,7 @@
 				BC4DDF031DD11697004D9A6E /* AbstractQuery.swift in Sources */,
 				BC28C4D81E5B5A0E00EFC4A0 /* Searchable.swift in Sources */,
 				E2CCA00121BA815900B8516D /* Filter.swift in Sources */,
+				E2FA909221C406080015F19E /* NumericOperator.swift in Sources */,
 				BC4DDEF11DD10E8B004D9A6E /* AbstractClient.swift in Sources */,
 				5DB251591AAD9F2A00945339 /* Query.swift in Sources */,
 				5D09E1DD1AC0773A00B799A6 /* Network.swift in Sources */,
@@ -1239,6 +1255,7 @@
 				BCC83C421F0E76BF002CD846 /* RequestOptions.swift in Sources */,
 				BC23A6F71D63541500DF9034 /* Error.swift in Sources */,
 				BC23A6FC1D63541500DF9034 /* Query.swift in Sources */,
+				E2FA909921C40EE00015F19E /* Group.swift in Sources */,
 				BC23A6F51D63541500DF9034 /* Cache.swift in Sources */,
 				BC4DDF0C1DD12BCC004D9A6E /* PlacesQuery.swift in Sources */,
 				BC4DDEFA1DD10EBA004D9A6E /* Types.swift in Sources */,
@@ -1251,6 +1268,7 @@
 				BC4DDF061DD11697004D9A6E /* AbstractQuery.swift in Sources */,
 				BC28C4DB1E5B5A0E00EFC4A0 /* Searchable.swift in Sources */,
 				E2CCA00321BA815900B8516D /* Filter.swift in Sources */,
+				E2FA909421C406080015F19E /* NumericOperator.swift in Sources */,
 				BC4DDEF41DD10E8B004D9A6E /* AbstractClient.swift in Sources */,
 				BC23A6F41D63541500DF9034 /* AsyncOperation.swift in Sources */,
 				BC23A6F81D63541500DF9034 /* Helpers.swift in Sources */,
@@ -1301,6 +1319,7 @@
 				BCC83C401F0E76BF002CD846 /* RequestOptions.swift in Sources */,
 				BCD1F5641CC61D090006E227 /* Error.swift in Sources */,
 				BCD1F5691CC61D1A0006E227 /* Query.swift in Sources */,
+				E2FA909821C40EE00015F19E /* Group.swift in Sources */,
 				BCD1F5621CC61D020006E227 /* Cache.swift in Sources */,
 				BC4DDF0A1DD12BCC004D9A6E /* PlacesQuery.swift in Sources */,
 				BC4DDEF81DD10EBA004D9A6E /* Types.swift in Sources */,
@@ -1313,6 +1332,7 @@
 				BC4DDF041DD11697004D9A6E /* AbstractQuery.swift in Sources */,
 				BC28C4D91E5B5A0E00EFC4A0 /* Searchable.swift in Sources */,
 				E2CCA00221BA815900B8516D /* Filter.swift in Sources */,
+				E2FA909321C406080015F19E /* NumericOperator.swift in Sources */,
 				BC4DDEF21DD10E8B004D9A6E /* AbstractClient.swift in Sources */,
 				BCD1F5661CC61D100006E227 /* Index.swift in Sources */,
 				BCD1F5611CC61CFE0006E227 /* AsyncOperation.swift in Sources */,

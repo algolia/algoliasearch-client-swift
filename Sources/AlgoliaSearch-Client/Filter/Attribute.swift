@@ -8,7 +8,7 @@
 
 import Foundation
 
-public class Attribute: CustomStringConvertible {
+public struct Attribute: CustomStringConvertible, Hashable {
     var name: String
 
     init(_ name: String) {
