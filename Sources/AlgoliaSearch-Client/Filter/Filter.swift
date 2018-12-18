@@ -98,7 +98,7 @@ public struct FilterTag: Filter, Hashable {
 
     public let expression: String
 
-    public init(attribute: Attribute, value: String, isInverted: Bool = false) {
+    public init(value: String, isInverted: Bool = false) {
         self.isInverted = isInverted
         self.value = value
 
@@ -133,7 +133,7 @@ public struct FilterComparison: Filter, Hashable {
 
     public let expression: String
 
-    init(attribute: Attribute, `operator`: NumericOperator, value: Float, isInverted: Bool = false) {
+    public init(attribute: Attribute, `operator`: NumericOperator, value: Float, isInverted: Bool = false) {
         self.attribute = attribute
         self.isInverted = isInverted
         self.value = value

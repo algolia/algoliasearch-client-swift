@@ -10,10 +10,15 @@ import Foundation
 
 /// For better understanding of Filters, please read the documentation linked below:
 /// [Documentation](https:www.algolia.com/doc/api-reference/api-parameters/filters/)
-class FilterBuilder {
+public class FilterBuilder {
+
+    public init() {
+
+    }
 
     var groups: [AnyGroup: Set<AnyFilter>] = [:]
 
+    // TODO: vararg?
     public func add<T>(filter: T, in group: Group<T>) {
         let anyGroup = AnyGroup(group)
 
@@ -25,6 +30,27 @@ class FilterBuilder {
         }
 
         groups[anyGroup] = groupFilters
+    }
+
+    func build(_ group: AnyGroup, with filters: Set<AnyFilter>) -> String {
+
+        let sortedFiltersExpressions = filters
+            .sorted { $0.attribute.name < $1.attribute.name }
+            .map { $0.expression }
+
+        if group.isConjunctive {
+            return sortedFiltersExpressions.joined(separator: " AND ")
+        } else {
+            let subfilter = sortedFiltersExpressions.joined(separator: " OR ")
+            return filters.count > 1 ? "( \(subfilter) )" : subfilter
+        }
+    }
+
+    public func build() -> String {
+        return groups
+            .sorted { $0.key.name < $1.key.name }
+            .map { build($0.key, with: $0.value) }
+            .joined(separator: " AND ")
     }
 
     /*
@@ -42,10 +68,6 @@ class FilterBuilder {
      * FilterA AND FilterB AND (FilterC OR FilterD) AND (FilterE OR FilterF)
      */
     //private var filters = mutableListOf<MutableList<Filter>>()
-
-    func or<T>(first: T, second: T, others: T...) where T: Filter {
-
-    }
 
     func useOr() {
         //let filterRange = FilterRange(attribute: Attribute(""), isInverted: true)

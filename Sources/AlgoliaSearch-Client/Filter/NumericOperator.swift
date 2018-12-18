@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum NumericOperator: String {
+public enum NumericOperator: String {
     case lessThan = "<"
     case lessThanOrEqual = "<="
     case equals = "="

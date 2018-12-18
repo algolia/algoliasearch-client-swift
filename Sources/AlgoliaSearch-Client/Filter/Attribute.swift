@@ -11,7 +11,7 @@ import Foundation
 public struct Attribute: CustomStringConvertible, Hashable {
     var name: String
 
-    init(_ name: String) {
+    public init(_ name: String) {
         self.name = name
     }
 

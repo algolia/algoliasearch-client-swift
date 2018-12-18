@@ -16,9 +16,19 @@ public enum Group<F: Filter>: Hashable {
 struct AnyGroup: Hashable {
 
     let hashValue: Int
+    let isConjunctive: Bool
+    let name: String
 
     init<F>(_ group: Group<F>) where F: Filter {
         self.hashValue = group.hashValue
+        switch group {
+        case .and(let name):
+            isConjunctive = true
+            self.name = name
+        case .or(let name):
+            isConjunctive = false
+            self.name = name
+        }
     }
 
 }
