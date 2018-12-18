@@ -32,34 +32,43 @@ class FilterBuilderTests: XCTestCase {
         let filterTag2 = FilterTag(value: "Hank")
 
         let groupFacets = Group<FilterFacet>.or("filterFacets")
+        let groupFacetsOtherInstance = Group<FilterFacet>.or("filterFacets")
         let groupNumerics = Group<FilterComparison>.and("filterNumerics")
-        let groupTags = Group<FilterTag>.or("filterTags")
+        let groupTagsOr = Group<FilterTag>.or("filterTags")
+        let groupTagsAnd = Group<FilterTag>.and("filterTags")
 
         filterBuilder.add(filter: filterFacet1, in: groupFacets)
-        filterBuilder.add(filter: filterFacet2, in: groupFacets)
+        // Make sure that if we re-create a group instance, filters will stay in same group bracket
+        filterBuilder.add(filter: filterFacet2, in: groupFacetsOtherInstance)
 
         filterBuilder.add(filter: filterNumeric1, in: groupNumerics)
         filterBuilder.add(filter: filterNumeric2, in: groupNumerics)
+         // Repeat once to see if the Set rejects same filter
+        filterBuilder.add(filter: filterNumeric2, in: groupNumerics)
 
-        filterBuilder.add(filter: filterTag1, in: groupTags)
-        filterBuilder.add(filter: filterTag2, in: groupTags)
+        filterBuilder.addAll(filters: [filterTag1, filterTag2], in: groupTagsOr)
+        filterBuilder.add(filter: filterTag1, in: groupTagsAnd)
+        let expectedFilterBuilder = """
+                                    ( "category":"chair" OR "category":"table" ) AND "price" < 20.0 AND "price" > 10.0 AND "_tags":"Tom" AND ( "_tags":"Hank" OR "_tags":"Tom" )
+                                    """
+        XCTAssertEqual(filterBuilder.build(), expectedFilterBuilder)
 
-        let subfilters = filterBuilder.build().components(separatedBy: " AND ")
-        XCTAssertTrue(subfilters.contains(filterNumeric2.expression))
-        XCTAssertTrue(subfilters.contains(filterNumeric1.expression))
-        XCTAssertTrue(subfilters.contains(filterBuilder.build(AnyGroup(groupFacets))!))
-        XCTAssertTrue(subfilters.contains(filterBuilder.build(AnyGroup(groupTags))!))
-        for andFilter in filterBuilder.build(AnyGroup(groupNumerics))!.components(separatedBy: " AND ") {
-            XCTAssertTrue(subfilters.contains(andFilter))
-        }
+        filterBuilder.remove(filter: filterTag1, in: groupTagsAnd) // existing one
+        filterBuilder.remove(filter: filterTag1, in: groupTagsAnd) // remove one more time
+        filterBuilder.remove(filter: FilterTag(value: "unexisting"), in: groupTagsOr) // remove one that does not exist
+        filterBuilder.remove(filter: filterFacet1) // Remove in all groups
 
+        let expectedFilterBuilder2 = """
+                                    "category":"chair" AND "price" < 20.0 AND "price" > 10.0 AND ( "_tags":"Hank" OR "_tags":"Tom" )
+                                    """
+        XCTAssertEqual(filterBuilder.build(), expectedFilterBuilder2)
 
-//        XCTAssertTrue(subfilters.contains(groupTags.))
-//        XCTAssertEqual(filterBuilder.build(), """
-//                                                ( "category":"table" OR "category":"chair" ) AND "price" > 10 AND "price" < 20 AND ( "_tags":"Tom" OR "_tags":"Hank" )
-//                                                """)
+        filterBuilder.removeAll(filters: [filterNumeric1, filterNumeric2])
 
-
+        let expectedFilterBuilder3 = """
+                                    "category":"chair" AND ( "_tags":"Hank" OR "_tags":"Tom" )
+                                    """
+        XCTAssertEqual(filterBuilder.build(), expectedFilterBuilder3)
     }
 
     // MARK: Build & parse
