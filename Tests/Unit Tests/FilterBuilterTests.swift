@@ -52,7 +52,12 @@ class FilterBuilderTests: XCTestCase {
                                     ( "category":"chair" OR "category":"table" ) AND "price" < 20.0 AND "price" > 10.0 AND "_tags":"Tom" AND ( "_tags":"Hank" OR "_tags":"Tom" )
                                     """
         XCTAssertEqual(filterBuilder.build(), expectedFilterBuilder)
-
+        
+        XCTAssertTrue(filterBuilder.contains(filter: filterFacet1))
+        
+        let missingFilter = FilterFacet(attribute: Attribute("bla"), value: false)
+        XCTAssertFalse(filterBuilder.contains(filter: missingFilter))
+        
         filterBuilder.remove(filter: filterTag1, in: groupTagsAnd) // existing one
         filterBuilder.remove(filter: filterTag1, in: groupTagsAnd) // remove one more time
         filterBuilder.remove(filter: FilterTag(value: "unexisting"), in: groupTagsOr) // remove one that does not exist
@@ -69,6 +74,90 @@ class FilterBuilderTests: XCTestCase {
                                     "category":"chair" AND ( "_tags":"Hank" OR "_tags":"Tom" )
                                     """
         XCTAssertEqual(filterBuilder.build(), expectedFilterBuilder3)
+        
+    }
+    
+    func testClearAttribute() {
+        
+        let filterNumeric1 = FilterComparison(attribute: Attribute("price"), operator: NumericOperator.greaterThan, value: 10)
+        let filterNumeric2 = FilterComparison(attribute: Attribute("price"), operator: NumericOperator.lessThan, value: 20)
+        let filterTag1 = FilterTag(value: "Tom")
+        let filterTag2 = FilterTag(value: "Hank")
+        
+        let groupNumericsOr = Group<FilterComparison>.or("filterNumeric")
+        let groupTagsOr = Group<FilterTag>.or("filterTags")
+
+        let filterBuilder = FilterBuilder()
+        
+        filterBuilder.addAll(filters: [filterNumeric1, filterNumeric2], in: groupNumericsOr)
+        filterBuilder.addAll(filters: [filterTag1, filterTag2], in: groupTagsOr)
+
+        filterBuilder.clear(Attribute("price"))
+        
+        XCTAssertFalse(filterBuilder.contains(filter: filterNumeric1))
+        XCTAssertFalse(filterBuilder.contains(filter: filterNumeric2))
+        XCTAssertTrue(filterBuilder.contains(filter: filterTag1))
+        XCTAssertTrue(filterBuilder.contains(filter: filterTag2))
+        
+    }
+    
+    func testClear() {
+        
+    }
+    
+    func testReplaceAttribute() {
+        
+        let filter1 = FilterFacet(attribute: Attribute("price"), value: "high")
+        let filter2 = FilterFacet(attribute: Attribute("price"), value: 15)
+        let filter3 = FilterFacet(attribute: Attribute("category"), value: "gifts")
+        
+        let group1: Group<FilterFacet> = .or("group1")
+        let group2: Group<FilterFacet> = .or("group2")
+        
+        let filterBuilder = FilterBuilder()
+        
+        filterBuilder.add(filter: filter1, in: group1)
+        filterBuilder.addAll(filters: [filter2, filter3], in: group2)
+        
+        filterBuilder.replace(Attribute("price"), by: Attribute("someValue"))
+        
+        XCTAssertTrue(filterBuilder.contains(filter: FilterFacet(attribute: Attribute("someValue"), value: "high")))
+        XCTAssertTrue(filterBuilder.contains(filter: FilterFacet(attribute: Attribute("someValue"), value: 15)))
+        XCTAssertTrue(filterBuilder.contains(filter: filter3))
+        XCTAssertFalse(filterBuilder.contains(filter: filter1))
+        XCTAssertFalse(filterBuilder.contains(filter: filter2))
+        
+    }
+    
+    func testReplaceFilter() {
+        
+        let filter1 = FilterFacet(attribute: Attribute("category"), value: "chair")
+        let filter2 = FilterFacet(attribute: Attribute("isPromoted"), value: true)
+        let filter3 = FilterFacet(attribute: Attribute("category"), value: "table")
+        
+        let filterBuilder = FilterBuilder()
+        
+        let group1: Group<FilterFacet> = .or("group1")
+        let group2: Group<FilterFacet> = .or("group2")
+        
+        filterBuilder.add(filter: filter1, in: group1)
+        filterBuilder.add(filter: filter1, in: group2)
+        filterBuilder.add(filter: filter3, in: group2)
+        XCTAssertTrue(filterBuilder.contains(filter: filter1))
+        XCTAssertTrue(filterBuilder.contains(filter: filter3))
+        
+        filterBuilder.replace(filter1, by: filter2)
+
+        XCTAssertFalse(filterBuilder.contains(filter: filter1))
+        XCTAssertTrue(filterBuilder.contains(filter: filter2))
+        XCTAssertTrue(filterBuilder.contains(filter: filter3))
+
+        filterBuilder.replace(filter1, by: filter3)
+        
+        XCTAssertFalse(filterBuilder.contains(filter: filter1))
+        XCTAssertTrue(filterBuilder.contains(filter: filter2))
+        XCTAssertTrue(filterBuilder.contains(filter: filter3))
+        
     }
 
     // MARK: Build & parse

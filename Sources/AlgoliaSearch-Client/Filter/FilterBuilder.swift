@@ -52,6 +52,41 @@ public class FilterBuilder {
     public func removeAll<T: Filter>(filters: [T]) {
         filters.forEach { remove(filter: $0) }
     }
+    
+    public func contains<T: Filter>(filter: T) -> Bool {
+        let anyFilter = AnyFilter(filter)
+        return groups.values.reduce(Set<AnyFilter>(), { $0.union($1) }).contains(anyFilter)
+    }
+    
+    public func clear(_ attribute: Attribute) {
+        groups.forEach { group in
+            let updatedFilters = group.value.filter { $0.attribute != attribute }
+            groups[group.key] = updatedFilters.isEmpty ? nil : updatedFilters
+        }
+    }
+    
+    public func replace(_ attribute: Attribute, by replacement: Attribute) {
+        groups.forEach { group in
+            let filtersToReplace = group.value.filter { $0.attribute == attribute }
+            let filtersReplacements = filtersToReplace.map { $0.with(replacement) }
+            let updatedFilters = group.value.subtracting(filtersToReplace).union(filtersReplacements)
+            groups[group.key] = updatedFilters.isEmpty ? nil : updatedFilters
+
+        }
+    }
+    
+    public func replace<T: Filter>(_ filter: T, by replacement: T) {
+        groups.forEach { group in
+            let filtersToReplace = group.value.filter { AnyFilter(filter) == $0 }
+            let filtersReplacement = [AnyFilter(replacement)]
+            let updatedFilters = group.value.subtracting(filtersToReplace).union(filtersReplacement)
+            groups[group.key] = updatedFilters
+        }
+    }
+    
+    public func clear() {
+        groups.removeAll()
+    }
 
     func build(_ group: AnyGroup, with filters: Set<AnyFilter>) -> String {
 
