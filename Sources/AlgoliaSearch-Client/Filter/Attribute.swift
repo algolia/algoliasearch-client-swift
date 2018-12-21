@@ -8,10 +8,16 @@
 
 import Foundation
 
-public struct Attribute: CustomStringConvertible, Hashable {
+public struct Attribute: CustomStringConvertible, Hashable, ExpressibleByStringLiteral {
+    public typealias StringLiteralType = String
+    
     var name: String
+    
+    public init(_ string: String) {
+        self.name = string
+    }
 
-    public init(_ name: String) {
+    public init(stringLiteral name: String) {
         self.name = name
     }
 

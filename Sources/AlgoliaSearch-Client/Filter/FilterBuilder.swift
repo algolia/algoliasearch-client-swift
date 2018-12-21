@@ -13,44 +13,80 @@ import Foundation
 public class FilterBuilder {
 
     public init() {}
-
+    
     var groups: [AnyGroup: Set<AnyFilter>] = [:]
-
-    public func add<T: Filter>(filter: T, in group: Group<T>) {
+    
+    public var isEmpty: Bool {
+        return groups.isEmpty
+    }
+        
+    public func add<T: Filter>(filter: T, in group: AndFilterGroup) {
         let anyGroup = AnyGroup(group)
-
+        add(filter: filter, in: anyGroup)
+    }
+    
+    public func add<T: Filter>(filter: T, in group: OrFilterGroup<T>) {
+        let anyGroup = AnyGroup(group)
+        add(filter: filter, in: anyGroup)
+    }
+    
+    func add<T: Filter>(filter: T, in group: AnyGroup) {
         let groupFilters: Set<AnyFilter>
-        if let existingGroupFilters = groups[anyGroup] {
+        if let existingGroupFilters = groups[group] {
             groupFilters = existingGroupFilters.union([AnyFilter(filter)])
         } else {
             groupFilters = [AnyFilter(filter)]
         }
-
-        groups[anyGroup] = groupFilters
+        groups[group] = groupFilters
     }
 
-    public func addAll<T: Filter>(filters: [T], in group: Group<T>) {
+    public func addAll<T: Filter>(filters: [T], in group: OrFilterGroup<T>) {
         filters.forEach { add(filter: $0, in: group) }
     }
-
-    public func remove<T: Filter>(filter: T, in group: Group<T>) {
+    
+    public func addAll<T: Filter>(filters: [T], in group: AndFilterGroup) {
+        filters.forEach { add(filter: $0, in: group) }
+    }
+    
+    @discardableResult public func remove<T: Filter>(filter: T, in group: AndFilterGroup) -> Bool {
         let anyGroup = AnyGroup(group)
-        remove(filter: filter, in: anyGroup)
+        return remove(filter: filter, in: anyGroup)
     }
 
-    func remove<T: Filter>(filter: T, in anyGroup: AnyGroup) {
+    @discardableResult public func remove<T: Filter>(filter: T, in group: OrFilterGroup<T>) -> Bool {
+        let anyGroup = AnyGroup(group)
+        return remove(filter: filter, in: anyGroup)
+    }
+
+    @discardableResult func remove<T: Filter>(filter: T, in anyGroup: AnyGroup) -> Bool {
         if var filters = groups[anyGroup] {
             filters.remove(AnyFilter(filter))
             groups[anyGroup] = filters.isEmpty ? nil : filters
         }
+        
+        return false
+    }
+    
+    public func removeAll(in group: AndFilterGroup) {
+        let anyGroup = AnyGroup(group)
+        removeAll(in: anyGroup)
+    }
+    
+    public func removeAll<T: Filter>(in group: OrFilterGroup<T>) {
+        let anyGroup = AnyGroup(group)
+        removeAll(in: anyGroup)
+    }
+    
+    func removeAll(in group: AnyGroup) {
+        groups.removeValue(forKey: group)
     }
 
-    public func remove<T: Filter>(filter: T) {
-        groups.forEach { remove(filter: filter, in: $0.key) }
+    @discardableResult public func remove<T: Filter>(filter: T) -> Bool {
+        return groups.map { remove(filter: filter, in: $0.key) }.reduce(false) { $0 || $1 }
     }
 
     public func removeAll<T: Filter>(filters: [T]) {
-        filters.forEach { remove(filter: $0) }
+        return filters.forEach { remove(filter: $0) }
     }
     
     public func contains<T: Filter>(filter: T) -> Bool {
@@ -71,7 +107,6 @@ public class FilterBuilder {
             let filtersReplacements = filtersToReplace.map { $0.with(replacement) }
             let updatedFilters = group.value.subtracting(filtersToReplace).union(filtersReplacements)
             groups[group.key] = updatedFilters.isEmpty ? nil : updatedFilters
-
         }
     }
     
@@ -113,25 +148,4 @@ public class FilterBuilder {
             .joined(separator: " AND ")
     }
 
-    /*
-     * To represent our SQL-like syntax of filters, we use a nested array of [Filter].
-     * Each nested MutableList<Filter> represents a group. If this group contains two or more elements,
-     * it will be considered  as a disjunctive group (Operator OR).
-     * The operator AND will be used between each nested group.
-     *
-     * Example:
-     *
-     * ((FilterA), (FilterB), (FilterC, FilterD), (FilterE, FilterF))
-     *
-     * will give us the following SQL-like expression:
-     *
-     * FilterA AND FilterB AND (FilterC OR FilterD) AND (FilterE OR FilterF)
-     */
-    //private var filters = mutableListOf<MutableList<Filter>>()
-
-    func useOr() {
-        //let filterRange = FilterRange(attribute: Attribute(""), isInverted: true)
-        //let filterComp = FilterComparison(attribute: Attribute(""), isInverted: true)
-
-    }
 }
