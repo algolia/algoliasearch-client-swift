@@ -23,3 +23,9 @@ public struct Attribute: CustomStringConvertible, Hashable, ExpressibleByStringL
 
     public var description: String { return name }
 }
+
+extension Attribute {
+    
+    static let tags = Attribute("_tags")
+    
+}

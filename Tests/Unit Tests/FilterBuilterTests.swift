@@ -77,22 +77,23 @@ class FilterBuilderTests: XCTestCase {
         
     }
     
-    func subscriptAndOperatorPlayground() {
+    func testSubscriptAndOperatorPlayground() {
         
         let filterBuilder = FilterBuilder()
         
-        let filterFacet1 = FilterFacet(attribute: Attribute("category"), value: "table")
-        let filterFacet2 = FilterFacet(attribute: Attribute("category"), value: "chair")
-        let filterNumeric1 = FilterComparison(attribute: Attribute("price"), operator: NumericOperator.greaterThan, value: 10)
-        let filterNumeric2 = FilterComparison(attribute: Attribute("price"), operator: NumericOperator.lessThan, value: 20)
+        let filterFacet1 = FilterFacet(attribute: "category", value: "table")
+        let filterFacet2 = FilterFacet(attribute: "category", value: "chair")
+        let filterNumeric1 = FilterComparison(attribute: "price", operator: NumericOperator.greaterThan, value: 10)
+        let filterNumeric2 = FilterComparison(attribute: "price", operator: NumericOperator.lessThan, value: 20)
         let filterTag1 = FilterTag(value: "Tom")
         let filterTag2 = FilterTag(value: "Hank")
         
-        filterBuilder[.or("a", ofType: FilterFacet.self)] <<< filterFacet1 <<< filterFacet2
-        filterBuilder[.and("b")] <<< filterNumeric1 <<< filterTag1
+        filterBuilder[.or("a", ofType: FilterFacet.self)] +++ filterFacet1 --- filterFacet2
+        filterBuilder[.and("b")] +++ [filterNumeric1] +++ filterTag1
         
-        filterBuilder[.or("a", ofType: FilterFacet.self)] += [filterFacet1, filterFacet2]
-        filterBuilder[.and("b")] += [filterNumeric1, filterNumeric2] <<< filterTag2
+        filterBuilder[.or("a", ofType: FilterFacet.self)] +++ [filterFacet1, filterFacet2]
+        filterBuilder[.and("b")] +++ [filterNumeric1, filterNumeric2]
+        
     }
     
     func testAndGroupSubscript() {
@@ -102,7 +103,7 @@ class FilterBuilderTests: XCTestCase {
         
         let group = AndFilterGroup(name: "group")
         
-        filterBuilder[group] += filter
+        filterBuilder[group] +++ filter
 
         XCTAssertTrue(filterBuilder.contains(filter: filter))
         
@@ -115,7 +116,7 @@ class FilterBuilderTests: XCTestCase {
         
         let group = OrFilterGroup<FilterFacet>(name: "group")
 
-        filterBuilder[group] += filter
+        filterBuilder[group] +++ filter
         
         XCTAssertTrue(filterBuilder.contains(filter: filter))
     }
@@ -155,7 +156,7 @@ class FilterBuilderTests: XCTestCase {
         filterBuilder.addAll(filters: [filterNumeric1, filterNumeric2], in: groupNumericsOr)
         filterBuilder.addAll(filters: [filterTag1, filterTag2], in: groupTagsOr)
 
-        filterBuilder.clear(Attribute("price"))
+        filterBuilder.removeAll(for: Attribute("price"))
         
         XCTAssertFalse(filterBuilder.contains(filter: filterNumeric1))
         XCTAssertFalse(filterBuilder.contains(filter: filterNumeric2))
@@ -182,7 +183,7 @@ class FilterBuilderTests: XCTestCase {
         let group = AndFilterGroup(name: "group")
         filterBuilder.add(filter: filterNumeric, in: group)
         filterBuilder.add(filter: filterTag, in: group)
-        filterBuilder.clear()
+        filterBuilder.removeAll()
         XCTAssertTrue(filterBuilder.isEmpty)
     }
     
@@ -227,13 +228,15 @@ class FilterBuilderTests: XCTestCase {
         XCTAssertTrue(filterBuilder.contains(filter: filter1))
         XCTAssertTrue(filterBuilder.contains(filter: filter3))
         
-        filterBuilder.replace(filter1, by: filter2)
+        filterBuilder[group1].replace(filter1, by: filter2)
+        filterBuilder[group2].replace(filter1, by: filter2)
 
         XCTAssertFalse(filterBuilder.contains(filter: filter1))
         XCTAssertTrue(filterBuilder.contains(filter: filter2))
         XCTAssertTrue(filterBuilder.contains(filter: filter3))
 
-        filterBuilder.replace(filter1, by: filter3)
+        filterBuilder[group1].replace(filter1, by: filter3)
+        filterBuilder[group2].replace(filter1, by: filter3)
         
         XCTAssertFalse(filterBuilder.contains(filter: filter1))
         XCTAssertTrue(filterBuilder.contains(filter: filter2))

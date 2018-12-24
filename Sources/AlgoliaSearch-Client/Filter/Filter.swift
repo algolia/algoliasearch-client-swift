@@ -121,7 +121,7 @@ public struct FilterFacet: Filter, Hashable {
 }
 
 public struct FilterTag: Filter, Hashable {
-    public let attribute: Attribute = Attribute("_tags")
+    public let attribute: Attribute = .tags
     public var isInverted: Bool
     public let value: String
 

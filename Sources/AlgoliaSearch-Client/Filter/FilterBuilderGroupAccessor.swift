@@ -10,84 +10,16 @@ import Foundation
 
 extension FilterBuilder {
     
-    public subscript(group: AndFilterGroup) -> AndGroupAccessor {
+    public subscript(group: AndFilterGroup) -> AndGroupProxy {
         get {
-            return AndGroupAccessor(filterBuilder: self, group: group)
+            return AndGroupProxy(filterBuilder: self, group: group)
         }
     }
     
-    public subscript<T: Filter>(group: OrFilterGroup<T>) -> OrGroupAccessor<T> {
+    public subscript<T: Filter>(group: OrFilterGroup<T>) -> OrGroupProxy<T> {
         get {
-            return OrGroupAccessor(filterBuilder: self, group: group)
+            return OrGroupProxy(filterBuilder: self, group: group)
         }
     }
     
 }
-
-
-public struct OrGroupAccessor<T: Filter> {
-    
-    let filterBuilder: FilterBuilder
-    let group: OrFilterGroup<T>
-
-    public func removeAll() {
-        filterBuilder.removeAll(in: group)
-    }
-    
-}
-
-public struct AndGroupAccessor {
-    
-    let filterBuilder: FilterBuilder
-    let group: AndFilterGroup
-    
-    public func removeAll() {
-        filterBuilder.removeAll(in: group)
-    }
-    
-}
-
-//public class FilterBuilderGroupAccessor<G: FilterGroup> {
-//
-//    let filterBuilder: FilterBuilder
-//    let group: G
-//
-//    init(filterBuilder: FilterBuilder, group: AnyGroup) {
-//        self.filterBuilder = filterBuilder
-//        self.group = group
-//    }
-//
-//    public static func += <T: Filter>(accessor: FilterBuilderGroupAccessor, filter: T) {
-//        accessor.filterBuilder.add(filter: filter, in: accessor.group)
-//    }
-//
-//    public static func -= <T: Filter>(accessor: FilterBuilderGroupAccessor, filter: T) {
-//        accessor.filterBuilder.remove(filter: filter, in: accessor.group)
-//    }
-//
-//    @discardableResult public static func << <T: Filter>(accessor: FilterBuilderGroupAccessor, filter: T) -> FilterBuilderGroupAccessor {
-//        accessor.filterBuilder.add(filter: filter, in: accessor.group)
-//        return accessor
-//    }
-//
-//
-//
-//
-//}
-//
-//extension FilterBuilderGroupAccessor where G == AndFilterGroup {
-//
-//
-//    public func removeAll() {
-//        filterBuilder.removeAll(in: group)
-//    }
-//
-//}
-//
-//extension FilterBuilderGroupAccessor where F: Filter, G == OrFilterGroup<F> {
-//
-//    public func removeAll() {
-//        filterBuilder.removeAll(in: group)
-//    }
-//
-//}

@@ -15,37 +15,49 @@ precedencegroup FilterBuilderPrecedence {
 
 precedencegroup FilterGroupPrecedence {
     associativity: left
-    higherThan: LogicalConjunctionPrecedence
+    higherThan: AssignmentPrecedence
 }
 
+infix operator +++: FilterGroupPrecedence
+infix operator ---: FilterGroupPrecedence
 infix operator <<< : FilterGroupPrecedence
 
-@discardableResult public func <<< <T: Filter>(left: OrGroupAccessor<T>, right: T) -> OrGroupAccessor<T> {
+@discardableResult public func +++ <T: Filter>(left: OrGroupProxy<T>, right: T) -> OrGroupProxy<T> {
     left.filterBuilder.add(filter: right, in: left.group)
     return left
 }
 
-@discardableResult public func <<< <T: Filter>(left: AndGroupAccessor, right: T) -> AndGroupAccessor {
+@discardableResult public func +++ <T: Filter>(left: AndGroupProxy, right: T) -> AndGroupProxy {
     left.filterBuilder.add(filter: right, in: left.group)
     return left
 }
 
-@discardableResult public func += <T: Filter>(left: OrGroupAccessor<T>, right: T) -> OrGroupAccessor<T> {
-    left.filterBuilder.add(filter: right, in: left.group)
+@discardableResult public func --- <T: Filter>(left: OrGroupProxy<T>, right: T) -> OrGroupProxy<T> {
+    left.filterBuilder.remove(filter: right, in: left.group)
     return left
 }
 
-@discardableResult public func += <T: Filter>(left: AndGroupAccessor, right: T) -> AndGroupAccessor {
-    left.filterBuilder.add(filter: right, in: left.group)
+@discardableResult public func --- <T: Filter>(left: AndGroupProxy, right: T) -> AndGroupProxy {
+    left.filterBuilder.remove(filter: right, in: left.group)
     return left
 }
 
-@discardableResult public func += <T: Filter>(left: OrGroupAccessor<T>, right: [T]) -> OrGroupAccessor<T> {
+@discardableResult public func +++ <T: Filter>(left: OrGroupProxy<T>, right: [T]) -> OrGroupProxy<T> {
     left.filterBuilder.addAll(filters: right, in: left.group)
     return left
 }
 
-@discardableResult public func += <T: Filter>(left: AndGroupAccessor, right: [T]) -> AndGroupAccessor {
+@discardableResult public func +++ <T: Filter>(left: AndGroupProxy, right: [T]) -> AndGroupProxy {
     left.filterBuilder.addAll(filters: right, in: left.group)
+    return left
+}
+
+@discardableResult public func --- <T: Filter>(left: OrGroupProxy<T>, right: [T]) -> OrGroupProxy<T> {
+    left.filterBuilder.removeAll(filters: right, in: left.group)
+    return left
+}
+
+@discardableResult public func --- <T: Filter>(left: AndGroupProxy, right: [T]) -> AndGroupProxy {
+    left.filterBuilder.removeAll(filters: right, in: left.group)
     return left
 }
