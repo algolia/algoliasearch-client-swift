@@ -26,8 +26,8 @@ class FilterBuilderTests: XCTestCase {
 
         let filterFacet1 = FilterFacet(attribute: Attribute("category"), value: "table")
         let filterFacet2 = FilterFacet(attribute: Attribute("category"), value: "chair")
-        let filterNumeric1 = FilterComparison(attribute: Attribute("price"), operator: NumericOperator.greaterThan, value: 10)
-        let filterNumeric2 = FilterComparison(attribute: Attribute("price"), operator: NumericOperator.lessThan, value: 20)
+        let filterNumeric1 = FilterNumeric(attribute: "price", operator: NumericOperator.greaterThan, value: 10)
+        let filterNumeric2 = FilterNumeric(attribute: "price", operator: .lessThan, value: 20)
         let filterTag1 = FilterTag(value: "Tom")
         let filterTag2 = FilterTag(value: "Hank")
 
@@ -83,8 +83,8 @@ class FilterBuilderTests: XCTestCase {
         
         let filterFacet1 = FilterFacet(attribute: "category", value: "table")
         let filterFacet2 = FilterFacet(attribute: "category", value: "chair")
-        let filterNumeric1 = FilterComparison(attribute: "price", operator: NumericOperator.greaterThan, value: 10)
-        let filterNumeric2 = FilterComparison(attribute: "price", operator: NumericOperator.lessThan, value: 20)
+        let filterNumeric1 = FilterNumeric(attribute: "price", operator: .greaterThan, value: 10)
+        let filterNumeric2 = FilterNumeric(attribute: "price", operator: .lessThan, value: 20)
         let filterTag1 = FilterTag(value: "Tom")
         let filterTag2 = FilterTag(value: "Hank")
         
@@ -134,8 +134,8 @@ class FilterBuilderTests: XCTestCase {
     func testAndGroupAddAll() {
         let filterBuilder = FilterBuilder()
         let group = AndFilterGroup(name: "group")
-        let filterPrice = FilterComparison(attribute: "price", operator: .greaterThan, value: 10)
-        let filterSize = FilterComparison(attribute: "size", operator: .greaterThan, value: 20)
+        let filterPrice = FilterNumeric(attribute: "price", operator: .greaterThan, value: 10)
+        let filterSize = FilterNumeric(attribute: "size", operator: .greaterThan, value: 20)
         filterBuilder.addAll(filters: [filterPrice, filterSize], in: group)
         XCTAssertTrue(filterBuilder.contains(filter: filterPrice))
         XCTAssertTrue(filterBuilder.contains(filter: filterSize))
@@ -143,12 +143,12 @@ class FilterBuilderTests: XCTestCase {
     
     func testClearAttribute() {
         
-        let filterNumeric1 = FilterComparison(attribute: Attribute("price"), operator: .greaterThan, value: 10)
-        let filterNumeric2 = FilterComparison(attribute: Attribute("price"), operator: .lessThan, value: 20)
+        let filterNumeric1 = FilterNumeric(attribute: "price", operator: .greaterThan, value: 10)
+        let filterNumeric2 = FilterNumeric(attribute: "price", operator: .lessThan, value: 20)
         let filterTag1 = FilterTag(value: "Tom")
         let filterTag2 = FilterTag(value: "Hank")
         
-        let groupNumericsOr = OrFilterGroup<FilterComparison>(name: "filterNumeric")
+        let groupNumericsOr = OrFilterGroup<FilterNumeric>(name: "filterNumeric")
         let groupTagsOr = OrFilterGroup<FilterTag>(name: "filterTags")
 
         let filterBuilder = FilterBuilder()
@@ -167,18 +167,18 @@ class FilterBuilderTests: XCTestCase {
     
     func testIsEmpty() {
         let filterBuilder = FilterBuilder()
-        let filter = FilterComparison(attribute: Attribute("price"), operator: .greaterThan, value: 10)
-        let group = OrFilterGroup<FilterComparison>(name: "group")
+        let filter = FilterNumeric(attribute: Attribute("price"), operator: .greaterThan, value: 10)
+        let group = OrFilterGroup<FilterNumeric>(name: "group")
         XCTAssertTrue(filterBuilder.isEmpty)
         filterBuilder.add(filter: filter, in: group)
         XCTAssertFalse(filterBuilder.isEmpty)
         filterBuilder.remove(filter: filter)
-        XCTAssertTrue(filterBuilder.isEmpty)
+        XCTAssertTrue(filterBuilder.isEmpty, filterBuilder.build())
     }
     
     func testClear() {
         let filterBuilder = FilterBuilder()
-        let filterNumeric = FilterComparison(attribute: Attribute("price"), operator: .greaterThan, value: 10)
+        let filterNumeric = FilterNumeric(attribute: Attribute("price"), operator: .greaterThan, value: 10)
         let filterTag = FilterTag(value: "Tom")
         let group = AndFilterGroup(name: "group")
         filterBuilder.add(filter: filterNumeric, in: group)
@@ -189,9 +189,9 @@ class FilterBuilderTests: XCTestCase {
     
     func testReplaceAttribute() {
         
-        let filter1 = FilterFacet(attribute: Attribute("price"), value: "high")
-        let filter2 = FilterFacet(attribute: Attribute("price"), value: 15)
-        let filter3 = FilterFacet(attribute: Attribute("category"), value: "gifts")
+        let filter1 = FilterFacet(attribute: "price", value: "high")
+        let filter2 = FilterFacet(attribute: "price", value: 15)
+        let filter3 = FilterFacet(attribute: "category", value: "gifts")
         
         let group1: OrFilterGroup<FilterFacet> = .init(name: "group1")
         let group2: OrFilterGroup<FilterFacet> = .init(name: "group2")

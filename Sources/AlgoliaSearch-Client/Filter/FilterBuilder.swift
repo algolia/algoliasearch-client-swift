@@ -16,6 +16,10 @@ public class FilterBuilder {
     
     var groups: [AnyGroup: Set<AnyFilter>] = [:]
     
+    private func update(_ filters: Set<AnyFilter>, for group: AnyGroup) {
+        groups[group] = filters.isEmpty ? nil : filters
+    }
+    
     func add<T: Filter>(filter: T, in group: AnyGroup) {
         addAll(filters: [filter], in: group)
     }
@@ -23,7 +27,7 @@ public class FilterBuilder {
     func addAll<T: Filter>(filters: [T], in group: AnyGroup) {
         let existingFilters = groups[group] ?? []
         let updatedFilters = existingFilters.union(filters.map(AnyFilter.init))
-        groups[group] = updatedFilters
+        update(updatedFilters, for: group)
     }
     
     @discardableResult func remove<T: Filter>(filter: T, in anyGroup: AnyGroup) -> Bool {
@@ -36,7 +40,7 @@ public class FilterBuilder {
             return false
         }
         let updatedFilters = existingFilters.subtracting(filtersToRemove)
-        groups[anyGroup] = updatedFilters
+        update(updatedFilters, for: anyGroup)
         return true
     }
     
@@ -57,7 +61,7 @@ public class FilterBuilder {
         let filtersToReplace = filtersForGroup.filter { $0.attribute == attribute }
         let filtersReplacements = filtersToReplace.map { $0.with(replacement) }
         let updatedFilters = filtersForGroup.subtracting(filtersToReplace).union(filtersReplacements)
-        groups[group] = updatedFilters
+        update(updatedFilters, for: group)
     }
     
     func replace<T: Filter, D: Filter>(filter: T, by replacement: D, in group: AnyGroup) {
@@ -65,7 +69,7 @@ public class FilterBuilder {
         let filtersToReplace = filtersForGroup.filter { AnyFilter(filter) == $0 }
         let filtersReplacement = [AnyFilter(replacement)]
         let updatedFilters = filtersForGroup.subtracting(filtersToReplace).union(filtersReplacement)
-        groups[group] = updatedFilters
+        update(updatedFilters, for: group)
     }
     
     func replace<T: Filter>(_ filter: T, by replacement: T) {
@@ -77,10 +81,12 @@ public class FilterBuilder {
     func removeAll(for attribute: Attribute, in group: AnyGroup) {
         guard let filtersForGroup = groups[group] else { return }
         let updatedFilters = filtersForGroup.filter { $0.attribute != attribute }
-        groups[group] = updatedFilters.isEmpty ? nil : updatedFilters
+        update(updatedFilters, for: group)
     }
 
-    func build(_ group: AnyGroup, with filters: Set<AnyFilter>) -> String {
+    func build(_ group: AnyGroup) -> String {
+        
+        let filters = groups[group] ?? []
         
         let sortedFiltersExpressions = filters
             .sorted { $0.expression < $1.expression }
@@ -125,7 +131,7 @@ extension FilterBuilder {
         groups.keys.forEach { group in
             let existingFilters = groups[group] ?? []
             let updatedFilters = existingFilters.subtracting(anyFilters)
-            groups[group] = updatedFilters
+            update(updatedFilters, for: group)
         }
     }
     
@@ -141,12 +147,13 @@ extension FilterBuilder {
     
     public func build() -> String {
         return groups
+            .keys
             .sorted {
-                $0.key.name != $1.key.name
-                    ? $0.key.name < $1.key.name
-                    : $0.key.isConjunctive
+                $0.name != $1.name
+                ? $0.name < $1.name
+                : $0.isConjunctive
             }
-            .map { build($0.key, with: $0.value) }
+            .map(build)
             .joined(separator: " AND ")
     }
     

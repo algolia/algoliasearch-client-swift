@@ -140,48 +140,46 @@ public struct FilterTag: Filter, Hashable {
     }
 }
 
-public struct FilterRange: Filter, Hashable {
-    public let attribute: Attribute
-    public var isInverted: Bool
-    public let value: Range<Float>
+public struct FilterNumeric: Filter, Hashable {
 
-    public let expression: String
-    
-    public init(attribute: Attribute, range: Range<Float>, isInverted: Bool = false) {
-        self.attribute = attribute
-        self.isInverted = isInverted
-        self.value = range
-        self.expression = """
-        "\(attribute)":\(range.lowerBound) TO \(range.upperBound)
-        """
+    public enum ValueType: Hashable {
+        case range(Range<Float>)
+        case comparison(NumericOperator, Float)
     }
     
-    public func with(_ attribute: Attribute) -> FilterRange {
-        return FilterRange(attribute: attribute, range: value, isInverted: isInverted)
-    }
-}
-
-public struct FilterComparison: Filter, Hashable {
     public let attribute: Attribute
+    public let value: ValueType
     public var isInverted: Bool
-    public let value: Float
-
+    
     public let expression: String
     
-    public let `operator`: NumericOperator
-    
-    public init(attribute: Attribute, `operator`: NumericOperator, value: Float, isInverted: Bool = false) {
+    init(attribute: Attribute, value: ValueType, isInverted: Bool) {
         self.attribute = attribute
         self.isInverted = isInverted
         self.value = value
-        self.operator = `operator`
-        self.expression = """
-        "\(attribute)" \(`operator`.rawValue) \(value)
-        """
+        switch value {
+        case .comparison(let `operator`, let value):
+            expression = """
+            "\(attribute)" \(`operator`.rawValue) \(value)
+            """
+
+        case .range(let range):
+            expression = """
+            "\(attribute)":\(range.lowerBound) TO \(range.upperBound)
+            """
+        }
     }
     
-    public func with(_ attribute: Attribute) -> FilterComparison {
-        return FilterComparison(attribute: attribute, operator: `operator`, value: value, isInverted: isInverted)
+    public init(attribute: Attribute, range: Range<Float>, isInverted: Bool = false) {
+        self.init(attribute: attribute, value: .range(range), isInverted: isInverted)
     }
-
+    
+    public init(attribute: Attribute, `operator`: NumericOperator, value: Float, isInverted: Bool = false) {
+        self.init(attribute: attribute, value: .comparison(`operator`, value), isInverted: isInverted)
+    }
+    
+    public func with(_ attribute: Attribute) -> FilterNumeric {
+        return FilterNumeric(attribute: attribute, value: value, isInverted: isInverted)
+    }
+    
 }

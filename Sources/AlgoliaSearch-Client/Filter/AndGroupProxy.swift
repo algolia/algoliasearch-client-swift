@@ -61,5 +61,9 @@ public struct AndGroupProxy: GroupProxy {
     public func removeAll() {
         filterBuilder.removeAll(in: group)
     }
-    
+
+    public func build() -> String {
+        return filterBuilder.build(group)
+    }
+
 }

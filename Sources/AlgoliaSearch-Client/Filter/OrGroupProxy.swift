@@ -62,4 +62,8 @@ public struct OrGroupProxy<T: Filter>: GroupProxy {
         filterBuilder.removeAll(in: group)
     }
     
+    public func build() -> String {
+        return filterBuilder.build(group)
+    }
+    
 }
