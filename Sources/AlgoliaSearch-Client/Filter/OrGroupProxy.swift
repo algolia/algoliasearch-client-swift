@@ -26,16 +26,24 @@ public struct OrGroupProxy<T: Filter>: GroupProxy {
         self.group = AnyGroup(group)
     }
     
-    public func add(filter: T) {
-        filterBuilder.add(filter: filter, in: group)
+    public func add(_ filter: T) {
+        filterBuilder.add(filter, to: group)
     }
     
-    public func addAll(filters: [T]) {
-        filterBuilder.addAll(filters: filters, in: group)
+    public func addAll(_ filters: [T]) {
+        filterBuilder.addAll(filters: filters, to: group)
     }
     
     public func contains(_ filter: T) -> Bool {
         return filterBuilder.contains(filter: filter, in: group)
+    }
+    
+    public func move(_ filter: T, to destination: AndFilterGroup) -> Bool {
+        return filterBuilder.move(filter: filter, from: group, to: AnyGroup(destination))
+    }
+    
+    public func move(_ filter: T, to destination: OrFilterGroup<T>) -> Bool {
+        return filterBuilder.move(filter: filter, from: group, to: AnyGroup(destination))
     }
     
     public func replace(_ attribute: Attribute, by replacement: Attribute) {
@@ -46,20 +54,20 @@ public struct OrGroupProxy<T: Filter>: GroupProxy {
         return filterBuilder.replace(filter: filter, by: replacement, in: group)
     }
     
-    @discardableResult public func remove(filter: T) -> Bool {
-        return filterBuilder.remove(filter: filter, in: group)
+    @discardableResult public func remove(_ filter: T) -> Bool {
+        return filterBuilder.remove(filter, from: group)
     }
     
-    @discardableResult public func removeAll(filters: [T]) -> Bool {
-        return filterBuilder.removeAll(filters: filters, in: group)
+    @discardableResult public func removeAll(_ filters: [T]) -> Bool {
+        return filterBuilder.removeAll(filters, from: group)
     }
     
     public func removeAll(for attribute: Attribute) {
-        return filterBuilder.removeAll(for: attribute, in: group)
+        return filterBuilder.removeAll(for: attribute, from: group)
     }
 
     public func removeAll() {
-        filterBuilder.removeAll(in: group)
+        filterBuilder.removeAll(from: group)
     }
     
     public func build() -> String {

@@ -1,0 +1,58 @@
+//
+//  FacetFilterBuilder.swift
+//  AlgoliaSearch OSX
+//
+//  Created by Vladislav Fitc on 26/12/2018.
+//  Copyright © 2018 Algolia. All rights reserved.
+//
+
+import Foundation
+
+// Creates filter builder accepting filters of concrete type
+
+class RestrictedFilterBuilder<T: Filter> {
+    
+    let genericFilterBuilder: FilterBuilder
+    
+    init() {
+        genericFilterBuilder = FilterBuilder()
+    }
+    
+    public var isEmpty: Bool {
+        return genericFilterBuilder.isEmpty
+    }
+    
+    public func contains(filter: T) -> Bool {
+        return genericFilterBuilder.contains(filter)
+    }
+    
+    @discardableResult public func remove(filter: T) -> Bool {
+        return genericFilterBuilder.remove(filter)
+    }
+    
+    public func removeAll(filters: [T]) {
+        genericFilterBuilder.removeAll(filters)
+    }
+    
+    public func removeAll(for attribute: Attribute) {
+        genericFilterBuilder.removeAll(for: attribute)
+    }
+    
+    public func removeAll() {
+        genericFilterBuilder.removeAll()
+    }
+    
+    public func build() -> String {
+        return genericFilterBuilder.build()
+    }
+    
+    public subscript(group: AndFilterGroup) -> RestrictedAndGroupProxy<T> {
+        let genericProxy = genericFilterBuilder[group]
+        return RestrictedAndGroupProxy<T>(genericProxy: genericProxy)
+    }
+    
+    public subscript<T: Filter>(group: OrFilterGroup<T>) -> OrGroupProxy<T> {
+        return OrGroupProxy(filterBuilder: genericFilterBuilder, group: group)
+    }
+
+}

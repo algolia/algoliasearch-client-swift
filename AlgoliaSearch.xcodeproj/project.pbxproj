@@ -37,11 +37,6 @@
 		5DB2515E1AAD9F3F00945339 /* ClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8FFA371AAB08830078869E /* ClientTests.swift */; };
 		5DECA2DA1A960BC5001A6088 /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DECA2D91A960BC5001A6088 /* Index.swift */; };
 		6B364CD21EC180AF4A752092 /* Pods_AlgoliaSearch_Offline_iOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88AA9A9207EC4D018D67FCA0 /* Pods_AlgoliaSearch_Offline_iOS_Tests.framework */; };
-		AFB9776121CD2F5800094E1E /* FilterBuilderGroupAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776021CD2F5800094E1E /* FilterBuilderGroupAccessor.swift */; };
-		AFB9776221CD2FD100094E1E /* FilterBuilderGroupAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776021CD2F5800094E1E /* FilterBuilderGroupAccessor.swift */; };
-		AFB9776321CD2FD200094E1E /* FilterBuilderGroupAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776021CD2F5800094E1E /* FilterBuilderGroupAccessor.swift */; };
-		AFB9776421CD2FD300094E1E /* FilterBuilderGroupAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776021CD2F5800094E1E /* FilterBuilderGroupAccessor.swift */; };
-		AFB9776521CD2FD400094E1E /* FilterBuilderGroupAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776021CD2F5800094E1E /* FilterBuilderGroupAccessor.swift */; };
 		AFB9776721CD397400094E1E /* FilterOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776621CD397400094E1E /* FilterOperators.swift */; };
 		AFB9776821CD3CAA00094E1E /* FilterOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776621CD397400094E1E /* FilterOperators.swift */; };
 		AFB9776921CD3CAB00094E1E /* FilterOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776621CD397400094E1E /* FilterOperators.swift */; };
@@ -62,6 +57,16 @@
 		AFB9777B21D113F200094E1E /* GroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777821D113BB00094E1E /* GroupProxy.swift */; };
 		AFB9777C21D113F300094E1E /* GroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777821D113BB00094E1E /* GroupProxy.swift */; };
 		AFB9777D21D113F300094E1E /* GroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777821D113BB00094E1E /* GroupProxy.swift */; };
+		AFB9777F21D3AE3800094E1E /* RestrictedFilterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777E21D3AE3800094E1E /* RestrictedFilterBuilder.swift */; };
+		AFB9778021D3AE4500094E1E /* RestrictedFilterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777E21D3AE3800094E1E /* RestrictedFilterBuilder.swift */; };
+		AFB9778121D3AE4600094E1E /* RestrictedFilterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777E21D3AE3800094E1E /* RestrictedFilterBuilder.swift */; };
+		AFB9778221D3AE4700094E1E /* RestrictedFilterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777E21D3AE3800094E1E /* RestrictedFilterBuilder.swift */; };
+		AFB9778321D3AE4800094E1E /* RestrictedFilterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777E21D3AE3800094E1E /* RestrictedFilterBuilder.swift */; };
+		AFB9778521D3BB6E00094E1E /* RestrictedAndGroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778421D3BB6E00094E1E /* RestrictedAndGroupProxy.swift */; };
+		AFB9778621D3BBB300094E1E /* RestrictedAndGroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778421D3BB6E00094E1E /* RestrictedAndGroupProxy.swift */; };
+		AFB9778721D3BBB400094E1E /* RestrictedAndGroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778421D3BB6E00094E1E /* RestrictedAndGroupProxy.swift */; };
+		AFB9778821D3BBB500094E1E /* RestrictedAndGroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778421D3BB6E00094E1E /* RestrictedAndGroupProxy.swift */; };
+		AFB9778921D3BBB600094E1E /* RestrictedAndGroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778421D3BB6E00094E1E /* RestrictedAndGroupProxy.swift */; };
 		BC01E66D1CA43CEE0067670B /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC01E66C1CA43CEE0067670B /* Request.swift */; };
 		BC01E66E1CA43CEE0067670B /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC01E66C1CA43CEE0067670B /* Request.swift */; };
 		BC09F7771CAE743900ABB395 /* BrowseIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC09F7761CAE743900ABB395 /* BrowseIterator.swift */; };
@@ -284,11 +289,12 @@
 		73F0D0837C9D6195F00B03B7 /* Pods-AlgoliaSearch-Offline-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch-Offline-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS/Pods-AlgoliaSearch-Offline-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		88AA9A9207EC4D018D67FCA0 /* Pods_AlgoliaSearch_Offline_iOS_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlgoliaSearch_Offline_iOS_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB63831D5434F98EB5F2AFF2 /* Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS-Tests/Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig"; sourceTree = "<group>"; };
-		AFB9776021CD2F5800094E1E /* FilterBuilderGroupAccessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterBuilderGroupAccessor.swift; sourceTree = "<group>"; };
 		AFB9776621CD397400094E1E /* FilterOperators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterOperators.swift; sourceTree = "<group>"; };
 		AFB9776C21D1127300094E1E /* OrGroupProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrGroupProxy.swift; sourceTree = "<group>"; };
 		AFB9776E21D1128000094E1E /* AndGroupProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AndGroupProxy.swift; sourceTree = "<group>"; };
 		AFB9777821D113BB00094E1E /* GroupProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupProxy.swift; sourceTree = "<group>"; };
+		AFB9777E21D3AE3800094E1E /* RestrictedFilterBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestrictedFilterBuilder.swift; sourceTree = "<group>"; };
+		AFB9778421D3BB6E00094E1E /* RestrictedAndGroupProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestrictedAndGroupProxy.swift; sourceTree = "<group>"; };
 		BC01E66C1CA43CEE0067670B /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		BC09F7761CAE743900ABB395 /* BrowseIterator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseIterator.swift; sourceTree = "<group>"; };
 		BC09F7791CAE7FDF00ABB395 /* BrowseIteratorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseIteratorTests.swift; sourceTree = "<group>"; };
@@ -597,10 +603,11 @@
 			children = (
 				AFB9776621CD397400094E1E /* FilterOperators.swift */,
 				E2CC9FF921BA7BFE00B8516D /* FilterBuilder.swift */,
+				AFB9777E21D3AE3800094E1E /* RestrictedFilterBuilder.swift */,
 				AFB9777821D113BB00094E1E /* GroupProxy.swift */,
 				AFB9776C21D1127300094E1E /* OrGroupProxy.swift */,
 				AFB9776E21D1128000094E1E /* AndGroupProxy.swift */,
-				AFB9776021CD2F5800094E1E /* FilterBuilderGroupAccessor.swift */,
+				AFB9778421D3BB6E00094E1E /* RestrictedAndGroupProxy.swift */,
 				E2CC9FFF21BA815900B8516D /* Filter.swift */,
 				E2FA909521C40EE00015F19E /* Group.swift */,
 				E2CCA00821BEC6EF00B8516D /* Attribute.swift */,
@@ -1180,7 +1187,6 @@
 				BCC83C3E1F0E76BF002CD846 /* RequestOptions.swift in Sources */,
 				AFB9776D21D1127300094E1E /* OrGroupProxy.swift in Sources */,
 				BC0A015A1C9BEDB200CD4A7C /* Error.swift in Sources */,
-				AFB9776121CD2F5800094E1E /* FilterBuilderGroupAccessor.swift in Sources */,
 				AFB9776F21D1128000094E1E /* AndGroupProxy.swift in Sources */,
 				BC68BC571CB69776007F9655 /* IndexQuery.swift in Sources */,
 				AFB9776721CD397400094E1E /* FilterOperators.swift in Sources */,
@@ -1195,6 +1201,8 @@
 				5DECA2DA1A960BC5001A6088 /* Index.swift in Sources */,
 				BC4DDEFC1DD11527004D9A6E /* PlacesClient.swift in Sources */,
 				BCD57D1F1D89947500C5DE68 /* DisjunctiveFaceting.swift in Sources */,
+				AFB9777F21D3AE3800094E1E /* RestrictedFilterBuilder.swift in Sources */,
+				AFB9778521D3BB6E00094E1E /* RestrictedAndGroupProxy.swift in Sources */,
 				BC4DDF021DD11697004D9A6E /* AbstractQuery.swift in Sources */,
 				BC28C4D71E5B5A0E00EFC4A0 /* Searchable.swift in Sources */,
 				E2CCA00021BA815900B8516D /* Filter.swift in Sources */,
@@ -1240,7 +1248,6 @@
 				BCC83C3F1F0E76BF002CD846 /* RequestOptions.swift in Sources */,
 				AFB9777021D1129E00094E1E /* OrGroupProxy.swift in Sources */,
 				BC0A015B1C9BEDB200CD4A7C /* Error.swift in Sources */,
-				AFB9776221CD2FD100094E1E /* FilterBuilderGroupAccessor.swift in Sources */,
 				AFB9777421D112A900094E1E /* AndGroupProxy.swift in Sources */,
 				BC68BC581CB69776007F9655 /* IndexQuery.swift in Sources */,
 				AFB9776821CD3CAA00094E1E /* FilterOperators.swift in Sources */,
@@ -1255,6 +1262,8 @@
 				5DB2515C1AAD9F3300945339 /* Helpers.swift in Sources */,
 				BC4DDEFD1DD11527004D9A6E /* PlacesClient.swift in Sources */,
 				BCD57D201D89947500C5DE68 /* DisjunctiveFaceting.swift in Sources */,
+				AFB9778021D3AE4500094E1E /* RestrictedFilterBuilder.swift in Sources */,
+				AFB9778621D3BBB300094E1E /* RestrictedAndGroupProxy.swift in Sources */,
 				BC4DDF031DD11697004D9A6E /* AbstractQuery.swift in Sources */,
 				BC28C4D81E5B5A0E00EFC4A0 /* Searchable.swift in Sources */,
 				E2CCA00121BA815900B8516D /* Filter.swift in Sources */,
@@ -1300,7 +1309,6 @@
 				BCC83C421F0E76BF002CD846 /* RequestOptions.swift in Sources */,
 				AFB9777321D112A400094E1E /* OrGroupProxy.swift in Sources */,
 				BC23A6F71D63541500DF9034 /* Error.swift in Sources */,
-				AFB9776521CD2FD400094E1E /* FilterBuilderGroupAccessor.swift in Sources */,
 				AFB9777721D112AB00094E1E /* AndGroupProxy.swift in Sources */,
 				BC23A6FC1D63541500DF9034 /* Query.swift in Sources */,
 				AFB9776B21CD3CAD00094E1E /* FilterOperators.swift in Sources */,
@@ -1315,6 +1323,8 @@
 				BC23A6F91D63541500DF9034 /* Index.swift in Sources */,
 				BC4DDF001DD11527004D9A6E /* PlacesClient.swift in Sources */,
 				BCD57D231D89947500C5DE68 /* DisjunctiveFaceting.swift in Sources */,
+				AFB9778321D3AE4800094E1E /* RestrictedFilterBuilder.swift in Sources */,
+				AFB9778921D3BBB600094E1E /* RestrictedAndGroupProxy.swift in Sources */,
 				BC4DDF061DD11697004D9A6E /* AbstractQuery.swift in Sources */,
 				BC28C4DB1E5B5A0E00EFC4A0 /* Searchable.swift in Sources */,
 				E2CCA00321BA815900B8516D /* Filter.swift in Sources */,
@@ -1337,7 +1347,6 @@
 				BCC83C411F0E76BF002CD846 /* RequestOptions.swift in Sources */,
 				AFB9777221D112A300094E1E /* OrGroupProxy.swift in Sources */,
 				BC15FAC11E01C041005E3B56 /* NetworkReachability.swift in Sources */,
-				AFB9776421CD2FD300094E1E /* FilterBuilderGroupAccessor.swift in Sources */,
 				AFB9777621D112AA00094E1E /* AndGroupProxy.swift in Sources */,
 				BC4BD2821D54E48900170ECC /* Error.swift in Sources */,
 				AFB9776A21CD3CAC00094E1E /* FilterOperators.swift in Sources */,
@@ -1352,6 +1361,8 @@
 				BC4BD2871D54E48900170ECC /* Query.swift in Sources */,
 				BC4BD2881D54E48900170ECC /* Network.swift in Sources */,
 				BC4DDF051DD11697004D9A6E /* AbstractQuery.swift in Sources */,
+				AFB9778221D3AE4700094E1E /* RestrictedFilterBuilder.swift in Sources */,
+				AFB9778821D3BBB500094E1E /* RestrictedAndGroupProxy.swift in Sources */,
 				BCD57D271D89970D00C5DE68 /* OfflineIndex.swift in Sources */,
 				BC28C4DA1E5B5A0E00EFC4A0 /* Searchable.swift in Sources */,
 				BCD57D221D89947500C5DE68 /* DisjunctiveFaceting.swift in Sources */,
@@ -1374,7 +1385,6 @@
 				BCC83C401F0E76BF002CD846 /* RequestOptions.swift in Sources */,
 				AFB9777121D1129F00094E1E /* OrGroupProxy.swift in Sources */,
 				BCD1F5641CC61D090006E227 /* Error.swift in Sources */,
-				AFB9776321CD2FD200094E1E /* FilterBuilderGroupAccessor.swift in Sources */,
 				AFB9777521D112A900094E1E /* AndGroupProxy.swift in Sources */,
 				BCD1F5691CC61D1A0006E227 /* Query.swift in Sources */,
 				AFB9776921CD3CAB00094E1E /* FilterOperators.swift in Sources */,
@@ -1389,6 +1399,8 @@
 				BCD1F5681CC61D160006E227 /* Network.swift in Sources */,
 				BC4DDEFE1DD11527004D9A6E /* PlacesClient.swift in Sources */,
 				BCD57D211D89947500C5DE68 /* DisjunctiveFaceting.swift in Sources */,
+				AFB9778121D3AE4600094E1E /* RestrictedFilterBuilder.swift in Sources */,
+				AFB9778721D3BBB400094E1E /* RestrictedAndGroupProxy.swift in Sources */,
 				BC4DDF041DD11697004D9A6E /* AbstractQuery.swift in Sources */,
 				BC28C4D91E5B5A0E00EFC4A0 /* Searchable.swift in Sources */,
 				E2CCA00221BA815900B8516D /* Filter.swift in Sources */,

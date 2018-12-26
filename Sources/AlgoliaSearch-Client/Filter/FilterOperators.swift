@@ -23,41 +23,41 @@ infix operator ---: FilterGroupPrecedence
 infix operator <<< : FilterGroupPrecedence
 
 @discardableResult public func +++ <T: Filter>(left: OrGroupProxy<T>, right: T) -> OrGroupProxy<T> {
-    left.filterBuilder.add(filter: right, in: left.group)
+    left.filterBuilder.add(right, to: left.group)
     return left
 }
 
 @discardableResult public func +++ <T: Filter>(left: AndGroupProxy, right: T) -> AndGroupProxy {
-    left.filterBuilder.add(filter: right, in: left.group)
+    left.filterBuilder.add(right, to: left.group)
     return left
 }
 
 @discardableResult public func --- <T: Filter>(left: OrGroupProxy<T>, right: T) -> OrGroupProxy<T> {
-    left.filterBuilder.remove(filter: right, in: left.group)
+    left.filterBuilder.remove(right, from: left.group)
     return left
 }
 
 @discardableResult public func --- <T: Filter>(left: AndGroupProxy, right: T) -> AndGroupProxy {
-    left.filterBuilder.remove(filter: right, in: left.group)
+    left.filterBuilder.remove(right, from: left.group)
     return left
 }
 
 @discardableResult public func +++ <T: Filter>(left: OrGroupProxy<T>, right: [T]) -> OrGroupProxy<T> {
-    left.filterBuilder.addAll(filters: right, in: left.group)
+    left.filterBuilder.addAll(filters: right, to: left.group)
     return left
 }
 
 @discardableResult public func +++ <T: Filter>(left: AndGroupProxy, right: [T]) -> AndGroupProxy {
-    left.filterBuilder.addAll(filters: right, in: left.group)
+    left.filterBuilder.addAll(filters: right, to: left.group)
     return left
 }
 
 @discardableResult public func --- <T: Filter>(left: OrGroupProxy<T>, right: [T]) -> OrGroupProxy<T> {
-    left.filterBuilder.removeAll(filters: right, in: left.group)
+    left.filterBuilder.removeAll(right, from: left.group)
     return left
 }
 
 @discardableResult public func --- <T: Filter>(left: AndGroupProxy, right: [T]) -> AndGroupProxy {
-    left.filterBuilder.removeAll(filters: right, in: left.group)
+    left.filterBuilder.removeAll(right, from: left.group)
     return left
 }
