@@ -26,6 +26,6 @@ public struct Attribute: CustomStringConvertible, Hashable, ExpressibleByStringL
 
 extension Attribute {
     
-    static let tags = Attribute("_tags")
+    public static let tags = Attribute("_tags")
     
 }

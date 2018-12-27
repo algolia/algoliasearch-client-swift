@@ -32,7 +32,7 @@ public class FilterBuilder {
         addAll(filters: [filter], to: group)
     }
     
-    func addAll<T: Filter>(filters: [T], to group: AnyGroup) {
+    func addAll<T: Filter, S: Sequence>(filters: S, to group: AnyGroup) where S.Element == T {
         let existingFilters = groups[group] ?? []
         let updatedFilters = existingFilters.union(filters.map(AnyFilter.init))
         update(updatedFilters, for: group)
@@ -80,7 +80,7 @@ public class FilterBuilder {
         return removeAll([filter], from: anyGroup)
     }
     
-    @discardableResult func removeAll<T: Filter>(_ filters: [T], from anyGroup: AnyGroup) -> Bool {
+    @discardableResult func removeAll<T: Filter, S: Sequence>(_ filters: S, from anyGroup: AnyGroup) -> Bool where S.Element == T {
         let filtersToRemove = filters.map(AnyFilter.init)
         guard let existingFilters = groups[anyGroup], !existingFilters.isDisjoint(with: filtersToRemove) else {
             return false

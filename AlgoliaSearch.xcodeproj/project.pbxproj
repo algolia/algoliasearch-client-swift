@@ -67,6 +67,24 @@
 		AFB9778721D3BBB400094E1E /* RestrictedAndGroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778421D3BB6E00094E1E /* RestrictedAndGroupProxy.swift */; };
 		AFB9778821D3BBB500094E1E /* RestrictedAndGroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778421D3BB6E00094E1E /* RestrictedAndGroupProxy.swift */; };
 		AFB9778921D3BBB600094E1E /* RestrictedAndGroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778421D3BB6E00094E1E /* RestrictedAndGroupProxy.swift */; };
+		AFB9778C21D5084400094E1E /* FilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778A21D5059C00094E1E /* FilterTests.swift */; };
+		AFB9778D21D5084500094E1E /* FilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778A21D5059C00094E1E /* FilterTests.swift */; };
+		AFB9778E21D5084600094E1E /* FilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778A21D5059C00094E1E /* FilterTests.swift */; };
+		AFB9779021D50AC300094E1E /* FilterFacet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778F21D50AC300094E1E /* FilterFacet.swift */; };
+		AFB9779121D50AD600094E1E /* FilterFacet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778F21D50AC300094E1E /* FilterFacet.swift */; };
+		AFB9779221D50AD700094E1E /* FilterFacet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778F21D50AC300094E1E /* FilterFacet.swift */; };
+		AFB9779321D50ADA00094E1E /* FilterFacet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778F21D50AC300094E1E /* FilterFacet.swift */; };
+		AFB9779421D50ADC00094E1E /* FilterFacet.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778F21D50AC300094E1E /* FilterFacet.swift */; };
+		AFB9779621D50AEA00094E1E /* FilterTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9779521D50AEA00094E1E /* FilterTag.swift */; };
+		AFB9779821D50AF200094E1E /* FilterNumeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9779721D50AF100094E1E /* FilterNumeric.swift */; };
+		AFB9779921D50AFA00094E1E /* FilterNumeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9779721D50AF100094E1E /* FilterNumeric.swift */; };
+		AFB9779A21D50AFB00094E1E /* FilterNumeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9779721D50AF100094E1E /* FilterNumeric.swift */; };
+		AFB9779B21D50AFC00094E1E /* FilterNumeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9779721D50AF100094E1E /* FilterNumeric.swift */; };
+		AFB9779C21D50AFD00094E1E /* FilterNumeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9779721D50AF100094E1E /* FilterNumeric.swift */; };
+		AFB9779D21D50B0100094E1E /* FilterTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9779521D50AEA00094E1E /* FilterTag.swift */; };
+		AFB9779E21D50B0200094E1E /* FilterTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9779521D50AEA00094E1E /* FilterTag.swift */; };
+		AFB9779F21D50B0300094E1E /* FilterTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9779521D50AEA00094E1E /* FilterTag.swift */; };
+		AFB977A021D50B0400094E1E /* FilterTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9779521D50AEA00094E1E /* FilterTag.swift */; };
 		BC01E66D1CA43CEE0067670B /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC01E66C1CA43CEE0067670B /* Request.swift */; };
 		BC01E66E1CA43CEE0067670B /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC01E66C1CA43CEE0067670B /* Request.swift */; };
 		BC09F7771CAE743900ABB395 /* BrowseIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC09F7761CAE743900ABB395 /* BrowseIterator.swift */; };
@@ -224,10 +242,10 @@
 		E2FA909221C406080015F19E /* NumericOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA909021C406080015F19E /* NumericOperator.swift */; };
 		E2FA909321C406080015F19E /* NumericOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA909021C406080015F19E /* NumericOperator.swift */; };
 		E2FA909421C406080015F19E /* NumericOperator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA909021C406080015F19E /* NumericOperator.swift */; };
-		E2FA909621C40EE00015F19E /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA909521C40EE00015F19E /* Group.swift */; };
-		E2FA909721C40EE00015F19E /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA909521C40EE00015F19E /* Group.swift */; };
-		E2FA909821C40EE00015F19E /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA909521C40EE00015F19E /* Group.swift */; };
-		E2FA909921C40EE00015F19E /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA909521C40EE00015F19E /* Group.swift */; };
+		E2FA909621C40EE00015F19E /* FilterGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA909521C40EE00015F19E /* FilterGroup.swift */; };
+		E2FA909721C40EE00015F19E /* FilterGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA909521C40EE00015F19E /* FilterGroup.swift */; };
+		E2FA909821C40EE00015F19E /* FilterGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA909521C40EE00015F19E /* FilterGroup.swift */; };
+		E2FA909921C40EE00015F19E /* FilterGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FA909521C40EE00015F19E /* FilterGroup.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -295,6 +313,10 @@
 		AFB9777821D113BB00094E1E /* GroupProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupProxy.swift; sourceTree = "<group>"; };
 		AFB9777E21D3AE3800094E1E /* RestrictedFilterBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestrictedFilterBuilder.swift; sourceTree = "<group>"; };
 		AFB9778421D3BB6E00094E1E /* RestrictedAndGroupProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestrictedAndGroupProxy.swift; sourceTree = "<group>"; };
+		AFB9778A21D5059C00094E1E /* FilterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTests.swift; sourceTree = "<group>"; };
+		AFB9778F21D50AC300094E1E /* FilterFacet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterFacet.swift; sourceTree = "<group>"; };
+		AFB9779521D50AEA00094E1E /* FilterTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTag.swift; sourceTree = "<group>"; };
+		AFB9779721D50AF100094E1E /* FilterNumeric.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterNumeric.swift; sourceTree = "<group>"; };
 		BC01E66C1CA43CEE0067670B /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		BC09F7761CAE743900ABB395 /* BrowseIterator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseIterator.swift; sourceTree = "<group>"; };
 		BC09F7791CAE7FDF00ABB395 /* BrowseIteratorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseIteratorTests.swift; sourceTree = "<group>"; };
@@ -347,7 +369,7 @@
 		E2CCA00421BEA85800B8516D /* FilterBuilterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterBuilterTests.swift; sourceTree = "<group>"; };
 		E2CCA00821BEC6EF00B8516D /* Attribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attribute.swift; sourceTree = "<group>"; };
 		E2FA909021C406080015F19E /* NumericOperator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericOperator.swift; sourceTree = "<group>"; };
-		E2FA909521C40EE00015F19E /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
+		E2FA909521C40EE00015F19E /* FilterGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterGroup.swift; sourceTree = "<group>"; };
 		F27CAB9F608BD85B3EC56E49 /* Pods-AlgoliaSearch iOS Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch iOS Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch iOS Tests/Pods-AlgoliaSearch iOS Tests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -609,7 +631,10 @@
 				AFB9776E21D1128000094E1E /* AndGroupProxy.swift */,
 				AFB9778421D3BB6E00094E1E /* RestrictedAndGroupProxy.swift */,
 				E2CC9FFF21BA815900B8516D /* Filter.swift */,
-				E2FA909521C40EE00015F19E /* Group.swift */,
+				AFB9778F21D50AC300094E1E /* FilterFacet.swift */,
+				AFB9779521D50AEA00094E1E /* FilterTag.swift */,
+				AFB9779721D50AF100094E1E /* FilterNumeric.swift */,
+				E2FA909521C40EE00015F19E /* FilterGroup.swift */,
 				E2CCA00821BEC6EF00B8516D /* Attribute.swift */,
 				E2FA909021C406080015F19E /* NumericOperator.swift */,
 			);
@@ -621,6 +646,7 @@
 			children = (
 				BC0A01631C9C19CD00CD4A7C /* QueryTests.swift */,
 				E2CCA00421BEA85800B8516D /* FilterBuilterTests.swift */,
+				AFB9778A21D5059C00094E1E /* FilterTests.swift */,
 				BC4DDF121DD13423004D9A6E /* PlacesQueryTests.swift */,
 			);
 			path = "Unit Tests";
@@ -1190,7 +1216,7 @@
 				AFB9776F21D1128000094E1E /* AndGroupProxy.swift in Sources */,
 				BC68BC571CB69776007F9655 /* IndexQuery.swift in Sources */,
 				AFB9776721CD397400094E1E /* FilterOperators.swift in Sources */,
-				E2FA909621C40EE00015F19E /* Group.swift in Sources */,
+				E2FA909621C40EE00015F19E /* FilterGroup.swift in Sources */,
 				5D67400F1B4AA22600B326EC /* Cache.swift in Sources */,
 				BC4DDF081DD12BCC004D9A6E /* PlacesQuery.swift in Sources */,
 				BC4DDEF61DD10EBA004D9A6E /* Types.swift in Sources */,
@@ -1201,10 +1227,12 @@
 				5DECA2DA1A960BC5001A6088 /* Index.swift in Sources */,
 				BC4DDEFC1DD11527004D9A6E /* PlacesClient.swift in Sources */,
 				BCD57D1F1D89947500C5DE68 /* DisjunctiveFaceting.swift in Sources */,
+				AFB9779821D50AF200094E1E /* FilterNumeric.swift in Sources */,
 				AFB9777F21D3AE3800094E1E /* RestrictedFilterBuilder.swift in Sources */,
 				AFB9778521D3BB6E00094E1E /* RestrictedAndGroupProxy.swift in Sources */,
 				BC4DDF021DD11697004D9A6E /* AbstractQuery.swift in Sources */,
 				BC28C4D71E5B5A0E00EFC4A0 /* Searchable.swift in Sources */,
+				AFB9779021D50AC300094E1E /* FilterFacet.swift in Sources */,
 				E2CCA00021BA815900B8516D /* Filter.swift in Sources */,
 				E2FA909121C406080015F19E /* NumericOperator.swift in Sources */,
 				BC4DDEF01DD10E8B004D9A6E /* AbstractClient.swift in Sources */,
@@ -1213,6 +1241,7 @@
 				E2CC9FFA21BA7BFE00B8516D /* FilterBuilder.swift in Sources */,
 				5D7495A71A8E499B00B0263F /* Query.swift in Sources */,
 				BC01E66D1CA43CEE0067670B /* Request.swift in Sources */,
+				AFB9779621D50AEA00094E1E /* FilterTag.swift in Sources */,
 				5D7495A11A8E277400B0263F /* Helpers.swift in Sources */,
 				BC09F7771CAE743900ABB395 /* BrowseIterator.swift in Sources */,
 			);
@@ -1232,6 +1261,7 @@
 				BC4DDF131DD13423004D9A6E /* PlacesQueryTests.swift in Sources */,
 				BC4A7F3C1CB5373E00AF1DCB /* CancelTests.swift in Sources */,
 				BCE2E9851E23949D00F189F3 /* MockNetworkReachability.swift in Sources */,
+				AFB9778C21D5084400094E1E /* FilterTests.swift in Sources */,
 				1DCC9E272029EC1B00F3FBE0 /* PromisesHelpers.swift in Sources */,
 				5D44D0271B362648008369AC /* Helpers.swift in Sources */,
 				1DCC9E2D2029F22D00F3FBE0 /* TestHelpers.swift in Sources */,
@@ -1251,21 +1281,24 @@
 				AFB9777421D112A900094E1E /* AndGroupProxy.swift in Sources */,
 				BC68BC581CB69776007F9655 /* IndexQuery.swift in Sources */,
 				AFB9776821CD3CAA00094E1E /* FilterOperators.swift in Sources */,
-				E2FA909721C40EE00015F19E /* Group.swift in Sources */,
+				E2FA909721C40EE00015F19E /* FilterGroup.swift in Sources */,
 				5D6740101B4AA22600B326EC /* Cache.swift in Sources */,
 				BC4DDF091DD12BCC004D9A6E /* PlacesQuery.swift in Sources */,
 				BC4DDEF71DD10EBA004D9A6E /* Types.swift in Sources */,
 				BC3DC7531E02DD7A00862F5B /* NetworkReachability.swift in Sources */,
 				BC4A7F3A1CB5308100AF1DCB /* AsyncOperation.swift in Sources */,
+				AFB9779D21D50B0100094E1E /* FilterTag.swift in Sources */,
 				E2CCA00A21BEC6EF00B8516D /* Attribute.swift in Sources */,
 				AFB9777A21D113F100094E1E /* GroupProxy.swift in Sources */,
 				5DB2515C1AAD9F3300945339 /* Helpers.swift in Sources */,
+				AFB9779921D50AFA00094E1E /* FilterNumeric.swift in Sources */,
 				BC4DDEFD1DD11527004D9A6E /* PlacesClient.swift in Sources */,
 				BCD57D201D89947500C5DE68 /* DisjunctiveFaceting.swift in Sources */,
 				AFB9778021D3AE4500094E1E /* RestrictedFilterBuilder.swift in Sources */,
 				AFB9778621D3BBB300094E1E /* RestrictedAndGroupProxy.swift in Sources */,
 				BC4DDF031DD11697004D9A6E /* AbstractQuery.swift in Sources */,
 				BC28C4D81E5B5A0E00EFC4A0 /* Searchable.swift in Sources */,
+				AFB9779121D50AD600094E1E /* FilterFacet.swift in Sources */,
 				E2CCA00121BA815900B8516D /* Filter.swift in Sources */,
 				E2FA909221C406080015F19E /* NumericOperator.swift in Sources */,
 				BC4DDEF11DD10E8B004D9A6E /* AbstractClient.swift in Sources */,
@@ -1293,6 +1326,7 @@
 				BC4DDF141DD13423004D9A6E /* PlacesQueryTests.swift in Sources */,
 				BC4A7F3D1CB5373E00AF1DCB /* CancelTests.swift in Sources */,
 				BCE2E9861E23949D00F189F3 /* MockNetworkReachability.swift in Sources */,
+				AFB9778D21D5084500094E1E /* FilterTests.swift in Sources */,
 				1DCC9E282029EC1C00F3FBE0 /* PromisesHelpers.swift in Sources */,
 				5D44D0281B362648008369AC /* Helpers.swift in Sources */,
 				1DCC9E2E2029F22E00F3FBE0 /* TestHelpers.swift in Sources */,
@@ -1312,21 +1346,24 @@
 				AFB9777721D112AB00094E1E /* AndGroupProxy.swift in Sources */,
 				BC23A6FC1D63541500DF9034 /* Query.swift in Sources */,
 				AFB9776B21CD3CAD00094E1E /* FilterOperators.swift in Sources */,
-				E2FA909921C40EE00015F19E /* Group.swift in Sources */,
+				E2FA909921C40EE00015F19E /* FilterGroup.swift in Sources */,
 				BC23A6F51D63541500DF9034 /* Cache.swift in Sources */,
 				BC4DDF0C1DD12BCC004D9A6E /* PlacesQuery.swift in Sources */,
 				BC4DDEFA1DD10EBA004D9A6E /* Types.swift in Sources */,
 				BCD4B5351E13FE5E00838E02 /* NetworkReachability.swift in Sources */,
 				BC23A6FB1D63541500DF9034 /* Network.swift in Sources */,
+				AFB977A021D50B0400094E1E /* FilterTag.swift in Sources */,
 				E2CCA00C21BEC6EF00B8516D /* Attribute.swift in Sources */,
 				AFB9777D21D113F300094E1E /* GroupProxy.swift in Sources */,
 				BC23A6F91D63541500DF9034 /* Index.swift in Sources */,
+				AFB9779C21D50AFD00094E1E /* FilterNumeric.swift in Sources */,
 				BC4DDF001DD11527004D9A6E /* PlacesClient.swift in Sources */,
 				BCD57D231D89947500C5DE68 /* DisjunctiveFaceting.swift in Sources */,
 				AFB9778321D3AE4800094E1E /* RestrictedFilterBuilder.swift in Sources */,
 				AFB9778921D3BBB600094E1E /* RestrictedAndGroupProxy.swift in Sources */,
 				BC4DDF061DD11697004D9A6E /* AbstractQuery.swift in Sources */,
 				BC28C4DB1E5B5A0E00EFC4A0 /* Searchable.swift in Sources */,
+				AFB9779321D50ADA00094E1E /* FilterFacet.swift in Sources */,
 				E2CCA00321BA815900B8516D /* Filter.swift in Sources */,
 				E2FA909421C406080015F19E /* NumericOperator.swift in Sources */,
 				BC4DDEF41DD10E8B004D9A6E /* AbstractClient.swift in Sources */,
@@ -1356,15 +1393,18 @@
 				BC4DDEF91DD10EBA004D9A6E /* Types.swift in Sources */,
 				BC4BD2841D54E48900170ECC /* Cache.swift in Sources */,
 				BC4BD2851D54E48900170ECC /* AsyncOperation.swift in Sources */,
+				AFB9779F21D50B0300094E1E /* FilterTag.swift in Sources */,
 				BC4BD2861D54E48900170ECC /* Helpers.swift in Sources */,
 				AFB9777C21D113F300094E1E /* GroupProxy.swift in Sources */,
 				BC4BD2871D54E48900170ECC /* Query.swift in Sources */,
+				AFB9779B21D50AFC00094E1E /* FilterNumeric.swift in Sources */,
 				BC4BD2881D54E48900170ECC /* Network.swift in Sources */,
 				BC4DDF051DD11697004D9A6E /* AbstractQuery.swift in Sources */,
 				AFB9778221D3AE4700094E1E /* RestrictedFilterBuilder.swift in Sources */,
 				AFB9778821D3BBB500094E1E /* RestrictedAndGroupProxy.swift in Sources */,
 				BCD57D271D89970D00C5DE68 /* OfflineIndex.swift in Sources */,
 				BC28C4DA1E5B5A0E00EFC4A0 /* Searchable.swift in Sources */,
+				AFB9779421D50ADC00094E1E /* FilterFacet.swift in Sources */,
 				BCD57D221D89947500C5DE68 /* DisjunctiveFaceting.swift in Sources */,
 				BC4BD2891D54E48900170ECC /* Client.swift in Sources */,
 				BC4BD2961D54E50000170ECC /* MirrorSettings.swift in Sources */,
@@ -1388,21 +1428,24 @@
 				AFB9777521D112A900094E1E /* AndGroupProxy.swift in Sources */,
 				BCD1F5691CC61D1A0006E227 /* Query.swift in Sources */,
 				AFB9776921CD3CAB00094E1E /* FilterOperators.swift in Sources */,
-				E2FA909821C40EE00015F19E /* Group.swift in Sources */,
+				E2FA909821C40EE00015F19E /* FilterGroup.swift in Sources */,
 				BCD1F5621CC61D020006E227 /* Cache.swift in Sources */,
 				BC4DDF0A1DD12BCC004D9A6E /* PlacesQuery.swift in Sources */,
 				BC4DDEF81DD10EBA004D9A6E /* Types.swift in Sources */,
 				BC3DC7521E02DD7900862F5B /* NetworkReachability.swift in Sources */,
 				BCD1F56C1CC61D2D0006E227 /* BrowseIterator.swift in Sources */,
+				AFB9779E21D50B0200094E1E /* FilterTag.swift in Sources */,
 				E2CCA00B21BEC6EF00B8516D /* Attribute.swift in Sources */,
 				AFB9777B21D113F200094E1E /* GroupProxy.swift in Sources */,
 				BCD1F5681CC61D160006E227 /* Network.swift in Sources */,
+				AFB9779A21D50AFB00094E1E /* FilterNumeric.swift in Sources */,
 				BC4DDEFE1DD11527004D9A6E /* PlacesClient.swift in Sources */,
 				BCD57D211D89947500C5DE68 /* DisjunctiveFaceting.swift in Sources */,
 				AFB9778121D3AE4600094E1E /* RestrictedFilterBuilder.swift in Sources */,
 				AFB9778721D3BBB400094E1E /* RestrictedAndGroupProxy.swift in Sources */,
 				BC4DDF041DD11697004D9A6E /* AbstractQuery.swift in Sources */,
 				BC28C4D91E5B5A0E00EFC4A0 /* Searchable.swift in Sources */,
+				AFB9779221D50AD700094E1E /* FilterFacet.swift in Sources */,
 				E2CCA00221BA815900B8516D /* Filter.swift in Sources */,
 				E2FA909321C406080015F19E /* NumericOperator.swift in Sources */,
 				BC4DDEF21DD10E8B004D9A6E /* AbstractClient.swift in Sources */,
@@ -1430,6 +1473,7 @@
 				BC4DDF151DD13423004D9A6E /* PlacesQueryTests.swift in Sources */,
 				BCD1F5711CC61DB80006E227 /* IndexTests.swift in Sources */,
 				BCE2E9871E23949D00F189F3 /* MockNetworkReachability.swift in Sources */,
+				AFB9778E21D5084600094E1E /* FilterTests.swift in Sources */,
 				1DCC9E292029EC1D00F3FBE0 /* PromisesHelpers.swift in Sources */,
 				BCD1F56E1CC61DB80006E227 /* CancelTests.swift in Sources */,
 				1DCC9E2F2029F23000F3FBE0 /* TestHelpers.swift in Sources */,

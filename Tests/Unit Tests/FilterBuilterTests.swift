@@ -12,6 +12,7 @@ import InstantSearchClient
 import XCTest
 
 class FilterBuilderTests: XCTestCase {
+    
     override func setUp() {
         super.setUp()
     }
@@ -22,10 +23,10 @@ class FilterBuilderTests: XCTestCase {
 
 
     func testPlayground() {
+        
         let filterBuilder = FilterBuilder()
-
-        let filterFacet1 = FilterFacet(attribute: Attribute("category"), value: "table")
-        let filterFacet2 = FilterFacet(attribute: Attribute("category"), value: "chair")
+        let filterFacet1 = FilterFacet(attribute: "category", value: "table")
+        let filterFacet2 = FilterFacet(attribute: "category", value: "chair")
         let filterNumeric1 = FilterNumeric(attribute: "price", operator: .greaterThan, value: 10)
         let filterNumeric2 = FilterNumeric(attribute: "price", operator: .lessThan, value: 20)
         let filterTag1 = FilterTag(value: "Tom")
@@ -55,7 +56,7 @@ class FilterBuilderTests: XCTestCase {
         
         XCTAssertTrue(filterBuilder.contains(filterFacet1))
         
-        let missingFilter = FilterFacet(attribute: Attribute("bla"), value: false)
+        let missingFilter = FilterFacet(attribute: "bla", value: false)
         XCTAssertFalse(filterBuilder.contains(missingFilter))
         
         filterBuilder.remove(filterTag1, from: groupTagsAnd) // existing one
@@ -123,7 +124,21 @@ class FilterBuilderTests: XCTestCase {
         let facet = FilterFacet(attribute: "new", value: true)
         
         filterBuilder[.or("tags", ofType: FilterTag.self)] +++ [tagA, tagB]
-        filterBuilder[.and("others")] +++ numeric +++ facet
+        
+        filterBuilder[.or("tags", ofType: FilterTag.self)] +++ "hm" +++ "other"
+        
+        filterBuilder[.or("numeric", ofType: FilterNumeric.self)] +++ ("size", 15...20) +++ ("price", .greaterThan, 100)
+        
+        filterBuilder[.and("others")]
+            +++ numeric
+            +++ facet
+        
+        filterBuilder[.and("some")]
+            +++ ("price", .greaterThan, 20)
+            +++ ("size", 15...20)
+            +++ "someTag"
+            +++ ("brand", "apple")
+            +++ ("featured", true) +++ ("rating", 4)
         
         XCTAssertTrue(filterBuilder.contains(tagA))
         XCTAssertTrue(filterBuilder.contains(tagB))
@@ -253,8 +268,8 @@ class FilterBuilderTests: XCTestCase {
         
         let filterBuilder = FilterBuilder()
         
-        filterBuilder[.or("orTags", ofType: FilterTag.self)] +++ FilterTag(value: "a") +++ FilterTag(value: "b")
-        filterBuilder[.and("any")] +++ FilterTag(value: "a") +++ FilterTag(value: "b") +++ FilterNumeric(attribute: "price", range: 1..<10)
+        filterBuilder[.or("orTags", ofType: FilterTag.self)] +++ "a" +++ "b"
+        filterBuilder[.and("any")] +++ FilterTag(value: "a") +++ FilterTag(value: "b") +++ FilterNumeric(attribute: "price", range: 1...10)
         
         XCTAssertTrue(filterBuilder.remove(FilterTag(value: "a")))
         XCTAssertFalse(filterBuilder.contains(FilterTag(value: "a")))
@@ -388,6 +403,8 @@ class FilterBuilderTests: XCTestCase {
         filterBuilder.removeAll()
         XCTAssertTrue(filterBuilder.isEmpty)
     }
+    
+  
 
 
     // MARK: Build & parse

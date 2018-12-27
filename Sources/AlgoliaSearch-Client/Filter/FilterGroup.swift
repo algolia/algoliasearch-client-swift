@@ -1,5 +1,5 @@
 //
-//  Group.swift
+//  FilterGroup.swift
 //  AlgoliaSearch
 //
 //  Created by Guy Daher on 14/12/2018.
