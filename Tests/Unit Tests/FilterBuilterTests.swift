@@ -78,6 +78,20 @@ class FilterBuilderTests: XCTestCase {
         
     }
     
+    func testInversion() {
+        
+        let filterBuilder = FilterBuilder()
+        
+        filterBuilder[.or("a")] +++ FilterTag(value: "tagA", isInverted: true) +++ FilterTag(value: "tagB", isInverted: true)
+        filterBuilder[.or("b")] +++ FilterFacet(attribute: "size", value: 40, isInverted: true) +++ FilterFacet(attribute: "featured", value: true, isInverted: true)
+        
+        XCTAssertEqual(filterBuilder.build(), "( NOT \"_tags\":\"tagA\" OR NOT \"_tags\":\"tagB\" ) AND ( NOT \"featured\":\"true\" OR NOT \"size\":\"40.0\" )")
+        
+        XCTAssertEqual(filterBuilder.build(ignoringInversion: true), "( \"_tags\":\"tagA\" OR \"_tags\":\"tagB\" ) AND ( \"featured\":\"true\" OR \"size\":\"40.0\" )")
+
+        
+    }
+    
     func testAdd() {
         
         let filterBuilder = FilterBuilder()
