@@ -123,11 +123,11 @@ class FilterBuilderTests: XCTestCase {
         let numeric = FilterNumeric(attribute: "price", operator: .lessThan, value: 100)
         let facet = FilterFacet(attribute: "new", value: true)
         
-        filterBuilder[.or("tags", ofType: FilterTag.self)] +++ [tagA, tagB]
+        filterBuilder[.or("tags")] +++ [tagA, tagB]
         
-        filterBuilder[.or("tags", ofType: FilterTag.self)] +++ "hm" +++ "other"
+        filterBuilder[.or("tags")] +++ "hm" +++ "other"
         
-        filterBuilder[.or("numeric", ofType: FilterNumeric.self)] +++ ("size", 15...20) +++ ("price", .greaterThan, 100)
+        filterBuilder[.or("numeric")] +++ ("size", 15...20) +++ ("price", .greaterThan, 100)
         
         filterBuilder[.and("others")]
             +++ numeric
@@ -144,14 +144,14 @@ class FilterBuilderTests: XCTestCase {
         XCTAssertTrue(filterBuilder.contains(tagB))
         XCTAssertTrue(filterBuilder.contains(numeric))
         XCTAssertTrue(filterBuilder.contains(facet))
-        XCTAssertTrue(filterBuilder.contains(tagA, in: .or("tags", ofType: FilterTag.self)))
-        XCTAssertTrue(filterBuilder.contains(tagB, in: .or("tags", ofType: FilterTag.self)))
+        XCTAssertTrue(filterBuilder.contains(tagA, in: .or("tags")))
+        XCTAssertTrue(filterBuilder.contains(tagB, in: .or("tags")))
         XCTAssertTrue(filterBuilder.contains(numeric, in: .and("others")))
         XCTAssertTrue(filterBuilder.contains(facet, in: .and("others")))
         
         XCTAssertFalse(filterBuilder.contains(tagC))
         XCTAssertFalse(filterBuilder.contains(FilterFacet(attribute: "new", value: false)))
-        XCTAssertFalse(filterBuilder.contains(tagC, in: .or("tags", ofType: FilterTag.self)))
+        XCTAssertFalse(filterBuilder.contains(tagC, in: .or("tags")))
         XCTAssertFalse(filterBuilder.contains(tagA, in: .and("others")))
         XCTAssertFalse(filterBuilder.contains(tagB, in: .and("others")))
         
@@ -218,9 +218,9 @@ class FilterBuilderTests: XCTestCase {
         
         let filterBuilder = FilterBuilder()
 
-        let orGroup: OrFilterGroup = .or("tags", ofType: FilterTag.self)
+        let orGroup: OrFilterGroup<FilterTag> = .or("tags")
         let andGroup: AndFilterGroup = .and("some")
-        let anotherOrGroup: OrFilterGroup = .or("otherTags", ofType: FilterTag.self)
+        let anotherOrGroup: OrFilterGroup<FilterTag> = .or("otherTags")
         let anotherAndGroup: AndFilterGroup = .and("other")
         
         let tagA = FilterTag(value: "a")
@@ -268,7 +268,7 @@ class FilterBuilderTests: XCTestCase {
         
         let filterBuilder = FilterBuilder()
         
-        filterBuilder[.or("orTags", ofType: FilterTag.self)] +++ "a" +++ "b"
+        filterBuilder[.or("orTags")] +++ "a" +++ "b"
         filterBuilder[.and("any")] +++ FilterTag(value: "a") +++ FilterTag(value: "b") +++ FilterNumeric(attribute: "price", range: 1...10)
         
         XCTAssertTrue(filterBuilder.remove(FilterTag(value: "a")))
@@ -283,7 +283,7 @@ class FilterBuilderTests: XCTestCase {
         
         XCTAssertTrue(filterBuilder.contains(FilterTag(value: "b")))
         XCTAssertFalse(filterBuilder.contains(FilterTag(value: "b"), in: .and("any")))
-        XCTAssertTrue(filterBuilder.contains(FilterTag(value: "b"), in: .or("orTags", ofType: FilterTag.self)))
+        XCTAssertTrue(filterBuilder.contains(FilterTag(value: "b"), in: .or("orTags")))
 
         // Remove all from group
         filterBuilder.removeAll(from: .and("any"))
@@ -305,10 +305,10 @@ class FilterBuilderTests: XCTestCase {
         let filterNumeric2 = FilterNumeric(attribute: "price", operator: .lessThan, value: 20)
         let filterTag1 = FilterTag(value: "Tom")
         
-        filterBuilder[.or("a", ofType: FilterFacet.self)] +++ filterFacet1 --- filterFacet2
+        filterBuilder[.or("a")] +++ filterFacet1 --- filterFacet2
         filterBuilder[.and("b")] +++ [filterNumeric1] +++ filterTag1
         
-        filterBuilder[.or("a", ofType: FilterFacet.self)] +++ [filterFacet1, filterFacet2]
+        filterBuilder[.or("a")] +++ [filterFacet1, filterFacet2]
         filterBuilder[.and("b")] +++ [filterNumeric1, filterNumeric2]
         
     }

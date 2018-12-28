@@ -12,7 +12,11 @@ import Foundation
 
 public struct RestrictedAndGroupProxy<T: Filter> {
     
-    let genericProxy: AndGroupProxy
+    private let genericProxy: AndGroupProxy
+    
+    var group: AnyGroup {
+        return genericProxy.group
+    }
     
     public var isEmpty: Bool {
         return genericProxy.isEmpty
@@ -26,7 +30,7 @@ public struct RestrictedAndGroupProxy<T: Filter> {
         genericProxy.add(filter)
     }
     
-    public func addAll(_ filters: [T]) {
+    public func addAll<T: Filter, S: Sequence>(_ filters: S) where S.Element == T {
         genericProxy.addAll(filters)
     }
     
@@ -58,7 +62,7 @@ public struct RestrictedAndGroupProxy<T: Filter> {
         return genericProxy.remove(filter)
     }
     
-    @discardableResult public func removeAll(_ filters: [T]) -> Bool {
+    @discardableResult public func removeAll<S: Sequence>(_ filters: S) -> Bool where S.Element == T {
         return genericProxy.removeAll(filters)
     }
     

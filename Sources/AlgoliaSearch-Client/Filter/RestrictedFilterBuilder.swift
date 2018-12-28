@@ -10,9 +10,9 @@ import Foundation
 
 // Creates filter builder accepting filters of concrete type
 
-class RestrictedFilterBuilder<T: Filter> {
+public class RestrictedFilterBuilder<T: Filter> {
     
-    let genericFilterBuilder: FilterBuilder
+    private let genericFilterBuilder: FilterBuilder
     
     init() {
         genericFilterBuilder = FilterBuilder()
@@ -30,7 +30,7 @@ class RestrictedFilterBuilder<T: Filter> {
         return genericFilterBuilder.remove(filter)
     }
     
-    public func removeAll(filters: [T]) {
+    public func removeAll<S: Sequence>(filters: S) where S.Element == T {
         genericFilterBuilder.removeAll(filters)
     }
     
@@ -51,7 +51,7 @@ class RestrictedFilterBuilder<T: Filter> {
         return RestrictedAndGroupProxy<T>(genericProxy: genericProxy)
     }
     
-    public subscript<T: Filter>(group: OrFilterGroup<T>) -> OrGroupProxy<T> {
+    public subscript(group: OrFilterGroup<T>) -> OrGroupProxy<T> {
         return OrGroupProxy(filterBuilder: genericFilterBuilder, group: group)
     }
 

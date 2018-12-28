@@ -30,7 +30,7 @@ public struct OrGroupProxy<T: Filter>: GroupProxy {
         filterBuilder.add(filter, to: group)
     }
     
-    public func addAll(_ filters: [T]) {
+    public func addAll<S: Sequence>(_ filters: S) where S.Element == T {
         filterBuilder.addAll(filters: filters, to: group)
     }
     
@@ -58,7 +58,7 @@ public struct OrGroupProxy<T: Filter>: GroupProxy {
         return filterBuilder.remove(filter, from: group)
     }
     
-    @discardableResult public func removeAll(_ filters: [T]) -> Bool {
+    @discardableResult public func removeAll<S: Sequence>(_ filters: S) -> Bool where S.Element == T {
         return filterBuilder.removeAll(filters, from: group)
     }
     

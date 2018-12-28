@@ -19,10 +19,9 @@ public struct OrFilterGroup<F: Filter>: FilterGroup {
         self.name = name
     }
     
-    public static func or<F: Filter>(_ name: String, ofType: F.Type) -> OrFilterGroup<F> {
+    public static func or<F: Filter>(_ name: String) -> OrFilterGroup<F> {
         return OrFilterGroup<F>(name: name)
     }
-    
 }
 
 public struct AndFilterGroup: FilterGroup {

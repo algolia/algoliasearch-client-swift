@@ -142,7 +142,7 @@ extension FilterBuilder {
         return groups.map { remove(filter, from: $0.key) }.reduce(false) { $0 || $1 }
     }
     
-    public func removeAll<T: Filter>(_ filters: [T]) {
+    public func removeAll<T: Filter, S: Sequence>(_ filters: S) where S.Element == T {
         let anyFilters = filters.map(AnyFilter.init)
         groups.keys.forEach { group in
             let existingFilters = groups[group] ?? []
@@ -175,72 +175,78 @@ extension FilterBuilder {
     
 }
 
-// MARK: Public group type-specific interface
+// MARK: AndFilterGroup methods
 
 extension FilterBuilder {
     
     public func add<T: Filter>(_ filter: T, to group: AndFilterGroup) {
-        AndGroupProxy(filterBuilder: self, group: group).add(filter)
+        add(filter, to: AnyGroup(group))
     }
     
-    public func add<T: Filter>(_ filter: T, to group: OrFilterGroup<T>) {
-        OrGroupProxy(filterBuilder: self, group: group).add(filter)
-    }
-    
-    public func addAll<T: Filter>(_ filters: [T], to group: AndFilterGroup) {
-        AndGroupProxy(filterBuilder: self, group: group).addAll(filters)
-    }
-    
-    public func addAll<T: Filter>(_ filters: [T], to group: OrFilterGroup<T>) {
-        OrGroupProxy(filterBuilder: self, group: group).addAll(filters)
+    public func addAll<T: Filter, S: Sequence>(_ filters: S, to group: AndFilterGroup) where S.Element == T {
+        addAll(filters: filters, to: AnyGroup(group))
     }
     
     public func contains<T: Filter>(_ filter: T, in group: AndFilterGroup) -> Bool {
-        return AndGroupProxy(filterBuilder: self, group: group).contains(filter)
-    }
-    
-    public func contains<T: Filter>(_ filter: T, in group: OrFilterGroup<T>) -> Bool {
-        return OrGroupProxy(filterBuilder: self, group: group).contains(filter)
+        return contains(filter: filter, in: AnyGroup(group))
     }
     
     public func replace<T: Filter, D: Filter>(_ filter: T, by replacement: D, in group: AndFilterGroup) {
-        AndGroupProxy(filterBuilder: self, group: group).replace(filter, by: replacement)
-    }
-    
-    public func replace<T: Filter>(_ filter: T, by replacement: T, in group: OrFilterGroup<T>) {
-        OrGroupProxy(filterBuilder: self, group: group).replace(filter, by: replacement)
+        return replace(filter: filter, by: replacement, in: AnyGroup(group))
     }
     
     public func move<T: Filter>(_ filter: T, from source: AndFilterGroup, to destination: AndFilterGroup) -> Bool {
-        return AndGroupProxy(filterBuilder: self, group: source).move(filter, to: destination)
-    }
-    
-    public func move<T: Filter>(_ filter: T, from source: AndFilterGroup, to destination: OrFilterGroup<T>) -> Bool {
-        return AndGroupProxy(filterBuilder: self, group: source).move(filter, to: destination)
-    }
-
-    public func move<T: Filter>(_ filter: T, from source: OrFilterGroup<T>, to destination: OrFilterGroup<T>) -> Bool {
-        return OrGroupProxy(filterBuilder: self, group: source).move(filter, to: destination)
-    }
-    
-    public func move<T: Filter>(_ filter: T, from source: OrFilterGroup<T>, to destination: AndFilterGroup) -> Bool {
-        return OrGroupProxy(filterBuilder: self, group: source).move(filter, to: destination)
+        return move(filter: filter, from: AnyGroup(source), to: AnyGroup(destination))
     }
 
     @discardableResult public func remove<T: Filter>(_ filter: T, from group: AndFilterGroup) -> Bool {
-        return AndGroupProxy(filterBuilder: self, group: group).remove(filter)
-    }
-    
-    @discardableResult public func remove<T: Filter>(_ filter: T, from group: OrFilterGroup<T>) -> Bool {
-        return OrGroupProxy(filterBuilder: self, group: group).remove(filter)
+        return remove(filter, from: AnyGroup(group))
     }
     
     public func removeAll(from group: AndFilterGroup) {
-        AndGroupProxy(filterBuilder: self, group: group).removeAll()
+        removeAll(from: AnyGroup(group))
+    }
+
+}
+
+// MARK: - OrFilterGroup methods
+
+extension FilterBuilder {
+    
+    public func add<T: Filter>(_ filter: T, to group: OrFilterGroup<T>) {
+        add(filter, to: AnyGroup(group))
+    }
+    
+    public func addAll<T: Filter, S: Sequence>(_ filters: S, to group: OrFilterGroup<T>) where S.Element == T {
+        addAll(filters: filters, to: AnyGroup(group))
+    }
+    
+    public func contains<T: Filter>(_ filter: T, in group: OrFilterGroup<T>) -> Bool {
+        return contains(filter: filter, in: AnyGroup(group))
+    }
+    
+    public func replace<T: Filter>(_ filter: T, by replacement: T, in group: OrFilterGroup<T>) {
+        replace(filter: filter, by: filter, in: AnyGroup(group))
+    }
+    
+    public func move<T: Filter>(_ filter: T, from source: OrFilterGroup<T>, to destination: OrFilterGroup<T>) -> Bool {
+        return move(filter: filter, from: AnyGroup(source), to: AnyGroup(destination))
+    }
+    
+    public func move<T: Filter>(_ filter: T, from source: OrFilterGroup<T>, to destination: AndFilterGroup) -> Bool {
+        return move(filter: filter, from: AnyGroup(source), to: AnyGroup(destination))
+    }
+    
+    public func move<T: Filter>(_ filter: T, from source: AndFilterGroup, to destination: OrFilterGroup<T>) -> Bool {
+        return move(filter: filter, from: AnyGroup(source), to: AnyGroup(destination))
+    }
+    
+    @discardableResult public func remove<T: Filter>(_ filter: T, from group: OrFilterGroup<T>) -> Bool {
+        return remove(filter, from: AnyGroup(group))
     }
     
     public func removeAll<T: Filter>(from group: OrFilterGroup<T>) {
-        OrGroupProxy(filterBuilder: self, group: group).removeAll()
+        removeAll(from: AnyGroup(group))
     }
     
 }

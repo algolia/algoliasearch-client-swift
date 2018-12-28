@@ -94,6 +94,78 @@ infix operator ---: FilterGroupPrecedence
     return left
 }
 
+// MARK: - Restricted Conjunctive group operators
+
+// MARK: Appending
+
+@discardableResult public func +++ <T: Filter>(left: RestrictedAndGroupProxy<T>, right: T) -> RestrictedAndGroupProxy<T> {
+    left.add(right)
+    return left
+}
+
+@discardableResult public func +++ <T: Filter, S: Sequence>(left: RestrictedAndGroupProxy<T>, right: S) -> RestrictedAndGroupProxy<T> where S.Element == T {
+    left.addAll(right)
+    return left
+}
+
+@discardableResult public func +++ (left: RestrictedAndGroupProxy<FilterNumeric>, right: (Attribute, NumericOperator, Float)) -> RestrictedAndGroupProxy<FilterNumeric> {
+    let numericFilter = FilterNumeric(attribute: right.0, operator: right.1, value: right.2)
+    left.add(numericFilter)
+    return left
+}
+
+@discardableResult public func +++ (left: RestrictedAndGroupProxy<FilterNumeric>, right: (Attribute, ClosedRange<Float>)) -> RestrictedAndGroupProxy<FilterNumeric> {
+    let numericFilter = FilterNumeric(attribute: right.0, range: right.1)
+    left.add(numericFilter)
+    return left
+}
+
+@discardableResult public func +++ (left: RestrictedAndGroupProxy<FilterTag>, right: String) -> RestrictedAndGroupProxy<FilterTag> {
+    left.add(FilterTag(value: right))
+    return left
+}
+
+@discardableResult public func +++ (left: RestrictedAndGroupProxy<FilterFacet>, right: (Attribute, FilterFacet.ValueType)) -> RestrictedAndGroupProxy<FilterFacet> {
+    let filterFacet = FilterFacet(attribute: right.0, value: right.1)
+    left.add(filterFacet)
+    return left
+}
+
+// MARK: Removal
+
+@discardableResult public func --- <T: Filter>(left: RestrictedAndGroupProxy<T>, right: T) -> RestrictedAndGroupProxy<T> {
+    left.remove(right)
+    return left
+}
+
+@discardableResult public func --- <T: Filter, S: Sequence>(left: RestrictedAndGroupProxy<T>, right: S) -> RestrictedAndGroupProxy<T> where S.Element == T {
+    left.removeAll(right)
+    return left
+}
+
+@discardableResult public func --- (left: RestrictedAndGroupProxy<FilterNumeric>, right: (Attribute, NumericOperator, Float)) -> RestrictedAndGroupProxy<FilterNumeric> {
+    let numericFilter = FilterNumeric(attribute: right.0, operator: right.1, value: right.2)
+    left.remove(numericFilter)
+    return left
+}
+
+@discardableResult public func --- (left: RestrictedAndGroupProxy<FilterNumeric>, right: (Attribute, ClosedRange<Float>)) -> RestrictedAndGroupProxy<FilterNumeric> {
+    let numericFilter = FilterNumeric(attribute: right.0, range: right.1)
+    left.remove(numericFilter)
+    return left
+}
+
+@discardableResult public func --- (left: RestrictedAndGroupProxy<FilterTag>, right: String) -> RestrictedAndGroupProxy<FilterTag> {
+    left.remove(FilterTag(value: right))
+    return left
+}
+
+@discardableResult public func --- (left: RestrictedAndGroupProxy<FilterFacet>, right: (Attribute, FilterFacet.ValueType)) -> RestrictedAndGroupProxy<FilterFacet> {
+    let filterFacet = FilterFacet(attribute: right.0, value: right.1)
+    left.remove(filterFacet)
+    return left
+}
+
 // MARK: - Disjunctive group operators
 
 // MARK: Appending
@@ -103,7 +175,7 @@ infix operator ---: FilterGroupPrecedence
     return left
 }
 
-@discardableResult public func +++ <T: Filter>(left: OrGroupProxy<T>, right: [T]) -> OrGroupProxy<T> {
+@discardableResult public func +++ <T: Filter, S: Sequence>(left: OrGroupProxy<T>, right: S) -> OrGroupProxy<T> where S.Element == T {
     left.filterBuilder.addAll(filters: right, to: left.group)
     return left
 }
