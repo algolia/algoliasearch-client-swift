@@ -42,8 +42,8 @@ public class RestrictedFilterBuilder<T: Filter> {
         genericFilterBuilder.removeAll()
     }
     
-    public func build() -> String {
-        return genericFilterBuilder.build()
+    public func build(ignoringInversion: Bool = false) -> String {
+        return genericFilterBuilder.build(ignoringInversion: ignoringInversion)
     }
     
     public subscript(group: AndFilterGroup) -> RestrictedAndGroupProxy<T> {

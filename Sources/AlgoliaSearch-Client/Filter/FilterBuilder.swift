@@ -100,13 +100,13 @@ public class FilterBuilder {
         update(updatedFilters, for: group)
     }
 
-    func build(_ group: AnyGroup) -> String {
+    func build(_ group: AnyGroup, ignoringInversion: Bool) -> String {
         
         let filters = groups[group] ?? []
         
         let sortedFiltersExpressions = filters
             .sorted { $0.expression < $1.expression }
-            .map { $0.expression }
+            .map { $0.build(ignoringInversion: ignoringInversion) }
         
         if group.isConjunctive {
             return sortedFiltersExpressions.joined(separator: " AND ")
@@ -161,7 +161,7 @@ extension FilterBuilder {
         groups.removeAll()
     }
     
-    public func build() -> String {
+    public func build(ignoringInversion: Bool = false) -> String {
         return groups
             .keys
             .sorted {
@@ -169,7 +169,7 @@ extension FilterBuilder {
                 ? $0.name < $1.name
                 : $0.isConjunctive
             }
-            .map(build)
+            .map { build($0, ignoringInversion: ignoringInversion) }
             .joined(separator: " AND ")
     }
     

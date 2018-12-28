@@ -30,7 +30,7 @@ public class OptionalFilterBuilder {
     public func build() -> [String] {
         return subbuilders
             .sorted { $0.key < $1.key }
-            .map { $0.value.build() }
+            .map { $0.value.build(ignoringInversion: true) }
     }
     
 }

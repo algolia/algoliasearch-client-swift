@@ -70,8 +70,8 @@ public struct OrGroupProxy<T: Filter>: GroupProxy {
         filterBuilder.removeAll(from: group)
     }
     
-    public func build() -> String {
-        return filterBuilder.build(group)
+    public func build(ignoringInversion: Bool = false) -> String {
+        return filterBuilder.build(group, ignoringInversion: ignoringInversion)
     }
     
 }

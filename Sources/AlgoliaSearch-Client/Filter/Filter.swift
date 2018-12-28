@@ -16,7 +16,7 @@ public protocol Filter: Hashable {
     var expression: String { get }
 
     mutating func not(value: Bool)
-    func build() -> String
+    func build(ignoringInversion: Bool) -> String
     func with(_ attribute: Attribute) -> Self
 }
 
@@ -57,8 +57,12 @@ struct AnyFilter: Filter {
 }
 
 extension Filter {
-    public func build() -> String {
-        return isInverted ? "NOT \(expression)" : expression
+    public func build(ignoringInversion: Bool = false) -> String {
+        if !isInverted || ignoringInversion {
+            return expression
+        } else {
+            return "NOT \(expression)"
+        }
     }
 
     public mutating func not(value: Bool = true) {
