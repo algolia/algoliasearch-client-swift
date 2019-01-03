@@ -25,6 +25,18 @@ public struct FilterFacet: Filter, Hashable {
         """
     }
     
+    public init(attribute: Attribute, stringValue: String, isInverted: Bool = false) {
+        self.init(attribute: attribute, value: .string(stringValue), isInverted: isInverted)
+    }
+    
+    public init(attribute: Attribute, floatValue: Float, isInverted: Bool = false) {
+        self.init(attribute: attribute, value: .float(floatValue), isInverted: isInverted)
+    }
+    
+    public init(attribute: Attribute, boolValue: Bool, isInverted: Bool = false) {
+        self.init(attribute: attribute, value: .bool(boolValue), isInverted: isInverted)
+    }
+    
     public func with(_ attribute: Attribute) -> FilterFacet {
         return FilterFacet(attribute: attribute, value: value, isInverted: isInverted)
     }
