@@ -12,16 +12,21 @@ public protocol FilterGroup: Hashable {
     var name: String { get }
 }
 
-public struct OrFilterGroup<F: Filter>: FilterGroup {
+public struct OrFilterGroup<T: Filter>: FilterGroup {
     public let name: String
     
     public init(name: String) {
         self.name = name
     }
     
-    public static func or<F: Filter>(_ name: String) -> OrFilterGroup<F> {
-        return OrFilterGroup<F>(name: name)
+    public static func or<T: Filter>(_ name: String) -> OrFilterGroup<T> {
+        return OrFilterGroup<T>(name: name)
     }
+    
+    public static func or<T: Filter>(_ name: String, ofType: T.Type) -> OrFilterGroup<T> {
+        return OrFilterGroup<T>(name: name)
+    }
+    
 }
 
 public struct AndFilterGroup: FilterGroup {
