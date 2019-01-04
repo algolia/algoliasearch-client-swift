@@ -1,5 +1,5 @@
 //
-//  FacetFilterBuilder.swift
+//  SpecializedFilterBuilder.swift
 //  AlgoliaSearch OSX
 //
 //  Created by Vladislav Fitc on 26/12/2018.
@@ -10,7 +10,7 @@ import Foundation
 
 // Creates filter builder accepting filters of concrete type
 
-public class RestrictedFilterBuilder<T: Filter> {
+public class SpecializedFilterBuilder<T: Filter> {
     
     private let genericFilterBuilder: FilterBuilder
     
@@ -46,9 +46,9 @@ public class RestrictedFilterBuilder<T: Filter> {
         return genericFilterBuilder.build(ignoringInversion: ignoringInversion)
     }
     
-    public subscript(group: AndFilterGroup) -> RestrictedAndGroupProxy<T> {
+    public subscript(group: AndFilterGroup) -> SpecializedAndGroupProxy<T> {
         let genericProxy = genericFilterBuilder[group]
-        return RestrictedAndGroupProxy<T>(genericProxy: genericProxy)
+        return SpecializedAndGroupProxy<T>(genericProxy: genericProxy)
     }
     
     public subscript(group: OrFilterGroup<T>) -> OrGroupProxy<T> {

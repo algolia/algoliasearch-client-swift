@@ -10,7 +10,7 @@ import Foundation
 
 public class OptionalFilterBuilder {
     
-    public typealias Subbuilder = RestrictedFilterBuilder<FilterFacet>
+    public typealias Subbuilder = SpecializedFilterBuilder<FilterFacet>
     
     var subbuilders: [String: Subbuilder]
     

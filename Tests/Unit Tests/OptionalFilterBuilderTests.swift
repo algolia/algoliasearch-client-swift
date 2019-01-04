@@ -16,6 +16,8 @@ class OptionalFilterBuilderTests: XCTestCase {
         
         let optionalFilterBuilder = OptionalFilterBuilder()
         
+        let a = optionalFilterBuilder["v"]
+        
         optionalFilterBuilder["a"][.and("x")] +++ ("brand", "sony")
         optionalFilterBuilder["b"][.or("y")] +++ ("brand", "apple")
         optionalFilterBuilder["c"][.and("z")] +++ ("size", 10) +++ ("featured", true)

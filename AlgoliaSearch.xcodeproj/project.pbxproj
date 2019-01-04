@@ -57,16 +57,16 @@
 		AFB9777B21D113F200094E1E /* GroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777821D113BB00094E1E /* GroupProxy.swift */; };
 		AFB9777C21D113F300094E1E /* GroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777821D113BB00094E1E /* GroupProxy.swift */; };
 		AFB9777D21D113F300094E1E /* GroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777821D113BB00094E1E /* GroupProxy.swift */; };
-		AFB9777F21D3AE3800094E1E /* RestrictedFilterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777E21D3AE3800094E1E /* RestrictedFilterBuilder.swift */; };
-		AFB9778021D3AE4500094E1E /* RestrictedFilterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777E21D3AE3800094E1E /* RestrictedFilterBuilder.swift */; };
-		AFB9778121D3AE4600094E1E /* RestrictedFilterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777E21D3AE3800094E1E /* RestrictedFilterBuilder.swift */; };
-		AFB9778221D3AE4700094E1E /* RestrictedFilterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777E21D3AE3800094E1E /* RestrictedFilterBuilder.swift */; };
-		AFB9778321D3AE4800094E1E /* RestrictedFilterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777E21D3AE3800094E1E /* RestrictedFilterBuilder.swift */; };
-		AFB9778521D3BB6E00094E1E /* RestrictedAndGroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778421D3BB6E00094E1E /* RestrictedAndGroupProxy.swift */; };
-		AFB9778621D3BBB300094E1E /* RestrictedAndGroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778421D3BB6E00094E1E /* RestrictedAndGroupProxy.swift */; };
-		AFB9778721D3BBB400094E1E /* RestrictedAndGroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778421D3BB6E00094E1E /* RestrictedAndGroupProxy.swift */; };
-		AFB9778821D3BBB500094E1E /* RestrictedAndGroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778421D3BB6E00094E1E /* RestrictedAndGroupProxy.swift */; };
-		AFB9778921D3BBB600094E1E /* RestrictedAndGroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778421D3BB6E00094E1E /* RestrictedAndGroupProxy.swift */; };
+		AFB9777F21D3AE3800094E1E /* SpecializedFilterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777E21D3AE3800094E1E /* SpecializedFilterBuilder.swift */; };
+		AFB9778021D3AE4500094E1E /* SpecializedFilterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777E21D3AE3800094E1E /* SpecializedFilterBuilder.swift */; };
+		AFB9778121D3AE4600094E1E /* SpecializedFilterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777E21D3AE3800094E1E /* SpecializedFilterBuilder.swift */; };
+		AFB9778221D3AE4700094E1E /* SpecializedFilterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777E21D3AE3800094E1E /* SpecializedFilterBuilder.swift */; };
+		AFB9778321D3AE4800094E1E /* SpecializedFilterBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9777E21D3AE3800094E1E /* SpecializedFilterBuilder.swift */; };
+		AFB9778521D3BB6E00094E1E /* SpecializedAndGroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778421D3BB6E00094E1E /* SpecializedAndGroupProxy.swift */; };
+		AFB9778621D3BBB300094E1E /* SpecializedAndGroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778421D3BB6E00094E1E /* SpecializedAndGroupProxy.swift */; };
+		AFB9778721D3BBB400094E1E /* SpecializedAndGroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778421D3BB6E00094E1E /* SpecializedAndGroupProxy.swift */; };
+		AFB9778821D3BBB500094E1E /* SpecializedAndGroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778421D3BB6E00094E1E /* SpecializedAndGroupProxy.swift */; };
+		AFB9778921D3BBB600094E1E /* SpecializedAndGroupProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778421D3BB6E00094E1E /* SpecializedAndGroupProxy.swift */; };
 		AFB9778C21D5084400094E1E /* FilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778A21D5059C00094E1E /* FilterTests.swift */; };
 		AFB9778D21D5084500094E1E /* FilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778A21D5059C00094E1E /* FilterTests.swift */; };
 		AFB9778E21D5084600094E1E /* FilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9778A21D5059C00094E1E /* FilterTests.swift */; };
@@ -318,8 +318,8 @@
 		AFB9776C21D1127300094E1E /* OrGroupProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrGroupProxy.swift; sourceTree = "<group>"; };
 		AFB9776E21D1128000094E1E /* AndGroupProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AndGroupProxy.swift; sourceTree = "<group>"; };
 		AFB9777821D113BB00094E1E /* GroupProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupProxy.swift; sourceTree = "<group>"; };
-		AFB9777E21D3AE3800094E1E /* RestrictedFilterBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestrictedFilterBuilder.swift; sourceTree = "<group>"; };
-		AFB9778421D3BB6E00094E1E /* RestrictedAndGroupProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestrictedAndGroupProxy.swift; sourceTree = "<group>"; };
+		AFB9777E21D3AE3800094E1E /* SpecializedFilterBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecializedFilterBuilder.swift; sourceTree = "<group>"; };
+		AFB9778421D3BB6E00094E1E /* SpecializedAndGroupProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecializedAndGroupProxy.swift; sourceTree = "<group>"; };
 		AFB9778A21D5059C00094E1E /* FilterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTests.swift; sourceTree = "<group>"; };
 		AFB9778F21D50AC300094E1E /* FilterFacet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterFacet.swift; sourceTree = "<group>"; };
 		AFB9779521D50AEA00094E1E /* FilterTag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTag.swift; sourceTree = "<group>"; };
@@ -635,11 +635,11 @@
 				AFB9776621CD397400094E1E /* FilterOperators.swift */,
 				E2CC9FF921BA7BFE00B8516D /* FilterBuilder.swift */,
 				AFB977A121D53C4900094E1E /* OptionalFilterBuilder.swift */,
-				AFB9777E21D3AE3800094E1E /* RestrictedFilterBuilder.swift */,
+				AFB9777E21D3AE3800094E1E /* SpecializedFilterBuilder.swift */,
 				AFB9777821D113BB00094E1E /* GroupProxy.swift */,
 				AFB9776C21D1127300094E1E /* OrGroupProxy.swift */,
 				AFB9776E21D1128000094E1E /* AndGroupProxy.swift */,
-				AFB9778421D3BB6E00094E1E /* RestrictedAndGroupProxy.swift */,
+				AFB9778421D3BB6E00094E1E /* SpecializedAndGroupProxy.swift */,
 				E2CC9FFF21BA815900B8516D /* Filter.swift */,
 				AFB9778F21D50AC300094E1E /* FilterFacet.swift */,
 				AFB9779521D50AEA00094E1E /* FilterTag.swift */,
@@ -1240,8 +1240,8 @@
 				BC4DDEFC1DD11527004D9A6E /* PlacesClient.swift in Sources */,
 				BCD57D1F1D89947500C5DE68 /* DisjunctiveFaceting.swift in Sources */,
 				AFB9779821D50AF200094E1E /* FilterNumeric.swift in Sources */,
-				AFB9777F21D3AE3800094E1E /* RestrictedFilterBuilder.swift in Sources */,
-				AFB9778521D3BB6E00094E1E /* RestrictedAndGroupProxy.swift in Sources */,
+				AFB9777F21D3AE3800094E1E /* SpecializedFilterBuilder.swift in Sources */,
+				AFB9778521D3BB6E00094E1E /* SpecializedAndGroupProxy.swift in Sources */,
 				BC4DDF021DD11697004D9A6E /* AbstractQuery.swift in Sources */,
 				BC28C4D71E5B5A0E00EFC4A0 /* Searchable.swift in Sources */,
 				AFB9779021D50AC300094E1E /* FilterFacet.swift in Sources */,
@@ -1308,8 +1308,8 @@
 				AFB9779921D50AFA00094E1E /* FilterNumeric.swift in Sources */,
 				BC4DDEFD1DD11527004D9A6E /* PlacesClient.swift in Sources */,
 				BCD57D201D89947500C5DE68 /* DisjunctiveFaceting.swift in Sources */,
-				AFB9778021D3AE4500094E1E /* RestrictedFilterBuilder.swift in Sources */,
-				AFB9778621D3BBB300094E1E /* RestrictedAndGroupProxy.swift in Sources */,
+				AFB9778021D3AE4500094E1E /* SpecializedFilterBuilder.swift in Sources */,
+				AFB9778621D3BBB300094E1E /* SpecializedAndGroupProxy.swift in Sources */,
 				BC4DDF031DD11697004D9A6E /* AbstractQuery.swift in Sources */,
 				BC28C4D81E5B5A0E00EFC4A0 /* Searchable.swift in Sources */,
 				AFB9779121D50AD600094E1E /* FilterFacet.swift in Sources */,
@@ -1375,8 +1375,8 @@
 				AFB9779C21D50AFD00094E1E /* FilterNumeric.swift in Sources */,
 				BC4DDF001DD11527004D9A6E /* PlacesClient.swift in Sources */,
 				BCD57D231D89947500C5DE68 /* DisjunctiveFaceting.swift in Sources */,
-				AFB9778321D3AE4800094E1E /* RestrictedFilterBuilder.swift in Sources */,
-				AFB9778921D3BBB600094E1E /* RestrictedAndGroupProxy.swift in Sources */,
+				AFB9778321D3AE4800094E1E /* SpecializedFilterBuilder.swift in Sources */,
+				AFB9778921D3BBB600094E1E /* SpecializedAndGroupProxy.swift in Sources */,
 				BC4DDF061DD11697004D9A6E /* AbstractQuery.swift in Sources */,
 				BC28C4DB1E5B5A0E00EFC4A0 /* Searchable.swift in Sources */,
 				AFB9779321D50ADA00094E1E /* FilterFacet.swift in Sources */,
@@ -1416,8 +1416,8 @@
 				AFB9779B21D50AFC00094E1E /* FilterNumeric.swift in Sources */,
 				BC4BD2881D54E48900170ECC /* Network.swift in Sources */,
 				BC4DDF051DD11697004D9A6E /* AbstractQuery.swift in Sources */,
-				AFB9778221D3AE4700094E1E /* RestrictedFilterBuilder.swift in Sources */,
-				AFB9778821D3BBB500094E1E /* RestrictedAndGroupProxy.swift in Sources */,
+				AFB9778221D3AE4700094E1E /* SpecializedFilterBuilder.swift in Sources */,
+				AFB9778821D3BBB500094E1E /* SpecializedAndGroupProxy.swift in Sources */,
 				BCD57D271D89970D00C5DE68 /* OfflineIndex.swift in Sources */,
 				BC28C4DA1E5B5A0E00EFC4A0 /* Searchable.swift in Sources */,
 				AFB9779421D50ADC00094E1E /* FilterFacet.swift in Sources */,
@@ -1458,8 +1458,8 @@
 				AFB9779A21D50AFB00094E1E /* FilterNumeric.swift in Sources */,
 				BC4DDEFE1DD11527004D9A6E /* PlacesClient.swift in Sources */,
 				BCD57D211D89947500C5DE68 /* DisjunctiveFaceting.swift in Sources */,
-				AFB9778121D3AE4600094E1E /* RestrictedFilterBuilder.swift in Sources */,
-				AFB9778721D3BBB400094E1E /* RestrictedAndGroupProxy.swift in Sources */,
+				AFB9778121D3AE4600094E1E /* SpecializedFilterBuilder.swift in Sources */,
+				AFB9778721D3BBB400094E1E /* SpecializedAndGroupProxy.swift in Sources */,
 				BC4DDF041DD11697004D9A6E /* AbstractQuery.swift in Sources */,
 				BC28C4D91E5B5A0E00EFC4A0 /* Searchable.swift in Sources */,
 				AFB9779221D50AD700094E1E /* FilterFacet.swift in Sources */,

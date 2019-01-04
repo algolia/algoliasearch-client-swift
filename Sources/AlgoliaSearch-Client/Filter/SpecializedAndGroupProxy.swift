@@ -1,5 +1,5 @@
 //
-//  RestrictedAndGroupProxy.swift
+//  SpecializedAndGroupProxy.swift
 //  AlgoliaSearch OSX
 //
 //  Created by Vladislav Fitc on 26/12/2018.
@@ -10,7 +10,7 @@ import Foundation
 
 // AND group proxy accepting filter of a concrete type
 
-public struct RestrictedAndGroupProxy<T: Filter> {
+public struct SpecializedAndGroupProxy<T: Filter> {
     
     private let genericProxy: AndGroupProxy
     
