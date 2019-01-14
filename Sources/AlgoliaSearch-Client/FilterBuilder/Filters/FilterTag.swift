@@ -29,7 +29,7 @@ public struct FilterTag: Filter, Hashable, ExpressibleByStringLiteral {
         """
     }
     
-    public func with(_ attribute: Attribute) -> FilterTag {
+    public func replacingAttribute(by attribute: Attribute) -> FilterTag {
         return FilterTag(value: value, isInverted: isInverted)
     }
 }

@@ -49,7 +49,7 @@ public class FilterBuilder {
     func replace(_ attribute: Attribute, by replacement: Attribute, in group: AnyGroup) {
         guard let filtersForGroup = groups[group] else { return }
         let filtersToReplace = filtersForGroup.filter { $0.attribute == attribute }
-        let filtersReplacements = filtersToReplace.map { $0.with(replacement) }
+        let filtersReplacements = filtersToReplace.map { $0.replacingAttribute(by: replacement) }
         let updatedFilters = filtersForGroup.subtracting(filtersToReplace).union(filtersReplacements)
         update(updatedFilters, for: group)
     }

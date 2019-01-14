@@ -37,7 +37,7 @@ public struct FilterFacet: Filter, Hashable {
         self.init(attribute: attribute, value: .bool(boolValue), isInverted: isInverted)
     }
     
-    public func with(_ attribute: Attribute) -> FilterFacet {
+    public func replacingAttribute(by attribute: Attribute) -> FilterFacet {
         return FilterFacet(attribute: attribute, value: value, isInverted: isInverted)
     }
     

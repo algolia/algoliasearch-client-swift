@@ -46,7 +46,7 @@ public struct FilterNumeric: Filter, Hashable {
         self.init(attribute: attribute, value: .comparison(`operator`, value), isInverted: isInverted)
     }
     
-    public func with(_ attribute: Attribute) -> FilterNumeric {
+    public func replacingAttribute(by attribute: Attribute) -> FilterNumeric {
         return FilterNumeric(attribute: attribute, value: value, isInverted: isInverted)
     }
     

@@ -17,7 +17,7 @@ public protocol Filter: Hashable {
 
     mutating func not(value: Bool)
     func build(ignoringInversion: Bool) -> String
-    func with(_ attribute: Attribute) -> Self
+    func replacingAttribute(by attribute: Attribute) -> Self
 }
 
 struct AnyFilter: Filter {
@@ -27,17 +27,17 @@ struct AnyFilter: Filter {
     
     let expression: String
     
-    private let withAttribute: (Attribute) -> AnyFilter
+    private let replacingAttribute: (Attribute) -> AnyFilter
 
     init<F: Filter>(_ filter: F) {
         self.attribute = filter.attribute
         self.isInverted = filter.isInverted
         self.expression = filter.expression
-        self.withAttribute = { AnyFilter(filter.with($0)) }
+        self.replacingAttribute = { AnyFilter(filter.replacingAttribute(by: $0)) }
     }
     
-    func with(_ attribute: Attribute) -> AnyFilter {
-        return withAttribute(attribute)
+    func replacingAttribute(by attribute: Attribute) -> AnyFilter {
+        return replacingAttribute(attribute)
     }
     
     var hashValue: Int {
