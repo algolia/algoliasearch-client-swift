@@ -27,6 +27,17 @@ public struct OrFilterGroup<T: Filter>: FilterGroup {
         return OrFilterGroup<T>(name: name)
     }
     
+    public var hashValue: Int {
+        var hasher = Hasher()
+        name.hash(into: &hasher)
+        String(describing: self).hash(into: &hasher)
+        return hasher.finalize()
+    }
+    
+}
+
+public func ==<T: Filter>(lhs: OrFilterGroup<T>, rhs: OrFilterGroup<T>) -> Bool {
+    return lhs.name == rhs.name && String(describing: lhs) == String(describing: rhs)
 }
 
 public struct AndFilterGroup: FilterGroup {

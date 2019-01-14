@@ -71,6 +71,12 @@ infix operator ---: FilterGroupPrecedence
     return left
 }
 
+@discardableResult public func --- (left: AndGroupProxy, right: String) -> AndGroupProxy {
+    let filterTag = FilterTag(value: right)
+    left.filterBuilder.remove(filterTag, from: left.group)
+    return left
+}
+
 @discardableResult public func --- (left: AndGroupProxy, right: (Attribute, NumericOperator, Float)) -> AndGroupProxy {
     let numericFilter = FilterNumeric(attribute: right.0, operator: right.1, value: right.2)
     left.filterBuilder.remove(numericFilter, from: left.group)
@@ -80,11 +86,6 @@ infix operator ---: FilterGroupPrecedence
 @discardableResult public func --- (left: AndGroupProxy, right: (Attribute, ClosedRange<Float>)) -> AndGroupProxy {
     let numericFilter = FilterNumeric(attribute: right.0, range: right.1)
     left.filterBuilder.remove(numericFilter, from: left.group)
-    return left
-}
-
-@discardableResult public func --- (left: AndGroupProxy, right: String) -> AndGroupProxy {
-    left.filterBuilder.remove(FilterTag(value: right), from: left.group)
     return left
 }
 
