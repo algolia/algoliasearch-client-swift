@@ -20,38 +20,116 @@ public protocol Filter: Hashable {
     func replacingAttribute(by attribute: Attribute) -> Self
 }
 
-struct AnyFilter: Filter {
-
-    let attribute: Attribute
-    var isInverted: Bool
+private class _AnyFilterBase: Filter {
     
-    let expression: String
-    
-    private let replacingAttribute: (Attribute) -> AnyFilter
-
-    init<F: Filter>(_ filter: F) {
-        self.attribute = filter.attribute
-        self.isInverted = filter.isInverted
-        self.expression = filter.expression
-        self.replacingAttribute = { AnyFilter(filter.replacingAttribute(by: $0)) }
+    var attribute: Attribute {
+        fatalError("Must override")
     }
     
-    func replacingAttribute(by attribute: Attribute) -> AnyFilter {
-        return replacingAttribute(attribute)
+    var isInverted: Bool {
+        get { fatalError("Must override") }
+        
+        set { fatalError("Must override") }
+    }
+    
+    var expression: String {
+        fatalError("Must override")
     }
     
     var hashValue: Int {
-        var hasher = Hasher()
-        attribute.hash(into: &hasher)
-        isInverted.hash(into: &hasher)
-        expression.hash(into: &hasher)
-        return hasher.finalize()
+        fatalError("Must override")
+    }
+    
+    init() {
+        guard type(of: self) != _AnyFilterBase.self else {
+            fatalError("_AnyFilterBase instances can not be created; create a subclass instance instead")
+        }
+    }
+    
+    func replacingAttribute(by attribute: Attribute) -> Self {
+        fatalError("Must override")
+    }
+    
+    static func == (lhs: _AnyFilterBase, rhs: _AnyFilterBase) -> Bool {
+        fatalError("Must override")
+    }
+    
+}
+
+private final class _AnyFilterBox<Concrete: Filter>: _AnyFilterBase {
+
+    var concrete: Concrete
+    
+    init(_ concrete: Concrete) {
+        self.concrete = concrete
+    }
+    
+    override var attribute: Attribute {
+        return concrete.attribute
+    }
+    
+    override var isInverted: Bool {
+        get { return concrete.isInverted }
+        set { concrete.isInverted = newValue }
+    }
+    
+    override var expression: String {
+        return concrete.expression
+    }
+    
+    override var hashValue: Int {
+        return concrete.hashValue
+    }
+    
+    override func replacingAttribute(by attribute: Attribute) -> _AnyFilterBox {
+        return _AnyFilterBox(concrete.replacingAttribute(by: attribute))
+    }
+    
+    static func == (lhs: _AnyFilterBox, rhs: _AnyFilterBox) -> Bool {
+        return lhs.concrete == rhs.concrete
+    }
+    
+    func extract<T: Filter>() -> T? {
+        return concrete as? T
+    }
+    
+}
+
+final class AnyFilter: Filter {
+    
+    private let box: _AnyFilterBase
+    
+    init<Concrete: Filter>(_ concrete: Concrete) {
+        box = _AnyFilterBox(concrete)
+    }
+    
+    var attribute: Attribute {
+        return box.attribute
+    }
+    
+    var isInverted: Bool {
+        get { return box.isInverted }
+        set { box.isInverted = newValue }
+    }
+    
+    var expression: String {
+        return box.expression
+    }
+    
+    var hashValue: Int {
+        return box.hashValue
+    }
+    
+    func replacingAttribute(by attribute: Attribute) -> AnyFilter {
+        return AnyFilter(box.replacingAttribute(by: attribute))
     }
     
     static func == (lhs: AnyFilter, rhs: AnyFilter) -> Bool {
-        return lhs.attribute == rhs.attribute &&
-            lhs.isInverted == rhs.isInverted &&
-            lhs.expression == rhs.expression
+        return lhs.box.expression == rhs.box.expression
+    }
+    
+    func extractAs<T: Filter>() -> T? {
+        return (box as? _AnyFilterBox<T>)?.concrete
     }
     
 }

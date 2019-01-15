@@ -12,7 +12,6 @@ public protocol FilterGroup: Hashable {
     var name: String { get }
 }
 
-
 public func ==<T: Filter>(lhs: OrFilterGroup<T>, rhs: OrFilterGroup<T>) -> Bool {
     return lhs.name == rhs.name && String(describing: lhs) == String(describing: rhs)
 }

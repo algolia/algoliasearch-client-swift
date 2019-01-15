@@ -116,6 +116,10 @@ public class FilterBuilder {
         }
         
     }
+    
+    func getAllFilters() -> Set<AnyFilter> {
+        return groups.values.reduce(Set<AnyFilter>(), { $0.union($1) })
+    }
 
 }
 
@@ -129,7 +133,7 @@ extension FilterBuilder {
     
     public func contains<T: Filter>(_ filter: T) -> Bool {
         let anyFilter = AnyFilter(filter)
-        return groups.values.reduce(Set<AnyFilter>(), { $0.union($1) }).contains(anyFilter)
+        return getAllFilters().contains(anyFilter)
     }
     
     public func replace(_ attribute: Attribute, by replacement: Attribute) {
@@ -171,6 +175,13 @@ extension FilterBuilder {
             }
             .map { build($0, ignoringInversion: ignoringInversion) }
             .joined(separator: " AND ")
+    }
+    
+    public func getFilters<T: Filter>(for attribute: Attribute) -> Set<T> {
+        let filtersArray: [T] = getAllFilters()
+            .filter { $0.attribute == attribute }
+            .compactMap { $0.extractAs()  }
+        return Set(filtersArray)
     }
     
 }

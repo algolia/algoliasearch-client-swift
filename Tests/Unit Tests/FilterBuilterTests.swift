@@ -75,7 +75,7 @@ class FilterBuilderTests: XCTestCase {
                                     "category":"chair" AND ( "_tags":"Hank" OR "_tags":"Tom" )
                                     """
         XCTAssertEqual(filterBuilder.build(), expectedFilterBuilder3)
-        
+                
     }
     
     func testInversion() {
