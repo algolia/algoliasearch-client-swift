@@ -10,5 +10,5 @@ import Foundation
 
 internal protocol GroupProxy {
     var filterBuilder: FilterBuilder { get }
-    var group: AnyGroup { get }
+    var group: AnyFilterGroup { get }
 }

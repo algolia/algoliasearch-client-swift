@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import InstantSearchClient
 import XCTest
+@testable import InstantSearchClient
 
 class FilterTests: XCTestCase {
     
@@ -119,5 +119,6 @@ class FilterTests: XCTestCase {
         XCTAssertEqual(!rangeNumericFilter, FilterNumeric(attribute: "a", range: 0...10, isInverted: true))
         
     }
+    
 
 }

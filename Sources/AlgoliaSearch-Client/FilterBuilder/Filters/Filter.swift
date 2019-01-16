@@ -89,10 +89,6 @@ private final class _AnyFilterBox<Concrete: Filter>: _AnyFilterBase {
         return lhs.concrete == rhs.concrete
     }
     
-    func extract<T: Filter>() -> T? {
-        return concrete as? T
-    }
-    
 }
 
 final class AnyFilter: Filter {

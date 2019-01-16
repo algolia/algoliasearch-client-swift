@@ -47,6 +47,10 @@
 		AF3DD0C121ECE20900797959 /* AndFilterGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3DD0BA21ECE1EA00797959 /* AndFilterGroup.swift */; };
 		AF3DD0C221ECE20A00797959 /* AndFilterGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3DD0BA21ECE1EA00797959 /* AndFilterGroup.swift */; };
 		AF3DD0C321ECE20B00797959 /* AndFilterGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3DD0BA21ECE1EA00797959 /* AndFilterGroup.swift */; };
+		AF3DD0C621EF9DF600797959 /* FilterGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3DD0C421EF9DAB00797959 /* FilterGroupTests.swift */; };
+		AF3DD0C721EF9DFA00797959 /* FilterGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3DD0C421EF9DAB00797959 /* FilterGroupTests.swift */; };
+		AF3DD0C821EF9DFB00797959 /* FilterGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3DD0C421EF9DAB00797959 /* FilterGroupTests.swift */; };
+		AF3DD0C921EF9DFE00797959 /* FilterGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3DD0C421EF9DAB00797959 /* FilterGroupTests.swift */; };
 		AFB9776721CD397400094E1E /* FilterOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776621CD397400094E1E /* FilterOperators.swift */; };
 		AFB9776821CD3CAA00094E1E /* FilterOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776621CD397400094E1E /* FilterOperators.swift */; };
 		AFB9776921CD3CAB00094E1E /* FilterOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776621CD397400094E1E /* FilterOperators.swift */; };
@@ -322,6 +326,7 @@
 		AB63831D5434F98EB5F2AFF2 /* Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS-Tests/Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig"; sourceTree = "<group>"; };
 		AF3DD0B821ECE1E200797959 /* OrFilterGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrFilterGroup.swift; sourceTree = "<group>"; };
 		AF3DD0BA21ECE1EA00797959 /* AndFilterGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AndFilterGroup.swift; sourceTree = "<group>"; };
+		AF3DD0C421EF9DAB00797959 /* FilterGroupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterGroupTests.swift; sourceTree = "<group>"; };
 		AFB9776621CD397400094E1E /* FilterOperators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterOperators.swift; sourceTree = "<group>"; };
 		AFB9776C21D1127300094E1E /* OrGroupProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrGroupProxy.swift; sourceTree = "<group>"; };
 		AFB9776E21D1128000094E1E /* AndGroupProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AndGroupProxy.swift; sourceTree = "<group>"; };
@@ -700,6 +705,7 @@
 				E2CCA00421BEA85800B8516D /* FilterBuilterTests.swift */,
 				AFB977A821D53DB100094E1E /* OptionalFilterBuilderTests.swift */,
 				AFB9778A21D5059C00094E1E /* FilterTests.swift */,
+				AF3DD0C421EF9DAB00797959 /* FilterGroupTests.swift */,
 				BC4DDF121DD13423004D9A6E /* PlacesQueryTests.swift */,
 			);
 			path = "Unit Tests";
@@ -1323,6 +1329,7 @@
 				5D44D0271B362648008369AC /* Helpers.swift in Sources */,
 				1DCC9E2D2029F22D00F3FBE0 /* TestHelpers.swift in Sources */,
 				5D8FFA3A1AAB0AB80078869E /* IndexTests.swift in Sources */,
+				AF3DD0C621EF9DF600797959 /* FilterGroupTests.swift in Sources */,
 				BC85EA701D82C8C3009E9E7D /* ObjectiveCBridging.m in Sources */,
 				BC4DDF0E1DD133AD004D9A6E /* PlacesClientTests.swift in Sources */,
 			);
@@ -1392,6 +1399,7 @@
 				5D44D0281B362648008369AC /* Helpers.swift in Sources */,
 				1DCC9E2E2029F22E00F3FBE0 /* TestHelpers.swift in Sources */,
 				5DB2515D1AAD9F3B00945339 /* IndexTests.swift in Sources */,
+				AF3DD0C721EF9DFA00797959 /* FilterGroupTests.swift in Sources */,
 				BC582C5D1D82B453007B815A /* ObjectiveCBridging.m in Sources */,
 				BC4DDF0F1DD133AD004D9A6E /* PlacesClientTests.swift in Sources */,
 			);
@@ -1544,6 +1552,7 @@
 				BCD1F56E1CC61DB80006E227 /* CancelTests.swift in Sources */,
 				1DCC9E2F2029F23000F3FBE0 /* TestHelpers.swift in Sources */,
 				BCD1F5701CC61DB80006E227 /* Helpers.swift in Sources */,
+				AF3DD0C821EF9DFB00797959 /* FilterGroupTests.swift in Sources */,
 				BC85EA711D82C8C4009E9E7D /* ObjectiveCBridging.m in Sources */,
 				BC4DDF101DD133AD004D9A6E /* PlacesClientTests.swift in Sources */,
 			);
@@ -1560,6 +1569,7 @@
 				BCFC281C1D92660C00BFE0A0 /* MirroredIndexTests.swift in Sources */,
 				BCD57D3C1D89B1EA00C5DE68 /* OfflineClientTests.swift in Sources */,
 				BC6267EE1D8FE4180014C767 /* OfflineObjcBridging.m in Sources */,
+				AF3DD0C921EF9DFE00797959 /* FilterGroupTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

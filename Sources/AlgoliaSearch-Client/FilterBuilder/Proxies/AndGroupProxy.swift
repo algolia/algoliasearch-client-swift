@@ -11,7 +11,7 @@ import Foundation
 public struct AndGroupProxy: GroupProxy {
     
     let filterBuilder: FilterBuilder
-    let group: AnyGroup
+    let group: AnyFilterGroup
     
     public var isEmpty: Bool {
         if let filtersForGroup = filterBuilder.groups[group] {
@@ -23,7 +23,7 @@ public struct AndGroupProxy: GroupProxy {
     
     init(filterBuilder: FilterBuilder, group: AndFilterGroup) {
         self.filterBuilder = filterBuilder
-        self.group = AnyGroup(group)
+        self.group = AnyFilterGroup(group)
     }
     
     public func add<T: Filter>(_ filter: T) {
@@ -39,11 +39,11 @@ public struct AndGroupProxy: GroupProxy {
     }
     
     public func move<T: Filter>(_ filter: T, to destination: AndFilterGroup) -> Bool {
-        return filterBuilder.move(filter: filter, from: group, to: AnyGroup(destination))
+        return filterBuilder.move(filter: filter, from: group, to: AnyFilterGroup(destination))
     }
     
     public func move<T: Filter>(_ filter: T, to destination: OrFilterGroup<T>) -> Bool {
-        return filterBuilder.move(filter: filter, from: group, to: AnyGroup(destination))
+        return filterBuilder.move(filter: filter, from: group, to: AnyFilterGroup(destination))
     }
     
     public func replace(_ attribute: Attribute, by replacement: Attribute) {

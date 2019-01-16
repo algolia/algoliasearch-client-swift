@@ -14,7 +14,7 @@ public struct SpecializedAndGroupProxy<T: Filter> {
     
     private let genericProxy: AndGroupProxy
     
-    var group: AnyGroup {
+    var group: AnyFilterGroup {
         return genericProxy.group
     }
     

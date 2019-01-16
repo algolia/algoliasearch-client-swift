@@ -727,6 +727,86 @@ class FilterBuilderTests: XCTestCase {
         
     }
     
+    func testDisjunctiveFacetAttributes() {
+        
+        let filterBuilder = FilterBuilder()
+        
+        filterBuilder[.or("g1")]
+            +++ ("color", "red")
+            +++ ("color", "green")
+            +++ ("color", "blue")
+        
+        XCTAssertEqual(filterBuilder.disjunctiveFacetsAttributes(), ["color"])
+        
+        filterBuilder[.or("g2")]
+            +++ ("country", "france")
+        
+        XCTAssertEqual(filterBuilder.disjunctiveFacetsAttributes(), ["color", "country"])
+
+        filterBuilder[.or("g2")]
+            +++ ("country", "uk")
+        
+        filterBuilder[.or("g2")]
+            +++ ("size", 40)
+        
+        XCTAssertEqual(filterBuilder.disjunctiveFacetsAttributes(), ["color", "country", "size"])
+        
+        filterBuilder[.and("g3")]
+            +++ ("price", .greaterThan, 50)
+            +++ ("featured", true)
+        
+        XCTAssertEqual(filterBuilder.disjunctiveFacetsAttributes(), ["color", "country", "size"])
+
+        filterBuilder[.and("g3")]
+            +++ ("price", .lessThan, 100)
+        
+        XCTAssertEqual(filterBuilder.disjunctiveFacetsAttributes(), ["color", "country", "size"])
+        
+        filterBuilder[.or("g2")]
+            +++ ("size", 42)
+        
+        XCTAssertEqual(filterBuilder.disjunctiveFacetsAttributes(), ["color", "country", "size"])
+        
+        filterBuilder[.or("g1")]
+            --- ("color", "red")
+            --- ("color", "green")
+            --- ("color", "blue")
+        
+        XCTAssertEqual(filterBuilder.disjunctiveFacetsAttributes(), ["country", "size"])
+
+    }
+    
+    func testRefinements() {
+        
+        let filterBuilder = FilterBuilder()
+    
+        filterBuilder[.or("g1")]
+            +++ ("color", "red")
+            +++ ("color", "green")
+            +++ ("color", "blue")
+        
+        XCTAssertEqual(filterBuilder.refinements()["color"], ["red", "green", "blue"])
+
+        filterBuilder[.or("g2")]
+            +++ ("country", "france")
+
+        XCTAssertEqual(filterBuilder.refinements()["color"], ["red", "green", "blue"])
+        XCTAssertEqual(filterBuilder.refinements()["country"], ["france"])
+        
+        filterBuilder[.and("g3")]
+            +++ ("country", "uk")
+        
+        XCTAssertEqual(filterBuilder.refinements()["color"], ["red", "green", "blue"])
+        XCTAssertEqual(filterBuilder.refinements()["country"], ["france"])
+
+        filterBuilder[.or("g1")]
+            --- ("color", "green")
+
+        XCTAssertEqual(filterBuilder.refinements()["color"], ["red", "blue"])
+        XCTAssertEqual(filterBuilder.refinements()["country"], ["france"])
+
+    }
+    
     // MARK: Build & parse
 
     /// Test serializing a query into a URL query string.
