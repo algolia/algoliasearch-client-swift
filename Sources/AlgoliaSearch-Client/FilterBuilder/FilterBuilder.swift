@@ -267,6 +267,14 @@ extension FilterBuilder {
     public func removeAll(from group: AndFilterGroup) {
         removeAll(from: AnyFilterGroup(group))
     }
+    
+    public func toggle<T: Filter>(_ filter: T, in group: AndFilterGroup) {
+        if contains(filter, in: group) {
+            remove(filter, from: group)
+        } else {
+            add(filter, to: group)
+        }
+    }
 
 }
 
@@ -308,6 +316,14 @@ extension FilterBuilder {
     
     public func removeAll<T: Filter>(from group: OrFilterGroup<T>) {
         removeAll(from: AnyFilterGroup(group))
+    }
+    
+    public func toggle<T: Filter>(_ filter: T, in group: OrFilterGroup<T>) {
+        if contains(filter, in: group) {
+            remove(filter, from: group)
+        } else {
+            add(filter, to: group)
+        }
     }
     
 }

@@ -26,6 +26,10 @@ infix operator ---: FilterGroupPrecedence
 
 // MARK: Appending
 
+public typealias FacetTuple = (Attribute, FilterFacet.ValueType)
+public typealias ComparisonTuple = (Attribute, NumericOperator, Float)
+public typealias RangeTuple = (Attribute, ClosedRange<Float>)
+
 @discardableResult public func +++ <T: Filter>(left: AndGroupProxy, right: T) -> AndGroupProxy {
     left.filterBuilder.add(right, to: left.group)
     return left
@@ -36,26 +40,38 @@ infix operator ---: FilterGroupPrecedence
     return left
 }
 
-@discardableResult public func +++ (left: AndGroupProxy, right: (Attribute, NumericOperator, Float)) -> AndGroupProxy {
-    let numericFilter = FilterNumeric(attribute: right.0, operator: right.1, value: right.2)
-    left.filterBuilder.add(numericFilter, to: left.group)
+@discardableResult public func +++ (left: AndGroupProxy, right: FacetTuple) -> AndGroupProxy {
+    left.filterBuilder.add(FilterFacet(right), to: left.group)
     return left
 }
 
-@discardableResult public func +++ (left: AndGroupProxy, right: (Attribute, ClosedRange<Float>)) -> AndGroupProxy {
-    let numericFilter = FilterNumeric(attribute: right.0, range: right.1)
-    left.filterBuilder.add(numericFilter, to: left.group)
+@discardableResult public func +++ <S: Sequence>(left: AndGroupProxy, right: S) -> AndGroupProxy where S.Element == FacetTuple {
+    left.filterBuilder.addAll(filters: right.map(FilterFacet.init), to: left.group)
+    return left
+}
+
+@discardableResult public func +++ (left: AndGroupProxy, right: ComparisonTuple) -> AndGroupProxy {
+    left.filterBuilder.add(FilterNumeric(right), to: left.group)
+    return left
+}
+
+@discardableResult public func +++ <S: Sequence>(left: AndGroupProxy, right: S) -> AndGroupProxy where S.Element == ComparisonTuple {
+    left.filterBuilder.addAll(filters: right.map(FilterNumeric.init), to: left.group)
+    return left
+}
+
+@discardableResult public func +++ (left: AndGroupProxy, right: RangeTuple) -> AndGroupProxy {
+    left.filterBuilder.add(FilterNumeric(right), to: left.group)
+    return left
+}
+
+@discardableResult public func +++ <S: Sequence>(left: AndGroupProxy, right: S) -> AndGroupProxy where S.Element == RangeTuple {
+    left.filterBuilder.addAll(filters: right.map(FilterNumeric.init), to: left.group)
     return left
 }
 
 @discardableResult public func +++ (left: AndGroupProxy, right: String) -> AndGroupProxy {
     left.filterBuilder.add(FilterTag(value: right), to: left.group)
-    return left
-}
-
-@discardableResult public func +++ (left: AndGroupProxy, right: (Attribute, FilterFacet.ValueType)) -> AndGroupProxy {
-    let filterFacet = FilterFacet(attribute: right.0, value: right.1)
-    left.filterBuilder.add(filterFacet, to: left.group)
     return left
 }
 
@@ -71,27 +87,38 @@ infix operator ---: FilterGroupPrecedence
     return left
 }
 
+@discardableResult public func --- (left: AndGroupProxy, right: FacetTuple) -> AndGroupProxy {
+    left.filterBuilder.remove(FilterFacet(right), from: left.group)
+    return left
+}
+
+@discardableResult public func --- <S: Sequence>(left: AndGroupProxy, right: S) -> AndGroupProxy where S.Element == FacetTuple {
+    left.filterBuilder.removeAll(right.map(FilterFacet.init), from: left.group)
+    return left
+}
+
+@discardableResult public func --- (left: AndGroupProxy, right: ComparisonTuple) -> AndGroupProxy {
+    left.filterBuilder.remove(FilterNumeric(right), from: left.group)
+    return left
+}
+
+@discardableResult public func --- <S: Sequence>(left: AndGroupProxy, right: S) -> AndGroupProxy where S.Element == ComparisonTuple {
+    left.filterBuilder.removeAll(right.map(FilterNumeric.init), from: left.group)
+    return left
+}
+
+@discardableResult public func --- (left: AndGroupProxy, right: RangeTuple) -> AndGroupProxy {
+    left.filterBuilder.remove(FilterNumeric(right), from: left.group)
+    return left
+}
+
+@discardableResult public func --- <S: Sequence>(left: AndGroupProxy, right: S) -> AndGroupProxy where S.Element == RangeTuple {
+    left.filterBuilder.removeAll(right.map(FilterNumeric.init), from: left.group)
+    return left
+}
+
 @discardableResult public func --- (left: AndGroupProxy, right: String) -> AndGroupProxy {
-    let filterTag = FilterTag(value: right)
-    left.filterBuilder.remove(filterTag, from: left.group)
-    return left
-}
-
-@discardableResult public func --- (left: AndGroupProxy, right: (Attribute, NumericOperator, Float)) -> AndGroupProxy {
-    let numericFilter = FilterNumeric(attribute: right.0, operator: right.1, value: right.2)
-    left.filterBuilder.remove(numericFilter, from: left.group)
-    return left
-}
-
-@discardableResult public func --- (left: AndGroupProxy, right: (Attribute, ClosedRange<Float>)) -> AndGroupProxy {
-    let numericFilter = FilterNumeric(attribute: right.0, range: right.1)
-    left.filterBuilder.remove(numericFilter, from: left.group)
-    return left
-}
-
-@discardableResult public func --- (left: AndGroupProxy, right: (Attribute, FilterFacet.ValueType)) -> AndGroupProxy {
-    let filterFacet = FilterFacet(attribute: right.0, value: right.1)
-    left.filterBuilder.remove(filterFacet, from: left.group)
+    left.filterBuilder.remove(FilterTag(value: right), from: left.group)
     return left
 }
 
@@ -109,26 +136,38 @@ infix operator ---: FilterGroupPrecedence
     return left
 }
 
-@discardableResult public func +++ (left: SpecializedAndGroupProxy<FilterNumeric>, right: (Attribute, NumericOperator, Float)) -> SpecializedAndGroupProxy<FilterNumeric> {
-    let numericFilter = FilterNumeric(attribute: right.0, operator: right.1, value: right.2)
-    left.add(numericFilter)
+@discardableResult public func +++ (left: SpecializedAndGroupProxy<FilterFacet>, right: FacetTuple) -> SpecializedAndGroupProxy<FilterFacet> {
+    left.add(FilterFacet(right))
     return left
 }
 
-@discardableResult public func +++ (left: SpecializedAndGroupProxy<FilterNumeric>, right: (Attribute, ClosedRange<Float>)) -> SpecializedAndGroupProxy<FilterNumeric> {
-    let numericFilter = FilterNumeric(attribute: right.0, range: right.1)
-    left.add(numericFilter)
+@discardableResult public func +++ <T: Filter, S: Sequence>(left: SpecializedAndGroupProxy<T>, right: S) -> SpecializedAndGroupProxy<T> where S.Element == FacetTuple {
+    left.addAll(right.map(FilterFacet.init))
+    return left
+}
+
+@discardableResult public func +++ (left: SpecializedAndGroupProxy<FilterNumeric>, right: ComparisonTuple) -> SpecializedAndGroupProxy<FilterNumeric> {
+    left.add(FilterNumeric(right))
+    return left
+}
+
+@discardableResult public func +++ <T: Filter, S: Sequence>(left: SpecializedAndGroupProxy<T>, right: S) -> SpecializedAndGroupProxy<T> where S.Element == ComparisonTuple {
+    left.addAll(right.map(FilterNumeric.init))
+    return left
+}
+
+@discardableResult public func +++ (left: SpecializedAndGroupProxy<FilterNumeric>, right: RangeTuple) -> SpecializedAndGroupProxy<FilterNumeric> {
+    left.add(FilterNumeric(right))
+    return left
+}
+
+@discardableResult public func +++ <T: Filter, S: Sequence>(left: SpecializedAndGroupProxy<T>, right: S) -> SpecializedAndGroupProxy<T> where S.Element == RangeTuple {
+    left.addAll(right.map(FilterNumeric.init))
     return left
 }
 
 @discardableResult public func +++ (left: SpecializedAndGroupProxy<FilterTag>, right: String) -> SpecializedAndGroupProxy<FilterTag> {
     left.add(FilterTag(value: right))
-    return left
-}
-
-@discardableResult public func +++ (left: SpecializedAndGroupProxy<FilterFacet>, right: (Attribute, FilterFacet.ValueType)) -> SpecializedAndGroupProxy<FilterFacet> {
-    let filterFacet = FilterFacet(attribute: right.0, value: right.1)
-    left.add(filterFacet)
     return left
 }
 
@@ -144,26 +183,38 @@ infix operator ---: FilterGroupPrecedence
     return left
 }
 
-@discardableResult public func --- (left: SpecializedAndGroupProxy<FilterNumeric>, right: (Attribute, NumericOperator, Float)) -> SpecializedAndGroupProxy<FilterNumeric> {
-    let numericFilter = FilterNumeric(attribute: right.0, operator: right.1, value: right.2)
-    left.remove(numericFilter)
+@discardableResult public func --- (left: SpecializedAndGroupProxy<FilterFacet>, right: FacetTuple) -> SpecializedAndGroupProxy<FilterFacet> {
+    left.remove(FilterFacet(right))
     return left
 }
 
-@discardableResult public func --- (left: SpecializedAndGroupProxy<FilterNumeric>, right: (Attribute, ClosedRange<Float>)) -> SpecializedAndGroupProxy<FilterNumeric> {
-    let numericFilter = FilterNumeric(attribute: right.0, range: right.1)
-    left.remove(numericFilter)
+@discardableResult public func --- <S: Sequence>(left: SpecializedAndGroupProxy<FilterFacet>, right: S) -> SpecializedAndGroupProxy<FilterFacet> where S.Element == FacetTuple {
+    left.removeAll(right.map(FilterFacet.init))
+    return left
+}
+
+@discardableResult public func --- (left: SpecializedAndGroupProxy<FilterNumeric>, right: ComparisonTuple) -> SpecializedAndGroupProxy<FilterNumeric> {
+    left.remove(FilterNumeric(right))
+    return left
+}
+
+@discardableResult public func --- <S: Sequence>(left: SpecializedAndGroupProxy<FilterNumeric>, right: S) -> SpecializedAndGroupProxy<FilterNumeric> where S.Element == ComparisonTuple {
+    left.removeAll(right.map(FilterNumeric.init))
+    return left
+}
+
+@discardableResult public func --- (left: SpecializedAndGroupProxy<FilterNumeric>, right: RangeTuple) -> SpecializedAndGroupProxy<FilterNumeric> {
+    left.remove(FilterNumeric(right))
+    return left
+}
+
+@discardableResult public func --- <S: Sequence>(left: SpecializedAndGroupProxy<FilterNumeric>, right: S) -> SpecializedAndGroupProxy<FilterNumeric> where S.Element == RangeTuple {
+    left.removeAll(right.map(FilterNumeric.init))
     return left
 }
 
 @discardableResult public func --- (left: SpecializedAndGroupProxy<FilterTag>, right: String) -> SpecializedAndGroupProxy<FilterTag> {
     left.remove(FilterTag(value: right))
-    return left
-}
-
-@discardableResult public func --- (left: SpecializedAndGroupProxy<FilterFacet>, right: (Attribute, FilterFacet.ValueType)) -> SpecializedAndGroupProxy<FilterFacet> {
-    let filterFacet = FilterFacet(attribute: right.0, value: right.1)
-    left.remove(filterFacet)
     return left
 }
 
@@ -181,26 +232,38 @@ infix operator ---: FilterGroupPrecedence
     return left
 }
 
-@discardableResult public func +++ (left: OrGroupProxy<FilterNumeric>, right: (Attribute, NumericOperator, Float)) -> OrGroupProxy<FilterNumeric> {
-    let numericFilter = FilterNumeric(attribute: right.0, operator: right.1, value: right.2)
-    left.filterBuilder.add(numericFilter, to: left.group)
+@discardableResult public func +++ (left: OrGroupProxy<FilterFacet>, right: FacetTuple) -> OrGroupProxy<FilterFacet> {
+    left.filterBuilder.add(FilterFacet(right), to: left.group)
     return left
 }
 
-@discardableResult public func +++ (left: OrGroupProxy<FilterNumeric>, right: (Attribute, ClosedRange<Float>)) -> OrGroupProxy<FilterNumeric> {
-    let numericFilter = FilterNumeric(attribute: right.0, range: right.1)
-    left.filterBuilder.add(numericFilter, to: left.group)
+@discardableResult public func +++ <T: Filter, S: Sequence>(left: OrGroupProxy<T>, right: S) -> OrGroupProxy<T> where S.Element == FacetTuple {
+    left.filterBuilder.addAll(filters: right.map(FilterFacet.init), to: left.group)
+    return left
+}
+
+@discardableResult public func +++ (left: OrGroupProxy<FilterNumeric>, right: ComparisonTuple) -> OrGroupProxy<FilterNumeric> {
+    left.filterBuilder.add(FilterNumeric(right), to: left.group)
+    return left
+}
+
+@discardableResult public func +++ <T: Filter, S: Sequence>(left: OrGroupProxy<T>, right: S) -> OrGroupProxy<T> where S.Element == ComparisonTuple {
+    left.filterBuilder.addAll(filters: right.map(FilterNumeric.init), to: left.group)
+    return left
+}
+
+@discardableResult public func +++ (left: OrGroupProxy<FilterNumeric>, right: RangeTuple) -> OrGroupProxy<FilterNumeric> {
+    left.filterBuilder.add(FilterNumeric(right), to: left.group)
+    return left
+}
+
+@discardableResult public func +++ <T: Filter, S: Sequence>(left: OrGroupProxy<T>, right: S) -> OrGroupProxy<T> where S.Element == RangeTuple {
+    left.filterBuilder.addAll(filters: right.map(FilterNumeric.init), to: left.group)
     return left
 }
 
 @discardableResult public func +++ (left: OrGroupProxy<FilterTag>, right: String) -> OrGroupProxy<FilterTag> {
     left.filterBuilder.add(FilterTag(value: right), to: left.group)
-    return left
-}
-
-@discardableResult public func +++ (left: OrGroupProxy<FilterFacet>, right: (Attribute, FilterFacet.ValueType)) -> OrGroupProxy<FilterFacet> {
-    let filterFacet = FilterFacet(attribute: right.0, value: right.1)
-    left.filterBuilder.add(filterFacet, to: left.group)
     return left
 }
 
@@ -216,25 +279,37 @@ infix operator ---: FilterGroupPrecedence
     return left
 }
 
-@discardableResult public func --- (left: OrGroupProxy<FilterNumeric>, right: (Attribute, NumericOperator, Float)) -> OrGroupProxy<FilterNumeric> {
-    let numericFilter = FilterNumeric(attribute: right.0, operator: right.1, value: right.2)
-    left.filterBuilder.remove(numericFilter, from: left.group)
+@discardableResult public func --- (left: OrGroupProxy<FilterFacet>, right: FacetTuple) -> OrGroupProxy<FilterFacet> {
+    left.filterBuilder.remove(FilterFacet(right), from: left.group)
     return left
 }
 
-@discardableResult public func --- (left: OrGroupProxy<FilterNumeric>, right: (Attribute, ClosedRange<Float>)) -> OrGroupProxy<FilterNumeric> {
-    let numericFilter = FilterNumeric(attribute: right.0, range: right.1)
-    left.filterBuilder.remove(numericFilter, from: left.group)
+@discardableResult public func --- <T: Filter, S: Sequence>(left: OrGroupProxy<T>, right: S) -> OrGroupProxy<T> where S.Element == FacetTuple {
+    left.filterBuilder.removeAll(right.map(FilterFacet.init), from: left.group)
+    return left
+}
+
+@discardableResult public func --- (left: OrGroupProxy<FilterNumeric>, right: ComparisonTuple) -> OrGroupProxy<FilterNumeric> {
+    left.filterBuilder.remove(FilterNumeric(right), from: left.group)
+    return left
+}
+
+@discardableResult public func --- <T: Filter, S: Sequence>(left: OrGroupProxy<T>, right: S) -> OrGroupProxy<T> where S.Element == ComparisonTuple {
+    left.filterBuilder.removeAll(right.map(FilterNumeric.init), from: left.group)
+    return left
+}
+
+@discardableResult public func --- (left: OrGroupProxy<FilterNumeric>, right: RangeTuple) -> OrGroupProxy<FilterNumeric> {
+    left.filterBuilder.remove(FilterNumeric(right), from: left.group)
+    return left
+}
+
+@discardableResult public func --- <T: Filter, S: Sequence>(left: OrGroupProxy<T>, right: S) -> OrGroupProxy<T> where S.Element == RangeTuple {
+    left.filterBuilder.removeAll(right.map(FilterNumeric.init), from: left.group)
     return left
 }
 
 @discardableResult public func --- (left: OrGroupProxy<FilterTag>, right: String) -> OrGroupProxy<FilterTag> {
     left.filterBuilder.remove(FilterTag(value: right), from: left.group)
-    return left
-}
-
-@discardableResult public func --- (left: OrGroupProxy<FilterFacet>, right: (Attribute, FilterFacet.ValueType)) -> OrGroupProxy<FilterFacet> {
-    let filterFacet = FilterFacet(attribute: right.0, value: right.1)
-    left.filterBuilder.remove(filterFacet, from: left.group)
     return left
 }

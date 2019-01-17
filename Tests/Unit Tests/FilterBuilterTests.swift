@@ -157,9 +157,7 @@ class FilterBuilderTests: XCTestCase {
             +++ ("price", .greaterThan, 20)
             +++ ("size", 15...20)
             +++ "someTag"
-            +++ ("brand", "apple")
-            +++ ("featured", true)
-            +++ ("rating", 4)
+            +++ [("brand", "apple"), ("featured", true), ("rating", 4)]
         
         XCTAssertTrue(filterBuilder.contains(tagA))
         XCTAssertTrue(filterBuilder.contains(tagB))

@@ -17,17 +17,14 @@ class FilterGroupTests: XCTestCase {
         XCTAssertNotEqual(AndFilterGroup(name: "a"), AndFilterGroup(name: "b"))
         XCTAssertEqual(OrFilterGroup<FilterFacet>(name: "a"), OrFilterGroup<FilterFacet>(name: "a"))
         XCTAssertNotEqual(OrFilterGroup<FilterFacet>(name: "a"), OrFilterGroup<FilterFacet>(name: "b"))
-        
     }
     
     func testTypeErasedComparison() {
-        
         XCTAssertEqual(AnyFilterGroup(AndFilterGroup(name: "a")), AnyFilterGroup(AndFilterGroup(name: "a")))
         XCTAssertNotEqual(AnyFilterGroup(AndFilterGroup(name: "a")), AnyFilterGroup(AndFilterGroup(name: "b")))
         XCTAssertEqual(AnyFilterGroup(OrFilterGroup<FilterFacet>(name: "a")), AnyFilterGroup(OrFilterGroup<FilterFacet>(name: "a")))
         XCTAssertNotEqual(AnyFilterGroup(OrFilterGroup<FilterFacet>(name: "a")), AnyFilterGroup(OrFilterGroup<FilterFacet>(name: "b")))
         XCTAssertNotEqual(AnyFilterGroup(OrFilterGroup<FilterFacet>(name: "a")), AnyFilterGroup(AndFilterGroup(name: "b")))
-        
     }
     
     func testTypeErasedFlags() {

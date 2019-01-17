@@ -25,6 +25,10 @@ public struct FilterFacet: Filter, Hashable {
         """
     }
     
+    public init(_ facetTuple: FacetTuple) {
+        self.init(attribute: facetTuple.0, value: facetTuple.1)
+    }
+    
     public init(attribute: Attribute, stringValue: String, isInverted: Bool = false) {
         self.init(attribute: attribute, value: .string(stringValue), isInverted: isInverted)
     }
