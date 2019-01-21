@@ -70,6 +70,10 @@ public struct SpecializedAndGroupProxy<T: Filter> {
         genericProxy.removeAll()
     }
     
+    public func toggle(_ filter: T) {
+        genericProxy.toggle(filter)
+    }
+    
     public func build() -> String {
         return genericProxy.build()
     }

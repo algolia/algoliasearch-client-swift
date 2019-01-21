@@ -51,6 +51,22 @@
 		AF3DD0C721EF9DFA00797959 /* FilterGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3DD0C421EF9DAB00797959 /* FilterGroupTests.swift */; };
 		AF3DD0C821EF9DFB00797959 /* FilterGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3DD0C421EF9DAB00797959 /* FilterGroupTests.swift */; };
 		AF3DD0C921EF9DFE00797959 /* FilterGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF3DD0C421EF9DAB00797959 /* FilterGroupTests.swift */; };
+		AF4B576121F603E200C01A11 /* AndGroupOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4B576021F603E200C01A11 /* AndGroupOperators.swift */; };
+		AF4B576321F603F100C01A11 /* SpecializedAndGroupOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4B576221F603F100C01A11 /* SpecializedAndGroupOperators.swift */; };
+		AF4B576521F603F900C01A11 /* OrGroupOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4B576421F603F900C01A11 /* OrGroupOperators.swift */; };
+		AF4B576621F603FF00C01A11 /* AndGroupOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4B576021F603E200C01A11 /* AndGroupOperators.swift */; };
+		AF4B576721F6040000C01A11 /* AndGroupOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4B576021F603E200C01A11 /* AndGroupOperators.swift */; };
+		AF4B576821F6040100C01A11 /* AndGroupOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4B576021F603E200C01A11 /* AndGroupOperators.swift */; };
+		AF4B576921F6040300C01A11 /* AndGroupOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4B576021F603E200C01A11 /* AndGroupOperators.swift */; };
+		AF4B576A21F6040700C01A11 /* SpecializedAndGroupOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4B576221F603F100C01A11 /* SpecializedAndGroupOperators.swift */; };
+		AF4B576B21F6040800C01A11 /* SpecializedAndGroupOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4B576221F603F100C01A11 /* SpecializedAndGroupOperators.swift */; };
+		AF4B576C21F6040800C01A11 /* SpecializedAndGroupOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4B576221F603F100C01A11 /* SpecializedAndGroupOperators.swift */; };
+		AF4B576D21F6040A00C01A11 /* SpecializedAndGroupOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4B576221F603F100C01A11 /* SpecializedAndGroupOperators.swift */; };
+		AF4B576E21F6040C00C01A11 /* OrGroupOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4B576421F603F900C01A11 /* OrGroupOperators.swift */; };
+		AF4B576F21F6040D00C01A11 /* OrGroupOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4B576421F603F900C01A11 /* OrGroupOperators.swift */; };
+		AF4B577021F6040E00C01A11 /* OrGroupOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4B576421F603F900C01A11 /* OrGroupOperators.swift */; };
+		AF4B577121F6040F00C01A11 /* OrGroupOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4B576421F603F900C01A11 /* OrGroupOperators.swift */; };
+		AF4B577221F6110900C01A11 /* FilterBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CCA00421BEA85800B8516D /* FilterBuilderTests.swift */; };
 		AFB9776721CD397400094E1E /* FilterOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776621CD397400094E1E /* FilterOperators.swift */; };
 		AFB9776821CD3CAA00094E1E /* FilterOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776621CD397400094E1E /* FilterOperators.swift */; };
 		AFB9776921CD3CAB00094E1E /* FilterOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776621CD397400094E1E /* FilterOperators.swift */; };
@@ -248,9 +264,9 @@
 		E2CCA00121BA815900B8516D /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CC9FFF21BA815900B8516D /* Filter.swift */; };
 		E2CCA00221BA815900B8516D /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CC9FFF21BA815900B8516D /* Filter.swift */; };
 		E2CCA00321BA815900B8516D /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CC9FFF21BA815900B8516D /* Filter.swift */; };
-		E2CCA00521BEA85800B8516D /* FilterBuilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CCA00421BEA85800B8516D /* FilterBuilterTests.swift */; };
-		E2CCA00621BEA85800B8516D /* FilterBuilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CCA00421BEA85800B8516D /* FilterBuilterTests.swift */; };
-		E2CCA00721BEA85800B8516D /* FilterBuilterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CCA00421BEA85800B8516D /* FilterBuilterTests.swift */; };
+		E2CCA00521BEA85800B8516D /* FilterBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CCA00421BEA85800B8516D /* FilterBuilderTests.swift */; };
+		E2CCA00621BEA85800B8516D /* FilterBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CCA00421BEA85800B8516D /* FilterBuilderTests.swift */; };
+		E2CCA00721BEA85800B8516D /* FilterBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CCA00421BEA85800B8516D /* FilterBuilderTests.swift */; };
 		E2CCA00921BEC6EF00B8516D /* Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CCA00821BEC6EF00B8516D /* Attribute.swift */; };
 		E2CCA00A21BEC6EF00B8516D /* Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CCA00821BEC6EF00B8516D /* Attribute.swift */; };
 		E2CCA00B21BEC6EF00B8516D /* Attribute.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CCA00821BEC6EF00B8516D /* Attribute.swift */; };
@@ -327,6 +343,9 @@
 		AF3DD0B821ECE1E200797959 /* OrFilterGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrFilterGroup.swift; sourceTree = "<group>"; };
 		AF3DD0BA21ECE1EA00797959 /* AndFilterGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AndFilterGroup.swift; sourceTree = "<group>"; };
 		AF3DD0C421EF9DAB00797959 /* FilterGroupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterGroupTests.swift; sourceTree = "<group>"; };
+		AF4B576021F603E200C01A11 /* AndGroupOperators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AndGroupOperators.swift; sourceTree = "<group>"; };
+		AF4B576221F603F100C01A11 /* SpecializedAndGroupOperators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpecializedAndGroupOperators.swift; sourceTree = "<group>"; };
+		AF4B576421F603F900C01A11 /* OrGroupOperators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrGroupOperators.swift; sourceTree = "<group>"; };
 		AFB9776621CD397400094E1E /* FilterOperators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterOperators.swift; sourceTree = "<group>"; };
 		AFB9776C21D1127300094E1E /* OrGroupProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrGroupProxy.swift; sourceTree = "<group>"; };
 		AFB9776E21D1128000094E1E /* AndGroupProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AndGroupProxy.swift; sourceTree = "<group>"; };
@@ -388,7 +407,7 @@
 		DE7C98AC39B5A3FAA228D0BA /* Pods-AlgoliaSearch tvOS Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch tvOS Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch tvOS Tests/Pods-AlgoliaSearch tvOS Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		E2CC9FF921BA7BFE00B8516D /* FilterBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterBuilder.swift; sourceTree = "<group>"; };
 		E2CC9FFF21BA815900B8516D /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
-		E2CCA00421BEA85800B8516D /* FilterBuilterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterBuilterTests.swift; sourceTree = "<group>"; };
+		E2CCA00421BEA85800B8516D /* FilterBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterBuilderTests.swift; sourceTree = "<group>"; };
 		E2CCA00821BEC6EF00B8516D /* Attribute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attribute.swift; sourceTree = "<group>"; };
 		E2FA909021C406080015F19E /* NumericOperator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumericOperator.swift; sourceTree = "<group>"; };
 		E2FA909521C40EE00015F19E /* FilterGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterGroup.swift; sourceTree = "<group>"; };
@@ -621,6 +640,16 @@
 			path = Group;
 			sourceTree = "<group>";
 		};
+		AF4B575F21F603D000C01A11 /* Operators */ = {
+			isa = PBXGroup;
+			children = (
+				AF4B576021F603E200C01A11 /* AndGroupOperators.swift */,
+				AF4B576221F603F100C01A11 /* SpecializedAndGroupOperators.swift */,
+				AF4B576421F603F900C01A11 /* OrGroupOperators.swift */,
+			);
+			path = Operators;
+			sourceTree = "<group>";
+		};
 		BC09F7751CAE742800ABB395 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -687,6 +716,7 @@
 		E2CC9FFE21BA80E100B8516D /* FilterBuilder */ = {
 			isa = PBXGroup;
 			children = (
+				AF4B575F21F603D000C01A11 /* Operators */,
 				E2CC9FF921BA7BFE00B8516D /* FilterBuilder.swift */,
 				AFB9777E21D3AE3800094E1E /* SpecializedFilterBuilder.swift */,
 				AFB977A121D53C4900094E1E /* OptionalFilterBuilder.swift */,
@@ -702,7 +732,7 @@
 			isa = PBXGroup;
 			children = (
 				BC0A01631C9C19CD00CD4A7C /* QueryTests.swift */,
-				E2CCA00421BEA85800B8516D /* FilterBuilterTests.swift */,
+				E2CCA00421BEA85800B8516D /* FilterBuilderTests.swift */,
 				AFB977A821D53DB100094E1E /* OptionalFilterBuilderTests.swift */,
 				AFB9778A21D5059C00094E1E /* FilterTests.swift */,
 				AF3DD0C421EF9DAB00797959 /* FilterGroupTests.swift */,
@@ -1276,16 +1306,19 @@
 				AFB9776F21D1128000094E1E /* AndGroupProxy.swift in Sources */,
 				BC68BC571CB69776007F9655 /* IndexQuery.swift in Sources */,
 				AFB9776721CD397400094E1E /* FilterOperators.swift in Sources */,
+				AF4B576321F603F100C01A11 /* SpecializedAndGroupOperators.swift in Sources */,
 				E2FA909621C40EE00015F19E /* FilterGroup.swift in Sources */,
 				5D67400F1B4AA22600B326EC /* Cache.swift in Sources */,
 				BC4DDF081DD12BCC004D9A6E /* PlacesQuery.swift in Sources */,
 				AFB977A221D53C4900094E1E /* OptionalFilterBuilder.swift in Sources */,
 				BC4DDEF61DD10EBA004D9A6E /* Types.swift in Sources */,
 				BC3DC7541E02DD7B00862F5B /* NetworkReachability.swift in Sources */,
+				AF4B576521F603F900C01A11 /* OrGroupOperators.swift in Sources */,
 				BC4A7F391CB5308100AF1DCB /* AsyncOperation.swift in Sources */,
 				E2CCA00921BEC6EF00B8516D /* Attribute.swift in Sources */,
 				AFB9777921D113BB00094E1E /* GroupProxy.swift in Sources */,
 				5DECA2DA1A960BC5001A6088 /* Index.swift in Sources */,
+				AF4B576121F603E200C01A11 /* AndGroupOperators.swift in Sources */,
 				BC4DDEFC1DD11527004D9A6E /* PlacesClient.swift in Sources */,
 				BCD57D1F1D89947500C5DE68 /* DisjunctiveFaceting.swift in Sources */,
 				AFB9779821D50AF200094E1E /* FilterNumeric.swift in Sources */,
@@ -1316,7 +1349,7 @@
 				BC09F77C1CAE80B200ABB395 /* BrowseIteratorTests.swift in Sources */,
 				BC0A01641C9C19CD00CD4A7C /* QueryTests.swift in Sources */,
 				BC72244D1D9C137B00B56908 /* OnlineTestCase.swift in Sources */,
-				E2CCA00521BEA85800B8516D /* FilterBuilterTests.swift in Sources */,
+				E2CCA00521BEA85800B8516D /* FilterBuilderTests.swift in Sources */,
 				5D8FFA381AAB08830078869E /* ClientTests.swift in Sources */,
 				BCDA73781CA546800082B197 /* NetworkTests.swift in Sources */,
 				BCDA737E1CA555070082B197 /* MockURLSession.swift in Sources */,
@@ -1346,16 +1379,19 @@
 				AFB9777421D112A900094E1E /* AndGroupProxy.swift in Sources */,
 				BC68BC581CB69776007F9655 /* IndexQuery.swift in Sources */,
 				AFB9776821CD3CAA00094E1E /* FilterOperators.swift in Sources */,
+				AF4B576A21F6040700C01A11 /* SpecializedAndGroupOperators.swift in Sources */,
 				E2FA909721C40EE00015F19E /* FilterGroup.swift in Sources */,
 				5D6740101B4AA22600B326EC /* Cache.swift in Sources */,
 				BC4DDF091DD12BCC004D9A6E /* PlacesQuery.swift in Sources */,
 				AFB977A321D53D4A00094E1E /* OptionalFilterBuilder.swift in Sources */,
 				BC4DDEF71DD10EBA004D9A6E /* Types.swift in Sources */,
 				BC3DC7531E02DD7A00862F5B /* NetworkReachability.swift in Sources */,
+				AF4B576E21F6040C00C01A11 /* OrGroupOperators.swift in Sources */,
 				BC4A7F3A1CB5308100AF1DCB /* AsyncOperation.swift in Sources */,
 				AFB9779D21D50B0100094E1E /* FilterTag.swift in Sources */,
 				E2CCA00A21BEC6EF00B8516D /* Attribute.swift in Sources */,
 				AFB9777A21D113F100094E1E /* GroupProxy.swift in Sources */,
+				AF4B576621F603FF00C01A11 /* AndGroupOperators.swift in Sources */,
 				5DB2515C1AAD9F3300945339 /* Helpers.swift in Sources */,
 				AFB9779921D50AFA00094E1E /* FilterNumeric.swift in Sources */,
 				BC4DDEFD1DD11527004D9A6E /* PlacesClient.swift in Sources */,
@@ -1386,7 +1422,7 @@
 				BC09F77D1CAE80B300ABB395 /* BrowseIteratorTests.swift in Sources */,
 				BC0A01651C9C19CD00CD4A7C /* QueryTests.swift in Sources */,
 				BC72244E1D9C137B00B56908 /* OnlineTestCase.swift in Sources */,
-				E2CCA00621BEA85800B8516D /* FilterBuilterTests.swift in Sources */,
+				E2CCA00621BEA85800B8516D /* FilterBuilderTests.swift in Sources */,
 				5DB2515E1AAD9F3F00945339 /* ClientTests.swift in Sources */,
 				BCDA73791CA546800082B197 /* NetworkTests.swift in Sources */,
 				BCDA737F1CA555070082B197 /* MockURLSession.swift in Sources */,
@@ -1416,16 +1452,19 @@
 				AFB9777721D112AB00094E1E /* AndGroupProxy.swift in Sources */,
 				BC23A6FC1D63541500DF9034 /* Query.swift in Sources */,
 				AFB9776B21CD3CAD00094E1E /* FilterOperators.swift in Sources */,
+				AF4B576D21F6040A00C01A11 /* SpecializedAndGroupOperators.swift in Sources */,
 				E2FA909921C40EE00015F19E /* FilterGroup.swift in Sources */,
 				BC23A6F51D63541500DF9034 /* Cache.swift in Sources */,
 				BC4DDF0C1DD12BCC004D9A6E /* PlacesQuery.swift in Sources */,
 				AFB977A621D53D4E00094E1E /* OptionalFilterBuilder.swift in Sources */,
 				BC4DDEFA1DD10EBA004D9A6E /* Types.swift in Sources */,
 				BCD4B5351E13FE5E00838E02 /* NetworkReachability.swift in Sources */,
+				AF4B577121F6040F00C01A11 /* OrGroupOperators.swift in Sources */,
 				BC23A6FB1D63541500DF9034 /* Network.swift in Sources */,
 				AFB977A021D50B0400094E1E /* FilterTag.swift in Sources */,
 				E2CCA00C21BEC6EF00B8516D /* Attribute.swift in Sources */,
 				AFB9777D21D113F300094E1E /* GroupProxy.swift in Sources */,
+				AF4B576921F6040300C01A11 /* AndGroupOperators.swift in Sources */,
 				BC23A6F91D63541500DF9034 /* Index.swift in Sources */,
 				AFB9779C21D50AFD00094E1E /* FilterNumeric.swift in Sources */,
 				BC4DDF001DD11527004D9A6E /* PlacesClient.swift in Sources */,
@@ -1458,18 +1497,21 @@
 				BC15FAC11E01C041005E3B56 /* NetworkReachability.swift in Sources */,
 				AFB9777621D112AA00094E1E /* AndGroupProxy.swift in Sources */,
 				BC4BD2821D54E48900170ECC /* Error.swift in Sources */,
+				AF4B576C21F6040800C01A11 /* SpecializedAndGroupOperators.swift in Sources */,
 				BCD57D261D89970D00C5DE68 /* MultipleQueryEmulator.swift in Sources */,
 				BC4BD2831D54E48900170ECC /* IndexQuery.swift in Sources */,
 				BC4BD2951D54E50000170ECC /* MirroredIndex.swift in Sources */,
 				BC4DDEF91DD10EBA004D9A6E /* Types.swift in Sources */,
 				BC4BD2841D54E48900170ECC /* Cache.swift in Sources */,
 				BC4BD2851D54E48900170ECC /* AsyncOperation.swift in Sources */,
+				AF4B576821F6040100C01A11 /* AndGroupOperators.swift in Sources */,
 				BC4BD2861D54E48900170ECC /* Helpers.swift in Sources */,
 				AFB9777C21D113F300094E1E /* GroupProxy.swift in Sources */,
 				BC4BD2871D54E48900170ECC /* Query.swift in Sources */,
 				BC4BD2881D54E48900170ECC /* Network.swift in Sources */,
 				AF3DD0BE21ECE20400797959 /* OrFilterGroup.swift in Sources */,
 				BC4DDF051DD11697004D9A6E /* AbstractQuery.swift in Sources */,
+				AF4B577021F6040E00C01A11 /* OrGroupOperators.swift in Sources */,
 				AFB9778221D3AE4700094E1E /* SpecializedFilterBuilder.swift in Sources */,
 				AFB9778821D3BBB500094E1E /* SpecializedAndGroupProxy.swift in Sources */,
 				BCD57D271D89970D00C5DE68 /* OfflineIndex.swift in Sources */,
@@ -1499,16 +1541,19 @@
 				AFB9777521D112A900094E1E /* AndGroupProxy.swift in Sources */,
 				BCD1F5691CC61D1A0006E227 /* Query.swift in Sources */,
 				AFB9776921CD3CAB00094E1E /* FilterOperators.swift in Sources */,
+				AF4B576B21F6040800C01A11 /* SpecializedAndGroupOperators.swift in Sources */,
 				E2FA909821C40EE00015F19E /* FilterGroup.swift in Sources */,
 				BCD1F5621CC61D020006E227 /* Cache.swift in Sources */,
 				BC4DDF0A1DD12BCC004D9A6E /* PlacesQuery.swift in Sources */,
 				AFB977A421D53D4C00094E1E /* OptionalFilterBuilder.swift in Sources */,
 				BC4DDEF81DD10EBA004D9A6E /* Types.swift in Sources */,
 				BC3DC7521E02DD7900862F5B /* NetworkReachability.swift in Sources */,
+				AF4B576F21F6040D00C01A11 /* OrGroupOperators.swift in Sources */,
 				BCD1F56C1CC61D2D0006E227 /* BrowseIterator.swift in Sources */,
 				AFB9779E21D50B0200094E1E /* FilterTag.swift in Sources */,
 				E2CCA00B21BEC6EF00B8516D /* Attribute.swift in Sources */,
 				AFB9777B21D113F200094E1E /* GroupProxy.swift in Sources */,
+				AF4B576721F6040000C01A11 /* AndGroupOperators.swift in Sources */,
 				BCD1F5681CC61D160006E227 /* Network.swift in Sources */,
 				AFB9779A21D50AFB00094E1E /* FilterNumeric.swift in Sources */,
 				BC4DDEFE1DD11527004D9A6E /* PlacesClient.swift in Sources */,
@@ -1539,7 +1584,7 @@
 				BCD1F5731CC61DB80006E227 /* NetworkTests.swift in Sources */,
 				BCD1F5721CC61DB80006E227 /* MockURLSession.swift in Sources */,
 				BC72244F1D9C137B00B56908 /* OnlineTestCase.swift in Sources */,
-				E2CCA00721BEA85800B8516D /* FilterBuilterTests.swift in Sources */,
+				E2CCA00721BEA85800B8516D /* FilterBuilderTests.swift in Sources */,
 				BCD1F56D1CC61DB30006E227 /* BrowseIteratorTests.swift in Sources */,
 				BCD1F56F1CC61DB80006E227 /* ClientTests.swift in Sources */,
 				BCD1F5741CC61DB80006E227 /* QueryTests.swift in Sources */,
@@ -1567,6 +1612,7 @@
 				BCE2E98A1E239D5C00F189F3 /* MockNetworkReachability.swift in Sources */,
 				BCD57D3E1D89B1EA00C5DE68 /* OfflineTestCase.swift in Sources */,
 				BCFC281C1D92660C00BFE0A0 /* MirroredIndexTests.swift in Sources */,
+				AF4B577221F6110900C01A11 /* FilterBuilderTests.swift in Sources */,
 				BCD57D3C1D89B1EA00C5DE68 /* OfflineClientTests.swift in Sources */,
 				BC6267EE1D8FE4180014C767 /* OfflineObjcBridging.m in Sources */,
 				AF3DD0C921EF9DFE00797959 /* FilterGroupTests.swift in Sources */,

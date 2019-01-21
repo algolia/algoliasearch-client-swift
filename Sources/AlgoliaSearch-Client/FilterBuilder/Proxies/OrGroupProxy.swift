@@ -35,7 +35,7 @@ public struct OrGroupProxy<T: Filter>: GroupProxy {
     }
     
     public func contains(_ filter: T) -> Bool {
-        return filterBuilder.contains(filter: filter, in: group)
+        return filterBuilder.contains(filter, in: group)
     }
     
     public func move(_ filter: T, to destination: AndFilterGroup) -> Bool {
@@ -68,6 +68,10 @@ public struct OrGroupProxy<T: Filter>: GroupProxy {
 
     public func removeAll() {
         filterBuilder.removeAll(from: group)
+    }
+    
+    public func toggle(_ filter: T) {
+        filterBuilder.toggle(filter, in: group)
     }
     
     public func build(ignoringInversion: Bool = false) -> String {

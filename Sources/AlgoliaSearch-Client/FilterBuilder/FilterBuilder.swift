@@ -38,7 +38,7 @@ public class FilterBuilder {
         update(updatedFilters, for: group)
     }
     
-    func contains<T: Filter>(filter: T, in group: AnyFilterGroup) -> Bool {
+    func contains<T: Filter>(_ filter: T, in group: AnyFilterGroup) -> Bool {
         let anyFilter = AnyFilter(filter)
         guard let filtersForGroup = groups[group] else {
             return false
@@ -98,6 +98,14 @@ public class FilterBuilder {
         guard let filtersForGroup = groups[group] else { return }
         let updatedFilters = filtersForGroup.filter { $0.attribute != attribute }
         update(updatedFilters, for: group)
+    }
+    
+    func toggle<T: Filter>(_ filter: T, in group: AnyFilterGroup) {
+        if contains(filter, in: group) {
+            remove(filter, from: group)
+        } else {
+            add(filter, to: group)
+        }
     }
 
     func build(_ group: AnyFilterGroup, ignoringInversion: Bool) -> String {
@@ -249,7 +257,7 @@ extension FilterBuilder {
     }
     
     public func contains<T: Filter>(_ filter: T, in group: AndFilterGroup) -> Bool {
-        return contains(filter: filter, in: AnyFilterGroup(group))
+        return contains(filter, in: AnyFilterGroup(group))
     }
     
     public func replace<T: Filter, D: Filter>(_ filter: T, by replacement: D, in group: AndFilterGroup) {
@@ -269,11 +277,7 @@ extension FilterBuilder {
     }
     
     public func toggle<T: Filter>(_ filter: T, in group: AndFilterGroup) {
-        if contains(filter, in: group) {
-            remove(filter, from: group)
-        } else {
-            add(filter, to: group)
-        }
+        toggle(filter, in: AnyFilterGroup(group))
     }
 
 }
@@ -291,7 +295,7 @@ extension FilterBuilder {
     }
     
     public func contains<T: Filter>(_ filter: T, in group: OrFilterGroup<T>) -> Bool {
-        return contains(filter: filter, in: AnyFilterGroup(group))
+        return contains(filter, in: AnyFilterGroup(group))
     }
     
     public func replace<T: Filter>(_ filter: T, by replacement: T, in group: OrFilterGroup<T>) {
@@ -319,11 +323,7 @@ extension FilterBuilder {
     }
     
     public func toggle<T: Filter>(_ filter: T, in group: OrFilterGroup<T>) {
-        if contains(filter, in: group) {
-            remove(filter, from: group)
-        } else {
-            add(filter, to: group)
-        }
+        toggle(filter, in: AnyFilterGroup(group))
     }
     
 }

@@ -1,5 +1,5 @@
 //
-//  FilterBuilterTests.swift
+//  FilterBuilderTests.swift
 //  AlgoliaSearch
 //
 //  Created by Guy Daher on 10/12/2018.
@@ -20,7 +20,6 @@ class FilterBuilderTests: XCTestCase {
     override func tearDown() {
         super.tearDown()
     }
-
 
     func testPlayground() {
         
@@ -803,6 +802,60 @@ class FilterBuilderTests: XCTestCase {
         XCTAssertEqual(filterBuilder.refinements()["color"], ["red", "blue"])
         XCTAssertEqual(filterBuilder.refinements()["country"], ["france"])
 
+    }
+    
+    func testToggle() {
+        
+        let filterBuilder = FilterBuilder()
+        
+        let filter = FilterFacet(attribute: "brand", stringValue: "sony")
+        
+        // Conjunctive Group
+        
+        XCTAssertFalse(filterBuilder[.or("a")].contains(filter))
+        XCTAssertTrue(filterBuilder[.or("a", ofType: FilterFacet.self)].isEmpty)
+
+        filterBuilder[.or("a")].toggle(filter)
+        XCTAssertTrue(filterBuilder[.or("a")].contains(filter))
+        XCTAssertFalse(filterBuilder[.or("a", ofType: FilterFacet.self)].isEmpty)
+
+        filterBuilder[.or("a")].toggle(filter)
+        XCTAssertFalse(filterBuilder[.or("a")].contains(filter))
+        XCTAssertTrue(filterBuilder[.or("a", ofType: FilterFacet.self)].isEmpty)
+
+        // Disjunctive Group
+
+        XCTAssertFalse(filterBuilder[.and("a")].contains(filter))
+        XCTAssertTrue(filterBuilder[.and("a")].isEmpty)
+
+        filterBuilder[.and("a")].toggle(filter)
+        XCTAssertTrue(filterBuilder[.and("a")].contains(filter))
+        XCTAssertFalse(filterBuilder[.and("a")].isEmpty)
+
+        filterBuilder[.and("a")].toggle(filter)
+        XCTAssertFalse(filterBuilder[.and("a")].contains(filter))
+        XCTAssertTrue(filterBuilder[.and("a")].isEmpty)
+        
+        filterBuilder[.and("a")] <> ("size", .equals, 40) <> ("country", "france")
+        
+        XCTAssertFalse(filterBuilder[.and("a")].isEmpty)
+        XCTAssertTrue(filterBuilder[.and("a")].contains(FilterNumeric(attribute: "size", operator: .equals, value: 40)))
+        XCTAssertTrue(filterBuilder[.and("a")].contains(FilterFacet(attribute: "country", stringValue: "france")))
+        
+        filterBuilder[.and("a")] <> ("size", .equals, 40) <> ("country", "france")
+
+        XCTAssertTrue(filterBuilder[.and("a")].isEmpty)
+        XCTAssertFalse(filterBuilder[.and("a")].contains(FilterNumeric(attribute: "size", operator: .equals, value: 40)))
+        XCTAssertFalse(filterBuilder[.and("a")].contains(FilterFacet(attribute: "country", stringValue: "france")))
+
+        
+        filterBuilder[.or("a")] <> ("size", 40) <> ("count", 25)
+        
+        XCTAssertFalse(filterBuilder[.or("a", ofType: FilterFacet.self)].isEmpty)
+        XCTAssertTrue(filterBuilder[.or("a", ofType: FilterFacet.self)].contains(FilterFacet(attribute: "size", floatValue: 40)))
+        XCTAssertTrue(filterBuilder[.or("a", ofType: FilterFacet.self)].contains(FilterFacet(attribute: "count", floatValue: 25)))
+
+        
     }
     
     // MARK: Build & parse
