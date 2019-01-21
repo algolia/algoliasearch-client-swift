@@ -588,6 +588,8 @@ open class Query: AbstractQuery {
     get { return Query.parseBool(self["facetingAfterDistinct"]) }
     set { self["facetingAfterDistinct"] = Query.buildBool(newValue) }
   }
+    
+  public let filterBuilder = FilterBuilder()
 
   // MARK: Unified filter parameter (SQL like)
 
@@ -606,10 +608,10 @@ open class Query: AbstractQuery {
   /// - `NOT`: used to negate a filter. The syntax with the `-` isn't allowed.
   ///
   @objc public var filters: String? {
-    get { return self["filters"] }
+    get { return filterBuilder.isEmpty ? self["filters"] : filterBuilder.build() }
     set { self["filters"] = newValue }
   }
-
+    
   // MARK: Geo-search parameters
 
   /// Search for entries around a given latitude/longitude. You can specify the maximum distance in meters with the

@@ -759,6 +759,14 @@ class QueryTests: XCTestCase {
     XCTAssertEqual(query2.filters, VALUE)
   }
 
+  func test_filterViaFilterBuilder() {
+    let VALUE = "available=1 AND (category:Book OR NOT category:Ebook) AND publication_date: 1441745506 TO 1441755506 AND inStock > 0 AND author:\"John Doe\""
+    let query1 = Query()
+    XCTAssertNil(query1.filters)
+    query1.filterBuilder[.or("group")] +++ ("price", .greaterThan, 50)
+    XCTAssertEqual(query1.filters, "\"price\" > 50.0")
+  }
+
   func test_disableExactOnAttributes() {
     let query1 = Query()
     XCTAssertNil(query1.disableExactOnAttributes)
