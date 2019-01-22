@@ -16,6 +16,10 @@ public class OptionalFilterBuilder {
         facetFilterBuilder = SpecializedFilterBuilder<FilterFacet>()
     }
     
+    public init(_ optionalFilterBuilder: OptionalFilterBuilder) {
+        self.facetFilterBuilder = optionalFilterBuilder.facetFilterBuilder
+    }
+    
     public subscript(group: AndFilterGroup) -> SpecializedAndGroupProxy<FilterFacet> {
         return facetFilterBuilder[group]
     }

@@ -22,6 +22,10 @@ public class SpecializedFilterBuilder<T: Filter> {
         genericFilterBuilder = FilterBuilder()
     }
     
+    public init<T: Filter>(_ filterBuilder: SpecializedFilterBuilder<T>) {
+        self.genericFilterBuilder = FilterBuilder(filterBuilder.genericFilterBuilder)
+    }
+    
     public var isEmpty: Bool {
         return genericFilterBuilder.isEmpty
     }

@@ -7,10 +7,23 @@
 //
 
 import Foundation
-import InstantSearchClient
 import XCTest
+@testable import InstantSearchClient
 
 class OptionalFilterBuilderTests: XCTestCase {
+    
+    func testCopyConstructor() {
+        let filterBuilder = OptionalFilterBuilder()
+        
+        filterBuilder[.and("a")] +++ ("brand", "sony")
+        filterBuilder[.or("b")] +++ ("brand", "apple")
+        filterBuilder[.or("c")] +++ ("size", 10) +++ ("featured", true)
+        filterBuilder[.or("d")] +++ ("country", "france") +++ ("color", "blue")
+
+        let filterBuilderCopy = OptionalFilterBuilder(filterBuilder)
+        
+        XCTAssertEqual(filterBuilder.facetFilterBuilder.groups, filterBuilderCopy.facetFilterBuilder.groups)
+    }
 
     func testBuilding() {
         

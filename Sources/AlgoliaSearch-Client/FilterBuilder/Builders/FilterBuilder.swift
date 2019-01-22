@@ -11,10 +11,16 @@ import Foundation
 /// For better understanding of Filters, please read the documentation linked below:
 /// [Documentation](https:www.algolia.com/doc/api-reference/api-parameters/filters/)
 public class FilterBuilder {
-
-    public init() {}
     
-    var groups: [AnyFilterGroup: Set<AnyFilter>] = [:]
+    var groups: [AnyFilterGroup: Set<AnyFilter>]
+
+    public init() {
+        self.groups = [:]
+    }
+    
+    public init(_ filterBuilder: FilterBuilder) {
+        self.groups = filterBuilder.groups
+    }
     
     public subscript(group: AndFilterGroup) -> AndGroupProxy {
         return AndGroupProxy(filterBuilder: self, group: group)

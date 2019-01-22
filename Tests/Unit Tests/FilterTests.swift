@@ -18,6 +18,16 @@ class FilterTests: XCTestCase {
         testFilterFacet(with: true)
     }
     
+    func testCopyConstructor() {
+        let filterBuilder = FilterBuilder()
+        filterBuilder[.and("a")] +++ ("brand", "sony") +++ ("size", 40) +++ "featured"
+        filterBuilder[.or("b")] +++ "tag1" +++ "tag2" +++ "tag3"
+        
+        let filterBuilderCopy = FilterBuilder(filterBuilder)
+        
+        XCTAssertEqual(filterBuilder.groups, filterBuilderCopy.groups)
+    }
+    
     func testFilterFacet(with value: FilterFacet.ValueType) {
         let attribute: Attribute = "a"
         var facetFilter = FilterFacet(attribute: attribute, value: value)
