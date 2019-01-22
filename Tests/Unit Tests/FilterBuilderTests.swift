@@ -410,67 +410,6 @@ class FilterBuilderTests: XCTestCase {
         
     }
     
-    func testAndGroupSubscript() {
-        let filterBuilder = FilterBuilder()
-        
-        let filter = FilterFacet(attribute: "category", value: "table")
-        
-        let group = AndFilterGroup(name: "group")
-        
-        filterBuilder[group] +++ filter
-
-        XCTAssertTrue(filterBuilder.contains(filter))
-        
-        XCTAssertEqual(filterBuilder.build(), """
-        "category":"table"
-        """)
-
-    }
-    
-    func testOrGroupSubscript() {
-        let filterBuilder = FilterBuilder()
-        
-        let filter = FilterFacet(attribute: "category", value: "table")
-        
-        let group = OrFilterGroup<FilterFacet>(name: "group")
-
-        filterBuilder[group] +++ filter
-        
-        XCTAssertTrue(filterBuilder.contains(filter))
-        
-        XCTAssertEqual(filterBuilder.build(), """
-        "category":"table"
-        """)
-    }
-    
-    func testOrGroupAddAll() {
-        let filterBuilder = FilterBuilder()
-        let group = OrFilterGroup<FilterFacet>(name: "group")
-        let filter1 = FilterFacet(attribute: "category", value: "table")
-        let filter2 = FilterFacet(attribute: "category", value: "chair")
-        filterBuilder.addAll([filter1, filter2], to: group)
-        XCTAssertTrue(filterBuilder.contains(filter1))
-        XCTAssertTrue(filterBuilder.contains(filter2))
-        
-        XCTAssertEqual(filterBuilder.build(), """
-        ( "category":"chair" OR "category":"table" )
-        """)
-    }
-    
-    func testAndGroupAddAll() {
-        let filterBuilder = FilterBuilder()
-        let group = AndFilterGroup(name: "group")
-        let filterPrice = FilterNumeric(attribute: "price", operator: .greaterThan, value: 10)
-        let filterSize = FilterNumeric(attribute: "size", operator: .greaterThan, value: 20)
-        filterBuilder.addAll([filterPrice, filterSize], to: group)
-        XCTAssertTrue(filterBuilder.contains(filterPrice))
-        XCTAssertTrue(filterBuilder.contains(filterSize))
-        
-        XCTAssertEqual(filterBuilder.build(), """
-        "price" > 10.0 AND "size" > 20.0
-        """)
-    }
-    
     func testClearAttribute() {
         
         let filterNumeric1 = FilterNumeric(attribute: "price", operator: .greaterThan, value: 10)
@@ -540,183 +479,59 @@ class FilterBuilderTests: XCTestCase {
         XCTAssertNil(filterBuilder.build())
     }
     
-    func testAndGroupOperators() {
+    func testToggle() {
         
         let filterBuilder = FilterBuilder()
         
-        filterBuilder[.and("g")] +++ "tag1"
+        let filter = FilterFacet(attribute: "brand", stringValue: "sony")
         
-        XCTAssertEqual(filterBuilder.build(), """
-        "_tags":"tag1"
-        """)
+        // Conjunctive Group
         
-        XCTAssertTrue(filterBuilder.contains(FilterTag(value:"tag1")))
+        XCTAssertFalse(filterBuilder[.or("a")].contains(filter))
+        XCTAssertTrue(filterBuilder[.or("a", ofType: FilterFacet.self)].isEmpty)
         
-        filterBuilder[.and("g")] +++ [FilterTag(value:"tag2"), FilterTag(value:"tag3")]
+        filterBuilder[.or("a")].toggle(filter)
+        XCTAssertTrue(filterBuilder[.or("a")].contains(filter))
+        XCTAssertFalse(filterBuilder[.or("a", ofType: FilterFacet.self)].isEmpty)
         
-        XCTAssertEqual(filterBuilder.build(), """
-        "_tags":"tag1" AND "_tags":"tag2" AND "_tags":"tag3"
-        """)
+        filterBuilder[.or("a")].toggle(filter)
+        XCTAssertFalse(filterBuilder[.or("a")].contains(filter))
+        XCTAssertTrue(filterBuilder[.or("a", ofType: FilterFacet.self)].isEmpty)
         
-        XCTAssertTrue(filterBuilder.contains(FilterTag(value:"tag2")))
-        XCTAssertTrue(filterBuilder.contains(FilterTag(value:"tag3")))
-
-        filterBuilder[.and("g")] +++ ("price", .greaterThan, 100)
+        // Disjunctive Group
         
-        XCTAssertEqual(filterBuilder.build(), """
-        "_tags":"tag1" AND "_tags":"tag2" AND "_tags":"tag3" AND "price" > 100.0
-        """)
+        XCTAssertFalse(filterBuilder[.and("a")].contains(filter))
+        XCTAssertTrue(filterBuilder[.and("a")].isEmpty)
         
-        XCTAssertTrue(filterBuilder.contains(FilterNumeric(attribute: "price", operator: .greaterThan, value: 100)))
+        filterBuilder[.and("a")].toggle(filter)
+        XCTAssertTrue(filterBuilder[.and("a")].contains(filter))
+        XCTAssertFalse(filterBuilder[.and("a")].isEmpty)
         
-        filterBuilder[.and("g")] +++ ("size", 30...40)
+        filterBuilder[.and("a")].toggle(filter)
+        XCTAssertFalse(filterBuilder[.and("a")].contains(filter))
+        XCTAssertTrue(filterBuilder[.and("a")].isEmpty)
         
-        XCTAssertEqual(filterBuilder.build(), """
-        "_tags":"tag1" AND "_tags":"tag2" AND "_tags":"tag3" AND "price" > 100.0 AND "size":30.0 TO 40.0
-        """)
+        filterBuilder[.and("a")] <> ("size", .equals, 40) <> ("country", "france")
         
-        XCTAssertTrue(filterBuilder.contains(FilterNumeric(attribute: "size", range: 30...40)))
+        XCTAssertFalse(filterBuilder[.and("a")].isEmpty)
+        XCTAssertTrue(filterBuilder[.and("a")].contains(FilterNumeric(attribute: "size", operator: .equals, value: 40)))
+        XCTAssertTrue(filterBuilder[.and("a")].contains(FilterFacet(attribute: "country", stringValue: "france")))
         
-        filterBuilder[.and("g")] +++ ("brand", "sony")
+        filterBuilder[.and("a")] <> ("size", .equals, 40) <> ("country", "france")
         
-        XCTAssertEqual(filterBuilder.build(), """
-        "_tags":"tag1" AND "_tags":"tag2" AND "_tags":"tag3" AND "brand":"sony" AND "price" > 100.0 AND "size":30.0 TO 40.0
-        """)
+        XCTAssertTrue(filterBuilder[.and("a")].isEmpty)
+        XCTAssertFalse(filterBuilder[.and("a")].contains(FilterNumeric(attribute: "size", operator: .equals, value: 40)))
+        XCTAssertFalse(filterBuilder[.and("a")].contains(FilterFacet(attribute: "country", stringValue: "france")))
         
-        XCTAssertTrue(filterBuilder.contains(FilterFacet(attribute: "brand", value: "sony")))
-
-        filterBuilder[.and("g")] --- "tag1"
         
-        XCTAssertEqual(filterBuilder.build(), """
-        "_tags":"tag2" AND "_tags":"tag3" AND "brand":"sony" AND "price" > 100.0 AND "size":30.0 TO 40.0
-        """)
+        filterBuilder[.or("a")] <> ("size", 40) <> ("count", 25)
         
-        XCTAssertFalse(filterBuilder.contains(FilterTag(value:"tag1")))
-        
-        filterBuilder[.and("g")] --- [FilterTag(value:"tag2"), FilterTag(value:"tag3")]
-        
-        XCTAssertEqual(filterBuilder.build(), """
-        "brand":"sony" AND "price" > 100.0 AND "size":30.0 TO 40.0
-        """)
-        
-        XCTAssertFalse(filterBuilder.contains(FilterTag(value:"tag2")))
-        XCTAssertFalse(filterBuilder.contains(FilterTag(value:"tag3")))
-
-        filterBuilder[.and("g")] --- ("price", .greaterThan, 100)
-        
-        XCTAssertEqual(filterBuilder.build(), """
-        "brand":"sony" AND "size":30.0 TO 40.0
-        """)
-        
-        XCTAssertFalse(filterBuilder.contains(FilterNumeric(attribute: "price", operator: .greaterThan, value: 100)))
-
-        filterBuilder[.and("g")] --- ("size", 30...40)
-        
-        XCTAssertEqual(filterBuilder.build(), """
-        "brand":"sony"
-        """)
-        
-        XCTAssertFalse(filterBuilder.contains(FilterNumeric(attribute: "size", range: 30...40)))
-
-        filterBuilder[.and("g")] --- ("brand", "sony")
-        
-        XCTAssertNil(filterBuilder.build())
-
-        XCTAssertFalse(filterBuilder.contains(FilterFacet(attribute: "brand", value: "sony")))
-
-    }
-    
-    func testOrGroupOperators() {
-        
-        let filterBuilder = FilterBuilder()
-        
-        let tagGroup = OrFilterGroup<FilterTag>(name: "g1")
-        let facetGroup = OrFilterGroup<FilterFacet>(name: "g2")
-        let numericGroup = OrFilterGroup<FilterNumeric>(name: "g3")
-        
-        filterBuilder[tagGroup] +++ "tag1"
-        
-        XCTAssertEqual(filterBuilder.build(), """
-        "_tags":"tag1"
-        """)
-        
-        XCTAssertTrue(filterBuilder.contains(FilterTag(value: "tag1")))
-        
-        filterBuilder[tagGroup] +++ [FilterTag(value: "tag2"), FilterTag(value: "tag3")]
-        
-        XCTAssertEqual(filterBuilder.build(), """
-        ( "_tags":"tag1" OR "_tags":"tag2" OR "_tags":"tag3" )
-        """)
-        
-        XCTAssertTrue(filterBuilder.contains(FilterTag(value: "tag2")))
-        XCTAssertTrue(filterBuilder.contains(FilterTag(value: "tag3")))
-
-        filterBuilder[facetGroup] +++ ("brand", "sony")
-        
-        XCTAssertEqual(filterBuilder.build(), """
-        ( "_tags":"tag1" OR "_tags":"tag2" OR "_tags":"tag3" ) AND "brand":"sony"
-        """)
-
-        XCTAssertTrue(filterBuilder.contains(FilterFacet(attribute: "brand", value: "sony")))
-        
-        filterBuilder[numericGroup] +++ ("price", .greaterThan, 100)
-        
-        XCTAssertEqual(filterBuilder.build(), """
-        ( "_tags":"tag1" OR "_tags":"tag2" OR "_tags":"tag3" ) AND "brand":"sony" AND "price" > 100.0
-        """)
-        
-        XCTAssertTrue(filterBuilder.contains(FilterNumeric(attribute: "price", operator: .greaterThan, value: 100)))
-        
-        filterBuilder[numericGroup] +++ ("size", 30...40)
-        
-        XCTAssertEqual(filterBuilder.build(), """
-        ( "_tags":"tag1" OR "_tags":"tag2" OR "_tags":"tag3" ) AND "brand":"sony" AND ( "price" > 100.0 OR "size":30.0 TO 40.0 )
-        """)
-        
-        XCTAssertTrue(filterBuilder.contains(FilterNumeric(attribute: "size", range: 30...40)))
-        
-        filterBuilder[tagGroup] --- "tag1"
-        
-        XCTAssertEqual(filterBuilder.build(), """
-        ( "_tags":"tag2" OR "_tags":"tag3" ) AND "brand":"sony" AND ( "price" > 100.0 OR "size":30.0 TO 40.0 )
-        """)
-        
-        XCTAssertFalse(filterBuilder.contains(FilterTag(value: "tag1")))
-        
-        filterBuilder[tagGroup] --- [FilterTag(value: "tag2"), FilterTag(value: "tag3")]
-        
-        XCTAssertEqual(filterBuilder.build(), """
-        "brand":"sony" AND ( "price" > 100.0 OR "size":30.0 TO 40.0 )
-        """)
-        
-        XCTAssertFalse(filterBuilder.contains(FilterTag(value: "tag2")))
-        XCTAssertFalse(filterBuilder.contains(FilterTag(value: "tag3")))
-
-        filterBuilder[facetGroup] --- ("brand", "sony")
-        
-        XCTAssertEqual(filterBuilder.build(), """
-        ( "price" > 100.0 OR "size":30.0 TO 40.0 )
-        """)
-        
-        XCTAssertFalse(filterBuilder.contains(FilterFacet(attribute: "brand", value: "sony")))
-
-        filterBuilder[numericGroup] --- ("price", .greaterThan, 100)
-        
-        XCTAssertEqual(filterBuilder.build(), """
-        "size":30.0 TO 40.0
-        """)
-        
-        XCTAssertFalse(filterBuilder.contains(FilterNumeric(attribute: "price", operator: .greaterThan, value: 100)))
-
-        filterBuilder[numericGroup] --- ("size", 30...40)
-        
-        XCTAssertNil(filterBuilder.build())
-        
-        XCTAssertFalse(filterBuilder.contains(FilterNumeric(attribute: "price", range: 30...40)))
-        
-        XCTAssertTrue(filterBuilder.isEmpty)
+        XCTAssertFalse(filterBuilder[.or("a", ofType: FilterFacet.self)].isEmpty)
+        XCTAssertTrue(filterBuilder[.or("a", ofType: FilterFacet.self)].contains(FilterFacet(attribute: "size", floatValue: 40)))
+        XCTAssertTrue(filterBuilder[.or("a", ofType: FilterFacet.self)].contains(FilterFacet(attribute: "count", floatValue: 25)))
         
     }
+
     
     func testDisjunctiveFacetAttributes() {
         
@@ -798,58 +613,4 @@ class FilterBuilderTests: XCTestCase {
 
     }
     
-    func testToggle() {
-        
-        let filterBuilder = FilterBuilder()
-        
-        let filter = FilterFacet(attribute: "brand", stringValue: "sony")
-        
-        // Conjunctive Group
-        
-        XCTAssertFalse(filterBuilder[.or("a")].contains(filter))
-        XCTAssertTrue(filterBuilder[.or("a", ofType: FilterFacet.self)].isEmpty)
-
-        filterBuilder[.or("a")].toggle(filter)
-        XCTAssertTrue(filterBuilder[.or("a")].contains(filter))
-        XCTAssertFalse(filterBuilder[.or("a", ofType: FilterFacet.self)].isEmpty)
-
-        filterBuilder[.or("a")].toggle(filter)
-        XCTAssertFalse(filterBuilder[.or("a")].contains(filter))
-        XCTAssertTrue(filterBuilder[.or("a", ofType: FilterFacet.self)].isEmpty)
-
-        // Disjunctive Group
-
-        XCTAssertFalse(filterBuilder[.and("a")].contains(filter))
-        XCTAssertTrue(filterBuilder[.and("a")].isEmpty)
-
-        filterBuilder[.and("a")].toggle(filter)
-        XCTAssertTrue(filterBuilder[.and("a")].contains(filter))
-        XCTAssertFalse(filterBuilder[.and("a")].isEmpty)
-
-        filterBuilder[.and("a")].toggle(filter)
-        XCTAssertFalse(filterBuilder[.and("a")].contains(filter))
-        XCTAssertTrue(filterBuilder[.and("a")].isEmpty)
-        
-        filterBuilder[.and("a")] <> ("size", .equals, 40) <> ("country", "france")
-        
-        XCTAssertFalse(filterBuilder[.and("a")].isEmpty)
-        XCTAssertTrue(filterBuilder[.and("a")].contains(FilterNumeric(attribute: "size", operator: .equals, value: 40)))
-        XCTAssertTrue(filterBuilder[.and("a")].contains(FilterFacet(attribute: "country", stringValue: "france")))
-        
-        filterBuilder[.and("a")] <> ("size", .equals, 40) <> ("country", "france")
-
-        XCTAssertTrue(filterBuilder[.and("a")].isEmpty)
-        XCTAssertFalse(filterBuilder[.and("a")].contains(FilterNumeric(attribute: "size", operator: .equals, value: 40)))
-        XCTAssertFalse(filterBuilder[.and("a")].contains(FilterFacet(attribute: "country", stringValue: "france")))
-
-        
-        filterBuilder[.or("a")] <> ("size", 40) <> ("count", 25)
-        
-        XCTAssertFalse(filterBuilder[.or("a", ofType: FilterFacet.self)].isEmpty)
-        XCTAssertTrue(filterBuilder[.or("a", ofType: FilterFacet.self)].contains(FilterFacet(attribute: "size", floatValue: 40)))
-        XCTAssertTrue(filterBuilder[.or("a", ofType: FilterFacet.self)].contains(FilterFacet(attribute: "count", floatValue: 25)))
-
-        
-    }
-
 }

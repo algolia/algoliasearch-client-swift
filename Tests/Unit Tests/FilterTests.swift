@@ -22,9 +22,7 @@ class FilterTests: XCTestCase {
         let filterBuilder = FilterBuilder()
         filterBuilder[.and("a")] +++ ("brand", "sony") +++ ("size", 40) +++ "featured"
         filterBuilder[.or("b")] +++ "tag1" +++ "tag2" +++ "tag3"
-        
         let filterBuilderCopy = FilterBuilder(filterBuilder)
-        
         XCTAssertEqual(filterBuilder.groups, filterBuilderCopy.groups)
     }
     
