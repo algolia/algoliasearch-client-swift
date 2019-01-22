@@ -173,7 +173,8 @@ extension FilterBuilder {
         groups.removeAll()
     }
     
-    public func build(ignoringInversion: Bool = false) -> String {
+    public func build(ignoringInversion: Bool = false) -> String? {
+        guard !isEmpty else { return nil }
         return groups
             .keys
             .sorted {
@@ -188,7 +189,7 @@ extension FilterBuilder {
     public func getFilters<T: Filter>(for attribute: Attribute) -> Set<T> {
         let filtersArray: [T] = getAllFilters()
             .filter { $0.attribute == attribute }
-            .compactMap { $0.extractAs()  }
+            .compactMap { $0.extractAsFilter()  }
         return Set(filtersArray)
     }
     
@@ -207,39 +208,26 @@ extension FilterBuilder {
     
     public func refinements() -> [Attribute: Set<FilterFacet.ValueType>] {
         let facetFilters: [FilterFacet] = groups
-            .filter { $0.key.isDisjunctive }
             .compactMap { $0.value }
             .flatMap { $0 }
-            .compactMap { $0.extractAs() }
+            .compactMap { $0.extractAsFilter() }
         var refinements: [Attribute: Set<FilterFacet.ValueType>] = [:]
         for filter in facetFilters {
-            refinements[filter.attribute] = refinements[filter.attribute, default: []].union([filter.value])
+            let existingValues = refinements[filter.attribute, default: []]
+            let updatedValues = existingValues.union([filter.value])
+            refinements[filter.attribute] = updatedValues
         }
         return refinements
     }
     
     public func rawRefinements() -> [String: [String]] {
         var rawRefinments: [String: [String]] = [:]
-        refinements().map({ ($0.key.name, $0.value.map { $0.description }) }).forEach { attribute, values in
-            rawRefinments[attribute] = values
-        }
-        return rawRefinments
-    }
-    
-}
-
-extension Sequence where Element: Equatable {
-    
-    func containsDuplicates(of element: Element) -> Bool {
-        var foundOnce = false
-        for el in self where el == element {
-            if foundOnce {
-                return true
-            } else {
-                foundOnce = true
+        refinements()
+            .map { ($0.key.name, $0.value.map { $0.description }) }
+            .forEach { attribute, values in
+                rawRefinments[attribute] = values
             }
-        }
-        return false
+        return rawRefinments
     }
     
 }

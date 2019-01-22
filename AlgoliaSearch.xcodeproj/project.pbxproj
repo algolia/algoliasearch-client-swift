@@ -630,14 +630,14 @@
 			path = Auxiliary;
 			sourceTree = "<group>";
 		};
-		AF3DD0B721ECE1CC00797959 /* Group */ = {
+		AF3DD0B721ECE1CC00797959 /* Groups */ = {
 			isa = PBXGroup;
 			children = (
 				E2FA909521C40EE00015F19E /* FilterGroup.swift */,
 				AF3DD0B821ECE1E200797959 /* OrFilterGroup.swift */,
 				AF3DD0BA21ECE1EA00797959 /* AndFilterGroup.swift */,
 			);
-			path = Group;
+			path = Groups;
 			sourceTree = "<group>";
 		};
 		AF4B575F21F603D000C01A11 /* Operators */ = {
@@ -649,6 +649,16 @@
 				AF4B576421F603F900C01A11 /* OrGroupOperators.swift */,
 			);
 			path = Operators;
+			sourceTree = "<group>";
+		};
+		AF4B577421F7782D00C01A11 /* Builders */ = {
+			isa = PBXGroup;
+			children = (
+				E2CC9FF921BA7BFE00B8516D /* FilterBuilder.swift */,
+				AFB9777E21D3AE3800094E1E /* SpecializedFilterBuilder.swift */,
+				AFB977A121D53C4900094E1E /* OptionalFilterBuilder.swift */,
+			);
+			path = Builders;
 			sourceTree = "<group>";
 		};
 		BC09F7751CAE742800ABB395 /* Helpers */ = {
@@ -717,12 +727,10 @@
 		E2CC9FFE21BA80E100B8516D /* FilterBuilder */ = {
 			isa = PBXGroup;
 			children = (
+				AF4B577421F7782D00C01A11 /* Builders */,
 				AF4B575F21F603D000C01A11 /* Operators */,
-				E2CC9FF921BA7BFE00B8516D /* FilterBuilder.swift */,
-				AFB9777E21D3AE3800094E1E /* SpecializedFilterBuilder.swift */,
-				AFB977A121D53C4900094E1E /* OptionalFilterBuilder.swift */,
 				AF3DD0B521ECE0F800797959 /* Filters */,
-				AF3DD0B721ECE1CC00797959 /* Group */,
+				AF3DD0B721ECE1CC00797959 /* Groups */,
 				AF3DD0B421ECE0D800797959 /* Proxies */,
 				AF3DD0B621ECE16800797959 /* Auxiliary */,
 			);

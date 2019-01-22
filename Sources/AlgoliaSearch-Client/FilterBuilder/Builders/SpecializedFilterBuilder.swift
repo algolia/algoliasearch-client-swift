@@ -46,7 +46,7 @@ public class SpecializedFilterBuilder<T: Filter> {
         genericFilterBuilder.removeAll()
     }
     
-    public func build(ignoringInversion: Bool = false) -> String {
+    public func build(ignoringInversion: Bool = false) -> String? {
         return genericFilterBuilder.build(ignoringInversion: ignoringInversion)
     }
     

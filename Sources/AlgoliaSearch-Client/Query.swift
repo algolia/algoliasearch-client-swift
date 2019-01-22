@@ -608,7 +608,13 @@ open class Query: AbstractQuery {
   /// - `NOT`: used to negate a filter. The syntax with the `-` isn't allowed.
   ///
   @objc public var filters: String? {
-    get { return filterBuilder.isEmpty ? self["filters"] : filterBuilder.build() }
+    get {
+        if let manuallySetFilters = self["filters"] {
+            return manuallySetFilters
+        } else {
+            return filterBuilder.build()
+        }
+    }
     set { self["filters"] = newValue }
   }
     
@@ -806,8 +812,7 @@ open class Query: AbstractQuery {
         if let manuallySetFilters = Query.parseJSONArray(self["optionalFilters"]) {
             return manuallySetFilters
         } else {
-            let builtFilters = optionalFilterBuilder.build()
-            return builtFilters.isEmpty ? nil : builtFilters
+            return optionalFilterBuilder.build()
         }
     }
     set { self["optionalFilters"] = Query.buildJSONArray(newValue) }

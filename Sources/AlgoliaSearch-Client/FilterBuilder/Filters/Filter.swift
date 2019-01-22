@@ -124,7 +124,7 @@ final class AnyFilter: Filter {
         return lhs.box.expression == rhs.box.expression
     }
     
-    func extractAs<T: Filter>() -> T? {
+    func extractAsFilter<T: Filter>() -> T? {
         return (box as? _AnyFilterBox<T>)?.concrete
     }
     

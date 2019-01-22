@@ -12,10 +12,6 @@ public class OptionalFilterBuilder {
 
     let facetFilterBuilder: SpecializedFilterBuilder<FilterFacet>
     
-    var isEmpty: Bool {
-        return facetFilterBuilder.isEmpty
-    }
-    
     public init() {
         facetFilterBuilder = SpecializedFilterBuilder<FilterFacet>()
     }
@@ -28,7 +24,10 @@ public class OptionalFilterBuilder {
         return facetFilterBuilder[group]
     }
     
-    public func build() -> [Any] {
+    public func build() -> [Any]? {
+        
+        guard !facetFilterBuilder.isEmpty else { return nil }
+        
         var result: [Any] = []
         
         facetFilterBuilder.groups.keys.sorted {
