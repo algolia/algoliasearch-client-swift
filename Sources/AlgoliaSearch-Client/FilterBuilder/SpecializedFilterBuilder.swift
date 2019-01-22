@@ -14,7 +14,11 @@ public class SpecializedFilterBuilder<T: Filter> {
     
     private let genericFilterBuilder: FilterBuilder
     
-    init() {
+    var groups: [AnyFilterGroup: Set<AnyFilter>] {
+        return genericFilterBuilder.groups
+    }
+    
+    public init() {
         genericFilterBuilder = FilterBuilder()
     }
     

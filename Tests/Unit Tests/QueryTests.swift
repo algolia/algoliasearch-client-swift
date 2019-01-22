@@ -744,8 +744,16 @@ class QueryTests: XCTestCase {
     let query = Query()
     XCTAssertNil(query.optionalFilters)
     query.optionalFilters = optionalFilters
-    XCTAssertEqual(query.optionalFilters!, optionalFilters)
+    XCTAssertEqual(query.optionalFilters?.compactMap { $0 as? String }, optionalFilters)
     XCTAssertEqual(query["optionalFilters"], "[\"category:Book\",\"author:John Doe\"]")
+  }
+    
+  func test_OptionalFiltersViaFilterbuilder() {
+    let expectedOptionalFilters = ["\"author\":\"Victor Hugo\"", "\"category\":\"toy\""]
+    let query = Query()
+    query.optionalFilterBuilder[.and("a")] +++ ("category", "toy") +++ ("author", "Victor Hugo")
+    XCTAssertEqual(query.optionalFilters?.compactMap { $0 as? String }, expectedOptionalFilters)
+    XCTAssertEqual(query["optionalFilters"], nil)
   }
 
   func test_filters() {
@@ -760,7 +768,6 @@ class QueryTests: XCTestCase {
   }
 
   func test_filterViaFilterBuilder() {
-    let VALUE = "available=1 AND (category:Book OR NOT category:Ebook) AND publication_date: 1441745506 TO 1441755506 AND inStock > 0 AND author:\"John Doe\""
     let query1 = Query()
     XCTAssertNil(query1.filters)
     query1.filterBuilder[.or("group")] +++ ("price", .greaterThan, 50)

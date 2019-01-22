@@ -797,10 +797,19 @@ open class Query: AbstractQuery {
   }
 
   // MARK: Personalization
+    
+  public let optionalFilterBuilder = OptionalFilterBuilder()
 
   /// Specify filters for ranking purposes, to rank higher records that contain the filters
-  @objc public var optionalFilters: [String]? {
-    get { return Query.parseStringArray(self["optionalFilters"]) }
+  @objc public var optionalFilters: [Any]? {
+    get {
+        if let manuallySetFilters = Query.parseJSONArray(self["optionalFilters"]) {
+            return manuallySetFilters
+        } else {
+            let builtFilters = optionalFilterBuilder.build()
+            return builtFilters.isEmpty ? nil : builtFilters
+        }
+    }
     set { self["optionalFilters"] = Query.buildJSONArray(newValue) }
   }
 

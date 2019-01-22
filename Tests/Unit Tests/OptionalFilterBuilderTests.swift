@@ -15,19 +15,21 @@ class OptionalFilterBuilderTests: XCTestCase {
     func testBuilding() {
         
         let optionalFilterBuilder = OptionalFilterBuilder()
-        
-        let a = optionalFilterBuilder["v"]
-        
-        optionalFilterBuilder["a"][.and("x")] +++ ("brand", "sony")
-        optionalFilterBuilder["b"][.or("y")] +++ ("brand", "apple")
-        optionalFilterBuilder["c"][.and("z")] +++ ("size", 10) +++ ("featured", true)
-        optionalFilterBuilder["c"][.or("n")] +++ ("country", "france") +++ ("color", "blue")
+    
+        optionalFilterBuilder[.and("a")] +++ ("brand", "sony")
+        optionalFilterBuilder[.or("b")] +++ ("brand", "apple")
+        optionalFilterBuilder[.or("c")] +++ ("size", 10) +++ ("featured", true)
+        optionalFilterBuilder[.or("d")] +++ ("country", "france") +++ ("color", "blue")
         
         let expectedA = "\"brand\":\"sony\""
         let expectedB = "\"brand\":\"apple\""
-        let expectedC = "( \"color\":\"blue\" OR \"country\":\"france\" ) AND \"featured\":\"true\" AND \"size\":\"10.0\""
+        let expectedC = ["\"featured\":\"true\"", "\"size\":\"10.0\""]
+        let expectedD = ["\"color\":\"blue\"", "\"country\":\"france\""]
         
-        XCTAssertEqual(optionalFilterBuilder.build(), [expectedA, expectedB, expectedC])
+        XCTAssertEqual(optionalFilterBuilder.build().count, 4)
+        XCTAssertEqual(optionalFilterBuilder.build().compactMap { $0 as? String }, [expectedA, expectedB])
+        XCTAssertEqual(optionalFilterBuilder.build().compactMap { $0 as? [String] }, [expectedC, expectedD])
+
     }
     
     func testNegationIgnorance() {
@@ -38,9 +40,10 @@ class OptionalFilterBuilderTests: XCTestCase {
         let filter2 = !FilterFacet(attribute: "featured", value: false)
         let filter3 = !FilterFacet(attribute: "size", value: 50)
         
-        optionalFilterBuilder["a"][.and("b")] +++ [filter1, filter2, filter3]
+        optionalFilterBuilder[.and("a")] +++ [filter1, filter2, filter3]
         
-        XCTAssertEqual(optionalFilterBuilder.build(), ["\"brand\":\"huawei\" AND \"featured\":\"false\" AND \"size\":\"50.0\""])
+        XCTAssertEqual(optionalFilterBuilder.build().count, 3)
+        XCTAssertEqual(optionalFilterBuilder.build().compactMap { $0 as? String }, ["\"brand\":\"huawei\"", "\"featured\":\"false\"", "\"size\":\"50.0\""])
         
     }
 
