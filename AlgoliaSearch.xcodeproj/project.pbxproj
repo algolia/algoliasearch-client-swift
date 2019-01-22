@@ -67,6 +67,7 @@
 		AF4B577021F6040E00C01A11 /* OrGroupOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4B576421F603F900C01A11 /* OrGroupOperators.swift */; };
 		AF4B577121F6040F00C01A11 /* OrGroupOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4B576421F603F900C01A11 /* OrGroupOperators.swift */; };
 		AF4B577221F6110900C01A11 /* FilterBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2CCA00421BEA85800B8516D /* FilterBuilderTests.swift */; };
+		AF4B577321F7770700C01A11 /* FilterOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776621CD397400094E1E /* FilterOperators.swift */; };
 		AFB9776721CD397400094E1E /* FilterOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776621CD397400094E1E /* FilterOperators.swift */; };
 		AFB9776821CD3CAA00094E1E /* FilterOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776621CD397400094E1E /* FilterOperators.swift */; };
 		AFB9776921CD3CAB00094E1E /* FilterOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776621CD397400094E1E /* FilterOperators.swift */; };
@@ -624,7 +625,6 @@
 			isa = PBXGroup;
 			children = (
 				E2CCA00821BEC6EF00B8516D /* Attribute.swift */,
-				AFB9776621CD397400094E1E /* FilterOperators.swift */,
 				E2FA909021C406080015F19E /* NumericOperator.swift */,
 			);
 			path = Auxiliary;
@@ -643,6 +643,7 @@
 		AF4B575F21F603D000C01A11 /* Operators */ = {
 			isa = PBXGroup;
 			children = (
+				AFB9776621CD397400094E1E /* FilterOperators.swift */,
 				AF4B576021F603E200C01A11 /* AndGroupOperators.swift */,
 				AF4B576221F603F100C01A11 /* SpecializedAndGroupOperators.swift */,
 				AF4B576421F603F900C01A11 /* OrGroupOperators.swift */,
@@ -720,10 +721,10 @@
 				E2CC9FF921BA7BFE00B8516D /* FilterBuilder.swift */,
 				AFB9777E21D3AE3800094E1E /* SpecializedFilterBuilder.swift */,
 				AFB977A121D53C4900094E1E /* OptionalFilterBuilder.swift */,
-				AF3DD0B621ECE16800797959 /* Auxiliary */,
 				AF3DD0B521ECE0F800797959 /* Filters */,
 				AF3DD0B721ECE1CC00797959 /* Group */,
 				AF3DD0B421ECE0D800797959 /* Proxies */,
+				AF3DD0B621ECE16800797959 /* Auxiliary */,
 			);
 			path = FilterBuilder;
 			sourceTree = "<group>";
@@ -1505,6 +1506,7 @@
 				BC4BD2841D54E48900170ECC /* Cache.swift in Sources */,
 				BC4BD2851D54E48900170ECC /* AsyncOperation.swift in Sources */,
 				AF4B576821F6040100C01A11 /* AndGroupOperators.swift in Sources */,
+				AF4B577321F7770700C01A11 /* FilterOperators.swift in Sources */,
 				BC4BD2861D54E48900170ECC /* Helpers.swift in Sources */,
 				AFB9777C21D113F300094E1E /* GroupProxy.swift in Sources */,
 				BC4BD2871D54E48900170ECC /* Query.swift in Sources */,
