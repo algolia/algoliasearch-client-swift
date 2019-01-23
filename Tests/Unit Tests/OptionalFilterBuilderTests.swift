@@ -40,8 +40,8 @@ class OptionalFilterBuilderTests: XCTestCase {
         let expectedD = ["\"color\":\"blue\"", "\"country\":\"france\""]
         
         XCTAssertEqual(optionalFilterBuilder.build()?.count, 4)
-        XCTAssertEqual(optionalFilterBuilder.build()?.compactMap { $0 as? String }, [expectedA, expectedB])
-        XCTAssertEqual(optionalFilterBuilder.build()?.compactMap { $0 as? [String] }, [expectedC, expectedD])
+        XCTAssertEqual(optionalFilterBuilder.build()?.rawValue.compactMap { $0 as? String }, [expectedA, expectedB])
+        XCTAssertEqual(optionalFilterBuilder.build()?.rawValue.compactMap { $0 as? [String] }, [expectedC, expectedD])
 
     }
     
@@ -56,7 +56,7 @@ class OptionalFilterBuilderTests: XCTestCase {
         optionalFilterBuilder[.and("a")] +++ [filter1, filter2, filter3]
         
         XCTAssertEqual(optionalFilterBuilder.build()?.count, 3)
-        XCTAssertEqual(optionalFilterBuilder.build()?.compactMap { $0 as? String }, ["\"brand\":\"huawei\"", "\"featured\":\"false\"", "\"size\":\"50.0\""])
+        XCTAssertEqual(optionalFilterBuilder.build()?.rawValue.compactMap { $0 as? String }, ["\"brand\":\"huawei\"", "\"featured\":\"false\"", "\"size\":\"50.0\""])
         
     }
 

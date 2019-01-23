@@ -9,6 +9,20 @@
 import Foundation
 
 public class OptionalFilterBuilder {
+    
+    public enum Output {
+        case singleton(String)
+        case union([String])
+        
+        var rawValue: Any {
+            switch self {
+            case .singleton(let element):
+                return element
+            case .union(let elements):
+                return elements
+            }
+        }
+    }
 
     let facetFilterBuilder: SpecializedFilterBuilder<FilterFacet>
     
@@ -28,11 +42,11 @@ public class OptionalFilterBuilder {
         return facetFilterBuilder[group]
     }
     
-    public func build() -> [Any]? {
+    public func build() -> [Output]? {
         
         guard !facetFilterBuilder.isEmpty else { return nil }
         
-        var result: [Any] = []
+        var result: [Output] = []
         
         facetFilterBuilder.groups.keys.sorted {
             $0.name != $1.name ? $0.name < $1.name : $0.isConjunctive
@@ -41,13 +55,21 @@ public class OptionalFilterBuilder {
                 .sorted { $0.expression < $1.expression }
                 .map { $0.build(ignoringInversion: true) }
             if group.isConjunctive || filtersExpressionForGroup.count == 1 {
-                result.append(contentsOf: filtersExpressionForGroup)
+                filtersExpressionForGroup.forEach { result.append(.singleton($0)) }
             } else {
-                result.append(filtersExpressionForGroup)
+                result.append(.union(filtersExpressionForGroup))
             }
         }
         
         return result
+    }
+    
+}
+
+extension Sequence where Element == OptionalFilterBuilder.Output {
+    
+    var rawValue: [Any] {
+        return self.map { $0.rawValue }
     }
     
 }
