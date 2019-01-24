@@ -8,8 +8,14 @@
 
 import Foundation
 
+/// Convenient builder of optional filters
+/// For better understanding of optional filters, please read the documentation linked below:
+/// [Documentation](https:www.algolia.com/doc/api-reference/api-parameters/optionalFilters/)
+
 public class OptionalFilterBuilder {
     
+    /// Type representing the output array unit type
+    /// Either a string (a part of conjunction), or a list of string (disjunction of filters)
     public enum Output {
         case singleton(String)
         case union([String])
@@ -42,6 +48,8 @@ public class OptionalFilterBuilder {
         return facetFilterBuilder[group]
     }
     
+    /// Constructs intermediate representation of optional filters
+    /// The raw representation can be accessed using `rawValue` computed variable.
     public func build() -> [Output]? {
         
         guard !facetFilterBuilder.isEmpty else { return nil }

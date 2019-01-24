@@ -8,6 +8,8 @@
 
 import Foundation
 
+/// Representation of disjunctive group of filters
+
 public struct OrFilterGroup<T: Filter>: FilterGroup {
     public let name: String
     

@@ -8,7 +8,10 @@
 
 import Foundation
 
+/// Wrapper for filter attribute name
+
 public struct Attribute: CustomStringConvertible, Hashable, ExpressibleByStringLiteral {
+    
     public typealias StringLiteralType = String
     
     var name: String
@@ -21,7 +24,10 @@ public struct Attribute: CustomStringConvertible, Hashable, ExpressibleByStringL
         self.name = name
     }
 
-    public var description: String { return name }
+    public var description: String {
+        return name
+    }
+    
 }
 
 extension Attribute {

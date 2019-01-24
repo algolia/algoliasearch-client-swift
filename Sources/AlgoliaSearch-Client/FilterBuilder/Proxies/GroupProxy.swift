@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// Group proxy provides a specific type-safe interface for FilterBuilder specialized for a concrete group
 internal protocol GroupProxy {
     var filterBuilder: FilterBuilder { get }
     var group: AnyFilterGroup { get }

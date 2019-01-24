@@ -542,12 +542,12 @@ class FilterBuilderTests: XCTestCase {
             +++ ("color", "green")
             +++ ("color", "blue")
         
-        XCTAssertEqual(filterBuilder.disjunctiveFacetsAttributes(), ["color"])
+        XCTAssertEqual(filterBuilder.getDisjunctiveFacetsAttributes(), ["color"])
         
         filterBuilder[.or("g2")]
             +++ ("country", "france")
         
-        XCTAssertEqual(filterBuilder.disjunctiveFacetsAttributes(), ["color", "country"])
+        XCTAssertEqual(filterBuilder.getDisjunctiveFacetsAttributes(), ["color", "country"])
 
         filterBuilder[.or("g2")]
             +++ ("country", "uk")
@@ -555,30 +555,30 @@ class FilterBuilderTests: XCTestCase {
         filterBuilder[.or("g2")]
             +++ ("size", 40)
         
-        XCTAssertEqual(filterBuilder.disjunctiveFacetsAttributes(), ["color", "country", "size"])
+        XCTAssertEqual(filterBuilder.getDisjunctiveFacetsAttributes(), ["color", "country", "size"])
         
         filterBuilder[.and("g3")]
             +++ ("price", .greaterThan, 50)
             +++ ("featured", true)
         
-        XCTAssertEqual(filterBuilder.disjunctiveFacetsAttributes(), ["color", "country", "size"])
+        XCTAssertEqual(filterBuilder.getDisjunctiveFacetsAttributes(), ["color", "country", "size"])
 
         filterBuilder[.and("g3")]
             +++ ("price", .lessThan, 100)
         
-        XCTAssertEqual(filterBuilder.disjunctiveFacetsAttributes(), ["color", "country", "size"])
+        XCTAssertEqual(filterBuilder.getDisjunctiveFacetsAttributes(), ["color", "country", "size"])
         
         filterBuilder[.or("g2")]
             +++ ("size", 42)
         
-        XCTAssertEqual(filterBuilder.disjunctiveFacetsAttributes(), ["color", "country", "size"])
+        XCTAssertEqual(filterBuilder.getDisjunctiveFacetsAttributes(), ["color", "country", "size"])
         
         filterBuilder[.or("g1")]
             --- ("color", "red")
             --- ("color", "green")
             --- ("color", "blue")
         
-        XCTAssertEqual(filterBuilder.disjunctiveFacetsAttributes(), ["country", "size"])
+        XCTAssertEqual(filterBuilder.getDisjunctiveFacetsAttributes(), ["country", "size"])
 
     }
     
@@ -591,25 +591,25 @@ class FilterBuilderTests: XCTestCase {
             +++ ("color", "green")
             +++ ("color", "blue")
         
-        XCTAssertEqual(filterBuilder.refinements()["color"], ["red", "green", "blue"])
+        XCTAssertEqual(filterBuilder.getRawFacetFilters()["color"], ["red", "green", "blue"])
 
         filterBuilder[.or("g2")]
             +++ ("country", "france")
 
-        XCTAssertEqual(filterBuilder.refinements()["color"], ["red", "green", "blue"])
-        XCTAssertEqual(filterBuilder.refinements()["country"], ["france"])
+        XCTAssertEqual(filterBuilder.getRawFacetFilters()["color"], ["red", "green", "blue"])
+        XCTAssertEqual(filterBuilder.getRawFacetFilters()["country"], ["france"])
         
         filterBuilder[.and("g3")]
             +++ ("country", "uk")
         
-        XCTAssertEqual(filterBuilder.refinements()["color"], ["red", "green", "blue"])
-        XCTAssertEqual(filterBuilder.refinements()["country"], ["france", "uk"])
+        XCTAssertEqual(filterBuilder.getRawFacetFilters()["color"], ["red", "green", "blue"])
+        XCTAssertEqual(filterBuilder.getRawFacetFilters()["country"].flatMap(Set.init), Set(["france", "uk"]))
 
         filterBuilder[.or("g1")]
             --- ("color", "green")
 
-        XCTAssertEqual(filterBuilder.refinements()["color"], ["red", "blue"])
-        XCTAssertEqual(filterBuilder.refinements()["country"], ["france", "uk"])
+        XCTAssertEqual(filterBuilder.getRawFacetFilters()["color"], ["red", "blue"])
+        XCTAssertEqual(filterBuilder.getRawFacetFilters()["country"].flatMap(Set.init), Set(["france", "uk"]))
 
     }
     

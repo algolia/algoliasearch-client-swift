@@ -8,15 +8,28 @@
 
 import Foundation
 
+/// Abstract filter protocol
 public protocol Filter: Hashable {
 
+    /// Identifier of field affected by filter
     var attribute: Attribute { get }
+    
+    /// A Boolean value indicating whether filter is inverted
     var isInverted: Bool { get set }
 
+    /// String representation of filter excluding negation
     var expression: String { get }
-
+    
+    /// Replaces isInverted property by a new value
+    /// parameter value: new value of isInverted
     mutating func not(value: Bool)
+    
+    /// Returns string representation of filter
+    /// - parameter ignoringInversion: if set to true, ignores filter negation
     func build(ignoringInversion: Bool) -> String
+    
+    /// Returns the same filter with attribute replaced by a provided one
+    /// - parameter attribute: attribute replacement
     func replacingAttribute(by attribute: Attribute) -> Self
 }
 

@@ -8,6 +8,8 @@
 
 import Foundation
 
+/// Representation of conjunctive group of filters
+
 public struct AndFilterGroup: FilterGroup {
     public let name: String
     

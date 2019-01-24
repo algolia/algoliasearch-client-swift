@@ -8,6 +8,9 @@
 
 import Foundation
 
+/// Defines facet filter
+///[Filter by string](https:www.algolia.com/doc/guides/managing-results/refine-results/filtering/how-to/filter-by-string/)
+///[Filter by boolean](https:www.algolia.com/doc/guides/managing-results/refine-results/filtering/how-to/filter-by-boolean/)
 public struct FilterFacet: Filter, Hashable {
     
     public let attribute: Attribute
