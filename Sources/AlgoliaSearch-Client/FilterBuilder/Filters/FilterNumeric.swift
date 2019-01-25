@@ -17,6 +17,15 @@ public struct FilterNumeric: Filter, Hashable {
         case comparison(NumericOperator, Float)
     }
     
+    public enum NumericOperator: String {
+        case lessThan = "<"
+        case lessThanOrEqual = "<="
+        case equals = "="
+        case notEquals = "!="
+        case greaterThanOrEqual = ">="
+        case greaterThan = ">"
+    }
+    
     public let attribute: Attribute
     public let value: ValueType
     public var isInverted: Bool

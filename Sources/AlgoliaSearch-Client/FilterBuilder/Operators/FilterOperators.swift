@@ -9,7 +9,7 @@
 import Foundation
 
 public typealias FacetTuple = (Attribute, FilterFacet.ValueType)
-public typealias ComparisonTuple = (Attribute, NumericOperator, Float)
+public typealias ComparisonTuple = (Attribute, FilterNumeric.NumericOperator, Float)
 public typealias RangeTuple = (Attribute, ClosedRange<Float>)
 
 precedencegroup FilterGroupPrecedence {

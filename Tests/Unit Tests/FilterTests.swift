@@ -45,7 +45,7 @@ class FilterTests: XCTestCase {
     func testFilterNumericComparisonConstruction() {
         let attribute: Attribute = "a"
         let value: Float = 10
-        let op: NumericOperator = .equals
+        let op: FilterNumeric.NumericOperator = .equals
         let expectedExpression = """
         "\(attribute)" \(op.rawValue) \(value)
         """
