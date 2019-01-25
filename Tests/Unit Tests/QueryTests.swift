@@ -749,9 +749,10 @@ class QueryTests: XCTestCase {
   }
     
   func test_OptionalFiltersViaFilterbuilder() {
-    let expectedOptionalFilters = ["\"author\":\"Victor Hugo\"", "\"category\":\"toy\""]
+    let expectedOptionalFilters = ["\"author\":\"Victor Hugo\"", "\"category\":\"book\""]
     let query = Query()
-    query.optionalFilterBuilder[.and("a")] +++ ("category", "toy") +++ ("author", "Victor Hugo")
+    query.optionalFilterBuilder[.and("a")] +++ ("category", "book") +++ ("author", "Victor Hugo")
+//    print(query.optionalFilters)
     XCTAssertEqual(query.optionalFilters?.compactMap { $0 as? String }, expectedOptionalFilters)
     XCTAssertEqual(query["optionalFilters"], nil)
   }

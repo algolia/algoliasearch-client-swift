@@ -591,24 +591,24 @@ class FilterBuilderTests: XCTestCase {
             +++ ("color", "green")
             +++ ("color", "blue")
         
-        XCTAssertEqual(filterBuilder.getRawFacetFilters()["color"], ["red", "green", "blue"])
+        XCTAssertEqual(filterBuilder.getRawFacetFilters()["color"].flatMap(Set.init), Set(["red", "green", "blue"]))
 
         filterBuilder[.or("g2")]
             +++ ("country", "france")
 
-        XCTAssertEqual(filterBuilder.getRawFacetFilters()["color"], ["red", "green", "blue"])
+        XCTAssertEqual(filterBuilder.getRawFacetFilters()["color"].flatMap(Set.init), Set(["red", "green", "blue"]))
         XCTAssertEqual(filterBuilder.getRawFacetFilters()["country"], ["france"])
         
         filterBuilder[.and("g3")]
             +++ ("country", "uk")
         
-        XCTAssertEqual(filterBuilder.getRawFacetFilters()["color"], ["red", "green", "blue"])
+        XCTAssertEqual(filterBuilder.getRawFacetFilters()["color"].flatMap(Set.init), Set(["red", "green", "blue"]))
         XCTAssertEqual(filterBuilder.getRawFacetFilters()["country"].flatMap(Set.init), Set(["france", "uk"]))
 
         filterBuilder[.or("g1")]
             --- ("color", "green")
 
-        XCTAssertEqual(filterBuilder.getRawFacetFilters()["color"], ["red", "blue"])
+        XCTAssertEqual(filterBuilder.getRawFacetFilters()["color"].flatMap(Set.init), Set(["red", "blue"]))
         XCTAssertEqual(filterBuilder.getRawFacetFilters()["country"].flatMap(Set.init), Set(["france", "uk"]))
 
     }

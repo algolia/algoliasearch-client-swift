@@ -812,7 +812,7 @@ open class Query: AbstractQuery {
         if let manuallySetFilters = Query.parseJSONArray(self["optionalFilters"]) {
             return manuallySetFilters
         } else {
-            return optionalFilterBuilder.build()
+            return optionalFilterBuilder.build()?.rawValue
         }
     }
     set { self["optionalFilters"] = Query.buildJSONArray(newValue) }
