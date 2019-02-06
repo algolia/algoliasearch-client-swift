@@ -107,7 +107,8 @@ public struct OrGroupProxy<T: Filter>: GroupProxy {
     /// Constructs a string representation of filters in group
     /// If group is empty returns nil
     /// - parameter ignoringInversion: if set to true, ignores any filter negation
-    public func build(ignoringInversion: Bool = false) -> String {
+    /// - # Example of generated string: ("A":"V1" OR "B":"11" OR "C":"true")
+    public func build(ignoringInversion: Bool = false) -> String? {
         return filterBuilder.build(group, ignoringInversion: ignoringInversion)
     }
     

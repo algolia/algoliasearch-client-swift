@@ -109,9 +109,11 @@ public class FilterBuilder {
         }
     }
 
-    func build(_ group: AnyFilterGroup, ignoringInversion: Bool) -> String {
+    func build(_ group: AnyFilterGroup, ignoringInversion: Bool) -> String? {
         
-        let filters = groups[group] ?? []
+        guard let filters = groups[group], !filters.isEmpty else {
+            return nil
+        }
         
         let sortedFiltersExpressions = filters
             .sorted { $0.expression < $1.expression }
@@ -217,6 +219,7 @@ public extension FilterBuilder {
     /// If FilterBuilder is empty returns nil
     /// - parameter ignoringInversion: if set to true, ignores any filter negation
     func build(ignoringInversion: Bool = false) -> String? {
+    /// - # Example of generated string: ("A":"V1" OR "B":"11" OR "C":"true") AND "_tags":"T1" AND "D":5 TO 10
         guard !isEmpty else { return nil }
         return groups
             .keys
@@ -225,7 +228,7 @@ public extension FilterBuilder {
                 ? $0.name < $1.name
                 : $0.isConjunctive
             }
-            .map { build($0, ignoringInversion: ignoringInversion) }
+            .compactMap { build($0, ignoringInversion: ignoringInversion) }
             .joined(separator: " AND ")
     }
     

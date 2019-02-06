@@ -109,7 +109,8 @@ public struct AndGroupProxy: GroupProxy {
     /// Constructs a string representation of filters in group
     /// If group is empty returns nil
     /// - parameter ignoringInversion: if set to true, ignores any filter negation
-    public func build(ignoringInversion: Bool = false) -> String {
+    /// - # Example of generated string: "A":"V1" AND "B":"11" AND "C":"true"
+    public func build(ignoringInversion: Bool = false) -> String? {
         return filterBuilder.build(group, ignoringInversion: ignoringInversion)
     }
 
