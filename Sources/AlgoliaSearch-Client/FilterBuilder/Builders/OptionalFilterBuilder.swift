@@ -8,9 +8,10 @@
 
 import Foundation
 
-/// Convenient builder of optional filters
-/// For better understanding of optional filters, please read the documentation linked below:
-/// [Documentation](https:www.algolia.com/doc/api-reference/api-parameters/optionalFilters/)
+/** Convenient builder of optional filters
+ # See also:
+ [Reference](https:www.algolia.com/doc/api-reference/api-parameters/optionalFilters/)
+*/
 
 public class OptionalFilterBuilder {
     

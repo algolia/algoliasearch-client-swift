@@ -8,9 +8,10 @@
 
 import Foundation
 
-/// Convenient builder of query filters
-/// For better understanding of filters, please read the documentation linked below:
-/// [Documentation](https:www.algolia.com/doc/api-reference/api-parameters/filters/)
+/** Convenient builder of query filters
+ # See also:
+ [Reference](https:www.algolia.com/doc/api-reference/api-parameters/filters/)
+*/
 
 public class FilterBuilder {
     

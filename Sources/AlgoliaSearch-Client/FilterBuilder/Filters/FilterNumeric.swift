@@ -8,8 +8,10 @@
 
 import Foundation
 
-/// Defines filter representing a numeric relation or a range
-///[Documentation](https:www.algolia.com/doc/guides/managing-results/refine-results/filtering/how-to/filter-by-numeric-value/)
+/** Defines filter representing a numeric relation or a range
+ # See also:
+ [Reference](https:www.algolia.com/doc/guides/managing-results/refine-results/filtering/how-to/filter-by-numeric-value/)
+*/
 public struct FilterNumeric: Filter, Hashable {
     
     public enum ValueType: Hashable {

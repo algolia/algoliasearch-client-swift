@@ -8,8 +8,10 @@
 
 import Foundation
 
-/// Defines tag filter
-///[Documentation](https:www.algolia.com/doc/guides/managing-results/refine-results/filtering/how-to/filter-by-tags/)
+/** Defines tag filter
+ # See also:
+ [Reference](https:www.algolia.com/doc/guides/managing-results/refine-results/filtering/how-to/filter-by-tags/)
+*/
 public struct FilterTag: Filter, Hashable, ExpressibleByStringLiteral {
     public typealias StringLiteralType = String
     
