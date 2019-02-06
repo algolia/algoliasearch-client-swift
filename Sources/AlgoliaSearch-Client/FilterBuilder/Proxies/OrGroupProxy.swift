@@ -15,6 +15,7 @@ public struct OrGroupProxy<T: Filter>: GroupProxy {
     let filterBuilder: FilterBuilder
     let group: AnyFilterGroup
     
+    /// A Boolean value indicating whether group contains at least on filter
     public var isEmpty: Bool {
         if let filtersForGroup = filterBuilder.groups[group] {
             return filtersForGroup.isEmpty
