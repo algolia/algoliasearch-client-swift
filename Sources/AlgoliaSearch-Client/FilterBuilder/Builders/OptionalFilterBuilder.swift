@@ -17,14 +17,14 @@ public class OptionalFilterBuilder {
     /// Type representing the output array unit type
     /// Either a string (a part of conjunction), or a list of string (disjunction of filters)
     public enum Output {
-        case singleton(String)
-        case union([String])
+        case single(String)
+        case list([String])
         
         var rawValue: Any {
             switch self {
-            case .singleton(let element):
+            case .single(let element):
                 return element
-            case .union(let elements):
+            case .list(let elements):
                 return elements
             }
         }
@@ -63,9 +63,9 @@ public class OptionalFilterBuilder {
                 .sorted { $0.expression < $1.expression }
                 .map { $0.build(ignoringInversion: true) }
             if group.isConjunctive || filtersExpressionForGroup.count == 1 {
-                filtersExpressionForGroup.forEach { result.append(.singleton($0)) }
+                filtersExpressionForGroup.forEach { result.append(.single($0)) }
             } else {
-                result.append(.union(filtersExpressionForGroup))
+                result.append(.list(filtersExpressionForGroup))
             }
         }
         
