@@ -76,6 +76,11 @@
 		AF4B577E21F793BF00C01A11 /* FilterBuilderGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4B577521F791ED00C01A11 /* FilterBuilderGroupTests.swift */; };
 		AF4B577F21F793C000C01A11 /* FilterBuilderGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4B577521F791ED00C01A11 /* FilterBuilderGroupTests.swift */; };
 		AF4B578021F793C000C01A11 /* FilterBuilderGroupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF4B577521F791ED00C01A11 /* FilterBuilderGroupTests.swift */; };
+		AF755FD1220AEAD8008C5DDF /* AbstractClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF755FD0220AEAD8008C5DDF /* AbstractClass.swift */; };
+		AF755FD2220AEAD8008C5DDF /* AbstractClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF755FD0220AEAD8008C5DDF /* AbstractClass.swift */; };
+		AF755FD3220AEAD8008C5DDF /* AbstractClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF755FD0220AEAD8008C5DDF /* AbstractClass.swift */; };
+		AF755FD4220AEAD8008C5DDF /* AbstractClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF755FD0220AEAD8008C5DDF /* AbstractClass.swift */; };
+		AF755FD5220AEAD8008C5DDF /* AbstractClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF755FD0220AEAD8008C5DDF /* AbstractClass.swift */; };
 		AFB9776721CD397400094E1E /* FilterOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776621CD397400094E1E /* FilterOperators.swift */; };
 		AFB9776821CD3CAA00094E1E /* FilterOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776621CD397400094E1E /* FilterOperators.swift */; };
 		AFB9776921CD3CAB00094E1E /* FilterOperators.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFB9776621CD397400094E1E /* FilterOperators.swift */; };
@@ -353,6 +358,7 @@
 		AF4B576421F603F900C01A11 /* OrGroupOperators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrGroupOperators.swift; sourceTree = "<group>"; };
 		AF4B577521F791ED00C01A11 /* FilterBuilderGroupTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterBuilderGroupTests.swift; sourceTree = "<group>"; };
 		AF4B577721F7922C00C01A11 /* FilterBuilderOperatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterBuilderOperatorTests.swift; sourceTree = "<group>"; };
+		AF755FD0220AEAD8008C5DDF /* AbstractClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AbstractClass.swift; sourceTree = "<group>"; };
 		AFB9776621CD397400094E1E /* FilterOperators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterOperators.swift; sourceTree = "<group>"; };
 		AFB9776C21D1127300094E1E /* OrGroupProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrGroupProxy.swift; sourceTree = "<group>"; };
 		AFB9776E21D1128000094E1E /* AndGroupProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AndGroupProxy.swift; sourceTree = "<group>"; };
@@ -706,6 +712,7 @@
 			children = (
 				E2CC9FFE21BA80E100B8516D /* FilterBuilder */,
 				BC4DDEEF1DD10E8B004D9A6E /* AbstractClient.swift */,
+				AF755FD0220AEAD8008C5DDF /* AbstractClass.swift */,
 				BC4DDF011DD11697004D9A6E /* AbstractQuery.swift */,
 				BC4A7F381CB5308100AF1DCB /* AsyncOperation.swift */,
 				5D67400E1B4AA22600B326EC /* Cache.swift */,
@@ -1314,6 +1321,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF755FD1220AEAD8008C5DDF /* AbstractClass.swift in Sources */,
 				BCC83C3E1F0E76BF002CD846 /* RequestOptions.swift in Sources */,
 				AFB9776D21D1127300094E1E /* OrGroupProxy.swift in Sources */,
 				AF3DD0B921ECE1E200797959 /* OrFilterGroup.swift in Sources */,
@@ -1388,6 +1396,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF755FD2220AEAD8008C5DDF /* AbstractClass.swift in Sources */,
 				BCC83C3F1F0E76BF002CD846 /* RequestOptions.swift in Sources */,
 				AFB9777021D1129E00094E1E /* OrGroupProxy.swift in Sources */,
 				AF3DD0BC21ECE20200797959 /* OrFilterGroup.swift in Sources */,
@@ -1462,6 +1471,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF755FD5220AEAD8008C5DDF /* AbstractClass.swift in Sources */,
 				BCC83C421F0E76BF002CD846 /* RequestOptions.swift in Sources */,
 				AFB9777321D112A400094E1E /* OrGroupProxy.swift in Sources */,
 				AF3DD0BF21ECE20600797959 /* OrFilterGroup.swift in Sources */,
@@ -1539,6 +1549,7 @@
 				BC4BD2961D54E50000170ECC /* MirrorSettings.swift in Sources */,
 				BC4DDEF31DD10E8B004D9A6E /* AbstractClient.swift in Sources */,
 				BC4BD2971D54E50000170ECC /* OfflineClient.swift in Sources */,
+				AF755FD4220AEAD8008C5DDF /* AbstractClass.swift in Sources */,
 				BC4DDEFF1DD11527004D9A6E /* PlacesClient.swift in Sources */,
 				BC4BD28A1D54E48900170ECC /* Index.swift in Sources */,
 				BC4BD28B1D54E48900170ECC /* Request.swift in Sources */,
@@ -1551,6 +1562,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF755FD3220AEAD8008C5DDF /* AbstractClass.swift in Sources */,
 				BCC83C401F0E76BF002CD846 /* RequestOptions.swift in Sources */,
 				AFB9777121D1129F00094E1E /* OrGroupProxy.swift in Sources */,
 				AF3DD0BD21ECE20300797959 /* OrFilterGroup.swift in Sources */,

@@ -16,31 +16,38 @@ public func ==<T: Filter>(lhs: OrFilterGroup<T>, rhs: OrFilterGroup<T>) -> Bool 
     return lhs.name == rhs.name && String(describing: lhs) == String(describing: rhs)
 }
 
-private class _AnyFilterGroupBase: FilterGroup {
+/**
+ As FilterGroup protocol inherits Hashable protocol, it cannot be used as a type, but only as a type constraint.
+ For the purpose of workaround it, a type-erased wrapper AnyFilterGroup is introduced.
+ You can find more information about type erasure here:
+ https://www.bignerdranch.com/blog/breaking-down-type-erasures-in-swift/
+ */
+
+private class _AnyFilterGroupBase: AbstractClass, FilterGroup {
     
     var name: String {
-        fatalError("Must override")
+        callMustOverrideError()
     }
 
     func hash(into hasher: inout Hasher) {
-      fatalError("Must override")
+        callMustOverrideError()
     }
     
     init() {
         guard type(of: self) != _AnyFilterGroupBase.self else {
-            fatalError("_AnyFilterGroupBase instances can not be created; create a subclass instance instead")
+            impossibleInitError()
         }
     }
     
     static func == (lhs: _AnyFilterGroupBase, rhs: _AnyFilterGroupBase) -> Bool {
-        fatalError("Must override")
+        callMustOverrideError()
     }
     
 }
 
-fileprivate final class _AnyFilterGroupBox<Concrete: FilterGroup>: _AnyFilterGroupBase {
+private final class _AnyFilterGroupBox<Concrete: FilterGroup>: _AnyFilterGroupBase {
     
-    fileprivate var concrete: Concrete
+    var concrete: Concrete
 
     init(_ concrete: Concrete) {
         self.concrete = concrete

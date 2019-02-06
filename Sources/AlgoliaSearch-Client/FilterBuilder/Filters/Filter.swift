@@ -33,38 +33,44 @@ public protocol Filter: Hashable {
     func replacingAttribute(by attribute: Attribute) -> Self
 }
 
-private class _AnyFilterBase: Filter {
+/**
+ As Filter protocol inherits Hashable protocol, it cannot be used as a type, but only as a type constraint.
+ For the purpose of workaround it, a type-erased wrapper AnyFilter is introduced.
+ You can find more information about type erasure here:
+ https://www.bignerdranch.com/blog/breaking-down-type-erasures-in-swift/
+ */
+
+private class _AnyFilterBase: AbstractClass, Filter {
     
     var attribute: Attribute {
-        fatalError("Must override")
+        callMustOverrideError()
     }
     
     var isNegated: Bool {
-        get { fatalError("Must override") }
-        
-        set { fatalError("Must override") }
+        get { callMustOverrideError() }
+        set { callMustOverrideError() }
     }
     
     var expression: String {
-        fatalError("Must override")
+        callMustOverrideError()
     }
 
     func hash(into hasher: inout Hasher) {
-      fatalError("Must override")
+        callMustOverrideError()
     }
     
     init() {
         guard type(of: self) != _AnyFilterBase.self else {
-            fatalError("_AnyFilterBase instances can not be created; create a subclass instance instead")
+            impossibleInitError()
         }
     }
     
     func replacingAttribute(by attribute: Attribute) -> Self {
-        fatalError("Must override")
+        callMustOverrideError()
     }
     
     static func == (lhs: _AnyFilterBase, rhs: _AnyFilterBase) -> Bool {
-        fatalError("Must override")
+        callMustOverrideError()
     }
     
 }
