@@ -8,9 +8,11 @@
 
 import Foundation
 
-/// Defines facet filter
-///[Filter by string](https:www.algolia.com/doc/guides/managing-results/refine-results/filtering/how-to/filter-by-string/)
-///[Filter by boolean](https:www.algolia.com/doc/guides/managing-results/refine-results/filtering/how-to/filter-by-boolean/)
+/** Defines facet filter
+ # See also:
+ [Filter by string](https:www.algolia.com/doc/guides/managing-results/refine-results/filtering/how-to/filter-by-string/)
+ [Filter by boolean](https:www.algolia.com/doc/guides/managing-results/refine-results/filtering/how-to/filter-by-boolean/)
+*/
 public struct FilterFacet: Filter, Hashable {
     
     public let attribute: Attribute
@@ -73,9 +75,6 @@ extension FilterFacet: RawRepresentable {
 }
 
 extension FilterFacet {
-    
-    // TODO: The getter of valueType is a bit heavy, but we want to keep the context of the type used in the init (bool, float, string).
-    // Maybe use generics with restricted types.
     
     public enum ValueType: CustomStringConvertible, Hashable {
         
