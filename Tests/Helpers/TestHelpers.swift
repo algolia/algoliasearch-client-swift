@@ -12,17 +12,6 @@ import PromiseKit
 import XCTest
 
 extension OnlineTestCase {
-  func addObject(_ object: [String: Any]) -> Promise<[String: Any]> {
-    return promiseWrap({ fulfill, reject in
-      self.index.addObject(object, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
-    })
-  }
-
-  func addObjects(_ objects: [[String: Any]]) -> Promise<[String: Any]> {
-    return promiseWrap({ fulfill, reject in
-      self.index.addObjects(objects, completionHandler: completionWrap(fulfill: fulfill, reject: reject))
-    })
-  }
 
   func saveObject(_ object: [String: Any]) -> Promise<[String: Any]> {
     return promiseWrap({ fulfill, reject in

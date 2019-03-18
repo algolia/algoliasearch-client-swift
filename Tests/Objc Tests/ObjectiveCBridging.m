@@ -203,13 +203,11 @@
     // Operations
     // ----------
     NSDictionary<NSString*, id>* DUMMY_JSON = @{ @"objectID": @"snoopy", @"kind": @"dog" };
-    [index addObject:DUMMY_JSON completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+    [index saveObject:DUMMY_JSON completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
         // Do nothing.
     }];
-    [index addObject:DUMMY_JSON withID:@"snoopy" completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
-        // Do nothing.
-    }];
-    [index addObjects:@[ DUMMY_JSON ] completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
+  
+    [index saveObjects:@[ DUMMY_JSON ] completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {
         // Do nothing.
     }];
     [index saveObject:DUMMY_JSON completionHandler:^(NSDictionary<NSString*,id>* content, NSError* error) {

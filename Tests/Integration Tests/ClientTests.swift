@@ -36,7 +36,7 @@ class ClientTests: OnlineTestCase {
     }
 
     let promise = firstly {
-      self.addObject(mockObject)
+      self.saveObject(mockObject)
     }.then { object in
       self.waitTask(object)
     }.then { _ in
@@ -60,7 +60,7 @@ class ClientTests: OnlineTestCase {
     let dstIndex = client.index(withName: safeIndexName("algol?à-swift2"))
 
     let promise = firstly {
-      self.addObject(object)
+      self.saveObject(object)
     }.then { object in
       self.waitTask(object)
     }
@@ -100,7 +100,7 @@ class ClientTests: OnlineTestCase {
     let dstIndex = client.index(withName: safeIndexName("algol?à-swift2"))
 
     let promise = firstly {
-      self.addObject(object)
+      self.saveObject(object)
     }.then { object in
       self.waitTask(object)
     }
@@ -141,11 +141,11 @@ class ClientTests: OnlineTestCase {
 
   func testMultipleQueries() {
     let expectation = self.expectation(description: "testMultipleQueries")
-    let object = ["city": "San Francisco"]
+    let object = ["city": "San Francisco", "objectID": NSUUID().uuidString]
     let queries = [IndexQuery(index: self.index, query: Query())]
 
     let promise = firstly {
-      self.addObject(object)
+      self.saveObject(object)
     }.then { object in
       self.waitTask(object)
     }
@@ -170,7 +170,7 @@ class ClientTests: OnlineTestCase {
 
   func testMultipleQueries_stopIfEnoughMatches() {
     let expectation = self.expectation(description: "testMultipleQueries")
-    let object = ["city": "San Francisco"]
+    let object = ["city": "San Francisco", "objectID": NSUUID().uuidString]
     let query = Query()
     query.hitsPerPage = 1
     let queries = [
@@ -179,7 +179,7 @@ class ClientTests: OnlineTestCase {
     ]
 
     let promise = firstly {
-      self.addObject(object)
+      self.saveObject(object)
     }.then { object in
       self.waitTask(object)
     }
@@ -257,12 +257,12 @@ class ClientTests: OnlineTestCase {
       [
         "indexName": index.name,
         "action": "addObject",
-        "body": ["city": "San Francisco"],
+        "body": ["city": "San Francisco", "objectID": NSUUID().uuidString],
       ],
       [
         "indexName": index.name,
         "action": "addObject",
-        "body": ["city": "Paris"],
+        "body": ["city": "Paris", "objectID": NSUUID().uuidString],
       ],
     ]
 

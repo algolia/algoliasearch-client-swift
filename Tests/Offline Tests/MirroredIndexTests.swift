@@ -85,7 +85,7 @@ class MirroredIndexTests: OfflineTestCase {
       // Populate the online index.
       index.setSettings(self.settings) { content, error in
         XCTAssertNil(error)
-        index.addObjects(Array(self.moreObjects.values)) { content, error in
+        index.saveObjects(Array(self.moreObjects.values)) { content, error in
           guard let taskID = content?["taskID"] as? Int else { XCTFail(); return }
           index.waitTask(withID: taskID) { _, error in
             XCTAssertNil(error)

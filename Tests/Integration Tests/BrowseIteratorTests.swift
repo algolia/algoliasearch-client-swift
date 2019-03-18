@@ -34,11 +34,13 @@ class BrowseIteratorTests: OnlineTestCase {
     let expectation = self.expectation(description: "Add objects")
     var objects = [[String: Any]]()
     for i in 0 ... 1500 {
-      objects.append(["i": i])
+      objects.append(["i": i,
+                      "objectID": NSUUID().uuidString
+                      ])
     }
-    index.addObjects(objects) { (content, error) -> Void in
+    index.saveObjects(objects) { (content, error) -> Void in
       if error != nil {
-        XCTFail("Error during addObjects: \(error!)")
+        XCTFail("Error during saveObjects: \(error!)")
         expectation.fulfill()
       } else {
         self.index.waitTask(withID: content!["taskID"] as! Int) { (_, error) -> Void in
