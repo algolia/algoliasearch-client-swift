@@ -612,5 +612,26 @@ class FilterBuilderTests: XCTestCase {
         XCTAssertEqual(filterBuilder.getRawFacetFilters()["country"].flatMap(Set.init), Set(["france", "uk"]))
 
     }
+
+  func testFilterScoring() {
+
+    let filterBuilder = FilterBuilder()
+
+    let filterFacet1 = FilterFacet(attribute: Attribute("category"), value: "table", score: 5)
+    let filterFacet2 = FilterFacet(attribute: Attribute("category"), value: "chair", score: 10)
+
+    let groupFacets = OrFilterGroup<FilterFacet>(name: "filterFacets")
+
+    filterBuilder.add(filterFacet1, to: groupFacets)
+    filterBuilder.add(filterFacet2, to: groupFacets)
+
+    let expectedResult = """
+                                    ( "category":"chair<score=10>" OR "category":"table<score=5>" )
+                                    """
+
+    XCTAssertEqual(filterBuilder.build(), expectedResult)
+
+
+  }
     
 }

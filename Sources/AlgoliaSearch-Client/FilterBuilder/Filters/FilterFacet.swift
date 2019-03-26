@@ -16,15 +16,23 @@ public struct FilterFacet: Filter, Hashable {
     public let attribute: Attribute
     public let value: ValueType
     public var isNegated: Bool
+    public let score: Int?
     
     public let expression: String
     
-    public init(attribute: Attribute, value: ValueType, isNegated: Bool = false) {
+    public init(attribute: Attribute, value: ValueType, isNegated: Bool = false, score: Int? = nil) {
         self.attribute = attribute
         self.isNegated = isNegated
         self.value = value
+        self.score = score
+
+        var scoreExpression: String = ""
+        if let score = score {
+          scoreExpression = "<score=\(String(score))>"
+        }
+
         self.expression = """
-        "\(attribute)":"\(value)"
+        "\(attribute)":"\(value)\(scoreExpression)"
         """
     }
     
