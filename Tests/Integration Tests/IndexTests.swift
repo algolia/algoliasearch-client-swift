@@ -135,7 +135,7 @@ class IndexTests: OnlineTestCase {
       ["city": "New York", "objectID": "a/go/?à$"],
     ]
 
-    let mockObjectsIDs = mockObjects.flatMap { $0["objectID"] as? String }
+    let mockObjectsIDs = mockObjects.compactMap { $0["objectID"] as? String }
 
     let promise = firstly {
       self.addObjects(mockObjects)
@@ -195,12 +195,12 @@ class IndexTests: OnlineTestCase {
       ["city": "New York", "objectID": "a/go/?à$"],
     ]
 
-    let mockObjectsIds: [String] = mockObjects.flatMap({ $0["objectID"] as? String })
-    let mockObjectsValues: [String] = mockObjects.flatMap({ $0["city"] as? String })
+    let mockObjectsIds: [String] = mockObjects.compactMap({ $0["objectID"] as? String })
+    let mockObjectsValues: [String] = mockObjects.compactMap({ $0["city"] as? String })
 
     func assertSameCities(expected: [String], actual: [String: Any]) {
       let cityObjects = actual["results"] as? [[String: Any]]
-      guard let cities = cityObjects?.flatMap({ $0["city"] as? String }) else {
+      guard let cities = cityObjects?.compactMap({ $0["city"] as? String }) else {
         XCTFail("GetObjects return the wrong object")
         return
       }
@@ -232,8 +232,8 @@ class IndexTests: OnlineTestCase {
       ["objectID": "1", "name": "Snoopy", "kind": "dog"],
       ["objectID": "2", "name": "Woodstock", "kind": "bird"],
     ]
-    let mockObjectsIds: [String] = mockObjects.flatMap({ $0["objectID"] as? String })
-    let mockObjectsNames: [String] = mockObjects.flatMap({ $0["name"] as? String })
+    let mockObjectsIds: [String] = mockObjects.compactMap({ $0["objectID"] as? String })
+    let mockObjectsNames: [String] = mockObjects.compactMap({ $0["name"] as? String })
 
     let promise = firstly {
       self.addObjects(mockObjects)

@@ -15,7 +15,7 @@ target "AlgoliaSearch-Offline-iOS-Tests" do
 end
 
 def testing_pods
-  pod 'PromiseKit', '~> 4.4'
+  pod 'PromiseKit', '~> 4.4', :inhibit_warnings => true
 end
 
 target 'AlgoliaSearch iOS Tests' do
