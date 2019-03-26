@@ -26,63 +26,13 @@ import PromiseKit
 import XCTest
 
 class IndexTests: OnlineTestCase {
-  func testAdd() {
-    let expectation = self.expectation(description: #function)
-    let mockObject = ["city": "San Francisco"]
-
-    let promise = firstly {
-      self.addObject(mockObject)
-    }.then { object in
-      self.waitTask(object)
-    }.then { _ in
-      self.query()
-    }
-
-    promise.then { content in
-      self.getHitsCount(content)
-    }.then { hitsCount in
-      XCTAssertEqual(hitsCount, 1, "Wrong number of object in the index")
-    }.catch { error in
-      XCTFail("Error : \(error)")
-    }.always {
-      expectation.fulfill()
-    }
-    waitForExpectations(timeout: expectationTimeout, handler: nil)
-  }
-
-  func testAddObjects() {
-    let expectation = self.expectation(description: #function)
-    let mockObjects: [[String: Any]] = [
-      ["city": "San Francisco"],
-      ["city": "New York"],
-    ]
-
-    let promise = firstly {
-      self.addObjects(mockObjects)
-    }.then { object in
-      self.waitTask(object)
-    }.then { _ in
-      self.query()
-    }
-
-    promise.then { content in
-      self.getValuePromise(content, key: "nbHits")
-    }.then { hitsCount in
-      XCTAssertEqual(hitsCount, 2, "Wrong number of object in the index")
-    }.catch { error in
-      XCTFail("Error : \(error)")
-    }.always {
-      expectation.fulfill()
-    }
-    waitForExpectations(timeout: expectationTimeout, handler: nil)
-  }
 
   func testWaitTask() {
     let expectation = self.expectation(description: "testWaitTask")
     let mockObject = ["city": "Paris", "objectID": "a/go/?à"]
 
     let promise = firstly {
-      self.addObject(mockObject)
+      self.saveObject(mockObject)
     }.then { object in
       self.waitTask(object)
     }
@@ -104,7 +54,7 @@ class IndexTests: OnlineTestCase {
     let mockObject = ["city": "Las Vegas", "objectID": "a/go/?à"]
 
     let promise = firstly {
-      self.addObject(mockObject)
+      self.saveObject(mockObject)
     }.then { object in
       self.waitTask(object)
     }.then { _ in
@@ -138,7 +88,7 @@ class IndexTests: OnlineTestCase {
     let mockObjectsIDs = mockObjects.compactMap { $0["objectID"] as? String }
 
     let promise = firstly {
-      self.addObjects(mockObjects)
+      self.saveObjects(mockObjects)
     }.then { object in
       self.waitTask(object)
     }.then { _ in
@@ -168,7 +118,7 @@ class IndexTests: OnlineTestCase {
     let expectedCity = object["city"]!
 
     let promise = firstly {
-      self.addObject(object)
+      self.saveObject(object)
     }.then { object in
       self.waitTask(object)
     }.then { _ in
@@ -208,7 +158,7 @@ class IndexTests: OnlineTestCase {
     }
 
     let promise = firstly {
-      self.addObjects(mockObjects)
+      self.saveObjects(mockObjects)
     }.then { object in
       self.waitTask(object)
     }.then { _ in
@@ -236,7 +186,7 @@ class IndexTests: OnlineTestCase {
     let mockObjectsNames: [String] = mockObjects.compactMap({ $0["name"] as? String })
 
     let promise = firstly {
-      self.addObjects(mockObjects)
+      self.saveObjects(mockObjects)
     }.then { object in
       self.waitTask(object)
     }.then { _ in
@@ -268,7 +218,7 @@ class IndexTests: OnlineTestCase {
     let mockObject = ["city": "New York", "initial": "NY", "objectID": "a/go/?à"]
 
     var promise = firstly {
-      addObject(mockObject)
+      saveObject(mockObject)
     }.then { object in
       self.waitTask(object)
     }
@@ -365,7 +315,7 @@ class IndexTests: OnlineTestCase {
     ]
 
     let promise = firstly {
-      self.addObjects(objects)
+      self.saveObjects(objects)
     }.then { object in
       self.waitTask(object)
     }
@@ -493,7 +443,7 @@ class IndexTests: OnlineTestCase {
     }
 
     let promise = firstly {
-      self.addObject(mockObject)
+      self.saveObject(mockObject)
     }.then { object in
       self.waitTask(object)
     }.then { _ in
@@ -536,7 +486,7 @@ class IndexTests: OnlineTestCase {
     }
 
     let promise = firstly {
-      self.addObjects(mockObjects)
+      self.saveObjects(mockObjects)
     }.then { object in
       self.waitTask(object)
     }.then { _ in
@@ -565,7 +515,7 @@ class IndexTests: OnlineTestCase {
     let object: [String: Any] = ["city": "San Francisco", "objectID": "a/go/?à"]
 
     var promise = firstly {
-      addObject(object)
+      saveObject(object)
     }.then { object in
       self.waitTask(object)
     }
@@ -660,14 +610,14 @@ class IndexTests: OnlineTestCase {
     let expectation = self.expectation(description: "testBrowseWithQuery")
     var objects: [[String: Any]] = []
     for i in 0 ... 1500 {
-      objects.append(["i": i])
+      objects.append(["i": i, "objectID": NSUUID().uuidString])
     }
 
     let query = Query()
     query.hitsPerPage = 1000
 
     var promise = firstly {
-      addObjects(objects)
+      saveObjects(objects)
     }.then { object in
       self.waitTask(object)
     }
@@ -702,11 +652,11 @@ class IndexTests: OnlineTestCase {
     let actions: [[String: Any]] = [
       [
         "action": "addObject",
-        "body": ["city": "San Francisco"],
+        "body": ["city": "San Francisco", "objectID": NSUUID().uuidString],
       ],
       [
         "action": "addObject",
-        "body": ["city": "Paris"],
+        "body": ["city": "Paris", "objectID": NSUUID().uuidString],
       ],
     ]
 
@@ -735,13 +685,13 @@ class IndexTests: OnlineTestCase {
     let expectation = self.expectation(description: #function)
     var objects: [[String: Any]] = []
     for i in 0 ..< 3000 {
-      objects.append(["dummy": i])
+      objects.append(["dummy": i, "objectID": NSUUID().uuidString])
     }
     let query = Query()
     query.numericFilters = ["dummy < 1500"]
 
     var promise = firstly {
-      addObjects(objects)
+      saveObjects(objects)
     }.then { object in
       self.waitTask(object)
     }
@@ -772,13 +722,13 @@ class IndexTests: OnlineTestCase {
     let expectation = self.expectation(description: #function)
     var objects: [[String: Any]] = []
     for i in 0 ..< 3000 {
-      objects.append(["dummy": i])
+      objects.append(["dummy": i, "objectID": NSUUID().uuidString])
     }
     let query = Query(query: "")
     query.numericFilters = ["dummy < 1500"]
 
     var promise = firstly {
-      addObjects(objects)
+      saveObjects(objects)
     }.then { object in
       self.waitTask(object)
     }
@@ -812,14 +762,14 @@ class IndexTests: OnlineTestCase {
   func testSearchDisjunctiveFaceting() {
     let expectation = self.expectation(description: "testAddObjects")
     let objects: [[String: Any]] = [
-      ["name": "iPhone 6", "brand": "Apple", "category": "device", "stars": 4],
-      ["name": "iPhone 6 Plus", "brand": "Apple", "category": "device", "stars": 5],
-      ["name": "iPhone cover", "brand": "Apple", "category": "accessory", "stars": 3],
-      ["name": "Galaxy S5", "brand": "Samsung", "category": "device", "stars": 4],
-      ["name": "Wonder Phone", "brand": "Samsung", "category": "device", "stars": 5],
-      ["name": "Platinum Phone Cover", "brand": "Samsung", "category": "accessory", "stars": 2],
-      ["name": "Lame Phone", "brand": "Whatever", "category": "device", "stars": 1],
-      ["name": "Lame Phone cover", "brand": "Whatever", "category": "accessory", "stars": 1],
+      ["name": "iPhone 6", "brand": "Apple", "category": "device", "stars": 4, "objectID": NSUUID().uuidString],
+      ["name": "iPhone 6 Plus", "brand": "Apple", "category": "device", "stars": 5, "objectID": NSUUID().uuidString],
+      ["name": "iPhone cover", "brand": "Apple", "category": "accessory", "stars": 3, "objectID": NSUUID().uuidString],
+      ["name": "Galaxy S5", "brand": "Samsung", "category": "device", "stars": 4, "objectID": NSUUID().uuidString],
+      ["name": "Wonder Phone", "brand": "Samsung", "category": "device", "stars": 5, "objectID": NSUUID().uuidString],
+      ["name": "Platinum Phone Cover", "brand": "Samsung", "category": "accessory", "stars": 2, "objectID": NSUUID().uuidString],
+      ["name": "Lame Phone", "brand": "Whatever", "category": "device", "stars": 1, "objectID": NSUUID().uuidString],
+      ["name": "Lame Phone cover", "brand": "Whatever", "category": "accessory", "stars": 1, "objectID": NSUUID().uuidString],
     ]
     let disjunctiveFacets = ["brand"]
     let refinements = [
@@ -836,7 +786,7 @@ class IndexTests: OnlineTestCase {
     }
 
     let promise2 = promise.then { _ in
-      self.addObjects(objects)
+      self.saveObjects(objects)
     }.then { object in
       self.waitTask(object)
     }
@@ -875,11 +825,11 @@ class IndexTests: OnlineTestCase {
     let expectation = self.expectation(description: #function)
 
     let objects: [[String: Any]] = [
-      ["name": "Hotel A", "stars": "*", "facilities": ["wifi", "bath", "spa"], "city": "Paris"],
-      ["name": "Hotel B", "stars": "*", "facilities": ["wifi"], "city": "Paris"],
-      ["name": "Hotel C", "stars": "**", "facilities": ["bath"], "city": "San Fancisco"],
-      ["name": "Hotel D", "stars": "****", "facilities": ["spa"], "city": "Paris"],
-      ["name": "Hotel E", "stars": "****", "facilities": ["spa"], "city": "New York"],
+      ["name": "Hotel A", "stars": "*", "facilities": ["wifi", "bath", "spa"], "city": "Paris", "objectID": NSUUID().uuidString],
+      ["name": "Hotel B", "stars": "*", "facilities": ["wifi"], "city": "Paris", "objectID": NSUUID().uuidString],
+      ["name": "Hotel C", "stars": "**", "facilities": ["bath"], "city": "San Fancisco", "objectID": NSUUID().uuidString],
+      ["name": "Hotel D", "stars": "****", "facilities": ["spa"], "city": "Paris", "objectID": NSUUID().uuidString],
+      ["name": "Hotel E", "stars": "****", "facilities": ["spa"], "city": "New York", "objectID": NSUUID().uuidString],
     ]
     let query = Query(query: "h")
     query.facets = ["city"]
@@ -893,7 +843,7 @@ class IndexTests: OnlineTestCase {
     }
 
     let promise2 = promise.then { _ in
-      self.addObjects(objects)
+      self.saveObjects(objects)
     }.then(execute: { (object) -> (Promise<[String: Any]>) in
       print("hi")
       return self.waitTask(object)
@@ -1014,10 +964,10 @@ class IndexTests: OnlineTestCase {
 
   func testMultipleQueries() {
     let expectation = self.expectation(description: #function)
-    let object = ["city": "San Francisco"]
+    let object = ["city": "San Francisco", "objectID": NSUUID().uuidString]
 
     let promise = firstly {
-      self.addObject(object)
+      self.saveObject(object)
     }.then { object in
       self.waitTask(object)
     }
@@ -1042,8 +992,8 @@ class IndexTests: OnlineTestCase {
   func testSearchCache() {
     let expectation = self.expectation(description: #function)
     let objects: [[String: Any]] = [
-      ["city": "San Francisco"],
-      ["city": "New York"],
+      ["city": "San Francisco", "objectID": NSUUID().uuidString],
+      ["city": "New York", "objectID": NSUUID().uuidString],
     ]
     var firstResponse: [String: Any]!
 
@@ -1052,7 +1002,7 @@ class IndexTests: OnlineTestCase {
     index.searchCacheExpiringTimeInterval = timeout
 
     var promise = firstly {
-      addObjects(objects)
+      saveObjects(objects)
     }.then { object in
       self.waitTask(object)
     }
@@ -1150,7 +1100,7 @@ class IndexTests: OnlineTestCase {
     }
 
     let promise2 = promise.then { _ in
-      self.addObjects(Array(objects.values))
+      self.saveObjects(Array(objects.values))
     }.then { object in
       self.waitTask(object)
     }

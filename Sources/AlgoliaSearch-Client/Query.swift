@@ -208,6 +208,12 @@ open class Query: AbstractQuery {
     get { return Query.parseBool(self["clickAnalytics"]) }
     set { self["clickAnalytics"] = Query.buildBool(newValue) }
   }
+  
+  /// If set to false, this query will not be taken into account for the Personalization.
+  public var enablePersonalization: Bool? {
+    get { return Query.parseBool(self["enablePersonalization"]) }
+    set { self["enablePersonalization"] = Query.buildBool(newValue) }
+  }
 
   /// If set, tag your query with the specified identifiers. Tags can then be used in the Analytics to analyze a
   /// subset of searches only.
@@ -966,6 +972,12 @@ open class Query: AbstractQuery {
   public var z_objc_clickAnalytics: NSNumber? {
     get { return AbstractQuery.toNumber(clickAnalytics) }
     set { clickAnalytics = newValue?.boolValue }
+  }
+  
+  @objc(enablePersonalization)
+  public var z_objc_enablePersonalization: NSNumber? {
+    get { return AbstractQuery.toNumber(enablePersonalization) }
+    set { enablePersonalization = newValue?.boolValue }
   }
 
   @objc(synonyms)
