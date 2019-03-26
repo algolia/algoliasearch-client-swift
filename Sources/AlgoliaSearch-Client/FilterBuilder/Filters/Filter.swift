@@ -15,13 +15,13 @@ public protocol Filter: Hashable {
     var attribute: Attribute { get }
     
     /// A Boolean value indicating whether filter is inverted
-    var isInverted: Bool { get set }
+    var isNegated: Bool { get set }
 
     /// String representation of filter excluding negation
     var expression: String { get }
     
-    /// Replaces isInverted property by a new value
-    /// parameter value: new value of isInverted
+    /// Replaces isNegated property by a new value
+    /// parameter value: new value of isNegated
     mutating func not(value: Bool)
     
     /// Returns string representation of filter
@@ -39,7 +39,7 @@ private class _AnyFilterBase: Filter {
         fatalError("Must override")
     }
     
-    var isInverted: Bool {
+    var isNegated: Bool {
         get { fatalError("Must override") }
         
         set { fatalError("Must override") }
@@ -81,9 +81,9 @@ private final class _AnyFilterBox<Concrete: Filter>: _AnyFilterBase {
         return concrete.attribute
     }
     
-    override var isInverted: Bool {
-        get { return concrete.isInverted }
-        set { concrete.isInverted = newValue }
+    override var isNegated: Bool {
+        get { return concrete.isNegated }
+        set { concrete.isNegated = newValue }
     }
     
     override var expression: String {
@@ -116,9 +116,9 @@ final class AnyFilter: Filter {
         return box.attribute
     }
     
-    var isInverted: Bool {
-        get { return box.isInverted }
-        set { box.isInverted = newValue }
+    var isNegated: Bool {
+        get { return box.isNegated }
+        set { box.isNegated = newValue }
     }
     
     var expression: String {
@@ -145,7 +145,7 @@ final class AnyFilter: Filter {
 
 extension Filter {
     public func build(ignoringInversion: Bool = false) -> String {
-        if !isInverted || ignoringInversion {
+        if !isNegated || ignoringInversion {
             return expression
         } else {
             return "NOT \(expression)"
@@ -153,6 +153,6 @@ extension Filter {
     }
 
     public mutating func not(value: Bool = true) {
-        isInverted = value
+        isNegated = value
     }
 }

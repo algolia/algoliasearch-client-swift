@@ -23,6 +23,6 @@ infix operator <>: FilterGroupPrecedence
 
 @discardableResult public prefix func ! <T: Filter>(f: T) -> T {
     var mutableFilterCopy = f
-    mutableFilterCopy.not(value: !f.isInverted)
+    mutableFilterCopy.not(value: !f.isNegated)
     return mutableFilterCopy
 }

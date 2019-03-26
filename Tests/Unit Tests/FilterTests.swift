@@ -33,11 +33,11 @@ class FilterTests: XCTestCase {
         XCTAssertEqual(facetFilter.attribute, attribute)
         XCTAssertEqual(facetFilter.expression, expectedExpression)
         XCTAssertEqual(facetFilter.build(), expectedExpression)
-        XCTAssertFalse(facetFilter.isInverted)
+        XCTAssertFalse(facetFilter.isNegated)
         XCTAssertEqual(facetFilter.value, value)
         // Test inversion
         facetFilter.not()
-        XCTAssertTrue(facetFilter.isInverted)
+        XCTAssertTrue(facetFilter.isNegated)
         XCTAssertEqual(facetFilter.build(), "NOT \(expectedExpression)")
     }
     
@@ -53,10 +53,10 @@ class FilterTests: XCTestCase {
         XCTAssertEqual(numericFilter.attribute, attribute)
         XCTAssertEqual(numericFilter.expression, expectedExpression)
         XCTAssertEqual(numericFilter.build(), expectedExpression)
-        XCTAssertFalse(numericFilter.isInverted)
+        XCTAssertFalse(numericFilter.isNegated)
         // Test inversion
         numericFilter.not()
-        XCTAssertTrue(numericFilter.isInverted)
+        XCTAssertTrue(numericFilter.isNegated)
         XCTAssertEqual(numericFilter.build(), "NOT \(expectedExpression)")
     }
     
@@ -70,10 +70,10 @@ class FilterTests: XCTestCase {
         XCTAssertEqual(numericFilter.attribute, attribute)
         XCTAssertEqual(numericFilter.expression, expectedExpression)
         XCTAssertEqual(numericFilter.build(), expectedExpression)
-        XCTAssertFalse(numericFilter.isInverted)
+        XCTAssertFalse(numericFilter.isNegated)
         // Test inversion
         numericFilter.not()
-        XCTAssertTrue(numericFilter.isInverted)
+        XCTAssertTrue(numericFilter.isNegated)
         XCTAssertEqual(numericFilter.build(), "NOT \(expectedExpression)")
     }
     
@@ -87,44 +87,44 @@ class FilterTests: XCTestCase {
         XCTAssertEqual(tagFilter.attribute, attribute)
         XCTAssertEqual(tagFilter.expression, expectedExpression)
         XCTAssertEqual(tagFilter.build(), expectedExpression)
-        XCTAssertFalse(tagFilter.isInverted)
+        XCTAssertFalse(tagFilter.isNegated)
         // Test inversion
         tagFilter.not()
-        XCTAssertTrue(tagFilter.isInverted)
+        XCTAssertTrue(tagFilter.isNegated)
         XCTAssertEqual(tagFilter.build(), "NOT \(expectedExpression)")
     }
     
     func testInversion() {
         
         let boolFacetFilter = FilterFacet(attribute: "a", value: true)
-        XCTAssertFalse(boolFacetFilter.isInverted)
-        XCTAssertTrue((!boolFacetFilter).isInverted)
-        XCTAssertEqual(!boolFacetFilter, FilterFacet(attribute: "a", value: true, isInverted: true))
+        XCTAssertFalse(boolFacetFilter.isNegated)
+        XCTAssertTrue((!boolFacetFilter).isNegated)
+        XCTAssertEqual(!boolFacetFilter, FilterFacet(attribute: "a", value: true, isNegated: true))
         
         let numericFacetFilter = FilterFacet(attribute: "a", value: 1)
-        XCTAssertFalse(numericFacetFilter.isInverted)
-        XCTAssertTrue((!numericFacetFilter).isInverted)
-        XCTAssertEqual(!numericFacetFilter, FilterFacet(attribute: "a", value: 1, isInverted: true))
+        XCTAssertFalse(numericFacetFilter.isNegated)
+        XCTAssertTrue((!numericFacetFilter).isNegated)
+        XCTAssertEqual(!numericFacetFilter, FilterFacet(attribute: "a", value: 1, isNegated: true))
         
         let stringFacetFilter = FilterFacet(attribute: "a", value: "b")
-        XCTAssertFalse(stringFacetFilter.isInverted)
-        XCTAssertTrue((!stringFacetFilter).isInverted)
-        XCTAssertEqual(!stringFacetFilter, FilterFacet(attribute: "a", value: "b", isInverted: true))
+        XCTAssertFalse(stringFacetFilter.isNegated)
+        XCTAssertTrue((!stringFacetFilter).isNegated)
+        XCTAssertEqual(!stringFacetFilter, FilterFacet(attribute: "a", value: "b", isNegated: true))
         
         let filterTag = FilterTag(value: "a")
-        XCTAssertFalse(filterTag.isInverted)
-        XCTAssertTrue((!filterTag).isInverted)
-        XCTAssertEqual(!filterTag, FilterTag(value: "a", isInverted: true))
+        XCTAssertFalse(filterTag.isNegated)
+        XCTAssertTrue((!filterTag).isNegated)
+        XCTAssertEqual(!filterTag, FilterTag(value: "a", isNegated: true))
         
         let comparisonNumericFilter = FilterNumeric(attribute: "a", operator: .equals, value: 10)
-        XCTAssertFalse(comparisonNumericFilter.isInverted)
-        XCTAssertTrue((!comparisonNumericFilter).isInverted)
-        XCTAssertEqual(!comparisonNumericFilter, FilterNumeric(attribute: "a", operator: .equals, value: 10, isInverted: true))
+        XCTAssertFalse(comparisonNumericFilter.isNegated)
+        XCTAssertTrue((!comparisonNumericFilter).isNegated)
+        XCTAssertEqual(!comparisonNumericFilter, FilterNumeric(attribute: "a", operator: .equals, value: 10, isNegated: true))
         
         let rangeNumericFilter = FilterNumeric(attribute: "a", range: 0...10)
-        XCTAssertFalse(rangeNumericFilter.isInverted)
-        XCTAssertTrue((!rangeNumericFilter).isInverted)
-        XCTAssertEqual(!rangeNumericFilter, FilterNumeric(attribute: "a", range: 0...10, isInverted: true))
+        XCTAssertFalse(rangeNumericFilter.isNegated)
+        XCTAssertTrue((!rangeNumericFilter).isNegated)
+        XCTAssertEqual(!rangeNumericFilter, FilterNumeric(attribute: "a", range: 0...10, isNegated: true))
         
     }
     

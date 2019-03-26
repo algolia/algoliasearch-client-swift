@@ -81,8 +81,8 @@ class FilterBuilderTests: XCTestCase {
         
         let filterBuilder = FilterBuilder()
         
-        filterBuilder[.or("a")] +++ FilterTag(value: "tagA", isInverted: true) +++ FilterTag(value: "tagB", isInverted: true)
-        filterBuilder[.or("b")] +++ FilterFacet(attribute: "size", value: 40, isInverted: true) +++ FilterFacet(attribute: "featured", value: true, isInverted: true)
+        filterBuilder[.or("a")] +++ FilterTag(value: "tagA", isNegated: true) +++ FilterTag(value: "tagB", isNegated: true)
+        filterBuilder[.or("b")] +++ FilterFacet(attribute: "size", value: 40, isNegated: true) +++ FilterFacet(attribute: "featured", value: true, isNegated: true)
         
         let expectedResult = "( NOT \"_tags\":\"tagA\" OR NOT \"_tags\":\"tagB\" ) AND ( NOT \"featured\":\"true\" OR NOT \"size\":\"40.0\" )"
         

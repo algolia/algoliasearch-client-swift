@@ -14,17 +14,17 @@ public struct FilterTag: Filter, Hashable, ExpressibleByStringLiteral {
     public typealias StringLiteralType = String
     
     public let attribute: Attribute = .tags
-    public var isInverted: Bool
+    public var isNegated: Bool
     public let value: String
     
     public let expression: String
     
     public init(stringLiteral string: String) {
-        self.init(value: string, isInverted: false)
+        self.init(value: string, isNegated: false)
     }
     
-    public init(value: String, isInverted: Bool = false) {
-        self.isInverted = isInverted
+    public init(value: String, isNegated: Bool = false) {
+        self.isNegated = isNegated
         self.value = value
         self.expression = """
         "\(attribute)":"\(value)"
@@ -32,6 +32,6 @@ public struct FilterTag: Filter, Hashable, ExpressibleByStringLiteral {
     }
     
     public func replacingAttribute(by attribute: Attribute) -> FilterTag {
-        return FilterTag(value: value, isInverted: isInverted)
+        return FilterTag(value: value, isNegated: isNegated)
     }
 }

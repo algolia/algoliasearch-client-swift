@@ -15,13 +15,13 @@ public struct FilterFacet: Filter, Hashable {
     
     public let attribute: Attribute
     public let value: ValueType
-    public var isInverted: Bool
+    public var isNegated: Bool
     
     public let expression: String
     
-    public init(attribute: Attribute, value: ValueType, isInverted: Bool = false) {
+    public init(attribute: Attribute, value: ValueType, isNegated: Bool = false) {
         self.attribute = attribute
-        self.isInverted = isInverted
+        self.isNegated = isNegated
         self.value = value
         self.expression = """
         "\(attribute)":"\(value)"
@@ -32,20 +32,20 @@ public struct FilterFacet: Filter, Hashable {
         self.init(attribute: facetTuple.0, value: facetTuple.1)
     }
     
-    public init(attribute: Attribute, stringValue: String, isInverted: Bool = false) {
-        self.init(attribute: attribute, value: .string(stringValue), isInverted: isInverted)
+    public init(attribute: Attribute, stringValue: String, isNegated: Bool = false) {
+        self.init(attribute: attribute, value: .string(stringValue), isNegated: isNegated)
     }
     
-    public init(attribute: Attribute, floatValue: Float, isInverted: Bool = false) {
-        self.init(attribute: attribute, value: .float(floatValue), isInverted: isInverted)
+    public init(attribute: Attribute, floatValue: Float, isNegated: Bool = false) {
+        self.init(attribute: attribute, value: .float(floatValue), isNegated: isNegated)
     }
     
-    public init(attribute: Attribute, boolValue: Bool, isInverted: Bool = false) {
-        self.init(attribute: attribute, value: .bool(boolValue), isInverted: isInverted)
+    public init(attribute: Attribute, boolValue: Bool, isNegated: Bool = false) {
+        self.init(attribute: attribute, value: .bool(boolValue), isNegated: isNegated)
     }
     
     public func replacingAttribute(by attribute: Attribute) -> FilterFacet {
-        return FilterFacet(attribute: attribute, value: value, isInverted: isInverted)
+        return FilterFacet(attribute: attribute, value: value, isNegated: isNegated)
     }
     
 }

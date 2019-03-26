@@ -28,13 +28,13 @@ public struct FilterNumeric: Filter, Hashable {
     
     public let attribute: Attribute
     public let value: ValueType
-    public var isInverted: Bool
+    public var isNegated: Bool
     
     public let expression: String
     
-    init(attribute: Attribute, value: ValueType, isInverted: Bool) {
+    init(attribute: Attribute, value: ValueType, isNegated: Bool) {
         self.attribute = attribute
-        self.isInverted = isInverted
+        self.isNegated = isNegated
         self.value = value
         switch value {
         case .comparison(let `operator`, let value):
@@ -57,16 +57,16 @@ public struct FilterNumeric: Filter, Hashable {
         self.init(attribute: tuple.0, range: tuple.1)
     }
     
-    public init(attribute: Attribute, range: ClosedRange<Float>, isInverted: Bool = false) {
-        self.init(attribute: attribute, value: .range(range), isInverted: isInverted)
+    public init(attribute: Attribute, range: ClosedRange<Float>, isNegated: Bool = false) {
+        self.init(attribute: attribute, value: .range(range), isNegated: isNegated)
     }
     
-    public init(attribute: Attribute, `operator`: NumericOperator, value: Float, isInverted: Bool = false) {
-        self.init(attribute: attribute, value: .comparison(`operator`, value), isInverted: isInverted)
+    public init(attribute: Attribute, `operator`: NumericOperator, value: Float, isNegated: Bool = false) {
+        self.init(attribute: attribute, value: .comparison(`operator`, value), isNegated: isNegated)
     }
     
     public func replacingAttribute(by attribute: Attribute) -> FilterNumeric {
-        return FilterNumeric(attribute: attribute, value: value, isInverted: isInverted)
+        return FilterNumeric(attribute: attribute, value: value, isNegated: isNegated)
     }
     
 }
