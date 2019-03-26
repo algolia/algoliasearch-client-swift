@@ -336,7 +336,7 @@ internal struct HostStatus {
   /// - parameter libraryVersion: Library version to add.
   ///
   @objc public static func addUserAgent(_ libraryVersion: LibraryVersion) {
-    if userAgents.index(where: { $0 == libraryVersion }) == nil {
+    if userAgents.firstIndex(where: { $0 == libraryVersion }) == nil {
       userAgents.append(libraryVersion)
     }
   }

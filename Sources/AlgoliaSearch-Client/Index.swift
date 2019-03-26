@@ -63,14 +63,14 @@ import Foundation
   /// - returns: A cancellable operation.
   /// + Warning: Deprecated, use saveObject(_:) instead.
   ///
-  @available(*, deprecated: 6.0, message: "Deprecated, use saveObject(_:) instead")
+  @available(*, deprecated, message: "Deprecated, use saveObject(_:) instead")
   @objc
   @discardableResult public func addObject(_ object: [String: Any], requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
     let path = "1/indexes/\(urlEncodedName)"
     return client.performHTTPQuery(path: path, method: .POST, body: object, hostnames: client.writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
   }
 
-  @available(*, deprecated: 6.0, message: "Deprecated, use saveObject(_:) instead")
+  @available(*, deprecated, message: "Deprecated, use saveObject(_:) instead")
   @objc(addObject:completionHandler:)
   @discardableResult public func z_objc_addObject(_ object: [String: Any], completionHandler: CompletionHandler?) -> Operation {
     return addObject(object, requestOptions: nil, completionHandler: completionHandler)
@@ -86,14 +86,14 @@ import Foundation
   /// - returns: A cancellable operation.
   /// + Warning: Deprecated, use saveObject(_:) instead.
   ///
-  @available(*, deprecated: 6.0, message: "Deprecated, use saveObject(_:) instead")
+  @available(*, deprecated, message: "Deprecated, use saveObject(_:) instead")
   @objc
   @discardableResult public func addObject(_ object: [String: Any], withID objectID: String, requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
     let path = "1/indexes/\(urlEncodedName)/\(objectID.urlEncodedPathComponent())"
     return client.performHTTPQuery(path: path, method: .PUT, body: object, hostnames: client.writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
   }
 
-  @available(*, deprecated: 6.0, message: "Deprecated, use saveObject(_:) instead")
+  @available(*, deprecated, message: "Deprecated, use saveObject(_:) instead")
   @objc(addObject:withID:completionHandler:)
   @discardableResult public func z_objc_addObject(_ object: [String: Any], withID objectID: String, completionHandler: CompletionHandler?) -> Operation {
     return addObject(object, withID: objectID, completionHandler: completionHandler)
@@ -107,7 +107,7 @@ import Foundation
   /// - returns: A cancellable operation.
   /// + Warning: Deprecated, use saveObjects(_:) instead.
   ///
-  @available(*, deprecated: 6.0, message: "Deprecated, use saveObject(_:) instead")
+  @available(*, deprecated, message: "Deprecated, use saveObject(_:) instead")
   @objc
   @discardableResult public func addObjects(_ objects: [[String: Any]], requestOptions: RequestOptions? = nil, completionHandler: CompletionHandler? = nil) -> Operation {
     let path = "1/indexes/\(urlEncodedName)/batch"
@@ -122,7 +122,7 @@ import Foundation
     return client.performHTTPQuery(path: path, method: .POST, body: request, hostnames: client.writeHosts, requestOptions: requestOptions, completionHandler: completionHandler)
   }
 
-  @available(*, deprecated: 6.0, message: "Deprecated, use saveObject(_:) instead")
+  @available(*, deprecated, message: "Deprecated, use saveObject(_:) instead")
   @objc(addObjects:completionHandler:)
   @discardableResult public func z_objc_addObjects(_ objects: [[String: Any]], completionHandler: CompletionHandler?) -> Operation {
     return addObjects(objects, completionHandler: completionHandler)
