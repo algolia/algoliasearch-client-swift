@@ -588,8 +588,6 @@ open class Query: AbstractQuery {
     get { return Query.parseBool(self["facetingAfterDistinct"]) }
     set { self["facetingAfterDistinct"] = Query.buildBool(newValue) }
   }
-    
-  public let filterBuilder = FilterBuilder()
 
   // MARK: Unified filter parameter (SQL like)
 
@@ -608,13 +606,7 @@ open class Query: AbstractQuery {
   /// - `NOT`: used to negate a filter. The syntax with the `-` isn't allowed.
   ///
   @objc public var filters: String? {
-    get {
-        if let manuallySetFilters = self["filters"] {
-            return manuallySetFilters
-        } else {
-            return filterBuilder.build()
-        }
-    }
+    get { return self["filters"] }
     set { self["filters"] = newValue }
   }
     
@@ -803,18 +795,10 @@ open class Query: AbstractQuery {
   }
 
   // MARK: Personalization
-    
-  public let optionalFilterBuilder = OptionalFilterBuilder()
 
   /// Specify filters for ranking purposes, to rank higher records that contain the filters
   @objc public var optionalFilters: [Any]? {
-    get {
-        if let manuallySetFilters = Query.parseJSONArray(self["optionalFilters"]) {
-            return manuallySetFilters
-        } else {
-            return optionalFilterBuilder.build()?.rawValue
-        }
-    }
+    get { return Query.parseJSONArray(self["optionalFilters"]) }
     set { self["optionalFilters"] = Query.buildJSONArray(newValue) }
   }
 

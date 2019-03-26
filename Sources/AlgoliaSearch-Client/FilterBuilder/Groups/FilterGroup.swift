@@ -21,9 +21,9 @@ private class _AnyFilterGroupBase: FilterGroup {
     var name: String {
         fatalError("Must override")
     }
-    
-    var hashValue: Int {
-        fatalError("Must override")
+
+    func hash(into hasher: inout Hasher) {
+      fatalError("Must override")
     }
     
     init() {
@@ -50,8 +50,8 @@ fileprivate final class _AnyFilterGroupBox<Concrete: FilterGroup>: _AnyFilterGro
         return concrete.name
     }
 
-    override var hashValue: Int {
-        return concrete.hashValue
+    override func hash(into hasher: inout Hasher) {
+      hasher.combine(concrete)
     }
 
     static func == (lhs: _AnyFilterGroupBox, rhs: _AnyFilterGroupBox) -> Bool {
@@ -85,9 +85,9 @@ final class AnyFilterGroup: FilterGroup {
     func extractAs<T: FilterGroup>() -> T? {
         return (box as? _AnyFilterGroupBox<T>)?.concrete
     }
-    
-    var hashValue: Int {
-        return box.hashValue
+
+    func hash(into hasher: inout Hasher) {
+      hasher.combine(box)
     }
     
     static func == (lhs: AnyFilterGroup, rhs: AnyFilterGroup) -> Bool {

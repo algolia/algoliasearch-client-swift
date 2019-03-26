@@ -116,7 +116,7 @@ internal struct HostStatus {
   /// + Warning: Deprecated. Now a static property of the `Client` class. The instance properties are just an alias
   ///   for the static property.
   ///
-  @available(*, deprecated: 4.8)
+  @available(*, deprecated, message: "Now a static property of the `Client` class. The instance properties are just an alias for the static property.")
   @objc public var userAgents: [LibraryVersion] { return AbstractClient.userAgents }
 
   /// The list of libraries used by instances of this class.

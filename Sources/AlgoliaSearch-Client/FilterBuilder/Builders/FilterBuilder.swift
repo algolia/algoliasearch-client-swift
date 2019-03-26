@@ -144,13 +144,13 @@ public extension FilterBuilder {
     }
     
     /// A Boolean value indicating whether FilterBuilder contains at least on filter
-    public var isEmpty: Bool {
+    var isEmpty: Bool {
         return groups.isEmpty
     }
     
     /// Tests whether FilterBuilder contains a filter
     /// - parameter filter:
-    public func contains<T: Filter>(_ filter: T) -> Bool {
+    func contains<T: Filter>(_ filter: T) -> Bool {
         let anyFilter = AnyFilter(filter)
         return getAllFilters().contains(anyFilter)
     }
@@ -158,7 +158,7 @@ public extension FilterBuilder {
     /// Replaces all the attribute by a provided one in all filters
     /// - parameter attribute: attribute to replace
     /// - parameter replacement: replacement attribute
-    public func replace(_ attribute: Attribute, by replacement: Attribute) {
+    func replace(_ attribute: Attribute, by replacement: Attribute) {
         groups.keys.forEach { group in
             replace(attribute, by: replacement, in: group)
         }
@@ -169,7 +169,7 @@ public extension FilterBuilder {
     /// - parameter source: source group
     /// - parameter destination: target group
     /// - returns: true if movement succeeded, otherwise returns false
-    public func move<T: Filter>(_ filter: T, from source: OrFilterGroup<T>, to destination: AndFilterGroup) -> Bool {
+    func move<T: Filter>(_ filter: T, from source: OrFilterGroup<T>, to destination: AndFilterGroup) -> Bool {
         return move(filter: filter, from: AnyFilterGroup(source), to: AnyFilterGroup(destination))
     }
     
@@ -178,19 +178,19 @@ public extension FilterBuilder {
     /// - parameter source: source group
     /// - parameter destination: target group
     /// - returns: true if movement succeeded, otherwise returns false
-    public func move<T: Filter>(_ filter: T, from source: AndFilterGroup, to destination: OrFilterGroup<T>) -> Bool {
+    func move<T: Filter>(_ filter: T, from source: AndFilterGroup, to destination: OrFilterGroup<T>) -> Bool {
         return move(filter: filter, from: AnyFilterGroup(source), to: AnyFilterGroup(destination))
     }
     
     /// Removes filter from FilterBuilder
     /// - parameter filter: filter to remove
-    @discardableResult public func remove<T: Filter>(_ filter: T) -> Bool {
+    @discardableResult func remove<T: Filter>(_ filter: T) -> Bool {
         return groups.map { remove(filter, from: $0.key) }.reduce(false) { $0 || $1 }
     }
     
     /// Removes a sequence of filters from FilterBuilder
     /// - parameter filters: sequence of filters to remove
-    public func removeAll<T: Filter, S: Sequence>(_ filters: S) where S.Element == T {
+    func removeAll<T: Filter, S: Sequence>(_ filters: S) where S.Element == T {
         let anyFilters = filters.map(AnyFilter.init)
         groups.keys.forEach { group in
             let existingFilters = groups[group] ?? []
@@ -201,21 +201,21 @@ public extension FilterBuilder {
     
     /// Removes all filters with specified attribute in all groups
     /// - parameter attribute: target attribute
-    public func removeAll(for attribute: Attribute) {
+    func removeAll(for attribute: Attribute) {
         groups.keys.forEach { group in
             removeAll(for: attribute, from: group)
         }
     }
     
     /// Removes all filters in all groups
-    public func removeAll() {
+    func removeAll() {
         groups.removeAll()
     }
     
     /// Constructs a string representation of filters
     /// If FilterBuilder is empty returns nil
     /// - parameter ignoringInversion: if set to true, ignores any filter negation
-    public func build(ignoringInversion: Bool = false) -> String? {
+    func build(ignoringInversion: Bool = false) -> String? {
         guard !isEmpty else { return nil }
         return groups
             .keys
@@ -230,7 +230,7 @@ public extension FilterBuilder {
     
     /// Returns a set of filters of specified type for attribute
     /// - parameter attribute: target attribute
-    public func getFilters<T: Filter>(for attribute: Attribute) -> Set<T> {
+    func getFilters<T: Filter>(for attribute: Attribute) -> Set<T> {
         let filtersArray: [T] = getAllFilters()
             .filter { $0.attribute == attribute }
             .compactMap { $0.extractAsFilter()  }
@@ -238,7 +238,7 @@ public extension FilterBuilder {
     }
     
     /// Returns a set of attributes suitable for disjunctive faceting
-    public func getDisjunctiveFacetsAttributes() -> Set<Attribute> {
+    func getDisjunctiveFacetsAttributes() -> Set<Attribute> {
         let attributes = groups
             .filter { $0.key.isDisjunctive }
             .compactMap { $0.value }
@@ -248,12 +248,12 @@ public extension FilterBuilder {
     }
     
     /// Returns a Boolean value indicating if FilterBuilder contains attributes suitable for disjunctive faceting
-    public func isDisjunctiveFacetingAvailable() -> Bool {
-        return !getFacetFilters().isEmpty
+    func isDisjunctiveFacetingAvailable() -> Bool {
+        return !getDisjunctiveFacetsAttributes().isEmpty
     }
     
     /// Returns a dictionary of all facet filters with their associated values
-    public func getFacetFilters() -> [Attribute: Set<FilterFacet.ValueType>] {
+    func getFacetFilters() -> [Attribute: Set<FilterFacet.ValueType>] {
         let facetFilters: [FilterFacet] = groups
             .compactMap { $0.value }
             .flatMap { $0 }
@@ -268,7 +268,7 @@ public extension FilterBuilder {
     }
     
     /// Returns a raw representaton of all facet filters with their associated values
-    public func getRawFacetFilters() -> [String: [String]] {
+    func getRawFacetFilters() -> [String: [String]] {
         var rawRefinments: [String: [String]] = [:]
         getFacetFilters()
             .map { ($0.key.name, $0.value.map { $0.description }) }

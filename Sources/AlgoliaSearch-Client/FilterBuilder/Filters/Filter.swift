@@ -48,9 +48,9 @@ private class _AnyFilterBase: Filter {
     var expression: String {
         fatalError("Must override")
     }
-    
-    var hashValue: Int {
-        fatalError("Must override")
+
+    func hash(into hasher: inout Hasher) {
+      fatalError("Must override")
     }
     
     init() {
@@ -89,9 +89,9 @@ private final class _AnyFilterBox<Concrete: Filter>: _AnyFilterBase {
     override var expression: String {
         return concrete.expression
     }
-    
-    override var hashValue: Int {
-        return concrete.hashValue
+
+    override func hash(into hasher: inout Hasher) {
+      hasher.combine(concrete)
     }
     
     override func replacingAttribute(by attribute: Attribute) -> _AnyFilterBox {
@@ -125,8 +125,8 @@ final class AnyFilter: Filter {
         return box.expression
     }
     
-    var hashValue: Int {
-        return box.hashValue
+    func hash(into hasher: inout Hasher) {
+      hasher.combine(box)
     }
     
     func replacingAttribute(by attribute: Attribute) -> AnyFilter {

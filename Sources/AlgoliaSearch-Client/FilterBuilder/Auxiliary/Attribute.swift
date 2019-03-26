@@ -13,6 +13,7 @@ import Foundation
 public struct Attribute: CustomStringConvertible, Hashable, ExpressibleByStringLiteral {
     
     public typealias StringLiteralType = String
+    public typealias RawValue = String
     
     var name: String
     
@@ -22,6 +23,10 @@ public struct Attribute: CustomStringConvertible, Hashable, ExpressibleByStringL
 
     public init(stringLiteral name: String) {
         self.name = name
+    }
+
+    public init(rawValue: String) {
+      self.name = rawValue
     }
 
     public var description: String {
