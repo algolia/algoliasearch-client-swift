@@ -82,11 +82,6 @@ internal class AsyncOperation: Operation {
     return _cancelled
   }
 
-  override func cancel() {
-    _cancelled = true
-    finish()
-  }
-
   /// Mark the operation as finished.
   func finish() {
     _executing = false
