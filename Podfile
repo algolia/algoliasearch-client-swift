@@ -15,7 +15,7 @@ target "AlgoliaSearch-Offline-iOS-Tests" do
 end
 
 def testing_pods
-  pod 'PromiseKit', '~> 4.4', :inhibit_warnings => true
+  pod 'PromiseKit', '~> 4.4.0', :inhibit_warnings => true
 end
 
 target 'AlgoliaSearch iOS Tests' do
@@ -28,4 +28,14 @@ end
 
 target 'AlgoliaSearch tvOS Tests' do
   testing_pods
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    if ['PromiseKit'].include? target.name
+      target.build_configurations.each do |config|
+        config.build_settings['SWIFT_VERSION'] = '4.0'
+      end
+    end
+  end
 end
