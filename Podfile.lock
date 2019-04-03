@@ -14,7 +14,7 @@ PODS:
 
 DEPENDENCIES:
   - AlgoliaSearchOfflineCore-iOS (~> 1.2)
-  - PromiseKit (~> 4.4)
+  - PromiseKit (~> 4.4.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -25,6 +25,6 @@ SPEC CHECKSUMS:
   AlgoliaSearchOfflineCore-iOS: 8cc5fbb3ba00fc28a9a66ce302d3ce3a739e6eea
   PromiseKit: ecf5fe92275d57ee77c9ede858af47a162e9b97e
 
-PODFILE CHECKSUM: 98d10da485d11827e3acc7e93901a743348fee50
+PODFILE CHECKSUM: 8ccad2fe39069bb71a98bf938e4602c985a74ccc
 
-COCOAPODS: 1.6.0.beta.2
+COCOAPODS: 1.7.0.beta.3
