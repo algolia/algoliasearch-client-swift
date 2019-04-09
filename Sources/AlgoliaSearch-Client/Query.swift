@@ -648,12 +648,35 @@ open class Query: AbstractQuery {
   
   /// Applicable values for the `aroundPrecision` parameter.
 
-  public class AroundPrecision: NSObject {
+  @objc public class AroundPrecision: NSObject {
+    
+    @objc public class Range: NSObject {
+      
+      @objc public let from: Int
+      @objc public let value: Int
+      
+      @objc public init(from: Int, value: Int) {
+        self.from = from
+        self.value = value
+      }
+      
+      @objc public static func range(withFrom from: Int, value: Int) -> Range {
+        return Range(from: from, value: value)
+      }
+      
+      public override func isEqual(_ object: Any?) -> Bool {
+        guard let range = object as? Range else {
+          return false
+        }
+        return from == range.from && value == range.value
+      }
+      
+    }
     
     public enum Value {
       
       case int(UInt)
-      case ranges([(from: UInt, value: UInt)])
+      case ranges([Range])
       
       public static func == (lhs: Value, rhs: Value) -> Bool {
         switch (lhs, rhs) {
@@ -678,32 +701,32 @@ open class Query: AbstractQuery {
     
     public var value: Value
     
-    public var rangesValue: [NSRange]? {
+    @objc public var rangesValue: [Range]? {
       guard case .ranges(let ranges) = value else {
         return nil
       }
       
-      return ranges.map { NSRange(location: Int($0.from), length: Int($0.value)) }
+      return ranges.map { Range(from: Int($0.from), value: Int($0.value)) }
     }
     
-    public var intValue: UInt? {
+    @objc public var intValue: NSNumber? {
       guard case .int(let value) = value else {
         return nil
       }
       
-      return value
+      return NSNumber(value: value)
     }
     
     public init(value: Value) {
       self.value = value
     }
     
-    public init(int: UInt) {
-      self.value = .int(int)
+    @objc public init(number: NSNumber) {
+      self.value = .int(UInt(number.intValue))
     }
     
-    public init(ranges: [NSRange]) {
-      self.value = .ranges(ranges.map { (from: UInt($0.location), value: UInt($0.length)) })
+    @objc public init(ranges: [Range]) {
+      self.value = .ranges(ranges)
     }
     
   }
@@ -763,11 +786,11 @@ open class Query: AbstractQuery {
   @objc public var aroundPrecision: AroundPrecision? {
     get {
       if let intValue = Query.parseUInt(self["aroundPrecision"]) {
-        return AroundPrecision(int: intValue)
+        return AroundPrecision(number: NSNumber(value: intValue))
       } else if let arrayValue = Query.parseJSONArray(self["aroundPrecision"]) as? [[String: Int]] {
-        func range(withDictionary dictionary: [String: Int]) -> (from: UInt, value: UInt)? {
+        func range(withDictionary dictionary: [String: Int]) -> AroundPrecision.Range? {
           if let from = dictionary["from"], let value = dictionary["value"] {
-            return (from: UInt(from), value: UInt(value))
+            return AroundPrecision.Range(from: from, value: value)
           } else {
             return nil
           }
