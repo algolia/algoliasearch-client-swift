@@ -631,7 +631,7 @@
     query1.aroundPrecision = [[AroundPrecision alloc] initWithRanges: @[range]];
     XCTAssertTrue([[query1.aroundPrecision.rangesValue objectAtIndex: 0] isEqual: range]);
     Query* query2 = [Query parse:[query1 build]];
-  XCTAssertEqualObjects(query2.aroundPrecision.rangesValue, @[range]);
+    XCTAssertEqualObjects(query2.aroundPrecision.rangesValue, @[range]);
 }
 
 - (void)test_minimumAroundRadius {
