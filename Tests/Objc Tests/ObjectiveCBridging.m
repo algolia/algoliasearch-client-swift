@@ -122,7 +122,7 @@
     query.aroundLatLngViaIP = [NSNumber numberWithBool:YES];
     query.aroundRadius = [NSNumber numberWithInt:666];
     query.aroundRadius = [Query aroundRadiusAll];
-    query.aroundPrecision = [NSNumber numberWithInt:66];
+    query.aroundPrecision = [[AroundPrecision alloc] initWithNumber: [NSNumber numberWithInt:10]];
     query.minimumAroundRadius = [NSNumber numberWithInt:666];
     query.insideBoundingBox = @[ [[GeoRect alloc] initWithP1:[[LatLng alloc] initWithLat:123.45 lng:67.89] p2:[[LatLng alloc] initWithLat:129.99 lng:69.99]] ];
     query.insidePolygon = @[
@@ -625,12 +625,13 @@
 - (void)test_aroundPrecision {
     Query* query1 = [Query new];
     XCTAssertNil(query1.aroundPrecision);
-
-    NSNumber* value = [NSNumber numberWithInt:6];
-    query1.aroundPrecision = value;
-    XCTAssertEqualObjects(query1[@"aroundPrecision"], @"6");
+    query1.aroundPrecision = [[AroundPrecision alloc] initWithNumber: [NSNumber numberWithInt:10]];
+    XCTAssertEqualObjects(query1.aroundPrecision.intValue, [NSNumber numberWithInt:10]);
+    Range* range = [[Range alloc] initFrom:1 value:10];
+    query1.aroundPrecision = [[AroundPrecision alloc] initWithRanges: @[range]];
+    XCTAssertTrue([[query1.aroundPrecision.rangesValue objectAtIndex: 0] isEqual: range]);
     Query* query2 = [Query parse:[query1 build]];
-    XCTAssertEqualObjects(query2.aroundPrecision, value);
+  XCTAssertEqualObjects(query2.aroundPrecision.rangesValue, @[range]);
 }
 
 - (void)test_minimumAroundRadius {
