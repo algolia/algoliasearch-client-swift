@@ -645,6 +645,68 @@ open class Query: AbstractQuery {
     get { return Query.parseBool(self["aroundLatLngViaIP"]) }
     set { self["aroundLatLngViaIP"] = Query.buildBool(newValue) }
   }
+  
+  /// Applicable values for the `aroundPrecision` parameter.
+
+  public class AroundPrecision: NSObject {
+    
+    public enum Value {
+      
+      case int(UInt)
+      case ranges([(from: UInt, value: UInt)])
+      
+      public static func == (lhs: Value, rhs: Value) -> Bool {
+        switch (lhs, rhs) {
+        case (.int(let lv), .int(let rv)):
+          return lv == rv
+          
+        case (.ranges(let lv), .ranges(let rv)):
+          for pair in zip(lv, rv) {
+            if pair.0.from != pair.1.from || pair.0.value != pair.1.value {
+              return false
+            }
+          }
+          
+          return true
+          
+        default:
+          return false
+        }
+      }
+
+    }
+    
+    public var value: Value
+    
+    public var rangesValue: [NSRange]? {
+      guard case .ranges(let ranges) = value else {
+        return nil
+      }
+      
+      return ranges.map { NSRange(location: Int($0.from), length: Int($0.value)) }
+    }
+    
+    public var intValue: UInt? {
+      guard case .int(let value) = value else {
+        return nil
+      }
+      
+      return value
+    }
+    
+    public init(value: Value) {
+      self.value = value
+    }
+    
+    public init(int: UInt) {
+      self.value = .int(int)
+    }
+    
+    public init(ranges: [NSRange]) {
+      self.value = .ranges(ranges.map { (from: UInt($0.location), value: UInt($0.length)) })
+    }
+    
+  }
 
   /// Applicable values for the `aroundRadius` parameter.
   public enum AroundRadius: Equatable {
@@ -698,9 +760,41 @@ open class Query: AbstractQuery {
   /// Control the precision of a `aroundLatLng` query. In meter. For example if you set `aroundPrecision=100`, two
   /// objects that are in the range 0-99m will be considered as identical in the ranking for the .variable geo
   /// ranking parameter (same for 100-199, 200-299, … ranges).
-  public var aroundPrecision: UInt? {
-    get { return Query.parseUInt(self["aroundPrecision"]) }
-    set { self["aroundPrecision"] = Query.buildUInt(newValue) }
+  @objc public var aroundPrecision: AroundPrecision? {
+    get {
+      if let intValue = Query.parseUInt(self["aroundPrecision"]) {
+        return AroundPrecision(int: intValue)
+      } else if let arrayValue = Query.parseJSONArray(self["aroundPrecision"]) as? [[String: Int]] {
+        func range(withDictionary dictionary: [String: Int]) -> (from: UInt, value: UInt)? {
+          if let from = dictionary["from"], let value = dictionary["value"] {
+            return (from: UInt(from), value: UInt(value))
+          } else {
+            return nil
+          }
+        }
+        let ranges = arrayValue.compactMap(range(withDictionary:))
+        return AroundPrecision(value: .ranges(ranges))
+      } else {
+        return nil
+      }
+      
+    }
+    set {
+      guard let newValue = newValue else {
+        self["aroundPrecision"] = nil
+        return
+      }
+      
+      switch newValue.value {
+      case .int(let intValue):
+        self["aroundPrecision"] = Query.buildUInt(intValue)
+
+      case .ranges(let ranges):
+        let rawRanges = ranges.map { ["from": $0.from, "value": $0.value] }
+        self["aroundPrecision"] = Query.buildJSONArray(rawRanges)
+      }
+      
+    }
   }
 
   /// Define the minimum radius used for `aroundLatLng` or `aroundLatLngViaIP` when `aroundRadius` is not set. The
@@ -1146,11 +1240,11 @@ open class Query: AbstractQuery {
     }
   }
 
-  @objc(aroundPrecision)
-  public var z_objc_aroundPrecision: NSNumber? {
-    get { return AbstractQuery.toNumber(aroundPrecision) }
-    set { aroundPrecision = newValue?.uintValue }
-  }
+//  @objc(aroundPrecision)
+//  public var z_objc_aroundPrecision: AroundPrecision? {
+//    get { return AbstractQuery.toNumber(aroundPrecision) }
+//    set { aroundPrecision = newValue?.uintValue }
+//  }
 
   @objc(minimumAroundRadius)
   public var z_objc_minimumAroundRadius: NSNumber? {

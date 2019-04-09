@@ -552,14 +552,29 @@ class QueryTests: XCTestCase {
     XCTAssertEqual(query2.disableTypoToleranceOnAttributes!, ["foo", "bar"])
   }
 
-  func test_aroundPrecision() {
+  func test_aroundPrecisionWithInt() {
     let query1 = Query()
     XCTAssertNil(query1.aroundPrecision)
-    query1.aroundPrecision = 12345
-    XCTAssertEqual(query1.aroundPrecision, 12345)
+    query1.aroundPrecision = Query.AroundPrecision(int: 12345)
+    XCTAssertEqual(query1.aroundPrecision?.intValue , 12345)
+    XCTAssertNil(query1.aroundPrecision?.rangesValue)
     XCTAssertEqual(query1["aroundPrecision"], "12345")
     let query2 = Query.parse(query1.build())
-    XCTAssertEqual(query2.aroundPrecision, 12345)
+    XCTAssertEqual(query2.aroundPrecision?.intValue, 12345)
+  }
+  
+  func test_aroundPrecisionWithRanges() {
+    let query1 = Query()
+    XCTAssertNil(query1.aroundPrecision)
+    query1.aroundPrecision = Query.AroundPrecision(value: .ranges([(from: 1, value: 10), (from: 50, value: 20)]))
+    XCTAssertEqual(query1.aroundPrecision?.rangesValue, [NSRange(location: 1, length: 10), NSRange(location: 50, length: 20)])
+    XCTAssertNil(query1.aroundPrecision?.intValue)
+    XCTAssertTrue(query1["aroundPrecision"]!.contains("\"from\":1"))
+    XCTAssertTrue(query1["aroundPrecision"]!.contains("\"value\":10"))
+    XCTAssertTrue(query1["aroundPrecision"]!.contains("\"from\":50"))
+    XCTAssertTrue(query1["aroundPrecision"]!.contains("\"value\":20"))
+    let query2 = Query.parse(query1.build())
+    XCTAssertEqual(query2.aroundPrecision?.rangesValue, [NSRange(location: 1, length: 10), NSRange(location: 50, length: 20)])
   }
 
   func test_aroundRadius() {
