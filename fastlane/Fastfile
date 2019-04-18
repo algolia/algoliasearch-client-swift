@@ -64,7 +64,12 @@ lane :deploy do |options|
 
 	branch = options[:branch] || "master"
 	prepare_git(branch)
-	pod_lib_lint(verbose: true)
+
+	pod_lib_lint(
+		verbose: true,
+		allow_warnings: true
+	)
+
 	increment_version_number(
   		bump_type: options[:type]
 	)
@@ -103,11 +108,13 @@ lane :deploy do |options|
 	)
 
 	pod_push(
-		path: "InstantSearchClient.podspec"
+		path: "InstantSearchClient.podspec",
+		allow_warnings: true
 	)
 
 	pod_push(
-		path: "InstantSearchClientOffline.podspec"
+		path: "InstantSearchClientOffline.podspec",
+		allow_warnings: true
 	)
 
 	# This is failing when no files are changed. So we added this step in Bitrise instead along with is_skippable: true.
