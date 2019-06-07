@@ -53,7 +53,7 @@ internal class ExpiringCache {
     timer?.invalidate()
     timer = Timer(timeInterval: 2 * expiringTimeInterval, target: self, selector: #selector(ExpiringCache.clearExpiredCache), userInfo: nil, repeats: true)
     timer!.tolerance = expiringTimeInterval * 0.5
-    RunLoop.main.add(timer!, forMode: RunLoop.Mode.default)
+    RunLoop.main.add(timer!, forMode: RunLoopMode.defaultRunLoopMode)
   }
 
   deinit {
