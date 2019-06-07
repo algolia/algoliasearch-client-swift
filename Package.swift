@@ -20,5 +20,6 @@ let package = Package(
       dependencies: [],
       path: "./Sources/AlgoliaSearch-Client"
     ),
-  ]
+    ],
+    swiftLanguageVersions: [.v4_2, .v5]
 )
