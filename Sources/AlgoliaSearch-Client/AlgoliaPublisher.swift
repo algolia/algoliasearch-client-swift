@@ -1,10 +1,18 @@
+//
+//  SearchAlgoliaPublisher.swift
+//  FastJaunes
+//
+//  Created by Jeffrey Macko on 11/10/2019.
+//  Copyright © 2019 FrenchKit. All rights reserved.
+//
+
 import Foundation
 import AlgoliaSearch
 import Combine
 
 @available(iOS 13, *)
-class AlgoliaPublisher<HitType : Codable>: ObservableObject {
-  typealias SuccessType = AlgoliaQueryResponse<HitType>
+class AlgoliaPublisher<ResponseType : Codable>: ObservableObject {
+  typealias SuccessType = AlgoliaQueryResponse<ResponseType>
   typealias CompletionType = (SuccessType?) -> ()
   
   private let completion : CompletionType
