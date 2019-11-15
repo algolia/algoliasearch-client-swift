@@ -4,19 +4,19 @@
 import PackageDescription
 
 let package = Package(
-  name: "AlgoliaSearch",
+  name: "InstantSearchClient",
   products: [
     // Products define the executables and libraries produced by a package, and make them visible to other packages.
     .library(
-      name: "AlgoliaSearch",
-      targets: ["AlgoliaSearch"]
+      name: "InstantSearchClient",
+      targets: ["InstantSearchClient"]
     ),
   ],
   targets: [
     // Targets are the basic building blocks of a package. A target can define a module or a test suite.
     // Targets can depend on other targets in this package, and on products in packages which this package depends on.
     .target(
-      name: "AlgoliaSearch",
+      name: "InstantSearchClient",
       dependencies: [],
       path: "./Sources/AlgoliaSearch-Client"
     ),
