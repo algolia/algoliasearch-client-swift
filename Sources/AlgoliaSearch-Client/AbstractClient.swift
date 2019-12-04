@@ -312,9 +312,7 @@ internal struct HostStatus {
   ///
   private static func defaultUserAgents() -> [LibraryVersion] {
     // Add this library's version to the user agents.
-    let version = Bundle(for: Client.self).infoDictionary!["CFBundleShortVersionString"] as! String
-    var userAgents = [LibraryVersion(name: "Algolia for Swift", version: version)]
-
+    var userAgents = [LibraryVersion(name: "Algolia for Swift", version: Version.current)]
     // Add the operating system's version to the user agents.
     if #available(iOS 8.0, OSX 10.0, tvOS 9.0, *) {
       let osVersion = ProcessInfo.processInfo.operatingSystemVersion

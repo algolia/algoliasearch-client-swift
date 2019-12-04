@@ -37,6 +37,15 @@
 		5DB2515E1AAD9F3F00945339 /* ClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D8FFA371AAB08830078869E /* ClientTests.swift */; };
 		5DECA2DA1A960BC5001A6088 /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DECA2D91A960BC5001A6088 /* Index.swift */; };
 		6B364CD21EC180AF4A752092 /* Pods_AlgoliaSearch_Offline_iOS_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88AA9A9207EC4D018D67FCA0 /* Pods_AlgoliaSearch_Offline_iOS_Tests.framework */; };
+		AFC1563D2397E5C6008AC1A0 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC1563C2397E5C6008AC1A0 /* Version.swift */; };
+		AFC1563E2397E5C6008AC1A0 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC1563C2397E5C6008AC1A0 /* Version.swift */; };
+		AFC1563F2397E5C6008AC1A0 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC1563C2397E5C6008AC1A0 /* Version.swift */; };
+		AFC156402397E5C6008AC1A0 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC1563C2397E5C6008AC1A0 /* Version.swift */; };
+		AFC156412397E5C6008AC1A0 /* Version.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC1563C2397E5C6008AC1A0 /* Version.swift */; };
+		AFC156472397F012008AC1A0 /* VersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC156462397F012008AC1A0 /* VersionTests.swift */; };
+		AFC156482397F012008AC1A0 /* VersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC156462397F012008AC1A0 /* VersionTests.swift */; };
+		AFC156492397F012008AC1A0 /* VersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC156462397F012008AC1A0 /* VersionTests.swift */; };
+		AFC1564A2397F012008AC1A0 /* VersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFC156462397F012008AC1A0 /* VersionTests.swift */; };
 		BC01E66D1CA43CEE0067670B /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC01E66C1CA43CEE0067670B /* Request.swift */; };
 		BC01E66E1CA43CEE0067670B /* Request.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC01E66C1CA43CEE0067670B /* Request.swift */; };
 		BC09F7771CAE743900ABB395 /* BrowseIterator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC09F7761CAE743900ABB395 /* BrowseIterator.swift */; };
@@ -236,6 +245,8 @@
 		73F0D0837C9D6195F00B03B7 /* Pods-AlgoliaSearch-Offline-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch-Offline-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS/Pods-AlgoliaSearch-Offline-iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		88AA9A9207EC4D018D67FCA0 /* Pods_AlgoliaSearch_Offline_iOS_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AlgoliaSearch_Offline_iOS_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB63831D5434F98EB5F2AFF2 /* Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-AlgoliaSearch-Offline-iOS-Tests/Pods-AlgoliaSearch-Offline-iOS-Tests.release.xcconfig"; sourceTree = "<group>"; };
+		AFC1563C2397E5C6008AC1A0 /* Version.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Version.swift; sourceTree = "<group>"; };
+		AFC156462397F012008AC1A0 /* VersionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionTests.swift; sourceTree = "<group>"; };
 		BC01E66C1CA43CEE0067670B /* Request.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Request.swift; sourceTree = "<group>"; };
 		BC09F7761CAE743900ABB395 /* BrowseIterator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseIterator.swift; sourceTree = "<group>"; };
 		BC09F7791CAE7FDF00ABB395 /* BrowseIteratorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BrowseIteratorTests.swift; sourceTree = "<group>"; };
@@ -527,6 +538,7 @@
 				BC01E66C1CA43CEE0067670B /* Request.swift */,
 				BC28C4D61E5B5A0E00EFC4A0 /* Searchable.swift */,
 				BC4DDEF51DD10EBA004D9A6E /* Types.swift */,
+				AFC1563C2397E5C6008AC1A0 /* Version.swift */,
 				BC09F7751CAE742800ABB395 /* Helpers */,
 			);
 			path = "AlgoliaSearch-Client";
@@ -537,6 +549,7 @@
 			children = (
 				BC0A01631C9C19CD00CD4A7C /* QueryTests.swift */,
 				BC4DDF121DD13423004D9A6E /* PlacesQueryTests.swift */,
+				AFC156462397F012008AC1A0 /* VersionTests.swift */,
 			);
 			path = "Unit Tests";
 			sourceTree = "<group>";
@@ -608,6 +621,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5D7495941A8E25A600B0263F /* Build configuration list for PBXNativeTarget "AlgoliaSearch OSX" */;
 			buildPhases = (
+				AFC156422397EC60008AC1A0 /* ShellScript */,
 				5D7495791A8E25A600B0263F /* Sources */,
 				5D74957A1A8E25A600B0263F /* Frameworks */,
 				5D74957B1A8E25A600B0263F /* Headers */,
@@ -645,6 +659,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5DB251501AAD9EE400945339 /* Build configuration list for PBXNativeTarget "AlgoliaSearch iOS" */;
 			buildPhases = (
+				AFC156432397EC92008AC1A0 /* ShellScript */,
 				5DB251381AAD9EE300945339 /* Sources */,
 				5DB251391AAD9EE300945339 /* Frameworks */,
 				5DB2513A1AAD9EE300945339 /* Headers */,
@@ -684,6 +699,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BC23A6F31D63539B00DF9034 /* Build configuration list for PBXNativeTarget "AlgoliaSearch watchOS" */;
 			buildPhases = (
+				AFC156452397ECAA008AC1A0 /* ShellScript */,
 				BC23A6E71D63539A00DF9034 /* Sources */,
 				BC23A6E81D63539A00DF9034 /* Frameworks */,
 				BC23A6E91D63539A00DF9034 /* Headers */,
@@ -721,6 +737,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BCD1F55F1CC61C8D0006E227 /* Build configuration list for PBXNativeTarget "AlgoliaSearch tvOS" */;
 			buildPhases = (
+				AFC156442397EC9B008AC1A0 /* ShellScript */,
 				BCD1F5451CC61C8D0006E227 /* Sources */,
 				BCD1F5461CC61C8D0006E227 /* Frameworks */,
 				BCD1F5471CC61C8D0006E227 /* Headers */,
@@ -1022,6 +1039,74 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-AlgoliaSearch OSX Tests/Pods-AlgoliaSearch OSX Tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		AFC156422397EC60008AC1A0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./generate_version.sh\n";
+		};
+		AFC156432397EC92008AC1A0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./generate_version.sh\n";
+		};
+		AFC156442397EC9B008AC1A0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./generate_version.sh\n";
+		};
+		AFC156452397ECAA008AC1A0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./generate_version.sh\n";
+		};
 		C8C6069E1A0964384F278A73 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1104,6 +1189,7 @@
 				BC0A015A1C9BEDB200CD4A7C /* Error.swift in Sources */,
 				BC68BC571CB69776007F9655 /* IndexQuery.swift in Sources */,
 				5D67400F1B4AA22600B326EC /* Cache.swift in Sources */,
+				AFC1563D2397E5C6008AC1A0 /* Version.swift in Sources */,
 				BC4DDF081DD12BCC004D9A6E /* PlacesQuery.swift in Sources */,
 				BC4DDEF61DD10EBA004D9A6E /* Types.swift in Sources */,
 				BC3DC7541E02DD7B00862F5B /* NetworkReachability.swift in Sources */,
@@ -1133,6 +1219,7 @@
 				5D8FFA381AAB08830078869E /* ClientTests.swift in Sources */,
 				BCDA73781CA546800082B197 /* NetworkTests.swift in Sources */,
 				BCDA737E1CA555070082B197 /* MockURLSession.swift in Sources */,
+				AFC156472397F012008AC1A0 /* VersionTests.swift in Sources */,
 				BC4DDF131DD13423004D9A6E /* PlacesQueryTests.swift in Sources */,
 				BC4A7F3C1CB5373E00AF1DCB /* CancelTests.swift in Sources */,
 				BCE2E9851E23949D00F189F3 /* MockNetworkReachability.swift in Sources */,
@@ -1153,6 +1240,7 @@
 				BC0A015B1C9BEDB200CD4A7C /* Error.swift in Sources */,
 				BC68BC581CB69776007F9655 /* IndexQuery.swift in Sources */,
 				5D6740101B4AA22600B326EC /* Cache.swift in Sources */,
+				AFC1563E2397E5C6008AC1A0 /* Version.swift in Sources */,
 				BC4DDF091DD12BCC004D9A6E /* PlacesQuery.swift in Sources */,
 				BC4DDEF71DD10EBA004D9A6E /* Types.swift in Sources */,
 				BC3DC7531E02DD7A00862F5B /* NetworkReachability.swift in Sources */,
@@ -1182,6 +1270,7 @@
 				5DB2515E1AAD9F3F00945339 /* ClientTests.swift in Sources */,
 				BCDA73791CA546800082B197 /* NetworkTests.swift in Sources */,
 				BCDA737F1CA555070082B197 /* MockURLSession.swift in Sources */,
+				AFC156482397F012008AC1A0 /* VersionTests.swift in Sources */,
 				BC4DDF141DD13423004D9A6E /* PlacesQueryTests.swift in Sources */,
 				BC4A7F3D1CB5373E00AF1DCB /* CancelTests.swift in Sources */,
 				BCE2E9861E23949D00F189F3 /* MockNetworkReachability.swift in Sources */,
@@ -1202,6 +1291,7 @@
 				BC23A6F71D63541500DF9034 /* Error.swift in Sources */,
 				BC23A6FC1D63541500DF9034 /* Query.swift in Sources */,
 				BC23A6F51D63541500DF9034 /* Cache.swift in Sources */,
+				AFC156412397E5C6008AC1A0 /* Version.swift in Sources */,
 				BC4DDF0C1DD12BCC004D9A6E /* PlacesQuery.swift in Sources */,
 				BC4DDEFA1DD10EBA004D9A6E /* Types.swift in Sources */,
 				BCD4B5351E13FE5E00838E02 /* NetworkReachability.swift in Sources */,
@@ -1243,6 +1333,7 @@
 				BCD57D221D89947500C5DE68 /* DisjunctiveFaceting.swift in Sources */,
 				BC4BD2891D54E48900170ECC /* Client.swift in Sources */,
 				BC4BD2961D54E50000170ECC /* MirrorSettings.swift in Sources */,
+				AFC156402397E5C6008AC1A0 /* Version.swift in Sources */,
 				BC4DDEF31DD10E8B004D9A6E /* AbstractClient.swift in Sources */,
 				BC4BD2971D54E50000170ECC /* OfflineClient.swift in Sources */,
 				BC4DDEFF1DD11527004D9A6E /* PlacesClient.swift in Sources */,
@@ -1261,6 +1352,7 @@
 				BCD1F5641CC61D090006E227 /* Error.swift in Sources */,
 				BCD1F5691CC61D1A0006E227 /* Query.swift in Sources */,
 				BCD1F5621CC61D020006E227 /* Cache.swift in Sources */,
+				AFC1563F2397E5C6008AC1A0 /* Version.swift in Sources */,
 				BC4DDF0A1DD12BCC004D9A6E /* PlacesQuery.swift in Sources */,
 				BC4DDEF81DD10EBA004D9A6E /* Types.swift in Sources */,
 				BC3DC7521E02DD7900862F5B /* NetworkReachability.swift in Sources */,
@@ -1290,6 +1382,7 @@
 				BCD1F56D1CC61DB30006E227 /* BrowseIteratorTests.swift in Sources */,
 				BCD1F56F1CC61DB80006E227 /* ClientTests.swift in Sources */,
 				BCD1F5741CC61DB80006E227 /* QueryTests.swift in Sources */,
+				AFC156492397F012008AC1A0 /* VersionTests.swift in Sources */,
 				BC4DDF151DD13423004D9A6E /* PlacesQueryTests.swift in Sources */,
 				BCD1F5711CC61DB80006E227 /* IndexTests.swift in Sources */,
 				BCE2E9871E23949D00F189F3 /* MockNetworkReachability.swift in Sources */,
@@ -1312,6 +1405,7 @@
 				BCD57D3E1D89B1EA00C5DE68 /* OfflineTestCase.swift in Sources */,
 				BCFC281C1D92660C00BFE0A0 /* MirroredIndexTests.swift in Sources */,
 				BCD57D3C1D89B1EA00C5DE68 /* OfflineClientTests.swift in Sources */,
+				AFC1564A2397F012008AC1A0 /* VersionTests.swift in Sources */,
 				BC6267EE1D8FE4180014C767 /* OfflineObjcBridging.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
