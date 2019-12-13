@@ -76,7 +76,6 @@
 		BC3DC7521E02DD7900862F5B /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC15FAC01E01C041005E3B56 /* NetworkReachability.swift */; };
 		BC3DC7531E02DD7A00862F5B /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC15FAC01E01C041005E3B56 /* NetworkReachability.swift */; };
 		BC3DC7541E02DD7B00862F5B /* NetworkReachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC15FAC01E01C041005E3B56 /* NetworkReachability.swift */; };
-		BC44DBFB79F5D20227956704 /* Pods_AlgoliaSearch_Offline_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05719951E812D7618E318291 /* Pods_AlgoliaSearch_Offline_iOS.framework */; };
 		BC4A7F391CB5308100AF1DCB /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4A7F381CB5308100AF1DCB /* AsyncOperation.swift */; };
 		BC4A7F3A1CB5308100AF1DCB /* AsyncOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4A7F381CB5308100AF1DCB /* AsyncOperation.swift */; };
 		BC4A7F3C1CB5373E00AF1DCB /* CancelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC4A7F3B1CB5373E00AF1DCB /* CancelTests.swift */; };
@@ -341,7 +340,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BC44DBFB79F5D20227956704 /* Pods_AlgoliaSearch_Offline_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
