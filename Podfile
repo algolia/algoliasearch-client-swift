@@ -2,18 +2,6 @@
 
 use_frameworks!
 
-def common_deps
-    pod 'AlgoliaSearchOfflineCore-iOS', '~> 1.2'
-end
-
-target "AlgoliaSearch-Offline-iOS" do
-    common_deps
-end
-
-target "AlgoliaSearch-Offline-iOS-Tests" do
-    common_deps
-end
-
 def testing_pods
   pod 'PromiseKit', '~> 4.4'
 end
