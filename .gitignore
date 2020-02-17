@@ -43,6 +43,8 @@ fastlane/report.xml
 # Swift Package Manager
 .build/
 
+# macOS
+*.DS_Store
 
 # Ignore FOR NOW bitrise.yml
 bitrise.yml
