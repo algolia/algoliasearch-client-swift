@@ -7,8 +7,22 @@
 
 import Foundation
 
-struct Query: Codable {
+public struct Query: Codable {
     
-    
+  /**
+   The text to search in the index.
+   - Engine default: ""
+   - seealso:
+   [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/query/?language=swift)
+  */
+  var query: String?
+  
+  /**
+   Filter the query with numeric, facet and/or tag filters.
+   - Engine default: ""
+   - seealso:
+   [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/filters/?language=swift)
+   */
+  var filters: String?
     
 }
