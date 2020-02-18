@@ -1,3 +1,1 @@
-# algoliasearch-client-swift
-
-A description of this package.
+# Algolia Search API Client for Swift
