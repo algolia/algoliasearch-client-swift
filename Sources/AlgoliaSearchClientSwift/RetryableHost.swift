@@ -47,7 +47,8 @@ public struct RetryableHost {
 
 extension Array where Element == RetryableHost {
   
-  mutating func expireHostsOlderThan(expirationDelay: TimeInterval) {
+  /** Reset all hosts down for more than specified interval. */
+  mutating func resetExpired(expirationDelay: TimeInterval = .minutes(5)) {
     var updatedHosts: [RetryableHost] = []
     for host in self {
       var mutableHost = host
@@ -65,3 +66,4 @@ extension Array where Element == RetryableHost {
   }
   
 }
+

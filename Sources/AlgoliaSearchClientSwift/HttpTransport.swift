@@ -20,6 +20,9 @@ public enum CallType {
     case read, write
 }
 
+public enum HttpMethod: String {
+  case GET, POST, PUT, DELETE
+}
 
 /**
  The transport layer is responsible of the serialization/deserialization and the retry strategy.
@@ -32,13 +35,18 @@ class HttpTransport: Transport {
     session = .init(configuration: .default)
   }
   
-  public func request(method: String, body: Data) -> URLRequest {
-    var urlComponents = URLComponents(string: "www.algolia.com")!
+  public func request(method: HttpMethod,
+                      path: String,
+                      callType: CallType,
+                      body: Data,
+                      requestOptions: RequestOptions) -> URLRequest {
+    var urlComponents = URLComponents(string: path)!
     urlComponents.scheme = "https"
     urlComponents.queryItems = []
     var request = URLRequest(url: urlComponents.url!)
-    request.httpMethod = method
+    request.httpMethod = method.rawValue
     request.httpBody = body
+    request.timeoutInterval = requestOptions.timeout(for: callType) ?? 0
     return request
   }
   
