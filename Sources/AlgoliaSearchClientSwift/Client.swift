@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+public struct Client {
+  
+  
+  
+}

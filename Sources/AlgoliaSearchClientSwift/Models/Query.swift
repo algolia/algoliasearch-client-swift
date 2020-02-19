@@ -15,7 +15,7 @@ public struct Query: Codable {
    - seealso:
    [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/query/?language=swift)
   */
-  var query: String?
+  public var query: String?
   
   /**
    Filter the query with numeric, facet and/or tag filters.
@@ -23,6 +23,10 @@ public struct Query: Codable {
    - seealso:
    [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/filters/?language=swift)
    */
-  var filters: String?
+  public var filters: String?
+  
+  public init(_ query: String?) {
+    self.query = query
+  }
     
 }

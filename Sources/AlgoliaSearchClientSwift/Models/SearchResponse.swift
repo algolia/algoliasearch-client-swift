@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SearchResponse: Codable {
+public struct SearchResponse: Codable {
     
   
   
