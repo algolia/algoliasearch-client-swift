@@ -30,24 +30,82 @@ public enum HttpMethod: String {
 class HttpTransport: Transport {
   
   let session: URLSession
+  var configuration: Configuration
+  var retryStrategy: RetryStrategy
+  let credentials: Credentials?
   
-  init() {
+  init(configuration: Configuration, credentials: Credentials? = nil, retryStrategy: RetryStrategy? = nil) {
+    let sessionConfiguration: URLSessionConfiguration = .default
+    sessionConfiguration.httpAdditionalHeaders = configuration.defaultHeaders
     session = .init(configuration: .default)
+    self.configuration = configuration
+    self.credentials = credentials
+    self.retryStrategy = retryStrategy ?? RetryStrategy(configuration: configuration)
   }
+  
   
   public func request(method: HttpMethod,
                       path: String,
                       callType: CallType,
-                      body: Data,
-                      requestOptions: RequestOptions) -> URLRequest {
-    var urlComponents = URLComponents(string: path)!
+                      body: Data?,
+                      requestOptions: RequestOptions?) -> URLRequest {
+    let hosts = retryStrategy.callableHosts(for: callType)
+        
+    var urlComponents = URLComponents()
     urlComponents.scheme = "https"
-    urlComponents.queryItems = []
+    urlComponents.host = hosts.first?.url.absoluteString
+    urlComponents.path = path
     var request = URLRequest(url: urlComponents.url!)
+    
+    if let credentials = credentials {
+      request.setApplicationID(credentials.applicationID)
+      request.setAPIKey(credentials.apiKey)
+    }
     request.httpMethod = method.rawValue
+    request.timeoutInterval = requestOptions?.timeout(for: callType) ?? configuration.timeout(for: callType)
     request.httpBody = body
-    request.timeoutInterval = requestOptions.timeout(for: callType) ?? 0
+    if let requestOptions = requestOptions {
+      request.setRequestOptions(requestOptions)
+    }
     return request
+  }
+  
+}
+
+extension URLRequest {
+  
+  mutating func setValue(_ value: String?, for key: HTTPHeaderKey) {
+    setValue(value, forHTTPHeaderField: key.rawValue)
+  }
+  
+  mutating func setApplicationID(_ applicationID: ApplicationID) {
+    setValue(applicationID.rawValue, for: .applicationID)
+  }
+  
+  mutating func setAPIKey(_ apiKey: APIKey) {
+    setValue(apiKey.rawValue, for: .apiKey)
+  }
+  
+  mutating func setRequestOptions(_ requestOptions: RequestOptions) {
+
+    // Append headers
+    requestOptions.headers.forEach { setValue($0.value, forHTTPHeaderField: $0.key) }
+    
+    // Append query items
+    if let url = url, var currentComponents = URLComponents(string: url.absoluteString) {
+      let requestOptionsItems = requestOptions.urlParameters.map { URLQueryItem(name: $0.key, value: $0.value) }
+      var existingItems = currentComponents.queryItems ?? []
+      existingItems.append(contentsOf: requestOptionsItems)
+      currentComponents.queryItems = existingItems
+      self.url = currentComponents.url
+    }
+    
+    // Set body
+    if
+      let body = requestOptions.body,
+      let jsonData = try? JSONSerialization.data(withJSONObject: body, options: []) {
+      httpBody = jsonData
+    }
   }
   
 }

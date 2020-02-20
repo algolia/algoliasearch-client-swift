@@ -22,7 +22,7 @@ public struct RequestOptions {
   /**
    Add a header with key and value to headers.
   */
-  public mutating func setHeader(_ value: String?, forKey key: HeaderKey) {
+  public mutating func setHeader(_ value: String?, forKey key: HTTPHeaderKey) {
     headers[key.rawValue] = value
   }
   
@@ -44,24 +44,22 @@ public struct RequestOptions {
 
 }
 
-public extension RequestOptions {
+public struct HTTPHeaderKey: RawRepresentable, Hashable {
   
-  struct HeaderKey: RawRepresentable {
-    
-    public static let algoliaUserID = "X-Algolia-User-ID"
-    public static let forwardedFor = "X-Forwarded-For"
-    
-    public var rawValue: String
-    
-    public init(rawValue: String) {
-      self.rawValue = rawValue
-    }
-        
+  public static let algoliaUserID: HTTPHeaderKey = "X-Algolia-User-ID"
+  public static let forwardedFor: HTTPHeaderKey = "X-Forwarded-For"
+  public static let applicationID: HTTPHeaderKey = "X-Algolia-Application-Id"
+  public static let apiKey: HTTPHeaderKey = "X-Algolia-API-Key"
+  
+  public var rawValue: String
+  
+  public init(rawValue: String) {
+    self.rawValue = rawValue
   }
-  
+      
 }
 
-extension RequestOptions.HeaderKey: ExpressibleByStringLiteral {
+extension HTTPHeaderKey: ExpressibleByStringLiteral {
   
   public init(stringLiteral value: String) {
     rawValue = value
