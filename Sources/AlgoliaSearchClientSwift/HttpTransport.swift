@@ -34,7 +34,9 @@ class HttpTransport: Transport {
   var retryStrategy: RetryStrategy
   let credentials: Credentials?
   
-  init(configuration: Configuration, credentials: Credentials? = nil, retryStrategy: RetryStrategy? = nil) {
+  init(configuration: Configuration,
+       credentials: Credentials? = nil,
+       retryStrategy: RetryStrategy? = nil) {
     let sessionConfiguration: URLSessionConfiguration = .default
     sessionConfiguration.httpAdditionalHeaders = configuration.defaultHeaders
     session = .init(configuration: .default)
@@ -43,17 +45,29 @@ class HttpTransport: Transport {
     self.retryStrategy = retryStrategy ?? RetryStrategy(configuration: configuration)
   }
   
-  
   public func request(method: HttpMethod,
                       path: String,
                       callType: CallType,
                       body: Data?,
-                      requestOptions: RequestOptions?) -> URLRequest {
+                      requestOptions: RequestOptions?) {
     let hosts = retryStrategy.callableHosts(for: callType)
+    let host = hosts.first!
+    let req = request(host: host, method: method, path: path, callType: callType, body: body, requestOptions: requestOptions)
+    session.dataTask(with: req) { (data, response, error) in
+      switch retryStrategy.decide(host: host, response: response!, error: error)
+    }
+  }
+  
+  public func request(host: RetryableHost,
+                      method: HttpMethod,
+                      path: String,
+                      callType: CallType,
+                      body: Data?,
+                      requestOptions: RequestOptions?) -> URLRequest {
         
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"
-    urlComponents.host = hosts.first?.url.absoluteString
+    urlComponents.host = host.url.absoluteString
     urlComponents.path = path
     var request = URLRequest(url: urlComponents.url!)
     

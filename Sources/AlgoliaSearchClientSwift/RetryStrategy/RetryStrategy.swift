@@ -36,14 +36,40 @@ struct RetryStrategy {
     return upHostsForCallType
     
   }
-  
-  func decide(host: RetryableHost, response: HTTPURLResponse) -> RetryOutcome {
     
+    func isRetryable(response: HTTPURLResponse, error: Error?) -> Bool {
+        guard let statusCode = HTTPStatusCode(rawValue: response.statusCode) else {
+            return false
+        }
+        return error != nil || !statusCode.isSuccess || !statusCode.isClientError
 
+    }
+  
+    func decide(host: RetryableHost, response: HTTPURLResponse, error: Error) -> RetryOutcome {
     
-    return .failure
-    
-  }
+        guard let statusCode = HTTPStatusCode(rawValue: response.statusCode) else {
+            return .failure
+        }
+        
+        var mutableHost = host
+        let isTimedOut = (error as? URLError)?.code == .timedOut
+        let isRetryable = self.isRetryable(response: response, error: error)
+        
+        switch (isTimedOut, statusCode.isSuccess, isRetryable) {
+        case (false, true, _):
+            mutableHost.reset()
+            return .success
+        case (false, _, isRetryable):
+            mutableHost.hasFailed()
+            return .retry
+        case (true, _, _):
+            mutableHost.hasTimedOut()
+            return .retry
+        default:
+            return .failure
+        }
+                
+    }
 
   
 }
