@@ -8,5 +8,5 @@
 import Foundation
 
 enum RetryOutcome {
-  case success, retry, failure
+  case success, retry
 }

@@ -85,11 +85,7 @@ extension Array where Element == RetryableHost {
     }
     self = updatedHosts
   }
-  
-  public func filterCallType(callType: CallType) -> [RetryableHost] {
-    return filter { $0.callType == callType || $0.callType == nil }
-  }
-  
+    
   public init(forApplicationID appID: ApplicationID) {
     let hostSuffixes: [(suffix: String, callType: CallType?)] = [
       ("-dsn.algolia.net", .read),

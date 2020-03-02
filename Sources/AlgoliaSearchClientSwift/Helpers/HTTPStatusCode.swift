@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum HTTPStatusCode: Int {
+public enum HTTPStatusCode: Int {
     // 100 Informational
     case `continue` = 100
     case switchingProtocols
@@ -78,28 +78,36 @@ enum HTTPStatusCode: Int {
 
 extension HTTPStatusCode {
   
-  var isInformational: Bool {
-    return (100..<200).contains(rawValue)
-  }
-  
-  var isSuccess: Bool {
-    return (200..<300).contains(rawValue)
-  }
-  
-  var isRedirection: Bool {
-    return (300..<400).contains(rawValue)
-  }
+  enum Category {
     
-  var isClientError: Bool {
-    return (400..<500).contains(rawValue)
+    case informational
+    case success
+    case redirection
+    case clientError
+    case serverError
+    
+    var range: Range<Int> {
+      switch self {
+      case .informational:
+        return 100..<200
+      case .success:
+        return 200..<300
+      case .redirection:
+        return 300..<400
+      case .clientError:
+        return 400..<500
+      case .serverError:
+        return 500..<600
+      }
+    }
   }
   
-  var isServerError: Bool {
-    return (500..<600).contains(rawValue)
+  func belongs(to categories: Category...) -> Bool {
+    return categories.map { $0.range.contains(rawValue) }.contains(true)
   }
   
   var isError: Bool {
-    return isClientError || isServerError
+    return belongs(to: .clientError, .serverError)
   }
   
 }

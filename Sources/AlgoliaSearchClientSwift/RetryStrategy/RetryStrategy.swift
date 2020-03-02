@@ -7,69 +7,114 @@
 
 import Foundation
 
+extension Optional where Wrapped: Equatable {
+  
+  func isNilOrEqual(to value: Wrapped) -> Bool {
+    return self == nil || self == value
+  }
+  
+}
+
+protocol RetryStrategy {
+  
+  mutating func host(for callType: CallType) -> RetryableHost?
+  mutating func notify<T>(host: RetryableHost, result: Result<T, Swift.Error>) throws -> RetryOutcome
+
+}
+
 /** Algolia's retry strategy in case of server error, timeouts... */
-struct RetryStrategy {
+public struct AlgoliaRetryStrategy: RetryStrategy {
   
   private var hosts: [RetryableHost]
   
-  init(configuration: Configuration) {
-    self.hosts = configuration.hosts
+  init(hosts: [RetryableHost]) {
+    self.hosts = hosts
   }
   
-  mutating func callableHosts(for callType: CallType) -> [RetryableHost] {
+  init(configuration: Configuration) {
+    self.init(hosts: configuration.hosts)
+  }
+  
+  mutating func host(for callType: CallType) -> RetryableHost? {
     
     hosts.resetExpired()
     
-    let hostsForCallType = hosts.filterCallType(callType: callType)
+    let hostsForCallType = hosts.filter { $0.callType.isNilOrEqual(to: callType) }
     
     guard !hostsForCallType.isEmpty else {
-      return []
+      return .none
     }
-    
-    let upHostsForCallType = hostsForCallType.filter { $0.isUp }
-    
-    guard upHostsForCallType.isEmpty else {
+        
+    guard let firstUpHost = hostsForCallType.first(where: { $0.isUp }) else {
       hosts.resetAll(for: callType)
-      return callableHosts(for: callType)
+      return host(for: callType)
     }
     
-    return upHostsForCallType
+    return firstUpHost
     
   }
-    
-    func isRetryable(response: HTTPURLResponse, error: Error?) -> Bool {
-        guard let statusCode = HTTPStatusCode(rawValue: response.statusCode) else {
-            return false
-        }
-        return error != nil || !statusCode.isSuccess || !statusCode.isClientError
-
-    }
   
-    func decide(host: RetryableHost, response: HTTPURLResponse, error: Error) -> RetryOutcome {
-    
-        guard let statusCode = HTTPStatusCode(rawValue: response.statusCode) else {
-            return .failure
-        }
+  mutating func notify<T>(host: RetryableHost, result: Result<T, Swift.Error>) throws -> RetryOutcome {
         
-        var mutableHost = host
-        let isTimedOut = (error as? URLError)?.code == .timedOut
-        let isRetryable = self.isRetryable(response: response, error: error)
-        
-        switch (isTimedOut, statusCode.isSuccess, isRetryable) {
-        case (false, true, _):
-            mutableHost.reset()
-            return .success
-        case (false, _, isRetryable):
-            mutableHost.hasFailed()
-            return .retry
-        case (true, _, _):
-            mutableHost.hasTimedOut()
-            return .retry
-        default:
-            return .failure
-        }
-                
+    guard let hostIndex = hosts.firstIndex(where: { $0.url == host.url }) else {
+      throw Error.unexpectedHost
     }
-
+    
+    switch result {
+    case .success:
+      hosts[hostIndex].reset()
+      return .success
+      
+    case .failure(let error) where error.isTimeout:
+      hosts[hostIndex].hasTimedOut()
+      return .retry
+      
+    case .failure(let error) where error.isRetryable:
+      hosts[hostIndex].hasFailed()
+      return .retry
+      
+    case .failure(let error):
+      throw error
+    }
+        
+  }
   
+  enum Error: Swift.Error {
+    case unexpectedHost
+    
+    var localizedDescription: String {
+      return "Attempt to notify a host which is not in the strategy list"
+    }
+  }
+    
+}
+
+extension Error {
+
+  var isRetryable: Bool {
+    switch self {
+    case is URLError:
+      return true
+      
+    case let httpError as HTTPError where !httpError.statusCode.belongs(to: .success, .clientError):
+      return true
+      
+    default:
+      return false
+    }
+  }
+  
+  var isTimeout: Bool {
+    switch self {
+    case let urlError as URLError:
+      return urlError.code == .timedOut
+      
+    case let httpError as HTTPError:
+      return httpError.statusCode == .requestTimeout
+      
+    default:
+      return false
+    }
+  }
+
 }
