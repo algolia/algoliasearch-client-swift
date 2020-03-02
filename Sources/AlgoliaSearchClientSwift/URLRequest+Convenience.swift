@@ -75,9 +75,16 @@ extension URLRequest {
   
   func withHost(_ host: RetryableHost) -> URLRequest {
     var output = self
+    
+    // Update timeout interval
+    let multiplier = TimeInterval(host.retryCount + 1)
+    output.timeoutInterval = self.timeoutInterval * multiplier
+    
+    // Update url
     var urlComponents = URLComponents(string: url!.absoluteString)
     urlComponents?.host = host.url.absoluteString
     output.url = urlComponents?.url
+
     return output
   }
   
