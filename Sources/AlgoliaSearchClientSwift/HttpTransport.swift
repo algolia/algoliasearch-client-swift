@@ -33,7 +33,7 @@ class HttpTransport: Transport {
   var configuration: Configuration
   var retryStrategy: RetryStrategy
   let credentials: Credentials?
-  
+
   init(configuration: Configuration,
        credentials: Credentials? = nil,
        retryStrategy: RetryStrategy? = nil) {
@@ -42,84 +42,60 @@ class HttpTransport: Transport {
     session = .init(configuration: .default)
     self.configuration = configuration
     self.credentials = credentials
-    self.retryStrategy = retryStrategy ?? RetryStrategy(configuration: configuration)
+    self.retryStrategy = retryStrategy ?? AlgoliaRetryStrategy(configuration: configuration)
   }
   
-  public func request(method: HttpMethod,
-                      path: String,
-                      callType: CallType,
-                      body: Data?,
-                      requestOptions: RequestOptions?) {
-    let hosts = retryStrategy.callableHosts(for: callType)
-    let host = hosts.first!
-    let req = request(host: host, method: method, path: path, callType: callType, body: body, requestOptions: requestOptions)
-    session.dataTask(with: req) { (data, response, error) in
-      switch retryStrategy.decide(host: host, response: response!, error: error)
+  public func request<T: Codable>(method: HttpMethod,
+                                  path: String,
+                                  callType: CallType,
+                                  body: Data?,
+                                  requestOptions: RequestOptions?,
+                                  completion: @escaping (Result<T, Swift.Error>) -> Void) {
+    
+    guard let host = retryStrategy.host(for: callType) else {
+      completion(.failure(Error.noReachableHosts))
+      return
     }
-  }
-  
-  public func request(host: RetryableHost,
-                      method: HttpMethod,
-                      path: String,
-                      callType: CallType,
-                      body: Data?,
-                      requestOptions: RequestOptions?) -> URLRequest {
+    
+    let request = URLRequest(host: host.url.absoluteString,
+                             method: method,
+                             path: path,
+                             callType: callType,
+                             body: body,
+                             requestOptions: requestOptions,
+                             credentials: credentials,
+                             configuration: configuration)
+    
+    let task = session.dataTask(with: request) { [weak self] (data, response, error) in
+      
+      guard let transport = self else { return }
+      
+      let result = Result<T, Swift.Error>(data: data, response: response, error: error)
+      
+      do {
+        let retryOutcome = try transport.retryStrategy.notify(host: host, result: result)
         
-    var urlComponents = URLComponents()
-    urlComponents.scheme = "https"
-    urlComponents.host = host.url.absoluteString
-    urlComponents.path = path
-    var request = URLRequest(url: urlComponents.url!)
+        switch retryOutcome {
+        case .success:
+          completion(result)
+          
+        case .retry:
+          transport.request(method: method,
+                            path: path,
+                            callType: callType,
+                            body: body,
+                            requestOptions: requestOptions,
+                            completion: completion)
+        }
+      } catch let error {
+        completion(.failure(error))
+      }
+      
+    }
     
-    if let credentials = credentials {
-      request.setApplicationID(credentials.applicationID)
-      request.setAPIKey(credentials.apiKey)
-    }
-    request.httpMethod = method.rawValue
-    request.timeoutInterval = requestOptions?.timeout(for: callType) ?? configuration.timeout(for: callType)
-    request.httpBody = body
-    if let requestOptions = requestOptions {
-      request.setRequestOptions(requestOptions)
-    }
-    return request
+    task.resume()
+        
   }
-  
+    
 }
 
-extension URLRequest {
-  
-  mutating func setValue(_ value: String?, for key: HTTPHeaderKey) {
-    setValue(value, forHTTPHeaderField: key.rawValue)
-  }
-  
-  mutating func setApplicationID(_ applicationID: ApplicationID) {
-    setValue(applicationID.rawValue, for: .applicationID)
-  }
-  
-  mutating func setAPIKey(_ apiKey: APIKey) {
-    setValue(apiKey.rawValue, for: .apiKey)
-  }
-  
-  mutating func setRequestOptions(_ requestOptions: RequestOptions) {
-
-    // Append headers
-    requestOptions.headers.forEach { setValue($0.value, forHTTPHeaderField: $0.key) }
-    
-    // Append query items
-    if let url = url, var currentComponents = URLComponents(string: url.absoluteString) {
-      let requestOptionsItems = requestOptions.urlParameters.map { URLQueryItem(name: $0.key, value: $0.value) }
-      var existingItems = currentComponents.queryItems ?? []
-      existingItems.append(contentsOf: requestOptionsItems)
-      currentComponents.queryItems = existingItems
-      self.url = currentComponents.url
-    }
-    
-    // Set body
-    if
-      let body = requestOptions.body,
-      let jsonData = try? JSONSerialization.data(withJSONObject: body, options: []) {
-      httpBody = jsonData
-    }
-  }
-  
-}
