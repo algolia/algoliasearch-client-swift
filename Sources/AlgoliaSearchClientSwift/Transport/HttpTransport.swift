@@ -7,22 +7,22 @@
 
 import Foundation
 
-protocol Transport {
+extension Encodable {
   
+  var httpBody: Data {
+    let jsonEncoder = JSONEncoder()
+    do {
+      let body = try jsonEncoder.encode(self)
+      return body
+    } catch let error {
+      assertionFailure("\(error)")
+      return Data()
+    }
+  }
   
 }
 
-/**
- * Indicate whether the HTTP call performed is of type [read] (GET) or [write] (POST, PUT ..).
- * Used to determined which timeout duration to use.
- */
-public enum CallType {
-    case read, write
-}
 
-public enum HttpMethod: String {
-  case GET, POST, PUT, DELETE
-}
 
 /**
  The transport layer is responsible of the serialization/deserialization and the retry strategy.
@@ -46,11 +46,11 @@ class HttpTransport: Transport, RetryStrategyContainer {
   }
   
   public func request<T: Codable>(method: HttpMethod,
-                                  path: String,
                                   callType: CallType,
+                                  path: String,
                                   body: Data?,
                                   requestOptions: RequestOptions?,
-                                  completion: @escaping (Result<T, Swift.Error>) -> Void) {
+                                  completion: @escaping ResultCallback<T>) {
     
     let hostIterator = HostIterator(container: self, callType: callType)
         
@@ -67,7 +67,7 @@ class HttpTransport: Transport, RetryStrategyContainer {
   
   private func request<T: Codable>(_ request: URLRequest,
                                    hostIterator: HostIterator,
-                                   completion: @escaping (Result<T, Swift.Error>) -> Void) {
+                                   completion: @escaping ResultCallback<T>) {
     
     guard let host = hostIterator.next() else {
       completion(.failure(Error.noReachableHosts))

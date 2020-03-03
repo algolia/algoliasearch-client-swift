@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  HTTPTransport+Result.swift
 //  
 //
 //  Created by Vladislav Fitc on 02/03/2020.
