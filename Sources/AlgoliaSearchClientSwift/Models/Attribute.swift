@@ -1,13 +1,13 @@
 //
-//  APIKey.swift
+//  Attribute.swift
 //  
 //
-//  Created by Vladislav Fitc on 20/02/2020.
+//  Created by Vladislav Fitc on 02/03/2020.
 //
 
 import Foundation
 
-public struct APIKey: StringWrapper {
+public struct Attribute: StringWrapper {
     
   public let rawValue: String
     
