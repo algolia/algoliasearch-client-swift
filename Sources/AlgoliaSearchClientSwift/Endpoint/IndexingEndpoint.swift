@@ -7,8 +7,6 @@
 
 import Foundation
 
-typealias ResultCallback<T: Codable> = (Result<T, Error>) -> Void
-
 protocol IndexingEndpoint {
   
   /**
@@ -39,9 +37,9 @@ protocol IndexingEndpoint {
    * If you don’t specify any attributes, every attribute will be returned.
    * - parameter requestOptions: Configure request locally with RequestOptions.
    */
-  func getObject<R: Codable>(objectID: ObjectID,
+  func getObject<T: Codable>(objectID: ObjectID,
                              attributesToRetreive: [Attribute],
                              requestOptions: RequestOptions?,
-                             completion: @escaping ResultCallback<R>)
+                             completion: @escaping ResultCallback<T>)
     
 }

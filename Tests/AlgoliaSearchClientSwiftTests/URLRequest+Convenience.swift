@@ -20,7 +20,7 @@ class URLRequestBuilding: XCTestCase {
   
   func testBuilding() {
     
-    let method = HttpMethod.POST
+    let method = HttpMethod.post
     let path = "/my/test/path"
     let callType = CallType.read
     let body: Data = "TestContent".data(using: .utf8)!
@@ -48,7 +48,7 @@ class URLRequestBuilding: XCTestCase {
   
   func testWithHostConstructor() {
     
-    let method = HttpMethod.POST
+    let method = HttpMethod.post
     let path = "/my/test/path"
     let callType = CallType.read
 

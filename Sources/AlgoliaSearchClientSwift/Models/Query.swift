@@ -12,8 +12,7 @@ public struct Query: Codable {
   /**
    The text to search in the index.
    - Engine default: ""
-   - seealso:
-   [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/query/?language=swift)
+   - seealso: [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/query/?language=swift)
   */
   public var query: String?
   

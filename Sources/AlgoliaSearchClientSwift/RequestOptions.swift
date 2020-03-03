@@ -13,8 +13,8 @@ import Foundation
 */
 public struct RequestOptions {
   
-  public var headers: [String: String?]
-  public var urlParameters: [String: String?]
+  public var headers: [String: String?] = [:]
+  public var urlParameters: [String: String?] = [:]
   public var writeTimeout: TimeInterval? = nil
   public var readTimeout: TimeInterval? = nil
   public var body: [String: Any]? = nil
@@ -29,8 +29,8 @@ public struct RequestOptions {
   /**
    Add a url parameter with key and value to urlParameters.
   */
-  public mutating func setParameter(_ value: String?, forKey key: String) {
-    urlParameters[key] = value
+  public mutating func setParameter(_ value: String?, forKey key: HTTPParameterKey) {
+    urlParameters[key.rawValue] = value
   }
   
   public func timeout(for callType: CallType) -> TimeInterval? {
@@ -44,6 +44,27 @@ public struct RequestOptions {
 
 }
 
+public struct HTTPParameterKey: RawRepresentable, Hashable {
+  
+  public static let attributesToRetreive: HTTPParameterKey = "attributesToRetreive"
+  public static let forwardToReplicas: HTTPParameterKey = "forwardToReplicas"
+  
+  public let rawValue: String
+  
+  public init(rawValue: String) {
+    self.rawValue = rawValue
+  }
+  
+}
+
+extension HTTPParameterKey: ExpressibleByStringLiteral {
+  
+  public init(stringLiteral value: String) {
+    rawValue = value
+  }
+  
+}
+
 public struct HTTPHeaderKey: RawRepresentable, Hashable {
   
   public static let algoliaUserID: HTTPHeaderKey = "X-Algolia-User-ID"
@@ -51,7 +72,7 @@ public struct HTTPHeaderKey: RawRepresentable, Hashable {
   public static let applicationID: HTTPHeaderKey = "X-Algolia-Application-Id"
   public static let apiKey: HTTPHeaderKey = "X-Algolia-API-Key"
   
-  public var rawValue: String
+  public let rawValue: String
   
   public init(rawValue: String) {
     self.rawValue = rawValue
