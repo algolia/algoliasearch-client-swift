@@ -11,14 +11,9 @@ extension Index: SettingsEndpoint {
   
   func getSettings(requestOptions: RequestOptions? = nil,
                    completion: @escaping ResultCallback<Settings>) {
-    let path = name.toPath(withSuffix: "/\(Route.settings)")
-    let request = HTTPRequest(transport: transport,
-                              method: .get,
-                              callType: .read,
-                              path: path,
-                              requestOptions: requestOptions,
-                              completion: completion)
-    queue.addOperation(request)
+    let endpoint = Request.Settings.GetSettings(indexName: name,
+                                                requestOptions: requestOptions)
+    performRequest(for: endpoint, completion: completion)
   }
   
   func setSettings(_ settings: Settings,
@@ -26,20 +21,12 @@ extension Index: SettingsEndpoint {
                    forwardToReplicas: Bool? = nil,
                    requestOptions: RequestOptions? = nil,
                    completion: @escaping ResultCallback<RevisionIndex>) {
-    let requestOptions = requestOptions.withParameters({
-      guard let forwardToReplicas = forwardToReplicas else { return [:] }
-      return [.forwardToReplicas: "\(forwardToReplicas)"]
-    }())
-    let path = name.toPath(withSuffix: "\(Route.settings)")
-    let request = HTTPRequest(transport: transport,
-                              method: .put,
-                              callType: .write,
-                              path: path,
-                              body: settings.httpBody,
-                              requestOptions: requestOptions,
-                              completion: completion)
-    queue.addOperation(request)
-
+    let endpoint = Request.Settings.SetSettings(indexName: name,
+                                                settings: settings,
+                                                resetToDefault: resetToDefault,
+                                                forwardToReplicas: forwardToReplicas,
+                                                requestOptions: requestOptions)
+    performRequest(for: endpoint, completion: completion)
   }
   
 }

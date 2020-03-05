@@ -11,25 +11,16 @@ extension URLRequest {
   
   init(method: HttpMethod,
        path: String,
-       callType: CallType,
        body: Data? = nil,
-       requestOptions: RequestOptions? = nil,
-       credentials: Credentials? = nil,
-       configuration: Configuration) {
+       requestOptions: RequestOptions? = nil) {
     
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"
     urlComponents.path = path
     
     var request = URLRequest(url: urlComponents.url!)
-    
-    if let credentials = credentials {
-      request.setApplicationID(credentials.applicationID)
-      request.setAPIKey(credentials.apiKey)
-    }
-    
+        
     request.httpMethod = method.rawValue
-    request.timeoutInterval = requestOptions?.timeout(for: callType) ?? configuration.timeout(for: callType)
     request.httpBody = body
     
     if let requestOptions = requestOptions {
@@ -41,6 +32,11 @@ extension URLRequest {
   
   mutating func setValue(_ value: String?, for key: HTTPHeaderKey) {
     setValue(value, forHTTPHeaderField: key.rawValue)
+  }
+  
+  mutating func set(_ credentials: Credentials) {
+    setApplicationID(credentials.applicationID)
+    setAPIKey(credentials.apiKey)
   }
   
   mutating func setApplicationID(_ applicationID: ApplicationID) {
