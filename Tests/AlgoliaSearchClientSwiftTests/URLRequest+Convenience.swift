@@ -22,16 +22,13 @@ class URLRequestBuilding: XCTestCase {
     
     let method = HttpMethod.post
     let path = "/my/test/path"
-    let callType = CallType.read
     let body: Data = "TestContent".data(using: .utf8)!
     let credentials = TestCredentials(applicationID: "testAppID", apiKey: "testApiKey")
     
-    let request = URLRequest(method: method,
+    var request = URLRequest(method: method,
                              path: path,
-                             callType: callType,
-                             body: body,
-                             credentials: credentials,
-                             configuration: SearchConfigration.default)
+                             body: body)
+    request.set(credentials)
     
     let expectedHeaders: [String: String] = [
       HTTPHeaderKey.applicationID.rawValue: credentials.applicationID.rawValue,
@@ -50,12 +47,9 @@ class URLRequestBuilding: XCTestCase {
     
     let method = HttpMethod.post
     let path = "/my/test/path"
-    let callType = CallType.read
 
     let request = URLRequest(method: method,
-                             path: path,
-                             callType: callType,
-                             configuration: SearchConfigration.default)
+                             path: path)
     
     for index in 0...2 {
       let host = RetryableHost(url: URL(string: "test\(index).algolia.com")!)

@@ -43,3 +43,154 @@ protocol IndexingEndpoint {
                              completion: @escaping ResultCallback<T>)
     
 }
+
+protocol AlgoliaRequest {
+  
+  var callType: CallType { get }
+  var urlRequest: URLRequest { get }
+  var requestOptions: RequestOptions? { get }
+  
+}
+
+enum Request {
+}
+
+extension Request {
+  
+  enum Indexing {
+    
+    struct SaveObject: AlgoliaRequest {
+      
+      let callType: CallType = .write
+      let urlRequest: URLRequest
+      let requestOptions: RequestOptions?
+      
+      init<T: Codable>(indexName: IndexName,
+                       record: T,
+                       requestOptions: RequestOptions?) {
+        self.requestOptions = requestOptions
+        urlRequest = .init(method: .post,
+                           path: indexName.toPath(),
+                           body: record.httpBody,
+                           requestOptions: requestOptions)
+      }
+      
+      init(indexName: IndexName,
+           record: [String: Any],
+           requestOptions: RequestOptions?) throws {
+        self.requestOptions = requestOptions
+        let body = try JSONSerialization.data(withJSONObject: record, options: [])
+        urlRequest = .init(method: .post,
+                           path: indexName.toPath(),
+                           body: body,
+                           requestOptions: requestOptions)
+      }
+      
+    }
+    
+    struct GetObject: AlgoliaRequest {
+      
+      let callType: CallType = .read
+      let urlRequest: URLRequest
+      let requestOptions: RequestOptions?
+
+      init(indexName: IndexName,
+           objectID: ObjectID,
+           attributesToRetreive: [Attribute] = [],
+           requestOptions: RequestOptions?) {
+        let requestOptions = requestOptions.withParameters( {
+          guard !attributesToRetreive.isEmpty else { return [:] }
+          let attributesValue = attributesToRetreive.map { $0.rawValue }.joined(separator: ",")
+          return [.attributesToRetreive: attributesValue]
+        }() )
+        self.requestOptions = requestOptions
+        let path = indexName.toPath(withSuffix: "/\(objectID.rawValue)")
+        urlRequest = .init(method: .get,
+                           path: path,
+                           requestOptions: requestOptions)
+      }
+      
+    }
+    
+  }
+  
+}
+
+
+extension Request {
+  
+  enum Search {
+    
+    struct Search: AlgoliaRequest {
+      
+      let callType: CallType = .read
+      let urlRequest: URLRequest
+      let requestOptions: RequestOptions?
+
+      init(indexName: IndexName,
+           query: Query,
+           requestOptions: RequestOptions?) {
+        self.requestOptions = requestOptions
+        let path = indexName.toPath(withSuffix: "/query")
+        urlRequest = .init(method: .post,
+                           path: path,
+                           body: query.httpBody,
+                           requestOptions: requestOptions)
+      }
+      
+    }
+    
+  }
+  
+}
+
+
+extension Request {
+  
+  enum Settings {
+    
+    struct GetSettings: AlgoliaRequest {
+      
+      let callType: CallType = .read
+      let urlRequest: URLRequest
+      let requestOptions: RequestOptions?
+
+      init(indexName: IndexName,
+           requestOptions: RequestOptions?) {
+        self.requestOptions = requestOptions
+        let path = indexName.toPath(withSuffix: "/\(Route.settings)")
+        urlRequest = .init(method: .get,
+                           path: path,
+                           requestOptions: requestOptions)
+      }
+      
+    }
+    
+    struct SetSettings: AlgoliaRequest {
+      
+      let callType: CallType = .write
+      let urlRequest: URLRequest
+      let requestOptions: RequestOptions?
+
+      init(indexName: IndexName,
+           settings: AlgoliaSearchClientSwift.Settings,
+           resetToDefault: [AlgoliaSearchClientSwift.Settings.Key],
+           forwardToReplicas: Bool?,
+           requestOptions: RequestOptions?) {
+        let requestOptions = requestOptions.withParameters({
+          guard let forwardToReplicas = forwardToReplicas else { return [:] }
+          return [.forwardToReplicas: "\(forwardToReplicas)"]
+        }())
+        self.requestOptions = requestOptions
+        let path = indexName.toPath(withSuffix: "\(Route.settings)")
+        urlRequest = .init(method: .put,
+                           path: path,
+                           body: settings.httpBody,
+                           requestOptions: requestOptions)
+      }
+      
+    }
+    
+  }
+
+}

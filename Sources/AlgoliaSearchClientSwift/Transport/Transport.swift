@@ -16,16 +16,14 @@ public enum CallType {
 }
 
 public enum HttpMethod: String {
-  case get, post, put, delete
+  case get = "GET", post = "POST", put = "PUT", delete = "DELETE"
 }
 
 protocol Transport {
   
-  func request<T: Codable>(method: HttpMethod,
-                           callType: CallType,
-                           path: String,
-                           body: Data?,
-                           requestOptions: RequestOptions?,
-                           completion: @escaping ResultCallback<T>)
+  var credentials: Credentials? { get }
+  var configuration: Configuration { get }
+  
+  func request<T: Codable>(request: URLRequest, callType: CallType, requestOptions: RequestOptions?, completion: @escaping ResultCallback<T>)
   
 }

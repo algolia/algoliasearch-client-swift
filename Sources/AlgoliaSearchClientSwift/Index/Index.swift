@@ -26,5 +26,10 @@ public struct Index {
     self.queue = queue
   }
   
+  func performRequest<T: Codable>(for endpoint: AlgoliaRequest, completion: @escaping ResultCallback<T>) {
+    let request = HTTPRequest(transport: transport, endpoint: endpoint, completion: completion)
+    queue.addOperation(request)
+  }
+  
 }
 

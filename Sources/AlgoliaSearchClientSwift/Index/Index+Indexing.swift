@@ -12,34 +12,20 @@ extension Index: IndexingEndpoint {
   func saveObject<T: Codable>(record: T,
                               requestOptions: RequestOptions? = nil,
                               completion: @escaping ResultCallback<ObjectCreation>) {
-    let request = HTTPRequest(transport: transport,
-                              method: .post,
-                              callType: .write,
-                              path: name.toPath(),
-                              body: record.httpBody,
-                              requestOptions: requestOptions,
-                              completion: completion)
-    queue.addOperation(request)
+    let endpoint = Request.Indexing.SaveObject(indexName: name,
+                                               record: record,
+                                               requestOptions: requestOptions)
+    performRequest(for: endpoint, completion: completion)
   }
   
   func getObject<T: Codable>(objectID: ObjectID,
                              attributesToRetreive: [Attribute] = [],
                              requestOptions: RequestOptions? = nil,
                              completion: @escaping ResultCallback<T>) {
-    let requestOptions = requestOptions.withParameters( {
-      guard !attributesToRetreive.isEmpty else { return [:] }
-      let attributesValue = attributesToRetreive.map { $0.rawValue }.joined(separator: ",")
-      return [.attributesToRetreive: attributesValue]
-    }() )
-
-    let path = name.toPath(withSuffix: "/\(objectID.rawValue)")
-    let request = HTTPRequest(transport: transport,
-                              method: .get,
-                              callType: .read,
-                              path: path,
-                              requestOptions: requestOptions,
-                              completion: completion)
-    queue.addOperation(request)
+    let endpoint = Request.Indexing.GetObject(indexName: name,
+                                              objectID: objectID,
+                                              requestOptions: requestOptions)
+    performRequest(for: endpoint, completion: completion)
   }
     
 }

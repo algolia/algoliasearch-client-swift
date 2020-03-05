@@ -45,26 +45,19 @@ class HttpTransport: Transport, RetryStrategyContainer {
     self.retryStrategy = retryStrategy ?? AlgoliaRetryStrategy(configuration: configuration)
   }
   
-  public func request<T: Codable>(method: HttpMethod,
-                                  callType: CallType,
-                                  path: String,
-                                  body: Data?,
-                                  requestOptions: RequestOptions?,
-                                  completion: @escaping ResultCallback<T>) {
-    
+  func request<T: Codable>(request: URLRequest,
+                           callType: CallType,
+                           requestOptions: RequestOptions?,
+                           completion: @escaping ResultCallback<T>) {
     let hostIterator = HostIterator(container: self, callType: callType)
-        
-    let requestTemplate = URLRequest(method: method,
-                                     path: path,
-                                     callType: callType,
-                                     body: body,
-                                     requestOptions: requestOptions,
-                                     credentials: credentials,
-                                     configuration: configuration)
-    
-    request(requestTemplate, hostIterator: hostIterator, completion: completion)
+    var effectiveRequest = request
+    effectiveRequest.timeoutInterval = requestOptions?.timeout(for: callType) ?? configuration.timeout(for: callType)
+    if let credentials = credentials {
+      effectiveRequest.set(credentials)
+    }
+    self.request(request, hostIterator: hostIterator, completion: completion)
   }
-  
+
   private func request<T: Codable>(_ request: URLRequest,
                                    hostIterator: HostIterator,
                                    completion: @escaping ResultCallback<T>) {
