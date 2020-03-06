@@ -7,7 +7,7 @@ let package = Package(
     name: "AlgoliaSearchClientSwift",
     platforms: [
         .iOS(.v8),
-        .macOS(.v10_10),
+        .macOS(.v10_12),
         .watchOS(.v2),
         .tvOS(.v9)
     ],

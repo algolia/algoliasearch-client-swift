@@ -29,3 +29,11 @@ public struct Query: Codable {
   }
     
 }
+
+extension Query: ExpressibleByStringLiteral {
+  
+  public init(stringLiteral value: String) {
+    self.init(value)
+  }
+  
+}

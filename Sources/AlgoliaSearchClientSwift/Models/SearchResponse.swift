@@ -9,7 +9,7 @@ import Foundation
 
 public struct SearchResponse: Codable {
     
-  
+  let hits: [JSON]
   
     
 }

@@ -19,8 +19,13 @@ extension StringWrapper {
   
   public init(from decoder: Decoder) throws {
     let container = try decoder.singleValueContainer()
-    let rawValue = try container.decode(String.self)
-    self.init(rawValue: rawValue)
+    if let intValue = try? container.decode(Int.self) {
+      self.init(rawValue: "\(intValue)")
+    } else {
+      let rawValue = try container.decode(String.self)
+      self.init(rawValue: rawValue)
+    }
+
   }
   
   public func encode(to encoder: Encoder) throws {

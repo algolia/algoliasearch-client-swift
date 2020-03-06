@@ -13,7 +13,7 @@ public struct Index {
   let transport: Transport
   let queue: OperationQueue
   
-  public init(name: IndexName) {
+  init(name: IndexName) {
     let transport = HttpTransport(configuration: DefaultConfiguration.default)
     let queue = OperationQueue()
     queue.qualityOfService = .userInitiated
@@ -33,3 +33,39 @@ public struct Index {
   
 }
 
+
+extension Index {
+  
+  func delete(requestOptions: RequestOptions? = nil,
+              completion: @escaping ResultCallback<JSON>) {
+    let request = Request.Index.DeleteIndex(indexName: name,
+                                            requestOptions: requestOptions)
+    performRequest(for: request, completion: completion)
+  }
+  
+}
+
+extension Request {
+  enum Index {}
+}
+
+extension Request.Index {
+  
+  struct DeleteIndex: AlgoliaRequest {
+    
+    let callType: CallType = .write
+    let urlRequest: URLRequest
+    let requestOptions: RequestOptions?
+    
+    init(indexName: IndexName,
+         requestOptions: RequestOptions?) {
+      self.requestOptions = requestOptions
+      let path = indexName.toPath()
+      urlRequest = .init(method: .delete,
+                         path: path,
+                         requestOptions: requestOptions)
+    }
+    
+  }
+  
+}

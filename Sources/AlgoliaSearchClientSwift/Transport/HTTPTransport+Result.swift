@@ -25,7 +25,11 @@ extension Result where Success: Codable, Failure == Error {
     }
         
     do {
-      let object = try JSONDecoder().decode(Success.self, from: data)
+      let jsonDecoder = JSONDecoder()
+      let formatter = DateFormatter()
+      formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+      jsonDecoder.dateDecodingStrategy = .formatted(formatter)
+      let object = try jsonDecoder.decode(Success.self, from: data)
       self = .success(object)
     } catch let error {
       self = .failure(error)
