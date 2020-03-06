@@ -28,8 +28,8 @@ class HTTPRequest<Value: Codable>: AsyncOperation {
                       callType: endpoint.callType,
                       requestOptions: endpoint.requestOptions) { [weak self] (result: Result<Value, Error>) in
       self?.result = result
-      self?.state = .finished
       self?.completion(result)
+      self?.state = .finished
     }
   }
   

@@ -77,7 +77,7 @@ extension URLRequest {
     output.timeoutInterval = self.timeoutInterval * multiplier
     
     // Update url
-    var urlComponents = URLComponents(string: url!.absoluteString)
+    var urlComponents = URLComponents(url: url!, resolvingAgainstBaseURL: false)
     urlComponents?.host = host.url.absoluteString
     output.url = urlComponents?.url
 

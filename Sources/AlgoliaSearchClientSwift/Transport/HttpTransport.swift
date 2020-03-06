@@ -55,7 +55,7 @@ class HttpTransport: Transport, RetryStrategyContainer {
     if let credentials = credentials {
       effectiveRequest.set(credentials)
     }
-    self.request(request, hostIterator: hostIterator, completion: completion)
+    self.request(effectiveRequest, hostIterator: hostIterator, completion: completion)
   }
 
   private func request<T: Codable>(_ request: URLRequest,
@@ -68,6 +68,8 @@ class HttpTransport: Transport, RetryStrategyContainer {
     }
     
     let effectiveRequest = request.withHost(host)
+    
+    Logger.info("Perform: \(effectiveRequest.url!)")
     
     let task = session.dataTask(with: effectiveRequest) { [weak self] (data, response, error) in
       
