@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum AdvancedSyntaxFeatures: Equatable {
+enum AdvancedSyntaxFeatures: Codable, Equatable {
   case exactPhrase
   case excludeWords
   case other(String)
@@ -28,9 +28,9 @@ extension AdvancedSyntaxFeatures: RawRepresentable {
   
   init(rawValue: String) {
     switch rawValue {
-    case "exactPhrase":
+    case AdvancedSyntaxFeatures.exactPhrase.rawValue:
       self = .exactPhrase
-    case "excludeWords":
+    case AdvancedSyntaxFeatures.excludeWords.rawValue:
       self = .excludeWords
     default:
       self = .other(rawValue)
