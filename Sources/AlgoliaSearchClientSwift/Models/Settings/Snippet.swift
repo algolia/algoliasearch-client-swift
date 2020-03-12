@@ -7,25 +7,30 @@
 
 import Foundation
 
-struct Snippet {
+public struct Snippet: Codable, Equatable {
   
   /**
    Attribute to snippet.
    - Use "*" to snippet all attributes.
    */
-  let attribute: Attribute
+  public let attribute: Attribute
   
   /**
    Optional word count.
    - Engine default: 10
    */
-  let count: Int?
+  public let count: Int?
+  
+  public init(attribute: Attribute, count: Int? = nil) {
+    self.attribute = attribute
+    self.count = count
+  }
 
 }
 
 extension Snippet: RawRepresentable {
   
-  var rawValue: String {
+  public var rawValue: String {
     guard let countSuffix = count.flatMap({ ":\($0)" }) else {
       return attribute.rawValue
     }

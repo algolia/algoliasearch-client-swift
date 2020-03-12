@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Distinct: RawRepresentable {
+struct Distinct: RawRepresentable, Equatable {
   
   let rawValue: UInt
   

@@ -29,7 +29,7 @@ extension AlternativesAsExact: RawRepresentable {
     }
   }
   
-  init(rawValue: Self.RawValue) {
+  init(rawValue: String) {
     switch rawValue {
     case AlternativesAsExact.ignorePlurals.rawValue:
       self = .ignorePlurals

@@ -8,10 +8,8 @@
 import Foundation
 
 public enum CustomRankingCriterion: Codable, Equatable {
-  
   case asc(Attribute)
   case desc(Attribute)
-  
 }
 
 extension CustomRankingCriterion: RawRepresentable {
