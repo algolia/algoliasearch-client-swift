@@ -18,8 +18,8 @@ protocol SearchEndpoint {
    - parameter query: The Query used to search.
    - parameter requestOptions: Configure request locally with RequestOptions.
    */
-  func search(query: Query,
-              requestOptions: RequestOptions?,
-              completion: @escaping ResultCallback<SearchResponse>)
+  @discardableResult func search(query: Query,
+                                 requestOptions: RequestOptions?,
+                                 completion: @escaping ResultCallback<SearchResponse>) -> Operation
   
 }

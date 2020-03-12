@@ -19,4 +19,5 @@ enum Route {
   public static let logs = "/1/logs"
   public static let recommendation = "/1/recommendation"
   public static let places = "/1/places"
+  public static let task = "/task"
 }

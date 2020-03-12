@@ -87,3 +87,20 @@ extension HTTPHeaderKey: ExpressibleByStringLiteral {
   }
   
 }
+
+extension Optional where Wrapped == RequestOptions {
+  
+  func withParameters(_ parameters: @autoclosure () -> [HTTPParameterKey: String]) -> Optional<RequestOptions> {
+    let parameters = parameters()
+    guard !parameters.isEmpty else {
+      return self
+    }
+    var mutableRequestOptions = self ?? RequestOptions()
+    for (key, value) in parameters {
+      mutableRequestOptions.setParameter(value, forKey: key)
+    }
+    
+    return mutableRequestOptions
+  }
+  
+}

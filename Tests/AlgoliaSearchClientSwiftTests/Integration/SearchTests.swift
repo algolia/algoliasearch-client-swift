@@ -13,7 +13,7 @@ class SearchTests: OnlineTestCase {
   
   func testSearch() {
     
-    let client = Client(appID: "latency", apiKey: "af044fb0788d6bb15f807e4420592bc5")
+    let client = Client(appID: "", apiKey: "")
     let index = client.index(withName: "movies")
     
     let expectation = self.expectation(description: "Search result expectation")

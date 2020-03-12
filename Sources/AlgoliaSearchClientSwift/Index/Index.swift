@@ -26,9 +26,25 @@ public struct Index {
     self.queue = queue
   }
   
-  func performRequest<T: Codable>(for endpoint: AlgoliaRequest, completion: @escaping ResultCallback<T>) {
+  func performRequest<T: Codable>(for endpoint: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation {
     let request = HTTPRequest(transport: transport, endpoint: endpoint, completion: completion)
     queue.addOperation(request)
+    return request
+  }
+  
+  func performRequest<T: Codable & Task>(for endpoint: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation {
+    let request = HTTPRequest(transport: transport, endpoint: endpoint, completion: completion)
+    queue.addOperation(request)
+    return request
+  }
+  
+  func performSyncRequest<T: Codable>(for endpoint: AlgoliaCommand) throws -> T {
+    let request = HTTPRequest<T>(transport: transport, endpoint: endpoint, completion: { _ in })
+    return try queue.performOperation(request)
+  }
+  
+  enum Error: Swift.Error {
+    case missingResult
   }
   
 }
@@ -36,22 +52,22 @@ public struct Index {
 
 extension Index {
   
-  func delete(requestOptions: RequestOptions? = nil,
-              completion: @escaping ResultCallback<JSON>) {
-    let request = Request.Index.DeleteIndex(indexName: name,
+  @discardableResult func delete(requestOptions: RequestOptions? = nil,
+                                 completion: @escaping ResultCallback<JSON>) -> Operation {
+    let request = Command.Index.DeleteIndex(indexName: name,
                                             requestOptions: requestOptions)
-    performRequest(for: request, completion: completion)
+    return performRequest(for: request, completion: completion)
   }
   
 }
 
-extension Request {
+extension Command {
   enum Index {}
 }
 
-extension Request.Index {
+extension Command.Index {
   
-  struct DeleteIndex: AlgoliaRequest {
+  struct DeleteIndex: AlgoliaCommand {
     
     let callType: CallType = .write
     let urlRequest: URLRequest
