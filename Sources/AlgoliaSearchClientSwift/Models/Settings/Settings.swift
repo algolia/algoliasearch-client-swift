@@ -433,3 +433,15 @@ public extension Settings {
   }
   
 }
+
+extension Settings: CustomStringConvertible {
+  
+  public var description: String {
+    let encoder = JSONEncoder()
+    encoder.outputFormatting = .prettyPrinted
+    let data = try! encoder.encode(self)
+    let string = String(data: data, encoding: .utf8)!
+    return string
+  }
+  
+}

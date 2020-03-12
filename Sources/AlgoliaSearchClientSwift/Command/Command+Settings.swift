@@ -20,7 +20,7 @@ extension Command {
       init(indexName: IndexName,
            requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = indexName.toPath(withSuffix: "/\(Route.settings)")
+        let path = indexName.toPath(withSuffix: "\(Route.settings)")
         urlRequest = .init(method: .get,
                            path: path,
                            requestOptions: requestOptions)
