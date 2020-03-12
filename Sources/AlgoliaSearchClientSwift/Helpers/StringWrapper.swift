@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol StringWrapper: RawRepresentable, Codable, CustomStringConvertible, ExpressibleByStringLiteral where RawValue == String {
+public protocol StringWrapper: RawRepresentable, Codable, CustomStringConvertible, Equatable, ExpressibleByStringLiteral where RawValue == String {
   init(rawValue: String)
 }
 
@@ -27,14 +27,10 @@ extension StringWrapper {
     }
 
   }
-  
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    try container.encode(rawValue)
-  }
-  
+    
   public var description: String {
     return rawValue
   }
-  
+    
 }
+

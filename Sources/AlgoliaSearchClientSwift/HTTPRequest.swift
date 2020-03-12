@@ -7,26 +7,26 @@
 
 import Foundation
 
-class HTTPRequest<Value: Codable>: AsyncOperation {
+class HTTPRequest<Value: Codable>: AsyncOperation, ResultContainer {
   
   let transport: Transport
-  let endpoint: AlgoliaRequest
+  let command: AlgoliaCommand
   let completion: (ResultCallback<Value>)
   
   var result: Result<Value, Error>?
   
   init(transport: Transport,
-       endpoint: AlgoliaRequest,
+       endpoint: AlgoliaCommand,
        completion: @escaping ResultCallback<Value>) {
     self.transport = transport
-    self.endpoint = endpoint
+    self.command = endpoint
     self.completion = completion
   }
   
   override func main() {
-    transport.request(request: endpoint.urlRequest,
-                      callType: endpoint.callType,
-                      requestOptions: endpoint.requestOptions) { [weak self] (result: Result<Value, Error>) in
+    transport.request(request: command.urlRequest,
+                      callType: command.callType,
+                      requestOptions: command.requestOptions) { [weak self] (result: Result<Value, Error>) in
       self?.result = result
       self?.completion(result)
       self?.state = .finished

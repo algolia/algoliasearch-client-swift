@@ -14,7 +14,7 @@ protocol SettingsEndpoint {
    - parameter requestOptions: Configure request locally with RequestOptions.
    */
   func getSettings(requestOptions: RequestOptions?,
-                   completion: @escaping ResultCallback<Settings>)
+                   completion: @escaping ResultCallback<Settings>) -> Operation
 
   /**
    Create or change an index’s Settings.
@@ -30,6 +30,6 @@ protocol SettingsEndpoint {
                    resetToDefault: [Settings.Key],
                    forwardToReplicas: Bool?,
                    requestOptions: RequestOptions?,
-                   completion: @escaping ResultCallback<RevisionIndex>)
+                   completion: @escaping ResultCallback<RevisionIndex>) -> Operation
   
 }

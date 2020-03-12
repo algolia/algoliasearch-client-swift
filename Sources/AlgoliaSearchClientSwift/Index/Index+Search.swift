@@ -9,13 +9,22 @@ import Foundation
 
 extension Index: SearchEndpoint {
   
-  func search(query: Query,
-              requestOptions: RequestOptions? = nil,
-              completion: @escaping ResultCallback<SearchResponse>) {
-    let endpoint = Request.Search.Search(indexName: name,
+  @discardableResult func search(query: Query,
+                                 requestOptions: RequestOptions? = nil,
+                                 completion: @escaping ResultCallback<SearchResponse>) -> Operation {
+    let command = Command.Search.Search(indexName: name,
                                          query: query,
                                          requestOptions: requestOptions)
-    performRequest(for: endpoint, completion: completion)
+    return performRequest(for: command, completion: completion)
+  }
+  
+}
+
+extension Index {
+  
+  func search(query: Query, requestOptions: RequestOptions? = nil) throws -> SearchResponse {
+    let command = Command.Search.Search(indexName: name, query: query, requestOptions: requestOptions)
+    return try performSyncRequest(for: command)
   }
   
 }
