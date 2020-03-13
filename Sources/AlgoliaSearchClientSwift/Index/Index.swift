@@ -26,14 +26,14 @@ public struct Index {
     self.queue = queue
   }
   
-  func performRequest<T: Codable>(for endpoint: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation {
-    let request = HTTPRequest(transport: transport, endpoint: endpoint, completion: completion)
+  func performRequest<T: Codable>(for command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation {
+    let request = HTTPRequest(transport: transport, endpoint: command, completion: completion)
     queue.addOperation(request)
     return request
   }
   
-  func performRequest<T: Codable & Task>(for endpoint: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation {
-    let request = HTTPRequest(transport: transport, endpoint: endpoint, completion: completion)
+  func performRequest<T: Codable & Task>(for command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation {
+    let request = HTTPRequest(transport: transport, endpoint: command, completion: completion)
     queue.addOperation(request)
     return request
   }
@@ -49,7 +49,6 @@ public struct Index {
   
 }
 
-
 extension Index {
   
   @discardableResult func delete(requestOptions: RequestOptions? = nil,
@@ -57,31 +56,6 @@ extension Index {
     let request = Command.Index.DeleteIndex(indexName: name,
                                             requestOptions: requestOptions)
     return performRequest(for: request, completion: completion)
-  }
-  
-}
-
-extension Command {
-  enum Index {}
-}
-
-extension Command.Index {
-  
-  struct DeleteIndex: AlgoliaCommand {
-    
-    let callType: CallType = .write
-    let urlRequest: URLRequest
-    let requestOptions: RequestOptions?
-    
-    init(indexName: IndexName,
-         requestOptions: RequestOptions?) {
-      self.requestOptions = requestOptions
-      let path = indexName.toPath()
-      urlRequest = .init(method: .delete,
-                         path: path,
-                         requestOptions: requestOptions)
-    }
-    
   }
   
 }

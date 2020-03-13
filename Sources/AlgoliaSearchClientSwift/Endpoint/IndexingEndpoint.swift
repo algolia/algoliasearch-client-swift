@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol IndexingEndpoint {
+public protocol IndexingEndpoint {
   
   /**
    * Add a new record to an index.

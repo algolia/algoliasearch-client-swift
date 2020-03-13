@@ -7,4 +7,4 @@
 
 import Foundation
 
-typealias ResultCallback<T: Codable> = (Result<T, Error>) -> Void
+public typealias ResultCallback<T: Codable> = (Result<T, Error>) -> Void

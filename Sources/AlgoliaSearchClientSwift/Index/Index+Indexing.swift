@@ -9,7 +9,7 @@ import Foundation
 
 extension Index: IndexingEndpoint {
   
-  @discardableResult func saveObject<T: Codable>(record: T,
+  @discardableResult public func saveObject<T: Codable>(record: T,
                                                  requestOptions: RequestOptions? = nil,
                                                  completion: @escaping ResultCallback<ObjectCreation>) -> Operation {
     let command = Command.Indexing.SaveObject(indexName: name,
@@ -19,7 +19,7 @@ extension Index: IndexingEndpoint {
   }
   
   
-  @discardableResult func getObject<T: Codable>(objectID: ObjectID,
+  @discardableResult public func getObject<T: Codable>(objectID: ObjectID,
                                                 attributesToRetreive: [Attribute] = [],
                                                 requestOptions: RequestOptions? = nil,
                                                 completion: @escaping ResultCallback<T>) -> Operation {

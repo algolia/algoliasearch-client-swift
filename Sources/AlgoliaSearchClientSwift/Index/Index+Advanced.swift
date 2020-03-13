@@ -7,15 +7,14 @@
 
 import Foundation
 
-
 extension Index: AdvancedEndpoint {
   
-  @discardableResult func taskStatus(for taskID: TaskID, requestOptions: RequestOptions? = nil, completion: @escaping  ResultCallback<TaskInfo>) -> Operation {
+  @discardableResult public func taskStatus(for taskID: TaskID, requestOptions: RequestOptions? = nil, completion: @escaping  ResultCallback<TaskInfo>) -> Operation {
     let request = Command.Advanced.TaskStatus(indexName: name, taskID: taskID, requestOptions: requestOptions)
     return performRequest(for: request, completion: completion)
   }
   
-  @discardableResult func waitTask(withID taskID: TaskID, timeout: TimeInterval? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<TaskStatus>) -> Operation {
+  @discardableResult public func waitTask(withID taskID: TaskID, timeout: TimeInterval? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<TaskStatus>) -> Operation {
     let task = WaitTask(index: self, taskID: taskID, requestOptions: requestOptions, completion: completion)
     queue.addOperation(task)
     return task
@@ -35,5 +34,3 @@ extension Index {
   }
   
 }
-
-
