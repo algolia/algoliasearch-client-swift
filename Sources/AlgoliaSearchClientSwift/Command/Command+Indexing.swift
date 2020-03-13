@@ -40,6 +40,8 @@ extension Command {
       
     }
     
+    
+    
     struct GetObject: AlgoliaCommand {
       
       let callType: CallType = .read
