@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol SettingsEndpoint {
+public protocol SettingsEndpoint {
   
   /**
    Get the Settings of an index.

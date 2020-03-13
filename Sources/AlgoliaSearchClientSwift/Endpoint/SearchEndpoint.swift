@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol SearchEndpoint {
+public protocol SearchEndpoint {
   
   /**
    Method used for querying an index.

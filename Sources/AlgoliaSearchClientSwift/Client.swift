@@ -27,7 +27,7 @@ public struct Client {
     queue.qualityOfService = .userInitiated
   }
   
-  func index(withName indexName: IndexName) -> Index {
+  public func index(withName indexName: IndexName) -> Index {
     return Index(name: indexName, transport: transport, queue: queue)
   }
   

@@ -7,17 +7,17 @@
 
 import Foundation
 
-struct TaskInfo: Codable {
+public struct TaskInfo: Codable {
   
   /**
    The Task current TaskStatus.
    */
-  let status: TaskStatus
+  public let status: TaskStatus
   
   /**
    * Whether the index has remaining Task is running
    */
-  let pendingTask: Bool
+  public let pendingTask: Bool
 
   
 }

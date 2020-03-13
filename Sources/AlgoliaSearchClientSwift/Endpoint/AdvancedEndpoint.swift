@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol AdvancedEndpoint {
+public protocol AdvancedEndpoint {
   
   /**
     Check the current TaskStatus of a given Task.

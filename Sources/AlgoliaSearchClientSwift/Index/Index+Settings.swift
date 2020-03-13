@@ -9,18 +9,18 @@ import Foundation
 
 extension Index: SettingsEndpoint {
   
-  func getSettings(requestOptions: RequestOptions? = nil,
-                   completion: @escaping ResultCallback<Settings>) -> Operation {
+  @discardableResult public func getSettings(requestOptions: RequestOptions? = nil,
+                                             completion: @escaping ResultCallback<Settings>) -> Operation {
     let command = Command.Settings.GetSettings(indexName: name,
                                                requestOptions: requestOptions)
     return performRequest(for: command, completion: completion)
   }
   
-  func setSettings(_ settings: Settings,
-                   resetToDefault: [Settings.Key] = [],
-                   forwardToReplicas: Bool? = nil,
-                   requestOptions: RequestOptions? = nil,
-                   completion: @escaping ResultCallback<RevisionIndex>) -> Operation {
+  @discardableResult public func setSettings(_ settings: Settings,
+                                             resetToDefault: [Settings.Key] = [],
+                                             forwardToReplicas: Bool? = nil,
+                                             requestOptions: RequestOptions? = nil,
+                                             completion: @escaping ResultCallback<RevisionIndex>) -> Operation {
     let command = Command.Settings.SetSettings(indexName: name,
                                                settings: settings,
                                                resetToDefault: resetToDefault,
@@ -50,6 +50,6 @@ extension Index {
                                                requestOptions: requestOptions)
     return try performSyncRequest(for: command)
   }
-
+  
   
 }

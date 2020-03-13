@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum TaskStatus {
+public enum TaskStatus {
       
   /**
    * The Task has been processed by the server.
@@ -25,7 +25,7 @@ enum TaskStatus {
 
 extension TaskStatus: RawRepresentable {
   
-  var rawValue: String {
+  public var rawValue: String {
     switch self {
     case .notPublished:
       return "notPublished"
@@ -36,7 +36,7 @@ extension TaskStatus: RawRepresentable {
     }
   }
   
-  init(rawValue: String) {
+  public init(rawValue: String) {
     switch rawValue {
     case TaskStatus.published.rawValue:
       self = .published
@@ -51,13 +51,13 @@ extension TaskStatus: RawRepresentable {
 
 extension TaskStatus: Codable {
   
-  init(from decoder: Decoder) throws {
+  public init(from decoder: Decoder) throws {
     let container = try decoder.singleValueContainer()
     let value = try container.decode(String.self)
     self.init(rawValue: value)
   }
   
-  func encode(to encoder: Encoder) throws {
+  public func encode(to encoder: Encoder) throws {
     var container = encoder.singleValueContainer()
     try container.encode(rawValue)
   }
