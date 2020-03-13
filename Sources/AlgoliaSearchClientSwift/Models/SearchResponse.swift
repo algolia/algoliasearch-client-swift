@@ -8,8 +8,12 @@
 import Foundation
 
 public struct SearchResponse: Codable {
-    
-  let hits: [JSON]
   
+  
+  /// Search hits
+  let hits: [Hit<JSON>]
+  
+  /// Total number of hits.
+  public let nbHits: Int
     
 }

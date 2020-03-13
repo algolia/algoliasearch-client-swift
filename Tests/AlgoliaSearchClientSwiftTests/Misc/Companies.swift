@@ -1,0 +1,68 @@
+import Foundation
+
+enum Resource {}
+
+extension Resource {
+  
+  static var companies: String { return  """
+  [
+    {
+      "company": "Algolia",
+      "name": "Julien Lemoine",
+      "objectID": "julien-lemoine"
+    },
+    {
+      "company": "Algolia",
+      "name": "Nicolas Dessaigne",
+      "objectID": "nicolas-dessaigne"
+    },
+    {
+      "company": "Amazon",
+      "name": "Jeff Bezos"
+    },
+    {
+      "company": "Apple",
+      "name": "Steve Jobs"
+    },
+    {
+      "company": "Apple",
+      "name": "Steve Wozniak"
+    },
+    {
+      "company": "Arista Networks",
+      "name": "Jayshree Ullal"
+    },
+    {
+      "company": "Google",
+      "name": "Larry Page"
+    },
+    {
+      "company": "Google",
+      "name": "Rob Pike"
+    },
+    {
+      "company": "Google",
+      "name": "Serguey Brin"
+    },
+    {
+      "company": "Microsoft",
+      "name": "Bill Gates"
+    },
+    {
+      "company": "SpaceX",
+      "name": "Elon Musk"
+    },
+    {
+      "company": "Tesla",
+      "name": "Elon Musk"
+    },
+    {
+      "company": "Yahoo",
+      "name": "Marissa Mayer"
+    }
+  ]
+  """
+  }
+  
+}
+

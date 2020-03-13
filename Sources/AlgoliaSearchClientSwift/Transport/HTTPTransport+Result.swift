@@ -13,10 +13,12 @@ extension Result where Success: Codable, Failure == Error {
     
     if let error = error {
       self = .failure(error)
+      return
     }
     
     if let httpError = HTTPError(response: response as? HTTPURLResponse, data: data) {
       self = .failure(httpError)
+      return
     }
     
     guard let data = data else {
