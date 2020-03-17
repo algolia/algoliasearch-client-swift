@@ -45,6 +45,14 @@ public struct RetryableHost {
   
 }
 
+extension RetryableHost: CustomDebugStringConvertible {
+  
+  public var debugDescription: String {
+    return "Host \(callType?.description ?? "nil") \(url) up: \(isUp) retry count: \(retryCount) updated: \(lastUpdated)"
+  }
+  
+}
+
 extension RetryableHost {
   
   func timeout(requestOptions: RequestOptions? = nil) -> TimeInterval {
