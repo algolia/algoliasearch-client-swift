@@ -14,7 +14,7 @@ public struct Client {
   
   public init(appID: ApplicationID, apiKey: APIKey) {
     let credentials = AlgoliaCredentials(applicationID: appID, apiKey: apiKey)
-    let retryStrategy = AlgoliaRetryStrategy(hosts: .init(forApplicationID: appID))
+    let retryStrategy = AlgoliaRetryStrategy(applicationID: appID)
     let httpTransport = HttpTransport(configuration: DefaultConfiguration.default,
                                       credentials: credentials,
                                       retryStrategy: retryStrategy)
