@@ -34,7 +34,7 @@ public struct SearchConfigration: Configuration, Credentials {
     self.writeTimeout = writeTimeout
     self.readTimeout = readTimeout
     self.logLevel = logLevel
-    self.hosts = .init(forApplicationID: applicationID)
+    self.hosts = AlgoliaRetryStrategy.defaultHostsForApplication(withID: applicationID)
     self.defaultHeaders = defaultHeaders
   }
   

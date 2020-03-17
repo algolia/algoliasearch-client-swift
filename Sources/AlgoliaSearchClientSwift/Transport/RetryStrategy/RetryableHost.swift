@@ -67,9 +67,8 @@ extension RetryableHost {
 extension Array where Element == RetryableHost {
   
   /** Reset all hosts down for more than specified interval.
-   - default interval is 5 minutes
-   */
-  public mutating func resetExpired(expirationDelay: TimeInterval = .minutes(5)) {
+  */
+  public mutating func resetExpired(expirationDelay: TimeInterval) {
     var updatedHosts: [RetryableHost] = []
     for host in self {
       var mutableHost = host
@@ -92,20 +91,6 @@ extension Array where Element == RetryableHost {
       updatedHosts.append(mutableHost)
     }
     self = updatedHosts
-  }
-    
-  public init(forApplicationID appID: ApplicationID) {
-    let hostSuffixes: [(suffix: String, callType: CallType?)] = [
-      ("-dsn.algolia.net", .read),
-      (".algolia.net", .write),
-      ("-1.algolianet.com", nil),
-      ("-2.algolianet.com", nil),
-      ("-3.algolianet.com", nil),
-    ]
-    self = hostSuffixes.map {
-      let url = URL(string: "\(appID.rawValue)\($0.suffix)")!
-      return RetryableHost(url: url, callType: $0.callType)
-    }
   }
   
 }
