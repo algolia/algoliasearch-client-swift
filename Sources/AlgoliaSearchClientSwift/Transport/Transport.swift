@@ -15,6 +15,17 @@ public enum CallType {
     case read, write
 }
 
+extension CallType: CustomStringConvertible {
+  public var description: String {
+    switch self {
+    case .read:
+      return "read"
+    case .write:
+      return "write"
+    }
+  }
+}
+
 public enum HttpMethod: String {
   case get = "GET", post = "POST", put = "PUT", delete = "DELETE"
 }

@@ -89,6 +89,14 @@ public struct AlgoliaRetryStrategy: RetryStrategy {
     
 }
 
+extension AlgoliaRetryStrategy: CustomDebugStringConvertible {
+  
+  public var debugDescription: String {
+    return hosts.map { $0.debugDescription }.joined(separator: "\n")
+  }
+  
+}
+
 extension Error {
 
   var isRetryable: Bool {
