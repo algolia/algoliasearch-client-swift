@@ -1,10 +1,8 @@
-import Foundation
-
 enum Resource {}
 
 extension Resource {
   
-  static var companies: String { return  """
+  static let employees: String = """
   [
     {
       "company": "Algolia",
@@ -62,7 +60,6 @@ extension Resource {
     }
   ]
   """
-  }
   
 }
 
