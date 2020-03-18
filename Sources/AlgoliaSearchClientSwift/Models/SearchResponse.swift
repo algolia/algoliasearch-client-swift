@@ -11,7 +11,7 @@ public struct SearchResponse: Codable {
   
   
   /// Search hits
-  let hits: [Hit<JSON>]
+  public let hits: [Hit<JSON>]
   
   /// Total number of hits.
   public let nbHits: Int
