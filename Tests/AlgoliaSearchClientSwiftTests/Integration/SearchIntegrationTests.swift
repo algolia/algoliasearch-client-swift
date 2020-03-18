@@ -13,7 +13,7 @@ class SearchIntegrationTests: OnlineTestCase {
   
   func testSearch() {
     
-    guard case .array(let companies) = try? JSON(jsonString: Resource.companies) else {
+    guard case .array(let companies) = try? JSON(jsonString: Resource.employees) else {
       XCTFail()
       return
     }
