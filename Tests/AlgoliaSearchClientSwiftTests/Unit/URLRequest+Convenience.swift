@@ -47,13 +47,19 @@ class URLRequestBuilding: XCTestCase {
     
     let method = HttpMethod.post
     let path = "/my/test/path"
+    let baseTimeout: TimeInterval = 10
 
     let request = URLRequest(method: method,
                              path: path)
     
+    var requestOptions = RequestOptions()
+    requestOptions.readTimeout = baseTimeout
+    
     for index in 0...2 {
-      let host = RetryableHost(url: URL(string: "test\(index).algolia.com")!)
-      let requestWithHost = request.withHost(host)
+      var host = RetryableHost(url: URL(string: "test\(index).algolia.com")!)
+      host.retryCount = index
+      let requestWithHost = request.withHost(host, requestOptions: requestOptions)
+      XCTAssertEqual(requestWithHost.timeoutInterval, baseTimeout * TimeInterval(index + 1))
       XCTAssertEqual(requestWithHost.url?.absoluteString, "https://test\(index).algolia.com/my/test/path")
     }
     

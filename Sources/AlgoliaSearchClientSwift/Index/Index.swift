@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Index.swift
 //  
 //
 //  Created by Vladislav Fitc on 19/02/2020.
@@ -12,13 +12,6 @@ public struct Index {
   public let name: IndexName
   let transport: Transport
   let queue: OperationQueue
-  
-  init(name: IndexName) {
-    let transport = HttpTransport(configuration: DefaultConfiguration.default)
-    let queue = OperationQueue()
-    queue.qualityOfService = .userInitiated
-    self.init(name: name, transport: transport, queue: queue)
-  }
   
   init(name: IndexName, transport: Transport, queue: OperationQueue) {
     self.name = name
