@@ -7,15 +7,19 @@
 
 import Foundation
 
-struct Distinct: RawRepresentable, Equatable {
+public struct Distinct: RawRepresentable, Equatable {
   
-  let rawValue: UInt
+  public let rawValue: UInt
+  
+  public init(rawValue: UInt) {
+    self.rawValue = rawValue
+  }
   
 }
 
 extension Distinct: ExpressibleByIntegerLiteral {
   
-  init(integerLiteral value: UInt) {
+  public init(integerLiteral value: UInt) {
     self.rawValue = value
   }
   
@@ -23,7 +27,7 @@ extension Distinct: ExpressibleByIntegerLiteral {
 
 extension Distinct: ExpressibleByBooleanLiteral  {
     
-  init(booleanLiteral value: Bool) {
+  public init(booleanLiteral value: Bool) {
     self.rawValue = value ? 1 : 0
   }
   

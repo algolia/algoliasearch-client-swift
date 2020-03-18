@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum AlternativesAsExact: Codable, Equatable {
+public enum AlternativesAsExact: Codable, Equatable {
   case ignorePlurals
   case singleWordSynonym
   case multiWordsSynonym
@@ -16,7 +16,7 @@ enum AlternativesAsExact: Codable, Equatable {
 
 extension AlternativesAsExact: RawRepresentable {
   
-  var rawValue: String {
+  public var rawValue: String {
     switch self {
     case .ignorePlurals:
       return "ignorePlurals"
@@ -29,7 +29,7 @@ extension AlternativesAsExact: RawRepresentable {
     }
   }
   
-  init(rawValue: String) {
+  public init(rawValue: String) {
     switch rawValue {
     case AlternativesAsExact.ignorePlurals.rawValue:
       self = .ignorePlurals

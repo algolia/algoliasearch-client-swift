@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum AttributeForFaceting: Equatable, Codable {
+public enum AttributeForFaceting: Equatable, Codable {
   
   case `default`(Attribute)
   case filterOnly(Attribute)
@@ -22,7 +22,7 @@ extension AttributeForFaceting: RawRepresentable {
     case searchable
   }
   
-  var rawValue: String {
+  public var rawValue: String {
     switch self {
     case .default(let attribute):
       return attribute.rawValue
@@ -34,7 +34,7 @@ extension AttributeForFaceting: RawRepresentable {
 
   }
   
-  init(rawValue: String) {
+  public init(rawValue: String) {
     if
       let prefixedString = PrefixedString(rawValue: rawValue),
       let prefix = Prefix(rawValue: prefixedString.prefix) {
