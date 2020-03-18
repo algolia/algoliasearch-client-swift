@@ -20,7 +20,7 @@ extension Index: SearchEndpoint {
   
 }
 
-extension Index {
+public extension Index {
   
   func search(query: Query, requestOptions: RequestOptions? = nil) throws -> SearchResponse {
     let command = Command.Search.Search(indexName: name, query: query, requestOptions: requestOptions)

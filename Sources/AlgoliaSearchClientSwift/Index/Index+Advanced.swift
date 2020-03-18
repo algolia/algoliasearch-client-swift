@@ -22,7 +22,7 @@ extension Index: AdvancedEndpoint {
     
 }
 
-extension Index {
+public extension Index {
   
   func waitTask(withID taskID: TaskID, timeout: TimeInterval? = nil, requestOptions: RequestOptions? = nil) throws -> TaskStatus {
     let task = WaitTask(index: self, taskID: taskID, requestOptions: requestOptions, completion: { _ in })

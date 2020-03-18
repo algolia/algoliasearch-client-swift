@@ -28,6 +28,10 @@ public protocol IndexingEndpoint {
                                                  requestOptions: RequestOptions?,
                                                  completion: @escaping ResultCallback<ObjectCreation>) -> Operation
   
+  @discardableResult func saveObjects<T: Codable>(records: [T],
+                                                  requestOptions: RequestOptions?,
+                                                  completion: @escaping ResultCallback<BatchResponse>) -> Operation
+  
   
   /**
    * Get one record using its ObjectID.
