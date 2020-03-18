@@ -94,8 +94,8 @@ Test your snippets in `main.swift`
 import AlgoliaSearchClientSwift
 import Foundation
 
-let client = Client(appID: "1M1U6ZWKZP", apiKey: "c762c14ebbd970c7f5c7ec6654b26472")
-let index = client.index(withName: "MyIndex")
+let client = Client(appID: %appID, apiKey: %apiKey)
+let index = client.index(withName: %indexName)
 
 var settings = Settings()
 settings.attributesForFaceting = [.searchable("company")]
@@ -103,7 +103,7 @@ settings.attributesForFaceting = [.searchable("company")]
 // Read employees list from json string
 let employees = try! [Employee](jsonString: Resource.employees)
 // Save your info in the index
-let me = Hit<Employee>(objectID: "vl-fitc", object: .init(company: "Algolia", name: "Vladislav Fitc"))
+let me = Hit<Employee>(objectID: %yourObjectID, object: .init(company: "Algolia", name: %yourName))
 ```
 ​
 ## How to test my snippets?
