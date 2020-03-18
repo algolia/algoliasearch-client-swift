@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension JSON {
+public extension JSON {
   
   init(jsonString: String) throws {
     let data = jsonString.data(using: .utf8)!
