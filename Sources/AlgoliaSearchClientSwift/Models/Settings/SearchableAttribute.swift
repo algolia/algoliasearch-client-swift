@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum SearchableAttribute: Codable, Equatable {
+public enum SearchableAttribute: Codable, Equatable {
   
   case `default`([Attribute])
   case unordered(Attribute)
@@ -20,7 +20,7 @@ extension SearchableAttribute: RawRepresentable {
     case unordered
   }
   
-  var rawValue: String {
+  public var rawValue: String {
     switch self {
     case .default(let attributes):
       return attributes.map { $0.rawValue }.joined(separator: ",")
@@ -29,7 +29,7 @@ extension SearchableAttribute: RawRepresentable {
     }
   }
   
-  init(rawValue: String) {
+  public init(rawValue: String) {
     if let prefixedString = PrefixedString(rawValue: rawValue), prefixedString.prefix == Prefix.unordered.rawValue {
       let attribute = Attribute(rawValue: prefixedString.value)
       self = .unordered(attribute)

@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum RemoveWordIfNoResults: String, Codable {
+public enum RemoveWordIfNoResults: String, Codable {
   
   /**
    No specific processing is done when a query does not return any results (default behavior).

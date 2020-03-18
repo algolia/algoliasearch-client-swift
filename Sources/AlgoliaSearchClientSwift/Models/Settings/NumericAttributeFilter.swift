@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum NumericAttributeFilter: Equatable, Codable {
+public enum NumericAttributeFilter: Equatable, Codable {
   
   case `default`(Attribute)
   case equalOnly(Attribute)
@@ -20,7 +20,7 @@ extension NumericAttributeFilter: RawRepresentable {
     case equalOnly
   }
   
-  var rawValue: String {
+  public var rawValue: String {
     switch self {
     case .default(let attribute):
       return attribute.rawValue
@@ -30,7 +30,7 @@ extension NumericAttributeFilter: RawRepresentable {
 
   }
   
-  init(rawValue: String) {
+  public init(rawValue: String) {
     if
       let prefixedString = PrefixedString(rawValue: rawValue),
       let prefix = Prefix(rawValue: prefixedString.prefix) {

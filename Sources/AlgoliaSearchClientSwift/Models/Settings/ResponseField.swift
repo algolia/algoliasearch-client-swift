@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum ResponseField: String, Codable {
+public enum ResponseField: String, Codable {
   case all = "*"
   case aroundLatLng
   case automaticRadius

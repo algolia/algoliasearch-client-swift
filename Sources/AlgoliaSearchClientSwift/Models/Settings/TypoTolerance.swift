@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum TypoTolerance: String, Codable {
+public enum TypoTolerance: String, Codable {
   case `true`
   case `false`
   case min
