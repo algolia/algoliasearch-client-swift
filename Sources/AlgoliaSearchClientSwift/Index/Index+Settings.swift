@@ -31,7 +31,7 @@ extension Index: SettingsEndpoint {
   
 }
 
-extension Index {
+public extension Index {
   
   func getSettings(requestOptions: RequestOptions? = nil) throws -> Settings {
     let command = Command.Settings.GetSettings(indexName: name,

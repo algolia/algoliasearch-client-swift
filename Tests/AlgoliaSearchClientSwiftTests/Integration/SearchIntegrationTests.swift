@@ -25,11 +25,8 @@ class SearchIntegrationTests: OnlineTestCase {
       
       let setSettingsTask = try index.setSettings(settings)
       _ = try index.wait(for: setSettingsTask)
-      for company in companies {
-        let saveTask = try index.saveObject(record: company)
-        _ = try index.wait(for: saveTask)
-      }
-      
+      let saveTask = try index.saveObjects(records: companies)
+      _ = try index.wait(for: saveTask)      
       let results = try index.search(query: "algolia")
       
       XCTAssertEqual(results.nbHits, 2)

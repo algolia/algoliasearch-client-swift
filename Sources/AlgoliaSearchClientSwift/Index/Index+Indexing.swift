@@ -18,6 +18,14 @@ extension Index: IndexingEndpoint {
     return performRequest(for: command, completion: completion)
   }
   
+  public func saveObjects<T: Codable>(records: [T],
+                                      requestOptions: RequestOptions? = nil,
+                                      completion: @escaping ResultCallback<BatchResponse>) -> Operation {
+    let operations = records.map { BatchOperation(action: .addObject, body: $0) }
+    let command = Command.Index.Batch(indexName: name, batchOperations: operations, requestOptions: requestOptions)
+    return performRequest(for: command, completion: completion)
+  }
+  
   
   @discardableResult public func getObject<T: Codable>(objectID: ObjectID,
                                                 attributesToRetreive: [Attribute] = [],
@@ -31,7 +39,7 @@ extension Index: IndexingEndpoint {
     
 }
 
-extension Index {
+public extension Index {
   
   func saveObject<T: Codable>(record: T, requestOptions: RequestOptions? = nil) throws -> ObjectCreation {
     let command = Command.Indexing.SaveObject(indexName: name,
@@ -39,6 +47,13 @@ extension Index {
                                                requestOptions: requestOptions)
     return try performSyncRequest(for: command)
   }
+  
+  func saveObjects<T: Codable>(records: [T], requestOptions: RequestOptions? = nil) throws -> BatchResponse {
+    let operations = records.map { BatchOperation(action: .addObject, body: $0) }
+    let command = Command.Index.Batch(indexName: name, batchOperations: operations, requestOptions: requestOptions)
+    return try performSyncRequest(for: command)
+  }
+
 
   func getObject<T: Codable>(objectID: ObjectID, attributesToRetreive: [Attribute] = [], requestOptions: RequestOptions? = nil) throws -> T {
     let command = Command.Indexing.GetObject(indexName: name,
