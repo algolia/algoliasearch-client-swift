@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Client.swift
 //  
 //
 //  Created by Vladislav Fitc on 17.02.2020.
@@ -13,10 +13,10 @@ public struct Client {
   let queue: OperationQueue
   
   public init(appID: ApplicationID, apiKey: APIKey) {
-    let credentials = AlgoliaCredentials(applicationID: appID, apiKey: apiKey)
-    let retryStrategy = AlgoliaRetryStrategy(applicationID: appID)
-    let httpTransport = HttpTransport(configuration: DefaultConfiguration.default,
-                                      credentials: credentials,
+    let configuration = SearchConfigration(applicationID: appID, apiKey: apiKey)
+    let retryStrategy = AlgoliaRetryStrategy(configuration: configuration)
+    let httpTransport = HttpTransport(configuration: configuration,
+                                      credentials: configuration,
                                       retryStrategy: retryStrategy)
     self.init(transport: httpTransport)
   }

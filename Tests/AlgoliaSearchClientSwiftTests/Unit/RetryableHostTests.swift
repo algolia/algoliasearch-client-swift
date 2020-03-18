@@ -69,4 +69,48 @@ class RetryableHostTests: XCTestCase {
     XCTAssertGreaterThan(host.lastUpdated.timeIntervalSince1970, previouslyUpdated.timeIntervalSince1970)
   }
   
+  func testReadTimeoutIncrement() {
+    
+    var requestOptions = RequestOptions()
+    requestOptions.readTimeout = 10
+    
+    var host = RetryableHost(url: URL(string: "algolia.com")!, callType: .read)
+
+    XCTAssertEqual(host.timeout(), 5, accuracy: 0.1)
+    XCTAssertEqual(host.timeout(requestOptions: requestOptions), 10, accuracy: 0.1)
+    
+    host.hasTimedOut()
+    
+    XCTAssertEqual(host.timeout(), 10, accuracy: 0.1)
+    XCTAssertEqual(host.timeout(requestOptions: requestOptions), 20, accuracy: 0.1)
+
+    host.hasTimedOut()
+
+    XCTAssertEqual(host.timeout(), 15, accuracy: 0.1)
+    XCTAssertEqual(host.timeout(requestOptions: requestOptions), 30, accuracy: 0.1)
+  }
+  
+  func testWriteTimeoutIncrement() {
+    
+    var requestOptions = RequestOptions()
+    requestOptions.writeTimeout = 20
+
+    var host = RetryableHost(url: URL(string: "algolia.com")!, callType: .write)
+    
+    XCTAssertEqual(host.timeout(), 30, accuracy: 0.1)
+    XCTAssertEqual(host.timeout(requestOptions: requestOptions), 20, accuracy: 0.1)
+    
+    host.hasTimedOut()
+    
+    XCTAssertEqual(host.timeout(), 60, accuracy: 0.1)
+    XCTAssertEqual(host.timeout(requestOptions: requestOptions), 40, accuracy: 0.1)
+
+    host.hasTimedOut()
+
+    XCTAssertEqual(host.timeout(), 90, accuracy: 0.1)
+    XCTAssertEqual(host.timeout(requestOptions: requestOptions), 60, accuracy: 0.1)
+
+
+  }
+  
 }

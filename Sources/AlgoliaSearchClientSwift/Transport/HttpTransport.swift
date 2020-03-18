@@ -55,11 +55,12 @@ class HttpTransport: Transport, RetryStrategyContainer {
     if let credentials = credentials {
       effectiveRequest.set(credentials)
     }
-    self.request(effectiveRequest, hostIterator: hostIterator, completion: completion)
+    self.request(effectiveRequest, hostIterator: hostIterator, requestOptions: requestOptions, completion: completion)
   }
 
   private func request<T: Codable>(_ request: URLRequest,
                                    hostIterator: HostIterator,
+                                   requestOptions: RequestOptions?,
                                    completion: @escaping ResultCallback<T>) {
     
     guard let host = hostIterator.next() else {
@@ -67,7 +68,7 @@ class HttpTransport: Transport, RetryStrategyContainer {
       return
     }
     
-    let effectiveRequest = request.withHost(host)
+    let effectiveRequest = request.withHost(host, requestOptions: requestOptions)
     
     Logger.info("Perform: \(effectiveRequest.url!)")
     
@@ -85,7 +86,7 @@ class HttpTransport: Transport, RetryStrategyContainer {
           completion(result)
           
         case .retry:
-          transport.request(request, hostIterator: hostIterator, completion: completion)
+          transport.request(request, hostIterator: hostIterator, requestOptions: requestOptions, completion: completion)
         }
       } catch let error {
         completion(.failure(error))

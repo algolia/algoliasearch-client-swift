@@ -35,9 +35,6 @@ public protocol Configuration {
 
 extension Configuration {
   
-  static var `default`: Configuration {
-    return DefaultConfiguration()
-  }
   
   func timeout(for callType: CallType) -> TimeInterval {
     switch callType {
@@ -51,9 +48,13 @@ extension Configuration {
 }
 
 struct DefaultConfiguration: Configuration {
+  
+  static let `default`: Configuration = DefaultConfiguration()
+  
   let writeTimeout: TimeInterval = 30
   let readTimeout: TimeInterval = 5
   let logLevel: LogLevel = .info
   var hosts: [RetryableHost] = []
   let defaultHeaders: [HTTPHeaderKey : String]? = nil
+  
 }
