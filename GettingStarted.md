@@ -69,7 +69,7 @@ swift run
 
 You are all set to play with the Swift API Client
 
-## Add Employee structure in a new file
+## Add Employee structure in a `./Sources/SwiftClientTest/Employee.swift' file
 ​
 ```swift
 struct Employee: Codable, CustomStringConvertible {
@@ -91,8 +91,8 @@ Download [Employees.swift](https://github.com/algolia/algoliasearch-client-swift
 Test your snippets in `main.swift`
 
 ```swift
-import AlgoliaSearchClientSwift
 import Foundation
+import AlgoliaSearchClientSwift
 
 let client = Client(appID: %appID, apiKey: %apiKey)
 let index = client.index(withName: %indexName)
