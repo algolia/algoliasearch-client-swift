@@ -17,3 +17,12 @@ public struct SearchResponse: Codable {
   public let nbHits: Int
     
 }
+
+public extension SearchResponse {
+  
+  func extractHits<T: Decodable>() throws -> [T] {
+    let hitsData = try JSONEncoder().encode(hits.map { $0.object })
+    return try JSONDecoder().decode([T].self, from: hitsData)
+  }
+  
+}
