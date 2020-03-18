@@ -52,8 +52,7 @@ extension Hit: Codable {
   public func encode(to encoder: Encoder) throws {
     var keyedContainer = encoder.container(keyedBy: CodingKeys.self)
     try keyedContainer.encode(objectID, forKey: .objectID)
-    var valueContainter = encoder.singleValueContainer()
-    try valueContainter.encode(object)
+    try object.encode(to: encoder)
   }
   
 }
