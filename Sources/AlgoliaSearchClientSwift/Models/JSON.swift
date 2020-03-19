@@ -177,7 +177,7 @@ extension JSON {
 
 extension JSON {
   
-  init<E: Encodable>(_ encodable: E) throws {
+  public init<E: Encodable>(_ encodable: E) throws {
     let data = try JSONEncoder().encode(encodable)
     self = try JSONDecoder().decode(JSON.self, from: data)
   }

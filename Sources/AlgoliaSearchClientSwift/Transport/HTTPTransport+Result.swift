@@ -7,6 +7,18 @@
 
 import Foundation
 
+extension URLSession: HTTPRequester {
+  
+  func perform<T: Codable>(request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) {
+    let task = dataTask(with: request) { (data, response, error) in
+      let result = Result<T, Error>(data: data, response: response, error: error)
+      completion(result)
+    }
+    task.resume()
+  }
+  
+}
+
 extension Result where Success: Codable, Failure == Error {
   
   init(data: Data?, response: URLResponse?, error: Swift.Error?) {

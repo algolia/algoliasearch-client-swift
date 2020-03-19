@@ -25,7 +25,7 @@ public struct RetryableHost {
     self.retryCount = 0
   }
   
-  func supports(_ callType: CallType) -> Bool {
+  public func supports(_ callType: CallType) -> Bool {
     switch callType {
     case .read:
       return supportedCallTypes.contains(.read)
