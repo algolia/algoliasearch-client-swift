@@ -53,7 +53,7 @@ class URLRequestBuilding: XCTestCase {
                              path: path)
     
     var requestOptions = RequestOptions()
-    requestOptions.readTimeout = baseTimeout
+    requestOptions.writeTimeout = baseTimeout
     
     for index in 0...2 {
       var host = RetryableHost(url: URL(string: "test\(index).algolia.com")!)
