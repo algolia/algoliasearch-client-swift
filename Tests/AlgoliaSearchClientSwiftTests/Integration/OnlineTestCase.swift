@@ -22,7 +22,7 @@ class OnlineTestCase: XCTestCase {
     super.setUp()
     
     // Init client.
-    let credentials = TestCredentials(applicationID: "1M1U6ZWKZP", apiKey: "c762c14ebbd970c7f5c7ec6654b26472")
+    let credentials = TestCredentials(applicationID: "", apiKey: "")
     
     let expectation = self.expectation(description: "Delete index")
     
