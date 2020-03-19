@@ -27,7 +27,7 @@ struct AlgoliaRetryStrategy: RetryStrategy {
     
     hosts.resetExpired(expirationDelay: hostsExpirationDelay)
     
-    let hostsForCallType = hosts.filter { $0.callType.isNilOrEqual(to: callType) }
+    let hostsForCallType = hosts.filter { $0.supports(callType) }
     
     guard !hostsForCallType.isEmpty else {
       return .none

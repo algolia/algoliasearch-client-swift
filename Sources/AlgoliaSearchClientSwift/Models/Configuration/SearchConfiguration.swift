@@ -34,27 +34,8 @@ public struct SearchConfigration: Configuration, Credentials {
     self.writeTimeout = writeTimeout
     self.readTimeout = readTimeout
     self.logLevel = logLevel
-    self.hosts = applicationID.searchHosts
+    self.hosts = Hosts.forApplicationID(applicationID)
     self.defaultHeaders = defaultHeaders
-  }
-  
-}
-
-
-extension ApplicationID {
-  
-  var searchHosts: [RetryableHost] {
-    let hostSuffixes: [(suffix: String, callType: CallType?)] = [
-      ("-dsn.algolia.net", .read),
-      (".algolia.net", .write),
-      ("-1.algolianet.com", nil),
-      ("-2.algolianet.com", nil),
-      ("-3.algolianet.com", nil),
-    ]
-    return hostSuffixes.map {
-      let url = URL(string: "\(rawValue)\($0.suffix)")!
-      return RetryableHost(url: url, callType: $0.callType)
-    }
   }
   
 }
