@@ -7,8 +7,12 @@
 
 import Foundation
 
-extension Index: SettingsEndpoint {
+extension Index {
   
+  /**
+   Get the Settings of an index.
+   - parameter requestOptions: Configure request locally with RequestOptions.
+   */
   @discardableResult public func getSettings(requestOptions: RequestOptions? = nil,
                                              completion: @escaping ResultCallback<Settings>) -> Operation {
     let command = Command.Settings.GetSettings(indexName: name,
@@ -16,6 +20,16 @@ extension Index: SettingsEndpoint {
     return performRequest(for: command, completion: completion)
   }
   
+  /**
+   Create or change an index’s Settings.
+   Only non-null settings are overridden; null settings are left unchanged
+   Performance wise, it’s better to setSettings before pushing the data.
+   
+   - parameter settings: The Settings to be set.
+   - parameter resetToDefault: Reset a settings to its default value.
+   - parameter forwardToReplicas: Whether to forward the same settings to the replica indices.
+   - parameter requestOptions: Configure request locally with RequestOptions.
+   */
   @discardableResult public func setSettings(_ settings: Settings,
                                              resetToDefault: [Settings.Key] = [],
                                              forwardToReplicas: Bool? = nil,

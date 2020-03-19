@@ -22,12 +22,7 @@ extension OperationQueue {
       throw SyncOperationError.noResult
     }
     
-    switch result {
-    case .success(let value):
-      return value
-    case .failure(let error):
-      throw error
-    }
+    return try result.value()
     
   }
   
@@ -37,4 +32,3 @@ enum SyncOperationError: Error {
   case cancelled
   case noResult
 }
-

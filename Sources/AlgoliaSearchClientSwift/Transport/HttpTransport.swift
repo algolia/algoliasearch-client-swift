@@ -7,39 +7,21 @@
 
 import Foundation
 
-extension Encodable {
-  
-  var httpBody: Data {
-    let jsonEncoder = JSONEncoder()
-    do {
-      let body = try jsonEncoder.encode(self)
-      return body
-    } catch let error {
-      assertionFailure("\(error)")
-      return Data()
-    }
-  }
-  
-}
-
-
-
 /**
  The transport layer is responsible of the serialization/deserialization and the retry strategy.
 */
 class HttpTransport: Transport, RetryStrategyContainer {
   
-  let session: URLSession
+  let requester: HTTPRequester
   var configuration: Configuration
   var retryStrategy: RetryStrategy
   let credentials: Credentials?
 
-  init(configuration: Configuration,
+  init(requester: HTTPRequester,
+       configuration: Configuration,
        credentials: Credentials? = nil,
        retryStrategy: RetryStrategy? = nil) {
-    let sessionConfiguration: URLSessionConfiguration = .default
-    sessionConfiguration.httpAdditionalHeaders = configuration.defaultHeaders
-    session = .init(configuration: .default)
+    self.requester = requester
     self.configuration = configuration
     self.credentials = credentials
     self.retryStrategy = retryStrategy ?? AlgoliaRetryStrategy(configuration: configuration)
@@ -72,12 +54,9 @@ class HttpTransport: Transport, RetryStrategyContainer {
     
     Logger.info("Perform: \(effectiveRequest.url!)")
     
-    let task = session.dataTask(with: effectiveRequest) { [weak self] (data, response, error) in
-      
+    requester.perform(request: effectiveRequest) { [weak self] (result: Result<T, Swift.Error>) in
       guard let transport = self else { return }
-      
-      let result = Result<T, Swift.Error>(data: data, response: response, error: error)
-      
+            
       do {
         let retryOutcome = try transport.retryStrategy.notify(host: host, result: result)
         
@@ -91,11 +70,10 @@ class HttpTransport: Transport, RetryStrategyContainer {
       } catch let error {
         completion(.failure(error))
       }
-      
     }
-    
-    task.resume()
+        
     
   }
       
 }
+

@@ -14,8 +14,12 @@ public struct Client {
   
   public init(appID: ApplicationID, apiKey: APIKey) {
     let configuration = SearchConfigration(applicationID: appID, apiKey: apiKey)
+    let sessionConfiguration: URLSessionConfiguration = .default
+    sessionConfiguration.httpAdditionalHeaders = configuration.defaultHeaders
+    let session = URLSession(configuration: sessionConfiguration)
     let retryStrategy = AlgoliaRetryStrategy(configuration: configuration)
-    let httpTransport = HttpTransport(configuration: configuration,
+    let httpTransport = HttpTransport(requester: session,
+                                      configuration: configuration,
                                       credentials: configuration,
                                       retryStrategy: retryStrategy)
     self.init(transport: httpTransport)
