@@ -13,10 +13,8 @@ class SearchIntegrationTests: OnlineTestCase {
   
   func testSearch() {
     
-    guard case .array(let companies) = try? JSON(jsonString: Resource.employees) else {
-      XCTFail()
-      return
-    }
+    let employeesData = try! Data(filename: "Employees.json")
+    let employees = try! JSONDecoder().decode([JSON].self, from: employeesData)
   
     var settings = Settings()
     settings.attributesForFaceting = [.searchable("company")]
@@ -25,7 +23,7 @@ class SearchIntegrationTests: OnlineTestCase {
       
       let setSettingsTask = try index.setSettings(settings)
       _ = try index.wait(for: setSettingsTask)
-      let saveTask = try index.saveObjects(records: companies)
+      let saveTask = try index.saveObjects(records: employees)
       _ = try index.wait(for: saveTask)      
       let results = try index.search(query: "algolia")
       
