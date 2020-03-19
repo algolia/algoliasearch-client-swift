@@ -12,18 +12,26 @@ public struct RetryableHost {
   /// The url to target.
   public let url: URL
   
-  /// Whether this host should be used for CallType.read or CallType.write requests.
-  public let callType: CallType?
+  let supportedCallTypes: CallTypeSupport
   var isUp: Bool
   var lastUpdated: Date
   var retryCount: Int
   
-  init(url: URL, callType: CallType? = nil) {
+  init(url: URL, callType: CallTypeSupport = .universal) {
     self.url = url
-    self.callType = callType
+    self.supportedCallTypes = callType
     self.isUp = true
     self.lastUpdated = .init()
     self.retryCount = 0
+  }
+  
+  func supports(_ callType: CallType) -> Bool {
+    switch callType {
+    case .read:
+      return supportedCallTypes.contains(.read)
+    case .write:
+      return supportedCallTypes.contains(.write)
+    }
   }
   
   mutating func reset() {
@@ -45,10 +53,36 @@ public struct RetryableHost {
   
 }
 
+extension RetryableHost {
+  
+  struct CallTypeSupport: OptionSet {
+    let rawValue: Int
+    static let read = CallTypeSupport(rawValue: 1 << 0)
+    static let write = CallTypeSupport(rawValue: 1 << 1)
+    static let universal: CallTypeSupport = [.read, .write]
+  }
+  
+}
+
+extension RetryableHost.CallTypeSupport: CustomDebugStringConvertible {
+  
+  var debugDescription: String {
+    var components: [String] = []
+    if contains(.read) {
+      components.append("read")
+    }
+    if contains(.write) {
+      components.append("write")
+    }
+    return "[\(components.joined(separator: ", "))]"
+  }
+  
+}
+
 extension RetryableHost: CustomDebugStringConvertible {
   
   public var debugDescription: String {
-    return "Host \(callType?.description ?? "nil") \(url) up: \(isUp) retry count: \(retryCount) updated: \(lastUpdated)"
+    return "Host \(supportedCallTypes.debugDescription) \(url) up: \(isUp) retry count: \(retryCount) updated: \(lastUpdated)"
   }
   
 }
@@ -56,7 +90,7 @@ extension RetryableHost: CustomDebugStringConvertible {
 extension RetryableHost {
 
   func timeout(requestOptions: RequestOptions? = nil) -> TimeInterval {
-    let callType = self.callType ?? .read
+    let callType: CallType = supportedCallTypes.contains(.write) ? .write : .read
     let unitTimeout = requestOptions?.timeout(for: callType) ?? DefaultConfiguration.default.timeout(for: callType)
     let multiplier = retryCount + 1
     return TimeInterval(multiplier) * unitTimeout
@@ -85,7 +119,7 @@ extension Array where Element == RetryableHost {
     var updatedHosts: [RetryableHost] = []
     for host in self {
       var mutableHost = host
-      if mutableHost.callType == callType || mutableHost.callType == nil {
+      if mutableHost.supports(callType) {
         mutableHost.reset()
       }
       updatedHosts.append(mutableHost)

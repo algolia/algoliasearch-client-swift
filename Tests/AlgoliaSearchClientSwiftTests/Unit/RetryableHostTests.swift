@@ -15,7 +15,7 @@ class RetryableHostTests: XCTestCase {
     let host = RetryableHost(url: URL(string: "algolia.com")!, callType: .read)
     XCTAssertEqual(host.url.absoluteString, "algolia.com")
     XCTAssertTrue(host.isUp)
-    XCTAssertEqual(host.callType, .read)
+    XCTAssertEqual(host.supportedCallTypes, .read)
     XCTAssertEqual(host.retryCount, 0)
   }
   

@@ -10,17 +10,23 @@ import Foundation
 public struct Hosts {
 
   public static func forApplicationID(_ appID: ApplicationID) -> [RetryableHost] {
-    let hostSuffixes: [(suffix: String, callType: CallType?)] = [
+    
+    func buildHost(_ components: (suffix: String, callType: RetryableHost.CallTypeSupport)) -> RetryableHost {
+      let url = URL(string: "\(appID.rawValue)\(components.suffix)")!
+      return RetryableHost(url: url, callType: components.callType)
+    }
+    let hosts = [
       ("-dsn.algolia.net", .read),
       (".algolia.net", .write),
-      ("-1.algolianet.com", nil),
-      ("-2.algolianet.com", nil),
-      ("-3.algolianet.com", nil),
-    ]
-    return hostSuffixes.map {
-      let url = URL(string: "\(appID.rawValue)\($0.suffix)")!
-      return RetryableHost(url: url, callType: $0.callType)
-    }
+    ].map(buildHost)
+    
+    let commonHosts = [
+      ("-1.algolianet.com", .universal),
+      ("-2.algolianet.com", .universal),
+      ("-3.algolianet.com", .universal),
+    ].map(buildHost).shuffled()
+    
+    return hosts + commonHosts
   }
   
   public static var insights: [RetryableHost] = [
