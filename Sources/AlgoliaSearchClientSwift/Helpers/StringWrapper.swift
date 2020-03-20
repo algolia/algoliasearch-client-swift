@@ -27,6 +27,11 @@ extension StringWrapper {
     }
 
   }
+  
+  public func encode(to encoder: Encoder) throws {
+    var container = encoder.singleValueContainer()
+    try container.encode(rawValue)
+  }
     
   public var description: String {
     return rawValue

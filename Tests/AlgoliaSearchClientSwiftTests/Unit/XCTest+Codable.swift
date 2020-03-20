@@ -7,6 +7,7 @@
 
 import Foundation
 import XCTest
+@testable import AlgoliaSearchClientSwift
 
 protocol AnyEquatable: Any where Self: Equatable {}
 
@@ -33,8 +34,6 @@ extension XCTestCase {
     encoder.outputFormatting = .prettyPrinted
     do {
       let data = try encoder.encode(value)
-//      let jsonObject = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
-//      let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: [])
       let jsonString = String(data: data, encoding: .utf8)
       XCTAssertEqual(jsonString, expectedJSONString)
     } catch let error {
@@ -55,7 +54,12 @@ extension XCTestCase {
     let decodedValue = try! decoder.decode(T.self, from: rawData)
     XCTAssertEqual(decodedValue, expected)
   }
-
+  
+  func testDecoding<T: Decodable>(fromFileWithName filename: String) throws -> T {
+      let data = try Data(filename: filename)
+      let decoder = JSONDecoder()
+      return try decoder.decode(T.self, from: data)
+  }
   
 }
 
