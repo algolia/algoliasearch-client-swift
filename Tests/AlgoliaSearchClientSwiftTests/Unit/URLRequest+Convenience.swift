@@ -13,6 +13,16 @@ struct TestCredentials: Credentials {
   
   let applicationID: ApplicationID
   let apiKey: APIKey
+  
+  static let environment: TestCredentials? = {
+    if
+      let appID = String(environmentVariable: "ALGOLIA_APPLICATION_ID"),
+      let apiKey = String(environmentVariable: "ALGOLIA_API_KEY") {
+      return TestCredentials(applicationID: ApplicationID(rawValue: appID), apiKey: APIKey(rawValue: apiKey))
+    } else {
+      return nil
+    }
+  }()
 
 }
 
