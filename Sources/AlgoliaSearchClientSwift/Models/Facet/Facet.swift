@@ -38,6 +38,26 @@ extension Facet: CustomStringConvertible {
   
 }
 
+extension Dictionary where Key == Attribute, Value == [Facet] {
+  
+  init(_ rawFacetsForAttribute: [String: [String: Int]]) {
+    var output: [Attribute: [Facet]] = [:]
+    for (rawAttribute, rawFacets) in rawFacetsForAttribute {
+      output[Attribute(rawValue: rawAttribute)] = [Facet](rawFacets)
+    }
+    self = output
+  }
+  
+}
+
+extension Array where Element == Facet {
+  
+  init(_ rawFacets: [String: Int]) {
+    self = rawFacets.map { Facet(value: $0.key, count: $0.value, highlighted: .none) }
+  }
+  
+}
+
 extension Dictionary where Key == String, Value == [String: Int] {
   
   init(_ facetsForAttribute: [Attribute: [Facet]]) {

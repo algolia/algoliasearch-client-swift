@@ -25,7 +25,6 @@ class OnlineTestCase: XCTestCase {
     // Init client.
     guard let credentials = TestCredentials.environment else {
       fatalError("Cannot fetch credentials from environment")
-      return
     }
     
     let expectation = self.expectation(description: "Delete index")

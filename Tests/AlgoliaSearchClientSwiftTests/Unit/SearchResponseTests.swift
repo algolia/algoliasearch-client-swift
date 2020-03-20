@@ -11,15 +11,16 @@ import XCTest
 
 class SearchResponseTests: XCTestCase {
   
-  func testDecoding() {
-    let data = try! Data(filename: "SearchResponse.json")
-    let decoder = JSONDecoder()
-    do {
-      _ = try decoder.decode(SearchResponse.self, from: data)
-    } catch let error {
-      XCTFail("\(error)")
-    }
+  func testDecodingFacets() {
+    XCTAssertNoThrow(try testDecoding(fromFileWithName: "Facets.json") as SearchResponse.FacetsStorage)
+  }
   
+  func testDecodingFacetStats() {
+    XCTAssertNoThrow(try testDecoding(fromFileWithName: "FacetsStats.json") as SearchResponse.FacetStatsStorage)
+  }
+  
+  func testDecoding() {
+    XCTAssertNoThrow(try testDecoding(fromFileWithName: "SearchResponse.json") as SearchResponse)
   }
   
 }

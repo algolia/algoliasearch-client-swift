@@ -144,20 +144,22 @@ public struct SearchResponse {
    A mapping of each facet name to the corresponding facet counts.
    - Returned only if Query.facets is non-empty.
   */
-  public let facets: [Attribute: [Facet]]?
+  public var facets: [Attribute: [Facet]]? { return facetsStorage?.storage }
+  let facetsStorage: FacetsStorage?
   
   /**
    A mapping of each facet name to the corresponding facet counts for disjunctive facets.
    - Returned only by the EndpointSearch.advancedSearch method.
    - [Documentation](https://www.algolia.com/doc/guides/building-search-ui/going-further/backend-search/how-to/faceting/?language=kotlin#conjunctive-and-disjunctive-faceting)
    */
-  public let disjunctiveFacets: [Attribute: [Facet]]?
-  
+  public var disjunctiveFacets: [Attribute: [Facet]]? { return disjunctiveFacetsStorage?.storage }
+  let disjunctiveFacetsStorage: FacetsStorage?
   /**
    * Statistics for numerical facets.
    - Returned only if Query.facets is non-empty and at least one of the returned facets contains numerical values.
    */
-  public let facetStats: [Attribute: FacetStats]?
+  public var facetStats: [Attribute: FacetStats]? { return facetStatsStorage?.storage }
+  let facetStatsStorage: FacetStatsStorage?
   
   /**
    Returned only by the EndpointSearch.browse method.
@@ -171,14 +173,15 @@ public struct SearchResponse {
   /**
    Identifies the query uniquely. Can be used by InsightsEvent.
   */
-  public let queryID: Query?
+  public let queryID: QueryID?
   
   /**
    A mapping of each facet name to the corresponding facet counts for hierarchical facets.
    - Returned only by the [EndpointSearch.advancedSearch] method, only if a [FilterGroup.And.Hierarchical] is used.
   */
-  public let hierarchicalFacets: [Attribute: [Facet]]?
-  
+  public var hierarchicalFacets: [Attribute: [Facet]]? { return hierarchicalFacetsStorage?.storage }
+  let hierarchicalFacetsStorage: FacetsStorage?
+
   /**
    Meta-information as to how the query was processed.
   */
