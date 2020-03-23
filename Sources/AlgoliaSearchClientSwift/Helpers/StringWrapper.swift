@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  StringWrapper.swift
 //  
 //
 //  Created by Vladislav Fitc on 02/03/2020.

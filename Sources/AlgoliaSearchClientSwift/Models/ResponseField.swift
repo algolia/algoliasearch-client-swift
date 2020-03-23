@@ -6,7 +6,7 @@
 //
 
 import Foundation
-
+  
 public enum ResponseField: String, Codable {
   case all = "*"
   case aroundLatLng
