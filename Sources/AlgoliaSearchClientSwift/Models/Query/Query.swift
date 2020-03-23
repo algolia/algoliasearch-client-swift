@@ -509,8 +509,6 @@ public struct Query {
     
 }
 
-public typealias ExplainModule = String
-
 extension Query: ExpressibleByStringLiteral {
   
   public init(stringLiteral value: String) {

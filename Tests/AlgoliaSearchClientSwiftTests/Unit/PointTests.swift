@@ -12,11 +12,11 @@ import XCTest
 class PointTests: XCTestCase {
   
   func testDecoding() {
-    testDecoding([2, 3], expected: Point(latitude: 2, longitude: 3))
+    testDecoding("2.0,3.0", expected: Point(latitude: 2, longitude: 3))
   }
   
   func testEncoding() {
-    testEncoding(Point(latitude: 2, longitude: 3), expected: [Float](arrayLiteral: 2, 3))
+    testEncoding(Point(latitude: 2, longitude: 3), expected: "2.0,3.0")
   }
   
 }
