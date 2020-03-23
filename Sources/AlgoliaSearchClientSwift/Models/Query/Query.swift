@@ -9,6 +9,8 @@ import Foundation
 
 public struct Query {
     
+  //MARK: - Search
+  
   /**
    The text to search in the index.
    - Engine default: ""
@@ -16,6 +18,39 @@ public struct Query {
   */
   public var query: String?
   
+  /**
+    Overrides the query parameter and performs a more generic search that can be used to find "similar" results.
+    Engine default: ""
+    [Documentation][https://www.algolia.com/doc/api-reference/api-parameters/similarQuery/?language=swift)
+   */
+  public var similarQuery: String?
+  
+  
+  //MARK: - Advanced
+  
+  /**
+   Enables de-duplication or grouping of results.
+   - Engine default: 0
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/distinct/?language=swift)
+   */
+  public var distinct: Distinct?
+
+  /**
+   Retrieve detailed ranking information.
+   - Engine default: false
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/getRankingInfo/?language=swift)
+   */
+  public var getRankingInfo: Bool?
+  
+  /**
+   Enriches the API’s response with meta-information as to how the query was processed.
+   It is possible to enable several ExplainModule independently.
+   - Engine default: null
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/_/?language=swift)
+   */
+  public var explainModules: [ExplainModule]?
+
+  //MARK: - Attributes
   
   /**
    Gives control over which attributes to retrieve and which not to retrieve.
@@ -31,6 +66,7 @@ public struct Query {
    */
   public var restrictSearchableAttributes: [Attribute]?
   
+  //MARK: - Filtering-Faceting
   
   /**
    Filter the query with numeric, facet and/or tag filters.
@@ -38,7 +74,6 @@ public struct Query {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/filters/?language=swift)
    */
   public var filters: String?
-  
   
   /**
    Filter hits by facet value.
@@ -102,7 +137,16 @@ public struct Query {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/sortFacetValuesBy/?language=swift)
    */
   public var sortFacetsBy: SortFacetsBy?
+  
+  /**
+   Maximum number of facet hits to return during a search for facet values.
+   - Engine default: 10
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/maxFacetHits/?language=swift)
+   */
+  public var maxFacetHits: Int?
 
+  //MARK: - Highlighting-snippeting
+  
   /**
    List of attributes to highlight.
    - Engine default: null
@@ -145,6 +189,8 @@ public struct Query {
    */
   public var restrictHighlightAndSnippetArrays: Bool?
 
+  //MARK: - Pagination
+  
   /**
    Specify the page to retrieve.
    - Engine default: 0
@@ -172,6 +218,8 @@ public struct Query {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/length/?language=swift)
    */
   public var length: Int?
+  
+  //MARK: - Typos
 
   /**
    Minimum number of characters a word in the query name must contain to accept matches with 1 typo.
@@ -208,6 +256,8 @@ public struct Query {
    */
   public var disableTypoToleranceOnAttributes: [Attribute]?
 
+  //MARK: - Geo-Search
+  
   /**
    Search for entries around a central geolocation, enabling a geo search within a circular area.
    - Engine default: null
@@ -256,6 +306,69 @@ public struct Query {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/insidePolygon/?language=swift)
    */
   public var insidePolygon: [Polygon]?
+  
+  //MARK: - Query strategy
+  
+  /**
+   Controls if and how query words are interpreted as [prefixes](https://www.algolia.com/doc/guides/textual-relevance/prefix-search/?language=swift).
+   - Engine default: [QueryType.PrefixLast]
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/queryType/?language=swift)
+   */
+  public var queryType: QueryType?
+  
+  /**
+   Selects a strategy to remove words from the query when it doesn’t match any hits.
+   - Engine default: [RemoveWordIfNoResults.None]
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/removeWordsIfNoResults/?language=swift)
+   */
+  public var removeWordsIfNoResults: RemoveWordIfNoResults?
+
+  /**
+   Enables the advanced query syntax.
+   - Engine default: false
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/advancedSyntax/?language=swift)
+   */
+  public var advancedSyntax: Bool?
+
+  /**
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters//?language=swift)
+   */
+  public var advancedSyntaxFeatures: [AdvancedSyntaxFeatures]?
+
+  /**
+   A list of words that should be considered as optional when found in the query.
+   - Engine default: []
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/optionalWords/?language=swift)
+   */
+  public var optionalWords: [String]?
+  
+  /**
+   Removes stop (task) words from the query before executing it.
+   - Engine default: false
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/removeStopWords/?language=swift)
+   */
+  public var removeStopWords: RemoveStopWords?
+
+  /**
+   List of attributes on which you want to disable the exact ranking criterion.
+   - Engine default: []
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/disableExactOnAttributes/?language=swift)
+   */
+  public var disableExactOnAttributes: [Attribute]?
+
+  /**
+   Controls how the exact ranking criterion is computed when the query contains only one word.
+   - Engine default: .attribute
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/exactOnSingleWordQuery/?language=swift)
+   */
+  public var exactOnSingleWordQuery: ExactOnSingleWordQuery?
+
+  /**
+   List of alternatives that should be considered an exact match by the exact ranking criterion.
+   - Engine default: [.ignorePlurals, .singleWordSynonym]
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/alternativesAsExact/?language=swift)
+   */
+  public var alternativesAsExact: [AlternativesAsExact]?
 
   /**
    Treats singular, plurals, and other forms of declensions as matching terms.
@@ -263,13 +376,6 @@ public struct Query {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/ignorePlurals/?language=swift)
    */
   public var ignorePlurals: IgnorePlurals?
-
-  /**
-   Removes stop (task) words from the query before executing it.
-   - Engine default: false
-   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/removeStopWords/?language=swift)
-   */
-  public var removeStopWords: RemoveStopWords?
 
   /**
    Sets the queryLanguage to be used by language-specific settings and functionalities such as
@@ -280,6 +386,9 @@ public struct Query {
    */
   public var queryLanguages: [Language]?
 
+  
+  //MARK: - Query rules
+  
   /**
    Whether rules should be globally enabled.
    - Engine default: true
@@ -294,6 +403,8 @@ public struct Query {
    */
   public var ruleContexts: [String]?
 
+  //MARK: - Personalization
+  
   /**
    Enable the Personalization feature.
    - Engine default: false
@@ -323,81 +434,8 @@ public struct Query {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/userToken/?language=swift)
    */
   public var userToken: UserToken?
-
-  /**
-   Controls if and how query words are interpreted as [prefixes](https://www.algolia.com/doc/guides/textual-relevance/prefix-search/?language=swift).
-   - Engine default: [QueryType.PrefixLast]
-   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/queryType/?language=swift)
-   */
-  public var queryType: QueryType?
-
-  /**
-   Selects a strategy to remove words from the query when it doesn’t match any hits.
-   - Engine default: [RemoveWordIfNoResults.None]
-   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/removeWordsIfNoResults/?language=swift)
-   */
-  public var removeWordsIfNoResults: RemoveWordIfNoResults?
-
-  /**
-   Enables the advanced query syntax.
-   - Engine default: false
-   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/advancedSyntax/?language=swift)
-   */
-  public var advancedSyntax: Bool?
-
-  /**
-   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters//?language=swift)
-   */
-  public var advancedSyntaxFeatures: [AdvancedSyntaxFeatures]?
-
-  /**
-   A list of words that should be considered as optional when found in the query.
-   - Engine default: []
-   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/optionalWords/?language=swift)
-   */
-  public var optionalWords: [String]?
-
-  /**
-   List of attributes on which you want to disable the exact ranking criterion.
-   - Engine default: []
-   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/disableExactOnAttributes/?language=swift)
-   */
-  public var disableExactOnAttributes: [Attribute]?
-
-  /**
-   Controls how the exact ranking criterion is computed when the query contains only one word.
-   - Engine default: [ExactOnSingleWordQuery.Attribute]
-   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/exactOnSingleWordQuery/?language=swift)
-   */
-  public var exactOnSingleWordQuery: ExactOnSingleWordQuery?
-
-  /**
-   List of alternatives that should be considered an exact match by the exact ranking criterion.
-   - Engine default: [[AlternativesAsExact.IgnorePlurals], [AlternativesAsExact.SingleWordSynonym]]
-   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/alternativesAsExact/?language=swift)
-   */
-  public var alternativesAsExact: [AlternativesAsExact]?
-
-  /**
-   Enables de-duplication or grouping of results.
-   - Engine default: 0
-   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/distinct/?language=swift)
-   */
-  public var distinct: Distinct?
-
-  /**
-   Retrieve detailed ranking information.
-   - Engine default: false
-   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/getRankingInfo/?language=swift)
-   */
-  public var getRankingInfo: Bool?
-
-  /**
-   Enable the Click Analytics feature.
-   - Engine default: false.
-   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/clickAnalytics/?language=swift)
-   */
-  public var clickAnalytics: Bool?
+  
+  //MARK: - Analytics
 
   /**
    Whether the current query will be taken into account in the Analytics.
@@ -412,7 +450,23 @@ public struct Query {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/?language=swift)
    */
   public var analyticsTags: [String]?
+  
+  /**
+   Whether this query should be taken into consideration by currently active ABTests.
+   - Engine default: true
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/enableABTest/?language=swift)
+   */
+  public var enableABTest: Bool?
+  
+  /**
+   Enable the Click Analytics feature.
+   - Engine default: false.
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/clickAnalytics/?language=swift)
+   */
+  public var clickAnalytics: Bool?
 
+  //MARK: - Synonyms
+  
   /**
    Whether to take into account an index’s synonyms for a particular search.
    - Engine default: true
@@ -436,17 +490,10 @@ public struct Query {
 
   /**
    Choose which fields the response will contain. Applies to search and browse queries.
-   - Engine default: [ResponseFields.All]
+   - Engine default: .all
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/responseFields/?language=swift)
    */
   public var responseFields: [ResponseField]?
-
-  /**
-   Maximum number of facet hits to return during a search for facet values.
-   - Engine default: 10
-   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/maxFacetHits/?language=swift)
-   */
-  public var maxFacetHits: Int?
 
   /**
    Whether to include or exclude a query from the processing-time percentile computation.
@@ -455,27 +502,6 @@ public struct Query {
    */
   public var percentileComputation: Bool?
 
-  /**
-    Overrides the query parameter and performs a more generic search that can be used to find "similar" results.
-    Engine default: ""
-    [Documentation][https://www.algolia.com/doc/api-reference/api-parameters/similarQuery/?language=swift)
-   */
-  public var similarQuery: String?
-
-  /**
-   Whether this query should be taken into consideration by currently active ABTests.
-   - Engine default: true
-   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/enableABTest/?language=swift)
-   */
-  public var enableABTest: Bool?
-
-  /**
-   Enriches the API’s response with meta-information as to how the query was processed.
-   It is possible to enable several ExplainModule independently.
-   - Engine default: null
-   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/_/?language=swift)
-   */
-  public var explainModules: [ExplainModule]?
   
   public init(_ query: String?) {
     self.query = query
@@ -484,7 +510,6 @@ public struct Query {
 }
 
 public typealias ExplainModule = String
-public typealias AroundPrecision = String
 
 extension Query: ExpressibleByStringLiteral {
   
@@ -493,3 +518,4 @@ extension Query: ExpressibleByStringLiteral {
   }
   
 }
+
