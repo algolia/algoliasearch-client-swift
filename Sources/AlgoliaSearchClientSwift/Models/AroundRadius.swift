@@ -29,7 +29,6 @@ public enum AroundRadius: Codable {
 
 extension AroundRadius: RawRepresentable {
   
-  
   public var rawValue: String {
     switch self {
     case .all:

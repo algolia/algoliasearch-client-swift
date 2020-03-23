@@ -187,11 +187,7 @@ public struct SearchResponse {
   */
   public let explain: Explain?
   
-  
 }
-
-
-public typealias Explain = String
 
 public extension SearchResponse {
   

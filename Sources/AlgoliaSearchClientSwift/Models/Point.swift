@@ -23,17 +23,34 @@ public struct Point: Equatable {
   
 }
 
+extension Point: RawRepresentable {
+  
+  public var rawValue: [Double] {
+    return [latitude, longitude]
+  }
+  
+  public init?(rawValue: [Double]) {
+    guard rawValue.count > 1 else { return nil }
+    self.init(latitude: rawValue[0], longitude: rawValue[1])
+  }
+  
+}
+
 extension Point: Codable {
   
   public init(from decoder: Decoder) throws {
     let container = try decoder.singleValueContainer()
-    let rawValue = try container.decode([Double].self)
-    self.init(latitude: rawValue[0], longitude: rawValue[1])
+    let stringValue = try container.decode(String.self)
+    let rawValue = stringValue.split(separator: ",").compactMap(Double.init)
+    guard rawValue.count == 2 else {
+      throw DecodingError.dataCorruptedError(in: container, debugDescription: "Decoded string must contain two floating point values separated by comma character")
+    }
+    self.init(rawValue: rawValue)!
   }
   
   public func encode(to encoder: Encoder) throws {
     var container = encoder.singleValueContainer()
-    try container.encode([latitude, longitude])
+    try container.encode("\(latitude),\(longitude)")
   }
   
 }
