@@ -41,7 +41,7 @@ internal protocol URLSession {
 // Convince the compiler that NSURLSession does implements our custom protocol.
 extension Foundation.URLSession: URLSession {}
 
-#if os(iOS) && DEBUG
+#if os(iOS) && DEBUG && !targetEnvironment(macCatalyst)
 
   import CoreTelephony
   import SystemConfiguration
