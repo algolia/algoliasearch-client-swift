@@ -7,28 +7,12 @@
 
 import Foundation
 
-public struct UserID: RawRepresentable {
+public struct UserID: StringWrapper {
     
   public let rawValue: String
     
   public init(rawValue: String) {
     self.rawValue = rawValue
-  }
-  
-}
-
-extension UserID: CustomStringConvertible {
-  
-  public var description: String {
-    return rawValue
-  }
-  
-}
-
-extension UserID: ExpressibleByStringLiteral {
-  
-  public init(stringLiteral value: String) {
-    rawValue = value
   }
   
 }

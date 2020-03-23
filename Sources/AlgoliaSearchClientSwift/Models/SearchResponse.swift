@@ -191,7 +191,6 @@ public struct SearchResponse {
 }
 
 
-public typealias Point = String
 public typealias Explain = String
 
 public extension SearchResponse {

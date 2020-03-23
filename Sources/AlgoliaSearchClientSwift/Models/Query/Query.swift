@@ -325,7 +325,7 @@ public struct Query {
   public var userToken: UserToken?
 
   /**
-   Controls if and how query words are interpreted as [prefixes][https://www.algolia.com/doc/guides/textual-relevance/prefix-search/?language=swift).
+   Controls if and how query words are interpreted as [prefixes](https://www.algolia.com/doc/guides/textual-relevance/prefix-search/?language=swift).
    - Engine default: [QueryType.PrefixLast]
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/queryType/?language=swift)
    */
@@ -439,7 +439,7 @@ public struct Query {
    - Engine default: [ResponseFields.All]
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/responseFields/?language=swift)
    */
-  public var responseFields: [ResponseFields]?
+  public var responseFields: [ResponseField]?
 
   /**
    Maximum number of facet hits to return during a search for facet values.
@@ -471,9 +471,9 @@ public struct Query {
 
   /**
    Enriches the API’s response with meta-information as to how the query was processed.
-   It is possible to enable several [ExplainModule] independently.
+   It is possible to enable several ExplainModule independently.
    - Engine default: null
-   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/decompoundedAttributes/?language=swift)
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/_/?language=swift)
    */
   public var explainModules: [ExplainModule]?
   
@@ -484,12 +484,7 @@ public struct Query {
 }
 
 public typealias ExplainModule = String
-public typealias ResponseFields = String
-public typealias UserToken = String
-public typealias AroundRadius = String
 public typealias AroundPrecision = String
-public typealias BoundingBox = String
-public typealias Polygon = String
 
 extension Query: ExpressibleByStringLiteral {
   
