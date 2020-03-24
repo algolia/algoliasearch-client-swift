@@ -8,7 +8,7 @@
 import Foundation
 
 extension Index {
-  
+
   /**
    * Add a new record to an index.
    * This method allows you to create records on your index by sending one or more objects.
@@ -25,14 +25,14 @@ extension Index {
    * - parameter requestOptions: Configure request locally with RequestOptions.
    */
   @discardableResult public func saveObject<T: Codable>(record: T,
-                                                 requestOptions: RequestOptions? = nil,
-                                                 completion: @escaping ResultCallback<ObjectCreation>) -> Operation {
+                                                        requestOptions: RequestOptions? = nil,
+                                                        completion: @escaping ResultCallback<ObjectCreation>) -> Operation {
     let command = Command.Indexing.SaveObject(indexName: name,
-                                               record: record,
-                                               requestOptions: requestOptions)
+                                              record: record,
+                                              requestOptions: requestOptions)
     return performRequest(for: command, completion: completion)
   }
-  
+
   public func saveObjects<T: Codable>(records: [T],
                                       requestOptions: RequestOptions? = nil,
                                       completion: @escaping ResultCallback<BatchResponse>) -> Operation {
@@ -40,7 +40,7 @@ extension Index {
     let command = Command.Index.Batch(indexName: name, batchOperations: operations, requestOptions: requestOptions)
     return performRequest(for: command, completion: completion)
   }
-  
+
   /**
    * Get one record using its ObjectID.
    *
@@ -50,40 +50,37 @@ extension Index {
    * - parameter requestOptions: Configure request locally with RequestOptions.
    */
   @discardableResult public func getObject<T: Codable>(objectID: ObjectID,
-                                                attributesToRetreive: [Attribute] = [],
-                                                requestOptions: RequestOptions? = nil,
-                                                completion: @escaping ResultCallback<T>) -> Operation {
+                                                       attributesToRetreive: [Attribute] = [],
+                                                       requestOptions: RequestOptions? = nil,
+                                                       completion: @escaping ResultCallback<T>) -> Operation {
     let command = Command.Indexing.GetObject(indexName: name,
-                                              objectID: objectID,
-                                              requestOptions: requestOptions)
+                                             objectID: objectID,
+                                             requestOptions: requestOptions)
     return performRequest(for: command, completion: completion)
   }
-    
+
 }
 
 public extension Index {
-  
+
   func saveObject<T: Codable>(record: T, requestOptions: RequestOptions? = nil) throws -> ObjectCreation {
     let command = Command.Indexing.SaveObject(indexName: name,
-                                               record: record,
-                                               requestOptions: requestOptions)
+                                              record: record,
+                                              requestOptions: requestOptions)
     return try performSyncRequest(for: command)
   }
-  
+
   func saveObjects<T: Codable>(records: [T], requestOptions: RequestOptions? = nil) throws -> BatchResponse {
     let operations = records.map { BatchOperation(action: .addObject, body: $0) }
     let command = Command.Index.Batch(indexName: name, batchOperations: operations, requestOptions: requestOptions)
     return try performSyncRequest(for: command)
   }
 
-
   func getObject<T: Codable>(objectID: ObjectID, attributesToRetreive: [Attribute] = [], requestOptions: RequestOptions? = nil) throws -> T {
     let command = Command.Indexing.GetObject(indexName: name,
-                                              objectID: objectID,
-                                              requestOptions: requestOptions)
+                                             objectID: objectID,
+                                             requestOptions: requestOptions)
     return try performSyncRequest(for: command)
   }
-  
+
 }
-
-

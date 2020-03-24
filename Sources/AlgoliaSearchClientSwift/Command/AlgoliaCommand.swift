@@ -8,9 +8,9 @@
 import Foundation
 
 protocol AlgoliaCommand {
-  
+
   var callType: CallType { get }
   var urlRequest: URLRequest { get }
   var requestOptions: RequestOptions? { get }
-  
+
 }

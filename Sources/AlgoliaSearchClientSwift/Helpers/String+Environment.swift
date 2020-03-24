@@ -8,7 +8,7 @@
 import Foundation
 
 extension String {
-  
+
   init?(environmentVariable: String) {
     if
       let rawValue = getenv(environmentVariable),
@@ -18,5 +18,5 @@ extension String {
       return nil
     }
   }
-  
+
 }

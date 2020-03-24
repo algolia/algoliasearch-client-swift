@@ -11,20 +11,20 @@ import XCTest
 
 class DistinctTests: XCTestCase {
 
-  func testEncoding() {
-    testEncoding(1 as Distinct, expected: 1)
-    testEncoding(0 as Distinct, expected: 0)
-    testEncoding(100 as Distinct, expected: 100)
-    testEncoding(false as Distinct, expected: 0)
-    testEncoding(true as Distinct, expected: 1)
+  func testEncoding() throws {
+    try testEncoding(1 as Distinct, expected: 1)
+    try testEncoding(0 as Distinct, expected: 0)
+    try testEncoding(100 as Distinct, expected: 100)
+    try testEncoding(false as Distinct, expected: 0)
+    try testEncoding(true as Distinct, expected: 1)
   }
-  
-  func testDecoding() {
-    testDecoding(1, expected: Distinct(1))
-    testDecoding(0, expected: Distinct(0))
-    testDecoding(100, expected: Distinct(100))
-    testDecoding(true, expected: Distinct(1))
-    testDecoding(false, expected: Distinct(0))
+
+  func testDecoding() throws {
+    try testDecoding(1, expected: Distinct(1))
+    try testDecoding(0, expected: Distinct(0))
+    try testDecoding(100, expected: Distinct(100))
+    try testDecoding(true, expected: Distinct(1))
+    try testDecoding(false, expected: Distinct(0))
   }
-  
+
 }

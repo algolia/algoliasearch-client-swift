@@ -8,19 +8,19 @@
 import Foundation
 
 public struct Snippet: Codable, Equatable {
-  
+
   /**
    Attribute to snippet.
    - Use "*" to snippet all attributes.
    */
   public let attribute: Attribute
-  
+
   /**
    Optional word count.
    - Engine default: 10
    */
   public let count: Int?
-  
+
   public init(attribute: Attribute, count: Int? = nil) {
     self.attribute = attribute
     self.count = count
@@ -29,14 +29,14 @@ public struct Snippet: Codable, Equatable {
 }
 
 extension Snippet: RawRepresentable {
-  
+
   public var rawValue: String {
     guard let countSuffix = count.flatMap({ ":\($0)" }) else {
       return attribute.rawValue
     }
     return attribute.rawValue + countSuffix
   }
-  
+
   public init?(rawValue: String) {
     let components = rawValue.split(separator: ":", maxSplits: 1, omittingEmptySubsequences: true)
     if let count = components.last.flatMap({ Int(String($0)) }), components.count == 2 {
@@ -47,5 +47,5 @@ extension Snippet: RawRepresentable {
       self.count = nil
     }
   }
-  
+
 }

@@ -11,7 +11,7 @@ import Foundation
  The transport layer is responsible of the serialization/deserialization and the retry strategy.
 */
 class HttpTransport: Transport, RetryStrategyContainer {
-  
+
   let requester: HTTPRequester
   var configuration: Configuration
   var retryStrategy: RetryStrategy
@@ -26,7 +26,7 @@ class HttpTransport: Transport, RetryStrategyContainer {
     self.credentials = credentials
     self.retryStrategy = retryStrategy ?? AlgoliaRetryStrategy(configuration: configuration)
   }
-  
+
   func request<T: Codable>(request: URLRequest,
                            callType: CallType,
                            requestOptions: RequestOptions?,
@@ -44,26 +44,26 @@ class HttpTransport: Transport, RetryStrategyContainer {
                                    hostIterator: HostIterator,
                                    requestOptions: RequestOptions?,
                                    completion: @escaping ResultCallback<T>) {
-    
+
     guard let host = hostIterator.next() else {
       completion(.failure(Error.noReachableHosts))
       return
     }
-    
+
     let effectiveRequest = request.withHost(host, requestOptions: requestOptions)
-    
+
     Logger.info("Perform: \(effectiveRequest.url!)")
-    
+
     requester.perform(request: effectiveRequest) { [weak self] (result: Result<T, Swift.Error>) in
       guard let transport = self else { return }
-            
+
       do {
         let retryOutcome = try transport.retryStrategy.notify(host: host, result: result)
-        
+
         switch retryOutcome {
         case .success:
           completion(result)
-          
+
         case .retry:
           transport.request(request, hostIterator: hostIterator, requestOptions: requestOptions, completion: completion)
         }
@@ -71,9 +71,7 @@ class HttpTransport: Transport, RetryStrategyContainer {
         completion(.failure(error))
       }
     }
-        
-    
-  }
-      
-}
 
+  }
+
+}

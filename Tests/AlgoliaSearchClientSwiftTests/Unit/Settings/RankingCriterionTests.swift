@@ -9,33 +9,32 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClientSwift
 
-
 class RankingCriterionTests: XCTestCase {
-  
-  func testDecoding() {
-    testDecoding("asc(attr)", expected: RankingCriterion.asc("attr"))
-    testDecoding("desc(attr)", expected: RankingCriterion.desc("attr"))
-    testDecoding("typo", expected: RankingCriterion.typo)
-    testDecoding("geo", expected: RankingCriterion.geo)
-    testDecoding("words", expected: RankingCriterion.words)
-    testDecoding("filters", expected: RankingCriterion.filters)
-    testDecoding("proximity", expected: RankingCriterion.proximity)
-    testDecoding("attribute", expected: RankingCriterion.attribute)
-    testDecoding("exact", expected: RankingCriterion.exact)
-    testDecoding("custom", expected: RankingCriterion.custom)
+
+  func testDecoding() throws {
+    try testDecoding("asc(attr)", expected: RankingCriterion.asc("attr"))
+    try testDecoding("desc(attr)", expected: RankingCriterion.desc("attr"))
+    try testDecoding("typo", expected: RankingCriterion.typo)
+    try testDecoding("geo", expected: RankingCriterion.geo)
+    try testDecoding("words", expected: RankingCriterion.words)
+    try testDecoding("filters", expected: RankingCriterion.filters)
+    try testDecoding("proximity", expected: RankingCriterion.proximity)
+    try testDecoding("attribute", expected: RankingCriterion.attribute)
+    try testDecoding("exact", expected: RankingCriterion.exact)
+    try testDecoding("custom", expected: RankingCriterion.custom)
   }
-  
-  func testEncoding() {
-    testEncoding(RankingCriterion.asc("attr"), expected: "asc(attr)")
-    testEncoding(RankingCriterion.desc("attr"), expected: "desc(attr)")
-    testEncoding(RankingCriterion.typo, expected: "typo")
-    testEncoding(RankingCriterion.geo, expected: "geo")
-    testEncoding(RankingCriterion.words, expected: "words")
-    testEncoding(RankingCriterion.filters, expected: "filters")
-    testEncoding(RankingCriterion.proximity, expected: "proximity")
-    testEncoding(RankingCriterion.attribute, expected: "attribute")
-    testEncoding(RankingCriterion.exact, expected: "exact")
-    testEncoding(RankingCriterion.custom, expected: "custom")
+
+  func testEncoding() throws {
+    try testEncoding(RankingCriterion.asc("attr"), expected: "asc(attr)")
+    try testEncoding(RankingCriterion.desc("attr"), expected: "desc(attr)")
+    try testEncoding(RankingCriterion.typo, expected: "typo")
+    try testEncoding(RankingCriterion.geo, expected: "geo")
+    try testEncoding(RankingCriterion.words, expected: "words")
+    try testEncoding(RankingCriterion.filters, expected: "filters")
+    try testEncoding(RankingCriterion.proximity, expected: "proximity")
+    try testEncoding(RankingCriterion.attribute, expected: "attribute")
+    try testEncoding(RankingCriterion.exact, expected: "exact")
+    try testEncoding(RankingCriterion.custom, expected: "custom")
   }
 
 }

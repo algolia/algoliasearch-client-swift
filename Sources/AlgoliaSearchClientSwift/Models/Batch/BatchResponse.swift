@@ -8,8 +8,8 @@
 import Foundation
 
 public struct BatchResponse: Codable, Task {
-  
+
   public let taskID: TaskID
   public let objectIDs: [ObjectID?]
-  
+
 }

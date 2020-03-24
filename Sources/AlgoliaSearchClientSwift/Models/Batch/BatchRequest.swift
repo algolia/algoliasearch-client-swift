@@ -8,7 +8,7 @@
 import Foundation
 
 public struct BatchRequest<T: Codable>: Codable {
-  
+
   public let requests: [BatchOperation<T>]
-  
+
 }

@@ -8,21 +8,21 @@
 import Foundation
 
 public struct Polygon: Equatable {
-  
+
   public let points: [Point]
-  
+
   public init(_ point1: Point, _ point2: Point, _ point3: Point, _ points: Point...) {
     self.init(point1, point2, point3, points)
   }
-  
+
   init(_ point1: Point, _ point2: Point, _ point3: Point, _ points: [Point]) {
     self.points = [point1, point2, point3] + points
   }
-  
+
 }
 
 extension Polygon: Codable {
-  
+
   public init(from decoder: Decoder) throws {
     let container = try decoder.singleValueContainer()
     let rawValue = try container.decode([Double].self)
@@ -37,11 +37,11 @@ extension Polygon: Codable {
               .init(latitude: rawValue[4], longitude: rawValue[5]),
               tailPoints)
   }
-  
+
   public func encode(to encoder: Encoder) throws {
     var container = encoder.singleValueContainer()
     let rawValue = points.map { [$0.latitude, $0.longitude] }.reduce([], +)
     try container.encode(rawValue)
   }
-  
+
 }

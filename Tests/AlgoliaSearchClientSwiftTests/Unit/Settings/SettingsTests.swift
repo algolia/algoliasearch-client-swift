@@ -10,7 +10,7 @@ import XCTest
 @testable import AlgoliaSearchClientSwift
 
 class SettingsTests: XCTestCase {
-  
+
   func testHome() {
     var settings = Settings()
     settings.attributesForFaceting = [.default("attr1"), .filterOnly("attr2"), .searchable("attr3")]
@@ -18,17 +18,10 @@ class SettingsTests: XCTestCase {
     settings.attributesToHighlight = ["attr2", "attr3"]
     print(settings)
   }
-  
-  func testDecoding() {
-        
-    let data = try! Data(filename: "Settings.json")
+
+  func testDecoding() throws {
+    let data = try Data(filename: "Settings.json")
     let decoder = JSONDecoder()
-    do {
-      _ = try decoder.decode(Settings.self, from: data)
-    } catch let error {
-      XCTFail("\(error)")
-    }
-    
+    _ = try decoder.decode(Settings.self, from: data)
   }
-  
 }

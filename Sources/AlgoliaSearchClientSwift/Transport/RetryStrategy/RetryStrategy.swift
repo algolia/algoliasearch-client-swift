@@ -8,7 +8,7 @@
 import Foundation
 
 protocol RetryStrategy {
-  
+
   mutating func host(for callType: CallType) -> RetryableHost?
   mutating func notify<T>(host: RetryableHost, result: Result<T, Swift.Error>) throws -> RetryOutcome
 
@@ -20,23 +20,23 @@ extension Error {
     switch self {
     case is URLError:
       return true
-      
+
     case let httpError as HTTPError where !httpError.statusCode.belongs(to: .success, .clientError):
       return true
-      
+
     default:
       return false
     }
   }
-  
+
   var isTimeout: Bool {
     switch self {
     case let urlError as URLError:
       return urlError.code == .timedOut
-      
+
     case let httpError as HTTPError:
       return httpError.statusCode == .requestTimeout
-      
+
     default:
       return false
     }
@@ -45,9 +45,9 @@ extension Error {
 }
 
 extension Optional where Wrapped: Equatable {
-  
+
   func isNilOrEqual(to value: Wrapped) -> Bool {
     return self == nil || self == value
   }
-  
+
 }

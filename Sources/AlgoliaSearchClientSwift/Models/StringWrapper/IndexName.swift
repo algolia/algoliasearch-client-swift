@@ -8,15 +8,15 @@
 import Foundation
 
 public struct IndexName: StringWrapper {
-    
+
   public var rawValue: String
-  
+
   func toPath(withSuffix suffix: String = "") -> String {
     return ("\(Route.indexesV1)/\(rawValue.utf8)" + suffix).addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
   }
-    
+
   public init(rawValue: String) {
     self.rawValue = rawValue
   }
-  
+
 }

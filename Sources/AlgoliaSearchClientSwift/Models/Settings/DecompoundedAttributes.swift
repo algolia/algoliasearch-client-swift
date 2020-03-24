@@ -17,13 +17,13 @@ import Foundation
 */
 
 public struct DecompoundedAttributes: Equatable {
-  
+
   private let storage: [Language: [Attribute]]
-  
+
   init(storage: [Language: [Attribute]]) {
     self.storage = storage
   }
-  
+
   public init(_ attributes: (AllowedLanguage, [Attribute])...) {
     var storage: [Language: [Attribute]] = [:]
     for (language, attributes) in attributes {
@@ -31,21 +31,21 @@ public struct DecompoundedAttributes: Equatable {
     }
     self.init(storage: storage)
   }
-  
+
   public func attributes(for language: AllowedLanguage) -> [Attribute]? {
     return storage[language.language]
   }
-    
+
 }
 
 extension DecompoundedAttributes {
-  
+
   public enum AllowedLanguage {
-    
+
     case german
     case finnish
     case dutch
-    
+
     var language: Language {
       switch self {
       case .german: return .german
@@ -53,13 +53,13 @@ extension DecompoundedAttributes {
       case .dutch: return .dutch
       }
     }
-    
+
   }
 
 }
 
 extension DecompoundedAttributes: Codable {
-  
+
   public init(from decoder: Decoder) throws {
     let container = try decoder.singleValueContainer()
     let rawStorage = try container.decode([String: [String]].self)
@@ -72,7 +72,7 @@ extension DecompoundedAttributes: Codable {
     }
     self.init(storage: storage)
   }
-  
+
   public func encode(to encoder: Encoder) throws {
     var container = encoder.singleValueContainer()
     var rawStorage: [String: [String]] = [:]
@@ -81,5 +81,5 @@ extension DecompoundedAttributes: Codable {
     }
     try container.encode(rawStorage)
   }
-  
+
 }

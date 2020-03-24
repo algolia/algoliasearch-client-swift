@@ -13,7 +13,7 @@ public enum HTTPStatusCode: Int {
     case switchingProtocols
     case processing
     // 200 Success
-    case ok = 200
+    case success = 200
     case created
     case accepted
     case nonAuthoritativeInformation
@@ -77,15 +77,15 @@ public enum HTTPStatusCode: Int {
 }
 
 extension HTTPStatusCode {
-  
+
   enum Category {
-    
+
     case informational
     case success
     case redirection
     case clientError
     case serverError
-    
+
     var range: Range<Int> {
       switch self {
       case .informational:
@@ -101,13 +101,13 @@ extension HTTPStatusCode {
       }
     }
   }
-  
+
   func belongs(to categories: Category...) -> Bool {
     return categories.map { $0.range.contains(rawValue) }.contains(true)
   }
-  
+
   var isError: Bool {
     return belongs(to: .clientError, .serverError)
   }
-  
+
 }

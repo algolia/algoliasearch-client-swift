@@ -8,11 +8,11 @@
 import Foundation
 
 public struct ObjectID: StringWrapper {
-    
+
   public var rawValue: String
-    
+
   public init(rawValue: String) {
     self.rawValue = rawValue
   }
-  
+
 }

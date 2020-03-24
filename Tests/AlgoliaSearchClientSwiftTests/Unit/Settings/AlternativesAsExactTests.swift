@@ -10,19 +10,19 @@ import XCTest
 @testable import AlgoliaSearchClientSwift
 
 class AlternativesAsExactTests: XCTestCase {
-  
-  func testEncoding() {
-    testEncoding(AlternativesAsExact.ignorePlurals, expected: "ignorePlurals")
-    testEncoding(AlternativesAsExact.singleWordSynonym, expected: "singleWordSynonym")
-    testEncoding(AlternativesAsExact.multiWordsSynonym, expected: "multiWordsSynonym")
-    testEncoding(AlternativesAsExact.other("custom"), expected: "custom")
+
+  func testEncoding() throws {
+    try testEncoding(AlternativesAsExact.ignorePlurals, expected: "ignorePlurals")
+    try testEncoding(AlternativesAsExact.singleWordSynonym, expected: "singleWordSynonym")
+    try testEncoding(AlternativesAsExact.multiWordsSynonym, expected: "multiWordsSynonym")
+    try testEncoding(AlternativesAsExact.other("custom"), expected: "custom")
   }
-  
-  func testDecoding() {
-    testDecoding("ignorePlurals", expected: AlternativesAsExact.ignorePlurals)
-    testDecoding("singleWordSynonym", expected: AlternativesAsExact.singleWordSynonym)
-    testDecoding("multiWordsSynonym", expected: AlternativesAsExact.multiWordsSynonym)
-    testDecoding("custom", expected: AlternativesAsExact.other("custom"))
+
+  func testDecoding() throws {
+    try testDecoding("ignorePlurals", expected: AlternativesAsExact.ignorePlurals)
+    try testDecoding("singleWordSynonym", expected: AlternativesAsExact.singleWordSynonym)
+    try testDecoding("multiWordsSynonym", expected: AlternativesAsExact.multiWordsSynonym)
+    try testDecoding("custom", expected: AlternativesAsExact.other("custom"))
   }
-  
+
 }

@@ -14,7 +14,7 @@ public enum AdvancedSyntaxFeatures: Codable, Equatable {
 }
 
 extension AdvancedSyntaxFeatures: RawRepresentable {
-  
+
   public var rawValue: String {
     switch self {
     case .exactPhrase:
@@ -25,7 +25,7 @@ extension AdvancedSyntaxFeatures: RawRepresentable {
       return value
     }
   }
-  
+
   public init(rawValue: String) {
     switch rawValue {
     case AdvancedSyntaxFeatures.exactPhrase.rawValue:
@@ -36,5 +36,5 @@ extension AdvancedSyntaxFeatures: RawRepresentable {
       self = .other(rawValue)
     }
   }
-  
+
 }

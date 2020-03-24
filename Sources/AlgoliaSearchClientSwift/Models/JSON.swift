@@ -19,76 +19,76 @@ public enum JSON: Equatable {
 }
 
 extension JSON: ExpressibleByStringLiteral {
-  
+
   public init(stringLiteral value: String) {
     self = .string(value)
   }
-  
+
 }
 
 extension JSON: ExpressibleByFloatLiteral {
-  
+
   public init(floatLiteral value: Double) {
     self = .number(value)
   }
-  
+
 }
 
 extension JSON: ExpressibleByIntegerLiteral {
-  
+
   public init(integerLiteral value: Int) {
     self = .number(Double(value))
   }
-  
+
 }
 
 extension JSON: ExpressibleByBooleanLiteral {
-  
+
   public init(booleanLiteral value: Bool) {
     self = .bool(value)
   }
-  
+
 }
 
 extension JSON {
-  
+
   public init(jsonObject: Any) throws {
     let data = try JSONSerialization.data(withJSONObject: jsonObject, options: [])
     self = try JSONDecoder().decode(JSON.self, from: data)
   }
-  
+
 }
 
 extension JSON: ExpressibleByDictionaryLiteral {
-    
+
   public init(dictionaryLiteral elements: (String, JSON)...) {
     self = .dictionary(.init(uniqueKeysWithValues: elements))
   }
-  
+
 }
 
 extension JSON: ExpressibleByArrayLiteral {
- 
+
   public init(arrayLiteral elements: JSON...) {
     self = .array(elements)
   }
-  
+
 }
 
 extension JSON: ExpressibleByNilLiteral {
-  
+
   public init(nilLiteral: ()) {
     self = .null
   }
-  
+
 }
 
 extension JSON: Codable {
-    
+
     public func encode(to encoder: Encoder) throws {
-        
+
         var container = encoder.singleValueContainer()
-        
+
         switch self {
         case let .array(array):
             try container.encode(array)
@@ -104,11 +104,11 @@ extension JSON: Codable {
             try container.encodeNil()
         }
     }
-    
+
     public init(from decoder: Decoder) throws {
-        
+
         let container = try decoder.singleValueContainer()
-        
+
         if let object = try? container.decode([String: JSON].self) {
             self = .dictionary(object)
         } else if let array = try? container.decode([JSON].self) {
@@ -130,7 +130,7 @@ extension JSON: Codable {
 }
 
 extension JSON: CustomDebugStringConvertible {
-    
+
     public var debugDescription: String {
         switch self {
         case .string(let str):
@@ -150,7 +150,7 @@ extension JSON: CustomDebugStringConvertible {
 }
 
 extension JSON {
-    
+
     public func object() -> Any? {
         switch self {
         case .null:
@@ -172,20 +172,20 @@ extension JSON {
             return resultDictionary
         }
     }
-    
+
 }
 
 extension JSON {
-  
+
   public init<E: Encodable>(_ encodable: E) throws {
     let data = try JSONEncoder().encode(encodable)
     self = try JSONDecoder().decode(JSON.self, from: data)
   }
-  
+
 }
 
 extension Dictionary where Key == String, Value == Any {
-    
+
     public init?(_ json: JSON) {
         guard case let .dictionary(dict) = json else {
             return nil
@@ -196,16 +196,16 @@ extension Dictionary where Key == String, Value == Any {
         }
         self = resultDictionary
     }
-    
+
 }
 
 extension Array where Element == Any {
-    
+
     public init?(_ json: JSON) {
         guard case let .array(array) = json else {
             return nil
         }
         self = array.compactMap { $0.object() }
     }
-    
+
 }

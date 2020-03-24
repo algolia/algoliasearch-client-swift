@@ -8,7 +8,7 @@
 import Foundation
 
 extension Index {
-  
+
   /**
    Method used for querying an index.
    The search query only allows for the retrieval of up to 1000 hits.
@@ -26,14 +26,14 @@ extension Index {
                                         requestOptions: requestOptions)
     return performRequest(for: command, completion: completion)
   }
-  
+
 }
 
 public extension Index {
-  
+
   func search(query: Query, requestOptions: RequestOptions? = nil) throws -> SearchResponse {
     let command = Command.Search.Search(indexName: name, query: query, requestOptions: requestOptions)
     return try performSyncRequest(for: command)
   }
-  
+
 }

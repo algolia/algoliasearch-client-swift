@@ -8,7 +8,7 @@
 import Foundation
 
 extension Result {
-  
+
   func value() throws -> Success {
     switch self {
     case .success(let value):
@@ -17,5 +17,5 @@ extension Result {
       throw error
     }
   }
-  
+
 }

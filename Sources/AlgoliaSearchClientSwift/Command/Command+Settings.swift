@@ -8,11 +8,11 @@
 import Foundation
 
 extension Command {
-  
+
   enum Settings {
-    
+
     struct GetSettings: AlgoliaCommand {
-      
+
       let callType: CallType = .read
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
@@ -25,11 +25,11 @@ extension Command {
                            path: path,
                            requestOptions: requestOptions)
       }
-      
+
     }
-    
+
     struct SetSettings: AlgoliaCommand {
-      
+
       let callType: CallType = .write
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
@@ -50,9 +50,9 @@ extension Command {
                            body: settings.httpBody,
                            requestOptions: requestOptions)
       }
-      
+
     }
-    
+
   }
 
 }

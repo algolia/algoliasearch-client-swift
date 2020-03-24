@@ -4,30 +4,30 @@
 //
 //  Created by Vladislav Fitc on 17.02.2020.
 //
+// swiftlint:disable file_length
 
 import Foundation
 
 public struct Query {
-    
-  //MARK: - Search
-  
+
+  // MARK: - Search
+
   /**
    The text to search in the index.
    - Engine default: ""
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/query/?language=swift)
   */
   public var query: String?
-  
+
   /**
     Overrides the query parameter and performs a more generic search that can be used to find "similar" results.
     Engine default: ""
     [Documentation][https://www.algolia.com/doc/api-reference/api-parameters/similarQuery/?language=swift)
    */
   public var similarQuery: String?
-  
-  
-  //MARK: - Advanced
-  
+
+  // MARK: - Advanced
+
   /**
    Enables de-duplication or grouping of results.
    - Engine default: 0
@@ -41,7 +41,7 @@ public struct Query {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/getRankingInfo/?language=swift)
    */
   public var getRankingInfo: Bool?
-  
+
   /**
    Enriches the API’s response with meta-information as to how the query was processed.
    It is possible to enable several ExplainModule independently.
@@ -50,31 +50,31 @@ public struct Query {
    */
   public var explainModules: [ExplainModule]?
 
-  //MARK: - Attributes
-  
+  // MARK: - Attributes
+
   /**
    Gives control over which attributes to retrieve and which not to retrieve.
    - Engine default: [*]
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/attributesToRetrieve/?language=swift)
    */
   public var attributesToRetrieve: [Attribute]?
-  
+
   /**
    Restricts a given query to look in only a subset of your searchable attributes.
    - Engine default: all attributes in [Settings.searchableAttributes].
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/restrictSearchableAttributes/?language=swift)
    */
   public var restrictSearchableAttributes: [Attribute]?
-  
-  //MARK: - Filtering-Faceting
-  
+
+  // MARK: - Filtering-Faceting
+
   /**
    Filter the query with numeric, facet and/or tag filters.
    - Engine default: ""
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/filters/?language=swift)
    */
   public var filters: String?
-  
+
   /**
    Filter hits by facet value.
    - Engine default: []
@@ -102,21 +102,21 @@ public struct Query {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/tagFilters/?language=swift)
    */
   public var tagFilters: [[String]]?
-  
+
   /**
    Determines how to calculate the total score for filtering.
    - Engine default: false
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/sumOrFiltersScores/?language=swift)
    */
   public var sumOrFiltersScores: Bool?
-  
+
   /**
    Facets to retrieve.
    - Engine default: []
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/facets/?language=swift)
    */
   public var facets: Set<Attribute>?
-  
+
   /**
    Maximum number of facet values to return for each facet during a regular search.
    - Engine default: 100
@@ -137,7 +137,7 @@ public struct Query {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/sortFacetValuesBy/?language=swift)
    */
   public var sortFacetsBy: SortFacetsBy?
-  
+
   /**
    Maximum number of facet hits to return during a search for facet values.
    - Engine default: 10
@@ -145,8 +145,8 @@ public struct Query {
    */
   public var maxFacetHits: Int?
 
-  //MARK: - Highlighting-snippeting
-  
+  // MARK: - Highlighting-snippeting
+
   /**
    List of attributes to highlight.
    - Engine default: null
@@ -189,8 +189,8 @@ public struct Query {
    */
   public var restrictHighlightAndSnippetArrays: Bool?
 
-  //MARK: - Pagination
-  
+  // MARK: - Pagination
+
   /**
    Specify the page to retrieve.
    - Engine default: 0
@@ -218,8 +218,8 @@ public struct Query {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/length/?language=swift)
    */
   public var length: Int?
-  
-  //MARK: - Typos
+
+  // MARK: - Typos
 
   /**
    Minimum number of characters a word in the query name must contain to accept matches with 1 typo.
@@ -256,8 +256,8 @@ public struct Query {
    */
   public var disableTypoToleranceOnAttributes: [Attribute]?
 
-  //MARK: - Geo-Search
-  
+  // MARK: - Geo-Search
+
   /**
    Search for entries around a central geolocation, enabling a geo search within a circular area.
    - Engine default: null
@@ -306,16 +306,16 @@ public struct Query {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/insidePolygon/?language=swift)
    */
   public var insidePolygon: [Polygon]?
-  
-  //MARK: - Query strategy
-  
+
+  // MARK: - Query strategy
+
   /**
    Controls if and how query words are interpreted as [prefixes](https://www.algolia.com/doc/guides/textual-relevance/prefix-search/?language=swift).
    - Engine default: [QueryType.PrefixLast]
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/queryType/?language=swift)
    */
   public var queryType: QueryType?
-  
+
   /**
    Selects a strategy to remove words from the query when it doesn’t match any hits.
    - Engine default: [RemoveWordIfNoResults.None]
@@ -341,7 +341,7 @@ public struct Query {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/optionalWords/?language=swift)
    */
   public var optionalWords: [String]?
-  
+
   /**
    Removes stop (task) words from the query before executing it.
    - Engine default: false
@@ -386,9 +386,8 @@ public struct Query {
    */
   public var queryLanguages: [Language]?
 
-  
-  //MARK: - Query rules
-  
+  // MARK: - Query rules
+
   /**
    Whether rules should be globally enabled.
    - Engine default: true
@@ -403,8 +402,8 @@ public struct Query {
    */
   public var ruleContexts: [String]?
 
-  //MARK: - Personalization
-  
+  // MARK: - Personalization
+
   /**
    Enable the Personalization feature.
    - Engine default: false
@@ -434,8 +433,8 @@ public struct Query {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/userToken/?language=swift)
    */
   public var userToken: UserToken?
-  
-  //MARK: - Analytics
+
+  // MARK: - Analytics
 
   /**
    Whether the current query will be taken into account in the Analytics.
@@ -450,14 +449,14 @@ public struct Query {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/?language=swift)
    */
   public var analyticsTags: [String]?
-  
+
   /**
    Whether this query should be taken into consideration by currently active ABTests.
    - Engine default: true
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/enableABTest/?language=swift)
    */
   public var enableABTest: Bool?
-  
+
   /**
    Enable the Click Analytics feature.
    - Engine default: false.
@@ -465,8 +464,8 @@ public struct Query {
    */
   public var clickAnalytics: Bool?
 
-  //MARK: - Synonyms
-  
+  // MARK: - Synonyms
+
   /**
    Whether to take into account an index’s synonyms for a particular search.
    - Engine default: true
@@ -502,18 +501,16 @@ public struct Query {
    */
   public var percentileComputation: Bool?
 
-  
   public init(_ query: String?) {
     self.query = query
   }
-    
+
 }
 
 extension Query: ExpressibleByStringLiteral {
-  
+
   public init(stringLiteral value: String) {
     self.init(value)
   }
-  
-}
 
+}

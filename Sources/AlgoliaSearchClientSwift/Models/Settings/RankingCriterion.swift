@@ -4,11 +4,12 @@
 //
 //  Created by Vladislav Fitc on 11.03.2020.
 //
+// swiftlint:disable cyclomatic_complexity
 
 import Foundation
 
 public enum RankingCriterion: Codable, Equatable {
-  
+
   case asc(Attribute)
   case desc(Attribute)
   case typo
@@ -19,11 +20,11 @@ public enum RankingCriterion: Codable, Equatable {
   case attribute
   case exact
   case custom
-  
+
 }
 
 extension RankingCriterion: RawRepresentable {
-  
+
   private enum Prefix: String {
     case asc
     case desc
@@ -36,7 +37,7 @@ extension RankingCriterion: RawRepresentable {
     case exact
     case custom
   }
-  
+
   public var rawValue: String {
     switch self {
     case .asc(let attribute):
@@ -62,7 +63,6 @@ extension RankingCriterion: RawRepresentable {
     }
   }
 
-  
   public init?(rawValue: String) {
     if let ascValue = PrefixedString.matching(rawValue, prefix: Prefix.asc.rawValue) {
       self = .asc(.init(rawValue: ascValue))
@@ -93,5 +93,5 @@ extension RankingCriterion: RawRepresentable {
       return nil
     }
   }
-  
+
 }
