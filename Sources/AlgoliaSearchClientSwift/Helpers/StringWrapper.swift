@@ -12,11 +12,11 @@ public protocol StringWrapper: RawRepresentable, Codable, CustomStringConvertibl
 }
 
 extension StringWrapper {
-  
+
   public init(stringLiteral value: String) {
     self.init(rawValue: value)
   }
-  
+
   public init(from decoder: Decoder) throws {
     let container = try decoder.singleValueContainer()
     if let intValue = try? container.decode(Int.self) {
@@ -27,15 +27,14 @@ extension StringWrapper {
     }
 
   }
-  
+
   public func encode(to encoder: Encoder) throws {
     var container = encoder.singleValueContainer()
     try container.encode(rawValue)
   }
-    
+
   public var description: String {
     return rawValue
   }
-    
-}
 
+}

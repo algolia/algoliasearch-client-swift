@@ -8,15 +8,15 @@
 import Foundation
 
 extension Command {
-  
+
   enum Indexing {
-    
+
     struct SaveObject: AlgoliaCommand {
-      
+
       let callType: CallType = .write
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
-      
+
       init<T: Codable>(indexName: IndexName,
                        record: T,
                        requestOptions: RequestOptions?) {
@@ -26,7 +26,7 @@ extension Command {
                            body: record.httpBody,
                            requestOptions: requestOptions)
       }
-      
+
       init(indexName: IndexName,
            record: [String: Any],
            requestOptions: RequestOptions?) throws {
@@ -37,13 +37,11 @@ extension Command {
                            body: body,
                            requestOptions: requestOptions)
       }
-      
+
     }
-    
-    
-    
+
     struct GetObject: AlgoliaCommand {
-      
+
       let callType: CallType = .read
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
@@ -52,7 +50,7 @@ extension Command {
            objectID: ObjectID,
            attributesToRetreive: [Attribute] = [],
            requestOptions: RequestOptions?) {
-        let requestOptions = requestOptions.withParameters( {
+        let requestOptions = requestOptions.withParameters({
           guard !attributesToRetreive.isEmpty else { return [:] }
           let attributesValue = attributesToRetreive.map { $0.rawValue }.joined(separator: ",")
           return [.attributesToRetreive: attributesValue]
@@ -63,9 +61,9 @@ extension Command {
                            path: path,
                            requestOptions: requestOptions)
       }
-      
+
     }
-    
+
   }
-  
+
 }

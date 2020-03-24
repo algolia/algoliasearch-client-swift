@@ -10,18 +10,17 @@ import XCTest
 @testable import AlgoliaSearchClientSwift
 
 class ExactOnSingleWordQueryTests: XCTestCase {
-  
-  func testEncoding() {
-    testEncoding(ExactOnSingleWordQuery.attribute, expected: "attribute")
-    testEncoding(ExactOnSingleWordQuery.none, expected: "none")
-    testEncoding(ExactOnSingleWordQuery.word, expected: "word")
-  }
-  
-  func testDecoding() {
-    testDecoding("attribute", expected: ExactOnSingleWordQuery.attribute)
-    testDecoding("none", expected: ExactOnSingleWordQuery.none)
-    testDecoding("word", expected: ExactOnSingleWordQuery.word)
+
+  func testEncoding() throws {
+    try testEncoding(ExactOnSingleWordQuery.attribute, expected: "attribute")
+    try testEncoding(ExactOnSingleWordQuery.none, expected: "none")
+    try testEncoding(ExactOnSingleWordQuery.word, expected: "word")
   }
 
-  
+  func testDecoding() throws {
+    try testDecoding("attribute", expected: ExactOnSingleWordQuery.attribute)
+    try testDecoding("none", expected: ExactOnSingleWordQuery.none)
+    try testDecoding("word", expected: ExactOnSingleWordQuery.word)
+  }
+
 }

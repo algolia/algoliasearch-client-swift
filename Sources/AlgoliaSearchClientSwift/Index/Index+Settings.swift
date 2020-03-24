@@ -8,7 +8,7 @@
 import Foundation
 
 extension Index {
-  
+
   /**
    Get the Settings of an index.
    - parameter requestOptions: Configure request locally with RequestOptions.
@@ -19,7 +19,7 @@ extension Index {
                                                requestOptions: requestOptions)
     return performRequest(for: command, completion: completion)
   }
-  
+
   /**
    Create or change an index’s Settings.
    Only non-null settings are overridden; null settings are left unchanged
@@ -42,17 +42,17 @@ extension Index {
                                                requestOptions: requestOptions)
     return performRequest(for: command, completion: completion)
   }
-  
+
 }
 
 public extension Index {
-  
+
   func getSettings(requestOptions: RequestOptions? = nil) throws -> Settings {
     let command = Command.Settings.GetSettings(indexName: name,
                                                requestOptions: requestOptions)
     return try performSyncRequest(for: command)
   }
-  
+
   func setSettings(_ settings: Settings,
                    resetToDefault: [Settings.Key] = [],
                    forwardToReplicas: Bool? = nil,
@@ -64,6 +64,5 @@ public extension Index {
                                                requestOptions: requestOptions)
     return try performSyncRequest(for: command)
   }
-  
-  
+
 }

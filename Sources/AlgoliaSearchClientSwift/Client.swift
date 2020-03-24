@@ -8,10 +8,10 @@
 import Foundation
 
 public struct Client {
-  
+
   let transport: Transport
   let queue: OperationQueue
-  
+
   public init(appID: ApplicationID, apiKey: APIKey) {
     let configuration = SearchConfigration(applicationID: appID, apiKey: apiKey)
     let sessionConfiguration: URLSessionConfiguration = .default
@@ -24,15 +24,15 @@ public struct Client {
                                       retryStrategy: retryStrategy)
     self.init(transport: httpTransport)
   }
-  
+
   init(transport: Transport) {
     self.transport = transport
     self.queue = OperationQueue()
     queue.qualityOfService = .userInitiated
   }
-  
+
   public func index(withName indexName: IndexName) -> Index {
     return Index(name: indexName, transport: transport, queue: queue)
   }
-  
+
 }

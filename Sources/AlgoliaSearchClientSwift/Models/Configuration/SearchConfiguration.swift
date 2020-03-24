@@ -8,21 +8,21 @@
 import Foundation
 
 public struct SearchConfigration: Configuration, Credentials {
-  
+
   public let applicationID: ApplicationID
-  
+
   public let apiKey: APIKey
-  
+
   public var writeTimeout: TimeInterval
-  
+
   public var readTimeout: TimeInterval
-  
+
   public var logLevel: LogLevel
-  
+
   public var hosts: [RetryableHost]
-  
-  public var defaultHeaders: [HTTPHeaderKey : String]?
-  
+
+  public var defaultHeaders: [HTTPHeaderKey: String]?
+
   init(applicationID: ApplicationID,
        apiKey: APIKey,
        writeTimeout: TimeInterval = DefaultConfiguration.default.writeTimeout,
@@ -37,5 +37,5 @@ public struct SearchConfigration: Configuration, Credentials {
     self.hosts = Hosts.forApplicationID(applicationID)
     self.defaultHeaders = defaultHeaders
   }
-  
+
 }

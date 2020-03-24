@@ -8,7 +8,7 @@
 import Foundation
 
 public enum TaskStatus {
-      
+
   /**
    * The Task has been processed by the server.
    */
@@ -20,11 +20,11 @@ public enum TaskStatus {
   case notPublished
 
   case other(String)
-  
+
 }
 
 extension TaskStatus: RawRepresentable {
-  
+
   public var rawValue: String {
     switch self {
     case .notPublished:
@@ -35,7 +35,7 @@ extension TaskStatus: RawRepresentable {
       return value
     }
   }
-  
+
   public init(rawValue: String) {
     switch rawValue {
     case TaskStatus.published.rawValue:
@@ -46,20 +46,20 @@ extension TaskStatus: RawRepresentable {
       self = .other(rawValue)
     }
   }
-    
+
 }
 
 extension TaskStatus: Codable {
-  
+
   public init(from decoder: Decoder) throws {
     let container = try decoder.singleValueContainer()
     let value = try container.decode(String.self)
     self.init(rawValue: value)
   }
-  
+
   public func encode(to encoder: Encoder) throws {
     var container = encoder.singleValueContainer()
     try container.encode(rawValue)
   }
-  
+
 }

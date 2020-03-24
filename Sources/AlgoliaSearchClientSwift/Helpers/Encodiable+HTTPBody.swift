@@ -8,7 +8,7 @@
 import Foundation
 
 extension Encodable {
-  
+
   var httpBody: Data {
     let jsonEncoder = JSONEncoder()
     do {
@@ -19,5 +19,5 @@ extension Encodable {
       return Data()
     }
   }
-  
+
 }

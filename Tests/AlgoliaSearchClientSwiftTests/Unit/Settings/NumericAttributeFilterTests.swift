@@ -10,16 +10,16 @@ import XCTest
 @testable import AlgoliaSearchClientSwift
 
 class NumericAttributeFilterTests: XCTestCase {
-  
-  func testEncoding() {
-    testEncoding(NumericAttributeFilter.default("attr"), expected: "attr")
-    testEncoding(NumericAttributeFilter.equalOnly("attr"), expected: "equalOnly(attr)")
+
+  func testEncoding() throws {
+    try testEncoding(NumericAttributeFilter.default("attr"), expected: "attr")
+    try testEncoding(NumericAttributeFilter.equalOnly("attr"), expected: "equalOnly(attr)")
 
   }
-  
-  func testDecoding() {
-    testDecoding("attr", expected: NumericAttributeFilter.default("attr"))
-    testDecoding("equalOnly(attr)", expected: NumericAttributeFilter.equalOnly("attr"))
+
+  func testDecoding() throws {
+    try testDecoding("attr", expected: NumericAttributeFilter.default("attr"))
+    try testDecoding("equalOnly(attr)", expected: NumericAttributeFilter.equalOnly("attr"))
   }
-  
+
 }

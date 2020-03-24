@@ -8,15 +8,15 @@
 import Foundation
 
 extension Command {
-  
+
   enum Advanced {
-    
+
     struct TaskStatus: AlgoliaCommand {
-      
+
       let callType: CallType = .read
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
-      
+
       init(indexName: IndexName,
            taskID: TaskID,
            requestOptions: RequestOptions?) {
@@ -25,9 +25,7 @@ extension Command {
         urlRequest = .init(method: .get, path: path, requestOptions: requestOptions)
       }
     }
-        
+
   }
-  
+
 }
-
-

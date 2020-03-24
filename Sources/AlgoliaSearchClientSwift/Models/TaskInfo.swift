@@ -8,16 +8,15 @@
 import Foundation
 
 public struct TaskInfo: Codable {
-  
+
   /**
    The Task current TaskStatus.
    */
   public let status: TaskStatus
-  
+
   /**
    * Whether the index has remaining Task is running
    */
   public let pendingTask: Bool
 
-  
 }

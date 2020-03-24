@@ -13,12 +13,12 @@ public enum CustomRankingCriterion: Codable, Equatable {
 }
 
 extension CustomRankingCriterion: RawRepresentable {
-  
+
   private enum Prefix: String {
     case asc
     case desc
   }
-  
+
   public var rawValue: String {
      switch self {
      case .asc(let attribute):
@@ -27,7 +27,7 @@ extension CustomRankingCriterion: RawRepresentable {
        return PrefixedString(prefix: Prefix.desc.rawValue, value: attribute.rawValue).description
     }
   }
-  
+
   public init?(rawValue: String) {
     guard
       let prefixedString = PrefixedString(rawValue: rawValue),
@@ -41,5 +41,5 @@ extension CustomRankingCriterion: RawRepresentable {
       self = .desc(.init(rawValue: prefixedString.value))
     }
   }
-  
+
 }

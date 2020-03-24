@@ -8,11 +8,11 @@
 import Foundation
 
 protocol ResultContainer {
-  
+
   associatedtype ResultValue
-  
+
   var result: Result<ResultValue, Swift.Error>? { get }
-  
+
 }
 
 extension ResultContainer {

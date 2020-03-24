@@ -10,14 +10,14 @@ import XCTest
 @testable import AlgoliaSearchClientSwift
 
 class IndexingIntegrationTests: OnlineTestCase {
-  
+
   func testSaveGetObject() {
-    
+
     let object: JSON = [
       "testField1": "testValue1",
       "testField2": 2,
       "testField3": true]
-            
+
     do {
       let creation = try index.saveObject(record: object)
       _ = try index.wait(for: creation)
@@ -26,19 +26,18 @@ class IndexingIntegrationTests: OnlineTestCase {
     } catch let error {
       XCTFail("\(error)")
     }
-    
-    
+
   }
-  
+
   func testSaveGetObjectCallback() {
-    
+
     let object: JSON = [
       "testField1": "testValue1",
       "testField2": 2,
       "testField3": true]
-    
+
     let expectation = self.expectation(description: "Save-Wait-Create")
-    
+
     index.saveObject(record: object) { result in
       switch result {
       case .failure(let error):
@@ -55,7 +54,7 @@ class IndexingIntegrationTests: OnlineTestCase {
               switch result {
               case .failure(let error):
                 XCTFail("\(error)")
-                
+
               case .success(let object):
                 print(object)
                 expectation.fulfill()
@@ -65,11 +64,9 @@ class IndexingIntegrationTests: OnlineTestCase {
         }
       }
     }
-    
+
     waitForExpectations(timeout: expectationTimeout, handler: .none)
-    
+
   }
-  
+
 }
-
-

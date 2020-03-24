@@ -8,14 +8,14 @@
 import Foundation
 
 public struct BatchOperation<T: Codable>: Codable {
-  
+
   public let action: Action
   public let body: T
-  
+
 }
 
 public extension BatchOperation {
-  
+
   enum Action: String, Codable {
     case addObject
     case updateObject
@@ -24,5 +24,4 @@ public extension BatchOperation {
     case deleteObject
   }
 
-  
 }

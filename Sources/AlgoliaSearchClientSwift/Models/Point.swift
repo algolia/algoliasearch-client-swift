@@ -12,32 +12,32 @@ import Foundation
  */
 
 public struct Point: Equatable {
-  
+
   public let latitude: Double
   public let longitude: Double
-  
+
   public init(latitude: Double, longitude: Double) {
     self.latitude = latitude
     self.longitude = longitude
   }
-  
+
 }
 
 extension Point: RawRepresentable {
-  
+
   public var rawValue: [Double] {
     return [latitude, longitude]
   }
-  
+
   public init?(rawValue: [Double]) {
     guard rawValue.count > 1 else { return nil }
     self.init(latitude: rawValue[0], longitude: rawValue[1])
   }
-  
+
 }
 
 extension Point: Codable {
-  
+
   public init(from decoder: Decoder) throws {
     let container = try decoder.singleValueContainer()
     let stringValue = try container.decode(String.self)
@@ -47,10 +47,10 @@ extension Point: Codable {
     }
     self.init(rawValue: rawValue)!
   }
-  
+
   public func encode(to encoder: Encoder) throws {
     var container = encoder.singleValueContainer()
     try container.encode("\(latitude),\(longitude)")
   }
-  
+
 }

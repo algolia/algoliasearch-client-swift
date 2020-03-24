@@ -8,35 +8,34 @@
 import Foundation
 
 public struct HTTPError: Error {
-  
+
   public let statusCode: HTTPStatusCode
   public let message: ErrorMessage?
-  
+
   public init?(response: HTTPURLResponse?, data: Data?) {
     guard
       let response = response,
       let statusCode = HTTPStatusCode(rawValue: response.statusCode), !statusCode.belongs(to: .success) else {
       return nil
     }
-    
+
     let message = data.flatMap { try? JSONDecoder().decode(ErrorMessage.self, from: $0) }
     self.init(statusCode: statusCode, message: message)
   }
-  
+
   public init(statusCode: HTTPStatusCode, message: ErrorMessage?) {
     self.statusCode = statusCode
     self.message = message
   }
-  
+
 }
 
 public struct ErrorMessage: Codable, CustomStringConvertible {
-  
+
   enum CodingKeys: String, CodingKey {
     case description = "message"
   }
-  
+
   public let description: String
-  
+
 }
- 

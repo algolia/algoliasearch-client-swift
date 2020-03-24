@@ -12,13 +12,13 @@ extension Command {
 }
 
 extension Command.Index {
-  
+
   struct DeleteIndex: AlgoliaCommand {
-    
+
     let callType: CallType = .write
     let urlRequest: URLRequest
     let requestOptions: RequestOptions?
-    
+
     init(indexName: IndexName,
          requestOptions: RequestOptions?) {
       self.requestOptions = requestOptions
@@ -27,18 +27,18 @@ extension Command.Index {
                          path: path,
                          requestOptions: requestOptions)
     }
-    
+
   }
-  
+
   struct Batch: AlgoliaCommand {
-    
+
     let callType: CallType = .write
     let urlRequest: URLRequest
     let requestOptions: RequestOptions?
-    
+
     init<T: Codable>(indexName: IndexName,
-         batchOperations: [BatchOperation<T>],
-         requestOptions: RequestOptions?) {
+                     batchOperations: [BatchOperation<T>],
+                     requestOptions: RequestOptions?) {
       self.requestOptions = requestOptions
       let path = indexName.toPath(withSuffix: "/batch")
       let body = BatchRequest(requests: batchOperations).httpBody
@@ -47,7 +47,7 @@ extension Command.Index {
                          body: body,
                          requestOptions: requestOptions)
     }
-    
+
   }
-  
+
 }

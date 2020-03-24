@@ -8,7 +8,7 @@
 import Foundation
 
 extension Index {
-  
+
   /**
     Check the current TaskStatus of a given Task.
    
@@ -19,7 +19,7 @@ extension Index {
     let request = Command.Advanced.TaskStatus(indexName: name, taskID: taskID, requestOptions: requestOptions)
     return performRequest(for: request, completion: completion)
   }
-  
+
   /**
     Wait for a Task to complete before executing the next line of code, to synchronize index updates.
     All write operations in Algolia are asynchronous by design.
@@ -36,18 +36,18 @@ extension Index {
     queue.addOperation(task)
     return task
   }
-    
+
 }
 
 public extension Index {
-  
+
   func waitTask(withID taskID: TaskID, timeout: TimeInterval? = nil, requestOptions: RequestOptions? = nil) throws -> TaskStatus {
     let task = WaitTask(index: self, taskID: taskID, requestOptions: requestOptions, completion: { _ in })
     return try queue.performOperation(task)
   }
-  
+
   func wait(for task: Task, timeout: TimeInterval? = nil, requestOptions: RequestOptions? = nil) throws -> TaskStatus {
     return try waitTask(withID: task.taskID, timeout: timeout, requestOptions: requestOptions)
   }
-  
+
 }

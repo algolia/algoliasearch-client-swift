@@ -11,16 +11,16 @@ import XCTest
 
 class RemoveStopWordsTests: XCTestCase {
 
-  func testEncoding() {
-    testEncoding(RemoveStopWords.true, expected: true)
-    testEncoding(RemoveStopWords.false, expected: false)
-    testEncoding(RemoveStopWords.queryLanguages([.english, .polish, .french]), expected: [Language.english, Language.polish, Language.french].map { $0.rawValue })
+  func testEncoding() throws {
+    try testEncoding(RemoveStopWords.true, expected: true)
+    try testEncoding(RemoveStopWords.false, expected: false)
+    try testEncoding(RemoveStopWords.queryLanguages([.english, .polish, .french]), expected: [Language.english, Language.polish, Language.french].map { $0.rawValue })
   }
-  
-  func testDecoding() {
-    testDecoding(true, expected: RemoveStopWords.true)
-    testDecoding(false, expected: RemoveStopWords.false)
-    testDecoding([Language.english, Language.polish, Language.french].map { $0.rawValue }, expected: RemoveStopWords.queryLanguages([.english, .polish, .french]))
+
+  func testDecoding() throws {
+    try testDecoding(true, expected: RemoveStopWords.true)
+    try testDecoding(false, expected: RemoveStopWords.false)
+    try testDecoding([Language.english, Language.polish, Language.french].map { $0.rawValue }, expected: RemoveStopWords.queryLanguages([.english, .polish, .french]))
   }
-  
+
 }

@@ -10,17 +10,17 @@ import XCTest
 @testable import AlgoliaSearchClientSwift
 
 class QueryTypeTests: XCTestCase {
-  
-  func testDecoding() {
-    testDecoding(QueryType.prefixAll.rawValue, expected: "prefixAll")
-    testDecoding(QueryType.prefixLast.rawValue, expected: "prefixLast")
-    testDecoding(QueryType.prefixNone.rawValue, expected: "prefixNone")
+
+  func testDecoding() throws {
+    try testDecoding(QueryType.prefixAll.rawValue, expected: "prefixAll")
+    try testDecoding(QueryType.prefixLast.rawValue, expected: "prefixLast")
+    try testDecoding(QueryType.prefixNone.rawValue, expected: "prefixNone")
   }
-  
-  func testEncoding() {
-    testEncoding("prefixAll", expected: QueryType.prefixAll.rawValue)
-    testEncoding("prefixLast", expected: QueryType.prefixLast.rawValue)
-    testEncoding("prefixNone", expected: QueryType.prefixNone.rawValue)
+
+  func testEncoding() throws {
+    try testEncoding("prefixAll", expected: QueryType.prefixAll.rawValue)
+    try testEncoding("prefixLast", expected: QueryType.prefixLast.rawValue)
+    try testEncoding("prefixNone", expected: QueryType.prefixNone.rawValue)
   }
-  
+
 }

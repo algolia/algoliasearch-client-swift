@@ -8,7 +8,7 @@
 import Foundation
 
 extension SearchResponse: Codable {
-  
+
   enum CodingKeys: String, CodingKey {
     case hits
     case nbHits
@@ -41,7 +41,7 @@ extension SearchResponse: Codable {
     case hierarchicalFacetsStorage = "hierarchicalFacets"
     case explain
   }
-  
+
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     self.hits = try container.decode(forKey: .hits)
@@ -75,7 +75,7 @@ extension SearchResponse: Codable {
     self.hierarchicalFacetsStorage = try container.decodeIfPresent(forKey: .hierarchicalFacetsStorage)
     self.explain = try container.decodeIfPresent(forKey: .explain)
   }
-  
+
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(hits, forKey: .hits)
@@ -109,41 +109,41 @@ extension SearchResponse: Codable {
     try container.encodeIfPresent(hierarchicalFacetsStorage, forKey: .hierarchicalFacetsStorage)
     try container.encodeIfPresent(explain, forKey: .explain)
   }
-  
+
 }
 
 extension SearchResponse {
-  
+
   struct FacetsStorage: Codable {
-    
+
     let storage: [Attribute: [Facet]]
-    
+
     public init(from decoder: Decoder) throws {
       let container = try decoder.singleValueContainer()
       let rawFacetsForAttribute = try container.decode([String: [String: Int]].self)
       let output = [Attribute: [Facet]](rawFacetsForAttribute)
       self.storage = output
     }
-    
+
     public func encode(to encoder: Encoder) throws {
       let rawFacets = [String: [String: Int]](storage)
       var container = encoder.singleValueContainer()
       try container.encode(rawFacets)
     }
-        
+
   }
-  
+
   struct FacetStatsStorage: Codable {
-    
+
     let storage: [Attribute: FacetStats]
-    
+
     public init(from decoder: Decoder) throws {
       let container = try decoder.singleValueContainer()
       let rawFacetsForAttribute = try container.decode([String: FacetStats].self)
       let keyValues = rawFacetsForAttribute.map { (Attribute(rawValue: $0.key), $0.value) }
       self.storage = .init(uniqueKeysWithValues: keyValues)
     }
-    
+
     public func encode(to encoder: Encoder) throws {
       let keyValues = storage.map { ($0.key.rawValue, $0.value) }
       let rawFacets = [String: FacetStats].init(uniqueKeysWithValues: keyValues)
@@ -152,5 +152,5 @@ extension SearchResponse {
     }
 
   }
-  
+
 }

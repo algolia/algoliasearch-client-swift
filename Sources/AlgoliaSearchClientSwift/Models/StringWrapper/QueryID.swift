@@ -8,11 +8,11 @@
 import Foundation
 
 public struct QueryID: StringWrapper {
-    
+
   public let rawValue: String
-    
+
   public init(rawValue: String) {
     self.rawValue = rawValue
   }
-  
+
 }

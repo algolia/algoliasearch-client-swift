@@ -8,18 +8,18 @@
 import Foundation
 
 public enum SearchableAttribute: Codable, Equatable {
-  
+
   case `default`([Attribute])
   case unordered(Attribute)
-    
+
 }
 
 extension SearchableAttribute: RawRepresentable {
-  
+
   private enum Prefix: String {
     case unordered
   }
-  
+
   public var rawValue: String {
     switch self {
     case .default(let attributes):
@@ -28,7 +28,7 @@ extension SearchableAttribute: RawRepresentable {
       return PrefixedString(prefix: Prefix.unordered.rawValue, value: attribute.rawValue).description
     }
   }
-  
+
   public init(rawValue: String) {
     if let prefixedString = PrefixedString(rawValue: rawValue), prefixedString.prefix == Prefix.unordered.rawValue {
       let attribute = Attribute(rawValue: prefixedString.value)
@@ -38,5 +38,5 @@ extension SearchableAttribute: RawRepresentable {
       self = .`default`(attributes)
     }
   }
-  
+
 }

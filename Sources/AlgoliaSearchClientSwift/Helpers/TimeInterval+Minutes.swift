@@ -8,10 +8,10 @@
 import Foundation
 
 public extension TimeInterval {
-  
+
   static let minute: TimeInterval = 60
   static func minutes(_ minutesCount: Int) -> TimeInterval {
     return TimeInterval(minutesCount) * minute
   }
-  
+
 }

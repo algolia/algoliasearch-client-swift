@@ -1,0 +1,6 @@
+excluded:
+ - .build
+# implicitly
+line_length: 200
+nesting: 
+ type_level: 2

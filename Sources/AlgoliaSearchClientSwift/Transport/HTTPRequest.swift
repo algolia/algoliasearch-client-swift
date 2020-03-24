@@ -8,13 +8,13 @@
 import Foundation
 
 class HTTPRequest<Value: Codable>: AsyncOperation, ResultContainer {
-  
+
   let transport: Transport
   let command: AlgoliaCommand
   let completion: (ResultCallback<Value>)
-  
+
   var result: Result<Value, Error>?
-  
+
   init(transport: Transport,
        endpoint: AlgoliaCommand,
        completion: @escaping ResultCallback<Value>) {
@@ -22,7 +22,7 @@ class HTTPRequest<Value: Codable>: AsyncOperation, ResultContainer {
     self.command = endpoint
     self.completion = completion
   }
-  
+
   override func main() {
     transport.request(request: command.urlRequest,
                       callType: command.callType,
@@ -32,5 +32,5 @@ class HTTPRequest<Value: Codable>: AsyncOperation, ResultContainer {
       self?.state = .finished
     }
   }
-  
+
 }

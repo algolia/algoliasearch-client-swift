@@ -8,10 +8,10 @@
 import Foundation
 
 extension HttpTransport {
-  
+
   enum Error: Swift.Error {
     case noReachableHosts
     case missingData
   }
-  
+
 }

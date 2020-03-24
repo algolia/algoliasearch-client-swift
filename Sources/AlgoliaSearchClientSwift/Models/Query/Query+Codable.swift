@@ -4,6 +4,7 @@
 //
 //  Created by Vladislav Fitc on 20/03/2020.
 //
+// swiftlint:disable function_body_length
 
 import Foundation
 
@@ -77,7 +78,7 @@ extension Query: Codable {
     enableABTest = try container.decodeIfPresent(forKey: .enableABTest)
     explainModules = try container.decodeIfPresent(forKey: .explainModules)
   }
-  
+
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encodeIfPresent(query, forKey: .query)
@@ -146,7 +147,7 @@ extension Query: Codable {
     try container.encodeIfPresent(enableABTest, forKey: .enableABTest)
     try container.encodeIfPresent(explainModules, forKey: .explainModules)
   }
-  
+
   enum CodingKeys: String, CodingKey {
     case query
     case attributesToRetrieve

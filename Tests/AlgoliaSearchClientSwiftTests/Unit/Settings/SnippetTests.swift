@@ -10,15 +10,15 @@ import XCTest
 @testable import AlgoliaSearchClientSwift
 
 class SnippetTests: XCTestCase {
-  
-  func testDecoding() {
-    testDecoding("attr", expected: Snippet(attribute: "attr"))
-    testDecoding("attr:20", expected: Snippet(attribute: "attr", count: 20))
+
+  func testDecoding() throws {
+    try testDecoding("attr", expected: Snippet(attribute: "attr"))
+    try testDecoding("attr:20", expected: Snippet(attribute: "attr", count: 20))
   }
-  
-  func testEncoding() {
-    testEncoding(Snippet(attribute: "attr"), expected: "attr")
-    testEncoding(Snippet(attribute: "attr", count: 20), expected: "attr:20")
+
+  func testEncoding() throws {
+    try testEncoding(Snippet(attribute: "attr"), expected: "attr")
+    try testEncoding(Snippet(attribute: "attr", count: 20), expected: "attr:20")
   }
-  
+
 }

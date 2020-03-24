@@ -4,11 +4,12 @@
 //
 //  Created by Vladislav Fitc on 23/03/2020.
 //
+// swiftlint:disable cyclomatic_complexity
 
 import Foundation
 
 public enum AlternativeType: Codable {
-  
+
   /**
    Literal word from the query
    */
@@ -79,11 +80,11 @@ public enum AlternativeType: Codable {
   case compound
 
   case other(String)
-  
+
 }
 
 extension AlternativeType: RawRepresentable {
-  
+
   public var rawValue: String {
     switch self {
     case .alternativeCorrection: return "alternativeCorrection"
@@ -100,7 +101,7 @@ extension AlternativeType: RawRepresentable {
     case .other(let value): return value
     }
   }
-  
+
   public init(rawValue: String) {
     switch rawValue {
     case AlternativeType.alternativeCorrection.rawValue: self = .alternativeCorrection
@@ -117,5 +118,5 @@ extension AlternativeType: RawRepresentable {
     default: self = .other(rawValue)
     }
   }
-  
+
 }

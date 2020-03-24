@@ -15,7 +15,7 @@ public enum AlternativesAsExact: Codable, Equatable {
 }
 
 extension AlternativesAsExact: RawRepresentable {
-  
+
   public var rawValue: String {
     switch self {
     case .ignorePlurals:
@@ -28,7 +28,7 @@ extension AlternativesAsExact: RawRepresentable {
       return value
     }
   }
-  
+
   public init(rawValue: String) {
     switch rawValue {
     case AlternativesAsExact.ignorePlurals.rawValue:
@@ -41,5 +41,5 @@ extension AlternativesAsExact: RawRepresentable {
       self = .other(rawValue)
     }
   }
-  
+
 }

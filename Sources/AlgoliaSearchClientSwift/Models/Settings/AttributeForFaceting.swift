@@ -8,20 +8,20 @@
 import Foundation
 
 public enum AttributeForFaceting: Equatable, Codable {
-  
+
   case `default`(Attribute)
   case filterOnly(Attribute)
   case searchable(Attribute)
-    
+
 }
 
 extension AttributeForFaceting: RawRepresentable {
-  
+
   private enum Prefix: String {
     case filterOnly
     case searchable
   }
-  
+
   public var rawValue: String {
     switch self {
     case .default(let attribute):
@@ -33,7 +33,7 @@ extension AttributeForFaceting: RawRepresentable {
     }
 
   }
-  
+
   public init(rawValue: String) {
     if
       let prefixedString = PrefixedString(rawValue: rawValue),
@@ -48,5 +48,5 @@ extension AttributeForFaceting: RawRepresentable {
       self = .default(.init(rawValue: rawValue))
     }
   }
-  
+
 }
