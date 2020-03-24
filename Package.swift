@@ -14,7 +14,7 @@ let package = Package(
     products: [
         .library(
             name: "AlgoliaSearchClientSwift",
-            targets: ["AlgoliaSearchClientSwift"]),
+            targets: ["AlgoliaSearchClientSwift"])
     ],
     dependencies: [
         .package(url:"https://github.com/apple/swift-log.git", from: "1.2.0")
@@ -27,6 +27,6 @@ let package = Package(
             dependencies: ["Logging"]),
         .testTarget(
             name: "AlgoliaSearchClientSwiftTests",
-            dependencies: ["AlgoliaSearchClientSwift", "Logging"]),
+            dependencies: ["AlgoliaSearchClientSwift", "Logging"])
     ]
 )
