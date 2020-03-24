@@ -15,9 +15,16 @@
 
 default_platform(:ios)
 
-platform :ios do
-  desc "Test library"
-  lane :test do
-    sh("cd ..; swift test")
-  end
+desc "Test library"
+lane :test do
+  sh("cd ..; swift test")
+end
+
+desc "Lint library"
+lane :lint do |args|
+  swiftlint(
+    mode: :lint,
+    raise_if_swiftlint_error: true,
+    strict: true
+  )
 end
