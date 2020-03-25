@@ -50,7 +50,7 @@ extension Index {
                                             requestOptions: requestOptions)
     return performRequest(for: request, completion: completion)
   }
-  
+
   @discardableResult func delete(requestOptions: RequestOptions? = nil) throws -> JSON {
     let request = Command.Index.DeleteIndex(indexName: name,
                                             requestOptions: requestOptions)
