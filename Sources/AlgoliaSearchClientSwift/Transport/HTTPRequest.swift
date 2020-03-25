@@ -16,10 +16,10 @@ class HTTPRequest<Value: Codable>: AsyncOperation, ResultContainer {
   var result: Result<Value, Error>?
 
   init(transport: Transport,
-       endpoint: AlgoliaCommand,
+       command: AlgoliaCommand,
        completion: @escaping ResultCallback<Value>) {
     self.transport = transport
-    self.command = endpoint
+    self.command = command
     self.completion = completion
   }
 
