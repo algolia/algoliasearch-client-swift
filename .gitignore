@@ -28,6 +28,7 @@ Tools/Carthage
 
 # fastlane specific
 fastlane/report.xml
+fastlane/xcov_report
 
 # deliver temporary files
 fastlane/Preview.html
