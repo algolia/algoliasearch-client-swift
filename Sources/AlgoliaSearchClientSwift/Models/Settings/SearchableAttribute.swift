@@ -23,7 +23,7 @@ extension SearchableAttribute: RawRepresentable {
   public var rawValue: String {
     switch self {
     case .default(let attributes):
-      return attributes.map { $0.rawValue }.joined(separator: ",")
+      return attributes.map(\.rawValue).joined(separator: ",")
     case .unordered(let attribute):
       return PrefixedString(prefix: Prefix.unordered.rawValue, value: attribute.rawValue).description
     }

@@ -14,7 +14,7 @@ class RemoveStopWordsTests: XCTestCase {
   func testEncoding() throws {
     try testEncoding(RemoveStopWords.true, expected: true)
     try testEncoding(RemoveStopWords.false, expected: false)
-    try testEncoding(RemoveStopWords.queryLanguages([.english, .polish, .french]), expected: [Language.english, Language.polish, Language.french].map { $0.rawValue })
+    try testEncoding(RemoveStopWords.queryLanguages([.english, .polish, .french]), expected: [Language.english, Language.polish, Language.french].map(\.rawValue))
   }
 
   func testDecoding() throws {

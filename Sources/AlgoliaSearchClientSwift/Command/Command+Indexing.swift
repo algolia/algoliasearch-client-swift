@@ -52,7 +52,7 @@ extension Command {
            requestOptions: RequestOptions?) {
         let requestOptions = requestOptions.withParameters({
           guard !attributesToRetreive.isEmpty else { return [:] }
-          let attributesValue = attributesToRetreive.map { $0.rawValue }.joined(separator: ",")
+          let attributesValue = attributesToRetreive.map(\.rawValue).joined(separator: ",")
           return [.attributesToRetreive: attributesValue]
         }() )
         self.requestOptions = requestOptions

@@ -77,7 +77,7 @@ extension DecompoundedAttributes: Codable {
     var container = encoder.singleValueContainer()
     var rawStorage: [String: [String]] = [:]
     for (language, attributes) in storage {
-      rawStorage[language.rawValue] = attributes.map { $0.rawValue }
+      rawStorage[language.rawValue] = attributes.map(\.rawValue)
     }
     try container.encode(rawStorage)
   }
