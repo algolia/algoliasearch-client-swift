@@ -11,6 +11,5 @@ Pod::Spec.new do |spec|
   spec.swift_version = "5.1"
   spec.source = { :git => "https://github.com/algolia/algoliasearch-client-swift.git", :tag => "v2dev" }
   spec.source_files  = "Sources/AlgoliaSearchClientSwift/**/*.swift"
-  spec.xcconfig = { "SWIFT_VERSION" => "5.1" }
   spec.dependency 'Logging'
 end
