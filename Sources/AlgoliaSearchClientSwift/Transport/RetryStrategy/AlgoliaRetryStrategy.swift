@@ -80,7 +80,7 @@ struct AlgoliaRetryStrategy: RetryStrategy {
 extension AlgoliaRetryStrategy: CustomDebugStringConvertible {
 
   public var debugDescription: String {
-    return hosts.map { $0.debugDescription }.joined(separator: "\n")
+    return hosts.map(\.debugDescription).joined(separator: "\n")
   }
 
 }
