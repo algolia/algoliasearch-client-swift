@@ -20,19 +20,19 @@ public struct Index {
   }
 
   func performRequest<T: Codable>(for command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation {
-    let request = HTTPRequest(transport: transport, endpoint: command, completion: completion)
+    let request = HTTPRequest(transport: transport, command: command, completion: completion)
     queue.addOperation(request)
     return request
   }
 
   func performRequest<T: Codable & Task>(for command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation {
-    let request = HTTPRequest(transport: transport, endpoint: command, completion: completion)
+    let request = HTTPRequest(transport: transport, command: command, completion: completion)
     queue.addOperation(request)
     return request
   }
 
-  func performSyncRequest<T: Codable>(for endpoint: AlgoliaCommand) throws -> T {
-    let request = HTTPRequest<T>(transport: transport, endpoint: endpoint, completion: { _ in })
+  func performSyncRequest<T: Codable>(for command: AlgoliaCommand) throws -> T {
+    let request = HTTPRequest<T>(transport: transport, command: command, completion: { _ in })
     return try queue.performOperation(request)
   }
 
