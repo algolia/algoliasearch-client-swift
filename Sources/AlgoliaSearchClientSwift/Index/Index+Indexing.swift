@@ -49,7 +49,7 @@ extension Index {
    * If you don’t specify any attributes, every attribute will be returned.
    * - parameter requestOptions: Configure request locally with RequestOptions.
    */
-  @discardableResult public func getObject<T: Codable>(objectID: ObjectID,
+  @discardableResult public func getObject<T: Codable>(withID objectID: ObjectID,
                                                        attributesToRetreive: [Attribute] = [],
                                                        requestOptions: RequestOptions? = nil,
                                                        completion: @escaping ResultCallback<T>) -> Operation {
@@ -76,7 +76,7 @@ public extension Index {
     return try performSyncRequest(for: command)
   }
 
-  func getObject<T: Codable>(objectID: ObjectID, attributesToRetreive: [Attribute] = [], requestOptions: RequestOptions? = nil) throws -> T {
+  func getObject<T: Codable>(withID objectID: ObjectID, attributesToRetreive: [Attribute] = [], requestOptions: RequestOptions? = nil) throws -> T {
     let command = Command.Indexing.GetObject(indexName: name,
                                              objectID: objectID,
                                              requestOptions: requestOptions)
