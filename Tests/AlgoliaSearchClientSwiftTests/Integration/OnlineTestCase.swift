@@ -18,20 +18,16 @@ class OnlineTestCase: XCTestCase {
   /// Abstract base class for online test cases.
   ///
 
-  override func setUp() {
+  override func setUpWithError() throws {
 
-    super.setUp()
+    try super.setUpWithError()
 
-    // Init client.
     guard let credentials = TestCredentials.environment else {
-      fatalError("Cannot fetch credentials from environment")
+      throw Error.missingCredentials
     }
-
-    let expectation = self.expectation(description: "Delete index")
 
     client = Client(appID: credentials.applicationID, apiKey: credentials.apiKey)
 
-    // Init index.
     // NOTE: We use a different index name for each test function.
     let className = String(reflecting: type(of: self)).components(separatedBy: ".").last!
     let functionName = invocation!.selector.description
@@ -39,33 +35,18 @@ class OnlineTestCase: XCTestCase {
 
     index = client.index(withName: indexName)
 
-    index.delete { result in
-      switch result {
-      case .failure(let error):
-        XCTFail("\(error)")
-      case .success:
-        expectation.fulfill()
-      }
-    }
-
-    waitForExpectations(timeout: expectationTimeout, handler: nil)
-
+    try index.delete()
   }
 
-  override func tearDown() {
-    super.tearDown()
-
-    let expectation = self.expectation(description: "Delete index")
-    index.delete { result in
-      switch result {
-      case .failure(let error):
-        XCTFail("\(error)")
-      case .success:
-        expectation.fulfill()
-      }
-    }
-    waitForExpectations(timeout: expectationTimeout, handler: nil)
-
+  override func tearDownWithError() throws {
+    try super.tearDownWithError()
+    try index.delete()
   }
 
+}
+ 
+extension OnlineTestCase {
+  enum Error: Swift.Error {
+    case missingCredentials
+  }
 }
