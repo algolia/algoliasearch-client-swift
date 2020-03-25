@@ -10,9 +10,6 @@
 #     https://docs.fastlane.tools/plugins/available-plugins
 #
 
-# Uncomment the line if you want fastlane to automatically update itself
-# update_fastlane
-
 default_platform(:ios)
 
 desc "Test library"
@@ -21,10 +18,54 @@ lane :test do
 end
 
 desc "Lint library"
-lane :lint do |args|
+lane :lint do
   swiftlint(
     mode: :lint,
     raise_if_swiftlint_error: true,
     strict: true
   )
+end
+
+desc "Test coverage"
+lane :coverage do
+ xcodeProject = "tmp.xcodeproj"
+ sh("swift package generate-xcodeproj --output #{xcodeProject}")
+ sh("xcodebuild test -scheme AlgoliaSearchClientSwift-Package -enableCodeCoverage YES")
+ xcov(
+    project: "fastlane/#{xcodeProject}",
+    scheme: "AlgoliaSearchClientSwift-Package",
+    exclude_targets: "Logging.framework",
+    minimum_coverage_percentage: 60.0
+ )
+ sh("rm -rf #{xcodeProject}")
+end
+
+def prepare_api_keys()
+  xcargs = []
+  api_key = ENV["ALGOLIA_API_KEY"]
+  if api_key
+    xcargs << %Q[ALGOLIA_API_KEY="#{api_key}"]
+  end
+  
+  api_id = ENV["ALGOLIA_APPLICATION_ID"]
+  if api_id
+    xcargs << %Q[ALGOLIA_APPLICATION_ID="#{api_id}"]
+  end
+
+  places_api_id = ENV["PLACES_APPLICATION_ID"]
+  if places_api_id
+    xcargs << %Q[PLACES_APPLICATION_ID="#{places_api_id}"]
+  end
+  
+  places_api_key = ENV["PLACES_API_KEY"]
+  if places_api_key
+    xcargs << %Q[PLACES_API_KEY="#{places_api_key}"]
+  end
+
+  bitrise_build_number = ENV["BITRISE_BUILD_NUMBER"]
+  if bitrise_build_number
+    xcargs << %Q[BITRISE_BUILD_NUMBER="#{bitrise_build_number}"]
+  end
+
+  return xcargs.join(" ")
 end
