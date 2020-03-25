@@ -83,6 +83,20 @@ extension JSON: ExpressibleByNilLiteral {
 
 }
 
+extension JSON {
+  
+  public subscript(_ key: String) -> JSON? {
+    guard case .dictionary(let dictionary) = self else { return nil }
+    return dictionary[key]
+  }
+  
+  public subscript(_ index: Int) -> JSON? {
+    guard case .array(let array) = self else { return nil }
+    return array[index]
+  }
+  
+}
+
 extension JSON: Codable {
 
     public func encode(to encoder: Encoder) throws {
