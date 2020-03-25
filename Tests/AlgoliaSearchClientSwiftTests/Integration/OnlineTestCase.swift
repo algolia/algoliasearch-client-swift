@@ -44,7 +44,7 @@ class OnlineTestCase: XCTestCase {
   }
 
 }
- 
+
 extension OnlineTestCase {
   enum Error: Swift.Error {
     case missingCredentials

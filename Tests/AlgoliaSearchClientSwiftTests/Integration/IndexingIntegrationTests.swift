@@ -34,7 +34,7 @@ class IndexingIntegrationTests: OnlineTestCase {
       "testField3": true]
 
     let expectation = self.expectation(description: "Save-Wait-Create")
-    
+
     index.saveObject(record: object, completion: extract { creation in
       self.index.waitTask(withID: creation.taskID, completion: extract { _ in
         self.index.getObject(withID: creation.objectID, completion: extract { (fetchedObject: JSON) in
@@ -46,7 +46,7 @@ class IndexingIntegrationTests: OnlineTestCase {
         })
       })
     })
-        
+
     waitForExpectations(timeout: expectationTimeout, handler: .none)
 
   }
