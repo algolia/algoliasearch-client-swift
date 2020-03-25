@@ -17,7 +17,7 @@ extension XCTestCase {
     let encoder = JSONEncoder()
     let data = try encoder.encode(value)
     let jsonObject = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
-    guard let encodedValue = jsonObject as? M else { throw JSONObjectCastError(type: M.self) }
+    let encodedValue: M = try Cast(jsonObject)()
     XCTAssertEqual(encodedValue, expected)
   }
 
@@ -51,9 +51,3 @@ extension XCTestCase {
 
 }
 
-struct JSONObjectCastError: Error {
-  let localizedDescription: String
-  init<T>(type: T.Type) {
-    localizedDescription = "Impossible to cast json object to \(type.self)"
-  }
-}
