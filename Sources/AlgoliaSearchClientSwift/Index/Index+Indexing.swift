@@ -89,7 +89,7 @@ public extension Index {
    - Returns: Asynchronous operation
   */
   @discardableResult func getObject<T: Codable>(withID objectID: ObjectID, attributesToRetrieve: [Attribute] = [], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<T>) -> Operation {
-    let command = Command.Indexing.GetObject(indexName: name, objectID: objectID, requestOptions: requestOptions)
+    let command = Command.Indexing.GetObject(indexName: name, objectID: objectID, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions)
     return performRequest(for: command, completion: completion)
   }
     
@@ -102,7 +102,19 @@ public extension Index {
    - Returns: Requested record
   */
   @discardableResult func getObject<T: Codable>(withID objectID: ObjectID, attributesToRetrieve: [Attribute] = [], requestOptions: RequestOptions? = nil) throws -> T {
-    let command = Command.Indexing.GetObject(indexName: name, objectID: objectID, requestOptions: requestOptions)
+    let command = Command.Indexing.GetObject(indexName: name, objectID: objectID, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions)
+    return try performSyncRequest(for: command)
+  }
+  
+  //MARK: - Replace object
+  
+  @discardableResult func replaceObject<T: Codable>(withID objectID: ObjectID, by object: T, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ObjectRevision>) -> Operation {
+    let command = Command.Indexing.ReplaceObject(indexName: name, objectID: objectID, replacementObject: object, requestOptions: requestOptions)
+    return performRequest(for: command, completion: completion)
+  }
+  
+  @discardableResult func replaceObject<T: Codable>(withID objectID: ObjectID, by object: T, requestOptions: RequestOptions? = nil) throws -> ObjectRevision {
+    let command = Command.Indexing.ReplaceObject(indexName: name, objectID: objectID, replacementObject: object, requestOptions: requestOptions)
     return try performSyncRequest(for: command)
   }
 

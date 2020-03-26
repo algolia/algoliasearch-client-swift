@@ -24,21 +24,6 @@ extension BatchOperation {
   
 }
 
-extension BatchOperation where T == JSON {
-  
-  public init(action: Action, body: [String: Any]) throws {
-    self.action = action
-    self.body = try JSON(jsonObject: body)
-  }
-  
-  public static func with(_ action: Action) -> ([String: Any]) throws -> BatchOperation<JSON> {
-    return { body in
-      try BatchOperation(action: action, body: body)
-    }
-  }
-    
-}
-
 public extension BatchOperation {
 
   enum Action: String, Codable {
