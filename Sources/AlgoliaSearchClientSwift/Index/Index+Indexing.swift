@@ -33,20 +33,7 @@ public extension Index {
                                               requestOptions: requestOptions)
     return performRequest(for: command, completion: completion)
   }
-  
-  /**
-   Add a new weakly-typed record to an index.
-   - Parameter record: The record of type T to save.
-   - Parameter requestOptions: Configure request locally with RequestOptions.
-   - Returns: Asynchronous operation
-   */
-  @discardableResult func saveObject(_ record: [String: Any], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ObjectCreation>) throws -> Operation {
-    let command = try Command.Indexing.SaveObject(indexName: name,
-                                                  record: record,
-                                                  requestOptions: requestOptions)
-    return performRequest(for: command, completion: completion)
-  }
-  
+    
   /**
    Add a new record to an index.
    - Parameter record: The record of type T to save.
@@ -60,20 +47,7 @@ public extension Index {
                                               requestOptions: requestOptions)
     return try performSyncRequest(for: command)
   }
-  
-  /**
-   Add a new weakly typed record to an index.
-   - Parameter record: The record of type T to save.
-   - Parameter requestOptions: Configure request locally with RequestOptions.
-   - Returns: ObjectCreation task
-   */
-  @discardableResult func saveObject(_ record: [String: Any], requestOptions: RequestOptions? = nil) throws -> ObjectCreation {
-    let command = try Command.Indexing.SaveObject(indexName: name,
-                                                  record: record,
-                                                  requestOptions: requestOptions)
-    return try performSyncRequest(for: command)
-  }
-  
+    
   //MARK: - Save objects
   
   /**
@@ -89,21 +63,7 @@ public extension Index {
     let command = Command.Index.Batch(indexName: name, batchOperations: operations, requestOptions: requestOptions)
     return performRequest(for: command, completion: completion)
   }
-  
-  /**
-   Add multiple schemaless objects to an index.
-
-   - See: saveObject
-   - Parameter records The list of records to save.
-   - Parameter requestOptions: Configure request locally with RequestOptions.
-   - Returns: Asynchronous operation
-   */
-  @discardableResult func saveObjects(records: [[String: Any]], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) throws -> Operation {
-    let operations = try records.map(BatchOperation.with(.addObject))
-    let command = Command.Index.Batch(indexName: name, batchOperations: operations, requestOptions: requestOptions)
-    return performRequest(for: command, completion: completion)
-  }
-  
+    
   /**
    Add multiple schemaless objects to an index.
    
@@ -118,20 +78,6 @@ public extension Index {
     return try performSyncRequest(for: command)
   }
   
-  /**
-   Add multiple schemaless objects to an index.
-
-   - See: saveObject
-   - Parameter records The list of records to save.
-   - Parameter requestOptions: Configure request locally with RequestOptions.
-   - Returns: Batch task
-   */
-  @discardableResult func saveObjects(_ records: [[String: Any]], requestOptions: RequestOptions? = nil) throws -> BatchResponse {
-    let operations = try records.map(BatchOperation.with(.addObject))
-    let command = Command.Index.Batch(indexName: name, batchOperations: operations, requestOptions: requestOptions)
-    return try performSyncRequest(for: command)
-  }
-
   //MARK: - Get object
 
   /**
@@ -146,20 +92,7 @@ public extension Index {
     let command = Command.Indexing.GetObject(indexName: name, objectID: objectID, requestOptions: requestOptions)
     return performRequest(for: command, completion: completion)
   }
-  
-  /**
-   Get one record using its ObjectID.
-   
-   - Parameter objectID: The ObjectID to identify the record.
-   - Parameter attributesToRetrieve: Specify a list of Attribute to retrieve. This list will apply to all records. If you don’t specify any attributes, every attribute will be returned.
-   - Parameter requestOptions: Configure request locally with RequestOptions.
-   - Returns: Asynchronous operation
-  */
-  @discardableResult func getObject(withID objectID: ObjectID, attributesToRetrieve: [Attribute] = [], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<JSON>) -> Operation {
-    let command = Command.Indexing.GetObject(indexName: name, objectID: objectID, requestOptions: requestOptions)
-    return performRequest(for: command, completion: completion)
-  }
-  
+    
   /**
    Get one record using its ObjectID.
    
@@ -169,19 +102,6 @@ public extension Index {
    - Returns: Requested record
   */
   @discardableResult func getObject<T: Codable>(withID objectID: ObjectID, attributesToRetrieve: [Attribute] = [], requestOptions: RequestOptions? = nil) throws -> T {
-    let command = Command.Indexing.GetObject(indexName: name, objectID: objectID, requestOptions: requestOptions)
-    return try performSyncRequest(for: command)
-  }
-  
-  /**
-   Get one record using its ObjectID.
-   
-   - Parameter objectID: The ObjectID to identify the record.
-   - Parameter attributesToRetrieve: Specify a list of Attribute to retrieve. This list will apply to all records. If you don’t specify any attributes, every attribute will be returned.
-   - Parameter requestOptions: Configure request locally with RequestOptions.
-   - Returns: Requested record
-  */
-  @discardableResult func getObject(withID objectID: ObjectID, attributesToRetrieve: [Attribute] = [], requestOptions: RequestOptions? = nil) throws -> JSON {
     let command = Command.Indexing.GetObject(indexName: name, objectID: objectID, requestOptions: requestOptions)
     return try performSyncRequest(for: command)
   }
