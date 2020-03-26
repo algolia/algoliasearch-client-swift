@@ -17,27 +17,14 @@ extension Command {
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
 
-      init<T: Codable>(indexName: IndexName,
-                       record: T,
-                       requestOptions: RequestOptions?) {
+      init<T: Codable>(indexName: IndexName, record: T, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         urlRequest = .init(method: .post,
                            path: indexName.toPath(),
                            body: record.httpBody,
                            requestOptions: requestOptions)
       }
-
-      init(indexName: IndexName,
-           record: [String: Any],
-           requestOptions: RequestOptions?) throws {
-        self.requestOptions = requestOptions
-        let body = try JSONSerialization.data(withJSONObject: record, options: [])
-        urlRequest = .init(method: .post,
-                           path: indexName.toPath(),
-                           body: body,
-                           requestOptions: requestOptions)
-      }
-
+      
     }
 
     struct GetObject: AlgoliaCommand {
@@ -46,22 +33,31 @@ extension Command {
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
 
-      init(indexName: IndexName,
-           objectID: ObjectID,
-           attributesToRetreive: [Attribute] = [],
-           requestOptions: RequestOptions?) {
+      init(indexName: IndexName, objectID: ObjectID, attributesToRetrieve: [Attribute], requestOptions: RequestOptions?) {
         let requestOptions = requestOptions.withParameters({
-          guard !attributesToRetreive.isEmpty else { return [:] }
-          let attributesValue = attributesToRetreive.map(\.rawValue).joined(separator: ",")
+          guard !attributesToRetrieve.isEmpty else { return [:] }
+          let attributesValue = attributesToRetrieve.map(\.rawValue).joined(separator: ",")
           return [.attributesToRetreive: attributesValue]
         }() )
         self.requestOptions = requestOptions
         let path = indexName.toPath(withSuffix: "/\(objectID.rawValue)")
-        urlRequest = .init(method: .get,
-                           path: path,
-                           requestOptions: requestOptions)
+        urlRequest = .init(method: .get, path: path, requestOptions: requestOptions)
       }
 
+    }
+    
+    struct ReplaceObject: AlgoliaCommand {
+      
+      let callType: CallType = .write
+      let urlRequest: URLRequest
+      let requestOptions: RequestOptions?
+      
+      init<T: Codable>(indexName: IndexName, objectID: ObjectID, replacementObject record: T, requestOptions: RequestOptions?) {
+        self.requestOptions = requestOptions
+        let path = indexName.toPath(withSuffix: "/\(objectID.rawValue)")
+        urlRequest = .init(method: .put, path: path, body: record.httpBody, requestOptions: requestOptions)
+      }
+      
     }
 
   }

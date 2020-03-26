@@ -13,7 +13,7 @@ import Foundation
 */
 public struct RequestOptions {
 
-  public var headers: [String: String?] = [:]
+  public var headers: [String: String] = [:]
   public var urlParameters: [String: String?] = [:]
   public var writeTimeout: TimeInterval?
   public var readTimeout: TimeInterval?
