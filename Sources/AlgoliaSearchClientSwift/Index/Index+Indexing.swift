@@ -35,7 +35,7 @@ public extension Index {
   }
   
   /**
-   Add a new record to an index.
+   Add a new weakly-typed record to an index.
    - Parameter record: The record of type T to save.
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: Asynchronous operation
