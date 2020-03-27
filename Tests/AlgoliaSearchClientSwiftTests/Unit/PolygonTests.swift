@@ -11,20 +11,11 @@ import XCTest
 
 class PolygonTests: XCTestCase {
 
-  func testDecoding() throws {
-
-    try testDecoding([0, 1, 2, 3, 4, 5, 6, 7], expected: Polygon(.init(latitude: 0, longitude: 1),
-                                                                 .init(latitude: 2, longitude: 3),
-                                                                 .init(latitude: 4, longitude: 5),
-                                                                 .init(latitude: 6, longitude: 7)))
-  }
-
-  func testEncoding() throws {
-    try testEncoding(Polygon(.init(latitude: 0, longitude: 1),
+  func testCoding() throws {
+    try AssertEncodeDecode(Polygon(.init(latitude: 0, longitude: 1),
                              .init(latitude: 2, longitude: 3),
                              .init(latitude: 4, longitude: 5),
-                             .init(latitude: 6, longitude: 7)),
-                     expected: [0, 1, 2, 3, 4, 5, 6, 7])
+                             .init(latitude: 6, longitude: 7)), [0, 1, 2, 3, 4, 5, 6, 7])
   }
 
 }

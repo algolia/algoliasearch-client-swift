@@ -11,14 +11,9 @@ import XCTest
 
 class CustomRankingCriterionTests: XCTestCase {
 
-  func testDecoding() throws {
-    try testDecoding(CustomRankingCriterion.asc("attr").rawValue, expected: "asc(attr)")
-    try testDecoding(CustomRankingCriterion.desc("attr").rawValue, expected: "desc(attr)")
-  }
-
-  func testEncoding() throws {
-    try testEncoding("asc(attr)", expected: CustomRankingCriterion.asc("attr").rawValue)
-    try testEncoding("desc(attr)", expected: CustomRankingCriterion.desc("attr").rawValue)
+  func testCoding() throws {
+    try AssertEncodeDecode(CustomRankingCriterion.asc("attr"), "asc(attr)")
+    try AssertEncodeDecode(CustomRankingCriterion.desc("attr"), "desc(attr)")
   }
 
 }

@@ -11,30 +11,17 @@ import XCTest
 
 class RankingCriterionTests: XCTestCase {
 
-  func testDecoding() throws {
-    try testDecoding("asc(attr)", expected: RankingCriterion.asc("attr"))
-    try testDecoding("desc(attr)", expected: RankingCriterion.desc("attr"))
-    try testDecoding("typo", expected: RankingCriterion.typo)
-    try testDecoding("geo", expected: RankingCriterion.geo)
-    try testDecoding("words", expected: RankingCriterion.words)
-    try testDecoding("filters", expected: RankingCriterion.filters)
-    try testDecoding("proximity", expected: RankingCriterion.proximity)
-    try testDecoding("attribute", expected: RankingCriterion.attribute)
-    try testDecoding("exact", expected: RankingCriterion.exact)
-    try testDecoding("custom", expected: RankingCriterion.custom)
-  }
-
-  func testEncoding() throws {
-    try testEncoding(RankingCriterion.asc("attr"), expected: "asc(attr)")
-    try testEncoding(RankingCriterion.desc("attr"), expected: "desc(attr)")
-    try testEncoding(RankingCriterion.typo, expected: "typo")
-    try testEncoding(RankingCriterion.geo, expected: "geo")
-    try testEncoding(RankingCriterion.words, expected: "words")
-    try testEncoding(RankingCriterion.filters, expected: "filters")
-    try testEncoding(RankingCriterion.proximity, expected: "proximity")
-    try testEncoding(RankingCriterion.attribute, expected: "attribute")
-    try testEncoding(RankingCriterion.exact, expected: "exact")
-    try testEncoding(RankingCriterion.custom, expected: "custom")
+  func testCoding() throws {
+    try AssertEncodeDecode(RankingCriterion.asc("attr"), "asc(attr)")
+    try AssertEncodeDecode(RankingCriterion.desc("attr"), "desc(attr)")
+    try AssertEncodeDecode(RankingCriterion.typo, "typo")
+    try AssertEncodeDecode(RankingCriterion.geo, "geo")
+    try AssertEncodeDecode(RankingCriterion.words, "words")
+    try AssertEncodeDecode(RankingCriterion.filters, "filters")
+    try AssertEncodeDecode(RankingCriterion.proximity, "proximity")
+    try AssertEncodeDecode(RankingCriterion.attribute, "attribute")
+    try AssertEncodeDecode(RankingCriterion.exact, "exact")
+    try AssertEncodeDecode(RankingCriterion.custom, "custom")
   }
 
 }

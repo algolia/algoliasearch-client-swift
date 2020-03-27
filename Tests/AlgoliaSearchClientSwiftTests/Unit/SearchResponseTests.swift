@@ -12,15 +12,15 @@ import XCTest
 class SearchResponseTests: XCTestCase {
 
   func testDecodingFacets() {
-    XCTAssertNoThrow(try testDecoding(fromFileWithName: "Facets.json") as SearchResponse.FacetsStorage)
+    AssertDecode(jsonFilename: "Facets.json", expected: SearchResponse.FacetsStorage.self)
   }
 
   func testDecodingFacetStats() {
-    XCTAssertNoThrow(try testDecoding(fromFileWithName: "FacetsStats.json") as SearchResponse.FacetStatsStorage)
+    AssertDecode(jsonFilename: "FacetsStats.json", expected: SearchResponse.FacetStatsStorage.self)
   }
 
   func testDecoding() {
-    XCTAssertNoThrow(try testDecoding(fromFileWithName: "SearchResponse.json") as SearchResponse)
+    AssertDecode(jsonFilename: "SearchResponse.json", expected: SearchResponse.self)
   }
 
 }
