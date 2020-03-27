@@ -11,15 +11,9 @@ import XCTest
 
 class NumericAttributeFilterTests: XCTestCase {
 
-  func testEncoding() throws {
-    try testEncoding(NumericAttributeFilter.default("attr"), expected: "attr")
-    try testEncoding(NumericAttributeFilter.equalOnly("attr"), expected: "equalOnly(attr)")
-
+  func testCoding() throws {
+    try AssertEncodeDecode(NumericAttributeFilter.default("attr"), "attr")
+    try AssertEncodeDecode(NumericAttributeFilter.equalOnly("attr"), "equalOnly(attr)")
   }
-
-  func testDecoding() throws {
-    try testDecoding("attr", expected: NumericAttributeFilter.default("attr"))
-    try testDecoding("equalOnly(attr)", expected: NumericAttributeFilter.equalOnly("attr"))
-  }
-
+  
 }

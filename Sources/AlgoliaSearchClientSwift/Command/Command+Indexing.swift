@@ -59,7 +59,50 @@ extension Command {
       }
       
     }
+    
+    struct DeleteObject: AlgoliaCommand {
+      
+      let callType: CallType = .write
+      let urlRequest: URLRequest
+      let requestOptions: RequestOptions?
+      
+      init(indexName: IndexName, objectID: ObjectID, requestOptions: RequestOptions?) {
+        self.requestOptions = requestOptions
+        let path = indexName.toPath(withSuffix: "/\(objectID.rawValue)")
+        urlRequest = .init(method: .delete, path: path, requestOptions: requestOptions)
+      }
+      
+    }
+    
+    struct DeleteByQuery: AlgoliaCommand {
+      
+      let callType: CallType = .write
+      let urlRequest: URLRequest
+      let requestOptions: RequestOptions?
+      
+      init(indexName: IndexName, query: AlgoliaSearchClientSwift.DeleteByQuery, requestOptions: RequestOptions?) {
+        self.requestOptions = requestOptions
+        let path = indexName.toPath(withSuffix: "/deleteByQuery")
+        let body = RequestParams(query).httpBody
+        urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
+      }
+      
+    }
+    
+    
 
   }
 
 }
+
+struct RequestParams<T: Codable>: Codable {
+  
+  let params: T
+  
+  init(_ content: T) {
+    self.params = content
+  }
+  
+}
+
+

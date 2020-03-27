@@ -11,18 +11,11 @@ import XCTest
 
 class AlternativesAsExactTests: XCTestCase {
 
-  func testEncoding() throws {
-    try testEncoding(AlternativesAsExact.ignorePlurals, expected: "ignorePlurals")
-    try testEncoding(AlternativesAsExact.singleWordSynonym, expected: "singleWordSynonym")
-    try testEncoding(AlternativesAsExact.multiWordsSynonym, expected: "multiWordsSynonym")
-    try testEncoding(AlternativesAsExact.other("custom"), expected: "custom")
-  }
-
-  func testDecoding() throws {
-    try testDecoding("ignorePlurals", expected: AlternativesAsExact.ignorePlurals)
-    try testDecoding("singleWordSynonym", expected: AlternativesAsExact.singleWordSynonym)
-    try testDecoding("multiWordsSynonym", expected: AlternativesAsExact.multiWordsSynonym)
-    try testDecoding("custom", expected: AlternativesAsExact.other("custom"))
+  func testCoding() throws {
+    try AssertEncodeDecode(AlternativesAsExact.ignorePlurals, "ignorePlurals")
+    try AssertEncodeDecode(AlternativesAsExact.singleWordSynonym, "singleWordSynonym")
+    try AssertEncodeDecode(AlternativesAsExact.multiWordsSynonym, "multiWordsSynonym")
+    try AssertEncodeDecode(AlternativesAsExact.other("custom"), "custom")
   }
 
 }

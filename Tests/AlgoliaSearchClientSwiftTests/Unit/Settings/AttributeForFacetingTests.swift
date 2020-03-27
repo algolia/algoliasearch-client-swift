@@ -11,16 +11,10 @@ import XCTest
 
 class AttributeForFacetingTests: XCTestCase {
 
-  func testDecoding() throws {
-    try testDecoding("author", expected: AttributeForFaceting.default("author"))
-    try testDecoding("filterOnly(category)", expected: AttributeForFaceting.filterOnly("category"))
-    try testDecoding("searchable(publisher)", expected: AttributeForFaceting.searchable("publisher"))
-  }
-
-  func testEncoding() throws {
-    try testEncoding(AttributeForFaceting.default("author"), expected: "author")
-    try testEncoding(AttributeForFaceting.filterOnly("category"), expected: "filterOnly(category)")
-    try testEncoding(AttributeForFaceting.searchable("publisher"), expected: "searchable(publisher)")
+  func testCoding() throws {
+    try AssertEncodeDecode(AttributeForFaceting.default("author"), "author")
+    try AssertEncodeDecode(AttributeForFaceting.filterOnly("category"), "filterOnly(category)")
+    try AssertEncodeDecode(AttributeForFaceting.searchable("publisher"), "searchable(publisher)")
   }
 
 }
