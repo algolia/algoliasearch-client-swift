@@ -115,21 +115,19 @@ extension JSON {
 extension JSON: Codable {
 
   public func encode(to encoder: Encoder) throws {
-
-    var container = encoder.singleValueContainer()
-
     switch self {
     case let .array(array):
-      try container.encode(array)
-    case let .dictionary(object):
-      try container.encode(object)
+      try array.encode(to: encoder)
+    case let .dictionary(dictionary):
+      try dictionary.encode(to: encoder)
     case let .string(string):
-      try container.encode(string)
+      try string.encode(to: encoder)
     case let .number(number):
-      try container.encode(number)
+      try number.encode(to: encoder)
     case let .bool(bool):
-      try container.encode(bool)
+      try bool.encode(to: encoder)
     case .null:
+      var container = encoder.singleValueContainer()
       try container.encodeNil()
     }
   }
