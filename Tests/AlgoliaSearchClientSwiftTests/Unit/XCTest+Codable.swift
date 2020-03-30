@@ -9,15 +9,14 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClientSwift
 
-func AssertEncodeDecode<T: Codable & Equatable>(_ value: T, _ rawValue: JSON, file: StaticString = #file, line: UInt = #line) throws {
+func AssertEncodeDecode<T: Codable>(_ value: T, _ rawValue: JSON, file: StaticString = #file, line: UInt = #line) throws {
   try AssertEncode(value, expected: rawValue, file: file, line: line)
   try AssertDecode(rawValue, expected: value, file: file, line: line)
 }
 
-func AssertDecode<T: Decodable & Equatable>(_ input: JSON, expected: T, file: StaticString = #file, line: UInt = #line) throws {
-  let inputData = try JSONEncoder().encode(input)
-  let decodedInput = try JSONDecoder().decode(T.self, from: inputData)
-  XCTAssertEqual(decodedInput, expected, file: file, line: line)
+func AssertDecode<T: Codable>(_ input: JSON, expected: T, file: StaticString = #file, line: UInt = #line) throws {
+  let expectedJSON = try JSON(expected)
+  XCTAssertEqual(input, expectedJSON, file: file, line: line)
 }
 
 func AssertDecode<T: Decodable>(jsonFilename filename: String, expected: T.Type, file: StaticString = #file, line: UInt = #line) {
