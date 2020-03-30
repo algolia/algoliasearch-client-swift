@@ -193,7 +193,7 @@ public extension Index {
    - Returns: Launched asynchronous operation
    */
   @discardableResult func replaceObjects<T: Codable>(replacements: [(objectID: ObjectID, object: T)], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ObjectRevision>) -> Operation {
-    let operations = replacements.map { (objectID, object) in BatchOperation<ObjectWrapper<T>>.update(objectID: objectID, object) }
+    let operations = replacements.map { (objectID, object) in BatchOperation<T>.update(objectID: objectID, object) }
     let command = Command.Index.Batch(indexName: name, batchOperations: operations, requestOptions: requestOptions)
     return performRequest(for: command, completion: completion)
   }
@@ -207,10 +207,64 @@ public extension Index {
    - Returns: ObjectRevision object
    */
   @discardableResult func replaceObjects<T: Codable>(replacements: [(objectID: ObjectID, object: T)], requestOptions: RequestOptions? = nil) throws -> ObjectRevision {
-    let operations = replacements.map { (objectID, object) in BatchOperation<ObjectWrapper<T>>.update(objectID: objectID, object) }
+    let operations = replacements.map { (objectID, object) in BatchOperation<T>.update(objectID: objectID, object) }
     let command = Command.Index.Batch(indexName: name, batchOperations: operations, requestOptions: requestOptions)
     return try performSyncRequest(for: command)
   }
 
+  //MARK: - Delete object
+  
+  /**
+   Remove an object from an index  using its ObjectID.
+   
+   - Parameter objectID: The ObjectID to identify the record.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronousoperation
+   */
+  @discardableResult func deleteObject<T: Codable>(withID objectID: ObjectID, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<T>) -> Operation {
+    let command = Command.Indexing.DeleteObject(indexName: name, objectID: objectID, requestOptions: requestOptions)
+    return performRequest(for: command, completion: completion)
+  }
+    
+  /**
+   Remove an object from an index using its ObjectID.
+   
+   - Parameter objectID: The ObjectID to identify the record.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: Requested record
+  */
+  @discardableResult func deleteObject(withID objectID: ObjectID, requestOptions: RequestOptions? = nil) throws -> ObjectDeletion {
+    let command = Command.Indexing.DeleteObject(indexName: name, objectID: objectID, requestOptions: requestOptions)
+    return try performSyncRequest(for: command)
+  }
+
+  //MARK: - Delete objects
+  
+  /**
+   Remove multiple objects from an index using their ObjectID.
+   - Parameter objectIDs: The list ObjectID to identify the records.
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronous operation
+   */
+  @discardableResult func deleteObjects(withIDs objectIDs: [ObjectID], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation {
+    let operations = objectIDs.map { BatchOperation<ObjectWrapper<Empty>>.delete(objectID: $0) }
+    let command = Command.Index.Batch(indexName: name, batchOperations: operations, requestOptions: requestOptions)
+    return performRequest(for: command, completion: completion)
+  }
+
+  /**
+   Remove multiple objects from an index using their ObjectID.
+   - Parameter objectIDs: The list ObjectID to identify the records.
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Returns: BatchResponse object
+   */
+  @discardableResult func deleteObjects(withIDs objectIDs: [ObjectID], requestOptions: RequestOptions? = nil) throws -> BatchResponse {
+    let operations = objectIDs.map { BatchOperation<ObjectWrapper<Empty>>.delete(objectID: $0) }
+    let command = Command.Index.Batch(indexName: name, batchOperations: operations, requestOptions: requestOptions)
+    return try performSyncRequest(for: command)
+  }
+  
 }
 
