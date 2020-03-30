@@ -36,9 +36,9 @@ extension Command.Index {
     let urlRequest: URLRequest
     let requestOptions: RequestOptions?
 
-    init<T: Codable>(indexName: IndexName,
-                     batchOperations: [BatchOperation<T>],
-                     requestOptions: RequestOptions?) {
+    init(indexName: IndexName,
+         batchOperations: [BatchOperation],
+         requestOptions: RequestOptions?) {
       self.requestOptions = requestOptions
       let path = indexName.toPath(withSuffix: "/batch")
       let body = FieldWrapper(requests: batchOperations).httpBody

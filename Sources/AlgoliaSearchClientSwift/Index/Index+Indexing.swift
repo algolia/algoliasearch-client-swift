@@ -193,7 +193,7 @@ public extension Index {
    - Returns: Launched asynchronous operation
    */
   @discardableResult func replaceObjects<T: Codable>(replacements: [(objectID: ObjectID, object: T)], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ObjectRevision>) -> Operation {
-    let operations = replacements.map { (objectID, object) in BatchOperation<T>.update(objectID: objectID, object) }
+    let operations: [BatchOperation] = replacements.map { (objectID, object) in .update(objectID: objectID, object) }
     let command = Command.Index.Batch(indexName: name, batchOperations: operations, requestOptions: requestOptions)
     return performRequest(for: command, completion: completion)
   }
@@ -207,7 +207,7 @@ public extension Index {
    - Returns: ObjectRevision object
    */
   @discardableResult func replaceObjects<T: Codable>(replacements: [(objectID: ObjectID, object: T)], requestOptions: RequestOptions? = nil) throws -> ObjectRevision {
-    let operations = replacements.map { (objectID, object) in BatchOperation<T>.update(objectID: objectID, object) }
+    let operations: [BatchOperation] = replacements.map { (objectID, object) in .update(objectID: objectID, object) }
     let command = Command.Index.Batch(indexName: name, batchOperations: operations, requestOptions: requestOptions)
     return try performSyncRequest(for: command)
   }
@@ -249,7 +249,7 @@ public extension Index {
    - Returns: Launched asynchronous operation
    */
   @discardableResult func deleteObjects(withIDs objectIDs: [ObjectID], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation {
-    let operations = objectIDs.map { BatchOperation<ObjectWrapper<Empty>>.delete(objectID: $0) }
+    let operations: [BatchOperation] = objectIDs.map { .delete(objectID: $0) }
     let command = Command.Index.Batch(indexName: name, batchOperations: operations, requestOptions: requestOptions)
     return performRequest(for: command, completion: completion)
   }
@@ -261,7 +261,7 @@ public extension Index {
    - Returns: BatchResponse object
    */
   @discardableResult func deleteObjects(withIDs objectIDs: [ObjectID], requestOptions: RequestOptions? = nil) throws -> BatchResponse {
-    let operations = objectIDs.map { BatchOperation<ObjectWrapper<Empty>>.delete(objectID: $0) }
+    let operations: [BatchOperation] = objectIDs.map { .delete(objectID: $0) }
     let command = Command.Index.Batch(indexName: name, batchOperations: operations, requestOptions: requestOptions)
     return try performSyncRequest(for: command)
   }

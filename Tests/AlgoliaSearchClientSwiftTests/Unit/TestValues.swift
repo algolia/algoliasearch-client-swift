@@ -13,7 +13,7 @@ struct TestValues {
   let objectID: ObjectID = "testObjectID"
   let attributes: [Attribute] = ["attr1", "attr2"]
   let record: JSON = ["attr": "value"]
-  let batchOperations: [BatchOperation<JSON>] = [.init(action: .addObject, body: ["attr": "value"]), .init(action: .deleteObject, body: ["attr": "value"])]
+  let batchOperations: [BatchOperation] = [.init(action: .addObject, body: ["attr": "value"]), .init(action: .deleteObject, body: ["attr": "value"])]
   let query: Query = {
     var query = Query(stringLiteral: "testQuery")
     query.page = 10
