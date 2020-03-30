@@ -250,11 +250,35 @@ public extension Index {
     return try perform(batchOperations: objectIDs.map { .delete(objectID: $0) }, requestOptions: requestOptions)
   }
   
+  /**
+    Remove all objects matching a DeleteByQuery.
+    
+   - Note: This method enables you to delete one or more objects based on filters (numeric, facet, tag or geo queries).
+   It does not accept empty filters or a query.
+   If you have a way to fetch the list of ObjectID you want to delete, use the deleteObjects method instead as it is more performant.
+   The delete by method only counts as 1 operation - even if it deletes more than one object.
+   This is exceptional; most indexing options that affect more than one object normally count each object as a separate operation.
+   When deleting large numbers of objects, or large sizes, be aware of our rate limit. You’ll know you’ve reached
+   the rate limit when you start receiving errors on your indexing operations.
+   This can only be resolved if you wait before sending any further indexing operations.
+   
+   - Parameter query: DeleteByQuery to match records for deletion.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronous operation
+   */
   @discardableResult func deleteObjects(byQuery query: DeleteByQuery, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<RevisionIndex>) throws -> Operation {
     let command = Command.Indexing.DeleteByQuery(indexName: name, query: query, requestOptions: requestOptions)
     return performRequest(for: command, completion: completion)
   }
 
+  /**
+    Remove all objects matching a DeleteByQuery.
+   
+   - Parameter query: DeleteByQuery to match records for deletion.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: RevisionIndex object
+   */
   @discardableResult func deleteObjects(byQuery query: DeleteByQuery, requestOptions: RequestOptions? = nil) throws -> RevisionIndex {
     let command = Command.Indexing.DeleteByQuery(indexName: name, query: query, requestOptions: requestOptions)
     return try performSyncRequest(for: command)
@@ -262,11 +286,53 @@ public extension Index {
   
   //MARK: - Partial update object
   
+  /**
+   Update one or more attributes of an existing record.
+   
+   - Note: This method enables you to update only a part of an object by singling out one or more attributes of an existing
+   object and performing the following actions:
+   - add new attributes
+   - update the content of existing attributes
+   
+   Specifying existing attributes will update them in the object, while specifying new attributes will add them.
+   You need to use the save objects method if you want to completely redefine an existing object, replace an object
+   with a different one, or remove attributes. You cannot individually remove attributes.
+   Nested attributes cannot be individually updated. If you specify a nested attribute, it will be treated as a
+   replacement of its first-level ancestor.
+   To change nested attributes, you will need to use the save object method. You can initially get the object’s data
+   either from your own data or by using the get object method.
+   The same can be said about array attributes: you cannot update individual elements of an array.
+   If you have a record in which one attribute is an array, you will need to retrieve the record’s array,
+   change the element(s) of the array, and then resend the full array using this method.
+   When updating large numbers of objects, or large sizes, be aware of our rate limit.
+   You’ll know you’ve reached the rate limit when you start receiving errors on your indexing operations.
+   This can only be resolved if you wait before sending any further indexing operations.
+
+   - Parameter objectID: The ObjectID identifying the record to partially update.
+   - Parameter partialUpdate: PartialUpdate
+   - Parameter createIfNotExists: When true, a partial update on a nonexistent record will create the record
+   (generating the objectID and using the attributes as defined in the record). When false, a partial
+   update on a nonexistent record will be ignored (but no error will be sent back).
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronous operation
+   */
   @discardableResult func partialUpdateObject(withID objectID: ObjectID, with partialUpdate: PartialUpdate, createIfNotExists: Bool, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ObjectRevision>) -> Operation {
     let command = Command.Indexing.PartialUpdate(indexName: name, objectID: objectID, partialUpdate: partialUpdate, createIfNotExists: createIfNotExists, requestOptions: requestOptions)
     return performRequest(for: command, completion: completion)
   }
   
+  /**
+   Update one or more attributes of an existing record.
+   
+   - Parameter objectID: The ObjectID identifying the record to partially update.
+   - Parameter partialUpdate: PartialUpdate
+   - Parameter createIfNotExists: When true, a partial update on a nonexistent record will create the record
+   (generating the objectID and using the attributes as defined in the record). When false, a partial
+   update on a nonexistent record will be ignored (but no error will be sent back).
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: ObjectRevision object
+   */
   @discardableResult func partialUpdateObject(withID objectID: ObjectID, with partialUpdate: PartialUpdate, createIfNotExists: Bool, requestOptions: RequestOptions? = nil) throws -> ObjectRevision {
     let command = Command.Indexing.PartialUpdate(indexName: name, objectID: objectID, partialUpdate: partialUpdate, createIfNotExists: createIfNotExists, requestOptions: requestOptions)
     return try performSyncRequest(for: command)
@@ -274,23 +340,102 @@ public extension Index {
   
   //MARK: - Partial update objects
 
-  @discardableResult func replaceObjects<T: Codable>(replacements: [(objectID: ObjectID, object: T)], createIfNotExists: Bool, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation {
-    return perform(batchOperations: replacements.map { .partialUpdate(objectID: $0.objectID, $0.object, createIfNotExists: createIfNotExists) }, requestOptions: requestOptions, completion: completion)
+  /**
+   Update one or more attributes of existing records.
+
+   - Parameter replacements: The list of pairs of ObjectID identifying the record and its PartialUpdate.
+   - Parameter createIfNotExists: When true, a partial update on a nonexistent record will create the record
+   (generating the objectID and using the attributes as defined in the record). When false, a partial
+   update on a nonexistent record will be ignored (but no error will be sent back).
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronous operation
+   */
+  @discardableResult func partialUpdateObject(replacements: [(objectID: ObjectID, update: PartialUpdate)], createIfNotExists: Bool, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation {
+    return perform(batchOperations: replacements.map { .partialUpdate(objectID: $0.objectID, $0.update, createIfNotExists: createIfNotExists) }, requestOptions: requestOptions, completion: completion)
   }
 
-  @discardableResult func replaceObjects<T: Codable>(replacements: [(objectID: ObjectID, object: T)], createIfNotExists: Bool, requestOptions: RequestOptions? = nil) throws -> BatchResponse {
-    return try perform(batchOperations: replacements.map { .partialUpdate(objectID: $0.objectID, $0.object, createIfNotExists: createIfNotExists) }, requestOptions: requestOptions)
+  /**
+   Update one or more attributes of existing records.
+
+   - Parameter replacements: The list of pairs of ObjectID identifying the record and its PartialUpdate.
+   - Parameter createIfNotExists: When true, a partial update on a nonexistent record will create the record
+   (generating the objectID and using the attributes as defined in the record). When false, a partial
+   update on a nonexistent record will be ignored (but no error will be sent back).
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Parameter completion: Result completion
+   - Returns: BatchResponse object
+   */
+  @discardableResult func partialUpdateObject(replacements: [(objectID: ObjectID, update: PartialUpdate)], createIfNotExists: Bool, requestOptions: RequestOptions? = nil) throws -> BatchResponse {
+    return try perform(batchOperations: replacements.map { .partialUpdate(objectID: $0.objectID, $0.update, createIfNotExists: createIfNotExists) }, requestOptions: requestOptions)
   }
   
   //MARK: - Batch operations
   
+  /**
+   Perform several indexing operations in one API call.
+   
+   - Note: This method enables you to batch multiple different indexing operations in one API, like add or delete records
+   potentially targeting multiple indices.
+   
+   You would use this method to:
+   - reduce latency - only one network trip is required for multiple operation
+   - ensure data integrity - all operations inside the batch will be executed atomically.
+     Meaning that instead of deleting 30 objects then adding 20 new objects in two operations,
+     we do both operations in one go. This will remove the time during which an index is in an inconsistent
+     state and could be a great alternative to doing an atomic reindexing using a temporary index
+   - When batching of a large numbers of objects, or large sizes, be aware of our rate limit.
+     You’ll know you’ve reached the rate limit when you start receiving errors on your indexing operations.
+     This can only be resolved if you wait before sending any further indexing operations.
+   
+   - Parameter batchOperations: List of BatchOperation
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronous operation
+   */
   @discardableResult func perform(batchOperations: [BatchOperation], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation {
     let command = Command.Index.Batch(indexName: name, batchOperations: batchOperations, requestOptions: requestOptions)
     return performRequest(for: command, completion: completion)
   }
   
+  /**
+   Perform several indexing operations in one API call.
+   
+   - Parameter batchOperations: List of BatchOperation
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: BatchResponse object
+   */
   @discardableResult func perform(batchOperations: [BatchOperation], requestOptions: RequestOptions? = nil) throws -> BatchResponse {
     let command = Command.Index.Batch(indexName: name, batchOperations: batchOperations, requestOptions: requestOptions)
+    return try performSyncRequest(for: command)
+  }
+  
+  //MARK: - Clear objects
+  
+  /**
+   Clear the records of an index without affecting its settings.
+ 
+   - Note: This method enables you to delete an index’s contents (records) without removing any settings, rules and synonyms.
+   If you want to remove the entire index and not just its records, use the delete method instead.
+   Clearing an index will have no impact on its Analytics data because you cannot clear an index’s analytics data.
+   
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronous operation
+   */
+  @discardableResult func clearObjects(requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<RevisionIndex>) -> Operation {
+    let command = Command.Indexing.ClearObjects(indexName: name, requestOptions: requestOptions)
+    return performRequest(for: command, completion: completion)
+  }
+    
+  /**
+   Clear the records of an index without affecting its settings.
+
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: RevisionIndex object
+   */
+  @discardableResult func clearObjects(requestOptions: RequestOptions? = nil) throws -> RevisionIndex {
+    let command = Command.Indexing.ClearObjects(indexName: name, requestOptions: requestOptions)
     return try performSyncRequest(for: command)
   }
   
