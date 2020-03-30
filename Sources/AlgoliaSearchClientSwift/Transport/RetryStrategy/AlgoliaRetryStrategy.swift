@@ -33,7 +33,7 @@ struct AlgoliaRetryStrategy: RetryStrategy {
       return .none
     }
 
-    guard let firstUpHost = hostsForCallType.first(where: { $0.isUp }) else {
+    guard let firstUpHost = hostsForCallType.first(where: \.isUp) else {
       hosts.resetAll(for: callType)
       return host(for: callType)
     }
