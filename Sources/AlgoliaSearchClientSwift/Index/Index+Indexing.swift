@@ -29,9 +29,7 @@ public extension Index {
    - Returns: Launched asynchronousoperation
    */
   @discardableResult func saveObject<T: Codable>(_ record: T, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ObjectCreation>) -> Operation {
-    let command = Command.Indexing.SaveObject(indexName: name,
-                                              record: record,
-                                              requestOptions: requestOptions)
+    let command = Command.Indexing.SaveObject(indexName: name, record: record, requestOptions: requestOptions)
     return performRequest(for: command, completion: completion)
   }
     
@@ -44,9 +42,7 @@ public extension Index {
    - Returns: ObjectCreation task
    */
   @discardableResult func saveObject<T: Codable>(_ record: T, requestOptions: RequestOptions? = nil) throws -> ObjectCreation {
-    let command = Command.Indexing.SaveObject(indexName: name,
-                                              record: record,
-                                              requestOptions: requestOptions)
+    let command = Command.Indexing.SaveObject(indexName: name, record: record, requestOptions: requestOptions)
     return try performSyncRequest(for: command)
   }
     
@@ -62,8 +58,7 @@ public extension Index {
    - Returns: Launched asynchronousoperation
    */
   @discardableResult func saveObjects<T: Codable>(records: [T], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation {
-    let operations = records.map { BatchOperation.add($0) }
-    return perform(batchOperations: operations, requestOptions: requestOptions, completion: completion)
+    return perform(batchOperations: records.map { .add($0) }, requestOptions: requestOptions, completion: completion)
   }
     
   /**
@@ -75,8 +70,7 @@ public extension Index {
    - Returns: Batch task
    */
   @discardableResult func saveObjects<T: Codable>(_ records: [T], requestOptions: RequestOptions? = nil) throws -> BatchResponse {
-    let operations = records.map { BatchOperation.add($0) }
-    return try perform(batchOperations: operations, requestOptions: requestOptions)
+    return try perform(batchOperations: records.map { .add($0) }, requestOptions: requestOptions)
   }
   
   //MARK: - Get object
@@ -191,8 +185,7 @@ public extension Index {
    - Returns: Launched asynchronous operation
    */
   @discardableResult func replaceObjects<T: Codable>(replacements: [(objectID: ObjectID, object: T)], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation {
-    let operations: [BatchOperation] = replacements.map { (objectID, object) in .update(objectID: objectID, object) }
-    return perform(batchOperations: operations, requestOptions: requestOptions, completion: completion)
+    return perform(batchOperations: replacements.map { .update(objectID: $0.objectID, $0.object) }, requestOptions: requestOptions, completion: completion)
   }
   
   /**
@@ -204,8 +197,7 @@ public extension Index {
    - Returns: ObjectRevision object
    */
   @discardableResult func replaceObjects<T: Codable>(replacements: [(objectID: ObjectID, object: T)], requestOptions: RequestOptions? = nil) throws -> BatchResponse {
-    let operations: [BatchOperation] = replacements.map { (objectID, object) in .update(objectID: objectID, object) }
-    return try perform(batchOperations: operations, requestOptions: requestOptions)
+    return try perform(batchOperations: replacements.map { .update(objectID: $0.objectID, $0.object) }, requestOptions: requestOptions)
   }
 
   //MARK: - Delete object
@@ -245,8 +237,7 @@ public extension Index {
    - Returns: Launched asynchronous operation
    */
   @discardableResult func deleteObjects(withIDs objectIDs: [ObjectID], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation {
-    let operations: [BatchOperation] = objectIDs.map { .delete(objectID: $0) }
-    return perform(batchOperations: operations, requestOptions: requestOptions, completion: completion)
+    return perform(batchOperations: objectIDs.map { .delete(objectID: $0) }, requestOptions: requestOptions, completion: completion)
   }
 
   /**
@@ -256,8 +247,7 @@ public extension Index {
    - Returns: BatchResponse object
    */
   @discardableResult func deleteObjects(withIDs objectIDs: [ObjectID], requestOptions: RequestOptions? = nil) throws -> BatchResponse {
-    let operations: [BatchOperation] = objectIDs.map { .delete(objectID: $0) }
-    return try perform(batchOperations: operations, requestOptions: requestOptions)
+    return try perform(batchOperations: objectIDs.map { .delete(objectID: $0) }, requestOptions: requestOptions)
   }
   
   @discardableResult func deleteObjects(byQuery query: DeleteByQuery, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<RevisionIndex>) throws -> Operation {
@@ -285,13 +275,11 @@ public extension Index {
   //MARK: - Partial update objects
 
   @discardableResult func replaceObjects<T: Codable>(replacements: [(objectID: ObjectID, object: T)], createIfNotExists: Bool, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation {
-    let operations: [BatchOperation] = replacements.map { (objectID, object) in .partialUpdate(objectID: objectID, object, createIfNotExists: createIfNotExists) }
-    return perform(batchOperations: operations, requestOptions: requestOptions, completion: completion)
+    return perform(batchOperations: replacements.map { .partialUpdate(objectID: $0.objectID, $0.object, createIfNotExists: createIfNotExists) }, requestOptions: requestOptions, completion: completion)
   }
 
   @discardableResult func replaceObjects<T: Codable>(replacements: [(objectID: ObjectID, object: T)], createIfNotExists: Bool, requestOptions: RequestOptions? = nil) throws -> BatchResponse {
-    let operations: [BatchOperation] = replacements.map { (objectID, object) in .partialUpdate(objectID: objectID, object, createIfNotExists: createIfNotExists) }
-    return try perform(batchOperations: operations, requestOptions: requestOptions)
+    return try perform(batchOperations: replacements.map { .partialUpdate(objectID: $0.objectID, $0.object, createIfNotExists: createIfNotExists) }, requestOptions: requestOptions)
   }
   
   //MARK: - Batch operations
