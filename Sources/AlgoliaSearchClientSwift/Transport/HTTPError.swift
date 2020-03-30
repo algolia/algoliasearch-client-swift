@@ -9,21 +9,19 @@ import Foundation
 
 public struct HTTPError: Error {
 
-  public let statusCode: HTTPStatusCode
+  public let statusCode: HTTPStatusСode
   public let message: ErrorMessage?
 
   public init?(response: HTTPURLResponse?, data: Data?) {
-    guard
-      let response = response,
-      let statusCode = HTTPStatusCode(rawValue: response.statusCode), !statusCode.belongs(to: .success) else {
+    guard let response = response, !response.statusCode.belongs(to: .success) else {
       return nil
     }
 
     let message = data.flatMap { try? JSONDecoder().decode(ErrorMessage.self, from: $0) }
-    self.init(statusCode: statusCode, message: message)
+    self.init(statusCode: response.statusCode, message: message)
   }
 
-  public init(statusCode: HTTPStatusCode, message: ErrorMessage?) {
+  public init(statusCode: HTTPStatusСode, message: ErrorMessage?) {
     self.statusCode = statusCode
     self.message = message
   }
