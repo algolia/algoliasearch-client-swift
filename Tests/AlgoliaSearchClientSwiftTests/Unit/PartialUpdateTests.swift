@@ -2,7 +2,7 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClientSwift
 
-class PartialUpdateTestsA: XCTestCase {
+class PartialUpdateTests: XCTestCase {
   
   func testCoding() throws {
     try AssertEncodeDecode(PartialUpdate.add(attribute: "attr", value: 2.5, unique: true), ["attr": ["value": 2.5, "_operation": "AddUnique"]])

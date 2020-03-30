@@ -34,7 +34,7 @@ extension Command {
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, objectID: ObjectID, attributesToRetrieve: [Attribute], requestOptions: RequestOptions?) {
-        let requestOptions = requestOptions.withParameters({
+        let requestOptions = requestOptions.updateOrCreate({
           guard !attributesToRetrieve.isEmpty else { return [:] }
           let attributesValue = attributesToRetrieve.map(\.rawValue).joined(separator: ",")
           return [.attributesToRetreive: attributesValue]
@@ -44,6 +44,22 @@ extension Command {
         urlRequest = .init(method: .get, path: path, requestOptions: requestOptions)
       }
 
+    }
+    
+    struct GetObjects: AlgoliaCommand {
+      
+      let callType: CallType = .read
+      let urlRequest: URLRequest
+      let requestOptions: RequestOptions?
+      
+      init(indexName: IndexName, objectIDs: [ObjectID], attributesToRetreive: [Attribute]?, requestOptions: RequestOptions?) {
+        self.requestOptions = requestOptions
+        let requests = objectIDs.map { ObjectRequest(indexName: indexName, objectID: $0, attributesToRetrieve: attributesToRetreive) }
+        let body = FieldWrapper(requests: requests).httpBody
+        let path = indexName.toPath(withSuffix:"/*/objects")
+        urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
+      }
+      
     }
     
     struct ReplaceObject: AlgoliaCommand {
@@ -89,18 +105,70 @@ extension Command {
       
     }
     
+    struct PartialUpdate: AlgoliaCommand {
+      
+      let callType: CallType = .write
+      let urlRequest: URLRequest
+      let requestOptions: RequestOptions?
+      
+      init(indexName: IndexName, objectID: ObjectID, partialUpdate: AlgoliaSearchClientSwift.PartialUpdate, createIfNotExists: Bool?, requestOptions: RequestOptions?) {
+        let requestOptions = requestOptions.updateOrCreate({
+          guard let createIfNotExists = createIfNotExists else { return [:] }
+          return [.createIfNotExists: String(createIfNotExists)]
+          }() )
+        self.requestOptions = requestOptions
+        let path = indexName.toPath(withSuffix: "/\(objectID.rawValue)/partial")
+        let body = partialUpdate.httpBody
+        urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
+      }
+      
+    }
     
+    struct ClearObjects: AlgoliaCommand {
+      
+      let callType: CallType = .write
+      let urlRequest: URLRequest
+      let requestOptions: RequestOptions?
+
+      init(indexName: IndexName, requestOptions: RequestOptions?) {
+        self.requestOptions = requestOptions
+        let path = indexName.toPath(withSuffix: "/clear")
+        urlRequest = .init(method: .post, path: path, requestOptions: requestOptions)
+      }
+      
+    }
 
   }
 
 }
 
-struct RequestParams<T: Codable>: Codable {
+struct FieldWrapper<Wrapped: Codable> {
   
-  let params: T
+  let fieldname: String
+  let wrapped: Wrapped
   
-  init(_ content: T) {
-    self.params = content
+}
+
+extension FieldWrapper {
+  
+  init(requests: Wrapped) {
+    self.fieldname = "requests"
+    self.wrapped = requests
+  }
+  
+}
+
+extension FieldWrapper: Codable {
+  
+  public init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: DynamicKey.self)
+    self.fieldname = container.allKeys.first!.stringValue
+    self.wrapped = try container.decode(Wrapped.self, forKey: DynamicKey(stringValue: fieldname))
+  }
+  
+  public func encode(to encoder: Encoder) throws {
+    var container = encoder.container(keyedBy: DynamicKey.self)
+    try container.encode(wrapped, forKey: DynamicKey(stringValue: fieldname))
   }
   
 }
