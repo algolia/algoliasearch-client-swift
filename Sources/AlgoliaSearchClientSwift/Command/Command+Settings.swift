@@ -39,7 +39,7 @@ extension Command {
            resetToDefault: [AlgoliaSearchClientSwift.Settings.Key],
            forwardToReplicas: Bool?,
            requestOptions: RequestOptions?) {
-        let requestOptions = requestOptions.withParameters({
+        let requestOptions = requestOptions.updateOrCreate({
           guard let forwardToReplicas = forwardToReplicas else { return [:] }
           return [.forwardToReplicas: "\(forwardToReplicas)"]
         }())
