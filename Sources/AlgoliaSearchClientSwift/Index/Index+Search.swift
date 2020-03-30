@@ -24,7 +24,7 @@ extension Index {
     let command = Command.Search.Search(indexName: name,
                                         query: query,
                                         requestOptions: requestOptions)
-    return performRequest(for: command, completion: completion)
+    return launch(command, completion: completion)
   }
 
 }
@@ -33,7 +33,7 @@ public extension Index {
 
   func search(query: Query, requestOptions: RequestOptions? = nil) throws -> SearchResponse {
     let command = Command.Search.Search(indexName: name, query: query, requestOptions: requestOptions)
-    return try performSyncRequest(for: command)
+    return try launch(command)
   }
 
 }

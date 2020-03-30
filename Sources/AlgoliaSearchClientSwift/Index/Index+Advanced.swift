@@ -17,7 +17,7 @@ extension Index {
   */
   @discardableResult public func taskStatus(for taskID: TaskID, requestOptions: RequestOptions? = nil, completion: @escaping  ResultCallback<TaskInfo>) -> Operation {
     let request = Command.Advanced.TaskStatus(indexName: name, taskID: taskID, requestOptions: requestOptions)
-    return performRequest(for: request, completion: completion)
+    return launch(request, completion: completion)
   }
 
   /**
