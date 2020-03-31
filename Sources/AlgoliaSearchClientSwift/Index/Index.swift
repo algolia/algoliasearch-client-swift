@@ -40,15 +40,15 @@ extension Index {
 
   @discardableResult func delete(requestOptions: RequestOptions? = nil,
                                  completion: @escaping ResultCallback<JSON>) -> Operation {
-    let request = Command.Index.DeleteIndex(indexName: name,
+    let command = Command.Index.DeleteIndex(indexName: name,
                                             requestOptions: requestOptions)
-    return launch(request, completion: completion)
+    return launch(command, completion: completion)
   }
 
   @discardableResult func delete(requestOptions: RequestOptions? = nil) throws -> JSON {
-    let request = Command.Index.DeleteIndex(indexName: name,
+    let command = Command.Index.DeleteIndex(indexName: name,
                                             requestOptions: requestOptions)
-    return try launch(request)
+    return try launch(command)
   }
 
 }
