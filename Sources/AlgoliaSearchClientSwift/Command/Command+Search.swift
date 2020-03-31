@@ -29,6 +29,26 @@ extension Command {
       }
 
     }
+    
+    struct Browse: AlgoliaCommand {
+      
+      let callType: CallType = .read
+      let urlRequest: URLRequest
+      let requestOptions: RequestOptions?
+      
+      init(indexName: IndexName, query: Query, requestOptions: RequestOptions?) {
+        self.requestOptions = requestOptions
+        let path = indexName.toPath(withSuffix: "/browse")
+        urlRequest = .init(method: .post, path: path, body: query.httpBody, requestOptions: requestOptions)
+      }
+      
+      init(indexName: IndexName, cursor: Cursor, requestOptions: RequestOptions?) {
+        self.requestOptions = requestOptions.updateOrCreate([.cursor: cursor.rawValue])
+        let path = indexName.toPath(withSuffix: "/browse")
+        urlRequest = .init(method: .get, path: path, requestOptions: requestOptions)
+      }
+      
+    }
 
   }
 

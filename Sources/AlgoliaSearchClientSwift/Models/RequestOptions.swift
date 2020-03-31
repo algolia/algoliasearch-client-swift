@@ -49,6 +49,7 @@ public struct HTTPParameterKey: RawRepresentable, Hashable {
   public static let attributesToRetreive: HTTPParameterKey = "attributesToRetreive"
   public static let forwardToReplicas: HTTPParameterKey = "forwardToReplicas"
   public static let createIfNotExists: HTTPParameterKey = "createIfNotExists"
+  public static let cursor: HTTPParameterKey = "cursor"
 
   public let rawValue: String
 
