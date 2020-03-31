@@ -56,11 +56,17 @@ extension Command {
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
       
-      init(indexName: IndexName, attribute: Attribute, facetQuery: String, query: Query, requestOptions: RequestOptions?) {
+      init(indexName: IndexName, attribute: Attribute, facetQuery: String, query: Query?, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        var queryCopy = query
-        queryCopy.customParameters = (queryCopy.customParameters ?? [:]).merging(["facetQuery": .init(facetQuery)]) { (_, new) in new }
-        let body = FieldWrapper(params: queryCopy).httpBody
+        let facetQueryParameters: [String: JSON] = ["facetQuery": .init(facetQuery)]
+        let parameters = (query?.customParameters ?? [:]).merging(facetQueryParameters) { (_, new) in new }
+        let body: Data
+        if var query = query {
+          query.customParameters = parameters
+          body = FieldWrapper(params: query).httpBody
+        } else {
+          body = FieldWrapper(params: parameters).httpBody
+        }
         let path = indexName.toPath(withSuffix: "/facets/\(attribute)/query")
         urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
       }
