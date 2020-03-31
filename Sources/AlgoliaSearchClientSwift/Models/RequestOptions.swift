@@ -13,7 +13,7 @@ import Foundation
 */
 public struct RequestOptions {
 
-  public var headers: [String: String?] = [:]
+  public var headers: [String: String] = [:]
   public var urlParameters: [String: String?] = [:]
   public var writeTimeout: TimeInterval?
   public var readTimeout: TimeInterval?
@@ -48,6 +48,7 @@ public struct HTTPParameterKey: RawRepresentable, Hashable {
 
   public static let attributesToRetreive: HTTPParameterKey = "attributesToRetreive"
   public static let forwardToReplicas: HTTPParameterKey = "forwardToReplicas"
+  public static let createIfNotExists: HTTPParameterKey = "createIfNotExists"
 
   public let rawValue: String
 
@@ -90,7 +91,7 @@ extension HTTPHeaderKey: ExpressibleByStringLiteral {
 
 extension Optional where Wrapped == RequestOptions {
 
-  func withParameters(_ parameters: @autoclosure () -> [HTTPParameterKey: String]) -> RequestOptions? {
+  func updateOrCreate(_ parameters: @autoclosure () -> [HTTPParameterKey: String]) -> RequestOptions? {
     let parameters = parameters()
     guard !parameters.isEmpty else {
       return self

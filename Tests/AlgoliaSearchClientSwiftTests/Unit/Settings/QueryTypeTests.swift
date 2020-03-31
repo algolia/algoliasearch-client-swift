@@ -11,16 +11,10 @@ import XCTest
 
 class QueryTypeTests: XCTestCase {
 
-  func testDecoding() throws {
-    try testDecoding(QueryType.prefixAll.rawValue, expected: "prefixAll")
-    try testDecoding(QueryType.prefixLast.rawValue, expected: "prefixLast")
-    try testDecoding(QueryType.prefixNone.rawValue, expected: "prefixNone")
-  }
-
-  func testEncoding() throws {
-    try testEncoding("prefixAll", expected: QueryType.prefixAll.rawValue)
-    try testEncoding("prefixLast", expected: QueryType.prefixLast.rawValue)
-    try testEncoding("prefixNone", expected: QueryType.prefixNone.rawValue)
+  func testCoding() throws {
+    try AssertEncodeDecode(QueryType.prefixAll, "prefixAll")
+    try AssertEncodeDecode(QueryType.prefixLast, "prefixLast")
+    try AssertEncodeDecode(QueryType.prefixNone, "prefixNone")
   }
 
 }

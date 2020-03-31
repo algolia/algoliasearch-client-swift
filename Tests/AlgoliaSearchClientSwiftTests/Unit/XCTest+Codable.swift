@@ -9,51 +9,27 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClientSwift
 
-protocol AnyEquatable: Any where Self: Equatable {}
-
-extension XCTestCase {
-
-  func testEncoding<T: Encodable, M: Equatable>(_ value: T, expected: M) throws {
-    let encoder = JSONEncoder()
-    let data = try encoder.encode(value)
-    let jsonObject = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
-    guard let encodedValue = jsonObject as? M else { throw JSONObjectCastError(type: M.self) }
-    XCTAssertEqual(encodedValue, expected)
-  }
-
-  func testEncoding<T: Encodable>(_ value: T, expectedJSONString: String) throws {
-    let encoder = JSONEncoder()
-    encoder.outputFormatting = .prettyPrinted
-    let data = try encoder.encode(value)
-    let jsonString = String(data: data, encoding: .utf8)
-    XCTAssertEqual(jsonString, expectedJSONString)
-  }
-
-  func testDecoding<T: Decodable & Equatable>(_ input: Any, expected: T) throws {
-    let rawData = try JSONSerialization.data(withJSONObject: input, options: .fragmentsAllowed)
-    let decoder = JSONDecoder()
-    let decodedValue = try decoder.decode(T.self, from: rawData)
-    XCTAssertEqual(decodedValue, expected)
-  }
-
-  func testDecoding<T: Decodable & Equatable>(jsonString: String, expected: T) throws {
-    let rawData = try JSONSerialization.data(withJSONObject: jsonString, options: .fragmentsAllowed)
-    let decoder = JSONDecoder()
-    let decodedValue = try decoder.decode(T.self, from: rawData)
-    XCTAssertEqual(decodedValue, expected)
-  }
-
-  func testDecoding<T: Decodable>(fromFileWithName filename: String) throws -> T {
-      let data = try Data(filename: filename)
-      let decoder = JSONDecoder()
-      return try decoder.decode(T.self, from: data)
-  }
-
+func AssertEncodeDecode<T: Codable>(_ value: T, _ rawValue: JSON, file: StaticString = #file, line: UInt = #line) throws {
+  try AssertEncode(value, expected: rawValue, file: file, line: line)
+  try AssertDecode(rawValue, expected: value, file: file, line: line)
 }
 
-struct JSONObjectCastError: Error {
-  let localizedDescription: String
-  init<T>(type: T.Type) {
-    localizedDescription = "Impossible to cast json object to \(type.self)"
+func AssertDecode<T: Codable>(_ input: JSON, expected: T, file: StaticString = #file, line: UInt = #line) throws {
+  let expectedJSON = try JSON(expected)
+  XCTAssertEqual(input, expectedJSON, file: file, line: line)
+}
+
+func AssertDecode<T: Decodable>(jsonFilename filename: String, expected: T.Type, file: StaticString = #file, line: UInt = #line) {
+  do {
+    let data = try Data(filename: filename)
+    XCTAssertNoThrow(try JSONDecoder().decode(T.self, from: data))
+  } catch _ {
+    XCTFail("Impossible to read json file with name \(filename)")
   }
+}
+
+func AssertEncode<T: Encodable>(_ value: T, expected: JSON, file: StaticString = #file, line: UInt = #line) throws {
+  let valueData = try JSONEncoder().encode(value)
+  let jsonFromValue = try JSONDecoder().decode(JSON.self, from: valueData)
+  XCTAssertEqual(jsonFromValue, expected, file: file, line: line)
 }

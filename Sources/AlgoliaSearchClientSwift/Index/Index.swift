@@ -19,19 +19,13 @@ public struct Index {
     self.queue = queue
   }
 
-  func performRequest<T: Codable>(for command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation {
+  func launch<T: Codable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation {
     let request = HTTPRequest(transport: transport, command: command, completion: completion)
     queue.addOperation(request)
     return request
   }
 
-  func performRequest<T: Codable & Task>(for command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation {
-    let request = HTTPRequest(transport: transport, command: command, completion: completion)
-    queue.addOperation(request)
-    return request
-  }
-
-  func performSyncRequest<T: Codable>(for command: AlgoliaCommand) throws -> T {
+  func launch<T: Codable>(_ command: AlgoliaCommand) throws -> T {
     let request = HTTPRequest<T>(transport: transport, command: command, completion: { _ in })
     return try queue.performOperation(request)
   }
@@ -48,13 +42,13 @@ extension Index {
                                  completion: @escaping ResultCallback<JSON>) -> Operation {
     let request = Command.Index.DeleteIndex(indexName: name,
                                             requestOptions: requestOptions)
-    return performRequest(for: request, completion: completion)
+    return launch(request, completion: completion)
   }
 
   @discardableResult func delete(requestOptions: RequestOptions? = nil) throws -> JSON {
     let request = Command.Index.DeleteIndex(indexName: name,
                                             requestOptions: requestOptions)
-    return try performSyncRequest(for: request)
+    return try launch(request)
   }
 
 }

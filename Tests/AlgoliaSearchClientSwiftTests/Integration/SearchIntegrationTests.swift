@@ -21,7 +21,7 @@ class SearchIntegrationTests: OnlineTestCase {
 
       let setSettingsTask = try index.setSettings(settings)
       _ = try index.wait(for: setSettingsTask)
-      let saveTask = try index.saveObjects(records: employees)
+      let saveTask = try index.saveObjects(employees)
       _ = try index.wait(for: saveTask)
       let results = try index.search(query: "algolia")
 

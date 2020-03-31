@@ -29,6 +29,8 @@ public struct Hit<T: Codable> {
 
 }
 
+extension Hit: Equatable where T: Equatable {}
+
 extension Hit: Codable {
 
   enum CodingKeys: String, CodingKey {

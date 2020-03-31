@@ -17,7 +17,7 @@ extension Index {
                                              completion: @escaping ResultCallback<Settings>) -> Operation {
     let command = Command.Settings.GetSettings(indexName: name,
                                                requestOptions: requestOptions)
-    return performRequest(for: command, completion: completion)
+    return launch(command, completion: completion)
   }
 
   /**
@@ -40,7 +40,7 @@ extension Index {
                                                resetToDefault: resetToDefault,
                                                forwardToReplicas: forwardToReplicas,
                                                requestOptions: requestOptions)
-    return performRequest(for: command, completion: completion)
+    return launch(command, completion: completion)
   }
 
 }
@@ -50,7 +50,7 @@ public extension Index {
   func getSettings(requestOptions: RequestOptions? = nil) throws -> Settings {
     let command = Command.Settings.GetSettings(indexName: name,
                                                requestOptions: requestOptions)
-    return try performSyncRequest(for: command)
+    return try launch(command)
   }
 
   func setSettings(_ settings: Settings,
@@ -62,7 +62,7 @@ public extension Index {
                                                resetToDefault: resetToDefault,
                                                forwardToReplicas: forwardToReplicas,
                                                requestOptions: requestOptions)
-    return try performSyncRequest(for: command)
+    return try launch(command)
   }
 
 }

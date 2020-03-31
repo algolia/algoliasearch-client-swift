@@ -17,27 +17,14 @@ extension Command {
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
 
-      init<T: Codable>(indexName: IndexName,
-                       record: T,
-                       requestOptions: RequestOptions?) {
+      init<T: Codable>(indexName: IndexName, record: T, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         urlRequest = .init(method: .post,
                            path: indexName.toPath(),
                            body: record.httpBody,
                            requestOptions: requestOptions)
       }
-
-      init(indexName: IndexName,
-           record: [String: Any],
-           requestOptions: RequestOptions?) throws {
-        self.requestOptions = requestOptions
-        let body = try JSONSerialization.data(withJSONObject: record, options: [])
-        urlRequest = .init(method: .post,
-                           path: indexName.toPath(),
-                           body: body,
-                           requestOptions: requestOptions)
-      }
-
+      
     }
 
     struct GetObject: AlgoliaCommand {
@@ -46,24 +33,144 @@ extension Command {
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
 
-      init(indexName: IndexName,
-           objectID: ObjectID,
-           attributesToRetreive: [Attribute] = [],
-           requestOptions: RequestOptions?) {
-        let requestOptions = requestOptions.withParameters({
-          guard !attributesToRetreive.isEmpty else { return [:] }
-          let attributesValue = attributesToRetreive.map(\.rawValue).joined(separator: ",")
+      init(indexName: IndexName, objectID: ObjectID, attributesToRetrieve: [Attribute], requestOptions: RequestOptions?) {
+        let requestOptions = requestOptions.updateOrCreate({
+          guard !attributesToRetrieve.isEmpty else { return [:] }
+          let attributesValue = attributesToRetrieve.map(\.rawValue).joined(separator: ",")
           return [.attributesToRetreive: attributesValue]
         }() )
         self.requestOptions = requestOptions
         let path = indexName.toPath(withSuffix: "/\(objectID.rawValue)")
-        urlRequest = .init(method: .get,
-                           path: path,
-                           requestOptions: requestOptions)
+        urlRequest = .init(method: .get, path: path, requestOptions: requestOptions)
       }
 
+    }
+    
+    struct GetObjects: AlgoliaCommand {
+      
+      let callType: CallType = .read
+      let urlRequest: URLRequest
+      let requestOptions: RequestOptions?
+      
+      init(indexName: IndexName, objectIDs: [ObjectID], attributesToRetreive: [Attribute]?, requestOptions: RequestOptions?) {
+        self.requestOptions = requestOptions
+        let requests = objectIDs.map { ObjectRequest(indexName: indexName, objectID: $0, attributesToRetrieve: attributesToRetreive) }
+        let body = FieldWrapper(requests: requests).httpBody
+        let path = indexName.toPath(withSuffix:"/*/objects")
+        urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
+      }
+      
+    }
+    
+    struct ReplaceObject: AlgoliaCommand {
+      
+      let callType: CallType = .write
+      let urlRequest: URLRequest
+      let requestOptions: RequestOptions?
+      
+      init<T: Codable>(indexName: IndexName, objectID: ObjectID, replacementObject record: T, requestOptions: RequestOptions?) {
+        self.requestOptions = requestOptions
+        let path = indexName.toPath(withSuffix: "/\(objectID.rawValue)")
+        urlRequest = .init(method: .put, path: path, body: record.httpBody, requestOptions: requestOptions)
+      }
+      
+    }
+    
+    struct DeleteObject: AlgoliaCommand {
+      
+      let callType: CallType = .write
+      let urlRequest: URLRequest
+      let requestOptions: RequestOptions?
+      
+      init(indexName: IndexName, objectID: ObjectID, requestOptions: RequestOptions?) {
+        self.requestOptions = requestOptions
+        let path = indexName.toPath(withSuffix: "/\(objectID.rawValue)")
+        urlRequest = .init(method: .delete, path: path, requestOptions: requestOptions)
+      }
+      
+    }
+    
+    struct DeleteByQuery: AlgoliaCommand {
+      
+      let callType: CallType = .write
+      let urlRequest: URLRequest
+      let requestOptions: RequestOptions?
+      
+      init(indexName: IndexName, query: AlgoliaSearchClientSwift.DeleteByQuery, requestOptions: RequestOptions?) {
+        self.requestOptions = requestOptions
+        let path = indexName.toPath(withSuffix: "/deleteByQuery")
+        let body = RequestParams(query).httpBody
+        urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
+      }
+      
+    }
+    
+    struct PartialUpdate: AlgoliaCommand {
+      
+      let callType: CallType = .write
+      let urlRequest: URLRequest
+      let requestOptions: RequestOptions?
+      
+      init(indexName: IndexName, objectID: ObjectID, partialUpdate: AlgoliaSearchClientSwift.PartialUpdate, createIfNotExists: Bool?, requestOptions: RequestOptions?) {
+        let requestOptions = requestOptions.updateOrCreate({
+          guard let createIfNotExists = createIfNotExists else { return [:] }
+          return [.createIfNotExists: String(createIfNotExists)]
+          }() )
+        self.requestOptions = requestOptions
+        let path = indexName.toPath(withSuffix: "/\(objectID.rawValue)/partial")
+        let body = partialUpdate.httpBody
+        urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
+      }
+      
+    }
+    
+    struct ClearObjects: AlgoliaCommand {
+      
+      let callType: CallType = .write
+      let urlRequest: URLRequest
+      let requestOptions: RequestOptions?
+
+      init(indexName: IndexName, requestOptions: RequestOptions?) {
+        self.requestOptions = requestOptions
+        let path = indexName.toPath(withSuffix: "/clear")
+        urlRequest = .init(method: .post, path: path, requestOptions: requestOptions)
+      }
+      
     }
 
   }
 
 }
+
+struct FieldWrapper<Wrapped: Codable> {
+  
+  let fieldname: String
+  let wrapped: Wrapped
+  
+}
+
+extension FieldWrapper {
+  
+  init(requests: Wrapped) {
+    self.fieldname = "requests"
+    self.wrapped = requests
+  }
+  
+}
+
+extension FieldWrapper: Codable {
+  
+  public init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: DynamicKey.self)
+    self.fieldname = container.allKeys.first!.stringValue
+    self.wrapped = try container.decode(Wrapped.self, forKey: DynamicKey(stringValue: fieldname))
+  }
+  
+  public func encode(to encoder: Encoder) throws {
+    var container = encoder.container(keyedBy: DynamicKey.self)
+    try container.encode(wrapped, forKey: DynamicKey(stringValue: fieldname))
+  }
+  
+}
+
+

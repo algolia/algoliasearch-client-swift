@@ -11,16 +11,10 @@ import XCTest
 
 class AdvancedSyntaxFeaturesTests: XCTestCase {
 
-  func testDecoding() throws {
-    try testDecoding(AdvancedSyntaxFeatures.exactPhrase.rawValue, expected: "exactPhrase")
-    try testDecoding(AdvancedSyntaxFeatures.excludeWords.rawValue, expected: "excludeWords")
-    try testDecoding(AdvancedSyntaxFeatures.other("customFeature").rawValue, expected: "customFeature")
-  }
-
-  func testEncoding() throws {
-    try testEncoding("exactPhrase", expected: AdvancedSyntaxFeatures.exactPhrase.rawValue)
-    try testEncoding("excludeWords", expected: AdvancedSyntaxFeatures.excludeWords.rawValue)
-    try testEncoding("customFeature", expected: AdvancedSyntaxFeatures.other("customFeature").rawValue)
+  func testCoding() throws {
+    try AssertEncodeDecode(AdvancedSyntaxFeatures.exactPhrase, "exactPhrase")
+    try AssertEncodeDecode(AdvancedSyntaxFeatures.excludeWords, "excludeWords")
+    try AssertEncodeDecode(AdvancedSyntaxFeatures.other("customFeature"), "customFeature")
   }
 
 }

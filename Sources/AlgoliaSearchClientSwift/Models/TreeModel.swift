@@ -48,6 +48,8 @@ public indirect enum TreeModel<T: Codable>: Codable {
 
 }
 
+extension TreeModel: Equatable where T: Equatable {}
+
 public extension TreeModel {
 
   var value: T? {

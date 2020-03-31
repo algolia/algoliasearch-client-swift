@@ -11,16 +11,10 @@ import XCTest
 
 class ExactOnSingleWordQueryTests: XCTestCase {
 
-  func testEncoding() throws {
-    try testEncoding(ExactOnSingleWordQuery.attribute, expected: "attribute")
-    try testEncoding(ExactOnSingleWordQuery.none, expected: "none")
-    try testEncoding(ExactOnSingleWordQuery.word, expected: "word")
-  }
-
-  func testDecoding() throws {
-    try testDecoding("attribute", expected: ExactOnSingleWordQuery.attribute)
-    try testDecoding("none", expected: ExactOnSingleWordQuery.none)
-    try testDecoding("word", expected: ExactOnSingleWordQuery.word)
+  func testCoding() throws {
+    try AssertEncodeDecode(ExactOnSingleWordQuery.attribute, "attribute")
+    try AssertEncodeDecode(ExactOnSingleWordQuery.none, "none")
+    try AssertEncodeDecode(ExactOnSingleWordQuery.word, "word")
   }
 
 }
