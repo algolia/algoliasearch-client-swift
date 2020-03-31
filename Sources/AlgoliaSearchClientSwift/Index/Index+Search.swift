@@ -105,8 +105,8 @@ public extension Index {
    Get all index content without any record limit. Can be used for backups.
    
    - Parameter cursor: Cursor indicating the location to resume browsing from.
-   Must match the value returned by the previous call to browse SearchResponse.cursor
-   - Parameter requestOptions: Configure request locally with RequestOptions
+   Must match the value returned by the previous call to browse SearchResponse.cursor.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: SearchResponse object
    */
   @discardableResult func browse(cursor: Cursor, requestOptions: RequestOptions? = nil) throws -> SearchResponse {
@@ -117,23 +117,35 @@ public extension Index {
   //MARK: - Search for facets
   
   /**
+   Search for a set of values within a given facet attribute. Can be combined with a query. This
+   method enables you to search through the values of a facet attribute, selecting only a subset
+   of those values that meet a given criteria.
    
-   - Parameter requestOptions: Configure request locally with RequestOptions
-   - Parameter completion: Result completion
-   - Returns: Launched asynchronous operation
+   - Parameter attrbute: The Attribute to facet on.
+   - Parameter facetQuery: The facetQuery used to search for facets.
+   - Parameter searchQuery: The Query to filter results.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Parameter completion: Result completion.
+   - Returns: Launched asynchronous operation.
    */
-  @discardableResult func searchForFacets(for attribute: Attribute, query: String, searchQuery: Query, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<FacetSearchResponse>) -> Operation {
-    let command = Command.Search.SearchForFacets(indexName: name, attribute: attribute, facetQuery: query, query: searchQuery, requestOptions: requestOptions)
+  @discardableResult func searchForFacetValues(of attribute: Attribute, matching facetQuery: String, applicableFor searchQuery: Query? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<FacetSearchResponse>) -> Operation {
+    let command = Command.Search.SearchForFacets(indexName: name, attribute: attribute, facetQuery: facetQuery, query: searchQuery, requestOptions: requestOptions)
     return launch(command, completion: completion)
   }
   
   /**
+   Search for a set of values within a given facet attribute. Can be combined with a query. This
+   method enables you to search through the values of a facet attribute, selecting only a subset
+   of those values that meet a given criteria.
    
-   - Parameter requestOptions: Configure request locally with RequestOptions
-   - Returns: FacetSearchResponse  object
+   - Parameter attrbute: The Attribute to facet on.
+   - Parameter facetQuery: The facetQuery used to search for facets.
+   - Parameter searchQuery: The Query to filter results.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: FacetSearchResponse  object.
    */
-  @discardableResult func searchForFacets(for attribute: Attribute, query: String, searchQuery: Query,requestOptions: RequestOptions? = nil) throws -> FacetSearchResponse {
-    let command = Command.Search.SearchForFacets(indexName: name, attribute: attribute, facetQuery: query, query: searchQuery, requestOptions: requestOptions)
+  @discardableResult func searchForFacetValues(of attribute: Attribute, matching facetQuery: String, applicableFor searchQuery: Query? = nil, requestOptions: RequestOptions? = nil) throws -> FacetSearchResponse {
+    let command = Command.Search.SearchForFacets(indexName: name, attribute: attribute, facetQuery: facetQuery, query: searchQuery, requestOptions: requestOptions)
     return try launch(command)
   }
   
