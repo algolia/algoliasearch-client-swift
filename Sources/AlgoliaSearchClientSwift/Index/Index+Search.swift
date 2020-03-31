@@ -114,4 +114,29 @@ public extension Index {
     return try launch(command)
   }
   
+  //MARK: - Search for facets
+  
+  /**
+   
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronous operation
+   */
+  @discardableResult func searchForFacets(for attribute: Attribute, query: String, searchQuery: Query, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<FacetSearchResponse>) -> Operation {
+    let command = Command.Search.SearchForFacets(indexName: name, attribute: attribute, facetQuery: query, query: searchQuery, requestOptions: requestOptions)
+    return launch(command, completion: completion)
+  }
+  
+  /**
+   
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Returns: FacetSearchResponse  object
+   */
+  @discardableResult func searchForFacets(for attribute: Attribute, query: String, searchQuery: Query,requestOptions: RequestOptions? = nil) throws -> FacetSearchResponse {
+    let command = Command.Search.SearchForFacets(indexName: name, attribute: attribute, facetQuery: query, query: searchQuery, requestOptions: requestOptions)
+    return try launch(command)
+  }
+  
+  
+  
 }

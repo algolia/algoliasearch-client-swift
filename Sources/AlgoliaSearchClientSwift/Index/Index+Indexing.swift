@@ -162,7 +162,7 @@ public extension Index {
   
   /**
    Replace an existing object with an updated set of attributes.
-   - seealso: replaceObject
+   - See_also: replaceObject
    - Parameter objectID: The ObjectID to identify the object.
    - Parameter record: The record T to replace.
    - Parameter requestOptions: Configure request locally with RequestOptions
@@ -351,7 +351,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func partialUpdateObject(replacements: [(objectID: ObjectID, update: PartialUpdate)], createIfNotExists: Bool, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation {
+  @discardableResult func partialUpdateObjects(replacements: [(objectID: ObjectID, update: PartialUpdate)], createIfNotExists: Bool, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation {
     return batch(replacements.map { .partialUpdate(objectID: $0.objectID, $0.update, createIfNotExists: createIfNotExists) }, requestOptions: requestOptions, completion: completion)
   }
 
@@ -366,7 +366,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: BatchResponse object
    */
-  @discardableResult func partialUpdateObject(replacements: [(objectID: ObjectID, update: PartialUpdate)], createIfNotExists: Bool, requestOptions: RequestOptions? = nil) throws -> BatchResponse {
+  @discardableResult func partialUpdateObjects(replacements: [(objectID: ObjectID, update: PartialUpdate)], createIfNotExists: Bool, requestOptions: RequestOptions? = nil) throws -> BatchResponse {
     return try batch(replacements.map { .partialUpdate(objectID: $0.objectID, $0.update, createIfNotExists: createIfNotExists) }, requestOptions: requestOptions)
   }
   

@@ -49,6 +49,23 @@ extension Command {
       }
       
     }
+    
+    struct SearchForFacets: AlgoliaCommand {
+      
+      let callType: CallType = .read
+      let urlRequest: URLRequest
+      let requestOptions: RequestOptions?
+      
+      init(indexName: IndexName, attribute: Attribute, facetQuery: String, query: Query, requestOptions: RequestOptions?) {
+        self.requestOptions = requestOptions
+        var queryCopy = query
+        queryCopy.customParameters = (queryCopy.customParameters ?? [:]).merging(["facetQuery": .init(facetQuery)]) { (_, new) in new }
+        let body = FieldWrapper(params: queryCopy).httpBody
+        let path = indexName.toPath(withSuffix: "/facets/\(attribute)/query")
+        urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
+      }
+      
+    }
 
   }
 

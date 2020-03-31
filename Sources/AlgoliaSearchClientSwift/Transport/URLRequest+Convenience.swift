@@ -76,6 +76,7 @@ extension URLRequest {
     output.timeoutInterval = host.timeout(requestOptions: requestOptions)
 
     // Update url
+    //TODO: Fix forced unwrap
     var urlComponents = URLComponents(url: url!, resolvingAgainstBaseURL: false)
     urlComponents?.host = host.url.absoluteString
     output.url = urlComponents?.url
