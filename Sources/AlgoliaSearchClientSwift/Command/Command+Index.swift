@@ -50,4 +50,18 @@ extension Command.Index {
     
   }
   
+  struct Operation: AlgoliaCommand {
+    
+    let callType: CallType = .write
+    let urlRequest: URLRequest
+    let requestOptions: RequestOptions?
+    
+    init(indexName: IndexName, operation: IndexOperation, requestOptions: RequestOptions?) {
+      self.requestOptions = requestOptions
+      let path = indexName.toPath(withSuffix: "/operation")
+      urlRequest = .init(method: .post, path: path, body: operation.httpBody, requestOptions: requestOptions)
+    }
+    
+  }
+  
 }

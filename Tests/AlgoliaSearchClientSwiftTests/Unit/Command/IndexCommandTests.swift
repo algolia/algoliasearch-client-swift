@@ -33,4 +33,40 @@ class IndexCommandTests: XCTestCase, AlgoliaCommandTest {
           requestOptions: test.requestOptions)
   }
   
+  func testOperationMove() {
+    let operation: IndexOperation = .init(action: .move, destination: test.anotherIndexName, scopes: nil)
+    let command = Command.Index.Operation(indexName: test.indexName, operation: operation, requestOptions: test.requestOptions)
+    check(command: command,
+          callType: .write,
+          method: .post,
+          urlPath: "/1/indexes/testIndex/operation",
+          queryItems: [.init(name: "testParameter", value: "testParameterValue")],
+          body: operation.httpBody,
+          requestOptions: test.requestOptions)
+  }
+  
+  func testOperationCopyAll() {
+    let operation: IndexOperation = .init(action: .copy, destination: test.anotherIndexName, scopes: nil)
+    let command = Command.Index.Operation(indexName: test.indexName, operation: operation, requestOptions: test.requestOptions)
+    check(command: command,
+          callType: .write,
+          method: .post,
+          urlPath: "/1/indexes/testIndex/operation",
+          queryItems: [.init(name: "testParameter", value: "testParameterValue")],
+          body: operation.httpBody,
+          requestOptions: test.requestOptions)
+  }
+  
+  func testOperationCopyAllScopes() {
+    let operation: IndexOperation = .init(action: .copy, destination: test.anotherIndexName, scopes: [.rules, .settings, .synonyms])
+    let command = Command.Index.Operation(indexName: test.indexName, operation: operation, requestOptions: test.requestOptions)
+    check(command: command,
+          callType: .write,
+          method: .post,
+          urlPath: "/1/indexes/testIndex/operation",
+          queryItems: [.init(name: "testParameter", value: "testParameterValue")],
+          body: operation.httpBody,
+          requestOptions: test.requestOptions)
+  }
+  
 }
