@@ -36,19 +36,3 @@ public struct Index {
 
 }
 
-extension Index {
-
-  @discardableResult func delete(requestOptions: RequestOptions? = nil,
-                                 completion: @escaping ResultCallback<JSON>) -> Operation {
-    let command = Command.Index.DeleteIndex(indexName: name,
-                                            requestOptions: requestOptions)
-    return launch(command, completion: completion)
-  }
-
-  @discardableResult func delete(requestOptions: RequestOptions? = nil) throws -> JSON {
-    let command = Command.Index.DeleteIndex(indexName: name,
-                                            requestOptions: requestOptions)
-    return try launch(command)
-  }
-
-}
