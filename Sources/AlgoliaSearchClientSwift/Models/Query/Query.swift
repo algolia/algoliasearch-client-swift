@@ -512,6 +512,8 @@ public struct Query {
 
 }
 
+extension Query: Builder {}
+
 extension Query: ExpressibleByStringLiteral {
 
   public init(stringLiteral value: String) {
