@@ -11,8 +11,9 @@ import Foundation
 struct TestValues {
   let indexName: IndexName = "testIndex"
   let objectID: ObjectID = "testObjectID"
-  let attributes: [Attribute] = ["attr1", "attr2"]
+  let objectIDs: [ObjectID] = ["testObjectID1", "testObjectID2"]
   let attribute: Attribute = "testAttribute"
+  let attributes: [Attribute] = ["attr1", "attr2"]
   let record: JSON = ["attr": "value"]
   let batchOperations: [BatchOperation] = [.init(action: .addObject, body: ["attr": "value"]), .init(action: .deleteObject, body: ["attr": "value"])]
   let query = Query("testQuery")
