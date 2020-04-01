@@ -149,6 +149,64 @@ public extension Index {
     return try launch(command)
   }
   
+  //MARK: - Find object
   
+  /**
+   Find object searches iteratively through the search response `Hits` field to find the first
+   response hit that would match against the given `predicate` function.
+   
+   - Note: If no object has been found within the first result set, the function will perform a new
+   search operation on the next page of results, if any, until a matching object is found or the
+   end of results, whichever happens first.
+   To prevent the iteration through pages of results, `paginate` parameter can be set to
+   false. This will stop the function at the end of the first page of search results even if no
+   object does match.
+   
+   - Parameter predicate: The predicate to match
+   - Parameter query: The search Query
+   - Parameter paginate: Should the method paginate or not
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronous operation
+   */
+  @discardableResult func findObject<T: Codable>(matching predicate: @escaping (T) -> Bool, for query: Query, paginate: Bool = true, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<HitWithPosition<T>?>) -> Operation {
+    let operation = BlockOperation {
+      completion(.init { try self.findObject(matching: predicate, for: query, paginate: paginate, requestOptions: requestOptions) })
+    }
+    queue.addOperation(operation)
+    return operation
+  }
+  
+  /**
+    Find object searches iteratively through the search response `Hits` field to find the first
+    response hit that would match against the given `predicate` function.
+   
+   - Parameter predicate: The predicate to match
+   - Parameter query: The search Query
+   - Parameter paginate: Should the method paginate or not
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Returns: HitWithPosition  object
+   */
+  @discardableResult func findObject<T: Codable>(matching predicate: (T) -> Bool, for query: Query, paginate: Bool = true, requestOptions: RequestOptions? = nil) throws -> HitWithPosition<T>? {
+    
+    let results = try search(query: query)
+    let hits: [T] = try results.extractHits()
+    
+    if let found = hits
+      .enumerated()
+      .first(where: {( _, object) in predicate(object)})
+      .flatMap({ HitWithPosition(hit: $0.element, page: query.page ?? 0, position: $0.offset) }) {
+      return found
+    }
+    
+    let currentPage = query.page ?? 0
+    let totalPageCount = (results.nbPages ?? 1)
+    
+    guard currentPage + 1 < totalPageCount, paginate else { return nil }
+    
+    let nextPageQuery = query.set(\.page, to: currentPage + 1)
+    
+    return try findObject(matching: predicate, for: nextPageQuery, requestOptions: requestOptions)
+  }
   
 }
