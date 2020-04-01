@@ -67,6 +67,7 @@ extension Command {
         } else {
           body = FieldWrapper(params: parameters).httpBody
         }
+
         let path = indexName.toPath(withSuffix: "/facets/\(attribute)/query")
         urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
       }
