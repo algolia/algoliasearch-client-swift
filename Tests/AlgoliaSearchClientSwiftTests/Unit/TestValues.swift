@@ -10,6 +10,7 @@ import Foundation
 
 struct TestValues {
   let indexName: IndexName = "testIndex"
+  let anotherIndexName: IndexName = "anotherIndexName"
   let objectID: ObjectID = "testObjectID"
   let objectIDs: [ObjectID] = ["testObjectID1", "testObjectID2"]
   let attribute: Attribute = "testAttribute"

@@ -11,6 +11,7 @@ public typealias HTTPStatusСode = Int
 
 extension HTTPStatusСode {
   
+  static let notFound: HTTPStatusСode = 404
   static let requestTimeout: HTTPStatusСode = 408
   
   func belongs(to categories: HTTPStatusCategory...) -> Bool {
