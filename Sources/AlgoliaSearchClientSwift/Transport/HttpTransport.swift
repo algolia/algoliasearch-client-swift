@@ -16,6 +16,7 @@ class HttpTransport: Transport, RetryStrategyContainer {
   var configuration: Configuration
   var retryStrategy: RetryStrategy
   let credentials: Credentials?
+  var taskToken: (Cancellable & ProgressReporting)?
 
   init(requester: HTTPRequester,
        configuration: Configuration,
@@ -54,7 +55,7 @@ class HttpTransport: Transport, RetryStrategyContainer {
 
     Logger.info("Perform: \(effectiveRequest.url!)")
 
-    requester.perform(request: effectiveRequest) { [weak self] (result: Result<T, Swift.Error>) in
+    taskToken = requester.perform(request: effectiveRequest) { [weak self] (result: Result<T, Swift.Error>) in
       guard let transport = self else { return }
 
       do {
