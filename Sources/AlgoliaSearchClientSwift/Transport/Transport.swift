@@ -35,6 +35,8 @@ protocol Transport {
   var credentials: Credentials? { get }
   var configuration: Configuration { get }
 
-  func request<T: Codable>(request: URLRequest, callType: CallType, requestOptions: RequestOptions?, completion: @escaping ResultCallback<T>)
+  func request<T: Codable>(request: URLRequest, callType: CallType, requestOptions: RequestOptions?, completion: @escaping ResultCallback<T>) -> TransportTask
 
 }
+
+public typealias TransportTask = Cancellable & ProgressReporting

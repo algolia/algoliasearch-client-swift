@@ -16,7 +16,6 @@ class HttpTransport: Transport, RetryStrategyContainer {
   var configuration: Configuration
   var retryStrategy: RetryStrategy
   let credentials: Credentials?
-  var taskToken: (Cancellable & ProgressReporting)?
 
   init(requester: HTTPRequester,
        configuration: Configuration,
@@ -31,21 +30,25 @@ class HttpTransport: Transport, RetryStrategyContainer {
   func request<T: Codable>(request: URLRequest,
                            callType: CallType,
                            requestOptions: RequestOptions?,
-                           completion: @escaping ResultCallback<T>) {
+                           completion: @escaping ResultCallback<T>) -> TransportTask {
     let hostIterator = HostIterator(container: self, callType: callType)
     var effectiveRequest = request
     effectiveRequest.timeoutInterval = requestOptions?.timeout(for: callType) ?? configuration.timeout(for: callType)
     if let credentials = credentials {
       effectiveRequest.set(credentials)
     }
-    self.request(effectiveRequest, hostIterator: hostIterator, requestOptions: requestOptions, completion: completion)
+    
+    let task = HTTPTask()
+    self.request(effectiveRequest, hostIterator: hostIterator, task: task, requestOptions: requestOptions, completion: completion)
+    return task
   }
 
   private func request<T: Codable>(_ request: URLRequest,
                                    hostIterator: HostIterator,
+                                   task: HTTPTask,
                                    requestOptions: RequestOptions?,
                                    completion: @escaping ResultCallback<T>) {
-
+    
     guard let host = hostIterator.next() else {
       completion(.failure(Error.noReachableHosts))
       return
@@ -55,7 +58,7 @@ class HttpTransport: Transport, RetryStrategyContainer {
 
     Logger.info("Perform: \(effectiveRequest.url!)")
 
-    taskToken = requester.perform(request: effectiveRequest) { [weak self] (result: Result<T, Swift.Error>) in
+    let taskToWrap = requester.perform(request: effectiveRequest) { [weak self] (result: Result<T, Swift.Error>) in
       guard let transport = self else { return }
 
       do {
@@ -66,13 +69,35 @@ class HttpTransport: Transport, RetryStrategyContainer {
           completion(result)
 
         case .retry:
-          transport.request(request, hostIterator: hostIterator, requestOptions: requestOptions, completion: completion)
+          transport.request(request, hostIterator: hostIterator, task: task, requestOptions: requestOptions, completion: completion)
         }
       } catch let error {
         completion(.failure(error))
       }
     }
-
+    task.storage = taskToWrap
   }
 
+}
+
+fileprivate class HTTPTask: NSObject, TransportTask {
+  
+  var progress: Progress {
+    return storage?.progress ?? Progress()
+  }
+  
+  func cancel() {
+    storage?.cancel()
+  }
+  
+  var storage: TransportTask?
+  
+  var isValid: Bool {
+    return storage != nil
+  }
+  
+  func invalidate() {
+    self.storage = nil
+  }
+  
 }
