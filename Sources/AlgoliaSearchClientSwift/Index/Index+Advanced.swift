@@ -15,7 +15,7 @@ extension Index {
     - parameter taskID: of the indexing [Task].
     - parameter requestOptions: Configure request locally with [RequestOptions]
   */
-  @discardableResult public func taskStatus(for taskID: TaskID, requestOptions: RequestOptions? = nil, completion: @escaping  ResultCallback<TaskInfo>) -> Operation {
+  @discardableResult public func taskStatus(for taskID: TaskID, requestOptions: RequestOptions? = nil, completion: @escaping  ResultCallback<TaskInfo>) -> Operation & TransportTask {
     let request = Command.Advanced.TaskStatus(indexName: name, taskID: taskID, requestOptions: requestOptions)
     return launch(request, completion: completion)
   }

@@ -19,7 +19,7 @@ public struct Index {
     self.queue = queue
   }
 
-  func launch<T: Codable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation {
+  func launch<T: Codable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation & TransportTask {
     let request = HTTPRequest(transport: transport, command: command, completion: completion)
     queue.addOperation(request)
     return request

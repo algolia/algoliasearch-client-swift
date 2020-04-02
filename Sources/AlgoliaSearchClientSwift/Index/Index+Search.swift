@@ -23,7 +23,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func search(query: Query, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchResponse>) -> Operation {
+  @discardableResult func search(query: Query, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
     let command = Command.Search.Search(indexName: name, query: query, requestOptions: requestOptions)
     return launch(command, completion: completion)
   }
@@ -69,7 +69,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: SearchResponse object
    */
-  @discardableResult func browse(query: Query, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchResponse>) -> Operation {
+  @discardableResult func browse(query: Query, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
     let command = Command.Search.Browse(indexName: name, query: query, requestOptions: requestOptions)
     return launch(command, completion: completion)
   }
@@ -96,7 +96,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func browse(cursor: Cursor, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchResponse>) -> Operation {
+  @discardableResult func browse(cursor: Cursor, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
     let command = Command.Search.Browse(indexName: name, cursor: cursor, requestOptions: requestOptions)
     return launch(command, completion: completion)
   }
@@ -128,7 +128,7 @@ public extension Index {
    - Parameter completion: Result completion.
    - Returns: Launched asynchronous operation.
    */
-  @discardableResult func searchForFacetValues(of attribute: Attribute, matching facetQuery: String, applicableFor searchQuery: Query? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<FacetSearchResponse>) -> Operation {
+  @discardableResult func searchForFacetValues(of attribute: Attribute, matching facetQuery: String, applicableFor searchQuery: Query? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<FacetSearchResponse>) -> Operation & TransportTask {
     let command = Command.Search.SearchForFacets(indexName: name, attribute: attribute, facetQuery: facetQuery, query: searchQuery, requestOptions: requestOptions)
     return launch(command, completion: completion)
   }

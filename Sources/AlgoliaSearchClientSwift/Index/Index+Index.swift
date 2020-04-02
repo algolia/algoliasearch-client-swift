@@ -16,7 +16,7 @@ extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func delete(requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<DeletionIndex>) -> Operation {
+  @discardableResult func delete(requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<DeletionIndex>) -> Operation & TransportTask {
     let command = Command.Index.DeleteIndex(indexName: name, requestOptions: requestOptions)
     return launch(command, completion: completion)
   }
@@ -38,7 +38,7 @@ extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func exists(completion: @escaping ResultCallback<Bool>) -> Operation {
+  @discardableResult func exists(completion: @escaping ResultCallback<Bool>) -> Operation & TransportTask {
     let command = Command.Settings.GetSettings(indexName: name, requestOptions: nil)
     return launch(command) { (result: Result<Settings, Swift.Error>) in
       switch result {
@@ -85,7 +85,7 @@ extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func copy(_ scopes: [Scope]? = nil, to destination: IndexName, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<RevisionIndex>) -> Operation {
+  @discardableResult func copy(_ scopes: [Scope]? = nil, to destination: IndexName, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<RevisionIndex>) -> Operation & TransportTask {
     let command = Command.Index.Operation(indexName: name, operation: .init(action: .copy, destination: destination, scopes: scopes), requestOptions: requestOptions)
     return launch(command, completion: completion)
   }
@@ -118,7 +118,7 @@ extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func move(to destination: IndexName, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<RevisionIndex>) -> Operation {
+  @discardableResult func move(to destination: IndexName, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<RevisionIndex>) -> Operation & TransportTask {
     let command = Command.Index.Operation(indexName: name, operation: .init(action: .move, destination: destination, scopes: nil), requestOptions: requestOptions)
     return launch(command, completion: completion)
   }
