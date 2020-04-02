@@ -7,14 +7,17 @@
 
 import Foundation
 
+extension URLSessionTask: Cancellable {}
+
 extension URLSession: HTTPRequester {
 
-  func perform<T: Codable>(request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) {
+  func perform<T: Codable>(request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) -> Cancellable & ProgressReporting {
     let task = dataTask(with: request) { (data, response, error) in
       let result = Result<T, Error>(data: data, response: response, error: error)
       completion(result)
     }
     task.resume()
+    return task
   }
 
 }
