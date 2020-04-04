@@ -89,9 +89,9 @@ extension RetryableHost: CustomDebugStringConvertible {
 
 extension RetryableHost {
 
-  func timeout(requestOptions: RequestOptions? = nil) -> TimeInterval {
+  func timeout(requestOptions: RequestOptions? = nil, default: TimeInterval) -> TimeInterval {
     let callType: CallType = supportedCallTypes.contains(.write) ? .write : .read
-    let unitTimeout = requestOptions?.timeout(for: callType) ?? DefaultConfiguration.default.timeout(for: callType)
+    let unitTimeout = requestOptions?.timeout(for: callType) ?? `default`
     let multiplier = retryCount + 1
     return TimeInterval(multiplier) * unitTimeout
   }

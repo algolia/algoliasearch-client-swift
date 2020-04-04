@@ -25,7 +25,7 @@ public extension Index {
    */
   @discardableResult func search(query: Query, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
     let command = Command.Search.Search(indexName: name, query: query, requestOptions: requestOptions)
-    return launch(command, completion: completion)
+    return perform(command, completion: completion)
   }
   
   /**
@@ -38,7 +38,7 @@ public extension Index {
    */
   @discardableResult func search(query: Query, requestOptions: RequestOptions? = nil) throws -> SearchResponse {
     let command = Command.Search.Search(indexName: name, query: query, requestOptions: requestOptions)
-    return try launch(command)
+    return try perform(command)
   }
   
   //MARK: - Browse
@@ -71,7 +71,7 @@ public extension Index {
    */
   @discardableResult func browse(query: Query, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
     let command = Command.Search.Browse(indexName: name, query: query, requestOptions: requestOptions)
-    return launch(command, completion: completion)
+    return perform(command, completion: completion)
   }
   
   /**
@@ -84,7 +84,7 @@ public extension Index {
    */
   @discardableResult func browse(query: Query, requestOptions: RequestOptions? = nil) throws -> SearchResponse {
     let command = Command.Search.Browse(indexName: name, query: query, requestOptions: requestOptions)
-    return try launch(command)
+    return try perform(command)
   }
   
   /**
@@ -98,7 +98,7 @@ public extension Index {
    */
   @discardableResult func browse(cursor: Cursor, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
     let command = Command.Search.Browse(indexName: name, cursor: cursor, requestOptions: requestOptions)
-    return launch(command, completion: completion)
+    return perform(command, completion: completion)
   }
   
   /**
@@ -111,7 +111,7 @@ public extension Index {
    */
   @discardableResult func browse(cursor: Cursor, requestOptions: RequestOptions? = nil) throws -> SearchResponse {
     let command = Command.Search.Browse(indexName: name, cursor: cursor, requestOptions: requestOptions)
-    return try launch(command)
+    return try perform(command)
   }
   
   //MARK: - Search for facets
@@ -130,7 +130,7 @@ public extension Index {
    */
   @discardableResult func searchForFacetValues(of attribute: Attribute, matching facetQuery: String, applicableFor searchQuery: Query? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<FacetSearchResponse>) -> Operation & TransportTask {
     let command = Command.Search.SearchForFacets(indexName: name, attribute: attribute, facetQuery: facetQuery, query: searchQuery, requestOptions: requestOptions)
-    return launch(command, completion: completion)
+    return perform(command, completion: completion)
   }
   
   /**
@@ -146,7 +146,7 @@ public extension Index {
    */
   @discardableResult func searchForFacetValues(of attribute: Attribute, matching facetQuery: String, applicableFor searchQuery: Query? = nil, requestOptions: RequestOptions? = nil) throws -> FacetSearchResponse {
     let command = Command.Search.SearchForFacets(indexName: name, attribute: attribute, facetQuery: facetQuery, query: searchQuery, requestOptions: requestOptions)
-    return try launch(command)
+    return try perform(command)
   }
   
   //MARK: - Find object
@@ -173,8 +173,7 @@ public extension Index {
     let operation = BlockOperation {
       completion(.init { try self.findObject(matching: predicate, for: query, paginate: paginate, requestOptions: requestOptions) })
     }
-    queue.addOperation(operation)
-    return operation
+    return launch(operation)
   }
   
   /**

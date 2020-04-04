@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ResultContainer {
+public protocol ResultContainer {
 
   associatedtype ResultValue
 

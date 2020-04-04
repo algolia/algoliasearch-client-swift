@@ -7,10 +7,6 @@
 
 import Foundation
 
-protocol RetryStrategyContainer: class {
-  var retryStrategy: RetryStrategy { get set }
-}
-
 class HostIterator: IteratorProtocol {
 
   let container: RetryStrategyContainer

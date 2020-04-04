@@ -42,16 +42,16 @@ struct AlgoliaRetryStrategy: RetryStrategy {
 
   }
 
-  mutating func notify<T>(host: RetryableHost, result: Result<T, Swift.Error>) throws -> RetryOutcome {
+  mutating func notify<T>(host: RetryableHost, result: Result<T, Swift.Error>) -> RetryOutcome<T> {
 
     guard let hostIndex = hosts.firstIndex(where: { $0.url == host.url }) else {
-      throw Error.unexpectedHost
+      return .failure(Error.unexpectedHost)
     }
 
     switch result {
-    case .success:
+    case .success(let value):
       hosts[hostIndex].reset()
-      return .success
+      return .success(value)
 
     case .failure(let error) where error.isTimeout:
       hosts[hostIndex].hasTimedOut()
@@ -62,7 +62,7 @@ struct AlgoliaRetryStrategy: RetryStrategy {
       return .retry
 
     case .failure(let error):
-      throw error
+      return .failure(error)
     }
 
   }

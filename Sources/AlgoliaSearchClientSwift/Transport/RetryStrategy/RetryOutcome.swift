@@ -7,6 +7,6 @@
 
 import Foundation
 
-enum RetryOutcome {
-  case success, retry
+enum RetryOutcome<T> {
+  case success(T), retry, failure(Error)
 }
