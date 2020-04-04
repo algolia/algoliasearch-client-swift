@@ -13,91 +13,69 @@ import Foundation
 class HttpTransport: Transport, RetryStrategyContainer {
 
   let requester: HTTPRequester
-  var configuration: Configuration
-  var retryStrategy: RetryStrategy
+  let operationLauncher: OperationLauncher
+  let configuration: Configuration
   let credentials: Credentials?
-
-  init(requester: HTTPRequester,
-       configuration: Configuration,
-       credentials: Credentials? = nil,
-       retryStrategy: RetryStrategy? = nil) {
+  var retryStrategy: RetryStrategy
+  
+  init(requester: HTTPRequester, configuration: Configuration, operationLauncher: OperationLauncher, retryStrategy: RetryStrategy, credentials: Credentials) {
     self.requester = requester
     self.configuration = configuration
+    self.operationLauncher = operationLauncher
+    self.retryStrategy = retryStrategy
     self.credentials = credentials
-    self.retryStrategy = retryStrategy ?? AlgoliaRetryStrategy(configuration: configuration)
   }
-
-  func request<T: Codable>(request: URLRequest,
-                           callType: CallType,
-                           requestOptions: RequestOptions?,
-                           completion: @escaping ResultCallback<T>) -> TransportTask {
-    let hostIterator = HostIterator(container: self, callType: callType)
-    var effectiveRequest = request
-    effectiveRequest.timeoutInterval = requestOptions?.timeout(for: callType) ?? configuration.timeout(for: callType)
-    if let credentials = credentials {
-      effectiveRequest.set(credentials)
-    }
-    
-    let task = HTTPTask()
-    self.request(effectiveRequest, hostIterator: hostIterator, task: task, requestOptions: requestOptions, completion: completion)
-    return task
+  
+  func execute<T: Codable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation & TransportTask {
+    let request = HTTPRequestBuilder(requester: requester, configuration: configuration, credentials: credentials, command: command, retryStrategyContainer: self, completion: completion).build()
+    return operationLauncher.launch(request)
   }
-
-  private func request<T: Codable>(_ request: URLRequest,
-                                   hostIterator: HostIterator,
-                                   task: HTTPTask,
-                                   requestOptions: RequestOptions?,
-                                   completion: @escaping ResultCallback<T>) {
-    
-    guard let host = hostIterator.next() else {
-      completion(.failure(Error.noReachableHosts))
-      return
-    }
-
-    let effectiveRequest = request.withHost(host, requestOptions: requestOptions)
-
-    Logger.info("Perform: \(effectiveRequest.url!)")
-
-    let taskToWrap = requester.perform(request: effectiveRequest) { [weak self] (result: Result<T, Swift.Error>) in
-      guard let transport = self else { return }
-
-      do {
-        let retryOutcome = try transport.retryStrategy.notify(host: host, result: result)
-
-        switch retryOutcome {
-        case .success:
-          completion(result)
-
-        case .retry:
-          transport.request(request, hostIterator: hostIterator, task: task, requestOptions: requestOptions, completion: completion)
-        }
-      } catch let error {
-        completion(.failure(error))
-      }
-    }
-    task.storage = taskToWrap
+  
+  func execute<T: Codable>(_ command: AlgoliaCommand) throws -> T {
+    let request = HTTPRequestBuilder<T>(requester: requester, configuration: configuration, credentials: credentials, command: command, retryStrategyContainer: self, completion: { _ in }).build()
+    return try operationLauncher.launchSync(request)
+  }
+  
+  @discardableResult func launch<O: Operation>(_ operation: O) -> O {
+    return operationLauncher.launch(operation)
+  }
+  
+  func launch<O: OperationWithResult>(_ operation: O) throws -> O.ResultValue {
+    return try operationLauncher.launchSync(operation)
   }
 
 }
 
-fileprivate class HTTPTask: NSObject, TransportTask {
+class HTTPRequestBuilder<T: Codable> {
   
-  var progress: Progress {
-    return storage?.progress ?? Progress()
+  let requester: HTTPRequester
+  let configuration: Configuration
+  let credentials: Credentials?
+  let command: AlgoliaCommand
+  let retryStrategyContainer: RetryStrategyContainer
+  let completion: ResultCallback<T>
+  
+  init(requester: HTTPRequester,
+       configuration: Configuration,
+       credentials: Credentials?,
+       command: AlgoliaCommand,
+       retryStrategyContainer: RetryStrategyContainer,
+       completion: @escaping ResultCallback<T>) {
+    self.requester = requester
+    self.configuration = configuration
+    self.credentials = credentials
+    self.command = command
+    self.retryStrategyContainer = retryStrategyContainer
+    self.completion = completion
   }
-  
-  func cancel() {
-    storage?.cancel()
-  }
-  
-  var storage: TransportTask?
-  
-  var isValid: Bool {
-    return storage != nil
-  }
-  
-  func invalidate() {
-    self.storage = nil
+
+  func build() -> HTTPRequest<T> {
+    
+    let timeout = command.requestOptions?.timeout(for: command.callType) ?? configuration.timeout(for: command.callType)
+    let hostIterator = HostIterator(container: retryStrategyContainer, callType: command.callType)
+    let request = command.urlRequest.setNotNil(\.credentials, to: credentials)
+    
+    return HTTPRequest(requester: requester, retryStrategyContainer: retryStrategyContainer, hostIterator: hostIterator, request: request, timeout: timeout, completion: completion)
   }
   
 }

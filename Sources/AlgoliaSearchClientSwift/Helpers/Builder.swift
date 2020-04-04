@@ -15,4 +15,12 @@ extension Builder {
     copy[keyPath: keyPath] = newValue
     return copy
   }
+  
+  func setNotNil<T>(_ keyPath: WritableKeyPath<Self, T>, to newValue: T?) -> Self {
+    guard let value = newValue else { return self }
+    var copy = self
+    copy[keyPath: keyPath] = value
+    return copy
+  }
+
 }

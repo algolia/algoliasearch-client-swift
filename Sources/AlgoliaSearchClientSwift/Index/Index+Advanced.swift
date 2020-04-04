@@ -16,8 +16,8 @@ extension Index {
     - parameter requestOptions: Configure request locally with [RequestOptions]
   */
   @discardableResult public func taskStatus(for taskID: TaskID, requestOptions: RequestOptions? = nil, completion: @escaping  ResultCallback<TaskInfo>) -> Operation & TransportTask {
-    let request = Command.Advanced.TaskStatus(indexName: name, taskID: taskID, requestOptions: requestOptions)
-    return launch(request, completion: completion)
+    let command = Command.Advanced.TaskStatus(indexName: name, taskID: taskID, requestOptions: requestOptions)
+    return perform(command, completion: completion)
   }
 
   /**
@@ -33,8 +33,7 @@ extension Index {
   */
   @discardableResult public func waitTask(withID taskID: TaskID, timeout: TimeInterval? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<TaskStatus>) -> Operation {
     let task = WaitTask(index: self, taskID: taskID, requestOptions: requestOptions, completion: completion)
-    queue.addOperation(task)
-    return task
+    return launch(task)
   }
 
 }
@@ -43,7 +42,7 @@ public extension Index {
 
   func waitTask(withID taskID: TaskID, timeout: TimeInterval? = nil, requestOptions: RequestOptions? = nil) throws -> TaskStatus {
     let task = WaitTask(index: self, taskID: taskID, requestOptions: requestOptions, completion: { _ in })
-    return try queue.performOperation(task)
+    return try launch(task)
   }
 
   func wait(for task: Task, timeout: TimeInterval? = nil, requestOptions: RequestOptions? = nil) throws -> TaskStatus {
