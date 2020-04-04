@@ -11,6 +11,10 @@ import XCTest
 
 class IndexCommandTests: XCTestCase, AlgoliaCommandTest {
   
+  func testCheckName() {
+    XCTAssertEqual(IndexName.PathCompletion.batch.rawValue, "batch")
+  }
+  
   func testDeleteIndex() {
     let command = Command.Index.DeleteIndex(indexName: test.indexName, requestOptions: test.requestOptions)
     check(command: command,
