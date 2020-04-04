@@ -20,7 +20,7 @@ extension Command {
       init<T: Codable>(indexName: IndexName, record: T, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         urlRequest = .init(method: .post,
-                           path: indexName.toPath(),
+                           path: indexName.path(),
                            body: record.httpBody,
                            requestOptions: requestOptions)
       }
@@ -40,7 +40,7 @@ extension Command {
           return [.attributesToRetreive: attributesValue]
         }() )
         self.requestOptions = requestOptions
-        let path = indexName.toPath(withSuffix: "/\(objectID.rawValue)")
+        let path = indexName.path(with: .objectID(objectID))
         urlRequest = .init(method: .get, path: path, requestOptions: requestOptions)
       }
 
@@ -56,7 +56,7 @@ extension Command {
         self.requestOptions = requestOptions
         let requests = objectIDs.map { ObjectRequest(indexName: indexName, objectID: $0, attributesToRetrieve: attributesToRetreive) }
         let body = FieldWrapper(requests: requests).httpBody
-        let path = indexName.toPath(withSuffix:"/*/objects")
+        let path = indexName.path(with: .objects)
         urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
       }
       
@@ -70,7 +70,7 @@ extension Command {
       
       init<T: Codable>(indexName: IndexName, objectID: ObjectID, replacementObject record: T, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = indexName.toPath(withSuffix: "/\(objectID.rawValue)")
+        let path = indexName.path(with: .objectID(objectID))
         urlRequest = .init(method: .put, path: path, body: record.httpBody, requestOptions: requestOptions)
       }
       
@@ -84,7 +84,7 @@ extension Command {
       
       init(indexName: IndexName, objectID: ObjectID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = indexName.toPath(withSuffix: "/\(objectID.rawValue)")
+        let path = indexName.path(with: .objectID(objectID))
         urlRequest = .init(method: .delete, path: path, requestOptions: requestOptions)
       }
       
@@ -98,7 +98,7 @@ extension Command {
       
       init(indexName: IndexName, query: AlgoliaSearchClientSwift.DeleteByQuery, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = indexName.toPath(withSuffix: "/deleteByQuery")
+        let path = indexName.path(with: .deleteByQuery)
         let body = FieldWrapper(params: query).httpBody
         urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
       }
@@ -117,7 +117,7 @@ extension Command {
           return [.createIfNotExists: String(createIfNotExists)]
           }() )
         self.requestOptions = requestOptions
-        let path = indexName.toPath(withSuffix: "/\(objectID.rawValue)/partial")
+        let path = indexName.path(with: .objectID(objectID, partial: true))
         let body = partialUpdate.httpBody
         urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
       }
@@ -132,7 +132,7 @@ extension Command {
 
       init(indexName: IndexName, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = indexName.toPath(withSuffix: "/clear")
+        let path = indexName.path(with: .clear)
         urlRequest = .init(method: .post, path: path, requestOptions: requestOptions)
       }
       

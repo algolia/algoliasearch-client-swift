@@ -21,7 +21,7 @@ extension Command {
            taskID: TaskID,
            requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = indexName.toPath(withSuffix: "\(Route.task)/\(taskID.rawValue)")
+        let path = indexName.path(with: .task(for: taskID))
         urlRequest = .init(method: .get, path: path, requestOptions: requestOptions)
       }
     }

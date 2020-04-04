@@ -21,7 +21,7 @@ extension Command {
            query: Query,
            requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = indexName.toPath(withSuffix: "/query")
+        let path = indexName.path(with: .query)
         urlRequest = .init(method: .post,
                            path: path,
                            body: query.httpBody,
@@ -38,13 +38,13 @@ extension Command {
       
       init(indexName: IndexName, query: Query, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = indexName.toPath(withSuffix: "/browse")
+        let path = indexName.path(with: .browse)
         urlRequest = .init(method: .post, path: path, body: query.httpBody, requestOptions: requestOptions)
       }
       
       init(indexName: IndexName, cursor: Cursor, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions.updateOrCreate([.cursor: cursor.rawValue])
-        let path = indexName.toPath(withSuffix: "/browse")
+        let path = indexName.path(with: .browse)
         urlRequest = .init(method: .get, path: path, requestOptions: requestOptions)
       }
       
@@ -67,8 +67,7 @@ extension Command {
         } else {
           body = FieldWrapper(params: parameters).httpBody
         }
-
-        let path = indexName.toPath(withSuffix: "/facets/\(attribute)/query")
+        let path = indexName.path(with: .searchFacets(for: attribute))
         urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
       }
       
