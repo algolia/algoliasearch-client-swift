@@ -38,3 +38,24 @@ public struct Client {
   }
 
 }
+
+extension Client {
+  
+  func execute<T: Codable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation & TransportTask {
+    return transport.execute(command, completion: completion)
+  }
+  
+  func execute<T: Codable>(_ command: AlgoliaCommand) throws -> T {
+    return try transport.execute(command)
+  }
+  
+  @discardableResult func launch<O: Operation>(_ operation: O) -> O {
+    return operationLauncher.launch(operation)
+  }
+  
+  func launch<O: OperationWithResult>(_ operation: O) throws -> O.ResultValue {
+    return try operationLauncher.launchSync(operation)
+  }
+  
+}
+
