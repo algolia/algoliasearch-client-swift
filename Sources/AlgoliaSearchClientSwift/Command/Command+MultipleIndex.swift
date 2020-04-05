@@ -19,7 +19,7 @@ extension Command {
       
       init(requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.urlRequest = .init(method: .get, path: Route.indexesV1, requestOptions: requestOptions)
+        self.urlRequest = .init(method: .get, path: Path.indexesV1.rawValue, requestOptions: requestOptions)
       }
       
     }
@@ -32,7 +32,7 @@ extension Command {
       
       init(requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.urlRequest = .init(method: .get, path: Route.indexesV1 + "/*/keys", requestOptions: requestOptions)
+        self.urlRequest = .init(method: .get, path: Path.indexesV1.rawValue + "/*/keys", requestOptions: requestOptions)
       }
       
     }
@@ -45,7 +45,7 @@ extension Command {
       // TODO:
       init(queries: [IndexQuery], requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.urlRequest = .init(method: .post, path: Route.indexesV1 + "/*/queries", body: queries.httpBody, requestOptions: requestOptions)
+        self.urlRequest = .init(method: .post, path: Path.indexesV1.rawValue + "/*/queries", body: queries.httpBody, requestOptions: requestOptions)
       }
       
     }
@@ -58,7 +58,7 @@ extension Command {
       // TODO:
       init(requests: [RequestObjects], requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.urlRequest = .init(method: .post, path: Route.indexesV1 + "/*/objects", body: nil, requestOptions: requestOptions)
+        self.urlRequest = .init(method: .post, path: Path.indexesV1.rawValue + "/*/objects", body: nil, requestOptions: requestOptions)
       }
       
     }
@@ -71,7 +71,7 @@ extension Command {
       // TODO:
       init(operations: [BatchOperationIndex], requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.urlRequest = .init(method: .post, path: Route.indexesV1 + "/*/batch", body: nil, requestOptions: requestOptions)
+        self.urlRequest = .init(method: .post, path: Path.indexesV1.rawValue + "/*/batch", body: nil, requestOptions: requestOptions)
       }
       
     }

@@ -12,7 +12,7 @@ public struct IndexName: StringWrapper {
   public var rawValue: String
 
   func path(with completion: PathCompletion? = nil) -> String {
-    let base = "\(Route.indexesV1)/\(rawValue.utf8)"
+    let base = "\(Path.indexesV1)/\(rawValue.utf8)"
     return completion.flatMap { base + "/" + $0.rawValue } ?? base
   }
 
