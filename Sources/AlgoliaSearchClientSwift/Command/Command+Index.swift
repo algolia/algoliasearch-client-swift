@@ -22,7 +22,7 @@ extension Command.Index {
     init(indexName: IndexName,
          requestOptions: RequestOptions?) {
       self.requestOptions = requestOptions
-      let path = indexName.path()
+      let path = .indexesV1 >>> IndexRoute.index(indexName)
       urlRequest = .init(method: .delete,
                          path: path,
                          requestOptions: requestOptions)
@@ -40,7 +40,7 @@ extension Command.Index {
          batchOperations: [BatchOperation],
          requestOptions: RequestOptions?) {
       self.requestOptions = requestOptions
-      let path = indexName.path(with: .batch)
+      let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.batch
       let body = FieldWrapper(requests: batchOperations).httpBody
       urlRequest = .init(method: .post,
                          path: path,
@@ -58,7 +58,7 @@ extension Command.Index {
     
     init(indexName: IndexName, operation: IndexOperation, requestOptions: RequestOptions?) {
       self.requestOptions = requestOptions
-      let path = indexName.path(with: .operation)
+      let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.operation
       urlRequest = .init(method: .post, path: path, body: operation.httpBody, requestOptions: requestOptions)
     }
     

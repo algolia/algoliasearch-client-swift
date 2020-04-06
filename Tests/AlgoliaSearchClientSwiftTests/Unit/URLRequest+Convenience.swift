@@ -26,12 +26,38 @@ struct TestCredentials: Credentials {
 
 }
 
-class URLRequestBuilding: XCTestCase {
+struct TestPath {
+  static var path: TestPathLevel2 = TestPathRoot() >>> TestPathLevel1() >>> TestPathLevel2()
+}
 
+struct TestPathRoot: RootPath {
+  
+  var rawValue: String = "/my"
+  
+}
+
+struct TestPathLevel1: PathComponent {
+  
+  var parent: TestPathRoot?
+  
+  var rawValue: String = "test"
+  
+}
+
+struct TestPathLevel2: PathComponent {
+  
+  var parent: TestPathLevel1?
+  
+  var rawValue: String = "path"
+
+}
+
+class URLRequestBuilding: XCTestCase {
+  
   func testBuilding() {
 
     let method = HttpMethod.post
-    let path = "/my/test/path"
+    let path = TestPath.path
     let body: Data = "TestContent".data(using: .utf8)!
     let credentials = TestCredentials(applicationID: "testAppID", apiKey: "testApiKey")
 

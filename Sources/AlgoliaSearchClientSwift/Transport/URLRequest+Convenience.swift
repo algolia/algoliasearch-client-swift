@@ -20,15 +20,15 @@ extension URLRequest {
       setValue(newValue, forHTTPHeaderField: key.rawValue)
     }
   }
-
-  init(method: HttpMethod,
-       path: String,
+  
+  init<PC: PathComponent>(method: HttpMethod,
+       path: PC,
        body: Data? = nil,
        requestOptions: RequestOptions? = nil) {
 
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"
-    urlComponents.path = path
+    urlComponents.path = path.fullPath
 
     var request = URLRequest(url: urlComponents.url!)
 
@@ -41,6 +41,7 @@ extension URLRequest {
 
     self = request
   }
+
 
   mutating func setRequestOptions(_ requestOptions: RequestOptions) {
 

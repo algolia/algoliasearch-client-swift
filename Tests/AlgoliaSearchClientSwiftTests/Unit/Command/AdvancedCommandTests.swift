@@ -22,5 +22,25 @@ class AdvancedCommandTests: XCTestCase, AlgoliaCommandTest {
           requestOptions: test.requestOptions)
   }
   
+  func testGetLogs() {
+    let command = Command.Advanced.GetLogs(indexName: test.indexName, page: 10, hitsPerPage: 100, logType: .all, requestOptions: test.requestOptions)
+    check(command: command,
+          callType: .read,
+          method: .get,
+          urlPath: "/1/logs",
+          queryItems: [.init(name: "testParameter", value: "testParameterValue"),
+                       .init(name: HTTPParameterKey.indexName.rawValue, value: "testIndex"),
+                       .init(name: HTTPParameterKey.offset.rawValue, value: "10"),
+                       .init(name: HTTPParameterKey.length.rawValue, value: "100"),
+                       .init(name: HTTPParameterKey.type.rawValue, value: "all"),
+                      ],
+          body: nil,
+          requestOptions: test.requestOptions
+            .settingParameter("testIndex", forKey: .indexName)
+            .settingParameter("10", forKey: .offset)
+            .settingParameter("100", forKey: .length)
+            .settingParameter("all", forKey: .type))
+  }
+  
 }
 

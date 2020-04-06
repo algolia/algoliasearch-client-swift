@@ -9,11 +9,27 @@ import Foundation
 
 protocol PathComponent {
   
-  associatedtype Ascendant: PathComponent
+  associatedtype Parent: PathComponent
   
   var rawValue: String { get }
   
-  var asc: Ascendant? { get set }
+  var parent: Parent? { get set }
+  
+}
+
+protocol RootPath: PathComponent where Parent == Never {
+    
+}
+
+extension RootPath {
+  
+  var parent: Parent? {
+    get {
+      return nil
+    }
+    
+    set { }
+  }
   
 }
 
@@ -23,7 +39,7 @@ extension Never: PathComponent {
     return ""
   }
     
-  var asc: Never? {
+  var parent: Never? {
     get {
       return nil
     }
@@ -35,14 +51,14 @@ extension Never: PathComponent {
 
 extension PathComponent {
   
-  static func >>>(lhs: Self.Ascendant, rhs: Self) -> Self {
+  static func >>>(lhs: Self.Parent, rhs: Self) -> Self {
     var copy = rhs
-    copy.asc = lhs
+    copy.parent = lhs
     return copy
   }
   
   var fullPath: String {
-    return [asc?.fullPath, rawValue].compactMap { $0 }.joined(separator: "/")
+    return [parent?.fullPath, rawValue].compactMap { $0 }.joined(separator: "/")
   }
   
 }
