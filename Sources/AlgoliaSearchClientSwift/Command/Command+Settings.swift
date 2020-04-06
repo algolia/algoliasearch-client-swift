@@ -20,7 +20,7 @@ extension Command {
       init(indexName: IndexName,
            requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = indexName.path(with: .settings)
+        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.settings
         urlRequest = .init(method: .get,
                            path: path,
                            requestOptions: requestOptions)
@@ -44,7 +44,7 @@ extension Command {
           return [.forwardToReplicas: "\(forwardToReplicas)"]
         }())
         self.requestOptions = requestOptions
-        let path = indexName.path(with: .settings)
+        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.settings
         urlRequest = .init(method: .put,
                            path: path,
                            body: settings.httpBody,

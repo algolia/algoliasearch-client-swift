@@ -13,7 +13,7 @@ enum Command {
 extension Command {
   struct Template: AlgoliaCommand {
     let callType: CallType = .read
-    let urlRequest: URLRequest = URLRequest(method: .get, path: "algolia.com")
+    let urlRequest: URLRequest = URLRequest(method: .get, path: Path.indexesV1)
     let requestOptions: RequestOptions? = nil
   }
 }

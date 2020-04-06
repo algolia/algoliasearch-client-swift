@@ -19,8 +19,9 @@ extension Command {
 
       init<T: Codable>(indexName: IndexName, record: T, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
+        let path = .indexesV1 >>> IndexRoute.index(indexName)
         urlRequest = .init(method: .post,
-                           path: indexName.path(),
+                           path: path,
                            body: record.httpBody,
                            requestOptions: requestOptions)
       }
@@ -40,7 +41,7 @@ extension Command {
           return [.attributesToRetreive: attributesValue]
         }() )
         self.requestOptions = requestOptions
-        let path = indexName.path(with: .objectID(objectID))
+        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objectID(objectID)
         urlRequest = .init(method: .get, path: path, requestOptions: requestOptions)
       }
 
@@ -56,7 +57,7 @@ extension Command {
         self.requestOptions = requestOptions
         let requests = objectIDs.map { ObjectRequest(indexName: indexName, objectID: $0, attributesToRetrieve: attributesToRetreive) }
         let body = FieldWrapper(requests: requests).httpBody
-        let path = indexName.path(with: .objects)
+        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objects
         urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
       }
       
@@ -70,7 +71,7 @@ extension Command {
       
       init<T: Codable>(indexName: IndexName, objectID: ObjectID, replacementObject record: T, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = indexName.path(with: .objectID(objectID))
+        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objectID(objectID)
         urlRequest = .init(method: .put, path: path, body: record.httpBody, requestOptions: requestOptions)
       }
       
@@ -84,7 +85,7 @@ extension Command {
       
       init(indexName: IndexName, objectID: ObjectID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = indexName.path(with: .objectID(objectID))
+        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objectID(objectID)
         urlRequest = .init(method: .delete, path: path, requestOptions: requestOptions)
       }
       
@@ -98,7 +99,7 @@ extension Command {
       
       init(indexName: IndexName, query: AlgoliaSearchClientSwift.DeleteByQuery, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = indexName.path(with: .deleteByQuery)
+        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.deleteByQuery
         let body = FieldWrapper(params: query).httpBody
         urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
       }
@@ -117,7 +118,7 @@ extension Command {
           return [.createIfNotExists: String(createIfNotExists)]
           }() )
         self.requestOptions = requestOptions
-        let path = indexName.path(with: .objectID(objectID, partial: true))
+        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objectID(objectID, partial: true)
         let body = partialUpdate.httpBody
         urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
       }
@@ -132,7 +133,7 @@ extension Command {
 
       init(indexName: IndexName, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = indexName.path(with: .clear)
+        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.clear
         urlRequest = .init(method: .post, path: path, requestOptions: requestOptions)
       }
       

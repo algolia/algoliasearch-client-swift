@@ -7,20 +7,17 @@
 
 import Foundation
 
-
-
 struct Path: PathComponent {
   
-  typealias Ascendant = Never
+  typealias Parent = Never
   
   let rawValue: String
-  var asc: Never? {
+  var parent: Never? {
     get {
       return nil
     }
     
     set {
-      
     }
   }
 
@@ -41,63 +38,56 @@ struct Path: PathComponent {
   
 }
 
-extension Path {
-    
-  struct SubPath: PathComponent {
-        
-    var asc: Path?
-    
-    let rawValue: String
-    
-    private init(_ rawValue: String) { self.rawValue = rawValue }
-    
-    static func index(_ indexName: IndexName) -> Self {
-      return .init(indexName.rawValue)
-    }
-    
-    static var multiIndex: Self { return .init("*") }
+struct IndexRoute: PathComponent {
+      
+  var parent: Path?
   
+  let rawValue: String
+  
+  private init(_ rawValue: String) { self.rawValue = rawValue }
+  
+  static func index(_ indexName: IndexName) -> Self {
+    return .init(indexName.rawValue)
   }
   
+  static var multiIndex: Self { return .init("*") }
+
 }
 
-extension Path.SubPath {
+struct IndexCompletion: PathComponent {
+      
+  var parent: IndexRoute?
   
-  struct IndexCompletion: PathComponent {
-        
-    var asc: Path.SubPath?
-    
-    let rawValue: String
-    
-    private init(_ rawValue: String) { self.rawValue = rawValue }
-    
-    static var batch: Self { .init(#function) }
-    static var operation: Self { .init(#function) }
-    static func objectID(_ objectID: ObjectID, partial: Bool = false) -> Self { return .init(objectID.rawValue + (partial ? "/partial" : "")) }
-    static var objects: Self { .init("*/objects") }
-    static var deleteByQuery: Self { .init(#function) }
-    static var clear: Self { .init(#function) }
-    static var query: Self { .init(#function) }
-    static var browse: Self { .init(#function) }
-    static func searchFacets(for attribute: Attribute) -> Self { return .init("facets/\(attribute.rawValue)/query") }
-    static var settings: Self { .init(#function) }
-    static func task(for taskID: TaskID) -> Self { .init("task/\(taskID.rawValue)") }
-
-  }
+  let rawValue: String
   
-  struct MultiIndexCompletion: PathComponent {
-    
-    var asc: Path.SubPath?
-    
-    let rawValue: String
-    
-    private init(_ rawValue: String) { self.rawValue = rawValue }
-    
-    static var logs: Self { .init(#function) }
-    static var queries: Self { .init(#function) }
-    static var objects: Self { .init(#function) }
-    
-  }
+  private init(_ rawValue: String) { self.rawValue = rawValue }
+  
+  static var batch: Self { .init(#function) }
+  static var operation: Self { .init(#function) }
+  static func objectID(_ objectID: ObjectID, partial: Bool = false) -> Self { return .init(objectID.rawValue + (partial ? "/partial" : "")) }
+  static var objects: Self { .init("*/objects") }
+  static var deleteByQuery: Self { .init(#function) }
+  static var clear: Self { .init(#function) }
+  static var query: Self { .init(#function) }
+  static var browse: Self { .init(#function) }
+  static func searchFacets(for attribute: Attribute) -> Self { return .init("facets/\(attribute.rawValue)/query") }
+  static var settings: Self { .init(#function) }
+  static func task(for taskID: TaskID) -> Self { .init("task/\(taskID.rawValue)") }
 
+}
+
+struct MultiIndexCompletion: PathComponent {
+  
+  var parent: IndexRoute?
+  
+  let rawValue: String
+  
+  private init(_ rawValue: String) { self.rawValue = rawValue }
+  
+  static var keys: Self { .init(#function) }
+  static var batch: Self { .init(#function) }
+  static var logs: Self { .init(#function) }
+  static var queries: Self { .init(#function) }
+  static var objects: Self { .init(#function) }
   
 }
