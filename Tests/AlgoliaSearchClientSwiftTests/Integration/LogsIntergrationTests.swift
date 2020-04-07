@@ -9,13 +9,10 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClientSwift
 
-class LogsIntergrationTests: XCTestCase {
+class LogsIntergrationTests: OnlineTestCase {
   
-  func testGetLogs() {
-    
-    let client = Client(appID: "", apiKey: "")
-    let index = 
-    
+  func testGetLogs() throws {
+    _ = try index.getLogs(page: 0, hitsPerPage: 5000, logType: .all)
   }
   
 }

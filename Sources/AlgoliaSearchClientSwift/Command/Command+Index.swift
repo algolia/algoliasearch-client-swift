@@ -8,6 +8,13 @@
 import Foundation
 
 extension Command {
+  
+  struct Custom: AlgoliaCommand {
+    let callType: CallType
+    let urlRequest: URLRequest
+    let requestOptions: RequestOptions?
+  }
+  
   enum Index {}
 }
 
