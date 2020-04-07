@@ -16,17 +16,17 @@ public struct LogType: Codable {
   }
   
   /// Retrieve all the logs.
-  public static var all: Self { return .init(rawValue: #function) }
+  public static var all: Self { .init(rawValue: #function) }
   
   /// Retrieve only the queries.
-  public static var query: Self { return .init(rawValue: #function) }
+  public static var query: Self { .init(rawValue: #function) }
   
   /// Retrieve only the build operations.
-  public static var build: Self { return .init(rawValue: #function) }
+  public static var build: Self { .init(rawValue: #function) }
   
   /// Retrieve only the errors.
-  public static var error: Self { return .init(rawValue: #function) }
+  public static var error: Self { .init(rawValue: #function) }
   
-  public static func other(_ rawValue: String) -> Self { return .init(rawValue: rawValue) }
+  public static func other(_ rawValue: String) -> Self { .init(rawValue: rawValue) }
   
 }

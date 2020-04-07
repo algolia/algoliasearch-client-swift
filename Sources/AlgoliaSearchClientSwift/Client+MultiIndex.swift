@@ -69,28 +69,28 @@ extension Client {
   
   /**
    Perform a search on several indices at the same time, with one method call.
-   The returned results are broken down by IndexQuery.
 
    - Parameter queries: The IndexQuery that will execute each Query against its IndexName
+   - Parameter strategy: The MultipleQueriesStrategy of the query.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func multipleQueries(queries: [IndexQuery], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchesResponse>) -> Operation {
-    let command = Command.MultipleIndex.Queries(queries: queries, requestOptions: requestOptions)
+  @discardableResult func multipleQueries(queries: [(IndexName, Query)], strategy: MultipleQueriesStrategy? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchesResponse>) -> Operation {
+    let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
   
   /**
    Perform a search on several indices at the same time, with one method call.
-   The returned results are broken down by IndexQuery.
    
    - Parameter queries: The IndexQuery that will execute each Query against its IndexName
+   - Parameter strategy: The MultipleQueriesStrategy of the query.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: SearchesResponse  object
    */
-  @discardableResult func multipleQueries(queries: [IndexQuery], requestOptions: RequestOptions? = nil) throws -> SearchesResponse {
-    let command = Command.MultipleIndex.Queries(queries: queries, requestOptions: requestOptions)
+  @discardableResult func multipleQueries(queries: [(IndexName, Query)], strategy: MultipleQueriesStrategy? = nil, requestOptions: RequestOptions? = nil) throws -> SearchesResponse {
+    let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
     return try execute(command)
   }
 
