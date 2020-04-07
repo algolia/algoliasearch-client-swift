@@ -29,7 +29,7 @@ class IndexCommandTests: XCTestCase, AlgoliaCommandTest {
           method: .post,
           urlPath: "/1/indexes/testIndex/batch",
           queryItems: [.init(name: "testParameter", value: "testParameterValue")],
-          body: FieldWrapper(requests: test.batchOperations).httpBody,
+          body: RequestsWrapper(test.batchOperations).httpBody,
           requestOptions: test.requestOptions)
   }
   

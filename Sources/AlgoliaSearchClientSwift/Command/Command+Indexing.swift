@@ -56,7 +56,7 @@ extension Command {
       init(indexName: IndexName, objectIDs: [ObjectID], attributesToRetreive: [Attribute]?, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let requests = objectIDs.map { ObjectRequest(indexName: indexName, objectID: $0, attributesToRetrieve: attributesToRetreive) }
-        let body = FieldWrapper(requests: requests).httpBody
+        let body = RequestsWrapper(requests).httpBody
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objects
         urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
       }
@@ -100,7 +100,7 @@ extension Command {
       init(indexName: IndexName, query: AlgoliaSearchClientSwift.DeleteByQuery, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.deleteByQuery
-        let body = FieldWrapper(params: query).httpBody
+        let body = ParamsWrapper(query).httpBody
         urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
       }
       

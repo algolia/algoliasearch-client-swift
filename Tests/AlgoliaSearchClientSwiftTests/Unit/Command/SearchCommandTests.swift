@@ -50,7 +50,7 @@ class SearchCommandTests: XCTestCase, AlgoliaCommandTest {
                                                  facetQuery: "test facet query",
                                                  query: nil,
                                                  requestOptions: test.requestOptions)
-    let body = FieldWrapper<JSON>(params: ["facetQuery": "test facet query"]).httpBody
+    let body = ParamsWrapper<JSON>(["facetQuery": "test facet query"]).httpBody
     check(command: command,
           callType: .read,
           method: .post,
@@ -69,7 +69,7 @@ class SearchCommandTests: XCTestCase, AlgoliaCommandTest {
     let query = test.query.set(\.customParameters, to: [
       "customKey": "customValue",
       "facetQuery": "test facet query"])
-    let body = FieldWrapper(params: query).httpBody
+    let body = ParamsWrapper(query).httpBody
     check(command: command,
           callType: .read,
           method: .post,
