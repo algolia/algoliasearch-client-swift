@@ -41,6 +41,37 @@ public extension Index {
     return try perform(command)
   }
   
+  
+  //MARK: - Multiple Queries
+  
+  /**
+   Method used for perform multiple searches at the same time, with one method call.
+   
+   - Parameter queries: The list of Query objects used to search.
+   - Parameter strategy: The MultipleQueriesStrategy of the query.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronous operation
+   */
+  @discardableResult func search(queries: [Query], strategy: MultipleQueriesStrategy? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchesResponse>) -> Operation & TransportTask {
+    let command = Command.MultipleIndex.Queries(indexName: name, queries: queries, strategy: strategy, requestOptions: requestOptions)
+    return perform(command, completion: completion)
+  }
+  
+  /**
+   Method used for perform multiple searches at the same time, with one method call.
+   
+   - Parameter queries: The Query used to search.
+   - Parameter strategy: The MultipleQueriesStrategy of the query.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Parameter completion: Result completion
+   - Returns: SearchesResponse object
+   */
+  @discardableResult func search(queries: [Query], strategy: MultipleQueriesStrategy? = nil, requestOptions: RequestOptions? = nil) throws -> SearchesResponse {
+    let command = Command.MultipleIndex.Queries(indexName: name, queries: queries, strategy: strategy, requestOptions: requestOptions)
+    return try perform(command)
+  }
+
   //MARK: - Browse
   
   /**
