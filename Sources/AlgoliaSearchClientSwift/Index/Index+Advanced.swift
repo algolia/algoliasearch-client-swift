@@ -82,7 +82,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func getLogs(page: Int? = nil, hitsPerPage: Int? = nil, logType: LogType, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<LogsResponse>) -> Operation {
+  @discardableResult func getLogs(page: Int? = nil, hitsPerPage: Int? = nil, logType: LogType = .all, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<LogsResponse>) -> Operation {
     let command = Command.Advanced.GetLogs(indexName: name, page: page, hitsPerPage: hitsPerPage, logType: logType, requestOptions: requestOptions)
     return perform(command, completion: completion)
   }
@@ -99,7 +99,7 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: LogsResponse  object
    */
-  @discardableResult func getLogs(page: Int? = nil, hitsPerPage: Int? = nil, logType: LogType, requestOptions: RequestOptions? = nil) throws -> LogsResponse {
+  @discardableResult func getLogs(page: Int? = nil, hitsPerPage: Int? = nil, logType: LogType = .all, requestOptions: RequestOptions? = nil) throws -> LogsResponse {
     let command = Command.Advanced.GetLogs(indexName: name, page: page, hitsPerPage: hitsPerPage, logType: logType, requestOptions: requestOptions)
     return try perform(command)
   }
