@@ -48,7 +48,7 @@ extension Command.Index {
          requestOptions: RequestOptions?) {
       self.requestOptions = requestOptions
       let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.batch
-      let body = FieldWrapper(requests: batchOperations).httpBody
+      let body = RequestsWrapper(batchOperations).httpBody
       urlRequest = .init(method: .post,
                          path: path,
                          body: body,

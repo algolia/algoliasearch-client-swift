@@ -7,38 +7,34 @@
 
 import Foundation
 
-struct FieldWrapper<Wrapped: Codable> {
+struct FieldWrapper<K: Key, Wrapped: Codable>: Codable {
   
-  let fieldname: String
   let wrapped: Wrapped
   
-}
-
-extension FieldWrapper {
-  
-  init(requests: Wrapped) {
-    self.fieldname = "requests"
-    self.wrapped = requests
+  init(_ wrapped: Wrapped) {
+    self.wrapped = wrapped
   }
-  
-  init(params: Wrapped) {
-    self.fieldname = "params"
-    self.wrapped = params
-  }
-  
-}
 
-extension FieldWrapper: Codable {
-  
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: DynamicKey.self)
-    self.fieldname = container.allKeys.first!.stringValue
-    self.wrapped = try container.decode(Wrapped.self, forKey: DynamicKey(stringValue: fieldname))
+    self.wrapped = try container.decode(Wrapped.self, forKey: DynamicKey(stringValue: K.value))
   }
   
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: DynamicKey.self)
-    try container.encode(wrapped, forKey: DynamicKey(stringValue: fieldname))
+    try container.encode(wrapped, forKey: DynamicKey(stringValue: K.value))
   }
-  
+
 }
+protocol Key {
+  static var value: String { get }
+}
+
+struct ParamsKey: Key { static let value = "params" }
+struct RequestsKey: Key { static let value = "requests" }
+
+typealias ParamsWrapper<Wrapped: Codable> = FieldWrapper<ParamsKey, Wrapped>
+typealias RequestsWrapper<Wrapped: Codable> = FieldWrapper<RequestsKey, Wrapped>
+
+
+

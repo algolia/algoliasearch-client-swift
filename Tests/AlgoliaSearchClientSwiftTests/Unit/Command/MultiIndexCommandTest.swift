@@ -46,24 +46,24 @@ class MultiIndexCommandTest: XCTestCase, AlgoliaCommandTest {
   }
   
   func testGetObjects() {
-    let command = Command.MultipleIndex.GetObjects(requests: [], requestOptions: test.requestOptions)
+    let command = Command.MultipleIndex.GetObjects(requests: [.init(indexName: "index0", objectID: "object0", attributesToRetrieve: nil), .init(indexName: "index1", objectID: "object1", attributesToRetrieve: nil)], requestOptions: test.requestOptions)
     check(command: command,
           callType: .read,
           method: .post,
           urlPath: "/1/indexes/*/objects",
           queryItems: [.init(name: "testParameter", value: "testParameterValue")],
-          body: nil,
+          body: RequestsWrapper([ObjectRequest(indexName: "index0", objectID: "object0", attributesToRetrieve: nil), ObjectRequest(indexName: "index1", objectID: "object1", attributesToRetrieve: nil)]).httpBody,
           requestOptions: test.requestOptions)
   }
   
   func testBatchObjects() {
-    let command = Command.MultipleIndex.BatchObjects(operations: [], requestOptions: test.requestOptions)
+    let command = Command.MultipleIndex.BatchObjects(operations: [.init(indexName: "index0", operation: .add(["attr": "val"] as JSON)), .init(indexName: "index1", operation: .clear)], requestOptions: test.requestOptions)
     check(command: command,
           callType: .write,
           method: .post,
           urlPath: "/1/indexes/*/batch",
           queryItems: [.init(name: "testParameter", value: "testParameterValue")],
-          body: nil,
+          body: RequestsWrapper([BatchOperationIndex(indexName: "index0", operation: .add(["attr": "val"] as JSON)), BatchOperationIndex(indexName: "index1", operation: .clear)]).httpBody,
           requestOptions: test.requestOptions)
   }
   

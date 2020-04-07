@@ -63,9 +63,9 @@ extension Command {
         let body: Data
         if var query = query {
           query.customParameters = parameters
-          body = FieldWrapper(params: query).httpBody
+          body = ParamsWrapper(query).httpBody
         } else {
-          body = FieldWrapper(params: parameters).httpBody
+          body = ParamsWrapper(parameters).httpBody
         }
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.searchFacets(for: attribute)
         urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)

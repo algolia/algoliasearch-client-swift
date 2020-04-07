@@ -66,10 +66,11 @@ extension Command {
       let callType: CallType = .read
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
-      // TODO:
-      init(requests: [RequestObjects], requestOptions: RequestOptions?) {
+
+      init(requests: [ObjectRequest], requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.urlRequest = .init(method: .post, path: .indexesV1 >>> .multiIndex >>> MultiIndexCompletion.objects, body: nil, requestOptions: requestOptions)
+        let body = RequestsWrapper(requests).httpBody
+        self.urlRequest = .init(method: .post, path: .indexesV1 >>> .multiIndex >>> MultiIndexCompletion.objects, body: body, requestOptions: requestOptions)
       }
       
     }
@@ -79,10 +80,11 @@ extension Command {
       let callType: CallType = .write
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
-      // TODO:
+
       init(operations: [BatchOperationIndex], requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.urlRequest = .init(method: .post, path: .indexesV1 >>> .multiIndex >>> MultiIndexCompletion.batch, body: nil, requestOptions: requestOptions)
+        let body = RequestsWrapper(operations).httpBody
+        self.urlRequest = .init(method: .post, path: .indexesV1 >>> .multiIndex >>> MultiIndexCompletion.batch, body: body, requestOptions: requestOptions)
       }
       
     }

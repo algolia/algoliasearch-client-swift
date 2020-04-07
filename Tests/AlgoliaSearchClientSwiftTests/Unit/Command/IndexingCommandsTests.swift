@@ -38,7 +38,7 @@ class IndexingCommandsTests: XCTestCase, AlgoliaCommandTest {
                                               objectIDs: test.objectIDs,
                                               attributesToRetreive: test.attributes,
                                               requestOptions: test.requestOptions)
-    let body = FieldWrapper(requests: test.objectIDs.map { ObjectRequest(indexName: test.indexName, objectID: $0, attributesToRetrieve: test.attributes) }).httpBody
+    let body = RequestsWrapper(test.objectIDs.map { ObjectRequest(indexName: test.indexName, objectID: $0, attributesToRetrieve: test.attributes) }).httpBody
     check(command: command,
           callType: .read,
           method: .post,
@@ -61,7 +61,7 @@ class IndexingCommandsTests: XCTestCase, AlgoliaCommandTest {
   
   func testBatch() {
     let command = Command.Index.Batch(indexName: test.indexName, batchOperations: test.batchOperations, requestOptions: test.requestOptions)
-    let body = FieldWrapper(requests: test.batchOperations).httpBody
+    let body = RequestsWrapper(test.batchOperations).httpBody
     check(command: command,
           callType: .write,
           method: .post,

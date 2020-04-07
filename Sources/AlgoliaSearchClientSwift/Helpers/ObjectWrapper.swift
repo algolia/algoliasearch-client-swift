@@ -19,8 +19,6 @@ public struct ObjectWrapper<T: Codable>: Codable {
   
 }
 
-extension ObjectWrapper: Equatable where T: Equatable {}
-
 public extension ObjectWrapper {
   
   static func containsObjectID<T: Encodable>(_ object: T) -> Bool {

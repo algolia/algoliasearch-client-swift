@@ -106,7 +106,7 @@ extension Client {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func multipleGetObjects(requests: [RequestObjects] ,requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ObjectsResponse<JSON>>) -> Operation {
+  @discardableResult func multipleGetObjects(requests: [ObjectRequest], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ObjectsResponse<JSON>>) -> Operation {
     let command = Command.MultipleIndex.GetObjects(requests: requests, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
@@ -119,7 +119,7 @@ extension Client {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: ObjectsResponse  object
    */
-  @discardableResult func multipleGetObjects(requests: [RequestObjects] ,requestOptions: RequestOptions? = nil) throws -> ObjectsResponse<JSON> {
+  @discardableResult func multipleGetObjects(requests: [ObjectRequest] ,requestOptions: RequestOptions? = nil) throws -> ObjectsResponse<JSON> {
     let command = Command.MultipleIndex.GetObjects(requests: requests, requestOptions: requestOptions)
     return try execute(command)
   }
