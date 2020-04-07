@@ -12,6 +12,7 @@ import XCTest
 class LogsIntergrationTests: OnlineTestCase {
   
   func testGetLogs() throws {
+    _ = try client.getLogs(page: 0, hitsPerPage: 5000, type: .all)
     _ = try index.getLogs(page: 0, hitsPerPage: 5000, logType: .all)
   }
   

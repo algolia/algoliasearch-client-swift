@@ -30,14 +30,13 @@ extension Command {
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
       
-      init(indexName: IndexName, page: Int? = 0, hitsPerPage: Int? = 0, logType: LogType, requestOptions: RequestOptions?) {
+      init(indexName: IndexName?, page: Int?, hitsPerPage: Int?, logType: LogType, requestOptions: RequestOptions?) {
         let requestOptions = requestOptions.updateOrCreate(
-          [
-            .indexName: indexName.rawValue,
-            .offset: page.flatMap(String.init),
-            .length: hitsPerPage.flatMap(String.init),
-            .type: logType.rawValue
-          ]
+          [:]
+            .merging(indexName.flatMap { [.indexName: $0.rawValue] } ?? [:])
+            .merging(page.flatMap { [.offset: String($0)] } ?? [:])
+            .merging(hitsPerPage.flatMap { [.length: String($0)] } ?? [:])
+            .merging([.type: logType.rawValue])
         )
         self.requestOptions = requestOptions
         urlRequest = .init(method: .get, path: Path.logs, requestOptions: requestOptions)
