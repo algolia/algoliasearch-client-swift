@@ -23,7 +23,7 @@ class AlgoliaRetryStrategyTests: XCTestCase {
 
   func testHostsRotation() {
 
-    var strategy = AlgoliaRetryStrategy(hosts: [host1, host2, host3, host4, host5])
+    let strategy = AlgoliaRetryStrategy(hosts: [host1, host2, host3, host4, host5])
 
     XCTAssertEqual(strategy.host(for: .write)?.url.absoluteString, "algolia1.com")
     XCTAssertEqual(strategy.host(for: .read)?.url.absoluteString, "algolia3.com")
@@ -52,7 +52,7 @@ class AlgoliaRetryStrategyTests: XCTestCase {
 
   func testTimeout() {
 
-    var strategy = AlgoliaRetryStrategy(hosts: [host3, host4, host5])
+    let strategy = AlgoliaRetryStrategy(hosts: [host3, host4, host5])
 
     var host: RetryableHost?
     var lastUpdate: Date? = strategy.host(for: .read)?.lastUpdated
@@ -76,7 +76,7 @@ class AlgoliaRetryStrategyTests: XCTestCase {
 
   func testResetExpired() {
     let expirationDelay: TimeInterval = 3
-    var strategy = AlgoliaRetryStrategy(hosts: [host3, host4, host5], hostsExpirationDelay: expirationDelay)
+    let strategy = AlgoliaRetryStrategy(hosts: [host3, host4, host5], hostsExpirationDelay: expirationDelay)
 
     _ = strategy.notify(host: host3, result: retryableErrorResult)
     _ = strategy.notify(host: host4, result: retryableErrorResult)

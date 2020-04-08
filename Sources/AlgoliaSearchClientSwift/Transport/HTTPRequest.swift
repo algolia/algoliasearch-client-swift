@@ -13,7 +13,7 @@ class HTTPRequest<Value: Codable>: AsyncOperation, ResultContainer, TransportTas
   
   let requester: HTTPRequester
   let hostIterator: HostIterator
-  let retryStrategyContainer: RetryStrategyContainer
+  let retryStrategy: RetryStrategy
   let timeout: TimeInterval
   let request: URLRequest
   let completion: (ResultCallback<Value>)
@@ -39,13 +39,13 @@ class HTTPRequest<Value: Codable>: AsyncOperation, ResultContainer, TransportTas
   }
 
   init(requester: HTTPRequester,
-       retryStrategyContainer: RetryStrategyContainer,
+       retryStrategy: RetryStrategy,
        hostIterator: HostIterator,
        request: URLRequest,
        timeout: TimeInterval,
        completion: @escaping ResultCallback<Value>) {
     self.requester = requester
-    self.retryStrategyContainer = retryStrategyContainer
+    self.retryStrategy = retryStrategy
     self.hostIterator = hostIterator
     self.request = request
     self.timeout = timeout
@@ -75,7 +75,7 @@ class HTTPRequest<Value: Codable>: AsyncOperation, ResultContainer, TransportTas
       underlyingTask = requester.perform(request: effectiveRequest) { [weak self] (result: Result) in
         guard let httpRequest = self else { return }
         
-        let retryOutcome = httpRequest.retryStrategyContainer.retryStrategy.notify(host: host, result: result)
+        let retryOutcome = httpRequest.retryStrategy.notify(host: host, result: result)
         
         switch retryOutcome {
         case .retry:
