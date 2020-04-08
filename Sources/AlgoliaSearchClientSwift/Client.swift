@@ -24,7 +24,7 @@ public struct Client {
     queue.qualityOfService = .userInitiated
     let operationLauncher = OperationLauncher(queue: queue)
     
-    let httpTransport = HttpTransport(requester: session, configuration: configuration, operationLauncher: operationLauncher, retryStrategy: retryStrategy, credentials: configuration)
+    let httpTransport = HttpTransport(requester: session, configuration: configuration, retryStrategy: retryStrategy, credentials: configuration, operationLauncher: operationLauncher)
     self.init(transport: httpTransport, operationLauncher: operationLauncher)
   }
 

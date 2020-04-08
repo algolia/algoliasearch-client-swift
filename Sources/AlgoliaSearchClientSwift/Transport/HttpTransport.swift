@@ -10,29 +10,28 @@ import Foundation
 /**
  The transport layer is responsible of the serialization/deserialization and the retry strategy.
 */
-class HttpTransport: Transport, RetryStrategyContainer {
+class HttpTransport: Transport {
 
-  let requester: HTTPRequester
+  let requestBuilder: HTTPRequestBuilder
   let operationLauncher: OperationLauncher
-  let configuration: Configuration
-  let credentials: Credentials?
-  var retryStrategy: RetryStrategy
   
-  init(requester: HTTPRequester, configuration: Configuration, operationLauncher: OperationLauncher, retryStrategy: RetryStrategy, credentials: Credentials) {
-    self.requester = requester
-    self.configuration = configuration
+  init(requestBuilder: HTTPRequestBuilder, operationLauncher: OperationLauncher) {
+    self.requestBuilder = requestBuilder
     self.operationLauncher = operationLauncher
-    self.retryStrategy = retryStrategy
-    self.credentials = credentials
+  }
+
+  convenience init(requester: HTTPRequester, configuration: Configuration, retryStrategy: RetryStrategy, credentials: Credentials, operationLauncher: OperationLauncher) {
+    let requestBuilder = HTTPRequestBuilder(requester: requester, retryStrategy: retryStrategy, configuration: configuration, credentials: credentials)
+    self.init(requestBuilder: requestBuilder, operationLauncher: operationLauncher)
   }
   
   func execute<T: Codable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation & TransportTask {
-    let request = HTTPRequestBuilder(requester: requester, configuration: configuration, credentials: credentials, command: command, retryStrategyContainer: self, completion: completion).build()
+    let request = requestBuilder.build(for: command, with: completion)
     return operationLauncher.launch(request)
   }
   
   func execute<T: Codable>(_ command: AlgoliaCommand) throws -> T {
-    let request = HTTPRequestBuilder<T>(requester: requester, configuration: configuration, credentials: credentials, command: command, retryStrategyContainer: self, completion: { _ in }).build()
+    let request = requestBuilder.build(for: command, responseType: T.self)
     return try operationLauncher.launchSync(request)
   }
   
@@ -46,36 +45,3 @@ class HttpTransport: Transport, RetryStrategyContainer {
 
 }
 
-class HTTPRequestBuilder<T: Codable> {
-  
-  let requester: HTTPRequester
-  let configuration: Configuration
-  let credentials: Credentials?
-  let command: AlgoliaCommand
-  let retryStrategyContainer: RetryStrategyContainer
-  let completion: ResultCallback<T>
-  
-  init(requester: HTTPRequester,
-       configuration: Configuration,
-       credentials: Credentials?,
-       command: AlgoliaCommand,
-       retryStrategyContainer: RetryStrategyContainer,
-       completion: @escaping ResultCallback<T>) {
-    self.requester = requester
-    self.configuration = configuration
-    self.credentials = credentials
-    self.command = command
-    self.retryStrategyContainer = retryStrategyContainer
-    self.completion = completion
-  }
-
-  func build() -> HTTPRequest<T> {
-    
-    let timeout = command.requestOptions?.timeout(for: command.callType) ?? configuration.timeout(for: command.callType)
-    let hostIterator = HostIterator(container: retryStrategyContainer, callType: command.callType)
-    let request = command.urlRequest.setNotNil(\.credentials, to: credentials)
-    
-    return HTTPRequest(requester: requester, retryStrategyContainer: retryStrategyContainer, hostIterator: hostIterator, request: request, timeout: timeout, completion: completion)
-  }
-  
-}
