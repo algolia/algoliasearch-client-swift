@@ -15,7 +15,7 @@ class AlternativesAsExactTests: XCTestCase {
     try AssertEncodeDecode(AlternativesAsExact.ignorePlurals, "ignorePlurals")
     try AssertEncodeDecode(AlternativesAsExact.singleWordSynonym, "singleWordSynonym")
     try AssertEncodeDecode(AlternativesAsExact.multiWordsSynonym, "multiWordsSynonym")
-    try AssertEncodeDecode(AlternativesAsExact.other("custom"), "custom")
+    try AssertEncodeDecode(AlternativesAsExact.custom("custom"), "custom")
   }
 
 }

@@ -7,34 +7,15 @@
 
 import Foundation
 
-public enum AdvancedSyntaxFeatures: Codable, Equatable {
-  case exactPhrase
-  case excludeWords
-  case other(String)
-}
-
-extension AdvancedSyntaxFeatures: RawRepresentable {
-
-  public var rawValue: String {
-    switch self {
-    case .exactPhrase:
-      return "exactPhrase"
-    case .excludeWords:
-      return "excludeWords"
-    case .other(let value):
-      return value
-    }
-  }
+public struct AdvancedSyntaxFeatures: StringOption, ProvidingCustomOption {
+  
+  public let rawValue: String
 
   public init(rawValue: String) {
-    switch rawValue {
-    case AdvancedSyntaxFeatures.exactPhrase.rawValue:
-      self = .exactPhrase
-    case AdvancedSyntaxFeatures.excludeWords.rawValue:
-      self = .excludeWords
-    default:
-      self = .other(rawValue)
-    }
+    self.rawValue = rawValue
   }
-
+  
+  static var exactPhrase: Self { .init(rawValue: #function) }
+  static var excludeWords: Self { .init(rawValue: #function) }
+  
 }
