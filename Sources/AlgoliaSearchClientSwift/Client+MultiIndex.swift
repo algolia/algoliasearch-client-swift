@@ -49,7 +49,7 @@ extension Client {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func listIndexAPIKeys(requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ListAPIKeyResponse>) -> Operation {
+  @discardableResult func listIndexAPIKeys(requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ListAPIKeysResponse>) -> Operation {
     let command = Command.MultipleIndex.ListIndexAPIKeys(requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
@@ -60,7 +60,7 @@ extension Client {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: ListAPIKeyResponse  object
    */
-  @discardableResult func listIndexAPIKeys(requestOptions: RequestOptions? = nil) throws -> ListAPIKeyResponse {
+  @discardableResult func listIndexAPIKeys(requestOptions: RequestOptions? = nil) throws -> ListAPIKeysResponse {
     let command = Command.MultipleIndex.ListIndexAPIKeys(requestOptions: requestOptions)
     return try execute(command)
   }

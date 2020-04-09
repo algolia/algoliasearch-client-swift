@@ -506,7 +506,7 @@ public struct Query {
    */
   public var customParameters: [String: JSON]?
 
-  public init(_ query: String?) {
+  public init(_ query: String? = nil) {
     self.query = query
   }
 
