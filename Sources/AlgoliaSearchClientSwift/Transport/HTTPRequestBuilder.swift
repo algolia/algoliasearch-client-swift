@@ -28,7 +28,7 @@ class HTTPRequestBuilder {
     
     let timeout = command.requestOptions?.timeout(for: command.callType) ?? configuration.timeout(for: command.callType)
     let hostIterator = HostIterator(retryStrategy: retryStrategy, callType: command.callType)
-    let request = command.urlRequest.setNotNil(\.credentials, to: credentials)
+    let request = command.urlRequest.setIfNotNil(\.credentials, to: credentials)
     
     return HTTPRequest(requester: requester, retryStrategy: retryStrategy, hostIterator: hostIterator, request: request, timeout: timeout, completion: completion)
   }
