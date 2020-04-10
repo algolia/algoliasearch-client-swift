@@ -7,14 +7,17 @@
 
 import Foundation
 
+extension URLSessionTask: Cancellable {}
+
 extension URLSession: HTTPRequester {
 
-  func perform<T: Codable>(request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) {
+  func perform<T: Codable>(request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) -> TransportTask {
     let task = dataTask(with: request) { (data, response, error) in
       let result = Result<T, Error>(data: data, response: response, error: error)
       completion(result)
     }
     task.resume()
+    return task
   }
 
 }
@@ -40,9 +43,7 @@ extension Result where Success: Codable, Failure == Error {
 
     do {
       let jsonDecoder = JSONDecoder()
-      let formatter = DateFormatter()
-      formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
-      jsonDecoder.dateDecodingStrategy = .formatted(formatter)
+      jsonDecoder.dateDecodingStrategy = .custom(ClientDateCodingStrategy.decoding)
       let object = try jsonDecoder.decode(Success.self, from: data)
       self = .success(object)
     } catch let error {

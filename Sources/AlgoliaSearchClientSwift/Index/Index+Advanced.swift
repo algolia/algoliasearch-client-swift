@@ -7,7 +7,9 @@
 
 import Foundation
 
-extension Index {
+public extension Index {
+  
+  //MARK: - Task status
 
   /**
     Check the current TaskStatus of a given Task.
@@ -15,10 +17,23 @@ extension Index {
     - parameter taskID: of the indexing [Task].
     - parameter requestOptions: Configure request locally with [RequestOptions]
   */
-  @discardableResult public func taskStatus(for taskID: TaskID, requestOptions: RequestOptions? = nil, completion: @escaping  ResultCallback<TaskInfo>) -> Operation {
-    let request = Command.Advanced.TaskStatus(indexName: name, taskID: taskID, requestOptions: requestOptions)
-    return launch(request, completion: completion)
+  @discardableResult func taskStatus(for taskID: TaskID, requestOptions: RequestOptions? = nil, completion: @escaping  ResultCallback<TaskInfo>) -> Operation & TransportTask {
+    let command = Command.Advanced.TaskStatus(indexName: name, taskID: taskID, requestOptions: requestOptions)
+    return perform(command, completion: completion)
   }
+  
+  /**
+    Check the current TaskStatus of a given Task.
+   
+    - parameter taskID: of the indexing [Task].
+    - parameter requestOptions: Configure request locally with [RequestOptions]
+  */
+  @discardableResult func taskStatus(for taskID: TaskID, requestOptions: RequestOptions? = nil) throws -> TaskInfo {
+    let command = Command.Advanced.TaskStatus(indexName: name, taskID: taskID, requestOptions: requestOptions)
+    return try perform(command)
+  }
+  
+  //MARK: - Wait task
 
   /**
     Wait for a Task to complete before executing the next line of code, to synchronize index updates.
@@ -31,20 +46,67 @@ extension Index {
     - parameter taskID: of the indexing task to wait for.
     - parameter requestOptions: Configure request locally with RequestOptions
   */
-  @discardableResult public func waitTask(withID taskID: TaskID, timeout: TimeInterval? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<TaskStatus>) -> Operation {
+  @discardableResult func waitTask(withID taskID: TaskID, timeout: TimeInterval? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<TaskStatus>) -> Operation {
     let task = WaitTask(index: self, taskID: taskID, requestOptions: requestOptions, completion: completion)
-    queue.addOperation(task)
-    return task
+    return launch(task)
+  }
+  
+  /**
+    Wait for a Task to complete before executing the next line of code, to synchronize index updates.
+    All write operations in Algolia are asynchronous by design.
+    It means that when you add or update an object to your index, our servers will reply to your request with
+    a TaskID as soon as they understood the write operation.
+    The actual insert and indexing will be done after replying to your code.
+    You can wait for a task to complete by using the TaskID and this method.
+   
+    - parameter taskID: of the indexing task to wait for.
+    - parameter requestOptions: Configure request locally with RequestOptions
+  */
+  @discardableResult func waitTask(withID taskID: TaskID, timeout: TimeInterval? = nil, requestOptions: RequestOptions? = nil) throws -> TaskStatus {
+    let task = WaitTask(index: self, taskID: taskID, requestOptions: requestOptions, completion: { _ in })
+    return try launch(task)
+  }
+  
+  //MARK: - Get logs
+  
+  /**
+   Get the logs of the latest search and indexing operations.
+   You can retrieve the logs of your last 1,000 API calls. It is designed for immediate, real-time debugging.
+   All logs older than 7 days will be removed and won’t be accessible anymore from the API.
+   This API is counted in your operation quota but is not logged.
+   
+   - Parameter page: Specify the first entry to retrieve (0-based, 0 is the most recent log entry).
+   - Parameter hitsPerPage: Specify the maximum number of entries to retrieve starting at the page. Maximum allowed value: 1,000.
+   - Parameter logType: Type of logs to retrieve.
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronous operation
+   */
+  @discardableResult func getLogs(page: Int? = nil, hitsPerPage: Int? = nil, logType: LogType = .all, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<LogsResponse>) -> Operation {
+    let command = Command.Advanced.GetLogs(indexName: name, page: page, hitsPerPage: hitsPerPage, logType: logType, requestOptions: requestOptions)
+    return perform(command, completion: completion)
+  }
+  
+  /**
+   Get the logs of the latest search and indexing operations.
+   You can retrieve the logs of your last 1,000 API calls. It is designed for immediate, real-time debugging.
+   All logs older than 7 days will be removed and won’t be accessible anymore from the API.
+   This API is counted in your operation quota but is not logged.
+   
+   - Parameter page: Specify the first entry to retrieve (0-based, 0 is the most recent log entry).
+   - Parameter hitsPerPage: Specify the maximum number of entries to retrieve starting at the page. Maximum allowed value: 1,000.
+   - Parameter logType: Type of logs to retrieve.
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Returns: LogsResponse  object
+   */
+  @discardableResult func getLogs(page: Int? = nil, hitsPerPage: Int? = nil, logType: LogType = .all, requestOptions: RequestOptions? = nil) throws -> LogsResponse {
+    let command = Command.Advanced.GetLogs(indexName: name, page: page, hitsPerPage: hitsPerPage, logType: logType, requestOptions: requestOptions)
+    return try perform(command)
   }
 
 }
 
 public extension Index {
-
-  func waitTask(withID taskID: TaskID, timeout: TimeInterval? = nil, requestOptions: RequestOptions? = nil) throws -> TaskStatus {
-    let task = WaitTask(index: self, taskID: taskID, requestOptions: requestOptions, completion: { _ in })
-    return try queue.performOperation(task)
-  }
 
   func wait(for task: Task, timeout: TimeInterval? = nil, requestOptions: RequestOptions? = nil) throws -> TaskStatus {
     return try waitTask(withID: task.taskID, timeout: timeout, requestOptions: requestOptions)

@@ -500,12 +500,19 @@ public struct Query {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/percentileComputation/?language=swift)
    */
   public var percentileComputation: Bool?
+  
+  /**
+   Custom parameters
+   */
+  public var customParameters: [String: JSON]?
 
-  public init(_ query: String?) {
+  public init(_ query: String? = nil) {
     self.query = query
   }
 
 }
+
+extension Query: Builder {}
 
 extension Query: ExpressibleByStringLiteral {
 

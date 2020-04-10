@@ -23,28 +23,28 @@ class AlgoliaRetryStrategyTests: XCTestCase {
 
   func testHostsRotation() {
 
-    var strategy = AlgoliaRetryStrategy(hosts: [host1, host2, host3, host4, host5])
+    let strategy = AlgoliaRetryStrategy(hosts: [host1, host2, host3, host4, host5])
 
     XCTAssertEqual(strategy.host(for: .write)?.url.absoluteString, "algolia1.com")
     XCTAssertEqual(strategy.host(for: .read)?.url.absoluteString, "algolia3.com")
 
-    XCTAssertNoThrow(try strategy.notify(host: host1, result: retryableErrorResult))
+    XCTAssertNoThrow(strategy.notify(host: host1, result: retryableErrorResult))
     XCTAssertEqual(strategy.host(for: .write)?.url.absoluteString, "algolia2.com")
     XCTAssertEqual(strategy.host(for: .read)?.url.absoluteString, "algolia3.com")
 
-    XCTAssertNoThrow(try strategy.notify(host: host2, result: retryableErrorResult))
+    _ = strategy.notify(host: host2, result: retryableErrorResult)
     XCTAssertEqual(strategy.host(for: .write)?.url.absoluteString, "algolia1.com")
     XCTAssertEqual(strategy.host(for: .read)?.url.absoluteString, "algolia3.com")
 
-    XCTAssertNoThrow(try strategy.notify(host: host3, result: retryableErrorResult))
+    _ = strategy.notify(host: host3, result: retryableErrorResult)
     XCTAssertEqual(strategy.host(for: .write)?.url.absoluteString, "algolia1.com")
     XCTAssertEqual(strategy.host(for: .read)?.url.absoluteString, "algolia4.com")
 
-    XCTAssertNoThrow(try strategy.notify(host: host4, result: retryableErrorResult))
+    _ = strategy.notify(host: host4, result: retryableErrorResult)
     XCTAssertEqual(strategy.host(for: .write)?.url.absoluteString, "algolia1.com")
     XCTAssertEqual(strategy.host(for: .read)?.url.absoluteString, "algolia5.com")
 
-    XCTAssertNoThrow(try strategy.notify(host: host5, result: retryableErrorResult))
+    _ = strategy.notify(host: host5, result: retryableErrorResult)
     XCTAssertEqual(strategy.host(for: .write)?.url.absoluteString, "algolia1.com")
     XCTAssertEqual(strategy.host(for: .read)?.url.absoluteString, "algolia3.com")
 
@@ -52,12 +52,12 @@ class AlgoliaRetryStrategyTests: XCTestCase {
 
   func testTimeout() {
 
-    var strategy = AlgoliaRetryStrategy(hosts: [host3, host4, host5])
+    let strategy = AlgoliaRetryStrategy(hosts: [host3, host4, host5])
 
     var host: RetryableHost?
     var lastUpdate: Date? = strategy.host(for: .read)?.lastUpdated
 
-    XCTAssertNoThrow(try strategy.notify(host: host3, result: timeoutErrorResult))
+    _ = strategy.notify(host: host3, result: timeoutErrorResult)
     host = strategy.host(for: .read)
     XCTAssertGreaterThan(host!.lastUpdated.timeIntervalSince1970, lastUpdate!.timeIntervalSince1970)
     lastUpdate = host?.lastUpdated
@@ -65,7 +65,7 @@ class AlgoliaRetryStrategyTests: XCTestCase {
     XCTAssertTrue(host!.isUp)
     XCTAssertEqual(host!.retryCount, 1)
 
-    XCTAssertNoThrow(try strategy.notify(host: host3, result: timeoutErrorResult))
+    _ = strategy.notify(host: host3, result: timeoutErrorResult)
     host = strategy.host(for: .read)
     XCTAssertGreaterThan(host!.lastUpdated.timeIntervalSince1970, lastUpdate!.timeIntervalSince1970)
     XCTAssertNotNil(host)
@@ -76,11 +76,11 @@ class AlgoliaRetryStrategyTests: XCTestCase {
 
   func testResetExpired() {
     let expirationDelay: TimeInterval = 3
-    var strategy = AlgoliaRetryStrategy(hosts: [host3, host4, host5], hostsExpirationDelay: expirationDelay)
+    let strategy = AlgoliaRetryStrategy(hosts: [host3, host4, host5], hostsExpirationDelay: expirationDelay)
 
-    XCTAssertNoThrow(try strategy.notify(host: host3, result: retryableErrorResult))
-    XCTAssertNoThrow(try strategy.notify(host: host4, result: retryableErrorResult))
-    XCTAssertNoThrow(try strategy.notify(host: host5, result: retryableErrorResult))
+    _ = strategy.notify(host: host3, result: retryableErrorResult)
+    _ = strategy.notify(host: host4, result: retryableErrorResult)
+    _ = strategy.notify(host: host5, result: retryableErrorResult)
 
     sleep(UInt32(expirationDelay))
 

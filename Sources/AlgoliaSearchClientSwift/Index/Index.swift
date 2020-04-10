@@ -11,44 +11,32 @@ public struct Index {
 
   public let name: IndexName
   let transport: Transport
-  let queue: OperationQueue
+  let operationLauncher: OperationLauncher
 
-  init(name: IndexName, transport: Transport, queue: OperationQueue) {
+  init(name: IndexName, transport: Transport, operationLauncher: OperationLauncher) {
     self.name = name
     self.transport = transport
-    self.queue = queue
+    self.operationLauncher = operationLauncher
   }
-
-  func launch<T: Codable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation {
-    let request = HTTPRequest(transport: transport, command: command, completion: completion)
-    queue.addOperation(request)
-    return request
-  }
-
-  func launch<T: Codable>(_ command: AlgoliaCommand) throws -> T {
-    let request = HTTPRequest<T>(transport: transport, command: command, completion: { _ in })
-    return try queue.performOperation(request)
-  }
-
-  enum Error: Swift.Error {
-    case missingResult
-  }
-
+  
 }
 
 extension Index {
-
-  @discardableResult func delete(requestOptions: RequestOptions? = nil,
-                                 completion: @escaping ResultCallback<JSON>) -> Operation {
-    let request = Command.Index.DeleteIndex(indexName: name,
-                                            requestOptions: requestOptions)
-    return launch(request, completion: completion)
+  
+  func perform<T: Codable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation & TransportTask {
+    return transport.execute(command, completion: completion)
   }
-
-  @discardableResult func delete(requestOptions: RequestOptions? = nil) throws -> JSON {
-    let request = Command.Index.DeleteIndex(indexName: name,
-                                            requestOptions: requestOptions)
-    return try launch(request)
+  
+  func perform<T: Codable>(_ command: AlgoliaCommand) throws -> T {
+    return try transport.execute(command)
   }
-
+  
+  @discardableResult func launch<O: Operation>(_ operation: O) -> O {
+    return operationLauncher.launch(operation)
+  }
+  
+  func launch<O: OperationWithResult>(_ operation: O) throws -> O.ResultValue {
+    return try operationLauncher.launchSync(operation)
+  }
+  
 }

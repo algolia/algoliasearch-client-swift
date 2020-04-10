@@ -28,9 +28,9 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronousoperation
    */
-  @discardableResult func saveObject<T: Codable>(_ record: T, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ObjectCreation>) -> Operation {
+  @discardableResult func saveObject<T: Codable>(_ record: T, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ObjectCreation>) -> Operation & TransportTask {
     let command = Command.Indexing.SaveObject(indexName: name, record: record, requestOptions: requestOptions)
-    return launch(command, completion: completion)
+    return perform(command, completion: completion)
   }
     
   /**
@@ -43,7 +43,7 @@ public extension Index {
    */
   @discardableResult func saveObject<T: Codable>(_ record: T, requestOptions: RequestOptions? = nil) throws -> ObjectCreation {
     let command = Command.Indexing.SaveObject(indexName: name, record: record, requestOptions: requestOptions)
-    return try launch(command)
+    return try perform(command)
   }
     
   //MARK: - Save objects
@@ -57,7 +57,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronousoperation
    */
-  @discardableResult func saveObjects<T: Codable>(records: [T], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation {
+  @discardableResult func saveObjects<T: Codable>(records: [T], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation & TransportTask {
     return batch(records.map { .add($0) }, requestOptions: requestOptions, completion: completion)
   }
     
@@ -84,9 +84,9 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronousoperation
    */
-  @discardableResult func getObject<T: Codable>(withID objectID: ObjectID, attributesToRetrieve: [Attribute] = [], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<T>) -> Operation {
+  @discardableResult func getObject<T: Codable>(withID objectID: ObjectID, attributesToRetrieve: [Attribute] = [], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<T>) -> Operation & TransportTask {
     let command = Command.Indexing.GetObject(indexName: name, objectID: objectID, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions)
-    return launch(command, completion: completion)
+    return perform(command, completion: completion)
   }
     
   /**
@@ -99,7 +99,7 @@ public extension Index {
   */
   @discardableResult func getObject<T: Codable>(withID objectID: ObjectID, attributesToRetrieve: [Attribute] = [], requestOptions: RequestOptions? = nil) throws -> T {
     let command = Command.Indexing.GetObject(indexName: name, objectID: objectID, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions)
-    return try launch(command)
+    return try perform(command)
   }
   
   //MARK: - Get objects
@@ -113,9 +113,9 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronousoperation
    */
-  @discardableResult func getObjects<T: Codable>(withID objectIDs: [ObjectID], attributesToRetrieve: [Attribute] = [], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ObjectsResponse<T>>) -> Operation {
+  @discardableResult func getObjects<T: Codable>(withID objectIDs: [ObjectID], attributesToRetrieve: [Attribute] = [], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ObjectsResponse<T>>) -> Operation & TransportTask {
     let command = Command.Indexing.GetObjects(indexName: name, objectIDs: objectIDs, attributesToRetreive: attributesToRetrieve, requestOptions: requestOptions)
-    return launch(command, completion: completion)
+    return perform(command, completion: completion)
   }
   
   /**
@@ -129,7 +129,7 @@ public extension Index {
    */
   @discardableResult func getObjects<T: Codable>(withID objectIDs: [ObjectID], attributesToRetrieve: [Attribute] = [], requestOptions: RequestOptions? = nil) throws -> ObjectsResponse<T> {
     let command = Command.Indexing.GetObjects(indexName: name, objectIDs: objectIDs, attributesToRetreive: attributesToRetrieve, requestOptions: requestOptions)
-    return try launch(command)
+    return try perform(command)
   }
   
   //MARK: - Replace object
@@ -155,14 +155,14 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func replaceObject<T: Codable>(withID objectID: ObjectID, by object: T, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ObjectRevision>) -> Operation {
+  @discardableResult func replaceObject<T: Codable>(withID objectID: ObjectID, by object: T, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ObjectRevision>) -> Operation & TransportTask {
     let command = Command.Indexing.ReplaceObject(indexName: name, objectID: objectID, replacementObject: object, requestOptions: requestOptions)
-    return launch(command, completion: completion)
+    return perform(command, completion: completion)
   }
   
   /**
    Replace an existing object with an updated set of attributes.
-   - seealso: replaceObject
+   - See_also: replaceObject
    - Parameter objectID: The ObjectID to identify the object.
    - Parameter record: The record T to replace.
    - Parameter requestOptions: Configure request locally with RequestOptions
@@ -170,7 +170,7 @@ public extension Index {
    */
   @discardableResult func replaceObject<T: Codable>(withID objectID: ObjectID, by object: T, requestOptions: RequestOptions? = nil) throws -> ObjectRevision {
     let command = Command.Indexing.ReplaceObject(indexName: name, objectID: objectID, replacementObject: object, requestOptions: requestOptions)
-    return try launch(command)
+    return try perform(command)
   }
   
   //MARK: - Replace objects
@@ -184,7 +184,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func replaceObjects<T: Codable>(replacements: [(objectID: ObjectID, object: T)], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation {
+  @discardableResult func replaceObjects<T: Codable>(replacements: [(objectID: ObjectID, object: T)], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation & TransportTask {
     return batch(replacements.map { .update(objectID: $0.objectID, $0.object) }, requestOptions: requestOptions, completion: completion)
   }
   
@@ -210,9 +210,9 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronousoperation
    */
-  @discardableResult func deleteObject<T: Codable>(withID objectID: ObjectID, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<T>) -> Operation {
+  @discardableResult func deleteObject<T: Codable>(withID objectID: ObjectID, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<T>) -> Operation & TransportTask {
     let command = Command.Indexing.DeleteObject(indexName: name, objectID: objectID, requestOptions: requestOptions)
-    return launch(command, completion: completion)
+    return perform(command, completion: completion)
   }
     
   /**
@@ -224,7 +224,7 @@ public extension Index {
   */
   @discardableResult func deleteObject(withID objectID: ObjectID, requestOptions: RequestOptions? = nil) throws -> ObjectDeletion {
     let command = Command.Indexing.DeleteObject(indexName: name, objectID: objectID, requestOptions: requestOptions)
-    return try launch(command)
+    return try perform(command)
   }
 
   //MARK: - Delete objects
@@ -236,7 +236,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func deleteObjects(withIDs objectIDs: [ObjectID], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation {
+  @discardableResult func deleteObjects(withIDs objectIDs: [ObjectID], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation & TransportTask {
     return batch(objectIDs.map { .delete(objectID: $0) }, requestOptions: requestOptions, completion: completion)
   }
 
@@ -267,9 +267,9 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func deleteObjects(byQuery query: DeleteByQuery, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<RevisionIndex>) throws -> Operation {
+  @discardableResult func deleteObjects(byQuery query: DeleteByQuery, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<RevisionIndex>) throws -> Operation & TransportTask {
     let command = Command.Indexing.DeleteByQuery(indexName: name, query: query, requestOptions: requestOptions)
-    return launch(command, completion: completion)
+    return perform(command, completion: completion)
   }
 
   /**
@@ -281,7 +281,7 @@ public extension Index {
    */
   @discardableResult func deleteObjects(byQuery query: DeleteByQuery, requestOptions: RequestOptions? = nil) throws -> RevisionIndex {
     let command = Command.Indexing.DeleteByQuery(indexName: name, query: query, requestOptions: requestOptions)
-    return try launch(command)
+    return try perform(command)
   }
   
   //MARK: - Partial update object
@@ -317,9 +317,9 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func partialUpdateObject(withID objectID: ObjectID, with partialUpdate: PartialUpdate, createIfNotExists: Bool, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ObjectRevision>) -> Operation {
+  @discardableResult func partialUpdateObject(withID objectID: ObjectID, with partialUpdate: PartialUpdate, createIfNotExists: Bool, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ObjectRevision>) -> Operation & TransportTask {
     let command = Command.Indexing.PartialUpdate(indexName: name, objectID: objectID, partialUpdate: partialUpdate, createIfNotExists: createIfNotExists, requestOptions: requestOptions)
-    return launch(command, completion: completion)
+    return perform(command, completion: completion)
   }
   
   /**
@@ -335,7 +335,7 @@ public extension Index {
    */
   @discardableResult func partialUpdateObject(withID objectID: ObjectID, with partialUpdate: PartialUpdate, createIfNotExists: Bool, requestOptions: RequestOptions? = nil) throws -> ObjectRevision {
     let command = Command.Indexing.PartialUpdate(indexName: name, objectID: objectID, partialUpdate: partialUpdate, createIfNotExists: createIfNotExists, requestOptions: requestOptions)
-    return try launch(command)
+    return try perform(command)
   }
   
   //MARK: - Partial update objects
@@ -351,7 +351,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func partialUpdateObject(replacements: [(objectID: ObjectID, update: PartialUpdate)], createIfNotExists: Bool, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation {
+  @discardableResult func partialUpdateObjects(replacements: [(objectID: ObjectID, update: PartialUpdate)], createIfNotExists: Bool, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation & TransportTask {
     return batch(replacements.map { .partialUpdate(objectID: $0.objectID, $0.update, createIfNotExists: createIfNotExists) }, requestOptions: requestOptions, completion: completion)
   }
 
@@ -366,7 +366,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: BatchResponse object
    */
-  @discardableResult func partialUpdateObject(replacements: [(objectID: ObjectID, update: PartialUpdate)], createIfNotExists: Bool, requestOptions: RequestOptions? = nil) throws -> BatchResponse {
+  @discardableResult func partialUpdateObjects(replacements: [(objectID: ObjectID, update: PartialUpdate)], createIfNotExists: Bool, requestOptions: RequestOptions? = nil) throws -> BatchResponse {
     return try batch(replacements.map { .partialUpdate(objectID: $0.objectID, $0.update, createIfNotExists: createIfNotExists) }, requestOptions: requestOptions)
   }
   
@@ -393,9 +393,9 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func batch(_ batchOperations: [BatchOperation], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation {
+  @discardableResult func batch(_ batchOperations: [BatchOperation], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation & TransportTask {
     let command = Command.Index.Batch(indexName: name, batchOperations: batchOperations, requestOptions: requestOptions)
-    return launch(command, completion: completion)
+    return perform(command, completion: completion)
   }
   
   /**
@@ -407,7 +407,7 @@ public extension Index {
    */
   @discardableResult func batch(_ batchOperations: [BatchOperation], requestOptions: RequestOptions? = nil) throws -> BatchResponse {
     let command = Command.Index.Batch(indexName: name, batchOperations: batchOperations, requestOptions: requestOptions)
-    return try launch(command)
+    return try perform(command)
   }
   
   //MARK: - Clear objects
@@ -423,9 +423,9 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func clearObjects(requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<RevisionIndex>) -> Operation {
+  @discardableResult func clearObjects(requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<RevisionIndex>) -> Operation & TransportTask {
     let command = Command.Indexing.ClearObjects(indexName: name, requestOptions: requestOptions)
-    return launch(command, completion: completion)
+    return perform(command, completion: completion)
   }
     
   /**
@@ -436,7 +436,7 @@ public extension Index {
    */
   @discardableResult func clearObjects(requestOptions: RequestOptions? = nil) throws -> RevisionIndex {
     let command = Command.Indexing.ClearObjects(indexName: name, requestOptions: requestOptions)
-    return try launch(command)
+    return try perform(command)
   }
   
 }

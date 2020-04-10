@@ -9,62 +9,66 @@ import Foundation
 
 /** Algolia's retry strategy in case of server error, timeouts... */
 
-struct AlgoliaRetryStrategy: RetryStrategy {
+class AlgoliaRetryStrategy: RetryStrategy {
 
   private var hosts: [RetryableHost]
   let hostsExpirationDelay: TimeInterval
+  
+  /// Concurrent synchronization queue
+  private let queue = DispatchQueue(label: "AlgoliaRetryStrategySync.queue")
 
   init(hosts: [RetryableHost], hostsExpirationDelay: TimeInterval = .minutes(5)) {
     self.hosts = hosts
     self.hostsExpirationDelay = hostsExpirationDelay
   }
 
-  init(configuration: Configuration) {
+  convenience init(configuration: Configuration) {
     self.init(hosts: configuration.hosts)
   }
 
-  mutating func host(for callType: CallType) -> RetryableHost? {
-
-    hosts.resetExpired(expirationDelay: hostsExpirationDelay)
-
-    let hostsForCallType = hosts.filter { $0.supports(callType) }
-
-    guard !hostsForCallType.isEmpty else {
-      return .none
+  func host(for callType: CallType) -> RetryableHost? {
+    return queue.sync {
+      hosts.resetExpired(expirationDelay: hostsExpirationDelay)
+      
+      func firstUpHostForCallType() -> RetryableHost? {
+        return hosts.first { $0.supports(callType) && $0.isUp }
+      }
+      
+      guard let host = firstUpHostForCallType() else {
+        hosts.resetAll(for: callType)
+        return firstUpHostForCallType()
+      }
+      
+      return host
     }
-
-    guard let firstUpHost = hostsForCallType.first(where: \.isUp) else {
-      hosts.resetAll(for: callType)
-      return host(for: callType)
-    }
-
-    return firstUpHost
 
   }
 
-  mutating func notify<T>(host: RetryableHost, result: Result<T, Swift.Error>) throws -> RetryOutcome {
+  func notify<T>(host: RetryableHost, result: Result<T, Swift.Error>) -> RetryOutcome<T> {
+    return queue.sync() {
+      
+      guard let hostIndex = hosts.firstIndex(where: { $0.url == host.url }) else {
+        return .failure(Error.unexpectedHost)
+      }
 
-    guard let hostIndex = hosts.firstIndex(where: { $0.url == host.url }) else {
-      throw Error.unexpectedHost
+      switch result {
+      case .success(let value):
+        hosts[hostIndex].reset()
+        return .success(value)
+
+      case .failure(let error) where error.isTimeout:
+        hosts[hostIndex].hasTimedOut()
+        return .retry
+
+      case .failure(let error) where error.isRetryable:
+        hosts[hostIndex].hasFailed()
+        return .retry
+
+      case .failure(let error):
+        return .failure(error)
+      }
     }
-
-    switch result {
-    case .success:
-      hosts[hostIndex].reset()
-      return .success
-
-    case .failure(let error) where error.isTimeout:
-      hosts[hostIndex].hasTimedOut()
-      return .retry
-
-    case .failure(let error) where error.isRetryable:
-      hosts[hostIndex].hasFailed()
-      return .retry
-
-    case .failure(let error):
-      throw error
-    }
-
+    
   }
 
   enum Error: Swift.Error {

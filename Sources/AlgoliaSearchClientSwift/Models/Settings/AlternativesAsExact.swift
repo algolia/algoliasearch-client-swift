@@ -7,39 +7,16 @@
 
 import Foundation
 
-public enum AlternativesAsExact: Codable, Equatable {
-  case ignorePlurals
-  case singleWordSynonym
-  case multiWordsSynonym
-  case other(String)
-}
-
-extension AlternativesAsExact: RawRepresentable {
-
-  public var rawValue: String {
-    switch self {
-    case .ignorePlurals:
-      return "ignorePlurals"
-    case .singleWordSynonym:
-      return "singleWordSynonym"
-    case .multiWordsSynonym:
-      return "multiWordsSynonym"
-    case .other(let value):
-      return value
-    }
-  }
-
+public struct AlternativesAsExact: StringOption, ProvidingCustomOption {
+  
+  public let rawValue: String
+  
   public init(rawValue: String) {
-    switch rawValue {
-    case AlternativesAsExact.ignorePlurals.rawValue:
-      self = .ignorePlurals
-    case AlternativesAsExact.singleWordSynonym.rawValue:
-      self = .singleWordSynonym
-    case AlternativesAsExact.multiWordsSynonym.rawValue:
-      self = .multiWordsSynonym
-    default:
-      self = .other(rawValue)
-    }
+    self.rawValue = rawValue
   }
-
+  
+  static var ignorePlurals: Self { .init(rawValue: #function) }
+  static var singleWordSynonym: Self { .init(rawValue: #function) }
+  static var multiWordsSynonym: Self { .init(rawValue: #function) }
+  
 }

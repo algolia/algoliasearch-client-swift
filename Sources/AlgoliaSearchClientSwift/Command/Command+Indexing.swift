@@ -19,8 +19,9 @@ extension Command {
 
       init<T: Codable>(indexName: IndexName, record: T, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
+        let path = .indexesV1 >>> IndexRoute.index(indexName)
         urlRequest = .init(method: .post,
-                           path: indexName.toPath(),
+                           path: path,
                            body: record.httpBody,
                            requestOptions: requestOptions)
       }
@@ -40,7 +41,7 @@ extension Command {
           return [.attributesToRetreive: attributesValue]
         }() )
         self.requestOptions = requestOptions
-        let path = indexName.toPath(withSuffix: "/\(objectID.rawValue)")
+        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objectID(objectID)
         urlRequest = .init(method: .get, path: path, requestOptions: requestOptions)
       }
 
@@ -55,8 +56,8 @@ extension Command {
       init(indexName: IndexName, objectIDs: [ObjectID], attributesToRetreive: [Attribute]?, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let requests = objectIDs.map { ObjectRequest(indexName: indexName, objectID: $0, attributesToRetrieve: attributesToRetreive) }
-        let body = FieldWrapper(requests: requests).httpBody
-        let path = indexName.toPath(withSuffix:"/*/objects")
+        let body = RequestsWrapper(requests).httpBody
+        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objects
         urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
       }
       
@@ -70,7 +71,7 @@ extension Command {
       
       init<T: Codable>(indexName: IndexName, objectID: ObjectID, replacementObject record: T, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = indexName.toPath(withSuffix: "/\(objectID.rawValue)")
+        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objectID(objectID)
         urlRequest = .init(method: .put, path: path, body: record.httpBody, requestOptions: requestOptions)
       }
       
@@ -84,7 +85,7 @@ extension Command {
       
       init(indexName: IndexName, objectID: ObjectID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = indexName.toPath(withSuffix: "/\(objectID.rawValue)")
+        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objectID(objectID)
         urlRequest = .init(method: .delete, path: path, requestOptions: requestOptions)
       }
       
@@ -98,8 +99,8 @@ extension Command {
       
       init(indexName: IndexName, query: AlgoliaSearchClientSwift.DeleteByQuery, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = indexName.toPath(withSuffix: "/deleteByQuery")
-        let body = RequestParams(query).httpBody
+        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.deleteByQuery
+        let body = ParamsWrapper(query).httpBody
         urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
       }
       
@@ -117,7 +118,7 @@ extension Command {
           return [.createIfNotExists: String(createIfNotExists)]
           }() )
         self.requestOptions = requestOptions
-        let path = indexName.toPath(withSuffix: "/\(objectID.rawValue)/partial")
+        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objectID(objectID, partial: true)
         let body = partialUpdate.httpBody
         urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
       }
@@ -132,7 +133,7 @@ extension Command {
 
       init(indexName: IndexName, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = indexName.toPath(withSuffix: "/clear")
+        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.clear
         urlRequest = .init(method: .post, path: path, requestOptions: requestOptions)
       }
       
@@ -141,36 +142,3 @@ extension Command {
   }
 
 }
-
-struct FieldWrapper<Wrapped: Codable> {
-  
-  let fieldname: String
-  let wrapped: Wrapped
-  
-}
-
-extension FieldWrapper {
-  
-  init(requests: Wrapped) {
-    self.fieldname = "requests"
-    self.wrapped = requests
-  }
-  
-}
-
-extension FieldWrapper: Codable {
-  
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: DynamicKey.self)
-    self.fieldname = container.allKeys.first!.stringValue
-    self.wrapped = try container.decode(Wrapped.self, forKey: DynamicKey(stringValue: fieldname))
-  }
-  
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: DynamicKey.self)
-    try container.encode(wrapped, forKey: DynamicKey(stringValue: fieldname))
-  }
-  
-}
-
-

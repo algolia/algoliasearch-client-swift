@@ -7,10 +7,14 @@
 
 import Foundation
 
-protocol RetryStrategy {
+protocol HostResultNotifiable {
+  
+}
 
-  mutating func host(for callType: CallType) -> RetryableHost?
-  mutating func notify<T>(host: RetryableHost, result: Result<T, Swift.Error>) throws -> RetryOutcome
+protocol RetryStrategy: class {
+
+  func host(for callType: CallType) -> RetryableHost?
+  func notify<T>(host: RetryableHost, result: Result<T, Swift.Error>) -> RetryOutcome<T>
 
 }
 

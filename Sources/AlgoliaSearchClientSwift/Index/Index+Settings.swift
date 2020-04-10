@@ -14,10 +14,10 @@ extension Index {
    - parameter requestOptions: Configure request locally with RequestOptions.
    */
   @discardableResult public func getSettings(requestOptions: RequestOptions? = nil,
-                                             completion: @escaping ResultCallback<Settings>) -> Operation {
+                                             completion: @escaping ResultCallback<Settings>) -> Operation & TransportTask {
     let command = Command.Settings.GetSettings(indexName: name,
                                                requestOptions: requestOptions)
-    return launch(command, completion: completion)
+    return perform(command, completion: completion)
   }
 
   /**
@@ -34,13 +34,13 @@ extension Index {
                                              resetToDefault: [Settings.Key] = [],
                                              forwardToReplicas: Bool? = nil,
                                              requestOptions: RequestOptions? = nil,
-                                             completion: @escaping ResultCallback<RevisionIndex>) -> Operation {
+                                             completion: @escaping ResultCallback<RevisionIndex>) -> Operation & TransportTask {
     let command = Command.Settings.SetSettings(indexName: name,
                                                settings: settings,
                                                resetToDefault: resetToDefault,
                                                forwardToReplicas: forwardToReplicas,
                                                requestOptions: requestOptions)
-    return launch(command, completion: completion)
+    return perform(command, completion: completion)
   }
 
 }
@@ -50,7 +50,7 @@ public extension Index {
   func getSettings(requestOptions: RequestOptions? = nil) throws -> Settings {
     let command = Command.Settings.GetSettings(indexName: name,
                                                requestOptions: requestOptions)
-    return try launch(command)
+    return try perform(command)
   }
 
   func setSettings(_ settings: Settings,
@@ -62,7 +62,7 @@ public extension Index {
                                                resetToDefault: resetToDefault,
                                                forwardToReplicas: forwardToReplicas,
                                                requestOptions: requestOptions)
-    return try launch(command)
+    return try perform(command)
   }
 
 }

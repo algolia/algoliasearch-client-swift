@@ -25,6 +25,12 @@ public struct RequestOptions {
   public mutating func setHeader(_ value: String?, forKey key: HTTPHeaderKey) {
     headers[key.rawValue] = value
   }
+  
+  public func settingHeader(_ value: String?, forKey key: HTTPHeaderKey) -> Self {
+    var mutableCopy = self
+    mutableCopy.headers[key.rawValue] = value
+    return mutableCopy
+  }
 
   /**
    Add a url parameter with key and value to urlParameters.
@@ -32,6 +38,13 @@ public struct RequestOptions {
   public mutating func setParameter(_ value: String?, forKey key: HTTPParameterKey) {
     urlParameters[key.rawValue] = value
   }
+  
+  public func settingParameter(_ value: String?, forKey key: HTTPParameterKey) -> Self {
+    var mutableCopy = self
+    mutableCopy.urlParameters[key.rawValue] = value
+    return mutableCopy
+  }
+
 
   public func timeout(for callType: CallType) -> TimeInterval? {
     switch callType {
@@ -49,6 +62,12 @@ public struct HTTPParameterKey: RawRepresentable, Hashable {
   public static let attributesToRetreive: HTTPParameterKey = "attributesToRetreive"
   public static let forwardToReplicas: HTTPParameterKey = "forwardToReplicas"
   public static let createIfNotExists: HTTPParameterKey = "createIfNotExists"
+  public static let cursor: HTTPParameterKey = "cursor"
+  public static let indexName: HTTPParameterKey = "indexName"
+  public static let offset: HTTPParameterKey = "offset"
+  public static let length: HTTPParameterKey = "length"
+  public static let type: HTTPParameterKey = "type"
+
 
   public let rawValue: String
 
@@ -90,13 +109,17 @@ extension HTTPHeaderKey: ExpressibleByStringLiteral {
 }
 
 extension Optional where Wrapped == RequestOptions {
+  
+  func unwrapOrCreate() -> RequestOptions {
+    return self ?? RequestOptions()
+  }
 
-  func updateOrCreate(_ parameters: @autoclosure () -> [HTTPParameterKey: String]) -> RequestOptions? {
+  func updateOrCreate(_ parameters: @autoclosure () -> [HTTPParameterKey: String?]) -> RequestOptions? {
     let parameters = parameters()
     guard !parameters.isEmpty else {
       return self
     }
-    var mutableRequestOptions = self ?? RequestOptions()
+    var mutableRequestOptions = unwrapOrCreate()
     for (key, value) in parameters {
       mutableRequestOptions.setParameter(value, forKey: key)
     }

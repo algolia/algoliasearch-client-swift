@@ -7,16 +7,28 @@
 
 import Foundation
 
-extension URLRequest {
+extension URLRequest: Builder {}
 
-  init(method: HttpMethod,
-       path: String,
+extension URLRequest {
+  
+  subscript(header key: HTTPHeaderKey) -> String? {
+    get {
+      return allHTTPHeaderFields?[key.rawValue]
+    }
+    
+    set(newValue) {
+      setValue(newValue, forHTTPHeaderField: key.rawValue)
+    }
+  }
+  
+  init<PC: PathComponent>(method: HttpMethod,
+       path: PC,
        body: Data? = nil,
        requestOptions: RequestOptions? = nil) {
 
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"
-    urlComponents.path = path
+    urlComponents.path = path.fullPath
 
     var request = URLRequest(url: urlComponents.url!)
 
@@ -30,22 +42,6 @@ extension URLRequest {
     self = request
   }
 
-  mutating func setValue(_ value: String?, for key: HTTPHeaderKey) {
-    setValue(value, forHTTPHeaderField: key.rawValue)
-  }
-
-  mutating func set(_ credentials: Credentials) {
-    setApplicationID(credentials.applicationID)
-    setAPIKey(credentials.apiKey)
-  }
-
-  mutating func setApplicationID(_ applicationID: ApplicationID) {
-    setValue(applicationID.rawValue, for: .applicationID)
-  }
-
-  mutating func setAPIKey(_ apiKey: APIKey) {
-    setValue(apiKey.rawValue, for: .apiKey)
-  }
 
   mutating func setRequestOptions(_ requestOptions: RequestOptions) {
 
@@ -69,18 +65,51 @@ extension URLRequest {
     }
   }
 
-  func withHost(_ host: RetryableHost, requestOptions: RequestOptions?) -> URLRequest {
-    var output = self
+}
 
-    // Update timeout interval
-    output.timeoutInterval = host.timeout(requestOptions: requestOptions)
 
-    // Update url
-    var urlComponents = URLComponents(url: url!, resolvingAgainstBaseURL: false)
-    urlComponents?.host = host.url.absoluteString
-    output.url = urlComponents?.url
 
-    return output
+extension URLRequest {
+  
+  var credentials: Credentials? {
+    
+    get {
+      guard let appID = applicationID, let apiKey = apiKey else {
+        return nil
+      }
+      return AlgoliaCredentials(applicationID: appID, apiKey: apiKey)
+    }
+    
+    set {
+      guard let newValue = newValue else {
+        applicationID = nil
+        apiKey = nil
+        return
+      }
+      applicationID = newValue.applicationID
+      apiKey = newValue.apiKey
+    }
+    
+  }
+  
+  var applicationID: ApplicationID? {
+    get {
+      return self[header: .applicationID].flatMap(ApplicationID.init)
+    }
+    
+    set {
+      self[header: .applicationID] = newValue?.rawValue
+    }
+  }
+  
+  var apiKey: APIKey? {
+    get {
+      return self[header: .apiKey].flatMap(APIKey.init)
+    }
+    
+    set {
+      self[header: .apiKey] = newValue?.rawValue
+    }
   }
 
 }

@@ -16,6 +16,14 @@ class BatchTests: XCTestCase {
     try AssertEncodeDecode(BatchOperation.partialUpdate(objectID: objectID, object, createIfNotExists: true), ["action": "partialUpdateObject", "body": ["objectID": "objectID", "attr": ["value": 2.5]]])
     try AssertEncodeDecode(BatchOperation.partialUpdate(objectID: objectID, object, createIfNotExists: false), ["action": "partialUpdateObjectNoCreate", "body": ["objectID": "objectID", "attr": ["value": 2.5]]])
     try AssertEncodeDecode(BatchOperation.delete(objectID: objectID), ["action": "deleteObject", "body": ["objectID": "objectID"]])
+    try AssertEncodeDecode(BatchOperation.delete, ["action": "delete"])
+    try AssertEncodeDecode(BatchOperation.clear, ["action": "clear"])
+
+  }
+  
+  func testIndexConding() throws {
+    let object: JSON = ["attr": ["value": 2.5]] as JSON
+    try AssertEncodeDecode(BatchOperationIndex(indexName: "index", operation: .add(object)), ["indexName": "index", "action": "addObject", "body": ["attr": ["value": 2.5]]])
   }
   
 }

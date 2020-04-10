@@ -26,19 +26,44 @@ struct TestCredentials: Credentials {
 
 }
 
-class URLRequestBuilding: XCTestCase {
+struct TestPath {
+  static var path: TestPathLevel2 = TestPathRoot() >>> TestPathLevel1() >>> TestPathLevel2()
+}
 
+struct TestPathRoot: RootPath {
+  
+  var rawValue: String = "/my"
+  
+}
+
+struct TestPathLevel1: PathComponent {
+  
+  var parent: TestPathRoot?
+  
+  var rawValue: String = "test"
+  
+}
+
+struct TestPathLevel2: PathComponent {
+  
+  var parent: TestPathLevel1?
+  
+  var rawValue: String = "path"
+
+}
+
+class URLRequestBuilding: XCTestCase {
+  
   func testBuilding() {
 
     let method = HttpMethod.post
-    let path = "/my/test/path"
+    let path = TestPath.path
     let body: Data = "TestContent".data(using: .utf8)!
     let credentials = TestCredentials(applicationID: "testAppID", apiKey: "testApiKey")
 
-    var request = URLRequest(method: method,
+    let request = URLRequest(method: method,
                              path: path,
-                             body: body)
-    request.set(credentials)
+                             body: body).set(\.credentials, to: credentials)
 
     let expectedHeaders: [String: String] = [
       HTTPHeaderKey.applicationID.rawValue: credentials.applicationID.rawValue,
@@ -51,26 +76,5 @@ class URLRequestBuilding: XCTestCase {
 
   }
 
-  func testWithHostConstructor() {
-
-    let method = HttpMethod.post
-    let path = "/my/test/path"
-    let baseTimeout: TimeInterval = 10
-
-    let request = URLRequest(method: method,
-                             path: path)
-
-    var requestOptions = RequestOptions()
-    requestOptions.writeTimeout = baseTimeout
-
-    for index in 0...2 {
-      var host = RetryableHost(url: URL(string: "test\(index).algolia.com")!)
-      host.retryCount = index
-      let requestWithHost = request.withHost(host, requestOptions: requestOptions)
-      XCTAssertEqual(requestWithHost.timeoutInterval, baseTimeout * TimeInterval(index + 1))
-      XCTAssertEqual(requestWithHost.url?.absoluteString, "https://test\(index).algolia.com/my/test/path")
-    }
-
-  }
 
 }

@@ -10,15 +10,16 @@ import Foundation
 
 struct TestValues {
   let indexName: IndexName = "testIndex"
+  let anotherIndexName: IndexName = "anotherIndexName"
   let objectID: ObjectID = "testObjectID"
+  let objectIDs: [ObjectID] = ["testObjectID1", "testObjectID2"]
+  let attribute: Attribute = "testAttribute"
   let attributes: [Attribute] = ["attr1", "attr2"]
   let record: JSON = ["attr": "value"]
   let batchOperations: [BatchOperation] = [.init(action: .addObject, body: ["attr": "value"]), .init(action: .deleteObject, body: ["attr": "value"])]
-  let query: Query = {
-    var query = Query(stringLiteral: "testQuery")
-    query.page = 10
-    return query
-  }()
+  let query = Query("testQuery")
+    .set(\.page, to: 10)
+    .set(\.customParameters, to: ["customKey": "customValue"])
   let settings: Settings = {
     var settings = Settings()
     settings.attributesForFaceting = [.default("attr1"), .filterOnly("attr2"), .searchable("attr3")]
@@ -27,4 +28,5 @@ struct TestValues {
   }()
   let taskID: TaskID = "testTaskID"
   let requestOptions = RequestOptions(headers: ["testHeader": "testHeaderValue"], urlParameters: ["testParameter": "testParameterValue"])
+  let cursor: Cursor = "testCursor"
 }
