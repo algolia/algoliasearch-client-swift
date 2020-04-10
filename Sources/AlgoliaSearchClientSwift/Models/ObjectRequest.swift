@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct ObjectRequest: Codable {
+public struct ObjectRequest: Codable {
  
   /// IndexName containing the object.
-  let indexName: IndexName
+  public let indexName: IndexName
   
   /// The ObjectID of the object within that index.
-  let objectID: ObjectID
+  public let objectID: ObjectID
   
   /// List of attributes to retrieve. By default, all retrievable attributes are returned.
-  let attributesToRetrieve: [Attribute]?
+  public let attributesToRetrieve: [Attribute]?
   
 }

@@ -8,4 +8,4 @@
 import Foundation
 
 // TODO:
-struct BatchesResponse: Codable {}
+public struct BatchesResponse: Codable {}

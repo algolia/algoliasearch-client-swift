@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension Client {
+public extension Client {
     
   //MARK: - List indices
   
