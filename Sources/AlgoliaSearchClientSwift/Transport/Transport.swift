@@ -30,7 +30,7 @@ public enum HttpMethod: String {
   case get = "GET", post = "POST", put = "PUT", delete = "DELETE"
 }
 
-protocol Transport {
+protocol Transport: Credentials {
   
   func execute<T: Codable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation & TransportTask
   func execute<T: Codable>(_ command: AlgoliaCommand) throws -> T

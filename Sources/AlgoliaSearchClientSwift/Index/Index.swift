@@ -7,11 +7,19 @@
 
 import Foundation
 
-public struct Index {
-
+public struct Index: Credentials {
+  
   public let name: IndexName
   let transport: Transport
   let operationLauncher: OperationLauncher
+  
+  public var applicationID: ApplicationID {
+    return transport.applicationID
+  }
+  
+  public var apiKey: APIKey {
+    return transport.apiKey
+  }
 
   init(name: IndexName, transport: Transport, operationLauncher: OperationLauncher) {
     self.name = name

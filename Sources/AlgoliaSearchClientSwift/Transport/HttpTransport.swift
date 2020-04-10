@@ -11,18 +11,28 @@ import Foundation
  The transport layer is responsible of the serialization/deserialization and the retry strategy.
 */
 class HttpTransport: Transport {
+  
+  var applicationID: ApplicationID {
+    return credentials.applicationID
+  }
+  
+  var apiKey: APIKey {
+    return credentials.apiKey
+  }
 
   let requestBuilder: HTTPRequestBuilder
   let operationLauncher: OperationLauncher
+  let credentials: Credentials
   
-  init(requestBuilder: HTTPRequestBuilder, operationLauncher: OperationLauncher) {
+  init(requestBuilder: HTTPRequestBuilder, operationLauncher: OperationLauncher, credentials: Credentials) {
     self.requestBuilder = requestBuilder
     self.operationLauncher = operationLauncher
+    self.credentials = credentials
   }
 
   convenience init(requester: HTTPRequester, configuration: Configuration, retryStrategy: RetryStrategy, credentials: Credentials, operationLauncher: OperationLauncher) {
     let requestBuilder = HTTPRequestBuilder(requester: requester, retryStrategy: retryStrategy, configuration: configuration, credentials: credentials)
-    self.init(requestBuilder: requestBuilder, operationLauncher: operationLauncher)
+    self.init(requestBuilder: requestBuilder, operationLauncher: operationLauncher, credentials: credentials)
   }
   
   func execute<T: Codable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation & TransportTask {

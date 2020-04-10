@@ -7,12 +7,21 @@
 
 import Foundation
 
-public struct Client {
-
+public struct Client: Credentials {
+  
   let transport: Transport
   let operationLauncher: OperationLauncher
+  
+  public var applicationID: ApplicationID {
+    return transport.applicationID
+  }
+  
+  public var apiKey: APIKey {
+    return transport.apiKey
+  }
 
   public init(appID: ApplicationID, apiKey: APIKey) {
+    
     let configuration = SearchConfigration(applicationID: appID, apiKey: apiKey)
     let sessionConfiguration: URLSessionConfiguration = .default
     sessionConfiguration.httpAdditionalHeaders = configuration.defaultHeaders
