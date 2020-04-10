@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct BatchOperationIndex: Codable {
+public struct BatchOperationIndex: Codable {
   
   /// IndexName targeted by this operation
-  let indexName: IndexName
+  public let indexName: IndexName
   
   /// Type of BatchOperation to execute.
-  let operation: BatchOperation
+  public let operation: BatchOperation
   
 }
 
