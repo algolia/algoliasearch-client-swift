@@ -12,16 +12,16 @@ public struct FacetSearchResponse: Codable {
   /**
    The list of Facet.
    */
-  let facets: [Facet]
+  public let facets: [Facet]
   
   /**
    Whether the count returned for each facets is exhaustive.
    */
-  let exhaustiveFacetsCount: Bool
+  public let exhaustiveFacetsCount: Bool
   
   /**
    Processing time.
    */
-  let processingTimeMS: TimeInterval
+  public let processingTimeMS: TimeInterval
   
 }
