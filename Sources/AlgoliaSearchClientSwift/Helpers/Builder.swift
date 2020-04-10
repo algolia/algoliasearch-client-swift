@@ -7,16 +7,17 @@
 
 import Foundation
 
-protocol Builder {}
+public protocol Builder {}
 
-extension Builder {
+public extension Builder {
+  
   func set<T>(_ keyPath: WritableKeyPath<Self, T>, to newValue: T) -> Self {
     var copy = self
     copy[keyPath: keyPath] = newValue
     return copy
   }
   
-  func setNotNil<T>(_ keyPath: WritableKeyPath<Self, T>, to newValue: T?) -> Self {
+  func setIfNotNil<T>(_ keyPath: WritableKeyPath<Self, T>, to newValue: T?) -> Self {
     guard let value = newValue else { return self }
     var copy = self
     copy[keyPath: keyPath] = value
