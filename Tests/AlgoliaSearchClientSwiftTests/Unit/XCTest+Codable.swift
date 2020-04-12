@@ -27,13 +27,9 @@ func AssertDecode<T: Codable>(_ input: JSON, expected: T, file: StaticString = #
   XCTAssertEqual(input, expectedJSON, file: file, line: line)
 }
 
-func AssertDecode<T: Decodable>(jsonFilename filename: String, expected: T.Type, file: StaticString = #file, line: UInt = #line) {
-  do {
-    let data = try Data(filename: filename)
-    XCTAssertNoThrow(try JSONDecoder().decode(T.self, from: data))
-  } catch _ {
-    XCTFail("Impossible to read json file with name \(filename)")
-  }
+@discardableResult func AssertDecode<T: Decodable>(jsonFilename filename: String, expected: T.Type, file: StaticString = #file, line: UInt = #line) throws -> T {
+  let data = try Data(filename: filename)
+  return try JSONDecoder().decode(T.self, from: data)
 }
 
 func AssertEncode<T: Encodable>(_ value: T, expected: JSON, file: StaticString = #file, line: UInt = #line) throws {

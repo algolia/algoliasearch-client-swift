@@ -11,16 +11,20 @@ import XCTest
 
 class SearchResponseTests: XCTestCase {
 
-  func testDecodingFacets() {
-    AssertDecode(jsonFilename: "Facets.json", expected: SearchResponse.FacetsStorage.self)
+  func testDecodingFacets() throws {
+    let facets = try AssertDecode(jsonFilename: "Facets.json", expected: [Attribute: [Facet]].self)
+    XCTAssertEqual(facets.count, 11)
+    XCTAssert(facets.keys.contains("type"))
+    
+    
   }
 
-  func testDecodingFacetStats() {
-    AssertDecode(jsonFilename: "FacetsStats.json", expected: SearchResponse.FacetStatsStorage.self)
+  func testDecodingFacetStats() throws {
+    try AssertDecode(jsonFilename: "FacetsStats.json", expected: SearchResponse.FacetStatsStorage.self)
   }
 
-  func testDecoding() {
-    AssertDecode(jsonFilename: "SearchResponse.json", expected: SearchResponse.self)
+  func testDecoding() throws {
+    try AssertDecode(jsonFilename: "SearchResponse.json", expected: SearchResponse.self)
   }
 
 }

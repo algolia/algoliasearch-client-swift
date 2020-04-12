@@ -1,0 +1,76 @@
+{
+  "country": "Denmark",
+  "is_country": false,
+  "is_highway": false,
+  "importance": 16,
+  "_tags": [
+    "city",
+    "country/dk",
+    "place/city",
+    "source/geonames"
+  ],
+  "postcode": [
+    "8000"
+  ],
+  "county": [
+    "Aarhus Municipality"
+  ],
+  "population": 256018,
+  "country_code": "dk",
+  "is_city": true,
+  "is_popular": true,
+  "administrative": [
+    "Region Midtjylland"
+  ],
+  "admin_level": 15,
+  "is_suburb": false,
+  "locale_names": [
+    "Aarhus"
+  ],
+  "_geoloc": {
+    "lat": 56.1496,
+    "lng": 10.2134
+  },
+  "objectID": "2624652",
+  "_highlightResult": {
+    "country": {
+      "value": "Denmark",
+      "matchLevel": "none",
+      "matchedWords": []
+    },
+    "postcode": [
+      {
+        "value": "8000",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    ],
+    "county": [
+      {
+        "value": "<em>Aa</em>rhus Municipality",
+        "matchLevel": "full",
+        "fullyHighlighted": false,
+        "matchedWords": [
+          "aa"
+        ]
+      }
+    ],
+    "administrative": [
+      {
+        "value": "Region Midtjylland",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    ],
+    "locale_names": [
+      {
+        "value": "<em>Aa</em>rhus",
+        "matchLevel": "full",
+        "fullyHighlighted": false,
+        "matchedWords": [
+          "aa"
+        ]
+      }
+    ]
+  }
+}
