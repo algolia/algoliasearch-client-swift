@@ -43,12 +43,12 @@ extension Command {
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
       
-      init(geolocation: Point, language: Language, hitsPerPage: Int?, requestOptions: RequestOptions?) {
+      init(geolocation: Point, language: Language?, hitsPerPage: Int?, requestOptions: RequestOptions?) {
         let requestOptions = requestOptions.updateOrCreate([
-          .aroundLatLng: "\(geolocation.latitude),\(geolocation.longitude)",
+          .aroundLatLng: geolocation.stringForm,
           .hitsPerPage: hitsPerPage.flatMap(String.init),
-          .language: language.rawValue
-        ])
+          .language: language?.rawValue
+          ])
         self.urlRequest = .init(method: .get, path: .places >>> PlacesCompletion.reverse, requestOptions: requestOptions)
         self.requestOptions = requestOptions
       }

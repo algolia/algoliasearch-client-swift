@@ -16,7 +16,6 @@ enum PlaceCodingKeys: String, CodingKey {
   case countryCode = "country_code"
   case postcode
   case population
-  case highlightResult = "_highlightResult"
   case importance
   case tags = "_tags"
   case adminLevel = "admin_level"

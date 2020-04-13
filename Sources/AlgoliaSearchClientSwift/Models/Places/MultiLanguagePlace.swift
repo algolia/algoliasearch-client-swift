@@ -7,39 +7,12 @@
 
 import Foundation
 
-public struct CustomKey<Key: Hashable & RawRepresentable, Value: Codable>: Codable where Key.RawValue == String {
-  
-  public var wrappedValue: [Key: Value]
-  
-  public init(wrappedValue: [Key: Value]) {
-    self.wrappedValue = wrappedValue
-  }
-  
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: DynamicKey.self)
-    var storage: [Key: Value] = [:]
-    for rawKey in container.allKeys {
-      guard let key = Key(rawValue: rawKey.stringValue) else { throw DecodingError.dataCorruptedError(forKey: rawKey, in: container, debugDescription: "Cannot create \(Value.self) value") }
-      let value = try container.decode(Value.self, forKey: rawKey)
-      storage[key] = value
-    }
-    self.wrappedValue = storage
-  }
-  
-  public func encode(to encoder: Encoder) throws {
-    let rawWrappedSequence = wrappedValue.map { ($0.key.rawValue, $0.value) }
-    let rawWrappedValue = [String: Value](rawWrappedSequence) { (_, k) in k }
-    try rawWrappedValue.encode(to: encoder)
-  }
-  
-}
-
 public struct MultiLanguagePlace {
   
-  public let country: [Language: String]?
-  public let county: [Language: [String]]?
-  public let city: [Language: [String]]?
-  public let localeNames: [Language: [String]]?
+  public var country: [Language: String]?
+  public var county: [Language: [String]]?
+  public var city: [Language: [String]]?
+  public var localeNames: [Language: [String]]?
   public let administrative: [String]?
   public let countryCode: Country?
   public let postcode: [String]?
@@ -59,9 +32,9 @@ public struct MultiLanguagePlace {
 }
 
 extension MultiLanguagePlace: Codable {
-  
+
   typealias CodingKeys = PlaceCodingKeys
-  
+
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     country = (try container.decodeIfPresent(CustomKey<Language, String>.self, forKey: .country))?.wrappedValue
@@ -84,7 +57,7 @@ extension MultiLanguagePlace: Codable {
     isHighway = try container.decodeIfPresent(forKey: .isHighway)
     isPopular = try container.decodeIfPresent(forKey: .isPopular)
   }
-  
+
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encodeIfPresent(country, forKey: .country)
@@ -107,5 +80,5 @@ extension MultiLanguagePlace: Codable {
     try container.encodeIfPresent(isHighway, forKey: .isHighway)
     try container.encodeIfPresent(isPopular, forKey: .isPopular)
   }
-    
+
 }

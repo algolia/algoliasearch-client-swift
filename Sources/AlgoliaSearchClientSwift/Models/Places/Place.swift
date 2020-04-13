@@ -29,6 +29,28 @@ public struct Place {
   public let isHighway: Bool?
   public let isPopular: Bool?
   
+  public init(_ place: MultiLanguagePlace, language: Language) {
+    self.country = place.country?[language]
+    self.county = place.county?[language]
+    self.city = place.city?[language]
+    self.localeNames = place.localeNames?[language]
+    self.administrative = place.administrative
+    self.countryCode = place.countryCode
+    self.postcode = place.postcode
+    self.population = place.population
+    self.importance = place.importance
+    self.tags = place.tags
+    self.adminLevel = place.adminLevel
+    self.district = place.district
+    self.suburb = place.suburb
+    self.village = place.village
+    self.isCountry = place.isCountry
+    self.isCity = place.isCity
+    self.isSuburb = place.isSuburb
+    self.isHighway = place.isHighway
+    self.isPopular = place.isPopular
+  }
+  
 }
 
 extension Place: Codable {
