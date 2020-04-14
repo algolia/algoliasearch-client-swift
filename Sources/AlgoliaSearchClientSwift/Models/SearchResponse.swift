@@ -159,8 +159,19 @@ public struct SearchResponse {
    - Returned only by the EndpointSearch.advancedSearch method.
    - [Documentation](https://www.algolia.com/doc/guides/building-search-ui/going-further/backend-search/how-to/faceting/?language=kotlin#conjunctive-and-disjunctive-faceting)
    */
-  public var disjunctiveFacets: [Attribute: [Facet]]? { return disjunctiveFacetsStorage?.storage }
-  let disjunctiveFacetsStorage: FacetsStorage?
+  public var disjunctiveFacets: [Attribute: [Facet]] {
+    
+    get {
+      return disjunctiveFacetsStorage?.storage ?? [:]
+    }
+    
+    set {
+      disjunctiveFacetsStorage = .init(storage: newValue)
+    }
+    
+  }
+  var disjunctiveFacetsStorage: FacetsStorage?
+  
   /**
    * Statistics for numerical facets.
    - Returned only if Query.facets is non-empty and at least one of the returned facets contains numerical values.
@@ -186,8 +197,18 @@ public struct SearchResponse {
    A mapping of each facet name to the corresponding facet counts for hierarchical facets.
    - Returned only by the [EndpointSearch.advancedSearch] method, only if a [FilterGroup.And.Hierarchical] is used.
   */
-  public var hierarchicalFacets: [Attribute: [Facet]]? { return hierarchicalFacetsStorage?.storage }
-  let hierarchicalFacetsStorage: FacetsStorage?
+  public var hierarchicalFacets: [Attribute: [Facet]] {
+    
+    get {
+      return hierarchicalFacetsStorage?.storage ?? [:]
+    }
+    
+    set {
+      hierarchicalFacetsStorage = .init(storage: newValue)
+    }
+    
+  }
+  var hierarchicalFacetsStorage: FacetsStorage?
 
   /**
    Meta-information as to how the query was processed.
