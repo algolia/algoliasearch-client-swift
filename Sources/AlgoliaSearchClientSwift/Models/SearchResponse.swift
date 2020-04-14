@@ -141,8 +141,18 @@ public struct SearchResponse {
    A mapping of each facet name to the corresponding facet counts.
    - Returned only if Query.facets is non-empty.
   */
-  public var facets: [Attribute: [Facet]]? { return facetsStorage?.storage }
-  let facetsStorage: FacetsStorage?
+  public var facets: [Attribute: [Facet]] {
+  
+    get {
+      return facetsStorage?.storage ?? [:]
+    }
+    
+    set {
+      facetsStorage = .init(storage: newValue)
+    }
+  
+  }
+  var facetsStorage: FacetsStorage?
 
   /**
    A mapping of each facet name to the corresponding facet counts for disjunctive facets.
