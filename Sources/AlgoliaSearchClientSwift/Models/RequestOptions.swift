@@ -94,6 +94,7 @@ public struct HTTPHeaderKey: RawRepresentable, Hashable {
   public static let forwardedFor: HTTPHeaderKey = "X-Forwarded-For"
   public static let applicationID: HTTPHeaderKey = "X-Algolia-Application-Id"
   public static let apiKey: HTTPHeaderKey = "X-Algolia-API-Key"
+  public static let userAgent: HTTPHeaderKey = "User-Agent"
 
   public let rawValue: String
 

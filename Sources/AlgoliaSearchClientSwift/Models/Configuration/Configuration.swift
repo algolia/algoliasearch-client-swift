@@ -54,6 +54,6 @@ struct DefaultConfiguration: Configuration {
   let readTimeout: TimeInterval = 5
   let logLevel: LogLevel = .info
   var hosts: [RetryableHost] = []
-  let defaultHeaders: [HTTPHeaderKey: String]? = nil
+  let defaultHeaders: [HTTPHeaderKey: String]? = [.userAgent: Client.userAgents.map(\.description).joined(separator: ", ")]
 
 }

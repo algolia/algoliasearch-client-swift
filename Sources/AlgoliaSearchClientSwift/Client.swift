@@ -19,6 +19,8 @@ public struct Client: Credentials {
   public var apiKey: APIKey {
     return transport.apiKey
   }
+  
+  public internal(set) static var userAgents: Set<UserAgent> = [.operatingSystem, .library]
 
   public init(appID: ApplicationID, apiKey: APIKey) {
     
@@ -44,6 +46,10 @@ public struct Client: Credentials {
 
   public func index(withName indexName: IndexName) -> Index {
     return Index(name: indexName, transport: transport, operationLauncher: operationLauncher)
+  }
+  
+  public static func append(userAgent: UserAgent) {
+    userAgents.insert(userAgent)
   }
 
 }
