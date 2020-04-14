@@ -114,25 +114,6 @@ extension SearchResponse: Codable {
 
 extension SearchResponse {
 
-  struct FacetsStorage: Codable {
-
-    let storage: [Attribute: [Facet]]
-
-    public init(from decoder: Decoder) throws {
-      let container = try decoder.singleValueContainer()
-      let rawFacetsForAttribute = try container.decode([String: [String: Int]].self)
-      let output = [Attribute: [Facet]](rawFacetsForAttribute)
-      self.storage = output
-    }
-
-    public func encode(to encoder: Encoder) throws {
-      let rawFacets = [String: [String: Int]](storage)
-      var container = encoder.singleValueContainer()
-      try container.encode(rawFacets)
-    }
-
-  }
-
   struct FacetStatsStorage: Codable {
 
     let storage: [Attribute: FacetStats]

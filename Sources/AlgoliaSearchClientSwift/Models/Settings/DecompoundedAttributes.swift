@@ -65,10 +65,9 @@ extension DecompoundedAttributes: Codable {
     let rawStorage = try container.decode([String: [String]].self)
     var storage: [Language: [Attribute]] = [:]
     for (rawLanguage, rawAttributes) in rawStorage {
-      if let language = Language(rawValue: rawLanguage) {
-        let attributes = rawAttributes.map(Attribute.init)
-        storage[language] = attributes
-      }
+      let language = Language(rawValue: rawLanguage)
+      let attributes = rawAttributes.map(Attribute.init)
+      storage[language] = attributes
     }
     self.init(storage: storage)
   }

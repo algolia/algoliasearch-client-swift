@@ -59,14 +59,17 @@ public struct RequestOptions {
 
 public struct HTTPParameterKey: RawRepresentable, Hashable {
 
-  public static let attributesToRetreive: HTTPParameterKey = "attributesToRetreive"
-  public static let forwardToReplicas: HTTPParameterKey = "forwardToReplicas"
-  public static let createIfNotExists: HTTPParameterKey = "createIfNotExists"
-  public static let cursor: HTTPParameterKey = "cursor"
-  public static let indexName: HTTPParameterKey = "indexName"
-  public static let offset: HTTPParameterKey = "offset"
-  public static let length: HTTPParameterKey = "length"
-  public static let type: HTTPParameterKey = "type"
+  public static var attributesToRetreive: HTTPParameterKey { #function }
+  public static var forwardToReplicas: HTTPParameterKey { #function }
+  public static var createIfNotExists: HTTPParameterKey { #function }
+  public static var cursor: HTTPParameterKey { #function }
+  public static var indexName: HTTPParameterKey { #function }
+  public static var offset: HTTPParameterKey { #function }
+  public static var length: HTTPParameterKey { #function }
+  public static var type: HTTPParameterKey { #function }
+  public static var language: HTTPParameterKey { #function }
+  public static var aroundLatLng: HTTPParameterKey { #function }
+  public static var hitsPerPage: HTTPParameterKey { #function }
 
 
   public let rawValue: String
