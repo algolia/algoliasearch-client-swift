@@ -42,11 +42,8 @@ public struct PlacesClient: Credentials {
     self.operationLauncher = operationLauncher
   }
   
-}
-
-public struct PlacesResponse<T: Codable>: Codable {
-  
-  public let hits: [T]
+  public typealias SingleLanguageResponse = PlacesResponse<Hit<Place>>
+  public typealias MultiLanguageResponse = PlacesResponse<Hit<MultiLanguagePlace>>
   
 }
 
@@ -55,22 +52,26 @@ public extension PlacesClient {
   //MARK: - Search
   
   /**
-   
+     
+    
+   - Parameter query: The PlacesQuery used to search.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func search(query: PlacesQuery, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<PlacesResponse<Hit<MultiLanguagePlace>>>) -> Operation {
+  @discardableResult func search(query: PlacesQuery, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<MultiLanguageResponse>) -> Operation {
     let command = Command.Places.Search(query: query, requestOptions: requestOptions)
     return transport.execute(command, completion: completion)
   }
   
   /**
+     
    
+   - Parameter query: The PlacesQuery used to search.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: PlacesResponse<MultiLanguagePlace>  object
    */
-  @discardableResult func search(query: PlacesQuery, requestOptions: RequestOptions? = nil) throws -> PlacesResponse<Hit<MultiLanguagePlace>> {
+  @discardableResult func search(query: PlacesQuery, requestOptions: RequestOptions? = nil) throws -> MultiLanguageResponse {
     let command = Command.Places.Search(query: query, requestOptions: requestOptions)
     return try transport.execute(command)
   }
@@ -78,23 +79,29 @@ public extension PlacesClient {
   //MARK: - Search Multilanguage
   
   /**
+     
    
+   - Parameter query: The PlacesQuery used to search.
+   - Parameter language: The language used to specialize the results localization
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func search(query: PlacesQuery, language: Language, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<PlacesResponse<Hit<Place>>>) -> Operation {
+  @discardableResult func search(query: PlacesQuery, language: Language, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SingleLanguageResponse>) -> Operation {
     let query = query.set(\.language, to: language)
     let command = Command.Places.Search(query: query, requestOptions: requestOptions)
     return transport.execute(command, completion: completion)
   }
   
   /**
+     
    
+   - Parameter query: The PlacesQuery used to search.
+   - Parameter language: The language used to specialize the results localization
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: PlacesResponse<MultiLanguagePlace>  object
    */
-  @discardableResult func search(query: PlacesQuery, language: Language, requestOptions: RequestOptions? = nil) throws -> PlacesResponse<Hit<Place>> {
+  @discardableResult func search(query: PlacesQuery, language: Language, requestOptions: RequestOptions? = nil) throws -> SingleLanguageResponse {
     let query = query.set(\.language, to: language)
     let command = Command.Places.Search(query: query, requestOptions: requestOptions)
     return try transport.execute(command)
@@ -104,6 +111,8 @@ public extension PlacesClient {
   
   /**
    
+   
+   - Parameter objectID: The ObjectID to identify the record.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
@@ -115,6 +124,8 @@ public extension PlacesClient {
   
   /**
    
+   
+   - Parameter objectID: The ObjectID to identify the record.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: MultiLanguagePlace  object
    */
@@ -127,21 +138,29 @@ public extension PlacesClient {
   
   /**
    
+   
+   - Parameter geolocation:
+   - Parameter hitsPerPage: Specify the maximum number of entries to retrieve starting at the page.
+   - Parameter language: The language used to specialize the results localization
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func reverseGeocoding(geolocation: Point, hitsPerPage: Int? = nil, language: Language, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<PlacesResponse<Hit<Place>>>) -> Operation {
+  @discardableResult func reverseGeocoding(geolocation: Point, hitsPerPage: Int? = nil, language: Language, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SingleLanguageResponse>) -> Operation {
     let command = Command.Places.ReverseGeocoding(geolocation: geolocation, language: language, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
     return transport.execute(command, completion: completion)
   }
   
   /**
    
+   
+   - Parameter geolocation:
+   - Parameter hitsPerPage: Specify the maximum number of entries to retrieve starting at the page.
+   - Parameter language: The language used to specialize the results localization
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: PlacesResponse<Hit<Place>>  object
    */
-  @discardableResult func reverseGeocoding(geolocation: Point, hitsPerPage: Int? = nil, language: Language,requestOptions: RequestOptions? = nil) throws -> PlacesResponse<Hit<Place>> {
+  @discardableResult func reverseGeocoding(geolocation: Point, hitsPerPage: Int? = nil, language: Language,requestOptions: RequestOptions? = nil) throws -> SingleLanguageResponse {
     let command = Command.Places.ReverseGeocoding(geolocation: geolocation, language: language, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
     return try transport.execute(command)
   }
@@ -151,21 +170,25 @@ public extension PlacesClient {
   
   /**
    
+   - Parameter geolocation:
+   - Parameter hitsPerPage: Specify the maximum number of entries to retrieve starting at the page.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func reverseGeocoding(geolocation: Point, hitsPerPage: Int? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<PlacesResponse<Hit<MultiLanguagePlace>>>) -> Operation {
+  @discardableResult func reverseGeocoding(geolocation: Point, hitsPerPage: Int? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<MultiLanguageResponse>) -> Operation {
     let command = Command.Places.ReverseGeocoding(geolocation: geolocation, language: nil, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
     return transport.execute(command, completion: completion)
   }
   
   /**
    
+   - Parameter geolocation:
+   - Parameter hitsPerPage: Specify the maximum number of entries to retrieve starting at the page.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: PlacesResponse<Hit<MultiLanguagePlace>>  object
    */
-  @discardableResult func reverseGeocoding(geolocation: Point, hitsPerPage: Int? = nil,requestOptions: RequestOptions? = nil) throws -> PlacesResponse<Hit<MultiLanguagePlace>> {
+  @discardableResult func reverseGeocoding(geolocation: Point, hitsPerPage: Int? = nil,requestOptions: RequestOptions? = nil) throws -> MultiLanguageResponse {
     let command = Command.Places.ReverseGeocoding(geolocation: geolocation, language: nil, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
     return try transport.execute(command)
   }
