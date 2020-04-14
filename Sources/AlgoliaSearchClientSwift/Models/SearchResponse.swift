@@ -71,7 +71,7 @@ public struct SearchResponse {
    Whether the facet count is exhaustive (true) or approximate (false).
    - See the related [discussion](https://www.algolia.com/doc/faq/index-configuration/my-facet-and-hit-counts-are-not-accurate/).
    */
-  public let exhaustiveFacetsCount: Bool?
+  public var exhaustiveFacetsCount: Bool?
 
   /**
    An echo of the query text. See the Query.query search parameter.
@@ -176,8 +176,18 @@ public struct SearchResponse {
    * Statistics for numerical facets.
    - Returned only if Query.facets is non-empty and at least one of the returned facets contains numerical values.
    */
-  public var facetStats: [Attribute: FacetStats]? { return facetStatsStorage?.storage }
-  let facetStatsStorage: FacetStatsStorage?
+  public var facetStats: [Attribute: FacetStats]? {
+    
+    get {
+      return facetStatsStorage?.storage
+    }
+    
+    set {
+      facetStatsStorage = newValue.flatMap(FacetStatsStorage.init(storage:))
+    }
+    
+  }
+  var facetStatsStorage: FacetStatsStorage?
 
   /**
    Returned only by the EndpointSearch.browse method.

@@ -10,6 +10,10 @@ import Foundation
 struct FacetStatsStorage: Codable {
 
   var storage: [Attribute: FacetStats]
+  
+  public init(storage: [Attribute: FacetStats]) {
+    self.storage = storage
+  }
 
   public init(from decoder: Decoder) throws {
     let container = try decoder.singleValueContainer()
