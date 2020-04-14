@@ -18,7 +18,7 @@ class SearchResponseTests: XCTestCase {
   }
 
   func testDecodingFacetStats() throws {
-    try AssertDecode(jsonFilename: "FacetsStats.json", expected: SearchResponse.FacetStatsStorage.self)
+    try AssertDecode(jsonFilename: "FacetsStats.json", expected: FacetStatsStorage.self)
   }
 
   func testDecoding() throws {
