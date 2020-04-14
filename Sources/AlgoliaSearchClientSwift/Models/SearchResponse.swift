@@ -141,14 +141,14 @@ public struct SearchResponse {
    A mapping of each facet name to the corresponding facet counts.
    - Returned only if Query.facets is non-empty.
   */
-  public var facets: [Attribute: [Facet]] {
+  public var facets: [Attribute: [Facet]]? {
   
     get {
-      return facetsStorage?.storage ?? [:]
+      return facetsStorage?.storage
     }
     
     set {
-      facetsStorage = .init(storage: newValue)
+      facetsStorage = newValue.flatMap(FacetsStorage.init(storage:))
     }
   
   }
@@ -159,14 +159,14 @@ public struct SearchResponse {
    - Returned only by the EndpointSearch.advancedSearch method.
    - [Documentation](https://www.algolia.com/doc/guides/building-search-ui/going-further/backend-search/how-to/faceting/?language=kotlin#conjunctive-and-disjunctive-faceting)
    */
-  public var disjunctiveFacets: [Attribute: [Facet]] {
+  public var disjunctiveFacets: [Attribute: [Facet]]? {
     
     get {
-      return disjunctiveFacetsStorage?.storage ?? [:]
+      return disjunctiveFacetsStorage?.storage
     }
     
     set {
-      disjunctiveFacetsStorage = .init(storage: newValue)
+      disjunctiveFacetsStorage = newValue.flatMap(FacetsStorage.init(storage:))
     }
     
   }
@@ -197,14 +197,14 @@ public struct SearchResponse {
    A mapping of each facet name to the corresponding facet counts for hierarchical facets.
    - Returned only by the [EndpointSearch.advancedSearch] method, only if a [FilterGroup.And.Hierarchical] is used.
   */
-  public var hierarchicalFacets: [Attribute: [Facet]] {
+  public var hierarchicalFacets: [Attribute: [Facet]]? {
     
     get {
-      return hierarchicalFacetsStorage?.storage ?? [:]
+      return hierarchicalFacetsStorage?.storage
     }
     
     set {
-      hierarchicalFacetsStorage = .init(storage: newValue)
+      hierarchicalFacetsStorage = newValue.flatMap(FacetsStorage.init(storage:))
     }
     
   }
