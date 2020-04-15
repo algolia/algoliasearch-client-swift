@@ -1,0 +1,17 @@
+version_number=`git describe --tags $(git rev-list --tags --max-count=1)`
+IFS='.' read -a components <<< "${version_number}"
+major=${components[0]}
+minor=${components[1]}
+IFS='-' read -a tailComponents <<< "${components[2]}"
+patch=${tailComponents[0]}
+if [ -z "${tailComponents[1]}" ] 
+then
+ prereleaseIdentifier="nil"
+else
+ prereleaseIdentifier=\"${tailComponents[1]}\"
+fi
+version_file=Sources/AlgoliaSearchClientSwift/Helpers/Version+Current.swift
+> $version_file
+echo "// This is generated file. Don't modify it manually." >> $version_file
+echo "public extension Version { static let current: Version = .init(major: $major, minor: $minor, patch: $patch, prereleaseIdentifier: $prereleaseIdentifier) }" >> $version_file
+
