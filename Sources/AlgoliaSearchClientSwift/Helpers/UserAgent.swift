@@ -30,7 +30,7 @@ extension UserAgent: CustomStringConvertible {
 extension UserAgent {
   
   static var library: UserAgent {
-    return UserAgent(title: "Algolia for Swift", version: Version.description)
+    return UserAgent(title: "Algolia for Swift", version: Version.current.description)
   }
   
 }

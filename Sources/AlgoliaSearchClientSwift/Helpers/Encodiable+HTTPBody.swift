@@ -11,6 +11,7 @@ extension Encodable {
 
   var httpBody: Data {
     let jsonEncoder = JSONEncoder()
+    jsonEncoder.dateEncodingStrategy = .swiftAPIClient
     do {
       let body = try jsonEncoder.encode(self)
       return body

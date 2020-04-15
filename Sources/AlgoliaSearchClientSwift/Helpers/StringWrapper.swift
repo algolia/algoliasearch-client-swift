@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol StringWrapper: RawRepresentable, Codable, CustomStringConvertible, Hashable, ExpressibleByStringLiteral where RawValue == String {
+public protocol StringWrapper: RawRepresentable, ExpressibleByStringLiteral, Codable, CustomStringConvertible, Hashable where RawValue == String {
   init(rawValue: String)
 }
 
@@ -17,6 +17,10 @@ extension StringWrapper {
     self.init(rawValue: value)
   }
 
+}
+
+extension StringWrapper {
+  
   public init(from decoder: Decoder) throws {
     let container = try decoder.singleValueContainer()
     if let intValue = try? container.decode(Int.self) {
@@ -32,7 +36,11 @@ extension StringWrapper {
     var container = encoder.singleValueContainer()
     try container.encode(rawValue)
   }
+  
+}
 
+extension StringWrapper {
+  
   public var description: String {
     return rawValue
   }

@@ -33,7 +33,7 @@ class OperationLauncher {
       throw SyncOperationError.noResult
     }
 
-    return try result.value()
+    return try result.get()
 
   }
 
