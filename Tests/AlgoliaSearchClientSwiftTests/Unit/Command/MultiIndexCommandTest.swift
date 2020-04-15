@@ -63,7 +63,7 @@ class MultiIndexCommandTest: XCTestCase, AlgoliaCommandTest {
           method: .post,
           urlPath: "/1/indexes/*/batch",
           queryItems: [.init(name: "testParameter", value: "testParameterValue")],
-          body: RequestsWrapper([BatchOperationIndex(indexName: "index0", operation: .add(["attr": "val"] as JSON)), BatchOperationIndex(indexName: "index1", operation: .clear)]).httpBody,
+          body: RequestsWrapper([IndexBatchOperation(indexName: "index0", operation: .add(["attr": "val"] as JSON)), IndexBatchOperation(indexName: "index1", operation: .clear)]).httpBody,
           requestOptions: test.requestOptions)
   }
   

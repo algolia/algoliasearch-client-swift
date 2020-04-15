@@ -23,7 +23,7 @@ class BatchTests: XCTestCase {
   
   func testIndexConding() throws {
     let object: JSON = ["attr": ["value": 2.5]] as JSON
-    try AssertEncodeDecode(BatchOperationIndex(indexName: "index", operation: .add(object)), ["indexName": "index", "action": "addObject", "body": ["attr": ["value": 2.5]]])
+    try AssertEncodeDecode(IndexBatchOperation(indexName: "index", operation: .add(object)), ["indexName": "index", "action": "addObject", "body": ["attr": ["value": 2.5]]])
   }
   
 }

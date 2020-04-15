@@ -132,12 +132,12 @@ public extension Client {
    This method enables you to batch multiple different indexing operations in one API call, like add or delete
    objects, potentially targeting multiple indices.
    
-   - Parameter operations: List of BatchOperationIndex.
+   - Parameter operations: List of IndexName and an associated BatchOperation.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func multipleBatchObjects(operations: [BatchOperationIndex], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchesResponse>) -> Operation {
+  @discardableResult func multipleBatchObjects(operations: [(IndexName, BatchOperation)], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchesResponse>) -> Operation {
     let command = Command.MultipleIndex.BatchObjects(operations: operations, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
@@ -147,11 +147,11 @@ public extension Client {
    This method enables you to batch multiple different indexing operations in one API call, like add or delete
    objects, potentially targeting multiple indices.
    
-   - Parameter operations: List of BatchOperationIndex.
+   - Parameter operations: List of IndexName and an associated BatchOperation.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: BatchesResponse  object
    */
-  @discardableResult func multipleBatchObjects(operations: [BatchOperationIndex], requestOptions: RequestOptions? = nil) throws -> BatchesResponse {
+  @discardableResult func multipleBatchObjects(operations: [(IndexName, BatchOperation)], requestOptions: RequestOptions? = nil) throws -> BatchesResponse {
     let command = Command.MultipleIndex.BatchObjects(operations: operations, requestOptions: requestOptions)
     return try execute(command)
   }
