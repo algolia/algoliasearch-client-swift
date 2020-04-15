@@ -80,8 +80,12 @@ extension Command {
       let callType: CallType = .write
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
+      
+      init(operations: [(IndexName, BatchOperation)], requestOptions: RequestOptions?) {
+        self.init(operations: operations.map { IndexBatchOperation(indexName: $0.0, operation: $0.1) }, requestOptions: requestOptions)
+      }
 
-      init(operations: [BatchOperationIndex], requestOptions: RequestOptions?) {
+      init(operations: [IndexBatchOperation], requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let body = RequestsWrapper(operations).httpBody
         self.urlRequest = .init(method: .post, path: .indexesV1 >>> .multiIndex >>> MultiIndexCompletion.batch, body: body, requestOptions: requestOptions)

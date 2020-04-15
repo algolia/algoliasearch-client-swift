@@ -12,7 +12,7 @@ import XCTest
 class QueryTests: XCTestCase {
   
   func testStringEncoding() {
-    let query = Query("testQuery").set(\.typoTolerance, to: .strict).set(\.ignorePlurals, to: .false)    
+    let _ = Query("testQuery").set(\.typoTolerance, to: .strict).set(\.ignorePlurals, to: .false)    
   }
 
 }
