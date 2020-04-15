@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  HighlightedString.swift
 //  
 //
 //  Created by Vladislav Fitc on 13.03.2020.
@@ -9,8 +9,8 @@ import Foundation
 
 public struct HighlightedString: Codable, Hashable {
 
-  static let preTag = "<em>"
-  static let postTag = "</em>"
+  public static var preTag = "<em>"
+  public static var postTag = "</em>"
 
   public let taggedString: TaggedString
 

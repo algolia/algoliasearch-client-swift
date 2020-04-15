@@ -15,7 +15,7 @@ public struct AdvancedSyntaxFeatures: StringOption, ProvidingCustomOption {
     self.rawValue = rawValue
   }
   
-  static var exactPhrase: Self { .init(rawValue: #function) }
-  static var excludeWords: Self { .init(rawValue: #function) }
+  public static var exactPhrase: Self { .init(rawValue: #function) }
+  public static var excludeWords: Self { .init(rawValue: #function) }
   
 }

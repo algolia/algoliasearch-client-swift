@@ -8,7 +8,6 @@
 import Foundation
 
 public struct Language: StringOption & ProvidingCustomOption & Hashable & ExpressibleByStringLiteral {
-  public typealias StringLiteralType = String
   
   public var rawValue: String
   public init(rawValue: String) { self.rawValue = rawValue }

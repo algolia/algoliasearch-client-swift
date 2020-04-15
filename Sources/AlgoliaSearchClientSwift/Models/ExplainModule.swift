@@ -7,25 +7,14 @@
 
 import Foundation
 
-public enum ExplainModule: Codable {
-  case matchAlternatives
-  case other(String)
-}
-
-extension ExplainModule: RawRepresentable {
-
-  public var rawValue: String {
-    switch self {
-    case .matchAlternatives: return "match.alternatives"
-    case .other(let value): return value
-    }
+public struct ExplainModule: StringOption & ProvidingCustomOption {
+  
+  public let rawValue: String
+  
+  public init(rawValue: RawValue) {
+    self.rawValue = rawValue
   }
-
-  public init(rawValue: String) {
-    switch rawValue {
-    case ExplainModule.matchAlternatives.rawValue: self = .matchAlternatives
-    default: self = .other(rawValue)
-    }
-  }
-
+  
+  public static var matchAlternatives: Self { .init(rawValue: "match.alternatives") }
+  
 }

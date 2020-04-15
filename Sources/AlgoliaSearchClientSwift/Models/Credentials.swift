@@ -9,9 +9,7 @@ import Foundation
 
 public protocol Credentials {
 
-  /**
-   ApplicationID to target. Is passed as a HTTP header.
-   */
+  /// ApplicationID to target. Is passed as a HTTP header.
   var applicationID: ApplicationID { get }
 
   /**

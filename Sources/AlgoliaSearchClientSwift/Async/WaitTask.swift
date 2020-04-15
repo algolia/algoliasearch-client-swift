@@ -76,7 +76,6 @@ class WaitTask: AsyncOperation, ResultContainer {
           operation.result = .success(taskInfo.status)
           operation.completion(.success(taskInfo.status))
           operation.state = .finished
-
         default:
           guard operation.isTimeout else {
             sleep(1)
