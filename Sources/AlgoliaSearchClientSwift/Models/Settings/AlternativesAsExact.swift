@@ -15,8 +15,8 @@ public struct AlternativesAsExact: StringOption, ProvidingCustomOption {
     self.rawValue = rawValue
   }
   
-  static var ignorePlurals: Self { .init(rawValue: #function) }
-  static var singleWordSynonym: Self { .init(rawValue: #function) }
-  static var multiWordsSynonym: Self { .init(rawValue: #function) }
+  public static var ignorePlurals: Self { .init(rawValue: #function) }
+  public static var singleWordSynonym: Self { .init(rawValue: #function) }
+  public static var multiWordsSynonym: Self { .init(rawValue: #function) }
   
 }

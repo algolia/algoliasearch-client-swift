@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol StringOption: Codable, RawRepresentable where RawValue == String {
+public protocol StringOption: Codable, Equatable, RawRepresentable where RawValue == String {
 }
 
 public extension StringOption {

@@ -7,56 +7,22 @@
 
 import Foundation
 
-/**
- Possible Scope to copy for a copyIndex operation.
-*/
-enum Scope: Codable {
+/// Possible Scope to copy for a copyIndex operation.
+public struct Scope: StringOption & ProvidingCustomOption {
   
-  /**
-   Scope for [com.algolia.search.model.settings.Settings]
-  */
-  case settings
+  public let rawValue: String
   
-  /**
-   Scope for [com.algolia.search.model.synonym.Synonym]
-  */
-  case synonyms
-  
-  /**
-   Scope for [com.algolia.search.model.rule.Rule]
-  */
-  case rules
-  
-  case other(String)
-  
-}
-
-extension Scope: RawRepresentable {
-  
-  var rawValue: String {
-    switch self {
-    case .settings:
-      return "settings"
-    case .synonyms:
-      return "synonyms"
-    case .rules:
-      return "rules"
-    case .other(let value):
-      return value
-    }
+  public init(rawValue: RawValue) {
+    self.rawValue = rawValue
   }
   
-  init(rawValue: String) {
-    switch rawValue {
-    case Scope.settings.rawValue:
-      self = .settings
-    case Scope.synonyms.rawValue:
-      self = .synonyms
-    case Scope.rules.rawValue:
-      self = .rules
-    default:
-      self = .other(rawValue)
-    }
-  }
+  /// Scope for Settings
+  public static var settings: Self { .init(rawValue: #function) }
   
+  /// Scope for Synonym
+  public static var synonyms: Self { .init(rawValue: #function) }
+  
+  /// Scope for Rule
+  public static var rules: Self { .init(rawValue: #function) }
+    
 }
