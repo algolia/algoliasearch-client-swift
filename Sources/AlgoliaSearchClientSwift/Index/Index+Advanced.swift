@@ -19,7 +19,7 @@ public extension Index {
   */
   @discardableResult func taskStatus(for taskID: TaskID, requestOptions: RequestOptions? = nil, completion: @escaping  ResultCallback<TaskInfo>) -> Operation & TransportTask {
     let command = Command.Advanced.TaskStatus(indexName: name, taskID: taskID, requestOptions: requestOptions)
-    return perform(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -30,7 +30,7 @@ public extension Index {
   */
   @discardableResult func taskStatus(for taskID: TaskID, requestOptions: RequestOptions? = nil) throws -> TaskInfo {
     let command = Command.Advanced.TaskStatus(indexName: name, taskID: taskID, requestOptions: requestOptions)
-    return try perform(command)
+    return try execute(command)
   }
 
   // MARK: - Wait task
@@ -84,7 +84,7 @@ public extension Index {
    */
   @discardableResult func getLogs(page: Int? = nil, hitsPerPage: Int? = nil, logType: LogType = .all, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<LogsResponse>) -> Operation {
     let command = Command.Advanced.GetLogs(indexName: name, page: page, hitsPerPage: hitsPerPage, logType: logType, requestOptions: requestOptions)
-    return perform(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -101,7 +101,7 @@ public extension Index {
    */
   @discardableResult func getLogs(page: Int? = nil, hitsPerPage: Int? = nil, logType: LogType = .all, requestOptions: RequestOptions? = nil) throws -> LogsResponse {
     let command = Command.Advanced.GetLogs(indexName: name, page: page, hitsPerPage: hitsPerPage, logType: logType, requestOptions: requestOptions)
-    return try perform(command)
+    return try execute(command)
   }
 
 }

@@ -25,7 +25,7 @@ public extension Index {
    */
   @discardableResult func search(query: Query, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
     let command = Command.Search.Search(indexName: name, query: query, requestOptions: requestOptions)
-    return perform(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -38,7 +38,7 @@ public extension Index {
    */
   @discardableResult func search(query: Query, requestOptions: RequestOptions? = nil) throws -> SearchResponse {
     let command = Command.Search.Search(indexName: name, query: query, requestOptions: requestOptions)
-    return try perform(command)
+    return try execute(command)
   }
 
   // MARK: - Multiple Queries
@@ -54,7 +54,7 @@ public extension Index {
    */
   @discardableResult func search(queries: [Query], strategy: MultipleQueriesStrategy? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchesResponse>) -> Operation & TransportTask {
     let command = Command.MultipleIndex.Queries(indexName: name, queries: queries, strategy: strategy, requestOptions: requestOptions)
-    return perform(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -68,7 +68,7 @@ public extension Index {
    */
   @discardableResult func search(queries: [Query], strategy: MultipleQueriesStrategy? = nil, requestOptions: RequestOptions? = nil) throws -> SearchesResponse {
     let command = Command.MultipleIndex.Queries(indexName: name, queries: queries, strategy: strategy, requestOptions: requestOptions)
-    return try perform(command)
+    return try execute(command)
   }
 
   // MARK: - Browse
@@ -101,7 +101,7 @@ public extension Index {
    */
   @discardableResult func browse(query: Query, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
     let command = Command.Search.Browse(indexName: name, query: query, requestOptions: requestOptions)
-    return perform(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -114,7 +114,7 @@ public extension Index {
    */
   @discardableResult func browse(query: Query, requestOptions: RequestOptions? = nil) throws -> SearchResponse {
     let command = Command.Search.Browse(indexName: name, query: query, requestOptions: requestOptions)
-    return try perform(command)
+    return try execute(command)
   }
 
   /**
@@ -128,7 +128,7 @@ public extension Index {
    */
   @discardableResult func browse(cursor: Cursor, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
     let command = Command.Search.Browse(indexName: name, cursor: cursor, requestOptions: requestOptions)
-    return perform(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -141,7 +141,7 @@ public extension Index {
    */
   @discardableResult func browse(cursor: Cursor, requestOptions: RequestOptions? = nil) throws -> SearchResponse {
     let command = Command.Search.Browse(indexName: name, cursor: cursor, requestOptions: requestOptions)
-    return try perform(command)
+    return try execute(command)
   }
 
   // MARK: - Search for facets
@@ -160,7 +160,7 @@ public extension Index {
    */
   @discardableResult func searchForFacetValues(of attribute: Attribute, matching facetQuery: String, applicableFor searchQuery: Query? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<FacetSearchResponse>) -> Operation & TransportTask {
     let command = Command.Search.SearchForFacets(indexName: name, attribute: attribute, facetQuery: facetQuery, query: searchQuery, requestOptions: requestOptions)
-    return perform(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -176,7 +176,7 @@ public extension Index {
    */
   @discardableResult func searchForFacetValues(of attribute: Attribute, matching facetQuery: String, applicableFor searchQuery: Query? = nil, requestOptions: RequestOptions? = nil) throws -> FacetSearchResponse {
     let command = Command.Search.SearchForFacets(indexName: name, attribute: attribute, facetQuery: facetQuery, query: searchQuery, requestOptions: requestOptions)
-    return try perform(command)
+    return try execute(command)
   }
 
   // MARK: - Find object

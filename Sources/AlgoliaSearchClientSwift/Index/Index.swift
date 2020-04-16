@@ -31,11 +31,11 @@ public struct Index: Credentials {
 
 extension Index {
 
-  func perform<T: Codable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation & TransportTask {
+  func execute<T: Codable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation & TransportTask {
     return transport.execute(command, completion: completion)
   }
 
-  func perform<T: Codable>(_ command: AlgoliaCommand) throws -> T {
+  func execute<T: Codable>(_ command: AlgoliaCommand) throws -> T {
     return try transport.execute(command)
   }
 
