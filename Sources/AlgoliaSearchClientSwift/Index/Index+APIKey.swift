@@ -8,9 +8,9 @@
 import Foundation
 
 public extension Index {
-  
-  //MARK: - Add API key
-  
+
+  // MARK: - Add API key
+
   /**
    Add a new APIKey.
    
@@ -23,7 +23,7 @@ public extension Index {
     let command = Command.APIKey.Add(parameters: parameters, requestOptions: requestOptions)
     return perform(command, completion: completion)
   }
-  
+
   /**
    Add a new APIKey.
 
@@ -35,9 +35,9 @@ public extension Index {
     let command = Command.APIKey.Add(parameters: parameters, requestOptions: requestOptions)
     return try perform(command)
   }
-  
-  //MARK: - Update API key
-  
+
+  // MARK: - Update API key
+
   /**
    Update the permissions of an existing APIKey.
     
@@ -51,7 +51,7 @@ public extension Index {
     let command = Command.APIKey.Update(apiKey: apiKey, parameters: parameters, requestOptions: requestOptions)
     return perform(command, completion: completion)
   }
-  
+
   /**
    Update the permissions of an existing APIKey.
     
@@ -64,9 +64,9 @@ public extension Index {
     let command = Command.APIKey.Update(apiKey: apiKey, parameters: parameters, requestOptions: requestOptions)
     return try perform(command)
   }
-  
-  //MARK: - Delete API key
-  
+
+  // MARK: - Delete API key
+
   /**
    Delete an existing APIKey.
    
@@ -79,7 +79,7 @@ public extension Index {
     let command = Command.APIKey.Delete(apiKey: apiKey, requestOptions: requestOptions)
     return perform(command, completion: completion)
   }
-  
+
   /**
    Delete an existing APIKey.
    
@@ -91,9 +91,9 @@ public extension Index {
     let command = Command.APIKey.Delete(apiKey: apiKey, requestOptions: requestOptions)
     return try perform(command)
   }
-  
-  //MARK: - Restore API key
-  
+
+  // MARK: - Restore API key
+
   /**
    
    - Parameter apiKey: APIKey to restore
@@ -105,7 +105,7 @@ public extension Index {
     let command = Command.APIKey.Restore(apiKey: apiKey, requestOptions: requestOptions)
     return perform(command, completion: completion)
   }
-  
+
   /**
    
    - Parameter apiKey: APIKey to restore
@@ -116,9 +116,9 @@ public extension Index {
     let command = Command.APIKey.Restore(apiKey: apiKey, requestOptions: requestOptions)
     return try perform(command)
   }
-  
-  //MARK: - Get API keys list
-  
+
+  // MARK: - Get API keys list
+
   /**
    Get the full list of API Keys
    
@@ -130,7 +130,7 @@ public extension Index {
     let command = Command.APIKey.List(requestOptions: requestOptions)
     return perform(command, completion: completion)
   }
-  
+
   /**
    Get the full list of API Keys
    
@@ -141,9 +141,9 @@ public extension Index {
     let command = Command.APIKey.List(requestOptions: requestOptions)
     return try perform(command)
   }
-  
-  //MARK: - Get API key
-  
+
+  // MARK: - Get API key
+
   /**
    Get the permissions of an APIKey. When initializing the client using the Admin APIKey, you can request information on any of your application’s API keys.
 
@@ -156,7 +156,7 @@ public extension Index {
     let command = Command.APIKey.Get(apiKey: apiKey, requestOptions: requestOptions)
     return perform(command, completion: completion)
   }
-  
+
   /**
    Get the permissions of an APIKey. When initializing the client using the Admin APIKey, you can request information on any of your application’s API keys.
    
@@ -168,5 +168,5 @@ public extension Index {
     let command = Command.APIKey.Get(apiKey: apiKey, requestOptions: requestOptions)
     return try perform(command)
   }
-  
+
 }

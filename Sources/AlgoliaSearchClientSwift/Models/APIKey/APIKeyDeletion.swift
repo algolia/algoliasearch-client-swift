@@ -11,7 +11,7 @@ public struct APIKeyDeletion: Codable {
 
   /// The deleted APIKey.
   public let key: APIKey
-  
+
   /// The date at which the APIKey has been created or restored.
   public let deletedAt: Date
 

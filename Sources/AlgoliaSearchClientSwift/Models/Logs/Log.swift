@@ -4,68 +4,69 @@
 //
 //  Created by Vladislav Fitc on 07/04/2020.
 //
+// swiftlint:disable identifier_name
 
 import Foundation
-  
+
 public struct Log {
-  
+
   /// Method timestamp
   public let timestamp: Date
-  
+
   /// Rest type of the method.
   public let method: String
-  
+
   /// Http response code.
   public let answerCode: String
-  
+
   /// Request body. It’s truncated after 1000 characters.
   public let queryBody: String
-  
+
   /// Answer body. It’s truncated after 1000 characters.
   public let answer: String
-  
+
   /// Request URL.
   public let url: String
-  
+
   /// Client ip of the call.
   public let ip: String
-  
+
   /// Request Headers (API Key is obfuscated).
   public let queryHeaders: String
-  
+
   /// SHA1 ID of entry.
   public let sha1: String
-  
+
   /// Number of API calls.
   public let nbApiCalls: Int?
-  
+
   /// Processing time for the query. This does not include network time.
   public let processingTimeMS: Int
-  
+
   /// Number of hits returned for the query Query.
   public let queryNbHits: Int?
-  
+
   /// IndexName of the log.
   public let indexName: IndexName?
-  
+
   public let exhaustiveNbHits: Bool?
-  
+
   public let exhaustiveFaceting: Bool?
-  
+
   public let queryParams: String?
-  
+
 }
-  
+
 extension Log: CustomStringConvertible {
-  
+
   public var description: String {
     return "\(url) \(method) \(answerCode) \(timestamp)"
   }
-  
+
 }
 
 extension Log: Codable {
-  
+
   enum CodingKeys: String, CodingKey {
     case timestamp
     case method
@@ -84,7 +85,7 @@ extension Log: Codable {
     case exhaustiveFaceting = "exhaustive_faceting"
     case queryParams = "query_params"
   }
-  
+
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     timestamp = try container.decode(forKey: .timestamp)
@@ -105,7 +106,7 @@ extension Log: Codable {
     queryParams = try container.decodeIfPresent(forKey: .queryParams)
 
   }
-  
+
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(timestamp, forKey: .timestamp)
@@ -125,5 +126,5 @@ extension Log: Codable {
     try container.encodeIfPresent(exhaustiveFaceting, forKey: .exhaustiveFaceting)
     try container.encodeIfPresent(queryParams, forKey: .queryParams)
   }
-  
+
 }

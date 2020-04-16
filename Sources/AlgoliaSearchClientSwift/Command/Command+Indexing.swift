@@ -25,7 +25,7 @@ extension Command {
                            body: record.httpBody,
                            requestOptions: requestOptions)
       }
-      
+
     }
 
     struct GetObject: AlgoliaCommand {
@@ -46,13 +46,13 @@ extension Command {
       }
 
     }
-    
+
     struct GetObjects: AlgoliaCommand {
-      
+
       let callType: CallType = .read
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
-      
+
       init(indexName: IndexName, objectIDs: [ObjectID], attributesToRetreive: [Attribute]?, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let requests = objectIDs.map { ObjectRequest(indexName: indexName, objectID: $0, attributesToRetrieve: attributesToRetreive) }
@@ -60,58 +60,58 @@ extension Command {
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objects
         urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
       }
-      
+
     }
-    
+
     struct ReplaceObject: AlgoliaCommand {
-      
+
       let callType: CallType = .write
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
-      
+
       init<T: Codable>(indexName: IndexName, objectID: ObjectID, replacementObject record: T, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objectID(objectID)
         urlRequest = .init(method: .put, path: path, body: record.httpBody, requestOptions: requestOptions)
       }
-      
+
     }
-    
+
     struct DeleteObject: AlgoliaCommand {
-      
+
       let callType: CallType = .write
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
-      
+
       init(indexName: IndexName, objectID: ObjectID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objectID(objectID)
         urlRequest = .init(method: .delete, path: path, requestOptions: requestOptions)
       }
-      
+
     }
-    
+
     struct DeleteByQuery: AlgoliaCommand {
-      
+
       let callType: CallType = .write
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
-      
+
       init(indexName: IndexName, query: AlgoliaSearchClientSwift.DeleteByQuery, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.deleteByQuery
         let body = ParamsWrapper(query).httpBody
         urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
       }
-      
+
     }
-    
+
     struct PartialUpdate: AlgoliaCommand {
-      
+
       let callType: CallType = .write
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
-      
+
       init(indexName: IndexName, objectID: ObjectID, partialUpdate: AlgoliaSearchClientSwift.PartialUpdate, createIfNotExists: Bool?, requestOptions: RequestOptions?) {
         let requestOptions = requestOptions.updateOrCreate({
           guard let createIfNotExists = createIfNotExists else { return [:] }
@@ -122,11 +122,11 @@ extension Command {
         let body = partialUpdate.httpBody
         urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
       }
-      
+
     }
-    
+
     struct ClearObjects: AlgoliaCommand {
-      
+
       let callType: CallType = .write
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
@@ -136,7 +136,7 @@ extension Command {
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.clear
         urlRequest = .init(method: .post, path: path, requestOptions: requestOptions)
       }
-      
+
     }
 
   }

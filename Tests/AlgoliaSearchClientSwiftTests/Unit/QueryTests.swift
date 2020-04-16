@@ -10,9 +10,9 @@ import XCTest
 @testable import AlgoliaSearchClientSwift
 
 class QueryTests: XCTestCase {
-  
+
   func testStringEncoding() {
-    let _ = Query("testQuery").set(\.typoTolerance, to: .strict).set(\.ignorePlurals, to: .false)    
+    _ = Query("testQuery").set(\.typoTolerance, to: .strict).set(\.ignorePlurals, to: .false)
   }
 
 }

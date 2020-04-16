@@ -12,19 +12,19 @@ struct IndexOperation {
   let action: Action
   let destination: IndexName
   let scopes: [Scope]?
-  
+
 }
 
 extension IndexOperation {
-  
+
   enum Action: String, Codable {
     case copy, move
   }
-  
+
 }
 
 extension IndexOperation: Codable {
-  
+
   enum CodingKeys: String, CodingKey {
     case action = "operation"
     case destination
@@ -37,7 +37,7 @@ extension IndexOperation: Codable {
     self.destination = try container.decode(forKey: .destination)
     self.scopes = try container.decodeIfPresent(forKey: .scopes)
   }
-  
+
   func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(action, forKey: .action)

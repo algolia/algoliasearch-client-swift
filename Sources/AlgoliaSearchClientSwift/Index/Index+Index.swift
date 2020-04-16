@@ -8,9 +8,9 @@
 import Foundation
 
 extension Index {
-  
-  //MARK: - Delete index
-  
+
+  // MARK: - Delete index
+
   /**
    Delete the index and all its settings, including links to its replicas.
    - Parameter requestOptions: Configure request locally with RequestOptions.
@@ -30,9 +30,9 @@ extension Index {
     let command = Command.Index.DeleteIndex(indexName: name, requestOptions: requestOptions)
     return try perform(command)
   }
-  
-  //MARK: - Exists
-  
+
+  // MARK: - Exists
+
   /**
    Return whether an index exists or not
    - Parameter completion: Result completion
@@ -51,7 +51,7 @@ extension Index {
       }
     }
   }
-  
+
   /**
    Return whether an index exists or not
    - Returns: Bool
@@ -68,9 +68,9 @@ extension Index {
       throw error
     }
   }
-  
-  //MARK: - Copy index
-  
+
+  // MARK: - Copy index
+
   /**
    Make a copy of an index, including its objects, settings, synonyms, and query rules.
    
@@ -89,7 +89,7 @@ extension Index {
     let command = Command.Index.Operation(indexName: name, operation: .init(action: .copy, destination: destination, scopes: scopes), requestOptions: requestOptions)
     return perform(command, completion: completion)
   }
-  
+
   /**
    Make a copy of an index, including its objects, settings, synonyms, and query rules.
    
@@ -107,9 +107,9 @@ extension Index {
     let command = Command.Index.Operation(indexName: name, operation: .init(action: .copy, destination: destination, scopes: scopes), requestOptions: requestOptions)
     return try perform(command)
   }
-  
-  //MARK: - Move index
-  
+
+  // MARK: - Move index
+
   /**
    Rename an index. Normally used to reindex your data atomically, without any down time.
    The move index method is a safe and atomic way to rename an index.
@@ -122,7 +122,7 @@ extension Index {
     let command = Command.Index.Operation(indexName: name, operation: .init(action: .move, destination: destination, scopes: nil), requestOptions: requestOptions)
     return perform(command, completion: completion)
   }
-  
+
   /**
    Rename an index. Normally used to reindex your data atomically, without any down time.
    The move index method is a safe and atomic way to rename an index.
@@ -134,5 +134,5 @@ extension Index {
     let command = Command.Index.Operation(indexName: name, operation: .init(action: .move, destination: destination, scopes: nil), requestOptions: requestOptions)
     return try perform(command)
   }
-  
+
 }

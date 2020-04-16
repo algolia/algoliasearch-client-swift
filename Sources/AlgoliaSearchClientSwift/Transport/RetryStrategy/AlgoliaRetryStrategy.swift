@@ -13,7 +13,7 @@ class AlgoliaRetryStrategy: RetryStrategy {
 
   private var hosts: [RetryableHost]
   let hostsExpirationDelay: TimeInterval
-  
+
   /// Concurrent synchronization queue
   private let queue = DispatchQueue(label: "AlgoliaRetryStrategySync.queue")
 
@@ -29,24 +29,24 @@ class AlgoliaRetryStrategy: RetryStrategy {
   func host(for callType: CallType) -> RetryableHost? {
     return queue.sync {
       hosts.resetExpired(expirationDelay: hostsExpirationDelay)
-      
+
       func firstUpHostForCallType() -> RetryableHost? {
         return hosts.first { $0.supports(callType) && $0.isUp }
       }
-      
+
       guard let host = firstUpHostForCallType() else {
         hosts.resetAll(for: callType)
         return firstUpHostForCallType()
       }
-      
+
       return host
     }
 
   }
 
   func notify<T>(host: RetryableHost, result: Result<T, Swift.Error>) -> RetryOutcome<T> {
-    return queue.sync() {
-      
+    return queue.sync {
+
       guard let hostIndex = hosts.firstIndex(where: { $0.url == host.url }) else {
         return .failure(Error.unexpectedHost)
       }
@@ -68,7 +68,7 @@ class AlgoliaRetryStrategy: RetryStrategy {
         return .failure(error)
       }
     }
-    
+
   }
 
   enum Error: Swift.Error {

@@ -8,7 +8,7 @@
 import Foundation
 
 public struct DeleteByQuery: Codable {
-  
+
   /**
    Filter the query with numeric, facet and/or tag filters.
    - Engine default: ""
@@ -22,7 +22,7 @@ public struct DeleteByQuery: Codable {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/facetFilters/?language=swift)
    */
   public var facetFilters: [[String]]?
-  
+
   /**
    Filter on numeric attributes.
    - Engine default: []
@@ -71,5 +71,5 @@ public struct DeleteByQuery: Codable {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/insidePolygon/?language=swift)
    */
   public var insidePolygon: [Polygon]?
-  
+
 }

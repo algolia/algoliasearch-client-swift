@@ -142,15 +142,15 @@ public struct SearchResponse {
    - Returned only if Query.facets is non-empty.
   */
   public var facets: [Attribute: [Facet]]? {
-  
+
     get {
       return facetsStorage?.storage
     }
-    
+
     set {
       facetsStorage = newValue.flatMap(FacetsStorage.init(storage:))
     }
-  
+
   }
   var facetsStorage: FacetsStorage?
 
@@ -160,32 +160,32 @@ public struct SearchResponse {
    - [Documentation](https://www.algolia.com/doc/guides/building-search-ui/going-further/backend-search/how-to/faceting/?language=kotlin#conjunctive-and-disjunctive-faceting)
    */
   public var disjunctiveFacets: [Attribute: [Facet]]? {
-    
+
     get {
       return disjunctiveFacetsStorage?.storage
     }
-    
+
     set {
       disjunctiveFacetsStorage = newValue.flatMap(FacetsStorage.init(storage:))
     }
-    
+
   }
   var disjunctiveFacetsStorage: FacetsStorage?
-  
+
   /**
    * Statistics for numerical facets.
    - Returned only if Query.facets is non-empty and at least one of the returned facets contains numerical values.
    */
   public var facetStats: [Attribute: FacetStats]? {
-    
+
     get {
       return facetStatsStorage?.storage
     }
-    
+
     set {
       facetStatsStorage = newValue.flatMap(FacetStatsStorage.init(storage:))
     }
-    
+
   }
   var facetStatsStorage: FacetStatsStorage?
 
@@ -208,15 +208,15 @@ public struct SearchResponse {
    - Returned only by the [EndpointSearch.advancedSearch] method, only if a [FilterGroup.And.Hierarchical] is used.
   */
   public var hierarchicalFacets: [Attribute: [Facet]]? {
-    
+
     get {
       return hierarchicalFacetsStorage?.storage
     }
-    
+
     set {
       hierarchicalFacetsStorage = newValue.flatMap(FacetsStorage.init(storage:))
     }
-    
+
   }
   var hierarchicalFacetsStorage: FacetsStorage?
 

@@ -23,7 +23,7 @@ struct TestCredentials: Credentials {
       return nil
     }
   }()
-  
+
   static let places: TestCredentials? = {
     if
       let appID = String(environmentVariable: "ALGOLIA_PLACES_APPLICATION_ID"),
@@ -41,29 +41,29 @@ struct TestPath {
 }
 
 struct TestPathRoot: RootPath {
-  
+
   var rawValue: String = "/my"
-  
+
 }
 
 struct TestPathLevel1: PathComponent {
-  
+
   var parent: TestPathRoot?
-  
+
   var rawValue: String = "test"
-  
+
 }
 
 struct TestPathLevel2: PathComponent {
-  
+
   var parent: TestPathLevel1?
-  
+
   var rawValue: String = "path"
 
 }
 
 class URLRequestBuilding: XCTestCase {
-  
+
   func testBuilding() {
 
     let method = HttpMethod.post
@@ -85,6 +85,5 @@ class URLRequestBuilding: XCTestCase {
     XCTAssertEqual(request.httpBody, body)
 
   }
-
 
 }

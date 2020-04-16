@@ -10,7 +10,7 @@ import Foundation
 struct FacetsStorage: Codable {
 
   var storage: [Attribute: [Facet]]
-  
+
   public init(storage: [Attribute: [Facet]]) {
     self.storage = storage
   }

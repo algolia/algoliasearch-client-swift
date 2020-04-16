@@ -8,13 +8,13 @@
 import Foundation
 
 public struct ResponseField: StringOption & ProvidingCustomOption {
-  
+
   public let rawValue: String
-  
+
   public init(rawValue: RawValue) {
     self.rawValue = rawValue
   }
-  
+
   public static var all: Self { .init(rawValue: "*") }
   public static var aroundLatLng: Self { .init(rawValue: #function) }
   public static var automaticRadius: Self { .init(rawValue: #function) }
@@ -34,5 +34,5 @@ public struct ResponseField: StringOption & ProvidingCustomOption {
   public static var query: Self { .init(rawValue: #function) }
   public static var queryAfterRemoval: Self { .init(rawValue: #function) }
   public static var userData: Self { .init(rawValue: #function) }
-  
+
 }

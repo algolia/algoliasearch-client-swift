@@ -8,7 +8,7 @@
 import Foundation
 
 public struct ObjectRevision: Task, Codable {
-  
+
   /**
    The date at which the record has been revised.
   */
@@ -23,5 +23,5 @@ public struct ObjectRevision: Task, Codable {
    The inserted record ObjectID
   */
   public let objectID: ObjectID
-  
+
 }

@@ -10,7 +10,7 @@ import XCTest
 @testable import AlgoliaSearchClientSwift
 
 class SearchCommandTests: XCTestCase, AlgoliaCommandTest {
-  
+
   func testSearch() {
     let command = Command.Search.Search(indexName: test.indexName, query: test.query, requestOptions: test.requestOptions)
     check(command: command,
@@ -21,7 +21,7 @@ class SearchCommandTests: XCTestCase, AlgoliaCommandTest {
           body: test.query.httpBody,
           requestOptions: test.requestOptions)
   }
-  
+
   func testBrowseQuery() {
     let command = Command.Search.Browse(indexName: test.indexName, query: test.query, requestOptions: test.requestOptions)
     check(command: command,
@@ -32,7 +32,7 @@ class SearchCommandTests: XCTestCase, AlgoliaCommandTest {
           body: test.query.httpBody,
           requestOptions: test.requestOptions)
   }
-  
+
   func testBrowseCursor() {
     let command = Command.Search.Browse(indexName: test.indexName, cursor: test.cursor, requestOptions: test.requestOptions)
     check(command: command,
@@ -43,7 +43,7 @@ class SearchCommandTests: XCTestCase, AlgoliaCommandTest {
           body: nil,
           requestOptions: test.requestOptions)
   }
-  
+
   func testSearchForFacets() {
     let command = Command.Search.SearchForFacets(indexName: test.indexName,
                                                  attribute: test.attribute,
@@ -59,7 +59,7 @@ class SearchCommandTests: XCTestCase, AlgoliaCommandTest {
           body: body,
           requestOptions: test.requestOptions)
   }
-  
+
   func testSearchForFacetsWithQuery() {
     let command = Command.Search.SearchForFacets(indexName: test.indexName,
                                                  attribute: test.attribute,
@@ -78,5 +78,5 @@ class SearchCommandTests: XCTestCase, AlgoliaCommandTest {
           body: body,
           requestOptions: test.requestOptions)
   }
-  
+
 }

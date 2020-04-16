@@ -8,41 +8,41 @@
 import Foundation
 
 public struct APIKeyResponse: Codable {
-  
+
   /// The APIKey value
   public let key: APIKey
-  
+
   /// The date at which the APIKey has been created.
   public let createdAt: Date
-  
+
   /// The list of permissions ACL the key contains.
   public let ACLs: [ACL]
-  
+
   /// The timestamp of the date at which the [APIKey] expires. (0 means it will not expire automatically).
   public let validity: TimeInterval
-    
+
   /// The maximum number of hits an [APIKey] can retrieve in one call.
   public let maxHitsPerQuery: Int?
 
   /// The maximum number of API calls allowed from an IP address per hour.
   public let maxQueriesPerIPPerHour: Int?
-  
+
   /// The list of targeted indices, if any.
   public let indices: [IndexName]?
-    
+
   /// The list of referers
   public let referers: [String]?
-  
+
   /// The Query parameters
   public let query: String?
-  
+
   /// The description of the APIKey
   public let description: String?
-  
+
 }
 
 extension APIKeyResponse {
-  
+
   enum CodingKeys: String, CodingKey {
     case key = "value"
     case createdAt
@@ -55,7 +55,7 @@ extension APIKeyResponse {
     case query = "queryParameters"
     case description
   }
-  
+
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     self.key = try container.decode(forKey: .key)
@@ -69,7 +69,7 @@ extension APIKeyResponse {
     self.query = try container.decodeIfPresent(forKey: .query)
     self.description = try container.decodeIfPresent(forKey: .description)
   }
-  
+
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(key, forKey: .key)
@@ -83,5 +83,5 @@ extension APIKeyResponse {
     try container.encodeIfPresent(query, forKey: .query)
     try container.encodeIfPresent(description, forKey: .description)
   }
-  
+
 }

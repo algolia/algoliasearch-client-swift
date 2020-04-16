@@ -8,7 +8,7 @@
 import Foundation
 
 public struct Place {
-  
+
   public let country: String?
   public let county: [String]?
   public let city: [String]?
@@ -28,7 +28,7 @@ public struct Place {
   public let isSuburb: Bool?
   public let isHighway: Bool?
   public let isPopular: Bool?
-  
+
   public init(_ place: MultiLanguagePlace, language: Language) {
     self.country = place.country?[language]
     self.county = place.county?[language]
@@ -50,13 +50,13 @@ public struct Place {
     self.isHighway = place.isHighway
     self.isPopular = place.isPopular
   }
-  
+
 }
 
 extension Place: Codable {
-  
+
   typealias CodingKeys = PlaceCodingKeys
-  
+
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     country = try container.decodeIfPresent(forKey: .country)
@@ -79,7 +79,7 @@ extension Place: Codable {
     isHighway = try container.decodeIfPresent(forKey: .isHighway)
     isPopular = try container.decodeIfPresent(forKey: .isPopular)
   }
-  
+
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encodeIfPresent(country, forKey: .country)
@@ -102,5 +102,5 @@ extension Place: Codable {
     try container.encodeIfPresent(isHighway, forKey: .isHighway)
     try container.encodeIfPresent(isPopular, forKey: .isPopular)
   }
-    
+
 }

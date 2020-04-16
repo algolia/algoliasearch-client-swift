@@ -11,23 +11,23 @@ public protocol StringOption: Codable, Equatable, RawRepresentable where RawValu
 }
 
 public extension StringOption {
-  
+
   init(rawValue: RawValue) {
     self.init(rawValue: rawValue)!
   }
-  
+
 }
 
 public protocol ProvidingCustomOption {
-  
+
   static func custom(_ value: String) -> Self
-  
+
 }
 
 public extension ProvidingCustomOption where Self: StringOption {
-  
+
   static func custom(_ value: String) -> Self {
     return .init(rawValue: value)
   }
-  
+
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 struct DeletionIndex: Task, Codable {
-  
+
   /// Date at which the Task to delete the Index has been created.
   let deletionDate: Date
 

@@ -8,35 +8,35 @@
 import Foundation
 
 public struct UserAgent: Hashable {
-  
+
   public let title: String
   public let version: String
-  
+
   public init(title: String, version: String) {
     self.title = title
     self.version = version
   }
-  
+
 }
 
 extension UserAgent: CustomStringConvertible {
-  
+
   public var description: String {
     return [title, version].filter { !$0.isEmpty }.joined(separator: " ")
   }
-  
+
 }
 
 extension UserAgent {
-  
+
   static var library: UserAgent {
     return UserAgent(title: "Algolia for Swift", version: Version.current.description)
   }
-  
+
 }
 
 extension UserAgent {
-  
+
   static var operatingSystem: UserAgent = {
     let osVersion = ProcessInfo.processInfo.operatingSystemVersion
     var osVersionString = "\(osVersion.majorVersion).\(osVersion.minorVersion)"
@@ -49,7 +49,7 @@ extension UserAgent {
       return UserAgent(title: ProcessInfo.processInfo.operatingSystemVersionString, version: "")
     }
   }()
-  
+
   private static var osName: String? {
     #if os(iOS)
       return "iOS"
@@ -63,5 +63,5 @@ extension UserAgent {
       return nil
     #endif
   }
-  
+
 }

@@ -25,7 +25,7 @@ public struct RequestOptions {
   public mutating func setHeader(_ value: String?, forKey key: HTTPHeaderKey) {
     headers[key.rawValue] = value
   }
-  
+
   public func settingHeader(_ value: String?, forKey key: HTTPHeaderKey) -> Self {
     var mutableCopy = self
     mutableCopy.headers[key.rawValue] = value
@@ -38,13 +38,12 @@ public struct RequestOptions {
   public mutating func setParameter(_ value: String?, forKey key: HTTPParameterKey) {
     urlParameters[key.rawValue] = value
   }
-  
+
   public func settingParameter(_ value: String?, forKey key: HTTPParameterKey) -> Self {
     var mutableCopy = self
     mutableCopy.urlParameters[key.rawValue] = value
     return mutableCopy
   }
-
 
   public func timeout(for callType: CallType) -> TimeInterval? {
     switch callType {
@@ -70,7 +69,6 @@ public struct HTTPParameterKey: RawRepresentable, Hashable {
   public static var language: HTTPParameterKey { #function }
   public static var aroundLatLng: HTTPParameterKey { #function }
   public static var hitsPerPage: HTTPParameterKey { #function }
-
 
   public let rawValue: String
 
@@ -113,7 +111,7 @@ extension HTTPHeaderKey: ExpressibleByStringLiteral {
 }
 
 extension Optional where Wrapped == RequestOptions {
-  
+
   func unwrapOrCreate() -> RequestOptions {
     return self ?? RequestOptions()
   }

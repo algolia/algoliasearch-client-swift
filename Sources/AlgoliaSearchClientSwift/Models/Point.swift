@@ -20,7 +20,7 @@ public struct Point: Equatable {
     self.latitude = latitude
     self.longitude = longitude
   }
-  
+
   var stringForm: String {
     return "\(latitude),\(longitude)"
   }
@@ -41,11 +41,11 @@ extension Point: RawRepresentable {
 }
 
 extension Point: Codable {
-  
+
   struct StringForm: Decodable {
 
     let point: Point
-    
+
     public init(from decoder: Decoder) throws {
       let container = try decoder.singleValueContainer()
       let stringValue = try container.decode(String.self)
@@ -57,11 +57,11 @@ extension Point: Codable {
     }
 
   }
-  
+
   struct DictionaryForm: Decodable {
-    
+
     let point: Point
-    
+
     enum CodingKeys: String, CodingKey {
       case latitude = "lat"
       case longitude = "lng"
@@ -73,7 +73,7 @@ extension Point: Codable {
       let longitude: Double = try container.decode(forKey: .longitude)
       self.point = .init(latitude: latitude, longitude: longitude)
     }
-    
+
   }
 
   public init(from decoder: Decoder) throws {

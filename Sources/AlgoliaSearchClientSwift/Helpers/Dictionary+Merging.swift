@@ -10,7 +10,7 @@ import Foundation
 enum DictionaryMergingStrategy {
   case keepInitial
   case replaceWithNew
-  
+
   func apply<Value>(firstValue: Value, secondValue: Value) -> Value {
     switch self {
     case .keepInitial:
@@ -19,7 +19,7 @@ enum DictionaryMergingStrategy {
       return secondValue
     }
   }
-  
+
 }
 
 extension Dictionary {

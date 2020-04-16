@@ -10,7 +10,7 @@ import XCTest
 @testable import AlgoliaSearchClientSwift
 
 class AdvancedCommandTests: XCTestCase, AlgoliaCommandTest {
-  
+
   func testTaskStatus() {
     let command = Command.Advanced.TaskStatus(indexName: test.indexName, taskID: test.taskID, requestOptions: test.requestOptions)
     check(command: command,
@@ -21,7 +21,7 @@ class AdvancedCommandTests: XCTestCase, AlgoliaCommandTest {
           body: nil,
           requestOptions: test.requestOptions)
   }
-  
+
   func testGetLogs() {
     let command = Command.Advanced.GetLogs(indexName: test.indexName, page: 10, hitsPerPage: 100, logType: .all, requestOptions: test.requestOptions)
     check(command: command,
@@ -32,7 +32,7 @@ class AdvancedCommandTests: XCTestCase, AlgoliaCommandTest {
                        .init(name: HTTPParameterKey.indexName.rawValue, value: "testIndex"),
                        .init(name: HTTPParameterKey.offset.rawValue, value: "10"),
                        .init(name: HTTPParameterKey.length.rawValue, value: "100"),
-                       .init(name: HTTPParameterKey.type.rawValue, value: "all"),
+                       .init(name: HTTPParameterKey.type.rawValue, value: "all")
                       ],
           body: nil,
           requestOptions: test.requestOptions
@@ -41,6 +41,5 @@ class AdvancedCommandTests: XCTestCase, AlgoliaCommandTest {
             .settingParameter("100", forKey: .length)
             .settingParameter("all", forKey: .type))
   }
-  
-}
 
+}

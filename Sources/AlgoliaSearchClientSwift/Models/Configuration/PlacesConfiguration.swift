@@ -8,7 +8,7 @@
 import Foundation
 
 public struct PlacesConfiguration: Configuration, Credentials {
-  
+
   public let applicationID: ApplicationID
 
   public let apiKey: APIKey
@@ -16,7 +16,7 @@ public struct PlacesConfiguration: Configuration, Credentials {
   public var writeTimeout: TimeInterval
 
   public var readTimeout: TimeInterval
-  
+
   public var logLevel: LogLevel
 
   public var hosts: [RetryableHost]
@@ -38,6 +38,4 @@ public struct PlacesConfiguration: Configuration, Credentials {
     self.defaultHeaders = defaultHeaders
   }
 
-  
-  
 }

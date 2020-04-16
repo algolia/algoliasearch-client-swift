@@ -3,11 +3,11 @@ import XCTest
 @testable import AlgoliaSearchClientSwift
 
 class BatchTests: XCTestCase {
-  
+
   struct Test: Codable, Equatable {
     let attr: String
   }
-  
+
   func testCoding() throws {
     let object: JSON = ["attr": ["value": 2.5]] as JSON
     let objectID: ObjectID = "objectID"
@@ -20,11 +20,10 @@ class BatchTests: XCTestCase {
     try AssertEncodeDecode(BatchOperation.clear, ["action": "clear"])
 
   }
-  
+
   func testIndexConding() throws {
     let object: JSON = ["attr": ["value": 2.5]] as JSON
     try AssertEncodeDecode(IndexBatchOperation(indexName: "index", operation: .add(object)), ["indexName": "index", "action": "addObject", "body": ["attr": ["value": 2.5]]])
   }
-  
-}
 
+}

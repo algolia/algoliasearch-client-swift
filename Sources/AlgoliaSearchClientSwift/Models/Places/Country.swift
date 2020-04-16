@@ -4,6 +4,7 @@
 //
 //  Created by Vladislav Fitc on 12/04/2020.
 //
+// swiftlint:disable type_body_length
 
 import Foundation
 

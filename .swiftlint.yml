@@ -1,6 +1,10 @@
 excluded:
  - .build
+ - ./Tests
 # implicitly
-line_length: 200
+line_length: 300
+disabled_rules:
+  - implicit_getter
 nesting: 
  type_level: 2
+

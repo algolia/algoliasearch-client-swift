@@ -8,7 +8,7 @@
 import Foundation
 
 public struct MultiLanguagePlace {
-  
+
   public var country: [Language: String]?
   public var county: [Language: [String]]?
   public var city: [Language: [String]]?
@@ -28,7 +28,7 @@ public struct MultiLanguagePlace {
   public let isSuburb: Bool?
   public let isHighway: Bool?
   public let isPopular: Bool?
-  
+
 }
 
 extension MultiLanguagePlace: Codable {

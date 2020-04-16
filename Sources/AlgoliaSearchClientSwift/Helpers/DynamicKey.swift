@@ -8,7 +8,7 @@
 import Foundation
 
 struct DynamicKey: CodingKey {
-  
+
   var intValue: Int?
   var stringValue: String
 
@@ -16,10 +16,9 @@ struct DynamicKey: CodingKey {
     self.intValue = intValue
     self.stringValue = String(intValue)
   }
-  
+
   init(stringValue: String) {
     self.stringValue = stringValue
   }
-  
-}
 
+}

@@ -10,10 +10,10 @@ import XCTest
 @testable import AlgoliaSearchClientSwift
 
 class MultipleQueryStrategyTests: XCTestCase {
-  
+
   func testValues() throws {
     XCTAssertEqual(MultipleQueriesStrategy.none.rawValue, "none")
     XCTAssertEqual(MultipleQueriesStrategy.stopIfEnoughMatches.rawValue, "stopIfEnoughMatches")
   }
-  
+
 }

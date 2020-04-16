@@ -8,11 +8,11 @@
 import Foundation
 
 public struct Language: StringOption & ProvidingCustomOption & Hashable & ExpressibleByStringLiteral {
-  
+
   public var rawValue: String
   public init(rawValue: String) { self.rawValue = rawValue }
   public init(stringLiteral: String) { self.rawValue = stringLiteral }
-  
+
   public static let afrikaans: Self = "af"
   public static let arabic: Self = "ar"
   public static let azeri: Self = "az"
@@ -69,5 +69,5 @@ public struct Language: StringOption & ProvidingCustomOption & Hashable & Expres
   public static let tswana: Self = "tn"
   public static let turkish: Self = "tr"
   public static let tatar: Self = "tt"
-  
+
 }

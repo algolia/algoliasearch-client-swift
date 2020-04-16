@@ -8,7 +8,7 @@
 import Foundation
 
 protocol HostResultNotifiable {
-  
+
 }
 
 protocol RetryStrategy: class {
