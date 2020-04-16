@@ -18,7 +18,7 @@ extension Index {
    */
   @discardableResult func delete(requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<DeletionIndex>) -> Operation & TransportTask {
     let command = Command.Index.DeleteIndex(indexName: name, requestOptions: requestOptions)
-    return perform(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -28,7 +28,7 @@ extension Index {
    */
   @discardableResult func delete(requestOptions: RequestOptions? = nil) throws -> DeletionIndex {
     let command = Command.Index.DeleteIndex(indexName: name, requestOptions: requestOptions)
-    return try perform(command)
+    return try execute(command)
   }
 
   // MARK: - Exists
@@ -40,7 +40,7 @@ extension Index {
    */
   @discardableResult func exists(completion: @escaping ResultCallback<Bool>) -> Operation & TransportTask {
     let command = Command.Settings.GetSettings(indexName: name, requestOptions: nil)
-    return perform(command) { (result: Result<Settings, Swift.Error>) in
+    return execute(command) { (result: Result<Settings, Swift.Error>) in
       switch result {
       case .success:
         completion(.success(true))
@@ -58,7 +58,7 @@ extension Index {
    */
   @discardableResult func exists() throws -> Bool {
     let command = Command.Settings.GetSettings(indexName: name, requestOptions: nil)
-    let result = Result { try perform(command) as Settings }
+    let result = Result { try execute(command) as Settings }
     switch result {
     case .success:
       return true
@@ -87,7 +87,7 @@ extension Index {
    */
   @discardableResult func copy(_ scopes: [Scope]? = nil, to destination: IndexName, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<RevisionIndex>) -> Operation & TransportTask {
     let command = Command.Index.Operation(indexName: name, operation: .init(action: .copy, destination: destination, scopes: scopes), requestOptions: requestOptions)
-    return perform(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -105,7 +105,7 @@ extension Index {
    */
   @discardableResult func copy(_ scopes: [Scope], to destination: IndexName, requestOptions: RequestOptions? = nil) throws -> RevisionIndex {
     let command = Command.Index.Operation(indexName: name, operation: .init(action: .copy, destination: destination, scopes: scopes), requestOptions: requestOptions)
-    return try perform(command)
+    return try execute(command)
   }
 
   // MARK: - Move index
@@ -120,7 +120,7 @@ extension Index {
    */
   @discardableResult func move(to destination: IndexName, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<RevisionIndex>) -> Operation & TransportTask {
     let command = Command.Index.Operation(indexName: name, operation: .init(action: .move, destination: destination, scopes: nil), requestOptions: requestOptions)
-    return perform(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -132,7 +132,7 @@ extension Index {
    */
   @discardableResult func move(to destination: IndexName, requestOptions: RequestOptions? = nil) throws -> RevisionIndex {
     let command = Command.Index.Operation(indexName: name, operation: .init(action: .move, destination: destination, scopes: nil), requestOptions: requestOptions)
-    return try perform(command)
+    return try execute(command)
   }
 
 }

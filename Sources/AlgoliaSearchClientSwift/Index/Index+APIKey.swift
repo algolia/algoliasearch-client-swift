@@ -21,7 +21,7 @@ public extension Index {
    */
   @discardableResult func addAPIKey(with parameters: APIKeyParameters, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<APIKeyCreation>) -> Operation {
     let command = Command.APIKey.Add(parameters: parameters, requestOptions: requestOptions)
-    return perform(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -33,7 +33,7 @@ public extension Index {
    */
   @discardableResult func addAPIKey(with parameters: APIKeyParameters, requestOptions: RequestOptions? = nil) throws -> APIKeyCreation {
     let command = Command.APIKey.Add(parameters: parameters, requestOptions: requestOptions)
-    return try perform(command)
+    return try execute(command)
   }
 
   // MARK: - Update API key
@@ -49,7 +49,7 @@ public extension Index {
    */
   @discardableResult func updateAPIKey(_ apiKey: APIKey, with parameters: APIKeyParameters, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<APIKeyRevision>) -> Operation {
     let command = Command.APIKey.Update(apiKey: apiKey, parameters: parameters, requestOptions: requestOptions)
-    return perform(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -62,7 +62,7 @@ public extension Index {
    */
   @discardableResult func updateAPIKey(_ apiKey: APIKey, with parameters: APIKeyParameters, requestOptions: RequestOptions? = nil) throws -> APIKeyRevision {
     let command = Command.APIKey.Update(apiKey: apiKey, parameters: parameters, requestOptions: requestOptions)
-    return try perform(command)
+    return try execute(command)
   }
 
   // MARK: - Delete API key
@@ -77,7 +77,7 @@ public extension Index {
    */
   @discardableResult func deleteAPIKey(_ apiKey: APIKey, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<APIKeyDeletion>) -> Operation {
     let command = Command.APIKey.Delete(apiKey: apiKey, requestOptions: requestOptions)
-    return perform(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -89,7 +89,7 @@ public extension Index {
    */
   @discardableResult func deleteAPIKey(_ apiKey: APIKey, requestOptions: RequestOptions? = nil) throws -> APIKeyDeletion {
     let command = Command.APIKey.Delete(apiKey: apiKey, requestOptions: requestOptions)
-    return try perform(command)
+    return try execute(command)
   }
 
   // MARK: - Restore API key
@@ -103,7 +103,7 @@ public extension Index {
    */
   @discardableResult func restoreAPIKey(_ apiKey: APIKey, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<APIKeyRevision>) -> Operation {
     let command = Command.APIKey.Restore(apiKey: apiKey, requestOptions: requestOptions)
-    return perform(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -114,7 +114,7 @@ public extension Index {
    */
   @discardableResult func restoreAPIKey(_ apiKey: APIKey, requestOptions: RequestOptions? = nil) throws -> APIKeyRevision {
     let command = Command.APIKey.Restore(apiKey: apiKey, requestOptions: requestOptions)
-    return try perform(command)
+    return try execute(command)
   }
 
   // MARK: - Get API keys list
@@ -128,7 +128,7 @@ public extension Index {
    */
   @discardableResult func listAPIKeys(requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ListAPIKeysResponse>) -> Operation {
     let command = Command.APIKey.List(requestOptions: requestOptions)
-    return perform(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -139,7 +139,7 @@ public extension Index {
    */
   @discardableResult func listAPIKeys(requestOptions: RequestOptions? = nil) throws -> ListAPIKeysResponse {
     let command = Command.APIKey.List(requestOptions: requestOptions)
-    return try perform(command)
+    return try execute(command)
   }
 
   // MARK: - Get API key
@@ -154,7 +154,7 @@ public extension Index {
    */
   @discardableResult func getAPIKey(_ apiKey: APIKey, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<APIKeyResponse>) -> Operation {
     let command = Command.APIKey.Get(apiKey: apiKey, requestOptions: requestOptions)
-    return perform(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -166,7 +166,7 @@ public extension Index {
    */
   @discardableResult func getAPIKey(_ apiKey: APIKey, requestOptions: RequestOptions? = nil) throws -> APIKeyResponse {
     let command = Command.APIKey.Get(apiKey: apiKey, requestOptions: requestOptions)
-    return try perform(command)
+    return try execute(command)
   }
 
 }
