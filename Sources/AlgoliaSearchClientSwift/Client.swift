@@ -8,22 +8,22 @@
 import Foundation
 
 public struct Client: Credentials {
-  
+
   let transport: Transport
   let operationLauncher: OperationLauncher
-  
+
   public var applicationID: ApplicationID {
     return transport.applicationID
   }
-  
+
   public var apiKey: APIKey {
     return transport.apiKey
   }
-  
+
   public internal(set) static var userAgents: Set<UserAgent> = [.operatingSystem, .library]
 
   public init(appID: ApplicationID, apiKey: APIKey) {
-    
+
     let configuration = SearchConfigration(applicationID: appID, apiKey: apiKey)
     let sessionConfiguration: URLSessionConfiguration = .default
     sessionConfiguration.httpAdditionalHeaders = configuration.defaultHeaders
@@ -34,7 +34,7 @@ public struct Client: Credentials {
     let queue = OperationQueue()
     queue.qualityOfService = .userInitiated
     let operationLauncher = OperationLauncher(queue: queue)
-    
+
     let httpTransport = HttpTransport(requester: session, configuration: configuration, retryStrategy: retryStrategy, credentials: configuration, operationLauncher: operationLauncher)
     self.init(transport: httpTransport, operationLauncher: operationLauncher)
   }
@@ -47,7 +47,7 @@ public struct Client: Credentials {
   public func index(withName indexName: IndexName) -> Index {
     return Index(name: indexName, transport: transport, operationLauncher: operationLauncher)
   }
-  
+
   public static func append(userAgent: UserAgent) {
     userAgents.insert(userAgent)
   }
@@ -55,29 +55,29 @@ public struct Client: Credentials {
 }
 
 extension Client {
-  
+
   func execute<T: Codable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation & TransportTask {
     return transport.execute(command, completion: completion)
   }
-  
+
   func execute<T: Codable>(_ command: AlgoliaCommand) throws -> T {
     return try transport.execute(command)
   }
-  
+
   @discardableResult func launch<O: Operation>(_ operation: O) -> O {
     return operationLauncher.launch(operation)
   }
-  
+
   func launch<O: OperationWithResult>(_ operation: O) throws -> O.ResultValue {
     return try operationLauncher.launchSync(operation)
   }
-  
+
 }
 
 public extension Client {
-  
-  //MARK: - Custom request
-  
+
+  // MARK: - Custom request
+
   /**
     Custom request
    
@@ -89,21 +89,21 @@ public extension Client {
     let command = Command.Custom(callType: .read, urlRequest: request, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
     Custom request
    
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: Specified generic  object
    */
-  
+
   @discardableResult func customRequest<T: Codable>(request: URLRequest, requestOptions: RequestOptions? = nil) throws -> T {
     let command = Command.Custom(callType: .read, urlRequest: request, requestOptions: requestOptions)
     return try execute(command)
   }
-  
-  //MARK: - Get logs
-  
+
+  // MARK: - Get logs
+
   /**
    Get the logs of the latest search and indexing operations.
    You can retrieve the logs of your last 1,000 API calls. It is designed for immediate, real-time debugging.
@@ -121,7 +121,7 @@ public extension Client {
     let command = Command.Advanced.GetLogs(indexName: nil, page: page, hitsPerPage: hitsPerPage, logType: type, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Get the logs of the latest search and indexing operations.
    You can retrieve the logs of your last 1,000 API calls. It is designed for immediate, real-time debugging.
@@ -138,5 +138,5 @@ public extension Client {
     let command = Command.Advanced.GetLogs(indexName: nil, page: page, hitsPerPage: hitsPerPage, logType: type, requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
 }

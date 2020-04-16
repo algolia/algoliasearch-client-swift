@@ -8,21 +8,21 @@
 import Foundation
 
 struct Path: PathComponent {
-  
+
   typealias Parent = Never
-  
+
   let rawValue: String
   var parent: Never? {
     get {
       return nil
     }
-    
+
     set {
     }
   }
 
   private init(_ rawValue: String) { self.rawValue = rawValue }
-  
+
   static var indexesV1: Self { .init("/1/indexes") }
   static var settings: Self { .init("/settings") }
   static var clustersV1: Self { .init("/1/clusters") }
@@ -35,33 +35,33 @@ struct Path: PathComponent {
   static var recommendation: Self { .init("/1/recommendation") }
   static var places: Self { .init("/1/places") }
   static var task: Self { .init("/task") }
-  
+
 }
 
 struct IndexRoute: PathComponent {
-      
+
   var parent: Path?
-  
+
   let rawValue: String
-  
+
   private init(_ rawValue: String) { self.rawValue = rawValue }
-  
+
   static func index(_ indexName: IndexName) -> Self {
     return .init(indexName.rawValue)
   }
-  
+
   static var multiIndex: Self { .init("*") }
 
 }
 
 struct IndexCompletion: PathComponent {
-      
+
   var parent: IndexRoute?
-  
+
   let rawValue: String
-  
+
   private init(_ rawValue: String) { self.rawValue = rawValue }
-  
+
   static var batch: Self { .init(#function) }
   static var operation: Self { .init(#function) }
   static func objectID(_ objectID: ObjectID, partial: Bool = false) -> Self { .init(objectID.rawValue + (partial ? "/partial" : "")) }
@@ -77,25 +77,25 @@ struct IndexCompletion: PathComponent {
 }
 
 struct MultiIndexCompletion: PathComponent {
-  
+
   var parent: IndexRoute?
-  
+
   let rawValue: String
-  
+
   private init(_ rawValue: String) { self.rawValue = rawValue }
-  
+
   static var keys: Self { .init(#function) }
   static var batch: Self { .init(#function) }
   static var logs: Self { .init(#function) }
   static var queries: Self { .init(#function) }
   static var objects: Self { .init(#function) }
-  
+
 }
 
 struct APIKeyCompletion: PathComponent {
-  
+
   var parent: Path?
-  
+
   let rawValue: String
 
   private init(_ rawValue: String) { self.rawValue = rawValue }
@@ -105,7 +105,7 @@ struct APIKeyCompletion: PathComponent {
 }
 
 struct PlacesCompletion: PathComponent {
-  
+
   var parent: Path?
 
   let rawValue: String
@@ -115,5 +115,5 @@ struct PlacesCompletion: PathComponent {
   static var query: Self { .init(#function) }
   static func objectID(_ objectID: ObjectID) -> Self { .init(objectID.rawValue) }
   static var reverse: Self { .init(#function) }
-  
+
 }

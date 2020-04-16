@@ -31,10 +31,10 @@ public enum HttpMethod: String {
 }
 
 protocol Transport: Credentials {
-  
+
   func execute<T: Codable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation & TransportTask
   func execute<T: Codable>(_ command: AlgoliaCommand) throws -> T
-  
+
 }
 
 public typealias TransportTask = Cancellable & ProgressReporting

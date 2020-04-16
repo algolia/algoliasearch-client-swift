@@ -10,12 +10,12 @@ import XCTest
 @testable import AlgoliaSearchClientSwift
 
 class PlacesIntegrationTests: XCTestCase {
-  
+
   var client: PlacesClient!
   let geolocation: Point = .init(latitude: 48.8566, longitude: 2.3522)
   let objectID: ObjectID = "9d43bbad834440abd315bfaa31388bb6"
   let language: Language = .english
-  
+
   override func setUpWithError() throws {
     guard let credentials = TestCredentials.places else {
       throw OnlineTestCase.Error.missingCredentials
@@ -24,24 +24,23 @@ class PlacesIntegrationTests: XCTestCase {
   }
 
   func testSearchMultilanguage() throws {
-    let _ = try client.search(query: "")
-  }
-  
-  func testSearch() throws {
-    let _ = try client.search(query: "", language: language)
-  }
-  
-  func testGetObject() throws {
-    let _ = try client.getObject(withID: objectID)
-  }
-  
-  func testReverseGeocodingMultilanguage() throws {
-    let _ = try client.reverseGeocoding(geolocation: geolocation)
-  }
-  
-  func testReverseGeocoding() throws {
-    let _ = try client.reverseGeocoding(geolocation: geolocation, language: language)
+    _ = try client.search(query: "")
   }
 
+  func testSearch() throws {
+    _ = try client.search(query: "", language: language)
+  }
+
+  func testGetObject() throws {
+    _ = try client.getObject(withID: objectID)
+  }
+
+  func testReverseGeocodingMultilanguage() throws {
+    _ = try client.reverseGeocoding(geolocation: geolocation)
+  }
+
+  func testReverseGeocoding() throws {
+    _ = try client.reverseGeocoding(geolocation: geolocation, language: language)
+  }
 
 }

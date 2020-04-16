@@ -14,7 +14,7 @@ class SearchResponseTests: XCTestCase {
   func testDecodingFacets() throws {
     let facets = try AssertDecode(jsonFilename: "Facets.json", expected: FacetsStorage.self).storage
     XCTAssertEqual(facets.count, 11)
-    XCTAssert(facets.keys.contains("type"))    
+    XCTAssert(facets.keys.contains("type"))
   }
 
   func testDecodingFacetStats() throws {

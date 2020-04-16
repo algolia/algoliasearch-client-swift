@@ -10,10 +10,10 @@ import Foundation
 public typealias HTTPStatusСode = Int
 
 extension HTTPStatusСode {
-  
+
   static let notFound: HTTPStatusСode = 404
   static let requestTimeout: HTTPStatusСode = 408
-  
+
   func belongs(to categories: HTTPStatusCategory...) -> Bool {
     return categories.map { $0.contains(self) }.contains(true)
   }
@@ -21,7 +21,7 @@ extension HTTPStatusСode {
   var isError: Bool {
     return belongs(to: .clientError, .serverError)
   }
-  
+
 }
 
 enum HTTPStatusCategory {
@@ -31,7 +31,7 @@ enum HTTPStatusCategory {
   case redirection
   case clientError
   case serverError
-  
+
   func contains(_ statusCode: HTTPStatusСode) -> Bool {
     return range.contains(statusCode)
   }

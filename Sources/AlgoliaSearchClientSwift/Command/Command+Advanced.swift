@@ -23,13 +23,13 @@ extension Command {
         urlRequest = .init(method: .get, path: path, requestOptions: requestOptions)
       }
     }
-    
+
     struct GetLogs: AlgoliaCommand {
-      
+
       let callType: CallType = .read
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
-      
+
       init(indexName: IndexName?, page: Int?, hitsPerPage: Int?, logType: LogType, requestOptions: RequestOptions?) {
         let requestOptions = requestOptions.updateOrCreate(
           [:]
@@ -41,7 +41,7 @@ extension Command {
         self.requestOptions = requestOptions
         urlRequest = .init(method: .get, path: Path.logs, requestOptions: requestOptions)
       }
-      
+
     }
 
   }

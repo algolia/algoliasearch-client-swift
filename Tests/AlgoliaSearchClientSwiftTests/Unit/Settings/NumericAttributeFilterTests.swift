@@ -15,5 +15,5 @@ class NumericAttributeFilterTests: XCTestCase {
     try AssertEncodeDecode(NumericAttributeFilter.default("attr"), "attr")
     try AssertEncodeDecode(NumericAttributeFilter.equalOnly("attr"), "equalOnly(attr)")
   }
-  
+
 }

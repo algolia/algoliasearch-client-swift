@@ -8,9 +8,9 @@
 import Foundation
 
 public struct HitWithPosition<T: Codable>: Codable {
-  
+
   public let hit: T
   public let page: Int
   public let position: Int
-  
+
 }

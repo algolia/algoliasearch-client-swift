@@ -8,13 +8,13 @@
 import Foundation
 
 public struct ExplainModule: StringOption & ProvidingCustomOption {
-  
+
   public let rawValue: String
-  
+
   public init(rawValue: RawValue) {
     self.rawValue = rawValue
   }
-  
+
   public static var matchAlternatives: Self { .init(rawValue: "match.alternatives") }
-  
+
 }

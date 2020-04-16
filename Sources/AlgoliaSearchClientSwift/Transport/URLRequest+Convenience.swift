@@ -10,21 +10,20 @@ import Foundation
 extension URLRequest: Builder {}
 
 extension URLRequest {
-  
+
   subscript(header key: HTTPHeaderKey) -> String? {
+
     get {
       return allHTTPHeaderFields?[key.rawValue]
     }
-    
+
     set(newValue) {
       setValue(newValue, forHTTPHeaderField: key.rawValue)
     }
+
   }
-  
-  init<PC: PathComponent>(method: HttpMethod,
-       path: PC,
-       body: Data? = nil,
-       requestOptions: RequestOptions? = nil) {
+
+  init<PC: PathComponent>(method: HttpMethod, path: PC, body: Data? = nil, requestOptions: RequestOptions? = nil) {
 
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"
@@ -41,7 +40,6 @@ extension URLRequest {
 
     self = request
   }
-
 
   mutating func setRequestOptions(_ requestOptions: RequestOptions) {
 
@@ -67,19 +65,17 @@ extension URLRequest {
 
 }
 
-
-
 extension URLRequest {
-  
+
   var credentials: Credentials? {
-    
+
     get {
       guard let appID = applicationID, let apiKey = apiKey else {
         return nil
       }
       return AlgoliaCredentials(applicationID: appID, apiKey: apiKey)
     }
-    
+
     set {
       guard let newValue = newValue else {
         applicationID = nil
@@ -89,27 +85,30 @@ extension URLRequest {
       applicationID = newValue.applicationID
       apiKey = newValue.apiKey
     }
-    
+
   }
-  
+
   var applicationID: ApplicationID? {
+
     get {
       return self[header: .applicationID].flatMap(ApplicationID.init)
     }
-    
+
     set {
       self[header: .applicationID] = newValue?.rawValue
     }
   }
-  
+
   var apiKey: APIKey? {
+
     get {
       return self[header: .apiKey].flatMap(APIKey.init)
     }
-    
+
     set {
       self[header: .apiKey] = newValue?.rawValue
     }
+
   }
 
 }

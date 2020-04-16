@@ -8,8 +8,8 @@
 import Foundation
 
 public extension Index {
-  
-  //MARK: - Task status
+
+  // MARK: - Task status
 
   /**
     Check the current TaskStatus of a given Task.
@@ -21,7 +21,7 @@ public extension Index {
     let command = Command.Advanced.TaskStatus(indexName: name, taskID: taskID, requestOptions: requestOptions)
     return perform(command, completion: completion)
   }
-  
+
   /**
     Check the current TaskStatus of a given Task.
    
@@ -32,8 +32,8 @@ public extension Index {
     let command = Command.Advanced.TaskStatus(indexName: name, taskID: taskID, requestOptions: requestOptions)
     return try perform(command)
   }
-  
-  //MARK: - Wait task
+
+  // MARK: - Wait task
 
   /**
     Wait for a Task to complete before executing the next line of code, to synchronize index updates.
@@ -50,7 +50,7 @@ public extension Index {
     let task = WaitTask(index: self, taskID: taskID, requestOptions: requestOptions, completion: completion)
     return launch(task)
   }
-  
+
   /**
     Wait for a Task to complete before executing the next line of code, to synchronize index updates.
     All write operations in Algolia are asynchronous by design.
@@ -66,9 +66,9 @@ public extension Index {
     let task = WaitTask(index: self, taskID: taskID, requestOptions: requestOptions, completion: { _ in })
     return try launch(task)
   }
-  
-  //MARK: - Get logs
-  
+
+  // MARK: - Get logs
+
   /**
    Get the logs of the latest search and indexing operations.
    You can retrieve the logs of your last 1,000 API calls. It is designed for immediate, real-time debugging.
@@ -86,7 +86,7 @@ public extension Index {
     let command = Command.Advanced.GetLogs(indexName: name, page: page, hitsPerPage: hitsPerPage, logType: logType, requestOptions: requestOptions)
     return perform(command, completion: completion)
   }
-  
+
   /**
    Get the logs of the latest search and indexing operations.
    You can retrieve the logs of your last 1,000 API calls. It is designed for immediate, real-time debugging.

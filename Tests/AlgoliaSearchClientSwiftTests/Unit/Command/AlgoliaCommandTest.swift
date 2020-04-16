@@ -10,14 +10,14 @@ import XCTest
 @testable import AlgoliaSearchClientSwift
 
 protocol AlgoliaCommandTest {
-  
+
   var test: TestValues { get }
   func check(command: AlgoliaCommand, callType: CallType, method: HttpMethod, urlPath: String, queryItems: Set<URLQueryItem>, body: Data?, requestOptions: RequestOptions, file: StaticString, line: UInt)
 
 }
 
 extension AlgoliaCommandTest {
-  
+
   var test: TestValues {
     return TestValues()
   }
@@ -32,6 +32,5 @@ extension AlgoliaCommandTest {
     XCTAssertEqual(comps.queryItems.flatMap(Set.init), queryItems, file: file, line: line)
     XCTAssertEqual(request.httpBody, body, file: file, line: line)
   }
-  
-}
 
+}

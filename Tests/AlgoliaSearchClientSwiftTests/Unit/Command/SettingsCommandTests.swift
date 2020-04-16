@@ -10,7 +10,7 @@ import XCTest
 @testable import AlgoliaSearchClientSwift
 
 class SettingsCommandTests: XCTestCase, AlgoliaCommandTest {
-  
+
   func testGetSettings() {
     let command = Command.Settings.GetSettings(indexName: test.indexName, requestOptions: test.requestOptions)
     check(command: command,
@@ -21,7 +21,7 @@ class SettingsCommandTests: XCTestCase, AlgoliaCommandTest {
           body: nil,
           requestOptions: test.requestOptions)
   }
-  
+
   func testSetSettings() {
     let command = Command.Settings.SetSettings(indexName: test.indexName, settings: test.settings, resetToDefault: [.attributesToSnippet], forwardToReplicas: false, requestOptions: test.requestOptions)
     check(command: command,
@@ -32,5 +32,5 @@ class SettingsCommandTests: XCTestCase, AlgoliaCommandTest {
           body: test.settings.httpBody,
           requestOptions: test.requestOptions)
   }
-  
+
 }

@@ -4,13 +4,14 @@
 //
 //  Created by Vladislav Fitc on 03/03/2020.
 //
+// swiftlint:disable file_length
 
 import Foundation
 
 public extension Index {
 
-  //MARK: - Save object
-  
+  // MARK: - Save object
+
   /**
    Add a new record to an index.
    
@@ -32,7 +33,7 @@ public extension Index {
     let command = Command.Indexing.SaveObject(indexName: name, record: record, requestOptions: requestOptions)
     return perform(command, completion: completion)
   }
-    
+
   /**
    Add a new record to an index.
    
@@ -45,9 +46,9 @@ public extension Index {
     let command = Command.Indexing.SaveObject(indexName: name, record: record, requestOptions: requestOptions)
     return try perform(command)
   }
-    
-  //MARK: - Save objects
-  
+
+  // MARK: - Save objects
+
   /**
    Add multiple schemaless objects to an index.
    
@@ -60,7 +61,7 @@ public extension Index {
   @discardableResult func saveObjects<T: Codable>(records: [T], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation & TransportTask {
     return batch(records.map { .add($0) }, requestOptions: requestOptions, completion: completion)
   }
-    
+
   /**
    Add multiple schemaless objects to an index.
    
@@ -72,8 +73,8 @@ public extension Index {
   @discardableResult func saveObjects<T: Codable>(_ records: [T], requestOptions: RequestOptions? = nil) throws -> BatchResponse {
     return try batch(records.map { .add($0) }, requestOptions: requestOptions)
   }
-  
-  //MARK: - Get object
+
+  // MARK: - Get object
 
   /**
    Get one record using its ObjectID.
@@ -88,7 +89,7 @@ public extension Index {
     let command = Command.Indexing.GetObject(indexName: name, objectID: objectID, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions)
     return perform(command, completion: completion)
   }
-    
+
   /**
    Get one record using its ObjectID.
    
@@ -101,9 +102,9 @@ public extension Index {
     let command = Command.Indexing.GetObject(indexName: name, objectID: objectID, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions)
     return try perform(command)
   }
-  
-  //MARK: - Get objects
-  
+
+  // MARK: - Get objects
+
   /**
     Get multiple records using their ObjectID.
    
@@ -117,7 +118,7 @@ public extension Index {
     let command = Command.Indexing.GetObjects(indexName: name, objectIDs: objectIDs, attributesToRetreive: attributesToRetrieve, requestOptions: requestOptions)
     return perform(command, completion: completion)
   }
-  
+
   /**
     Get multiple records using their ObjectID.
    
@@ -131,9 +132,9 @@ public extension Index {
     let command = Command.Indexing.GetObjects(indexName: name, objectIDs: objectIDs, attributesToRetreive: attributesToRetrieve, requestOptions: requestOptions)
     return try perform(command)
   }
-  
-  //MARK: - Replace object
-  
+
+  // MARK: - Replace object
+
   /**
    Replace an existing object with an updated set of attributes.
    
@@ -159,7 +160,7 @@ public extension Index {
     let command = Command.Indexing.ReplaceObject(indexName: name, objectID: objectID, replacementObject: object, requestOptions: requestOptions)
     return perform(command, completion: completion)
   }
-  
+
   /**
    Replace an existing object with an updated set of attributes.
    - See_also: replaceObject
@@ -172,8 +173,8 @@ public extension Index {
     let command = Command.Indexing.ReplaceObject(indexName: name, objectID: objectID, replacementObject: object, requestOptions: requestOptions)
     return try perform(command)
   }
-  
-  //MARK: - Replace objects
+
+  // MARK: - Replace objects
 
   /**
    Replace multiple objects with an updated set of attributes.
@@ -187,7 +188,7 @@ public extension Index {
   @discardableResult func replaceObjects<T: Codable>(replacements: [(objectID: ObjectID, object: T)], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation & TransportTask {
     return batch(replacements.map { .update(objectID: $0.objectID, $0.object) }, requestOptions: requestOptions, completion: completion)
   }
-  
+
   /**
    Replace multiple objects with an updated set of attributes.
    
@@ -200,8 +201,8 @@ public extension Index {
     return try batch(replacements.map { .update(objectID: $0.objectID, $0.object) }, requestOptions: requestOptions)
   }
 
-  //MARK: - Delete object
-  
+  // MARK: - Delete object
+
   /**
    Remove an object from an index  using its ObjectID.
    
@@ -214,7 +215,7 @@ public extension Index {
     let command = Command.Indexing.DeleteObject(indexName: name, objectID: objectID, requestOptions: requestOptions)
     return perform(command, completion: completion)
   }
-    
+
   /**
    Remove an object from an index using its ObjectID.
    
@@ -227,8 +228,8 @@ public extension Index {
     return try perform(command)
   }
 
-  //MARK: - Delete objects
-  
+  // MARK: - Delete objects
+
   /**
    Remove multiple objects from an index using their ObjectID.
    - Parameter objectIDs: The list ObjectID to identify the records.
@@ -249,7 +250,7 @@ public extension Index {
   @discardableResult func deleteObjects(withIDs objectIDs: [ObjectID], requestOptions: RequestOptions? = nil) throws -> BatchResponse {
     return try batch(objectIDs.map { .delete(objectID: $0) }, requestOptions: requestOptions)
   }
-  
+
   /**
     Remove all objects matching a DeleteByQuery.
     
@@ -283,9 +284,9 @@ public extension Index {
     let command = Command.Indexing.DeleteByQuery(indexName: name, query: query, requestOptions: requestOptions)
     return try perform(command)
   }
-  
-  //MARK: - Partial update object
-  
+
+  // MARK: - Partial update object
+
   /**
    Update one or more attributes of an existing record.
    
@@ -321,7 +322,7 @@ public extension Index {
     let command = Command.Indexing.PartialUpdate(indexName: name, objectID: objectID, partialUpdate: partialUpdate, createIfNotExists: createIfNotExists, requestOptions: requestOptions)
     return perform(command, completion: completion)
   }
-  
+
   /**
    Update one or more attributes of an existing record.
    
@@ -337,8 +338,8 @@ public extension Index {
     let command = Command.Indexing.PartialUpdate(indexName: name, objectID: objectID, partialUpdate: partialUpdate, createIfNotExists: createIfNotExists, requestOptions: requestOptions)
     return try perform(command)
   }
-  
-  //MARK: - Partial update objects
+
+  // MARK: - Partial update objects
 
   /**
    Update one or more attributes of existing records.
@@ -369,9 +370,9 @@ public extension Index {
   @discardableResult func partialUpdateObjects(replacements: [(objectID: ObjectID, update: PartialUpdate)], createIfNotExists: Bool, requestOptions: RequestOptions? = nil) throws -> BatchResponse {
     return try batch(replacements.map { .partialUpdate(objectID: $0.objectID, $0.update, createIfNotExists: createIfNotExists) }, requestOptions: requestOptions)
   }
-  
-  //MARK: - Batch operations
-  
+
+  // MARK: - Batch operations
+
   /**
    Perform several indexing operations in one API call.
    
@@ -397,7 +398,7 @@ public extension Index {
     let command = Command.Index.Batch(indexName: name, batchOperations: batchOperations, requestOptions: requestOptions)
     return perform(command, completion: completion)
   }
-  
+
   /**
    Perform several indexing operations in one API call.
    
@@ -409,9 +410,9 @@ public extension Index {
     let command = Command.Index.Batch(indexName: name, batchOperations: batchOperations, requestOptions: requestOptions)
     return try perform(command)
   }
-  
-  //MARK: - Clear objects
-  
+
+  // MARK: - Clear objects
+
   /**
    Clear the records of an index without affecting its settings.
  
@@ -427,7 +428,7 @@ public extension Index {
     let command = Command.Indexing.ClearObjects(indexName: name, requestOptions: requestOptions)
     return perform(command, completion: completion)
   }
-    
+
   /**
    Clear the records of an index without affecting its settings.
 
@@ -438,5 +439,5 @@ public extension Index {
     let command = Command.Indexing.ClearObjects(indexName: name, requestOptions: requestOptions)
     return try perform(command)
   }
-  
+
 }

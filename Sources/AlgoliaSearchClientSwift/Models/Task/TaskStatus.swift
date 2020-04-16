@@ -8,13 +8,13 @@
 import Foundation
 
 public struct TaskStatus: StringOption & ProvidingCustomOption {
-  
+
   public let rawValue: String
-  
+
   public init(rawValue: RawValue) {
     self.rawValue = rawValue
   }
-  
+
   /// The Task has been processed by the server.
   public static var published: Self { .init(rawValue: #function) }
 

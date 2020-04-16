@@ -8,7 +8,7 @@
 import Foundation
 
 public enum ACL: String, Codable {
-  
+
   /// Allows search.
   case search
 
@@ -20,7 +20,7 @@ public enum ACL: String, Codable {
 
   /// Allows deleting an existing object.
   case deleteObject
-  
+
   /// Allows listing all accessible indices.
   case listIndices = "listIndexes"
 
@@ -35,10 +35,10 @@ public enum ACL: String, Codable {
 
   /// Allows retrieval of analytics through the analytics API.
   case analytics
-  
+
   /// Allows the interaction with the Recommendation API.
   case recommendation
-  
+
   /// Allows retrieving data through the Usage API.
   case usage
 
@@ -47,5 +47,5 @@ public enum ACL: String, Codable {
 
   /// Disables the Settings.unretrievableAttributes feature for all operations returning records.
   case seeUnretrievableAttributes
-  
+
 }

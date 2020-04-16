@@ -8,9 +8,9 @@
 import Foundation
 
 public extension Client {
-    
-  //MARK: - List indices
-  
+
+  // MARK: - List indices
+
   /**
    Get a list of indices with their associated metadata.
    This method retrieves a list of all indices associated with a given ApplicationID.
@@ -25,7 +25,7 @@ public extension Client {
     let command = Command.MultipleIndex.ListIndices(requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Get a list of indices with their associated metadata.
    This method retrieves a list of all indices associated with a given ApplicationID.
@@ -39,9 +39,9 @@ public extension Client {
     let command = Command.MultipleIndex.ListIndices(requestOptions: requestOptions)
     return try execute(command)
   }
-  
-  //MARK: - List index API key
-  
+
+  // MARK: - List index API key
+
   /**
    Get the full list of API Keys.
    
@@ -53,7 +53,7 @@ public extension Client {
     let command = Command.MultipleIndex.ListIndexAPIKeys(requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Get the full list of API Keys.
    
@@ -65,8 +65,8 @@ public extension Client {
     return try execute(command)
   }
 
-  //MARK: - Multiple queries
-  
+  // MARK: - Multiple queries
+
   /**
    Perform a search on several indices at the same time, with one method call.
 
@@ -80,7 +80,7 @@ public extension Client {
     let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Perform a search on several indices at the same time, with one method call.
    
@@ -94,9 +94,8 @@ public extension Client {
     return try execute(command)
   }
 
-  
-  //MARK: - Multiple get objects
-  
+  // MARK: - Multiple get objects
+
   /**
    Retrieve one or more objects, potentially from different indices, in a single API call.
    Results will be received in the same order as the requests.
@@ -110,7 +109,7 @@ public extension Client {
     let command = Command.MultipleIndex.GetObjects(requests: requests, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Retrieve one or more objects, potentially from different indices, in a single API call.
    Results will be received in the same order as the requests.
@@ -119,14 +118,13 @@ public extension Client {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: ObjectsResponse  object
    */
-  @discardableResult func multipleGetObjects(requests: [ObjectRequest] ,requestOptions: RequestOptions? = nil) throws -> ObjectsResponse<JSON> {
+  @discardableResult func multipleGetObjects(requests: [ObjectRequest], requestOptions: RequestOptions? = nil) throws -> ObjectsResponse<JSON> {
     let command = Command.MultipleIndex.GetObjects(requests: requests, requestOptions: requestOptions)
     return try execute(command)
   }
 
-  
-  //MARK: - Multiple batch
-    
+  // MARK: - Multiple batch
+
   /**
    Perform several indexing operations in one API call.
    This method enables you to batch multiple different indexing operations in one API call, like add or delete
@@ -141,7 +139,7 @@ public extension Client {
     let command = Command.MultipleIndex.BatchObjects(operations: operations, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Perform several indexing operations in one API call.
    This method enables you to batch multiple different indexing operations in one API call, like add or delete
@@ -155,5 +153,5 @@ public extension Client {
     let command = Command.MultipleIndex.BatchObjects(operations: operations, requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
 }

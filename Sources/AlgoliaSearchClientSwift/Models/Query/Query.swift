@@ -500,7 +500,7 @@ public struct Query {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/percentileComputation/?language=swift)
    */
   public var percentileComputation: Bool?
-  
+
   /**
    Custom parameters
    */

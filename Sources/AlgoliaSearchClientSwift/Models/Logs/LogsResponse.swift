@@ -8,7 +8,7 @@
 import Foundation
 
 public struct LogsResponse: Codable {
-  
+
   public let logs: [Log]
-  
+
 }

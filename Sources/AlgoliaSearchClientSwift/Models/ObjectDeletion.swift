@@ -8,7 +8,7 @@
 import Foundation
 
 public struct ObjectDeletion: Task, Codable {
-  
+
   /**
    The date at which the record has been deleted.
   */
@@ -23,5 +23,5 @@ public struct ObjectDeletion: Task, Codable {
    The deleted record ObjectID
   */
   public let objectID: ObjectID
-  
+
 }

@@ -9,9 +9,9 @@ import Foundation
 
 @propertyWrapper
 public struct CustomKey<Key: Hashable & RawRepresentable, Value: Codable>: Codable where Key.RawValue == String {
-  
+
   public var wrappedValue: [Key: Value]
-  
+
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: DynamicKey.self)
     var storage: [Key: Value] = [:]
@@ -22,11 +22,11 @@ public struct CustomKey<Key: Hashable & RawRepresentable, Value: Codable>: Codab
     }
     self.wrappedValue = storage
   }
-  
+
   public func encode(to encoder: Encoder) throws {
     let rawWrappedSequence = wrappedValue.map { ($0.key.rawValue, $0.value) }
-    let rawWrappedValue = [String: Value](rawWrappedSequence) { (_, k) in k }
+    let rawWrappedValue = [String: Value](uniqueKeysWithValues: rawWrappedSequence)
     try rawWrappedValue.encode(to: encoder)
   }
-  
+
 }

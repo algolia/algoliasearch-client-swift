@@ -10,7 +10,7 @@ import XCTest
 @testable import AlgoliaSearchClientSwift
 
 class SnippetTests: XCTestCase {
-  
+
   func testCoding() throws {
     try AssertEncodeDecode(Snippet(attribute: "attr"), "attr")
     try AssertEncodeDecode(Snippet(attribute: "attr", count: 20), "attr:20")

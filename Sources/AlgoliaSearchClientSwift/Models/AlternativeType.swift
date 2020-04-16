@@ -4,14 +4,13 @@
 //
 //  Created by Vladislav Fitc on 23/03/2020.
 //
-// swiftlint:disable cyclomatic_complexity
 
 import Foundation
 
 public struct AlternativeType: StringOption & ProvidingCustomOption {
-  
+
   public let rawValue: String
-  
+
   public init(rawValue: RawValue) {
     self.rawValue = rawValue
   }

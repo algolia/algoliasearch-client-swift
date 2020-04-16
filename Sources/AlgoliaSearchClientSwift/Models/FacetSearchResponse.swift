@@ -8,20 +8,20 @@
 import Foundation
 
 public struct FacetSearchResponse: Codable {
-  
+
   /**
    The list of Facet.
    */
   public let facets: [Facet]
-  
+
   /**
    Whether the count returned for each facets is exhaustive.
    */
   public let exhaustiveFacetsCount: Bool
-  
+
   /**
    Processing time.
    */
   public let processingTimeMS: TimeInterval
-  
+
 }

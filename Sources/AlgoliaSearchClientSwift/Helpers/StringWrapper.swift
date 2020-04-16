@@ -20,7 +20,7 @@ extension StringWrapper {
 }
 
 extension StringWrapper {
-  
+
   public init(from decoder: Decoder) throws {
     let container = try decoder.singleValueContainer()
     if let intValue = try? container.decode(Int.self) {
@@ -36,11 +36,11 @@ extension StringWrapper {
     var container = encoder.singleValueContainer()
     try container.encode(rawValue)
   }
-  
+
 }
 
 extension StringWrapper {
-  
+
   public var description: String {
     return rawValue
   }

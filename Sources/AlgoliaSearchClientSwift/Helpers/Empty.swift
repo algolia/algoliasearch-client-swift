@@ -8,13 +8,13 @@
 import Foundation
 
 struct Empty: Codable {
-  
+
   init() {}
-  
+
   init(from decoder: Decoder) throws {
     self.init()
   }
-  
+
   func encode(to encoder: Encoder) throws {}
-  
+
 }

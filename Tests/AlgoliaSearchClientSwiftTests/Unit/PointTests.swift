@@ -10,7 +10,7 @@ import XCTest
 @testable import AlgoliaSearchClientSwift
 
 class PointTests: XCTestCase {
-  
+
   func testCoding() throws {
     try AssertEncodeDecode(Point(latitude: 2, longitude: 3), "2.0,3.0")
   }

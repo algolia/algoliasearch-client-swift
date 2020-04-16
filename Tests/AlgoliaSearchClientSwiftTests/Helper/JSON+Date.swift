@@ -9,7 +9,7 @@ import Foundation
 @testable import AlgoliaSearchClientSwift
 
 extension JSON {
-  
+
   init(_ date: Date, encodingStrategy: JSONEncoder.DateEncodingStrategy = .swiftAPIClient) {
     let encoder = JSONEncoder()
     encoder.dateEncodingStrategy = encodingStrategy
@@ -18,5 +18,5 @@ extension JSON {
     decoder.dateDecodingStrategy = .swiftAPIClient
     self = .string(try! decoder.decode(String.self, from: dateData))
   }
-  
+
 }

@@ -8,20 +8,20 @@
 import Foundation
 
 class OperationLauncher {
-  
+
   let queue: OperationQueue
-  
+
   init(queue: OperationQueue) {
     self.queue = queue
   }
-  
+
   @discardableResult func launch<O: Operation>(_ operation: O) -> O {
     queue.addOperation(operation)
     return operation
   }
-  
+
   func launchSync<O: OperationWithResult>(_ operation: O) throws -> O.ResultValue {
-    
+
     queue.addOperations([operation], waitUntilFinished: true)
 
     guard !operation.isCancelled else {
