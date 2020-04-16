@@ -18,7 +18,13 @@ class WaitTask: AsyncOperation, ResultContainer {
   private var launchDate: Date?
   let completion: (ResultCallback<TaskStatus>)
 
-  var result: Result<TaskStatus, Swift.Error>?
+  var result: Result<TaskStatus, Swift.Error>? {
+    didSet {
+      guard let result = result else { return }
+      completion(result)
+      state = .finished
+    }
+  }
 
   var isTimeout: Bool {
     guard let timeout = timeout, let launchDate = launchDate else {
@@ -52,43 +58,32 @@ class WaitTask: AsyncOperation, ResultContainer {
   }
 
   override func main() {
-    launchDate = Date()
-    getTaskStatus()
-  }
-
-  private func getTaskStatus() {
+    
     guard let taskID = taskIDProvider() else {
-      completion(.failure(Error.missingTaskID))
-      state = .finished
+      result = .failure(Error.missingTaskID)
       return
     }
-    index.taskStatus(for: taskID, requestOptions: requestOptions) { [weak self] result in
-      guard let operation = self else { return }
-      switch result {
-      case .failure(let error):
-        operation.result = .failure(error)
-        operation.completion(.failure(error))
-        operation.state = .finished
-
-      case .success(let taskInfo):
-        switch taskInfo.status {
+    
+    launchDate = Date()
+    
+    while !isTimeout {
+      do {
+        let taskStatus = try index.taskStatus(for: taskID, requestOptions: requestOptions)
+        switch taskStatus.status {
         case .published:
-          operation.result = .success(taskInfo.status)
-          operation.completion(.success(taskInfo.status))
-          operation.state = .finished
+          result = .success(taskStatus.status)
+          return
+          
         default:
-          guard operation.isTimeout else {
-            sleep(1)
-            operation.getTaskStatus()
-            return
-          }
-
-          operation.result = .failure(Error.timeout)
-          operation.completion(.failure(Error.timeout))
-          operation.state = .finished
+          sleep(1)
         }
+      } catch let error {
+        result = .failure(error)
       }
     }
+    
+    result = .failure(Error.timeout)
+    
   }
 
   enum Error: Swift.Error {
