@@ -20,9 +20,9 @@ class SearchIntegrationTests: OnlineTestCase {
     settings.attributesForFaceting = [.searchable("company")]
 
       let setSettingsTask = try index.setSettings(settings)
-      _ = try index.wait(for: setSettingsTask)
+      _ = try setSettingsTask.wait()
       let saveTask = try index.saveObjects(employees)
-      _ = try index.wait(for: saveTask)
+      _ = try saveTask.wait()
       let results = try index.search(query: "algolia")
 
       XCTAssertEqual(results.nbHits, 2)

@@ -18,7 +18,7 @@ class SettingsIntegrationTests: OnlineTestCase {
     settings.attributesForFaceting = [.filterOnly("attr1"), .default("attr2"), .searchable("attr3")]
 
     let task = try index.setSettings(settings)
-    _ = try index.wait(for: task)
+    _ = try task.wait()
     let fetchedSettings = try index.getSettings()
     XCTAssertEqual(fetchedSettings.attributesForFaceting, [.filterOnly("attr1"), .default("attr2"), .searchable("attr3")])
   }

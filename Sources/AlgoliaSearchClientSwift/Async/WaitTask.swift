@@ -58,31 +58,41 @@ class WaitTask: AsyncOperation, ResultContainer {
   }
 
   override func main() {
+        
+    launchDate = Date()
+    
+    checkStatus()
+  }
+  
+  private func checkStatus() {
+    
+    guard !isTimeout else {
+      result = .failure(Error.timeout)
+      return
+    }
     
     guard let taskID = taskIDProvider() else {
       result = .failure(Error.missingTaskID)
       return
     }
     
-    launchDate = Date()
-    
-    while !isTimeout {
-      do {
-        let taskStatus = try index.taskStatus(for: taskID, requestOptions: requestOptions)
+    index.taskStatus(for: taskID, requestOptions: requestOptions) { [weak self] result in
+      guard let request = self else { return }
+      
+      switch result {
+      case .success(let taskStatus):
         switch taskStatus.status {
         case .published:
-          result = .success(taskStatus.status)
-          return
+          request.result = .success(taskStatus.status)
           
         default:
           sleep(1)
+          request.checkStatus()
         }
-      } catch let error {
-        result = .failure(error)
+      case .failure(let error):
+        request.result = .failure(error)
       }
     }
-    
-    result = .failure(Error.timeout)
     
   }
 
@@ -107,21 +117,21 @@ extension WaitTask {
               completion: completion)
   }
 
-  convenience init<Value, Request: HTTPRequest<Value>>(index: Index,
-                                                       request: Request,
-                                                       timeout: TimeInterval? = nil,
-                                                       requestOptions: RequestOptions?,
-                                                       completion: @escaping ResultCallback<TaskStatus>) where Value: Task {
-    self.init(index: index,
-              taskIDProvider: { () -> TaskID? in
-                guard case .success(let value) = request.result else {
-                  return nil
-                }
-                return value.taskID
-    }(),
-              timeout: timeout,
-              requestOptions: requestOptions,
-              completion: completion)
-  }
+//  convenience init<Value, Request: HTTPRequest<Value>>(index: Index,
+//                                                       request: Request,
+//                                                       timeout: TimeInterval? = nil,
+//                                                       requestOptions: RequestOptions?,
+//                                                       completion: @escaping ResultCallback<TaskStatus>) where Value: Task {
+//    self.init(index: index,
+//              taskIDProvider: { () -> TaskID? in
+//                guard case .success(let value) = request.result else {
+//                  return nil
+//                }
+//                return value.taskID
+//    }(),
+//              timeout: timeout,
+//              requestOptions: requestOptions,
+//              completion: completion)
+//  }
 
 }

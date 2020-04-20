@@ -7,18 +7,29 @@
 
 import Foundation
 
-class TaskWaitWrapper<T: Task> {
+public class TaskWaitWrapper<T: Task> {
   
-  let index: Index
-  let task: T
+  public let index: Index
+  public let task: T
   
-  init(index: Index, task: T) {
+  public init(index: Index, task: T) {
     self.index = index
     self.task = task
   }
   
-  func wait(timeout: TimeInterval? = nil) throws {
+  public func wait(timeout: TimeInterval? = nil) throws {
     try index.waitTask(withID: task.taskID, timeout: timeout)
+  }
+  
+  public func wait(timeout: TimeInterval? = nil, completion: @escaping (Result<Empty, Swift.Error>) -> Void) {
+    index.waitTask(withID: task.taskID) { result in
+      switch result {
+      case .success:
+        completion(.success(.empty))
+      case .failure(let error):
+        completion(.failure(error))
+      }
+    }
   }
   
 }

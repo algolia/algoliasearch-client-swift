@@ -24,17 +24,17 @@ class HTTPRequestBuilder {
     self.credentials = credentials
   }
 
-  func build<T: Codable>(for command: AlgoliaCommand, with completion: @escaping ResultCallback<T>) -> HTTPRequest<T> {
+  func build<Response: Codable, Output>(for command: AlgoliaCommand, transform: @escaping (Response) -> Output, with completion: @escaping (HTTPRequest<Response, Output>.Result) -> Void) -> HTTPRequest<Response, Output> {
 
     let timeout = command.requestOptions?.timeout(for: command.callType) ?? configuration.timeout(for: command.callType)
     let hostIterator = HostIterator(retryStrategy: retryStrategy, callType: command.callType)
     let request = command.urlRequest.setIfNotNil(\.credentials, to: credentials)
 
-    return HTTPRequest(requester: requester, retryStrategy: retryStrategy, hostIterator: hostIterator, request: request, timeout: timeout, completion: completion)
+    return HTTPRequest(requester: requester, retryStrategy: retryStrategy, hostIterator: hostIterator, request: request, timeout: timeout, transform: transform, completion: completion)
   }
-
-  func build<T: Codable>(for command: AlgoliaCommand, responseType: T.Type) -> HTTPRequest<T> {
-    return build(for: command, with: { (_:Result<T, Swift.Error>) in })
+  
+  func build<Response: Codable, Output>(for command: AlgoliaCommand, transform: @escaping (Response) -> Output, responseType: Output.Type) -> HTTPRequest<Response, Output> {
+    return build(for: command, transform: transform, with: { (_:HTTPRequest<Response, Output>.Result) in })
   }
 
 }

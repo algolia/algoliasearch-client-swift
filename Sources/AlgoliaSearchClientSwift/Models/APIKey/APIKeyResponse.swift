@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct APIKeyResponse: Codable {
+public struct APIKeyResponse {
 
   /// The APIKey value
   public let key: APIKey
@@ -41,7 +41,7 @@ public struct APIKeyResponse: Codable {
 
 }
 
-extension APIKeyResponse {
+extension APIKeyResponse: Codable {
 
   enum CodingKeys: String, CodingKey {
     case key = "value"

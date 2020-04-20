@@ -19,8 +19,8 @@ class IndexingIntegrationTests: OnlineTestCase {
       "testField3": true]
 
     let creation = try index.saveObject(object)
-    _ = try index.wait(for: creation)
-    let fetchedObject: JSON = try index.getObject(withID: creation.objectID)
+    try creation.wait()
+    let fetchedObject: JSON = try index.getObject(withID: creation.task.objectID)
     XCTAssertEqual(fetchedObject["testField1"], "testValue1")
     XCTAssertEqual(fetchedObject["testField2"], 2)
     XCTAssertEqual(fetchedObject["testField3"], true)
@@ -36,13 +36,12 @@ class IndexingIntegrationTests: OnlineTestCase {
     let expectation = self.expectation(description: "Save-Wait-Create")
 
     index.saveObject(object, completion: extract { creation in
-      self.index.waitTask(withID: creation.taskID, completion: extract { _ in
-        self.index.getObject(withID: creation.objectID, completion: extract { (fetchedObject: JSON) in
+      creation.wait(completion: extract { _ in
+        self.index.getObject(withID: creation.task.objectID, completion: extract { (fetchedObject: JSON) in
           XCTAssertEqual(fetchedObject["testField1"], "testValue1")
           XCTAssertEqual(fetchedObject["testField2"], 2)
           XCTAssertEqual(fetchedObject["testField3"], true)
           expectation.fulfill()
-
         })
       })
     })
