@@ -7,4 +7,5 @@
 
 import Foundation
 
-public typealias ResultCallback<T: Codable> = (Result<T, Error>) -> Void
+public typealias ResultCallback<T> = (Result<T, Error>) -> Void
+public typealias ResultTaskCallback<T: Task & Codable> = (Result<TaskWaitWrapper<T>, Error>) -> Void

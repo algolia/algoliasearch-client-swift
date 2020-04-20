@@ -7,16 +7,19 @@
 
 import Foundation
 
-class HTTPRequest<Value: Codable>: AsyncOperation, ResultContainer, TransportTask {
+class HTTPRequest<ResponseType: Codable, Output>: AsyncOperation, ResultContainer, TransportTask {
 
-  typealias Result = Swift.Result<Value, Swift.Error>
+  typealias Transform = (ResponseType) -> Output
+  typealias IntermediateResult = Swift.Result<ResponseType, Swift.Error>
+  typealias Result = Swift.Result<Output, Swift.Error>
 
   let requester: HTTPRequester
   let hostIterator: HostIterator
   let retryStrategy: RetryStrategy
   let timeout: TimeInterval
   let request: URLRequest
-  let completion: (ResultCallback<Value>)
+  let transform: (ResponseType) -> Output
+  let completion: (Result) -> Void
   var didUpdateProgress: ((ProgressReporting) -> Void)?
 
   var underlyingTask: (TransportTask)? {
@@ -43,12 +46,14 @@ class HTTPRequest<Value: Codable>: AsyncOperation, ResultContainer, TransportTas
        hostIterator: HostIterator,
        request: URLRequest,
        timeout: TimeInterval,
-       completion: @escaping ResultCallback<Value>) {
+       transform: @escaping Transform,
+       completion: @escaping (Result) -> Void) {
     self.requester = requester
     self.retryStrategy = retryStrategy
     self.hostIterator = hostIterator
     self.request = request
     self.timeout = timeout
+    self.transform = transform
     self.completion = completion
     self.underlyingTask = nil
   }
@@ -72,7 +77,7 @@ class HTTPRequest<Value: Codable>: AsyncOperation, ResultContainer, TransportTas
 
       let effectiveRequest = try HostSwitcher.switchHost(in: request, by: host, timeout: timeout)
 
-      underlyingTask = requester.perform(request: effectiveRequest) { [weak self] (result: Result) in
+      underlyingTask = requester.perform(request: effectiveRequest) { [weak self] (result: IntermediateResult) in
         guard let httpRequest = self else { return }
 
         let retryOutcome = httpRequest.retryStrategy.notify(host: host, result: result)
@@ -82,7 +87,8 @@ class HTTPRequest<Value: Codable>: AsyncOperation, ResultContainer, TransportTas
           httpRequest.tryLaunch(request: request)
 
         case .success(let value):
-          httpRequest.result = .success(value)
+          let output = httpRequest.transform(value)
+          httpRequest.result = .success(output)
 
         case .failure(let error):
           httpRequest.result = .failure(error)
@@ -115,4 +121,24 @@ class HTTPRequest<Value: Codable>: AsyncOperation, ResultContainer, TransportTas
     underlyingTask?.cancel()
   }
 
+}
+
+extension HTTPRequest where ResponseType == Output {
+  
+  convenience init(requester: HTTPRequester,
+       retryStrategy: RetryStrategy,
+       hostIterator: HostIterator,
+       request: URLRequest,
+       timeout: TimeInterval,
+       completion: @escaping (Result) -> Void) {
+    self.init(requester: requester,
+              retryStrategy: retryStrategy,
+              hostIterator: hostIterator,
+              request: request,
+              timeout: timeout,
+              transform: { $0 },
+              completion: completion)
+  }
+
+  
 }

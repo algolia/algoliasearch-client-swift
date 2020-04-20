@@ -7,14 +7,16 @@
 
 import Foundation
 
-struct Empty: Codable {
+public struct Empty: Codable {
 
+  static let empty: Self = .init()
+  
   init() {}
 
-  init(from decoder: Decoder) throws {
+  public init(from decoder: Decoder) throws {
     self.init()
   }
 
-  func encode(to encoder: Encoder) throws {}
+  public func encode(to encoder: Encoder) throws {}
 
 }

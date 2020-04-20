@@ -126,9 +126,9 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func listAPIKeys(requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ListAPIKeysResponse>) -> Operation {
+  @discardableResult func listAPIKeys(requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<[APIKeyResponse]>) -> Operation {
     let command = Command.APIKey.List(requestOptions: requestOptions)
-    return execute(command, completion: completion)
+    return execute(command, transform: \ListAPIKeysResponse.keys, completion: completion)
   }
 
   /**
@@ -137,9 +137,9 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: ListAPIKeyResponse  object
    */
-  @discardableResult func listAPIKeys(requestOptions: RequestOptions? = nil) throws -> ListAPIKeysResponse {
+  @discardableResult func listAPIKeys(requestOptions: RequestOptions? = nil) throws -> [APIKeyResponse] {
     let command = Command.APIKey.List(requestOptions: requestOptions)
-    return try execute(command)
+    return try execute(command, transform: \ListAPIKeysResponse.keys)
   }
 
   // MARK: - Get API key

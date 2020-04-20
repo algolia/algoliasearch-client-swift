@@ -32,9 +32,21 @@ public enum HttpMethod: String {
 
 protocol Transport: Credentials {
 
-  func execute<T: Codable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation & TransportTask
-  func execute<T: Codable>(_ command: AlgoliaCommand) throws -> T
+  func execute<Response: Codable, Output>(_ command: AlgoliaCommand, transform: @escaping (Response) -> Output, completion: @escaping (Result<Output, Error>) -> Void) -> Operation & TransportTask
+  func execute<Response: Codable, Output>(_ command: AlgoliaCommand, transform: @escaping (Response) -> Output) throws -> Output
 
+}
+
+extension Transport {
+  
+  func execute<Output: Codable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<Output>) -> Operation & TransportTask {
+    execute(command, transform: { $0 }, completion: completion)
+  }
+  
+  func execute<Output: Codable>(_ command: AlgoliaCommand) throws -> Output {
+    try execute(command, transform: { $0 })
+  }
+  
 }
 
 public typealias TransportTask = Cancellable & ProgressReporting

@@ -7,8 +7,8 @@
 
 import Foundation
 
-public struct ListAPIKeysResponse: Codable {
+struct ListAPIKeysResponse: Codable {
 
-  public let keys: [APIKeyResponse]
+  let keys: [APIKeyResponse]
 
 }

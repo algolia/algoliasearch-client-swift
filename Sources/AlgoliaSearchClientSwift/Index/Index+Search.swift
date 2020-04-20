@@ -52,9 +52,9 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func search(queries: [Query], strategy: MultipleQueriesStrategy? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchesResponse>) -> Operation & TransportTask {
+  @discardableResult func search(queries: [Query], strategy: MultipleQueriesStrategy? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<[SearchResponse]>) -> Operation & TransportTask {
     let command = Command.MultipleIndex.Queries(indexName: name, queries: queries, strategy: strategy, requestOptions: requestOptions)
-    return execute(command, completion: completion)
+    return transport.execute(command, transform: \SearchesResponse.results, completion: completion)
   }
 
   /**
@@ -66,9 +66,9 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: SearchesResponse object
    */
-  @discardableResult func search(queries: [Query], strategy: MultipleQueriesStrategy? = nil, requestOptions: RequestOptions? = nil) throws -> SearchesResponse {
+  @discardableResult func search(queries: [Query], strategy: MultipleQueriesStrategy? = nil, requestOptions: RequestOptions? = nil) throws -> [SearchResponse] {
     let command = Command.MultipleIndex.Queries(indexName: name, queries: queries, strategy: strategy, requestOptions: requestOptions)
-    return try execute(command)
+    return try transport.execute(command, transform: \SearchesResponse.results)
   }
 
   // MARK: - Browse

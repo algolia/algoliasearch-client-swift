@@ -8,10 +8,13 @@
 import Foundation
 
 extension Index {
+  
+  //MARK: - Get Settings
 
   /**
    Get the Settings of an index.
-   - parameter requestOptions: Configure request locally with RequestOptions.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: Async operation
    */
   @discardableResult public func getSettings(requestOptions: RequestOptions? = nil,
                                              completion: @escaping ResultCallback<Settings>) -> Operation & TransportTask {
@@ -19,22 +22,36 @@ extension Index {
                                                requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
+  
+  /**
+   Get the Settings of an index.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: Settings object
+   */
+  func getSettings(requestOptions: RequestOptions? = nil) throws -> Settings {
+    let command = Command.Settings.GetSettings(indexName: name,
+                                               requestOptions: requestOptions)
+    return try execute(command)
+  }
+
+  // Set settings
 
   /**
    Create or change an index’s Settings.
    Only non-null settings are overridden; null settings are left unchanged
    Performance wise, it’s better to setSettings before pushing the data.
    
-   - parameter settings: The Settings to be set.
-   - parameter resetToDefault: Reset a settings to its default value.
-   - parameter forwardToReplicas: Whether to forward the same settings to the replica indices.
-   - parameter requestOptions: Configure request locally with RequestOptions.
+   - Parameter settings: The Settings to be set.
+   - Parameter resetToDefault: Reset a settings to its default value.
+   - Parameter forwardToReplicas: Whether to forward the same settings to the replica indices.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: Async operation
    */
   @discardableResult public func setSettings(_ settings: Settings,
                                              resetToDefault: [Settings.Key] = [],
                                              forwardToReplicas: Bool? = nil,
                                              requestOptions: RequestOptions? = nil,
-                                             completion: @escaping ResultCallback<RevisionIndex>) -> Operation & TransportTask {
+                                             completion: @escaping ResultTaskCallback<RevisionIndex>) -> Operation & TransportTask {
     let command = Command.Settings.SetSettings(indexName: name,
                                                settings: settings,
                                                resetToDefault: resetToDefault,
@@ -42,21 +59,22 @@ extension Index {
                                                requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-
-}
-
-public extension Index {
-
-  func getSettings(requestOptions: RequestOptions? = nil) throws -> Settings {
-    let command = Command.Settings.GetSettings(indexName: name,
-                                               requestOptions: requestOptions)
-    return try execute(command)
-  }
-
+  
+  /**
+   Create or change an index’s Settings.
+   Only non-null settings are overridden; null settings are left unchanged
+   Performance wise, it’s better to setSettings before pushing the data.
+   
+   - Parameter settings: The Settings to be set.
+   - Parameter resetToDefault: Reset a settings to its default value.
+   - Parameter forwardToReplicas: Whether to forward the same settings to the replica indices.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: RevisionIndex object
+   */
   func setSettings(_ settings: Settings,
                    resetToDefault: [Settings.Key] = [],
                    forwardToReplicas: Bool? = nil,
-                   requestOptions: RequestOptions? = nil) throws -> RevisionIndex {
+                   requestOptions: RequestOptions? = nil) throws -> TaskWaitWrapper<RevisionIndex> {
     let command = Command.Settings.SetSettings(indexName: name,
                                                settings: settings,
                                                resetToDefault: resetToDefault,
