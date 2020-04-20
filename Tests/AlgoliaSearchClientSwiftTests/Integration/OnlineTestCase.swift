@@ -25,14 +25,17 @@ class OnlineTestCase: XCTestCase {
     guard let credentials = TestCredentials.environment else {
       throw Error.missingCredentials
     }
-
+	
     client = Client(appID: credentials.applicationID, apiKey: credentials.apiKey)
-
+    
     // NOTE: We use a different index name for each test function.
     let className = String(reflecting: type(of: self)).components(separatedBy: ".").last!
     let functionName = invocation!.selector.description
-    let indexName = IndexName(stringLiteral: "\(className).\(functionName)")
-
+    let testID = "\(className).\(functionName)"
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "YYYY-MM-DD_HH:mm:ss"
+    let dateString = dateFormatter.string(from: .init())
+    let indexName = IndexName(stringLiteral: "swift_\(dateString)_\(NSUserName().description)_\(testID)")
     index = client.index(withName: indexName)
 
     try index.delete()
