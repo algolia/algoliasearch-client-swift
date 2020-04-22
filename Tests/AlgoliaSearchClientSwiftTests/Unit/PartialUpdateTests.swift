@@ -13,11 +13,11 @@ class PartialUpdateTests: XCTestCase {
     try AssertEncodeDecode(PartialUpdate.remove(attribute: "attr", value: "stringValue"), ["attr": ["value": "stringValue", "_operation": "Remove"]])
     try AssertEncodeDecode(PartialUpdate.increment(attribute: "attr", value: 2.5), ["attr": ["value": 2.5, "_operation": "Increment"]])
     try AssertEncodeDecode(PartialUpdate.decrement(attribute: "attr", value: 2.5), ["attr": ["value": 2.5, "_operation": "Decrement"]])
-    try AssertEncodeDecode(PartialUpdate.update(attribute: "attr", value: "string"), ["attr": ["value": "string"]])
-    try AssertEncodeDecode(PartialUpdate.update(attribute: "attr", value: 2.5), ["attr": ["value": 2.5]])
-    try AssertEncodeDecode(PartialUpdate.update(attribute: "attr", value: true), ["attr": ["value": true]])
-    try AssertEncodeDecode(PartialUpdate.update(attribute: "attr", value: ["a", "b", "c"]), ["attr": ["value": ["a", "b", "c"]]])
-    try AssertEncodeDecode(PartialUpdate.update(attribute: "attr", value: ["a": 1, "b": "s", "c": false]), ["attr": ["value": ["a": 1, "b": "s", "c": false]]])
+    try AssertEncodeDecode(PartialUpdate.update(attribute: "attr", value: "string"), ["attr": "string"])
+    try AssertEncodeDecode(PartialUpdate.update(attribute: "attr", value: 2.5), ["attr": 2.5])
+    try AssertEncodeDecode(PartialUpdate.update(attribute: "attr", value: true), ["attr": true])
+    try AssertEncodeDecode(PartialUpdate.update(attribute: "attr", value: ["a", "b", "c"]), ["attr": ["a", "b", "c"]])
+    try AssertEncodeDecode(PartialUpdate.update(attribute: "attr", value: ["a": 1, "b": "s", "c": false]), ["attr": ["a": 1, "b": "s", "c": false]])
   }
 
 }

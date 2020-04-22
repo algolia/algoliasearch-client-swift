@@ -183,14 +183,14 @@ public struct Settings: Codable {
    - Engine default: false
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/ignorePlurals/?language=swift)
    */
-  public var ignorePlurals: IgnorePlurals?
+  public var ignorePlurals: LanguageFeature?
 
   /**
    Removes stop (task) words from the query before executing it.
    - Engine default: false
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/removeStopWords/?language=swift)
    */
-  public var removeStopWords: RemoveStopWords?
+  public var removeStopWords: LanguageFeature?
 
   /**
    List of [Attribute] on which to do a decomposition of camel case words.
@@ -375,6 +375,8 @@ public struct Settings: Codable {
   }
 
 }
+
+extension Settings: Builder {}
 
 extension Settings: CustomStringConvertible {
 

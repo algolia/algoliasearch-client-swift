@@ -21,27 +21,54 @@ public struct Polygon: Equatable {
 
 }
 
-extension Polygon: Codable {
+extension Polygon: RawRepresentable {
 
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    let rawValue = try container.decode([Double].self)
+  public var rawValue: [Double] {
+    return points.map(\.rawValue).flatMap { $0 }
+  }
+
+  public init?(rawValue: [Double]) {
+    guard rawValue.count >= 6 else { return nil }
+    
     let tailPoints: [Point]
+    
     if rawValue.count == 6 {
       tailPoints = []
     } else {
       tailPoints = stride(from: rawValue.startIndex.advanced(by: 6), to: rawValue.endIndex, by: 2).map { Point(latitude: rawValue[$0], longitude: rawValue[$0+1]) }
     }
+    
     self.init(.init(latitude: rawValue[0], longitude: rawValue[1]),
               .init(latitude: rawValue[2], longitude: rawValue[3]),
               .init(latitude: rawValue[4], longitude: rawValue[5]),
               tailPoints)
   }
 
+}
+
+
+extension Polygon: Codable {
+
+  public init(from decoder: Decoder) throws {
+    let container = try decoder.singleValueContainer()
+    let rawValue = try container.decode([Double].self)
+    guard let value = Polygon(rawValue: rawValue) else {
+      throw DecodingError.dataCorruptedError(in: container, debugDescription: "Polygon may be constructed with at least 6 double values. \(rawValue.count) found")
+    }
+    self = value
+  }
+
   public func encode(to encoder: Encoder) throws {
     var container = encoder.singleValueContainer()
-    let rawValue = points.map { [$0.latitude, $0.longitude] }.reduce([], +)
     try container.encode(rawValue)
   }
 
+}
+
+extension Polygon: URLEncodable {
+  
+  public var urlEncodedString: String {
+    return "[\(rawValue.map(\.urlEncodedString).joined(separator: ","))]"
+  }
+  
 }

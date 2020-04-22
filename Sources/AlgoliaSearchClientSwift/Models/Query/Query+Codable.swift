@@ -185,8 +185,8 @@ extension Query: Codable {
     case hitsPerPage
     case offset
     case length
-    case minWordSizeFor1Typo
-    case minWordSizeFor2Typos
+    case minWordSizeFor1Typo = "minWordSizefor1Typo"
+    case minWordSizeFor2Typos = "minWordSizefor2Typos"
     case typoTolerance
     case allowTyposOnNumericTokens
     case disableTypoToleranceOnAttributes

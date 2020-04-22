@@ -115,7 +115,7 @@ public extension Index {
    - Returns: Launched asynchronousoperation
    */
   @discardableResult func getObjects<T: Codable>(withID objectIDs: [ObjectID], attributesToRetrieve: [Attribute] = [], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ObjectsResponse<T>>) -> Operation & TransportTask {
-    let command = Command.Indexing.GetObjects(indexName: name, objectIDs: objectIDs, attributesToRetreive: attributesToRetrieve, requestOptions: requestOptions)
+    let command = Command.MultipleIndex.GetObjects(indexName: name, objectIDs: objectIDs, attributesToRetreive: attributesToRetrieve, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
 
@@ -128,8 +128,8 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: ObjectResponse object containing requested records
    */
-  @discardableResult func getObjects<T: Codable>(withID objectIDs: [ObjectID], attributesToRetrieve: [Attribute] = [], requestOptions: RequestOptions? = nil) throws -> ObjectsResponse<T> {
-    let command = Command.Indexing.GetObjects(indexName: name, objectIDs: objectIDs, attributesToRetreive: attributesToRetrieve, requestOptions: requestOptions)
+  @discardableResult func getObjects<T: Codable>(withIDs objectIDs: [ObjectID], attributesToRetrieve: [Attribute] = [], requestOptions: RequestOptions? = nil) throws -> ObjectsResponse<T> {
+    let command = Command.MultipleIndex.GetObjects(indexName: name, objectIDs: objectIDs, attributesToRetreive: attributesToRetrieve, requestOptions: requestOptions)
     return try execute(command)
   }
 

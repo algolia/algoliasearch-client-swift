@@ -24,18 +24,22 @@ public struct DecompoundedAttributes: Equatable {
     self.storage = storage
   }
 
-  public init(_ attributes: (AllowedLanguage, [Attribute])...) {
-    var storage: [Language: [Attribute]] = [:]
-    for (language, attributes) in attributes {
-      storage[language.language] = attributes
-    }
-    self.init(storage: storage)
-  }
-
   public func attributes(for language: AllowedLanguage) -> [Attribute]? {
     return storage[language.language]
   }
 
+}
+
+extension DecompoundedAttributes: ExpressibleByDictionaryLiteral {
+  
+  public init(dictionaryLiteral elements: (AllowedLanguage, [Attribute])...) {
+    var storage: [Language: [Attribute]] = [:]
+    for (language, attributes) in elements {
+      storage[language.language] = attributes
+    }
+    self.init(storage: storage)
+  }
+  
 }
 
 extension DecompoundedAttributes {

@@ -284,7 +284,7 @@ public struct Query {
    - Engine default: 1
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/aroundPrecision/?language=swift)
    */
-  public var aroundPrecision: AroundPrecision?
+  public var aroundPrecision: [AroundPrecision]?
 
   /**
    Minimum radius (in meters) used for a geo search when [aroundRadius] is not set.
@@ -347,7 +347,7 @@ public struct Query {
    - Engine default: false
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/removeStopWords/?language=swift)
    */
-  public var removeStopWords: RemoveStopWords?
+  public var removeStopWords: LanguageFeature?
 
   /**
    List of attributes on which you want to disable the exact ranking criterion.
@@ -375,7 +375,7 @@ public struct Query {
    - Engine default: false
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/ignorePlurals/?language=swift)
    */
-  public var ignorePlurals: IgnorePlurals?
+  public var ignorePlurals: LanguageFeature?
 
   /**
    Sets the queryLanguage to be used by language-specific settings and functionalities such as
@@ -509,6 +509,8 @@ public struct Query {
   public init(_ query: String? = nil) {
     self.query = query
   }
+  
+  static let empty = Query()
 
 }
 
@@ -521,3 +523,5 @@ extension Query: ExpressibleByStringLiteral {
   }
 
 }
+
+

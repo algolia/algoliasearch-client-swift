@@ -7,11 +7,11 @@
 
 import Foundation
 
-public struct ResponseField: StringOption & ProvidingCustomOption {
+public struct ResponseField: StringOption, ProvidingCustomOption, URLEncodable {
 
   public let rawValue: String
 
-  public init(rawValue: RawValue) {
+  public init(rawValue: String) {
     self.rawValue = rawValue
   }
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class TaskWaitWrapper<T: Task> {
+public class TaskWaitWrapper<T: Task>: AnyWaitable {
   
   public let index: Index
   public let task: T
@@ -29,6 +29,24 @@ public class TaskWaitWrapper<T: Task> {
       case .failure(let error):
         completion(.failure(error))
       }
+    }
+  }
+    
+}
+
+
+public protocol AnyWaitable {
+  
+  func wait(timeout: TimeInterval?) throws
+  func wait(timeout: TimeInterval?, completion: @escaping (Result<Empty, Swift.Error>) -> Void)
+  
+}
+
+extension Array where Element == AnyWaitable {
+  
+  func waitAll(timeout: TimeInterval? = nil) throws {
+    for element in self {
+      try element.wait(timeout: timeout)
     }
   }
   

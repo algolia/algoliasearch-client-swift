@@ -7,6 +7,6 @@
 
 import Foundation
 
-public enum SortFacetsBy: String, Codable {
+public enum SortFacetsBy: String, Codable, URLEncodable {
   case count, alpha
 }

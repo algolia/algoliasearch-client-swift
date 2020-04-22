@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum QueryType: String, Codable {
+public enum QueryType: String, Codable, URLEncodable {
   /**
    Only the last word is interpreted as a prefix (default behavior).
    */

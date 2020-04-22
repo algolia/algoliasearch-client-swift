@@ -7,9 +7,17 @@
 
 import Foundation
 
-public enum TypoTolerance: String, Codable {
+public enum TypoTolerance: String, Codable, URLEncodable {
   case `true`
   case `false`
   case min
   case strict
+}
+
+extension TypoTolerance: ExpressibleByBooleanLiteral {
+  
+  public init(booleanLiteral value: Bool) {
+    self = value ? .true : .false
+  }
+  
 }

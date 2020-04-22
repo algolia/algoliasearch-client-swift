@@ -17,6 +17,10 @@ class OnlineTestCase: XCTestCase {
 
   /// Abstract base class for online test cases.
   ///
+  
+  var indexNameSuffix: String? {
+    return nil
+  }
 
   override func setUpWithError() throws {
 
@@ -28,14 +32,13 @@ class OnlineTestCase: XCTestCase {
 	
     client = Client(appID: credentials.applicationID, apiKey: credentials.apiKey)
     
-    // NOTE: We use a different index name for each test function.
     let className = String(reflecting: type(of: self)).components(separatedBy: ".").last!
     let functionName = invocation!.selector.description
-    let testID = "\(className).\(functionName)"
+    let indexNameSuffix = self.indexNameSuffix ?? "\(className).\(functionName)"
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "YYYY-MM-DD_HH:mm:ss"
     let dateString = dateFormatter.string(from: .init())
-    let indexName = IndexName(stringLiteral: "swift_\(dateString)_\(NSUserName().description)_\(testID)")
+    let indexName = IndexName(stringLiteral: "swift_\(dateString)_\(NSUserName().description)_\(indexNameSuffix)")
     index = client.index(withName: indexName)
 
     try index.delete()

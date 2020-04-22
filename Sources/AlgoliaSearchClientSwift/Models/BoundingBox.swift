@@ -24,17 +24,44 @@ public struct BoundingBox: Equatable {
 
 }
 
+extension BoundingBox: RawRepresentable {
+
+  public var rawValue: [Double] {
+    return [point1, point2].map(\.rawValue).flatMap { $0 }
+  }
+
+  public init?(rawValue: [Double]) {
+    guard rawValue.count >= 4 else { return nil }
+    let point1 = Point(rawValue: Array(rawValue[0...1]))!
+    let point2 = Point(rawValue: Array(rawValue[2...3]))!
+    self = .init(point1: point1, point2: point2)
+  }
+
+}
+
+
 extension BoundingBox: Codable {
 
   public init(from decoder: Decoder) throws {
     let container = try decoder.singleValueContainer()
     let rawValue = try container.decode([Double].self)
-    self.init(point1: .init(latitude: rawValue[0], longitude: rawValue[1]), point2: .init(latitude: rawValue[2], longitude: rawValue[3]))
+    guard let value = BoundingBox(rawValue: rawValue) else {
+      throw DecodingError.dataCorruptedError(in: container, debugDescription: "BoundingBox may be constructed with at least 4 double values. \(rawValue.count) found")
+    }
+    self = value
   }
 
   public func encode(to encoder: Encoder) throws {
     var container = encoder.singleValueContainer()
-    try container.encode([point1.latitude, point1.longitude, point2.latitude, point2.longitude])
+    try container.encode(rawValue)
   }
 
+}
+
+extension BoundingBox: URLEncodable {
+  
+  public var urlEncodedString: String {
+    return "[\(rawValue.map(\.urlEncodedString).joined(separator: ","))]"
+  }
+  
 }

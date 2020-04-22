@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Attribute: StringWrapper {
+public struct Attribute: StringWrapper, URLEncodable {
 
   public let rawValue: String
 

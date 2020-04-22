@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Language: StringOption & ProvidingCustomOption & Hashable & ExpressibleByStringLiteral {
+public struct Language: StringOption & ProvidingCustomOption & Hashable & ExpressibleByStringLiteral, URLEncodable {
 
   public var rawValue: String
   public init(rawValue: String) { self.rawValue = rawValue }
