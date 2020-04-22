@@ -14,5 +14,11 @@ public struct APIKeyCreation: Codable {
 
   /// The date at which the APIKey has been created or restored.
   public let createdAt: Date
+  
+  static func transform(_ apiKey: APIKey) -> (Creation) -> Self {
+    return { creation in .init(key: apiKey, createdAt: creation.createdAt) }
+  }
 
 }
+
+

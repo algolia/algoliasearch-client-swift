@@ -120,7 +120,7 @@ extension APIKeyParameters: Codable {
     try container.encodeIfPresent(maxQueriesPerIPPerHour, forKey: .maxQueriesPerIPPerHour)
     try container.encodeIfPresent(indices, forKey: .indices)
     try container.encodeIfPresent(referers, forKey: .referers)
-    try container.encodeIfPresent(queryWithAppliedRestrictSources, forKey: .query)
+    try container.encodeIfPresent(queryWithAppliedRestrictSources?.urlEncodedString, forKey: .query)
     try container.encodeIfPresent(description, forKey: .description)
   }
 

@@ -16,6 +16,9 @@ struct ClientDateCodingStrategy {
 
   static func decoding(decoder: Decoder) throws -> Date {
     let container = try decoder.singleValueContainer()
+    if let unixTimeStamp = try? container.decode(TimeInterval.self) {
+      return Date(timeIntervalSince1970: unixTimeStamp)
+    }
     let stringValue = try container.decode(String.self)
     let formatter = DateFormatter()
     for format in acceptedFormats {
