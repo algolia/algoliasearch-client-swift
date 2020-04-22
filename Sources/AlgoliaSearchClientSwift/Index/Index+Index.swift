@@ -103,7 +103,7 @@ extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: RevisionIndex  object
    */
-  @discardableResult func copy(_ scopes: [Scope], to destination: IndexName, requestOptions: RequestOptions? = nil) throws -> TaskWaitWrapper<RevisionIndex> {
+  @discardableResult func copy(_ scopes: [Scope]? = nil, to destination: IndexName, requestOptions: RequestOptions? = nil) throws -> TaskWaitWrapper<RevisionIndex> {
     let command = Command.Index.Operation(indexName: name, operation: .init(action: .copy, destination: destination, scopes: scopes), requestOptions: requestOptions)
     return try execute(command)
   }

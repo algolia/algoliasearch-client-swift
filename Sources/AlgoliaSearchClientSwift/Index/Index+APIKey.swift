@@ -77,7 +77,8 @@ public extension Index {
    */
   @discardableResult func deleteAPIKey(_ apiKey: APIKey, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<APIKeyDeletion>) -> Operation {
     let command = Command.APIKey.Delete(apiKey: apiKey, requestOptions: requestOptions)
-    return execute(command, completion: completion)
+    let transform = APIKeyDeletion.transform(apiKey)
+    return execute(command, transform: transform, completion: completion)
   }
 
   /**
@@ -89,7 +90,8 @@ public extension Index {
    */
   @discardableResult func deleteAPIKey(_ apiKey: APIKey, requestOptions: RequestOptions? = nil) throws -> APIKeyDeletion {
     let command = Command.APIKey.Delete(apiKey: apiKey, requestOptions: requestOptions)
-    return try execute(command)
+    let transform = APIKeyDeletion.transform(apiKey)
+    return try execute(command, transform: transform)
   }
 
   // MARK: - Restore API key
@@ -101,9 +103,10 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func restoreAPIKey(_ apiKey: APIKey, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<APIKeyRevision>) -> Operation {
+  @discardableResult func restoreAPIKey(_ apiKey: APIKey, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<APIKeyCreation>) -> Operation {
     let command = Command.APIKey.Restore(apiKey: apiKey, requestOptions: requestOptions)
-    return execute(command, completion: completion)
+    let transform = APIKeyCreation.transform(apiKey)
+    return execute(command, transform: transform, completion: completion)
   }
 
   /**
@@ -112,9 +115,10 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: APIKeyDeletion  object
    */
-  @discardableResult func restoreAPIKey(_ apiKey: APIKey, requestOptions: RequestOptions? = nil) throws -> APIKeyRevision {
+  @discardableResult func restoreAPIKey(_ apiKey: APIKey, requestOptions: RequestOptions? = nil) throws -> APIKeyCreation {
     let command = Command.APIKey.Restore(apiKey: apiKey, requestOptions: requestOptions)
-    return try execute(command)
+    let transform = APIKeyCreation.transform(apiKey)
+    return try execute(command, transform: transform)
   }
 
   // MARK: - Get API keys list

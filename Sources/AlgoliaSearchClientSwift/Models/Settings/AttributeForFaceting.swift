@@ -15,6 +15,14 @@ public enum AttributeForFaceting: Equatable, Codable {
 
 }
 
+extension AttributeForFaceting: ExpressibleByStringLiteral {
+  
+  public init(stringLiteral value: String) {
+    self = .default(.init(rawValue: value))
+  }
+  
+}
+
 extension AttributeForFaceting: RawRepresentable {
 
   private enum Prefix: String {
