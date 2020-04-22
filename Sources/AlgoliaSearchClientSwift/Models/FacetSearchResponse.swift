@@ -12,7 +12,7 @@ public struct FacetSearchResponse: Codable {
   /**
    The list of Facet.
    */
-  public let facets: [Facet]
+  public let facetHits: [Facet]
 
   /**
    Whether the count returned for each facets is exhaustive.

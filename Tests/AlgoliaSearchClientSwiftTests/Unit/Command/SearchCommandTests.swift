@@ -39,7 +39,7 @@ class SearchCommandTests: XCTestCase, AlgoliaCommandTest {
           callType: .read,
           method: .get,
           urlPath: "/1/indexes/testIndex/browse",
-          queryItems: [.init(name: "testParameter", value: "testParameterValue")],
+          queryItems: [.init(name: "testParameter", value: "testParameterValue"), .init(name: "cursor", value: "testCursor")],
           body: nil,
           requestOptions: test.requestOptions)
   }
@@ -50,7 +50,7 @@ class SearchCommandTests: XCTestCase, AlgoliaCommandTest {
                                                  facetQuery: "test facet query",
                                                  query: nil,
                                                  requestOptions: test.requestOptions)
-    let body = ParamsWrapper<JSON>(["facetQuery": "test facet query"]).httpBody
+    let body = ParamsWrapper(Query().set(\.customParameters, to: ["facetQuery": "test facet query"]).urlEncodedString).httpBody
     check(command: command,
           callType: .read,
           method: .post,
@@ -69,7 +69,7 @@ class SearchCommandTests: XCTestCase, AlgoliaCommandTest {
     let query = test.query.set(\.customParameters, to: [
       "customKey": "customValue",
       "facetQuery": "test facet query"])
-    let body = ParamsWrapper(query).httpBody
+    let body = ParamsWrapper(query.urlEncodedString).httpBody
     check(command: command,
           callType: .read,
           method: .post,

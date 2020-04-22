@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Snippet: Codable, Equatable {
+public struct Snippet: Codable, URLEncodable, Equatable {
 
   /**
    Attribute to snippet.

@@ -126,7 +126,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func browse(cursor: Cursor, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
+  @discardableResult func browse(cursor: Cursor? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
     let command = Command.Search.Browse(indexName: name, cursor: cursor, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
@@ -139,7 +139,7 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: SearchResponse object
    */
-  @discardableResult func browse(cursor: Cursor, requestOptions: RequestOptions? = nil) throws -> SearchResponse {
+  @discardableResult func browse(cursor: Cursor? = nil, requestOptions: RequestOptions? = nil) throws -> SearchResponse {
     let command = Command.Search.Browse(indexName: name, cursor: cursor, requestOptions: requestOptions)
     return try execute(command)
   }

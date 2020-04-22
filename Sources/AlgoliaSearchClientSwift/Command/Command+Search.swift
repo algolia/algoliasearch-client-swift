@@ -42,10 +42,10 @@ extension Command {
         urlRequest = .init(method: .post, path: path, body: query.httpBody, requestOptions: requestOptions)
       }
 
-      init(indexName: IndexName, cursor: Cursor, requestOptions: RequestOptions?) {
-        self.requestOptions = requestOptions.updateOrCreate([.cursor: cursor.rawValue])
+      init(indexName: IndexName, cursor: Cursor? = nil, requestOptions: RequestOptions?) {
+        self.requestOptions = requestOptions.updateOrCreate(cursor.flatMap { [.cursor: $0.rawValue] } ?? [:])
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.browse
-        urlRequest = .init(method: .get, path: path, requestOptions: requestOptions)
+        urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)
       }
 
     }
@@ -58,15 +58,11 @@ extension Command {
 
       init(indexName: IndexName, attribute: Attribute, facetQuery: String, query: Query?, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let facetQueryParameters: [String: JSON] = ["facetQuery": .init(facetQuery)]
-        let parameters = (query?.customParameters ?? [:]).merging(facetQueryParameters) { (_, new) in new }
-        let body: Data
-        if var query = query {
-          query.customParameters = parameters
-          body = ParamsWrapper(query).httpBody
-        } else {
-          body = ParamsWrapper(parameters).httpBody
-        }
+        var parameters = query?.customParameters ?? [:]
+        parameters["facetQuery"] = .init(facetQuery)
+        var effectiveQuery = query ?? .init()
+        effectiveQuery.customParameters = parameters
+        let body = ParamsWrapper(effectiveQuery.urlEncodedString).httpBody
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.searchFacets(for: attribute)
         urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
       }

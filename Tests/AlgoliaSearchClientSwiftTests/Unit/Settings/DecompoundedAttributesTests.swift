@@ -12,8 +12,7 @@ import XCTest
 class DecompoundedAttributesTests: XCTestCase {
 
   func testCoding() throws {
-    try AssertEncodeDecode(DecompoundedAttributes((.german, ["attr1", "attr2", "attr3"])), ["de": ["attr1", "attr2", "attr3"]])
-
+    try AssertEncodeDecode([.german: ["attr1", "attr2", "attr3"]] as DecompoundedAttributes, ["de": ["attr1", "attr2", "attr3"]])
   }
 
 }

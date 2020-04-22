@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct UserToken: StringWrapper {
+public struct UserToken: StringWrapper, URLEncodable {
 
   public let rawValue: String
 

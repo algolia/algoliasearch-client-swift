@@ -33,21 +33,6 @@ class IndexingCommandsTests: XCTestCase, AlgoliaCommandTest {
           requestOptions: test.requestOptions)
   }
 
-  func testGetObjects() {
-    let command = Command.Indexing.GetObjects(indexName: test.indexName,
-                                              objectIDs: test.objectIDs,
-                                              attributesToRetreive: test.attributes,
-                                              requestOptions: test.requestOptions)
-    let body = RequestsWrapper(test.objectIDs.map { ObjectRequest(indexName: test.indexName, objectID: $0, attributesToRetrieve: test.attributes) }).httpBody
-    check(command: command,
-          callType: .read,
-          method: .post,
-          urlPath: "/1/indexes/testIndex/*/objects",
-          queryItems: [.init(name: "testParameter", value: "testParameterValue")],
-          body: body,
-          requestOptions: test.requestOptions)
-  }
-
   func testReplaceObject() {
     let command = Command.Indexing.ReplaceObject(indexName: test.indexName, objectID: test.objectID, replacementObject: test.record, requestOptions: test.requestOptions)
     check(command: command,

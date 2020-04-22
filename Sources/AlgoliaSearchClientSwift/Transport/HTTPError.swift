@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct HTTPError: Error {
+public struct HTTPError: Error, CustomStringConvertible {
 
   public let statusCode: HTTPStatusСode
   public let message: ErrorMessage?
@@ -24,6 +24,10 @@ public struct HTTPError: Error {
   public init(statusCode: HTTPStatusСode, message: ErrorMessage?) {
     self.statusCode = statusCode
     self.message = message
+  }
+  
+  public var description: String {
+    return "Status code: \(statusCode) Message: \(message.flatMap { $0.description } ?? "No message")"
   }
 
 }

@@ -65,7 +65,6 @@ struct IndexCompletion: PathComponent {
   static var batch: Self { .init(#function) }
   static var operation: Self { .init(#function) }
   static func objectID(_ objectID: ObjectID, partial: Bool = false) -> Self { .init(objectID.rawValue + (partial ? "/partial" : "")) }
-  static var objects: Self { .init("*/objects") }
   static var deleteByQuery: Self { .init(#function) }
   static var clear: Self { .init(#function) }
   static var query: Self { .init(#function) }
