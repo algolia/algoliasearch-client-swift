@@ -43,17 +43,17 @@ extension Command {
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
 
-      init(indexName: IndexName, queries: [Query], strategy: MultipleQueriesStrategy?, requestOptions: RequestOptions?) {
+      init(indexName: IndexName, queries: [Query], strategy: MultipleQueriesStrategy = .none, requestOptions: RequestOptions?) {
         let queries = queries.map { IndexQuery(indexName: indexName, query: $0) }
         self.init(queries: queries, strategy: strategy, requestOptions: requestOptions)
       }
 
-      init(queries: [(IndexName, Query)], strategy: MultipleQueriesStrategy?, requestOptions: RequestOptions?) {
+      init(queries: [(IndexName, Query)], strategy: MultipleQueriesStrategy = .none, requestOptions: RequestOptions?) {
         let queries = queries.map { IndexQuery(indexName: $0.0, query: $0.1) }
         self.init(queries: queries, strategy: strategy, requestOptions: requestOptions)
       }
 
-      init(queries: [IndexQuery], strategy: MultipleQueriesStrategy?, requestOptions: RequestOptions?) {
+      init(queries: [IndexQuery], strategy: MultipleQueriesStrategy = .none, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let body = MultipleQueriesRequest(requests: queries, strategy: strategy).httpBody
         self.urlRequest = .init(method: .post, path: .indexesV1 >>> .multiIndex >>> MultiIndexCompletion.queries, body: body, requestOptions: requestOptions)
