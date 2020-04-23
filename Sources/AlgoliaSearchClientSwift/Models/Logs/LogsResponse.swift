@@ -7,8 +7,8 @@
 
 import Foundation
 
-public struct LogsResponse: Codable {
+struct LogsResponse: Codable {
 
-  public let logs: [Log]
+  let logs: [Log]
 
 }

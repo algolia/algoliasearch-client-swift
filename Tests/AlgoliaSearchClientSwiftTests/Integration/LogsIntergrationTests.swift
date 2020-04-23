@@ -10,10 +10,16 @@ import XCTest
 @testable import AlgoliaSearchClientSwift
 
 class LogsIntergrationTests: OnlineTestCase {
+  
+  override var indexNameSuffix: String? {
+    "logs"
+  }
 
   func testGetLogs() throws {
-    _ = try client.getLogs(page: 0, hitsPerPage: 5000, type: .all)
-    _ = try index.getLogs(page: 0, hitsPerPage: 5000, logType: .all)
+    try client.listIndices()
+    try client.listIndices()
+    let logs = try client.getLogs(page: 0, hitsPerPage: 2, type: .all)
+    XCTAssertEqual(logs.count, 2)
   }
 
 }

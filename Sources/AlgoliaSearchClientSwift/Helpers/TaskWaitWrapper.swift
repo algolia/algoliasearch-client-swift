@@ -16,6 +16,10 @@ public class TaskWaitWrapper<T: Task>: AnyWaitable {
     self.index = index
     self.task = task
   }
+    
+}
+
+extension TaskWaitWrapper {
   
   public func wait(timeout: TimeInterval? = nil) throws {
     try index.waitTask(withID: task.taskID, timeout: timeout)
@@ -31,7 +35,7 @@ public class TaskWaitWrapper<T: Task>: AnyWaitable {
       }
     }
   }
-    
+  
 }
 
 

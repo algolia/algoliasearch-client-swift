@@ -76,7 +76,7 @@ public extension Client {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func multipleQueries(queries: [(IndexName, Query)], strategy: MultipleQueriesStrategy? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<[SearchResponse]>) -> Operation {
+  @discardableResult func multipleQueries(queries: [(IndexName, Query)], strategy: MultipleQueriesStrategy = .none, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<[SearchResponse]>) -> Operation {
     let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
     return execute(command, transform: \SearchesResponse.results, completion: completion)
   }
@@ -89,7 +89,7 @@ public extension Client {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: List of SearchResponse  object
    */
-  @discardableResult func multipleQueries(queries: [(IndexName, Query)], strategy: MultipleQueriesStrategy? = nil, requestOptions: RequestOptions? = nil) throws -> [SearchResponse] {
+  @discardableResult func multipleQueries(queries: [(IndexName, Query)], strategy: MultipleQueriesStrategy = .none, requestOptions: RequestOptions? = nil) throws -> [SearchResponse] {
     let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
     return try execute(command, transform: \SearchesResponse.results)
   }
