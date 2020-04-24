@@ -29,9 +29,10 @@ public struct Hosts {
     return hosts + commonHosts
   }
 
-  public static var insights: [RetryableHost] = [
-    .init(url: URL(string: "insights.algolia.io")!)
-  ]
+  public static func insights(forRegion region: Region? = nil) -> [RetryableHost] {
+    let regionComponent = region.flatMap { ".\($0)" } ?? ""
+    return [.init(url: URL(string: "insights\(regionComponent).algolia.io")!)]
+  }
 
   public static var analytics: [RetryableHost] = [
     .init(url: URL(string: "analytics.algolia.com")!)

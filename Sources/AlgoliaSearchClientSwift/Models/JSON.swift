@@ -19,6 +19,18 @@ public enum JSON: Equatable {
 }
 
 public extension JSON {
+  
+  init<T: JSONRepresentable>(_ jsonRepresentable: T) {
+    self = jsonRepresentable.json
+  }
+  
+  init<T: RawRepresentable>(_ rawJsonRepresentable: T) where T.RawValue: JSONRepresentable {
+    self = rawJsonRepresentable.rawValue.json
+  }
+  
+  init<S: Sequence>(jsonSequence: S) where S.Element: JSONRepresentable {
+    self = .array(jsonSequence.map(\.json))
+  }
 
   init(_ intValue: Int) {
     self = .number(Double(intValue))
@@ -242,4 +254,67 @@ extension Array where Element == Any {
     self = array.compactMap { $0.object() }
   }
 
+}
+
+public protocol JSONRepresentable {
+  
+  var json: JSON { get }
+  
+}
+
+extension String: JSONRepresentable {
+  
+  public var json: JSON {
+    return .string(self)
+  }
+  
+}
+
+extension Int: JSONRepresentable {}
+extension Int8: JSONRepresentable {}
+extension Int16: JSONRepresentable {}
+extension Int32: JSONRepresentable {}
+extension Int64: JSONRepresentable {}
+extension UInt: JSONRepresentable {}
+extension Double: JSONRepresentable {}
+extension Float: JSONRepresentable {}
+
+public extension Numeric where Self: JSONRepresentable, Self: BinaryInteger {
+  
+  var json: JSON {
+    return .number(Double(self))
+  }
+  
+}
+
+public extension FloatingPoint where Self: JSONRepresentable, Self: BinaryFloatingPoint {
+  
+  var json: JSON {
+    return .number(Double(self))
+  }
+  
+}
+
+extension Bool: JSONRepresentable {
+  
+  public var json: JSON {
+    return .bool(self)
+  }
+  
+}
+
+extension Sequence where Element: JSONRepresentable {
+  
+  public var json: JSON {
+    return .init(jsonSequence: self)
+  }
+  
+}
+
+extension RawRepresentable where RawValue: JSONRepresentable {
+  
+  public var json: JSON {
+    return .init(self)
+  }
+  
 }
