@@ -65,10 +65,12 @@ class HTTPRequest<ResponseType: Codable, Output>: AsyncOperation, ResultContaine
   private func tryLaunch(request: URLRequest) {
 
     guard !isCancelled else {
+      Logger.loggingService.log(level: .debug, message: "Request was cancelled")
       return
     }
 
     guard let host = hostIterator.next() else {
+      Logger.loggingService.log(level: .debug, message: "Request failed. No available host found.")
       result = .failure(HttpTransport.Error.noReachableHosts)
       return
     }
@@ -77,6 +79,22 @@ class HTTPRequest<ResponseType: Codable, Output>: AsyncOperation, ResultContaine
 
       let effectiveRequest = try HostSwitcher.switchHost(in: request, by: host, timeout: timeout)
 
+      if let url = effectiveRequest.url, let method = effectiveRequest.httpMethod  {
+        Logger.loggingService.log(level: .debug, message: "\(method): \(url)")
+      }
+      
+      if let headers = effectiveRequest.allHTTPHeaderFields {
+        Logger.loggingService.log(level: .debug, message: "Headers: \(headers)")
+      }
+      
+      if let bodyData = effectiveRequest.httpBody {
+        if let json = try? JSONDecoder().decode(JSON.self, from: bodyData) {
+          Logger.loggingService.log(level: .debug, message: "Body: \(json)")
+        } else {
+          Logger.loggingService.log(level: .debug, message: "Body: data (\(bodyData.count) bytes)")
+        }
+      }
+      
       underlyingTask = requester.perform(request: effectiveRequest) { [weak self] (result: IntermediateResult) in
         guard let httpRequest = self else { return }
 
@@ -84,13 +102,18 @@ class HTTPRequest<ResponseType: Codable, Output>: AsyncOperation, ResultContaine
 
         switch retryOutcome {
         case .retry:
+          Logger.loggingService.log(level: .debug, message: "Request failed. Retry.")
           httpRequest.tryLaunch(request: request)
 
         case .success(let value):
+          if let responseJSON = try? JSON(value) {
+            Logger.loggingService.log(level: .debug, message: "Response: \(responseJSON)")
+          }
           let output = httpRequest.transform(value)
           httpRequest.result = .success(output)
 
         case .failure(let error):
+          Logger.loggingService.log(level: .debug, message: "Error: \(error)")
           httpRequest.result = .failure(error)
         }
       }
@@ -98,15 +121,17 @@ class HTTPRequest<ResponseType: Codable, Output>: AsyncOperation, ResultContaine
     } catch let error {
       switch error {
       case HostSwitcher.Error.badHost(let host):
+        Logger.loggingService.log(level: .error, message: "Bad host: \(host). Will retry with next host. Please contact support@algolia.com if this problem occurs.")
         assertionFailure("Bad host: \(host)")
         tryLaunch(request: request)
 
       case HostSwitcher.Error.missingURL:
+        Logger.loggingService.log(level: .error, message: "Command's request doesn't contain URL. Please contact support@algolia.com if this problem occurs.")
         assertionFailure("Command's request doesn't contain URL")
         result = .failure(error)
 
       case HostSwitcher.Error.malformedURL(let url):
-        assertionFailure("Command's request URL is malformed: \(url)")
+        assertionFailure("Command's request URL is malformed: \(url). Please contact support@algolia.com if this problem occurs.")
         result = .failure(error)
 
       default:

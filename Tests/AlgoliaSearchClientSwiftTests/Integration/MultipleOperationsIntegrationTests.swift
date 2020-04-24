@@ -66,6 +66,7 @@ class MultipleOperationsIntegrationTests: OnlineTestCase {
       XCTAssertEqual(object["firstName"], "Jimmie")
     }
     
+    
     let results = try client.multipleQueries(queries: [
       (firstIndex.name, Query.empty.set(\.hitsPerPage, to: 2)),
       (secondIndex.name, Query.empty.set(\.hitsPerPage, to: 2)),

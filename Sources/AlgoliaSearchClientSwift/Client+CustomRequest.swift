@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension Client {
+extension Transport {
 
   // MARK: - Custom request
 
@@ -18,8 +18,8 @@ public extension Client {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func customRequest<T: Codable>(request: URLRequest, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<T>) -> Operation {
-    let command = Command.Custom(callType: .read, urlRequest: request, requestOptions: requestOptions)
+  @discardableResult func customRequest<T: Codable>(callType: CallType, request: URLRequest, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<T>) -> Operation {
+    let command = Command.Custom(callType: callType, urlRequest: request, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
 
@@ -29,8 +29,8 @@ public extension Client {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: Specified generic  object
    */
-  @discardableResult func customRequest<T: Codable>(request: URLRequest, requestOptions: RequestOptions? = nil) throws -> T {
-    let command = Command.Custom(callType: .read, urlRequest: request, requestOptions: requestOptions)
+  @discardableResult func customRequest<T: Codable>(callType: CallType, request: URLRequest, requestOptions: RequestOptions? = nil) throws -> T {
+    let command = Command.Custom(callType: callType, urlRequest: request, requestOptions: requestOptions)
     return try execute(command)
   }
 

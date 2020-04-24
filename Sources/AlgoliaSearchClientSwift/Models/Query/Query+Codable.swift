@@ -77,12 +77,7 @@ extension Query: Codable {
     similarQuery = try container.decodeIfPresent(forKey: .similarQuery)
     enableABTest = try container.decodeIfPresent(forKey: .enableABTest)
     explainModules = try container.decodeIfPresent(forKey: .explainModules)
-    let singleValueContainer = try decoder.singleValueContainer()
-    var customParameters = try singleValueContainer.decode([String: JSON].self)
-    for key in CodingKeys.allCases {
-      customParameters.removeValue(forKey: key.rawValue)
-    }
-    self.customParameters = customParameters
+    customParameters = try CustomParametersCoder.decode(from: decoder, excludingKeys: CodingKeys.self)
   }
 
   public func encode(to encoder: Encoder) throws {
@@ -153,12 +148,8 @@ extension Query: Codable {
     try container.encodeIfPresent(enableABTest, forKey: .enableABTest)
     try container.encodeIfPresent(explainModules, forKey: .explainModules)
     if let customParameters = customParameters {
-      var customContainer = encoder.container(keyedBy: DynamicKey.self)
-      for (key, value) in customParameters {
-        try customContainer.encode(value, forKey: DynamicKey(stringValue: key))
-      }
+      try CustomParametersCoder.encode(customParameters, to: encoder)
     }
-
   }
 
   enum CodingKeys: String, CodingKey, CaseIterable {
