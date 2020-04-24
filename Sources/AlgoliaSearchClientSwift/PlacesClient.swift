@@ -52,7 +52,6 @@ public extension PlacesClient {
   // MARK: - Search
 
   /**
-     
     
    - Parameter query: The PlacesQuery used to search.
    - Parameter requestOptions: Configure request locally with RequestOptions
