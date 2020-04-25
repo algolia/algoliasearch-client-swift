@@ -34,34 +34,34 @@ extension BatchOperation {
 
 extension BatchOperation {
 
-  static func add<T: Encodable>(_ object: T) -> BatchOperation {
+  static func add<T: Codable>(_ object: T) -> Self {
     return .init(action: .addObject, bodyObject: object)
   }
 
-  static func update<T: Codable>(objectID: ObjectID, _ object: T) -> BatchOperation {
+  static func update<T: Codable>(objectID: ObjectID, _ object: T) -> Self {
     let objectWrapper = ObjectWrapper(objectID: objectID, object: object)
     return .init(action: .updateObject, bodyObject: objectWrapper)
   }
 
-  static func partialUpdate<T: Codable>(objectID: ObjectID, _ object: T, createIfNotExists: Bool) -> BatchOperation {
+  static func partialUpdate<T: Codable>(objectID: ObjectID, _ object: T, createIfNotExists: Bool) -> Self {
     let objectWrapper = ObjectWrapper(objectID: objectID, object: object)
     return .init(action: createIfNotExists ? .partialUpdateObject : .partialUpdateObjectNoCreate, bodyObject: objectWrapper)
   }
 
-  static func partialUpdate(objectID: ObjectID, partialUpdate: PartialUpdate, createIfNotExists: Bool) -> BatchOperation {
+  static func partialUpdate(objectID: ObjectID, partialUpdate: PartialUpdate, createIfNotExists: Bool) -> Self {
     let objectWrapper = ObjectWrapper(objectID: objectID, object: partialUpdate)
     return .init(action: createIfNotExists ? .partialUpdateObject : .partialUpdateObjectNoCreate, bodyObject: objectWrapper)
   }
 
-  static func delete(objectID: ObjectID) -> BatchOperation {
+  static func delete(objectID: ObjectID) -> Self {
     return .init(action: .deleteObject, bodyObject: ObjectWrapper(objectID: objectID))
   }
 
-  static var delete: BatchOperation {
+  static var delete: Self {
     return .init(action: .delete)
   }
 
-  static var clear: BatchOperation {
+  static var clear: Self {
     return .init(action: .clear)
   }
 
