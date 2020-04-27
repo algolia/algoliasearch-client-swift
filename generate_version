@@ -1,4 +1,8 @@
-version_number=`git describe --tags $(git rev-list --tags --max-count=1)`
+version_number=$1
+if [ -z "${version_number}" ]
+then
+ version_number=`git describe --tags $(git rev-list --tags --max-count=1)`
+fi
 IFS='-' read -a components <<< "${version_number}"
 IFS='.' read -a version_components <<< "${components[0]}"
 prerelease_components=${components[1]}
