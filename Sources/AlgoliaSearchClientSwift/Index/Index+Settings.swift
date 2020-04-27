@@ -7,17 +7,17 @@
 
 import Foundation
 
-extension Index {
+public extension Index {
   
   //MARK: - Get Settings
-
+  
   /**
    Get the Settings of an index.
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: Async operation
    */
-  @discardableResult public func getSettings(requestOptions: RequestOptions? = nil,
-                                             completion: @escaping ResultCallback<Settings>) -> Operation & TransportTask {
+  @discardableResult func getSettings(requestOptions: RequestOptions? = nil,
+                                      completion: @escaping ResultCallback<Settings>) -> Operation & TransportTask {
     let command = Command.Settings.GetSettings(indexName: name,
                                                requestOptions: requestOptions)
     return execute(command, completion: completion)
@@ -33,9 +33,9 @@ extension Index {
                                                requestOptions: requestOptions)
     return try execute(command)
   }
-
+  
   // Set settings
-
+  
   /**
    Create or change an index’s Settings.
    Only non-null settings are overridden; null settings are left unchanged
@@ -47,11 +47,11 @@ extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: Async operation
    */
-  @discardableResult public func setSettings(_ settings: Settings,
-                                             resetToDefault: [Settings.Key] = [],
-                                             forwardToReplicas: Bool? = nil,
-                                             requestOptions: RequestOptions? = nil,
-                                             completion: @escaping ResultTaskCallback<RevisionIndex>) -> Operation & TransportTask {
+  @discardableResult func setSettings(_ settings: Settings,
+                                      resetToDefault: [Settings.Key] = [],
+                                      forwardToReplicas: Bool? = nil,
+                                      requestOptions: RequestOptions? = nil,
+                                      completion: @escaping ResultTaskCallback<RevisionIndex>) -> Operation & TransportTask {
     let command = Command.Settings.SetSettings(indexName: name,
                                                settings: settings,
                                                resetToDefault: resetToDefault,
@@ -82,5 +82,5 @@ extension Index {
                                                requestOptions: requestOptions)
     return try execute(command)
   }
-
+  
 }
