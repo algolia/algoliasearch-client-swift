@@ -6,9 +6,8 @@
 # Create Swift package
 ​
 ```shell
-mkdir SwiftClientTest
-cd SwiftClientTest
-swift package init
+mkdir SwiftClientTest;cd SwiftClientTest
+swift package init --type executable
 ```
 ​
 # Add dependency
@@ -19,27 +18,17 @@ Set platform and add Swift Client dependency to your package.
 Your package.swift must look as follows:
 
 ```swift
-// swift-tools-version:5.1
+// swift-tools-version:5.2
 // The swift-tools-version declares the minimum version of Swift required to build this package.
+
 import PackageDescription
 
 let package = Package(
     name: "SwiftClientTest",
-    platforms: [.macOS(.v10_12)],
-    products: [
-        // Products define the executables and libraries produced by a package, and make them visible to other packages.
-        .library(
-            name: "SwiftClientTest",
-            targets: ["SwiftClientTest"]),
-    ],
     dependencies: [
-        // Dependencies declare other packages that this package depends on.
-        // .package(url: /* package url */, from: "1.0.0"),
-        .package(url:"https://github.com/algolia/algoliasearch-client-swift", .branch("feat/v2/transport")),
+        .package(name: "AlgoliaSearchClientSwift", url: "https://github.com/algolia/algoliasearch-client-swift", from: "8.0.0-beta.2")
     ],
     targets: [
-        // Targets are the basic building blocks of a package. A target can define a module or a test suite.
-        // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "SwiftClientTest",
             dependencies: ["AlgoliaSearchClientSwift"]),
@@ -54,11 +43,6 @@ Fetch Swift client dependency by launching
 
 ```shell
 swift package resolve
-```
-
-# Make your package executable
-```shell
-echo 'print("Hello world!")' > ./Sources/SwiftClientTest/main.swift
 ```
 
 # Test the execution of your package by running
@@ -80,11 +64,21 @@ struct Employee: Codable, CustomStringConvertible {
     return "(company: \(company) name: \(name))"
   }
 }
+
+extension Array where Element == Employee {
+  
+  init(jsonFile: String) throws {
+    let url = URL(fileURLWithPath: #file).deletingLastPathComponent().appendingPathComponent(jsonFile)
+    let data = try Data(contentsOf: url)
+    self = try JSONDecoder().decode([Employee].self, from: data)
+  }
+  
+}
 ```
 ​
 ## Index datas
 ​
-Download [Employees.swift](https://github.com/algolia/algoliasearch-client-swift/blob/feat/v2/transport/Tests/AlgoliaSearchClientSwiftTests/Misc/Employees.swift) to `./Sources/SwiftClientTest/.` folder
+Download [Employees.json](https://github.com/algolia/algoliasearch-client-swift/blob/feat/v2/develop/Tests/AlgoliaSearchClientSwiftTests/Misc/Employees.json) to `./Sources/SwiftClientTest/.` folder
 
 ## Test snippets
 
@@ -94,16 +88,17 @@ Test your snippets in `main.swift`
 import Foundation
 import AlgoliaSearchClientSwift
 
-let client = Client(appID: %appID, apiKey: %apiKey)
-let index = client.index(withName: %indexName)
+let client = Client(appID: "APP ID", apiKey: "API KEY")
+let index = client.index(withName: "INDEX NAME")
 
-var settings = Settings()
-settings.attributesForFaceting = [.searchable("company")]
+let settings = Settings().set(\.attributesForFaceting, to: [.searchable("company")])
 
 // Read employees list from json string
-let employees = try! [Employee](jsonString: Resource.employees)
+let employees: [Employee] = try .init(jsonFile: "Employees.json")
+
 // Save your info in the index
-let me = Hit<Employee>(objectID: %yourObjectID, object: .init(company: "Algolia", name: %yourName))
+let me = Employee(company: "Algolia", name: "Vladislav Fitc")
+try index.saveObject(me).wait()
 ```
 ​
 ## How to test my snippets?
@@ -120,24 +115,18 @@ Copy-paste these snippets to your main.swift and call them.
 ## Search snippet
 
 ```swift
-func searchSyncSnippet() {
-  do {
+func searchSyncSnippet() throws {
 
-    // Set attributes for faceting
-    let setSettingsTask = try index.setSettings(settings)
-    _ = try index.wait(for: setSettingsTask)
-    
-    // Save employees list at index
-    let saveTask = try index.saveObjects(records: employees)
-    _ = try index.wait(for: saveTask)
-    
-    // Get search results
-    let results = try index.search(query: "algolia")
-    print(try results.extractHits() as [Employee])
-    
-  } catch let error {
-    print(error)
-  }
+  // Set attributes for faceting
+  try index.setSettings(settings).wait()
+
+  // Save employees list at index
+  try index.saveObjects(employees).wait()
+
+  // Get search results
+  let results: [Employee] = try index.search(query: "algolia").extractHits()
+  print(results)
+
 }
 
 func searchAsyncSnippet() {
@@ -148,8 +137,7 @@ func searchAsyncSnippet() {
       print("\(error)")
       
     case .success(let revisionIndex):
-      
-      index.waitTask(withID: revisionIndex.taskID) { result in
+      revisionIndex.wait { result in
         switch result {
         case .failure(let error):
           print("\(error)")
@@ -160,8 +148,8 @@ func searchAsyncSnippet() {
             case .failure(let error):
               print("\(error)")
 
-            case .success(let response):
-              index.waitTask(withID: response.taskID) { result in
+            case .success(let saveTask):
+              saveTask.wait { result in
                 switch result {
                 case .failure(let error):
                   print("\(error)")
@@ -182,7 +170,6 @@ func searchAsyncSnippet() {
           }
         }
       }
-      
     }
   }
   sleep(100)
@@ -193,33 +180,29 @@ func searchAsyncSnippet() {
 
 ```swift
 
-func setGetObjectSyncSnippet() {
-  do {
-    let saveObject = try index.saveObject(record: me)
-    _ = try index.wait(for: saveObject)
-    let fetchedMe: Hit<Employee> = try index.getObject(objectID: saveObject.objectID)
-    print(fetchedMe)
-  } catch let error {
-    print(error)
-  }
+func setGetObjectSyncSnippet() throws {
+  let saveObject = try index.saveObject(me)
+  let meObjectID = saveObject.task.objectID
+  try saveObject.wait()
+  let fetchedMe: Hit<Employee> = try index.getObject(withID: meObjectID)
+  print(fetchedMe)
 }
-
 
 func setGetObjectAsyncSnippet() {
   
-  index.saveObject(record: me) { result in
+  index.saveObject(me) { result in
     switch result {
     case .failure(let error):
       print("\(error)")
 
-    case .success(let creation):
-      index.waitTask(withID: creation.taskID) { result in
+    case .success(let objectCreation):
+      objectCreation.wait() { result in
         switch result {
         case .failure(let error):
           print("\(error)")
 
         case .success:
-          index.getObject(objectID: creation.objectID) { (result: Result<Hit<Employee>, Error>) in
+          index.getObject(withID: objectCreation.task.objectID) { (result: Result<Hit<Employee>, Error>) in
             switch result {
             case .failure(let error):
               print("\(error)")
@@ -234,13 +217,14 @@ func setGetObjectAsyncSnippet() {
   }
   sleep(100)
 }
-
 ```
 ​
 # Nice things to test
 ​
 * RequestOptions
 * MultiThreading
+* Cancellation
+* Batching
 * Timeouts
 * Settings and its substructures
 * and much more...
