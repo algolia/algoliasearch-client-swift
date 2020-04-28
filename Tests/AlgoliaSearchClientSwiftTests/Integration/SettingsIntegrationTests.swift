@@ -18,7 +18,7 @@ class SettingsIntegrationTests: OnlineTestCase {
   
   func testSettings() throws {
     
-    let indexInitialization = try index.saveObject(TestRecord())
+    let indexInitialization = try index.saveObject(TestRecord(), autoGeneratingObjectID: true)
     try indexInitialization.wait()
     
     let settings = Settings()

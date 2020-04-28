@@ -19,15 +19,6 @@ public struct ObjectWrapper<T: Codable>: Codable {
 
 }
 
-public extension ObjectWrapper {
-
-  static func containsObjectID<T: Encodable>(_ object: T) -> Bool {
-    guard case .dictionary(let dictionary) = try? JSON(object) else { return false }
-    return dictionary.keys.contains(CodingKeys.objectID.rawValue)
-  }
-
-}
-
 extension ObjectWrapper where T == Empty {
 
   init(objectID: ObjectID) {

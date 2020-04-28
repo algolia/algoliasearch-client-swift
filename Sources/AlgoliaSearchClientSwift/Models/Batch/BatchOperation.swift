@@ -21,7 +21,7 @@ public struct BatchOperation: Codable, Equatable {
 
 extension BatchOperation {
 
-  init<T: Encodable>(action: Action, bodyObject: T) {
+  public init<T: Encodable>(action: Action, bodyObject: T) {
     guard let body = try? JSON(bodyObject) else {
       assertionFailure("Cannot create JSON with provided object")
       self.init(action: action)
@@ -29,12 +29,17 @@ extension BatchOperation {
     }
     self.init(action: action, body: body)
   }
+  
+  public init(action: Action) {
+    self.init(action: action, body: nil)
+  }
 
 }
 
-extension BatchOperation {
+public extension BatchOperation {
 
-  static func add<T: Codable>(_ object: T) -> Self {
+  static func add<T: Codable>(_ object: T, autoGeneratingObjectID: Bool = false) throws -> Self {
+    if !autoGeneratingObjectID { try ObjectIDChecker.checkObjectID(object) }
     return .init(action: .addObject, bodyObject: object)
   }
 

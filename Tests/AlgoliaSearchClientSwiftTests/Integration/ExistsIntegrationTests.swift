@@ -17,7 +17,7 @@ class ExistsIntegrationTests: OnlineTestCase {
   
   func testExists() throws {
     XCTAssertFalse(try index.exists())
-    try index.saveObject(TestRecord()).wait()
+    try index.saveObject(TestRecord(), autoGeneratingObjectID: true).wait()
     XCTAssertTrue(try index.exists())
     try index.delete().wait()
     XCTAssertFalse(try index.exists())

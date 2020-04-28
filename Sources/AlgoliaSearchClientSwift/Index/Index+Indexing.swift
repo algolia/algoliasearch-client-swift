@@ -29,7 +29,11 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronousoperation
    */
-  @discardableResult func saveObject<T: Codable>(_ record: T, requestOptions: RequestOptions? = nil, completion: @escaping ResultTaskCallback<ObjectCreation>) -> Operation & TransportTask {
+  @discardableResult func saveObject<T: Codable>(_ record: T, autoGeneratingObjectID: Bool = false, requestOptions: RequestOptions? = nil, completion: @escaping ResultTaskCallback<ObjectCreation>)
+     throws -> Operation & TransportTask {
+    if !autoGeneratingObjectID {
+      try ObjectIDChecker.checkObjectID(record)
+    }
     let command = Command.Indexing.SaveObject(indexName: name, record: record, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
@@ -42,7 +46,10 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: ObjectCreation task
    */
-  @discardableResult func saveObject<T: Codable>(_ record: T, requestOptions: RequestOptions? = nil) throws -> TaskWaitWrapper<ObjectCreation> {
+  @discardableResult func saveObject<T: Codable>(_ record: T, autoGeneratingObjectID: Bool = false, requestOptions: RequestOptions? = nil) throws -> TaskWaitWrapper<ObjectCreation> {
+    if !autoGeneratingObjectID {
+      try ObjectIDChecker.checkObjectID(record)
+    }
     let command = Command.Indexing.SaveObject(indexName: name, record: record, requestOptions: requestOptions)
     return try execute(command)
   }
@@ -58,8 +65,8 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronousoperation
    */
-  @discardableResult func saveObjects<T: Codable>(records: [T], requestOptions: RequestOptions? = nil, completion: @escaping ResultTaskCallback<BatchResponse>) -> Operation & TransportTask {
-    return batch(records.map { .add($0) }, requestOptions: requestOptions, completion: completion)
+  @discardableResult func saveObjects<T: Codable>(records: [T], autoGeneratingObjectID: Bool = false, requestOptions: RequestOptions? = nil, completion: @escaping ResultTaskCallback<BatchResponse>) throws -> Operation & TransportTask {
+    return batch(try records.map { try .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }, requestOptions: requestOptions, completion: completion)
   }
 
   /**
@@ -70,8 +77,8 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: Batch task
    */
-  @discardableResult func saveObjects<T: Codable>(_ records: [T], requestOptions: RequestOptions? = nil) throws -> TaskWaitWrapper<BatchResponse> {
-    return try batch(records.map { .add($0) }, requestOptions: requestOptions)
+  @discardableResult func saveObjects<T: Codable>(_ records: [T], autoGeneratingObjectID: Bool = false, requestOptions: RequestOptions? = nil) throws -> TaskWaitWrapper<BatchResponse> {
+    return try batch(try records.map { try .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }, requestOptions: requestOptions)
   }
 
   // MARK: - Get object
@@ -452,8 +459,8 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  func replaceAllObjects<T: Codable>(with objects: [T], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<[TaskIndex]>) {
-    let moveOperations: [BatchOperation] = objects.map { .add($0) }
+  func replaceAllObjects<T: Codable>(with objects: [T], autoGeneratingObjectID: Bool = false, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<[TaskIndex]>) throws  {
+    let moveOperations: [BatchOperation] = try objects.map { try .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }
     let sourceIndexName = name
     let destinationIndexName = IndexName(rawValue: "\(name)_tmp_\(Int.random(in: 0...100000))")
     let destinationIndex = Index(name: destinationIndexName, transport: transport, operationLauncher: operationLauncher)
@@ -494,9 +501,9 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: [TaskIndex]  object
    */
-  @discardableResult func replaceAllObjects<T: Codable>(with objects: [T], requestOptions: RequestOptions? = nil) throws -> [TaskIndex] {
+  @discardableResult func replaceAllObjects<T: Codable>(with objects: [T], autoGeneratingObjectID: Bool = false, requestOptions: RequestOptions? = nil) throws -> [TaskIndex] {
 
-    let moveOperations: [BatchOperation] = objects.map { .add($0) }
+    let moveOperations: [BatchOperation] = try objects.map { try .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }
     let destinationIndexName = IndexName(rawValue: "\(name)_tmp_\(Int.random(in: 0...100000))")
     let destinationIndex = Index(name: destinationIndexName, transport: transport, operationLauncher: operationLauncher)
 

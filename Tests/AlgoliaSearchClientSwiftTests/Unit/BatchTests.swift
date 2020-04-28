@@ -11,7 +11,7 @@ class BatchTests: XCTestCase {
   func testCoding() throws {
     let object: JSON = ["attr": ["value": 2.5]] as JSON
     let objectID: ObjectID = "objectID"
-    try AssertEncodeDecode(BatchOperation.add(object), ["action": "addObject", "body": ["attr": ["value": 2.5]]])
+    try AssertEncodeDecode(BatchOperation.add(ObjectWrapper(objectID: objectID, object: object)), ["action": "addObject", "body": ["objectID": "objectID", "attr": ["value": 2.5]]])
     try AssertEncodeDecode(BatchOperation.update(objectID: objectID, object), ["action": "updateObject", "body": ["objectID": "objectID", "attr": ["value": 2.5]]])
     try AssertEncodeDecode(BatchOperation.partialUpdate(objectID: objectID, object, createIfNotExists: true), ["action": "partialUpdateObject", "body": ["objectID": "objectID", "attr": ["value": 2.5]]])
     try AssertEncodeDecode(BatchOperation.partialUpdate(objectID: objectID, object, createIfNotExists: false), ["action": "partialUpdateObjectNoCreate", "body": ["objectID": "objectID", "attr": ["value": 2.5]]])
@@ -21,9 +21,10 @@ class BatchTests: XCTestCase {
 
   }
 
-  func testIndexConding() throws {
+  func testIndexCoding() throws {
     let object: JSON = ["attr": ["value": 2.5]] as JSON
-    try AssertEncodeDecode(IndexBatchOperation(indexName: "index", operation: .add(object)), ["indexName": "index", "action": "addObject", "body": ["attr": ["value": 2.5]]])
+    try AssertEncodeDecode(IndexBatchOperation(indexName: "index", operation: .add(object, autoGeneratingObjectID: true)), ["indexName": "index", "action": "addObject", "body": ["attr": ["value": 2.5]]])
   }
 
 }
+

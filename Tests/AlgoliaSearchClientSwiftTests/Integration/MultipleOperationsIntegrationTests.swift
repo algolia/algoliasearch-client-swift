@@ -40,10 +40,10 @@ class MultipleOperationsIntegrationTests: OnlineTestCase {
     let object: JSON = ["firstName": "Jimmie"]
     
     let response = try client.multipleBatchObjects(operations: [
-      (firstIndex.name, .add(object)),
-      (firstIndex.name, .add(object)),
-      (secondIndex.name, .add(object)),
-      (secondIndex.name, .add(object))])
+      (firstIndex.name, .add(object, autoGeneratingObjectID: true)),
+      (firstIndex.name, .add(object, autoGeneratingObjectID: true)),
+      (secondIndex.name, .add(object, autoGeneratingObjectID: true)),
+      (secondIndex.name, .add(object, autoGeneratingObjectID: true))])
 
     try WaitableBatchesResponse(client: client, batchesResponse: response).wait()
 
