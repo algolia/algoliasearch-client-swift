@@ -10,7 +10,7 @@ import Foundation
 public struct Empty: Codable {
 
   static let empty: Self = .init()
-  
+
   init() {}
 
   public init(from decoder: Decoder) throws {

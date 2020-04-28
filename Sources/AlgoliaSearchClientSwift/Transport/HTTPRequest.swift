@@ -62,6 +62,7 @@ class HTTPRequest<ResponseType: Codable, Output>: AsyncOperation, ResultContaine
     tryLaunch(request: request)
   }
 
+  // swiftlint:disable cyclomatic_complexity function_body_length
   private func tryLaunch(request: URLRequest) {
 
     guard !isCancelled else {
@@ -79,14 +80,14 @@ class HTTPRequest<ResponseType: Codable, Output>: AsyncOperation, ResultContaine
 
       let effectiveRequest = try HostSwitcher.switchHost(in: request, by: host, timeout: timeout)
 
-      if let url = effectiveRequest.url, let method = effectiveRequest.httpMethod  {
+      if let url = effectiveRequest.url, let method = effectiveRequest.httpMethod {
         Logger.loggingService.log(level: .debug, message: "\(method): \(url)")
       }
-      
+
       if let headers = effectiveRequest.allHTTPHeaderFields {
         Logger.loggingService.log(level: .debug, message: "Headers: \(headers)")
       }
-      
+
       if let bodyData = effectiveRequest.httpBody {
         if let json = try? JSONDecoder().decode(JSON.self, from: bodyData) {
           Logger.loggingService.log(level: .debug, message: "Body: \(json)")
@@ -94,7 +95,7 @@ class HTTPRequest<ResponseType: Codable, Output>: AsyncOperation, ResultContaine
           Logger.loggingService.log(level: .debug, message: "Body: data (\(bodyData.count) bytes)")
         }
       }
-      
+
       underlyingTask = requester.perform(request: effectiveRequest) { [weak self] (result: IntermediateResult) in
         guard let httpRequest = self else { return }
 
@@ -149,13 +150,13 @@ class HTTPRequest<ResponseType: Codable, Output>: AsyncOperation, ResultContaine
 }
 
 extension HTTPRequest where ResponseType == Output {
-  
+
   convenience init(requester: HTTPRequester,
-       retryStrategy: RetryStrategy,
-       hostIterator: HostIterator,
-       request: URLRequest,
-       timeout: TimeInterval,
-       completion: @escaping (Result) -> Void) {
+                   retryStrategy: RetryStrategy,
+                   hostIterator: HostIterator,
+                   request: URLRequest,
+                   timeout: TimeInterval,
+                   completion: @escaping (Result) -> Void) {
     self.init(requester: requester,
               retryStrategy: retryStrategy,
               hostIterator: hostIterator,
@@ -165,5 +166,4 @@ extension HTTPRequest where ResponseType == Output {
               completion: completion)
   }
 
-  
 }

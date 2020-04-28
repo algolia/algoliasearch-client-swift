@@ -8,7 +8,7 @@
 import Foundation
 
 public struct InsightsClient: Credentials {
-  
+
   let transport: Transport
   let operationLauncher: OperationLauncher
 
@@ -21,7 +21,7 @@ public struct InsightsClient: Credentials {
   }
 
   public init(appID: ApplicationID, apiKey: APIKey, region: Region? = nil) {
-    
+
     let configuration = InsightsConfiguration(applicationID: appID, apiKey: apiKey, region: region)
     let sessionConfiguration: URLSessionConfiguration = .default
     sessionConfiguration.httpAdditionalHeaders = configuration.defaultHeaders
@@ -32,23 +32,23 @@ public struct InsightsClient: Credentials {
     let queue = OperationQueue()
     queue.qualityOfService = .userInitiated
     let operationLauncher = OperationLauncher(queue: queue)
-    
+
     let httpTransport = HttpTransport(requester: session, configuration: configuration, retryStrategy: retryStrategy, credentials: configuration, operationLauncher: operationLauncher)
     self.init(transport: httpTransport, operationLauncher: operationLauncher)
 
   }
-  
+
   init(transport: Transport, operationLauncher: OperationLauncher) {
     self.transport = transport
     self.operationLauncher = operationLauncher
   }
-  
+
 }
 
 public extension InsightsClient {
-  
-  //MARK: - Send event
-  
+
+  // MARK: - Send event
+
   /**
    
    - Parameter requestOptions: Configure request locally with RequestOptions
@@ -58,7 +58,7 @@ public extension InsightsClient {
   @discardableResult func sendEvent(_ event: InsightsEvent, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<Empty>) -> Operation {
     return sendEvents([event], requestOptions: requestOptions, completion: completion)
   }
-  
+
   /**
    
    - Parameter requestOptions: Configure request locally with RequestOptions
@@ -67,9 +67,9 @@ public extension InsightsClient {
   @discardableResult func sendEvent(_ event: InsightsEvent, requestOptions: RequestOptions? = nil) throws -> Empty {
     return try sendEvents([event], requestOptions: requestOptions)
   }
-  
-  //MARK: - Send events
-  
+
+  // MARK: - Send events
+
   /**
    
    - Parameter requestOptions: Configure request locally with RequestOptions
@@ -80,7 +80,7 @@ public extension InsightsClient {
     let command = Command.Insights.SendEvents(events: events, requestOptions: requestOptions)
     return transport.execute(command, completion: completion)
   }
-  
+
   /**
    
    - Parameter requestOptions: Configure request locally with RequestOptions
@@ -91,5 +91,5 @@ public extension InsightsClient {
     let command = Command.Insights.SendEvents(events: events, requestOptions: requestOptions)
     return try transport.execute(command)
   }
-  
+
 }

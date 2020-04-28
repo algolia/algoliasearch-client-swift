@@ -8,16 +8,16 @@
 import Foundation
 
 extension Query {
-  
+
   struct URLEncoder<Key: RawRepresentable> where Key.RawValue == String {
-    
+
     var queryItems: [URLQueryItem] = []
 
     mutating func set<T: URLEncodable>(_ value: T?, for key: Key) {
       guard let value = value else { return }
       queryItems.append(.init(name: key.rawValue, value: value.urlEncodedString))
     }
-    
+
     mutating func set<S: Sequence>(_ value: S?, for key: Key) where S.Element == String {
       guard let value = value else { return }
       queryItems.append(.init(name: key.rawValue, value: value.map(\.urlEncodedString).sorted().joined(separator: ",")))
@@ -27,7 +27,7 @@ extension Query {
       guard let value = value else { return }
       queryItems.append(.init(name: key.rawValue, value: value.map(\.rawValue).map(\.urlEncodedString).sorted().joined(separator: ",")))
     }
-    
+
     mutating func set<S: Sequence>(_ value: S?, for key: Key) where S.Element == [String] {
       guard let value = value else { return }
       let valueToSet = "[\(value.map { "[\($0.map(\.urlEncodedString).sorted().joined(separator: ","))]" }.joined(separator: ","))]"
@@ -39,39 +39,39 @@ extension Query {
       let valueToSet = "[\(value.map(\.urlEncodedString).joined(separator: ","))]"
       queryItems.append(.init(name: key.rawValue, value: valueToSet))
     }
-    
+
     mutating func set<S: Sequence>(_ value: S?, for key: Key) where S.Element == AroundPrecision {
       guard let value = value else { return }
       let valueToSet = "[\(value.map(\.urlEncodedString).joined(separator: ","))]"
       queryItems.append(.init(name: key.rawValue, value: valueToSet))
     }
-    
+
     mutating func set<S: Sequence>(_ value: S?, for key: Key) where S.Element == Polygon {
       guard let value = value else { return }
       let valueToSet = "[\(value.map(\.urlEncodedString).joined(separator: ","))]"
       queryItems.append(.init(name: key.rawValue, value: valueToSet))
     }
-    
+
     mutating func set(_ value: [String: JSON]?) {
-      
+
       guard let value = value else { return }
-      
+
       func extract(_ value: JSON) -> String? {
         switch value {
         case .string(let value):
           return value
-          
+
         case .bool(let value):
           return String(value)
 
         case .number(let value):
           return String(value)
-          
+
         default:
           return nil
         }
       }
-      
+
       let sortedKeyValues = value.map { ($0.key, $0.value) }.sorted { $0.0 < $1.0 }
       for (key, value) in sortedKeyValues {
         if let extracted = extract(value) {
@@ -83,27 +83,25 @@ extension Query {
           }
         }
       }
-        
+
     }
 
-    
     func encode() -> String? {
       var components = URLComponents()
       components.queryItems = queryItems
       return components.percentEncodedQuery
     }
-    
+
   }
-  
+
 }
 
-
 extension Query: URLEncodable {
-  
+
   public var urlEncodedString: String {
-    
+
     var urlEncoder = URLEncoder<CodingKeys>()
-    
+
     urlEncoder.set(query, for: .query)
     urlEncoder.set(similarQuery, for: .similarQuery)
     urlEncoder.set(distinct, for: .distinct)
@@ -170,9 +168,8 @@ extension Query: URLEncodable {
     urlEncoder.set(responseFields, for: .responseFields)
     urlEncoder.set(percentileComputation, for: .percentileComputation)
     urlEncoder.set(customParameters)
-    
+
     return urlEncoder.encode()!
   }
-  
-}
 
+}

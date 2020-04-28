@@ -17,7 +17,7 @@ public struct ObjectRequest: Codable {
 
   /// List of attributes to retrieve. By default, all retrievable attributes are returned.
   public let attributesToRetrieve: [Attribute]?
-  
+
   public init(indexName: IndexName, objectID: ObjectID, attributesToRetrieve: [Attribute]? = nil) {
     self.indexName = indexName
     self.objectID = objectID

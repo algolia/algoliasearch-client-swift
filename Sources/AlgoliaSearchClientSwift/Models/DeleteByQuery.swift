@@ -10,7 +10,7 @@ import Foundation
 /// Proxy for a Query object keeping visible fields for deletion
 
 public struct DeleteByQuery {
-  
+
   var query: Query = .empty
 
   /**
@@ -19,15 +19,15 @@ public struct DeleteByQuery {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/filters/?language=swift)
    */
   public var filters: String? {
-    
+
     get {
       return query.filters
     }
-    
+
     set {
       query.filters = newValue
     }
-    
+
   }
 
   /**
@@ -36,15 +36,15 @@ public struct DeleteByQuery {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/facetFilters/?language=swift)
    */
   public var facetFilters: [[String]]? {
-    
+
     get {
       return query.facetFilters
     }
-    
+
     set {
       query.facetFilters = newValue
     }
-    
+
   }
 
   /**
@@ -53,34 +53,33 @@ public struct DeleteByQuery {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/numericFilters/?language=swift)
    */
   public var numericFilters: [[String]]? {
-    
+
     get {
       return query.numericFilters
     }
-    
+
     set {
       query.numericFilters = newValue
     }
-    
+
   }
-  
+
   /**
    Filter hits by tags.
    - Engine default: []
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/tagFilters/?language=swift)
    */
   public var tagFilters: [[String]]? {
-    
+
     get {
       return query.tagFilters
     }
-    
+
     set {
       query.tagFilters = newValue
     }
-    
-  }
 
+  }
 
   /**
    Search for entries around a central geolocation, enabling a geo search within a circular area.
@@ -88,15 +87,15 @@ public struct DeleteByQuery {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/aroundLatLng/?language=swift)
    */
   public var aroundLatLng: Point? {
-    
+
     get {
       return query.aroundLatLng
     }
-    
+
     set {
       query.aroundLatLng = newValue
     }
-    
+
   }
 
   /**
@@ -105,15 +104,15 @@ public struct DeleteByQuery {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/aroundRadius/?language=swift)
    */
   public var aroundRadius: AroundRadius? {
-    
+
     get {
       return query.aroundRadius
     }
-    
+
     set {
       query.aroundRadius = newValue
     }
-    
+
   }
 
   /**
@@ -122,15 +121,15 @@ public struct DeleteByQuery {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/aroundPrecision/?language=swift)
    */
   public var aroundPrecision: [AroundPrecision]? {
-    
+
     get {
       return query.aroundPrecision
     }
-    
+
     set {
       query.aroundPrecision = newValue
     }
-    
+
   }
 
   /**
@@ -139,15 +138,15 @@ public struct DeleteByQuery {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/insideBoundingBox/?language=swift)
    */
   public var insideBoundingBox: [BoundingBox]? {
-    
+
     get {
       return query.insideBoundingBox
     }
-    
+
     set {
       query.insideBoundingBox = newValue
     }
-    
+
   }
 
   /**
@@ -156,35 +155,35 @@ public struct DeleteByQuery {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/insidePolygon/?language=swift)
    */
   public var insidePolygon: [Polygon]? {
-    
+
     get {
       return query.insidePolygon
     }
-    
+
     set {
       query.insidePolygon = newValue
     }
-    
+
   }
 
 }
 
 extension DeleteByQuery: Codable {
-  
+
   public init(from decoder: Decoder) throws {
     query = try Query(from: decoder)
   }
-  
+
   public func encode(to encoder: Encoder) throws {
     try query.encode(to: encoder)
   }
-  
+
 }
 
 extension DeleteByQuery: URLEncodable {
-  
+
   public var urlEncodedString: String {
     return query.urlEncodedString
   }
-  
+
 }

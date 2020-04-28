@@ -24,19 +24,19 @@ public enum LanguageFeature {
 }
 
 extension LanguageFeature: ExpressibleByBooleanLiteral {
-  
+
   public init(booleanLiteral value: Bool) {
     self = value ? .true : .false
   }
-  
+
 }
 
 extension LanguageFeature: ExpressibleByArrayLiteral {
-    
+
   public init(arrayLiteral elements: Language...) {
     self = .queryLanguages(elements)
   }
-  
+
 }
 
 extension LanguageFeature: Codable {
@@ -68,7 +68,7 @@ extension LanguageFeature: Codable {
 extension LanguageFeature: Equatable {}
 
 extension LanguageFeature: URLEncodable {
-  
+
   public var urlEncodedString: String {
     switch self {
     case .false:
@@ -79,5 +79,5 @@ extension LanguageFeature: URLEncodable {
       return languages.map(\.rawValue).joined(separator: ",")
     }
   }
-  
+
 }

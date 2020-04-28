@@ -29,15 +29,15 @@ extension Polygon: RawRepresentable {
 
   public init?(rawValue: [Double]) {
     guard rawValue.count >= 6 else { return nil }
-    
+
     let tailPoints: [Point]
-    
+
     if rawValue.count == 6 {
       tailPoints = []
     } else {
       tailPoints = stride(from: rawValue.startIndex.advanced(by: 6), to: rawValue.endIndex, by: 2).map { Point(latitude: rawValue[$0], longitude: rawValue[$0+1]) }
     }
-    
+
     self.init(.init(latitude: rawValue[0], longitude: rawValue[1]),
               .init(latitude: rawValue[2], longitude: rawValue[3]),
               .init(latitude: rawValue[4], longitude: rawValue[5]),
@@ -45,7 +45,6 @@ extension Polygon: RawRepresentable {
   }
 
 }
-
 
 extension Polygon: Codable {
 
@@ -66,9 +65,9 @@ extension Polygon: Codable {
 }
 
 extension Polygon: URLEncodable {
-  
+
   public var urlEncodedString: String {
     return "[\(rawValue.map(\.urlEncodedString).joined(separator: ","))]"
   }
-  
+
 }

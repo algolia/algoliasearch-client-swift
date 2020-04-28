@@ -509,7 +509,7 @@ public struct Query {
   public init(_ query: String? = nil) {
     self.query = query
   }
-  
+
   static let empty = Query()
 
 }
@@ -523,5 +523,3 @@ extension Query: ExpressibleByStringLiteral {
   }
 
 }
-
-

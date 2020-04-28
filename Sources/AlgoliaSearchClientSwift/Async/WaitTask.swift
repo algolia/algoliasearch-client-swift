@@ -58,33 +58,33 @@ class WaitTask: AsyncOperation, ResultContainer {
   }
 
   override func main() {
-        
+
     launchDate = Date()
-    
+
     checkStatus()
   }
-  
+
   private func checkStatus() {
-    
+
     guard !isTimeout else {
       result = .failure(Error.timeout)
       return
     }
-    
+
     guard let taskID = taskIDProvider() else {
       result = .failure(Error.missingTaskID)
       return
     }
-    
+
     index.taskStatus(for: taskID, requestOptions: requestOptions) { [weak self] result in
       guard let request = self else { return }
-      
+
       switch result {
       case .success(let taskStatus):
         switch taskStatus.status {
         case .published:
           request.result = .success(taskStatus.status)
-          
+
         default:
           sleep(1)
           request.checkStatus()
@@ -93,7 +93,7 @@ class WaitTask: AsyncOperation, ResultContainer {
         request.result = .failure(error)
       }
     }
-    
+
   }
 
   enum Error: Swift.Error {

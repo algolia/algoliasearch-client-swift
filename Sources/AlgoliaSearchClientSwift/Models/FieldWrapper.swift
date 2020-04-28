@@ -34,7 +34,6 @@ struct ParamsKey: Key { static let value = "params" }
 struct RequestsKey: Key { static let value = "requests" }
 struct EventsKey: Key { static let value = "events" }
 
-
 typealias ParamsWrapper<Wrapped: Codable> = FieldWrapper<ParamsKey, Wrapped>
 typealias RequestsWrapper<Wrapped: Codable> = FieldWrapper<RequestsKey, Wrapped>
 typealias EventsWrapper<Wrapped: Codable> = FieldWrapper<EventsKey, Wrapped>

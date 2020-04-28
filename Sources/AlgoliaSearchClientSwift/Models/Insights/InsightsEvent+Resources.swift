@@ -8,12 +8,12 @@
 import Foundation
 
 extension InsightsEvent {
-  
+
   public enum Resources: Equatable {
     case objectIDs([ObjectID])
     case filters([String])
     case objectIDsWithPositions([(ObjectID, Int)])
-    
+
     public static func == (lhs: InsightsEvent.Resources, rhs: InsightsEvent.Resources) -> Bool {
       switch (lhs, rhs) {
       case (.objectIDs(let lValue), .objectIDs(let rValue)):
@@ -26,9 +26,9 @@ extension InsightsEvent {
         return false
       }
     }
-    
+
   }
-  
+
 }
 
 extension InsightsEvent.Resources: Codable {
@@ -64,7 +64,7 @@ extension InsightsEvent.Resources: Codable {
     switch self {
     case .filters(let filters):
       try container.encode(filters, forKey: .filters)
-      
+
     case .objectIDsWithPositions(let objectIDswithPositions):
       try container.encode(objectIDswithPositions.map { $0.0 }, forKey: .objectIDs)
       try container.encode(objectIDswithPositions.map { $0.1 }, forKey: .positions)

@@ -8,7 +8,7 @@
 import Foundation
 
 public extension InsightsEvent {
-  
+
   static func view(name: EventName,
                    indexName: IndexName,
                    userToken: UserToken?,
@@ -22,7 +22,7 @@ public extension InsightsEvent {
                          queryID: nil,
                          resources: .objectIDs(objectIDs))
   }
-  
+
   static func view(name: EventName,
                    indexName: IndexName,
                    userToken: UserToken?,
@@ -37,6 +37,4 @@ public extension InsightsEvent {
                          resources: .filters(filters))
   }
 
-  
-  
 }

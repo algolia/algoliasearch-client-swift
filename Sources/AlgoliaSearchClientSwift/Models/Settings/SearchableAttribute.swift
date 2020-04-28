@@ -14,7 +14,6 @@ public enum SearchableAttribute: Codable, Equatable {
 
 }
 
-
 extension SearchableAttribute: RawRepresentable {
 
   private enum Prefix: String {

@@ -32,7 +32,7 @@ class HTTPRequestBuilder {
 
     return HTTPRequest(requester: requester, retryStrategy: retryStrategy, hostIterator: hostIterator, request: request, timeout: timeout, transform: transform, completion: completion)
   }
-  
+
   func build<Response: Codable, Output>(for command: AlgoliaCommand, transform: @escaping (Response) -> Output, responseType: Output.Type) -> HTTPRequest<Response, Output> {
     return build(for: command, transform: transform, with: { (_:HTTPRequest<Response, Output>.Result) in })
   }

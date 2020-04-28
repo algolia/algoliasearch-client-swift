@@ -8,7 +8,7 @@
 import Foundation
 
 public extension InsightsEvent {
-  
+
   static func conversion(name: EventName,
                          indexName: IndexName,
                          userToken: UserToken?,
@@ -23,7 +23,7 @@ public extension InsightsEvent {
                          queryID: queryID,
                          resources: .objectIDs(objectIDs))
   }
-  
+
   static func conversion(name: EventName,
                          indexName: IndexName,
                          userToken: UserToken?,
@@ -39,5 +39,4 @@ public extension InsightsEvent {
                          resources: .filters(filters))
   }
 
-  
 }

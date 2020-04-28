@@ -66,7 +66,7 @@ extension Command {
       let callType: CallType = .read
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
-      
+
       init(indexName: IndexName, objectIDs: [ObjectID], attributesToRetreive: [Attribute]?, requestOptions: RequestOptions?) {
         let requests = objectIDs.map { ObjectRequest(indexName: indexName, objectID: $0, attributesToRetrieve: attributesToRetreive) }
         self.init(requests: requests, requestOptions: requestOptions)

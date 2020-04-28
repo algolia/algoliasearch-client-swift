@@ -39,7 +39,6 @@ extension BoundingBox: RawRepresentable {
 
 }
 
-
 extension BoundingBox: Codable {
 
   public init(from decoder: Decoder) throws {
@@ -59,9 +58,9 @@ extension BoundingBox: Codable {
 }
 
 extension BoundingBox: URLEncodable {
-  
+
   public var urlEncodedString: String {
     return "[\(rawValue.map(\.urlEncodedString).joined(separator: ","))]"
   }
-  
+
 }
