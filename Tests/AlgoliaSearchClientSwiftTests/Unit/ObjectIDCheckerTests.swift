@@ -27,6 +27,6 @@ class ObjectIDCheckerTests: XCTestCase {
     XCTAssertNoThrow(try ObjectIDChecker.checkObjectID(["objectID": "", "value": ""] as JSON))
     XCTAssertNoThrow(try ObjectIDChecker.checkObjectID(ObjectWithID(objectID: "", value: "")))
     XCTAssertNoThrow(try ObjectIDChecker.checkObjectID(ObjectWrapper(objectID: "", object: ObjectWithoutID(value: ""))))
-  }
+      }
   
 }
