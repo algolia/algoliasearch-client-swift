@@ -56,6 +56,8 @@ You are all set to play with the Swift API Client
 ## Add Employee structure in a `./Sources/SwiftClientTest/Employee.swift' file
 ​
 ```swift
+import Foundation
+
 struct Employee: Codable, CustomStringConvertible {
   let company: String
   let name: String
