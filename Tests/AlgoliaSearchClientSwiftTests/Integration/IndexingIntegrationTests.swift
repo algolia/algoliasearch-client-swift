@@ -27,7 +27,7 @@ class IndexingIntegrationTests: OnlineTestCase {
     XCTAssertEqual(objectCreation.task.objectID, objectID)
     
     var objectWithGeneratedID = TestRecord()
-    let objectWithGeneratedIDCreation = try index.saveObject(objectWithGeneratedID)
+    let objectWithGeneratedIDCreation = try index.saveObject(objectWithGeneratedID, autoGeneratingObjectID: true)
     tasks.append(objectWithGeneratedIDCreation)
     let generatedObjectID = objectWithGeneratedIDCreation.task.objectID
     objectWithGeneratedID.objectID = generatedObjectID
@@ -42,7 +42,7 @@ class IndexingIntegrationTests: OnlineTestCase {
     XCTAssertEqual(objectsCreation.task.objectIDs, objectsIDs)
     
     var objectsWithGeneratedID = [TestRecord(), TestRecord()]
-    let objectsWithGeneratedIDCreation = try index.saveObjects(objectsWithGeneratedID)
+    let objectsWithGeneratedIDCreation = try index.saveObjects(objectsWithGeneratedID, autoGeneratingObjectID: true)
     tasks.append(objectsWithGeneratedIDCreation)
     let generatedObjectIDs = objectsWithGeneratedIDCreation.task.objectIDs.compactMap { $0 }
     objectsWithGeneratedID = zip(objectsWithGeneratedID, generatedObjectIDs).map { $0.0.set(\.objectID, to: $0.1) }
@@ -125,7 +125,7 @@ class IndexingIntegrationTests: OnlineTestCase {
       "testField2": 2,
       "testField3": true]
 
-    let creation = try index.saveObject(object)
+    let creation = try index.saveObject(object, autoGeneratingObjectID: true)
     try creation.wait()
     let fetchedObject: JSON = try index.getObject(withID: creation.task.objectID)
     XCTAssertEqual(fetchedObject["testField1"], "testValue1")
@@ -133,7 +133,7 @@ class IndexingIntegrationTests: OnlineTestCase {
     XCTAssertEqual(fetchedObject["testField3"], true)
   }
 
-  func testSaveGetObjectCallback() {
+  func testSaveGetObjectCallback() throws {
 
     let object: JSON = [
       "testField1": "testValue1",
@@ -142,7 +142,7 @@ class IndexingIntegrationTests: OnlineTestCase {
 
     let expectation = self.expectation(description: "Save-Wait-Create")
 
-    index.saveObject(object, completion: extract { creation in
+    try index.saveObject(object, autoGeneratingObjectID: true, completion: extract { creation in
       creation.wait(completion: extract { _ in
         self.index.getObject(withID: creation.task.objectID, completion: extract { (fetchedObject: JSON) in
           XCTAssertEqual(fetchedObject["testField1"], "testValue1")

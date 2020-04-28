@@ -18,7 +18,7 @@ class SearchIntegrationTests: OnlineTestCase {
 
     let settings = Settings().set(\.attributesForFaceting, to: [.searchable("company")])
     try index.setSettings(settings).wait()
-    try index.saveObjects(employees).wait()
+    try index.saveObjects(employees, autoGeneratingObjectID: true).wait()
     
     var results = try index.search(query: "algolia")
     XCTAssertEqual(results.nbHits, 2)
