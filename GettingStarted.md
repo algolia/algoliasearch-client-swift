@@ -99,7 +99,7 @@ let settings = Settings().set(\.attributesForFaceting, to: [.searchable("company
 let employees: [Employee] = try .init(jsonFile: "Employees.json")
 
 // Save your info in the index
-let me = Employee(company: "Algolia", name: "Vladislav Fitc")
+let me = Employee(company: "Algolia", name: "Your Name")
 try index.saveObject(me).wait()
 ```
 ​
