@@ -228,3 +228,10 @@ func setGetObjectAsyncSnippet() {
 * Timeouts
 * Settings and its substructures
 * and much more...
+
+# Functionalities not finished yet
+* Synonyms
+* Query rules
+* MCM
+* Secured API keys
+* Analytics
