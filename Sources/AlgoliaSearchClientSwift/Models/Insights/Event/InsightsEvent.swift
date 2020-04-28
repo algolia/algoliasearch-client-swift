@@ -8,7 +8,7 @@
 import Foundation
 
 public struct InsightsEvent {
-  
+
   public let type: EventType
   public let name: EventName
   public let indexName: IndexName
@@ -16,7 +16,7 @@ public struct InsightsEvent {
   public let timestamp: Int64?
   public let queryID: QueryID?
   public let resources: Resources
-  
+
   init(type: EventType,
        name: EventName,
        indexName: IndexName,
@@ -24,10 +24,10 @@ public struct InsightsEvent {
        timestamp: Int64?,
        queryID: QueryID?,
        resources: Resources) throws {
-    
+
     try ConstructionError.checkEventName(name)
     try ConstructionError.check(resources)
-    
+
     self.type = type
     self.name = name
     self.indexName = indexName
@@ -36,7 +36,7 @@ public struct InsightsEvent {
     self.queryID = queryID
     self.resources = resources
   }
-  
+
   init(type: EventType,
        name: EventName,
        indexName: IndexName,
@@ -53,7 +53,7 @@ public struct InsightsEvent {
                   queryID: queryID,
                   resources: resources)
   }
-    
+
 }
 
 extension InsightsEvent: Codable {

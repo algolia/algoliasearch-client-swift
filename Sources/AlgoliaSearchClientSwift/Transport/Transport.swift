@@ -38,15 +38,15 @@ protocol Transport: Credentials {
 }
 
 extension Transport {
-  
+
   func execute<Output: Codable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<Output>) -> Operation & TransportTask {
     execute(command, transform: { $0 }, completion: completion)
   }
-  
+
   func execute<Output: Codable>(_ command: AlgoliaCommand) throws -> Output {
     try execute(command, transform: { $0 })
   }
-  
+
 }
 
 public typealias TransportTask = Cancellable & ProgressReporting

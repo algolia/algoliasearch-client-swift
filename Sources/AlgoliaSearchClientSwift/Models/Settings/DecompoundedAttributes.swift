@@ -31,7 +31,7 @@ public struct DecompoundedAttributes: Equatable {
 }
 
 extension DecompoundedAttributes: ExpressibleByDictionaryLiteral {
-  
+
   public init(dictionaryLiteral elements: (AllowedLanguage, [Attribute])...) {
     var storage: [Language: [Attribute]] = [:]
     for (language, attributes) in elements {
@@ -39,7 +39,7 @@ extension DecompoundedAttributes: ExpressibleByDictionaryLiteral {
     }
     self.init(storage: storage)
   }
-  
+
 }
 
 extension DecompoundedAttributes {

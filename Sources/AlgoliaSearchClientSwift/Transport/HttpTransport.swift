@@ -34,12 +34,12 @@ class HttpTransport: Transport {
     let requestBuilder = HTTPRequestBuilder(requester: requester, retryStrategy: retryStrategy, configuration: configuration, credentials: credentials)
     self.init(requestBuilder: requestBuilder, operationLauncher: operationLauncher, credentials: credentials)
   }
-  
+
   func execute<Response: Codable, Output>(_ command: AlgoliaCommand, transform: @escaping (Response) -> Output, completion: @escaping (Result<Output, Swift.Error>) -> Void) -> Operation & TransportTask {
     let request = requestBuilder.build(for: command, transform: transform, with: completion)
     return operationLauncher.launch(request)
   }
-  
+
   func execute<Response: Codable, Output>(_ command: AlgoliaCommand, transform: @escaping (Response) -> Output) throws -> Output {
     let request = requestBuilder.build(for: command, transform: transform, responseType: Output.self)
     return try operationLauncher.launchSync(request)

@@ -8,7 +8,7 @@
 import Foundation
 
 public extension Index {
-  
+
   // MARK: - Get logs
 
   /**
@@ -26,7 +26,7 @@ public extension Index {
    */
   @discardableResult func getLogs(page: Int? = nil, hitsPerPage: Int? = nil, type: LogType = .all, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<[Log]>) -> Operation {
     let command = Command.Advanced.GetLogs(indexName: name, page: page, hitsPerPage: hitsPerPage, logType: type, requestOptions: requestOptions)
-    return execute(command,transform: \LogsResponse.logs, completion: completion)
+    return execute(command, transform: \LogsResponse.logs, completion: completion)
   }
 
   /**
@@ -45,5 +45,5 @@ public extension Index {
     let command = Command.Advanced.GetLogs(indexName: name, page: page, hitsPerPage: hitsPerPage, logType: type, requestOptions: requestOptions)
     return try execute(command, transform: \LogsResponse.logs)
   }
-  
+
 }

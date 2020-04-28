@@ -8,8 +8,8 @@
 import Foundation
 
 struct Deletion: Codable {
-  
+
   /// The date at which the entity has been deleted.
   let deletedAt: Date
-  
+
 }

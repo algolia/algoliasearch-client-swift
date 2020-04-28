@@ -8,7 +8,7 @@
 import Foundation
 
 public enum RemoveWordIfNoResults: String, Codable, URLEncodable {
-  
+
   /// No specific processing is done when a query does not return any results (default behavior).
   case none
 

@@ -8,7 +8,7 @@
 import Foundation
 
 public extension Client {
-  
+
   // MARK: - Get logs
 
   /**
@@ -45,5 +45,5 @@ public extension Client {
     let command = Command.Advanced.GetLogs(indexName: nil, page: page, hitsPerPage: hitsPerPage, logType: type, requestOptions: requestOptions)
     return try execute(command, transform: \LogsResponse.logs)
   }
-  
+
 }

@@ -18,5 +18,5 @@ public struct APIKeyDeletion: Codable {
   static func transform(_ apiKey: APIKey) -> (Deletion) -> Self {
     return { creation in .init(key: apiKey, deletedAt: creation.deletedAt) }
   }
-  
+
 }

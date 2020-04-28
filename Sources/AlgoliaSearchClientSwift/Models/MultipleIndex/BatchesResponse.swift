@@ -41,26 +41,26 @@ extension BatchesResponse: Codable {
 }
 
 public struct WaitableBatchesResponse: AnyWaitable {
-  
+
   public let client: Client
   public let batchesResponse: BatchesResponse
-  
+
   public init(client: Client, batchesResponse: BatchesResponse) {
     self.client = client
     self.batchesResponse = batchesResponse
   }
-  
+
   public func wait(timeout: TimeInterval? = nil) throws {
     for taskIndex in batchesResponse.tasks {
       try client.index(withName: taskIndex.indexName).waitTask(withID: taskIndex.taskID, timeout: timeout)
     }
   }
-  
+
   public func wait(timeout: TimeInterval?, completion: @escaping (Result<Empty, Swift.Error>) -> Void) {
     let tasksGroup = DispatchGroup()
     for taskIndex in batchesResponse.tasks {
       tasksGroup.enter()
-      client.index(withName: taskIndex.indexName).waitTask(withID: taskIndex.taskID) { result in
+      client.index(withName: taskIndex.indexName).waitTask(withID: taskIndex.taskID) { _ in
         tasksGroup.leave()
       }
     }

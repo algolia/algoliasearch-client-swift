@@ -8,7 +8,7 @@
 import Foundation
 
 public extension InsightsEvent {
-  
+
   static func click(name: EventName,
                     indexName: IndexName,
                     userToken: UserToken?,
@@ -23,7 +23,7 @@ public extension InsightsEvent {
                          queryID: queryID,
                          resources: .objectIDsWithPositions(objectIDsWithPositions))
   }
-  
+
   static func click(name: EventName,
                     indexName: IndexName,
                     userToken: UserToken?,
@@ -37,7 +37,7 @@ public extension InsightsEvent {
                          queryID: .none,
                          resources: .objectIDs(objectIDs))
   }
-  
+
   static func click(name: EventName,
                     indexName: IndexName,
                     userToken: UserToken?,
@@ -51,5 +51,5 @@ public extension InsightsEvent {
                          queryID: .none,
                          resources: .filters(filters))
   }
-  
+
 }

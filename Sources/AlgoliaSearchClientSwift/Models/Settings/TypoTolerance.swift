@@ -15,9 +15,9 @@ public enum TypoTolerance: String, Codable, URLEncodable {
 }
 
 extension TypoTolerance: ExpressibleByBooleanLiteral {
-  
+
   public init(booleanLiteral value: Bool) {
     self = value ? .true : .false
   }
-  
+
 }

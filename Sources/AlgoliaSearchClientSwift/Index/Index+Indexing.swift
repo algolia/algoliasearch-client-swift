@@ -439,9 +439,9 @@ public extension Index {
     let command = Command.Indexing.ClearObjects(indexName: name, requestOptions: requestOptions)
     return try execute(command)
   }
-  
-  //MARK: - Replace all objects
-  
+
+  // MARK: - Replace all objects
+
   /**
    Push a new set of objects and remove all previous ones. Settings, synonyms and query rules are untouched.
    Replace all objects in an index without any downtime.
@@ -457,7 +457,7 @@ public extension Index {
     let sourceIndexName = name
     let destinationIndexName = IndexName(rawValue: "\(name)_tmp_\(Int.random(in: 0...100000))")
     let destinationIndex = Index(name: destinationIndexName, transport: transport, operationLauncher: operationLauncher)
-    
+
     func extract<V>(_ result: Result<V, Error>, process: (V) -> Void) {
       switch result {
       case .failure(let error):
@@ -466,7 +466,7 @@ public extension Index {
         process(value)
       }
     }
-    
+
     copy([.settings, .rules, .synonyms], to: destinationIndexName) { extract($0) { copyTaskWrapper in
         destinationIndex.batch(moveOperations) { extract($0) { batchTaskWrapper in
             destinationIndex.move(to: sourceIndexName) { extract($0) { moveTaskWrapper in
@@ -482,9 +482,9 @@ public extension Index {
         }
       }
     }
-    
+
   }
-  
+
   /**
    Push a new set of objects and remove all previous ones. Settings, synonyms and query rules are untouched.
    Replace all objects in an index without any downtime.
@@ -495,17 +495,17 @@ public extension Index {
    - Returns: [TaskIndex]  object
    */
   @discardableResult func replaceAllObjects<T: Codable>(with objects: [T], requestOptions: RequestOptions? = nil) throws -> [TaskIndex] {
-    
+
     let moveOperations: [BatchOperation] = objects.map { .add($0) }
     let destinationIndexName = IndexName(rawValue: "\(name)_tmp_\(Int.random(in: 0...100000))")
     let destinationIndex = Index(name: destinationIndexName, transport: transport, operationLauncher: operationLauncher)
-        
+
     return [
       .init(indexName: name, taskID: try copy([.settings, .rules, .synonyms], to: destinationIndexName).task.taskID),
       .init(indexName: destinationIndexName, taskID: try destinationIndex.batch(moveOperations).task.taskID),
       .init(indexName: destinationIndexName, taskID: try destinationIndex.move(to: name).task.taskID)
     ]
-    
+
   }
-  
+
 }

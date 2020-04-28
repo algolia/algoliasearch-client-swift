@@ -25,7 +25,7 @@ public struct HTTPError: Error, CustomStringConvertible {
     self.statusCode = statusCode
     self.message = message
   }
-  
+
   public var description: String {
     return "Status code: \(statusCode) Message: \(message.flatMap { $0.description } ?? "No message")"
   }
