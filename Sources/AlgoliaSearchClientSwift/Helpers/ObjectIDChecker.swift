@@ -10,13 +10,23 @@ import Foundation
 struct ObjectIDChecker {
   
   static func checkObjectID<T: Encodable>(_ object: T) throws {
-    guard case .dictionary(let dictionary) = object as? JSON ?? (try? JSON(object)), dictionary.keys.contains("objectID") else {
+    let data = try JSONEncoder().encode(object)
+    do {
+      _ = try JSONDecoder().decode(ObjectWrapper<Empty>.self, from: data)
+    } catch _ {
       throw Error.missingObjectIDProperty
     }
   }
   
   enum Error: Swift.Error {
     case missingObjectIDProperty
+    
+    var localizedDescription: String {
+      switch self {
+      case .missingObjectIDProperty:
+        return "Object must contain encoded `objectID` field if autoGenerationObjectID is set to false"
+      }
+    }
   }
   
 }
