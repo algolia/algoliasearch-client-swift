@@ -29,9 +29,8 @@ class HTTPRequest<ResponseType: Codable, Output>: AsyncOperation, ResultContaine
     }
   }
 
-  var result: Result? {
+  var result: Result = .failure(SyncOperationError.notFinished) {
     didSet {
-      guard let result = self.result else { return }
       self.completion(result)
       self.state = .finished
     }

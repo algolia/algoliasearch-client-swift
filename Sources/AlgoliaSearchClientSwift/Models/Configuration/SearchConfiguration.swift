@@ -22,13 +22,16 @@ public struct SearchConfigration: Configuration, Credentials {
   public var hosts: [RetryableHost]
 
   public var defaultHeaders: [HTTPHeaderKey: String]?
+  
+  public var batchSize: Int
 
   init(applicationID: ApplicationID,
        apiKey: APIKey,
        writeTimeout: TimeInterval = DefaultConfiguration.default.writeTimeout,
        readTimeout: TimeInterval = DefaultConfiguration.default.readTimeout,
        logLevel: LogLevel = DefaultConfiguration.default.logLevel,
-       defaultHeaders: [HTTPHeaderKey: String]? = DefaultConfiguration.default.defaultHeaders) {
+       defaultHeaders: [HTTPHeaderKey: String]? = DefaultConfiguration.default.defaultHeaders,
+       batchSize: Int = DefaultConfiguration.default.batchSize) {
     self.applicationID = applicationID
     self.apiKey = apiKey
     self.writeTimeout = writeTimeout
@@ -36,6 +39,7 @@ public struct SearchConfigration: Configuration, Credentials {
     self.logLevel = logLevel
     self.hosts = Hosts.forApplicationID(applicationID)
     self.defaultHeaders = defaultHeaders
+    self.batchSize = batchSize
   }
 
 }

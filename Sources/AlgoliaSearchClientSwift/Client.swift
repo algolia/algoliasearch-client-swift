@@ -11,6 +11,7 @@ public struct Client: Credentials {
 
   let transport: Transport
   let operationLauncher: OperationLauncher
+  let configuration: Configuration
 
   public var applicationID: ApplicationID {
     return transport.applicationID
@@ -36,16 +37,17 @@ public struct Client: Credentials {
     let operationLauncher = OperationLauncher(queue: queue)
 
     let httpTransport = HttpTransport(requester: session, configuration: configuration, retryStrategy: retryStrategy, credentials: configuration, operationLauncher: operationLauncher)
-    self.init(transport: httpTransport, operationLauncher: operationLauncher)
+    self.init(transport: httpTransport, operationLauncher: operationLauncher, configuration: configuration)
   }
 
-  init(transport: Transport, operationLauncher: OperationLauncher) {
+  init(transport: Transport, operationLauncher: OperationLauncher, configuration: Configuration) {
     self.transport = transport
     self.operationLauncher = operationLauncher
+    self.configuration = configuration
   }
 
   public func index(withName indexName: IndexName) -> Index {
-    return Index(name: indexName, transport: transport, operationLauncher: operationLauncher)
+    return Index(name: indexName, transport: transport, operationLauncher: operationLauncher, configuration: configuration)
   }
 
   public static func append(userAgent: UserAgent) {

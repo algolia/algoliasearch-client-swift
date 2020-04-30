@@ -135,9 +135,9 @@ public extension Client {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func multipleBatchObjects(operations: [(IndexName, BatchOperation)], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchesResponse>) -> Operation {
+  @discardableResult func multipleBatchObjects(operations: [(IndexName, BatchOperation)], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<WaitableWrapper<BatchesResponse>>) -> Operation {
     let command = Command.MultipleIndex.BatchObjects(operations: operations, requestOptions: requestOptions)
-    return execute(command, completion: completion)
+    return execute(command, transform: { .init(batchesResponse: $0, client: self) }, completion: completion)
   }
 
   /**
@@ -149,9 +149,9 @@ public extension Client {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: BatchesResponse  object
    */
-  @discardableResult func multipleBatchObjects(operations: [(IndexName, BatchOperation)], requestOptions: RequestOptions? = nil) throws -> BatchesResponse {
+  @discardableResult func multipleBatchObjects(operations: [(IndexName, BatchOperation)], requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<BatchesResponse> {
     let command = Command.MultipleIndex.BatchObjects(operations: operations, requestOptions: requestOptions)
-    return try execute(command)
+    return try execute(command, transform: { .init(batchesResponse: $0, client: self) })
   }
 
 }

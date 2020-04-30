@@ -18,9 +18,8 @@ class WaitTask: AsyncOperation, ResultContainer {
   private var launchDate: Date?
   let completion: (ResultCallback<TaskStatus>)
 
-  var result: Result<TaskStatus, Swift.Error>? {
+  var result: Result<TaskStatus, Swift.Error> = .failure(SyncOperationError.notFinished) {
     didSet {
-      guard let result = result else { return }
       completion(result)
       state = .finished
     }
@@ -95,7 +94,7 @@ class WaitTask: AsyncOperation, ResultContainer {
     }
 
   }
-
+  
   enum Error: Swift.Error {
     case timeout
     case missingTaskID
@@ -116,22 +115,5 @@ extension WaitTask {
               requestOptions: requestOptions,
               completion: completion)
   }
-
-//  convenience init<Value, Request: HTTPRequest<Value>>(index: Index,
-//                                                       request: Request,
-//                                                       timeout: TimeInterval? = nil,
-//                                                       requestOptions: RequestOptions?,
-//                                                       completion: @escaping ResultCallback<TaskStatus>) where Value: Task {
-//    self.init(index: index,
-//              taskIDProvider: { () -> TaskID? in
-//                guard case .success(let value) = request.result else {
-//                  return nil
-//                }
-//                return value.taskID
-//    }(),
-//              timeout: timeout,
-//              requestOptions: requestOptions,
-//              completion: completion)
-//  }
 
 }

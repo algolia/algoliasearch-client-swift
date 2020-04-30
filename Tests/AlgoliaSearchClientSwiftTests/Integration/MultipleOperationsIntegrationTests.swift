@@ -45,9 +45,9 @@ class MultipleOperationsIntegrationTests: OnlineTestCase {
       (secondIndex.name, .add(object, autoGeneratingObjectID: true)),
       (secondIndex.name, .add(object, autoGeneratingObjectID: true))])
 
-    try WaitableBatchesResponse(client: client, batchesResponse: response).wait()
+    try response.wait()
 
-    let objectIDs = response.objectIDs.compactMap { $0 }
+    let objectIDs = response.wrapped.objectIDs.compactMap { $0 }
 
     XCTAssertEqual(objectIDs.count, 4)
 
