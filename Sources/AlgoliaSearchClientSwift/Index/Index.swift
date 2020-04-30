@@ -12,6 +12,7 @@ public struct Index: Credentials {
   public let name: IndexName
   let transport: Transport
   let operationLauncher: OperationLauncher
+  let configuration: Configuration
 
   public var applicationID: ApplicationID {
     return transport.applicationID
@@ -21,16 +22,13 @@ public struct Index: Credentials {
     return transport.apiKey
   }
 
-  init(name: IndexName, transport: Transport, operationLauncher: OperationLauncher) {
+  init(name: IndexName, transport: Transport, operationLauncher: OperationLauncher, configuration: Configuration) {
     self.name = name
     self.transport = transport
     self.operationLauncher = operationLauncher
+    self.configuration = configuration
   }
-
-  func wrapInWait<T: Task>(_ task: T) -> TaskWaitWrapper<T> {
-    return .init(index: self, task: task)
-  }
-
+  
 }
 
 extension Index: Transport {
@@ -43,14 +41,18 @@ extension Index: Transport {
     return try transport.execute(command, transform: transform)
   }
 
+}
+
+extension Index {
+  
   func execute<Output: Codable & Task>(_ command: AlgoliaCommand, completion: @escaping ResultTaskCallback<Output>) -> Operation & TransportTask {
-    transport.execute(command, transform: wrapInWait, completion: completion)
+    transport.execute(command, transform: WaitableWrapper.wrap(with: self), completion: completion)
   }
 
-  func execute<Output: Codable & Task>(_ command: AlgoliaCommand) throws -> TaskWaitWrapper<Output> {
-    try transport.execute(command, transform: wrapInWait)
+  func execute<Output: Codable & Task>(_ command: AlgoliaCommand) throws -> WaitableWrapper<Output> {
+    try transport.execute(command, transform: WaitableWrapper.wrap(with: self))
   }
-
+  
 }
 
 extension Index {

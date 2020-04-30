@@ -21,20 +21,11 @@ class OperationLauncher {
   }
 
   func launchSync<O: OperationWithResult>(_ operation: O) throws -> O.ResultValue {
-
     queue.addOperations([operation], waitUntilFinished: true)
-
     guard !operation.isCancelled else {
       throw SyncOperationError.cancelled
     }
-
-    guard let result = operation.result else {
-      assertionFailure("Operation with result must have result value if not cancelled")
-      throw SyncOperationError.noResult
-    }
-
-    return try result.get()
-
+    return try operation.result.get()
   }
 
 }
@@ -43,5 +34,5 @@ public typealias OperationWithResult = Operation & ResultContainer
 
 enum SyncOperationError: Error {
   case cancelled
-  case noResult
+  case notFinished
 }

@@ -17,34 +17,35 @@ class IndexingIntegrationTests: OnlineTestCase {
   
   func testIndexing() throws {
     
-    var tasks: [AnyWaitable] = []
-    
     let objectID = ObjectID(rawValue: .init(randomWithLength: 10))
     let object = TestRecord(objectID: objectID)
     
     let objectCreation = try index.saveObject(object)
-    tasks.append(objectCreation)
+    try objectCreation.wait()
     XCTAssertEqual(objectCreation.task.objectID, objectID)
     
     var objectWithGeneratedID = TestRecord()
     let objectWithGeneratedIDCreation = try index.saveObject(objectWithGeneratedID, autoGeneratingObjectID: true)
-    tasks.append(objectWithGeneratedIDCreation)
+    try objectWithGeneratedIDCreation.wait()
+
     let generatedObjectID = objectWithGeneratedIDCreation.task.objectID
     objectWithGeneratedID.objectID = generatedObjectID
             
     let emptyObjectsCreation = try index.saveObjects([JSON]())
-    tasks.append(emptyObjectsCreation)
+    try emptyObjectsCreation.wait()
       
     let objectsIDs: [ObjectID] = [.init(rawValue: .init(randomWithLength: 10)), .init(rawValue: .init(randomWithLength: 10))]
     let objects = objectsIDs.map(TestRecord.init)
     let objectsCreation = try index.saveObjects(objects)
-    tasks.append(objectsCreation)
-    XCTAssertEqual(objectsCreation.task.objectIDs, objectsIDs)
+    try objectsCreation.wait()
+
+    XCTAssertEqual(objectsCreation.batchesResponse.objectIDs, objectsIDs)
     
     var objectsWithGeneratedID = [TestRecord(), TestRecord()]
     let objectsWithGeneratedIDCreation = try index.saveObjects(objectsWithGeneratedID, autoGeneratingObjectID: true)
-    tasks.append(objectsWithGeneratedIDCreation)
-    let generatedObjectIDs = objectsWithGeneratedIDCreation.task.objectIDs.compactMap { $0 }
+    try objectWithGeneratedIDCreation.wait()
+
+    let generatedObjectIDs = objectsWithGeneratedIDCreation.batchesResponse.objectIDs.compactMap { $0 }
     objectsWithGeneratedID = zip(objectsWithGeneratedID, generatedObjectIDs).map { $0.0.set(\.objectID, to: $0.1) }
     
     var batchRecords: [TestRecord] = []
@@ -53,12 +54,9 @@ class IndexingIntegrationTests: OnlineTestCase {
     for startIndex in stride(from: 0, to: chunkSize * chunkCount, by: chunkSize) {
       let records = (startIndex..<startIndex + chunkSize).map { TestRecord(objectID: "\($0)") }
       batchRecords.append(contentsOf: records)
-      let batchResponse = try index.saveObjects(records)
-      tasks.append(batchResponse)
+      try index.saveObjects(records).wait()
     }
     
-    try tasks.waitAll()
-    tasks.removeAll()
     
     let firstObjectsIDs = [objectID, generatedObjectID] + objectsIDs + generatedObjectIDs
     
@@ -88,14 +86,10 @@ class IndexingIntegrationTests: OnlineTestCase {
       XCTAssertEqual(value, fdict[key])
     }
     
-    let objectPartialUpdate = try index.partialUpdateObject(withID: objectID, with: .update(attribute: "string", value: "partiallyUpdated"), createIfNotExists: false)
-    tasks.append(objectPartialUpdate)
+    try index.partialUpdateObject(withID: objectID, with: .update(attribute: "string", value: "partiallyUpdated"), createIfNotExists: false).wait()
 
-    let objectsPartialUpdate = try index.partialUpdateObjects(replacements: [(objectsIDs[0], .update(attribute: "string", value: "partiallyUpdated")), (objectsIDs[1], .increment(attribute: "numeric", value: 10))], createIfNotExists: false)
-    tasks.append(objectsPartialUpdate)
+    try index.partialUpdateObjects(replacements: [(objectsIDs[0], .update(attribute: "string", value: "partiallyUpdated")), (objectsIDs[1], .increment(attribute: "numeric", value: 10))], createIfNotExists: false).wait()
     
-    try tasks.waitAll()
-    tasks.removeAll()
     
     let updated: [TestRecord] = try index.getObjects(withIDs: [objectID] + objectsIDs).results.compactMap { $0 }
     
@@ -103,15 +97,10 @@ class IndexingIntegrationTests: OnlineTestCase {
     XCTAssertEqual(updated.first { $0.objectID == objectsIDs.first! }, objects.first!.set(\.string, to: "partiallyUpdated"))
     XCTAssertEqual(updated.first { $0.objectID == objectsIDs.last! }, objects.last!.set(\.numeric, to: objects.last!.numeric + 10))
     
-    let firstObjectDeletion = try index.deleteObject(withID: objectID)
-    tasks.append(firstObjectDeletion)
-    let manuallyAddedObjectsDeletion = try index.deleteObjects(withIDs: [generatedObjectID] + objectsIDs + generatedObjectIDs)
-    tasks.append(manuallyAddedObjectsDeletion)
-    let batchAddedObjectsDeletion = try index.clearObjects()
-    tasks.append(batchAddedObjectsDeletion)
+    try index.deleteObject(withID: objectID).wait()
+    try index.deleteObjects(withIDs: [generatedObjectID] + objectsIDs + generatedObjectIDs).wait()
+    try index.clearObjects().wait()
     
-    try tasks.waitAll()
-    tasks.removeAll()
     
     response = try index.browse()
     XCTAssertEqual(response.nbHits, 0)

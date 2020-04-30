@@ -11,6 +11,6 @@ public protocol ResultContainer {
 
   associatedtype ResultValue
 
-  var result: Result<ResultValue, Swift.Error>? { get }
+  var result: Result<ResultValue, Swift.Error> { get }
 
 }

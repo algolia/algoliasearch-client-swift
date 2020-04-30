@@ -26,7 +26,7 @@ extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: DeletionIndex object
    */
-  @discardableResult func delete(requestOptions: RequestOptions? = nil) throws -> TaskWaitWrapper<DeletionIndex> {
+  @discardableResult func delete(requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<DeletionIndex> {
     let command = Command.Index.DeleteIndex(indexName: name, requestOptions: requestOptions)
     return try execute(command)
   }
@@ -103,7 +103,7 @@ extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: RevisionIndex  object
    */
-  @discardableResult func copy(_ scopes: [Scope]? = nil, to destination: IndexName, requestOptions: RequestOptions? = nil) throws -> TaskWaitWrapper<RevisionIndex> {
+  @discardableResult func copy(_ scopes: [Scope]? = nil, to destination: IndexName, requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<RevisionIndex> {
     let command = Command.Index.Operation(indexName: name, operation: .init(action: .copy, destination: destination, scopes: scopes), requestOptions: requestOptions)
     return try execute(command)
   }
@@ -130,7 +130,7 @@ extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: RevisionIndex  object
    */
-  @discardableResult func move(to destination: IndexName, requestOptions: RequestOptions? = nil) throws -> TaskWaitWrapper<RevisionIndex> {
+  @discardableResult func move(to destination: IndexName, requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<RevisionIndex> {
     let command = Command.Index.Operation(indexName: name, operation: .init(action: .move, destination: destination, scopes: nil), requestOptions: requestOptions)
     return try execute(command)
   }

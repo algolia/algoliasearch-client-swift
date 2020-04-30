@@ -74,7 +74,7 @@ public extension Index {
   func setSettings(_ settings: Settings,
                    resetToDefault: [Settings.Key] = [],
                    forwardToReplicas: Bool? = nil,
-                   requestOptions: RequestOptions? = nil) throws -> TaskWaitWrapper<RevisionIndex> {
+                   requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<RevisionIndex> {
     let command = Command.Settings.SetSettings(indexName: name,
                                                settings: settings,
                                                resetToDefault: resetToDefault,
