@@ -22,6 +22,14 @@
 - The Swift client integrates the actual Algolia documentation in each source file: Request parameters, response fields, methods and concepts; all are documented and link to the corresponding url of the Algolia doc website.
 - The client is thread-safe. You can use `Client`, `PlacesClient`, and `InsightsClient` in a multithreaded environment.
 
+## Install
+
+1. Add a dependency on InstantSearchClient:
+    - CocoaPods: add `pod 'AlgoliaSearchClientSwift', '~> 8.0.0-beta.3'` to your `Podfile`.
+    - Carthage: add `github "algolia/algoliasearch-client-swift" ~> 8.0.0-beta.3` to your `Cartfile`.
+	- SwiftPM: add `.package(name: "AlgoliaSearchClientSwift", url: "https://github.com/algolia/algoliasearch-client-swift", from: "8.0.0-beta.3")` to your package dependencies array in `Package.swift`, then add `AlgoliaSearchClientSwift` to your target dependencies.
+2. Add `import AlgoliaSearchClientSwift` to your source files.
+
 ## 💡 Getting Started
 
 
