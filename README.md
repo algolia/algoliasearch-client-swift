@@ -16,11 +16,12 @@
 ## ✨ Features
 
 - The Swift client is compatible with Swift `5.0.0` and higher.
-- It is compatible with Kotlin project on the JVM, such as backend and Android applications.
 - It relies on the open source Swift libraries for seamless integration into Swift projects:
   - [SwiftLog](https://github.com/apple/swift-log).
-- The Swift client integrates the actual Algolia documentation in each source file: Request parameters, response fields, methods and concepts; all are documented and link to the corresponding url of the Algolia doc website.
-- The client is thread-safe. You can use `Client`, `PlacesClient`, and `InsightsClient` in a multithreaded environment.
+- Asynchronous and synchronous methods to interact with Algolia's API
+- Thread-safe clients
+- Typed requests and responses
+- Injectable HTTP client
 
 ## Install
 
@@ -32,6 +33,65 @@
 
 ## 💡 Getting Started
 
+### Initialize the client
+
+To start, you need to initialize the client. To do this, you need your **Application ID** and **API Key**.
+You can find both on [your Algolia account](https://www.algolia.com/api-keys).
+
+```swift
+let client = Client(appID: "YourApplicationID", apiKey: "YourAdminAPIKey")
+let index = client.index(withName: "your_index_name")
+```
+
+### Push data
+
+Without any prior configuration, you can start indexing contacts in the `contacts` index using the following code:
+
+```swift
+struct Contact {
+  let firstname:  String
+  let lastname: String
+  let followersCount: Int
+  let company: String
+  let objectID: String
+}
+
+let index = client.index(withName: "contacts")
+
+let contact = Contact(firstname: "Jimmie", 
+		      lastname: "Barninger", 
+		      followersCount: 93, 
+		      company: "California Paint", 
+		      objectID: "one")
+
+try index.saveObject(contact)
+```
+
+### Search
+
+You can now search for contacts by `firstname`, `lastname`, `company`, etc. (even with typos):
+
+```swift
+// Synchronous search
+let searchResponse = try index.search(query: "jimmie")
+
+// Asynchronous search
+index.search(query: "jimmie") { result in
+  switch result {
+  case .failure(let error):
+    ...
+  case .success(let searchResponse):
+    ...
+  }
+}
+
+```
+
+For full documentation, visit the [Algolia Swift API Client's documentation](https://www.algolia.com/doc/api-client/getting-started/install/swift/).
+
+## 📝 Examples
+
+You can find code samples in the [Algolia's API Clients playground](https://github.com/algolia/api-clients-playground/tree/master/java/src/main/swift).
 
 ## 📄 License
 
