@@ -15,7 +15,7 @@
 
 ## ✨ Features
 
-- The Swift client is compatible with Swift `5.0.0` and higher.
+- The Swift client is compatible with Swift 5 and higher.
 - It relies on the open source Swift libraries for seamless integration into Swift projects:
   - [SwiftLog](https://github.com/apple/swift-log).
 - Asynchronous and synchronous methods to interact with Algolia's API
@@ -26,9 +26,23 @@
 ## Install
 
 1. Add a dependency on InstantSearchClient:
-    - CocoaPods: add `pod 'AlgoliaSearchClientSwift', '~> 8.0.0-beta.3'` to your `Podfile`.
-    - Carthage: add `github "algolia/algoliasearch-client-swift" ~> 8.0.0-beta.3` to your `Cartfile`.
-	- SwiftPM: add `.package(name: "AlgoliaSearchClientSwift", url: "https://github.com/algolia/algoliasearch-client-swift", from: "8.0.0-beta.3")` to your package dependencies array in `Package.swift`, then add `AlgoliaSearchClientSwift` to your target dependencies.
+    - CocoaPods
+    	add `pod 'AlgoliaSearchClientSwift', '~> 8.0.0-beta.3'` to your `Podfile`.
+    - Carthage 
+      - add `github "algolia/algoliasearch-client-swift" ~> 8.0.0-beta.3` to your `Cartfile`.
+      - launch the following commands from the project directory
+		   ```shell
+		   carthage update
+		   cd Carthage/Checkouts/algoliasearch-client-swift
+		   swift package generate-xcodeproj
+		   cd ../swift-log
+		   swift package generate-xcodeproj
+		   cd ../../..
+		   carthage build
+		   ```
+    - Swift Package Manager
+      - add `.package(name: "AlgoliaSearchClientSwift", url: "https://github.com/algolia/algoliasearch-client-swift", from: "8.0.0-beta.3")` to your package dependencies array in `Package.swift`
+      - add `AlgoliaSearchClientSwift` to your target dependencies.
 2. Add `import AlgoliaSearchClientSwift` to your source files.
 
 ## 💡 Getting Started
