@@ -9,6 +9,6 @@ import Foundation
 
 public struct Rule: Codable {
   
-  
+  public let objectID: ObjectID
   
 }
