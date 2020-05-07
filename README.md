@@ -33,11 +33,7 @@
       - launch the following commands from the project directory
 		   ```shell
 		   carthage update
-		   cd Carthage/Checkouts/algoliasearch-client-swift
-		   swift package generate-xcodeproj
-		   cd ../swift-log
-		   swift package generate-xcodeproj
-		   cd ../../..
+		   ./Carthage/Checkouts/algoliasearch-client-swift/carthage-prebuild
 		   carthage build
 		   ```
     - Swift Package Manager
