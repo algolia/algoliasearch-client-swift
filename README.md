@@ -101,7 +101,7 @@ For full documentation, visit the [Algolia Swift API Client's documentation](htt
 
 ## 📝 Examples
 
-You can find code samples in the [Algolia's API Clients playground](https://github.com/algolia/api-clients-playground/tree/master/java/src/main/swift).
+You can find code samples in the [Algolia's API Clients playground](https://github.com/algolia/api-clients-playground/tree/master/swift).
 
 ## 📄 License
 
