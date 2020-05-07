@@ -1,5 +1,5 @@
 //
-//  SearchConfigration.swift
+//  SearchConfiguration.swift
 //  
 //
 //  Created by Vladislav Fitc on 20/02/2020.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct SearchConfigration: Configuration, Credentials {
+public struct SearchConfiguration: Configuration, Credentials {
 
   public let applicationID: ApplicationID
 

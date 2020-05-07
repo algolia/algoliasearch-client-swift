@@ -11,7 +11,7 @@ extension URLSessionTask: Cancellable {}
 
 extension URLSession: HTTPRequester {
 
-  func perform<T: Codable>(request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) -> TransportTask {
+  public func perform<T: Codable>(request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) -> TransportTask {
     let task = dataTask(with: request) { (data, response, error) in
       let result = Result<T, Error>(data: data, response: response, error: error)
       completion(result)
