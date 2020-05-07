@@ -25,19 +25,27 @@ public struct Client: Credentials {
 
   public init(appID: ApplicationID, apiKey: APIKey) {
 
-    let configuration = SearchConfigration(applicationID: appID, apiKey: apiKey)
+    let configuration = SearchConfiguration(applicationID: appID, apiKey: apiKey)
+    
     let sessionConfiguration: URLSessionConfiguration = .default
     sessionConfiguration.httpAdditionalHeaders = configuration.defaultHeaders
-
     let session = URLSession(configuration: sessionConfiguration)
-    let retryStrategy = AlgoliaRetryStrategy(configuration: configuration)
 
+    self.init(configuration: configuration, requester: session)
+
+  }
+  
+  public init(configuration: SearchConfiguration, requester: HTTPRequester) {
+    
     let queue = OperationQueue()
     queue.qualityOfService = .userInitiated
     let operationLauncher = OperationLauncher(queue: queue)
+    
+    let retryStrategy = AlgoliaRetryStrategy(configuration: configuration)
 
-    let httpTransport = HttpTransport(requester: session, configuration: configuration, retryStrategy: retryStrategy, credentials: configuration, operationLauncher: operationLauncher)
+    let httpTransport = HttpTransport(requester: requester, configuration: configuration, retryStrategy: retryStrategy, credentials: configuration, operationLauncher: operationLauncher)
     self.init(transport: httpTransport, operationLauncher: operationLauncher, configuration: configuration)
+    
   }
 
   init(transport: Transport, operationLauncher: OperationLauncher, configuration: Configuration) {
