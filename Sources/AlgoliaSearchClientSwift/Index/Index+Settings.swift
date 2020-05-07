@@ -8,9 +8,9 @@
 import Foundation
 
 public extension Index {
-
+  
   // MARK: - Get Settings
-
+  
   /**
    Get the Settings of an index.
    - Parameter requestOptions: Configure request locally with RequestOptions.
@@ -18,24 +18,22 @@ public extension Index {
    */
   @discardableResult func getSettings(requestOptions: RequestOptions? = nil,
                                       completion: @escaping ResultCallback<Settings>) -> Operation & TransportTask {
-    let command = Command.Settings.GetSettings(indexName: name,
-                                               requestOptions: requestOptions)
+    let command = Command.Settings.GetSettings(indexName: name, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-
+  
   /**
    Get the Settings of an index.
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: Settings object
    */
   func getSettings(requestOptions: RequestOptions? = nil) throws -> Settings {
-    let command = Command.Settings.GetSettings(indexName: name,
-                                               requestOptions: requestOptions)
+    let command = Command.Settings.GetSettings(indexName: name, requestOptions: requestOptions)
     return try execute(command)
   }
-
+  
   // Set settings
-
+  
   /**
    Create or change an index’s Settings.
    Only non-null settings are overridden; null settings are left unchanged
@@ -59,7 +57,7 @@ public extension Index {
                                                requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-
+  
   /**
    Create or change an index’s Settings.
    Only non-null settings are overridden; null settings are left unchanged
@@ -71,10 +69,10 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: RevisionIndex object
    */
-  func setSettings(_ settings: Settings,
-                   resetToDefault: [Settings.Key] = [],
-                   forwardToReplicas: Bool? = nil,
-                   requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<RevisionIndex> {
+  @discardableResult func setSettings(_ settings: Settings,
+                                      resetToDefault: [Settings.Key] = [],
+                                      forwardToReplicas: Bool? = nil,
+                                      requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<RevisionIndex> {
     let command = Command.Settings.SetSettings(indexName: name,
                                                settings: settings,
                                                resetToDefault: resetToDefault,
@@ -82,5 +80,5 @@ public extension Index {
                                                requestOptions: requestOptions)
     return try execute(command)
   }
-
+  
 }

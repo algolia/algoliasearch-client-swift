@@ -21,8 +21,6 @@ extension String {
     self = randomString
   }
   
-  static func random(length: Int) -> String {
-    return .init(randomWithLength: length)
-  }
+  static func random(length: Int) -> String { .init(randomWithLength: length) }
   
 }
