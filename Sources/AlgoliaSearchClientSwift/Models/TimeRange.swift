@@ -38,12 +38,3 @@ extension TimeRange: Codable {
   }
   
 }
-
-@available(OSX 10.12, *)
-extension TimeRange {
-  
-  var dateInterval: DateInterval {
-    return .init(start: from, end: until)
-  }
-  
-}
