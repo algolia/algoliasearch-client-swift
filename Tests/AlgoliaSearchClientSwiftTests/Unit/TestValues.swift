@@ -29,4 +29,32 @@ struct TestValues {
   let taskID: TaskID = "testTaskID"
   let requestOptions = RequestOptions(headers: ["testHeader": "testHeaderValue"], urlParameters: ["testParameter": "testParameterValue"])
   let cursor: Cursor = "testCursor"
+  
+  var rule: Rule = {
+    let condition = Rule.Condition()
+      .set(\.anchoring, to: .is)
+      .set(\.pattern, to: .facet("attribute"))
+      .set(\.context, to: "test context")
+      .set(\.alternatives, to: .false)
+    
+    let consequence = Rule.Consequence()
+      .set(\.automaticFacetFilters, to: [.init(attribute: "attr1", score: 10, isDisjunctive: true)])
+      .set(\.automaticOptionalFacetFilters, to: [.init(attribute: "attr2", score: 20, isDisjunctive: false)])
+      .set(\.query, to: Query.empty.set(\.filters, to: "brand:samsung"))
+      .set(\.queryTextAlteration, to: .replacement("replacement"))
+      .set(\.promote, to: [.init(objectID: "o1", position: 1)])
+      .set(\.filterPromotes, to: true)
+      .set(\.hide, to: ["o1", "o2"])
+      .set(\.userData, to: ["myKey": "myValue"])
+    
+    let date = Date()
+    let timeRange = TimeRange(from: date, until: date.addingTimeInterval(.days(10)))
+    
+    return Rule(objectID: "testObjectID")
+      .set(\.condition, to: condition)
+      .set(\.consequence, to: consequence)
+      .set(\.isEnabled, to: true)
+      .set(\.validity, to: [timeRange])
+      .set(\.description, to: "test description")
+  }()
 }

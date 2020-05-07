@@ -264,9 +264,7 @@ public protocol JSONRepresentable {
 
 extension String: JSONRepresentable {
 
-  public var json: JSON {
-    return .string(self)
-  }
+  public var json: JSON { .string(self) }
 
 }
 
@@ -281,40 +279,30 @@ extension Float: JSONRepresentable {}
 
 public extension Numeric where Self: JSONRepresentable, Self: BinaryInteger {
 
-  var json: JSON {
-    return .number(Double(self))
-  }
+  var json: JSON { .number(Double(self)) }
 
 }
 
 public extension FloatingPoint where Self: JSONRepresentable, Self: BinaryFloatingPoint {
 
-  var json: JSON {
-    return .number(Double(self))
-  }
+  var json: JSON { .number(Double(self)) }
 
 }
 
 extension Bool: JSONRepresentable {
 
-  public var json: JSON {
-    return .bool(self)
-  }
+  public var json: JSON { .bool(self) }
 
 }
 
 extension Sequence where Element: JSONRepresentable {
 
-  public var json: JSON {
-    return .init(jsonSequence: self)
-  }
+  public var json: JSON { .init(jsonSequence: self) }
 
 }
 
 extension RawRepresentable where RawValue: JSONRepresentable {
 
-  public var json: JSON {
-    return .init(self)
-  }
+  public var json: JSON { .init(self) }
 
 }

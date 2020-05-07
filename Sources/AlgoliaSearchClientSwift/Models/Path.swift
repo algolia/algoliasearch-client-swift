@@ -29,7 +29,6 @@ struct Path: PathComponent {
   static var synonyms: Self { .init("/synonyms") }
   static var eventsV1: Self { .init("/1/events") }
   static var ABTestsV2: Self { .init("/2/abtests") }
-  static var rules: Self { .init("/rules") }
   static var keysV1: Self { .init("/1/keys") }
   static var logs: Self { .init("/1/logs") }
   static var recommendation: Self { .init("/1/recommendation") }
@@ -46,9 +45,7 @@ struct IndexRoute: PathComponent {
 
   private init(_ rawValue: String) { self.rawValue = rawValue }
 
-  static func index(_ indexName: IndexName) -> Self {
-    return .init(indexName.rawValue)
-  }
+  static func index(_ indexName: IndexName) -> Self { .init(indexName.rawValue) }
 
   static var multiIndex: Self { .init("*") }
 
@@ -72,6 +69,7 @@ struct IndexCompletion: PathComponent {
   static func searchFacets(for attribute: Attribute) -> Self { .init("facets/\(attribute.rawValue)/query") }
   static var settings: Self { .init(#function) }
   static func task(for taskID: TaskID) -> Self { .init("task/\(taskID.rawValue)") }
+  static var rules: Self { .init(#function) }
 
 }
 
@@ -114,5 +112,20 @@ struct PlacesCompletion: PathComponent {
   static var query: Self { .init(#function) }
   static func objectID(_ objectID: ObjectID) -> Self { .init(objectID.rawValue) }
   static var reverse: Self { .init(#function) }
+
+}
+
+struct RuleCompletion: PathComponent {
+
+  var parent: IndexCompletion?
+
+  let rawValue: String
+
+  private init(_ rawValue: String) { self.rawValue = rawValue }
+
+  static func objectID(_ objectID: ObjectID) -> Self { .init(objectID.rawValue) }
+  static var search: Self { .init(#function) }
+  static var clear: Self { .init(#function) }
+  static var batch: Self { .init(#function) }
 
 }
