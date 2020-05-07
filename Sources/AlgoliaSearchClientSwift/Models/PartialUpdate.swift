@@ -17,7 +17,7 @@ public struct PartialUpdate: Equatable {
 public extension PartialUpdate {
 
   static func update(attribute: Attribute, value: JSON) -> Self {
-    return .init(attribute: attribute, content: .init(value: value, operation: nil))
+    .init(attribute: attribute, content: .init(value: value, operation: nil))
   }
 
 }
@@ -25,15 +25,15 @@ public extension PartialUpdate {
 public extension PartialUpdate {
 
   static func increment(attribute: Attribute, value: Int) -> Self {
-    return .operation(attribute: attribute, operation: .increment, value: .init(value))
+    .operation(attribute: attribute, operation: .increment, value: .init(value))
   }
 
   static func increment(attribute: Attribute, value: Float) -> Self {
-    return .operation(attribute: attribute, operation: .increment, value: .init(value))
+    .operation(attribute: attribute, operation: .increment, value: .init(value))
   }
 
   static func increment(attribute: Attribute, value: Double) -> Self {
-    return .operation(attribute: attribute, operation: .increment, value: .init(value))
+    .operation(attribute: attribute, operation: .increment, value: .init(value))
   }
 
 }
@@ -41,15 +41,15 @@ public extension PartialUpdate {
 public extension PartialUpdate {
 
   static func decrement(attribute: Attribute, value: Int) -> Self {
-    return .operation(attribute: attribute, operation: .decrement, value: .init(value))
+    .operation(attribute: attribute, operation: .decrement, value: .init(value))
   }
 
   static func decrement(attribute: Attribute, value: Float) -> Self {
-    return .operation(attribute: attribute, operation: .decrement, value: .init(value))
+    .operation(attribute: attribute, operation: .decrement, value: .init(value))
   }
 
   static func decrement(attribute: Attribute, value: Double) -> Self {
-    return .operation(attribute: attribute, operation: .decrement, value: .init(value))
+    .operation(attribute: attribute, operation: .decrement, value: .init(value))
   }
 
 }
@@ -57,19 +57,19 @@ public extension PartialUpdate {
 public extension PartialUpdate {
 
   static func add(attribute: Attribute, value: String, unique: Bool) -> Self {
-    return .operation(attribute: attribute, operation: unique ? .addUnique : .add, value: .init(value))
+    .operation(attribute: attribute, operation: unique ? .addUnique : .add, value: .init(value))
   }
 
   static func add(attribute: Attribute, value: Int, unique: Bool) -> Self {
-    return .operation(attribute: attribute, operation: unique ? .addUnique : .add, value: .init(value))
+    .operation(attribute: attribute, operation: unique ? .addUnique : .add, value: .init(value))
   }
 
   static func add(attribute: Attribute, value: Float, unique: Bool) -> Self {
-    return .operation(attribute: attribute, operation: unique ? .addUnique : .add, value: .init(value))
+    .operation(attribute: attribute, operation: unique ? .addUnique : .add, value: .init(value))
   }
 
   static func add(attribute: Attribute, value: Double, unique: Bool) -> Self {
-    return .operation(attribute: attribute, operation: unique ? .addUnique : .add, value: .init(value))
+    .operation(attribute: attribute, operation: unique ? .addUnique : .add, value: .init(value))
   }
 
 }
@@ -77,19 +77,19 @@ public extension PartialUpdate {
 public extension PartialUpdate {
 
   static func remove(attribute: Attribute, value: String) -> Self {
-    return .operation(attribute: attribute, operation: .remove, value: .init(value))
+    .operation(attribute: attribute, operation: .remove, value: .init(value))
   }
 
   static func remove(attribute: Attribute, value: Int) -> Self {
-    return .operation(attribute: attribute, operation: .remove, value: .init(value))
+    .operation(attribute: attribute, operation: .remove, value: .init(value))
   }
 
   static func remove(attribute: Attribute, value: Float) -> Self {
-    return .operation(attribute: attribute, operation: .remove, value: .init(value))
+    .operation(attribute: attribute, operation: .remove, value: .init(value))
   }
 
   static func remove(attribute: Attribute, value: Double) -> Self {
-    return .operation(attribute: attribute, operation: .remove, value: .init(value))
+    .operation(attribute: attribute, operation: .remove, value: .init(value))
   }
 
 }
@@ -97,7 +97,7 @@ public extension PartialUpdate {
 extension PartialUpdate {
 
   static func operation(attribute: Attribute, operation: PartialUpdate.Operation, value: JSON) -> Self {
-    return .init(attribute: attribute, content: .init(value: value, operation: operation))
+    .init(attribute: attribute, content: .init(value: value, operation: operation))
   }
 
 }

@@ -45,9 +45,7 @@ struct IndexRoute: PathComponent {
 
   private init(_ rawValue: String) { self.rawValue = rawValue }
 
-  static func index(_ indexName: IndexName) -> Self {
-    return .init(indexName.rawValue)
-  }
+  static func index(_ indexName: IndexName) -> Self { .init(indexName.rawValue) }
 
   static var multiIndex: Self { .init("*") }
 

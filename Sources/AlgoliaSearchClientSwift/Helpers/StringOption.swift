@@ -26,9 +26,7 @@ public protocol ProvidingCustomOption {
 
 public extension ProvidingCustomOption where Self: StringOption {
 
-  static func custom(_ value: String) -> Self {
-    return .init(rawValue: value)
-  }
+  static func custom(_ value: String) -> Self { .init(rawValue: value) }
 
 }
 

@@ -59,16 +59,12 @@ public extension BatchOperation {
   }
 
   static func delete(objectID: ObjectID) -> Self {
-    return .init(action: .deleteObject, bodyObject: ObjectWrapper(objectID: objectID))
+    .init(action: .deleteObject, bodyObject: ObjectWrapper(objectID: objectID))
   }
 
-  static var delete: Self {
-    return .init(action: .delete)
-  }
+  static var delete: Self { .init(action: .delete) }
 
-  static var clear: Self {
-    return .init(action: .clear)
-  }
+  static var clear: Self { .init(action: .clear) }
 
 }
 

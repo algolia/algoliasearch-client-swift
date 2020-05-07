@@ -12,7 +12,7 @@ extension Query: Codable {
 
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    query = try container.decodeIfPresent(forKey: .query)
+    query = try? container.decodeIfPresent(forKey: .query)
     attributesToRetrieve = try container.decodeIfPresent(forKey: .attributesToRetrieve)
     restrictSearchableAttributes = try container.decodeIfPresent(forKey: .restrictSearchableAttributes)
     filters = try container.decodeIfPresent(forKey: .filters)

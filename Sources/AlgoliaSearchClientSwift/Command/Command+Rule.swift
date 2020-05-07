@@ -19,7 +19,7 @@ extension Command {
       
       init(indexName: IndexName, rule: AlgoliaSearchClientSwift.Rule, forwardToReplicas: Bool?, requestOptions: RequestOptions?) {
         self.requestOptions = forwardToReplicas.flatMap { requestOptions.updateOrCreate([.forwardToReplicas: String($0)]) } ?? requestOptions
-        let path = .index(indexName) >>> .rules >>> RuleCompletion.objectID(rule.objectID)
+        let path = .indexesV1 >>> .index(indexName) >>> .rules >>> RuleCompletion.objectID(rule.objectID)
         urlRequest = .init(method: .put, path: path, body: rule.httpBody, requestOptions: self.requestOptions)
       }
       
@@ -33,7 +33,7 @@ extension Command {
       
       init(indexName: IndexName, objectID: ObjectID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .index(indexName) >>> .rules >>> RuleCompletion.objectID(objectID)
+        let path = .indexesV1 >>> .index(indexName) >>> .rules >>> RuleCompletion.objectID(objectID)
         urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)
       }
       
@@ -47,7 +47,7 @@ extension Command {
       
       init(indexName: IndexName, objectID: ObjectID, forwardToReplicas: Bool?, requestOptions: RequestOptions?) {
         self.requestOptions = forwardToReplicas.flatMap { requestOptions.updateOrCreate([.forwardToReplicas: String($0)]) } ?? requestOptions
-        let path = .index(indexName) >>> .rules >>> RuleCompletion.objectID(objectID)
+        let path = .indexesV1 >>> .index(indexName) >>> .rules >>> RuleCompletion.objectID(objectID)
         urlRequest = .init(method: .delete, path: path, requestOptions: self.requestOptions)
       }
       
@@ -61,7 +61,7 @@ extension Command {
       
       init(indexName: IndexName, query: RuleQuery, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .index(indexName) >>> .rules >>> RuleCompletion.search
+        let path = .indexesV1 >>> .index(indexName) >>> .rules >>> RuleCompletion.search
         urlRequest = .init(method: .post, path: path, body: query.httpBody, requestOptions: self.requestOptions)
       }
       
@@ -75,7 +75,7 @@ extension Command {
       
       init(indexName: IndexName, forwardToReplicas: Bool?, requestOptions: RequestOptions?) {
         self.requestOptions = forwardToReplicas.flatMap { requestOptions.updateOrCreate([.forwardToReplicas: String($0)]) } ?? requestOptions
-        let path = .index(indexName) >>> .rules >>> RuleCompletion.clear
+        let path = .indexesV1 >>> .index(indexName) >>> .rules >>> RuleCompletion.clear
         urlRequest = .init(method: .post, path: path, requestOptions: self.requestOptions)
       }
       
@@ -92,7 +92,7 @@ extension Command {
         forwardToReplicas.flatMap { parameters[.forwardToReplicas] = String($0) }
         clearExistingRules.flatMap { parameters[.clearExistingRules] = String($0) }
         self.requestOptions = requestOptions.updateOrCreate(parameters)
-        let path = .index(indexName) >>> .rules >>> RuleCompletion.batch
+        let path = .indexesV1 >>> .index(indexName) >>> .rules >>> RuleCompletion.batch
         urlRequest = .init(method: .post, path: path, body: rules.httpBody, requestOptions: self.requestOptions)
       }
       
