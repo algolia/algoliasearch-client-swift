@@ -7,4 +7,26 @@
 
 import Foundation
 
-public struct SynonymQuery: Codable {}
+public struct SynonymQuery {
+  
+  /// Full text query.
+  /// - Engine default: ""
+  public var query: String?
+  
+  public init() {}
+
+}
+
+extension SynonymQuery: ExpressibleByStringLiteral {
+  
+  public init(stringLiteral value: String) {
+    self.query = value
+  }
+  
+}
+
+extension SynonymQuery: Builder {}
+
+extension SynonymQuery: Codable {
+  
+}
