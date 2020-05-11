@@ -7,4 +7,9 @@
 
 import Foundation
 
-public struct Synonym: Codable {}
+public struct Synonym: Codable {
+  
+  /// Unique identifier for the synonym.
+  public var objectID: ObjectID
+  
+}

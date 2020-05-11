@@ -28,7 +28,7 @@ public extension Index {
                                       forwardToReplicas: Bool? = nil,
                                       requestOptions: RequestOptions? = nil,
                                       completion: @escaping ResultCallback<SynonymRevision>) -> Operation {
-    let command = Command.Template.init()
+    let command = Command.Synonym.Save(indexName: name, synonym: synonym, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
   
@@ -47,7 +47,7 @@ public extension Index {
   @discardableResult func saveSynonym(_ synonym: Synonym,
                                       forwardToReplicas: Bool? = nil,
                                       requestOptions: RequestOptions? = nil) throws -> SynonymRevision {
-    let command = Command.Template.init()
+    let command = Command.Synonym.Save(indexName: name, synonym: synonym, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return try execute(command)
   }
   
@@ -79,7 +79,7 @@ public extension Index {
                                        clearExistingSynonyms: Bool? = nil,
                                        requestOptions: RequestOptions? = nil,
                                        completion: @escaping ResultCallback<SynonymRevision>) -> Operation {
-    let command = Command.Template.init()
+    let command = Command.Synonym.SaveList(indexName: name, synonyms: synonyms, forwardToReplicas: forwardToReplicas, clearExistingSynonyms: clearExistingSynonyms, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
   
@@ -107,7 +107,7 @@ public extension Index {
                                        forwardToReplicas: Bool? = nil,
                                        clearExistingSynonyms: Bool? = nil,
                                        requestOptions: RequestOptions? = nil) throws -> SynonymRevision {
-    let command = Command.Template.init()
+    let command = Command.Synonym.SaveList(indexName: name, synonyms: synonyms, forwardToReplicas: forwardToReplicas, clearExistingSynonyms: clearExistingSynonyms, requestOptions: requestOptions)
     return try execute(command)
   }
   
@@ -124,7 +124,7 @@ public extension Index {
   @discardableResult func getSynonym(objectID: ObjectID,
                                      requestOptions: RequestOptions? = nil,
                                      completion: @escaping ResultCallback<Synonym>) -> Operation {
-    let command = Command.Template.init()
+    let command = Command.Synonym.Get(indexName: name, objectID: objectID, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
   
@@ -137,7 +137,7 @@ public extension Index {
    */
   @discardableResult func getSynonym(objectID: ObjectID,
                                      requestOptions: RequestOptions? = nil) throws -> Synonym {
-    let command = Command.Template.init()
+    let command = Command.Synonym.Get(indexName: name, objectID: objectID, requestOptions: requestOptions)
     return try execute(command)
   }
   
@@ -155,7 +155,7 @@ public extension Index {
                                         forwardToReplicas: Bool? = nil,
                                         requestOptions: RequestOptions? = nil,
                                         completion: @escaping ResultCallback<DeletionIndex>) -> Operation {
-    let command = Command.Template.init()
+    let command = Command.Synonym.Delete(indexName: name, objectID: objectID, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
   
@@ -169,7 +169,7 @@ public extension Index {
   @discardableResult func deleteSynonym(objectID: ObjectID,
                                         forwardToReplicas: Bool? = nil,
                                         requestOptions: RequestOptions? = nil) throws -> DeletionIndex {
-    let command = Command.Template.init()
+    let command = Command.Synonym.Delete(indexName: name, objectID: objectID, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return try execute(command)
   }
   
@@ -186,7 +186,7 @@ public extension Index {
   @discardableResult func searchSynonyms(_ query: SynonymQuery,
                                          requestOptions: RequestOptions? = nil,
                                          completion: @escaping ResultCallback<SynonymSearchResponse>) -> Operation {
-    let command = Command.Template.init()
+    let command = Command.Synonym.Search(indexName: name, query: query, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
   
@@ -199,7 +199,7 @@ public extension Index {
    */
   @discardableResult func searchSynonyms(_ query: SynonymQuery,
                                          requestOptions: RequestOptions? = nil) throws -> SynonymSearchResponse {
-    let command = Command.Template.init()
+    let command = Command.Synonym.Search(indexName: name, query: query, requestOptions: requestOptions)
     return try execute(command)
   }
   
@@ -219,7 +219,7 @@ public extension Index {
   @discardableResult func clearSynonyms(forwardToReplicas: Bool? = nil,
                                         requestOptions: RequestOptions? = nil,
                                         completion: @escaping ResultCallback<RevisionIndex>) -> Operation {
-    let command = Command.Template.init()
+    let command = Command.Synonym.Clear(indexName: name, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
   
@@ -235,7 +235,7 @@ public extension Index {
    */
   @discardableResult func clearSynonyms(forwardToReplicas: Bool? = nil,
                                         requestOptions: RequestOptions? = nil) throws -> RevisionIndex {
-    let command = Command.Template.init()
+    let command = Command.Synonym.Clear(indexName: name, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return try execute(command)
   }
   
@@ -255,9 +255,8 @@ public extension Index {
   @discardableResult func replaceAllSynonyms(synonyms: [Synonym],
                                              forwardToReplicas: Bool? = nil,
                                              requestOptions: RequestOptions? = nil,
-                                             completion: @escaping ResultCallback<RevisionIndex>) -> Operation {
-    let command = Command.Template.init()
-    return execute(command, completion: completion)
+                                             completion: @escaping ResultCallback<SynonymRevision>) -> Operation {
+    saveSynonyms(synonyms, forwardToReplicas: forwardToReplicas, clearExistingSynonyms: true, requestOptions: requestOptions, completion: completion)
   }
   
   /**
@@ -272,9 +271,8 @@ public extension Index {
    */
   @discardableResult func replaceAllSynonyms(synonyms: [Synonym],
                                              forwardToReplicas: Bool? = nil,
-                                             requestOptions: RequestOptions? = nil) throws -> RevisionIndex {
-    let command = Command.Template.init()
-    return try execute(command)
+                                             requestOptions: RequestOptions? = nil) throws -> SynonymRevision {
+    try saveSynonyms(synonyms, forwardToReplicas: forwardToReplicas, clearExistingSynonyms: true, requestOptions: requestOptions)
   }
   
 }

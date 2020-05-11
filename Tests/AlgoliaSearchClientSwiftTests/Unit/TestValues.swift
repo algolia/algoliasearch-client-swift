@@ -57,4 +57,9 @@ struct TestValues {
       .set(\.validity, to: [timeRange])
       .set(\.description, to: "test description")
   }()
+  
+  var synonym: Synonym = {
+    Synonym(objectID: "testObjectID")
+  }()
+  
 }
