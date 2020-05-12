@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct SearchesResponse: Codable {
+public struct SearchesResponse: Codable {
 
   /// List of result in the order they were submitted, one element for each IndexQuery.
-  let results: [SearchResponse]
+  public let results: [SearchResponse]
 
 }

@@ -59,7 +59,7 @@ struct TestValues {
   }()
   
   var synonym: Synonym = {
-    Synonym(objectID: "testObjectID")
+    Synonym.oneWay(objectID: "testObjectID", input: "", synonyms: [])
   }()
   
 }

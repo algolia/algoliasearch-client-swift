@@ -63,7 +63,7 @@ class APIKeysIntegrationTests: OnlineTestCase {
     XCTAssertLessThan(addedKeyResponse.validity, 600)
     XCTAssertGreaterThan(addedKeyResponse.validity, 500)
 
-    let keysList = try index.listAPIKeys()
+    let keysList = try index.listAPIKeys().keys
     XCTAssert(keysList.contains(where: { $0.key == addedKey.key }))
     
     try index.updateAPIKey(addedKey.key, with: APIKeyParameters(ACLs: []).set(\.maxHitsPerQuery, to: 42))

@@ -49,9 +49,9 @@ public extension Client {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func listIndexAPIKeys(requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<[APIKeyResponse]>) -> Operation {
+  @discardableResult func listIndexAPIKeys(requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ListAPIKeysResponse>) -> Operation {
     let command = Command.MultipleIndex.ListIndexAPIKeys(requestOptions: requestOptions)
-    return execute(command, transform: \ListAPIKeysResponse.keys, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -60,9 +60,9 @@ public extension Client {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: ListAPIKeyResponse  object
    */
-  @discardableResult func listIndexAPIKeys(requestOptions: RequestOptions? = nil) throws -> [APIKeyResponse] {
+  @discardableResult func listIndexAPIKeys(requestOptions: RequestOptions? = nil) throws -> ListAPIKeysResponse {
     let command = Command.MultipleIndex.ListIndexAPIKeys(requestOptions: requestOptions)
-    return try execute(command, transform: \ListAPIKeysResponse.keys)
+    return try execute(command)
   }
 
   // MARK: - Multiple queries
@@ -76,9 +76,9 @@ public extension Client {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func multipleQueries(queries: [(IndexName, Query)], strategy: MultipleQueriesStrategy = .none, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<[SearchResponse]>) -> Operation {
+  @discardableResult func multipleQueries(queries: [(IndexName, Query)], strategy: MultipleQueriesStrategy = .none, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchesResponse>) -> Operation {
     let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
-    return execute(command, transform: \SearchesResponse.results, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -89,9 +89,9 @@ public extension Client {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: List of SearchResponse  object
    */
-  @discardableResult func multipleQueries(queries: [(IndexName, Query)], strategy: MultipleQueriesStrategy = .none, requestOptions: RequestOptions? = nil) throws -> [SearchResponse] {
+  @discardableResult func multipleQueries(queries: [(IndexName, Query)], strategy: MultipleQueriesStrategy = .none, requestOptions: RequestOptions? = nil) throws -> SearchesResponse {
     let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
-    return try execute(command, transform: \SearchesResponse.results)
+    return try execute(command)
   }
 
   // MARK: - Multiple get objects
