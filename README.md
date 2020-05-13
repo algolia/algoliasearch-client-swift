@@ -25,11 +25,13 @@
 
 ## Install
 
+### Swift 5.0+
+
 1. Add a dependency on InstantSearchClient:
     - CocoaPods
-    	add `pod 'AlgoliaSearchClientSwift', '~> 8.0.0-beta.3'` to your `Podfile`.
+      - add `pod 'AlgoliaSearchClientSwift', '~> 8.0.0-beta.4'` to your `Podfile`.
     - Carthage 
-      - add `github "algolia/algoliasearch-client-swift" ~> 8.0.0-beta.3` to your `Cartfile`.
+      - add `github "algolia/algoliasearch-client-swift" ~> 8.0.0-beta.4` to your `Cartfile`.
       - launch the following commands from the project directory
 		   ```shell
 		   carthage update
@@ -37,9 +39,33 @@
 		   carthage build
 		   ```
     - Swift Package Manager
-      - add `.package(name: "AlgoliaSearchClientSwift", url: "https://github.com/algolia/algoliasearch-client-swift", from: "8.0.0-beta.3")` to your package dependencies array in `Package.swift`
+      - add `.package(name: "AlgoliaSearchClientSwift", url: "https://github.com/algolia/algoliasearch-client-swift", from: "8.0.0-beta.4")` to your package dependencies array in `Package.swift`
       - add `AlgoliaSearchClientSwift` to your target dependencies.
 2. Add `import AlgoliaSearchClientSwift` to your source files.
+
+### Swift 4.2
+
+1. Add a dependency on InstantSearchClient:
+    - CocoaPods
+      - add `pod 'InstantSearchClient', '~> 6.0'` to your `Podfile`.
+    - Carthage: 
+      - add `github "algolia/algoliasearch-client-swift" ~> 6.0.0` to your `Cartfile`.
+    - Swift Package Manager: 
+      - add `.package(url:"https://github.com/algolia/algoliasearch-client-swift", from: "6.0.0")` to your package dependencies array in `Package.swift`
+      - add `InstantSearchClient` to your target dependencies.
+2. Add `import InstantSearchClient` to your source files.
+
+### Swift 4.1
+
+1. Add a dependency on InstantSearchClient:
+    - CocoaPods: 
+      - add `pod 'InstantSearchClient', '~> 5.0'` to your `Podfile`.
+    - Carthage: 
+      - add `github "algolia/algoliasearch-client-swift" ~> 5.0.0` to your `Cartfile`.
+    - Swift Package Manager: 
+      - add `.package(url:"https://github.com/algolia/algoliasearch-client-swift", from: "5.0.0")` to your package dependencies array in `Package.swift`
+      - add `InstantSearchClient` to your target dependencies.
+2. Add `import InstantSearchClient` to your source files.
 
 ## 💡 Getting Started
 
