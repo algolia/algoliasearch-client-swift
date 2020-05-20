@@ -19,6 +19,7 @@ public struct IndicesListResponse: Codable {
 
 }
 
+//TODO:
 public typealias ABTestShortResponse = JSON
 
 extension IndicesListResponse {

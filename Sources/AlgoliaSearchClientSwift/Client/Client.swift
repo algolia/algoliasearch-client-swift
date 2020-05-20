@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Client to perform operations on indices.
 public struct Client: Credentials {
 
   let transport: Transport
@@ -54,10 +55,12 @@ public struct Client: Credentials {
     self.configuration = configuration
   }
 
+  /// Initialize an Index configured with SearchConfiguration.
   public func index(withName indexName: IndexName) -> Index {
     return Index(name: indexName, transport: transport, operationLauncher: operationLauncher, configuration: configuration)
   }
 
+  /// Append user agent info which will be includede in each API call.
   public static func append(userAgent: UserAgent) {
     userAgents.insert(userAgent)
   }
