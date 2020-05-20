@@ -48,6 +48,9 @@ public struct Log {
 
   /// IndexName of the log.
   public let indexName: IndexName?
+  
+  /// Contains an object for each performed query with the indexName, queryID, offset, and userToken.
+  public let innerQueries: [InnerQuery]?
 
   public let exhaustiveNbHits: Bool?
 
@@ -84,6 +87,7 @@ extension Log: Codable {
     case exhaustiveNbHits = "exhaustive_nb_hits"
     case exhaustiveFaceting = "exhaustive_faceting"
     case queryParams = "query_params"
+    case innerQueries = "inner_queries"
   }
 
   public init(from decoder: Decoder) throws {
@@ -104,7 +108,7 @@ extension Log: Codable {
     exhaustiveNbHits = try container.decodeIfPresent(forKey: .exhaustiveNbHits)
     exhaustiveFaceting = try container.decodeIfPresent(forKey: .exhaustiveFaceting)
     queryParams = try container.decodeIfPresent(forKey: .queryParams)
-
+    innerQueries = try container.decodeIfPresent(forKey: .innerQueries)
   }
 
   public func encode(to encoder: Encoder) throws {
@@ -125,6 +129,27 @@ extension Log: Codable {
     try container.encodeIfPresent(exhaustiveNbHits, forKey: .exhaustiveNbHits)
     try container.encodeIfPresent(exhaustiveFaceting, forKey: .exhaustiveFaceting)
     try container.encodeIfPresent(queryParams, forKey: .queryParams)
+    try container.encodeIfPresent(innerQueries, forKey: .innerQueries)
   }
 
+}
+
+extension Log {
+  
+  public struct InnerQuery: Codable {
+    
+    public let indexName: IndexName?
+    public let queryID: QueryID?
+    public let offset: Int?
+    public let userToken: UserToken?
+    
+    enum CodingKeys: String, CodingKey {
+      case indexName = "index_name"
+      case queryID = "query_id"
+      case offset
+      case userToken = "user_token"
+    }
+    
+  }
+  
 }
