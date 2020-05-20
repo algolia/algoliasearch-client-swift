@@ -7,4 +7,13 @@
 
 import Foundation
 
-public struct SynonymSearchResponse: Codable {}
+public struct SynonymSearchResponse: Codable {
+  
+  /// A list of Hit.
+  public let hits: [Hit]
+
+  /// Number of hits.
+  public let nbHits: Int
+  
+  
+}

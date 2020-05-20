@@ -46,7 +46,7 @@ public extension Index {
    */
   @discardableResult func saveSynonym(_ synonym: Synonym,
                                       forwardToReplicas: Bool? = nil,
-                                      requestOptions: RequestOptions? = nil) throws -> SynonymRevision {
+                                      requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<SynonymRevision> {
     let command = Command.Synonym.Save(indexName: name, synonym: synonym, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return try execute(command)
   }
@@ -78,7 +78,7 @@ public extension Index {
                                        forwardToReplicas: Bool? = nil,
                                        clearExistingSynonyms: Bool? = nil,
                                        requestOptions: RequestOptions? = nil,
-                                       completion: @escaping ResultCallback<SynonymRevision>) -> Operation {
+                                       completion: @escaping ResultCallback<RevisionIndex>) -> Operation {
     let command = Command.Synonym.SaveList(indexName: name, synonyms: synonyms, forwardToReplicas: forwardToReplicas, clearExistingSynonyms: clearExistingSynonyms, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
@@ -106,7 +106,7 @@ public extension Index {
   @discardableResult func saveSynonyms(_ synonyms: [Synonym],
                                        forwardToReplicas: Bool? = nil,
                                        clearExistingSynonyms: Bool? = nil,
-                                       requestOptions: RequestOptions? = nil) throws -> SynonymRevision {
+                                       requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<RevisionIndex> {
     let command = Command.Synonym.SaveList(indexName: name, synonyms: synonyms, forwardToReplicas: forwardToReplicas, clearExistingSynonyms: clearExistingSynonyms, requestOptions: requestOptions)
     return try execute(command)
   }
@@ -168,7 +168,7 @@ public extension Index {
    */
   @discardableResult func deleteSynonym(objectID: ObjectID,
                                         forwardToReplicas: Bool? = nil,
-                                        requestOptions: RequestOptions? = nil) throws -> DeletionIndex {
+                                        requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<DeletionIndex> {
     let command = Command.Synonym.Delete(indexName: name, objectID: objectID, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return try execute(command)
   }
@@ -234,7 +234,7 @@ public extension Index {
    - Returns: RevisionIndex object
    */
   @discardableResult func clearSynonyms(forwardToReplicas: Bool? = nil,
-                                        requestOptions: RequestOptions? = nil) throws -> RevisionIndex {
+                                        requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<RevisionIndex> {
     let command = Command.Synonym.Clear(indexName: name, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return try execute(command)
   }
@@ -255,7 +255,7 @@ public extension Index {
   @discardableResult func replaceAllSynonyms(synonyms: [Synonym],
                                              forwardToReplicas: Bool? = nil,
                                              requestOptions: RequestOptions? = nil,
-                                             completion: @escaping ResultCallback<SynonymRevision>) -> Operation {
+                                             completion: @escaping ResultCallback<RevisionIndex>) -> Operation {
     saveSynonyms(synonyms, forwardToReplicas: forwardToReplicas, clearExistingSynonyms: true, requestOptions: requestOptions, completion: completion)
   }
   
@@ -271,7 +271,7 @@ public extension Index {
    */
   @discardableResult func replaceAllSynonyms(synonyms: [Synonym],
                                              forwardToReplicas: Bool? = nil,
-                                             requestOptions: RequestOptions? = nil) throws -> SynonymRevision {
+                                             requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<RevisionIndex> {
     try saveSynonyms(synonyms, forwardToReplicas: forwardToReplicas, clearExistingSynonyms: true, requestOptions: requestOptions)
   }
   
