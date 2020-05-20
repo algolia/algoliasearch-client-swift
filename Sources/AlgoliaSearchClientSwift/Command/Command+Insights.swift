@@ -19,8 +19,8 @@ extension Command {
 
       init(events: [InsightsEvent], requestOptions: RequestOptions?) {
         let body = EventsWrapper(events)
-        self.urlRequest = .init(method: .post, path: Path.eventsV1, body: body.httpBody, requestOptions: requestOptions)
         self.requestOptions = requestOptions
+        self.urlRequest = .init(method: .post, path: Path.eventsV1, body: body.httpBody, requestOptions: self.requestOptions)
       }
 
     }

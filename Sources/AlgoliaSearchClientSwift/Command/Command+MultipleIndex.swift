@@ -32,7 +32,7 @@ extension Command {
 
       init(requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.urlRequest = .init(method: .get, path: .indexesV1 >>> .multiIndex >>> MultiIndexCompletion.keys, requestOptions: requestOptions)
+        self.urlRequest = .init(method: .get, path: .indexesV1 >>> .multiIndex >>> MultiIndexCompletion.keys, requestOptions: self.requestOptions)
       }
 
     }
@@ -56,7 +56,7 @@ extension Command {
       init(queries: [IndexQuery], strategy: MultipleQueriesStrategy = .none, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let body = MultipleQueriesRequest(requests: queries, strategy: strategy).httpBody
-        self.urlRequest = .init(method: .post, path: .indexesV1 >>> .multiIndex >>> MultiIndexCompletion.queries, body: body, requestOptions: requestOptions)
+        self.urlRequest = .init(method: .post, path: .indexesV1 >>> .multiIndex >>> MultiIndexCompletion.queries, body: body, requestOptions: self.requestOptions)
       }
 
     }
@@ -75,7 +75,7 @@ extension Command {
       init(requests: [ObjectRequest], requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let body = RequestsWrapper(requests).httpBody
-        self.urlRequest = .init(method: .post, path: .indexesV1 >>> .multiIndex >>> MultiIndexCompletion.objects, body: body, requestOptions: requestOptions)
+        self.urlRequest = .init(method: .post, path: .indexesV1 >>> .multiIndex >>> MultiIndexCompletion.objects, body: body, requestOptions: self.requestOptions)
       }
 
     }
@@ -93,7 +93,7 @@ extension Command {
       init(operations: [IndexBatchOperation], requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let body = RequestsWrapper(operations).httpBody
-        self.urlRequest = .init(method: .post, path: .indexesV1 >>> .multiIndex >>> MultiIndexCompletion.batch, body: body, requestOptions: requestOptions)
+        self.urlRequest = .init(method: .post, path: .indexesV1 >>> .multiIndex >>> MultiIndexCompletion.batch, body: body, requestOptions: self.requestOptions)
       }
 
     }

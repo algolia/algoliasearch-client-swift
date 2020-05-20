@@ -22,10 +22,7 @@ extension Command {
            requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.query
-        urlRequest = .init(method: .post,
-                           path: path,
-                           body: query.httpBody,
-                           requestOptions: requestOptions)
+        urlRequest = .init(method: .post, path: path, body: query.httpBody, requestOptions: self.requestOptions)
       }
 
     }
@@ -64,7 +61,7 @@ extension Command {
         effectiveQuery.customParameters = parameters
         let body = ParamsWrapper(effectiveQuery.urlEncodedString).httpBody
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.searchFacets(for: attribute)
-        urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
+        urlRequest = .init(method: .post, path: path, body: body, requestOptions: self.requestOptions)
       }
 
     }

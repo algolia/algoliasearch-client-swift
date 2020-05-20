@@ -21,9 +21,7 @@ extension Command {
            requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.settings
-        urlRequest = .init(method: .get,
-                           path: path,
-                           requestOptions: requestOptions)
+        urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)
       }
 
     }
@@ -39,16 +37,12 @@ extension Command {
            resetToDefault: [AlgoliaSearchClientSwift.Settings.Key],
            forwardToReplicas: Bool?,
            requestOptions: RequestOptions?) {
-        let requestOptions = requestOptions.updateOrCreate({
+        self.requestOptions = requestOptions.updateOrCreate({
           guard let forwardToReplicas = forwardToReplicas else { return [:] }
           return [.forwardToReplicas: "\(forwardToReplicas)"]
         }())
-        self.requestOptions = requestOptions
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.settings
-        urlRequest = .init(method: .put,
-                           path: path,
-                           body: settings.httpBody,
-                           requestOptions: requestOptions)
+        urlRequest = .init(method: .put, path: path, body: settings.httpBody, requestOptions: self.requestOptions)
       }
 
     }

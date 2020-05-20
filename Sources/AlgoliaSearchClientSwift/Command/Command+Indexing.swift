@@ -20,10 +20,7 @@ extension Command {
       init<T: Codable>(indexName: IndexName, record: T, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let path = .indexesV1 >>> IndexRoute.index(indexName)
-        urlRequest = .init(method: .post,
-                           path: path,
-                           body: record.httpBody,
-                           requestOptions: requestOptions)
+        urlRequest = .init(method: .post, path: path, body: record.httpBody, requestOptions: self.requestOptions)
       }
 
     }
@@ -42,7 +39,7 @@ extension Command {
         }() )
         self.requestOptions = requestOptions
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objectID(objectID)
-        urlRequest = .init(method: .get, path: path, requestOptions: requestOptions)
+        urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)
       }
 
     }
@@ -56,7 +53,7 @@ extension Command {
       init<T: Codable>(indexName: IndexName, objectID: ObjectID, replacementObject record: T, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objectID(objectID)
-        urlRequest = .init(method: .put, path: path, body: record.httpBody, requestOptions: requestOptions)
+        urlRequest = .init(method: .put, path: path, body: record.httpBody, requestOptions: self.requestOptions)
       }
 
     }
@@ -70,7 +67,7 @@ extension Command {
       init(indexName: IndexName, objectID: ObjectID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objectID(objectID)
-        urlRequest = .init(method: .delete, path: path, requestOptions: requestOptions)
+        urlRequest = .init(method: .delete, path: path, requestOptions: self.requestOptions)
       }
 
     }
@@ -85,7 +82,7 @@ extension Command {
         self.requestOptions = requestOptions
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.deleteByQuery
         let body = ParamsWrapper(query.urlEncodedString).httpBody
-        urlRequest = .init(method: .post, path: path, body: body, requestOptions: requestOptions)
+        urlRequest = .init(method: .post, path: path, body: body, requestOptions: self.requestOptions)
       }
 
     }
@@ -118,7 +115,7 @@ extension Command {
       init(indexName: IndexName, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.clear
-        urlRequest = .init(method: .post, path: path, requestOptions: requestOptions)
+        urlRequest = .init(method: .post, path: path, requestOptions: self.requestOptions)
       }
 
     }

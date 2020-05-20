@@ -18,8 +18,8 @@ extension Command {
       let requestOptions: RequestOptions?
 
       init(query: PlacesQuery, requestOptions: RequestOptions?) {
-        self.urlRequest = .init(method: .post, path: .places >>> PlacesCompletion.query, body: query.httpBody, requestOptions: requestOptions)
         self.requestOptions = requestOptions
+        self.urlRequest = .init(method: .post, path: .places >>> PlacesCompletion.query, body: query.httpBody, requestOptions: self.requestOptions)
       }
 
     }
@@ -31,8 +31,8 @@ extension Command {
       let requestOptions: RequestOptions?
 
       init(objectID: ObjectID, requestOptions: RequestOptions?) {
-        self.urlRequest = .init(method: .get, path: .places >>> PlacesCompletion.objectID(objectID), requestOptions: requestOptions)
         self.requestOptions = requestOptions
+        self.urlRequest = .init(method: .get, path: .places >>> PlacesCompletion.objectID(objectID), requestOptions: self.requestOptions)
       }
 
     }
@@ -44,13 +44,12 @@ extension Command {
       let requestOptions: RequestOptions?
 
       init(geolocation: Point, language: Language?, hitsPerPage: Int?, requestOptions: RequestOptions?) {
-        let requestOptions = requestOptions.updateOrCreate([
+        self.requestOptions = requestOptions.updateOrCreate([
           .aroundLatLng: geolocation.stringForm,
           .hitsPerPage: hitsPerPage.flatMap(String.init),
           .language: language?.rawValue
           ])
-        self.urlRequest = .init(method: .get, path: .places >>> PlacesCompletion.reverse, requestOptions: requestOptions)
-        self.requestOptions = requestOptions
+        self.urlRequest = .init(method: .get, path: .places >>> PlacesCompletion.reverse, requestOptions: self.requestOptions)
       }
 
     }
