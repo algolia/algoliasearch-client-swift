@@ -10,10 +10,6 @@ import XCTest
 @testable import AlgoliaSearchClientSwift
 
 class CopyIndexIntergrationTests: OnlineTestCase {
-  
-  override var indexNameSuffix: String? {
-    "copyIndex"
-  }
 
   var sourceIndex: Index {
     return index!
@@ -25,6 +21,10 @@ class CopyIndexIntergrationTests: OnlineTestCase {
   ]
   
   let settings = Settings().set(\.attributesForFaceting, to: ["company"])
+  let rule = Rule(objectID: "company_auto_faceting")
+    .set(\.condition, to: .init(anchoring: .contains, pattern: .facet("company")))
+    .set(\.consequence, to: Rule.Consequence().set(\.automaticFacetFilters, to: [Rule.AutomaticFacetFilters(attribute: "company")]))
+  let synonym = Synonym.placeholder(objectID: "google_placeholder", placeholder: "<GOOG>", replacements: ["Google", "GOOG"])
       
   func testCopySettings() throws {
     
@@ -43,12 +43,39 @@ class CopyIndexIntergrationTests: OnlineTestCase {
     
   }
   
-  func testCopyRules() {
-    //TODO
+  func testCopyRules() throws {
+    
+    let targetIndex = client.index(withName: "copy_index_rules")
+    
+    try sourceIndex.saveRule(rule).wait()
+    
+    try sourceIndex.copy([.rules], to: targetIndex.name).wait()
+
+    let fetchedRules = try targetIndex.searchRules("").hits.map(\.rule)
+    
+    XCTAssertEqual(fetchedRules.count, 1)
+    try AssertEquallyEncoded(fetchedRules.first!, rule)
+    
+    try targetIndex.delete().wait()
+
+
   }
   
-  func testCopySynonyms() {
-    //TODO
+  func testCopySynonyms() throws {
+    
+    let targetIndex = client.index(withName: "copy_index_synonyms")
+    
+    try sourceIndex.saveSynonym(synonym).wait()
+    
+    try sourceIndex.copy([.synonyms], to: targetIndex.name).wait()
+
+    let fetchedSynonyms = try targetIndex.searchSynonyms("").hits.map(\.synonym)
+    
+    XCTAssertEqual(fetchedSynonyms.count, 1)
+    try AssertEquallyEncoded(fetchedSynonyms.first!, synonym)
+    
+    try targetIndex.delete().wait()
+    
   }
   
   func testFullCopy() throws {
@@ -57,6 +84,8 @@ class CopyIndexIntergrationTests: OnlineTestCase {
     
     try sourceIndex.saveObjects(records).wait()
     try sourceIndex.setSettings(settings).wait()
+    try sourceIndex.saveRule(rule).wait()
+    try sourceIndex.saveSynonym(synonym).wait()
     
     try sourceIndex.copy(to: targetIndex.name).wait()
     
@@ -69,9 +98,14 @@ class CopyIndexIntergrationTests: OnlineTestCase {
     let fullCopySettings = try targetIndex.getSettings()
     XCTAssertEqual(settings.attributesForFaceting, fullCopySettings.attributesForFaceting)
     
-    //TODO: Check rules
-    //TODO: Check synonyms
+    let fullCopyRules = try targetIndex.searchRules("").hits.map(\.rule)
+    XCTAssertEqual(fullCopyRules.count, 1)
+    try AssertEquallyEncoded(fullCopyRules.first!, rule)
     
+    let fullCopySynonyms = try targetIndex.searchSynonyms("").hits.map(\.synonym)
+    XCTAssertEqual(fullCopySynonyms.count, 1)
+    try AssertEquallyEncoded(fullCopySynonyms.first!, synonym)
+        
     try targetIndex.delete().wait()
 
   }
