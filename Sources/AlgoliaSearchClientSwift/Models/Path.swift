@@ -70,6 +70,7 @@ struct IndexCompletion: PathComponent {
   static var settings: Self { .init(#function) }
   static func task(for taskID: TaskID) -> Self { .init("task/\(taskID.rawValue)") }
   static var rules: Self { .init(#function) }
+  static var synonyms: Self { .init(#function) }
 
 }
 
@@ -128,4 +129,19 @@ struct RuleCompletion: PathComponent {
   static var clear: Self { .init(#function) }
   static var batch: Self { .init(#function) }
 
+}
+
+struct SynonymCompletion: PathComponent {
+  
+  var parent: IndexCompletion?
+
+  let rawValue: String
+
+  private init(_ rawValue: String) { self.rawValue = rawValue }
+  
+  static func objectID(_ objectID: ObjectID) -> Self { .init(objectID.rawValue) }
+  static var search: Self { .init(#function) }
+  static var clear: Self { .init(#function) }
+  static var batch: Self { .init(#function) }
+  
 }

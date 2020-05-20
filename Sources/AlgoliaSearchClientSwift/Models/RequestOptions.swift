@@ -61,6 +61,7 @@ public struct HTTPParameterKey: RawRepresentable, Hashable {
   public static var attributesToRetreive: HTTPParameterKey { #function }
   public static var forwardToReplicas: HTTPParameterKey { #function }
   public static var clearExistingRules: HTTPParameterKey { #function }
+  public static var clearExistingSynonyms: HTTPParameterKey { #function }
   public static var createIfNotExists: HTTPParameterKey { #function }
   public static var cursor: HTTPParameterKey { #function }
   public static var indexName: HTTPParameterKey { #function }

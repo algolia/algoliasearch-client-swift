@@ -27,6 +27,12 @@ extension Rule {
     */
     public let isDisjunctive: Bool?
     
+    public init(attribute: Attribute, score: Int? = nil, isDisjunctive: Bool? = nil) {
+      self.attribute = attribute
+      self.score = score
+      self.isDisjunctive = isDisjunctive
+    }
+    
   }
   
 }

@@ -18,7 +18,7 @@ class LogsIntergrationTests: OnlineTestCase {
   func testGetLogs() throws {
     try client.listIndices()
     try client.listIndices()
-    let logs = try client.getLogs(page: 0, hitsPerPage: 2, type: .all)
+    let logs = try client.getLogs(page: 0, hitsPerPage: 2, type: .all).logs
     XCTAssertEqual(logs.count, 2)
   }
 

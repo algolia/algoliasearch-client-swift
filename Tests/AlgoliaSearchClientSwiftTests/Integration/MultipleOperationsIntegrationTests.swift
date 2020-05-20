@@ -70,7 +70,7 @@ class MultipleOperationsIntegrationTests: OnlineTestCase {
     let results = try client.multipleQueries(queries: [
       (firstIndex.name, Query.empty.set(\.hitsPerPage, to: 2)),
       (secondIndex.name, Query.empty.set(\.hitsPerPage, to: 2)),
-    ], strategy: .none)
+      ], strategy: .none).results
     
     XCTAssertEqual(results.count, 2)
     XCTAssertEqual(results[0].nbHits, 2)
@@ -79,7 +79,7 @@ class MultipleOperationsIntegrationTests: OnlineTestCase {
     let resultsStopIfEnough = try client.multipleQueries(queries: [
       (firstIndex.name, Query.empty.set(\.hitsPerPage, to: 2)),
       (secondIndex.name, Query.empty.set(\.hitsPerPage, to: 2)),
-    ], strategy: .stopIfEnoughMatches)
+      ], strategy: .stopIfEnoughMatches).results
 
     XCTAssertEqual(resultsStopIfEnough.count, 2)
     XCTAssertEqual(resultsStopIfEnough[0].nbHits, 2)
