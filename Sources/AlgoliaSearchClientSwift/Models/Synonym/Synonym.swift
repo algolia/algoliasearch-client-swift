@@ -89,32 +89,20 @@ extension Synonym: Codable {
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(type, forKey: .type)
+    try container.encode(objectID, forKey: .objectID)
     switch self {
-    case .oneWay(let objectID, let input, let synonyms):
-      try container.encode(objectID, forKey: .objectID)
+    case .oneWay(_, let input, let synonyms):
       try container.encode(input, forKey: .input)
       try container.encode(synonyms, forKey: .synonyms)
-    case .multiWay(let objectID, let synonyms):
-      try container.encode(objectID, forKey: .objectID)
+    case .multiWay(_, let synonyms):
       try container.encode(synonyms, forKey: .synonyms)
-    case .alternativeCorrection(let objectID, let word, let corrections, _):
-      try container.encode(objectID, forKey: .objectID)
+    case .alternativeCorrection(_, let word, let corrections, _):
       try container.encode(word, forKey: .word)
       try container.encode(corrections, forKey: .corrections)
-    case .placeholder(let objectID, let placeholder, let replacements):
-      try container.encode(objectID, forKey: .objectID)
+    case .placeholder(_, let placeholder, let replacements):
       try container.encode(placeholder, forKey: .placeholder)
       try container.encode(replacements, forKey: .replacements)
     }
   }
   
-}
-
-
-enum SynonymType: String, Codable {
-  case multiWay = "synonym"
-  case oneWay = "oneWaySynonym"
-  case altCorrection1
-  case altCorrection2
-  case placeholder
 }
