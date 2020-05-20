@@ -30,9 +30,7 @@ extension Command.Index {
          requestOptions: RequestOptions?) {
       self.requestOptions = requestOptions
       let path = .indexesV1 >>> IndexRoute.index(indexName)
-      urlRequest = .init(method: .delete,
-                         path: path,
-                         requestOptions: requestOptions)
+      urlRequest = .init(method: .delete, path: path, requestOptions: self.requestOptions)
     }
 
   }
@@ -49,10 +47,7 @@ extension Command.Index {
       self.requestOptions = requestOptions
       let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.batch
       let body = RequestsWrapper(batchOperations).httpBody
-      urlRequest = .init(method: .post,
-                         path: path,
-                         body: body,
-                         requestOptions: requestOptions)
+      urlRequest = .init(method: .post, path: path, body: body, requestOptions: self.requestOptions)
     }
 
   }
@@ -66,7 +61,7 @@ extension Command.Index {
     init(indexName: IndexName, operation: IndexOperation, requestOptions: RequestOptions?) {
       self.requestOptions = requestOptions
       let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.operation
-      urlRequest = .init(method: .post, path: path, body: operation.httpBody, requestOptions: requestOptions)
+      urlRequest = .init(method: .post, path: path, body: operation.httpBody, requestOptions: self.requestOptions)
     }
 
   }

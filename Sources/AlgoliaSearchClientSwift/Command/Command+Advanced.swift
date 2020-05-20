@@ -20,7 +20,7 @@ extension Command {
       init(indexName: IndexName, taskID: TaskID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.task(for: taskID)
-        urlRequest = .init(method: .get, path: path, requestOptions: requestOptions)
+        urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)
       }
     }
 
@@ -39,7 +39,7 @@ extension Command {
             .merging([.type: logType.rawValue])
         )
         self.requestOptions = requestOptions
-        urlRequest = .init(method: .get, path: Path.logs, requestOptions: requestOptions)
+        urlRequest = .init(method: .get, path: Path.logs, requestOptions: self.requestOptions)
       }
 
     }
