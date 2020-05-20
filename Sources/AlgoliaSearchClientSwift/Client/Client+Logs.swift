@@ -13,6 +13,7 @@ public extension Client {
 
   /**
    Get the logs of the latest search and indexing operations.
+   
    You can retrieve the logs of your last 1,000 API calls. It is designed for immediate, real-time debugging.
    All logs older than 7 days will be removed and won’t be accessible anymore from the API.
    This API is counted in your operation quota but is not logged.
@@ -24,13 +25,18 @@ public extension Client {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func getLogs(page: Int? = nil, hitsPerPage: Int? = nil, type: LogType = .all, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<LogsResponse>) -> Operation {
+  @discardableResult func getLogs(page: Int? = nil,
+                                  hitsPerPage: Int? = nil,
+                                  type: LogType = .all,
+                                  requestOptions: RequestOptions? = nil,
+                                  completion: @escaping ResultCallback<LogsResponse>) -> Operation {
     let command = Command.Advanced.GetLogs(indexName: nil, page: page, hitsPerPage: hitsPerPage, logType: type, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
 
   /**
    Get the logs of the latest search and indexing operations.
+   
    You can retrieve the logs of your last 1,000 API calls. It is designed for immediate, real-time debugging.
    All logs older than 7 days will be removed and won’t be accessible anymore from the API.
    This API is counted in your operation quota but is not logged.
@@ -41,7 +47,10 @@ public extension Client {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: LogsResponse  object
    */
-  @discardableResult func getLogs(page: Int? = nil, hitsPerPage: Int? = nil, type: LogType = .all, requestOptions: RequestOptions? = nil) throws -> LogsResponse {
+  @discardableResult func getLogs(page: Int? = nil,
+                                  hitsPerPage: Int? = nil,
+                                  type: LogType = .all,
+                                  requestOptions: RequestOptions? = nil) throws -> LogsResponse {
     let command = Command.Advanced.GetLogs(indexName: nil, page: page, hitsPerPage: hitsPerPage, logType: type, requestOptions: requestOptions)
     return try execute(command)
   }

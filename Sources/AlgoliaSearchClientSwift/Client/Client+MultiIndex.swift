@@ -13,6 +13,7 @@ public extension Client {
 
   /**
    Get a list of indices with their associated metadata.
+   
    This method retrieves a list of all indices associated with a given ApplicationID.
    The returned list includes the name of the index as well as its associated metadata,
    such as the number of records, size, last build time, and pending tasks.
@@ -21,13 +22,15 @@ public extension Client {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func listIndices(requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<IndicesListResponse>) -> Operation {
+  @discardableResult func listIndices(requestOptions: RequestOptions? = nil,
+                                      completion: @escaping ResultCallback<IndicesListResponse>) -> Operation {
     let command = Command.MultipleIndex.ListIndices(requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
 
   /**
    Get a list of indices with their associated metadata.
+   
    This method retrieves a list of all indices associated with a given ApplicationID.
    The returned list includes the name of the index as well as its associated metadata,
    such as the number of records, size, last build time, and pending tasks.
@@ -49,7 +52,8 @@ public extension Client {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func listIndexAPIKeys(requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ListAPIKeysResponse>) -> Operation {
+  @discardableResult func listIndexAPIKeys(requestOptions: RequestOptions? = nil,
+                                           completion: @escaping ResultCallback<ListAPIKeysResponse>) -> Operation {
     let command = Command.MultipleIndex.ListIndexAPIKeys(requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
@@ -70,13 +74,16 @@ public extension Client {
   /**
    Perform a search on several indices at the same time, with one method call.
 
-   - Parameter queries: The IndexQuery that will execute each Query against its IndexName
+   - Parameter queries: The list of tuples joining index name and a query to execute on it.
    - Parameter strategy: The MultipleQueriesStrategy of the query.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func multipleQueries(queries: [(IndexName, Query)], strategy: MultipleQueriesStrategy = .none, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SearchesResponse>) -> Operation {
+  @discardableResult func multipleQueries(queries: [(IndexName, Query)],
+                                          strategy: MultipleQueriesStrategy = .none,
+                                          requestOptions: RequestOptions? = nil,
+                                          completion: @escaping ResultCallback<SearchesResponse>) -> Operation {
     let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
@@ -84,12 +91,14 @@ public extension Client {
   /**
    Perform a search on several indices at the same time, with one method call.
    
-   - Parameter queries: The IndexQuery that will execute each Query against its IndexName
+   - Parameter queries: The list of tuples joining index name and a query to execute on it.
    - Parameter strategy: The MultipleQueriesStrategy of the query.
    - Parameter requestOptions: Configure request locally with RequestOptions
-   - Returns: List of SearchResponse  object
+   - Returns: SearchesResponse object
    */
-  @discardableResult func multipleQueries(queries: [(IndexName, Query)], strategy: MultipleQueriesStrategy = .none, requestOptions: RequestOptions? = nil) throws -> SearchesResponse {
+  @discardableResult func multipleQueries(queries: [(IndexName, Query)],
+                                          strategy: MultipleQueriesStrategy = .none,
+                                          requestOptions: RequestOptions? = nil) throws -> SearchesResponse {
     let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
     return try execute(command)
   }
@@ -105,7 +114,9 @@ public extension Client {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func multipleGetObjects(requests: [ObjectRequest], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<ObjectsResponse<JSON>>) -> Operation {
+  @discardableResult func multipleGetObjects(requests: [ObjectRequest],
+                                             requestOptions: RequestOptions? = nil,
+                                             completion: @escaping ResultCallback<ObjectsResponse<JSON>>) -> Operation {
     let command = Command.MultipleIndex.GetObjects(requests: requests, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
@@ -116,9 +127,10 @@ public extension Client {
    
    - Parameter requests: The list of objects to retrieve.
    - Parameter requestOptions: Configure request locally with RequestOptions
-   - Returns: ObjectsResponse  object
+   - Returns: ObjectsResponse object
    */
-  @discardableResult func multipleGetObjects(requests: [ObjectRequest], requestOptions: RequestOptions? = nil) throws -> ObjectsResponse<JSON> {
+  @discardableResult func multipleGetObjects(requests: [ObjectRequest],
+                                             requestOptions: RequestOptions? = nil) throws -> ObjectsResponse<JSON> {
     let command = Command.MultipleIndex.GetObjects(requests: requests, requestOptions: requestOptions)
     return try execute(command)
   }
@@ -127,29 +139,32 @@ public extension Client {
 
   /**
    Perform several indexing operations in one API call.
-   This method enables you to batch multiple different indexing operations in one API call, like add or delete
-   objects, potentially targeting multiple indices.
+   
+   This method enables you to batch multiple different indexing operations in one API call, like add or delete objects, potentially targeting multiple indices.
    
    - Parameter operations: List of IndexName and an associated BatchOperation.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func multipleBatchObjects(operations: [(IndexName, BatchOperation)], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<WaitableWrapper<BatchesResponse>>) -> Operation {
+  @discardableResult func multipleBatchObjects(operations: [(IndexName, BatchOperation)],
+                                               requestOptions: RequestOptions? = nil,
+                                               completion: @escaping ResultCallback<WaitableWrapper<BatchesResponse>>) -> Operation {
     let command = Command.MultipleIndex.BatchObjects(operations: operations, requestOptions: requestOptions)
     return execute(command, transform: { .init(batchesResponse: $0, client: self) }, completion: completion)
   }
 
   /**
    Perform several indexing operations in one API call.
-   This method enables you to batch multiple different indexing operations in one API call, like add or delete
-   objects, potentially targeting multiple indices.
+   
+   This method enables you to batch multiple different indexing operations in one API call, like add or delete objects, potentially targeting multiple indices.
    
    - Parameter operations: List of IndexName and an associated BatchOperation.
    - Parameter requestOptions: Configure request locally with RequestOptions
-   - Returns: BatchesResponse  object
+   - Returns: BatchesResponse object
    */
-  @discardableResult func multipleBatchObjects(operations: [(IndexName, BatchOperation)], requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<BatchesResponse> {
+  @discardableResult func multipleBatchObjects(operations: [(IndexName, BatchOperation)],
+                                               requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<BatchesResponse> {
     let command = Command.MultipleIndex.BatchObjects(operations: operations, requestOptions: requestOptions)
     return try execute(command, transform: { .init(batchesResponse: $0, client: self) })
   }

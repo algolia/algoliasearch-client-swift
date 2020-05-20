@@ -9,7 +9,7 @@ import Foundation
 
 /**
  * Indicate whether the HTTP call performed is of type [read] (GET) or [write] (POST, PUT ..).
- * Used to determined which timeout duration to use.
+ * Used to determine which timeout duration to use.
  */
 public enum CallType {
     case read, write
