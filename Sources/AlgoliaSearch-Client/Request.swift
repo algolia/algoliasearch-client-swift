@@ -194,7 +194,7 @@ internal class Request: AsyncOperationWithCompletion {
         self.callCompletion(content: nil, error: finalError)
       }
     }
-    task!.resume()
+    task?.resume()
   }
 
   // ----------------------------------------------------------------------
