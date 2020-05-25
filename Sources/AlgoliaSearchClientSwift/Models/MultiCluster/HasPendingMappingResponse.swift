@@ -9,7 +9,7 @@ import Foundation
 
 public struct HasPendingMappingResponse: Codable {
   
-  let isPending: Bool
-  let clusters: [ClusterName: [UserID]]?
+  public let isPending: Bool
+  public let clusters: [ClusterName: [UserID]]?
   
 }
