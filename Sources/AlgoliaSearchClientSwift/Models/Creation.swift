@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct Creation: Codable {
+public struct Creation: Codable {
 
   /// The date at which the entity has been created.
-  let createdAt: Date
+  public let createdAt: Date
 
 }

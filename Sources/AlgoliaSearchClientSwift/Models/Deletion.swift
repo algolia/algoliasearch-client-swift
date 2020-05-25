@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct Deletion: Codable {
+public struct Deletion: Codable {
 
   /// The date at which the entity has been deleted.
-  let deletedAt: Date
+  public let deletedAt: Date
 
 }
