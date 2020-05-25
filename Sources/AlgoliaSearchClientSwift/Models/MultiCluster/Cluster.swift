@@ -10,15 +10,15 @@ import Foundation
 public struct Cluster: Codable {
   
   /// Name of the cluster.
-  let name: ClusterName
+  public let name: ClusterName
   
   /// Number of records in the cluster.
-  let nbRecords: Int
+  public let nbRecords: Int
   
   /// Number of users assigned to the cluster.
-  let nbUserIDs: Int
+  public let nbUserIDs: Int
   
   /// Data size taken by all the users assigned to the cluster.
-  let dataSize: Int
+  public let dataSize: Int
   
 }

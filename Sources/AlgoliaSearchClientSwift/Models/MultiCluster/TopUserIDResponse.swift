@@ -7,4 +7,9 @@
 
 import Foundation
 
-public struct TopUserIDResponse: Codable {}
+public struct TopUserIDResponse: Codable {
+  
+  /// Mapping of ClusterName to top users.
+  public let topUsers: [ClusterName: [UserIDResponse]]
+  
+}
