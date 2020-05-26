@@ -8,7 +8,7 @@
 import Foundation
 
 public extension Client {
-
+  
   //MARK: - List clusters
   
   /**
@@ -20,7 +20,7 @@ public extension Client {
    */
   @discardableResult func listClusters(requestOptions: RequestOptions? = nil,
                                        completion: @escaping ResultCallback<ClustersListResponse>) -> Operation {
-    let command = Command.Template.init()
+    let command = Command.MultiCluster.ListClusters(requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
   
@@ -31,7 +31,7 @@ public extension Client {
    - Returns: ClustersListResponse  object
    */
   @discardableResult func listClusters(requestOptions: RequestOptions? = nil) throws -> ClustersListResponse {
-    let command = Command.Template.init()
+    let command = Command.MultiCluster.ListClusters(requestOptions: requestOptions)
     return try execute(command)
   }
   
@@ -48,11 +48,11 @@ public extension Client {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func listUserIDs(page: Int? = nil,
-                                      hitsPerPage: Int? = nil,
-                                      requestOptions: RequestOptions? = nil,
-                                      completion: @escaping ResultCallback<UserIDListResponse>) -> Operation {
-    let command = Command.Template.init()
+  @discardableResult func listUsers(page: Int? = nil,
+                                    hitsPerPage: Int? = nil,
+                                    requestOptions: RequestOptions? = nil,
+                                    completion: @escaping ResultCallback<UserIDListResponse>) -> Operation {
+    let command = Command.MultiCluster.User.GetList(page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
   
@@ -66,10 +66,10 @@ public extension Client {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: UserIDListResponse  object
    */
-  @discardableResult func listUserIDs(page: Int? = nil,
-                                      hitsPerPage: Int? = nil,
-                                      requestOptions: RequestOptions? = nil) throws -> UserIDListResponse {
-    let command = Command.Template.init()
+  @discardableResult func listUsers(page: Int? = nil,
+                                    hitsPerPage: Int? = nil,
+                                    requestOptions: RequestOptions? = nil) throws -> UserIDListResponse {
+    let command = Command.MultiCluster.User.GetList(page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
     return try execute(command)
   }
   
@@ -79,18 +79,18 @@ public extension Client {
    
    The time it takes to migrate (move) a user is proportional to the amount of data linked to the UserID.
    If UserID is unknown, we will assign the UserID to the cluster, otherwise the operation will move the UserID and its associated data from its current cluster to the new one specified by ClusterName.
-
+   
    - Parameter userID: UserID to assign.
    - Parameter clusterName: The ClusterName destination.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func assignUserID(userID: UserID,
-                                       clusterName: ClusterName,
-                                       requestOptions: RequestOptions? = nil,
-                                       completion: @escaping ResultCallback<Creation>) -> Operation {
-    let command = Command.Template.init()
+  @discardableResult func assignUser(withID userID: UserID,
+                                     to clusterName: ClusterName,
+                                     requestOptions: RequestOptions? = nil,
+                                     completion: @escaping ResultCallback<Creation>) -> Operation {
+    let command = Command.MultiCluster.User.Assign(userID: userID, clusterName: clusterName, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
   
@@ -99,136 +99,16 @@ public extension Client {
    
    The time it takes to migrate (move) a user is proportional to the amount of data linked to the UserID.
    If UserID is unknown, we will assign the UserID to the cluster, otherwise the operation will move the UserID and its associated data from its current cluster to the new one specified by ClusterName.
-
+   
    - Parameter userID: UserID to assign.
    - Parameter clusterName: The ClusterName destination.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: Creation  object
    */
-  @discardableResult func assignUserID(userID: UserID,
-                                       clusterName: ClusterName,
-                                       requestOptions: RequestOptions? = nil) throws -> Creation {
-    let command = Command.Template.init()
-    return try execute(command)
-  }
-  
-  //MARK: - Get UserID
-  
-  /**
-   Returns the UserID data stored in the mapping.
-   
-   The data returned will usually be a few seconds behind real-time, because UserID usage may take up to a few seconds to propagate to the different clusters.
-   
-   - Parameter userID: UserID to fetch
-   - Parameter requestOptions: Configure request locally with RequestOptions
-   - Parameter completion: Result completion
-   - Returns: Launched asynchronous operation
-   */
-  @discardableResult func getUserID(requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<UserIDResponse>) -> Operation {
-    let command = Command.Template.init()
-    return execute(command, completion: completion)
-  }
-  
-  /**
-   Returns the UserID data stored in the mapping.
-   
-   The data returned will usually be a few seconds behind real-time, because UserID usage may take up to a few seconds to propagate to the different clusters.
-
-   - Parameter userID: UserID to fetch
-   - Parameter requestOptions: Configure request locally with RequestOptions
-   - Returns: UserIDResponse  object
-   */
-  @discardableResult func getUserID(requestOptions: RequestOptions? = nil) throws -> UserIDResponse {
-    let command = Command.Template.init()
-    return try execute(command)
-  }
-  
-  //MARK: - Get top UserID
-  
-  /**
-   Get the top 10 ResponseUserID with the highest number of records per cluster.
-   The data returned will usually be a few seconds behind real-time, because userID usage may take up to a few seconds to propagate to the different clusters.
-   
-   - Parameter requestOptions: Configure request locally with RequestOptions
-   - Parameter completion: Result completion
-   - Returns: Launched asynchronous operation
-   */
-  @discardableResult func getTopUserID(requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<TopUserIDResponse>) -> Operation {
-    let command = Command.Template.init()
-    return execute(command, completion: completion)
-  }
-  
-  /**
-   Get the top 10 ResponseUserID with the highest number of records per cluster.
-   The data returned will usually be a few seconds behind real-time, because userID usage may take up to a few seconds to propagate to the different clusters.
-
-   - Parameter requestOptions: Configure request locally with RequestOptions
-   - Returns: TopUserIDResponse  object
-   */
-  @discardableResult func getTopUserID(requestOptions: RequestOptions? = nil) throws -> TopUserIDResponse {
-    let command = Command.Template.init()
-    return try execute(command)
-  }
-  
-  //MARK: - Remove UserID
-  
-  /**
-   Remove a UserID and its associated data from the multi-clusters.
-   
-   Even if the UserID doesn’t exist, the request to remove the UserID will still succeed because of the asynchronous handling of this request.
-   
-   - Parameter userID: UserID to remove.
-   - Parameter requestOptions: Configure request locally with RequestOptions
-   - Parameter completion: Result completion
-   - Returns: Launched asynchronous operation
-   */
-  @discardableResult func removeUserID(userID: UserID, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<Deletion>) -> Operation {
-    let command = Command.Template.init()
-    return execute(command, completion: completion)
-  }
-  
-  /**
-   Remove a UserID and its associated data from the multi-clusters.
-   
-   Even if the UserID doesn’t exist, the request to remove the UserID will still succeed because of the asynchronous handling of this request.
-   
-   - Parameter userID: UserID to remove.
-   - Parameter requestOptions: Configure request locally with RequestOptions
-   - Returns: Deletion  object
-   */
-  @discardableResult func removeUserID(userID: UserID, requestOptions: RequestOptions? = nil) throws -> Deletion {
-    let command = Command.Template.init()
-    return try execute(command)
-  }
-  
-  //MARK: - Search UserID
-  
-  /**
-   Search for UserID.
-   
-   The data returned will usually be a few seconds behind real-time, because userID usage may take up to a few seconds propagate to the different clusters.
-   
-   - Parameter query: The UserID query
-   - Parameter requestOptions: Configure request locally with RequestOptions
-   - Parameter completion: Result completion
-   - Returns: Launched asynchronous operation
-   */
-  @discardableResult func searchUserID(query: UserIDQuery, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<UserIDSearchResponse>) -> Operation {
-    let command = Command.Template.init()
-    return execute(command, completion: completion)
-  }
-  
-  /**
-   Search for UserID.
-   
-   The data returned will usually be a few seconds behind real-time, because userID usage may take up to a few seconds propagate to the different clusters.
-   
-   - Parameter query: The UserID query
-   - Parameter requestOptions: Configure request locally with RequestOptions
-   - Returns: UserIDSearchResponse  object
-   */
-  @discardableResult func searchUserID(query: UserIDQuery, requestOptions: RequestOptions? = nil) throws -> UserIDSearchResponse {
-    let command = Command.Template.init()
+  @discardableResult func assignUser(withID userID: UserID,
+                                     to clusterName: ClusterName,
+                                     requestOptions: RequestOptions? = nil) throws -> Creation {
+    let command = Command.MultiCluster.User.Assign(userID: userID, clusterName: clusterName, requestOptions: requestOptions)
     return try execute(command)
   }
   
@@ -245,8 +125,11 @@ public extension Client {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func assignUserIDs(_ userIDs: [UserID], to clusterName: ClusterName, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<Creation>) -> Operation {
-    let command = Command.Template.init()
+  @discardableResult func assignUsers(withIDs userIDs: [UserID],
+                                      to clusterName: ClusterName,
+                                      requestOptions: RequestOptions? = nil,
+                                      completion: @escaping ResultCallback<Creation>) -> Operation {
+    let command = Command.MultiCluster.User.BatchAssign(userIDs: userIDs, clusterName: clusterName, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
   
@@ -260,8 +143,141 @@ public extension Client {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: Creation  object
    */
-  @discardableResult func assignUserIDs(_ userIDs: [UserID], to clusterName: ClusterName, requestOptions: RequestOptions? = nil) throws -> Creation {
-    let command = Command.Template.init()
+  @discardableResult func assignUsers(withIDs userIDs: [UserID],
+                                      to clusterName: ClusterName,
+                                      requestOptions: RequestOptions? = nil) throws -> Creation {
+    let command = Command.MultiCluster.User.BatchAssign(userIDs: userIDs, clusterName: clusterName, requestOptions: requestOptions)
+    return try execute(command)
+  }
+  
+  
+  //MARK: - Get UserID
+  
+  /**
+   Returns the UserID data stored in the mapping.
+   
+   The data returned will usually be a few seconds behind real-time, because UserID usage may take up to a few seconds to propagate to the different clusters.
+   
+   - Parameter userID: UserID to fetch
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronous operation
+   */
+  @discardableResult func getUser(withID userID: UserID,
+                                  requestOptions: RequestOptions? = nil,
+                                  completion: @escaping ResultCallback<UserIDResponse>) -> Operation {
+    let command = Command.MultiCluster.User.Get(userID: userID, requestOptions: requestOptions)
+    return execute(command, completion: completion)
+  }
+  
+  /**
+   Returns the UserID data stored in the mapping.
+   
+   The data returned will usually be a few seconds behind real-time, because UserID usage may take up to a few seconds to propagate to the different clusters.
+   
+   - Parameter userID: UserID to fetch
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Returns: UserIDResponse  object
+   */
+  @discardableResult func getUser(withID userID: UserID,
+                                  requestOptions: RequestOptions? = nil) throws -> UserIDResponse {
+    let command = Command.MultiCluster.User.Get(userID: userID, requestOptions: requestOptions)
+    return try execute(command)
+  }
+  
+  //MARK: - Get top UserID
+  
+  /**
+   Get the top 10 ResponseUserID with the highest number of records per cluster.
+   The data returned will usually be a few seconds behind real-time, because userID usage may take up to a few seconds to propagate to the different clusters.
+   
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronous operation
+   */
+  @discardableResult func getTopUser(requestOptions: RequestOptions? = nil,
+                                     completion: @escaping ResultCallback<TopUserIDResponse>) -> Operation {
+    let command = Command.MultiCluster.User.GetTop(requestOptions: requestOptions)
+    return execute(command, completion: completion)
+  }
+  
+  /**
+   Get the top 10 ResponseUserID with the highest number of records per cluster.
+   The data returned will usually be a few seconds behind real-time, because userID usage may take up to a few seconds to propagate to the different clusters.
+   
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Returns: TopUserIDResponse  object
+   */
+  @discardableResult func getTopUser(requestOptions: RequestOptions? = nil) throws -> TopUserIDResponse {
+    let command = Command.MultiCluster.User.GetTop(requestOptions: requestOptions)
+    return try execute(command)
+  }
+  
+  //MARK: - Remove UserID
+  
+  /**
+   Remove a UserID and its associated data from the multi-clusters.
+   
+   Even if the UserID doesn’t exist, the request to remove the UserID will still succeed because of the asynchronous handling of this request.
+   
+   - Parameter userID: UserID to remove.
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronous operation
+   */
+  @discardableResult func removeUser(withID userID: UserID,
+                                     requestOptions: RequestOptions? = nil,
+                                     completion: @escaping ResultCallback<Deletion>) -> Operation {
+    let command = Command.MultiCluster.User.Remove(userID: userID, requestOptions: requestOptions)
+    return execute(command, completion: completion)
+  }
+  
+  /**
+   Remove a UserID and its associated data from the multi-clusters.
+   
+   Even if the UserID doesn’t exist, the request to remove the UserID will still succeed because of the asynchronous handling of this request.
+   
+   - Parameter userID: UserID to remove.
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Returns: Deletion  object
+   */
+  @discardableResult func removeUser(withID userID: UserID,
+                                     requestOptions: RequestOptions? = nil) throws -> Deletion {
+    let command = Command.MultiCluster.User.Remove(userID: userID, requestOptions: requestOptions)
+    return try execute(command)
+  }
+  
+  //MARK: - Search UserID
+  
+  /**
+   Search for UserID.
+   
+   The data returned will usually be a few seconds behind real-time, because userID usage may take up to a few seconds propagate to the different clusters.
+   
+   - Parameter query: The UserID query
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronous operation
+   */
+  @discardableResult func searchUser(query: UserIDQuery,
+                                     requestOptions: RequestOptions? = nil,
+                                     completion: @escaping ResultCallback<UserIDSearchResponse>) -> Operation {
+    let command = Command.MultiCluster.User.Search(userIDQuery: query, requestOptions: requestOptions)
+    return execute(command, completion: completion)
+  }
+  
+  /**
+   Search for UserID.
+   
+   The data returned will usually be a few seconds behind real-time, because userID usage may take up to a few seconds propagate to the different clusters.
+   
+   - Parameter query: The UserID query
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Returns: UserIDSearchResponse  object
+   */
+  @discardableResult func searchUser(query: UserIDQuery,
+                                     requestOptions: RequestOptions? = nil) throws -> UserIDSearchResponse {
+    let command = Command.MultiCluster.User.Search(userIDQuery: query, requestOptions: requestOptions)
     return try execute(command)
   }
   
@@ -273,8 +289,10 @@ public extension Client {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func hasPendingMapping(retrieveMapping: Bool = false, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<HasPendingMappingResponse>) -> Operation {
-    let command = Command.Template.init()
+  @discardableResult func hasPendingMapping(retrieveMapping: Bool = false,
+                                            requestOptions: RequestOptions? = nil,
+                                            completion: @escaping ResultCallback<HasPendingMappingResponse>) -> Operation {
+    let command = Command.MultiCluster.HasPendingMapping(retrieveMapping: retrieveMapping, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
   
@@ -283,9 +301,10 @@ public extension Client {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: HasPendingMappingResponse  object
    */
-  @discardableResult func hasPendingMapping(retrieveMapping: Bool = false, requestOptions: RequestOptions? = nil) throws -> HasPendingMappingResponse {
-    let command = Command.Template.init()
+  @discardableResult func hasPendingMapping(retrieveMapping: Bool = false,
+                                            requestOptions: RequestOptions? = nil) throws -> HasPendingMappingResponse {
+    let command = Command.MultiCluster.HasPendingMapping(retrieveMapping: retrieveMapping, requestOptions: requestOptions)
     return try execute(command)
   }
-
+  
 }

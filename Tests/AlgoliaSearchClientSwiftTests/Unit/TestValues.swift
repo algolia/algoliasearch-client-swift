@@ -29,6 +29,8 @@ struct TestValues {
   let taskID: TaskID = "testTaskID"
   let requestOptions = RequestOptions(headers: ["testHeader": "testHeaderValue"], urlParameters: ["testParameter": "testParameterValue"])
   let cursor: Cursor = "testCursor"
+  let userID: UserID = "testUserID"
+  let clusterName: ClusterName = "testClusterName"
   
   var rule: Rule = {
     let condition = Rule.Condition()
