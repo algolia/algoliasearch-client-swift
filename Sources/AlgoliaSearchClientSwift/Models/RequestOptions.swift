@@ -70,8 +70,9 @@ public struct HTTPParameterKey: RawRepresentable, Hashable {
   public static var type: HTTPParameterKey { #function }
   public static var language: HTTPParameterKey { #function }
   public static var aroundLatLng: HTTPParameterKey { #function }
+  public static var page: HTTPParameterKey { #function }
   public static var hitsPerPage: HTTPParameterKey { #function }
-
+  public static var getClusters: HTTPParameterKey { #function }
   public let rawValue: String
 
   public init(rawValue: String) {

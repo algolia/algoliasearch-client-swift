@@ -12,7 +12,7 @@ import XCTest
 protocol AlgoliaCommandTest {
 
   var test: TestValues { get }
-  func check(command: AlgoliaCommand, callType: CallType, method: HttpMethod, urlPath: String, queryItems: Set<URLQueryItem>, body: Data?, requestOptions: RequestOptions, file: StaticString, line: UInt)
+  func check(command: AlgoliaCommand, callType: CallType, method: HttpMethod, urlPath: String, queryItems: Set<URLQueryItem>, body: Data?, additionalHeaders: [String: String]?, requestOptions: RequestOptions, file: StaticString, line: UInt)
 
 }
 
@@ -22,11 +22,11 @@ extension AlgoliaCommandTest {
     return TestValues()
   }
 
-  func check(command: AlgoliaCommand, callType: CallType, method: HttpMethod, urlPath: String, queryItems: Set<URLQueryItem>, body: Data?, requestOptions: RequestOptions, file: StaticString = #file, line: UInt = #line) {
+  func check(command: AlgoliaCommand, callType: CallType, method: HttpMethod, urlPath: String, queryItems: Set<URLQueryItem>, body: Data?, additionalHeaders: [String: String]? = nil, requestOptions: RequestOptions, file: StaticString = #file, line: UInt = #line) {
     let request = command.urlRequest
     XCTAssertEqual(command.callType, callType, file: file, line: line)
     XCTAssertEqual(request.httpMethod, method.rawValue, file: file, line: line)
-    XCTAssertEqual(request.allHTTPHeaderFields, requestOptions.headers, file: file, line: line)
+    XCTAssertEqual(request.allHTTPHeaderFields, requestOptions.headers.merging(additionalHeaders ?? [:]), file: file, line: line)
     let comps = URLComponents(url: request.url!, resolvingAgainstBaseURL: false)!
     XCTAssertEqual(request.url?.path, urlPath, file: file, line: line)
     XCTAssertEqual(comps.queryItems.flatMap(Set.init), queryItems, file: file, line: line)

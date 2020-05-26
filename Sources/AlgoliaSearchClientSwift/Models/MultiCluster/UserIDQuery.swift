@@ -27,3 +27,14 @@ public struct UserIDQuery: Codable {
   public var hitsPerPage: Int?
   
 }
+
+extension UserIDQuery: Builder {}
+
+
+extension UserIDQuery: ExpressibleByStringLiteral {
+  
+  public init(stringLiteral value: String) {
+    self.query = value
+  }
+  
+}
