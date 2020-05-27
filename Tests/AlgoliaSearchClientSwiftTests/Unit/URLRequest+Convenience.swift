@@ -16,8 +16,8 @@ struct TestCredentials: Credentials {
 
   static let environment: TestCredentials? = {
     if
-      let appID = String(environmentVariable: "ALGOLIA_APPLICATION_ID"),
-      let apiKey = String(environmentVariable: "ALGOLIA_API_KEY") {
+      let appID = String(environmentVariable: "ALGOLIA_APPLICATION_ID_1"),
+      let apiKey = String(environmentVariable: "ALGOLIA_ADMIN_KEY_1") {
       return TestCredentials(applicationID: ApplicationID(rawValue: appID), apiKey: APIKey(rawValue: apiKey))
     } else {
       return nil
@@ -37,7 +37,7 @@ struct TestCredentials: Credentials {
   static let mcm: TestCredentials? = {
     if
       let appID = String(environmentVariable: "ALGOLIA_APPLICATION_ID_MCM"),
-      let apiKey = String(environmentVariable: "ALGOLIA_API_KEY_MCM") {
+      let apiKey = String(environmentVariable: "ALGOLIA_ADMIN_KEY_MCM") {
       return TestCredentials(applicationID: ApplicationID(rawValue: appID), apiKey: APIKey(rawValue: apiKey))
     } else {
       return nil

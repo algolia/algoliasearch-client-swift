@@ -64,4 +64,8 @@ struct TestValues {
     Synonym.oneWay(objectID: "testObjectID", input: "", synonyms: [])
   }()
   
+  var personalizationStrategy: PersonalizationStrategy = {
+    PersonalizationStrategy(eventsScoring: [.init(eventName: "e1", eventType: .view, score: 10)], facetsScoring: [.init(facetName: "a1", score: 20)], personalizationImpact: 100)
+  }()
+  
 }

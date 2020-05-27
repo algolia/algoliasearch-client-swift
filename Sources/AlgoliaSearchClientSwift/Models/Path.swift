@@ -31,7 +31,7 @@ struct Path: PathComponent {
   static var ABTestsV2: Self { .init("/2/abtests") }
   static var keysV1: Self { .init("/1/keys") }
   static var logs: Self { .init("/1/logs") }
-  static var recommendation: Self { .init("/1/recommendation") }
+  static var strategies: Self { .init("/1/strategies") }
   static var places: Self { .init("/1/places") }
   static var task: Self { .init("/task") }
 
@@ -175,3 +175,29 @@ struct MappingCompletion: PathComponent {
   static var pending: Self { .init(#function) }
 
 }
+
+struct PersonalizationRoute: PathComponent {
+
+  var parent: Path?
+
+  let rawValue: String
+
+  private init(_ rawValue: String) { self.rawValue = rawValue }
+
+  static var personalization: Self { .init(#function) }
+
+}
+
+struct PersonalizationCompletion: PathComponent {
+
+  var parent: PersonalizationRoute?
+
+  let rawValue: String
+
+  private init(_ rawValue: String) { self.rawValue = rawValue }
+
+  static var strategy: Self { .init(#function) }
+
+}
+
+

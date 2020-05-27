@@ -27,3 +27,16 @@ extension Dictionary {
     return merging(other, uniquingKeysWith: strategy.apply)
   }
 }
+
+extension Dictionary {
+  
+  func mapKeys<T>(_ transform: (Key) -> T) -> Dictionary<T, Value> {
+    var output: [T: Value] = [:]
+    for key in keys {
+      let transformedKey = transform(key)
+      output[transformedKey] = self[key]
+    }
+    return output
+  }
+  
+}
