@@ -30,8 +30,13 @@ public struct Hosts {
   }
 
   public static func insights(forRegion region: Region? = nil) -> [RetryableHost] {
-    let regionComponent = region.flatMap { ".\($0)" } ?? ""
+    let regionComponent = region.flatMap { ".\($0.rawValue)" } ?? ""
     return [.init(url: URL(string: "insights\(regionComponent).algolia.io")!)]
+  }
+  
+  public static func recommendation(forRegion region: Region? = nil) -> [RetryableHost] {
+    let regionComponent = region.flatMap { ".\($0.rawValue)" } ?? ""
+    return [.init(url: URL(string: "recommendation\(regionComponent).algolia.com")!)]
   }
 
   public static var analytics: [RetryableHost] = [
