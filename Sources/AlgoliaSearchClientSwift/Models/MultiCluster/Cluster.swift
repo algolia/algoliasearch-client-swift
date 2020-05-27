@@ -21,4 +21,11 @@ public struct Cluster: Codable {
   /// Data size taken by all the users assigned to the cluster.
   public let dataSize: Int
   
+  enum CodingKeys: String, CodingKey {
+    case name = "clusterName"
+    case nbRecords
+    case nbUserIDs
+    case dataSize
+  }
+  
 }

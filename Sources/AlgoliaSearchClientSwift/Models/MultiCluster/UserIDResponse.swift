@@ -25,7 +25,7 @@ public struct UserIDResponse {
   public let objectID: ObjectID?
   
   /// Highlighted attributes.
-  public let highlightResult: TreeModel<HighlightResult>
+  public let highlightResult: TreeModel<HighlightResult>?
   
 }
 
