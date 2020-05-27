@@ -33,6 +33,16 @@ struct TestCredentials: Credentials {
       return nil
     }
   }()
+  
+  static let mcm: TestCredentials? = {
+    if
+      let appID = String(environmentVariable: "ALGOLIA_APPLICATION_ID_MCM"),
+      let apiKey = String(environmentVariable: "ALGOLIA_API_KEY_MCM") {
+      return TestCredentials(applicationID: ApplicationID(rawValue: appID), apiKey: APIKey(rawValue: apiKey))
+    } else {
+      return nil
+    }
+  }()
 
 }
 
