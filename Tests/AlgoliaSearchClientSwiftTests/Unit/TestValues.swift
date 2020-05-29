@@ -64,6 +64,24 @@ struct TestValues {
     Synonym.oneWay(objectID: "testObjectID", input: "", synonyms: [])
   }()
   
+  var abTest: ABTest = {
+    ABTest(name: "",
+           endAt: Date(),
+           variantA: .init(
+            indexName: "i1",
+            trafficPercentage: 10,
+            customSearchParameters: Query().set(\.filters, to: "brand:Samsung"),
+            description: "test A"
+           ),
+           variantB: .init(
+            indexName: "i1",
+            trafficPercentage: 90,
+            customSearchParameters: Query().set(\.removeStopWords, to: .queryLanguages([.brunei])),
+            description: "test B"
+           )
+    )
+  }()
+  
   var personalizationStrategy: PersonalizationStrategy = {
     PersonalizationStrategy(eventsScoring: [.init(eventName: "e1", eventType: .view, score: 10)], facetsScoring: [.init(facetName: "a1", score: 20)], personalizationImpact: 100)
   }()

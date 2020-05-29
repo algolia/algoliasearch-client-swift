@@ -38,6 +38,17 @@ extension WaitableWrapper where T: Task {
   
 }
 
+extension WaitableWrapper where T: Task & IndexNameContainer {
+  
+  static func wrap(credentials: Credentials) -> (T) -> WaitableWrapper<T> {
+    return { task in
+      let index = Client(appID: credentials.applicationID, apiKey: credentials.apiKey).index(withName: task.indexName)
+      return WaitableWrapper(task: task, index: index)
+    }
+  }
+  
+}
+
 extension WaitableWrapper where T == BatchesResponse {
   
   public var batchesResponse: BatchesResponse {

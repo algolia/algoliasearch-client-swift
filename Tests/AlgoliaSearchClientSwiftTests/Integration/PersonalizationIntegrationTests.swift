@@ -13,7 +13,7 @@ class PersonalizationIntegrationTests: OnlineTestCase {
   
   func testPersonalization() throws {
     let recommendationClient = RecommendationClient(appID: client.applicationID, apiKey: client.apiKey, region: .custom("eu"))
-    let strategy = try recommendationClient.getPersonalizationStrategy()
+    let _ = try recommendationClient.getPersonalizationStrategy()
   }
   
 }
