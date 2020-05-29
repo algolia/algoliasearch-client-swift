@@ -37,16 +37,27 @@ private extension Client {
   
 }
 
+struct TestIdentifier {
+  
+  let rawValue: String
+  
+  init(date: Date = .init(), suffix: String? = nil) {
+    let language = "swift"
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "YYYY-MM-DD-HH-mm-ss"
+    let dateString = dateFormatter.string(from: date)
+    let username = NSUserName().description
+    rawValue = [language, dateString, username, suffix].compactMap { $0 }.joined(separator: "-")
+  }
+  
+}
+
 class MultipleClusterIntegrationTests: OnlineTestCase {
   
   let date: Date = .init()
   
   func userID(_ id: String) -> UserID {
-    let lang = "swift"
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "YYYY-MM-DD-HH-mm-ss"
-    let dateString = dateFormatter.string(from: date)
-    return UserID(rawValue: [lang, dateString, NSUserName().description, id].joined(separator: "-"))
+    return UserID(rawValue: TestIdentifier(date: date, suffix: id).rawValue)
   }
     
   func testMultiCluster() throws {

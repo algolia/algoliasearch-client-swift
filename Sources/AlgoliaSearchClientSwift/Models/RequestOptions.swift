@@ -66,6 +66,7 @@ public struct HTTPParameterKey: RawRepresentable, Hashable {
   public static var cursor: HTTPParameterKey { #function }
   public static var indexName: HTTPParameterKey { #function }
   public static var offset: HTTPParameterKey { #function }
+  public static var limit: HTTPParameterKey { #function }
   public static var length: HTTPParameterKey { #function }
   public static var type: HTTPParameterKey { #function }
   public static var language: HTTPParameterKey { #function }
