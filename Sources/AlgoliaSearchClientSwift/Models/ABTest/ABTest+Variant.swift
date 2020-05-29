@@ -23,12 +23,12 @@ extension ABTest {
     public let customSearchParameters: Query?
     
     /// Description of the variant. This is useful when seeing the results in the dashboard or via the API.
-    public let description: String
+    public let description: String?
     
     public init(indexName: IndexName,
                 trafficPercentage: Int,
                 customSearchParameters: Query? = nil,
-                description: String = "") {
+                description: String? = nil) {
       self.indexName = indexName
       self.trafficPercentage = trafficPercentage
       self.customSearchParameters = customSearchParameters
