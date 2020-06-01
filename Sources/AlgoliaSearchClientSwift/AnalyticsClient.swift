@@ -235,4 +235,45 @@ public extension AnalyticsClient {
     return try transport.execute(command)
   }
   
+  //MARK: - Browse all AB tests
+  
+  /**
+   Browse every ABTest on the index and return them as a list.
+   
+   - Parameter hitsPerPage: Specify the maximum number of entries to retrieve per request.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronous operation
+   */
+  func browseAllABTests(hitsPerPage: Int? = nil,
+                        requestOptions: RequestOptions? = nil,
+                        completion: @escaping ResultCallback<[ABTestResponse]>) ->  Operation {
+    
+    let operation = BlockOperation {
+      completion(.init { try self.browseAllABTests(hitsPerPage: hitsPerPage, requestOptions: requestOptions) })
+    }
+    return operationLauncher.launch(operation)
+  }
+  
+  /**
+   Browse every ABTest on the index and return them as a list.
+   
+   - Parameter hitsPerPage: Specify the maximum number of entries to retrieve per request.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: [ABTestsResponse]  object
+   */
+  func browseAllABTests(hitsPerPage: Int? = nil,
+                        requestOptions: RequestOptions? = nil) throws ->  [ABTestResponse] {
+      var responses: [ABTestResponse] = []
+      var page = 0
+      while true {
+        let response = try listABTests(page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
+        if response.count == response.total || response.count == 0 { break }
+        page += response.count
+        responses.append(contentsOf: response.abTests ?? [])
+      }
+      return responses
+  }
+
+  
 }
