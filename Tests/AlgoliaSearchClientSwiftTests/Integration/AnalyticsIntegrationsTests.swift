@@ -10,6 +10,11 @@ import XCTest
 @testable import AlgoliaSearchClientSwift
 
 class AnalyticsIntegrationTests: OnlineTestCase {
+  
+  func testBrowsing() throws {
+    let analyticsClient = AnalyticsClient(appID: client.applicationID, apiKey: client.apiKey)
+    let abTests = try analyticsClient.browseAllABTests(hitsPerPage: 3)
+  }
 
   func testABTesting() throws {
     
