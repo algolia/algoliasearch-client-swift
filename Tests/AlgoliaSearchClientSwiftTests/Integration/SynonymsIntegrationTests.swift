@@ -69,13 +69,13 @@ class SynonymsIntegrationTests: OnlineTestCase {
     try AssertEquallyEncoded(fetchedSynonyms.first(where: { $0.objectID == altCorrection2Synonym.objectID}), altCorrection2Synonym)
 
     try index.deleteSynonym(objectID: multiWaySynonym.objectID).wait()
-    try AssertThrowsNotFound(index.getSynonym(objectID: multiWaySynonym.objectID))
+    try AssertThrowsHTTPError(index.getSynonym(objectID: multiWaySynonym.objectID), statusCode: 404)
     
     try index.clearSynonyms().wait()
-    try AssertThrowsNotFound(index.getSynonym(objectID: oneWaySynonym.objectID))
-    try AssertThrowsNotFound(index.getSynonym(objectID: placeholderSynonym.objectID))
-    try AssertThrowsNotFound(index.getSynonym(objectID: altCorrection1Synonym.objectID))
-    try AssertThrowsNotFound(index.getSynonym(objectID: altCorrection2Synonym.objectID))
+    try AssertThrowsHTTPError(index.getSynonym(objectID: oneWaySynonym.objectID), statusCode: 404)
+    try AssertThrowsHTTPError(index.getSynonym(objectID: placeholderSynonym.objectID), statusCode: 404)
+    try AssertThrowsHTTPError(index.getSynonym(objectID: altCorrection1Synonym.objectID), statusCode: 404)
+    try AssertThrowsHTTPError(index.getSynonym(objectID: altCorrection2Synonym.objectID), statusCode: 404)
     
     XCTAssertEqual(try index.searchSynonyms("").nbHits, 0)
 

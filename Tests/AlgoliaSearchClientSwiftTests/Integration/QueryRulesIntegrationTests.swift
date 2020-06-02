@@ -97,12 +97,12 @@ class QueryRulesIntegrationTests: OnlineTestCase {
     try AssertEquallyEncoded(fetchedRules.first(where: { $0.objectID ==  queryPromoSummerRule.objectID}), queryPromoSummerRule)
 
     try index.deleteRule(withID: brandAutomaticFacetingRule.objectID).wait()
-    try AssertThrowsNotFound(index.getRule(withID: brandAutomaticFacetingRule.objectID))
+    try AssertThrowsHTTPError(index.getRule(withID: brandAutomaticFacetingRule.objectID), statusCode: 404)
 
     try index.clearRules().wait()
-    try AssertThrowsNotFound(index.getRule(withID: queryEditsRule.objectID))
-    try AssertThrowsNotFound(index.getRule(withID: queryPromoRule.objectID))
-    try AssertThrowsNotFound(index.getRule(withID: queryPromoSummerRule.objectID))
+    try AssertThrowsHTTPError(index.getRule(withID: queryEditsRule.objectID), statusCode: 404)
+    try AssertThrowsHTTPError(index.getRule(withID: queryPromoRule.objectID), statusCode: 404)
+    try AssertThrowsHTTPError(index.getRule(withID: queryPromoSummerRule.objectID), statusCode: 404)
     
     XCTAssertEqual(try index.searchRules("").nbHits, 0)
     

@@ -13,7 +13,7 @@ class AnalyticsIntegrationTests: OnlineTestCase {
   
   func testBrowsing() throws {
     let analyticsClient = AnalyticsClient(appID: client.applicationID, apiKey: client.apiKey)
-    let abTests = try analyticsClient.browseAllABTests(hitsPerPage: 3)
+    let _ = try analyticsClient.browseAllABTests(hitsPerPage: 3)
   }
 
   func testABTesting() throws {
@@ -54,7 +54,7 @@ class AnalyticsIntegrationTests: OnlineTestCase {
 
     let deletion = try analyticsClient.deleteABTest(withID: creation.wrapped.abTestID)
     try deletion.wait()
-    try AssertThrowsNotFound(try analyticsClient.getABTest(withID: creation.wrapped.abTestID))
+    try AssertThrowsHTTPError(try analyticsClient.getABTest(withID: creation.wrapped.abTestID), statusCode: 404)
   }
   
   func testAATesting() throws {
@@ -87,7 +87,7 @@ class AnalyticsIntegrationTests: OnlineTestCase {
 
     let deletion = try analyticsClient.deleteABTest(withID: creation.wrapped.abTestID)
     try deletion.wait()
-    try AssertThrowsNotFound(try analyticsClient.getABTest(withID: creation.wrapped.abTestID))
+    try AssertThrowsHTTPError(try analyticsClient.getABTest(withID: creation.wrapped.abTestID), statusCode: 404)
     
   }
 
