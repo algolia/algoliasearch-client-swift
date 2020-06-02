@@ -53,13 +53,3 @@ func AssertEquallyEncoded<A: Encodable, B: Encodable>(_ l: A, _ r: B, file: Stat
   XCTAssertEqual(lData, rData, file: file, line: line)
 }
 
-func AssertThrowsNotFound<T>(_ body: @autoclosure () throws -> T, file: StaticString = #file, line: UInt = #line) throws {
-  do {
-    _ = try body()
-    XCTFail("Expected Not Found error", file: file, line: line)
-  } catch let error {
-    guard let httpError = error as? HTTPError, httpError.statusCode == 404 else {
-      throw error
-    }
-  }
-}
