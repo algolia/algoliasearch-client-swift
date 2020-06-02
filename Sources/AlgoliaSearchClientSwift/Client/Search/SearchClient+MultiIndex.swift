@@ -1,5 +1,5 @@
 //
-//  Client+MultiIndex.swift
+//  SearchClient+MultiIndex.swift
 //  
 //
 //  Created by Vladislav Fitc on 04/04/2020.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension Client {
+public extension SearchClient {
 
   // MARK: - List indices
 

@@ -19,7 +19,7 @@ struct WaitService {
     self.taskIndices = taskIndices
   }
   
-  init(client: Client, taskIndex: [TaskIndex]) {
+  init(client: SearchClient, taskIndex: [TaskIndex]) {
     self.taskIndices = taskIndex.map { (client.index(withName: $0.indexName), $0.taskID) }
   }
   

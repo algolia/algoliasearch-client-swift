@@ -47,6 +47,8 @@ public struct PlacesClient: Credentials {
 
 }
 
+extension PlacesClient: TransportContainer {}
+
 public extension PlacesClient {
 
   // MARK: - Search
@@ -60,7 +62,7 @@ public extension PlacesClient {
    */
   @discardableResult func search(query: PlacesQuery, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<MultiLanguageResponse>) -> Operation {
     let command = Command.Places.Search(query: query, requestOptions: requestOptions)
-    return transport.execute(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -72,7 +74,7 @@ public extension PlacesClient {
    */
   @discardableResult func search(query: PlacesQuery, requestOptions: RequestOptions? = nil) throws -> MultiLanguageResponse {
     let command = Command.Places.Search(query: query, requestOptions: requestOptions)
-    return try transport.execute(command)
+    return try execute(command)
   }
 
   // MARK: - Search Multilanguage
@@ -89,7 +91,7 @@ public extension PlacesClient {
   @discardableResult func search(query: PlacesQuery, language: Language, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SingleLanguageResponse>) -> Operation {
     let query = query.set(\.language, to: language)
     let command = Command.Places.Search(query: query, requestOptions: requestOptions)
-    return transport.execute(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -103,7 +105,7 @@ public extension PlacesClient {
   @discardableResult func search(query: PlacesQuery, language: Language, requestOptions: RequestOptions? = nil) throws -> SingleLanguageResponse {
     let query = query.set(\.language, to: language)
     let command = Command.Places.Search(query: query, requestOptions: requestOptions)
-    return try transport.execute(command)
+    return try execute(command)
   }
 
   // MARK: - Get object
@@ -118,7 +120,7 @@ public extension PlacesClient {
    */
   @discardableResult func getObject(withID objectID: ObjectID, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<Hit<MultiLanguagePlace>>) -> Operation {
     let command = Command.Places.GetObject(objectID: objectID, requestOptions: requestOptions)
-    return transport.execute(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -130,7 +132,7 @@ public extension PlacesClient {
    */
   @discardableResult func getObject(withID objectID: ObjectID, requestOptions: RequestOptions? = nil) throws -> Hit<MultiLanguagePlace> {
     let command = Command.Places.GetObject(objectID: objectID, requestOptions: requestOptions)
-    return try transport.execute(command)
+    return try execute(command)
   }
 
   // MARK: - Reverse geocoding
@@ -147,7 +149,7 @@ public extension PlacesClient {
    */
   @discardableResult func reverseGeocoding(geolocation: Point, hitsPerPage: Int? = nil, language: Language, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<SingleLanguageResponse>) -> Operation {
     let command = Command.Places.ReverseGeocoding(geolocation: geolocation, language: language, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
-    return transport.execute(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -161,7 +163,7 @@ public extension PlacesClient {
    */
   @discardableResult func reverseGeocoding(geolocation: Point, hitsPerPage: Int? = nil, language: Language, requestOptions: RequestOptions? = nil) throws -> SingleLanguageResponse {
     let command = Command.Places.ReverseGeocoding(geolocation: geolocation, language: language, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
-    return try transport.execute(command)
+    return try execute(command)
   }
 
   // MARK: - Reverse geocoding multilanguage
@@ -176,7 +178,7 @@ public extension PlacesClient {
    */
   @discardableResult func reverseGeocoding(geolocation: Point, hitsPerPage: Int? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<MultiLanguageResponse>) -> Operation {
     let command = Command.Places.ReverseGeocoding(geolocation: geolocation, language: nil, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
-    return transport.execute(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -188,7 +190,7 @@ public extension PlacesClient {
    */
   @discardableResult func reverseGeocoding(geolocation: Point, hitsPerPage: Int? = nil, requestOptions: RequestOptions? = nil) throws -> MultiLanguageResponse {
     let command = Command.Places.ReverseGeocoding(geolocation: geolocation, language: nil, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
-    return try transport.execute(command)
+    return try execute(command)
   }
 
 }

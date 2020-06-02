@@ -31,17 +31,7 @@ public struct Index: Credentials {
   
 }
 
-extension Index: Transport {
-
-  func execute<Response: Codable, Output>(_ command: AlgoliaCommand, transform: @escaping (Response) -> Output, completion: @escaping (Result<Output, Error>) -> Void) -> Operation & TransportTask {
-    return transport.execute(command, transform: transform, completion: completion)
-  }
-
-  func execute<Response: Codable, Output>(_ command: AlgoliaCommand, transform: @escaping (Response) -> Output) throws -> Output {
-    return try transport.execute(command, transform: transform)
-  }
-
-}
+extension Index: TransportContainer {}
 
 extension Index {
   

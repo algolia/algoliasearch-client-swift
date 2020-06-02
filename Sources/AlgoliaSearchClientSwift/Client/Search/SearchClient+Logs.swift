@@ -1,5 +1,5 @@
 //
-//  Client+Logs.swift
+//  SearchClient+Logs.swift
 //  
 //
 //  Created by Vladislav Fitc on 18/04/2020.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension Client {
+public extension SearchClient {
 
   // MARK: - Get logs
 

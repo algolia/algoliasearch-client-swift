@@ -31,7 +31,7 @@ class SecuredAPIKeyTests: XCTestCase {
   
   func testGenerate() {
     let parentAPIKey: APIKey = APIKey(rawValue: .init(randomWithLength: 64))
-    let client = Client(appID: "testAppID", apiKey: "testAPIKey")
+    let client = SearchClient(appID: "testAppID", apiKey: "testAPIKey")
     let date = Date()
     let validity = date.addingTimeInterval(.minutes(10)).timeIntervalSince1970
     let restriction = SecuredAPIKeyRestriction()

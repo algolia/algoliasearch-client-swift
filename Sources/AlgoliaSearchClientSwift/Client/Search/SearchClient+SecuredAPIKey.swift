@@ -1,5 +1,5 @@
 //
-//  Client+SecuredAPIKey.swift
+//  SearchClient+SecuredAPIKey.swift
 //  
 //
 //  Created by Vladislav Fitc on 02/06/2020.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension Client {
+public extension SearchClient {
   
   func generateSecuredApiKey(parentApiKey: APIKey, with restriction: SecuredAPIKeyRestriction) -> APIKey {
     let queryParams = restriction.urlEncodedString

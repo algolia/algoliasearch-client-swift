@@ -11,7 +11,7 @@ import XCTest
 
 class OnlineTestCase: XCTestCase {
 
-  var client: Client!
+  var client: SearchClient!
   var index: Index!
   let expectationTimeout: TimeInterval = 100
 
@@ -30,7 +30,7 @@ class OnlineTestCase: XCTestCase {
       throw Error.missingCredentials
     }
 	
-    client = Client(appID: credentials.applicationID, apiKey: credentials.apiKey)
+    client = SearchClient(appID: credentials.applicationID, apiKey: credentials.apiKey)
     
     let className = String(reflecting: type(of: self)).components(separatedBy: ".").last!
     let functionName = invocation!.selector.description
