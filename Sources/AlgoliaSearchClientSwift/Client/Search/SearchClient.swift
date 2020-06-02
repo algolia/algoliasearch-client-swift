@@ -1,5 +1,5 @@
 //
-//  Client.swift
+//  SearchClient.swift
 //  
 //
 //  Created by Vladislav Fitc on 17.02.2020.
@@ -8,7 +8,7 @@
 import Foundation
 
 /// Client to perform operations on indices.
-public struct Client: Credentials {
+public struct SearchClient: Credentials {
 
   let transport: Transport
   let operationLauncher: OperationLauncher
@@ -67,19 +67,9 @@ public struct Client: Credentials {
 
 }
 
-extension Client: Transport {
+extension SearchClient: TransportContainer {}
 
-  func execute<Response: Codable, Output>(_ command: AlgoliaCommand, transform: @escaping (Response) -> Output, completion: @escaping (Result<Output, Error>) -> Void) -> Operation & TransportTask {
-    return transport.execute(command, transform: transform, completion: completion)
-  }
-
-  func execute<Response: Codable, Output>(_ command: AlgoliaCommand, transform: @escaping (Response) -> Output) throws -> Output {
-    return try transport.execute(command, transform: transform)
-  }
-
-}
-
-extension Client {
+extension SearchClient {
 
   @discardableResult func launch<O: Operation>(_ operation: O) -> O {
     return operationLauncher.launch(operation)

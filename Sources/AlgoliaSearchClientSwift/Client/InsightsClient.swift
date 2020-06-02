@@ -45,6 +45,8 @@ public struct InsightsClient: Credentials {
 
 }
 
+extension InsightsClient: TransportContainer {}
+
 public extension InsightsClient {
 
   // MARK: - Send event
@@ -78,7 +80,7 @@ public extension InsightsClient {
    */
   @discardableResult func sendEvents(_ events: [InsightsEvent], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<Empty>) -> Operation {
     let command = Command.Insights.SendEvents(events: events, requestOptions: requestOptions)
-    return transport.execute(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -89,7 +91,7 @@ public extension InsightsClient {
   @discardableResult func sendEvents(_ events: [InsightsEvent], requestOptions: RequestOptions? = nil) throws -> Empty {
     let requestOptions = (requestOptions ?? .init()).settingHeader("application/json", forKey: "Content-Type")
     let command = Command.Insights.SendEvents(events: events, requestOptions: requestOptions)
-    return try transport.execute(command)
+    return try execute(command)
   }
 
 }

@@ -45,17 +45,7 @@ public struct AnalyticsClient: Credentials {
 
 }
 
-extension AnalyticsClient {
-  
-  func execute<Output: Codable & Task & IndexNameContainer>(_ command: AlgoliaCommand, completion: @escaping ResultTaskCallback<Output>) -> Operation & TransportTask {
-    transport.execute(command, transform: WaitableWrapper.wrap(credentials: self), completion: completion)
-  }
-
-  func execute<Output: Codable & Task & IndexNameContainer>(_ command: AlgoliaCommand) throws -> WaitableWrapper<Output> {
-    try transport.execute(command, transform: WaitableWrapper.wrap(credentials: self))
-  }
-  
-}
+extension AnalyticsClient: TransportContainer {}
 
 public extension AnalyticsClient {
   
@@ -107,7 +97,7 @@ public extension AnalyticsClient {
                                     requestOptions: RequestOptions? = nil,
                                     completion: @escaping ResultCallback<ABTestResponse>) -> Operation {
     let command = Command.ABTest.Get(abTestID: abTestID, requestOptions: requestOptions)
-    return transport.execute(command, completion: completion)
+    return execute(command, completion: completion)
   }
   
   /**
@@ -120,7 +110,7 @@ public extension AnalyticsClient {
   @discardableResult func getABTest(withID abTestID: ABTestID,
                                     requestOptions: RequestOptions? = nil) throws -> ABTestResponse {
     let command = Command.ABTest.Get(abTestID: abTestID, requestOptions: requestOptions)
-    return try transport.execute(command)
+    return try execute(command)
   }
   
   //MARK: - Stop AB test
@@ -217,7 +207,7 @@ public extension AnalyticsClient {
                                       requestOptions: RequestOptions? = nil,
                                       completion: @escaping ResultCallback<ABTestsResponse>) -> Operation {
     let command = Command.ABTest.List(page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
-    return transport.execute(command, completion: completion)
+    return execute(command, completion: completion)
   }
   
   /**
@@ -232,7 +222,7 @@ public extension AnalyticsClient {
                                       hitsPerPage: Int?,
                                       requestOptions: RequestOptions? = nil) throws -> ABTestsResponse {
     let command = Command.ABTest.List(page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
-    return try transport.execute(command)
+    return try execute(command)
   }
   
   //MARK: - Browse all AB tests

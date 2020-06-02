@@ -49,7 +49,7 @@ struct DefaultConfiguration: Configuration {
   let readTimeout: TimeInterval = 5
   let logLevel: LogLevel = .info
   var hosts: [RetryableHost] = []
-  let defaultHeaders: [HTTPHeaderKey: String]? = [.userAgent: Client.userAgents.map(\.description).joined(separator: ", ")]
+  let defaultHeaders: [HTTPHeaderKey: String]? = [.userAgent: SearchClient.userAgents.map(\.description).joined(separator: ", ")]
   let batchSize: Int = 1000
 
 }

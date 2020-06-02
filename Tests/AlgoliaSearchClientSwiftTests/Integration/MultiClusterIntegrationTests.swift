@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClientSwift
 
-private extension Client {
+private extension SearchClient {
   
   func remove(_ userID: UserID) throws {
     while true {
@@ -67,7 +67,7 @@ class MultipleClusterIntegrationTests: OnlineTestCase {
     let userID2 = userID("2")
     let userIDs = [userID0, userID1, userID2]
     
-    let client = Client(appID: TestCredentials.mcm!.applicationID, apiKey: TestCredentials.mcm!.apiKey)
+    let client = SearchClient(appID: TestCredentials.mcm!.applicationID, apiKey: TestCredentials.mcm!.apiKey)
     
     let exists = client.exists
     let remove = client.remove

@@ -45,6 +45,8 @@ public struct RecommendationClient: Credentials {
 
 }
 
+extension RecommendationClient: TransportContainer {}
+
 public extension RecommendationClient {
   
   //MARK: - Set personalization strategy
@@ -61,7 +63,7 @@ public extension RecommendationClient {
                                                      requestOptions: RequestOptions? = nil,
                                                      completion: @escaping ResultCallback<SetStrategyResponse>) -> Operation {
     let command = Command.Personalization.Set(strategy: personalizationStrategy, requestOptions: requestOptions)
-    return transport.execute(command, completion: completion)
+    return execute(command, completion: completion)
   }
   
   /**
@@ -74,7 +76,7 @@ public extension RecommendationClient {
   @discardableResult func setPersonalizationStrategy(_ personalizationStrategy: PersonalizationStrategy,
                                                      requestOptions: RequestOptions? = nil) throws -> SetStrategyResponse {
     let command = Command.Personalization.Set(strategy: personalizationStrategy, requestOptions: requestOptions)
-    return try transport.execute(command)
+    return try execute(command)
   }
   
   //MARK: - Get personalization strategy
@@ -89,7 +91,7 @@ public extension RecommendationClient {
   @discardableResult func getPersonalizationStrategy(requestOptions: RequestOptions? = nil,
                                                      completion: @escaping ResultCallback<PersonalizationStrategy>) -> Operation {
     let command = Command.Personalization.Get(requestOptions: requestOptions)
-    return transport.execute(command, completion: completion)
+    return execute(command, completion: completion)
   }
   
   /**
@@ -100,7 +102,7 @@ public extension RecommendationClient {
    */
   @discardableResult func getPersonalizationStrategy(requestOptions: RequestOptions? = nil) throws -> PersonalizationStrategy {
     let command = Command.Personalization.Get(requestOptions: requestOptions)
-    return try transport.execute(command)
+    return try execute(command)
   }
   
 }

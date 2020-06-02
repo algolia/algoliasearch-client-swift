@@ -26,7 +26,7 @@ class SecuredAPIKeysIntegrationTests: OnlineTestCase {
     let parentAPIKey = APIKey(rawValue: String(environmentVariable: "ALGOLIA_SEARCH_KEY_1")!)
     let generatedAPIKey = client.generateSecuredApiKey(parentApiKey: parentAPIKey, with: restriction)
     
-    let newClient = Client(appID: client.applicationID, apiKey: generatedAPIKey)
+    let newClient = SearchClient(appID: client.applicationID, apiKey: generatedAPIKey)
     
     let i1Results = try newClient.index(withName: index1.name).search(query: "")
     XCTAssertEqual(i1Results.hits.count, 1)

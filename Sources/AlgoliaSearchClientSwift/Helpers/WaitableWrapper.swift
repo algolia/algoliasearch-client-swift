@@ -42,7 +42,7 @@ extension WaitableWrapper where T: Task & IndexNameContainer {
   
   static func wrap(credentials: Credentials) -> (T) -> WaitableWrapper<T> {
     return { task in
-      let index = Client(appID: credentials.applicationID, apiKey: credentials.apiKey).index(withName: task.indexName)
+      let index = SearchClient(appID: credentials.applicationID, apiKey: credentials.apiKey).index(withName: task.indexName)
       return WaitableWrapper(task: task, index: index)
     }
   }
@@ -55,7 +55,7 @@ extension WaitableWrapper where T == BatchesResponse {
     return wrapped
   }
   
-  init(batchesResponse: T, client: Client) {
+  init(batchesResponse: T, client: SearchClient) {
     self.wrapped = batchesResponse
     self.waitService = .init(client: client, taskIndex: batchesResponse.tasks)
   }
