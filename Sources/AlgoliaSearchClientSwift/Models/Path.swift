@@ -132,18 +132,18 @@ struct RuleCompletion: PathComponent {
 }
 
 struct SynonymCompletion: PathComponent {
-  
+
   var parent: IndexCompletion?
 
   let rawValue: String
 
   private init(_ rawValue: String) { self.rawValue = rawValue }
-  
+
   static func objectID(_ objectID: ObjectID) -> Self { .init(objectID.rawValue) }
   static var search: Self { .init(#function) }
   static var clear: Self { .init(#function) }
   static var batch: Self { .init(#function) }
-  
+
 }
 
 struct MappingRoute: PathComponent {
@@ -168,7 +168,6 @@ struct MappingCompletion: PathComponent {
 
   static func userID(_ userID: UserID) -> Self { .init(userID.rawValue) }
 
-  
   static var top: Self { .init(#function) }
   static var search: Self { .init(#function) }
   static var batch: Self { .init(#function) }
@@ -200,27 +199,26 @@ struct PersonalizationCompletion: PathComponent {
 
 }
 
-
 struct ABTestRoute: PathComponent {
-  
+
   var parent: Path?
 
   let rawValue: String
 
   private init(_ rawValue: String) { self.rawValue = rawValue }
-  
+
   static func ABTestID(_ abTestID: ABTestID) -> Self { .init(abTestID.rawValue) }
-  
+
 }
 
 struct ABTestCompletion: PathComponent {
-  
+
   var parent: ABTestRoute?
 
   let rawValue: String
 
   private init(_ rawValue: String) { self.rawValue = rawValue }
- 
+
   static var stop: Self { .init(#function) }
-  
+
 }

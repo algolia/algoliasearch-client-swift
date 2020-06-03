@@ -377,9 +377,9 @@ public extension Index {
   @discardableResult func partialUpdateObjects(replacements: [(objectID: ObjectID, update: PartialUpdate)], createIfNotExists: Bool, requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<BatchesResponse> {
     return try batch(replacements.map { .partialUpdate(objectID: $0.objectID, $0.update, createIfNotExists: createIfNotExists) }, requestOptions: requestOptions)
   }
-  
-  //MARK: - Batch operations
-  
+
+  // MARK: - Batch operations
+
   /**
    Perform several indexing operations in one API call.
    
@@ -395,9 +395,9 @@ public extension Index {
     let responses = try batchOperations.chunked(into: configuration.batchSize).map { try internalBatch($0) }
     let response = BatchesResponse(indexName: name, responses: responses)
     return .init(batchesResponse: response, index: self)
-    
+
   }
-  
+
   /**
    Perform several indexing operations in one API call.
    
@@ -411,7 +411,6 @@ public extension Index {
     }
     return launch(operation)
   }
-
 
   // MARK: - Clear objects
 
@@ -454,7 +453,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  func replaceAllObjects<T: Codable>(with objects: [T], autoGeneratingObjectID: Bool = false, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<[TaskIndex]>) throws  {
+  func replaceAllObjects<T: Codable>(with objects: [T], autoGeneratingObjectID: Bool = false, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<[TaskIndex]>) throws {
     let moveOperations: [BatchOperation] = try objects.map { try .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }
     let sourceIndexName = name
     let destinationIndexName = IndexName(rawValue: "\(name)_tmp_\(Int.random(in: 0...100000))")
@@ -511,7 +510,7 @@ public extension Index {
 }
 
 extension Index {
-  
+
   @discardableResult func internalBatch(_ batchOperations: [BatchOperation], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation & TransportTask {
     let command = Command.Index.Batch(indexName: name, batchOperations: batchOperations, requestOptions: requestOptions)
     return execute(command, completion: completion)
@@ -521,5 +520,5 @@ extension Index {
     let command = Command.Index.Batch(indexName: name, batchOperations: batchOperations, requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
 }

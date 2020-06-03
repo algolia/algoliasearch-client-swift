@@ -8,15 +8,15 @@
 import Foundation
 
 extension Rule {
-  
+
   public struct Promotion: Codable {
-    
+
     /// Unique identifier of the object to promote.
     public let objectID: ObjectID
-    
+
     /// Promoted rank for the object.
     public let position: Int
-    
+
   }
-  
+
 }

@@ -28,13 +28,13 @@ public struct Index: Credentials {
     self.operationLauncher = operationLauncher
     self.configuration = configuration
   }
-  
+
 }
 
 extension Index: TransportContainer {}
 
 extension Index {
-  
+
   func execute<Output: Codable & Task>(_ command: AlgoliaCommand, completion: @escaping ResultTaskCallback<Output>) -> Operation & TransportTask {
     transport.execute(command, transform: WaitableWrapper.wrap(with: self), completion: completion)
   }
@@ -42,7 +42,7 @@ extension Index {
   func execute<Output: Codable & Task>(_ command: AlgoliaCommand) throws -> WaitableWrapper<Output> {
     try transport.execute(command, transform: WaitableWrapper.wrap(with: self))
   }
-  
+
 }
 
 extension Index {

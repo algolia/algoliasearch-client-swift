@@ -8,9 +8,9 @@
 import Foundation
 
 extension Index {
-  
-  //MARK: - Save rule
-  
+
+  // MARK: - Save rule
+
   /**
    Create or update a single rule.
    
@@ -24,7 +24,7 @@ extension Index {
     let command = Command.Rule.Save(indexName: name, rule: rule, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Create or update a single rule.
 
@@ -37,9 +37,9 @@ extension Index {
     let command = Command.Rule.Save(indexName: name, rule: rule, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return try execute(command)
   }
-  
-  //MARK: - Save rules
-  
+
+  // MARK: - Save rules
+
   /**
    Create or update a specified set of rules, or all Rule.
    Each Rule will be created or updated, depending on whether a rule with the same ObjectID already exists.
@@ -55,7 +55,7 @@ extension Index {
     let command = Command.Rule.SaveList(indexName: name, rules: rules, forwardToReplicas: forwardToReplicas, clearExistingRules: clearExistingRules, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Create or update a specified set of rules, or all Rule.
    Each Rule will be created or updated, depending on whether a rule with the same ObjectID already exists.
@@ -70,9 +70,9 @@ extension Index {
     let command = Command.Rule.SaveList(indexName: name, rules: rules, forwardToReplicas: forwardToReplicas, clearExistingRules: clearExistingRules, requestOptions: requestOptions)
     return try execute(command)
   }
-  
-  //MARK: - Get rule
-  
+
+  // MARK: - Get rule
+
   /**
    Get a specific Rule.
    
@@ -85,7 +85,7 @@ extension Index {
     let command = Command.Rule.Get(indexName: name, objectID: objectID, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Get a specific Rule.
 
@@ -97,9 +97,9 @@ extension Index {
     let command = Command.Rule.Get(indexName: name, objectID: objectID, requestOptions: requestOptions)
     return try execute(command)
   }
-  
-  //MARK: - Delete rule
-  
+
+  // MARK: - Delete rule
+
   /**
    Delete a specific Rule using its ObjectID.
    
@@ -113,7 +113,7 @@ extension Index {
     let command = Command.Rule.Delete(indexName: name, objectID: objectID, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Delete a specific Rule using its ObjectID.
 
@@ -127,8 +127,8 @@ extension Index {
     return try execute(command)
   }
 
-  //MARK: - Search rules
-  
+  // MARK: - Search rules
+
   /**
    Search for Rule matching RuleQuery.
    
@@ -141,7 +141,7 @@ extension Index {
     let command = Command.Rule.Search(indexName: name, query: query, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Search for Rule matching RuleQuery.
 
@@ -153,9 +153,9 @@ extension Index {
     let command = Command.Rule.Search(indexName: name, query: query, requestOptions: requestOptions)
     return try execute(command)
   }
-  
-  //MARK: - Clear rules
-  
+
+  // MARK: - Clear rules
+
   /**
    Delete all Rule in an index.
    
@@ -168,7 +168,7 @@ extension Index {
     let command = Command.Rule.Clear(indexName: name, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Delete all Rule in an index.
 
@@ -180,9 +180,9 @@ extension Index {
     let command = Command.Rule.Clear(indexName: name, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return try execute(command)
   }
-  
-  //MARK: - Replace all rules
-  
+
+  // MARK: - Replace all rules
+
   /**
    Push a new set of rules and erase all previous ones.
    This method, like .replaceAllObjects, guarantees zero downtime.
@@ -198,7 +198,7 @@ extension Index {
     let command = Command.Rule.SaveList(indexName: name, rules: rules, forwardToReplicas: forwardToReplicas, clearExistingRules: true, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Push a new set of rules and erase all previous ones.
    This method, like .replaceAllObjects, guarantees zero downtime.
@@ -213,5 +213,5 @@ extension Index {
     let command = Command.Rule.SaveList(indexName: name, rules: rules, forwardToReplicas: forwardToReplicas, clearExistingRules: true, requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
 }

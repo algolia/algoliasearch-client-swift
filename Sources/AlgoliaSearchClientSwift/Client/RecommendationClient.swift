@@ -28,25 +28,25 @@ public struct RecommendationClient: Credentials {
     sessionConfiguration.httpAdditionalHeaders = configuration.defaultHeaders
 
     let session = URLSession(configuration: sessionConfiguration)
-    
+
     self.init(configuration: configuration, requester: session)
-    
+
   }
-  
+
   public init(configuration: RecommendationConfiguration, requester: HTTPRequester) {
 
     let queue = OperationQueue()
     queue.qualityOfService = .userInitiated
     let operationLauncher = OperationLauncher(queue: queue)
-    
+
     let retryStrategy = AlgoliaRetryStrategy(configuration: configuration)
-    
+
     let httpTransport = HttpTransport(requester: requester,
                                       configuration: configuration,
                                       retryStrategy: retryStrategy,
                                       credentials: configuration,
                                       operationLauncher: operationLauncher)
-    
+
     self.init(transport: httpTransport, operationLauncher: operationLauncher, configuration: configuration)
 
   }
@@ -64,9 +64,9 @@ public struct RecommendationClient: Credentials {
 extension RecommendationClient: TransportContainer {}
 
 public extension RecommendationClient {
-  
-  //MARK: - Set personalization strategy
-  
+
+  // MARK: - Set personalization strategy
+
   /**
    Configures the personalization strategy
    
@@ -81,7 +81,7 @@ public extension RecommendationClient {
     let command = Command.Personalization.Set(strategy: personalizationStrategy, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Configures the personalization strategy
 
@@ -94,9 +94,9 @@ public extension RecommendationClient {
     let command = Command.Personalization.Set(strategy: personalizationStrategy, requestOptions: requestOptions)
     return try execute(command)
   }
-  
-  //MARK: - Get personalization strategy
-  
+
+  // MARK: - Get personalization strategy
+
   /**
    Returns the personalization strategy of the application
    
@@ -109,7 +109,7 @@ public extension RecommendationClient {
     let command = Command.Personalization.Get(requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Returns the personalization strategy of the application
 
@@ -120,5 +120,5 @@ public extension RecommendationClient {
     let command = Command.Personalization.Get(requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
 }

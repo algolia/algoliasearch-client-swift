@@ -12,7 +12,7 @@ public struct AnalyticsClient: Credentials {
   let transport: Transport
   let operationLauncher: OperationLauncher
   let configuration: Configuration
-  
+
   public var applicationID: ApplicationID {
     return transport.applicationID
   }
@@ -28,25 +28,25 @@ public struct AnalyticsClient: Credentials {
     sessionConfiguration.httpAdditionalHeaders = configuration.defaultHeaders
 
     let session = URLSession(configuration: sessionConfiguration)
-    
+
     self.init(configuration: configuration, requester: session)
 
   }
-  
+
   public init(configuration: AnalyticsConfiguration, requester: HTTPRequester) {
 
     let queue = OperationQueue()
     queue.qualityOfService = .userInitiated
     let operationLauncher = OperationLauncher(queue: queue)
-    
+
     let retryStrategy = AlgoliaRetryStrategy(configuration: configuration)
-    
+
     let httpTransport = HttpTransport(requester: requester,
                                       configuration: configuration,
                                       retryStrategy: retryStrategy,
                                       credentials: configuration,
                                       operationLauncher: operationLauncher)
-    
+
     self.init(transport: httpTransport, operationLauncher: operationLauncher, configuration: configuration)
 
   }
@@ -64,9 +64,9 @@ public struct AnalyticsClient: Credentials {
 extension AnalyticsClient: TransportContainer {}
 
 public extension AnalyticsClient {
-  
-  //MARK: - Add AB test
-  
+
+  // MARK: - Add AB test
+
   /**
    Create an ABTest.
    You can set an ABTest on two different indices with different settings, or on the same index with different
@@ -83,7 +83,7 @@ public extension AnalyticsClient {
     let command = Command.ABTest.Add(abTest: abTest, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Create an ABTest.
    You can set an ABTest on two different indices with different settings, or on the same index with different
@@ -98,9 +98,9 @@ public extension AnalyticsClient {
     let command = Command.ABTest.Add(abTest: abTest, requestOptions: requestOptions)
     return try execute(command)
   }
-  
-  //MARK: - Get AB test
-  
+
+  // MARK: - Get AB test
+
   /**
    Get an ABTest information and results.
    
@@ -115,7 +115,7 @@ public extension AnalyticsClient {
     let command = Command.ABTest.Get(abTestID: abTestID, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Get an ABTest information and results.
    
@@ -128,9 +128,9 @@ public extension AnalyticsClient {
     let command = Command.ABTest.Get(abTestID: abTestID, requestOptions: requestOptions)
     return try execute(command)
   }
-  
-  //MARK: - Stop AB test
-  
+
+  // MARK: - Stop AB test
+
   /**
    Stop an ABTest.
    
@@ -150,7 +150,7 @@ public extension AnalyticsClient {
     let command = Command.ABTest.Stop(abTestID: abTestID, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Stop an ABTest.
    
@@ -168,9 +168,9 @@ public extension AnalyticsClient {
     let command = Command.ABTest.Stop(abTestID: abTestID, requestOptions: requestOptions)
     return try execute(command)
   }
-  
-  //MARK: - Delete AB test
-  
+
+  // MARK: - Delete AB test
+
   /**
    Delete an ABTest.
    
@@ -189,7 +189,7 @@ public extension AnalyticsClient {
     let command = Command.ABTest.Delete(abTestID: abTestID, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Delete an ABTest.
    
@@ -206,9 +206,9 @@ public extension AnalyticsClient {
     let command = Command.ABTest.Delete(abTestID: abTestID, requestOptions: requestOptions)
     return try execute(command)
   }
-  
-  //MARK: - List AB tests
-  
+
+  // MARK: - List AB tests
+
   /**
    List ABTest information and results.
 
@@ -225,7 +225,7 @@ public extension AnalyticsClient {
     let command = Command.ABTest.List(page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    List ABTest information and results.
 
@@ -240,9 +240,9 @@ public extension AnalyticsClient {
     let command = Command.ABTest.List(page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
     return try execute(command)
   }
-  
-  //MARK: - Browse all AB tests
-  
+
+  // MARK: - Browse all AB tests
+
   /**
    Browse every ABTest on the index and return them as a list.
    
@@ -253,14 +253,14 @@ public extension AnalyticsClient {
    */
   func browseAllABTests(hitsPerPage: Int? = nil,
                         requestOptions: RequestOptions? = nil,
-                        completion: @escaping ResultCallback<[ABTestResponse]>) ->  Operation {
-    
+                        completion: @escaping ResultCallback<[ABTestResponse]>) -> Operation {
+
     let operation = BlockOperation {
       completion(.init { try self.browseAllABTests(hitsPerPage: hitsPerPage, requestOptions: requestOptions) })
     }
     return operationLauncher.launch(operation)
   }
-  
+
   /**
    Browse every ABTest on the index and return them as a list.
    
@@ -281,5 +281,4 @@ public extension AnalyticsClient {
       return responses
   }
 
-  
 }

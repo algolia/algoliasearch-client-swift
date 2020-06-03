@@ -8,12 +8,12 @@
 import Foundation
 
 extension Rule {
-  
+
   public enum Alternatives: RawRepresentable, Codable {
-    
+
     case `true`
     case `false`
-    
+
     public var rawValue: Bool {
       switch self {
       case .true:
@@ -22,11 +22,11 @@ extension Rule {
         return false
       }
     }
-    
+
     public init(rawValue: Bool) {
       self = rawValue ? .true : .false
     }
-    
+
   }
-  
+
 }

@@ -94,7 +94,7 @@ class WaitTask: AsyncOperation, ResultContainer {
     }
 
   }
-  
+
   enum Error: Swift.Error {
     case timeout
     case missingTaskID

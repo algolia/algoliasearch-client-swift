@@ -18,13 +18,13 @@ public struct BatchesResponse {
 }
 
 extension BatchesResponse {
-  
+
   init(indexName: IndexName, responses: [BatchResponse]) {
     let tasks: [TaskIndex] = responses.map { .init(indexName: indexName, taskID: $0.taskID) }
     let objectIDs = responses.map(\.objectIDs).flatMap { $0 }
     self.init(tasks: tasks, objectIDs: objectIDs)
   }
-  
+
 }
 
 extension BatchesResponse: Codable {

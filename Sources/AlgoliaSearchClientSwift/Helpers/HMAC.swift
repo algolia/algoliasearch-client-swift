@@ -9,9 +9,9 @@ import Foundation
 import CommonCrypto
 
 enum HmacAlgorithm {
-  
+
     case sha1, md5, sha256, sha384, sha512, sha224
-  
+
     var algorithm: CCHmacAlgorithm {
         var alg = 0
         switch self {
@@ -30,7 +30,7 @@ enum HmacAlgorithm {
         }
         return CCHmacAlgorithm(alg)
     }
-  
+
     var digestLength: Int {
         var len: Int32 = 0
         switch self {
@@ -49,7 +49,7 @@ enum HmacAlgorithm {
         }
         return Int(len)
     }
-  
+
 }
 
 extension String {

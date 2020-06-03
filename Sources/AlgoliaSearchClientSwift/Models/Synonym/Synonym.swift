@@ -8,16 +8,16 @@
 import Foundation
 
 public enum Synonym {
-    
+
   case oneWay(objectID: ObjectID, input: String, synonyms: [String])
   case multiWay(objectID: ObjectID, synonyms: [String])
   case alternativeCorrection(objectID: ObjectID, word: String, corrections: [String], typo: Typo)
   case placeholder(objectID: ObjectID, placeholder: String, replacements: [String])
-  
+
   /// Unique identifier for the synonym.
   public var objectID: ObjectID {
     switch self {
-    case .oneWay(objectID: let objectID,_,_):
+    case .oneWay(objectID: let objectID, _, _):
       return objectID
     case .multiWay(objectID: let objectID, _):
       return objectID
@@ -27,7 +27,7 @@ public enum Synonym {
       return objectID
     }
   }
-  
+
   var type: SynonymType {
     switch self {
     case .oneWay:
@@ -42,15 +42,15 @@ public enum Synonym {
       return .placeholder
     }
   }
-  
+
   public enum Typo {
     case one, two
   }
-  
+
 }
 
 extension Synonym: Codable {
-  
+
   enum CodingKeys: String, CodingKey {
     case objectID
     case type
@@ -61,7 +61,7 @@ extension Synonym: Codable {
     case placeholder
     case replacements
   }
-  
+
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     let objectID: ObjectID = try container.decode(forKey: .objectID)
@@ -85,7 +85,7 @@ extension Synonym: Codable {
       self = .placeholder(objectID: objectID, placeholder: placeholder, replacements: replacements)
     }
   }
-  
+
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(type, forKey: .type)
@@ -104,5 +104,5 @@ extension Synonym: Codable {
       try container.encode(replacements, forKey: .replacements)
     }
   }
-  
+
 }

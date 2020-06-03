@@ -9,35 +9,35 @@ import Foundation
 
 /// Secured Api Key restrictions
 public struct SecuredAPIKeyRestriction {
-  
+
   /// Search query parameters
   public var query: Query?
-  
+
   /// List of index names that can be queried.
   public var restrictIndices: [IndexName]?
-  
+
   /// IPv4 network allowed to use the generated key. This is used for more protection against API key leaking and reuse.
   public var restrictSources: [String]?
-  
+
   /// A Unix timestamp used to define the expiration date of the API key.
   public var validUntil: TimeInterval?
-  
+
   /// Specify a user identifier. This is often used with rate limits.
   public var userToken: UserToken?
-  
+
 }
 
 extension SecuredAPIKeyRestriction: Builder {}
 
 extension SecuredAPIKeyRestriction: URLEncodable {
-  
+
   enum CodingKeys: String {
     case restrictIndices
     case restrictSources
     case userToken
     case validUntil
   }
-  
+
   public var urlEncodedString: String {
     var urlEncoder = Query.URLEncoder<CodingKeys>()
     urlEncoder.set(restrictIndices, for: .restrictIndices)
@@ -51,5 +51,5 @@ extension SecuredAPIKeyRestriction: URLEncodable {
       .filter { !$0.isEmpty }
       .joined(separator: "&")
   }
-  
+
 }

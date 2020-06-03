@@ -8,9 +8,8 @@
 import Foundation
 
 public struct Revision: Codable {
-  
+
   /// The date at which the revision was created.
   public let updatedAt: Date
 
-  
 }

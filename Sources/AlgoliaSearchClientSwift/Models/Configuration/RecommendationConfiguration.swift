@@ -22,7 +22,7 @@ public struct RecommendationConfiguration: Configuration, Credentials {
   public var hosts: [RetryableHost]
 
   public var defaultHeaders: [HTTPHeaderKey: String]?
-  
+
   public var batchSize: Int
 
   init(applicationID: ApplicationID,

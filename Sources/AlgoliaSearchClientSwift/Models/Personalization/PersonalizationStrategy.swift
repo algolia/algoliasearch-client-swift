@@ -8,22 +8,22 @@
 import Foundation
 
 public struct PersonalizationStrategy: Codable {
-  
+
   /// Events scoring saved on the API.
   public let eventsScoring: [EventScoring]
-  
+
   /// Facets scoring saved on the API.
   public let facetsScoring: [FacetScoring]
-  
+
   /// Personalization impact.
   public let personalizationImpact: Int
-  
+
   enum CodingKeys: String, CodingKey {
     case eventsScoring
     case facetsScoring
     case personalizationImpact
   }
-  
+
   public init(eventsScoring: [EventScoring],
               facetsScoring: [FacetScoring],
               personalizationImpact: Int) {
@@ -31,19 +31,19 @@ public struct PersonalizationStrategy: Codable {
     self.facetsScoring = facetsScoring
     self.personalizationImpact = personalizationImpact
   }
-  
+
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     self.eventsScoring = try container.decode(forKey: .eventsScoring)
     self.facetsScoring = try container.decode(forKey: .facetsScoring)
     self.personalizationImpact = try container.decode(forKey: .personalizationImpact)
   }
-  
+
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(eventsScoring, forKey: .eventsScoring)
     try container.encode(facetsScoring, forKey: .facetsScoring)
     try container.encode(personalizationImpact, forKey: .personalizationImpact)
   }
-  
+
 }

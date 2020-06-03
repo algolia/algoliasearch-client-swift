@@ -8,40 +8,40 @@
 import Foundation
 
 public struct ABTestResponse {
-  
+
   /// ABTestID of the ABTest test.
   public let abTestID: ABTestID
-  
+
   /// ABTest significance based on click data.
   /// Should be > 0.95 to be considered significant (no matter which variant is winning)
   public let clickSignificance: Double?
-  
+
   /// ABTest significance based on conversion data.
   /// Should be > 0.95 to be considered significant (no matter which variant is winning
   public let conversionSignificance: Double?
-  
+
   /// Time at which the ABTest  has been created.
   public let createdAt: Date
-  
+
   /// Time at which the ABTest will automatically stop.
   public let endAt: Date
-  
+
   /// Name of the ABTest.
   public let name: String
-  
+
   /// Current ABTestStatus of the ABTest.
   public let status: ABTestStatus
-  
+
   /// The base index ResponseVariant.
   public let variantA: Variant
-  
+
   /// The index ResponseVariant to test against.
   public let variantB: Variant
-  
+
 }
 
 extension ABTestResponse: Codable {
-  
+
   enum CodingKeys: String, CodingKey {
     case abTestID
     case clickSignificance
@@ -52,7 +52,7 @@ extension ABTestResponse: Codable {
     case status
     case variants
   }
-  
+
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     self.abTestID = try container.decode(forKey: .abTestID)
@@ -66,7 +66,7 @@ extension ABTestResponse: Codable {
     self.variantA = variants[0]
     self.variantB = variants[1]
   }
-  
+
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(abTestID, forKey: .abTestID)
@@ -78,5 +78,5 @@ extension ABTestResponse: Codable {
     try container.encode(status, forKey: .status)
     try container.encode([variantA, variantB], forKey: .variants)
   }
-  
+
 }

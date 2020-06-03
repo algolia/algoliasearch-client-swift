@@ -8,9 +8,9 @@
 import Foundation
 
 public extension Index {
-  
+
   // MARK: - Get Settings
-  
+
   /**
    Get the Settings of an index.
    - Parameter requestOptions: Configure request locally with RequestOptions.
@@ -21,7 +21,7 @@ public extension Index {
     let command = Command.Settings.GetSettings(indexName: name, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Get the Settings of an index.
    - Parameter requestOptions: Configure request locally with RequestOptions.
@@ -31,9 +31,9 @@ public extension Index {
     let command = Command.Settings.GetSettings(indexName: name, requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
   // Set settings
-  
+
   /**
    Create or change an index’s Settings.
    Only non-null settings are overridden; null settings are left unchanged
@@ -57,7 +57,7 @@ public extension Index {
                                                requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Create or change an index’s Settings.
    Only non-null settings are overridden; null settings are left unchanged
@@ -80,5 +80,5 @@ public extension Index {
                                                requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
 }

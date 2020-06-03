@@ -8,34 +8,34 @@
 import Foundation
 
 struct WaitService {
-  
+
   let taskIndices: [(Index, TaskID)]
-  
+
   init<T: Task>(index: Index, task: T) {
     self.taskIndices = [(index, task.taskID)]
   }
-  
+
   init(taskIndices: [(Index, TaskID)]) {
     self.taskIndices = taskIndices
   }
-  
+
   init(client: SearchClient, taskIndex: [TaskIndex]) {
     self.taskIndices = taskIndex.map { (client.index(withName: $0.indexName), $0.taskID) }
   }
-  
+
 }
 
 extension WaitService: AnyWaitable {
-  
+
   func wait(timeout: TimeInterval?) throws {
     for (index, taskID) in taskIndices {
       try index.waitTask(withID: taskID, timeout: timeout)
     }
   }
-  
+
   func wait(timeout: TimeInterval?, completion: @escaping (Result<Empty, Error>) -> Void) {
     let dispatchGroup = DispatchGroup()
-    var outputError: Error? = nil
+    var outputError: Error?
     for (index, taskID) in taskIndices {
       dispatchGroup.enter()
       index.waitTask(withID: taskID, timeout: timeout) { result in
@@ -58,5 +58,5 @@ extension WaitService: AnyWaitable {
       completion(result)
     }
   }
-  
+
 }

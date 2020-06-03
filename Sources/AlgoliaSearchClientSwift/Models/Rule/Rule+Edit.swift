@@ -8,29 +8,29 @@
 import Foundation
 
 extension Rule {
-  
+
   public enum Edit: Equatable {
-    
+
     /// Text or patterns to remove from the Query.query.
     case remove(String)
-    
+
     /// Text that should be inserted in place of the removed text inside the Query.query.
     case replace(String, with: String)
-    
+
   }
-  
+
 }
 
 extension Rule.Edit: Codable {
-  
+
   enum CodingKeys: String, CodingKey {
     case delete, insert, type
   }
-  
+
   enum EditType: String, Codable {
     case replace, remove
   }
-  
+
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     let type: EditType = try container.decode(forKey: .type)
@@ -43,7 +43,7 @@ extension Rule.Edit: Codable {
       self = .replace(delete, with: insert)
     }
   }
-  
+
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     switch self {
@@ -56,5 +56,5 @@ extension Rule.Edit: Codable {
       try container.encode(insert, forKey: .insert)
     }
   }
-  
+
 }
