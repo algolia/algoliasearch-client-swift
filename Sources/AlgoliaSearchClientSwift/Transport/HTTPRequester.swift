@@ -9,6 +9,6 @@ import Foundation
 
 public protocol HTTPRequester {
 
-  func perform<T: Codable>(request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) -> TransportTask
+  func perform<T: Decodable>(request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) -> TransportTask
 
 }

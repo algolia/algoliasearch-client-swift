@@ -38,17 +38,17 @@ extension BatchOperation {
 
 public extension BatchOperation {
 
-  static func add<T: Codable>(_ object: T, autoGeneratingObjectID: Bool = false) throws -> Self {
+  static func add<T: Encodable>(_ object: T, autoGeneratingObjectID: Bool = false) throws -> Self {
     if !autoGeneratingObjectID { try ObjectIDChecker.checkObjectID(object) }
     return .init(action: .addObject, bodyObject: object)
   }
 
-  static func update<T: Codable>(objectID: ObjectID, _ object: T) -> Self {
+  static func update<T: Encodable>(objectID: ObjectID, _ object: T) -> Self {
     let objectWrapper = ObjectWrapper(objectID: objectID, object: object)
     return .init(action: .updateObject, bodyObject: objectWrapper)
   }
 
-  static func partialUpdate<T: Codable>(objectID: ObjectID, _ object: T, createIfNotExists: Bool) -> Self {
+  static func partialUpdate<T: Encodable>(objectID: ObjectID, _ object: T, createIfNotExists: Bool) -> Self {
     let objectWrapper = ObjectWrapper(objectID: objectID, object: object)
     return .init(action: createIfNotExists ? .partialUpdateObject : .partialUpdateObjectNoCreate, bodyObject: objectWrapper)
   }

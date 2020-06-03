@@ -7,7 +7,7 @@
 
 import Foundation
 
-class HTTPRequest<ResponseType: Codable, Output>: AsyncOperation, ResultContainer, TransportTask {
+class HTTPRequest<ResponseType: Decodable, Output>: AsyncOperation, ResultContainer, TransportTask {
 
   typealias Transform = (ResponseType) -> Output
   typealias IntermediateResult = Swift.Result<ResponseType, Swift.Error>
@@ -106,9 +106,6 @@ class HTTPRequest<ResponseType: Codable, Output>: AsyncOperation, ResultContaine
           httpRequest.tryLaunch(request: request)
 
         case .success(let value):
-          if let responseJSON = try? JSON(value) {
-            Logger.loggingService.log(level: .debug, message: "Response: \(responseJSON)")
-          }
           let output = httpRequest.transform(value)
           httpRequest.result = .success(output)
 

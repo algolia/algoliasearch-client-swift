@@ -8,11 +8,11 @@
 import Foundation
 
 extension Transport {
-
+  
   // MARK: - Custom request
-
+  
   /**
-    Perform custom request
+   Perform custom request
    
    - Parameter callType: Type of HTTP call determining timeout duration.
    - Parameter request: URL requests to perform.
@@ -20,16 +20,16 @@ extension Transport {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func customRequest<T: Codable>(callType: CallType,
-                                                    request: URLRequest,
-                                                    requestOptions: RequestOptions? = nil,
-                                                    completion: @escaping ResultCallback<T>) -> Operation {
+  @discardableResult func customRequest<T: Decodable>(callType: CallType,
+                                                      request: URLRequest,
+                                                      requestOptions: RequestOptions? = nil,
+                                                      completion: @escaping ResultCallback<T>) -> Operation {
     let command = Command.Custom(callType: callType, urlRequest: request, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-
+  
   /**
-    Perform custom request
+   Perform custom request
    
    - Parameter callType: Type of HTTP call determining timeout duration.
    - Parameter request: URL requests to perform.
@@ -37,12 +37,12 @@ extension Transport {
    - Parameter completion: Result completion
    - Returns: Specified generic object
    */
-
-  @discardableResult func customRequest<T: Codable>(callType: CallType,
-                                                    request: URLRequest,
-                                                    requestOptions: RequestOptions? = nil) throws -> T {
+  
+  @discardableResult func customRequest<T: Decodable>(callType: CallType,
+                                                      request: URLRequest,
+                                                      requestOptions: RequestOptions? = nil) throws -> T {
     let command = Command.Custom(callType: callType, urlRequest: request, requestOptions: requestOptions)
     return try execute(command)
   }
-
+  
 }

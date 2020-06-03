@@ -17,7 +17,7 @@ extension Command {
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
 
-      init<T: Codable>(indexName: IndexName, record: T, requestOptions: RequestOptions?) {
+      init<T: Encodable>(indexName: IndexName, record: T, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let path = .indexesV1 >>> IndexRoute.index(indexName)
         urlRequest = .init(method: .post, path: path, body: record.httpBody, requestOptions: self.requestOptions)
@@ -50,7 +50,7 @@ extension Command {
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
 
-      init<T: Codable>(indexName: IndexName, objectID: ObjectID, replacementObject record: T, requestOptions: RequestOptions?) {
+      init<T: Encodable>(indexName: IndexName, objectID: ObjectID, replacementObject record: T, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objectID(objectID)
         urlRequest = .init(method: .put, path: path, body: record.httpBody, requestOptions: self.requestOptions)
