@@ -9,18 +9,18 @@ import Foundation
 
 protocol Transport: Credentials {
 
-  func execute<Response: Codable, Output>(_ command: AlgoliaCommand, transform: @escaping (Response) -> Output, completion: @escaping (Result<Output, Error>) -> Void) -> Operation & TransportTask
-  func execute<Response: Codable, Output>(_ command: AlgoliaCommand, transform: @escaping (Response) -> Output) throws -> Output
+  func execute<Response: Decodable, Output>(_ command: AlgoliaCommand, transform: @escaping (Response) -> Output, completion: @escaping (Result<Output, Error>) -> Void) -> Operation & TransportTask
+  func execute<Response: Decodable, Output>(_ command: AlgoliaCommand, transform: @escaping (Response) -> Output) throws -> Output
 
 }
 
 extension Transport {
 
-  func execute<Output: Codable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<Output>) -> Operation & TransportTask {
+  func execute<Output: Decodable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<Output>) -> Operation & TransportTask {
     execute(command, transform: { $0 }, completion: completion)
   }
 
-  func execute<Output: Codable>(_ command: AlgoliaCommand) throws -> Output {
+  func execute<Output: Decodable>(_ command: AlgoliaCommand) throws -> Output {
     try execute(command, transform: { $0 })
   }
 

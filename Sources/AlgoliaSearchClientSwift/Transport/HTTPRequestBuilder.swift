@@ -24,7 +24,7 @@ class HTTPRequestBuilder {
     self.credentials = credentials
   }
 
-  func build<Response: Codable, Output>(for command: AlgoliaCommand, transform: @escaping (Response) -> Output, with completion: @escaping (HTTPRequest<Response, Output>.Result) -> Void) -> HTTPRequest<Response, Output> {
+  func build<Response: Decodable, Output>(for command: AlgoliaCommand, transform: @escaping (Response) -> Output, with completion: @escaping (HTTPRequest<Response, Output>.Result) -> Void) -> HTTPRequest<Response, Output> {
 
     let timeout = command.requestOptions?.timeout(for: command.callType) ?? configuration.timeout(for: command.callType)
     let hostIterator = HostIterator(retryStrategy: retryStrategy, callType: command.callType)
@@ -33,7 +33,7 @@ class HTTPRequestBuilder {
     return HTTPRequest(requester: requester, retryStrategy: retryStrategy, hostIterator: hostIterator, request: request, timeout: timeout, transform: transform, completion: completion)
   }
 
-  func build<Response: Codable, Output>(for command: AlgoliaCommand, transform: @escaping (Response) -> Output, responseType: Output.Type) -> HTTPRequest<Response, Output> {
+  func build<Response: Decodable, Output>(for command: AlgoliaCommand, transform: @escaping (Response) -> Output, responseType: Output.Type) -> HTTPRequest<Response, Output> {
     return build(for: command, transform: transform, with: { (_:HTTPRequest<Response, Output>.Result) in })
   }
 

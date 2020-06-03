@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ObjectWrapper<T: Codable>: Codable {
+public struct ObjectWrapper<T> {
 
   public let objectID: ObjectID
   public let object: T
@@ -15,6 +15,10 @@ public struct ObjectWrapper<T: Codable>: Codable {
   public init(objectID: ObjectID, object: T) {
     self.objectID = objectID
     self.object = object
+  }
+  
+  enum CodingKeys: String, CodingKey {
+    case objectID
   }
 
 }
@@ -28,13 +32,17 @@ extension ObjectWrapper where T == Empty {
 
 }
 
-extension ObjectWrapper {
-
+extension ObjectWrapper: Decodable where T: Decodable {
+  
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     objectID = try container.decode(forKey: .objectID)
     object = try .init(from: decoder)
   }
+  
+}
+
+extension ObjectWrapper: Encodable where T: Encodable {
 
   public func encode(to encoder: Encoder) throws {
     try object.encode(to: encoder)
@@ -42,8 +50,5 @@ extension ObjectWrapper {
     try container.encode(objectID, forKey: .objectID)
   }
 
-  enum CodingKeys: String, CodingKey {
-    case objectID
-  }
 
 }

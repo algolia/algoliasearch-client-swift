@@ -35,12 +35,12 @@ class HttpTransport: Transport {
     self.init(requestBuilder: requestBuilder, operationLauncher: operationLauncher, credentials: credentials)
   }
 
-  func execute<Response: Codable, Output>(_ command: AlgoliaCommand, transform: @escaping (Response) -> Output, completion: @escaping (Result<Output, Swift.Error>) -> Void) -> Operation & TransportTask {
+  func execute<Response: Decodable, Output>(_ command: AlgoliaCommand, transform: @escaping (Response) -> Output, completion: @escaping (Result<Output, Swift.Error>) -> Void) -> Operation & TransportTask {
     let request = requestBuilder.build(for: command, transform: transform, with: completion)
     return operationLauncher.launch(request)
   }
 
-  func execute<Response: Codable, Output>(_ command: AlgoliaCommand, transform: @escaping (Response) -> Output) throws -> Output {
+  func execute<Response: Decodable, Output>(_ command: AlgoliaCommand, transform: @escaping (Response) -> Output) throws -> Output {
     let request = requestBuilder.build(for: command, transform: transform, responseType: Output.self)
     return try operationLauncher.launchSync(request)
   }
