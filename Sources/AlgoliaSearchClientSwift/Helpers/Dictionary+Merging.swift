@@ -29,8 +29,8 @@ extension Dictionary {
 }
 
 extension Dictionary {
-  
-  func mapKeys<T>(_ transform: (Key) -> T) -> Dictionary<T, Value> {
+
+  func mapKeys<T>(_ transform: (Key) -> T) -> [T: Value] {
     var output: [T: Value] = [:]
     for key in keys {
       let transformedKey = transform(key)
@@ -38,5 +38,5 @@ extension Dictionary {
     }
     return output
   }
-  
+
 }

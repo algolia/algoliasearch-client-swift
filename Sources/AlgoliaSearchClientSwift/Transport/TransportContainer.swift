@@ -8,13 +8,13 @@
 import Foundation
 
 protocol TransportContainer {
-  
+
   var transport: Transport { get }
 
 }
 
 extension TransportContainer {
-  
+
   func execute<Response: Codable, Output>(_ command: AlgoliaCommand,
                                           transform: @escaping (Response) -> Output,
                                           completion: @escaping (Result<Output, Error>) -> Void) -> Operation & TransportTask {
@@ -29,24 +29,24 @@ extension TransportContainer {
 }
 
 extension TransportContainer {
-  
+
   @discardableResult func customRequest<T: Codable>(callType: CallType,
                                                     request: URLRequest,
                                                     requestOptions: RequestOptions? = nil,
                                                     completion: @escaping ResultCallback<T>) -> Operation {
     transport.customRequest(callType: callType, request: request, requestOptions: requestOptions, completion: completion)
   }
-  
+
   @discardableResult func customRequest<T: Codable>(callType: CallType,
                                                     request: URLRequest,
                                                     requestOptions: RequestOptions? = nil) throws -> T {
     try transport.customRequest(callType: callType, request: request, requestOptions: requestOptions)
   }
-  
+
 }
 
 extension TransportContainer {
-  
+
   @discardableResult func execute<Output: Codable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<Output>) -> Operation & TransportTask {
     execute(command, transform: { $0 }, completion: completion)
   }
@@ -54,11 +54,11 @@ extension TransportContainer {
   @discardableResult func execute<Output: Codable>(_ command: AlgoliaCommand) throws -> Output {
     try execute(command, transform: { $0 })
   }
-  
+
 }
 
 extension TransportContainer where Self: Credentials {
-  
+
   func execute<Output: Codable & Task & IndexNameContainer>(_ command: AlgoliaCommand, completion: @escaping ResultTaskCallback<Output>) -> Operation & TransportTask {
     transport.execute(command, transform: WaitableWrapper.wrap(credentials: self), completion: completion)
   }
@@ -66,5 +66,5 @@ extension TransportContainer where Self: Credentials {
   func execute<Output: Codable & Task & IndexNameContainer>(_ command: AlgoliaCommand) throws -> WaitableWrapper<Output> {
     try transport.execute(command, transform: WaitableWrapper.wrap(credentials: self))
   }
-  
+
 }

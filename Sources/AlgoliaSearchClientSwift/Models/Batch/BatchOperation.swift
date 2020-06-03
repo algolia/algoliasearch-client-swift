@@ -29,7 +29,7 @@ extension BatchOperation {
     }
     self.init(action: action, body: body)
   }
-  
+
   public init(action: Action) {
     self.init(action: action, body: nil)
   }

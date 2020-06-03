@@ -8,7 +8,7 @@
 import Foundation
 
 extension KeyedDecodingContainer {
-  
+
   func decode(forKey key: K, dateFormat: String) throws -> Date {
     let rawDate: String = try decode(forKey: key)
     let dateFormatter = DateFormatter()
@@ -28,5 +28,5 @@ extension KeyedDecodingContainer {
     }
     return date
   }
-  
+
 }

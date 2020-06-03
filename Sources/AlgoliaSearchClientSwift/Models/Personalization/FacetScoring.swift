@@ -9,11 +9,11 @@ import Foundation
 
 /// Configure the importance of facets.
 public struct FacetScoring: Codable {
-  
+
   /// Attribute name.
   public let facetName: Attribute
-  
+
   /// Score for the facet.
   public let score: Int?
-  
+
 }

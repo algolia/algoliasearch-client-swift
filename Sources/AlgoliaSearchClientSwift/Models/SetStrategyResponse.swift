@@ -8,11 +8,11 @@
 import Foundation
 
 public struct SetStrategyResponse: Codable {
-  
+
   ///  Status code
   public let status: Int?
 
   /// Status message
   public let message: String
-  
+
 }

@@ -28,29 +28,29 @@ public struct PlacesClient: Credentials {
     sessionConfiguration.httpAdditionalHeaders = configuration.defaultHeaders
 
     let session = URLSession(configuration: sessionConfiguration)
-     
+
     self.init(configuration: configuration, requester: session)
-    
+
   }
-  
+
   public init(configuration: PlacesConfiguration, requester: HTTPRequester) {
-    
+
     let queue = OperationQueue()
     queue.qualityOfService = .userInitiated
     let operationLauncher = OperationLauncher(queue: queue)
-    
+
     let retryStrategy = AlgoliaRetryStrategy(configuration: configuration)
-    
+
     let httpTransport = HttpTransport(requester: requester,
                                       configuration: configuration,
                                       retryStrategy: retryStrategy,
                                       credentials: configuration,
                                       operationLauncher: operationLauncher)
-    
+
     self.init(transport: httpTransport, operationLauncher: operationLauncher, configuration: configuration)
 
   }
-  
+
   init(transport: Transport,
        operationLauncher: OperationLauncher,
        configuration: Configuration) {

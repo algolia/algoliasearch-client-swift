@@ -48,7 +48,7 @@ public struct Log {
 
   /// IndexName of the log.
   public let indexName: IndexName?
-  
+
   /// Contains an object for each performed query with the indexName, queryID, offset, and userToken.
   public let innerQueries: [InnerQuery]?
 
@@ -135,21 +135,21 @@ extension Log: Codable {
 }
 
 extension Log {
-  
+
   public struct InnerQuery: Codable {
-    
+
     public let indexName: IndexName?
     public let queryID: QueryID?
     public let offset: Int?
     public let userToken: UserToken?
-    
+
     enum CodingKeys: String, CodingKey {
       case indexName = "index_name"
       case queryID = "query_id"
       case offset
       case userToken = "user_token"
     }
-    
+
   }
-  
+
 }

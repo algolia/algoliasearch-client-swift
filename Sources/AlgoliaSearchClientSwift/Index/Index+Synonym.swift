@@ -8,9 +8,9 @@
 import Foundation
 
 public extension Index {
-  
-  //MARK: - Save synonym
-  
+
+  // MARK: - Save synonym
+
   /**
    Create or update a single synonym on an index.
    Whether you create or update a synonym, you must specify a unique ObjectID.
@@ -31,7 +31,7 @@ public extension Index {
     let command = Command.Synonym.Save(indexName: name, synonym: synonym, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Create or update a single synonym on an index.
    Whether you create or update a synonym, you must specify a unique ObjectID.
@@ -50,9 +50,9 @@ public extension Index {
     let command = Command.Synonym.Save(indexName: name, synonym: synonym, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return try execute(command)
   }
-  
-  //MARK: - Save synonym list
-  
+
+  // MARK: - Save synonym list
+
   /**
    Create or update multiple synonym.
    This method enables you to create or update one or more synonym in a single call.
@@ -82,7 +82,7 @@ public extension Index {
     let command = Command.Synonym.SaveList(indexName: name, synonyms: synonyms, forwardToReplicas: forwardToReplicas, clearExistingSynonyms: clearExistingSynonyms, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Create or update multiple synonym.
    This method enables you to create or update one or more synonym in a single call.
@@ -110,9 +110,9 @@ public extension Index {
     let command = Command.Synonym.SaveList(indexName: name, synonyms: synonyms, forwardToReplicas: forwardToReplicas, clearExistingSynonyms: clearExistingSynonyms, requestOptions: requestOptions)
     return try execute(command)
   }
-  
-  //MARK: - Get synonym
-  
+
+  // MARK: - Get synonym
+
   /**
    Get a single synonym using its ObjectID.
    
@@ -127,7 +127,7 @@ public extension Index {
     let command = Command.Synonym.Get(indexName: name, objectID: objectID, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Get a single synonym using its ObjectID.
    
@@ -140,9 +140,9 @@ public extension Index {
     let command = Command.Synonym.Get(indexName: name, objectID: objectID, requestOptions: requestOptions)
     return try execute(command)
   }
-  
-  //MARK: - Delete synonym
-  
+
+  // MARK: - Delete synonym
+
   /**
    Remove a single synonym from an index using its ObjectID.
 
@@ -158,7 +158,7 @@ public extension Index {
     let command = Command.Synonym.Delete(indexName: name, objectID: objectID, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Remove a single synonym from an index using its ObjectID.
 
@@ -172,9 +172,9 @@ public extension Index {
     let command = Command.Synonym.Delete(indexName: name, objectID: objectID, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return try execute(command)
   }
-  
-  //MARK: - Search synonyms
-  
+
+  // MARK: - Search synonyms
+
   /**
    Get all synonym that match a SynonymQuery.
 
@@ -189,7 +189,7 @@ public extension Index {
     let command = Command.Synonym.Search(indexName: name, query: query, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Get all synonym that match a SynonymQuery.
 
@@ -202,9 +202,9 @@ public extension Index {
     let command = Command.Synonym.Search(indexName: name, query: query, requestOptions: requestOptions)
     return try execute(command)
   }
-  
-  //MARK: - Clear synonyms
-  
+
+  // MARK: - Clear synonyms
+
   /**
    Remove all synonyms from an index. This is a convenience method to delete all synonyms at once.
    This Clear All method should not be used on a production index to push a new list of synonyms because it will
@@ -222,7 +222,7 @@ public extension Index {
     let command = Command.Synonym.Clear(indexName: name, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Remove all synonyms from an index. This is a convenience method to delete all synonyms at once.
    This Clear All method should not be used on a production index to push a new list of synonyms because it will
@@ -238,9 +238,9 @@ public extension Index {
     let command = Command.Synonym.Clear(indexName: name, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return try execute(command)
   }
-  
-  //MARK: - Replace all synonyms
-  
+
+  // MARK: - Replace all synonyms
+
   /**
    Push a new set of synonym and erase all previous ones.
    This method, like .replaceAllObjects, guarantees zero downtime.
@@ -258,7 +258,7 @@ public extension Index {
                                              completion: @escaping ResultCallback<RevisionIndex>) -> Operation {
     saveSynonyms(synonyms, forwardToReplicas: forwardToReplicas, clearExistingSynonyms: true, requestOptions: requestOptions, completion: completion)
   }
-  
+
   /**
    Push a new set of synonym and erase all previous ones.
    This method, like .replaceAllObjects, guarantees zero downtime.
@@ -274,5 +274,5 @@ public extension Index {
                                              requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<RevisionIndex> {
     try saveSynonyms(synonyms, forwardToReplicas: forwardToReplicas, clearExistingSynonyms: true, requestOptions: requestOptions)
   }
-  
+
 }

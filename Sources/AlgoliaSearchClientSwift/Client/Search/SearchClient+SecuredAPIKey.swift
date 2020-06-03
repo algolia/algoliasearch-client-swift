@@ -8,7 +8,7 @@
 import Foundation
 
 public extension SearchClient {
-  
+
   func generateSecuredApiKey(parentApiKey: APIKey, with restriction: SecuredAPIKeyRestriction) -> APIKey {
     let queryParams = restriction.urlEncodedString
     let hash = queryParams.hmac(algorithm: .sha256, key: parentApiKey.rawValue)
@@ -24,5 +24,5 @@ public extension SearchClient {
     let timestampDate = Date(timeIntervalSince1970: timestamp)
     return timestampDate.timeIntervalSince1970 - Date().timeIntervalSince1970
   }
-  
+
 }

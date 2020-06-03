@@ -8,7 +8,7 @@
 import Foundation
 
 public struct ClustersListResponse: Codable {
-  
+
   public let clusters: [Cluster]
-  
+
 }

@@ -9,7 +9,7 @@ import Foundation
 
 /// Highlight result for an attribute of a hit.
 public struct HighlightResult: Codable, Hashable {
-  
+
   /// Value of this highlight.
   public let value: HighlightedString
 
