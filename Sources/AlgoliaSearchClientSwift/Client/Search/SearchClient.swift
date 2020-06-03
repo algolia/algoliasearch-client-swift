@@ -44,12 +44,18 @@ public struct SearchClient: Credentials {
     
     let retryStrategy = AlgoliaRetryStrategy(configuration: configuration)
 
-    let httpTransport = HttpTransport(requester: requester, configuration: configuration, retryStrategy: retryStrategy, credentials: configuration, operationLauncher: operationLauncher)
+    let httpTransport = HttpTransport(requester: requester,
+                                      configuration: configuration,
+                                      retryStrategy: retryStrategy,
+                                      credentials: configuration,
+                                      operationLauncher: operationLauncher)
     self.init(transport: httpTransport, operationLauncher: operationLauncher, configuration: configuration)
     
   }
 
-  init(transport: Transport, operationLauncher: OperationLauncher, configuration: Configuration) {
+  init(transport: Transport,
+       operationLauncher: OperationLauncher,
+       configuration: Configuration) {
     self.transport = transport
     self.operationLauncher = operationLauncher
     self.configuration = configuration

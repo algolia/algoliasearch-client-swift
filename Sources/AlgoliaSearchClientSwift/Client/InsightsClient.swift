@@ -11,6 +11,7 @@ public struct InsightsClient: Credentials {
 
   let transport: Transport
   let operationLauncher: OperationLauncher
+  let configuration: Configuration
 
   public var applicationID: ApplicationID {
     return transport.applicationID
@@ -27,20 +28,35 @@ public struct InsightsClient: Credentials {
     sessionConfiguration.httpAdditionalHeaders = configuration.defaultHeaders
 
     let session = URLSession(configuration: sessionConfiguration)
-    let retryStrategy = AlgoliaRetryStrategy(configuration: configuration)
+    
+    self.init(configuration: configuration, requester: session)
 
+  }
+  
+  public init(configuration: InsightsConfiguration, requester: HTTPRequester) {
+    
     let queue = OperationQueue()
     queue.qualityOfService = .userInitiated
     let operationLauncher = OperationLauncher(queue: queue)
+    
+    let retryStrategy = AlgoliaRetryStrategy(configuration: configuration)
 
-    let httpTransport = HttpTransport(requester: session, configuration: configuration, retryStrategy: retryStrategy, credentials: configuration, operationLauncher: operationLauncher)
-    self.init(transport: httpTransport, operationLauncher: operationLauncher)
-
+    let httpTransport = HttpTransport(requester: requester,
+                                      configuration: configuration,
+                                      retryStrategy: retryStrategy,
+                                      credentials: configuration,
+                                      operationLauncher: operationLauncher)
+    
+    self.init(transport: httpTransport, operationLauncher: operationLauncher, configuration: configuration)
+    
   }
 
-  init(transport: Transport, operationLauncher: OperationLauncher) {
+  init(transport: Transport,
+       operationLauncher: OperationLauncher,
+       configuration: Configuration) {
     self.transport = transport
     self.operationLauncher = operationLauncher
+    self.configuration = configuration
   }
 
 }
