@@ -21,7 +21,9 @@ class OperationLauncher {
   }
 
   func launchSync<O: OperationWithResult>(_ operation: O) throws -> O.ResultValue {
-    queue.addOperations([operation], waitUntilFinished: true)
+    queue.addOperation(operation)
+//    print(queue.operations)
+    operation.waitUntilFinished()
     guard !operation.isCancelled else {
       throw SyncOperationError.cancelled
     }
