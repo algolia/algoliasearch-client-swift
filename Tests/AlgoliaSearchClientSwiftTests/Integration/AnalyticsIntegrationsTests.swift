@@ -16,7 +16,7 @@ class AnalyticsIntegrationTests: OnlineTestCase {
     let _ = try analyticsClient.browseAllABTests(hitsPerPage: 3)
   }
 
-  func tstABTesting() throws {
+  func testABTesting() throws {
     
     let analyticsClient = AnalyticsClient(appID: client.applicationID, apiKey: client.apiKey)
 
@@ -56,8 +56,8 @@ class AnalyticsIntegrationTests: OnlineTestCase {
     try deletion.wait()
     try AssertThrowsHTTPError(try analyticsClient.getABTest(withID: creation.wrapped.abTestID), statusCode: 404)
   }
-  
-  func tstAATesting() throws {
+    
+  func testAATesting() throws {
     
     let analyticsClient = AnalyticsClient(appID: client.applicationID, apiKey: client.apiKey)
     let index = client.index(withName: "aa_testing")
