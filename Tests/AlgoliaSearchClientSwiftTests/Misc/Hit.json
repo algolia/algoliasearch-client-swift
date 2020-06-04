@@ -1,0 +1,170 @@
+{
+  "name": "1580",
+  "cuisine": [
+    "Indian"
+  ],
+  "contact": {
+    "address": {
+      "country": "United Kingdom",
+      "postcode": "B23 5TE",
+      "building": "710 ",
+      "street": "Chester Rd",
+      "locality": "",
+      "town": "Birmingham",
+      "county": "West Midlands"
+    },
+    "website": "http://www.1580.co.uk",
+    "telephone": "0121 439 4243",
+  },
+  "is_open": [
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+    "sunday"
+  ],
+  "is_booking_required": false,
+  "description": "An utterly resplendent addition to the Birmingham dining scene, 1580 is an enchanting Indian restaurant awash with a distinctly contemporary style that showcases both the rich culture and the sumptuous fare of India. Speahreaded by a team of master chefs, 1580 offers a truly modern interpretation of Indian cuisine that’s well worth sampling.\n\n \n\nA cornucopia of classic dishes are available, offering traditional palates a divine taste of the cuisine, yet there are also some tantalising specialities to consider. Outstanding examples of such include the sumptuous 1580 Signature Karkat, a whole lobster cooked with a choice of sauce & paired with steam rice, and the delectable Barer Curry, tandoori cooked quail enriched with green chillies, garlic & fresh ginger. An already enticing prospect, dining at 1580 is only enhanced by dining with a hi-life membership thanks to the fantastic discounts it grants.\n",
+  "_geoloc": {
+    "lat": 52.533597,
+    "lng": -1.829977
+  },
+  "objectID": "7236",
+  "_snippetResult": {
+    "name": {
+      "value": "1580",
+      "matchLevel": "none"
+    },
+    "cuisine": [
+      {
+        "value": "Indian",
+        "matchLevel": "none"
+      }
+    ],
+    "contact": {
+      "address": {
+        "country": {
+          "value": "United Kingdom",
+          "matchLevel": "none"
+        },
+        "postcode": {
+          "value": "B23 5TE",
+          "matchLevel": "none"
+        },
+        "building": {
+          "value": "710 ",
+          "matchLevel": "none"
+        },
+        "street": {
+          "value": "Chester Rd",
+          "matchLevel": "none"
+        },
+        "locality": {
+          "value": "",
+          "matchLevel": "none"
+        },
+        "town": {
+          "value": "Birmingham",
+          "matchLevel": "none"
+        },
+        "county": {
+          "value": "West Midlands",
+          "matchLevel": "none"
+        }
+      },
+      "website": {
+        "value": "http://www.1580.co.uk",
+        "matchLevel": "none"
+      },
+      "telephone": {
+        "value": "0121 439 4243",
+        "matchLevel": "none"
+      }
+    },
+    "is_open": [
+      {
+        "value": "tuesday",
+        "matchLevel": "none"
+      },
+      {
+        "value": "wednesday",
+        "matchLevel": "none"
+      },
+      {
+        "value": "thursday",
+        "matchLevel": "none"
+      },
+      {
+        "value": "friday",
+        "matchLevel": "none"
+      },
+      {
+        "value": "saturday",
+        "matchLevel": "none"
+      },
+      {
+        "value": "sunday",
+        "matchLevel": "none"
+      }
+    ],
+    "description": {
+      "value": "An utterly resplendent addition to the Birmingham dining scene, 1580 is an enchanting Indian restaurant awash with a distinctly contemporary …",
+      "matchLevel": "none"
+    },
+    "_geoloc": {
+      "lat": {
+        "value": "52.533597",
+        "matchLevel": "none"
+      },
+      "lng": {
+        "value": "-1.829977",
+        "matchLevel": "none"
+      }
+    }
+  },
+  "_highlightResult": {
+    "name": {
+      "value": "1580",
+      "matchLevel": "none",
+      "matchedWords": []
+    },
+    "cuisine": [
+      {
+        "value": "Indian",
+        "matchLevel": "none",
+        "matchedWords": []
+      }
+    ],
+    "contact": {
+      "address": {
+        "postcode": {
+          "value": "B23 5TE",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "street": {
+          "value": "Chester Rd",
+          "matchLevel": "none",
+          "matchedWords": []
+        },
+        "town": {
+          "value": "Birmingham",
+          "matchLevel": "none",
+          "matchedWords": []
+        }
+      }
+    }
+  },
+  "_rankingInfo": {
+    "nbTypos": 0,
+    "firstMatchedWord": 0,
+    "proximityDistance": 0,
+    "userScore": 2092,
+    "geoDistance": 0,
+    "geoPrecision": 0,
+    "nbExactWords": 0,
+    "words": 0,
+    "filters": 0
+  }
+}
