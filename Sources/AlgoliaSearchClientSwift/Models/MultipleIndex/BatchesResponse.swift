@@ -10,10 +10,10 @@ import Foundation
 public struct BatchesResponse {
 
   /// A list of TaskIndex to use with .waitAll.
-  let tasks: [TaskIndex]
+  public let tasks: [TaskIndex]
 
   /// List of ObjectID affected by .multipleBatchObjects.
-  let objectIDs: [ObjectID?]
+  public let objectIDs: [ObjectID?]
 
 }
 

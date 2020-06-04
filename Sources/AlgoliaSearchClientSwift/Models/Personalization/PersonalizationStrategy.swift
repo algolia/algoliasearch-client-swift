@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct PersonalizationStrategy: Codable {
+public struct PersonalizationStrategy {
 
   /// Events scoring saved on the API.
   public let eventsScoring: [EventScoring]
@@ -18,12 +18,6 @@ public struct PersonalizationStrategy: Codable {
   /// Personalization impact.
   public let personalizationImpact: Int
 
-  enum CodingKeys: String, CodingKey {
-    case eventsScoring
-    case facetsScoring
-    case personalizationImpact
-  }
-
   public init(eventsScoring: [EventScoring],
               facetsScoring: [FacetScoring],
               personalizationImpact: Int) {
@@ -32,6 +26,16 @@ public struct PersonalizationStrategy: Codable {
     self.personalizationImpact = personalizationImpact
   }
 
+}
+
+extension PersonalizationStrategy: Codable {
+  
+  enum CodingKeys: String, CodingKey {
+    case eventsScoring
+    case facetsScoring
+    case personalizationImpact
+  }
+  
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     self.eventsScoring = try container.decode(forKey: .eventsScoring)

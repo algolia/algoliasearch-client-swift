@@ -147,7 +147,7 @@ extension PartialUpdate.Content: Codable {
     case operation = "_operation"
   }
 
-  init(from decoder: Decoder) throws {
+  public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     let operation: PartialUpdate.Operation? = try container.decodeIfPresent(forKey: .operation)
     if let operation = operation {
@@ -159,7 +159,7 @@ extension PartialUpdate.Content: Codable {
     }
   }
 
-  func encode(to encoder: Encoder) throws {
+  public func encode(to encoder: Encoder) throws {
     if let operation = operation {
       var container = encoder.container(keyedBy: CodingKeys.self)
       try container.encode(operation, forKey: .operation)

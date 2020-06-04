@@ -10,18 +10,18 @@ import Foundation
 public struct UserIDSearchResponse: Codable {
 
   /// List of UserIDResponse matching the query.
-  let hits: [UserIDResponse]
+  public let hits: [UserIDResponse]
 
   /// Number of userIDs matching the query.
-  let nbHits: Int
+  public let nbHits: Int
 
   /// Current page.
-  let page: Int
+  public let page: Int
 
   /// Number of hits retrieved per page.
-  let hitsPerPage: Int
+  public let hitsPerPage: Int
 
   /// Timestamp of the last update of the index
-  let updatedAt: Date
+  public let updatedAt: Date
 
 }

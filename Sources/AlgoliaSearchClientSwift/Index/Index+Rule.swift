@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension Index {
+public extension Index {
 
   // MARK: - Save rule
 
