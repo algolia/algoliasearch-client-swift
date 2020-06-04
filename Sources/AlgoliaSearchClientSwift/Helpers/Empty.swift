@@ -9,9 +9,9 @@ import Foundation
 
 public struct Empty: Codable {
 
-  static let empty: Self = .init()
+  public static let empty: Self = .init()
 
-  init() {}
+  public init() {}
 
   public init(from decoder: Decoder) throws {
     self.init()

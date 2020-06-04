@@ -11,13 +11,13 @@ import Foundation
 public struct ABTestShortResponse {
 
   /// ABTestID of the ABTest test.
-  let abTestID: ABTestID
+  public let abTestID: ABTestID
 
   /// The base index Variant.
-  let variantA: Variant
+  public let variantA: Variant
 
   /// The index Variant to test against.
-  let variantB: Variant
+  public let variantB: Variant
 
 }
 

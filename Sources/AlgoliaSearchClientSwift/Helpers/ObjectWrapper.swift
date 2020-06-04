@@ -23,7 +23,7 @@ public struct ObjectWrapper<T> {
 
 }
 
-extension ObjectWrapper where T == Empty {
+public extension ObjectWrapper where T == Empty {
 
   init(objectID: ObjectID) {
     self.objectID = objectID

@@ -9,19 +9,13 @@ import Foundation
 
 public struct FacetSearchResponse: Codable {
 
-  /**
-   The list of Facet.
-   */
+  /// The list of Facet.
   public let facetHits: [Facet]
 
-  /**
-   Whether the count returned for each facets is exhaustive.
-   */
+  /// Whether the count returned for each facets is exhaustive.
   public let exhaustiveFacetsCount: Bool
 
-  /**
-   Processing time.
-   */
+  /// Processing time.
   public let processingTimeMS: TimeInterval
 
 }
