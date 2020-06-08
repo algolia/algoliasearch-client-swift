@@ -3,6 +3,9 @@ excluded:
  - ./Tests
 # implicitly
 line_length: 300
+identifier_name: 
+  excluded:
+    - on
 disabled_rules:
   - implicit_getter
 nesting: 
