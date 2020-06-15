@@ -9,11 +9,11 @@ import Foundation
 
 public struct UserAgentController {
   
-  public internal(set) static var userAgents: Set<UserAgent> = [.operatingSystem, .library]
+  public internal(set) static var userAgents: [UserAgent] = [.operatingSystem, .library]
 
   /// Append user agent info which will be includede in each API call.
   public static func append(userAgent: UserAgent) {
-    userAgents.insert(userAgent)
+    userAgents.append(userAgent)
   }
   
 }

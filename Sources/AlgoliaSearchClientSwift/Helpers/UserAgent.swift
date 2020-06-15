@@ -22,7 +22,13 @@ public struct UserAgent: Hashable {
 extension UserAgent: CustomStringConvertible {
 
   public var description: String {
-    return [title, version].filter { !$0.isEmpty }.joined(separator: " ")
+    let versionOutput: String
+    if version.isEmpty {
+      versionOutput = version
+    } else {
+      versionOutput = "(\(version))"
+    }
+    return [title, versionOutput].filter { !$0.isEmpty }.joined(separator: " ")
   }
 
 }
@@ -59,6 +65,8 @@ extension UserAgent {
       return "tvOS"
     #elseif os(watchOS)
       return "watchOS"
+    #elseif os(Linux)
+      return "Linux"
     #else
       return nil
     #endif
