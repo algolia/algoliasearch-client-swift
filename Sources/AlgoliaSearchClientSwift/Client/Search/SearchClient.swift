@@ -21,9 +21,7 @@ public struct SearchClient: Credentials {
   public var apiKey: APIKey {
     return transport.apiKey
   }
-
-  public internal(set) static var userAgents: Set<UserAgent> = [.operatingSystem, .library]
-
+  
   public init(appID: ApplicationID, apiKey: APIKey) {
 
     let configuration = SearchConfiguration(applicationID: appID, apiKey: apiKey)
@@ -64,11 +62,6 @@ public struct SearchClient: Credentials {
   /// Initialize an Index configured with SearchConfiguration.
   public func index(withName indexName: IndexName) -> Index {
     return Index(name: indexName, transport: transport, operationLauncher: operationLauncher, configuration: configuration)
-  }
-
-  /// Append user agent info which will be includede in each API call.
-  public static func append(userAgent: UserAgent) {
-    userAgents.insert(userAgent)
   }
 
 }
