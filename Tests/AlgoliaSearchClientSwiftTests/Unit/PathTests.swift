@@ -16,5 +16,12 @@ class PathTests: XCTestCase {
     XCTAssertEqual((.indexesV1 >>> IndexRoute.index("testIndex")).fullPath, "/1/indexes/testIndex")
     XCTAssertEqual((.indexesV1 >>> .index("testIndex") >>> IndexCompletion.batch).fullPath, "/1/indexes/testIndex/batch")
   }
+  
+  func testIndexNameEncoding() {
+    let indexName: IndexName = "Index name with spaces"
+    let path = .indexesV1 >>> IndexRoute.index(indexName)
+    let request = URLRequest(method: .post, path: path)
+    XCTAssertEqual(request.url?.absoluteString, "https:/1/indexes/Index%20name%20with%20spaces")
+  }
 
 }
