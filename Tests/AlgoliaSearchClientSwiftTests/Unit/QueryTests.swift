@@ -77,6 +77,7 @@ class QueryTests: XCTestCase {
     .set(\.minProximity, to: 3)
     .set(\.responseFields, to: [.facetsStats, .hits])
     .set(\.percentileComputation, to: false)
+    .set(\.naturalLanguages, to: [.maori, .tamil])
     .set(\.customParameters, to: ["custom1": "val1", "custom2": 2])
 
 
@@ -150,6 +151,7 @@ class QueryTests: XCTestCase {
       "minProximity=3",
       "responseFields=facets_stats,hits",
       "percentileComputation=false",
+      "naturalLanguages=mi,ta",
       "custom1=val1",
       "custom2=2.0"
     ].joined(separator: "&")
@@ -240,6 +242,7 @@ class QueryTests: XCTestCase {
       "minProximity": 3,
       "responseFields": ["facets_stats", "hits"],
       "percentileComputation": false,
+      "naturalLanguages": ["mi", "ta"],
       "custom1": "val1",
       "custom2": 2,
     ])

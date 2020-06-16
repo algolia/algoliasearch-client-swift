@@ -167,6 +167,7 @@ extension Query: URLEncodable {
     urlEncoder.set(minProximity, for: .minProximity)
     urlEncoder.set(responseFields, for: .responseFields)
     urlEncoder.set(percentileComputation, for: .percentileComputation)
+    urlEncoder.set(naturalLanguages, for: .naturalLanguages)
     urlEncoder.set(customParameters)
 
     return urlEncoder.encode()!
