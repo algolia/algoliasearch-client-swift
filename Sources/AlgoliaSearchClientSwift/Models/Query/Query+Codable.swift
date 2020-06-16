@@ -77,6 +77,7 @@ extension Query: Codable {
     similarQuery = try container.decodeIfPresent(forKey: .similarQuery)
     enableABTest = try container.decodeIfPresent(forKey: .enableABTest)
     explainModules = try container.decodeIfPresent(forKey: .explainModules)
+    naturalLanguages = try container.decodeIfPresent(forKey: .naturalLanguages)
     customParameters = try CustomParametersCoder.decode(from: decoder, excludingKeys: CodingKeys.self)
   }
 
@@ -147,6 +148,7 @@ extension Query: Codable {
     try container.encodeIfPresent(similarQuery, forKey: .similarQuery)
     try container.encodeIfPresent(enableABTest, forKey: .enableABTest)
     try container.encodeIfPresent(explainModules, forKey: .explainModules)
+    try container.encodeIfPresent(naturalLanguages, forKey: .naturalLanguages)
     if let customParameters = customParameters {
       try CustomParametersCoder.encode(customParameters, to: encoder)
     }
@@ -218,6 +220,7 @@ extension Query: Codable {
     case similarQuery
     case enableABTest
     case explainModules
+    case naturalLanguages
   }
 
 }
