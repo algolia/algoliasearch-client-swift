@@ -14,7 +14,7 @@ default_platform(:ios)
 
 desc "Test library"
 lane :test do
-  sh("cd ..; swift test")
+  sh("swift test")
 end
 
 desc "Lint library"
