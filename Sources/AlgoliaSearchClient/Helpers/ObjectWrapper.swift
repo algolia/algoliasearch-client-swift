@@ -16,7 +16,7 @@ public struct ObjectWrapper<T> {
     self.objectID = objectID
     self.object = object
   }
-  
+
   enum CodingKeys: String, CodingKey {
     case objectID
   }
@@ -33,13 +33,13 @@ public extension ObjectWrapper where T == Empty {
 }
 
 extension ObjectWrapper: Decodable where T: Decodable {
-  
+
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     objectID = try container.decode(forKey: .objectID)
     object = try .init(from: decoder)
   }
-  
+
 }
 
 extension ObjectWrapper: Encodable where T: Encodable {
@@ -49,6 +49,5 @@ extension ObjectWrapper: Encodable where T: Encodable {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(objectID, forKey: .objectID)
   }
-
 
 }

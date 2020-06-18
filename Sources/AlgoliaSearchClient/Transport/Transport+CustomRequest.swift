@@ -8,9 +8,9 @@
 import Foundation
 
 extension Transport {
-  
+
   // MARK: - Custom request
-  
+
   /**
    Perform custom request
    
@@ -27,7 +27,7 @@ extension Transport {
     let command = Command.Custom(callType: callType, urlRequest: request, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Perform custom request
    
@@ -37,12 +37,12 @@ extension Transport {
    - Parameter completion: Result completion
    - Returns: Specified generic object
    */
-  
+
   @discardableResult func customRequest<T: Decodable>(callType: CallType,
                                                       request: URLRequest,
                                                       requestOptions: RequestOptions? = nil) throws -> T {
     let command = Command.Custom(callType: callType, urlRequest: request, requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
 }

@@ -49,7 +49,7 @@ public struct Query {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/_/?language=swift)
    */
   public var explainModules: [ExplainModule]?
-  
+
   /**
    List of supported languages with their associated language ISO code.
    Provide an easy way to implement voice and natural languages best practices such as ignorePlurals,

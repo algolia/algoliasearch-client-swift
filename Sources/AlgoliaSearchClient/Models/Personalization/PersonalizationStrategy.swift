@@ -29,13 +29,13 @@ public struct PersonalizationStrategy {
 }
 
 extension PersonalizationStrategy: Codable {
-  
+
   enum CodingKeys: String, CodingKey {
     case eventsScoring
     case facetsScoring
     case personalizationImpact
   }
-  
+
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     self.eventsScoring = try container.decode(forKey: .eventsScoring)

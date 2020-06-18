@@ -21,7 +21,7 @@ public struct SearchClient: Credentials {
   public var apiKey: APIKey {
     return transport.apiKey
   }
-  
+
   public init(appID: ApplicationID, apiKey: APIKey) {
 
     let configuration = SearchConfiguration(applicationID: appID, apiKey: apiKey)
