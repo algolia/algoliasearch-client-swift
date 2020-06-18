@@ -1,14 +1,14 @@
-[![Pod Version](http://img.shields.io/cocoapods/v/AlgoliaSearchClient.svg?style=flat)](http://cocoadocs.org/docsets/AlgoliaSearchClient/)
-[![Pod Platform](http://img.shields.io/cocoapods/p/AlgoliaSearchClient.svg?style=flat)](http://cocoadocs.org/docsets/AlgoliaSearchClient/)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-brightgreen.svg)](https://github.com/algolia/AlgoliaSearchClient/)
-[![SwiftPM compatible](https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg)](https://swift.org/package-manager/)
-[![Mac Catalyst compatible](https://img.shields.io/badge/Catalyst-compatible-brightgreen.svg)](https://developer.apple.com/documentation/xcode/creating_a_mac_version_of_your_ipad_app/)
-[![Licence](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 <p align="center">
   <a href="https://www.algolia.com">
     <img alt="Algolia for Swift" src="banner.png" >
   </a>
+  [![Pod Version](http://img.shields.io/cocoapods/v/AlgoliaSearchClient.svg?style=flat)](http://cocoadocs.org/docsets/AlgoliaSearchClient/)
+  [![Pod Platform](http://img.shields.io/cocoapods/p/AlgoliaSearchClient.svg?style=flat)](http://cocoadocs.org/docsets/AlgoliaSearchClient/)
+  [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-brightgreen.svg)](https://github.com/algolia/AlgoliaSearchClient/)
+  [![SwiftPM compatible](https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg)](https://swift.org/package-manager/)
+  [![Mac Catalyst compatible](https://img.shields.io/badge/Catalyst-compatible-brightgreen.svg)](https://developer.apple.com/documentation/xcode/creating_a_mac_version_of_your_ipad_app/)
+  [![Licence](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
   <a href="https://www.algolia.com/doc/api-client/getting-started/install/swift/" target="_blank">Documentation</a>  •
   <a href="https://discourse.algolia.com" target="_blank">Community Forum</a>  •
   <a href="http://stackoverflow.com/questions/tagged/algolia" target="_blank">Stack Overflow</a>  •
