@@ -15,7 +15,7 @@ then
 else
  prereleaseIdentifier=\"${prerelease_components}\"
 fi
-version_file=Sources/AlgoliaSearchClientSwift/Helpers/Version+Current.swift
+version_file=Sources/AlgoliaSearchClient/Helpers/Version+Current.swift
 > $version_file
 echo "// This is generated file. Don't modify it manually." >> $version_file
 echo "public extension Version { static let current: Version = .init(major: $major, minor: $minor, patch: $patch, prereleaseIdentifier: $prereleaseIdentifier) }" >> $version_file

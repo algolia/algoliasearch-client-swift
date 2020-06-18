@@ -1,6 +1,6 @@
-[![Pod Version](http://img.shields.io/cocoapods/v/AlgoliaSearchClientSwift.svg?style=flat)](http://cocoadocs.org/docsets/AlgoliaSearchClientSwift/)
-[![Pod Platform](http://img.shields.io/cocoapods/p/AlgoliaSearchClientSwift.svg?style=flat)](http://cocoadocs.org/docsets/AlgoliaSearchClientSwift/)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-brightgreen.svg)](https://github.com/algolia/AlgoliaSearchClientSwift/)
+[![Pod Version](http://img.shields.io/cocoapods/v/AlgoliaSearchClient.svg?style=flat)](http://cocoadocs.org/docsets/AlgoliaSearchClient/)
+[![Pod Platform](http://img.shields.io/cocoapods/p/AlgoliaSearchClient.svg?style=flat)](http://cocoadocs.org/docsets/AlgoliaSearchClient/)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-brightgreen.svg)](https://github.com/algolia/AlgoliaSearchClient/)
 [![SwiftPM compatible](https://img.shields.io/badge/SwiftPM-compatible-brightgreen.svg)](https://swift.org/package-manager/)
 [![Mac Catalyst compatible](https://img.shields.io/badge/Catalyst-compatible-brightgreen.svg)](https://developer.apple.com/documentation/xcode/creating_a_mac_version_of_your_ipad_app/)
 [![Licence](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -29,7 +29,7 @@
 
 1. Add a dependency on InstantSearchClient:
     - CocoaPods
-      - add `pod 'AlgoliaSearchClientSwift', '~> 8.0.0-beta.4'` to your `Podfile`.
+      - add `pod 'AlgoliaSearchClient', '~> 8.0.0-beta.9'` to your `Podfile`.
     - Carthage 
       - add `github "algolia/algoliasearch-client-swift" ~> 8.0.0-beta.4` to your `Cartfile`.
       - launch the following commands from the project directory
@@ -39,9 +39,9 @@
 		   carthage build
 		   ```
     - Swift Package Manager
-      - add `.package(name: "AlgoliaSearchClientSwift", url: "https://github.com/algolia/algoliasearch-client-swift", from: "8.0.0-beta.4")` to your package dependencies array in `Package.swift`
-      - add `AlgoliaSearchClientSwift` to your target dependencies.
-2. Add `import AlgoliaSearchClientSwift` to your source files.
+      - add `.package(name: "AlgoliaSearchClient", url: "https://github.com/algolia/algoliasearch-client-swift", from: "8.0.0-beta.9")` to your package dependencies array in `Package.swift`
+      - add `AlgoliaSearchClient` to your target dependencies.
+2. Add `import AlgoliaSearchClient` to your source files.
 
 ### Swift 4.2
 

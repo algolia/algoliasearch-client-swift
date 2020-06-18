@@ -30,10 +30,10 @@ desc "Test coverage"
 lane :coverage do
  xcodeProject = "tmp.xcodeproj"
  sh("swift package generate-xcodeproj --output #{xcodeProject}")
- sh("xcodebuild test -scheme AlgoliaSearchClientSwift-Package -enableCodeCoverage YES")
+ sh("xcodebuild test -scheme AlgoliaSearchClient-Package -enableCodeCoverage YES")
  xcov(
     project: "fastlane/#{xcodeProject}",
-    scheme: "AlgoliaSearchClientSwift-Package",
+    scheme: "AlgoliaSearchClient-Package",
     exclude_targets: "Logging.framework",
     minimum_coverage_percentage: 60.0
  )
@@ -53,7 +53,7 @@ lane :deploy do |options|
 
   new_build_number = version_bump_podspec(
     bump_type: options[:type],
-    path: "AlgoliaSearchClientSwift.podspec"
+    path: "AlgoliaSearchClient.podspec"
   )
 
   sh("./generate_version #{new_build_number}")
@@ -63,7 +63,7 @@ lane :deploy do |options|
 
   #puts changelog_from_git_commits
   git_commit(
-    path: ["AlgoliaSearchClientSwift.podspec", "./Sources/AlgoliaSearchClientSwift/Helpers/Version+Current.swift"], 
+    path: ["AlgoliaSearchClient.podspec", "./Sources/AlgoliaSearchClient/Helpers/Version+Current.swift"],
     message: "Version #{new_build_number}"
   )
   add_git_tag(
@@ -83,7 +83,7 @@ lane :deploy do |options|
   )
 
   pod_push(
-    path: "AlgoliaSearchClientSwift.podspec",
+    path: "AlgoliaSearchClient.podspec",
     allow_warnings: true
   )
   # This is failing when no files are changed. So we added this step in Bitrise instead along with is_skippable: true.
@@ -102,7 +102,7 @@ lane :deployBeta do |options|
 
   version_bump_podspec(
     version_number: new_build_number,
-    path: "AlgoliaSearchClientSwift.podspec"
+    path: "AlgoliaSearchClient.podspec"
   )
 
   sh("cd ..; ./generate_version #{new_build_number}")
@@ -110,7 +110,7 @@ lane :deployBeta do |options|
   puts "#{new_build_number}"
 
   git_commit(
-    path: ["AlgoliaSearchClientSwift.podspec", "./Sources/AlgoliaSearchClientSwift/Helpers/Version+Current.swift"], 
+    path: ["AlgoliaSearchClient.podspec", "./Sources/AlgoliaSearchClient/Helpers/Version+Current.swift"], 
     message: "Version #{new_build_number}"
   )
 
@@ -121,7 +121,7 @@ lane :deployBeta do |options|
   push_to_git_remote(remote: "origin")
 
   pod_push(
-    path: "AlgoliaSearchClientSwift.podspec",
+    path: "AlgoliaSearchClient.podspec",
     allow_warnings: true
   )
 

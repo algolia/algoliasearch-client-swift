@@ -26,12 +26,12 @@ import PackageDescription
 let package = Package(
     name: "SwiftClientTest",
     dependencies: [
-        .package(name: "AlgoliaSearchClientSwift", url: "https://github.com/algolia/algoliasearch-client-swift", from: "8.0.0-beta.2")
+        .package(name: "AlgoliaSearchClient", url: "https://github.com/algolia/algoliasearch-client-swift", from: "8.0.0-beta.2")
     ],
     targets: [
         .target(
             name: "SwiftClientTest",
-            dependencies: ["AlgoliaSearchClientSwift"]),
+            dependencies: ["AlgoliaSearchClient"]),
         .testTarget(
             name: "SwiftClientTestTests",
             dependencies: ["SwiftClientTest"]),
@@ -80,7 +80,7 @@ extension Array where Element == Employee {
 ​
 ## Index datas
 ​
-Download [Employees.json](https://github.com/algolia/algoliasearch-client-swift/blob/feat/v2/develop/Tests/AlgoliaSearchClientSwiftTests/Misc/Employees.json) to `./Sources/SwiftClientTest/.` folder
+Download [Employees.json](https://github.com/algolia/algoliasearch-client-swift/blob/feat/v2/develop/Tests/AlgoliaSearchClientTests/Misc/Employees.json) to `./Sources/SwiftClientTest/.` folder
 
 ## Test snippets
 
@@ -88,7 +88,7 @@ Test your snippets in `main.swift`
 
 ```swift
 import Foundation
-import AlgoliaSearchClientSwift
+import AlgoliaSearchClient
 
 let client = Client(appID: "APP ID", apiKey: "API KEY")
 let index = client.index(withName: "INDEX NAME")
@@ -230,10 +230,3 @@ func setGetObjectAsyncSnippet() {
 * Timeouts
 * Settings and its substructures
 * and much more...
-
-# Functionalities not finished yet
-* Synonyms
-* Query rules
-* MCM
-* Secured API keys
-* Analytics
