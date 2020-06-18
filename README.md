@@ -2,25 +2,29 @@
   <a href="https://www.algolia.com">
     <img alt="Algolia for Swift" src="banner.png" >
   </a>
+  
+  <h4 align="center">The perfect starting point to integrate <a href="https://algolia.com" target="_blank">Algolia</a> within your Swift project</h4>
+
+  <p align="center">
+    <a href="https://cocoapods.org/pods/AlgoliaSearchClient">
+      <img src="http://img.shields.io/cocoapods/v/AlgoliaSearchClient.svg?style=flat"></img>
+    </a>
+    <a href="https://cocoapods.org/pods/AlgoliaSearchClient">
+      <img src="http://img.shields.io/cocoapods/p/AlgoliaSearchClient.svg?style=flat"></img>
+    </a>
+    <a href="https://github.com/Carthage/Carthage">
+      <img src="https://img.shields.io/badge/Carthage-compatible-brightgreen.svg"></img>
+    </a>
+    <a href="https://developer.apple.com/documentation/xcode/creating_a_mac_version_of_your_ipad_app/">
+      <img src="https://img.shields.io/badge/Catalyst-compatible-brightgreen.svg"></img>
+    </a>
+    <a href="https://opensource.org/licenses/MIT">
+      <img src="https://img.shields.io/badge/License-MIT-yellow.svg"></img>
+    </a>
+  </p>
+
 </p>
 
-<p align="center">
-  <a href="https://cocoapods.org/pods/AlgoliaSearchClient">
-    <img src="http://img.shields.io/cocoapods/v/AlgoliaSearchClient.svg?style=flat"></img>
-  </a>
-  <a href="https://cocoapods.org/pods/AlgoliaSearchClient">
-    <img src="http://img.shields.io/cocoapods/p/AlgoliaSearchClient.svg?style=flat"></img>
-  </a>
-  <a href="https://github.com/Carthage/Carthage">
-    <img src="https://img.shields.io/badge/Carthage-compatible-brightgreen.svg"></img>
-  </a>
-  <a href="https://developer.apple.com/documentation/xcode/creating_a_mac_version_of_your_ipad_app/">
-    <img src="https://img.shields.io/badge/Catalyst-compatible-brightgreen.svg"></img>
-  </a>
-  <a href="https://opensource.org/licenses/MIT">
-    <img src="https://img.shields.io/badge/License-MIT-yellow.svg"></img>
-  </a>
-</p>
 
 <p align="center">
   <a href="https://www.algolia.com/doc/api-client/getting-started/install/swift/" target="_blank">Documentation</a>  •
@@ -42,47 +46,65 @@
 
 ## Install
 
-### Swift 5.0+
+### Swift Package Manager
 
-1. Add a dependency on InstantSearchClient:
-    - CocoaPods
-      - add `pod 'AlgoliaSearchClient', '~> 8.0.0-beta.9'` to your `Podfile`.
-    - Carthage 
-      - add `github "algolia/algoliasearch-client-swift" ~> 8.0.0-beta.4` to your `Cartfile`.
-      - launch the following commands from the project directory
-		   ```shell
-		   carthage update
-		   ./Carthage/Checkouts/algoliasearch-client-swift/carthage-prebuild
-		   carthage build
-		   ```
-    - Swift Package Manager
-      - add `.package(name: "AlgoliaSearchClient", url: "https://github.com/algolia/algoliasearch-client-swift", from: "8.0.0-beta.9")` to your package dependencies array in `Package.swift`
-      - add `AlgoliaSearchClient` to your target dependencies.
-2. Add `import AlgoliaSearchClient` to your source files.
+The Swift Package Manager is a tool for managing the distribution of Swift code. It’s integrated with the Swift build system to automate the process of downloading, compiling, and linking dependencies. 
+Since the release of Swift 5 and Xcode 11, SPM is compatible with the iOS, macOS and tvOS build systems for creating apps. 
 
-### Swift 4.2
+To use SwiftPM, you should use Xcode 11 to open your project. Click `File` -> `Swift Packages` -> `Add Package Dependency`, enter [InstantSearch repo's URL](https://github.com/algolia/algoliasearch-client-swift).
 
-1. Add a dependency on InstantSearchClient:
-    - CocoaPods
-      - add `pod 'InstantSearchClient', '~> 6.0'` to your `Podfile`.
-    - Carthage: 
-      - add `github "algolia/algoliasearch-client-swift" ~> 6.0.0` to your `Cartfile`.
-    - Swift Package Manager: 
-      - add `.package(url:"https://github.com/algolia/algoliasearch-client-swift", from: "6.0.0")` to your package dependencies array in `Package.swift`
-      - add `InstantSearchClient` to your target dependencies.
-2. Add `import InstantSearchClient` to your source files.
+If you're a framework author and use Algolia as a dependency, update your `Package.swift` file:
 
-### Swift 4.1
+```swift
+let package = Package(
+    // 8.0.0 ..< 9.0.0
+    dependencies: [
+        .package(url: "https://github.com/algolia/algoliasearch-client-swift", from: "8.0.0")
+    ],
+    // ...
+)
+```
 
-1. Add a dependency on InstantSearchClient:
-    - CocoaPods: 
-      - add `pod 'InstantSearchClient', '~> 5.0'` to your `Podfile`.
-    - Carthage: 
-      - add `github "algolia/algoliasearch-client-swift" ~> 5.0.0` to your `Cartfile`.
-    - Swift Package Manager: 
-      - add `.package(url:"https://github.com/algolia/algoliasearch-client-swift", from: "5.0.0")` to your package dependencies array in `Package.swift`
-      - add `InstantSearchClient` to your target dependencies.
-2. Add `import InstantSearchClient` to your source files.
+Add `import AlgoliaSearchClient` to your source files.
+
+### Cocoapods
+
+[CocoaPods](https://cocoapods.org/) is a dependency manager for Cocoa projects.
+
+To install Algolia Swift Client, simply add the following line to your Podfile:
+
+```ruby
+pod 'AlgoliaSearchClient', '~> 8.0'
+# pod 'InstantSearchClient', '~> 6.0'` // Swift 4.2
+# pod 'InstantSearchClient', '~> 5.0'` // Swift 4.1
+```
+
+Then, run the following command:
+
+```bash
+$ pod update
+```
+
+### Carthage
+
+[Carthage](https://github.com/Carthage/Carthage) is a simple, decentralized dependency manager for Cocoa.
+
+- To install InstantSearch, simply add the following line to your Cartfile:
+```ruby
+github "algolia/algoliasearch-client-swift" ~> 8.0.0
+# github "algolia/algoliasearch-client-swift" ~> 6.0.0` // Swift 4.2
+# github "algolia/algoliasearch-client-swift" ~> 5.0.0` // Swift 4.1
+```
+
+- Launch the following commands from the project directory
+ ```shell
+ carthage update
+ ./Carthage/Checkouts/algoliasearch-client-swift/carthage-prebuild
+ carthage build
+ ```
+ 
+If this is your first time using Carthage in the project, you'll need to go through some additional steps as explained [over at Carthage](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application).
+
 
 ## 💡 Getting Started
 
