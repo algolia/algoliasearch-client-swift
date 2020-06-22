@@ -44,11 +44,11 @@ extension URLRequest {
   mutating func setRequestOptions(_ requestOptions: RequestOptions) {
 
     // Append headers
-    requestOptions.headers.forEach { setValue($0.value, forHTTPHeaderField: $0.key) }
+    requestOptions.headers.forEach { setValue($0.value, forHTTPHeaderField: $0.key.rawValue) }
 
     // Append query items
     if let url = url, var currentComponents = URLComponents(string: url.absoluteString) {
-      let requestOptionsItems = requestOptions.urlParameters.map { URLQueryItem(name: $0.key, value: $0.value) }
+      let requestOptionsItems = requestOptions.urlParameters.map { URLQueryItem(name: $0.key.rawValue, value: $0.value) }
       var existingItems = currentComponents.queryItems ?? []
       existingItems.append(contentsOf: requestOptionsItems)
       currentComponents.queryItems = existingItems

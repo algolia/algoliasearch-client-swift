@@ -9,42 +9,49 @@ import Foundation
 
 /**
  Every endpoint can configure a request locally by passing additional
- _headers_, _urlParameters_, _body_, _writeTimeout_, _readTimeout_.
+ headers, urlParameters, body, writeTimeout, readTimeout.
 */
 public struct RequestOptions {
 
-  public var headers: [String: String] = [:]
-  public var urlParameters: [String: String?] = [:]
+  public var headers: [HTTPHeaderKey: String]
+  public var urlParameters: [HTTPParameterKey: String?]
   public var writeTimeout: TimeInterval?
   public var readTimeout: TimeInterval?
   public var body: [String: Any]?
+     
+  public init(headers: [HTTPHeaderKey: String] = [:],
+              urlParameters: [HTTPParameterKey: String?] = [:],
+              writeTimeout: TimeInterval? = nil,
+              readTimeout: TimeInterval? = nil,
+              body: [String: Any]? = nil) {
+    self.headers = headers
+    self.urlParameters = urlParameters
+    self.writeTimeout = writeTimeout
+    self.readTimeout = readTimeout
+    self.body = body
+  }
 
-  /**
-   Add a header with key and value to headers.
-  */
+  /// Add a header with key and value to headers.
   public mutating func setHeader(_ value: String?, forKey key: HTTPHeaderKey) {
-    headers[key.rawValue] = value
+    headers[key] = value
   }
 
-  public func settingHeader(_ value: String?, forKey key: HTTPHeaderKey) -> Self {
-    var mutableCopy = self
-    mutableCopy.headers[key.rawValue] = value
-    return mutableCopy
-  }
-
-  /**
-   Add a url parameter with key and value to urlParameters.
-  */
+  /// Add a url parameter with key and value to urlParameters.
   public mutating func setParameter(_ value: String?, forKey key: HTTPParameterKey) {
-    urlParameters[key.rawValue] = value
+    urlParameters[key] = value
+  }
+  
+  /// Set timeout for a call type
+  public mutating func setTimeout(_ timeout: TimeInterval?, for callType: CallType) {
+    switch callType {
+    case .read:
+      self.readTimeout = timeout
+    case .write:
+      self.writeTimeout = timeout
+    }
   }
 
-  public func settingParameter(_ value: String?, forKey key: HTTPParameterKey) -> Self {
-    var mutableCopy = self
-    mutableCopy.urlParameters[key.rawValue] = value
-    return mutableCopy
-  }
-
+  /// Get timeout for a call type
   public func timeout(for callType: CallType) -> TimeInterval? {
     switch callType {
     case .read:
@@ -57,23 +64,7 @@ public struct RequestOptions {
 }
 
 public struct HTTPParameterKey: RawRepresentable, Hashable {
-
-  public static var attributesToRetreive: HTTPParameterKey { #function }
-  public static var forwardToReplicas: HTTPParameterKey { #function }
-  public static var clearExistingRules: HTTPParameterKey { #function }
-  public static var clearExistingSynonyms: HTTPParameterKey { #function }
-  public static var createIfNotExists: HTTPParameterKey { #function }
-  public static var cursor: HTTPParameterKey { #function }
-  public static var indexName: HTTPParameterKey { #function }
-  public static var offset: HTTPParameterKey { #function }
-  public static var limit: HTTPParameterKey { #function }
-  public static var length: HTTPParameterKey { #function }
-  public static var type: HTTPParameterKey { #function }
-  public static var language: HTTPParameterKey { #function }
-  public static var aroundLatLng: HTTPParameterKey { #function }
-  public static var page: HTTPParameterKey { #function }
-  public static var hitsPerPage: HTTPParameterKey { #function }
-  public static var getClusters: HTTPParameterKey { #function }
+  
   public let rawValue: String
 
   public init(rawValue: String) {
@@ -90,26 +81,52 @@ extension HTTPParameterKey: ExpressibleByStringLiteral {
 
 }
 
-public struct HTTPHeaderKey: RawRepresentable, Hashable {
+extension HTTPParameterKey {
+  
+  static var attributesToRetreive: HTTPParameterKey { #function }
+  static var forwardToReplicas: HTTPParameterKey { #function }
+  static var clearExistingRules: HTTPParameterKey { #function }
+  static var clearExistingSynonyms: HTTPParameterKey { #function }
+  static var createIfNotExists: HTTPParameterKey { #function }
+  static var cursor: HTTPParameterKey { #function }
+  static var indexName: HTTPParameterKey { #function }
+  static var offset: HTTPParameterKey { #function }
+  static var limit: HTTPParameterKey { #function }
+  static var length: HTTPParameterKey { #function }
+  static var type: HTTPParameterKey { #function }
+  static var language: HTTPParameterKey { #function }
+  static var aroundLatLng: HTTPParameterKey { #function }
+  static var page: HTTPParameterKey { #function }
+  static var hitsPerPage: HTTPParameterKey { #function }
+  static var getClusters: HTTPParameterKey { #function }
+  
+}
 
-  public static let algoliaUserID: HTTPHeaderKey = "X-Algolia-User-ID"
-  public static let forwardedFor: HTTPHeaderKey = "X-Forwarded-For"
-  public static let applicationID: HTTPHeaderKey = "X-Algolia-Application-Id"
-  public static let apiKey: HTTPHeaderKey = "X-Algolia-API-Key"
-  public static let userAgent: HTTPHeaderKey = "User-Agent"
-
-  public let rawValue: String
-
-  public init(rawValue: String) {
-    self.rawValue = rawValue
-  }
-
+extension HTTPHeaderKey {
+  
+  static let contentType: HTTPHeaderKey = "Content-Type"
+  static let algoliaUserID: HTTPHeaderKey = "X-Algolia-User-ID"
+  static let forwardedFor: HTTPHeaderKey = "X-Forwarded-For"
+  static let applicationID: HTTPHeaderKey = "X-Algolia-Application-Id"
+  static let apiKey: HTTPHeaderKey = "X-Algolia-API-Key"
+  static let userAgent: HTTPHeaderKey = "User-Agent"
+  
 }
 
 extension HTTPHeaderKey: ExpressibleByStringLiteral {
 
   public init(stringLiteral value: String) {
     rawValue = value
+  }
+
+}
+
+public struct HTTPHeaderKey: RawRepresentable, Hashable {
+
+  public let rawValue: String
+
+  public init(rawValue: String) {
+    self.rawValue = rawValue
   }
 
 }

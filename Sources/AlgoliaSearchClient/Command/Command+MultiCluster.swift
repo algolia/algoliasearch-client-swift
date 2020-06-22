@@ -54,7 +54,9 @@ extension Command.MultiCluster {
       let requestOptions: RequestOptions?
 
       init(userID: UserID, clusterName: ClusterName, requestOptions: RequestOptions?) {
-        self.requestOptions = (requestOptions ?? .init()).settingHeader(userID.rawValue, forKey: .algoliaUserID)
+        var updatedRequestOptions = requestOptions ?? .init()
+        updatedRequestOptions.setHeader(userID.rawValue, forKey: .algoliaUserID)
+        self.requestOptions = updatedRequestOptions
         let path = .clustersV1 >>> MappingRoute.mapping
         let body = ClusterWrapper(clusterName).httpBody
         urlRequest = .init(method: .post, path: path, body: body, requestOptions: self.requestOptions)
@@ -130,7 +132,9 @@ extension Command.MultiCluster {
       let requestOptions: RequestOptions?
 
       init(userID: UserID, requestOptions: RequestOptions?) {
-        self.requestOptions = (requestOptions ?? .init()).settingHeader(userID.rawValue, forKey: .algoliaUserID)
+        var updatedRequestOptions = requestOptions ?? .init()
+        updatedRequestOptions.setHeader(userID.rawValue, forKey: .algoliaUserID)
+        self.requestOptions = updatedRequestOptions
         let path = .clustersV1 >>> MappingRoute.mapping
         urlRequest = .init(method: .delete, path: path, requestOptions: self.requestOptions)
       }
