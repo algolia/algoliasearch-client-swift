@@ -199,7 +199,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func findObject<T: Codable>(matching predicate: @escaping (T) -> Bool, for query: Query, paginate: Bool = true, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<HitWithPosition<T>?>) -> Operation {
+  @discardableResult func findObject<T: Codable>(matching predicate: @escaping (T) -> Bool, for query: Query = .init(), paginate: Bool = true, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<HitWithPosition<T>?>) -> Operation {
     let operation = BlockOperation {
       completion(.init { try self.findObject(matching: predicate, for: query, paginate: paginate, requestOptions: requestOptions) })
     }
@@ -216,7 +216,7 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: HitWithPosition  object
    */
-  @discardableResult func findObject<T: Codable>(matching predicate: (T) -> Bool, for query: Query, paginate: Bool = true, requestOptions: RequestOptions? = nil) throws -> HitWithPosition<T>? {
+  @discardableResult func findObject<T: Codable>(matching predicate: (T) -> Bool, for query: Query = .init(), paginate: Bool = true, requestOptions: RequestOptions? = nil) throws -> HitWithPosition<T>? {
 
     let results = try search(query: query)
     let hits: [T] = try results.extractHits()
