@@ -38,8 +38,8 @@ extension BatchOperation {
 
 public extension BatchOperation {
 
-  static func add<T: Encodable>(_ object: T, autoGeneratingObjectID: Bool = false) throws -> Self {
-    if !autoGeneratingObjectID { try ObjectIDChecker.checkObjectID(object) }
+  static func add<T: Encodable>(_ object: T, autoGeneratingObjectID: Bool = false) -> Self {
+    if !autoGeneratingObjectID { try! ObjectIDChecker.checkObjectID(object) }
     return .init(action: .addObject, bodyObject: object)
   }
 
