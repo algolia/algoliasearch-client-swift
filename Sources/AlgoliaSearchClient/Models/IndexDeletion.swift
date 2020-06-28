@@ -1,5 +1,5 @@
 //
-//  DeletionIndex.swift
+//  IndexDeletion.swift
 //  
 //
 //  Created by Vladislav Fitc on 05/03/2020.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct DeletionIndex: Task, Codable {
+public struct IndexDeletion: Task, Codable {
 
   /// Date at which the Task to delete the Index has been created.
   public let deletionDate: Date

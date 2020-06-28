@@ -1,5 +1,5 @@
 //
-//  RevisionIndex.swift
+//  IndexRevision.swift
 //  
 //
 //  Created by Vladislav Fitc on 02/03/2020.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct RevisionIndex: Task, Codable {
+public struct IndexRevision: Task, Codable {
 
   /// Date at which the Task to update the Index has been created.
   public let updatedAt: Date
