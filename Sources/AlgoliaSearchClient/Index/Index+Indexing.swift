@@ -24,17 +24,22 @@ public extension Index {
    When adding large numbers of objects, or large sizes, be aware of our rate limit.
    You’ll know you’ve reached the rate limit when you start receiving errors on your indexing operations.
    This can only be resolved if you wait before sending any further indexing operations.
-   - Parameter record: The record of type T to save.
+   - Parameter object: The record of type T to save.
+   - Parameter autoGeneratingObjectID: Add objectID if record type doesn't provide it in serialized form.
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Parameter completion: Result completion
    - Returns: Launched asynchronousoperation
+   - Throws: ObjectIDChecker.missingObjectIDProperty if autoGeneratingObjectID set to false and record type doesn't provide objectID
    */
-  @discardableResult func saveObject<T: Encodable>(_ record: T, autoGeneratingObjectID: Bool = false, requestOptions: RequestOptions? = nil, completion: @escaping ResultTaskCallback<ObjectCreation>)
+  @discardableResult func saveObject<T: Encodable>(_ object: T,
+                                                   autoGeneratingObjectID: Bool = false,
+                                                   requestOptions: RequestOptions? = nil,
+                                                   completion: @escaping ResultTaskCallback<ObjectCreation>)
      throws -> Operation & TransportTask {
     if !autoGeneratingObjectID {
-      try ObjectIDChecker.checkObjectID(record)
+      try ObjectIDChecker.checkObjectID(object)
     }
-    let command = Command.Indexing.SaveObject(indexName: name, record: record, requestOptions: requestOptions)
+    let command = Command.Indexing.SaveObject(indexName: name, record: object, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
 
@@ -42,15 +47,19 @@ public extension Index {
    Add a new record to an index.
    
    - See: saveObject
-   - Parameter record: The record of type T to save.
+   - Parameter object: The record of type T to save.
+   - Parameter autoGeneratingObjectID: Add objectID if record type doesn't provide it in serialized form.
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: ObjectCreation task
+   - Throws: ObjectIDChecker.missingObjectIDProperty if autoGeneratingObjectID set to false and record type doesn't provide objectID
    */
-  @discardableResult func saveObject<T: Encodable>(_ record: T, autoGeneratingObjectID: Bool = false, requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<ObjectCreation> {
+  @discardableResult func saveObject<T: Encodable>(_ object: T,
+                                                   autoGeneratingObjectID: Bool = false,
+                                                   requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<ObjectCreation> {
     if !autoGeneratingObjectID {
-      try ObjectIDChecker.checkObjectID(record)
+      try ObjectIDChecker.checkObjectID(object)
     }
-    let command = Command.Indexing.SaveObject(indexName: name, record: record, requestOptions: requestOptions)
+    let command = Command.Indexing.SaveObject(indexName: name, record: object, requestOptions: requestOptions)
     return try execute(command)
   }
 
@@ -60,25 +69,34 @@ public extension Index {
    Add multiple schemaless objects to an index.
    
    - See: saveObject
-   - Parameter records The list of records to save.
+   - Parameter objects The list of records to save.
+   - Parameter autoGeneratingObjectID: Add objectID if record type doesn't provide it in serialized form.
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Parameter completion: Result completion
    - Returns: Launched asynchronousoperation
+   - Throws: ObjectIDChecker.missingObjectIDProperty if autoGeneratingObjectID set to false and record type doesn't provide objectID
    */
-  @discardableResult func saveObjects<T: Encodable>(records: [T], autoGeneratingObjectID: Bool = false, requestOptions: RequestOptions? = nil, completion: @escaping ResultBatchesCallback) throws -> Operation {
-    return batch(try records.map { try .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }, requestOptions: requestOptions, completion: completion)
+  @discardableResult func saveObjects<T: Encodable>(_ objects: [T],
+                                                    autoGeneratingObjectID: Bool = false,
+                                                    requestOptions: RequestOptions? = nil,
+                                                    completion: @escaping ResultBatchesCallback) throws -> Operation {
+    return batch(try objects.map { try .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }, requestOptions: requestOptions, completion: completion)
   }
 
   /**
    Add multiple schemaless objects to an index.
    
    - See: saveObject
-   - Parameter records The list of records to save.
+   - Parameter objects The list of records to save.
+   - Parameter autoGeneratingObjectID: Add objectID if record type doesn't provide it in serialized form.
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: Batch task
+   - Throws: ObjectIDChecker.missingObjectIDProperty if autoGeneratingObjectID set to false and record type doesn't provide objectID
    */
-  @discardableResult func saveObjects<T: Encodable>(_ records: [T], autoGeneratingObjectID: Bool = false, requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<BatchesResponse> {
-    return try batch(try records.map { try .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }, requestOptions: requestOptions)
+  @discardableResult func saveObjects<T: Encodable>(_ objects: [T],
+                                                    autoGeneratingObjectID: Bool = false,
+                                                    requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<BatchesResponse> {
+    return try batch(try objects.map { try .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }, requestOptions: requestOptions)
   }
 
   // MARK: - Get object

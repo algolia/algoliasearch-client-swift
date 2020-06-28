@@ -9,7 +9,7 @@ import Foundation
 
 struct MultipleQueriesRequest {
 
-  let requests: [IndexQuery]
+  let requests: [IndexedQuery]
   let strategy: MultipleQueriesStrategy
 
 }

@@ -1,5 +1,5 @@
 //
-//  IndexQuery.swift
+//  IndexedQuery.swift
 //  
 //
 //  Created by Vladislav Fitc on 04/04/2020.
@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct IndexedQuery {
-  let indexName: IndexName
-  let query: Query
+public struct IndexedQuery {
+  public let indexName: IndexName
+  public let query: Query
 }
 
 extension IndexedQuery: Codable {

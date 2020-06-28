@@ -74,13 +74,13 @@ public extension SearchClient {
   /**
    Perform a search on several indices at the same time, with one method call.
 
-   - Parameter queries: The list of tuples joining index name and a query to execute on it.
+   - Parameter queries: The list of IndexedQuery objects mathcing index name and a query to execute on it.
    - Parameter strategy: The MultipleQueriesStrategy of the query.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func multipleQueries(queries: [(IndexName, Query)],
+  @discardableResult func multipleQueries(queries: [IndexedQuery],
                                           strategy: MultipleQueriesStrategy = .none,
                                           requestOptions: RequestOptions? = nil,
                                           completion: @escaping ResultCallback<SearchesResponse>) -> Operation {
@@ -91,12 +91,12 @@ public extension SearchClient {
   /**
    Perform a search on several indices at the same time, with one method call.
    
-   - Parameter queries: The list of tuples joining index name and a query to execute on it.
+   - Parameter queries: The list of IndexedQuery objects mathcing index name and a query to execute on it.
    - Parameter strategy: The MultipleQueriesStrategy of the query.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: SearchesResponse object
    */
-  @discardableResult func multipleQueries(queries: [(IndexName, Query)],
+  @discardableResult func multipleQueries(queries: [IndexedQuery],
                                           strategy: MultipleQueriesStrategy = .none,
                                           requestOptions: RequestOptions? = nil) throws -> SearchesResponse {
     let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
