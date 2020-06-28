@@ -34,7 +34,8 @@ public struct SearchClient: Credentials {
 
   }
 
-  public init(configuration: SearchConfiguration, requester: HTTPRequester) {
+  public init(configuration: SearchConfiguration,
+              requester: HTTPRequester = URLSession(configuration: .default)) {
 
     let queue = OperationQueue()
     queue.qualityOfService = .userInitiated
