@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct SearchConfiguration: Configuration, Credentials {
+public struct SearchConfiguration: Configuration, Credentials, Builder {
 
   public let applicationID: ApplicationID
 
@@ -25,21 +25,16 @@ public struct SearchConfiguration: Configuration, Credentials {
 
   public var batchSize: Int
 
-  init(applicationID: ApplicationID,
-       apiKey: APIKey,
-       writeTimeout: TimeInterval = DefaultConfiguration.default.writeTimeout,
-       readTimeout: TimeInterval = DefaultConfiguration.default.readTimeout,
-       logLevel: LogLevel = DefaultConfiguration.default.logLevel,
-       defaultHeaders: [HTTPHeaderKey: String]? = DefaultConfiguration.default.defaultHeaders,
-       batchSize: Int = DefaultConfiguration.default.batchSize) {
+  public init(applicationID: ApplicationID,
+              apiKey: APIKey) {
     self.applicationID = applicationID
     self.apiKey = apiKey
-    self.writeTimeout = writeTimeout
-    self.readTimeout = readTimeout
-    self.logLevel = logLevel
+    self.writeTimeout = DefaultConfiguration.default.writeTimeout
+    self.readTimeout = DefaultConfiguration.default.readTimeout
+    self.logLevel = DefaultConfiguration.default.logLevel
     self.hosts = Hosts.forApplicationID(applicationID)
-    self.defaultHeaders = defaultHeaders
-    self.batchSize = batchSize
+    self.defaultHeaders = DefaultConfiguration.default.defaultHeaders
+    self.batchSize = DefaultConfiguration.default.batchSize
   }
 
 }
