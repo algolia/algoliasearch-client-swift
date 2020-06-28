@@ -20,7 +20,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func saveRule(_ rule: Rule, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultTaskCallback<RevisionIndex>) -> Operation {
+  @discardableResult func saveRule(_ rule: Rule, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultTaskCallback<IndexRevision>) -> Operation {
     let command = Command.Rule.Save(indexName: name, rule: rule, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
@@ -33,7 +33,7 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: RevisionIndex  object
    */
-  @discardableResult func saveRule(_ rule: Rule, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<RevisionIndex> {
+  @discardableResult func saveRule(_ rule: Rule, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexRevision> {
     let command = Command.Rule.Save(indexName: name, rule: rule, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return try execute(command)
   }
@@ -51,7 +51,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func saveRules(_ rules: [Rule], forwardToReplicas: Bool? = nil, clearExistingRules: Bool? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultTaskCallback<RevisionIndex>) -> Operation {
+  @discardableResult func saveRules(_ rules: [Rule], forwardToReplicas: Bool? = nil, clearExistingRules: Bool? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultTaskCallback<IndexRevision>) -> Operation {
     let command = Command.Rule.SaveList(indexName: name, rules: rules, forwardToReplicas: forwardToReplicas, clearExistingRules: clearExistingRules, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
@@ -66,7 +66,7 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: RevisionIndex  object
    */
-  @discardableResult func saveRules(_ rules: [Rule], forwardToReplicas: Bool? = nil, clearExistingRules: Bool? = nil, requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<RevisionIndex> {
+  @discardableResult func saveRules(_ rules: [Rule], forwardToReplicas: Bool? = nil, clearExistingRules: Bool? = nil, requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexRevision> {
     let command = Command.Rule.SaveList(indexName: name, rules: rules, forwardToReplicas: forwardToReplicas, clearExistingRules: clearExistingRules, requestOptions: requestOptions)
     return try execute(command)
   }
@@ -109,7 +109,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func deleteRule(withID objectID: ObjectID, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultTaskCallback<RevisionIndex>) -> Operation {
+  @discardableResult func deleteRule(withID objectID: ObjectID, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultTaskCallback<IndexRevision>) -> Operation {
     let command = Command.Rule.Delete(indexName: name, objectID: objectID, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
@@ -122,7 +122,7 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: Rule  object
    */
-  @discardableResult func deleteRule(withID objectID: ObjectID, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<RevisionIndex> {
+  @discardableResult func deleteRule(withID objectID: ObjectID, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexRevision> {
     let command = Command.Rule.Delete(indexName: name, objectID: objectID, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return try execute(command)
   }
@@ -164,7 +164,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func clearRules(forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultTaskCallback<RevisionIndex>) -> Operation {
+  @discardableResult func clearRules(forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultTaskCallback<IndexRevision>) -> Operation {
     let command = Command.Rule.Clear(indexName: name, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
@@ -176,7 +176,7 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: RevisionIndex  object
    */
-  @discardableResult func clearRules(forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<RevisionIndex> {
+  @discardableResult func clearRules(forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexRevision> {
     let command = Command.Rule.Clear(indexName: name, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
     return try execute(command)
   }
@@ -194,7 +194,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func replaceAllRules(with rules: [Rule], forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultTaskCallback<RevisionIndex>) -> Operation {
+  @discardableResult func replaceAllRules(with rules: [Rule], forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil, completion: @escaping ResultTaskCallback<IndexRevision>) -> Operation {
     let command = Command.Rule.SaveList(indexName: name, rules: rules, forwardToReplicas: forwardToReplicas, clearExistingRules: true, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
@@ -209,7 +209,7 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: RevisionIndex  object
    */
-  @discardableResult func replaceAllRules(with rules: [Rule], forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<RevisionIndex> {
+  @discardableResult func replaceAllRules(with rules: [Rule], forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexRevision> {
     let command = Command.Rule.SaveList(indexName: name, rules: rules, forwardToReplicas: forwardToReplicas, clearExistingRules: true, requestOptions: requestOptions)
     return try execute(command)
   }

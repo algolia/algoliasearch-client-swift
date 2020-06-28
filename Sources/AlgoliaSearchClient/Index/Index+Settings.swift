@@ -49,7 +49,7 @@ public extension Index {
                                       resetToDefault: [Settings.Key] = [],
                                       forwardToReplicas: Bool? = nil,
                                       requestOptions: RequestOptions? = nil,
-                                      completion: @escaping ResultTaskCallback<RevisionIndex>) -> Operation & TransportTask {
+                                      completion: @escaping ResultTaskCallback<IndexRevision>) -> Operation & TransportTask {
     let command = Command.Settings.SetSettings(indexName: name,
                                                settings: settings,
                                                resetToDefault: resetToDefault,
@@ -72,7 +72,7 @@ public extension Index {
   @discardableResult func setSettings(_ settings: Settings,
                                       resetToDefault: [Settings.Key] = [],
                                       forwardToReplicas: Bool? = nil,
-                                      requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<RevisionIndex> {
+                                      requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexRevision> {
     let command = Command.Settings.SetSettings(indexName: name,
                                                settings: settings,
                                                resetToDefault: resetToDefault,
