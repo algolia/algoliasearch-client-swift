@@ -8,8 +8,15 @@
 import Foundation
 
 public struct IndexedQuery {
+  
   public let indexName: IndexName
   public let query: Query
+  
+  public init(indexName: IndexName, query: Query) {
+    self.indexName = indexName
+    self.query = query
+  }
+  
 }
 
 extension IndexedQuery: Codable {
