@@ -11,7 +11,7 @@ import Foundation
 
 public struct Hit<T: Codable> {
 
-  public let objectID: String
+  public let objectID: ObjectID
   public let object: T
   public let snippetResult: TreeModel<SnippetResult>?
   public let highlightResult: TreeModel<HighlightResult>?
@@ -35,7 +35,7 @@ extension Hit: Codable {
   public init(from decoder: Decoder) throws {
     self.object = try T(from: decoder)
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.objectID = try container.decode(String.self, forKey: .objectID)
+    self.objectID = try container.decode(ObjectID.self, forKey: .objectID)
     self.snippetResult = try container.decodeIfPresent(TreeModel<SnippetResult>.self, forKey: .snippetResult)
     self.highlightResult = try container.decodeIfPresent(TreeModel<HighlightResult>.self, forKey: .highlightResult)
     self.rankingInfo = try container.decodeIfPresent(RankingInfo.self, forKey: .rankingInfo)
