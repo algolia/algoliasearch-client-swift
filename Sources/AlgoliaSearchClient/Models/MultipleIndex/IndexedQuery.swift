@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct IndexQuery {
+struct IndexedQuery {
   let indexName: IndexName
   let query: Query
 }
 
-extension IndexQuery: Codable {
+extension IndexedQuery: Codable {
 
   enum CodingKeys: String, CodingKey {
     case indexName

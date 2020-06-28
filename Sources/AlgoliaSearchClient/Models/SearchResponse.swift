@@ -233,5 +233,13 @@ public extension SearchResponse {
     let hitsData = try JSONEncoder().encode(hits.map(\.object))
     return try JSONDecoder().decode([T].self, from: hitsData)
   }
-
+  
+  /// Returns the position (0-based) within the hits result list of the record matching against the given objectID.
+  /// If the objectID is not found, nil is returned.
+  func getPositionOfObject(withID objectID: ObjectID) -> Int? {
+    return hits.firstIndex { $0.objectID == objectID }
+  }
+  
 }
+
+
