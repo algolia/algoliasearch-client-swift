@@ -57,7 +57,7 @@ class ABTestCommandTest: XCTestCase, AlgoliaCommandTest {
   }
 
   func testList() {
-    let command = Command.ABTest.List(page: 10, hitsPerPage: 20, requestOptions: test.requestOptions)
+    let command = Command.ABTest.List(offset: 10, limit: 20, requestOptions: test.requestOptions)
     check(command: command,
           callType: .read,
           method: .get,

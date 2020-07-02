@@ -76,8 +76,8 @@ class MultipleClusterIntegrationTests: OnlineTestCase {
     
     XCTAssertEqual(clusters.count, 2)
     
-    try client.assignUser(withID: userID0, to: clusters.first!.name)
-    try client.assignUsers(withIDs: [userID1, userID2], to: clusters.first!.name)
+    try client.assignUser(withID: userID0, toClusterWithName: clusters.first!.name)
+    try client.assignUsers(withIDs: [userID1, userID2], toClusterWithName: clusters.first!.name)
         
     while try !(exists(userID0) && exists(userID1) && exists(userID2)) {
       sleep(1)
@@ -85,7 +85,7 @@ class MultipleClusterIntegrationTests: OnlineTestCase {
     
     for userID in userIDs {
       let query = UserIDQuery().set(\.query, to: userID.rawValue)
-      XCTAssertEqual(try client.searchUser(query: query).hits.count, 1)
+      XCTAssertEqual(try client.searchUser(with: query).hits.count, 1)
     }
     
     XCTAssertFalse(try client.listUsers().userIDs.isEmpty)

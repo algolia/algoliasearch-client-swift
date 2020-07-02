@@ -23,7 +23,7 @@ class AdvancedCommandTests: XCTestCase, AlgoliaCommandTest {
   }
 
   func testGetLogs() {
-    let command = Command.Advanced.GetLogs(indexName: test.indexName, page: 10, hitsPerPage: 100, logType: .all, requestOptions: test.requestOptions)
+    let command = Command.Advanced.GetLogs(indexName: test.indexName, offset: 10, length: 100, logType: .all, requestOptions: test.requestOptions)
     var updatedRequestOptions = test.requestOptions
     updatedRequestOptions.setParameter("testIndex", forKey: .indexName)
     updatedRequestOptions.setParameter("10", forKey: .offset)

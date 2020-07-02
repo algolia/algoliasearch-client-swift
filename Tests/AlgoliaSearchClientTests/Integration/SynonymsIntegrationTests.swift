@@ -44,19 +44,19 @@ class SynonymsIntegrationTests: OnlineTestCase {
 
     try index.saveSynonyms(synonyms).wait()
     
-    let fetchedMultiWay = try index.getSynonym(objectID: multiWaySynonym.objectID)
+    let fetchedMultiWay = try index.getSynonym(withID: multiWaySynonym.objectID)
     try AssertEquallyEncoded(fetchedMultiWay, multiWaySynonym)
     
-    let fetchedOneWay = try index.getSynonym(objectID: oneWaySynonym.objectID)
+    let fetchedOneWay = try index.getSynonym(withID: oneWaySynonym.objectID)
     try AssertEquallyEncoded(fetchedOneWay, oneWaySynonym)
     
-    let fetchedPlaceholder = try index.getSynonym(objectID: placeholderSynonym.objectID)
+    let fetchedPlaceholder = try index.getSynonym(withID: placeholderSynonym.objectID)
     try AssertEquallyEncoded(fetchedPlaceholder, placeholderSynonym)
     
-    let fetchedAltCorrection1 = try index.getSynonym(objectID: altCorrection1Synonym.objectID)
+    let fetchedAltCorrection1 = try index.getSynonym(withID: altCorrection1Synonym.objectID)
     try AssertEquallyEncoded(fetchedAltCorrection1, altCorrection1Synonym)
 
-    let fetchedAltCorrection2 = try index.getSynonym(objectID: altCorrection2Synonym.objectID)
+    let fetchedAltCorrection2 = try index.getSynonym(withID: altCorrection2Synonym.objectID)
     try AssertEquallyEncoded(fetchedAltCorrection2, altCorrection2Synonym)
     
     let fetchedSynonyms = try index.searchSynonyms("").hits.map(\.synonym)
@@ -68,14 +68,14 @@ class SynonymsIntegrationTests: OnlineTestCase {
     try AssertEquallyEncoded(fetchedSynonyms.first(where: { $0.objectID == altCorrection1Synonym.objectID}), altCorrection1Synonym)
     try AssertEquallyEncoded(fetchedSynonyms.first(where: { $0.objectID == altCorrection2Synonym.objectID}), altCorrection2Synonym)
 
-    try index.deleteSynonym(objectID: multiWaySynonym.objectID).wait()
-    try AssertThrowsHTTPError(index.getSynonym(objectID: multiWaySynonym.objectID), statusCode: 404)
+    try index.deleteSynonym(withID: multiWaySynonym.objectID).wait()
+    try AssertThrowsHTTPError(index.getSynonym(withID: multiWaySynonym.objectID), statusCode: 404)
     
     try index.clearSynonyms().wait()
-    try AssertThrowsHTTPError(index.getSynonym(objectID: oneWaySynonym.objectID), statusCode: 404)
-    try AssertThrowsHTTPError(index.getSynonym(objectID: placeholderSynonym.objectID), statusCode: 404)
-    try AssertThrowsHTTPError(index.getSynonym(objectID: altCorrection1Synonym.objectID), statusCode: 404)
-    try AssertThrowsHTTPError(index.getSynonym(objectID: altCorrection2Synonym.objectID), statusCode: 404)
+    try AssertThrowsHTTPError(index.getSynonym(withID: oneWaySynonym.objectID), statusCode: 404)
+    try AssertThrowsHTTPError(index.getSynonym(withID: placeholderSynonym.objectID), statusCode: 404)
+    try AssertThrowsHTTPError(index.getSynonym(withID: altCorrection1Synonym.objectID), statusCode: 404)
+    try AssertThrowsHTTPError(index.getSynonym(withID: altCorrection2Synonym.objectID), statusCode: 404)
     
     XCTAssertEqual(try index.searchSynonyms("").nbHits, 0)
 

@@ -57,13 +57,13 @@ class MultiIndexCommandTest: XCTestCase, AlgoliaCommandTest {
   }
 
   func testBatchObjects() throws {
-    let command = Command.MultipleIndex.BatchObjects(operations: [.init(indexName: "index0", operation: try .add(["attr": "val"] as JSON, autoGeneratingObjectID: true)), .init(indexName: "index1", operation: .clear)], requestOptions: test.requestOptions)
+    let command = Command.MultipleIndex.BatchObjects(operations: [.init(indexName: "index0", operation: .add(["attr": "val"] as JSON, autoGeneratingObjectID: true)), .init(indexName: "index1", operation: .clear)], requestOptions: test.requestOptions)
     check(command: command,
           callType: .write,
           method: .post,
           urlPath: "/1/indexes/*/batch",
           queryItems: [.init(name: "testParameter", value: "testParameterValue")],
-          body: RequestsWrapper([IndexBatchOperation(indexName: "index0", operation: try .add(["attr": "val"] as JSON, autoGeneratingObjectID: true)), IndexBatchOperation(indexName: "index1", operation: .clear)]).httpBody,
+          body: RequestsWrapper([IndexBatchOperation(indexName: "index0", operation: .add(["attr": "val"] as JSON, autoGeneratingObjectID: true)), IndexBatchOperation(indexName: "index1", operation: .clear)]).httpBody,
           requestOptions: test.requestOptions)
   }
 
