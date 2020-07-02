@@ -14,5 +14,17 @@ public struct ABTestID: StringWrapper, URLEncodable {
   public init(rawValue: String) {
     self.rawValue = rawValue
   }
+  
+  public init(_ intValue: Int) {
+    self.rawValue = "\(intValue)"
+  }
 
+}
+
+extension ABTestID: ExpressibleByIntegerLiteral {
+    
+  public init(integerLiteral value: Int) {
+    self.init(value)
+  }
+  
 }

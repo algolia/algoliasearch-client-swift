@@ -21,6 +21,16 @@ public struct ABTest {
 
   /// The index Variant to test against.
   public let variantB: Variant
+  
+  public init(name: String,
+              endAt: Date,
+              variantA: Variant,
+              variantB: Variant) {
+    self.name = name
+    self.endAt = endAt
+    self.variantA = variantA
+    self.variantB = variantB
+  }
 
 }
 
