@@ -84,17 +84,17 @@ public extension Index {
    - synonyms
    - and rules (query rules)
    
-   - Parameter scopes: List of Scope. If omitted, then all objects and all Scope are copied.
+   - Parameter scope: Scope set. If empty (.all alias), then all objects and all scopes are copied.
    - Parameter destination: IndexName of the destination Index.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func copy(_ scopes: [Scope]? = nil,
+  @discardableResult func copy(_ scope: Scope = .all,
                                to destination: IndexName,
                                requestOptions: RequestOptions? = nil,
                                completion: @escaping ResultTaskCallback<IndexRevision>) -> Operation & TransportTask {
-    let command = Command.Index.Operation(indexName: name, operation: .init(action: .copy, destination: destination, scopes: scopes), requestOptions: requestOptions)
+    let command = Command.Index.Operation(indexName: name, operation: .init(action: .copy, destination: destination, scopes: scope.components), requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
 
@@ -106,15 +106,15 @@ public extension Index {
    - synonyms
    - and rules (query rules)
    
-   - Parameter scopes: List of Scope. If omitted, then all objects and all Scope are copied.
+   - Parameter scope: Scope set. If empty (.all alias), then all objects and all scopes are copied.
    - Parameter destination: IndexName of the destination Index.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: RevisionIndex  object
    */
-  @discardableResult func copy(_ scopes: [Scope]? = nil,
+  @discardableResult func copy(_ scope: Scope = .all,
                                to destination: IndexName,
                                requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexRevision> {
-    let command = Command.Index.Operation(indexName: name, operation: .init(action: .copy, destination: destination, scopes: scopes), requestOptions: requestOptions)
+    let command = Command.Index.Operation(indexName: name, operation: .init(action: .copy, destination: destination, scopes: scope.components), requestOptions: requestOptions)
     return try execute(command)
   }
 

@@ -11,7 +11,7 @@ struct IndexOperation {
 
   let action: Action
   let destination: IndexName
-  let scopes: [Scope]?
+  let scopes: [ScopeComponent]?
 
 }
 

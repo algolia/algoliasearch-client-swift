@@ -33,7 +33,7 @@ class CopyIndexIntergrationTests: OnlineTestCase {
     try sourceIndex.saveObjects(records).wait()
     try sourceIndex.setSettings(settings).wait()
     
-    try sourceIndex.copy([.settings], to: targetIndex.name).wait()
+    try sourceIndex.copy(.settings, to: targetIndex.name).wait()
     
     let fetchedSettings = try targetIndex.getSettings()
 
@@ -49,7 +49,7 @@ class CopyIndexIntergrationTests: OnlineTestCase {
     
     try sourceIndex.saveRule(rule).wait()
     
-    try sourceIndex.copy([.rules], to: targetIndex.name).wait()
+    try sourceIndex.copy(.rules, to: targetIndex.name).wait()
 
     let fetchedRules = try targetIndex.searchRules("").hits.map(\.rule)
     
@@ -67,7 +67,7 @@ class CopyIndexIntergrationTests: OnlineTestCase {
     
     try sourceIndex.saveSynonym(synonym).wait()
     
-    try sourceIndex.copy([.synonyms], to: targetIndex.name).wait()
+    try sourceIndex.copy(.synonyms, to: targetIndex.name).wait()
 
     let fetchedSynonyms = try targetIndex.searchSynonyms("").hits.map(\.synonym)
     

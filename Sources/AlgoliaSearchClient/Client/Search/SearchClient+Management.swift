@@ -19,19 +19,19 @@ public extension SearchClient {
    - synonyms
    - and rules (query rules)
    
-   - Parameter scopes: List of Scope. If omitted, then all objects and all Scope are copied.
+   - Parameter scope: Scope set. If empty (.all alias), then all objects and all scopes are copied.
    - Parameter source: IndexName of the source Index
    - Parameter destination: IndexName of the destination Index.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func copy(_ scopes: [Scope]? = nil,
+  @discardableResult func copy(_ scope: Scope = .all,
                                from source: IndexName,
                                to destination: IndexName,
                                requestOptions: RequestOptions? = nil,
                                completion: @escaping ResultTaskCallback<IndexRevision>) -> Operation & TransportTask {
-    index(withName: source).copy(scopes, to: destination, requestOptions: requestOptions, completion: completion)
+    index(withName: source).copy(scope, to: destination, requestOptions: requestOptions, completion: completion)
   }
 
   /**
@@ -42,17 +42,17 @@ public extension SearchClient {
    - synonyms
    - and rules (query rules)
    
-   - Parameter scopes: List of Scope. If omitted, then all objects and all Scope are copied.
+   - Parameter scope: Scope set. If empty (.all alias), then all objects and all scopes are copied.
    - Parameter source: IndexName of the source Index
    - Parameter destination: IndexName of the destination Index.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: RevisionIndex  object
    */
-  @discardableResult func copy(_ scopes: [Scope]? = nil,
+  @discardableResult func copy(_ scope: Scope = .all,
                                from source: IndexName,
                                to destination: IndexName,
                                requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexRevision> {
-    try index(withName: source).copy(scopes, to: destination, requestOptions: requestOptions)
+    try index(withName: source).copy(scope, to: destination, requestOptions: requestOptions)
   }
 
   // MARK: - Move index
