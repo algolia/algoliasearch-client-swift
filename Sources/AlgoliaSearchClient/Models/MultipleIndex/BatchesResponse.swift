@@ -10,7 +10,7 @@ import Foundation
 public struct BatchesResponse {
 
   /// A list of TaskIndex to use with .waitAll.
-  public let tasks: [TaskIndex]
+  public let tasks: [IndexedTask]
 
   /// List of ObjectID affected by .multipleBatchObjects.
   public let objectIDs: [ObjectID?]
@@ -20,7 +20,7 @@ public struct BatchesResponse {
 extension BatchesResponse {
 
   init(indexName: IndexName, responses: [BatchResponse]) {
-    let tasks: [TaskIndex] = responses.map { .init(indexName: indexName, taskID: $0.taskID) }
+    let tasks: [IndexedTask] = responses.map { .init(indexName: indexName, taskID: $0.taskID) }
     let objectIDs = responses.map(\.objectIDs).flatMap { $0 }
     self.init(tasks: tasks, objectIDs: objectIDs)
   }
@@ -37,7 +37,7 @@ extension BatchesResponse: Codable {
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     let rawTasks: [String: Int] = try container.decode(forKey: .tasks)
-    self.tasks = rawTasks.map { rawIndexName, rawTaskID in TaskIndex(indexName: .init(rawValue: rawIndexName), taskID: .init(rawValue: String(rawTaskID))) }
+    self.tasks = rawTasks.map { rawIndexName, rawTaskID in IndexedTask(indexName: .init(rawValue: rawIndexName), taskID: .init(rawValue: String(rawTaskID))) }
     self.objectIDs = try container.decode(forKey: .objectIDs)
   }
 

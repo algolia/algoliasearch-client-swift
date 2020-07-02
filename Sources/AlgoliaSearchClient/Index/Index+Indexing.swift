@@ -518,7 +518,7 @@ public extension Index {
                                        autoGeneratingObjectID: Bool = false,
                                        safe: Bool = false,
                                        requestOptions: RequestOptions? = nil,
-                                       completion: @escaping ResultCallback<[TaskIndex]>) {
+                                       completion: @escaping ResultCallback<[IndexedTask]>) {
     let moveOperations: [BatchOperation] = objects.map { .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }
     let sourceIndexName = name
     let destinationIndexName = IndexName(rawValue: "\(name)_tmp_\(Int.random(in: 0...100000))")
@@ -536,7 +536,7 @@ public extension Index {
     copy([.settings, .rules, .synonyms], to: destinationIndexName) { extract($0) { copyTaskWrapper in
       destinationIndex.batch(moveOperations) { extract($0) { batchTaskWrapper in
         destinationIndex.move(to: sourceIndexName) { extract($0) { moveTaskWrapper in
-          let tasks: [TaskIndex] = [
+          let tasks: [IndexedTask] = [
             .init(indexName: sourceIndexName, taskID: copyTaskWrapper.task.taskID),
             .init(indexName: destinationIndexName, taskID: moveTaskWrapper.task.taskID)
             ] + batchTaskWrapper.wrapped.tasks
@@ -574,7 +574,7 @@ public extension Index {
    */
   @discardableResult func replaceAllObjects<T: Encodable>(with objects: [T],
                                                           autoGeneratingObjectID: Bool = false,
-                                                          requestOptions: RequestOptions? = nil) throws -> [TaskIndex] {
+                                                          requestOptions: RequestOptions? = nil) throws -> [IndexedTask] {
 
     let moveOperations: [BatchOperation] = objects.map { .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }
     let destinationIndexName = IndexName(rawValue: "\(name)_tmp_\(Int.random(in: 0...100000))")

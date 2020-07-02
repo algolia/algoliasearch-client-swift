@@ -1,5 +1,5 @@
 //
-//  TaskIndex.swift
+//  IndexedTask.swift
 //  
 //
 //  Created by Vladislav Fitc on 15/04/2020.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct TaskIndex {
+public struct IndexedTask: Task {
 
   /// The IndexName this task is running on.
   public let indexName: IndexName
