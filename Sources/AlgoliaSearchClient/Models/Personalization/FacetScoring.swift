@@ -15,5 +15,11 @@ public struct FacetScoring: Codable {
 
   /// Score for the facet.
   public let score: Int?
+  
+  public init(facetName: Attribute,
+              score: Int? = nil) {
+    self.facetName = facetName
+    self.score = score
+  }
 
 }
