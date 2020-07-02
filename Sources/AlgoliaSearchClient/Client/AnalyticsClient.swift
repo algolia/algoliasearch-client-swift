@@ -212,17 +212,17 @@ public extension AnalyticsClient {
   /**
    List ABTest information and results.
 
-   - Parameter page: Specify the first entry to retrieve (0-based, 0 is the most recent entry).
-   - Parameter hitsPerPage: Specify the maximum number of entries to retrieve starting at the page.
+   - Parameter offset: Specify the first entry to retrieve (0-based, 0 is the most recent entry).
+   - Parameter limit: Specify the maximum number of entries to retrieve starting at the page.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func listABTests(page: Int?,
-                                      hitsPerPage: Int?,
+  @discardableResult func listABTests(offset: Int?,
+                                      limit: Int?,
                                       requestOptions: RequestOptions? = nil,
                                       completion: @escaping ResultCallback<ABTestsResponse>) -> Operation {
-    let command = Command.ABTest.List(page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
+    let command = Command.ABTest.List(offset: offset, limit: limit, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
 
@@ -234,10 +234,10 @@ public extension AnalyticsClient {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: ABTestsResponse  object
    */
-  @discardableResult func listABTests(page: Int?,
-                                      hitsPerPage: Int?,
+  @discardableResult func listABTests(offset: Int?,
+                                      limit: Int?,
                                       requestOptions: RequestOptions? = nil) throws -> ABTestsResponse {
-    let command = Command.ABTest.List(page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
+    let command = Command.ABTest.List(offset: offset, limit: limit, requestOptions: requestOptions)
     return try execute(command)
   }
 
@@ -273,7 +273,7 @@ public extension AnalyticsClient {
       var responses: [ABTestResponse] = []
       var page = 0
       while true {
-        let response = try listABTests(page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
+        let response = try listABTests(offset: page, limit: hitsPerPage, requestOptions: requestOptions)
         if response.count == response.total || response.count == 0 { break }
         page += response.count
         responses.append(contentsOf: response.abTests ?? [])
