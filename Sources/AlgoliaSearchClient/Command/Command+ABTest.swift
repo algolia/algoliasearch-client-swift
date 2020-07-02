@@ -69,11 +69,11 @@ extension Command {
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
 
-      init(page: Int?, hitsPerPage: Int?, requestOptions: RequestOptions?) {
+      init(offset: Int?, limit: Int?, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions.updateOrCreate(
           [
-            .offset: page.flatMap(String.init),
-            .limit: hitsPerPage.flatMap(String.init)
+            .offset: offset.flatMap(String.init),
+            .limit: limit.flatMap(String.init)
           ])
         self.urlRequest = .init(method: .get, path: Path.ABTestsV2, requestOptions: self.requestOptions)
       }
