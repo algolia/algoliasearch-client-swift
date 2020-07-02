@@ -87,7 +87,7 @@ public extension SearchClient {
    - Returns: Launched asynchronous operation
    */
   @discardableResult func assignUser(withID userID: UserID,
-                                     to clusterName: ClusterName,
+                                     toClusterWithName clusterName: ClusterName,
                                      requestOptions: RequestOptions? = nil,
                                      completion: @escaping ResultCallback<Creation>) -> Operation {
     let command = Command.MultiCluster.User.Assign(userID: userID, clusterName: clusterName, requestOptions: requestOptions)
@@ -106,7 +106,7 @@ public extension SearchClient {
    - Returns: Creation  object
    */
   @discardableResult func assignUser(withID userID: UserID,
-                                     to clusterName: ClusterName,
+                                     toClusterWithName clusterName: ClusterName,
                                      requestOptions: RequestOptions? = nil) throws -> Creation {
     let command = Command.MultiCluster.User.Assign(userID: userID, clusterName: clusterName, requestOptions: requestOptions)
     return try execute(command)
@@ -126,7 +126,7 @@ public extension SearchClient {
    - Returns: Launched asynchronous operation
    */
   @discardableResult func assignUsers(withIDs userIDs: [UserID],
-                                      to clusterName: ClusterName,
+                                      toClusterWithName clusterName: ClusterName,
                                       requestOptions: RequestOptions? = nil,
                                       completion: @escaping ResultCallback<Creation>) -> Operation {
     let command = Command.MultiCluster.User.BatchAssign(userIDs: userIDs, clusterName: clusterName, requestOptions: requestOptions)
@@ -144,7 +144,7 @@ public extension SearchClient {
    - Returns: Creation  object
    */
   @discardableResult func assignUsers(withIDs userIDs: [UserID],
-                                      to clusterName: ClusterName,
+                                      toClusterWithName clusterName: ClusterName,
                                       requestOptions: RequestOptions? = nil) throws -> Creation {
     let command = Command.MultiCluster.User.BatchAssign(userIDs: userIDs, clusterName: clusterName, requestOptions: requestOptions)
     return try execute(command)
@@ -258,7 +258,7 @@ public extension SearchClient {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func searchUser(query: UserIDQuery,
+  @discardableResult func searchUser(with query: UserIDQuery,
                                      requestOptions: RequestOptions? = nil,
                                      completion: @escaping ResultCallback<UserIDSearchResponse>) -> Operation {
     let command = Command.MultiCluster.User.Search(userIDQuery: query, requestOptions: requestOptions)
@@ -274,7 +274,7 @@ public extension SearchClient {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: UserIDSearchResponse  object
    */
-  @discardableResult func searchUser(query: UserIDQuery,
+  @discardableResult func searchUser(with query: UserIDQuery,
                                      requestOptions: RequestOptions? = nil) throws -> UserIDSearchResponse {
     let command = Command.MultiCluster.User.Search(userIDQuery: query, requestOptions: requestOptions)
     return try execute(command)

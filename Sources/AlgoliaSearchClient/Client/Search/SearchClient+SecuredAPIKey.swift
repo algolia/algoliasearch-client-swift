@@ -9,7 +9,8 @@ import Foundation
 
 public extension SearchClient {
 
-  func generateSecuredApiKey(parentApiKey: APIKey, with restriction: SecuredAPIKeyRestriction) -> APIKey {
+  func generateSecuredApiKey(parentApiKey: APIKey,
+                             with restriction: SecuredAPIKeyRestriction) -> APIKey {
     let queryParams = restriction.urlEncodedString
     let hash = queryParams.hmac(algorithm: .sha256, key: parentApiKey.rawValue)
     return APIKey(rawValue: "\(hash)\(queryParams)".toBase64())
