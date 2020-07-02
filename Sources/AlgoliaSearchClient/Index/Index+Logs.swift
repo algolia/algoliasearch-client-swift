@@ -24,8 +24,12 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func getLogs(page: Int? = nil, hitsPerPage: Int? = nil, type: LogType = .all, requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<LogsResponse>) -> Operation {
-    let command = Command.Advanced.GetLogs(indexName: name, page: page, hitsPerPage: hitsPerPage, logType: type, requestOptions: requestOptions)
+  @discardableResult func getLogs(page: Int? = nil,
+                                  hitsPerPage: Int? = nil,
+                                  type: LogType = .all,
+                                  requestOptions: RequestOptions? = nil,
+                                  completion: @escaping ResultCallback<LogsResponse>) -> Operation {
+    let command = Command.Advanced.GetLogs(indexName: name, offset: page, length: hitsPerPage, logType: type, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
 
@@ -41,8 +45,11 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: LogsResponse  object
    */
-  @discardableResult func getLogs(page: Int? = nil, hitsPerPage: Int? = nil, type: LogType = .all, requestOptions: RequestOptions? = nil) throws -> LogsResponse {
-    let command = Command.Advanced.GetLogs(indexName: name, page: page, hitsPerPage: hitsPerPage, logType: type, requestOptions: requestOptions)
+  @discardableResult func getLogs(page: Int? = nil,
+                                  hitsPerPage: Int? = nil,
+                                  type: LogType = .all,
+                                  requestOptions: RequestOptions? = nil) throws -> LogsResponse {
+    let command = Command.Advanced.GetLogs(indexName: name, offset: page, length: hitsPerPage, logType: type, requestOptions: requestOptions)
     return try execute(command)
   }
 

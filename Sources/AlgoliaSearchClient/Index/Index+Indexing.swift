@@ -80,7 +80,7 @@ public extension Index {
                                                     autoGeneratingObjectID: Bool = false,
                                                     requestOptions: RequestOptions? = nil,
                                                     completion: @escaping ResultBatchesCallback) throws -> Operation {
-    return batch(try objects.map { try .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }, requestOptions: requestOptions, completion: completion)
+    return batch(objects.map { .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }, requestOptions: requestOptions, completion: completion)
   }
 
   /**
@@ -96,7 +96,7 @@ public extension Index {
   @discardableResult func saveObjects<T: Encodable>(_ objects: [T],
                                                     autoGeneratingObjectID: Bool = false,
                                                     requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<BatchesResponse> {
-    return try batch(try objects.map { try .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }, requestOptions: requestOptions)
+    return try batch(objects.map { .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }, requestOptions: requestOptions)
   }
 
   // MARK: - Get object
@@ -254,7 +254,9 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronousoperation
    */
-  @discardableResult func deleteObject(withID objectID: ObjectID, requestOptions: RequestOptions? = nil, completion: @escaping ResultTaskCallback<ObjectDeletion>) -> Operation & TransportTask {
+  @discardableResult func deleteObject(withID objectID: ObjectID,
+                                       requestOptions: RequestOptions? = nil,
+                                       completion: @escaping ResultTaskCallback<ObjectDeletion>) -> Operation & TransportTask {
     let command = Command.Indexing.DeleteObject(indexName: name, objectID: objectID, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
@@ -266,7 +268,8 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: Requested record
   */
-  @discardableResult func deleteObject(withID objectID: ObjectID, requestOptions: RequestOptions? = nil) throws ->  WaitableWrapper<ObjectDeletion> {
+  @discardableResult func deleteObject(withID objectID: ObjectID,
+                                       requestOptions: RequestOptions? = nil) throws ->  WaitableWrapper<ObjectDeletion> {
     let command = Command.Indexing.DeleteObject(indexName: name, objectID: objectID, requestOptions: requestOptions)
     return try execute(command)
   }
@@ -280,7 +283,9 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func deleteObjects(withIDs objectIDs: [ObjectID], requestOptions: RequestOptions? = nil, completion: @escaping ResultBatchesCallback) -> Operation {
+  @discardableResult func deleteObjects(withIDs objectIDs: [ObjectID],
+                                        requestOptions: RequestOptions? = nil,
+                                        completion: @escaping ResultBatchesCallback) -> Operation {
     return batch(objectIDs.map { .delete(objectID: $0) }, requestOptions: requestOptions, completion: completion)
   }
 
@@ -443,7 +448,8 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func batch(_ batchOperations: [BatchOperation], requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<BatchesResponse> {
+  @discardableResult func batch(_ batchOperations: [BatchOperation],
+                                requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<BatchesResponse> {
     let responses = try batchOperations.chunked(into: configuration.batchSize).map { try internalBatch($0) }
     let response = BatchesResponse(indexName: name, responses: responses)
     return .init(batchesResponse: response, index: self)
@@ -457,7 +463,9 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: BatchesResponse object
    */
-  @discardableResult func batch(_ batchOperations: [BatchOperation], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<WaitableWrapper<BatchesResponse>>) -> Operation {
+  @discardableResult func batch(_ batchOperations: [BatchOperation],
+                                requestOptions: RequestOptions? = nil,
+                                completion: @escaping ResultCallback<WaitableWrapper<BatchesResponse>>) -> Operation {
     let operation = BlockOperation {
       completion(.init { try self.batch(batchOperations, requestOptions: requestOptions) })
     }
@@ -477,7 +485,8 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func clearObjects(requestOptions: RequestOptions? = nil, completion: @escaping ResultTaskCallback<IndexRevision>) -> Operation & TransportTask {
+  @discardableResult func clearObjects(requestOptions: RequestOptions? = nil,
+                                       completion: @escaping ResultTaskCallback<IndexRevision>) -> Operation & TransportTask {
     let command = Command.Indexing.ClearObjects(indexName: name, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
@@ -509,8 +518,8 @@ public extension Index {
                                        autoGeneratingObjectID: Bool = false,
                                        safe: Bool = false,
                                        requestOptions: RequestOptions? = nil,
-                                       completion: @escaping ResultCallback<[TaskIndex]>) throws {
-    let moveOperations: [BatchOperation] = try objects.map { try .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }
+                                       completion: @escaping ResultCallback<[TaskIndex]>) {
+    let moveOperations: [BatchOperation] = objects.map { .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }
     let sourceIndexName = name
     let destinationIndexName = IndexName(rawValue: "\(name)_tmp_\(Int.random(in: 0...100000))")
     let destinationIndex = Index(name: destinationIndexName, transport: transport, operationLauncher: operationLauncher, configuration: configuration)
@@ -567,7 +576,7 @@ public extension Index {
                                                           autoGeneratingObjectID: Bool = false,
                                                           requestOptions: RequestOptions? = nil) throws -> [TaskIndex] {
 
-    let moveOperations: [BatchOperation] = try objects.map { try .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }
+    let moveOperations: [BatchOperation] = objects.map { .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }
     let destinationIndexName = IndexName(rawValue: "\(name)_tmp_\(Int.random(in: 0...100000))")
     let destinationIndex = Index(name: destinationIndexName, transport: transport, operationLauncher: operationLauncher, configuration: configuration)
     let moveTasks = try destinationIndex.batch(moveOperations).wrapped.tasks
@@ -582,12 +591,15 @@ public extension Index {
 
 extension Index {
 
-  @discardableResult func internalBatch(_ batchOperations: [BatchOperation], requestOptions: RequestOptions? = nil, completion: @escaping ResultCallback<BatchResponse>) -> Operation & TransportTask {
+  @discardableResult func internalBatch(_ batchOperations: [BatchOperation],
+                                        requestOptions: RequestOptions? = nil,
+                                        completion: @escaping ResultCallback<BatchResponse>) -> Operation & TransportTask {
     let command = Command.Index.Batch(indexName: name, batchOperations: batchOperations, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
 
-  @discardableResult func internalBatch(_ batchOperations: [BatchOperation], requestOptions: RequestOptions? = nil) throws -> BatchResponse {
+  @discardableResult func internalBatch(_ batchOperations: [BatchOperation],
+                                        requestOptions: RequestOptions? = nil) throws -> BatchResponse {
     let command = Command.Index.Batch(indexName: name, batchOperations: batchOperations, requestOptions: requestOptions)
     return try execute(command)
   }

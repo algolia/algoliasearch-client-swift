@@ -63,7 +63,7 @@ public extension Index {
    - Parameter forwardToReplicas: By default, this method applies only to the specified index.
      By making this true, the method will also send the synonym to all replicas.
      Thus, if you want to forward your synonyms to replicas you will need to specify that.
-   - Parameter clearExistingSynonyms: Forces the engine to replace all synonyms, using an atomic save.
+   - Parameter replaceExistingSynonyms: Forces the engine to replace all synonyms, using an atomic save.
      Normally, to replace all synonyms on an index, you would first clear the synonyms, using clearAllSynonyms, and then create a new list.
      However, between the clear and the add, your index will have no synonyms.
      This is where clearExistingSynonyms comes into play.
@@ -76,10 +76,10 @@ public extension Index {
    */
   @discardableResult func saveSynonyms(_ synonyms: [Synonym],
                                        forwardToReplicas: Bool? = nil,
-                                       clearExistingSynonyms: Bool? = nil,
+                                       replaceExistingSynonyms: Bool? = nil,
                                        requestOptions: RequestOptions? = nil,
                                        completion: @escaping ResultCallback<IndexRevision>) -> Operation {
-    let command = Command.Synonym.SaveList(indexName: name, synonyms: synonyms, forwardToReplicas: forwardToReplicas, clearExistingSynonyms: clearExistingSynonyms, requestOptions: requestOptions)
+    let command = Command.Synonym.SaveList(indexName: name, synonyms: synonyms, forwardToReplicas: forwardToReplicas, clearExistingSynonyms: replaceExistingSynonyms, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
 
@@ -93,7 +93,7 @@ public extension Index {
    - Parameter forwardToReplicas: By default, this method applies only to the specified index.
      By making this true, the method will also send the synonym to all replicas.
      Thus, if you want to forward your synonyms to replicas you will need to specify that.
-   - Parameter clearExistingSynonyms: Forces the engine to replace all synonyms, using an atomic save.
+   - Parameter replaceExistingSynonyms: Forces the engine to replace all synonyms, using an atomic save.
      Normally, to replace all synonyms on an index, you would first clear the synonyms, using clearAllSynonyms, and then create a new list.
      However, between the clear and the add, your index will have no synonyms.
      This is where clearExistingSynonyms comes into play.
@@ -105,9 +105,9 @@ public extension Index {
    */
   @discardableResult func saveSynonyms(_ synonyms: [Synonym],
                                        forwardToReplicas: Bool? = nil,
-                                       clearExistingSynonyms: Bool? = nil,
+                                       replaceExistingSynonyms: Bool? = nil,
                                        requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexRevision> {
-    let command = Command.Synonym.SaveList(indexName: name, synonyms: synonyms, forwardToReplicas: forwardToReplicas, clearExistingSynonyms: clearExistingSynonyms, requestOptions: requestOptions)
+    let command = Command.Synonym.SaveList(indexName: name, synonyms: synonyms, forwardToReplicas: forwardToReplicas, clearExistingSynonyms: replaceExistingSynonyms, requestOptions: requestOptions)
     return try execute(command)
   }
 
@@ -121,7 +121,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func getSynonym(objectID: ObjectID,
+  @discardableResult func getSynonym(withID objectID: ObjectID,
                                      requestOptions: RequestOptions? = nil,
                                      completion: @escaping ResultCallback<Synonym>) -> Operation {
     let command = Command.Synonym.Get(indexName: name, objectID: objectID, requestOptions: requestOptions)
@@ -135,7 +135,7 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: Synonym  object
    */
-  @discardableResult func getSynonym(objectID: ObjectID,
+  @discardableResult func getSynonym(withID objectID: ObjectID,
                                      requestOptions: RequestOptions? = nil) throws -> Synonym {
     let command = Command.Synonym.Get(indexName: name, objectID: objectID, requestOptions: requestOptions)
     return try execute(command)
@@ -151,7 +151,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func deleteSynonym(objectID: ObjectID,
+  @discardableResult func deleteSynonym(withID objectID: ObjectID,
                                         forwardToReplicas: Bool? = nil,
                                         requestOptions: RequestOptions? = nil,
                                         completion: @escaping ResultCallback<IndexDeletion>) -> Operation {
@@ -166,7 +166,7 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: DeletionIndex  object
    */
-  @discardableResult func deleteSynonym(objectID: ObjectID,
+  @discardableResult func deleteSynonym(withID objectID: ObjectID,
                                         forwardToReplicas: Bool? = nil,
                                         requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexDeletion> {
     let command = Command.Synonym.Delete(indexName: name, objectID: objectID, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
@@ -252,11 +252,11 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func replaceAllSynonyms(synonyms: [Synonym],
+  @discardableResult func replaceAllSynonyms(with synonyms: [Synonym],
                                              forwardToReplicas: Bool? = nil,
                                              requestOptions: RequestOptions? = nil,
                                              completion: @escaping ResultCallback<IndexRevision>) -> Operation {
-    saveSynonyms(synonyms, forwardToReplicas: forwardToReplicas, clearExistingSynonyms: true, requestOptions: requestOptions, completion: completion)
+    saveSynonyms(synonyms, forwardToReplicas: forwardToReplicas, replaceExistingSynonyms: true, requestOptions: requestOptions, completion: completion)
   }
 
   /**
@@ -269,10 +269,10 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: RevisionIndex  object
    */
-  @discardableResult func replaceAllSynonyms(synonyms: [Synonym],
+  @discardableResult func replaceAllSynonyms(with synonyms: [Synonym],
                                              forwardToReplicas: Bool? = nil,
                                              requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexRevision> {
-    try saveSynonyms(synonyms, forwardToReplicas: forwardToReplicas, clearExistingSynonyms: true, requestOptions: requestOptions)
+    try saveSynonyms(synonyms, forwardToReplicas: forwardToReplicas, replaceExistingSynonyms: true, requestOptions: requestOptions)
   }
 
 }
