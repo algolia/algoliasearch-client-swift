@@ -24,6 +24,18 @@ public struct SecuredAPIKeyRestriction {
 
   /// Specify a user identifier. This is often used with rate limits.
   public var userToken: UserToken?
+  
+  public init(query: Query? = nil,
+              restrictIndices: [IndexName]? = nil,
+              restrictSources: [String]? = nil,
+              validUntil: TimeInterval? = nil,
+              userToken: UserToken? = nil) {
+    self.query = query
+    self.restrictIndices = restrictIndices
+    self.restrictSources = restrictSources
+    self.validUntil = validUntil
+    self.userToken = userToken
+  }
 
 }
 
