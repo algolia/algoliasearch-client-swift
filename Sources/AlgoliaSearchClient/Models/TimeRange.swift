@@ -14,6 +14,11 @@ public struct TimeRange {
 
   /// Upper bound of the time range
   public let until: Date
+  
+  public init(from: Date, until: Date) {
+    self.from = from
+    self.until = until
+  }
 
 }
 
