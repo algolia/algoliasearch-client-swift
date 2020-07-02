@@ -9,16 +9,16 @@ import Foundation
 
 public protocol AnyWaitable {
 
-  func wait(timeout: TimeInterval?) throws
-  func wait(timeout: TimeInterval?, completion: @escaping (Result<Empty, Swift.Error>) -> Void)
+  func wait(timeout: TimeInterval?, requestOptions: RequestOptions?) throws
+  func wait(timeout: TimeInterval?, requestOptions: RequestOptions?, completion: @escaping (Result<Empty, Swift.Error>) -> Void)
 
 }
 
 extension Array where Element == AnyWaitable {
 
-  func waitAll(timeout: TimeInterval? = nil) throws {
+  func waitAll(timeout: TimeInterval? = nil, requestOptions: RequestOptions? = nil) throws {
     for element in self {
-      try element.wait(timeout: timeout)
+      try element.wait(timeout: timeout, requestOptions: requestOptions)
     }
   }
 

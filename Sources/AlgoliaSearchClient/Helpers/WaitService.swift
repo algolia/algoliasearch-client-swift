@@ -27,18 +27,20 @@ struct WaitService {
 
 extension WaitService: AnyWaitable {
 
-  func wait(timeout: TimeInterval?) throws {
+  func wait(timeout: TimeInterval?, requestOptions: RequestOptions?) throws {
     for (index, taskID) in taskIndices {
-      try index.waitTask(withID: taskID, timeout: timeout)
+      try index.waitTask(withID: taskID, timeout: timeout, requestOptions: requestOptions)
     }
   }
 
-  func wait(timeout: TimeInterval?, completion: @escaping (Result<Empty, Error>) -> Void) {
+  func wait(timeout: TimeInterval?, requestOptions: RequestOptions? = nil, completion: @escaping (Result<Empty, Error>) -> Void) {
     let dispatchGroup = DispatchGroup()
     var outputError: Error?
     for (index, taskID) in taskIndices {
       dispatchGroup.enter()
-      index.waitTask(withID: taskID, timeout: timeout) { result in
+      index.waitTask(withID: taskID,
+                     timeout: timeout,
+                     requestOptions: requestOptions) { result in
         switch result {
         case .success:
           break

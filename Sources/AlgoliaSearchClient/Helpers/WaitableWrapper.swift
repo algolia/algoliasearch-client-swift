@@ -70,12 +70,15 @@ extension WaitableWrapper where T == BatchesResponse {
 
 extension WaitableWrapper: AnyWaitable {
 
-  public func wait(timeout: TimeInterval? = nil) throws {
-    try waitService.wait(timeout: timeout)
+  public func wait(timeout: TimeInterval? = nil,
+                   requestOptions: RequestOptions? = nil) throws {
+    try waitService.wait(timeout: timeout, requestOptions: requestOptions)
   }
 
-  public func wait(timeout: TimeInterval? = nil, completion: @escaping (Result<Empty, Swift.Error>) -> Void) {
-    waitService.wait(timeout: timeout, completion: completion)
+  public func wait(timeout: TimeInterval? = nil,
+                   requestOptions: RequestOptions? = nil,
+                   completion: @escaping (Result<Empty, Swift.Error>) -> Void) {
+    waitService.wait(timeout: timeout, requestOptions: requestOptions, completion: completion)
   }
 
 }
