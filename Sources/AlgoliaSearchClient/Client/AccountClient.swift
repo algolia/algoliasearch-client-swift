@@ -26,20 +26,20 @@ public struct AccountClient {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: WaitableWrapper objects embedding all the tasks created while copying
    - Throws: AccountClient.Error.sameApplicationID if source and destination have the same ApplicationID.
-             AccountClient.Error.sourceNotFound if source doesnt exist
-             AccountClient.Error.existingDestination if destination index already exists.
+   AccountClient.Error.sourceNotFound if source doesnt exist
+   AccountClient.Error.existingDestination if destination index already exists.
    */
   
-  static func copyIndex(source: Index,
-                        destination: Index,
-                        requestOptions: RequestOptions? = nil,
-                        completion: @escaping (Result<WaitableWrapper<[Task]>, Swift.Error>) -> Void) throws -> Operation {
+  @discardableResult public static func copyIndex(source: Index,
+                                                  destination: Index,
+                                                  requestOptions: RequestOptions? = nil,
+                                                  completion: @escaping (Result<WaitableWrapper<[Task]>, Swift.Error>) -> Void) throws -> Operation {
     let operation = BlockOperation {
       completion(.init { try AccountClient.copyIndex(source: source, destination: destination, requestOptions: requestOptions) })
     }
     return operationLauncher.launch(operation)
   }
-
+  
   
   
   /**
@@ -50,13 +50,13 @@ public struct AccountClient {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: WaitableWrapper objects embedding all the tasks created while copying
    - Throws: AccountClient.Error.sameApplicationID if source and destination have the same ApplicationID.
-             AccountClient.Error.sourceNotFound if source doesnt exist
-             AccountClient.Error.existingDestination if destination index already exists.
+   AccountClient.Error.sourceNotFound if source doesnt exist
+   AccountClient.Error.existingDestination if destination index already exists.
    */
   
-  static func copyIndex(source: Index,
-                        destination: Index,
-                        requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<[Task]> {
+  @discardableResult public static func copyIndex(source: Index,
+                                                  destination: Index,
+                                                  requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<[Task]> {
     
     guard source.applicationID != destination.applicationID else {
       throw Error.sameApplicationID
@@ -84,7 +84,7 @@ public struct AccountClient {
       waitSynonyms,
       waitRules,
       waitSettings
-    ].map(\.task) + waitObjects.batchesResponse.tasks
+      ].map(\.task) + waitObjects.batchesResponse.tasks
     
     let waitService = WaitService(taskIndices: tasks.map { (destination, $0.taskID) })
     return WaitableWrapper(wrapped: tasks, waitService: waitService)
