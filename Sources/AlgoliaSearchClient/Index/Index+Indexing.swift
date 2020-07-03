@@ -29,15 +29,13 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Parameter completion: Result completion
    - Returns: Launched asynchronousoperation
-   - Throws: ObjectIDChecker.missingObjectIDProperty if autoGeneratingObjectID set to false and record type doesn't provide objectID
    */
   @discardableResult func saveObject<T: Encodable>(_ object: T,
                                                    autoGeneratingObjectID: Bool = false,
                                                    requestOptions: RequestOptions? = nil,
-                                                   completion: @escaping ResultTaskCallback<ObjectCreation>)
-     throws -> Operation & TransportTask {
+                                                   completion: @escaping ResultTaskCallback<ObjectCreation>) -> Operation & TransportTask {
     if !autoGeneratingObjectID {
-      try ObjectIDChecker.checkObjectID(object)
+      ObjectIDChecker.assertObjectID(object)
     }
     let command = Command.Indexing.SaveObject(indexName: name, record: object, requestOptions: requestOptions)
     return execute(command, completion: completion)
@@ -51,7 +49,6 @@ public extension Index {
    - Parameter autoGeneratingObjectID: Add objectID if record type doesn't provide it in serialized form.
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: ObjectCreation task
-   - Throws: ObjectIDChecker.missingObjectIDProperty if autoGeneratingObjectID set to false and record type doesn't provide objectID
    */
   @discardableResult func saveObject<T: Encodable>(_ object: T,
                                                    autoGeneratingObjectID: Bool = false,
@@ -74,12 +71,11 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Parameter completion: Result completion
    - Returns: Launched asynchronousoperation
-   - Throws: ObjectIDChecker.missingObjectIDProperty if autoGeneratingObjectID set to false and record type doesn't provide objectID
    */
   @discardableResult func saveObjects<T: Encodable>(_ objects: [T],
                                                     autoGeneratingObjectID: Bool = false,
                                                     requestOptions: RequestOptions? = nil,
-                                                    completion: @escaping ResultBatchesCallback) throws -> Operation {
+                                                    completion: @escaping ResultBatchesCallback) -> Operation {
     return batch(objects.map { .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }, requestOptions: requestOptions, completion: completion)
   }
 
@@ -91,7 +87,6 @@ public extension Index {
    - Parameter autoGeneratingObjectID: Add objectID if record type doesn't provide it in serialized form.
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: Batch task
-   - Throws: ObjectIDChecker.missingObjectIDProperty if autoGeneratingObjectID set to false and record type doesn't provide objectID
    */
   @discardableResult func saveObjects<T: Encodable>(_ objects: [T],
                                                     autoGeneratingObjectID: Bool = false,

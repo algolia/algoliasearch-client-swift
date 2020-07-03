@@ -18,6 +18,14 @@ struct ObjectIDChecker {
     }
   }
 
+  static func assertObjectID<T: Encodable>(_ object: T) {
+    do {
+      try checkObjectID(object)
+    } catch let error {
+      assertionFailure("\(error.localizedDescription)")
+    }
+  }
+
   enum Error: Swift.Error {
     case missingObjectIDProperty
 

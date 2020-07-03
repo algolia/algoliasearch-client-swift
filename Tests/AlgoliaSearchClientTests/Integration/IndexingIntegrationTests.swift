@@ -131,7 +131,7 @@ class IndexingIntegrationTests: OnlineTestCase {
 
     let expectation = self.expectation(description: "Save-Wait-Create")
 
-    try index.saveObject(object, autoGeneratingObjectID: true, completion: extract { creation in
+    index.saveObject(object, autoGeneratingObjectID: true, completion: extract { creation in
       creation.wait(completion: extract { _ in
         self.index.getObject(withID: creation.task.objectID, completion: extract { (fetchedObject: JSON) in
           XCTAssertEqual(fetchedObject["testField1"], "testValue1")

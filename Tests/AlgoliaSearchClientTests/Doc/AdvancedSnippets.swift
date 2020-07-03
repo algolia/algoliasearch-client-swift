@@ -97,15 +97,15 @@ extension AdvancedSnippets {
     let object = Contact(firstName: "Jimmie",
                          lastName: "Barninger")
     
-    try index.saveObject(object, autoGeneratingObjectID: true) { result in
-        if case .success(let waitableWrapper) = result {
-          waitableWrapper.wait() { result in
-            if case .success(let response) = result {
-              print("New object is indexed")
-              _ = response//to remove when pasted to doc
-            }
+    index.saveObject(object, autoGeneratingObjectID: true) { result in
+      if case .success(let waitableWrapper) = result {
+        waitableWrapper.wait() { result in
+          if case .success(let response) = result {
+            print("New object is indexed")
+            _ = response//to remove when pasted to doc
           }
         }
+      }
     }
   }
 
@@ -122,15 +122,15 @@ extension AdvancedSnippets {
     var requestOptions = RequestOptions()
     requestOptions.headers = ["X-Algolia-User-ID": "user123"]
     
-    try index.saveObject(object, autoGeneratingObjectID: true) { result in
-        if case .success(let waitableWrapper) = result {
-          waitableWrapper.wait(requestOptions: requestOptions) { result in
-            if case .success(let response) = result {
-              print("New object is indexed")
-              _ = response//to remove when pasted to doc
-            }
+    index.saveObject(object, autoGeneratingObjectID: true) { result in
+      if case .success(let waitableWrapper) = result {
+        waitableWrapper.wait(requestOptions: requestOptions) { result in
+          if case .success(let response) = result {
+            print("New object is indexed")
+            _ = response//to remove when pasted to doc
           }
         }
+      }
     }
   }
   

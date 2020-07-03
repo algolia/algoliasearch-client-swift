@@ -44,7 +44,7 @@ extension IndexingSnippets {
       .init(firstname: "Warren", lastname: "Speach"),
     ]
     
-    try index.saveObjects(contacts, autoGeneratingObjectID: true) { result in
+    index.saveObjects(contacts, autoGeneratingObjectID: true) { result in
       if case .success(let response) = result {
         print("Response: \(response)")
       }
@@ -63,7 +63,7 @@ extension IndexingSnippets {
       .init(objectID: "myID2", firstname: "Warren", lastname: "Speach"),
     ]
     
-    try index.saveObjects(contacts) { result in
+    index.saveObjects(contacts) { result in
       if case .success(let response) = result {
         print("Response: \(response)")
       }
@@ -79,7 +79,7 @@ extension IndexingSnippets {
     
     let contact: Contact = .init(objectID: "myID1", firstname: "Jimmie", lastname: "Barninger")
 
-    try index.saveObject(contact) { result in
+    index.saveObject(contact) { result in
       if case .success(let response) = result {
         print("Response: \(response)")
       }
@@ -101,7 +101,7 @@ extension IndexingSnippets {
       .init(objectID: "myID2", firstname: "Warren", lastname: "Speach"),
     ]
 
-    try index.saveObjects(contacts, requestOptions: requestOptions) { result in
+    index.saveObjects(contacts, requestOptions: requestOptions) { result in
       if case .success(let response) = result {
         print("Response: \(response)")
       }
