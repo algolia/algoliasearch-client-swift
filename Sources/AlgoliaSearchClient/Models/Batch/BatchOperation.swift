@@ -39,7 +39,14 @@ extension BatchOperation {
 public extension BatchOperation {
 
   static func add<T: Encodable>(_ object: T, autoGeneratingObjectID: Bool = false) -> Self {
-    if !autoGeneratingObjectID { try! ObjectIDChecker.checkObjectID(object) }
+    if !autoGeneratingObjectID {
+      do {
+        try ObjectIDChecker.checkObjectID(object)
+      } catch let error {
+        assertionFailure("\(error.localizedDescription)")
+      }
+    }
+
     return .init(action: .addObject, bodyObject: object)
   }
 
