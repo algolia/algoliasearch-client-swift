@@ -1,5 +1,10 @@
-cd Carthage/Checkouts/algoliasearch-client-swift
-swift package generate-xcodeproj
-cd ../swift-log
-swift package generate-xcodeproj
+packages=(
+  swift-log
+)
+cd Carthage/Checkouts/
+for package in "${packages[@]}"; do
+  cd ./$package
+  swift package generate-xcodeproj
+  cd ..
+done
 cd ../../..
