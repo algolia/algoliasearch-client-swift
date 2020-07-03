@@ -18,7 +18,7 @@ public struct EventScoring: Codable {
 
   /// Score of the event
   public let score: Int?
-  
+
   public init(eventName: EventName,
               eventType: InsightsEvent.EventType,
               score: Int? = nil) {

@@ -25,7 +25,7 @@ public struct UserIDQuery: Codable {
   /// Engine default: 20
   /// Number of users to return by page.
   public var hitsPerPage: Int?
-  
+
   public init(query: String? = nil,
               clusterName: ClusterName? = nil,
               page: Int? = nil,

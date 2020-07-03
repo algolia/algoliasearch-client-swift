@@ -165,7 +165,7 @@ public struct DeleteByQuery {
     }
 
   }
-  
+
   public init() {
   }
 

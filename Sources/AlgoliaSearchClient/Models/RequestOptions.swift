@@ -18,7 +18,7 @@ public struct RequestOptions {
   public var writeTimeout: TimeInterval?
   public var readTimeout: TimeInterval?
   public var body: [String: Any]?
-     
+
   public init(headers: [HTTPHeaderKey: String] = [:],
               urlParameters: [HTTPParameterKey: String?] = [:],
               writeTimeout: TimeInterval? = nil,
@@ -40,7 +40,7 @@ public struct RequestOptions {
   public mutating func setParameter(_ value: String?, forKey key: HTTPParameterKey) {
     urlParameters[key] = value
   }
-  
+
   /// Set timeout for a call type
   public mutating func setTimeout(_ timeout: TimeInterval?, for callType: CallType) {
     switch callType {
@@ -64,7 +64,7 @@ public struct RequestOptions {
 }
 
 public struct HTTPParameterKey: RawRepresentable, Hashable {
-  
+
   public let rawValue: String
 
   public init(rawValue: String) {
@@ -82,7 +82,7 @@ extension HTTPParameterKey: ExpressibleByStringLiteral {
 }
 
 extension HTTPParameterKey {
-  
+
   static var attributesToRetreive: HTTPParameterKey { #function }
   static var forwardToReplicas: HTTPParameterKey { #function }
   static var clearExistingRules: HTTPParameterKey { #function }
@@ -99,18 +99,18 @@ extension HTTPParameterKey {
   static var page: HTTPParameterKey { #function }
   static var hitsPerPage: HTTPParameterKey { #function }
   static var getClusters: HTTPParameterKey { #function }
-  
+
 }
 
 extension HTTPHeaderKey {
-  
+
   static let contentType: HTTPHeaderKey = "Content-Type"
   static let algoliaUserID: HTTPHeaderKey = "X-Algolia-User-ID"
   static let forwardedFor: HTTPHeaderKey = "X-Forwarded-For"
   static let applicationID: HTTPHeaderKey = "X-Algolia-Application-Id"
   static let apiKey: HTTPHeaderKey = "X-Algolia-API-Key"
   static let userAgent: HTTPHeaderKey = "User-Agent"
-  
+
 }
 
 extension HTTPHeaderKey: ExpressibleByStringLiteral {

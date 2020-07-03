@@ -8,9 +8,9 @@
 import Foundation
 
 public extension SearchClient {
-  
+
   // MARK: - Copy index
-  
+
   /**
    Make a copy of an index, including its objects, settings, synonyms, and query rules.
    
@@ -33,7 +33,7 @@ public extension SearchClient {
                                     completion: @escaping ResultTaskCallback<IndexRevision>) -> Operation & TransportTask {
     index(withName: source).copy(scope, to: destination, requestOptions: requestOptions, completion: completion)
   }
-  
+
   /**
    Make a copy of an index, including its objects, settings, synonyms, and query rules.
    
@@ -54,9 +54,9 @@ public extension SearchClient {
                                     requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexRevision> {
     try index(withName: source).copy(scope, to: destination, requestOptions: requestOptions)
   }
-  
+
   // MARK: - Move index
-  
+
   /**
    Rename an index. Normally used to reindex your data atomically, without any down time.
    The move index method is a safe and atomic way to rename an index.
@@ -73,7 +73,7 @@ public extension SearchClient {
                                     completion: @escaping ResultTaskCallback<IndexRevision>) -> Operation & TransportTask {
     index(withName: source).move(to: destination, requestOptions: requestOptions, completion: completion)
   }
-  
+
   /**
    Rename an index. Normally used to reindex your data atomically, without any down time.
    The move index method is a safe and atomic way to rename an index.
@@ -88,9 +88,9 @@ public extension SearchClient {
                                     requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexRevision> {
     try index(withName: source).move(to: destination, requestOptions: requestOptions)
   }
-  
+
   // MARK: - Copy rules
-  
+
   /**
    Convenience method. Perform copyIndex with a specified Scope of .rules.
    
@@ -106,7 +106,7 @@ public extension SearchClient {
                                     completion: @escaping ResultTaskCallback<IndexRevision>) -> Operation & TransportTask {
     index(withName: source).copy(.rules, to: destination, requestOptions: requestOptions, completion: completion)
   }
-  
+
   /**
    Convenience method. Perform copyIndex with a specified Scope of .rules.
    
@@ -120,9 +120,9 @@ public extension SearchClient {
                                     requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexRevision> {
     try index(withName: source).copy(.rules, to: destination, requestOptions: requestOptions)
   }
-  
+
   // MARK: - Copy synonyms
-  
+
   /**
    Convenience method. Perform copyIndex with a specified Scope of .synonyms.
    
@@ -138,7 +138,7 @@ public extension SearchClient {
                                        completion: @escaping ResultTaskCallback<IndexRevision>) -> Operation & TransportTask {
     index(withName: source).copy(.synonyms, to: destination, requestOptions: requestOptions, completion: completion)
   }
-  
+
   /**
    Convenience method. Perform copyIndex with a specified Scope of .synonyms.
    
@@ -152,9 +152,9 @@ public extension SearchClient {
                                        requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexRevision> {
     try index(withName: source).copy(.synonyms, to: destination, requestOptions: requestOptions)
   }
-  
+
   // MARK: - Copy settings
-  
+
   /**
    Convenience method. Perform copyIndex with a specified Scope of .settings.
    
@@ -170,7 +170,7 @@ public extension SearchClient {
                                        completion: @escaping ResultTaskCallback<IndexRevision>) -> Operation & TransportTask {
     index(withName: source).copy(.settings, to: destination, requestOptions: requestOptions, completion: completion)
   }
-  
+
   /**
    Convenience method. Perform copyIndex with a specified Scope of .settings.
    
@@ -184,5 +184,5 @@ public extension SearchClient {
                                        requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexRevision> {
     try index(withName: source).copy(.settings, to: destination, requestOptions: requestOptions)
   }
-  
+
 }

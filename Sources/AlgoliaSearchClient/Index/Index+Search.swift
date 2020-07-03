@@ -8,9 +8,9 @@
 import Foundation
 
 public extension Index {
-  
+
   // MARK: - Search
-  
+
   /**
    Method used for querying an index.
    
@@ -29,7 +29,7 @@ public extension Index {
     let command = Command.Search.Search(indexName: name, query: query, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Method used for querying an index.
    
@@ -43,9 +43,9 @@ public extension Index {
     let command = Command.Search.Search(indexName: name, query: query, requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
   // MARK: - Multiple Queries
-  
+
   /**
    Method used for perform multiple searches at the same time, with one method call.
    
@@ -62,7 +62,7 @@ public extension Index {
     let command = Command.MultipleIndex.Queries(indexName: name, queries: queries, strategy: strategy, requestOptions: requestOptions)
     return transport.execute(command, completion: completion)
   }
-  
+
   /**
    Method used for perform multiple searches at the same time, with one method call.
    
@@ -78,9 +78,9 @@ public extension Index {
     let command = Command.MultipleIndex.Queries(indexName: name, queries: queries, strategy: strategy, requestOptions: requestOptions)
     return try transport.execute(command)
   }
-  
+
   // MARK: - Browse
-  
+
   /**
    Get all index content without any record limit. Can be used for backups.
    
@@ -113,7 +113,7 @@ public extension Index {
     let command = Command.Search.Browse(indexName: name, query: query, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Get all index content without any record limit. Can be used for backups.
    
@@ -127,7 +127,7 @@ public extension Index {
     let command = Command.Search.Browse(indexName: name, query: query, requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
   /**
    Get all index content without any record limit. Can be used for backups.
    
@@ -143,7 +143,7 @@ public extension Index {
     let command = Command.Search.Browse(indexName: name, cursor: cursor, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Get all index content without any record limit. Can be used for backups.
    
@@ -157,9 +157,9 @@ public extension Index {
     let command = Command.Search.Browse(indexName: name, cursor: cursor, requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
   // MARK: - Search for facets
-  
+
   /**
    Search for a set of values within a given facet attribute. Can be combined with a query. This
    method enables you to search through the values of a facet attribute, selecting only a subset
@@ -180,7 +180,7 @@ public extension Index {
     let command = Command.Search.SearchForFacets(indexName: name, attribute: facetName, facetQuery: facetQuery, query: searchQuery, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Search for a set of values within a given facet attribute. Can be combined with a query. This
    method enables you to search through the values of a facet attribute, selecting only a subset
@@ -199,9 +199,9 @@ public extension Index {
     let command = Command.Search.SearchForFacets(indexName: name, attribute: facetName, facetQuery: facetQuery, query: searchQuery, requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
   // MARK: - Find object
-  
+
   /**
    Find object searches iteratively through the search response `Hits` field to find the first
    response hit that would match against the given `predicate` function.
@@ -230,7 +230,7 @@ public extension Index {
     }
     return launch(operation)
   }
-  
+
   /**
    Find object searches iteratively through the search response `Hits` field to find the first
    response hit that would match against the given `predicate` function.
@@ -245,25 +245,25 @@ public extension Index {
                                                    for query: Query = .init(),
                                                    paginate: Bool = true,
                                                    requestOptions: RequestOptions? = nil) throws -> HitWithPosition<T>? {
-    
+
     let results = try search(query: query)
     let hits: [T] = try results.extractHits()
-    
+
     if let found = hits
       .enumerated()
       .first(where: {( _, object) in predicate(object)})
       .flatMap({ HitWithPosition(hit: $0.element, page: query.page ?? 0, position: $0.offset) }) {
       return found
     }
-    
+
     let currentPage = query.page ?? 0
     let totalPageCount = (results.nbPages ?? 1)
-    
+
     guard currentPage + 1 < totalPageCount, paginate else { return nil }
-    
+
     let nextPageQuery = query.set(\.page, to: currentPage + 1)
-    
+
     return try findObject(matching: predicate, for: nextPageQuery, requestOptions: requestOptions)
   }
-  
+
 }
