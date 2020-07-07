@@ -16,6 +16,11 @@ extension Rule {
 
     /// Promoted rank for the object.
     public let position: Int
+    
+    public init(objectID: ObjectID, position: Int) {
+      self.objectID = objectID
+      self.position = position
+    }
 
   }
 
