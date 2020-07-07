@@ -59,19 +59,25 @@ struct GettingStarted: SnippetsCollection {
   
   func changeSettings() {
     let index = client.index(withName: "contacts")
-    let settings = Settings()
-      .set(\.customRanking, to: [.desc("followers")])
-    index.setSettings(settings) { result in
-      if case .failure(let error) = result {
-        print("Error when applying settings: \(error)")
+    
+    func setCustomRanking() {
+      let settings = Settings()
+        .set(\.customRanking, to: [.desc("followers")])
+      index.setSettings(settings) { result in
+        if case .failure(let error) = result {
+          print("Error when applying settings: \(error)")
+        }
       }
+
     }
 
-    let settings = Settings()
-      .set(\.searchableAttributes, to: ["lastname", "firstname", "company"])
-    index.setSettings(settings) { result in
-      if case .failure(let error) = result {
-        print("Error when applying settings: \(error)")
+    func setSearchableAttributes() {
+      let settings = Settings()
+        .set(\.searchableAttributes, to: ["lastname", "firstname", "company"])
+      index.setSettings(settings) { result in
+        if case .failure(let error) = result {
+          print("Error when applying settings: \(error)")
+        }
       }
     }
 
