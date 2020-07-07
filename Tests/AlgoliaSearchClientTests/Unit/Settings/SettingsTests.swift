@@ -16,12 +16,13 @@ class SettingsTests: XCTestCase {
     settings.attributesForFaceting = [.default("attr1"), .filterOnly("attr2"), .searchable("attr3")]
     settings.sortFacetsBy = .count
     settings.attributesToHighlight = ["attr2", "attr3"]
-    print(settings)
+    settings.attributeCriteriaComputedByMinProximity = false
   }
 
   func testDecoding() throws {
     let data = try Data(filename: "Settings.json")
     let decoder = JSONDecoder()
-    _ = try decoder.decode(Settings.self, from: data)
+    let settings = try decoder.decode(Settings.self, from: data)
+    XCTAssertEqual(settings.attributeCriteriaComputedByMinProximity, false)
   }
 }
