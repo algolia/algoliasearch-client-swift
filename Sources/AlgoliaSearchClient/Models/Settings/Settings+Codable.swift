@@ -64,6 +64,7 @@ extension Settings {
     case indexLanguages
     case customNormalization
     case primary
+    case attributeCriteriaComputedByMinProximity
   }
 
 }

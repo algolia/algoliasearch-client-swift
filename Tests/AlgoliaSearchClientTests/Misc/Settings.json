@@ -38,5 +38,6 @@
   "alternativesAsExact": [
     "ignorePlurals",
     "singleWordSynonym"
-  ]
+  ],
+  "attributeCriteriaComputedByMinProximity": false
 }
