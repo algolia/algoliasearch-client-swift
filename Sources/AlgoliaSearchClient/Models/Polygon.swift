@@ -11,7 +11,19 @@ public struct Polygon: Equatable {
 
   public let points: [Point]
 
+  public init(points: [Point]) {
+    self.points = points
+  }
+  
   public init(_ point1: Point, _ point2: Point, _ point3: Point, _ points: Point...) {
+    self.init(point1, point2, point3, points)
+  }
+  
+  public init(_ point1: (Double, Double), _ point2: (Double, Double), _ point3: (Double, Double), _ points: (Double, Double)...) {
+    let point1 = Point(latitude: point1.0, longitude: point1.1)
+    let point2 = Point(latitude: point2.0, longitude: point2.1)
+    let point3 = Point(latitude: point3.0, longitude: point3.1)
+    let points = points.map { Point(latitude: $0.0, longitude: $0.1) }
     self.init(point1, point2, point3, points)
   }
 

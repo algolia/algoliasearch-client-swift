@@ -24,6 +24,17 @@ public struct BoundingBox: Equatable {
 
 }
 
+extension BoundingBox {
+  
+  public init(point1: (Double, Double), point2: (Double, Double)) {
+    self.init(point1: .init(latitude: point1.0,
+                            longitude: point1.1),
+              point2: .init(latitude: point2.0,
+                            longitude: point2.1))
+  }
+  
+}
+
 extension BoundingBox: RawRepresentable {
 
   public var rawValue: [Double] {
