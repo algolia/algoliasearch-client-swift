@@ -19,7 +19,7 @@ public struct Snippet: Codable, URLEncodable, Equatable {
    Optional word count.
    - Engine default: 10
    */
-  public let count: Int?
+  public var count: Int?
 
   public init(attribute: Attribute, count: Int? = nil) {
     self.attribute = attribute
@@ -27,6 +27,8 @@ public struct Snippet: Codable, URLEncodable, Equatable {
   }
 
 }
+
+extension Snippet: Builder {}
 
 extension Snippet: RawRepresentable {
 
@@ -37,7 +39,7 @@ extension Snippet: RawRepresentable {
     return attribute.rawValue + countSuffix
   }
 
-  public init?(rawValue: String) {
+  public init(rawValue: String) {
     let components = rawValue.split(separator: ":", maxSplits: 1, omittingEmptySubsequences: true)
     if let count = components.last.flatMap({ Int(String($0)) }), components.count == 2 {
       self.attribute = Attribute(rawValue: String(components[0]))
