@@ -14,6 +14,12 @@ public enum NumericAttributeFilter: Equatable, Codable {
 
 }
 
+extension NumericAttributeFilter: ExpressibleByStringLiteral {
+  public init(stringLiteral value: String) {
+    self.init(rawValue: value)
+  }
+}
+
 extension NumericAttributeFilter: RawRepresentable {
 
   private enum Prefix: String {
