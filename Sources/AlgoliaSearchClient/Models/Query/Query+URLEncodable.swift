@@ -33,11 +33,11 @@ extension Query {
       let valueToSet = "[\(value.map { "[\($0.map(\.urlEncodedString).sorted().joined(separator: ","))]" }.joined(separator: ","))]"
       queryItems.append(.init(name: key.rawValue, value: valueToSet))
     }
-    
+
     mutating func set<S: Sequence>(_ value: S?, for key: Key) where S.Element == FilterVariant {
       guard let value = value else { return }
-      func toString(_ v: FilterVariant) -> String {
-        switch v.storage {
+      func toString(_ filterVariant: FilterVariant) -> String {
+        switch filterVariant.storage {
         case .single(let value):
           return value
         case .list(let list):
