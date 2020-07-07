@@ -11,15 +11,15 @@ public enum SearchableAttribute: Codable, Equatable {
 
   case `default`(Attribute)
   case unordered(Attribute)
-  
+
 }
 
 extension SearchableAttribute: ExpressibleByStringLiteral {
-  
+
   public init(stringLiteral value: String) {
     self = .init(rawValue: value)
   }
-  
+
 }
 
 extension SearchableAttribute: RawRepresentable {
@@ -27,7 +27,7 @@ extension SearchableAttribute: RawRepresentable {
   private enum Prefix: String {
     case unordered
   }
-  
+
   private static let samePrioritySeparator = ","
 
   public var rawValue: String {

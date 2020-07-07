@@ -13,7 +13,7 @@ public enum SingleOrList<T> {
 }
 
 extension SingleOrList: Encodable where T: Encodable {
-  
+
   public func encode(to encoder: Encoder) throws {
     switch self {
     case .single(let value):
@@ -22,7 +22,7 @@ extension SingleOrList: Encodable where T: Encodable {
       try list.encode(to: encoder)
     }
   }
-  
+
 }
 
 extension SingleOrList: Decodable where T: Decodable {

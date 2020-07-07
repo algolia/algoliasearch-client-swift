@@ -14,11 +14,11 @@ public struct Polygon: Equatable {
   public init(points: [Point]) {
     self.points = points
   }
-  
+
   public init(_ point1: Point, _ point2: Point, _ point3: Point, _ points: Point...) {
     self.init(point1, point2, point3, points)
   }
-  
+
   public init(_ point1: (Double, Double), _ point2: (Double, Double), _ point3: (Double, Double), _ points: (Double, Double)...) {
     let point1 = Point(latitude: point1.0, longitude: point1.1)
     let point2 = Point(latitude: point2.0, longitude: point2.1)
