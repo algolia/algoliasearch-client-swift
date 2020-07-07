@@ -39,12 +39,12 @@
 
 ## ✨ Features
 
-- The Swift client is compatible with Swift 5 and higher.
-- It relies on the open source Swift libraries for seamless integration into Swift projects:
-  - [SwiftLog](https://github.com/apple/swift-log).
-- Asynchronous and synchronous methods to interact with Algolia's API
-- Thread-safe clients
+- Pure cross-platform Swift client
 - Typed requests and responses
+- Widespread use of `Result` type
+- Uses the power of `Codable` protocol for easy integration of your domain models
+- Thread-safe clients
+- Detailed logging
 - Injectable HTTP client
 
 ## Install
@@ -99,7 +99,7 @@ github "algolia/algoliasearch-client-swift" ~> 8.0.0
 # github "algolia/algoliasearch-client-swift" ~> 5.0.0` // Swift 4.1
 ```
 
-- Launch the following commands from the project directory
+- Launch the following commands from the project directory (for v.8.0+)
  ```shell
  carthage update
  ./Carthage/Checkouts/algoliasearch-client-swift/carthage-prebuild
@@ -126,23 +126,24 @@ let index = client.index(withName: "your_index_name")
 Without any prior configuration, you can start indexing contacts in the `contacts` index using the following code:
 
 ```swift
-struct Contact {
-  let firstname:  String
+struct Contact: Encodable {
+  let firstname: String
   let lastname: String
-  let followersCount: Int
+  let followers: Int
   let company: String
-  let objectID: String
 }
 
+let contacts: [Contact] = [
+  .init(firstname: "Jimmie", lastname: "Barninger", followers: 93, company: "California Paint"),
+  .init(firstname: "Warren", lastname: "Speach", followers: 42, company: "Norwalk Crmc")
+]
+
 let index = client.index(withName: "contacts")
-
-let contact = Contact(firstname: "Jimmie", 
-		      lastname: "Barninger", 
-		      followersCount: 93, 
-		      company: "California Paint", 
-		      objectID: "one")
-
-try index.saveObject(contact)
+index.saveObjects(contacts, autoGeneratingObjectID: true) { result in
+  if case .success(let response) = result {
+    print("Response: \(response)")
+  }
+}
 ```
 
 ### Search
@@ -150,19 +151,43 @@ try index.saveObject(contact)
 You can now search for contacts by `firstname`, `lastname`, `company`, etc. (even with typos):
 
 ```swift
-// Synchronous search
-let searchResponse = try index.search(query: "jimmie")
-
-// Asynchronous search
 index.search(query: "jimmie") { result in
   switch result {
   case .failure(let error):
-    ...
-  case .success(let searchResponse):
-    ...
+    print("Error: \(error)")
+  case .success(let response):
+    print("Response: \(response)")
   }
 }
+```
 
+### Configure
+
+Settings can be customized to tune the search behavior. For example, you can add a custom sort by number of followers to the already great built-in relevance:
+
+```swift
+let settings = Settings()
+  .set(\.customRanking, to: [.desc("followers")])
+index.setSettings(settings) { result in
+  if case .failure(let error) = result {
+    print("Error when applying settings: \(error)")
+  }
+}
+```
+
+You can also configure the list of attributes you want to index by order of importance (first = most important):
+
+**Note:** Since the engine is designed to suggest results as you type, you'll generally search by prefix.
+In this case the order of attributes is very important to decide which hit is the best:
+
+```swift
+let settings = Settings()
+  .set(\.searchableAttributes, to: ["lastname", "firstname", "company"])
+index.setSettings(settings) { result in
+  if case .failure(let error) = result {
+    print("Error when applying settings: \(error)")
+  }
+}
 ```
 
 For full documentation, visit the [Algolia Swift API Client's documentation](https://www.algolia.com/doc/api-client/getting-started/install/swift/).
@@ -174,3 +199,23 @@ You can find code samples in the [Algolia's API Clients playground](https://gith
 ## 📄 License
 
 Algolia Swift API Client is an open-sourced software licensed under the [MIT license](LICENSE.md).
+
+## Notes
+
+### Objective-C support
+
+The Swift API client is compatible with Objective-C up to version 7.0.5. Please use this version of the client if you're working with an Objective-C project.
+The [Objective-C API Client](https://github.com/algolia/algoliasearch-client-objc) is no longer under active development.
+It is still supported for bug fixes, but will not receive new features. If you were using our Objective-C client, read the [migration guide from Objective-C](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-from-Objective-C-to-Swift-API-Client).
+
+### Swift 3
+
+You can use this library with Swift by one of the following ways:
+
+- `pod 'AlgoliaSearch-Client-Swift', '~> 4.8.1'`
+- `pod 'AlgoliaSearch-Client-Swift', :git => 'https://github.com/algolia/algoliasearch-client-swift.git', :branch => 'swift-3'`
+
+## Getting Help
+
+- **Need help**? Ask a question to the [Algolia Community](https://discourse.algolia.com/) or on [Stack Overflow](http://stackoverflow.com/questions/tagged/algolia).
+- **Found a bug?** You can open a [GitHub issue](https://github.com/algolia/algoliasearch-client-swift/issues).
