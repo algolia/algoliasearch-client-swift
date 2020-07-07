@@ -344,6 +344,15 @@ public struct Settings: Codable {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/maxFacetHits/?language=swift)
    */
   public var maxFacetHits: Int?
+  
+  /**
+   When attribute is ranked above proximity in your ranking formula, proximity is used to select
+   which searchable attribute is matched in the attribute ranking stage.
+   - Engine default: false
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/attributeCriteriaComputedByMinProximity/?language=swift)
+   */
+  public var attributeCriteriaComputedByMinProximity: Bool?
+  
   /**
    Settings version.
    */
