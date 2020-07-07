@@ -12,7 +12,7 @@ import XCTest
 class SearchableAttributeTests: XCTestCase {
 
   func testCoding() throws {
-    try AssertEncodeDecode(SearchableAttribute.default(["title", "alternative_title", "emails.personal", "author"]), "title,alternative_title,emails.personal,author")
+    try AssertEncodeDecode(SearchableAttribute.default("title, alternative_title, emails.personal, author"), "title, alternative_title, emails.personal, author")
     try AssertEncodeDecode(SearchableAttribute.unordered("text"), "unordered(text)")
   }
 

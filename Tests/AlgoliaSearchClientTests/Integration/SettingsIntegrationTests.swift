@@ -22,7 +22,7 @@ class SettingsIntegrationTests: OnlineTestCase {
     try indexInitialization.wait()
     
     let settings = Settings()
-      .set(\.searchableAttributes, to: [.default(["attribute1"]), .default(["attribute2"]), .default(["attribute3"]), .unordered("attribute4"), .unordered("attribute5")])
+      .set(\.searchableAttributes, to: ["attribute1", "attribute2", "attribute3", .unordered("attribute4"), .unordered("attribute5")])
       .set(\.attributesForFaceting, to: [.default("attribute1"), .filterOnly("attribute2"), .searchable("attribute3")])
       .set(\.unretrievableAttributes, to: ["attribute1", "attribute2"])
       .set(\.attributesToRetrieve, to: ["attribute3", "attribute4"])
@@ -79,7 +79,7 @@ class SettingsIntegrationTests: OnlineTestCase {
     
     var fetchedSettings = try index.getSettings()
     
-    XCTAssertEqual(fetchedSettings.searchableAttributes, [.default(["attribute1"]), .default(["attribute2"]), .default(["attribute3"]), .unordered("attribute4"), .unordered("attribute5")])
+    XCTAssertEqual(fetchedSettings.searchableAttributes, ["attribute1", "attribute2", "attribute3", .unordered("attribute4"), .unordered("attribute5")])
     XCTAssertEqual(fetchedSettings.attributesForFaceting, [.default("attribute1"), .filterOnly("attribute2"), .searchable("attribute3")])
     XCTAssertEqual(fetchedSettings.unretrievableAttributes, ["attribute1", "attribute2"])
     XCTAssertEqual(fetchedSettings.attributesToRetrieve, ["attribute3", "attribute4"])
@@ -140,7 +140,7 @@ class SettingsIntegrationTests: OnlineTestCase {
     
     fetchedSettings = try index.getSettings()
     
-    XCTAssertEqual(fetchedSettings.searchableAttributes, [.default(["attribute1"]), .default(["attribute2"]), .default(["attribute3"]), .unordered("attribute4"), .unordered("attribute5")])
+    XCTAssertEqual(fetchedSettings.searchableAttributes, ["attribute1", "attribute2", "attribute3", .unordered("attribute4"), .unordered("attribute5")])
     XCTAssertEqual(fetchedSettings.attributesForFaceting, [.default("attribute1"), .filterOnly("attribute2"), .searchable("attribute3")])
     XCTAssertEqual(fetchedSettings.unretrievableAttributes, ["attribute1", "attribute2"])
     XCTAssertEqual(fetchedSettings.attributesToRetrieve, ["attribute3", "attribute4"])

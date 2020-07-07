@@ -9,9 +9,17 @@ import Foundation
 
 public enum SearchableAttribute: Codable, Equatable {
 
-  case `default`([Attribute])
+  case `default`(Attribute)
   case unordered(Attribute)
+  
+}
 
+extension SearchableAttribute: ExpressibleByStringLiteral {
+  
+  public init(stringLiteral value: String) {
+    self = .init(rawValue: value)
+  }
+  
 }
 
 extension SearchableAttribute: RawRepresentable {
@@ -19,11 +27,13 @@ extension SearchableAttribute: RawRepresentable {
   private enum Prefix: String {
     case unordered
   }
+  
+  private static let samePrioritySeparator = ","
 
   public var rawValue: String {
     switch self {
-    case .default(let attributes):
-      return attributes.map(\.rawValue).joined(separator: ",")
+    case .default(let attribute):
+      return attribute.rawValue
     case .unordered(let attribute):
       return PrefixedString(prefix: Prefix.unordered.rawValue, value: attribute.rawValue).description
     }
@@ -34,8 +44,7 @@ extension SearchableAttribute: RawRepresentable {
       let attribute = Attribute(rawValue: prefixedString.value)
       self = .unordered(attribute)
     } else {
-      let attributes = rawValue.split(separator: ",").map(String.init).map(Attribute.init)
-      self = .`default`(attributes)
+      self = .default(.init(rawValue: rawValue))
     }
   }
 

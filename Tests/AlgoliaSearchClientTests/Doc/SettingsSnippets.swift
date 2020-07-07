@@ -48,7 +48,7 @@ extension SettingsSnippets {
   
   func setSettings() {
     let settings = Settings()
-      .set(\.searchableAttributes, to: [.default(["name", "address"])])
+      .set(\.searchableAttributes, to: ["name", "address"])
       .set(\.customRanking, to: [.desc("followers")])
     
     index.setSettings(settings) { result in
