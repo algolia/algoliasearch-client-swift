@@ -35,7 +35,7 @@ public struct DeleteByQuery {
    - Engine default: []
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/facetFilters/?language=swift)
    */
-  public var facetFilters: [[String]]? {
+  public var facetFilters: [FilterVariant]? {
 
     get {
       return query.facetFilters
@@ -52,7 +52,7 @@ public struct DeleteByQuery {
    - Engine default: []
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/numericFilters/?language=swift)
    */
-  public var numericFilters: [[String]]? {
+  public var numericFilters: [FilterVariant]? {
 
     get {
       return query.numericFilters
@@ -69,7 +69,7 @@ public struct DeleteByQuery {
    - Engine default: []
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/tagFilters/?language=swift)
    */
-  public var tagFilters: [[String]]? {
+  public var tagFilters: [FilterVariant]? {
 
     get {
       return query.tagFilters

@@ -20,10 +20,10 @@ class QueryTests: XCTestCase {
     .set(\.attributesToRetrieve, to: ["attr1", "attr2", "attr3"])
     .set(\.restrictSearchableAttributes, to: ["rattr1", "rattr2"])
     .set(\.filters, to: "(color:red OR color:yellow) AND on-sale")
-    .set(\.facetFilters, to: [["color:red", "color:blue"], ["size:M"]])
-    .set(\.optionalFilters, to: [["color:red", "color:yellow"], ["on-sale"]])
-    .set(\.numericFilters, to: [["price>100", "length<1000"], ["metrics>5"]])
-    .set(\.tagFilters, to: [["tag1", "tag2"], ["tag3"]])
+    .set(\.facetFilters, to: [.or("color:red", "color:blue"), "size:M"])
+    .set(\.optionalFilters, to: [.or("color:red", "color:yellow"), "on-sale"])
+    .set(\.numericFilters, to: [.or("price>100", "length<1000"), "metrics>5"])
+    .set(\.tagFilters, to: [.or("tag1", "tag2"), "tag3"])
     .set(\.sumOrFiltersScores, to: false)
     .set(\.facets, to: ["facet1", "facet2", "facet3"])
     .set(\.maxValuesPerFacet, to: 10)
@@ -94,10 +94,10 @@ class QueryTests: XCTestCase {
       "attributesToRetrieve=attr1,attr2,attr3",
       "restrictSearchableAttributes=rattr1,rattr2",
       "filters=(color:red%20OR%20color:yellow)%20AND%20on-sale",
-      "facetFilters=%5B%5Bcolor:blue,color:red%5D,%5Bsize:M%5D%5D",
-      "optionalFilters=%5B%5Bcolor:red,color:yellow%5D,%5Bon-sale%5D%5D",
-      "numericFilters=%5B%5Blength%3C1000,price%3E100%5D,%5Bmetrics%3E5%5D%5D",
-      "tagFilters=%5B%5Btag1,tag2%5D,%5Btag3%5D%5D",
+      "facetFilters=%5B%5Bcolor:red,color:blue%5D,size:M%5D",
+      "optionalFilters=%5B%5Bcolor:red,color:yellow%5D,on-sale%5D",
+      "numericFilters=%5B%5Bprice%3E100,length%3C1000%5D,metrics%3E5%5D",
+      "tagFilters=%5B%5Btag1,tag2%5D,tag3%5D",
       "sumOrFiltersScores=false",
       "facets=facet1,facet2,facet3",
       "maxValuesPerFacet=10",
@@ -186,10 +186,10 @@ class QueryTests: XCTestCase {
       "attributesToRetrieve": ["attr1", "attr2", "attr3"],
       "restrictSearchableAttributes": ["rattr1", "rattr2"],
       "filters": "(color:red OR color:yellow) AND on-sale",
-      "facetFilters": [["color:red", "color:blue"], ["size:M"]],
-      "optionalFilters": [["color:red", "color:yellow"], ["on-sale"]],
-      "numericFilters": [["price>100", "length<1000"], ["metrics>5"]],
-      "tagFilters": [["tag1", "tag2"], ["tag3"]],
+      "facetFilters": [["color:red", "color:blue"], "size:M"],
+      "optionalFilters": [["color:red", "color:yellow"], "on-sale"],
+      "numericFilters": [["price>100", "length<1000"], "metrics>5"],
+      "tagFilters": [["tag1", "tag2"], "tag3"],
       "sumOrFiltersScores": false,
       "maxValuesPerFacet": 10,
       "facetingAfterDistinct": true,
@@ -249,43 +249,3 @@ class QueryTests: XCTestCase {
   }
   
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
