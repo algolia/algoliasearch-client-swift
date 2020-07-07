@@ -344,7 +344,7 @@ public struct Settings: Codable {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/maxFacetHits/?language=swift)
    */
   public var maxFacetHits: Int?
-  
+
   /**
    When attribute is ranked above proximity in your ranking formula, proximity is used to select
    which searchable attribute is matched in the attribute ranking stage.
@@ -352,7 +352,7 @@ public struct Settings: Codable {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/attributeCriteriaComputedByMinProximity/?language=swift)
    */
   public var attributeCriteriaComputedByMinProximity: Bool?
-  
+
   /**
    Settings version.
    */
@@ -386,21 +386,3 @@ public struct Settings: Codable {
 }
 
 extension Settings: Builder {}
-
-extension Settings: CustomStringConvertible {
-
-  public var description: String {
-
-    let encoder = JSONEncoder()
-    encoder.outputFormatting = .prettyPrinted
-
-    if let data = try? encoder.encode(self),
-      let string = String(data: data, encoding: .utf8) {
-      return string
-    } else {
-      return "encoding error"
-    }
-
-  }
-
-}
