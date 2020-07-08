@@ -23,7 +23,7 @@ extension URLRequest {
 
   }
 
-  init<PC: PathComponent>(method: HttpMethod, path: PC, body: Data? = nil, requestOptions: RequestOptions? = nil) {
+  init<PC: PathComponent>(method: HTTPMethod, path: PC, body: Data? = nil, requestOptions: RequestOptions? = nil) {
 
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"

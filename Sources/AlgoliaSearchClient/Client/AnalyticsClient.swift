@@ -41,7 +41,7 @@ public struct AnalyticsClient: Credentials {
 
     let retryStrategy = AlgoliaRetryStrategy(configuration: configuration)
 
-    let httpTransport = HttpTransport(requester: requester,
+    let httpTransport = HTTPTransport(requester: requester,
                                       configuration: configuration,
                                       retryStrategy: retryStrategy,
                                       credentials: configuration,

@@ -71,7 +71,7 @@ class HTTPRequest<ResponseType: Decodable, Output>: AsyncOperation, ResultContai
 
     guard let host = hostIterator.next() else {
       Logger.loggingService.log(level: .debug, message: "Request failed. No available host found.")
-      result = .failure(HttpTransport.Error.noReachableHosts)
+      result = .failure(HTTPTransport.Error.noReachableHosts)
       return
     }
 

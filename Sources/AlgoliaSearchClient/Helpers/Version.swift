@@ -1,5 +1,5 @@
 //
-//  UserAgent.swift
+//  Version.swift
 //
 //
 //  Created by Vladislav Fitc on 14/04/2020.

@@ -12,7 +12,7 @@ import XCTest
 protocol AlgoliaCommandTest {
 
   var test: TestValues { get }
-  func check(command: AlgoliaCommand, callType: CallType, method: HttpMethod, urlPath: String, queryItems: Set<URLQueryItem>, body: Data?, additionalHeaders: [HTTPHeaderKey: String]?, requestOptions: RequestOptions, file: StaticString, line: UInt)
+  func check(command: AlgoliaCommand, callType: CallType, method: HTTPMethod, urlPath: String, queryItems: Set<URLQueryItem>, body: Data?, additionalHeaders: [HTTPHeaderKey: String]?, requestOptions: RequestOptions, file: StaticString, line: UInt)
 
 }
 
@@ -22,7 +22,7 @@ extension AlgoliaCommandTest {
     return TestValues()
   }
 
-  func check(command: AlgoliaCommand, callType: CallType, method: HttpMethod, urlPath: String, queryItems: Set<URLQueryItem>, body: Data?, additionalHeaders: [HTTPHeaderKey: String]? = nil, requestOptions: RequestOptions, file: StaticString = #file, line: UInt = #line) {
+  func check(command: AlgoliaCommand, callType: CallType, method: HTTPMethod, urlPath: String, queryItems: Set<URLQueryItem>, body: Data?, additionalHeaders: [HTTPHeaderKey: String]? = nil, requestOptions: RequestOptions, file: StaticString = #file, line: UInt = #line) {
     let request = command.urlRequest
     XCTAssertEqual(command.callType, callType, file: file, line: line)
     XCTAssertEqual(request.httpMethod, method.rawValue, file: file, line: line)

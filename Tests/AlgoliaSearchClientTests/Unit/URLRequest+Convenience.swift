@@ -76,7 +76,7 @@ class URLRequestBuilding: XCTestCase {
 
   func testBuilding() {
 
-    let method = HttpMethod.post
+    let method = HTTPMethod.post
     let path = TestPath.path
     let body: Data = "TestContent".data(using: .utf8)!
     let credentials = TestCredentials(applicationID: "testAppID", apiKey: "testApiKey")

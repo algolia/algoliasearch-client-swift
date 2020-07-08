@@ -1,5 +1,5 @@
 //
-//  HttpTransport.swift
+//  HTTPTransport.swift
 //  
 //
 //  Created by Vladislav Fitc on 19/02/2020.
@@ -10,7 +10,7 @@ import Foundation
 /**
  The transport layer is responsible of the serialization/deserialization and the retry strategy.
 */
-class HttpTransport: Transport {
+class HTTPTransport: Transport {
 
   var applicationID: ApplicationID {
     return credentials.applicationID

@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension HttpTransport {
+extension HTTPTransport {
 
   enum Error: Swift.Error {
     case noReachableHosts

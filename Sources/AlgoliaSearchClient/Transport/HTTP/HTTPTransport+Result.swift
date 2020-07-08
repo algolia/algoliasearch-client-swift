@@ -22,7 +22,7 @@ extension Result where Success: Decodable, Failure == Error {
     }
 
     guard let data = data else {
-      self = .failure(HttpTransport.Error.missingData)
+      self = .failure(HTTPTransport.Error.missingData)
       return
     }
 

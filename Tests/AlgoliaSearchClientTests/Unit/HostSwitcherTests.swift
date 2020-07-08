@@ -12,7 +12,7 @@ import XCTest
 class HostSwitcherTests: XCTestCase {
 
   func testSwitchHost() throws {
-    let method = HttpMethod.post
+    let method = HTTPMethod.post
     let path = TestPath.path
     let timeout: TimeInterval = 10
     let request = URLRequest(method: method, path: path)
