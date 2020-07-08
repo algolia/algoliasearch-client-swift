@@ -12,6 +12,21 @@ public enum SingleOrList<T> {
   case list([T])
 }
 
+extension SingleOrList: Equatable where T: Equatable {
+  
+  public static func == (lhs: SingleOrList<T>, rhs: SingleOrList<T>) -> Bool {
+    switch (lhs, rhs) {
+    case (.single(let l), .single(let r)):
+      return l == r
+    case (.list(let l), .list(let r)):
+      return l == r
+    default:
+      return false
+    }
+  }
+  
+}
+
 extension SingleOrList: Encodable where T: Encodable {
 
   public func encode(to encoder: Encoder) throws {
