@@ -8,21 +8,21 @@
 import Foundation
 
 public struct FilterVariant: Equatable {
-  
+
   public let storage: SingleOrList<String>
-  
+
   public init(and filter: String) {
     self.storage = .single(filter)
   }
-  
+
   public init(or filters: [String]) {
     self.storage = .list(filters)
   }
-  
+
   init(storage: SingleOrList<String>) {
     self.storage = storage
   }
-  
+
 }
 
 extension FilterVariant: ExpressibleByStringLiteral {

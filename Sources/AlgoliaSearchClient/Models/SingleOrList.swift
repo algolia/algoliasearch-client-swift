@@ -13,18 +13,18 @@ public enum SingleOrList<T> {
 }
 
 extension SingleOrList: Equatable where T: Equatable {
-  
+
   public static func == (lhs: SingleOrList<T>, rhs: SingleOrList<T>) -> Bool {
     switch (lhs, rhs) {
-    case (.single(let l), .single(let r)):
-      return l == r
-    case (.list(let l), .list(let r)):
-      return l == r
+    case (.single(let left), .single(let right)):
+      return left == right
+    case (.list(let left), .list(let right)):
+      return left == right
     default:
       return false
     }
   }
-  
+
 }
 
 extension SingleOrList: Encodable where T: Encodable {
