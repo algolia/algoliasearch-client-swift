@@ -17,6 +17,7 @@ class SettingsTests: XCTestCase {
     settings.sortFacetsBy = .count
     settings.attributesToHighlight = ["attr2", "attr3"]
     settings.attributeCriteriaComputedByMinProximity = false
+    
   }
 
   func testDecoding() throws {

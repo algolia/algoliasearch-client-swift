@@ -9,7 +9,6 @@ import Foundation
 
 extension Rule {
 
-  // swiftlint:disable identifier_name
   public struct Anchoring: StringOption, ProvidingCustomOption {
 
     public let rawValue: String
