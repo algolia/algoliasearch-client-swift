@@ -56,7 +56,7 @@ Since the release of Swift 5 and Xcode 11, SPM is compatible with the iOS, macOS
 
 To use SwiftPM, you should use Xcode 11 to open your project. Click `File` -> `Swift Packages` -> `Add Package Dependency`, enter [InstantSearch repo's URL](https://github.com/algolia/algoliasearch-client-swift).
 
-If you're a framework author and use Algolia as a dependency, update your `Package.swift` file:
+If you're a framework author and use Swift API Client as a dependency, update your `Package.swift` file:
 
 ```swift
 let package = Package(
