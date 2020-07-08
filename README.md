@@ -205,8 +205,6 @@ Algolia Swift API Client is an open-sourced software licensed under the [MIT lic
 ### Objective-C support
 
 The Swift API client is compatible with Objective-C up to version 7.0.5. Please use this version of the client if you're working with an Objective-C project.
-The [Objective-C API Client](https://github.com/algolia/algoliasearch-client-objc) is no longer under active development.
-It is still supported for bug fixes, but will not receive new features. If you were using our Objective-C client, read the [migration guide from Objective-C](https://github.com/algolia/algoliasearch-client-swift/wiki/Migration-guide-from-Objective-C-to-Swift-API-Client).
 
 ### Swift 3
 
