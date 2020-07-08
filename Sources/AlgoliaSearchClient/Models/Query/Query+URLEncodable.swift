@@ -34,17 +34,17 @@ extension Query {
       queryItems.append(.init(name: key.rawValue, value: valueToSet))
     }
 
-    mutating func set<S: Sequence>(_ value: S?, for key: Key) where S.Element == FilterVariant {
+    mutating func set(_ value: FiltersStorage?, for key: Key) {
       guard let value = value else { return }
-      func toString(_ filterVariant: FilterVariant) -> String {
-        switch filterVariant.storage {
+      func toString(_ singleOrList: SingleOrList<String>) -> String {
+        switch singleOrList {
         case .single(let value):
           return value
         case .list(let list):
           return "[\(list.joined(separator: ","))]"
         }
       }
-      let valueToSet = "[\(value.map(toString).joined(separator: ","))]"
+      let valueToSet = "[\(value.rawValue.map(toString).joined(separator: ","))]"
       queryItems.append(.init(name: key.rawValue, value: valueToSet))
     }
 

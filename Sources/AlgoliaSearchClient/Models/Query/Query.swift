@@ -87,28 +87,28 @@ public struct Query {
    - Engine default: []
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/facetFilters/?language=swift)
    */
-  public var facetFilters: [FilterVariant]?
+  public var facetFilters: FiltersStorage?
 
   /**
    Create filters for ranking purposes, where records that match the filter are ranked highest.
    - Engine default: []
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/optionalFilters/?language=swift)
    */
-  public var optionalFilters: [FilterVariant]?
+  public var optionalFilters: FiltersStorage?
 
   /**
    Filter on numeric attributes.
    - Engine default: []
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/numericFilters/?language=swift)
    */
-  public var numericFilters: [FilterVariant]?
+  public var numericFilters: FiltersStorage?
 
   /**
    Filter hits by tags.
    - Engine default: []
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/tagFilters/?language=swift)
    */
-  public var tagFilters: [FilterVariant]?
+  public var tagFilters: FiltersStorage?
 
   /**
    Determines how to calculate the total score for filtering.
