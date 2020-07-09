@@ -13,31 +13,33 @@
 default_platform(:ios)
 
 desc "Test library"
-lane :test do
-  sh("swift test")
+lane :test do |options|
+  coverage = options[:coverage] || false
+  enableCodeCoverage = coverage ? "YES" : "NO"
+  
+  xcodeProject = "tmp.xcodeproj"
+  sh("swift package generate-xcodeproj --output #{xcodeProject}")
+  sh("xcodebuild test -scheme AlgoliaSearchClient-Package -enableCodeCoverage #{enableCodeCoverage}")
+  if coverage
+    min_coverage_percentage = Float(options[:min_coverage_percentage] || 60)
+    xcov(
+       project: "fastlane/#{xcodeProject}",
+       scheme: "AlgoliaSearchClient-Package",
+       exclude_targets: "Logging.framework",
+       minimum_coverage_percentage: min_coverage_percentage
+    )
+  end
+  sh("rm -rf #{xcodeProject}")
 end
 
 desc "Lint library"
-lane :lint do
+lane :lint do |options|
+  raise_if_error = options[:raise] && true
   swiftlint(
     mode: :lint,
-    raise_if_swiftlint_error: true,
-    strict: true
+    raise_if_swiftlint_error: raise_if_error,
+    strict: raise_if_error
   )
-end
-
-desc "Test coverage"
-lane :coverage do
- xcodeProject = "tmp.xcodeproj"
- sh("swift package generate-xcodeproj --output #{xcodeProject}")
- sh("xcodebuild test -scheme AlgoliaSearchClient-Package -enableCodeCoverage YES")
- xcov(
-    project: "fastlane/#{xcodeProject}",
-    scheme: "AlgoliaSearchClient-Package",
-    exclude_targets: "Logging.framework",
-    minimum_coverage_percentage: 60.0
- )
- sh("rm -rf #{xcodeProject}")
 end
 
 desc "Available options: type:major|minor|patch"
@@ -56,7 +58,7 @@ lane :deploy do |options|
     path: "AlgoliaSearchClient.podspec"
   )
 
-  sh("./generate_version #{new_build_number}")
+  sh("cd ..; ./generate_version #{new_build_number}")
 
   branchName = "version-#{new_build_number}"
   sh("git checkout -b #{branchName}")
@@ -148,31 +150,24 @@ def prepare_git(branch)
 end
 
 
-def prepare_api_keys()
+def fetch_env()
   xcargs = []
-  api_key = ENV["ALGOLIA_API_KEY"]
-  if api_key
-    xcargs << %Q[ALGOLIA_API_KEY="#{api_key}"]
-  end
   
-  api_id = ENV["ALGOLIA_APPLICATION_ID"]
-  if api_id
-    xcargs << %Q[ALGOLIA_APPLICATION_ID="#{api_id}"]
-  end
-
-  places_api_id = ENV["PLACES_APPLICATION_ID"]
-  if places_api_id
-    xcargs << %Q[PLACES_APPLICATION_ID="#{places_api_id}"]
-  end
-  
-  places_api_key = ENV["PLACES_API_KEY"]
-  if places_api_key
-    xcargs << %Q[PLACES_API_KEY="#{places_api_key}"]
-  end
-
-  bitrise_build_number = ENV["BITRISE_BUILD_NUMBER"]
-  if bitrise_build_number
-    xcargs << %Q[BITRISE_BUILD_NUMBER="#{bitrise_build_number}"]
+  keys = [
+    "ALGOLIA_APPLICATION_ID_1",
+    "ALGOLIA_SEARCH_KEY_1",
+    "ALGOLIA_PLACES_APPLICATION_ID",
+    "ALGOLIA_PLACES_API_KEY",
+    "ALGOLIA_APPLICATION_ID_MCM",
+    "ALGOLIA_ADMIN_KEY_MCM",
+    "ALGOLIA_ADMIN_KEY_1",
+    "ALGOLIA_APPLICATION_ID_2",
+    "ALGOLIA_ADMIN_KEY_2"
+  ]
+    
+  for key in keys do
+    value = ENV[key]
+    xcargs << "#{key}=\"#{value}\""
   end
 
   return xcargs.join(" ")
