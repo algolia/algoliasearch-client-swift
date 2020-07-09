@@ -23,8 +23,10 @@ class AnalyticsIntegrationTests: OnlineTestCase {
     let index1 = client.index(withName: "ab_testing")
     let index2 = client.index(withName: "ab_testing_dev")
     
-    try index1.saveObject(["objectID": "one"] as JSON).wait()
-    try index2.saveObject(["objectID": "one"] as JSON).wait()
+    let save1 = try index1.saveObject(["objectID": "one"] as JSON)
+    try AssertWait(save1)
+    let save2 = try index2.saveObject(["objectID": "one"] as JSON)
+    try AssertWait(save2)
     
     let abTestName = TestIdentifier().rawValue
     let abTestEndDate = Date().addingTimeInterval(.day)
@@ -47,13 +49,14 @@ class AnalyticsIntegrationTests: OnlineTestCase {
     XCTAssertNotEqual(fetchedABTest.status, .stopped)
     
     let revision = try analyticsClient.stopABTest(withID: creation.wrapped.abTestID)
-    try revision.wait()
+    try AssertWait(revision)
     
     fetchedABTest = try analyticsClient.getABTest(withID: creation.wrapped.abTestID)
     XCTAssertEqual(fetchedABTest.status, .stopped)
 
     let deletion = try analyticsClient.deleteABTest(withID: creation.wrapped.abTestID)
-    try deletion.wait()
+    try AssertWait(deletion)
+
     try AssertThrowsHTTPError(try analyticsClient.getABTest(withID: creation.wrapped.abTestID), statusCode: 404)
   }
     
@@ -62,7 +65,8 @@ class AnalyticsIntegrationTests: OnlineTestCase {
     let analyticsClient = AnalyticsClient(appID: client.applicationID, apiKey: client.apiKey)
     let index = client.index(withName: "aa_testing")
     
-    try index.saveObject(["objectID": "one"]).wait()
+    let saveObject = try index.saveObject(["objectID": "one"])
+    try AssertWait(saveObject)
     
     let abTestName = TestIdentifier().rawValue
     let abTestEndDate = Date().addingTimeInterval(.day)
@@ -86,7 +90,7 @@ class AnalyticsIntegrationTests: OnlineTestCase {
     XCTAssertNotEqual(fetchedABTest.status, .stopped)
 
     let deletion = try analyticsClient.deleteABTest(withID: creation.wrapped.abTestID)
-    try deletion.wait()
+    try AssertWait(deletion)
     try AssertThrowsHTTPError(try analyticsClient.getABTest(withID: creation.wrapped.abTestID), statusCode: 404)
     
   }
