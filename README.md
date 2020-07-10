@@ -2,7 +2,7 @@
   <a href="https://www.algolia.com">
     <img alt="Algolia for Swift" src="banner.png" >
   </a>
-  
+
   <h4 align="center">The perfect starting point to integrate <a href="https://algolia.com" target="_blank">Algolia</a> within your Swift project</h4>
 
   <p align="center">
@@ -25,7 +25,6 @@
       <img src="https://img.shields.io/badge/License-MIT-yellow.svg"></img>
     </a>
   </p>
-
 </p>
 
 
@@ -105,7 +104,7 @@ github "algolia/algoliasearch-client-swift" ~> 8.0.0
  ./Carthage/Checkouts/algoliasearch-client-swift/carthage-prebuild
  carthage build
  ```
- 
+
 If this is your first time using Carthage in the project, you'll need to go through some additional steps as explained [over at Carthage](https://github.com/Carthage/Carthage#adding-frameworks-to-an-application).
 
 
