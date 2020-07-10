@@ -62,7 +62,7 @@ class RuleConsequenceTests: XCTestCase {
       }
     }
     """.data(using: .utf8)!
-    let decoded = try JSONDecoder().decode(Rule.Consequence.self, from: data)
+    XCTAssertNoThrow(try JSONDecoder().decode(Rule.Consequence.self, from: data))
   }
   
 }
