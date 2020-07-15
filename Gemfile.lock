@@ -244,8 +244,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  cocoapods (~> 1.9.3)
-  fastlane (~> 2.151.2)
+  cocoapods (~> 1.9)
+  fastlane (~> 2.151)
   xcov
 
 BUNDLED WITH
