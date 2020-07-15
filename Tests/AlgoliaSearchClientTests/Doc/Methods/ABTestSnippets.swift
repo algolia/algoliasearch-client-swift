@@ -13,6 +13,30 @@ struct ABTestSnippets: SnippetsCollection {
   var analyticsClient = AnalyticsClient(appID: "", apiKey: "")
 }
 
+//MARK: - Set region
+
+extension ABTestSnippets {
+
+  func setRegion() {
+    let client = AnalyticsClient(appID: "YourApplicationID",
+                                 apiKey: "YourAdminAPIKey",
+                                 region: .de /* Defaults to region.US */)
+    
+    let abTest: ABTest /* The AB test */
+      
+    /* Just for compilation, don't copy to doc */
+    abTest = ABTest(name: "", endAt: .init(), variantA: .init(indexName: "", trafficPercentage: 0), variantB: .init(indexName: "", trafficPercentage: 0))
+    /* Just for compilation, don't copy to doc */
+
+    client.addABTest(abTest) { result in
+      if case .success(let response) = result {
+        print("Response: \(response)")
+      }
+    }
+  }
+  
+}
+
 //MARK: - Add A/B test
 
 extension ABTestSnippets {
