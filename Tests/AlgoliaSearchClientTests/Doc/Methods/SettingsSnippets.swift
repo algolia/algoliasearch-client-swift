@@ -17,7 +17,7 @@ extension SettingsSnippets {
   
   static var getSettings = """
   index.getSettings(
-    requestOptions: __RequestOptions?__ = nil,
+    #{requestOptions}: __RequestOptions?__ = nil,
     completion: __Result<Settings> -> Void__
   )
   """
@@ -41,7 +41,7 @@ extension SettingsSnippets {
     _ #{settings}: __Settings__,
     resetToDefault: __[Settings.Key]__ = [],
     #{forwardToReplicas}: __Bool?__ = nil,
-    requestOptions: __RequestOptions?__ = nil,
+    #{requestOptions}: __RequestOptions?__ = nil,
     completion: __Result<WaitableWrapper<IndexRevision>> -> Void__
   )
   """
