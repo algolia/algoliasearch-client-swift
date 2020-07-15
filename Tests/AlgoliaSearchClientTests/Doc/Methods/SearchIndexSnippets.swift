@@ -18,7 +18,7 @@ extension SearchIndexSnippets {
   index.search(
     #{query}:  __Query__,
     #{requestOptions}: __RequestOptions?__ = nil,
-    completion: __(Result<SearchResponse>) -> Void__
+    completion: __Result<SearchResponse> -> Void__
   )
 
   // any #{searchParameters} can be set in the query object
@@ -64,7 +64,7 @@ extension SearchIndexSnippets {
     matching #{facetQuery}: __String__ ,
     applicableFor searchQuery: Query? = nil,
     #{requestOptions}: __RequestOptions?__ = nil,
-    completion: __(Result<FacetSearchResponse>) -> Void__
+    completion: __Result<FacetSearchResponse> -> Void__
   )
   // #{searchParameters} can be added in the Query object
   """
@@ -121,7 +121,7 @@ extension SearchIndexSnippets {
     #{queries}: __[IndexedQuery]__ ,
     #{strategy}: __MultipleQueriesStrategy__ = .none,
     #{requestOptions}: __RequestOptions?__ = nil,
-    completion: __(Result<FacetSearchResponse>) -> Void__
+    completion: __Result<FacetSearchResponse> -> Void__
   )
   """
   
@@ -171,7 +171,7 @@ extension SearchIndexSnippets {
   index.browse(
     #{query}: __Query__,
     #{requestOptions}: __RequestOptions?__ = nil,
-    completion: __(Result<SearchResponse>) -> Void__
+    completion: __Result<SearchResponse> -> Void__
   )
 
   // #{browseParameters} can be set on the Query object
@@ -213,7 +213,7 @@ extension SearchIndexSnippets {
     for #{query}: __Query__ = Query(),
     #{paginate}: __Bool__ = true,
     #{requestOptions}: __RequestOptions?__ = nil,
-    completion: __(Result<HitWithPosition<T>?>) -> Void__
+    completion: __Result<HitWithPosition<T>?> -> Void__
   )
   """
   
