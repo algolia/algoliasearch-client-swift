@@ -121,7 +121,7 @@ extension ABTestSnippets {
   analyticsClient.stopABTest(
     withID #{abTestID}: __ABTestID__,
     requestOptions: __RequestOptions?__ = nil,
-    completion: __WaitableWrapper<ABTestRevision> -> Void__
+    completion: __Result<WaitableWrapper<ABTestRevision>> -> Void__
   )
   """
   
@@ -143,7 +143,7 @@ extension ABTestSnippets {
   analyticsClient.deleteABTest(
     withID #{abTestID}: __ABTestID__,
     requestOptions: __RequestOptions?__ = nil,
-    completion: __WaitableWrapper<ABTestDeletion> -> Void__
+    completion: __Result<WaitableWrapper<ABTestDeletion>> -> Void__
   )
   """
   
