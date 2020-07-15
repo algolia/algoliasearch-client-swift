@@ -111,9 +111,21 @@ extension ManageIndicesSnippets {
 extension ManageIndicesSnippets {
   
   static var moveIndex = """
+  client.moveIndex(
+    from [source](#method-param-indexnamesrc): __IndexName__,
+    to [destination](#method-param-indexnamedest): __IndexName__,
+    requestOptions: __RequestOptions?__ = nil,
+    completion: __Result<WaitableWrapper<IndexRevision>> -> Void__
+  )
   """
   
   func moveIndex() {
+    // Rename indexNameSrc to indexNameDest (and overwrite it)
+    client.moveIndex(from: "indexNameSrc", to: "indexNameDest") { result in
+      if case .success(let response) = result {
+        print("Response: \(response)")
+      }
+    }
   }
   
 }
