@@ -76,7 +76,7 @@ extension APIParameters {
     
     func sortFacetsValuesBy() {
       /*
-       sortFacetValuesBy: "#{count}"|"#{alpha}"
+       sortFacetValuesBy: .#{count}|.#{alpha}
        */
       
       func set_default_sort_facet_values_by() {
