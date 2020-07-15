@@ -200,3 +200,25 @@ extension MultiClusterSnippets {
   
 }
 
+//MARK: - Has pending mappings
+
+extension MultiClusterSnippets {
+  
+  static var hasPendingMappings = """
+  client.hasPendingMappings(
+    // All the following parameters are optional
+    #{retrieveMappings}: Bool = false,
+    requestOptions: __RequestOptions?__ = nil,
+    completion: __Result<HasPendingMappingResponse> -> Void__
+  )
+  """
+  
+  func hasPendingMappings() {
+    client.hasPendingMappings(retrieveMappings: true) { result in
+      if case .success(let response) = result {
+        print("Response: \(response)")
+      }
+    }
+  }
+  
+}
