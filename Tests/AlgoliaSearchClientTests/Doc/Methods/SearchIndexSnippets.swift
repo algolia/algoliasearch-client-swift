@@ -62,7 +62,7 @@ extension SearchIndexSnippets {
   index.searchForFacetValues(
     of #{facetName}: __Attribute__,
     matching #{facetQuery}: __String__ ,
-    applicableFor searchQuery: Query? = nil,
+    applicableFor searchQuery: __Query?__ = nil,
     #{requestOptions}: __RequestOptions?__ = nil,
     completion: __Result<FacetSearchResponse> -> Void__
   )
