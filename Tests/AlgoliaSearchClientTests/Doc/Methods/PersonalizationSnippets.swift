@@ -19,7 +19,7 @@ extension PersonalizationSnippets {
   static var addStrategy = """
   recommendationClient.setPersonalizationStrategy(
     _ ${strategy}: __PersonalizationStrategy__,
-    requestOptions: __RequestOptions?__ = nil,
+    ${requestOptions}: __RequestOptions?__ = nil,
     completion: __Result<SetStrategyResponse> -> Void__
   )
   """
@@ -55,7 +55,7 @@ extension PersonalizationSnippets {
   
   static var getStrategy = """
   recommendationClient.getPersonalizationStrategy(
-    requestOptions: __RequestOptions?__ = nil,
+    ${requestOptions}: __RequestOptions?__ = nil,
     completion:  __Result<PersonalizationStrategy> -> Void__
   )
   """
