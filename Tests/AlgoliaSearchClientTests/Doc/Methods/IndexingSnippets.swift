@@ -19,7 +19,7 @@ extension IndexingSnippets {
     _ #{objects}: __[T]__ ,
     autoGeneratingObjectID: __Bool__ = false,
     #{requestOptions}: __RequestOptions?__ = nil,
-    completion: __(Result<WaitableWrapper<BatchesResponse>>) -> Void__
+    completion: __Result<WaitableWrapper<BatchesResponse>> -> Void__
   ) throws
 
   // add a single object
@@ -28,7 +28,7 @@ extension IndexingSnippets {
     _ #{object}: __T__ ,
     autoGeneratingObjectID: __Bool__ = false,
     #{requestOptions}: __RequestOptions?__ = nil,
-    completion: __(Result<ObjectCreation>) -> Void__
+    completion: __Result<ObjectCreation> -> Void__
   ) throws
   """
   
@@ -118,7 +118,7 @@ extension IndexingSnippets {
   index.replaceObjects<T: Encodable>(
     [replacements](#method-param-objects): __[(ObjectID, T)]__ ,
     #{requestOptions}: __RequestOptions?__ = nil,
-    completion: __(Result<WaitableWrapper<BatchesResponse>>) -> Void__,
+    completion: __Result<WaitableWrapper<BatchesResponse>> -> Void__,
   )
 
   // update a single object
@@ -126,7 +126,7 @@ extension IndexingSnippets {
     withID objectID: ObjectID,
     _ #{object}: __T__ ,
     #{requestOptions}: __RequestOptions?__ = nil,
-    completion: __(Result<ObjectRevision>) -> Void__,
+    completion: __Result<ObjectRevision> -> Void__,
   )
   """
   
@@ -209,7 +209,7 @@ extension IndexingSnippets {
     [updates](#method-param-objects): __[(ObjectID, PartialUpdate)]__ ,
     #{createIfNotExists}: __Bool__ = true,
     #{requestOptions}: __RequestOptions?__ = nil,
-    completion: __(Result<WaitableWrapper<BatchesResponse>) -> Void__
+    completion: __Result<WaitableWrapper<BatchesResponse> -> Void__
   )
   
   // update a single object
@@ -218,7 +218,7 @@ extension IndexingSnippets {
     with partialUpdate: __PartialUpdate__,
     #{createIfNotExists}: __Bool__ = true,
     #{requestOptions}: __RequestOptions?__ = nil,
-    completion: __(Result<WaitableWrapper<ObjectRevision>) -> Void__
+    completion: __Result<WaitableWrapper<ObjectRevision> -> Void__
   )
   """
   
@@ -327,7 +327,7 @@ extension IndexingSnippets {
     autoGeneratingObjectID: __Bool__ = false,
     #{safe}: __Bool__ = false,
     requestOptions: __RequestOptions?__ = nil,
-    completion: __(Result<[TaskIndex]>)) -> Void__
+    completion: __Result<[TaskIndex]> -> Void__
   ) throws
   """
   
