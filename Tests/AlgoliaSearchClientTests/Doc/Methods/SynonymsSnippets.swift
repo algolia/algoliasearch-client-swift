@@ -168,7 +168,7 @@ extension SynonymsSnippets {
   index.getSynonym(
     withID #{objectID}: __ObjectID__,
     requestOptions: __RequestOptions?__ = nil,
-    completion: __ResultCallback<Synonym>__
+    completion: __Result<Synonym> -> Void__
   )
   """
   
