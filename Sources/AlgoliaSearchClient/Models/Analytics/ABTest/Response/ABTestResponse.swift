@@ -59,7 +59,11 @@ extension ABTestResponse: Codable {
     self.clickSignificance = try container.decodeIfPresent(forKey: .clickSignificance)
     self.conversionSignificance = try container.decodeIfPresent(forKey: .conversionSignificance)
     self.createdAt = try container.decode(forKey: .createdAt)
-    self.endAt = try container.decode(forKey: .endAt, dateFormat: ABTest.endDateFormat)
+    if let endAt: Date = try? container.decode(forKey: .endAt, dateFormat: ABTest.endDateFormat) {
+      self.endAt = endAt
+    } else {
+      self.endAt = try container.decode(forKey: .endAt)
+    }
     self.name = try container.decode(forKey: .name)
     self.status = try container.decode(forKey: .status)
     let variants: [Variant] = try container.decode(forKey: .variants)
