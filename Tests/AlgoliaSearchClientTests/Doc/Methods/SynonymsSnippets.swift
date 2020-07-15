@@ -188,7 +188,7 @@ extension SynonymsSnippets {
   
   static var searchSynonyms = """
     index.searchSynonyms(
-      _ query: __SynonymQuery_,
+      _ query: __SynonymQuery__,
       requestOptions: __RequestOptions?__ = nil,
       completion: __SynonymSearchResponse -> Void__
     )
