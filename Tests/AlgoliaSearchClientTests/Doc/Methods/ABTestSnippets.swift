@@ -119,8 +119,8 @@ extension ABTestSnippets {
   
   static var stopSnippet: String = """
   analyticsClient.stopABTest(
-    withID #{abTestID}: ABTestID,
-    requestOptions: RequestOptions? = nil,
+    withID #{abTestID}: __ABTestID__,
+    requestOptions: __RequestOptions?__ = nil,
     completion: __WaitableWrapper<ABTestRevision> -> Void__
   )
   """
