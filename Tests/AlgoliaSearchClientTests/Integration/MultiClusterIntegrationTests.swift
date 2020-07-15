@@ -99,7 +99,7 @@ class MultipleClusterIntegrationTests: OnlineTestCase {
       sleep(1)
     }
 
-    try client.hasPendingMapping(retrieveMapping: true)
+    try client.hasPendingMappings(retrieveMappings: true)
     
   }
   
