@@ -95,7 +95,7 @@ extension SynonymsSnippets {
     #{forwardToReplicas}: __Bool?__ = nil,
     #{replaceExistingSynonyms}: __Bool?__ = nil,
     requestOptions: __RequestOptions?__ = nil,
-    completion: Result<IndexRevision> -> Void
+    completion: __Result<IndexRevision> -> Void__
   )
   """
   
