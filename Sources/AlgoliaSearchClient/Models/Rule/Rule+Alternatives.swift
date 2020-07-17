@@ -9,7 +9,7 @@ import Foundation
 
 extension Rule {
 
-  public enum Alternatives: RawRepresentable, Codable {
+  public enum Alternatives: RawRepresentable, Encodable {
 
     case `true`
     case `false`
@@ -29,4 +29,21 @@ extension Rule {
 
   }
 
+}
+
+extension Rule.Alternatives: ExpressibleByBooleanLiteral {
+
+  public init(booleanLiteral value: Bool) {
+    self = value ? .true : .false
+  }
+
+}
+
+extension Rule.Alternatives: Decodable {
+  
+  public init(from decoder: Decoder) throws {
+    let boolContainer = try BoolContainer(from: decoder)
+    self = boolContainer.rawValue ? .true : .false
+  }
+  
 }
