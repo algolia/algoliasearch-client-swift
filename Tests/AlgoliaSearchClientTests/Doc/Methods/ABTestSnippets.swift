@@ -79,7 +79,7 @@ extension ABTestSnippets {
                         variantB: .init(indexName: "indexName2",
                                         trafficPercentage: 10,
                                         customSearchParameters: Query()
-                                          .set(\.ignorePlurals, to: .true),
+                                          .set(\.ignorePlurals, to: true),
                                         description: "a description"))
     
     analyticsClient.addABTest(abTest) { result in

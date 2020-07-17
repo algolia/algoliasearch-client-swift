@@ -76,7 +76,7 @@ extension APIParameters {
       func set_default_typo_tolerance_mode() {
         let settings = Settings()
           .set(\.typoTolerance, to: true)
-        //.set(\.typoTolerance, to: .false)
+        //.set(\.typoTolerance, to: false)
         //.set(\.typoTolerance, to: .min)
         //.set(\.typoTolerance, to: .strict)
         
@@ -89,8 +89,8 @@ extension APIParameters {
       
       func override_default_typo_tolerance_mode() {
         let query = Query("query")
-          .set(\.typoTolerance, to: .false)
-        //.set(\.typoTolerance, to: .true)
+          .set(\.typoTolerance, to: false)
+        //.set(\.typoTolerance, to: true)
         //.set(\.typoTolerance, to: .min)
         //.set(\.typoTolerance, to: .strict)
         

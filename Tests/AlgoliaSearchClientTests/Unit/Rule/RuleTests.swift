@@ -13,7 +13,7 @@ class RuleTests: XCTestCase {
 
   func testCoding() throws {
     
-    let condition = Rule.Condition(anchoring: .is, pattern: .facet("testFacet"), context: "testContext", alternatives: .false)
+    let condition = Rule.Condition(anchoring: .is, pattern: .facet("testFacet"), context: "testContext", alternatives: false)
     
     let consequence = Rule.Consequence()
       .set(\.automaticFacetFilters, to: [.init(attribute: "attr", score: 10, isDisjunctive: true)])
