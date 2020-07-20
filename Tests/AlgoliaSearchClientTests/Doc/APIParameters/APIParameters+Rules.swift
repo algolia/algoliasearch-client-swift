@@ -42,9 +42,11 @@ extension APIParameters {
        */
       func enable_filter_promotes() {
         let rule = Rule(objectID: "rule_with_filterPromotes")
-          .set(\.condition, to: Rule.Condition()
-            .set(\.anchoring, to: .is)
-            .set(\.pattern, to: .facet("brand")))
+          .set(\.conditions, to: [
+            Rule.Condition()
+              .set(\.anchoring, to: .is)
+              .set(\.pattern, to: .facet("brand"))
+          ])
           .set(\.consequence, to: Rule.Consequence()
             .set(\.filterPromotes, to: true)
             .set(\.promote, to: [.init(objectID: "promoted_items", position: 0)]))

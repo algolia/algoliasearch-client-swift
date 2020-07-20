@@ -53,7 +53,7 @@ struct TestValues {
     let timeRange = TimeRange(from: date, until: date.addingTimeInterval(.days(10)))
     
     return Rule(objectID: "testObjectID")
-      .set(\.condition, to: condition)
+      .set(\.conditions, to: [condition])
       .set(\.consequence, to: consequence)
       .set(\.isEnabled, to: true)
       .set(\.validity, to: [timeRange])

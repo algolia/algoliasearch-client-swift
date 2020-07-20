@@ -12,8 +12,8 @@ public struct Rule {
   /// Unique identifier for the rule.
   public var objectID: ObjectID
 
-  /// Condition of the rule.
-  public var condition: Condition?
+  /// Conditions of the rule.
+  public var conditions: [Condition]?
 
   /// Consequence of the rule.
   public var consequence: Consequence?
@@ -42,7 +42,7 @@ extension Rule: Codable {
 
   enum CodingKeys: String, CodingKey {
     case objectID
-    case condition
+    case conditions
     case consequence
     case isEnabled = "enabled"
     case validity
@@ -52,7 +52,7 @@ extension Rule: Codable {
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     self.objectID = try container.decode(forKey: .objectID)
-    self.condition = try container.decodeIfPresent(forKey: .condition)
+    self.conditions = try container.decodeIfPresent(forKey: .conditions)
     self.consequence = try container.decodeIfPresent(forKey: .consequence)
     self.isEnabled = try container.decodeIfPresent(forKey: .isEnabled)
     self.validity = try container.decodeIfPresent(forKey: .validity)
@@ -62,7 +62,7 @@ extension Rule: Codable {
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(objectID, forKey: .objectID)
-    try container.encodeIfPresent(condition, forKey: .condition)
+    try container.encodeIfPresent(conditions, forKey: .conditions)
     try container.encodeIfPresent(consequence, forKey: .consequence)
     try container.encodeIfPresent(isEnabled, forKey: .isEnabled)
     try container.encodeIfPresent(validity, forKey: .validity)

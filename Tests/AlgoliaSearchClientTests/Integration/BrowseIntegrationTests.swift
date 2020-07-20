@@ -50,7 +50,7 @@ class BrowseIntegrationTests: OnlineTestCase {
     
     let rules: [Rule] = (0...50).map { _ in
       return Rule(objectID: .random)
-        .set(\.condition, to: .init(anchoring: .is, pattern: .literal(.random(length: .random(in: 0...10)))))
+        .set(\.conditions, to: [.init(anchoring: .is, pattern: .literal(.random(length: .random(in: 0...10))))])
         .set(\.consequence, to: Rule.Consequence().set(\.hide, to: [.random, .random]))
     }
     
