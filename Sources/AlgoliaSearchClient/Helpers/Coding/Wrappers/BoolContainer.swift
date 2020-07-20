@@ -7,6 +7,10 @@
 
 import Foundation
 
+/**
+ Helper structure ensuring the decoding of a bool value from a "volatile" JSON
+ occasionally providing bool values in the form of String   
+ */
 struct BoolContainer: RawRepresentable, Codable {
   
   let rawValue: Bool
