@@ -7,6 +7,10 @@
 
 import Foundation
 
+/**
+  Helper structure ensuring the decoding of a number value from a "volatile" JSON
+  occasionally providing number values in the form of String
+*/
 struct StringNumberContainer: RawRepresentable, Codable {
 
   let rawValue: Double

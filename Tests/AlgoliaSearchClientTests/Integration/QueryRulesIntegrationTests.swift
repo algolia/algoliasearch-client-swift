@@ -48,7 +48,7 @@ class QueryRulesIntegrationTests: OnlineTestCase {
     try index.saveRule(brandAutomaticFacetingRule).wait()
     
     let queryEditsRule = Rule(objectID: "query_edits")
-      .set(\.condition, to: .init(anchoring: .is, pattern: .literal("mobile phone"), alternatives: .true))
+      .set(\.condition, to: .init(anchoring: .is, pattern: .literal("mobile phone"), alternatives: true))
       .set(\.consequence, to: Rule.Consequence()
         .set(\.filterPromotes, to: false)
         .set(\.queryTextAlteration, to: .edits([

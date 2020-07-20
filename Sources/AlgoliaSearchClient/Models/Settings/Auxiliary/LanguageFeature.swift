@@ -39,17 +39,7 @@ extension LanguageFeature: ExpressibleByArrayLiteral {
 
 }
 
-extension LanguageFeature: Codable {
-
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    if let isTrue = try? container.decode(Bool.self) {
-      self = isTrue ? .true : .false
-    } else {
-      let languages = try container.decode([Language].self)
-      self = .queryLanguages(languages)
-    }
-  }
+extension LanguageFeature: Encodable {
 
   public func encode(to encoder: Encoder) throws {
     var singleValueContainer = encoder.singleValueContainer()
@@ -63,6 +53,20 @@ extension LanguageFeature: Codable {
     }
   }
 
+}
+
+extension LanguageFeature: Decodable {
+  
+  public init(from decoder: Decoder) throws {
+    let container = try decoder.singleValueContainer()
+    if let boolContainer = try? container.decode(BoolContainer.self) {
+      self = boolContainer.rawValue ? .true : .false
+    } else {
+      let languages = try container.decode([Language].self)
+      self = .queryLanguages(languages)
+    }
+  }
+  
 }
 
 extension LanguageFeature: Equatable {}

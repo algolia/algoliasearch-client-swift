@@ -52,7 +52,7 @@ extension RulesSnippets {
       .set(\.condition, to: Rule.Condition()
         .set(\.anchoring, to: .contains)
         .set(\.pattern, to: .literal("smartphone"))
-        .set(\.alternatives, to: .true)
+        .set(\.alternatives, to: true)
       )
       .set(\.consequence, to: Rule.Consequence()
         .set(\.query, to: Query()
