@@ -227,6 +227,13 @@ public struct Settings: Codable {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/enableRules/?language=swift)
    */
   public var enableRules: Bool?
+  
+  /**
+   Enable the Personalization feature.
+   - Engine default: false
+   - [Documentation][https://www.algolia.com/doc/api-reference/api-parameters/enablePersonalization/?language=swift]
+   */
+  public var enablePersonalization: Bool?
 
   /**
    Controls if and how query words are interpreted as [prefixes][https://www.algolia.com/doc/guides/textual-relevance/prefix-search/?language=swift).

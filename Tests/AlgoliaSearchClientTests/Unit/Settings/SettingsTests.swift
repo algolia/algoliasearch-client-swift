@@ -17,7 +17,7 @@ class SettingsTests: XCTestCase {
     settings.sortFacetsBy = .count
     settings.attributesToHighlight = ["attr2", "attr3"]
     settings.attributeCriteriaComputedByMinProximity = false
-    
+    settings.enablePersonalization = true
   }
 
   func testDecoding() throws {
@@ -25,5 +25,6 @@ class SettingsTests: XCTestCase {
     let decoder = JSONDecoder()
     let settings = try decoder.decode(Settings.self, from: data)
     XCTAssertEqual(settings.attributeCriteriaComputedByMinProximity, false)
+    XCTAssertEqual(settings.enablePersonalization, true)
   }
 }

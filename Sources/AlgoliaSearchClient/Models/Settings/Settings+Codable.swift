@@ -43,6 +43,7 @@ extension Settings {
     case keepDiacriticsOnCharacters
     case queryLanguages
     case enableRules
+    case enablePersonalization
     case queryType
     case removeWordsIfNoResults
     case advancedSyntax
