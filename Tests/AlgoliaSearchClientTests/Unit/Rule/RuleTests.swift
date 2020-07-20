@@ -29,7 +29,7 @@ class RuleTests: XCTestCase {
     ]
     
     let rule = Rule(objectID: "ruleObjectID")
-      .set(\.condition, to: condition)
+      .set(\.conditions, to: [condition])
       .set(\.consequence, to: consequence)
       .set(\.isEnabled, to: true)
       .set(\.validity, to: validity)
@@ -37,7 +37,7 @@ class RuleTests: XCTestCase {
 
     try AssertEncodeDecode(rule, [
       "objectID": "ruleObjectID",
-      "condition": ["anchoring": "is", "pattern": "{facet:testFacet}", "context": "testContext", "alternatives": false],
+      "conditions": [["anchoring": "is", "pattern": "{facet:testFacet}", "context": "testContext", "alternatives": false]],
       "consequence": [
         "params": [
           "automaticFacetFilters": [["facet": "attr", "score": 10, "disjunctive": true]],

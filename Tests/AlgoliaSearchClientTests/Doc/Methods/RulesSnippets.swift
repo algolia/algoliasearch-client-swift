@@ -25,10 +25,11 @@ extension RulesSnippets {
   func saveRuleBasic() {
     let rule = Rule(objectID: "a-rule-id")
       .set(\.isEnabled, to: false)
-      .set(\.condition, to: Rule.Condition()
-        .set(\.anchoring, to: .contains)
-        .set(\.pattern, to: .literal("smartphone"))
-      )
+      .set(\.conditions, to: [
+        Rule.Condition()
+          .set(\.anchoring, to: .contains)
+          .set(\.pattern, to: .literal("smartphone"))
+      ])
       .set(\.consequence, to: Rule.Consequence()
         .set(\.query, to: Query()
           .set(\.filters, to: "category = 1")
@@ -49,11 +50,12 @@ extension RulesSnippets {
   
   func saveRuleAlternatives() {
     let rule = Rule(objectID: "a-rule-id")
-      .set(\.condition, to: Rule.Condition()
-        .set(\.anchoring, to: .contains)
-        .set(\.pattern, to: .literal("smartphone"))
-        .set(\.alternatives, to: true)
-      )
+      .set(\.conditions, to: [
+        Rule.Condition()
+          .set(\.anchoring, to: .contains)
+          .set(\.pattern, to: .literal("smartphone"))
+          .set(\.alternatives, to: .true)
+      ])
       .set(\.consequence, to: Rule.Consequence()
         .set(\.query, to: Query()
           .set(\.filters, to: "category = 1")
@@ -70,9 +72,9 @@ extension RulesSnippets {
     
   func saveRuleContextBased() {
     let rule = Rule(objectID: "a-rule-id")
-      .set(\.condition, to: Rule.Condition()
-        .set(\.context, to: "mobile")
-      )
+      .set(\.conditions, to: [
+        Rule.Condition().set(\.context, to: "mobile")
+      ])
       .set(\.consequence, to: Rule.Consequence()
         .set(\.query, to: Query()
           .set(\.filters, to: "release_date >= 1568498400")

@@ -22,7 +22,7 @@ class CopyIndexIntergrationTests: OnlineTestCase {
   
   let settings = Settings().set(\.attributesForFaceting, to: ["company"])
   let rule = Rule(objectID: "company_auto_faceting")
-    .set(\.condition, to: .init(anchoring: .contains, pattern: .facet("company")))
+    .set(\.conditions, to: [.init(anchoring: .contains, pattern: .facet("company"))])
     .set(\.consequence, to: Rule.Consequence().set(\.automaticFacetFilters, to: [Rule.AutomaticFacetFilters(attribute: "company")]))
   let synonym = Synonym.placeholder(objectID: "google_placeholder", placeholder: "<GOOG>", replacements: ["Google", "GOOG"])
       
