@@ -18,6 +18,7 @@
   "paginationLimitedTo": 1000,
   "attributeForDistinct": null,
   "exactOnSingleWordQuery": "attribute",
+  "enablePersonalization": true,
   "ranking": [
     "typo",
     "geo",
