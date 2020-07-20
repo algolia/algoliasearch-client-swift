@@ -13,8 +13,10 @@ class LanguageFeatureTests: XCTestCase {
   
   func testCoding() throws {
     try AssertEncodeDecode(LanguageFeature.true, true)
+    try AssertDecode("true", expected: LanguageFeature.true)
     try AssertEncodeDecode(LanguageFeature.false, false)
-    try AssertEncodeDecode(LanguageFeature.queryLanguages([.english, .polish, .french]), [.init(Language.english.rawValue), .init(Language.polish.rawValue), .init(Language.french.rawValue)])
+    try AssertDecode("false", expected: LanguageFeature.false)
+    try AssertEncodeDecode(LanguageFeature.queryLanguages([.english, .polish, .french]), ["en", "pl", "fr"])
   }
   
 }

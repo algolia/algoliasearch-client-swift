@@ -148,15 +148,13 @@ extension PartialUpdate.Content: Codable {
   }
 
   public init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    let operation: PartialUpdate.Operation? = try container.decodeIfPresent(forKey: .operation)
-    if let operation = operation {
-      self.operation = operation
-      self.value = try container.decode(forKey: .value)
-    } else {
+    guard let container = try? decoder.container(keyedBy: CodingKeys.self), container.contains(.operation) else {
       self.operation = nil
       self.value = try JSON(from: decoder)
+      return
     }
+    self.operation = try container.decode(forKey: .operation)
+    self.value = try container.decode(forKey: .value)
   }
 
   public func encode(to encoder: Encoder) throws {

@@ -37,7 +37,7 @@ struct TestValues {
       .set(\.anchoring, to: .is)
       .set(\.pattern, to: .facet("attribute"))
       .set(\.context, to: "test context")
-      .set(\.alternatives, to: .false)
+      .set(\.alternatives, to: false)
     
     let consequence = Rule.Consequence()
       .set(\.automaticFacetFilters, to: [.init(attribute: "attr1", score: 10, isDisjunctive: true)])
