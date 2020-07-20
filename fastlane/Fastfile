@@ -1,219 +1,174 @@
-# More documentation about how to customize your build
-# can be found here:
-# https://docs.fastlane.tools
-fastlane_version "1.109.0"
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
 
-import '../config/Fastfile'
+default_platform(:ios)
 
-before_all do
-	
+desc "Test library"
+lane :test do |options|
+  coverage = options[:coverage] || false
+  enableCodeCoverage = coverage ? "YES" : "NO"
+  
+  xcodeProject = "tmp.xcodeproj"
+  sh("swift package generate-xcodeproj --output #{xcodeProject}")
+  sh("xcodebuild test -scheme AlgoliaSearchClient-Package -enableCodeCoverage #{enableCodeCoverage}")
+  if coverage
+    min_coverage_percentage = Float(options[:min_coverage_percentage] || 60)
+    xcov(
+       project: "fastlane/#{xcodeProject}",
+       scheme: "AlgoliaSearchClient-Package",
+       exclude_targets: "Logging.framework",
+       minimum_coverage_percentage: min_coverage_percentage
+    )
+  end
+  sh("rm -rf #{xcodeProject}")
 end
 
-platform :ios do
-	lane :test do
-		scan(
-			scheme: "AlgoliaSearch iOS",
-			configuration: "Release",
-			clean: true,
-			xcargs: prepare_api_keys
-		)
-		code_coverage
-		run_swift_lint
-	end
-end
-
-platform :mac do
-	lane :test do
-		scan(
-			scheme: "AlgoliaSearch OSX",
-			configuration: "Release",
-			clean: true,
-			xcargs: prepare_api_keys
-		)
-	end
-end
-
-platform :tv do
-	lane :test do
-		scan(
-			scheme: "AlgoliaSearch tvOS",
-			configuration: "Release",
-			clean: true,
-			xcargs: prepare_api_keys
-		)
-	end
-end
-
-platform :watch do
-	lane :test do
-		scan(
-			scheme: "AlgoliaSearch watchOS",
-			configuration: "Release",
-			clean: true,
-			xcargs: prepare_api_keys
-		)
-	end
-end
-
-lane :runswiftlint do
-	run_swift_lint # From ../config/Fastile
+desc "Lint library"
+lane :lint do |options|
+  raise_if_error = options[:raise] && true
+  swiftlint(
+    mode: :lint,
+    raise_if_swiftlint_error: raise_if_error,
+    strict: raise_if_error
+  )
 end
 
 desc "Available options: type:major|minor|patch"
 lane :deploy do |options|
 
-	branch = options[:branch] || "master"
-	prepare_git(branch)
+  branch = options[:branch] || "master"
+  prepare_git(branch)
 
-	pod_lib_lint(
-		verbose: true,
-		allow_warnings: true
-	)
+  pod_lib_lint(
+    verbose: true,
+    allow_warnings: true
+  )
 
-	increment_version_number(
-  		bump_type: options[:type]
-	)
-	new_build_number = version_bump_podspec(
-		bump_type: options[:type],
-		path: "InstantSearchClient.podspec"
-	)
+  new_build_number = version_bump_podspec(
+    bump_type: options[:type],
+    path: "AlgoliaSearchClient.podspec"
+  )
 
-	version_bump_podspec(
-		bump_type: options[:type],
-		path: "InstantSearchClientOffline.podspec"
-	)
+  sh("cd ..; ./generate_version #{new_build_number}")
 
-	branchName = "version-#{new_build_number}"
-	sh("git checkout -b #{branchName}")
+  branchName = "version-#{new_build_number}"
+  sh("git checkout -b #{branchName}")
 
-	#puts changelog_from_git_commits
-	git_commit(
-		path: ["InstantSearchClient.podspec", "InstantSearchClientOffline.podspec", "Sources/Info.plist" ,"Tests/Info.plist"], 
-		message: "Version #{new_build_number}"
-	)
-	add_git_tag(
-		build_number: new_build_number,
-		tag: new_build_number
-	)
-	push_to_git_remote(remote: "origin")
+  #puts changelog_from_git_commits
+  git_commit(
+    path: ["AlgoliaSearchClient.podspec", "./Sources/AlgoliaSearchClient/Helpers/Version+Current.swift"],
+    message: "Version #{new_build_number}"
+  )
+  add_git_tag(
+    build_number: new_build_number,
+    tag: new_build_number
+  )
+  push_to_git_remote(remote: "origin")
 
-	create_pull_request(
-		# api_token: "secret",      # optional, defaults to ENV["GITHUB_API_TOKEN"]
-		repo: "algolia/algoliasearch-client-swift",
-		title: "Deploying new #{options[:type]} version #{new_build_number}",
-		head: "#{branchName}",       # optional, defaults to current branch name
-		base: "master", # optional, defaults to "master"
-		body: "Please check the files before merging in case I've overidden something accidentally.",       # optional
-		# api_url: "http://yourdomain/api/v3" # optional, for GitHub Enterprise, defaults to "https://api.github.com"
-	)
+  create_pull_request(
+    # api_token: "secret",      # optional, defaults to ENV["GITHUB_API_TOKEN"]
+    repo: "algolia/algoliasearch-client-swift",
+    title: "Deploying new #{options[:type]} version #{new_build_number}",
+    head: "#{branchName}",       # optional, defaults to current branch name
+    base: "master", # optional, defaults to "master"
+    body: "Please check the files before merging in case I've overidden something accidentally.",       # optional
+    # api_url: "http://yourdomain/api/v3" # optional, for GitHub Enterprise, defaults to "https://api.github.com"
+  )
 
-	pod_push(
-		path: "InstantSearchClient.podspec",
-		allow_warnings: true
-	)
-
-	pod_push(
-		path: "InstantSearchClientOffline.podspec",
-		allow_warnings: true
-	)
-
-	# This is failing when no files are changed. So we added this step in Bitrise instead along with is_skippable: true.
-	# 
-	# deploy_api_reference
+  pod_push(
+    path: "AlgoliaSearchClient.podspec",
+    allow_warnings: true
+  )
+  # This is failing when no files are changed. So we added this step in Bitrise instead along with is_skippable: true.
+  # 
+  # deploy_api_reference
 end
 
-desc "Upgrade Swift Version in .swift-version"
-# Force cocoapods to compile with 'swift-version'
-lane :upgrade_swift do |options|
-    version = options[:version]
-    sh("echo #{version} > ../.swift-version")
-    puts "\e[31m\e[5mDon't forget to update the swift version in the dependecies: .podspecs & cartfile'\e[0m"
-end
+lane :deployBeta do |options| 
+  branch = options[:branch] || "master"
 
-lane :deploy_api_reference do
-	sh("../tools/make-doc.sh") # dependency on Jazzy
-	if are_doc_files_changed()  # push to gh-pages if files have been changed. Q: Not sure if it works on Bitrise? works locally though.
-		begin
-			sh("cd ../build/doc && git add . && git commit -m 'update api reference' && git pull -X ours && git push")
-		rescue => ex
-			UI.message("updating api reference didn't happen because either there are no changes made to it or due to an exception stated below")
-			UI.message(ex)
-		end
-	else 
-		puts "No files were changed for the api documentation, so no need to push to gh-pages"
-	end
+  pod_lib_lint(
+    verbose: true,
+    allow_warnings: true
+  )
+  new_build_number = "#{options[:version]}"
+
+  version_bump_podspec(
+    version_number: new_build_number,
+    path: "AlgoliaSearchClient.podspec"
+  )
+
+  sh("cd ..; ./generate_version #{new_build_number}")
+
+  puts "#{new_build_number}"
+
+  git_commit(
+    path: ["AlgoliaSearchClient.podspec", "./Sources/AlgoliaSearchClient/Helpers/Version+Current.swift"], 
+    message: "Version #{new_build_number}"
+  )
+
+  add_git_tag(
+    build_number: new_build_number,
+    tag: new_build_number
+  )
+  push_to_git_remote(remote: "origin")
+
+  pod_push(
+    path: "AlgoliaSearchClient.podspec",
+    allow_warnings: true
+  )
+
 end
 
 def prepare_git(branch)
-	if !ENV['BITRISE_BUILD_NUMBER'] # ensure git clean locally but not on Bitrise.
-		ensure_git_status_clean
-	end
+  if !ENV['BITRISE_BUILD_NUMBER'] # ensure git clean locally but not on Bitrise.
+    ensure_git_status_clean
+  end
 
-	# ensure_git_branch(branch:branch)
-	masterHash = sh("git rev-parse origin/#{branch}")
-	headHash = sh("git rev-parse HEAD")
-	
-	if masterHash != headHash 
-		raise "Error: Master and Head Hashes do not match, meaning that we are probably not on Master and therefore can't deploy"
-	end
+  # ensure_git_branch(branch:branch)
+  masterHash = sh("git rev-parse origin/#{branch}")
+  headHash = sh("git rev-parse HEAD")
+  
+  if masterHash != headHash 
+    raise "Error: Master and Head Hashes do not match, meaning that we are probably not on Master and therefore can't deploy"
+  end
 
-	# checkout master to be able to push tag there.
-	sh("git checkout #{branch}")
-	
-	# We already pull in bitrise before doing anything, so no need for this step anymore.
-	# git_pull
+  # checkout master to be able to push tag there.
+  sh("git checkout #{branch}")
+  
+  # We already pull in bitrise before doing anything, so no need for this step anymore.
+  # git_pull
 end
 
-def are_doc_files_changed()
-	git_status = sh("cd ../build/doc && git status --porcelain")
-	return !git_status.to_s.strip.empty?
+
+def fetch_env()
+  xcargs = []
+  
+  keys = [
+    "ALGOLIA_APPLICATION_ID_1",
+    "ALGOLIA_SEARCH_KEY_1",
+    "ALGOLIA_PLACES_APPLICATION_ID",
+    "ALGOLIA_PLACES_API_KEY",
+    "ALGOLIA_APPLICATION_ID_MCM",
+    "ALGOLIA_ADMIN_KEY_MCM",
+    "ALGOLIA_ADMIN_KEY_1",
+    "ALGOLIA_APPLICATION_ID_2",
+    "ALGOLIA_ADMIN_KEY_2"
+  ]
+    
+  for key in keys do
+    value = ENV[key]
+    xcargs << "#{key}=\"#{value}\""
+  end
+
+  return xcargs.join(" ")
 end
-
-def prepare_api_keys()
-	xcargs = []  
-	api_key = ENV["ALGOLIA_API_KEY"]
-	if api_key
-		xcargs << %Q[ALGOLIA_API_KEY="#{api_key}"]
-	end
-	
-	api_id = ENV["ALGOLIA_APPLICATION_ID"]
-	if api_id
-		xcargs << %Q[ALGOLIA_APPLICATION_ID="#{api_id}"]
-	end
-
-	places_api_id = ENV["PLACES_APPLICATION_ID"]
-	if places_api_id
-		xcargs << %Q[PLACES_APPLICATION_ID="#{places_api_id}"]
-	end
-	
-	places_api_key = ENV["PLACES_API_KEY"]
-	if places_api_key
-		xcargs << %Q[PLACES_API_KEY="#{places_api_key}"]
-	end
-
-	bitrise_build_number = ENV["BITRISE_BUILD_NUMBER"]
-	if bitrise_build_number
-		xcargs << %Q[BITRISE_BUILD_NUMBER="#{bitrise_build_number}"]
-	end
-
-	return xcargs.join(" ")
-end
-
-after_all do
-  #slack
-end
-
-lane :code_coverage do
-	# NOTE: You must have ran scan before being able to generate the code coverage
-
-  xcov(
-		workspace: "AlgoliaSearch.xcworkspace",
-		scheme: "AlgoliaSearch iOS",
-		output_directory: "build/xcov_output",
-		slack_url: ENV['SLACK_WEBHOOK'],
-		slack_channel: "#notif-deploy-mobile",
-		slack_message: "InstantSearchClient code coverage report",
-		include_targets: "InstantSearchClient.framework"
-		#only_project_targets: true # trying to exclude pods, but not working, it s excluding everything
-	)
-end 

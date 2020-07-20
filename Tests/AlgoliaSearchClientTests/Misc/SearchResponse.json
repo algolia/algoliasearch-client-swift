@@ -1,0 +1,1606 @@
+{
+    "hits": [
+        {
+            "asin": "B01C9P3I9S",
+            "hasImg": true,
+            "features": [
+                "Gift Card is nested inside a specialty gift box",
+                "Gift Card has no fees and no expiration date",
+                "No returns and no refunds on Gift Cards",
+                "Gift amount may not be printed on Gift Cards",
+                "To check the amount loaded on your Gift Card, please visit Amazon.com/yourorders",
+                "Gift Card is redeemable towards millions of items storewide at Amazon.com",
+                "Scan and redeem any Gift Card with a mobile or tablet device via the Amazon App",
+                "Free One-Day Shipping (where available)"
+            ],
+            "largeImage": "https://images-na.ssl-images-amazon.com/images/I/51Vp7kC7OVL.jpg",
+            "ean": "0841710127591",
+            "url": "https://www.amazon.com/Amazon-com-Amount-Amazon-Shipping-Birthday/dp/B01C9P3I9S?psc=1&SubscriptionId=AKIAIDUO3RC2JAZNREYQ&tag=spencerandwil-20&linkCode=xm2&camp=2025&creative=165953&creativeASIN=B01C9P3I9S",
+            "brand": "Amazon",
+            "title": "Amazon.com Gift Card for Any Amount in a Mini Amazon Shipping Box (Birthday Icons Card Design)",
+            "productGroup": "Gift Card",
+            "label": "Amazon",
+            "color": "",
+            "priceDisplay": "50.00",
+            "publicationDate": "",
+            "salesRank": 10,
+            "type": "gifts",
+            "price": 50,
+            "categories": [
+                "Paper Gift Certificate"
+            ],
+            "manufacturer": "Amazon",
+            "featured": false,
+            "objectID": "B01C9P3I9S",
+            "_snippetResult": {
+                "title": {
+                    "value": "<em>Amazon</em>.com Gift Card for Any Amount in a Mini",
+                    "matchLevel": "full"
+                }
+            },
+            "_highlightResult": {
+                "asin": {
+                    "value": "B01C9P3I9S",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "brand": {
+                    "value": "<em>Amazon</em>",
+                    "matchLevel": "full",
+                    "fullyHighlighted": true,
+                    "matchedWords": [
+                        "amazon"
+                    ]
+                },
+                "title": {
+                    "value": "<em>Amazon</em>.com Gift Card for Any Amount in a Mini <em>Amazon</em> Shipping Box (Birthday Icons Card Design)",
+                    "matchLevel": "full",
+                    "fullyHighlighted": false,
+                    "matchedWords": [
+                        "amazon"
+                    ]
+                },
+                "type": {
+                    "value": "gifts",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "categories": [
+                    {
+                        "value": "Paper Gift Certificate",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    }
+                ]
+            },
+            "_rankingInfo": {
+                "nbTypos": 0,
+                "firstMatchedWord": 1000,
+                "proximityDistance": 0,
+                "userScore": 252176,
+                "geoDistance": 0,
+                "geoPrecision": 1,
+                "nbExactWords": 1,
+                "words": 1,
+                "filters": 0
+            }
+        },
+        {
+            "asin": "B01E4QQXEC",
+            "hasImg": true,
+            "features": [
+                "Gift Card is inside a reveal",
+                "Gift Card has no fees and no expiration date",
+                "No returns and no refunds on Gift Cards",
+                "Gift Card is redeemable towards millions of items storewide at Amazon.com",
+                "Scan and redeem any Gift Card with a mobile or tablet device via the Amazon App",
+                "Free One-Day Shipping (where available)"
+            ],
+            "largeImage": "https://images-na.ssl-images-amazon.com/images/I/51YcHcUWR0L.jpg",
+            "ean": "0841710135961",
+            "url": "https://www.amazon.com/Amazon-com-Reveal-Classic-Black-Design/dp/B01E4QQXEC?psc=1&SubscriptionId=AKIAIDUO3RC2JAZNREYQ&tag=spencerandwil-20&linkCode=xm2&camp=2025&creative=165953&creativeASIN=B01E4QQXEC",
+            "brand": "Amazon",
+            "title": "Amazon.com $25 Gift Card in a Gold Reveal (Classic Black Card Design)",
+            "productGroup": "Gift Card",
+            "label": "Amazon",
+            "color": "",
+            "priceDisplay": "25.00",
+            "publicationDate": "",
+            "salesRank": 55,
+            "type": "gifts",
+            "price": 25,
+            "categories": [
+                "Paper Gift Certificate"
+            ],
+            "manufacturer": "Amazon",
+            "featured": false,
+            "objectID": "B01E4QQXEC",
+            "_snippetResult": {
+                "title": {
+                    "value": "<em>Amazon</em>.com $25 Gift Card in a Gold Reveal (Classic",
+                    "matchLevel": "full"
+                }
+            },
+            "_highlightResult": {
+                "asin": {
+                    "value": "B01E4QQXEC",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "brand": {
+                    "value": "<em>Amazon</em>",
+                    "matchLevel": "full",
+                    "fullyHighlighted": true,
+                    "matchedWords": [
+                        "amazon"
+                    ]
+                },
+                "title": {
+                    "value": "<em>Amazon</em>.com $25 Gift Card in a Gold Reveal (Classic Black Card Design)",
+                    "matchLevel": "full",
+                    "fullyHighlighted": false,
+                    "matchedWords": [
+                        "amazon"
+                    ]
+                },
+                "type": {
+                    "value": "gifts",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "categories": [
+                    {
+                        "value": "Paper Gift Certificate",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    }
+                ]
+            },
+            "_rankingInfo": {
+                "nbTypos": 0,
+                "firstMatchedWord": 1000,
+                "proximityDistance": 0,
+                "userScore": 251860,
+                "geoDistance": 0,
+                "geoPrecision": 1,
+                "nbExactWords": 1,
+                "words": 1,
+                "filters": 0
+            }
+        },
+        {
+            "asin": "B01KNVF4SI",
+            "hasImg": true,
+            "features": [
+                "NOTE: Due to the round edge of iPhone 7 7s, the screen protector will NOT cover the full screen, but only the flat area",
+                "Made with high quality 0.33mm thick premium tempered glass with rounded edges exclusively for Apple iPhone 7 4.7\". Extremely high hardness: resists scratches up to 9H (harder than a knife)",
+                "High-response and high-transparency",
+                "Dust-free, fingerprint-free, one-push super easy installation, bubble free",
+                "Retail package includes: 2-Pack tempered glass screen protector, cleaning cloth, instruction"
+            ],
+            "largeImage": "https://images-na.ssl-images-amazon.com/images/I/51ItSOiq-HL.jpg",
+            "ean": "",
+            "url": "https://www.amazon.com/iPhone-Protector-JETech-Premium-Tempered/dp/B01KNVF4SI?psc=1&SubscriptionId=AKIAIDUO3RC2JAZNREYQ&tag=spencerandwil-20&linkCode=xm2&camp=2025&creative=165953&creativeASIN=B01KNVF4SI",
+            "brand": "JETech",
+            "title": "iPhone 7 Screen Protector, JETech 2-Pack Premium Tempered Glass Screen Protector for Apple iPhone 7 7s 4.7\"",
+            "productGroup": "Wireless",
+            "label": "JETech",
+            "color": "Clear",
+            "priceDisplay": "8.00",
+            "publicationDate": "",
+            "salesRank": 31,
+            "type": "electronics",
+            "price": 8,
+            "categories": [
+                "Electronics"
+            ],
+            "manufacturer": "JETech",
+            "featured": false,
+            "objectID": "B01KNVF4SI",
+            "_snippetResult": {
+                "title": {
+                    "value": "iPhone 7 Screen Protector, JETech 2-Pack Premium Tempered Glass",
+                    "matchLevel": "none"
+                }
+            },
+            "_highlightResult": {
+                "asin": {
+                    "value": "B01KNVF4SI",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "brand": {
+                    "value": "JETech",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "title": {
+                    "value": "iPhone 7 Screen Protector, JETech 2-Pack Premium Tempered Glass Screen Protector for Apple iPhone 7 7s 4.7\"",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "type": {
+                    "value": "electronics",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "categories": [
+                    {
+                        "value": "Electronics",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    }
+                ]
+            },
+            "_rankingInfo": {
+                "promoted": true,
+                "nbTypos": 0,
+                "firstMatchedWord": 0,
+                "proximityDistance": 0,
+                "userScore": 0,
+                "geoDistance": 0,
+                "geoPrecision": 0,
+                "nbExactWords": 0,
+                "words": 0,
+                "filters": 0
+            }
+        },
+        {
+            "asin": "B00JDQLFZ6",
+            "hasImg": true,
+            "features": [
+                "Gift Card is affixed inside a blank greeting card with a separate mailing envelope",
+                "Gift Card has no fees and no expiration date",
+                "No returns and no refunds on Gift Cards",
+                "Gift Card is redeemable towards millions of items storewide at Amazon.com",
+                "Scan and redeem any Gift Card with a mobile or tablet device via the Amazon App",
+                "Free One-Day Shipping (where available)"
+            ],
+            "largeImage": "https://images-na.ssl-images-amazon.com/images/I/41dFihQHMBL.jpg",
+            "ean": "0848719041590",
+            "url": "https://www.amazon.com/Amazon-com-Greeting-Birthday-Cupcake-Design/dp/B00JDQLFZ6?psc=1&SubscriptionId=AKIAIDUO3RC2JAZNREYQ&tag=spencerandwil-20&linkCode=xm2&camp=2025&creative=165953&creativeASIN=B00JDQLFZ6",
+            "brand": "Amazon",
+            "title": "Amazon.com $50 Gift Card in a Greeting Card (Birthday Cupcake Design)",
+            "productGroup": "Gift Card",
+            "label": "Amazon",
+            "color": "",
+            "priceDisplay": "50.00",
+            "publicationDate": "",
+            "salesRank": 281,
+            "type": "gifts",
+            "price": 50,
+            "categories": [
+                "Paper Gift Certificate"
+            ],
+            "manufacturer": "Amazon",
+            "featured": false,
+            "objectID": "B00JDQLFZ6",
+            "_snippetResult": {
+                "title": {
+                    "value": "<em>Amazon</em>.com $50 Gift Card in a Greeting Card (Birthday",
+                    "matchLevel": "full"
+                }
+            },
+            "_highlightResult": {
+                "asin": {
+                    "value": "B00JDQLFZ6",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "brand": {
+                    "value": "<em>Amazon</em>",
+                    "matchLevel": "full",
+                    "fullyHighlighted": true,
+                    "matchedWords": [
+                        "amazon"
+                    ]
+                },
+                "title": {
+                    "value": "<em>Amazon</em>.com $50 Gift Card in a Greeting Card (Birthday Cupcake Design)",
+                    "matchLevel": "full",
+                    "fullyHighlighted": false,
+                    "matchedWords": [
+                        "amazon"
+                    ]
+                },
+                "type": {
+                    "value": "gifts",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "categories": [
+                    {
+                        "value": "Paper Gift Certificate",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    }
+                ]
+            },
+            "_rankingInfo": {
+                "nbTypos": 0,
+                "firstMatchedWord": 1000,
+                "proximityDistance": 0,
+                "userScore": 250951,
+                "geoDistance": 0,
+                "geoPrecision": 1,
+                "nbExactWords": 1,
+                "words": 1,
+                "filters": 0
+            }
+        },
+        {
+            "asin": "B005ESMJ02",
+            "hasImg": true,
+            "features": [
+                "Gift Card is nested inside a specialty gift box",
+                "Gift Card has no fees and no expiration date",
+                "No returns and no refunds on Gift Cards",
+                "Gift Card is redeemable towards millions of items storewide at Amazon.com",
+                "Scan and redeem any Gift Card with a mobile or tablet device via the Amazon App",
+                "Free One-Day Shipping (where available)"
+            ],
+            "largeImage": "https://images-na.ssl-images-amazon.com/images/I/51%2BbovdfpEL.jpg",
+            "ean": "0814916016044",
+            "url": "https://www.amazon.com/Amazon-com-Black-Amazon-Kindle-Design/dp/B005ESMJ02?psc=1&SubscriptionId=AKIAIDUO3RC2JAZNREYQ&tag=spencerandwil-20&linkCode=xm2&camp=2025&creative=165953&creativeASIN=B005ESMJ02",
+            "brand": "Amazon",
+            "title": "Amazon.com $50 Gift Card in a Black Gift Box (Amazon Kindle Card Design)",
+            "productGroup": "Gift Card",
+            "label": "Amazon",
+            "color": "",
+            "priceDisplay": "50.00",
+            "publicationDate": "",
+            "salesRank": 665,
+            "type": "gifts",
+            "price": 50,
+            "categories": [
+                "Paper Gift Certificate"
+            ],
+            "manufacturer": "Amazon",
+            "featured": false,
+            "objectID": "B005ESMJ02",
+            "_snippetResult": {
+                "title": {
+                    "value": "<em>Amazon</em>.com $50 Gift Card in a Black Gift Box",
+                    "matchLevel": "full"
+                }
+            },
+            "_highlightResult": {
+                "asin": {
+                    "value": "B005ESMJ02",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "brand": {
+                    "value": "<em>Amazon</em>",
+                    "matchLevel": "full",
+                    "fullyHighlighted": true,
+                    "matchedWords": [
+                        "amazon"
+                    ]
+                },
+                "title": {
+                    "value": "<em>Amazon</em>.com $50 Gift Card in a Black Gift Box (<em>Amazon</em> Kindle Card Design)",
+                    "matchLevel": "full",
+                    "fullyHighlighted": false,
+                    "matchedWords": [
+                        "amazon"
+                    ]
+                },
+                "type": {
+                    "value": "gifts",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "categories": [
+                    {
+                        "value": "Paper Gift Certificate",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    }
+                ]
+            },
+            "_rankingInfo": {
+                "nbTypos": 0,
+                "firstMatchedWord": 1000,
+                "proximityDistance": 0,
+                "userScore": 250116,
+                "geoDistance": 0,
+                "geoPrecision": 1,
+                "nbExactWords": 1,
+                "words": 1,
+                "filters": 0
+            }
+        },
+        {
+            "pubYear": 1982,
+            "priceDisplay": "14.00",
+            "isbn": [
+                "0553138081"
+            ],
+            "binding": "Paperback",
+            "publicationDate": 385948800,
+            "salesRank": 193759,
+            "asin": "553138081",
+            "author": [
+                "Roy Sparkia"
+            ],
+            "label": [
+                "Bantam USA"
+            ],
+            "mediumImage": "https://images-na.ssl-images-amazon.com/images/I/413tyR0BrWL._SL160_.jpg",
+            "type": "book",
+            "detailPageURL": "https://www.amazon.com/Amazon-Roy-Sparkia/dp/0553138081?SubscriptionId=AKIAIDUO3RC2JAZNREYQ&tag=spencerandwil-20&linkCode=xm2&camp=2025&creative=165953&creativeASIN=0553138081",
+            "largeImage": "https://images-na.ssl-images-amazon.com/images/I/413tyR0BrWL.jpg",
+            "price": 14,
+            "hasImg": true,
+            "smallImage": "https://images-na.ssl-images-amazon.com/images/I/413tyR0BrWL._SL75_.jpg",
+            "formattedPrice": "$14",
+            "categories": [
+                "Contemporary"
+            ],
+            "publisher": "Bantam USA",
+            "title": "Amazon",
+            "freshness": 5,
+            "featured": false,
+            "objectID": "553138081",
+            "_snippetResult": {
+                "title": {
+                    "value": "<em>Amazon</em>",
+                    "matchLevel": "full"
+                }
+            },
+            "_highlightResult": {
+                "asin": {
+                    "value": "553138081",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "author": [
+                    {
+                        "value": "Roy Sparkia",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    }
+                ],
+                "type": {
+                    "value": "book",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "categories": [
+                    {
+                        "value": "Contemporary",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    }
+                ],
+                "title": {
+                    "value": "<em>Amazon</em>",
+                    "matchLevel": "full",
+                    "fullyHighlighted": true,
+                    "matchedWords": [
+                        "amazon"
+                    ]
+                }
+            },
+            "_rankingInfo": {
+                "nbTypos": 0,
+                "firstMatchedWord": 1000,
+                "proximityDistance": 0,
+                "userScore": 230786,
+                "geoDistance": 0,
+                "geoPrecision": 1,
+                "nbExactWords": 1,
+                "words": 1,
+                "filters": 0
+            }
+        },
+        {
+            "pubYear": 2009,
+            "priceDisplay": "12.00",
+            "binding": "Kindle Edition",
+            "releaseDate": 1237248000,
+            "publicationDate": 1237248000,
+            "salesRank": 372051,
+            "asin": "None",
+            "author": [
+                "Robert Spector"
+            ],
+            "label": [
+                "HarperCollins e-books"
+            ],
+            "mediumImage": "https://images-na.ssl-images-amazon.com/images/I/417xxJL3dTL._SL160_.jpg",
+            "relYear": 2009,
+            "type": "book",
+            "detailPageURL": "https://www.amazon.com/Amazon-com-Get-Fast-Robert-Spector-ebook/dp/B0015WAOR6?SubscriptionId=AKIAI4IQO2JU7CNL6WMQ&tag=cdobson-20&linkCode=xm2&camp=2025&creative=165953&creativeASIN=B0015WAOR6",
+            "largeImage": "https://images-na.ssl-images-amazon.com/images/I/417xxJL3dTL.jpg",
+            "price": 12,
+            "hasImg": true,
+            "smallImage": "https://images-na.ssl-images-amazon.com/images/I/417xxJL3dTL._SL75_.jpg",
+            "formattedPrice": "$12",
+            "categories": [
+                "Company Profiles",
+                "Economics",
+                "Retailing",
+                "Service",
+                "New Business Enterprises",
+                "E-Commerce",
+                "Specialty Boutique",
+                "Company Histories",
+                "Economics",
+                "E-commerce",
+                "Retailing",
+                "Service",
+                "Starting a Business"
+            ],
+            "publisher": "HarperCollins e-books",
+            "title": "Amazon.com: Get Big Fast",
+            "freshness": 5,
+            "featured": false,
+            "objectID": "65860081",
+            "_snippetResult": {
+                "title": {
+                    "value": "<em>Amazon</em>.com: Get Big Fast",
+                    "matchLevel": "full"
+                }
+            },
+            "_highlightResult": {
+                "asin": {
+                    "value": "None",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "author": [
+                    {
+                        "value": "Robert Spector",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    }
+                ],
+                "type": {
+                    "value": "book",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "categories": [
+                    {
+                        "value": "Company Profiles",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    },
+                    {
+                        "value": "Economics",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    },
+                    {
+                        "value": "Retailing",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    },
+                    {
+                        "value": "Service",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    },
+                    {
+                        "value": "New Business Enterprises",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    },
+                    {
+                        "value": "E-Commerce",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    },
+                    {
+                        "value": "Specialty Boutique",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    },
+                    {
+                        "value": "Company Histories",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    },
+                    {
+                        "value": "Economics",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    },
+                    {
+                        "value": "E-commerce",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    },
+                    {
+                        "value": "Retailing",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    },
+                    {
+                        "value": "Service",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    },
+                    {
+                        "value": "Starting a Business",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    }
+                ],
+                "title": {
+                    "value": "<em>Amazon</em>.com: Get Big Fast",
+                    "matchLevel": "full",
+                    "fullyHighlighted": false,
+                    "matchedWords": [
+                        "amazon"
+                    ]
+                }
+            },
+            "_rankingInfo": {
+                "nbTypos": 0,
+                "firstMatchedWord": 1000,
+                "proximityDistance": 0,
+                "userScore": 221201,
+                "geoDistance": 0,
+                "geoPrecision": 1,
+                "nbExactWords": 1,
+                "words": 1,
+                "filters": 0
+            }
+        },
+        {
+            "pubYear": 1983,
+            "priceDisplay": "2.00",
+            "isbn": [
+                "0373612044"
+            ],
+            "binding": "Paperback",
+            "publicationDate": 410227200,
+            "salesRank": 647901,
+            "asin": "373612044",
+            "author": [
+                "Dick Stivers"
+            ],
+            "label": [
+                "Gold Eagle"
+            ],
+            "mediumImage": "https://images-na.ssl-images-amazon.com/images/I/51Kz3mMLmRL._SL160_.jpg",
+            "type": "book",
+            "detailPageURL": "https://www.amazon.com/Amazon-Slaughter-Able-Team-4/dp/0373612044?SubscriptionId=AKIAIDUO3RC2JAZNREYQ&tag=spencerandwil-20&linkCode=xm2&camp=2025&creative=165953&creativeASIN=0373612044",
+            "largeImage": "https://images-na.ssl-images-amazon.com/images/I/51Kz3mMLmRL.jpg",
+            "price": 2,
+            "hasImg": true,
+            "smallImage": "https://images-na.ssl-images-amazon.com/images/I/51Kz3mMLmRL._SL75_.jpg",
+            "formattedPrice": "$2.25",
+            "categories": [
+                "War"
+            ],
+            "publisher": "Gold Eagle",
+            "title": "Amazon Slaughter (Able Team #4\")",
+            "freshness": 5,
+            "featured": false,
+            "objectID": "373612044",
+            "_snippetResult": {
+                "title": {
+                    "value": "<em>Amazon</em> Slaughter (Able Team #4\")",
+                    "matchLevel": "full"
+                }
+            },
+            "_highlightResult": {
+                "asin": {
+                    "value": "373612044",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "author": [
+                    {
+                        "value": "Dick Stivers",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    }
+                ],
+                "type": {
+                    "value": "book",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "categories": [
+                    {
+                        "value": "War",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    }
+                ],
+                "title": {
+                    "value": "<em>Amazon</em> Slaughter (Able Team #4\")",
+                    "matchLevel": "full",
+                    "fullyHighlighted": false,
+                    "matchedWords": [
+                        "amazon"
+                    ]
+                }
+            },
+            "_rankingInfo": {
+                "nbTypos": 0,
+                "firstMatchedWord": 1000,
+                "proximityDistance": 0,
+                "userScore": 208013,
+                "geoDistance": 0,
+                "geoPrecision": 1,
+                "nbExactWords": 1,
+                "words": 1,
+                "filters": 0
+            }
+        },
+        {
+            "pubYear": 1993,
+            "priceDisplay": "10.00",
+            "isbn": [
+                "0062509446"
+            ],
+            "binding": "Paperback",
+            "publicationDate": 738892800,
+            "salesRank": 1467712,
+            "asin": "62509446",
+            "author": [
+                "Barbara G. Walker"
+            ],
+            "label": [
+                "Harpercollins"
+            ],
+            "mediumImage": "https://images-na.ssl-images-amazon.com/images/I/51we8z4HgFL._SL160_.jpg",
+            "type": "book",
+            "detailPageURL": "https://www.amazon.com/Amazon-Novel-Barbara-G-Walker/dp/0062509446?SubscriptionId=AKIAIDUO3RC2JAZNREYQ&tag=spencerandwil-20&linkCode=xm2&camp=2025&creative=165953&creativeASIN=0062509446",
+            "largeImage": "https://images-na.ssl-images-amazon.com/images/I/51we8z4HgFL.jpg",
+            "price": 10,
+            "hasImg": true,
+            "smallImage": "https://images-na.ssl-images-amazon.com/images/I/51we8z4HgFL._SL75_.jpg",
+            "formattedPrice": "$10.00",
+            "categories": [
+                "Lesbian",
+                "United States",
+                "Contemporary"
+            ],
+            "publisher": "Harpercollins",
+            "title": "Amazon: A Novel",
+            "freshness": 5,
+            "featured": false,
+            "objectID": "62509446",
+            "_snippetResult": {
+                "title": {
+                    "value": "<em>Amazon</em>: A Novel",
+                    "matchLevel": "full"
+                }
+            },
+            "_highlightResult": {
+                "asin": {
+                    "value": "62509446",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "author": [
+                    {
+                        "value": "Barbara G. Walker",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    }
+                ],
+                "type": {
+                    "value": "book",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "categories": [
+                    {
+                        "value": "Lesbian",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    },
+                    {
+                        "value": "United States",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    },
+                    {
+                        "value": "Contemporary",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    }
+                ],
+                "title": {
+                    "value": "<em>Amazon</em>: A Novel",
+                    "matchLevel": "full",
+                    "fullyHighlighted": false,
+                    "matchedWords": [
+                        "amazon"
+                    ]
+                }
+            },
+            "_rankingInfo": {
+                "nbTypos": 0,
+                "firstMatchedWord": 1000,
+                "proximityDistance": 0,
+                "userScore": 174315,
+                "geoDistance": 0,
+                "geoPrecision": 1,
+                "nbExactWords": 1,
+                "words": 1,
+                "filters": 0
+            }
+        },
+        {
+            "pubYear": 1996,
+            "priceDisplay": "15.00",
+            "isbn": [
+                "0399229167"
+            ],
+            "binding": "Hardcover",
+            "releaseDate": 842227200,
+            "publicationDate": 842227200,
+            "salesRank": 1484398,
+            "asin": "399229167",
+            "author": [
+                "Hudson Talbott",
+                "Mark Greenberg"
+            ],
+            "label": [
+                "Putnam Juvenile"
+            ],
+            "mediumImage": "https://images-na.ssl-images-amazon.com/images/I/51GQ534TXNL._SL160_.jpg",
+            "relYear": 1996,
+            "type": "book",
+            "price": 15,
+            "detailPageURL": "https://www.amazon.com/Amazon-Diary-Jungle-Adventures-Winters/dp/0399229167?SubscriptionId=AKIAI4IQO2JU7CNL6WMQ&tag=cdobson-20&linkCode=xm2&camp=2025&creative=165953&creativeASIN=0399229167",
+            "largeImage": "https://images-na.ssl-images-amazon.com/images/I/51GQ534TXNL.jpg",
+            "brand": [
+                "Putnam Juvenile"
+            ],
+            "hasImg": true,
+            "smallImage": "https://images-na.ssl-images-amazon.com/images/I/51GQ534TXNL._SL75_.jpg",
+            "formattedPrice": "$15.95",
+            "categories": [
+                "Central & South America"
+            ],
+            "publisher": "Putnam Juvenile",
+            "title": "Amazon Diary: The Jungle Adventures Of Alex Winters",
+            "freshness": 5,
+            "featured": false,
+            "objectID": "399229167",
+            "_snippetResult": {
+                "title": {
+                    "value": "<em>Amazon</em> Diary: The Jungle Adventures Of Alex Winters",
+                    "matchLevel": "full"
+                }
+            },
+            "_highlightResult": {
+                "asin": {
+                    "value": "399229167",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "author": [
+                    {
+                        "value": "Hudson Talbott",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    },
+                    {
+                        "value": "Mark Greenberg",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    }
+                ],
+                "type": {
+                    "value": "book",
+                    "matchLevel": "none",
+                    "matchedWords": []
+                },
+                "brand": [
+                    {
+                        "value": "Putnam Juvenile",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    }
+                ],
+                "categories": [
+                    {
+                        "value": "Central & South America",
+                        "matchLevel": "none",
+                        "matchedWords": []
+                    }
+                ],
+                "title": {
+                    "value": "<em>Amazon</em> Diary: The Jungle Adventures Of Alex Winters",
+                    "matchLevel": "full",
+                    "fullyHighlighted": false,
+                    "matchedWords": [
+                        "amazon"
+                    ]
+                }
+            },
+            "_rankingInfo": {
+                "nbTypos": 0,
+                "firstMatchedWord": 1000,
+                "proximityDistance": 0,
+                "userScore": 173669,
+                "geoDistance": 0,
+                "geoPrecision": 1,
+                "nbExactWords": 1,
+                "words": 1,
+                "filters": 0
+            }
+        }
+    ],
+    "nbHits": 596,
+    "page": 0,
+    "nbPages": 60,
+    "hitsPerPage": 10,
+    "processingTimeMS": 4,
+    "aroundLatLng": "48.856614,2.3522219",
+    "facets": {
+        "type": {
+            "book": 357,
+            "electronics": 184,
+            "office": 28,
+            "gifts": 27
+        },
+        "brand": {
+            "AmazonBasics": 111,
+            "Amazon": 52,
+            "Brother": 11,
+            "Nupro": 6,
+            "Brand: DAW": 5,
+            "Brand: Troll Communications Llc": 4,
+            "Scholastic Paperbacks": 4,
+            "Fintie": 3,
+            "NETGEAR": 3,
+            "Nest": 3,
+            "Play-Doh": 3,
+            "Amazing Herbs": 2,
+            "Brand: Adams Media Corporation": 2,
+            "Brand: Knopf Books for Young Readers": 2,
+            "Brand: Llewellyn Publications": 2,
+            "Brand: Pocket": 2,
+            "Brand: Scholastic": 2,
+            "Brand: Sterling Pub Co Inc": 2,
+            "Brand: Troll Communications": 2,
+            "Brand: Watermill Press": 2,
+            "Candlewick": 2,
+            "Color Technik": 2,
+            "Golden Books": 2,
+            "Harper Collins": 2,
+            "Little Tikes": 2,
+            "Paintinc": 2,
+            "Random House": 2,
+            "Samsung": 2,
+            "Akai Professional": 1,
+            "Amazing Lamps": 1,
+            "Andrews Mcmeel Pub": 1,
+            "Avon Books": 1,
+            "Back Bay Books": 1,
+            "Ballantine Books": 1,
+            "Berkley Trade": 1,
+            "Beverly Keller": 1,
+            "Brand: Albert Whitman n Company": 1,
+            "Brand: AmazonEncore": 1,
+            "Brand: Baen": 1,
+            "Brand: Basic Books": 1,
+            "Brand: Blue Panda": 1,
+            "Brand: BnH Publishing Group": 1,
+            "Brand: Book Co Pub Pty Ltd": 1,
+            "Brand: Bridgewater Books": 1,
+            "Brand: Centro para la Investigacion y Promocion de los Derechos Civiles": 1,
+            "Brand: Coronet Books": 1,
+            "Brand: Coteau Books": 1,
+            "Brand: David R Godine": 1,
+            "Brand: Dh Audio": 1,
+            "Brand: E.D.C. Publishing": 1,
+            "Brand: Eakin Press": 1,
+            "Brand: Element Books Ltd": 1,
+            "Brand: Epicenter Pr": 1,
+            "Brand: F.H. Revell Co": 1,
+            "Brand: Four Peaks Press": 1,
+            "Brand: HMH Books for Young Readers": 1,
+            "Brand: Harold Shaw Pub": 1,
+            "Brand: Harvest House Pub": 1,
+            "Brand: Heritage House Publishing": 1,
+            "Brand: Heritage House Publishing Co. Ltd.": 1,
+            "Brand: Hyperion": 1,
+            "Brand: Integrity Publishers": 1,
+            "Brand: Kingfisher": 1,
+            "Brand: Knopf": 1,
+            "Brand: Lagoon Books": 1,
+            "Brand: Larousse Kingfisher Chambers": 1,
+            "Brand: Lothrop, Lee n Shepard Co": 1,
+            "Brand: Mainstream": 1,
+            "Brand: Master Books": 1,
+            "Brand: McClelland n Stewart": 1,
+            "Brand: Metro Books": 1,
+            "Brand: Millbrook Press": 1,
+            "Brand: Moody Publishers": 1,
+            "Brand: National Geographic Children's Books": 1,
+            "Brand: Natl Geographic Society": 1,
+            "Brand: Nickelodeon Publishing": 1,
+            "Brand: Overlook TP": 1,
+            "Brand: Pfeifer-Hamilton Pubs": 1,
+            "Brand: Pocket Books/Star Trek": 1,
+            "Brand: Pocket Pb": 1,
+            "Brand: Porch Swing Publishing": 1,
+            "Brand: Portfolio Hardcover": 1,
+            "Brand: Price Stern Sloan": 1,
+            "Brand: Prima Lifestyles": 1,
+            "Brand: Prometheus Books": 1,
+            "Brand: Random House": 1,
+            "Brand: Reader's Digest": 1,
+            "Brand: Rodale Books": 1,
+            "Brand: Skylark": 1,
+            "Brand: Sourcebooks, Inc.": 1,
+            "Brand: Sports Illustrated for Kids": 1,
+            "Brand: Stoddart": 1,
+            "Brand: The Lyons Press": 1,
+            "Brand: Tor Books": 1,
+            "Brand: Tor Fantasy": 1,
+            "Brand: Touchstone": 1,
+            "Brand: Turnstone Press": 1,
+            "Brand: Vegan": 1,
+            "Brand: Verso": 1,
+            "Brand: Vintage": 1
+        },
+        "color": {
+            "Black": 94,
+            "White": 18,
+            "Clear": 7,
+            "Blue": 5,
+            "Grey": 5,
+            "Marine Blue": 4,
+            "Pink": 4,
+            "Anti-Glare": 3,
+            "Punch Red": 3,
+            "Canary Yellow": 2,
+            "Charcoal Black": 2,
+            "Dark/light gray": 2,
+            "Graphite": 2,
+            "Green": 2,
+            "Red": 2,
+            "assorted": 2,
+            "#01 Black": 1,
+            "*Black": 1,
+            "1-Brown": 1,
+            "30 assorted colors": 1,
+            "4-Rolls": 1,
+            "Antique Brown": 1,
+            "Aqua": 1,
+            "Assorted Colors": 1,
+            "Assorted Neon": 1,
+            "B-Dandelion+White": 1,
+            "Black (Orange interior)": 1,
+            "Black on White": 1,
+            "Cobalt Purple": 1,
+            "Coral": 1,
+            "Dark Gray": 1,
+            "Fire 7 - Black": 1,
+            "Frost Grey": 1,
+            "Fuchsia": 1,
+            "Ink Blue": 1,
+            "Lime": 1,
+            "Manila": 1,
+            "Multi": 1,
+            "NA": 1,
+            "Navy": 1,
+            "Onyx Black": 1,
+            "Orange": 1,
+            "Premium Leather": 1,
+            "Purple, Green and Gray": 1,
+            "Royal Blue": 1,
+            "Royal Purple": 1,
+            "Screen Protector for Kindle paperwhite": 1,
+            "TV Power Cable": 1,
+            "Transparent": 1,
+            "Z-Composition Book": 1,
+            "Z-Love Tree": 1,
+            "blue and green": 1
+        },
+        "price": {
+            "1": 11,
+            "2": 24,
+            "3": 25,
+            "4": 30,
+            "5": 20,
+            "6": 25,
+            "7": 24,
+            "8": 17,
+            "9": 29,
+            "10": 17,
+            "11": 22,
+            "12": 32,
+            "13": 14,
+            "14": 33,
+            "15": 19,
+            "16": 24,
+            "17": 17,
+            "18": 24,
+            "19": 25,
+            "20": 7,
+            "21": 3,
+            "22": 7,
+            "23": 5,
+            "24": 14,
+            "25": 6,
+            "26": 1,
+            "27": 2,
+            "29": 20,
+            "30": 1,
+            "32": 2,
+            "34": 4,
+            "36": 1,
+            "37": 1,
+            "39": 13,
+            "40": 1,
+            "44": 2,
+            "45": 1,
+            "48": 2,
+            "49": 7,
+            "50": 3,
+            "52": 1,
+            "56": 2,
+            "59": 3,
+            "64": 1,
+            "65": 2,
+            "69": 1,
+            "79": 4,
+            "84": 2,
+            "89": 3,
+            "99": 6,
+            "109": 2,
+            "119": 3,
+            "121": 1,
+            "124": 1,
+            "129": 4,
+            "142": 1,
+            "179": 2,
+            "184": 1,
+            "199": 3,
+            "219": 1,
+            "229": 1,
+            "289": 2,
+            "299": 1,
+            "359": 1,
+            "399": 1,
+            "449": 1,
+            "599": 1,
+            "698": 1,
+            "1296": 1,
+            "11.99": 2,
+            "17.99": 1,
+            "21.99": 1,
+            "40.99": 1,
+            "49.99": 1,
+            "64.99": 1
+        },
+        "author": {
+            "Anne Mazer": 7,
+            "Dorothy Gilman": 7,
+            "Don Starkell": 4,
+            "Joe Kane": 4,
+            "Stan Lee": 4,
+            "Amazing Kreskin": 3,
+            "Dan Nevins": 3,
+            "Mary Pope Osborne": 3,
+            "Terry Pratchett": 3,
+            "Brad Steiger": 2,
+            "Bruce Nash": 2,
+            "Charles Schulz": 2,
+            "Charles Sheffield": 2,
+            "Dick Stivers": 2,
+            "Dinah L. Moche": 2,
+            "Donald J. Sobol": 2,
+            "Dorling Kindersley Ltd": 2,
+            "Elizabeth MacLeod": 2,
+            "Iqbal Hussain": 2,
+            "John Romita": 2,
+            "Jonathan Kozol": 2,
+            "Kathleen Norris": 2,
+            "Lynne Cherry": 2,
+            "Marsh Engle": 2,
+            "Mary Hoffman": 2,
+            "Melvin Berger": 2,
+            "Michael Chabon": 2,
+            "Owl Magazine": 2,
+            "Paul Zindel": 2,
+            "Philip Yancey": 2,
+            "Phyllis Hollander": 2,
+            "Sandie Sowler": 2,
+            "Sherry Hansen Steiger": 2,
+            "Spencer Johnson": 2,
+            "Steven Banks": 2,
+            "Steven Pressfield": 2,
+            "Tony Mitton": 2,
+            "Zander Hollander": 2,
+            "Aaron Lansky": 1,
+            "Abbe Anderson": 1,
+            "Adam Hart-Davis": 1,
+            "Adrian Berry": 1,
+            "Al Janssen": 1,
+            "Alastair Smith": 1,
+            "Alberto Villoldo": 1,
+            "Alex Shoumatoff": 1,
+            "Alfred Mason Amadon": 1,
+            "Alice Jenner": 1,
+            "Allan Zullo": 1,
+            "Andrew Revkin": 1,
+            "Andrew Vowles": 1,
+            "Anita Bryant": 1,
+            "Anita Roddick": 1,
+            "Ann Russo": 1,
+            "Arthur B Myers": 1,
+            "Arthur Conan Doyle": 1,
+            "Arthur Ransome": 1,
+            "Aukai Collins": 1,
+            "Barbara Braun": 1,
+            "Barbara G. Walker": 1,
+            "Becky Higgins": 1,
+            "Beth Wagner Brust": 1,
+            "Bethany McLean": 1,
+            "Betty J. Meggers": 1,
+            "Betty Mindlin": 1,
+            "Beverly Keller": 1,
+            "Bill Niffenegger": 1,
+            "Bob Kalian": 1,
+            "Brad Densmore": 1,
+            "Brian McFarlane": 1,
+            "Bruce Balan": 1,
+            "Bruce Koscielniak": 1,
+            "Carol Kahn": 1,
+            "Carole Etow": 1,
+            "Carolyn Wyman": 1,
+            "Catherine O'Neill": 1,
+            "Catherine O'Neill Grace": 1,
+            "Cecile Pineda": 1,
+            "Cheris Kramarae": 1,
+            "Chris Anne Wolfe": 1,
+            "Chris Claremont": 1,
+            "Chris McMahen": 1,
+            "Chris Nickson": 1,
+            "Christopher Maynard": 1,
+            "Claire Llewellyn": 1,
+            "Clea Hantman": 1,
+            "D f storer": 1,
+            "Dale Portman": 1,
+            "Dan Dye": 1,
+            "Danelle Morton": 1,
+            "Daniel Cohen": 1,
+            "Danielle Kwatinetz Wood": 1,
+            "David A. Adler": 1,
+            "David Colbert": 1,
+            "David Hartwig": 1,
+            "David Wallechinsky": 1,
+            "Deborah James": 1,
+            "Debra Fulghum Bruce": 1,
+            "Dermot Cole": 1,
+            "Diane Muldrow": 1
+        },
+        "binding": {
+            "Paperback": 225,
+            "Hardcover": 76,
+            "Mass Market Paperback": 25,
+            "Kindle Edition": 21,
+            "Library Binding": 6,
+            "Board book": 2,
+            "Audio Cassette": 1,
+            "School & Library Binding": 1
+        },
+        "pubYear": {
+            "1900": 1,
+            "1970": 1,
+            "1973": 1,
+            "1974": 2,
+            "1975": 2,
+            "1976": 1,
+            "1977": 1,
+            "1978": 1,
+            "1979": 2,
+            "1980": 3,
+            "1981": 7,
+            "1982": 3,
+            "1983": 6,
+            "1984": 5,
+            "1985": 9,
+            "1986": 9,
+            "1987": 5,
+            "1988": 5,
+            "1989": 11,
+            "1990": 21,
+            "1991": 13,
+            "1992": 17,
+            "1993": 8,
+            "1994": 21,
+            "1995": 18,
+            "1996": 18,
+            "1997": 13,
+            "1998": 20,
+            "1999": 21,
+            "2000": 14,
+            "2001": 23,
+            "2002": 30,
+            "2003": 17,
+            "2004": 5,
+            "2005": 1,
+            "2006": 1,
+            "2007": 2,
+            "2008": 1,
+            "2009": 2,
+            "2010": 2,
+            "2011": 4,
+            "2012": 4,
+            "2013": 1,
+            "2014": 3,
+            "2015": 1,
+            "2016": 2
+        },
+        "featured": {
+            "false": 596
+        },
+        "publisher": {
+            "Scholastic Paperbacks": 17,
+            "Golden Books": 12,
+            "Knopf Books for Young Readers": 9,
+            "Random House Books for Young Readers": 8,
+            "HarperCollins": 7,
+            "Scholastic": 7,
+            "DAW": 5,
+            "Fawcett": 5,
+            "Troll Communications": 5,
+            "Pocket": 4,
+            "Troll Communications Llc": 4,
+            "Vintage": 4,
+            "Andrews Mcmeel Pub": 3,
+            "HMH Books for Young Readers": 3,
+            "Marvel Comics": 3,
+            "Prometheus Books": 3,
+            "Puffin": 3,
+            "Simon & Schuster": 3,
+            "St. Martin's Griffin": 3,
+            "Tor Books": 3,
+            "Adams Media Corporation": 2,
+            "Avon Books (Mm)": 2,
+            "Baen": 2,
+            "Barnes & Noble": 2,
+            "Camelot": 2,
+            "Candlewick": 2,
+            "Dial Books": 2,
+            "Distributed to the book trade in the U.S. by Random House": 2,
+            "Fawcett Crest": 2,
+            "Gold Eagle": 2,
+            "HCI": 2,
+            "Harper": 2,
+            "Houghton Mifflin": 2,
+            "Hyperion": 2,
+            "Ivy Books": 2,
+            "Jodere Group": 2,
+            "Little Brown & Co (T)": 2,
+            "Llewellyn Publications": 2,
+            "MapQuest.com": 2,
+            "McClelland & Stewart": 2,
+            "Natl Geographic Society": 2,
+            "Penguin Books": 2,
+            "Pocket Books/Star Trek": 2,
+            "Prentice Hall Press": 2,
+            "Price Stern Sloan": 2,
+            "Random House": 2,
+            "Readers Digest": 2,
+            "Riverhead Books": 2,
+            "Rodale Books": 2,
+            "Skylark": 2,
+            "Sterling Pub Co Inc": 2,
+            "Thomas Nelson": 2,
+            "Three Rivers Press": 2,
+            "Watermill Press": 2,
+            "Yearling": 2,
+            "Zebra": 2,
+            "Zondervan": 2,
+            "AMACOM": 1,
+            "Ace Books": 1,
+            "Albert Whitman & Company": 1,
+            "Algonquin Books": 1,
+            "AmazonEncore": 1,
+            "Andrews McMeel Publishing": 1,
+            "Apple": 1,
+            "Atheneum": 1,
+            "B&H Publishing Group": 1,
+            "BBC Books": 1,
+            "BETA Books": 1,
+            "Back Bay Books": 1,
+            "Ballantine Books": 1,
+            "Bantam": 1,
+            "Bantam Books": 1,
+            "Bantam USA": 1,
+            "Barbour Publishing, Incorporated": 1,
+            "Basic Books": 1,
+            "Berkley": 1,
+            "Berkley Trade": 1,
+            "Big 4 Media": 1,
+            "Blake Publishing": 1,
+            "Blue Panda": 1,
+            "Book Company Publishing": 1,
+            "Bridgewater Books": 1,
+            "Broadway": 1,
+            "Browndeer Press Paperbacks": 1,
+            "Capstone Publishing Ltd": 1,
+            "City Lights Publishers": 1,
+            "Colibri Pub": 1,
+            "Conari Press": 1,
+            "Copper Beech": 1,
+            "Coronet Books": 1,
+            "Coteau Books": 1,
+            "Creation House": 1,
+            "Crown": 1,
+            "David R Godine": 1,
+            "Dell": 1,
+            "Dell Publishing Company": 1,
+            "Dh Audio": 1,
+            "Diamond Books": 1,
+            "Disney-Hyperion": 1,
+            "Doubleday": 1
+        },
+        "categories": {
+            "Electronics": 76,
+            "Office Product": 41,
+            "Literature & Fiction": 35,
+            "Children's Books": 34,
+            "Accessory": 33,
+            "Personal Computers": 32,
+            "United States": 23,
+            "Subjects": 22,
+            "Wireless Phone Accessory": 21,
+            "General": 19,
+            "Reference": 14,
+            "Religion & Spirituality": 14,
+            "Adventure": 13,
+            "Humor": 13,
+            "Animals": 11,
+            "Historical": 11,
+            "New Age & Spirituality": 11,
+            "Science Fiction & Fantasy": 11,
+            "Action & Adventure": 10,
+            "Biographies & Memoirs": 10,
+            "Fantasy": 10,
+            "Travel Writing": 10,
+            "Contemporary": 9,
+            "Inspirational": 9,
+            "Fantasy & Magic": 8,
+            "History": 8,
+            "Short Stories": 8,
+            "Humorous": 7,
+            "Literary": 7,
+            "Psychology & Counseling": 7,
+            "Toy": 7,
+            "Amazon": 6,
+            "Family Life": 6,
+            "Health and Beauty": 6,
+            "Personal Transformation": 6,
+            "Superheroes": 6,
+            "Travelers & Explorers": 6,
+            "Women Sleuths": 6,
+            "Anthologies": 5,
+            "Camera": 5,
+            "Cultural": 5,
+            "Dogs": 5,
+            "Ecology": 5,
+            "Fauna": 5,
+            "Girls & Women": 5,
+            "Mammals": 5,
+            "Marvel": 5,
+            "Military": 5,
+            "Motivational": 5,
+            "Native American": 5,
+            "South America": 5,
+            "Sports": 5,
+            "Success": 5,
+            "Teen & Young Adult": 5,
+            "Women's Studies": 5,
+            "Beginner Readers": 4,
+            "Behavioral Sciences": 4,
+            "Chapter Books": 4,
+            "ESP": 4,
+            "Forests & Rainforests": 4,
+            "Latin America": 4,
+            "Magic": 4,
+            "Magic & Illusion": 4,
+            "Paper Gift Certificate": 4,
+            "Performing Arts": 4,
+            "Political": 4,
+            "Popular Culture": 4,
+            "Puzzles": 4,
+            "Science Fiction": 4,
+            "Social Sciences": 4,
+            "Sociology": 4,
+            "Travel": 4,
+            "Women": 4,
+            "Zoology": 4,
+            "Actors & Entertainers": 3,
+            "Alternative Medicine": 3,
+            "Ancient & Controversial Knowledge": 3,
+            "Anthropology": 3,
+            "Birds": 3,
+            "Bugs & Spiders": 3,
+            "Business": 3,
+            "Business & Money": 3,
+            "Christian": 3,
+            "Cognitive": 3,
+            "Comics & Graphic Novels": 3,
+            "Company Profiles": 3,
+            "Conservation": 3,
+            "Creativity": 3,
+            "Criminology": 3,
+            "E-Commerce": 3,
+            "Engineering": 3,
+            "Environment & Ecology": 3,
+            "Epic": 3,
+            "Essays": 3,
+            "Faith": 3,
+            "Family Saga": 3,
+            "Friendship": 3,
+            "Guides": 3,
+            "Happiness": 3,
+            "History & Criticism": 3
+        },
+        "productGroup": {
+            "CE": 31,
+            "Digital Device Accessory": 31,
+            "Personal Computer": 27,
+            "Amazon Tablets": 25,
+            "Office Product": 25,
+            "Speakers": 25,
+            "Wireless": 17,
+            "Photography": 9,
+            "Toy": 7,
+            "Amazon Ereaders": 6,
+            "Health and Beauty": 6,
+            "Musical Instruments": 5,
+            "Video Games": 5,
+            "Gift Card": 4,
+            "Sports": 4,
+            "Art and Craft Supply": 3,
+            "Home": 3,
+            "Home Improvement": 3,
+            "PC Accessory": 2,
+            "Home Theater": 1
+        }
+    },
+    "facets_stats": {
+        "price": {
+            "min": 1,
+            "max": 1296,
+            "avg": 29.3204,
+            "sum": 17474.9
+        },
+        "pubYear": {
+            "min": 1900,
+            "max": 2016,
+            "avg": 1994,
+            "sum": 714206
+        }
+    },
+    "userData": [
+      {"userData1": "content1"},
+      {"userData2": 2}
+    ],
+    "exhaustiveFacetsCount": true,
+    "exhaustiveNbHits": true,
+    "query": "Amazon",
+    "queryID": "queryID",
+    "params": "query=Amazon&hitsPerPage=10&page=0&analytics=false&attributesToRetrieve=*&highlightPreTag=%3Cais-highlight-0000000000%3E&highlightPostTag=%3C%2Fais-highlight-0000000000%3E&getRankingInfo=true&responseFields=*&optionalFilters=%5B%22categories%3AContemporary%20AND%20type%3Abook%20AND%20binding%3APaperback%22%5D&facets=*%2Ctype%2Cbrand%2Ccolor%2Cprice%2Cauthor%2Cbinding%2CpubYear%2Cfeatured%2Cpublisher%2Ccategories%2CproductGroup&tagFilters=",
+    "index": "ios@algolia.com#atis-prods",
+    "serverUsed": "d52-usw-3.algolia.net",
+    "indexUsed": "ios@algolia.com#atis-prods",
+    "parsedQuery": "amazon",
+    "timeoutCounts": false,
+    "timeoutHits": false,
+    "appliedRules": [
+        {
+            "objectID": "1530792337749"
+        }
+    ]
+}

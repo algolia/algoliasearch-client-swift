@@ -28,6 +28,7 @@ Tools/Carthage
 
 # fastlane specific
 fastlane/report.xml
+fastlane/xcov_report
 
 # deliver temporary files
 fastlane/Preview.html
@@ -42,7 +43,11 @@ fastlane/report.xml
 
 # Swift Package Manager
 .build/
+.swiftpm/
+Package.resolved
 
+# macOS
+*.DS_Store
 
 # Ignore FOR NOW bitrise.yml
 bitrise.yml

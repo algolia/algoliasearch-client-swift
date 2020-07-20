@@ -1,0 +1,20 @@
+excluded:
+ - .build
+ - ./Tests
+# implicitly
+line_length: 300
+identifier_name: 
+  excluded:
+    - on
+    - or
+    - id
+    - ip
+    - us
+    - de
+    - url
+    - is
+disabled_rules:
+  - implicit_getter
+nesting: 
+ type_level: 2
+

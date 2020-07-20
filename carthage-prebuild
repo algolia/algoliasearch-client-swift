@@ -1,0 +1,10 @@
+packages=(
+  swift-log
+)
+cd Carthage/Checkouts/
+for package in "${packages[@]}"; do
+  cd ./$package
+  swift package generate-xcodeproj
+  cd ..
+done
+cd ../../..
