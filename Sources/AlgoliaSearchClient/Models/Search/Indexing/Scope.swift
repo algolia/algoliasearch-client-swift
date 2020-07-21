@@ -55,7 +55,7 @@ public struct ScopeComponent: StringOption & ProvidingCustomOption {
 
   public let rawValue: String
 
-  public init(rawValue: RawValue) {
+  public init(rawValue: String) {
     self.rawValue = rawValue
   }
 
