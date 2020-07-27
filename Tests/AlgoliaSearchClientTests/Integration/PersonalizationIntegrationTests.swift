@@ -11,7 +11,11 @@ import XCTest
 
 class PersonalizationIntegrationTests: OnlineTestCase {
   
-  func testPersonalization() throws {
+  override var retryableTests: [() throws -> Void] {
+    [personalization]
+  }
+
+  func personalization() throws {
     let recommendationClient = RecommendationClient(appID: client.applicationID, apiKey: client.apiKey, region: .custom("eu"))
     let _ = try recommendationClient.getPersonalizationStrategy()
   }

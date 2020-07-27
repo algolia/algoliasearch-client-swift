@@ -17,7 +17,12 @@ class APIKeysIntegrationTests: OnlineTestCase {
   
   var keyToDelete: APIKey?
   
-  func testAPIKeys() throws {
+  override var retryableTests: [() throws -> Void] {
+    [apiKeys]
+  }
+
+  
+  func apiKeys() throws {
     
     let parameters = APIKeyParameters(ACLs: [.search])
       .set(\.description, to: "A description")

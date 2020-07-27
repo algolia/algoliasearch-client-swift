@@ -15,7 +15,11 @@ class InsightsIntegrationTests: OnlineTestCase {
     return "sending_events"
   }
   
-  func testInsights() throws {
+  override var retryableTests: [() throws -> Void] {
+    [insights]
+  }
+
+  func insights() throws {
     
     let insightsClient = InsightsClient(appID: client.applicationID, apiKey: client.apiKey)
     

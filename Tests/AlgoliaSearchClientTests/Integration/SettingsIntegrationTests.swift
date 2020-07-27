@@ -16,7 +16,11 @@ class SettingsIntegrationTests: OnlineTestCase {
     return "settings"
   }
   
-  func testSettings() throws {
+  override var retryableTests: [() throws -> Void] {
+    [settings]
+  }
+  
+  func settings() throws {
     
     let indexInitialization = try index.saveObject(TestRecord(), autoGeneratingObjectID: true)
     try indexInitialization.wait()

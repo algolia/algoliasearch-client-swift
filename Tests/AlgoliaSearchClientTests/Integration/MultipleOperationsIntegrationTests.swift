@@ -23,6 +23,10 @@ class MultipleOperationsIntegrationTests: OnlineTestCase {
     return client.index(withName: "multiple_operations_dev")
   }()
   
+  override var retryableTests: [() throws -> Void] {
+    [multipleOperations]
+  }
+  
   override func setUpWithError() throws {
     try super.setUpWithError()
     try firstIndex.delete()
@@ -35,7 +39,7 @@ class MultipleOperationsIntegrationTests: OnlineTestCase {
     try secondIndex.delete()
   }
   
-  func testMultipleOperationsTests() throws {
+  func multipleOperations() throws {
     
     let object: JSON = ["firstName": "Jimmie"]
     

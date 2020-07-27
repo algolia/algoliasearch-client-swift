@@ -56,11 +56,15 @@ class MultipleClusterIntegrationTests: OnlineTestCase {
   
   let date: Date = .init()
   
+  override var retryableTests: [() throws -> Void] {
+    [multiCluster]
+  }
+  
   func userID(_ id: String) -> UserID {
     return UserID(rawValue: TestIdentifier(date: date, suffix: id).rawValue)
   }
     
-  func testMultiCluster() throws {
+  func multiCluster() throws {
   
     let userID0 = userID("0")
     let userID1 = userID("1")

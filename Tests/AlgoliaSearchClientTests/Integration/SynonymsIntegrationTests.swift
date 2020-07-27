@@ -12,8 +12,12 @@ import XCTest
 class SynonymsIntegrationTests: OnlineTestCase {
 
   override var indexNameSuffix: String? { return "synonyms" }
+  
+  override var retryableTests: [() throws -> Void] {
+    [synonyms]
+  }
 
-  func testSynonyms() throws {
+  func synonyms() throws {
     
     let records: [JSON] = [
       ["console": "Sony PlayStation <PLAYSTATIONVERSION>"],

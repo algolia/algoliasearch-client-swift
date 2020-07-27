@@ -15,7 +15,11 @@ class ExistsIntegrationTests: OnlineTestCase {
     return "exists"
   }
   
-  func testExists() throws {
+  override var retryableTests: [() throws -> Void] {
+    [exists]
+  }
+  
+  func exists() throws {
     XCTAssertFalse(try index.exists())
     try index.saveObject(TestRecord(), autoGeneratingObjectID: true).wait()
     XCTAssertTrue(try index.exists())

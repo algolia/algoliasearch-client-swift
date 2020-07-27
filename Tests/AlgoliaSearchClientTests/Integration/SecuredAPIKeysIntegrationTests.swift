@@ -10,8 +10,16 @@ import XCTest
 @testable import AlgoliaSearchClient
 
 class SecuredAPIKeysIntegrationTests: OnlineTestCase {
+  
+  override var retryableTests: [() throws -> Void] {
+    [
+      securedAPIKeys,
+      notExpiredKey,
+      expiredKey
+    ]
+  }
 
-  func testSecuredAPIKeys() throws {
+  func securedAPIKeys() throws {
     
     let index1 = client!.index(withName: "secured_api_keys")
     let index2 = client!.index(withName: "secured_api_keys_dev")
@@ -35,7 +43,7 @@ class SecuredAPIKeysIntegrationTests: OnlineTestCase {
 
   }
   
-  func testNotExpiredKey() throws {
+  func notExpiredKey() throws {
     let restriction = SecuredAPIKeyRestriction().set(\.validUntil, to: Date().addingTimeInterval(.minutes(10)).timeIntervalSince1970)
     let parentAPIKey = APIKey(rawValue: .init(randomWithLength: 64))
     let generatedAPIKey = client.generateSecuredApiKey(parentApiKey: parentAPIKey, with: restriction)
@@ -43,7 +51,7 @@ class SecuredAPIKeysIntegrationTests: OnlineTestCase {
     XCTAssertGreaterThan(remainingValidity, 0)
   }
   
-  func testExpiredKey() throws {
+  func expiredKey() throws {
     let restriction = SecuredAPIKeyRestriction().set(\.validUntil, to: Date().addingTimeInterval(-.minutes(10)).timeIntervalSince1970)
     let parentAPIKey = APIKey(rawValue: .init(randomWithLength: 64))
     let generatedAPIKey = client.generateSecuredApiKey(parentApiKey: parentAPIKey, with: restriction)

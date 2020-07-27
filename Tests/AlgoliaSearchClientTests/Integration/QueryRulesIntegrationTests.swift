@@ -13,7 +13,11 @@ class QueryRulesIntegrationTests: OnlineTestCase {
   
   override var indexNameSuffix: String? { return "rules" }
   
-  func testQueryRules() throws {
+  override var retryableTests: [() throws -> Void] {
+    [queryRules]
+  }
+  
+  func queryRules() throws {
     
     Logger.minSeverityLevel = .warning
     

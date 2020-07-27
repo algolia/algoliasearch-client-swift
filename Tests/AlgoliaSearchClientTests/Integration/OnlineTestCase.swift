@@ -14,6 +14,9 @@ class OnlineTestCase: XCTestCase {
   var client: SearchClient!
   var index: Index!
   let expectationTimeout: TimeInterval = 100
+  let retryCount: Int = 3
+  
+  var retryableTests: [() throws -> Void] { return [] }
 
   /// Abstract base class for online test cases.
   ///
@@ -43,6 +46,19 @@ class OnlineTestCase: XCTestCase {
 
     try index.delete()
   }
+  
+  func testRetryable() throws {
+    for test in retryableTests {
+      for attemptCount in 1...retryCount {
+        do {
+          try test()
+          break
+        } catch let error where attemptCount == retryCount {
+          throw Error.retryFailed(error)
+        }
+      }
+    }
+  }
 
   override func tearDownWithError() throws {
     try super.tearDownWithError()
@@ -54,5 +70,6 @@ class OnlineTestCase: XCTestCase {
 extension OnlineTestCase {
   enum Error: Swift.Error {
     case missingCredentials
+    case retryFailed(Swift.Error)
   }
 }

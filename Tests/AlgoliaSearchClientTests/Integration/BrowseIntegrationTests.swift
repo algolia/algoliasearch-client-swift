@@ -21,7 +21,15 @@ class BrowseIntegrationTests: OnlineTestCase {
     return "index_browse"
   }
   
-  func testBrowseObjects() throws {
+  override var retryableTests: [() throws -> Void] {
+    [
+      browseObjects,
+      browseRules,
+      browseSynonyms
+    ]
+  }
+  
+  func browseObjects() throws {
     
     struct Record: Codable {
       let objectID: String
@@ -46,7 +54,7 @@ class BrowseIntegrationTests: OnlineTestCase {
     
   }
   
-  func testBrowseRules() throws {
+  func browseRules() throws {
     
     let rules: [Rule] = (0...50).map { _ in
       return Rule(objectID: .random)
@@ -64,7 +72,7 @@ class BrowseIntegrationTests: OnlineTestCase {
     
   }
   
-  func testBrowseSynonyms() throws {
+  func browseSynonyms() throws {
     
     let synonyms: [Synonym] = (0...50).map { _ in
       switch Int.random(in: 0...3) {
