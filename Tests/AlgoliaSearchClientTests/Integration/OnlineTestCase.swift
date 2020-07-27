@@ -54,7 +54,7 @@ class OnlineTestCase: XCTestCase {
           try test()
           break
         } catch let error where attemptCount == retryCount {
-          throw Error.retryFailed(error)
+          throw Error.retryFailed(attemptCount: attemptCount, error: error)
         }
       }
     }
@@ -70,6 +70,6 @@ class OnlineTestCase: XCTestCase {
 extension OnlineTestCase {
   enum Error: Swift.Error {
     case missingCredentials
-    case retryFailed(Swift.Error)
+    case retryFailed(attemptCount: Int, error: Swift.Error)
   }
 }
