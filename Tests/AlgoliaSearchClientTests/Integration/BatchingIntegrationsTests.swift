@@ -15,7 +15,11 @@ class BatchingIntegrationTests: OnlineTestCase {
     return "index_batching"
   }
   
-  func testBatching() throws {
+  override var retryableTests: [() throws -> Void] {
+    [batching]
+  }
+
+  func batching() throws {
     
     let records: [JSON] = [
       ["objectID":"one", "key": "value"],

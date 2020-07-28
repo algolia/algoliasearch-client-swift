@@ -15,7 +15,15 @@ class IndexingIntegrationTests: OnlineTestCase {
     return "indexing"
   }
   
-  func testIndexing() throws {
+  override var retryableTests: [() throws -> Void] {
+    [
+      indexing,
+      saveGetObject,
+      saveGetObjectCallback
+    ]
+  }
+  
+  func indexing() throws {
     
     let objectID = ObjectID(rawValue: .init(randomWithLength: 10))
     let object = TestRecord(objectID: objectID)
@@ -107,7 +115,7 @@ class IndexingIntegrationTests: OnlineTestCase {
     
   }
 
-  func testSaveGetObject() throws {
+  func saveGetObject() throws {
 
     let object: JSON = [
       "testField1": "testValue1",
@@ -122,7 +130,7 @@ class IndexingIntegrationTests: OnlineTestCase {
     XCTAssertEqual(fetchedObject["testField3"], true)
   }
 
-  func testSaveGetObjectCallback() throws {
+  func saveGetObjectCallback() throws {
 
     let object: JSON = [
       "testField1": "testValue1",

@@ -15,6 +15,15 @@ class CopyIndexIntergrationTests: OnlineTestCase {
     return index!
   }
   
+  override var retryableTests: [() throws -> Void] {
+    [
+      copySettings,
+      copyRules,
+      copySynonyms,
+      fullCopy
+    ]
+  }
+  
   let records: [JSON] = [
     ["objectID": "one", "company": "apple"],
     ["objectID": "two", "company": "algolia"]
@@ -26,7 +35,7 @@ class CopyIndexIntergrationTests: OnlineTestCase {
     .set(\.consequence, to: Rule.Consequence().set(\.automaticFacetFilters, to: [Rule.AutomaticFacetFilters(attribute: "company")]))
   let synonym = Synonym.placeholder(objectID: "google_placeholder", placeholder: "<GOOG>", replacements: ["Google", "GOOG"])
       
-  func testCopySettings() throws {
+  func copySettings() throws {
     
     let targetIndex = client.index(withName: "copy_index_settings")
     
@@ -43,7 +52,7 @@ class CopyIndexIntergrationTests: OnlineTestCase {
     
   }
   
-  func testCopyRules() throws {
+  func copyRules() throws {
     
     let targetIndex = client.index(withName: "copy_index_rules")
     
@@ -61,7 +70,7 @@ class CopyIndexIntergrationTests: OnlineTestCase {
 
   }
   
-  func testCopySynonyms() throws {
+  func copySynonyms() throws {
     
     let targetIndex = client.index(withName: "copy_index_synonyms")
     
@@ -78,7 +87,7 @@ class CopyIndexIntergrationTests: OnlineTestCase {
     
   }
   
-  func testFullCopy() throws {
+  func fullCopy() throws {
     
     let targetIndex = client.index(withName: "copy_index_full_copy")
     

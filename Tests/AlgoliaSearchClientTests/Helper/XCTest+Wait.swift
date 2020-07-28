@@ -16,7 +16,7 @@ func AssertWait<W: AnyWaitable>(_ waitable: W, timeout: TimeInterval = defaultWa
     try waitable.wait(timeout: 20, requestOptions: nil)
   } catch let error {
     let isTimeoutError = error as? WaitTask.Error == WaitTask.Error.timeout
-    try XCTSkipIf(isTimeoutError, file: file, line: line)
+    try XCTSkipIf(isTimeoutError, file: (file), line: line)
     throw error
   }
 }

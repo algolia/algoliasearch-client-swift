@@ -11,12 +11,20 @@ import XCTest
 
 class AnalyticsIntegrationTests: OnlineTestCase {
   
-  func testBrowsing() throws {
+  override var retryableTests: [() throws -> Void] {
+    [
+      browsing,
+      abTesting,
+      aaTesting
+    ]
+  }
+  
+  func browsing() throws {
     let analyticsClient = AnalyticsClient(appID: client.applicationID, apiKey: client.apiKey)
     let _ = try analyticsClient.browseAllABTests(hitsPerPage: 3)
   }
 
-  func testABTesting() throws {
+  func abTesting() throws {
     
     let analyticsClient = AnalyticsClient(appID: client.applicationID, apiKey: client.apiKey)
 
@@ -60,7 +68,7 @@ class AnalyticsIntegrationTests: OnlineTestCase {
     try AssertThrowsHTTPError(try analyticsClient.getABTest(withID: creation.wrapped.abTestID), statusCode: 404)
   }
     
-  func testAATesting() throws {
+  func aaTesting() throws {
     
     let analyticsClient = AnalyticsClient(appID: client.applicationID, apiKey: client.apiKey)
     let index = client.index(withName: "aa_testing")

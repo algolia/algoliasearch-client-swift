@@ -13,7 +13,11 @@ class QueryRulesIntegrationTests: OnlineTestCase {
   
   override var indexNameSuffix: String? { return "rules" }
   
-  func testQueryRules() throws {
+  override var retryableTests: [() throws -> Void] {
+    [queryRules]
+  }
+  
+  func queryRules() throws {
     
     Logger.minSeverityLevel = .warning
     
@@ -72,7 +76,7 @@ class QueryRulesIntegrationTests: OnlineTestCase {
     
     try index.saveRules(rules).wait()
     
-    let response = try index.searchRules(RuleQuery().set(\.context, to: "summer"))
+    //let response = try index.searchRules(RuleQuery().set(\.context, to: "summer"))
     //TODO: understand why search for rules doesn't work after multi-condition introduction
     //XCTAssertEqual(response.nbHits, 1)
     

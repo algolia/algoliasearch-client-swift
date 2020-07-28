@@ -10,8 +10,12 @@ import XCTest
 @testable import AlgoliaSearchClient
 
 class SearchIntegrationTests: OnlineTestCase {
+  
+  override var retryableTests: [() throws -> Void] {
+    [search]
+  }
 
-  func testSearch() throws {
+  func search() throws {
     
     let employeesData = try Data(filename: "Employees.json")
     let employees = try JSONDecoder().decode([JSON].self, from: employeesData)

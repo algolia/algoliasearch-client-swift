@@ -14,8 +14,12 @@ class LogsIntergrationTests: OnlineTestCase {
   override var indexNameSuffix: String? {
     "logs"
   }
+  
+  override var retryableTests: [() throws -> Void] {
+    [getLogs]
+  }
 
-  func testGetLogs() throws {
+  func getLogs() throws {
     try client.listIndices()
     try client.listIndices()
     let logs = try client.getLogs(offset: 0, length: 2, type: .all).logs

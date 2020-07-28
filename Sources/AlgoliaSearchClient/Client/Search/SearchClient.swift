@@ -7,6 +7,8 @@
 
 import Foundation
 
+typealias Client = SearchClient
+
 /// Client to perform operations on indices.
 public struct SearchClient: Credentials {
 

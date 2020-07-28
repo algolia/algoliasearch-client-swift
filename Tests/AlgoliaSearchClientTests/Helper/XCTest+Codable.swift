@@ -24,7 +24,7 @@ func AssertDecode<T: Codable & Equatable>(_ input: JSON, expected: T, file: Stat
   jsonDecoder.dateDecodingStrategy = .swiftAPIClient
   let decoded = try jsonDecoder.decode(T.self, from: data)
 
-  XCTAssertEqual(expected, decoded, file: file, line: line)
+  XCTAssertEqual(expected, decoded, file: (file), line: line)
 }
 
 func AssertDecode<T: Codable>(_ input: JSON, expected: T, file: StaticString = #file, line: UInt = #line) throws {
@@ -40,7 +40,7 @@ func AssertDecode<T: Codable>(_ input: JSON, expected: T, file: StaticString = #
   let decodedJSON = try JSON(decoded)
   let expectedJSON = try JSON(expected)
 
-  XCTAssertEqual(expectedJSON, decodedJSON, file: file, line: line)
+  XCTAssertEqual(expectedJSON, decodedJSON, file: (file), line: line)
 }
 
 @discardableResult func AssertDecode<T: Decodable>(jsonFilename filename: String, expected: T.Type, file: StaticString = #file, line: UInt = #line) throws -> T {
@@ -58,7 +58,7 @@ func AssertEncode<T: Encodable>(_ value: T, expected: JSON, file: StaticString =
   jsonDecoder.dateDecodingStrategy = .swiftAPIClient
   let jsonFromValue = try jsonDecoder.decode(JSON.self, from: valueData)
 
-  XCTAssertEqual(jsonFromValue, expected, file: file, line: line)
+  XCTAssertEqual(jsonFromValue, expected, file: (file), line: line)
 }
 
 func AssertEquallyEncoded<A: Encodable, B: Encodable>(_ l: A, _ r: B, file: StaticString = #file, line: UInt = #line) throws {
@@ -66,6 +66,6 @@ func AssertEquallyEncoded<A: Encodable, B: Encodable>(_ l: A, _ r: B, file: Stat
   encoder.dateEncodingStrategy = .swiftAPIClient
   let lData = try encoder.encode(l)
   let rData = try encoder.encode(r)
-  XCTAssertEqual(lData, rData, file: file, line: line)
+  XCTAssertEqual(lData, rData, file: (file), line: line)
 }
 
