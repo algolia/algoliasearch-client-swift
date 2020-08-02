@@ -20,6 +20,20 @@ class PartialUpdateTests: XCTestCase {
     try AssertEncodeDecode(PartialUpdate.update(attribute: "attr", value: true), ["attr": true])
     try AssertEncodeDecode(PartialUpdate.update(attribute: "attr", value: ["a", "b", "c"]), ["attr": ["a", "b", "c"]])
     try AssertEncodeDecode(PartialUpdate.update(attribute: "attr", value: ["a": 1, "b": "s", "c": false]), ["attr": ["a": 1, "b": "s", "c": false]])
+    try AssertEncodeDecode([
+      "name": "DIFFERENT",
+      "tweetsCount": 2000,
+      "followers": .add(value: "username4", unique: false),
+      "followersCount": .increment(value: 20),
+      "likes": .incrementSet(value: 15)
+      ] as PartialUpdate,
+      [
+        "name": "DIFFERENT",
+        "tweetsCount": 2000,
+        "followers": ["_operation": "Add", "value": "username4"],
+        "followersCount": ["_operation": "Increment", "value": 20],
+        "likes": ["_operation": "IncrementSet", "value": 15],
+      ])
   }
 
 }

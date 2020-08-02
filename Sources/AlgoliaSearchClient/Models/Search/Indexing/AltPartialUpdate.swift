@@ -1,40 +1,59 @@
 //
-//  PartialUpdate.swift
+//  AltPartialUpdate.swift
 //  
 //
-//  Created by Vladislav Fitc on 27/03/2020.
+//  Created by Vladislav Fitc on 31/07/2020.
 //
 
 import Foundation
 
-public struct PartialUpdate: Equatable {
-  
-  typealias Storage = [Attribute: Action]
-
-  let storage: Storage
-
+public enum AltPartialUpdate {
+  case value([String: JSON])
+  case operation(Attribute, OperationWrapper)
 }
 
-extension PartialUpdate: ExpressibleByDictionaryLiteral {
+extension AltPartialUpdate: Codable {
   
-  public init(dictionaryLiteral elements: (Attribute, Action)...) {
-    self.init(storage: .init(uniqueKeysWithValues: elements))
+  public init(from decoder: Decoder) throws {
+    self = .value(["": ""])
+  }
+  
+  public func encode(to encoder: Encoder) throws {
+    switch self {
+    case .value(let value):
+      try value.encode(to: encoder)
+      
+    case .operation(let attribute, let operation):
+      var container = encoder.container(keyedBy: DynamicKey.self)
+      let key = DynamicKey(stringValue: attribute.rawValue)
+      try container.encode(operation, forKey: key)
+    }
+  }
+  
+  public struct OperationWrapper: Codable {
+    let value: JSON
+    let operation: Operation
+
+    enum CodingKeys: String, CodingKey {
+      case value
+      case operation = "_operation"
+    }
   }
   
 }
 
-public extension PartialUpdate {
-
+extension AltPartialUpdate {
+  
   /// Partially update an object field.
   /// - Parameter attribute: Attribute name to update
   /// - Parameter value: Updated value
   static func update(attribute: Attribute, value: JSON) -> Self {
-    .init(storage: [attribute: .set(value)])
+    return .value([attribute.rawValue: value])
   }
-
+  
 }
 
-public extension PartialUpdate {
+public extension AltPartialUpdate {
   
   /// Increment a numeric attribute
   /// - Parameter attribute: Attribute name to update
@@ -59,7 +78,7 @@ public extension PartialUpdate {
 
 }
 
-public extension PartialUpdate {
+public extension AltPartialUpdate {
 
   /**
    Increment a numeric integer attribute only if the provided value matches the current value,
@@ -94,7 +113,7 @@ public extension PartialUpdate {
 }
 
 
-public extension PartialUpdate {
+public extension AltPartialUpdate {
 
   /// Decrement a numeric attribute
   /// - Parameter attribute: Attribute name to update
@@ -119,7 +138,7 @@ public extension PartialUpdate {
 
 }
 
-public extension PartialUpdate {
+public extension AltPartialUpdate {
 
   /// Append a string element to an array attribute
   /// - Parameter attribute: Attribute name of an array to update
@@ -155,7 +174,7 @@ public extension PartialUpdate {
 
 }
 
-public extension PartialUpdate {
+public extension AltPartialUpdate {
 
   /// Remove all matching string elements from an array attribute
   /// - Parameter attribute: Attribute name of an array to update
@@ -187,76 +206,51 @@ public extension PartialUpdate {
 
 }
 
-extension PartialUpdate {
+extension AltPartialUpdate {
 
-  static func operation(attribute: Attribute, operation: Operation.Kind, value: JSON) -> Self {
-    return .init(storage: [attribute: .init(operation: operation, value: value)])
+  static func operation(attribute: Attribute, operation: Operation, value: JSON) -> Self {
+    return .operation(attribute, .init(value: value, operation: operation))
   }
 
 }
 
-extension PartialUpdate: Codable {
+extension AltPartialUpdate {
 
-  public init(from decoder: Decoder) throws {
-    let rawStorage = try [String: Action](from: decoder)
-    storage = rawStorage.mapKeys(Attribute.init)
-  }
-
-  public func encode(to encoder: Encoder) throws {
-    try storage.mapKeys(\.rawValue).encode(to: encoder)
-  }
-
-}
-
-extension PartialUpdate {
-  
-  struct Operation: Codable, Equatable {
+  enum Operation: String, Codable {
+    /// Increment a numeric attribute
+    case increment = "Increment"
     
-    let kind: Kind
-    let value: JSON
+    /**
+     Increment a numeric integer attribute only if the provided value matches the current value,
+     and otherwise ignore the whole object update.
+     
+     For example, if you pass an IncrementFrom value of 2 for the version attribute,
+     but the current value of the attribute is 1, the engine ignores the update.
+     If the object doesn’t exist, the engine only creates it if you pass an IncrementFrom value of 0.
+     */
+    case incrementFrom = "IncrementFrom"
     
-    enum CodingKeys: String, CodingKey {
-      case value
-      case kind = "_operation"
-    }
+    /**
+     Increment a numeric integer attribute only if the provided value is greater than the current value,
+     and otherwise ignore the whole object update.
+     
+     For example, if you pass an IncrementSet value of 2 for the version attribute,
+     and the current value of the attribute is 1, the engine updates the object.
+     If the object doesn’t exist yet, the engine only creates it if you pass an IncrementSet value that’s greater than 0.
+     */
+    case incrementSet = "IncrementSet"
     
-    enum Kind: String, Codable {
-      /// Increment a numeric attribute
-      case increment = "Increment"
-      
-      /**
-       Increment a numeric integer attribute only if the provided value matches the current value,
-       and otherwise ignore the whole object update.
-       
-       For example, if you pass an IncrementFrom value of 2 for the version attribute,
-       but the current value of the attribute is 1, the engine ignores the update.
-       If the object doesn’t exist, the engine only creates it if you pass an IncrementFrom value of 0.
-       */
-      case incrementFrom = "IncrementFrom"
-      
-      /**
-       Increment a numeric integer attribute only if the provided value is greater than the current value,
-       and otherwise ignore the whole object update.
-       
-       For example, if you pass an IncrementSet value of 2 for the version attribute,
-       and the current value of the attribute is 1, the engine updates the object.
-       If the object doesn’t exist yet, the engine only creates it if you pass an IncrementSet value that’s greater than 0.
-       */
-      case incrementSet = "IncrementSet"
-      
-      /// Decrement a numeric attribute
-      case decrement = "Decrement"
-      
-      /// Append a number or string element to an array attribute
-      case add = "Add"
-      
-      /// Remove all matching number or string elements from an array attribute
-      case remove = "Remove"
-      
-      /// Add a number or string element to an array attribute only if it’s not already present
-      case addUnique = "AddUnique"
-    }
+    /// Decrement a numeric attribute
+    case decrement = "Decrement"
     
+    /// Append a number or string element to an array attribute
+    case add = "Add"
+    
+    /// Remove all matching number or string elements from an array attribute
+    case remove = "Remove"
+    
+    /// Add a number or string element to an array attribute only if it’s not already present
+    case addUnique = "AddUnique"
   }
 
 }
