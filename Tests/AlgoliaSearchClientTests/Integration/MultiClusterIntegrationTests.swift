@@ -56,6 +56,8 @@ class MultipleClusterIntegrationTests: OnlineTestCase {
   
   let date: Date = .init()
   
+  override var allowFailure: Bool { return true }
+  
   override var retryableTests: [() throws -> Void] {
     [multiCluster]
   }
