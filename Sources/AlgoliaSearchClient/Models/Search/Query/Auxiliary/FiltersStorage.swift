@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct FiltersStorage {
+public struct FiltersStorage: Equatable {
 
   public var units: [Unit]
 

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct Query {
+public struct Query: Equatable {
 
   // MARK: - Search
 

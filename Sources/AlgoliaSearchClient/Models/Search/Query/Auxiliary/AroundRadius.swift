@@ -11,7 +11,7 @@ import Foundation
  Define the maximum radius for a geo search (in meters).
  - This setting only works within the context of a radial (circular) geo search, enabled by aroundLatLngViaIP or aroundLatLng.
  */
-public enum AroundRadius: Codable, URLEncodable {
+public enum AroundRadius: Codable, Equatable, URLEncodable {
 
   /**
    Disables the radius logic, allowing all results to be returned, regardless of distance.

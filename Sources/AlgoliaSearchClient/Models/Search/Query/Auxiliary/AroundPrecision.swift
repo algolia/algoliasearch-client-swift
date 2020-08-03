@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct AroundPrecision: Codable {
+public struct AroundPrecision: Codable, Equatable {
 
   public let from: Double
   public let value: Double
