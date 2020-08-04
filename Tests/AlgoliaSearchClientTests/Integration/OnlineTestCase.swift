@@ -17,6 +17,8 @@ class OnlineTestCase: XCTestCase {
   let retryCount: Int = 3
   
   var retryableTests: [() throws -> Void] { return [] }
+  
+  var allowFailure: Bool { return false }
 
   /// Abstract base class for online test cases.
   ///
@@ -54,7 +56,10 @@ class OnlineTestCase: XCTestCase {
           try test()
           break
         } catch let error where attemptCount == retryCount {
+          try XCTSkipIf(allowFailure)
           throw Error.retryFailed(attemptCount: attemptCount, error: error)
+        } catch _ {
+          continue
         }
       }
     }

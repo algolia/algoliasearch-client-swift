@@ -13,59 +13,59 @@ public struct SearchResponse {
    The hits returned by the search. Hits are ordered according to the ranking or sorting of the index being queried.
    Hits are made of the schemaless JSON objects that you stored in the index.
    */
-  public let hits: [Hit<JSON>]
+  public var hits: [Hit<JSON>]
 
   /**
    The number of hits matched by the query.
    */
-  public let nbHits: Int?
+  public var nbHits: Int?
 
   /**
    Index of the current page (zero-based). See the Query.page search parameter.
   - Not returned if you use offset/length for pagination.
   */
-  public let page: Int?
+  public var page: Int?
 
   /**
    The maximum number of hits returned per page. See the Query.hitsPerPage search parameter.
   - Not returned if you use offset & length for pagination.
   */
-  public let hitsPerPage: Int?
+  public var hitsPerPage: Int?
 
   /**
    Alternative to page (zero-based). Is returned only when Query.offset Query.length is specified.
   */
-  public let offset: Int?
+  public var offset: Int?
 
   /**
    Alternative to hitsPerPageOrNull (zero-based). Is returned only when Query.offset Query.length is specified.
   */
-  public let length: Int?
+  public var length: Int?
 
   /**
    Array of userData object. Only returned if at least one query rule containing a custom userData
    consequence was applied.
   */
-  public let userData: [JSON]?
+  public var userData: [JSON]?
 
   /**
    The number of returned pages. Calculation is based on the total number of hits (nbHits) divided by the number of
    hits per page (hitsPerPage), rounded up to the nearest integer.
   - Not returned if you use offset & length for pagination.
   */
-  public let nbPages: Int?
+  public var nbPages: Int?
 
   /**
    Time the server took to process the request, in milliseconds. This does not include network time.
   */
-  public let processingTimeMS: TimeInterval?
+  public var processingTimeMS: TimeInterval?
 
   /**
    Whether the nbHits is exhaustive (true) or approximate (false). An approximation is done when the query takes
    more than 50ms to be processed (this can happen when using complex filters on millions on records).
    - See the related [discussion](https://www.algolia.com/doc/faq/index-configuration/my-facet-and-hit-counts-are-not-accurate/)
   */
-  public let exhaustiveNbHits: Bool?
+  public var exhaustiveNbHits: Bool?
 
   /**
    Whether the facet count is exhaustive (true) or approximate (false).
@@ -76,56 +76,56 @@ public struct SearchResponse {
   /**
    An echo of the query text. See the Query.query search parameter.
   */
-  public let query: String?
+  public var query: String?
 
   /**
    A markup text indicating which parts of the original query have been removed in order to retrieve a non-empty result set.
    - The removed parts are surrounded by <em> tags.
    - Only returned when Query.removeWordsIfNoResults or Settings.removeWordsIfNoResults is set to RemoveWordIfNoResults.LastWords or RemoveWordIfNoResults.FirstWords.
    */
-  public let queryAfterRemoval: String?
+  public var queryAfterRemoval: String?
 
   /**
    A url-encoded string of all Query parameters.
   */
-  public let params: String?
+  public var params: String?
 
   /**
    Used to return warnings about the query.
   */
-  public let message: String?
+  public var message: String?
 
   /**
    The computed geo location.
   - Only returned when Query.aroundLatLngViaIP or Query.aroundLatLng is set.
   */
-  public let aroundLatLng: Point?
+  public var aroundLatLng: Point?
 
   /**
    The automatically computed radius. For legacy reasons, this parameter is a string and not an integer.
   - Only returned for geo queries without an explicitly specified Query.aroundRadius.
   */
-  public let automaticRadius: Double?
+  public var automaticRadius: Double?
 
   /**
    Actual host name of the server that processed the request. Our DNS supports automatic failover and load
    balancing, so this may differ from the host name used in the request.
    - Returned only if Query.getRankingInfo is set to true.
   */
-  public let serverUsed: String?
+  public var serverUsed: String?
 
   /**
    Index name used for the query. In case of A/B test, the index targeted isn’t always the index used by the query.
    - Returned only if Query.getRankingInfo is set to true.
   */
-  public let indexUsed: IndexName?
+  public var indexUsed: IndexName?
 
   /**
    In case of A/B test, reports the variant ID used. The variant ID is the position in the array of variants
    (starting at 1).
    - Returned only if [Query.getRankingInfo] is set to true.
   */
-  public let abTestVariantID: Int?
+  public var abTestVariantID: Int?
 
   /**
    The query string that will be searched, after
@@ -135,7 +135,7 @@ public struct SearchResponse {
     (see Query.advancedSyntax or Settings.advancedSyntax).
    - Returned only if Query.getRankingInfo is set to true.
    */
-  public let parsedQuery: String?
+  public var parsedQuery: String?
 
   /**
    A mapping of each facet name to the corresponding facet counts.
@@ -192,16 +192,16 @@ public struct SearchResponse {
   /**
    Returned only by the EndpointSearch.browse method.
   */
-  public let cursor: Cursor?
+  public var cursor: Cursor?
 
-  public let indexName: IndexName?
+  public var indexName: IndexName?
 
-  public let processed: Bool?
+  public var processed: Bool?
 
   /**
    Identifies the query uniquely. Can be used by InsightsEvent.
   */
-  public let queryID: QueryID?
+  public var queryID: QueryID?
 
   /**
    A mapping of each facet name to the corresponding facet counts for hierarchical facets.
@@ -223,9 +223,15 @@ public struct SearchResponse {
   /**
    Meta-information as to how the query was processed.
   */
-  public let explain: Explain?
-
+  public var explain: Explain?
+  
+  public init(hits: [Hit<JSON>] = []) {
+    self.hits = hits
+  }
+  
 }
+
+extension SearchResponse: Builder {}
 
 public extension SearchResponse {
 
