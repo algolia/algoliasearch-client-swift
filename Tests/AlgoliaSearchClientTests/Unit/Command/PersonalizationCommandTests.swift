@@ -34,6 +34,7 @@ class PersonalizationCommandTests: XCTestCase, AlgoliaCommandTest {
               .init(name: "testParameter", value: "testParameterValue"),
           ],
           body: test.personalizationStrategy.httpBody,
+          additionalHeaders: ["Content-Type": "application/json"],
           requestOptions: test.requestOptions)
   }
   
