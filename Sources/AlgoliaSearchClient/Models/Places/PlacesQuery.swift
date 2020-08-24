@@ -16,14 +16,14 @@ public struct PlacesQuery {
   public var type: PlaceType?
 
   /// If specified, restrict the search results to a specific list of countries.
-  /// Engine default: Search on the whole planet.
+  /// - Engine default: Search on the whole planet.
   public var countries: [Country]?
 
   /// Force to first search around a specific latitude longitude.
   public var aroundLatLng: Point?
 
   /// Whether or not to first search around the geolocation of the user found via his IP address.
-  /// Engine default: true
+  /// - Engine default: true
   public var aroundLatLngViaIP: Bool?
 
   /// Radius in meters to search around the latitude/longitude.
@@ -31,13 +31,18 @@ public struct PlacesQuery {
   public var aroundRadius: AroundRadius?
 
   /// Controls whether the _rankingInfo object should be included in the hits.
-  /// Engine default: false
+  /// - Engine default: false
   public var getRankingInfo: Bool?
 
   /// Specifies how many results you want to retrieve per search.
-  /// Engine default: 20
+  /// - Engine default: 20
   public var hitsPerPage: Int?
 
+  /// Specifies the language of the results.
+  ///
+  /// When set to nil, engine returns the results in all available languages
+  /// - Remark: Cannot be set explicitly. To set the language of places query, set the `language` parameter of `PlaceClients.search` method.
+  /// - Engine default: nil
   internal var language: Language?
 
   public init(_ query: String? = nil) {
