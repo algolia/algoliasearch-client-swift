@@ -267,6 +267,38 @@ extension IndexingSnippets {
     }
   }
   
+  func increment_existing_partial() {
+    index.partialUpdateObject(withID: "myID", with: .increment(attribute: "count", value: 2)) { result in
+      if case .success(let response) = result {
+        print("Response: \(response)")
+      }
+    }
+  }
+  
+  func addunique_existing_partial() {
+    index.partialUpdateObject(withID: "myID", with: .add(attribute: "_tags", value: "public", unique: true)) { result in
+      if case .success(let response) = result {
+        print("Response: \(response)")
+      }
+    }
+  }
+  
+  func increment_from() {
+    index.partialUpdateObject(withID: "myID", with: .incrementFrom(attribute: "version", value: 2)) { result in
+      if case .success(let response) = result {
+        print("Response: \(response)")
+      }
+    }
+  }
+  
+  func increment_set() {
+    index.partialUpdateObject(withID: "myID", with: .incrementSet(attribute: "lastmodified", value: 1593431913)) { result in
+      if case .success(let response) = result {
+        print("Response: \(response)")
+      }
+    }
+  }
+
 }
 
 //MARK: - Delete Objects Update
