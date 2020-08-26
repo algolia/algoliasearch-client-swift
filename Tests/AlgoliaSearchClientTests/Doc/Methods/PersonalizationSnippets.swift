@@ -13,6 +13,25 @@ struct PersonalizationSnippets: SnippetsCollection {
   let recommendationClient = RecommendationClient(appID: "", apiKey: "")
 }
 
+//MARK: - Set region
+extension PersonalizationSnippets {
+  
+  func personalization_region() {
+    let recommendationClient = RecommendationClient(
+      appID: "YourApplicationID",
+      apiKey: "YourAdminAPIKey",
+      region: .init(rawValue: "eu") // defaults to 'us'
+    )
+    
+    recommendationClient.getPersonalizationStrategy { result in
+      if case .success(let response) = result {
+        print("Response: \(response)")
+      }
+    }
+  }
+  
+}
+
 //MARK: - Add strategy
 extension PersonalizationSnippets {
   
