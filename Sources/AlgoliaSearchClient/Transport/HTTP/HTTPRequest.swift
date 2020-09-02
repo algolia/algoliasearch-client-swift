@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if os(Linux)
+import FoundationNetworking
+#endif
 
 class HTTPRequest<ResponseType: Decodable, Output>: AsyncOperation, ResultContainer, TransportTask {
 

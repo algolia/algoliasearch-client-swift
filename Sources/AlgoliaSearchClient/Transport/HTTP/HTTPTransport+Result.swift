@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if os(Linux)
+import FoundationNetworking
+#endif
 
 extension Result where Success: Decodable, Failure == Error {
 

@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if os(Linux)
+import FoundationNetworking
+#endif
 
 protocol AlgoliaCommand {
 

@@ -7,6 +7,10 @@
 
 import Foundation
 
+#if os(Linux)
+import FoundationNetworking
+#endif
+
 typealias Client = SearchClient
 
 /// Client to perform operations on indices.
