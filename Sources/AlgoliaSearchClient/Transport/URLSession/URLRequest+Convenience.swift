@@ -11,7 +11,7 @@ extension URLRequest: Builder {}
 
 extension CharacterSet {
   
-  static var uriAllowed = CharacterSet.alphanumerics.union(.init(charactersIn: "-_.!~*'()"))
+  static var uriAllowed = CharacterSet.urlQueryAllowed.subtracting(.init(charactersIn: "+"))
   
 }
 
@@ -36,15 +36,7 @@ extension URLRequest {
     urlComponents.path = path.fullPath
   
     if let urlParameters = requestOptions?.urlParameters {
-      urlComponents.queryItems = urlParameters
-        .map { (key, value) in
-          guard let encodedName = key.rawValue.addingPercentEncoding(withAllowedCharacters: .uriAllowed) else {
-            return nil
-          }
-          let encodedValue = value?.addingPercentEncoding(withAllowedCharacters: .uriAllowed)
-          return URLQueryItem(name: encodedName, value: encodedValue)
-        }
-        .compactMap { $0 }
+      urlComponents.queryItems = urlParameters.map { (key, value) in .init(name: key.rawValue, value: value) }
     }
 
     var request = URLRequest(url: urlComponents.url!)
