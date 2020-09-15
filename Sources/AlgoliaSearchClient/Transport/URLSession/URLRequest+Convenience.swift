@@ -9,6 +9,12 @@ import Foundation
 
 extension URLRequest: Builder {}
 
+extension CharacterSet {
+  
+  static var uriAllowed = CharacterSet.alphanumerics.union(.init(charactersIn: "-_.!~*'()"))
+  
+}
+
 extension URLRequest {
 
   subscript(header key: HTTPHeaderKey) -> String? {
@@ -28,39 +34,41 @@ extension URLRequest {
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"
     urlComponents.path = path.fullPath
+  
+    if let urlParameters = requestOptions?.urlParameters {
+      urlComponents.queryItems = urlParameters
+        .map { (key, value) in
+          guard let encodedName = key.rawValue.addingPercentEncoding(withAllowedCharacters: .uriAllowed) else {
+            return nil
+          }
+          let encodedValue = value?.addingPercentEncoding(withAllowedCharacters: .uriAllowed)
+          return URLQueryItem(name: encodedName, value: encodedValue)
+        }
+        .compactMap { $0 }
+    }
 
     var request = URLRequest(url: urlComponents.url!)
 
     request.httpMethod = method.rawValue
     request.httpBody = body
-
+    
     if let requestOptions = requestOptions {
-      request.setRequestOptions(requestOptions)
+      
+      requestOptions.headers.forEach { header in
+        let (value, field) = (header.value, header.key.rawValue)
+        request.setValue(value, forHTTPHeaderField: field)
+      }
+      
+      // If body is set in query parameters, it will override the body passed as parameter to this function
+      if let body = requestOptions.body, !body.isEmpty {
+        let jsonEncodedBody = try? JSONSerialization.data(withJSONObject: body, options: [])
+        request.httpBody = jsonEncodedBody
+      }
+      
     }
-
+        
+    request.httpBody = body
     self = request
-  }
-
-  mutating func setRequestOptions(_ requestOptions: RequestOptions) {
-
-    // Append headers
-    requestOptions.headers.forEach { setValue($0.value, forHTTPHeaderField: $0.key.rawValue) }
-
-    // Append query items
-    if let url = url, var currentComponents = URLComponents(string: url.absoluteString) {
-      let requestOptionsItems = requestOptions.urlParameters.map { URLQueryItem(name: $0.key.rawValue, value: $0.value) }
-      var existingItems = currentComponents.queryItems ?? []
-      existingItems.append(contentsOf: requestOptionsItems)
-      currentComponents.queryItems = existingItems
-      self.url = currentComponents.url
-    }
-
-    // Set body
-    if
-      let body = requestOptions.body,
-      let jsonData = try? JSONSerialization.data(withJSONObject: body, options: []) {
-      httpBody = jsonData
-    }
   }
 
 }

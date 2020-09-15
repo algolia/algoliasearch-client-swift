@@ -39,7 +39,7 @@ class SearchCommandTests: XCTestCase, AlgoliaCommandTest {
           callType: .read,
           method: .get,
           urlPath: "/1/indexes/testIndex/browse",
-          queryItems: [.init(name: "testParameter", value: "testParameterValue"), .init(name: "cursor", value: "testCursor")],
+          queryItems: [.init(name: "testParameter", value: "testParameterValue"), .init(name: "cursor", value: "AgA%2BBgg4MTUyNTQ0Mg%3D%3D")],
           body: nil,
           requestOptions: test.requestOptions)
   }
