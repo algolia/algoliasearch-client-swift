@@ -46,7 +46,6 @@ open class AsyncOperation: Operation {
   }
 
   override open func start() {
-    debugPrint(":: AsyncOperation start")
     if isCancelled {
       state = .finished
       return
