@@ -30,7 +30,6 @@ class OperationLauncher {
 
 #if os(Linux)
     operation.start()
-    queue.isSuspended = false
 #endif
 
     operation.waitUntilFinished()
