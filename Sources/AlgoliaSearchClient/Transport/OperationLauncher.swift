@@ -21,10 +21,18 @@ class OperationLauncher {
   }
 
   func launchSync<O: OperationWithResult>(_ operation: O) throws -> O.ResultValue {
+
+#if os(Linux)
+    queue.isSuspended = true
+#endif
+
     queue.addOperation(operation)
+
 #if os(Linux)
     operation.start()
+    queue.isSuspended = false
 #endif
+
     operation.waitUntilFinished()
     guard !operation.isCancelled else {
       throw SyncOperationError.cancelled
