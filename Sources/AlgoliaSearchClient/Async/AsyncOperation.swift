@@ -27,12 +27,7 @@ open class AsyncOperation: Operation {
       didChangeValue(forKey: state.keyPath)
     }
   }
-  
-}
 
-#if os(Linux)
-#else
-extension AsyncOperation {
   // NSOperation Overrides
   override open var isReady: Bool {
     return super.isReady && state == .ready
@@ -51,6 +46,7 @@ extension AsyncOperation {
   }
 
   override open func start() {
+    debugPrint(":: AsyncOperation start")
     if isCancelled {
       state = .finished
       return
@@ -65,4 +61,3 @@ extension AsyncOperation {
   }
 
 }
-#endif
