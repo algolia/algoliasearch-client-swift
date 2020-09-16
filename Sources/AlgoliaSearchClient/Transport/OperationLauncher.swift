@@ -16,7 +16,15 @@ class OperationLauncher {
   }
 
   @discardableResult func launch<O: Operation>(_ operation: O) -> O {
+#if os(Linux)
+    queue.isSuspended = true
+#endif
+
     queue.addOperation(operation)
+    
+#if os(Linux)
+    operation.start()
+#endif
     return operation
   }
 
