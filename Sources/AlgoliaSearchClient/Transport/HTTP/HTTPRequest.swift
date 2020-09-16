@@ -14,12 +14,13 @@ class HTTPRequest<ResponseType: Decodable, Output>: AsyncOperation, ResultContai
   typealias Result = Swift.Result<Output, Swift.Error>
 
   let requester: HTTPRequester
-  let hostIterator: HostIterator
   let retryStrategy: RetryStrategy
   let timeout: TimeInterval
   let request: URLRequest
+  let callType: CallType
   let transform: (ResponseType) -> Output
   let completion: (Result) -> Void
+  let hostIterator: HostIterator
   var didUpdateProgress: ((ProgressReporting) -> Void)?
 
   var underlyingTask: (TransportTask)? {
@@ -42,19 +43,20 @@ class HTTPRequest<ResponseType: Decodable, Output>: AsyncOperation, ResultContai
 
   init(requester: HTTPRequester,
        retryStrategy: RetryStrategy,
-       hostIterator: HostIterator,
        request: URLRequest,
+       callType: CallType,
        timeout: TimeInterval,
        transform: @escaping Transform,
        completion: @escaping (Result) -> Void) {
     self.requester = requester
     self.retryStrategy = retryStrategy
-    self.hostIterator = hostIterator
     self.request = request
+    self.callType = callType
     self.timeout = timeout
     self.transform = transform
     self.completion = completion
     self.underlyingTask = nil
+    self.hostIterator = retryStrategy.retryableHosts(for: callType)
   }
 
   override func main() {
@@ -151,12 +153,13 @@ extension HTTPRequest where ResponseType == Output {
                    retryStrategy: RetryStrategy,
                    hostIterator: HostIterator,
                    request: URLRequest,
+                   callType: CallType,
                    timeout: TimeInterval,
                    completion: @escaping (Result) -> Void) {
     self.init(requester: requester,
               retryStrategy: retryStrategy,
-              hostIterator: hostIterator,
               request: request,
+              callType: callType,
               timeout: timeout,
               transform: { $0 },
               completion: completion)
