@@ -7,10 +7,6 @@
 
 import Foundation
 
-protocol HostResultNotifiable {
-
-}
-
 protocol RetryStrategy: class {
 
   func host(for callType: CallType) -> RetryableHost?
