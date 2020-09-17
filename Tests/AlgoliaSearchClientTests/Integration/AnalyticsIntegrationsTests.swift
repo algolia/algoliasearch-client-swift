@@ -25,11 +25,11 @@ class AnalyticsIntegrationTests: OnlineTestCase {
   }
 
   func abTesting() throws {
-    
+        
     let analyticsClient = AnalyticsClient(appID: client.applicationID, apiKey: client.apiKey)
 
-    let index1 = client.index(withName: "ab_testing")
-    let index2 = client.index(withName: "ab_testing_dev")
+    let index1 = client.index(withName: IndexName(rawValue: "\(uniquePrefix())_ab_testing"))
+    let index2 = client.index(withName: IndexName(rawValue:"\(uniquePrefix())_ab_testing_dev"))
     
     let save1 = try index1.saveObject(["objectID": "one"] as JSON)
     try AssertWait(save1)
@@ -71,7 +71,7 @@ class AnalyticsIntegrationTests: OnlineTestCase {
   func aaTesting() throws {
     
     let analyticsClient = AnalyticsClient(appID: client.applicationID, apiKey: client.apiKey)
-    let index = client.index(withName: "aa_testing")
+    let index = client.index(withName: IndexName(rawValue: "\(uniquePrefix())_aa_testing"))
     
     let saveObject = try index.saveObject(["objectID": "one"])
     try AssertWait(saveObject)
