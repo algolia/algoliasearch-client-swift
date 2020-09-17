@@ -13,33 +13,19 @@ class OperationLauncher {
 
   init(queue: OperationQueue) {
     self.queue = queue
+#if os(Linux)
+    self.queue.underlyingQueue = DispatchQueue
+      .global(qos: DispatchQoS.QoSClass.background)
+#endif
   }
 
   @discardableResult func launch<O: Operation>(_ operation: O) -> O {
-#if os(Linux)
-    queue.isSuspended = true
-#endif
-
     queue.addOperation(operation)
-    
-#if os(Linux)
-    operation.start()
-#endif
     return operation
   }
 
   func launchSync<O: OperationWithResult>(_ operation: O) throws -> O.ResultValue {
-
-#if os(Linux)
-    queue.isSuspended = true
-#endif
-
     queue.addOperation(operation)
-
-#if os(Linux)
-    operation.start()
-#endif
-
     operation.waitUntilFinished()
     guard !operation.isCancelled else {
       throw SyncOperationError.cancelled
