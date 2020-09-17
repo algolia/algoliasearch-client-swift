@@ -32,7 +32,7 @@ extension Result where Success: Decodable, Failure == Error {
       let object = try jsonDecoder.decode(Success.self, from: data)
       self = .success(object)
     } catch let error {
-      self = .failure(error)
+      self = .failure(HTTPTransport.Error.decodingFailure(error))
     }
 
   }

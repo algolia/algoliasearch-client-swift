@@ -9,16 +9,14 @@ import Foundation
 
 class HostIterator: IteratorProtocol {
 
-  var retryStrategy: RetryStrategy
-  let callType: CallType
-
-  init(retryStrategy: RetryStrategy, callType: CallType) {
-    self.retryStrategy = retryStrategy
-    self.callType = callType
+  var getHost: () -> RetryableHost?
+  
+  init(getHost: @escaping () -> RetryableHost?) {
+    self.getHost = getHost
   }
 
   func next() -> RetryableHost? {
-    return retryStrategy.host(for: callType)
+    return getHost()
   }
 
 }

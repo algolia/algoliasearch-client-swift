@@ -28,7 +28,7 @@ struct TestValues {
   }()
   let taskID: TaskID = "testTaskID"
   let requestOptions = RequestOptions(headers: ["testHeader": "testHeaderValue"], urlParameters: ["testParameter": "testParameterValue"])
-  let cursor: Cursor = "testCursor"
+  let cursor: Cursor = "AgA+Bgg4MTUyNTQ0Mg=="
   let userID: UserID = "testUserID"
   let clusterName: ClusterName = "testClusterName"
   

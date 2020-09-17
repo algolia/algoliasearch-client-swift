@@ -7,13 +7,9 @@
 
 import Foundation
 
-protocol HostResultNotifiable {
-
-}
-
 protocol RetryStrategy: class {
 
-  func host(for callType: CallType) -> RetryableHost?
+  func retryableHosts(for callType: CallType) -> HostIterator
   func notify<T>(host: RetryableHost, result: Result<T, Swift.Error>) -> RetryOutcome<T>
 
 }

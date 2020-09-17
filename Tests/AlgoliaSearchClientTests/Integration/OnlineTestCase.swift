@@ -26,6 +26,13 @@ class OnlineTestCase: XCTestCase {
   var indexNameSuffix: String? {
     return nil
   }
+  
+  func uniquePrefix() -> String {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "YYYY-MM-DD_HH:mm:ss"
+    let dateString = dateFormatter.string(from: .init())
+    return "swift_\(dateString)_\(NSUserName().description)"
+  }
 
   override func setUpWithError() throws {
 
@@ -36,14 +43,10 @@ class OnlineTestCase: XCTestCase {
     }
 	
     client = SearchClient(appID: credentials.applicationID, apiKey: credentials.apiKey)
-    
     let className = String(reflecting: type(of: self)).components(separatedBy: ".").last!
     let functionName = invocation!.selector.description
     let indexNameSuffix = self.indexNameSuffix ?? "\(className).\(functionName)"
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "YYYY-MM-DD_HH:mm:ss"
-    let dateString = dateFormatter.string(from: .init())
-    let indexName = IndexName(stringLiteral: "swift_\(dateString)_\(NSUserName().description)_\(indexNameSuffix)")
+    let indexName = IndexName(stringLiteral: "\(uniquePrefix())_\(indexNameSuffix)")
     index = client.index(withName: indexName)
 
     try index.delete()
