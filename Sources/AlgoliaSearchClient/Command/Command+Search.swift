@@ -39,9 +39,9 @@ extension Command {
         urlRequest = .init(method: .post, path: path, body: query.httpBody, requestOptions: requestOptions)
       }
 
-      init(indexName: IndexName, cursor: Cursor? = nil, requestOptions: RequestOptions?) {
+      init(indexName: IndexName, cursor: Cursor, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let body = cursor.flatMap(CursorWrapper.init)
+        let body = CursorWrapper(cursor)
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.browse
         urlRequest = .init(method: .post, path: path, body: body.httpBody, requestOptions: self.requestOptions)
       }

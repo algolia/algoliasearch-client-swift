@@ -107,7 +107,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: SearchResponse object
    */
-  @discardableResult func browse(query: Query,
+  @discardableResult func browse(query: Query = .init(),
                                  requestOptions: RequestOptions? = nil,
                                  completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
     let command = Command.Search.Browse(indexName: name, query: query, requestOptions: requestOptions)
@@ -122,7 +122,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func browse(query: Query,
+  @discardableResult func browse(query: Query = .init(),
                                  requestOptions: RequestOptions? = nil) throws -> SearchResponse {
     let command = Command.Search.Browse(indexName: name, query: query, requestOptions: requestOptions)
     return try execute(command)
@@ -137,7 +137,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func browse(cursor: Cursor? = nil,
+  @discardableResult func browse(cursor: Cursor,
                                  requestOptions: RequestOptions? = nil,
                                  completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
     let command = Command.Search.Browse(indexName: name, cursor: cursor, requestOptions: requestOptions)
@@ -152,7 +152,7 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: SearchResponse object
    */
-  @discardableResult func browse(cursor: Cursor? = nil,
+  @discardableResult func browse(cursor: Cursor,
                                  requestOptions: RequestOptions? = nil) throws -> SearchResponse {
     let command = Command.Search.Browse(indexName: name, cursor: cursor, requestOptions: requestOptions)
     return try execute(command)
