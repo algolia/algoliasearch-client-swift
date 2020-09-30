@@ -1,7 +1,7 @@
 Pod::Spec.new do |spec|
   spec.name         = "AlgoliaSearchClient"
   spec.module_name  = 'AlgoliaSearchClient'
-  spec.version      = "8.1.1"
+  spec.version      = "8.1.2-beta.1"
   spec.summary      = "Algolia Search API Client written in Swift."
   spec.homepage     = "https://github.com/algolia/algoliasearch-client-swift"
   spec.license      = { :type => "MIT", :file => "LICENSE" }
