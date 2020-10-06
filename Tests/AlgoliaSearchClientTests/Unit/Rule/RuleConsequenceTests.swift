@@ -26,7 +26,7 @@ class RuleConsequenceTests: XCTestCase {
 
     try AssertEncodeDecode(consequence, [
       "params": [
-        "sortFacetsBy": "alpha",
+        "sortFacetValuesBy": "alpha",
         "filters": "filter:value",
         "automaticFacetFilters": [["facet": "attr", "score": 10, "disjunctive": true]],
         "automaticOptionalFacetFilters": [["facet": "attr2", "score": 20, "disjunctive": false]],
