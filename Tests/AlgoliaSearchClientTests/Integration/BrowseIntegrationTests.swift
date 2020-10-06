@@ -35,11 +35,12 @@ class BrowseIntegrationTests: OnlineTestCase {
       let objectID: String
       let name: String
     }
-    
-    let records: [Record] = (0...50).map { _ in
-      .init(objectID: .random(length: 5), name: String.random(length: .random(in: 1...20)))
+        
+    let records: [Record] = (0...10000).map { _ in
+        .init(objectID: .random(length: 5), name: String.random(length: .random(in: 1...20)))
     }
     
+    try index.setSettings(Settings().set(\.attributesForFaceting, to: ["metric", "color"]))
     try index.saveObjects(records).wait()
     
     let responses = try index.browseObjects()

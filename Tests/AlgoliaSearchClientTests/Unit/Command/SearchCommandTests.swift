@@ -37,10 +37,10 @@ class SearchCommandTests: XCTestCase, AlgoliaCommandTest {
     let command = Command.Search.Browse(indexName: test.indexName, cursor: test.cursor, requestOptions: test.requestOptions)
     check(command: command,
           callType: .read,
-          method: .get,
+          method: .post,
           urlPath: "/1/indexes/testIndex/browse",
-          queryItems: [.init(name: "testParameter", value: "testParameterValue"), .init(name: "cursor", value: "AgA%2BBgg4MTUyNTQ0Mg==")],
-          body: nil,
+          queryItems: [.init(name: "testParameter", value: "testParameterValue")],
+          body: CursorWrapper(test.cursor).httpBody,
           requestOptions: test.requestOptions)
   }
 

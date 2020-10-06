@@ -39,10 +39,11 @@ extension Command {
         urlRequest = .init(method: .post, path: path, body: query.httpBody, requestOptions: requestOptions)
       }
 
-      init(indexName: IndexName, cursor: Cursor? = nil, requestOptions: RequestOptions?) {
-        self.requestOptions = requestOptions.updateOrCreate(cursor.flatMap { [.cursor: $0.rawValue.addingPercentEncoding(withAllowedCharacters: .uriAllowed)] } ?? [:])
+      init(indexName: IndexName, cursor: Cursor, requestOptions: RequestOptions?) {
+        self.requestOptions = requestOptions
+        let body = CursorWrapper(cursor)
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.browse
-        urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)
+        urlRequest = .init(method: .post, path: path, body: body.httpBody, requestOptions: self.requestOptions)
       }
 
     }

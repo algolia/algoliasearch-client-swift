@@ -37,6 +37,7 @@ struct EditsKey: Key { static let value = "edits" }
 struct ObjectIDKey: Key { static let value = "objectID" }
 struct RemoveKey: Key { static let value = "remove" }
 struct ClusterKey: Key { static let value = "cluster" }
+struct CursorKey: Key { static let value = "cursor" }
 
 typealias ParamsWrapper<Wrapped: Codable> = FieldWrapper<ParamsKey, Wrapped>
 typealias RequestsWrapper<Wrapped: Codable> = FieldWrapper<RequestsKey, Wrapped>
@@ -44,3 +45,4 @@ typealias EventsWrapper<Wrapped: Codable> = FieldWrapper<EventsKey, Wrapped>
 typealias EditsWrapper = FieldWrapper<EditsKey, [Rule.Edit]>
 typealias ObjectIDWrapper = FieldWrapper<ObjectIDKey, ObjectID>
 typealias ClusterWrapper<Wrapped: Codable> = FieldWrapper<ClusterKey, Wrapped>
+typealias CursorWrapper = FieldWrapper<CursorKey, Cursor>
