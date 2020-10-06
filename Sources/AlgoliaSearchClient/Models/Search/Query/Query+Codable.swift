@@ -167,7 +167,7 @@ extension Query: Codable {
     case facets
     case maxValuesPerFacet
     case facetingAfterDistinct
-    case sortFacetsBy
+    case sortFacetsBy = "sortFacetValuesBy"
     case attributesToHighlight
     case attributesToSnippet
     case highlightPreTag
