@@ -190,3 +190,5 @@ extension DeleteByQuery: URLEncodable {
   }
 
 }
+
+extension DeleteByQuery: Builder {}

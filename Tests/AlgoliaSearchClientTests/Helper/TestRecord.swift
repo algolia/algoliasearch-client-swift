@@ -14,6 +14,7 @@ struct TestRecord: Codable, Equatable, CustomStringConvertible {
   var string: String
   var numeric: Int
   var bool: Bool
+  var _tags: [String]?
   
   init(objectID: String) {
     self.init(objectID: .init(rawValue: objectID))
@@ -27,7 +28,7 @@ struct TestRecord: Codable, Equatable, CustomStringConvertible {
   }
   
   var description: String {
-    return [objectID.flatMap { "objectID: \($0)" }, "string: \(string)", "numeric: \(numeric)", "bool: \(bool)"].compactMap { $0 }.joined(separator: ", ")
+    return [objectID.flatMap { "objectID: \($0)" }, "string: \(string)", "numeric: \(numeric)", "bool: \(bool)", _tags.flatMap { "tags: \($0)" }].compactMap { $0 }.joined(separator: ", ")
   }
   
 }
