@@ -121,9 +121,6 @@ class IndexingIntegrationTests: OnlineTestCase {
     let taggedRecord = TestRecord(objectID: "taggedObject").set(\._tags, to: ["algolia"])
     try index.saveObject(taggedRecord).wait()
     
-    let att1: TestRecord = try index.getObject(withID: "taggedObject")
-    print(att1)
-    
     // Delete the first record with deleteObject and collect taskID
     try index.deleteObject(withID: objectID).wait()
     
