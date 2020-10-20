@@ -29,7 +29,7 @@ extension ABTestResponse {
     public let noResultCount: Int?
 
     /// Average click position for the variant.
-    public let averageClickPosition: Int?
+    public let averageClickPosition: Double?
 
     public let searchCount: Int?
 
