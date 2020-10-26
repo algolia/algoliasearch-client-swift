@@ -50,7 +50,7 @@ lane :deploy do |options|
   base_branch = options[:branch] || "master"
 
   ensure_git_branch(
-    branch: head_branch
+    branch: base_branch
   )
   ensure_git_status_clean
 
@@ -102,7 +102,7 @@ lane :deploy do |options|
   end
 
   pod_push(
-    path: "AlgoliaSearchClient.podspec",
+    path: podspec_path,
     allow_warnings: true
   )
 end
