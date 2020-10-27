@@ -45,52 +45,66 @@ end
 desc "Available options: type:major|minor|patch"
 lane :deploy do |options|
 
-  branch = options[:branch] || "master"
-  prepare_git(branch)
+  repository_name = "algolia/algoliasearch-client-swift"
+  podspec_path = "AlgoliaSearchClient.podspec"
+  base_branch = options[:branch] || "master"
 
-  pod_lib_lint(
-    verbose: true,
-    allow_warnings: true
+  ensure_git_branch(
+    branch: base_branch
+  )
+  ensure_git_status_clean
+
+  release_type = options[:type]
+
+  new_version = version_bump_podspec(
+    bump_type: release_type,
+    path: podspec_path
   )
 
-  new_build_number = version_bump_podspec(
-    bump_type: options[:type],
-    path: "AlgoliaSearchClient.podspec"
-  )
+  sh("cd ..; ./generate_changelog #{new_version}")
+  sh("cd ..; ./generate_version #{new_version}")
 
-  sh("cd ..; ./generate_version #{new_build_number}")
+  branch_name = "version-#{new_version}"
+  sh("git checkout -b #{branch_name}")
 
-  branchName = "version-#{new_build_number}"
-  sh("git checkout -b #{branchName}")
-
-  #puts changelog_from_git_commits
   git_commit(
-    path: ["AlgoliaSearchClient.podspec", "./Sources/AlgoliaSearchClient/Helpers/Version+Current.swift"],
-    message: "Version #{new_build_number}"
+    path: [podspec_path, "./Sources/AlgoliaSearchClient/Helpers/Version+Current.swift", "CHANGELOG.md"],
+    message: "chore: update version to #{new_version} [skip ci]"
   )
   add_git_tag(
-    build_number: new_build_number,
-    tag: new_build_number
+    build_number: new_version,
+    tag: new_version
   )
   push_to_git_remote(remote: "origin")
 
   create_pull_request(
-    # api_token: "secret",      # optional, defaults to ENV["GITHUB_API_TOKEN"]
-    repo: "algolia/algoliasearch-client-swift",
-    title: "Deploying new #{options[:type]} version #{new_build_number}",
-    head: "#{branchName}",       # optional, defaults to current branch name
-    base: "master", # optional, defaults to "master"
-    body: "Please check the files before merging in case I've overidden something accidentally.",       # optional
-    # api_url: "http://yourdomain/api/v3" # optional, for GitHub Enterprise, defaults to "https://api.github.com"
+    repo: repository_name,
+    title: "chore: Deploying new #{release_type} version #{new_version}",
+    head: branch_name,
+    base: base_branch,
+    body: "Please check the files before merging in case I've overidden something accidentally."
   )
 
+  set_github_release(
+    repository_name: repository_name,
+    api_token: ENV["GITHUB_API_TOKEN"],
+    name: new_version,
+    tag_name: new_version,
+    description: (File.read("../release_notes.md") rescue "No release notes provided"),
+    is_draft: true,
+    commitish: base_branch,
+    upload_assets: []
+  )
+
+  # Remove deployment trigger tag if needed
+  if git_tag_exists(tag: "#{release_type}")
+    sh("git tag -d #{release_type}; git push --delete origin #{release_type}")
+  end
+
   pod_push(
-    path: "AlgoliaSearchClient.podspec",
+    path: podspec_path,
     allow_warnings: true
   )
-  # This is failing when no files are changed. So we added this step in Bitrise instead along with is_skippable: true.
-  # 
-  # deploy_api_reference
 end
 
 lane :deployBeta do |options| 
