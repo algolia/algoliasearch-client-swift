@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  TaggedString.swift
 //  
 //
 //  Created by Vladislav Fitc on 13.03.2020.
@@ -7,22 +7,27 @@
 
 import Foundation
 
-public struct TaggedString: Hashable {
+public struct TaggedString {
 
   public let input: String
-  public let output: String
-  public let taggedRanges: [Range<String.Index>]
-  public let untaggedRanges: [Range<String.Index>]
+  public let preTag: String
+  public let postTag: String
+  public let options: String.CompareOptions
+  
+  private lazy var storage: (String, [Range<String.Index>]) = TaggedString.computeRanges(for: input, preTag: preTag, postTag: postTag, options: options)
+  
+  public private(set) lazy var output: String = { storage.0 }()
+  public private(set) lazy var taggedRanges: [Range<String.Index>] = { storage.1 }()
+  public private(set) lazy var untaggedRanges: [Range<String.Index>] = TaggedString.computeInvertedRanges(for: output, with: taggedRanges)
 
   public init(string: String, preTag: String, postTag: String, options: String.CompareOptions = []) {
     // This string reconstruction is here to avoid a potential problems due to string encoding
     // Check unit test TaggedStringTests -> testWithDecodedString
     let string = String(string.indices.map { string [$0] })
     self.input = string
-    let (output, rangesToHighlight) = TaggedString.computeRanges(for: string, preTag: preTag, postTag: postTag, options: options)
-    self.output = output
-    self.taggedRanges = rangesToHighlight
-    self.untaggedRanges = TaggedString.computeInvertedRanges(for: output, with: rangesToHighlight)
+    self.preTag = preTag
+    self.postTag = postTag
+    self.options = options
   }
 
   private static func computeRanges(for string: String, preTag: String, postTag: String, options: String.CompareOptions) -> (output: String, ranges: [Range<String.Index>]) {
@@ -45,6 +50,7 @@ public struct TaggedString: Hashable {
   private static func computeInvertedRanges(for string: String, with ranges: [Range<String.Index>]) -> [Range<String.Index>] {
 
     var lowerBound = string.startIndex
+    
     var invertedRanges: [Range<String.Index>] = []
 
     for range in ranges {
@@ -63,4 +69,14 @@ public struct TaggedString: Hashable {
 
   }
 
+}
+
+extension TaggedString: Hashable {
+  
+  public func hash(into hasher: inout Hasher) {
+    input.hash(into: &hasher)
+    preTag.hash(into: &hasher)
+    postTag.hash(into: &hasher)
+  }
+    
 }
