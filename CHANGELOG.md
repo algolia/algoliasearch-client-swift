@@ -1,5 +1,13 @@
 # ChangeLog
 
+## [8.2.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.1.3...8.2.0) (2020-11-03)
+
+### Feat
+
+- set tagged/untagged ranges calculation lazy in TaggedString (#689) ([59daf69](https://github.com/algolia/algoliasearch-client-swift/commit/59daf69))
+
+
+
 ## [8.1.3](https://github.com/algolia/algoliasearch-client-swift/compare/8.1.2...8.1.3) (2020-10-27)
 
 ### Fix
