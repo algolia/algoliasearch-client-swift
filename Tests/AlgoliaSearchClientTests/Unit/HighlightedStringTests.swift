@@ -24,8 +24,9 @@ class HighlightedStringTests: XCTestCase {
       let decodedHighlighted = HighlightedString(string: decodedString)
       
       func extractHighlightedPart(from title: HighlightedString) -> String {
-        let highlightedRange = title.taggedString.taggedRanges.first!
-        let highlightedPart = title.taggedString.output[highlightedRange]
+        var taggedString = title.taggedString
+        let highlightedRange = taggedString.taggedRanges.first!
+        let highlightedPart = taggedString.output[highlightedRange]
         return String(highlightedPart)
       }
       
@@ -40,9 +41,10 @@ class HighlightedStringTests: XCTestCase {
     """
     
     let highlightedString = HighlightedString(string: input)
+    var taggedString = highlightedString.taggedString
     
-    let taggedRanges = highlightedString.taggedString.taggedRanges
-    let output = highlightedString.taggedString.output
+    let taggedRanges = taggedString.taggedRanges
+    let output = taggedString.output
     let highlightedStrings: [String] = taggedRanges.map { output[$0] }.map(String.init)
     
     let expectedHighlightedStrings = [

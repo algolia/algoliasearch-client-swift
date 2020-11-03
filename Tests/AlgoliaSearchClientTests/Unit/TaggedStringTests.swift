@@ -16,7 +16,7 @@ class TaggedStringTests: XCTestCase {
   
   func test() {
     let input = "Woodstock is <em>Snoopy</em>'s friend"
-    let taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag)
+    var taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag)
     
     XCTAssertEqual(taggedString.output, "Woodstock is Snoopy's friend")
     let taggedSubstrings = taggedString.taggedRanges.map { taggedString.output[$0] }
@@ -29,7 +29,7 @@ class TaggedStringTests: XCTestCase {
     
     let input = "<em>Live</em> as <em>if you were</em> to die <em>tomorrow</em>. Learn as if you were to live <em>forever</em>"
     
-    let taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag)
+    var taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag)
     
     XCTAssertEqual(taggedString.output, "Live as if you were to die tomorrow. Learn as if you were to live forever")
     
@@ -57,7 +57,7 @@ class TaggedStringTests: XCTestCase {
   
   func testWholeStringHighlighted() {
     let input = "<em>Highlighted string</em>"
-    let taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag, options: [.caseInsensitive])
+    var taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag, options: [.caseInsensitive])
     XCTAssertEqual(taggedString.input, input)
     XCTAssertEqual(taggedString.output, "Highlighted string")
     XCTAssertEqual(taggedString.taggedRanges.map { String(taggedString.output[$0]) }, ["Highlighted string"])
@@ -66,7 +66,7 @@ class TaggedStringTests: XCTestCase {
   
   func testNoHighlighted() {
     let input = "Just a string"
-    let taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag, options: [.caseInsensitive])
+    var taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag, options: [.caseInsensitive])
     XCTAssertEqual(taggedString.input, input)
     XCTAssertEqual(taggedString.output, input)
     XCTAssertTrue(taggedString.taggedRanges.isEmpty)
@@ -75,7 +75,7 @@ class TaggedStringTests: XCTestCase {
   
   func testEmpty() {
     let input = ""
-    let taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag, options: [.caseInsensitive])
+    var taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag, options: [.caseInsensitive])
     XCTAssertEqual(taggedString.input, input)
     XCTAssertEqual(taggedString.output, input)
     XCTAssertTrue(taggedString.taggedRanges.isEmpty)
@@ -95,6 +95,7 @@ class TaggedStringTests: XCTestCase {
     let decodedHighlighted = TaggedString(string: decodedString, preTag: "<em>", postTag: "</em>")
     
     func extractHighlightedPart(from title: TaggedString) -> String {
+      var title = title
       let highlightedRange = title.taggedRanges.first!
       let highlightedPart = title.output[highlightedRange]
       return String(highlightedPart)
@@ -103,6 +104,12 @@ class TaggedStringTests: XCTestCase {
     XCTAssertEqual(expectedHighlightedPart, extractHighlightedPart(from: inlineHiglighted))
     XCTAssertEqual(expectedHighlightedPart, extractHighlightedPart(from: decodedHighlighted))
 
+  }
+  
+  func testLaziness() throws {
+    // This test will provoke runtime error, if the calculation of untagged ranges is not lazy
+    let rawString = "a<em><em>b</em></em>c"
+    var _ = TaggedString(string: rawString, preTag: "<em>", postTag: "</em>")
   }
 
 }
