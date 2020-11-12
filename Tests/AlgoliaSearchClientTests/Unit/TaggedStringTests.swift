@@ -14,15 +14,14 @@ class TaggedStringTests: XCTestCase {
   let preTag = "<em>"
   let postTag = "</em>"
   
-  func test() {
+  func testBasic() {
     let input = "Woodstock is <em>Snoopy</em>'s friend"
     var taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag)
     
+    XCTAssertEqual(taggedString.input, input)
     XCTAssertEqual(taggedString.output, "Woodstock is Snoopy's friend")
-    let taggedSubstrings = taggedString.taggedRanges.map { taggedString.output[$0] }
-    XCTAssertEqual(taggedSubstrings, ["Snoopy"])
-    let untaggedSubstrings = taggedString.untaggedRanges.map { taggedString.output[$0] }
-    XCTAssertEqual(untaggedSubstrings, ["Woodstock is ", "'s friend"])
+    XCTAssertEqual(taggedString.taggedSubstrings(), ["Snoopy"])
+    XCTAssertEqual(taggedString.untaggedSubstrings(), ["Woodstock is ", "'s friend"])
   }
   
   func testMultipleHighlighted() {
@@ -31,85 +30,111 @@ class TaggedStringTests: XCTestCase {
     
     var taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag)
     
+    XCTAssertEqual(taggedString.input, input)
     XCTAssertEqual(taggedString.output, "Live as if you were to die tomorrow. Learn as if you were to live forever")
     
-    let expectedTaggedSubstrings = [
+    let expectedTaggedSubstrings: [Substring] = [
       "Live",
       "if you were",
       "tomorrow",
       "forever",
     ]
-    let taggedSubstrings = taggedString.taggedRanges.map { String(taggedString.output[$0]) }
     
-    XCTAssertEqual(expectedTaggedSubstrings, taggedSubstrings)
+    XCTAssertEqual(expectedTaggedSubstrings, taggedString.taggedSubstrings())
     
-    let expectedUntaggedSubstrings = [
+    let expectedUntaggedSubstrings: [Substring] = [
       " as ",
       " to die ",
       ". Learn as if you were to live ",
     ]
-    let untaggedSubstrings = taggedString.untaggedRanges.map {
-      String(taggedString.output[$0])
-    }
-    XCTAssertEqual(expectedUntaggedSubstrings, untaggedSubstrings)
+    XCTAssertEqual(expectedUntaggedSubstrings, taggedString.untaggedSubstrings())
     
   }
   
   func testWholeStringHighlighted() {
     let input = "<em>Highlighted string</em>"
     var taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag, options: [.caseInsensitive])
+    
     XCTAssertEqual(taggedString.input, input)
     XCTAssertEqual(taggedString.output, "Highlighted string")
-    XCTAssertEqual(taggedString.taggedRanges.map { String(taggedString.output[$0]) }, ["Highlighted string"])
-    XCTAssertTrue(taggedString.untaggedRanges.map { String(taggedString.output[$0]) }.isEmpty)
+    XCTAssertEqual(taggedString.taggedSubstrings(), ["Highlighted string"])
+    XCTAssertTrue(taggedString.untaggedSubstrings().isEmpty)
   }
   
   func testNoHighlighted() {
     let input = "Just a string"
     var taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag, options: [.caseInsensitive])
+    
     XCTAssertEqual(taggedString.input, input)
     XCTAssertEqual(taggedString.output, input)
     XCTAssertTrue(taggedString.taggedRanges.isEmpty)
-    XCTAssertEqual(taggedString.untaggedRanges.map { String(taggedString.output[$0]) }, [input])
+    XCTAssertEqual(taggedString.untaggedSubstrings(), [Substring(input)])
   }
   
   func testEmpty() {
     let input = ""
     var taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag, options: [.caseInsensitive])
+    
     XCTAssertEqual(taggedString.input, input)
     XCTAssertEqual(taggedString.output, input)
     XCTAssertTrue(taggedString.taggedRanges.isEmpty)
-    XCTAssertTrue(taggedString.untaggedRanges.isEmpty)
+    XCTAssertEqual(taggedString.untaggedSubstrings(), [""])
   }
   
   func testWithDecodedString() throws {
 
-    let expectedHighlightedPart = "rennais"
+    let expectedHighlightedPart: Substring = "rennais"
     
     let inlineString = "VIDÉO. Des CRS déployés devant un lycée <em>rennais</em> pour les épreuves anticipées du bac"
 
     let stringData = try Data(filename: "HighlightedString.json")
     let decodedString = try XCTUnwrap(String(data: stringData, encoding: .utf8))
+        
+    var inlineHiglighted = TaggedString(string: inlineString, preTag: preTag, postTag: postTag)
+    var decodedHighlighted = TaggedString(string: decodedString, preTag: preTag, postTag: postTag)
     
-    let inlineHiglighted = TaggedString(string: inlineString, preTag: "<em>", postTag: "</em>")
-    let decodedHighlighted = TaggedString(string: decodedString, preTag: "<em>", postTag: "</em>")
-    
-    func extractHighlightedPart(from title: TaggedString) -> String {
-      var title = title
-      let highlightedRange = title.taggedRanges.first!
-      let highlightedPart = title.output[highlightedRange]
-      return String(highlightedPart)
-    }
-    
-    XCTAssertEqual(expectedHighlightedPart, extractHighlightedPart(from: inlineHiglighted))
-    XCTAssertEqual(expectedHighlightedPart, extractHighlightedPart(from: decodedHighlighted))
-
+    XCTAssertEqual([expectedHighlightedPart], inlineHiglighted.taggedSubstrings())
+    XCTAssertEqual([expectedHighlightedPart], decodedHighlighted.taggedSubstrings())
   }
   
-  func testLaziness() throws {
-    // This test will provoke runtime error, if the calculation of untagged ranges is not lazy
-    let rawString = "a<em><em>b</em></em>c"
-    var _ = TaggedString(string: rawString, preTag: "<em>", postTag: "</em>")
+  func testNested() throws {
+    let input = "Your time is limited, <em>so don't waste it living <em>someone else's life</em>. Don't be trapped by dogma – </em>which is living with the results of other people's thinking."
+    var taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag)
+    
+    XCTAssertEqual(taggedString.input, input)
+    XCTAssertEqual(taggedString.output, "Your time is limited, so don't waste it living someone else's life. Don't be trapped by dogma – which is living with the results of other people's thinking.")
+    XCTAssertEqual(taggedString.taggedSubstrings(), ["so don't waste it living someone else's life. Don't be trapped by dogma – "])
+    XCTAssertEqual(taggedString.untaggedSubstrings(), ["Your time is limited, ", "which is living with the results of other people's thinking."])
   }
-
+  
+  func testNestedFollowing() throws {
+    let input = "Your time is limited, <em><em>so don't waste it living someone else's life</em></em>. Don't be trapped by dogma – which is living with the results of other people's thinking."
+    var taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag)
+    
+    XCTAssertEqual(taggedString.input, input)
+    XCTAssertEqual(taggedString.output, "Your time is limited, so don't waste it living someone else's life. Don't be trapped by dogma – which is living with the results of other people's thinking.")
+    XCTAssertEqual(taggedString.taggedSubstrings(), ["so don't waste it living someone else's life"])
+    XCTAssertEqual(taggedString.untaggedSubstrings(), ["Your time is limited, ", ". Don't be trapped by dogma – which is living with the results of other people's thinking."])
+  }
+  
+  func testExtraOpenTag() throws {
+    let input = "Your time is limited, <em>so don't waste it living <em>someone else's life. Don't be trapped by dogma – </em>which is living with the results of other people's thinking."
+    var taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag)
+    
+    XCTAssertEqual(taggedString.input, input)
+    XCTAssertEqual(taggedString.output, "Your time is limited, so don't waste it living someone else's life. Don't be trapped by dogma – which is living with the results of other people's thinking.")
+    XCTAssertEqual(taggedString.taggedSubstrings(), ["someone else's life. Don't be trapped by dogma – "])
+    XCTAssertEqual(taggedString.untaggedSubstrings(), ["Your time is limited, so don't waste it living ", "which is living with the results of other people's thinking."])
+  }
+  
+  func testExtraClosingTag() throws {
+    let input = "Your time is limited, <em>so don't waste it living someone else's life.</em> Don't be trapped by dogma – </em>which is living with the results of other people's thinking."
+    var taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag)
+    
+    XCTAssertEqual(taggedString.input, input)
+    XCTAssertEqual(taggedString.output, "Your time is limited, so don't waste it living someone else's life. Don't be trapped by dogma – which is living with the results of other people's thinking.")
+    XCTAssertEqual(taggedString.taggedSubstrings(), ["so don't waste it living someone else's life."])
+    XCTAssertEqual(taggedString.untaggedSubstrings(), ["Your time is limited, ", " Don't be trapped by dogma – which is living with the results of other people's thinking."])
+  }
+  
 }
