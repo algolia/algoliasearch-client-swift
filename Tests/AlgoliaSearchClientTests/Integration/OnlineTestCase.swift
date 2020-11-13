@@ -43,9 +43,7 @@ class OnlineTestCase: XCTestCase {
     }
 	
     client = SearchClient(appID: credentials.applicationID, apiKey: credentials.apiKey)
-    let className = String(reflecting: type(of: self)).components(separatedBy: ".").last!
-    let functionName = invocation!.selector.description
-    let indexNameSuffix = self.indexNameSuffix ?? "\(className).\(functionName)"
+    let indexNameSuffix = self.indexNameSuffix ?? name
     let indexName = IndexName(stringLiteral: "\(uniquePrefix())_\(indexNameSuffix)")
     index = client.index(withName: indexName)
 
