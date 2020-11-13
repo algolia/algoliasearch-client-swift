@@ -9,6 +9,10 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
 struct TestCredentials: Credentials {
 
   let applicationID: ApplicationID
@@ -74,7 +78,7 @@ struct TestPathLevel2: PathComponent {
 
 class URLRequestBuilding: XCTestCase {
 
-  func testBuilding() {
+  func testBuilding() throws {
 
     let method = HTTPMethod.post
     let path = TestPath.path
@@ -89,7 +93,11 @@ class URLRequestBuilding: XCTestCase {
       HTTPHeaderKey.applicationID.rawValue: credentials.applicationID.rawValue,
       HTTPHeaderKey.apiKey.rawValue: credentials.apiKey.rawValue
     ]
+    #if canImport(FoundationNetworking)
+    XCTAssertEqual(request.allHTTPHeaderFields?.mapKeys { $0.lowercased() }, expectedHeaders.mapKeys { $0.lowercased() })
+    #else
     XCTAssertEqual(request.allHTTPHeaderFields, expectedHeaders)
+    #endif
     XCTAssertEqual(request.httpMethod, method.rawValue)
     XCTAssertEqual(request.url?.absoluteString, "https:/my/test/path")
     XCTAssertEqual(request.httpBody, body)
