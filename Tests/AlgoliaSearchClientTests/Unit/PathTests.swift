@@ -9,6 +9,10 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
 class PathTests: XCTestCase {
 
   func testPath() {
