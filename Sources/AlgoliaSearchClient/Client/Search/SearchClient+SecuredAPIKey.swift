@@ -16,7 +16,6 @@ import CommonCrypto
 public extension SearchClient {
 
   #if os(Linux)
-  @available(OSX 10.15, *)
   func generateSecuredApiKey(parentApiKey: APIKey,
                              with restriction: SecuredAPIKeyRestriction) -> APIKey {
     let queryParams = restriction.urlEncodedString

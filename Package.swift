@@ -1,40 +1,57 @@
-// swift-tools-version:5.1
+// swift-tools-version:5.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
 
+#if os(Linux)
+let macOSVersion: SupportedPlatform.MacOSVersion = .v10_15
+#else
+let macOSVersion: SupportedPlatform.MacOSVersion = .v10_10
+#endif
+
+#if os(Linux)
+let extraPackageDependencies: [Package.Dependency] = [
+  .package(url: "https://github.com/apple/swift-crypto.git", from: "1.1.2"),
+]
+#else
+let extraPackageDependencies: [Package.Dependency] = []
+#endif
+
+#if os(Linux)
+let extraTargetDependencies: [Target.Dependency] = [
+  .product(name: "Crypto", package: "swift-crypto")
+]
+#else
+let extraTargetDependencies: [Target.Dependency] = []
+#endif
+
 let package = Package(
-    name: "AlgoliaSearchClient",
-    platforms: [
-<<<<<<< HEAD
-        .iOS(.v9),
-        .macOS(.v10_10),
-=======
-        .iOS(.v8),
-        .macOS(.v10_15),
->>>>>>> Added SwiftCrypto as dependency for the linux target.
-        .watchOS(.v2),
-        .tvOS(.v9)
-    ],
-    products: [
-        .library(
-            name: "AlgoliaSearchClient",
-            targets: ["AlgoliaSearchClient"])
-    ],
-    dependencies: [
-<<<<<<< HEAD
-        .package(url:"https://github.com/apple/swift-log.git", from: "1.4.0")
-=======
-        .package(url:"https://github.com/apple/swift-log.git", from: "1.3.0"),
-        .package(url: "https://github.com/apple/swift-crypto.git", from: "1.0.2")
->>>>>>> Added SwiftCrypto as dependency for the linux target.
-    ],
-    targets: [
-        .target(
-            name: "AlgoliaSearchClient",
-            dependencies: ["Logging", "Crypto"]),
-        .testTarget(
-            name: "AlgoliaSearchClientTests",
-            dependencies: ["AlgoliaSearchClient", "Logging", "Crypto"])
-    ]
+  name: "AlgoliaSearchClient",
+  platforms: [
+    .iOS(.v9),
+    .macOS(macOSVersion),
+    .watchOS(.v2),
+    .tvOS(.v9)
+  ],
+  products: [
+    .library(
+      name: "AlgoliaSearchClient",
+      targets: ["AlgoliaSearchClient"])
+  ],
+  dependencies: [
+    .package(url:"https://github.com/apple/swift-log.git", from: "1.4.0"),
+  ] + extraPackageDependencies,
+  targets: [
+    .target(
+      name: "AlgoliaSearchClient",
+      dependencies: [
+        .product(name: "Logging", package: "swift-log"),
+      ] + extraTargetDependencies),
+    .testTarget(
+      name: "AlgoliaSearchClientTests",
+      dependencies: [
+        .target(name: "AlgoliaSearchClient"),
+        .product(name: "Logging", package: "swift-log"),
+      ] + extraTargetDependencies)
+  ]
 )
