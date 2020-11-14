@@ -62,19 +62,19 @@ class MultipleClusterIntegrationTests: OnlineTestCase {
     [multiCluster]
   }
   
+  override var environment: TestCredentials.Environment { .mcm }
+  
   func userID(_ id: String) -> UserID {
     return UserID(rawValue: TestIdentifier(date: date, suffix: id).rawValue)
   }
-    
+  
   func multiCluster() throws {
   
     let userID0 = userID("0")
     let userID1 = userID("1")
     let userID2 = userID("2")
     let userIDs = [userID0, userID1, userID2]
-    
-    let client = SearchClient(appID: TestCredentials.mcm!.applicationID, apiKey: TestCredentials.mcm!.apiKey)
-    
+        
     let exists = client.exists
     let remove = client.remove
     

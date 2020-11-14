@@ -15,12 +15,12 @@ class MultipleOperationsIntegrationTests: OnlineTestCase {
     return "exists"
   }
   
-  lazy var firstIndex: Index = {
-    return client.index(withName: "multiple_operations")
+  lazy var firstIndex: Index! = {
+    return client?.index(withName: "multiple_operations")
   }()
   
-  lazy var secondIndex: Index = {
-    return client.index(withName: "multiple_operations_dev")
+  lazy var secondIndex: Index! = {
+    return client?.index(withName: "multiple_operations_dev")
   }()
   
   override var retryableTests: [() throws -> Void] {
@@ -29,14 +29,14 @@ class MultipleOperationsIntegrationTests: OnlineTestCase {
   
   override func setUpWithError() throws {
     try super.setUpWithError()
-    try firstIndex.delete()
-    try secondIndex.delete()
+    try firstIndex?.delete()
+    try secondIndex?.delete()
   }
   
   override func tearDownWithError() throws {
     try super.tearDownWithError()
-    try firstIndex.delete()
-    try secondIndex.delete()
+    try firstIndex?.delete()
+    try secondIndex?.delete()
   }
   
   func multipleOperations() throws {

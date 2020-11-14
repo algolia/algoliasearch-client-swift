@@ -33,15 +33,16 @@ class OnlineTestCase: XCTestCase {
     let dateString = dateFormatter.string(from: .init())
     return "swift_\(dateString)_\(NSUserName().description)"
   }
+  
+  var environment: TestCredentials.Environment { .default }
 
   override func setUpWithError() throws {
 
     try super.setUpWithError()
 
-    guard let credentials = TestCredentials.environment else {
-      throw Error.missingCredentials
-    }
-	
+    let fetchedCredentials = Result(catching: { try TestCredentials(environment: environment) }).mapError { XCTSkip("\($0)") }
+    let credentials = try fetchedCredentials.get()
+    
     client = SearchClient(appID: credentials.applicationID, apiKey: credentials.apiKey)
     let indexNameSuffix = self.indexNameSuffix ?? name
     let indexName = IndexName(stringLiteral: "\(uniquePrefix())_\(indexNameSuffix)")
@@ -68,7 +69,9 @@ class OnlineTestCase: XCTestCase {
 
   override func tearDownWithError() throws {
     try super.tearDownWithError()
-    try index.delete()
+    if let index = index {
+      try index.delete()
+    }
   }
 
 }
