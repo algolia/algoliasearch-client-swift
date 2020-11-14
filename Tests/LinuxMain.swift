@@ -1,7 +1,8 @@
 import XCTest
 
-import algoliasearch_client_swiftTests
+import AlgoliaSearchClientTests
 
 var tests = [XCTestCaseEntry]()
-tests += algoliasearch_client_swiftTests.allTests()
+tests += AlgoliaSearchClientTests.__allTests()
+
 XCTMain(tests)
