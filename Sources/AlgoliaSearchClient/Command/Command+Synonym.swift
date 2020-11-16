@@ -34,7 +34,7 @@ extension Command {
       init(indexName: IndexName, synonyms: [AlgoliaSearchClient.Synonym], forwardToReplicas: Bool?, clearExistingSynonyms: Bool?, requestOptions: RequestOptions?) {
         var parameters: [HTTPParameterKey: String] = [:]
         forwardToReplicas.flatMap { parameters[.forwardToReplicas] = String($0) }
-        clearExistingSynonyms.flatMap { parameters[.clearExistingSynonyms] = String($0) }
+        clearExistingSynonyms.flatMap { parameters[.replaceExistingSynonyms] = String($0) }
         self.requestOptions = requestOptions.updateOrCreate(parameters)
         let path = .indexesV1 >>> .index(indexName) >>> .synonyms >>> SynonymCompletion.batch
         urlRequest = .init(method: .post, path: path, body: synonyms.httpBody, requestOptions: self.requestOptions)
