@@ -93,7 +93,7 @@ extension SynonymsSnippets {
   index.saveSynonyms(
     _ #{synonyms}: __[Synonym]__,
     #{forwardToReplicas}: __Bool?__ = nil,
-    #{replaceExistingSynonyms}: __Bool?__ = nil,
+    #{clearExistingSynonyms}: __Bool?__ = nil,
     requestOptions: __RequestOptions?__ = nil,
     completion: __Result<IndexRevision> -> Void__
   )
@@ -105,7 +105,7 @@ extension SynonymsSnippets {
       .multiWay(objectID: "myID2", synonyms: ["street", "st"])
     ]
     
-    index.saveSynonyms(synonyms, forwardToReplicas: true, replaceExistingSynonyms: false) { result in
+    index.saveSynonyms(synonyms, forwardToReplicas: true, clearExistingSynonyms: false) { result in
       if case .success(let response) = result {
         print("Response: \(response)")
       }
