@@ -89,7 +89,7 @@ class SynonymCommandTests: XCTestCase, AlgoliaCommandTest {
           queryItems: [
               .init(name: "testParameter", value: "testParameterValue"),
               .init(name: "forwardToReplicas", value: "true"),
-              .init(name: "clearExistingSynonyms", value: "true")
+              .init(name: "replaceExistingSynonyms", value: "true")
           ],
           body: synonyms.httpBody,
           requestOptions: test.requestOptions)
