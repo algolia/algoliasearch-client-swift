@@ -42,7 +42,7 @@ public extension Index {
      By making this true, the method will also send the synonym to all replicas.
      Thus, if you want to forward your synonyms to replicas you will need to specify that.
    - Parameter requestOptions: Configure request locally with RequestOptions
-   - Returns: SynonymRevision  object
+   - Returns: SynonymRevision object
    */
   @discardableResult func saveSynonym(_ synonym: Synonym,
                                       forwardToReplicas: Bool? = nil,
@@ -102,7 +102,7 @@ public extension Index {
      This parameter tells the engine to delete all existing synonyms before recreating a new list from the synonyms listed in the current call.
      This is the only way to avoid having no synonyms, ensuring that your index will always provide a full list of synonyms to your end-users.
    - Parameter requestOptions: Configure request locally with RequestOptions
-   - Returns: SynonymRevision  object
+   - Returns: IndexRevision  object
    */
   @available(*, deprecated, renamed: "saveSynonyms(_:forwardToReplicas:clearExistingSynonyms:requestOptions:)")
   @discardableResult func saveSynonyms(_ synonyms: [Synonym],
@@ -161,7 +161,7 @@ public extension Index {
      This parameter tells the engine to delete all existing synonyms before recreating a new list from the synonyms listed in the current call.
      This is the only way to avoid having no synonyms, ensuring that your index will always provide a full list of synonyms to your end-users.
    - Parameter requestOptions: Configure request locally with RequestOptions
-   - Returns: SynonymRevision  object
+   - Returns: IndexRevision  object
    */
   @discardableResult func saveSynonyms(_ synonyms: [Synonym],
                                        forwardToReplicas: Bool? = nil,
@@ -193,7 +193,7 @@ public extension Index {
    
    - Parameter objectID: ObjectID of the synonym to retrieve.
    - Parameter requestOptions: Configure request locally with RequestOptions
-   - Returns: Synonym  object
+   - Returns: Synonym object
    */
   @discardableResult func getSynonym(withID objectID: ObjectID,
                                      requestOptions: RequestOptions? = nil) throws -> Synonym {
@@ -224,7 +224,7 @@ public extension Index {
 
    - Parameter objectID: ObjectID of the synonym to delete.
    - Parameter requestOptions: Configure request locally with RequestOptions
-   - Returns: DeletionIndex  object
+   - Returns: IndexDeletion object
    */
   @discardableResult func deleteSynonym(withID objectID: ObjectID,
                                         forwardToReplicas: Bool? = nil,
@@ -291,7 +291,7 @@ public extension Index {
    
    - Parameter forwardToReplicas: Also replace synonyms on replicas.
    - Parameter requestOptions: Configure request locally with RequestOptions
-   - Returns: RevisionIndex object
+   - Returns: IndexRevision object
    */
   @discardableResult func clearSynonyms(forwardToReplicas: Bool? = nil,
                                         requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexRevision> {
@@ -327,7 +327,7 @@ public extension Index {
    - Parameter synonyms: A list of synonym.
    - Parameter forwardToReplicas: Also replace synonyms on replicas.
    - Parameter requestOptions: Configure request locally with RequestOptions
-   - Returns: RevisionIndex  object
+   - Returns: IndexRevision  object
    */
   @discardableResult func replaceAllSynonyms(with synonyms: [Synonym],
                                              forwardToReplicas: Bool? = nil,
