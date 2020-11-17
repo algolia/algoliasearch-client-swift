@@ -198,7 +198,7 @@ You can find code samples in the [Algolia's API Clients playground](https://gith
 
 ## 📄 License
 
-Algolia Swift API Client is an open-sourced software licensed under the [MIT license](LICENSE.md).
+Algolia Swift API Client is an open-sourced software licensed under the [MIT license](LICENSE).
 
 ## Notes
 
