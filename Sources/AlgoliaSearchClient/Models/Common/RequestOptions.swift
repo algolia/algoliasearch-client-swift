@@ -86,7 +86,7 @@ extension HTTPParameterKey {
   static var attributesToRetreive: HTTPParameterKey { #function }
   static var forwardToReplicas: HTTPParameterKey { #function }
   static var clearExistingRules: HTTPParameterKey { #function }
-  static var clearExistingSynonyms: HTTPParameterKey { #function }
+  static var replaceExistingSynonyms: HTTPParameterKey { #function }
   static var createIfNotExists: HTTPParameterKey { #function }
   static var cursor: HTTPParameterKey { #function }
   static var indexName: HTTPParameterKey { #function }
