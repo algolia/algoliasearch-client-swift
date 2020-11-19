@@ -39,9 +39,9 @@ extension Query {
       func toString(_ singleOrList: SingleOrList<String>) -> String {
         switch singleOrList {
         case .single(let value):
-          return value
+          return "\"\(value)\""
         case .list(let list):
-          return "[\(list.joined(separator: ","))]"
+          return "[\(list.map{ "\"\($0)\"" }.joined(separator: ","))]"
         }
       }
       let valueToSet = "[\(value.rawValue.map(toString).joined(separator: ","))]"
