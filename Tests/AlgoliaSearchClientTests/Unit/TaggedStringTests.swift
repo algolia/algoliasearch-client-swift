@@ -137,4 +137,24 @@ class TaggedStringTests: XCTestCase {
     XCTAssertEqual(taggedString.untaggedSubstrings(), ["Your time is limited, ", " Don't be trapped by dogma – which is living with the results of other people's thinking."])
   }
   
+  func testJustOpenTag() throws {
+    let input = "Your time is limited, <em>so don't waste it living someone else's life. Don't be trapped by dogma – which is living with the results of other people's thinking."
+    var taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag)
+    
+    XCTAssertEqual(taggedString.input, input)
+    XCTAssertEqual(taggedString.output, "Your time is limited, so don't waste it living someone else's life. Don't be trapped by dogma – which is living with the results of other people's thinking.")
+    XCTAssertEqual(taggedString.taggedSubstrings(), [])
+    XCTAssertEqual(taggedString.untaggedSubstrings(), ["Your time is limited, so don't waste it living someone else's life. Don't be trapped by dogma – which is living with the results of other people's thinking."])
+  }
+  
+  func testJustClosingTag() throws {
+    let input = "Your time is limited, so don't waste it living someone else's life. Don't be trapped by dogma – </em>which is living with the results of other people's thinking."
+    var taggedString = TaggedString(string: input, preTag: preTag, postTag: postTag)
+    
+    XCTAssertEqual(taggedString.input, input)
+    XCTAssertEqual(taggedString.output, "Your time is limited, so don't waste it living someone else's life. Don't be trapped by dogma – which is living with the results of other people's thinking.")
+    XCTAssertEqual(taggedString.taggedSubstrings(), [])
+    XCTAssertEqual(taggedString.untaggedSubstrings(), ["Your time is limited, so don't waste it living someone else's life. Don't be trapped by dogma – which is living with the results of other people's thinking."])
+  }
+  
 }
