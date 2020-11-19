@@ -7,20 +7,43 @@
 
 import Foundation
 
+/// Structure embedding the calculation of tagged substring in the input string
 public struct TaggedString {
 
+  /// Input string
   public let input: String
+  
+  /// Opening tag
   public let preTag: String
+  
+  /// Closing tag
   public let postTag: String
+  
+  /// String comparison options for tags parsing
   public let options: String.CompareOptions
   
   private lazy var storage: (String, [Range<String.Index>]) = TaggedString.computeRanges(for: input, preTag: preTag, postTag: postTag, options: options)
   
+  /// Output string cleansed of the opening and closing tags
   public private(set) lazy var output: String = { storage.0 }()
+  
+  /// List of ranges of tagged substrings in the output string
   public private(set) lazy var taggedRanges: [Range<String.Index>] = { storage.1 }()
+  
+  /// List of ranges of untagged substrings in the output string
   public private(set) lazy var untaggedRanges: [Range<String.Index>] = TaggedString.computeInvertedRanges(for: output, with: taggedRanges)
 
-  public init(string: String, preTag: String, postTag: String, options: String.CompareOptions = []) {
+  /**
+  - Parameters:
+    - string: Input string
+    - preTag: Opening tag
+    - postTag: Closing tag
+    - options: String comparison options for tags parsing
+   */
+  public init(string: String,
+              preTag: String,
+              postTag: String,
+              options: String.CompareOptions = []) {
     // This string reconstruction is here to avoid a potential problems due to string encoding
     // Check unit test TaggedStringTests -> testWithDecodedString
     let string = String(string.indices.map { string [$0] })
@@ -29,31 +52,71 @@ public struct TaggedString {
     self.postTag = postTag
     self.options = options
   }
-
-  private static func computeRanges(for string: String, preTag: String, postTag: String, options: String.CompareOptions) -> (output: String, ranges: [Range<String.Index>]) {
-
-    var newText = string
-    var rangesToHighlight = [Range<String.Index>]()
-
-    while let matchBegin = newText.range(of: preTag, options: options) {
-      newText.removeSubrange(matchBegin)
-      let tailRange = matchBegin.lowerBound..<newText.endIndex
-      guard let matchEnd = newText.range(of: postTag, options: options, range: tailRange) else { continue }
-      newText.removeSubrange(matchEnd)
-      rangesToHighlight.append(.init(uncheckedBounds: (matchBegin.lowerBound, matchEnd.lowerBound)))
-    }
-
-    return (newText, rangesToHighlight)
-
+  
+  /// - Returns: The list of tagged substrings of the output string
+  public mutating func taggedSubstrings() -> [Substring] {
+    return taggedRanges.map { output[$0] }
+  }
+  
+  /// - Returns: The list of untagged substrings of the output string
+  public mutating func untaggedSubstrings() -> [Substring] {
+    return untaggedRanges.map { output[$0] }
   }
 
-  private static func computeInvertedRanges(for string: String, with ranges: [Range<String.Index>]) -> [Range<String.Index>] {
+  private static func computeRanges(for string: String, preTag: String, postTag: String, options: String.CompareOptions) -> (output: String, ranges: [Range<String.Index>]) {
+    var output = string
+    var preStack: [R] = []
+    var rangesToHighlight = [R]()
+    
+    typealias R = Range<String.Index>
 
+    enum Tag {
+      case pre(R), post(R)
+    }
+    
+    func nextTag(in string: String) -> Tag? {
+      switch (string.range(of: preTag, options: options), string.range(of: postTag, options: options)) {
+      case (.some(let pre), .some(let post)) where pre.lowerBound < post.lowerBound:
+        return .pre(pre)
+      case (.some, .some(let post)):
+        return .post(post)
+      case (.some(let pre), .none):
+        return .pre(pre)
+      case (.none, .some(let post)):
+        return .post(post)
+      case (.none, .none):
+        return nil
+      }
+    }
+        
+    while let nextTag = nextTag(in: output) {
+      switch nextTag {
+      case .pre(let preRange):
+        preStack.append(preRange)
+        output.removeSubrange(preRange)
+      case .post(let postRange):
+        if let lastPre = preStack.last {
+          preStack.removeLast()
+          rangesToHighlight.append(.init(uncheckedBounds: (lastPre.lowerBound, postRange.lowerBound)))
+        }
+        output.removeSubrange(postRange)
+      }
+    }
+        
+    return (output, mergeOverlapping(rangesToHighlight))
+  }
+  
+  private static func computeInvertedRanges(for string: String, with ranges: [Range<String.Index>]) -> [Range<String.Index>] {
+    
+    if ranges.isEmpty {
+      return ([string.startIndex..<string.endIndex])
+    }
+    
     var lowerBound = string.startIndex
     
     var invertedRanges: [Range<String.Index>] = []
 
-    for range in ranges {
+    for range in ranges where range.lowerBound >= lowerBound {
       if lowerBound != range.lowerBound {
         let invertedRange = lowerBound..<range.lowerBound
         invertedRanges.append(invertedRange)
@@ -61,12 +124,34 @@ public struct TaggedString {
       lowerBound = range.upperBound
     }
 
-    if lowerBound != string.endIndex {
+    if lowerBound != string.endIndex, lowerBound != string.startIndex {
       invertedRanges.append(lowerBound..<string.endIndex)
     }
 
     return invertedRanges
 
+  }
+  
+  private static func mergeOverlapping<T: Comparable>(_ input: [Range<T>]) -> [Range<T>] {
+    var output: [Range<T>] = []
+    let sortedRanges = input.sorted(by: { $0.lowerBound < $1.lowerBound })
+    guard let head = sortedRanges.first else { return output }
+    let tail = sortedRanges.suffix(from: sortedRanges.index(after: sortedRanges.startIndex))
+    var (lower, upper) = (head.lowerBound, head.upperBound)
+    for range in tail {
+      if range.lowerBound <= upper {
+        if range.upperBound > upper {
+          upper = range.upperBound
+        } else {
+          continue
+        }
+      } else {
+        output.append(.init(uncheckedBounds: (lower: lower, upper: upper)))
+        (lower, upper) = (range.lowerBound, range.upperBound)
+      }
+    }
+    output.append(.init(uncheckedBounds: (lower: lower, upper: upper)))
+    return output
   }
 
 }
