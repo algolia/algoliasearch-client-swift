@@ -198,6 +198,7 @@ extension HighlightedStringTests {
     static let __allTests__HighlightedStringTests = [
         ("testDiacritic", testDiacritic),
         ("testWithDecodedString", testWithDecodedString),
+        ("testWithHTMLString", testWithHTMLString),
     ]
 }
 
@@ -638,6 +639,8 @@ extension SecuredAPIKeysIntegrationTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__SecuredAPIKeysIntegrationTests = [
+        ("testExpiredKey", testExpiredKey),
+        ("testNotExpiredKey", testNotExpiredKey),
         ("testRetryable", testRetryable),
     ]
 }
@@ -735,10 +738,15 @@ extension TaggedStringTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__TaggedStringTests = [
-        ("test", test),
+        ("testBasic", testBasic),
         ("testEmpty", testEmpty),
-        ("testLaziness", testLaziness),
+        ("testExtraClosingTag", testExtraClosingTag),
+        ("testExtraOpenTag", testExtraOpenTag),
+        ("testJustClosingTag", testJustClosingTag),
+        ("testJustOpenTag", testJustOpenTag),
         ("testMultipleHighlighted", testMultipleHighlighted),
+        ("testNested", testNested),
+        ("testNestedFollowing", testNestedFollowing),
         ("testNoHighlighted", testNoHighlighted),
         ("testWholeStringHighlighted", testWholeStringHighlighted),
         ("testWithDecodedString", testWithDecodedString),
