@@ -23,7 +23,7 @@ struct TestCredentials: Credentials {
       let appID = String(environmentVariable: environment.variables.appID),
       let apiKey = String(environmentVariable: environment.variables.apiKey) else {
       let missingEnvVariables = [environment.variables.appID, environment.variables.apiKey].filter { String(environmentVariable: $0) == nil }
-        throw Error.missingEnvironmentVariables(missingEnvVariables)
+        throw EnvironmentError.missingEnvironmentVariables(missingEnvVariables)
     }
     self.init(applicationID: ApplicationID(rawValue: appID), apiKey: APIKey(rawValue: apiKey))
   }
@@ -49,15 +49,15 @@ struct TestCredentials: Credentials {
     
   }
   
-  enum Error: Swift.Error, CustomStringConvertible {
-    case missingEnvironmentVariables([String])
-    
-    var description: String {
-      switch self {
-      case .missingEnvironmentVariables(let variables):
-        return "Missing environment variables: \(variables.joined(separator: ", "))"
-      }
+}
+
+enum EnvironmentError: Error, CustomStringConvertible {
+  case missingEnvironmentVariables([String])
+  
+  var description: String {
+    switch self {
+    case .missingEnvironmentVariables(let variables):
+      return "Missing environment variables: \(variables.joined(separator: ", "))"
     }
   }
-
 }
