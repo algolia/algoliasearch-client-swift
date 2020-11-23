@@ -12,10 +12,7 @@ extension Query {
   struct URLEncoder<Key: RawRepresentable> where Key.RawValue == String {
 
     var queryItems: [URLQueryItem] = []
-    
-    func wrapInQuotes(_ input: String) -> String { "\"\(input)\"" }
-    func wrapInBrackets(_ input: String) -> String { "[\(input)]" }
-    
+        
     mutating func set<T: URLEncodable>(_ value: T?, for key: Key) {
       guard let value = value else { return }
       queryItems.append(.init(name: key.rawValue, value: value.urlEncodedString))
@@ -33,7 +30,7 @@ extension Query {
 
     mutating func set<S: Sequence>(_ value: S?, for key: Key) where S.Element == [String] {
       guard let value = value else { return }
-      let valueToSet = wrapInBrackets(value.map { wrapInBrackets($0.map(\.urlEncodedString).sorted().joined(separator: ",")) }.joined(separator: ","))
+      let valueToSet = value.map { $0.map(\.urlEncodedString).sorted().joined(separator: ",").wrappedInBrackets() }.joined(separator: ",").wrappedInBrackets()
       queryItems.append(.init(name: key.rawValue, value: valueToSet))
     }
 
@@ -42,30 +39,30 @@ extension Query {
       func toString(_ singleOrList: SingleOrList<String>) -> String {
         switch singleOrList {
         case .single(let value):
-          return wrapInQuotes(value)
+          return value.wrappedInQuotes()
         case .list(let list):
-          return wrapInBrackets(list.map(wrapInQuotes).joined(separator: ","))
+          return list.map { $0.wrappedInQuotes() }.joined(separator: ",").wrappedInBrackets()
         }
       }
-      let valueToSet = wrapInBrackets(value.map(toString).joined(separator: ","))
+      let valueToSet = value.map(toString).joined(separator: ",").wrappedInBrackets()
       queryItems.append(.init(name: key.rawValue, value: valueToSet))
     }
 
     mutating func set<S: Sequence>(_ value: S?, for key: Key) where S.Element == BoundingBox {
       guard let value = value else { return }
-      let valueToSet = wrapInBrackets(value.map(\.urlEncodedString).joined(separator: ","))
+      let valueToSet = value.map(\.urlEncodedString).joined(separator: ",").wrappedInBrackets()
       queryItems.append(.init(name: key.rawValue, value: valueToSet))
     }
 
     mutating func set<S: Sequence>(_ value: S?, for key: Key) where S.Element == AroundPrecision {
       guard let value = value else { return }
-      let valueToSet = wrapInBrackets(value.map(\.urlEncodedString).joined(separator: ","))
+      let valueToSet = value.map(\.urlEncodedString).joined(separator: ",").wrappedInBrackets()
       queryItems.append(.init(name: key.rawValue, value: valueToSet))
     }
 
     mutating func set<S: Sequence>(_ value: S?, for key: Key) where S.Element == Polygon {
       guard let value = value else { return }
-      let valueToSet = wrapInBrackets(value.map(\.urlEncodedString).joined(separator: ","))
+      let valueToSet = value.map(\.urlEncodedString).joined(separator: ",").wrappedInBrackets()
       queryItems.append(.init(name: key.rawValue, value: valueToSet))
     }
 
