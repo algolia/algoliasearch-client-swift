@@ -5,8 +5,8 @@
 ### Fix
 
 - FilterStorage URL encoding (#698) ([f026af1](https://github.com/algolia/algoliasearch-client-swift/commit/f026af1))
-- tagged string subrange calculation crash (#661) ([82d2fc5](https://github.com/algolia/algoliasearch-client-swift/commit/82d2fc5))
-- license link in Readme (#695) ([7db6835](https://github.com/algolia/algoliasearch-client-swift/commit/7db6835))
+- Tagged string subrange calculation crash (#661) ([82d2fc5](https://github.com/algolia/algoliasearch-client-swift/commit/82d2fc5))
+- License link in Readme (#695) ([7db6835](https://github.com/algolia/algoliasearch-client-swift/commit/7db6835))
 
 ### Feat
 
@@ -14,7 +14,7 @@
 
 ### Refactor
 
-- rename replaceExistingSynonyms into clearExistingSynonyms (#696) ([410c34a](https://github.com/algolia/algoliasearch-client-swift/commit/410c34a))
+- Rename replaceExistingSynonyms into clearExistingSynonyms (#696) ([410c34a](https://github.com/algolia/algoliasearch-client-swift/commit/410c34a))
 
 
 
