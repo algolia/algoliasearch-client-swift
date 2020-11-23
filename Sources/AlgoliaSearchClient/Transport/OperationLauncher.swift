@@ -13,6 +13,10 @@ class OperationLauncher {
 
   init(queue: OperationQueue) {
     self.queue = queue
+#if os(Linux)
+    self.queue.underlyingQueue = DispatchQueue
+      .global(qos: DispatchQoS.QoSClass.background)
+#endif
   }
 
   @discardableResult func launch<O: Operation>(_ operation: O) -> O {
@@ -28,7 +32,6 @@ class OperationLauncher {
     }
     return try operation.result.get()
   }
-
 }
 
 public typealias OperationWithResult = Operation & ResultContainer

@@ -28,9 +28,6 @@ open class AsyncOperation: Operation {
     }
   }
 
-}
-
-extension AsyncOperation {
   // NSOperation Overrides
   override open var isReady: Bool {
     return super.isReady && state == .ready

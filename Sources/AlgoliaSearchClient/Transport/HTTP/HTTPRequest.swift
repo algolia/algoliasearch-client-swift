@@ -6,6 +6,9 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 class HTTPRequest<ResponseType: Decodable, Output>: AsyncOperation, ResultContainer, TransportTask {
 
@@ -38,7 +41,7 @@ class HTTPRequest<ResponseType: Decodable, Output>: AsyncOperation, ResultContai
   }
 
   var progress: Progress {
-    return underlyingTask?.progress ?? Progress()
+    return underlyingTask?.progress ?? Progress(totalUnitCount: 1)
   }
 
   init(requester: HTTPRequester,

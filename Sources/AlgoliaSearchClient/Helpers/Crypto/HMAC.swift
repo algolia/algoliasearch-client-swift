@@ -6,6 +6,8 @@
 //
 
 import Foundation
+#if os(Linux)
+#else
 import CommonCrypto
 
 enum HmacAlgorithm {
@@ -51,3 +53,4 @@ enum HmacAlgorithm {
   }
 
 }
+#endif

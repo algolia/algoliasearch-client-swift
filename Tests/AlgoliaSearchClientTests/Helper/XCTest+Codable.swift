@@ -66,6 +66,7 @@ func AssertEquallyEncoded<A: Encodable, B: Encodable>(_ l: A, _ r: B, file: Stat
   encoder.dateEncodingStrategy = .swiftAPIClient
   let lData = try encoder.encode(l)
   let rData = try encoder.encode(r)
-  XCTAssertEqual(lData, rData, file: (file), line: line)
+  let decoder = JSONDecoder()
+  try XCTAssertEqual(decoder.decode(JSON.self, from: lData), decoder.decode(JSON.self, from: rData))
 }
 

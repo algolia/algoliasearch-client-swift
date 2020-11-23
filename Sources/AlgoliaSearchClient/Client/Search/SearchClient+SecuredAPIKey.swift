@@ -12,7 +12,7 @@ public extension SearchClient {
   func generateSecuredApiKey(parentApiKey: APIKey,
                              with restriction: SecuredAPIKeyRestriction) -> APIKey {
     let queryParams = restriction.urlEncodedString
-    let hash = queryParams.hmac(algorithm: .sha256, key: parentApiKey.rawValue)
+    let hash = queryParams.hmac256(withKey: parentApiKey.rawValue)
     return APIKey(rawValue: "\(hash)\(queryParams)".toBase64())
   }
 
@@ -25,5 +25,4 @@ public extension SearchClient {
     let timestampDate = Date(timeIntervalSince1970: timestamp)
     return timestampDate.timeIntervalSince1970 - Date().timeIntervalSince1970
   }
-
 }

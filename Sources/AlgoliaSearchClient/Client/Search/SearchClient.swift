@@ -7,6 +7,10 @@
 
 import Foundation
 
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
 typealias Client = SearchClient
 
 /// Client to perform operations on indices.
