@@ -4,12 +4,13 @@
 //
 //  Created by Vladislav Fitc on 19/11/2020.
 //
+// swiftlint:disable file_length
 
 import Foundation
 
 public protocol SettingsParameters {
-  
-  //MARK: - Attributes
+
+  // MARK: - Attributes
 
   /**
    The complete list of attributes that will be used for searching.
@@ -39,8 +40,8 @@ public protocol SettingsParameters {
    */
   var attributesToRetrieve: [Attribute]? { get set }
 
-  //MARK: - Ranking
-  
+  // MARK: - Ranking
+
   /**
    Controls the way results are sorted.
    - Engine default: [.typo, .geo, .words, .filters, .proximity, .attribute, .exact, .custom]
@@ -62,9 +63,9 @@ public protocol SettingsParameters {
    */
 
   var replicas: [IndexName]? { get set }
-  
-  //MARK: - Faceting
-  
+
+  // MARK: - Faceting
+
   /**
    Engine default: 100
    - Maximum number of facet values to return for each facet during a regular search.
@@ -78,8 +79,8 @@ public protocol SettingsParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/sortFacetValuesBy/?language=swift)
    */
   var sortFacetsBy: SortFacetsBy? { get set }
-  
-  //MARK: - Highlighting/Snippeting
+
+  // MARK: - Highlighting/Snippeting
 
   /**
    List of attributes to highlight.
@@ -124,8 +125,8 @@ public protocol SettingsParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/restrictHighlightAndSnippetArrays/?language=swift)
    */
   var restrictHighlightAndSnippetArrays: Bool? { get set }
-  
-  //MARK: - Pagination
+
+  // MARK: - Pagination
 
   /**
    Set the number of hits per page.
@@ -140,8 +141,8 @@ public protocol SettingsParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/paginationlimitedto/?language=swift)
    */
   var paginationLimitedTo: Int? { get set }
-  
-  //MARK: - Typos
+
+  // MARK: - Typos
 
   /**
    Minimum number of characters a word in the query name must contain to accept matches with 1 typo.
@@ -190,8 +191,8 @@ public protocol SettingsParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/separatorsToIndex/?language=swift)
    */
   var separatorsToIndex: String? { get set }
-  
-  //MARK: - Languages
+
+  // MARK: - Languages
 
   /**
    Treats singular, plurals, and other forms of declensions as matching terms.
@@ -227,7 +228,7 @@ public protocol SettingsParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/keepDiacriticsOnCharacters/?language=swift)
    */
   var keepDiacriticsOnCharacters: String? { get set }
-  
+
   /**
    Override the custom normalization handled by the engine.
    */
@@ -240,7 +241,7 @@ public protocol SettingsParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/queryLanguages/?language=swift)
    */
   var queryLanguages: [Language]? { get set }
-  
+
   /**
    This parameter configures the segmentation of text at indexing time.
    - Accepted value: Language.japanese
@@ -248,7 +249,7 @@ public protocol SettingsParameters {
    */
   var indexLanguages: [Language]? { get set }
 
-  //MARK: - Rules
+  // MARK: - Rules
 
   /**
    Whether rules should be globally enabled.
@@ -256,17 +257,17 @@ public protocol SettingsParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/enableRules/?language=swift)
    */
   var enableRules: Bool? { get set }
-  
-  //MARK: - Personalization
-  
+
+  // MARK: - Personalization
+
   /**
    Enable the Personalization feature.
    - Engine default: false
    - [Documentation][https://www.algolia.com/doc/api-reference/api-parameters/enablePersonalization/?language=swift]
    */
   var enablePersonalization: Bool? { get set }
-  
-  //MARK: - Query strategy
+
+  // MARK: - Query strategy
 
   /**
    Controls if and how query words are interpreted as [prefixes][https://www.algolia.com/doc/guides/textual-relevance/prefix-search/?language=swift).
@@ -288,21 +289,21 @@ public protocol SettingsParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/advancedSyntax/?language=swift)
    */
   var advancedSyntax: Bool? { get set }
-  
+
   /**
    A list of words that should be considered as optional when found in the query.
    - Engine default: []
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/optionalWords/?language=swift)
    */
   var optionalWords: [String]? { get set }
-  
+
   /**
    List of [Attribute] on which you want to disable prefix matching.
    - Engine default: []
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/disablePrefixOnAttributes/?language=swift)
    */
   var disablePrefixOnAttributes: [Attribute]? { get set }
-  
+
   /**
    List of [Attribute] on which you want to disable the exact ranking criterion.
    - Engine default: []
@@ -323,13 +324,13 @@ public protocol SettingsParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/alternativesAsExact/?language=swift)
    */
   var alternativesAsExact: [AlternativesAsExact]? { get set }
-  
+
   /**
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters//?language=swift)
    */
   var advancedSyntaxFeatures: [AdvancedSyntaxFeatures]? { get set }
 
-  //MARK: - Performance
+  // MARK: - Performance
 
   /**
    List of [NumericAttributeFilter] that can be used as numerical filters.
@@ -345,8 +346,8 @@ public protocol SettingsParameters {
    */
   var allowCompressionOfIntegerArray: Bool? { get set }
 
-  //MARK: - Advanced
-  
+  // MARK: - Advanced
+
   /**
    Name of the de-duplication [Attribute] to be used with the [distinct] feature.
    - Engine default: null

@@ -78,9 +78,9 @@ public struct SearchParametersStorage: SearchParameters, Equatable {
 }
 
 protocol SearchParametersStorageContainer: SearchParameters {
-  
+
   var searchParametersStorage: SearchParametersStorage { get set }
-  
+
 }
 
 extension SearchParametersStorageContainer {

@@ -8,11 +8,11 @@
 import Foundation
 
 extension Command {
-  
+
   enum Answers {
-    
+
     struct Find: AlgoliaCommand {
-      
+
       let callType: CallType = .read
       let urlRequest: URLRequest
       let requestOptions: RequestOptions?
@@ -25,9 +25,8 @@ extension Command {
         urlRequest = .init(method: .post, path: path, body: query.httpBody, requestOptions: self.requestOptions)
       }
 
-      
     }
-    
+
   }
-  
+
 }

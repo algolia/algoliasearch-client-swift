@@ -16,7 +16,7 @@ struct Path: PathComponent {
     get {
       return nil
     }
-
+    // swiftlint:disable:next unused_setter_value
     set {
     }
   }

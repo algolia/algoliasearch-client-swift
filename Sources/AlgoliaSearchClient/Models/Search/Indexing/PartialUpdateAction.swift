@@ -8,19 +8,19 @@
 import Foundation
 
 extension PartialUpdate {
-  
+
   public struct Action: Equatable {
     let storage: Storage
   }
 }
 
 extension PartialUpdate.Action {
-  
+
   enum Storage: Codable, Equatable {
-    
+
     case set(JSON)
     case operation(PartialUpdate.Operation)
-    
+
     public init(from decoder: Decoder) throws {
       if let operation = try? PartialUpdate.Operation(from: decoder) {
         self = .operation(operation)
@@ -28,7 +28,7 @@ extension PartialUpdate.Action {
         self = .set(try JSON(from: decoder))
       }
     }
-    
+
     public func encode(to encoder: Encoder) throws {
       switch self {
       case .set(let value):
@@ -39,23 +39,23 @@ extension PartialUpdate.Action {
     }
 
   }
-  
+
 }
 
 extension PartialUpdate.Action: Decodable {
-  
+
   public init(from decoder: Decoder) throws {
     self.storage = try Storage(from: decoder)
   }
-  
+
 }
 
 extension PartialUpdate.Action: Encodable {
-  
+
   public func encode(to encoder: Encoder) throws {
     try storage.encode(to: encoder)
   }
-  
+
 }
 
 public extension PartialUpdate.Action {
@@ -63,7 +63,7 @@ public extension PartialUpdate.Action {
   init(_ json: JSON) {
     storage = .set(json)
   }
-  
+
   static func set(_ json: JSON) -> Self {
     return .init(json)
   }
@@ -127,15 +127,15 @@ extension PartialUpdate.Action: ExpressibleByNilLiteral {
 }
 
 extension PartialUpdate.Action {
-  
+
   init(operation: PartialUpdate.Operation.Kind, value: JSON) {
     storage = .operation(.init(kind: operation, value: value))
   }
-  
+
 }
 
 public extension PartialUpdate.Action {
-  
+
   /// Increment a numeric attribute
   /// - Parameter value: Value to increment by
   static func increment(value: Int) -> Self {
@@ -171,7 +171,7 @@ public extension PartialUpdate.Action {
   static func incrementFrom(value: Int) -> Self {
     .init(operation: .incrementFrom, value: .init(value))
   }
-  
+
   /**
    Increment a numeric integer attribute only if the provided value is greater than the current value,
    and otherwise ignore the whole object update.
@@ -188,7 +188,6 @@ public extension PartialUpdate.Action {
 
 }
 
-
 public extension PartialUpdate.Action {
 
   /// Decrement a numeric attribute
@@ -196,7 +195,7 @@ public extension PartialUpdate.Action {
   static func decrement(value: Int) -> Self {
     .init(operation: .decrement, value: .init(value))
   }
-  
+
   /// Decrement a numeric attribute
   /// - Parameter value: Value to decrement by
   static func decrement(value: Float) -> Self {

@@ -16,5 +16,5 @@ func assertionFailure(_ message: @autoclosure () -> String = String(), file: Sta
 }
 
 /// The actual function called by our custom `precondition`.
-var assertionClosure: (String, StaticString, UInt) -> () = defaultAssertionClosure
+var assertionClosure: (String, StaticString, UInt) -> Void = defaultAssertionClosure
 let defaultAssertionClosure = { Swift.assertionFailure($0, file: $1, line: $2) }

@@ -8,7 +8,7 @@
 import Foundation
 
 public extension Index {
-  
+
   /**
    Returns answers that match the query.
    
@@ -23,7 +23,7 @@ public extension Index {
     let command = Command.Answers.Find(indexName: name, query: query, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Returns answers that match the query.
    

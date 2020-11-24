@@ -4,14 +4,13 @@
 //
 //  Created by Vladislav Fitc on 17.02.2020.
 //
-// swiftlint:disable file_length
 
 import Foundation
 
 public struct Query: Equatable, SearchParameters {
 
   internal var searchParametersStorage: SearchParametersStorage
-  
+
   /// Custom parameters
   public var customParameters: [String: JSON]?
 
@@ -25,23 +24,23 @@ public struct Query: Equatable, SearchParameters {
 }
 
 extension Query: Codable {
-  
+
   public init(from decoder: Decoder) throws {
     self.searchParametersStorage = try .init(from: decoder)
     customParameters = try CustomParametersCoder.decode(from: decoder, excludingKeys: SearchParametersStorage.CodingKeys.self)
   }
-  
+
   public func encode(to encoder: Encoder) throws {
     try searchParametersStorage.encode(to: encoder)
     if let customParameters = customParameters {
       try CustomParametersCoder.encode(customParameters, to: encoder)
     }
   }
-  
+
 }
 
 extension Query: SearchParametersStorageContainer {
-  
+
 }
 
 extension Query: Builder {}

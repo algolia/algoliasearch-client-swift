@@ -8,9 +8,9 @@
 import Foundation
 
 public struct Settings: SettingsParameters {
-  
+
   public typealias Key = SettingsParametersCodingKeys
-    
+
   var settingsParametersStorage: SettingsParametersStorage
 
   public init() {
@@ -20,19 +20,19 @@ public struct Settings: SettingsParameters {
 }
 
 extension Settings: Decodable {
-  
+
   public init(from decoder: Decoder) throws {
     try settingsParametersStorage = SettingsParametersStorage(from: decoder)
   }
-  
+
 }
 
 extension Settings: Encodable {
-  
+
   public func encode(to encoder: Encoder) throws {
     try settingsParametersStorage.encode(to: encoder)
   }
-  
+
 }
 
 extension Settings: SettingsParametersStorageContainer {}

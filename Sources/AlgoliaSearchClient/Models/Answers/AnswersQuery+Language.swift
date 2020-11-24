@@ -8,21 +8,21 @@
 import Foundation
 
 extension AnswersQuery {
-  
+
   public enum Language: RawRepresentable, Codable {
-    
+
     case english
     case custom(String)
-    
+
     public var rawValue: AlgoliaSearchClient.Language {
       switch self {
       case .english:
         return .english
-      case .custom(let a):
-        return .init(rawValue: a)
+      case .custom(let rawValue):
+        return .init(rawValue: rawValue)
       }
     }
-    
+
     public init(rawValue: AlgoliaSearchClient.Language) {
       switch rawValue {
       case .english:
@@ -31,16 +31,16 @@ extension AnswersQuery {
         self = .custom(rawValue.rawValue)
       }
     }
-    
+
     public init(from decoder: Decoder) throws {
       let rawLanguage = try AlgoliaSearchClient.Language(from: decoder)
       self.init(rawValue: rawLanguage)
     }
-    
+
     public func encode(to encoder: Encoder) throws {
       try rawValue.encode(to: encoder)
     }
-    
+
   }
-  
+
 }

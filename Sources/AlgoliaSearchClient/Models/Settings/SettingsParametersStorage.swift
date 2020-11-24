@@ -74,7 +74,7 @@ protocol SettingsParametersStorageContainer: SettingsParameters {
 }
 
 extension SettingsParametersStorageContainer {
-  
+
   public var searchableAttributes: [SearchableAttribute]? {
     get { settingsParametersStorage.searchableAttributes }
     set { settingsParametersStorage.searchableAttributes = newValue }
@@ -295,5 +295,5 @@ extension SettingsParametersStorageContainer {
     get { settingsParametersStorage.primary }
     set { settingsParametersStorage.primary = newValue }
   }
-  
+
 }

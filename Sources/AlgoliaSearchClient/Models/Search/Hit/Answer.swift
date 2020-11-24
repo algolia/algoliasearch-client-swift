@@ -17,5 +17,5 @@ public struct Answer: Codable, Hashable {
 
   /// Answer's confidence score
   public let score: Double
-  
+
 }

@@ -4,6 +4,7 @@
 //
 //  Created by Vladislav Fitc on 19/11/2020.
 //
+// swiftlint:disable file_length
 
 import Foundation
 
@@ -24,7 +25,7 @@ public protocol SearchParameters {
     [Documentation][htt ps://www.algolia.com/doc/api-reference/api-parameters/similarQuery/?language=swift)
    */
   var similarQuery: String? { get set }
-  
+
   // MARK: - Attributes
 
   /**
@@ -40,7 +41,6 @@ public protocol SearchParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/restrictSearchableAttributes/?language=swift)
    */
   var restrictSearchableAttributes: [Attribute]? { get set }
-
 
   // MARK: - Filtering
 
@@ -86,8 +86,8 @@ public protocol SearchParameters {
    */
   var sumOrFiltersScores: Bool? { get set }
 
-  //MARK: - Faceting
-  
+  // MARK: - Faceting
+
   /**
    Facets to retrieve.
    - Engine default: []
@@ -277,9 +277,9 @@ public protocol SearchParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/insidePolygon/?language=swift)
    */
   var insidePolygon: [Polygon]? { get set }
-  
-  //MARK: - Languages
-  
+
+  // MARK: - Languages
+
   /**
    Treats singular, plurals, and other forms of declensions as matching terms.
    - Engine default: false
@@ -309,7 +309,7 @@ public protocol SearchParameters {
    removeStopWords, removeWordsIfNoResults, analyticsTags and ruleContexts.
   */
   var naturalLanguages: [Language]? { get set }
-  
+
   // MARK: - Query rules
 
   /**
@@ -380,7 +380,7 @@ public protocol SearchParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/advancedSyntax/?language=swift)
    */
   var advancedSyntax: Bool? { get set }
-  
+
   /**
    A list of words that should be considered as optional when found in the query.
    - Engine default: []
@@ -429,7 +429,7 @@ public protocol SearchParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/getRankingInfo/?language=swift)
    */
   var getRankingInfo: Bool? { get set }
-  
+
   /**
    Enable the Click Analytics feature.
    - Engine default: false.
@@ -450,7 +450,7 @@ public protocol SearchParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/?language=swift)
    */
   var analyticsTags: [String]? { get set }
-  
+
   /**
    Whether to take into account an index’s synonyms for a particular search.
    - Engine default: true
@@ -478,21 +478,21 @@ public protocol SearchParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/responseFields/?language=swift)
    */
   var responseFields: [ResponseField]? { get set }
-  
+
   /**
    Maximum number of facet hits to return during a search for facet values.
    - Engine default: 10
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/maxFacetHits/?language=swift)
    */
   var maxFacetHits: Int? { get set }
-  
+
   /**
    Whether to include or exclude a query from the processing-time percentile computation.
    - Engine default: true
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/percentileComputation/?language=swift)
    */
   var percentileComputation: Bool? { get set }
-  
+
   /**
    When attribute is ranked above proximity in your ranking formula, proximity is used to select
    which searchable attribute is matched in the attribute ranking stage.

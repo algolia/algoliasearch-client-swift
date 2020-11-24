@@ -13,19 +13,19 @@ public struct Hit<T: Codable> {
 
   public let objectID: ObjectID
   public let object: T
-  
+
   /// Snippeted attributes. Only returned when `attributesToSnippet` is non-empty.
   public let snippetResult: TreeModel<SnippetResult>?
-  
+
   /// Highlighted attributes. Only returned when `attributesToHighlight` is non-empty.
   public let highlightResult: TreeModel<HighlightResult>?
-  
+
   /// Ranking information. Only returned when `getRankingInfo` is true.
   public let rankingInfo: RankingInfo?
-  
+
   /// Geodata information.
   public let geolocation: Point?
-  
+
   /// Answer information
   public let answer: Answer?
 
@@ -66,5 +66,5 @@ extension Hit: Codable {
     try container.encodeIfPresent(answer, forKey: .answer)
     try object.encode(to: encoder)
   }
-  
+
 }
