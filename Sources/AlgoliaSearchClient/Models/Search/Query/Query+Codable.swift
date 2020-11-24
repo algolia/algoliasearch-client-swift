@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension Query: Codable {
+extension SearchParametersStorage: Codable {
 
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -78,7 +78,6 @@ extension Query: Codable {
     enableABTest = try container.decodeIfPresent(forKey: .enableABTest)
     explainModules = try container.decodeIfPresent(forKey: .explainModules)
     naturalLanguages = try container.decodeIfPresent(forKey: .naturalLanguages)
-    customParameters = try CustomParametersCoder.decode(from: decoder, excludingKeys: CodingKeys.self)
   }
 
   public func encode(to encoder: Encoder) throws {
@@ -149,9 +148,6 @@ extension Query: Codable {
     try container.encodeIfPresent(enableABTest, forKey: .enableABTest)
     try container.encodeIfPresent(explainModules, forKey: .explainModules)
     try container.encodeIfPresent(naturalLanguages, forKey: .naturalLanguages)
-    if let customParameters = customParameters {
-      try CustomParametersCoder.encode(customParameters, to: encoder)
-    }
   }
 
   enum CodingKeys: String, CodingKey, CaseIterable {
