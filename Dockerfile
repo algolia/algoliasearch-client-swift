@@ -9,11 +9,3 @@ COPY ./Package.* ./
 RUN swift package resolve
 
 COPY . .
-
-RUN swift build \
-    --enable-test-discovery \
-    -c release \
-    -Xswiftc -g \
-    -j 4
-
-# RUN swift test --enable-test-discovery
