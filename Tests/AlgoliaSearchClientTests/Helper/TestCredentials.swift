@@ -31,6 +31,7 @@ struct TestCredentials: Credentials {
   enum Environment {
     case `default`
     case places
+    case answers
     case mcm
     case custom(appID: String, apiKey: String)
     
@@ -40,6 +41,8 @@ struct TestCredentials: Credentials {
         return ("ALGOLIA_APPLICATION_ID_1", "ALGOLIA_ADMIN_KEY_1")
       case .places:
         return ("ALGOLIA_PLACES_APPLICATION_ID", "ALGOLIA_PLACES_API_KEY")
+      case .answers:
+        return ("ALGOLIA_ANSWERS_APPLICATION_ID", "ALGOLIA_ANSWERS_API_KEY")
       case .mcm:
         return ("ALGOLIA_APPLICATION_ID_MCM", "ALGOLIA_ADMIN_KEY_MCM")
       case .custom(appID: let appID, apiKey: let apiKey):
