@@ -16,7 +16,7 @@ public struct Hit<T: Codable> {
   public let snippetResult: TreeModel<SnippetResult>?
   public let highlightResult: TreeModel<HighlightResult>?
   public let rankingInfo: RankingInfo?
-  public let geolocation: Point?
+  public let geolocation: SingleOrList<Point>?
 
 }
 
@@ -39,7 +39,7 @@ extension Hit: Codable {
     self.snippetResult = try container.decodeIfPresent(TreeModel<SnippetResult>.self, forKey: .snippetResult)
     self.highlightResult = try container.decodeIfPresent(TreeModel<HighlightResult>.self, forKey: .highlightResult)
     self.rankingInfo = try container.decodeIfPresent(RankingInfo.self, forKey: .rankingInfo)
-    self.geolocation = try container.decodeIfPresent(Point.self, forKey: .geolocation)
+    self.geolocation = try? container.decodeIfPresent(SingleOrList<Point>.self, forKey: .geolocation)
   }
 
   public func encode(to encoder: Encoder) throws {

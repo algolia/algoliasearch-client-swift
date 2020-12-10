@@ -109,4 +109,61 @@ class HitTests: XCTestCase {
     
   }
   
+  struct Item: Codable {
+    let field: String
+  }
+  
+  func testDecodingIncorrectGeoloc() throws {
+    let jsonData = Data("""
+    {
+      "objectID": "1",
+      "field": "value",
+      "_geoloc": {
+        "lat": 22.2268517,
+        "lon": 84.8463498
+      }
+    }
+    """.utf8)
+    
+    let hit = try JSONDecoder().decode(Hit<Item>.self, from: jsonData)
+    XCTAssertNil(hit.geolocation)
+  }
+  
+  func testDecodingGeolocSinglePoint() throws {
+    let jsonData = Data("""
+    {
+      "objectID": "1",
+      "field": "value",
+      "_geoloc": {
+        "lat": 22.2268517,
+        "lng": 84.8463498
+      }
+    }
+    """.utf8)
+    
+    let hit = try JSONDecoder().decode(Hit<Item>.self, from: jsonData)
+    XCTAssertEqual(hit.geolocation, .single(.init(latitude: 22.2268517, longitude: 84.8463498)))
+  }
+  
+  func testDecodingGeolocPointList() throws {
+    let jsonData = Data("""
+    {
+      "objectID": "1",
+      "field": "value",
+      "_geoloc": [
+      {
+        "lat": 22.2268517,
+        "lng": 84.8463498
+      },
+      {
+        "lat": 48.855651,
+        "lng": 2.2964417
+      }
+      ]
+    }
+    """.utf8)
+    let hit = try JSONDecoder().decode(Hit<Item>.self, from: jsonData)
+    XCTAssertEqual(hit.geolocation, .list([.init(latitude: 22.2268517, longitude: 84.8463498), .init(latitude: 48.855651, longitude: 2.2964417)]))
+  }
+  
 }
