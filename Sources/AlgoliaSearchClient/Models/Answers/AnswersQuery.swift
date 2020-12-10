@@ -10,12 +10,8 @@ import Foundation
 public struct AnswersQuery: SearchParameters, Codable {
 
   /// The query for which to retrieve results.
-  public var query: String {
-    didSet {
-      checkQuery()
-    }
-  }
-
+  public var query: String
+  
   /// The languages in the query.
   ///
   /// Default value: [.english]
@@ -76,15 +72,6 @@ public struct AnswersQuery: SearchParameters, Codable {
 
   public init(query: String) {
     self.query = query
-    checkQuery()
-  }
-
-  private func checkQuery() {
-    if query.isEmpty {
-      assertionFailure("query cannot be empty")
-    } else if CharacterSet(charactersIn: query).isSubset(of: .whitespacesAndNewlines) {
-      assertionFailure("query cannot be spaces only")
-    }
   }
 
 }

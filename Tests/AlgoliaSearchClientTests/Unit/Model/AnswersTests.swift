@@ -11,15 +11,6 @@ import XCTest
 
 class AnswersQueryTests: XCTestCase {
   
-  func testInvalidQueryAsserts() throws {
-    expectingAssertionFailure(expectedMessage: "query cannot be empty") {
-      _ = AnswersQuery(query: "")
-    }
-    expectingAssertionFailure(expectedMessage: "query cannot be spaces only") {
-      _ = AnswersQuery(query: "    ")
-    }
-  }
-  
   func testInvalidParametersAsserts() throws {
     expectingAssertionFailure(expectedMessage: "attributesToSnippet is not supported by answers") {
       _ = AnswersQuery(query: "query")
