@@ -12,13 +12,13 @@ import Foundation
  occasionally providing bool values in the form of String   
  */
 struct BoolContainer: RawRepresentable, Codable {
-  
+
   let rawValue: Bool
-  
+
   init(rawValue: Bool) {
     self.rawValue = rawValue
   }
-  
+
   init(from decoder: Decoder) throws {
     let container = try decoder.singleValueContainer()
     if let boolValue = try? container.decode(Bool.self) {
@@ -31,5 +31,5 @@ struct BoolContainer: RawRepresentable, Codable {
     }
     throw DecodingError.dataCorruptedError(in: container, debugDescription: "Value cannot be decoded neither to Bool nor to String representing Bool value")
   }
-  
+
 }

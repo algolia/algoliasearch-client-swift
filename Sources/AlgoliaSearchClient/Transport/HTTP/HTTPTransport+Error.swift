@@ -13,7 +13,7 @@ extension HTTPTransport {
     case noReachableHosts
     case missingData
     case decodingFailure(Swift.Error)
-    
+
     var localizedDescription: String {
       switch self {
       case .noReachableHosts:

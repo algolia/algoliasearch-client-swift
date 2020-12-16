@@ -11,7 +11,7 @@ let macOSVersion: SupportedPlatform.MacOSVersion = .v10_10
 
 #if os(Linux)
 let extraPackageDependencies: [Package.Dependency] = [
-  .package(url: "https://github.com/apple/swift-crypto.git", from: "1.1.2"),
+  .package(url: "https://github.com/apple/swift-crypto.git", from: "1.1.2")
 ]
 #else
 let extraPackageDependencies: [Package.Dependency] = []
@@ -39,19 +39,19 @@ let package = Package(
       targets: ["AlgoliaSearchClient"])
   ],
   dependencies: [
-    .package(url:"https://github.com/apple/swift-log.git", from: "1.4.0"),
+    .package(url:"https://github.com/apple/swift-log.git", from: "1.4.0")
   ] + extraPackageDependencies,
   targets: [
     .target(
       name: "AlgoliaSearchClient",
       dependencies: [
-        .product(name: "Logging", package: "swift-log"),
+        .product(name: "Logging", package: "swift-log")
       ] + extraTargetDependencies),
     .testTarget(
       name: "AlgoliaSearchClientTests",
       dependencies: [
         .target(name: "AlgoliaSearchClient"),
-        .product(name: "Logging", package: "swift-log"),
+        .product(name: "Logging", package: "swift-log")
       ] + extraTargetDependencies)
   ]
 )

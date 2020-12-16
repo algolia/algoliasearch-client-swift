@@ -12,7 +12,7 @@ extension Query {
   struct URLEncoder<Key: RawRepresentable> where Key.RawValue == String {
 
     var queryItems: [URLQueryItem] = []
-        
+
     mutating func set<T: URLEncodable>(_ value: T?, for key: Key) {
       guard let value = value else { return }
       queryItems.append(.init(name: key.rawValue, value: value.urlEncodedString))

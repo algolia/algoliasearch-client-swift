@@ -12,24 +12,24 @@ public struct TaggedString {
 
   /// Input string
   public let input: String
-  
+
   /// Opening tag
   public let preTag: String
-  
+
   /// Closing tag
   public let postTag: String
-  
+
   /// String comparison options for tags parsing
   public let options: String.CompareOptions
-  
+
   private lazy var storage: (String, [Range<String.Index>]) = TaggedString.computeRanges(for: input, preTag: preTag, postTag: postTag, options: options)
-  
+
   /// Output string cleansed of the opening and closing tags
   public private(set) lazy var output: String = { storage.0 }()
-  
+
   /// List of ranges of tagged substrings in the output string
   public private(set) lazy var taggedRanges: [Range<String.Index>] = { storage.1 }()
-  
+
   /// List of ranges of untagged substrings in the output string
   public private(set) lazy var untaggedRanges: [Range<String.Index>] = TaggedString.computeInvertedRanges(for: output, with: taggedRanges)
 
@@ -52,12 +52,12 @@ public struct TaggedString {
     self.postTag = postTag
     self.options = options
   }
-  
+
   /// - Returns: The list of tagged substrings of the output string
   public mutating func taggedSubstrings() -> [Substring] {
     return taggedRanges.map { output[$0] }
   }
-  
+
   /// - Returns: The list of untagged substrings of the output string
   public mutating func untaggedSubstrings() -> [Substring] {
     return untaggedRanges.map { output[$0] }
@@ -65,15 +65,13 @@ public struct TaggedString {
 
   private static func computeRanges(for string: String, preTag: String, postTag: String, options: String.CompareOptions) -> (output: String, ranges: [Range<String.Index>]) {
     var output = string
-    var preStack: [R] = []
-    var rangesToHighlight = [R]()
-    
-    typealias R = Range<String.Index>
+    var preStack: [Range<String.Index>] = []
+    var rangesToHighlight = [Range<String.Index>]()
 
     enum Tag {
-      case pre(R), post(R)
+      case pre(Range<String.Index>), post(Range<String.Index>)
     }
-    
+
     func nextTag(in string: String) -> Tag? {
       switch (string.range(of: preTag, options: options), string.range(of: postTag, options: options)) {
       case (.some(let pre), .some(let post)) where pre.lowerBound < post.lowerBound:
@@ -88,7 +86,7 @@ public struct TaggedString {
         return nil
       }
     }
-        
+
     while let nextTag = nextTag(in: output) {
       switch nextTag {
       case .pre(let preRange):
@@ -102,18 +100,18 @@ public struct TaggedString {
         output.removeSubrange(postRange)
       }
     }
-        
+
     return (output, mergeOverlapping(rangesToHighlight))
   }
-  
+
   private static func computeInvertedRanges(for string: String, with ranges: [Range<String.Index>]) -> [Range<String.Index>] {
-    
+
     if ranges.isEmpty {
       return ([string.startIndex..<string.endIndex])
     }
-    
+
     var lowerBound = string.startIndex
-    
+
     var invertedRanges: [Range<String.Index>] = []
 
     for range in ranges where range.lowerBound >= lowerBound {
@@ -131,7 +129,7 @@ public struct TaggedString {
     return invertedRanges
 
   }
-  
+
   private static func mergeOverlapping<T: Comparable>(_ input: [Range<T>]) -> [Range<T>] {
     var output: [Range<T>] = []
     let sortedRanges = input.sorted(by: { $0.lowerBound < $1.lowerBound })
@@ -157,11 +155,11 @@ public struct TaggedString {
 }
 
 extension TaggedString: Hashable {
-  
+
   public func hash(into hasher: inout Hasher) {
     input.hash(into: &hasher)
     preTag.hash(into: &hasher)
     postTag.hash(into: &hasher)
   }
-    
+
 }

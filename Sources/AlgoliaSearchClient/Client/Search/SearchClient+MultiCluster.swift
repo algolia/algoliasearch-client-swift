@@ -8,9 +8,9 @@
 import Foundation
 
 public extension SearchClient {
-  
+
   // MARK: - List clusters
-  
+
   /**
    List the Cluster available in a multi-clusters setup for a single ApplicationID.
    
@@ -23,7 +23,7 @@ public extension SearchClient {
     let command = Command.MultiCluster.ListClusters(requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    List the Cluster available in a multi-clusters setup for a single ApplicationID.
    
@@ -34,9 +34,9 @@ public extension SearchClient {
     let command = Command.MultiCluster.ListClusters(requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
   // MARK: - List User IDs
-  
+
   /**
    List the UserID assigned to a multi-clusters ApplicationID.
    
@@ -55,7 +55,7 @@ public extension SearchClient {
     let command = Command.MultiCluster.User.GetList(page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    List the UserID assigned to a multi-clusters ApplicationID.
    
@@ -72,7 +72,7 @@ public extension SearchClient {
     let command = Command.MultiCluster.User.GetList(page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
   // MARK: - Assign UserID
   /**
    Assign or Move a UserID to a cluster.
@@ -93,7 +93,7 @@ public extension SearchClient {
     let command = Command.MultiCluster.User.Assign(userID: userID, clusterName: clusterName, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Assign or Move a UserID to a cluster.
    
@@ -111,9 +111,9 @@ public extension SearchClient {
     let command = Command.MultiCluster.User.Assign(userID: userID, clusterName: clusterName, requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
   // MARK: - Assign UserIDs
-  
+
   /**
    Assign or move UserIDs to a ClusterName.
    
@@ -132,7 +132,7 @@ public extension SearchClient {
     let command = Command.MultiCluster.User.BatchAssign(userIDs: userIDs, clusterName: clusterName, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Assign or move UserIDs to a ClusterName.
    
@@ -149,9 +149,9 @@ public extension SearchClient {
     let command = Command.MultiCluster.User.BatchAssign(userIDs: userIDs, clusterName: clusterName, requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
   // MARK: - Get UserID
-  
+
   /**
    Returns the UserID data stored in the mapping.
    
@@ -168,7 +168,7 @@ public extension SearchClient {
     let command = Command.MultiCluster.User.Get(userID: userID, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Returns the UserID data stored in the mapping.
    
@@ -183,9 +183,9 @@ public extension SearchClient {
     let command = Command.MultiCluster.User.Get(userID: userID, requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
   // MARK: - Get top UserID
-  
+
   /**
    Get the top 10 ResponseUserID with the highest number of records per cluster.
    The data returned will usually be a few seconds behind real-time, because userID usage may take up to a few seconds to propagate to the different clusters.
@@ -199,7 +199,7 @@ public extension SearchClient {
     let command = Command.MultiCluster.User.GetTop(requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Get the top 10 ResponseUserID with the highest number of records per cluster.
    The data returned will usually be a few seconds behind real-time, because userID usage may take up to a few seconds to propagate to the different clusters.
@@ -211,9 +211,9 @@ public extension SearchClient {
     let command = Command.MultiCluster.User.GetTop(requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
   // MARK: - Remove UserID
-  
+
   /**
    Remove a UserID and its associated data from the multi-clusters.
    
@@ -230,7 +230,7 @@ public extension SearchClient {
     let command = Command.MultiCluster.User.Remove(userID: userID, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Remove a UserID and its associated data from the multi-clusters.
    
@@ -245,9 +245,9 @@ public extension SearchClient {
     let command = Command.MultiCluster.User.Remove(userID: userID, requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
   // MARK: - Search UserID
-  
+
   /**
    Search for UserID.
    
@@ -264,7 +264,7 @@ public extension SearchClient {
     let command = Command.MultiCluster.User.Search(userIDQuery: query, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Search for UserID.
    
@@ -279,9 +279,9 @@ public extension SearchClient {
     let command = Command.MultiCluster.User.Search(userIDQuery: query, requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
   // MARK: - Has pending mapping
-  
+
   /**
    - Parameter retrieveMappings: If set to true, retrieves HasPendingMappingResponse.clusters.
    - Parameter requestOptions: Configure request locally with RequestOptions
@@ -294,7 +294,7 @@ public extension SearchClient {
     let command = Command.MultiCluster.HasPendingMapping(retrieveMapping: retrieveMappings, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    - Parameter retrieveMappings: If set to true, retrieves HasPendingMappingResponse.clusters.
    - Parameter requestOptions: Configure request locally with RequestOptions
@@ -305,5 +305,5 @@ public extension SearchClient {
     let command = Command.MultiCluster.HasPendingMapping(retrieveMapping: retrieveMappings, requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
 }
