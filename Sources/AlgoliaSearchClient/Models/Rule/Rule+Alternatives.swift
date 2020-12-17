@@ -40,10 +40,10 @@ extension Rule.Alternatives: ExpressibleByBooleanLiteral {
 }
 
 extension Rule.Alternatives: Decodable {
-  
+
   public init(from decoder: Decoder) throws {
     let boolContainer = try BoolContainer(from: decoder)
     self = boolContainer.rawValue ? .true : .false
   }
-  
+
 }

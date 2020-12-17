@@ -27,7 +27,7 @@ extension RootPath {
     get {
       return nil
     }
-
+    // swiftlint:disable unused_setter_value
     set { }
   }
 
@@ -43,6 +43,8 @@ extension Never: PathComponent {
     get {
       return nil
     }
+
+    // swiftlint:disable unused_setter_value
     set {
     }
   }

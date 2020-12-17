@@ -112,7 +112,7 @@ public extension Index {
     let command = Command.Synonym.SaveList(indexName: name, synonyms: synonyms, forwardToReplicas: forwardToReplicas, clearExistingSynonyms: replaceExistingSynonyms, requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
   /**
    Create or update multiple synonym.
    This method enables you to create or update one or more synonym in a single call.

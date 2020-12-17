@@ -227,7 +227,7 @@ public struct Settings: Codable {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/enableRules/?language=swift)
    */
   public var enableRules: Bool?
-  
+
   /**
    Enable the Personalization feature.
    - Engine default: false

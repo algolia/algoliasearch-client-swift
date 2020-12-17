@@ -13,9 +13,9 @@ import FoundationNetworking
 extension URLRequest: Builder {}
 
 extension CharacterSet {
-  
+
   static var uriAllowed = CharacterSet.urlQueryAllowed.subtracting(.init(charactersIn: "+"))
-  
+
 }
 
 extension URLRequest {
@@ -37,7 +37,7 @@ extension URLRequest {
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"
     urlComponents.path = path.fullPath
-  
+
     if let urlParameters = requestOptions?.urlParameters {
       urlComponents.queryItems = urlParameters.map { (key, value) in .init(name: key.rawValue, value: value) }
     }
@@ -46,22 +46,22 @@ extension URLRequest {
 
     request.httpMethod = method.rawValue
     request.httpBody = body
-    
+
     if let requestOptions = requestOptions {
-      
+
       requestOptions.headers.forEach { header in
         let (value, field) = (header.value, header.key.rawValue)
         request.setValue(value, forHTTPHeaderField: field)
       }
-      
+
       // If body is set in query parameters, it will override the body passed as parameter to this function
       if let body = requestOptions.body, !body.isEmpty {
         let jsonEncodedBody = try? JSONSerialization.data(withJSONObject: body, options: [])
         request.httpBody = jsonEncodedBody
       }
-      
+
     }
-        
+
     request.httpBody = body
     self = request
   }

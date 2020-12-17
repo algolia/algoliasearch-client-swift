@@ -14,7 +14,7 @@ import CommonCrypto
 #endif
 
 extension String {
-  
+
   func hmac256(withKey key: String) -> String {
     #if os(Linux)
     let key = SymmetricKey(data: Data(key.utf8))

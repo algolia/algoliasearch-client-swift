@@ -25,17 +25,17 @@ class AlgoliaRetryStrategy: RetryStrategy {
   convenience init(configuration: Configuration) {
     self.init(hosts: configuration.hosts)
   }
-  
+
   func retryableHosts(for callType: CallType) -> HostIterator {
     return queue.sync {
       // Reset expired hosts
       hosts.resetExpired(expirationDelay: hostsExpirationDelay)
-      
+
       // If all hosts of the required type are down, reset them all
       if !hosts.contains(where: { $0.supports(callType) && $0.isUp }) {
         hosts.resetAll(for: callType)
       }
-      
+
       return HostIterator { [weak self] in
         self?.hosts.first { $0.supports(callType) && $0.isUp }
       }

@@ -8,7 +8,7 @@
 import Foundation
 
 public struct PartialUpdate: Equatable {
-  
+
   typealias Storage = [Attribute: Action]
 
   let storage: Storage
@@ -16,11 +16,11 @@ public struct PartialUpdate: Equatable {
 }
 
 extension PartialUpdate: ExpressibleByDictionaryLiteral {
-  
+
   public init(dictionaryLiteral elements: (Attribute, Action)...) {
     self.init(storage: .init(uniqueKeysWithValues: elements))
   }
-  
+
 }
 
 public extension PartialUpdate {
@@ -35,7 +35,7 @@ public extension PartialUpdate {
 }
 
 public extension PartialUpdate {
-  
+
   /// Increment a numeric attribute
   /// - Parameter attribute: Attribute name to update
   /// - Parameter value: Value to increment by
@@ -75,7 +75,7 @@ public extension PartialUpdate {
   static func incrementFrom(attribute: Attribute, value: Int) -> Self {
     .operation(attribute: attribute, operation: .incrementFrom, value: .init(value))
   }
-  
+
   /**
    Increment a numeric integer attribute only if the provided value is greater than the current value,
    and otherwise ignore the whole object update.
@@ -93,7 +93,6 @@ public extension PartialUpdate {
 
 }
 
-
 public extension PartialUpdate {
 
   /// Decrement a numeric attribute
@@ -102,7 +101,7 @@ public extension PartialUpdate {
   static func decrement(attribute: Attribute, value: Int) -> Self {
     .operation(attribute: attribute, operation: .decrement, value: .init(value))
   }
-  
+
   /// Decrement a numeric attribute
   /// - Parameter attribute: Attribute name to update
   /// - Parameter value: Value to decrement by
@@ -209,21 +208,21 @@ extension PartialUpdate: Codable {
 }
 
 extension PartialUpdate {
-  
+
   struct Operation: Codable, Equatable {
-    
+
     let kind: Kind
     let value: JSON
-    
+
     enum CodingKeys: String, CodingKey {
       case value
       case kind = "_operation"
     }
-    
+
     enum Kind: String, Codable {
       /// Increment a numeric attribute
       case increment = "Increment"
-      
+
       /**
        Increment a numeric integer attribute only if the provided value matches the current value,
        and otherwise ignore the whole object update.
@@ -233,7 +232,7 @@ extension PartialUpdate {
        If the object doesn’t exist, the engine only creates it if you pass an IncrementFrom value of 0.
        */
       case incrementFrom = "IncrementFrom"
-      
+
       /**
        Increment a numeric integer attribute only if the provided value is greater than the current value,
        and otherwise ignore the whole object update.
@@ -243,20 +242,20 @@ extension PartialUpdate {
        If the object doesn’t exist yet, the engine only creates it if you pass an IncrementSet value that’s greater than 0.
        */
       case incrementSet = "IncrementSet"
-      
+
       /// Decrement a numeric attribute
       case decrement = "Decrement"
-      
+
       /// Append a number or string element to an array attribute
       case add = "Add"
-      
+
       /// Remove all matching number or string elements from an array attribute
       case remove = "Remove"
-      
+
       /// Add a number or string element to an array attribute only if it’s not already present
       case addUnique = "AddUnique"
     }
-    
+
   }
 
 }
