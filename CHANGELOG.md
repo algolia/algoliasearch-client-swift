@@ -1,5 +1,13 @@
 # ChangeLog
 
+## [8.4.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.3.0...8.4.0) (2020-12-17)
+
+### Feat
+
+- hit _geoloc field improvement (#704) ([b13998c](https://github.com/algolia/algoliasearch-client-swift/commit/b13998c))
+
+
+
 ## [8.3.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.2.0...8.3.0) (2020-11-23)
 
 ### Fix
