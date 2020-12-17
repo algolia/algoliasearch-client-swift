@@ -37,7 +37,10 @@ class AlgoliaRetryStrategy: RetryStrategy {
       }
 
       return HostIterator { [weak self] in
-        self?.hosts.first { $0.supports(callType) && $0.isUp }
+        guard let retryStrategy = self else { return nil }
+        return retryStrategy.queue.sync {
+          return retryStrategy.hosts.first { $0.supports(callType) && $0.isUp }
+        }
       }
     }
   }
