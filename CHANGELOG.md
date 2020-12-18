@@ -1,5 +1,13 @@
 # ChangeLog
 
+## [8.4.1](https://github.com/algolia/algoliasearch-client-swift/compare/8.4.0...8.4.1) (2020-12-18)
+
+### Fix
+
+- HostIterator crash (#708) ([8396f77](https://github.com/algolia/algoliasearch-client-swift/commit/8396f77))
+
+
+
 ## [8.4.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.3.0...8.4.0) (2020-12-17)
 
 ### Feat
