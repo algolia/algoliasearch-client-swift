@@ -22,7 +22,9 @@ extension Command {
 
       init(events: [InsightsEvent], requestOptions: RequestOptions?) {
         let body = EventsWrapper(events)
-        self.requestOptions = requestOptions
+        var updatedRequestOptions = requestOptions ?? .init()
+        updatedRequestOptions.setHeader("application/json", forKey: .contentType)
+        self.requestOptions = updatedRequestOptions
         self.urlRequest = .init(method: .post, path: Path.eventsV1, body: body.httpBody, requestOptions: self.requestOptions)
       }
 
