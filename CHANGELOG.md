@@ -1,5 +1,13 @@
 # ChangeLog
 
+## [8.4.2](https://github.com/algolia/algoliasearch-client-swift/compare/8.4.1...8.4.2) (2020-12-21)
+
+### Fix
+
+- Missing content-type header for async InsightsClient.sendEvents call (#710) ([e2c92f0](https://github.com/algolia/algoliasearch-client-swift/commit/e2c92f0))
+
+
+
 ## [8.4.1](https://github.com/algolia/algoliasearch-client-swift/compare/8.4.0...8.4.1) (2020-12-18)
 
 ### Fix
