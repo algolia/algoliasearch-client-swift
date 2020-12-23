@@ -34,6 +34,8 @@ extension Rule {
 
     /// Objects to hide from hits.
     public var hide: [ObjectID]?
+    
+    public var renderingContent: RenderingContent?
 
     /// Custom JSON object that will be appended to the SearchResponse.userData.
     /// This object is not interpreted by the API. It is limited to 1kB of minified JSON.
@@ -83,6 +85,16 @@ extension Rule.Consequence {
 
   }
 
+}
+
+extension Rule.Consequence {
+  
+  public struct RenderingContent: Codable {    
+    public let redirect: URL
+    public let facetMerchandising: [Attribute]
+    public let userData: JSON?
+  }
+  
 }
 
 extension Rule.Consequence {
