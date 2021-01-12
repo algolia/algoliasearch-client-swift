@@ -76,7 +76,7 @@ extension AnswersIntegrationTests {
     //   `swift test --generate-linuxmain`
     // to regenerate.
     static let __allTests__AnswersIntegrationTests = [
-        ("testSearch", testSearch),
+        ("testFindAnswers", testFindAnswers),
     ]
 }
 
@@ -86,7 +86,6 @@ extension AnswersQueryTests {
     // to regenerate.
     static let __allTests__AnswersQueryTests = [
         ("testInvalidParametersAsserts", testInvalidParametersAsserts),
-        ("testInvalidQueryAsserts", testInvalidQueryAsserts),
         ("testSearchParams", testSearchParams),
         ("testSpecificParams", testSpecificParams),
     ]
