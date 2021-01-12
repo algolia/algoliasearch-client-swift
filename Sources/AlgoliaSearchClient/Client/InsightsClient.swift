@@ -108,9 +108,6 @@ public extension InsightsClient {
    - Returns: JSON  object
    */
   @discardableResult func sendEvents(_ events: [InsightsEvent], requestOptions: RequestOptions? = nil) throws -> Empty {
-    var updatedRequestOptions = requestOptions ?? .init()
-    updatedRequestOptions.setHeader("application/json", forKey: .contentType)
-    let requestOptions = updatedRequestOptions
     let command = Command.Insights.SendEvents(events: events, requestOptions: requestOptions)
     return try execute(command)
   }

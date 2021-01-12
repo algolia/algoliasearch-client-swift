@@ -1,5 +1,29 @@
 # ChangeLog
 
+## [8.4.2](https://github.com/algolia/algoliasearch-client-swift/compare/8.4.1...8.4.2) (2020-12-21)
+
+### Fix
+
+- Missing content-type header for async InsightsClient.sendEvents call (#710) ([e2c92f0](https://github.com/algolia/algoliasearch-client-swift/commit/e2c92f0))
+
+
+
+## [8.4.1](https://github.com/algolia/algoliasearch-client-swift/compare/8.4.0...8.4.1) (2020-12-18)
+
+### Fix
+
+- HostIterator crash (#708) ([8396f77](https://github.com/algolia/algoliasearch-client-swift/commit/8396f77))
+
+
+
+## [8.4.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.3.0...8.4.0) (2020-12-17)
+
+### Feat
+
+- hit _geoloc field improvement (#704) ([b13998c](https://github.com/algolia/algoliasearch-client-swift/commit/b13998c))
+
+
+
 ## [8.3.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.2.0...8.3.0) (2020-11-23)
 
 ### Fix

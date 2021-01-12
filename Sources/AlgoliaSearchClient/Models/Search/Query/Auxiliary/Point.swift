@@ -84,8 +84,11 @@ extension Point: Codable {
       self = firstPoint.point
     } else if let dictionaryForm = try? DictionaryForm(from: decoder) {
       self = dictionaryForm.point
+    } else if let stringForm = try? StringForm(from: decoder) {
+      self = stringForm.point
     } else {
-      self = try StringForm(from: decoder).point
+      let encoded = (try? String(data: JSONEncoder().encode(JSON(from: decoder)), encoding: .utf8)) ?? ""
+      throw DecodingError.dataCorrupted(DecodingError.Context(codingPath: [], debugDescription: "The format \(encoded) doesn't match \"22.2268,84.8463\" string or {\"lat\": 22.2268, \"lng\": 84.8463 } dictionary"))
     }
   }
 

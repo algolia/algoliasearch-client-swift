@@ -65,14 +65,11 @@ public struct TaggedString {
 
   private static func computeRanges(for string: String, preTag: String, postTag: String, options: String.CompareOptions) -> (output: String, ranges: [Range<String.Index>]) {
     var output = string
-    var preStack: [R] = []
-    var rangesToHighlight = [R]()
-
-    // swiftlint:disable:next type_name
-    typealias R = Range<String.Index>
+    var preStack: [Range<String.Index>] = []
+    var rangesToHighlight = [Range<String.Index>]()
 
     enum Tag {
-      case pre(R), post(R)
+      case pre(Range<String.Index>), post(Range<String.Index>)
     }
 
     func nextTag(in string: String) -> Tag? {
