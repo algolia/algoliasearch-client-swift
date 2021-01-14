@@ -196,6 +196,10 @@ For full documentation, visit the [Algolia Swift API Client's documentation](htt
 
 You can find code samples in the [Algolia's API Clients playground](https://github.com/algolia/api-clients-playground/tree/master/swift).
 
+## Use the Dockerfile
+
+If you want to contribute to this project without installing all its dependencies, you can use our Docker image. Please check our [dedicated guide](DOCKER_README.MD) to learn more.
+
 ## 📄 License
 
 Algolia Swift API Client is an open-sourced software licensed under the [MIT license](LICENSE).
