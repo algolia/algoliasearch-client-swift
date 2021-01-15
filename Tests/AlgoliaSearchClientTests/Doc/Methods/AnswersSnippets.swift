@@ -13,8 +13,7 @@ struct AnswersSnippets: SnippetsCollection {}
 extension AnswersSnippets {
 
   func findAnswers() {
-    let query = AnswersQuery(query: "when do babies start learning")
-      .set(\.queryLanguages, to: [.english])
+    let query = AnswersQuery(query: "when do babies start learning", queryLanguages: [.english])
       .set(\.attributesForPrediction, to: ["description", "title", "transcript"])
       .set(\.nbHits, to: 20)
     
