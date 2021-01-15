@@ -15,7 +15,7 @@ public struct AnswersQuery: SearchParameters, Codable {
   /// The languages in the query.
   ///
   /// Default value: [.english]
-  public var queryLanguages: [Language]?
+  public var queryLanguages: [Language]
 
   /// Attributes to use for predictions.
   ///
@@ -70,8 +70,9 @@ public struct AnswersQuery: SearchParameters, Codable {
 
   internal var params: SearchParametersStorage?
 
-  public init(query: String) {
+  public init(query: String, queryLanguages: [Language]) {
     self.query = query
+    self.queryLanguages = queryLanguages
   }
 
 }
@@ -79,7 +80,7 @@ public struct AnswersQuery: SearchParameters, Codable {
 extension AnswersQuery: ExpressibleByStringLiteral {
 
   public init(stringLiteral value: String) {
-    self.init(query: value)
+    self.init(query: value, queryLanguages: [.english])
   }
 
 }

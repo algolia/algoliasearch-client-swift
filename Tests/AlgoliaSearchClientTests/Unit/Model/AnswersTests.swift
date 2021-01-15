@@ -13,22 +13,21 @@ class AnswersQueryTests: XCTestCase {
   
   func testInvalidParametersAsserts() throws {
     expectingAssertionFailure(expectedMessage: "attributesToSnippet is not supported by answers") {
-      _ = AnswersQuery(query: "query")
+      _ = AnswersQuery(query: "query", queryLanguages: [.english])
         .set(\.attributesToSnippet, to: [.init(attribute: "")])
     }
     expectingAssertionFailure(expectedMessage: "hitsPerPage is not supported by answers") {
-      _ = AnswersQuery(query: "query")
+      _ = AnswersQuery(query: "query", queryLanguages: [.english])
         .set(\.hitsPerPage, to: 20)
     }
     expectingAssertionFailure(expectedMessage: "restrictSearchableAttributes is not supported by answers") {
-      _ = AnswersQuery(query: "query")
+      _ = AnswersQuery(query: "query", queryLanguages: [.english])
         .set(\.restrictSearchableAttributes, to: ["a"])
     }
   }
   
   func testSpecificParams() throws {
-    let query = AnswersQuery(query: "query")
-      .set(\.queryLanguages, to: [.english])
+    let query = AnswersQuery(query: "query", queryLanguages: [.english])
       .set(\.attributesForPrediction, to: ["a1", "a2"])
       .set(\.nbHits, to: 10)
       .set(\.threshold, to: 20)
@@ -43,10 +42,11 @@ class AnswersQueryTests: XCTestCase {
   }
   
   func testSearchParams() throws {
-    let query = AnswersQuery(query: "query")
+    let query = AnswersQuery(query: "query", queryLanguages: [.english])
       .set(\.filters, to: "brand:sony")
     let expectedQueryJSON: JSON = [
       "query": "query",
+      "queryLanguages": ["en"],
       "params": [
         "filters": "brand:sony"
       ],
