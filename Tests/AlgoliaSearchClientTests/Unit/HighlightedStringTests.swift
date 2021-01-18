@@ -64,7 +64,6 @@ class HighlightedStringTests: XCTestCase {
       let data = try Data(filename: "HighlightedHTML.json")
       let searchResponse = try JSONDecoder().decode(MarkupString.self, from: data)
       let searchResponseJSON = try JSON(searchResponse)
-      print(searchResponseJSON)
     }
 
 }

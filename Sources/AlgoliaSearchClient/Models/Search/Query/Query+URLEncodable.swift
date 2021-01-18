@@ -114,7 +114,7 @@ extension Query: URLEncodable {
 
   public var urlEncodedString: String {
 
-    var urlEncoder = URLEncoder<CodingKeys>()
+    var urlEncoder = URLEncoder<SearchParametersStorage.CodingKeys>()
 
     urlEncoder.set(query, for: .query)
     urlEncoder.set(similarQuery, for: .similarQuery)

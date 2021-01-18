@@ -16,8 +16,7 @@ struct Path: PathComponent {
     get {
       return nil
     }
-
-    // swiftlint:disable unused_setter_value
+    // swiftlint:disable:next unused_setter_value
     set {
     }
   }
@@ -35,6 +34,7 @@ struct Path: PathComponent {
   static var strategies: Self { .init("/1/strategies") }
   static var places: Self { .init("/1/places") }
   static var task: Self { .init("/task") }
+  static var answers: Self { .init("/1/answers") }
 
 }
 
@@ -72,6 +72,7 @@ struct IndexCompletion: PathComponent {
   static func task(for taskID: TaskID) -> Self { .init("task/\(taskID.rawValue)") }
   static var rules: Self { .init(#function) }
   static var synonyms: Self { .init(#function) }
+  static var prediction: Self { .init(#function) }
 
 }
 
