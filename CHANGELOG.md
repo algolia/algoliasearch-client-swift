@@ -1,5 +1,17 @@
 # ChangeLog
 
+## [8.5.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.4.2...8.5.0) (2021-01-18)
+
+### Feat
+
+- Algolia Answers (#701) ([de625ca](https://github.com/algolia/algoliasearch-client-swift/commit/de625ca))
+
+### Misc
+
+- Add DOCKER_README and update README with Docker section (#703) ([eefc439](https://github.com/algolia/algoliasearch-client-swift/commit/eefc439))
+
+
+
 ## [8.4.2](https://github.com/algolia/algoliasearch-client-swift/compare/8.4.1...8.4.2) (2020-12-21)
 
 ### Fix
