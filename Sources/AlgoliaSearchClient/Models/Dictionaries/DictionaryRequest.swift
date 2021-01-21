@@ -21,6 +21,17 @@ enum DictionaryRequest<Entry: DictionaryEntry> {
     return .addEntry(entry)
   }
   
+  static func delete(dictionaryName: DictionaryName, objectID: ObjectID) -> DictionaryRequest {
+    switch dictionaryName {
+    case .compounds:
+      return DictionaryRequest<Entry>.deleteEntry(withObjectID: objectID)
+    case .plurals:
+      return DictionaryRequest<Entry>.deleteEntry(withObjectID: objectID)
+    case .stopwords:
+      return DictionaryRequest<Entry>.deleteEntry(withObjectID: objectID)
+    }
+  }
+  
   enum CodingKeys: String, CodingKey {
     case action
     case body

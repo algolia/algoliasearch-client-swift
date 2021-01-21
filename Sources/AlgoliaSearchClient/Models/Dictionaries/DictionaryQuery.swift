@@ -9,12 +9,30 @@ import Foundation
 
 public struct DictionaryQuery: Codable {
   
-  let query: String
+  public let query: String
   
-  let page: Int?
+  public let page: Int?
   
-  let hitsPerPage: Int?
+  public let hitsPerPage: Int?
   
-  let language: Language?
+  public let language: Language?
+  
+  public init(query: String,
+              page: Int? = nil,
+              hitsPerPage: Int? = nil,
+              language: Language? = nil) {
+    self.query = query
+    self.page = page
+    self.hitsPerPage = hitsPerPage
+    self.language = language
+  }
+  
+}
+
+extension DictionaryQuery: ExpressibleByStringInterpolation {
+  
+  public init(stringLiteral value: String) {
+    self.init(query: value)
+  }
   
 }

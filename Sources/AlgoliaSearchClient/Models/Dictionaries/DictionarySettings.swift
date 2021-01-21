@@ -9,23 +9,36 @@ import Foundation
 
 public struct DictionarySettings: Codable {
   
-  struct StopWords: Codable {
+  public let stopwords: StopWords?
+  
+  public init(stopwords: DictionarySettings.StopWords?) {
+    self.stopwords = stopwords
+  }
+
+}
+
+extension DictionarySettings {
+  
+  public struct StopWords: Codable {
     
     /// Map of language supported by the dictionary to a boolean value.
     /// When set to true, the standard entries for the language are disabled.
     /// Changes are set for the given languages only. To re-enable standard entries, set the language to false.
-    let disableStandardEntries: [Language: Bool]
+    public let disableStandardEntries: [Language: Bool]
     
-    func encode(to encoder: Encoder) throws {
+    public init(disableStandardEntries: [Language : Bool]) {
+      self.disableStandardEntries = disableStandardEntries
+    }
+    
+    public func encode(to encoder: Encoder) throws {
       try disableStandardEntries.mapKeys(\.rawValue).encode(to: encoder)
     }
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
       disableStandardEntries = try [String: Bool](from: decoder).mapKeys(Language.init(rawValue:))
     }
     
   }
   
-  let stopwords: StopWords?
-  
 }
+
