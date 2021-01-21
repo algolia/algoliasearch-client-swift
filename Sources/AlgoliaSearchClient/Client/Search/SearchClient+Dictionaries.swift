@@ -14,24 +14,34 @@ public extension SearchClient {
   /**
    Save dictionary entries
    
+   - Parameter dictionaryEntries: List of dictionary entries
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
-  @discardableResult func saveDictionaryEntries(requestOptions: RequestOptions? = nil,
-                                                completion: @escaping ResultCallback<String>) -> Operation {
-    let command = Command.Template()
+  @discardableResult func saveDictionaryEntries<E: DictionaryEntry & Encodable>(_ dictionaryEntries: [E],
+                                                                                requestOptions: RequestOptions? = nil,
+                                                                                completion: @escaping ResultCallback<String>) -> Operation {
+    let requests = dictionaryEntries.map { DictionaryRequest.addEntry($0) }
+    let command = Command.Dictionaries.Batch(requests: requests,
+                                             clearExistingDictionaryEntries: false,
+                                             requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
   
   /**
    Save dictionary entries
    
+   - Parameter dictionaryEntries: List of dictionary entries
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: Response object
    */
-  @discardableResult func saveDictionaryEntries(requestOptions: RequestOptions? = nil) throws -> String {
-    let command = Command.Template()
+  @discardableResult func saveDictionaryEntries<E: DictionaryEntry & Encodable>(_ dictionaryEntries: [E],
+                                                                                requestOptions: RequestOptions? = nil) throws -> String {
+    let requests = dictionaryEntries.map { DictionaryRequest.addEntry($0) }
+    let command = Command.Dictionaries.Batch(requests: requests,
+                                             clearExistingDictionaryEntries: false,
+                                             requestOptions: requestOptions)
     return try execute(command)
   }
   
