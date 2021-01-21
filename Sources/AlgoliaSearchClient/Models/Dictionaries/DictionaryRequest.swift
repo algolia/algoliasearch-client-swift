@@ -15,7 +15,11 @@ enum DictionaryRequest<Entry: DictionaryEntry> {
   }
   
   case addEntry(Entry)
-  case deleteEntry(ObjectID)
+  case deleteEntry(withObjectID: ObjectID)
+  
+  static func add(_ entry: Entry) -> Self {
+    return .addEntry(entry)
+  }
   
   enum CodingKeys: String, CodingKey {
     case action
@@ -52,7 +56,7 @@ extension DictionaryRequest: Decodable where Entry: Decodable {
       
     case .deleteEntry:
       let objectID = try container.decode(ObjectIDWrapper.self, forKey: .body).wrapped
-      self = .deleteEntry(objectID)
+      self = .deleteEntry(withObjectID: objectID)
     }
   }
   
