@@ -33,10 +33,9 @@ struct Path: PathComponent {
   static var logs: Self { .init("/1/logs") }
   static var strategies: Self { .init("/1/strategies") }
   static var places: Self { .init("/1/places") }
-  static var task: Self { .init("/task") }
   static var answers: Self { .init("/1/answers") }
   static var dictionaries: Self { .init("/1/dictionaries") }
-
+  static var task: Self { .init("/1/task") }
 }
 
 struct IndexRoute: PathComponent {
@@ -51,6 +50,19 @@ struct IndexRoute: PathComponent {
 
   static var multiIndex: Self { .init("*") }
 
+}
+
+struct TaskCompletion: PathComponent {
+  
+  var parent: Path?
+  
+  let rawValue: String
+
+  private init(_ rawValue: String) { self.rawValue = rawValue }
+
+  static func task(withID taskID: TaskID) -> Self { .init(taskID.rawValue) }
+
+  
 }
 
 struct IndexCompletion: PathComponent {

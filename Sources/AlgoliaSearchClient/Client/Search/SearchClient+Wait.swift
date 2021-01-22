@@ -1,14 +1,14 @@
 //
-//  Index+Advanced.swift
+//  SearchClient+Wait.swift
 //  
 //
-//  Created by Vladislav Fitc on 06.03.2020.
+//  Created by Vladislav Fitc on 22/01/2021.
 //
 
 import Foundation
 
-public extension Index {
-
+public extension Client {
+  
   // MARK: - Task status
 
   /**
@@ -20,7 +20,7 @@ public extension Index {
   @discardableResult func taskStatus(for taskID: TaskID,
                                      requestOptions: RequestOptions? = nil,
                                      completion: @escaping  ResultCallback<TaskInfo>) -> Operation & TransportTask {
-    let command = Command.Advanced.TaskStatus(indexName: name, taskID: taskID, requestOptions: requestOptions)
+    let command = Command.Advanced.TaskStatus(taskID: taskID, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
 
@@ -32,10 +32,10 @@ public extension Index {
   */
   @discardableResult func taskStatus(for taskID: TaskID,
                                      requestOptions: RequestOptions? = nil) throws -> TaskInfo {
-    let command = Command.Advanced.TaskStatus(indexName: name, taskID: taskID, requestOptions: requestOptions)
+    let command = Command.Advanced.TaskStatus(taskID: taskID, requestOptions: requestOptions)
     return try execute(command)
   }
-
+  
   // MARK: - Wait task
 
   /**
@@ -53,7 +53,7 @@ public extension Index {
                                    timeout: TimeInterval? = nil,
                                    requestOptions: RequestOptions? = nil,
                                    completion: @escaping ResultCallback<TaskStatus>) -> Operation {
-    let task = WaitTask(taskStatusService: { taskID, requestOptions, completion in self.taskStatus(for: taskID, requestOptions: requestOptions, completion: completion) },
+    let task = WaitTask(client: self,
                         taskID: taskID,
                         timeout: timeout,
                         requestOptions: requestOptions,
@@ -75,12 +75,12 @@ public extension Index {
   @discardableResult func waitTask(withID taskID: TaskID,
                                    timeout: TimeInterval? = nil,
                                    requestOptions: RequestOptions? = nil) throws -> TaskStatus {
-    let task = WaitTask(taskStatusService: { taskID, requestOptions, completion in self.taskStatus(for: taskID, requestOptions: requestOptions, completion: completion) },
+    let task = WaitTask(client: self,
                         taskID: taskID,
                         timeout: timeout,
                         requestOptions: requestOptions,
                         completion: { _ in })
     return try launch(task)
   }
-
+  
 }
