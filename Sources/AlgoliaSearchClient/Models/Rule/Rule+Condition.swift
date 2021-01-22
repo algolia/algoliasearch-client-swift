@@ -21,15 +21,19 @@ extension Rule {
 
     /// Indicates if the rule can be applied with alternatives.
     public var alternatives: Alternatives?
+    
+    public var filters: String?
 
     public init(anchoring: Anchoring? = nil,
                 pattern: Pattern? = nil,
                 context: String? = nil,
-                alternatives: Alternatives? = nil) {
+                alternatives: Alternatives? = nil,
+                filters: String? = nil) {
       self.anchoring = anchoring
       self.pattern = pattern
       self.context = context
       self.alternatives = alternatives
+      self.filters = filters
     }
 
   }
