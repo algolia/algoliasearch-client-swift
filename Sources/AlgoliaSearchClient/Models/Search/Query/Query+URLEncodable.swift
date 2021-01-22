@@ -167,6 +167,7 @@ extension Query: URLEncodable {
     urlEncoder.set(alternativesAsExact, for: .alternativesAsExact)
     urlEncoder.set(ignorePlurals, for: .ignorePlurals)
     urlEncoder.set(queryLanguages, for: .queryLanguages)
+    urlEncoder.set(decompoundQuery, for: .decompoundQuery)
     urlEncoder.set(enableRules, for: .enableRules)
     urlEncoder.set(ruleContexts, for: .ruleContexts)
     urlEncoder.set(enablePersonalization, for: .enablePersonalization)

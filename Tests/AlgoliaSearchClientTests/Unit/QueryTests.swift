@@ -63,6 +63,7 @@ class QueryTests: XCTestCase {
     .set(\.alternativesAsExact, to: [.ignorePlurals, .singleWordSynonym])
     .set(\.ignorePlurals, to: false)
     .set(\.queryLanguages, to: [.hindi, .albanian])
+    .set(\.decompoundQuery, to: false)
     .set(\.enableRules, to: true)
     .set(\.ruleContexts, to: ["rc1", "rc2"])
     .set(\.enablePersonalization, to: false)
@@ -137,6 +138,7 @@ class QueryTests: XCTestCase {
       "alternativesAsExact=ignorePlurals,singleWordSynonym",
       "ignorePlurals=false",
       "queryLanguages=hi,sq",
+      "decompoundQuery=false",
       "enableRules=true",
       "ruleContexts=rc1,rc2",
       "enablePersonalization=false",
@@ -223,6 +225,7 @@ class QueryTests: XCTestCase {
       "advancedSyntaxFeatures": ["excludeWords", "exactPhrase"],
       "optionalWords": ["optWord1", "optWord2"],
       "removeStopWords": ["ar", "fr"],
+      "decompoundQuery": false,
       "disableExactOnAttributes": ["deAttr1", "deAttr2"],
       "exactOnSingleWordQuery": "word",
       "alternativesAsExact": ["ignorePlurals", "singleWordSynonym"],

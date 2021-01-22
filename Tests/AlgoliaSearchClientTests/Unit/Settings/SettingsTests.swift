@@ -26,5 +26,6 @@ class SettingsTests: XCTestCase {
     let settings = try decoder.decode(Settings.self, from: data)
     XCTAssertEqual(settings.attributeCriteriaComputedByMinProximity, false)
     XCTAssertEqual(settings.enablePersonalization, true)
+    XCTAssertEqual(settings.decompoundQuery, true)
   }
 }

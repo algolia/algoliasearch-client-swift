@@ -19,6 +19,7 @@
   "attributeForDistinct": null,
   "exactOnSingleWordQuery": "attribute",
   "enablePersonalization": true,
+  "decompoundQuery": true,
   "ranking": [
     "typo",
     "geo",
