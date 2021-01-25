@@ -8,15 +8,15 @@
 import Foundation
 
 public struct DictionaryQuery: Codable {
-  
+
   public var query: String
-  
+
   public var page: Int?
-  
+
   public var hitsPerPage: Int?
-  
+
   public var language: Language?
-  
+
   public init(query: String,
               page: Int? = nil,
               hitsPerPage: Int? = nil,
@@ -26,13 +26,13 @@ public struct DictionaryQuery: Codable {
     self.hitsPerPage = hitsPerPage
     self.language = language
   }
-  
+
 }
 
 extension DictionaryQuery: ExpressibleByStringInterpolation {
-  
+
   public init(stringLiteral value: String) {
     self.init(query: value)
   }
-  
+
 }

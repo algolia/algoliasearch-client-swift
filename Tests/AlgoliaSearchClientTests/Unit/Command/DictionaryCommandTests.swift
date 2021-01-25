@@ -13,17 +13,18 @@ class DictionaryCommandsTests: XCTestCase, AlgoliaCommandTest {
 
   func testBatch() {
     let requests = [
-      StopWord(objectID: "o1",
+      StopwordsDictionary.Entry(objectID: "o1",
                language: .english,
                word: "stop1",
                state: .enabled),
-      StopWord(objectID: "o2",
+      StopwordsDictionary.Entry(objectID: "o2",
                language: .english,
                word: "stop2",
                state: .disabled)
     ].map { DictionaryRequest.addEntry($0) }
 
-    let command = Command.Dictionaries.Batch(requests: requests,
+    let command = Command.Dictionaries.Batch(dictionary: StopwordsDictionary.self,
+                                             requests: requests,
                                              clearExistingDictionaryEntries: true,
                                              requestOptions: test.requestOptions)
     let payload = Command.Dictionaries.Batch.Payload(requests: requests,

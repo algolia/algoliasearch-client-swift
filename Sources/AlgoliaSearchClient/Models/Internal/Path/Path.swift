@@ -53,16 +53,15 @@ struct IndexRoute: PathComponent {
 }
 
 struct TaskCompletion: PathComponent {
-  
+
   var parent: Path?
-  
+
   let rawValue: String
 
   private init(_ rawValue: String) { self.rawValue = rawValue }
 
   static func task(withID taskID: TaskID) -> Self { .init(taskID.rawValue) }
 
-  
 }
 
 struct IndexCompletion: PathComponent {
@@ -90,7 +89,7 @@ struct IndexCompletion: PathComponent {
 }
 
 struct DictionaryRoute: PathComponent {
-  
+
   var parent: Path?
 
   let rawValue: String
@@ -98,24 +97,24 @@ struct DictionaryRoute: PathComponent {
   private init(_ rawValue: String) { self.rawValue = rawValue }
 
   static func dictionaryName(_ dictionaryName: DictionaryName) -> Self { .init(dictionaryName.rawValue) }
-  
+
   static var common: Self { .init("*") }
-  
+
 }
 
 struct DictionaryCompletion: PathComponent {
-  
+
   var parent: DictionaryRoute?
 
   let rawValue: String
 
   private init(_ rawValue: String) { self.rawValue = rawValue }
-  
+
   static var batch: Self { .init(#function) }
   static var search: Self { .init(#function) }
   static var settings: Self { .init(#function) }
   static var languages: Self { .init(#function) }
-  
+
 }
 
 struct MultiIndexCompletion: PathComponent {

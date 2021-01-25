@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol CommonParameters {
-  
+
   // MARK: - Attributes
 
   /**
@@ -17,7 +17,7 @@ public protocol CommonParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/attributesToRetrieve/?language=swift)
    */
   var attributesToRetrieve: [Attribute]? { get set }
-  
+
   // MARK: - Faceting
 
   /**
@@ -26,14 +26,14 @@ public protocol CommonParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/maxValuesPerFacet/?language=swift)
    */
   var maxValuesPerFacet: Int? { get set }
-  
+
   /**
    Controls how facet values are sorted.
    - Engine default: [SortFacetsBy.Count]
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/sortFacetValuesBy/?language=swift)
    */
   var sortFacetsBy: SortFacetsBy? { get set }
-  
+
   // MARK: - Highlighting-snippeting
 
   /**
@@ -86,7 +86,7 @@ public protocol CommonParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/hitsPerPage/?language=swift)
    */
   var hitsPerPage: Int? { get set }
-  
+
   // MARK: - Typos
 
   /**
@@ -123,7 +123,7 @@ public protocol CommonParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/disableTypoToleranceOnAttributes/?language=swift)
    */
   var disableTypoToleranceOnAttributes: [Attribute]? { get set }
-  
+
   // MARK: - Languages
 
   /**
@@ -139,7 +139,7 @@ public protocol CommonParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/removeStopWords/?language=swift)
    */
   var removeStopWords: LanguageFeature? { get set }
-  
+
   /**
    Sets the queryLanguage to be used by language-specific settings and functionalities such as
    [ignorePlurals], [removeStopWords], and
@@ -196,7 +196,7 @@ public protocol CommonParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/optionalWords/?language=swift)
    */
   var optionalWords: [String]? { get set }
-  
+
   /**
    List of attributes on which you want to disable the exact ranking criterion.
    - Engine default: []
@@ -259,7 +259,7 @@ public protocol CommonParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/maxFacetHits/?language=swift)
    */
   var maxFacetHits: Int? { get set }
-  
+
   /**
    When attribute is ranked above proximity in your ranking formula, proximity is used to select
    which searchable attribute is matched in the attribute ranking stage.
@@ -267,5 +267,5 @@ public protocol CommonParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/attributeCriteriaComputedByMinProximity/?language=swift)
    */
   var attributeCriteriaComputedByMinProximity: Bool? { get set }
-  
+
 }

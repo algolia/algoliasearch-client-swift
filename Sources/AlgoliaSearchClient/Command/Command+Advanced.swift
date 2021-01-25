@@ -25,7 +25,7 @@ extension Command {
         let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.task(for: taskID)
         urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)
       }
-      
+
       init(taskID: TaskID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let path = .task >>> TaskCompletion.task(withID: taskID)

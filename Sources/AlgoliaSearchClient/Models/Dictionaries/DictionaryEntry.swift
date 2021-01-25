@@ -8,11 +8,11 @@
 import Foundation
 
 public protocol DictionaryEntry {
-  
+
   /// Unique identifier of the entry to add or override.
   var objectID: ObjectID { get }
-  
+
   /// Language supported by the dictionary.
   var language: Language { get }
-  
+
 }

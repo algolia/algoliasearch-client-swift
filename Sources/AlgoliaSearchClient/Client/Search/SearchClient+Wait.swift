@@ -8,7 +8,7 @@
 import Foundation
 
 public extension Client {
-  
+
   // MARK: - Task status
 
   /**
@@ -35,7 +35,7 @@ public extension Client {
     let command = Command.Advanced.TaskStatus(taskID: taskID, requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
   // MARK: - Wait task
 
   /**
@@ -82,7 +82,7 @@ public extension Client {
                         completion: { _ in })
     return try launch(task)
   }
-  
+
 }
 
 extension SearchClient: TaskWaitable {}

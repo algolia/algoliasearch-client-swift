@@ -60,7 +60,7 @@ class WaitTask: AsyncOperation, ResultContainer {
     }
 
     let taskID = taskIDProvider()
-    
+
     taskStatusService(taskID, requestOptions) { [weak self] result in
       guard let request = self else { return }
 
@@ -100,7 +100,7 @@ extension WaitTask {
               requestOptions: requestOptions,
               completion: completion)
   }
-  
+
   convenience init(client: Client,
                    taskID: TaskID,
                    timeout: TimeInterval? = nil,

@@ -7,25 +7,16 @@
 
 import Foundation
 
-public enum DictionaryName: String {
-  case stopwords
-  case plurals
-  case compounds
-}
+public struct DictionaryName: StringOption {
 
-extension DictionaryName {
-  
-  static func forEntry<E: DictionaryEntry>(_ entry: E.Type) -> DictionaryName {
-    switch entry {
-    case is StopWord.Type:
-      return stopwords
-    case is Plural.Type:
-      return plurals
-    case is Compound.Type:
-      return compounds
-    default:
-      fatalError("No dictionary defined for entry: \(entry)")
-    }
+  public static var stopwords: Self { .init(rawValue: #function) }
+  public static var plurals: Self { .init(rawValue: #function) }
+  public static var compounds: Self { .init(rawValue: #function) }
+
+  public let rawValue: String
+
+  public init(rawValue: String) {
+    self.rawValue = rawValue
   }
-  
+
 }

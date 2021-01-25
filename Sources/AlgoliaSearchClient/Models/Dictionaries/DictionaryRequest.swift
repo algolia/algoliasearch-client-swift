@@ -8,30 +8,23 @@
 import Foundation
 
 enum DictionaryRequest<Entry: DictionaryEntry> {
-  
+
   enum Action: String, Codable {
     case addEntry
     case deleteEntry
   }
-  
+
   case addEntry(Entry)
   case deleteEntry(withObjectID: ObjectID)
-  
+
   static func add(_ entry: Entry) -> Self {
     return .addEntry(entry)
   }
-  
-  static func delete(dictionaryName: DictionaryName, objectID: ObjectID) -> DictionaryRequest {
-    switch dictionaryName {
-    case .compounds:
-      return DictionaryRequest<Entry>.deleteEntry(withObjectID: objectID)
-    case .plurals:
-      return DictionaryRequest<Entry>.deleteEntry(withObjectID: objectID)
-    case .stopwords:
-      return DictionaryRequest<Entry>.deleteEntry(withObjectID: objectID)
-    }
+
+  static func delete<D: CustomDictionary>(dictionary: D.Type, objectID: ObjectID) -> DictionaryRequest<D.Entry> {
+    return .deleteEntry(withObjectID: objectID)
   }
-  
+
   enum CodingKeys: String, CodingKey {
     case action
     case body
@@ -40,7 +33,7 @@ enum DictionaryRequest<Entry: DictionaryEntry> {
 }
 
 extension DictionaryRequest: Encodable where Entry: Encodable {
-    
+
   func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     switch self {
@@ -56,7 +49,7 @@ extension DictionaryRequest: Encodable where Entry: Encodable {
 }
 
 extension DictionaryRequest: Decodable where Entry: Decodable {
-  
+
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     let action = try container.decode(Action.self, forKey: .action)
@@ -64,11 +57,11 @@ extension DictionaryRequest: Decodable where Entry: Decodable {
     case .addEntry:
       let entry = try container.decode(Entry.self, forKey: .body)
       self = .addEntry(entry)
-      
+
     case .deleteEntry:
       let objectID = try container.decode(ObjectIDWrapper.self, forKey: .body).wrapped
       self = .deleteEntry(withObjectID: objectID)
     }
   }
-  
+
 }
