@@ -84,3 +84,5 @@ public extension Client {
   }
   
 }
+
+extension SearchClient: TaskWaitable {}

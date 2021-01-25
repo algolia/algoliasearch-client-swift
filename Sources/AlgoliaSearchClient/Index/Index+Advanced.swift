@@ -84,3 +84,5 @@ public extension Index {
   }
 
 }
+
+extension Index: TaskWaitable {}

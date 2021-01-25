@@ -21,7 +21,7 @@ public extension SearchClient {
    */
   @discardableResult func saveDictionaryEntries<E: DictionaryEntry & Encodable>(_ dictionaryEntries: [E],
                                                                                 requestOptions: RequestOptions? = nil,
-                                                                                completion: @escaping ResultCallback<DictionaryRevision>) -> Operation {
+                                                                                completion: @escaping ResultCallback<WaitableWrapper<DictionaryRevision>>) -> Operation {
     let requests = dictionaryEntries.map(DictionaryRequest.add)
     let command = Command.Dictionaries.Batch(requests: requests,
                                              clearExistingDictionaryEntries: false,
@@ -37,7 +37,7 @@ public extension SearchClient {
    - Returns: Response object
    */
   @discardableResult func saveDictionaryEntries<E: DictionaryEntry & Encodable>(_ dictionaryEntries: [E],
-                                                                                requestOptions: RequestOptions? = nil) throws -> DictionaryRevision {
+                                                                                requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<DictionaryRevision> {
     let requests = dictionaryEntries.map(DictionaryRequest.add)
     let command = Command.Dictionaries.Batch(requests: requests,
                                              clearExistingDictionaryEntries: false,
@@ -57,7 +57,7 @@ public extension SearchClient {
    */
   @discardableResult func replaceDictionaryEntries<E: DictionaryEntry & Encodable>(with dictionaryEntries: [E],
                                                                                    requestOptions: RequestOptions? = nil,
-                                                   completion: @escaping ResultCallback<DictionaryRevision>) -> Operation {
+                                                   completion: @escaping ResultCallback<WaitableWrapper<DictionaryRevision>>) -> Operation {
     let requests = dictionaryEntries.map(DictionaryRequest.add)
     let command = Command.Dictionaries.Batch(requests: requests,
                                              clearExistingDictionaryEntries: true,
@@ -73,7 +73,7 @@ public extension SearchClient {
    - Returns: Response object
    */
   @discardableResult func replaceDictionaryEntries<E: DictionaryEntry & Encodable>(with dictionaryEntries: [E],
-                                                                                   requestOptions: RequestOptions? = nil) throws -> DictionaryRevision {
+                                                                                   requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<DictionaryRevision> {
     let requests = dictionaryEntries.map(DictionaryRequest.add)
     let command = Command.Dictionaries.Batch(requests: requests,
                                              clearExistingDictionaryEntries: true,
@@ -95,7 +95,7 @@ public extension SearchClient {
   @discardableResult func deleteDictionaryEntries(dictionaryName: DictionaryName,
                                                   withObjectIDs objectIDs: [ObjectID],
                                                   requestOptions: RequestOptions? = nil,
-                                                  completion: @escaping ResultCallback<DictionaryRevision>) -> Operation {
+                                                  completion: @escaping ResultCallback<WaitableWrapper<DictionaryRevision>>) -> Operation {
     func deleteEntries<E: DictionaryEntry & Encodable>(of type: E.Type) -> Operation {
       let command = Command.Dictionaries.Batch(requests: objectIDs.map(DictionaryRequest<E>.deleteEntry(withObjectID:)),
                                                clearExistingDictionaryEntries: false,
@@ -125,8 +125,8 @@ public extension SearchClient {
    */
   @discardableResult func deleteDictionaryEntries(dictionaryName: DictionaryName,
                                                   withObjectIDs objectIDs: [ObjectID],
-                                                  requestOptions: RequestOptions? = nil) throws -> DictionaryRevision {
-    func deleteEntries<E: DictionaryEntry & Encodable>(of type: E.Type) throws -> DictionaryRevision {
+                                                  requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<DictionaryRevision> {
+    func deleteEntries<E: DictionaryEntry & Encodable>(of type: E.Type) throws -> WaitableWrapper<DictionaryRevision> {
       let command = Command.Dictionaries.Batch(requests: objectIDs.map(DictionaryRequest<E>.deleteEntry(withObjectID:)),
                                                clearExistingDictionaryEntries: false,
                                                requestOptions: requestOptions)
@@ -156,7 +156,7 @@ public extension SearchClient {
    */
   @discardableResult func clearDictionaryEntries(dictionaryName: DictionaryName,
                                                  requestOptions: RequestOptions? = nil,
-                                                 completion: @escaping ResultCallback<DictionaryRevision>) -> Operation {
+                                                 completion: @escaping ResultCallback<WaitableWrapper<DictionaryRevision>>) -> Operation {
     func clearDictionary<E: DictionaryEntry & Encodable>(of type: E.Type) -> Operation {
       return replaceDictionaryEntries(with: [E](), requestOptions: requestOptions, completion: completion)
     }
@@ -177,8 +177,8 @@ public extension SearchClient {
    - Returns: Response object
    */
   @discardableResult func clearDictionaryEntries(dictionaryName: DictionaryName,
-                                                 requestOptions: RequestOptions? = nil) throws -> DictionaryRevision {
-    func clearDictionary<E: DictionaryEntry & Encodable>(of type: E.Type) throws -> DictionaryRevision {
+                                                 requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<DictionaryRevision> {
+    func clearDictionary<E: DictionaryEntry & Encodable>(of type: E.Type) throws -> WaitableWrapper<DictionaryRevision> {
       return try replaceDictionaryEntries(with: [E](), requestOptions: requestOptions)
     }
     switch dictionaryName {
@@ -236,7 +236,7 @@ public extension SearchClient {
    */
   @discardableResult func setDictionarySettings(_ settings: DictionarySettings,
                                                 requestOptions: RequestOptions? = nil,
-                                                completion: @escaping ResultCallback<Revision>) -> Operation {
+                                                completion: @escaping ResultCallback<WaitableWrapper<Revision>>) -> Operation {
     let command = Command.Dictionaries.SetSettings(settings: settings,
                                                    requestOptions: requestOptions)
     return execute(command, completion: completion)
@@ -249,7 +249,7 @@ public extension SearchClient {
    - Returns: Response object
    */
   @discardableResult func setDictionarySettings(_ settings: DictionarySettings,
-                                                requestOptions: RequestOptions? = nil) throws -> Revision {
+                                                requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<Revision> {
     let command = Command.Dictionaries.SetSettings(settings: settings,
                                                    requestOptions: requestOptions)
     return try execute(command)
