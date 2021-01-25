@@ -62,7 +62,7 @@ class DictionaryCommandsTests: XCTestCase, AlgoliaCommandTest {
   }
   
   func testSetSettings() {
-    let settings = DictionarySettings(stopwords: DictionarySettings.StopWords(disableStandardEntries: [.french: true]))
+    let settings = DictionarySettings(disableStandardEntries: .init(stopwords: [.french: true]))
     let command = Command.Dictionaries.SetSettings(settings: settings, requestOptions: test.requestOptions)
     check(command: command,
           callType: .write,

@@ -7,35 +7,41 @@
 
 import Foundation
 
-public struct DictionarySettings: Codable {
+public struct DictionarySettings: Codable, Equatable {
   
-  public let stopwords: StopWords?
+  public let disableStandardEntries: DisableStandardEntries?
   
-  public init(stopwords: DictionarySettings.StopWords?) {
-    self.stopwords = stopwords
+  public init(disableStandardEntries: DisableStandardEntries?) {
+    self.disableStandardEntries = disableStandardEntries
   }
 
 }
 
 extension DictionarySettings {
   
-  public struct StopWords: Codable {
+  /// Map of language supported by the dictionary to a boolean value.
+  /// When set to true, the standard entries for the language are disabled.
+  /// Changes are set for the given languages only. To re-enable standard entries, set the language to false.
+  public struct DisableStandardEntries: Codable, Equatable {
     
-    /// Map of language supported by the dictionary to a boolean value.
-    /// When set to true, the standard entries for the language are disabled.
-    /// Changes are set for the given languages only. To re-enable standard entries, set the language to false.
-    public let disableStandardEntries: [Language: Bool]
+    public let stopwords: [Language: Bool]
     
-    public init(disableStandardEntries: [Language : Bool]) {
-      self.disableStandardEntries = disableStandardEntries
+    public init(stopwords: [Language : Bool]) {
+      self.stopwords = stopwords
+    }
+    
+    enum CodingKeys: String, CodingKey {
+      case stopwords
     }
     
     public func encode(to encoder: Encoder) throws {
-      try disableStandardEntries.mapKeys(\.rawValue).encode(to: encoder)
+      var container = encoder.container(keyedBy: CodingKeys.self)
+      try container.encode(stopwords.mapKeys(\.rawValue), forKey: .stopwords)
     }
     
     public init(from decoder: Decoder) throws {
-      disableStandardEntries = try [String: Bool](from: decoder).mapKeys(Language.init(rawValue:))
+      let container = try decoder.container(keyedBy: CodingKeys.self)
+      stopwords = try container.decode([String: Bool].self, forKey: .stopwords).mapKeys(Language.init(rawValue:))
     }
     
   }

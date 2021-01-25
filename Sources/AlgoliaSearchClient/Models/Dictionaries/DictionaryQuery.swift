@@ -9,13 +9,13 @@ import Foundation
 
 public struct DictionaryQuery: Codable {
   
-  public let query: String
+  public var query: String
   
-  public let page: Int?
+  public var page: Int?
   
-  public let hitsPerPage: Int?
+  public var hitsPerPage: Int?
   
-  public let language: Language?
+  public var language: Language?
   
   public init(query: String,
               page: Int? = nil,

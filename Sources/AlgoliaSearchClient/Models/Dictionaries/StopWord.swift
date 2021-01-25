@@ -21,7 +21,7 @@ public struct StopWord: DictionaryEntry, Codable {
   public let word: String
   
   /// The state of the entry
-  public let state: State
+  public let state: State?
   
   public init(objectID: ObjectID, language: Language, word: String, state: State) {
     self.objectID = objectID
