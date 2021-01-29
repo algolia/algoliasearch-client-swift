@@ -256,5 +256,20 @@ extension APIParameters {
         }
       }
     }
+    func attributesToTransliterate() {
+      /*
+       attributesToTransliterate = ["name", "description"]
+       */
+      func set_attributes_to_transliterate() {
+        let settings = Settings()
+          .set(\.attributesToTransliterate, to: ["name", "description"])
+        
+        index.setSettings(settings) { result in
+          if case .success(let response) = result {
+            print("Response: \(response)")
+          }
+        }
+      }
+    }
   }
 }
