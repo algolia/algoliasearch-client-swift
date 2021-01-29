@@ -247,16 +247,6 @@ extension APIParameters {
       }
     }
     func attributesToTransliterate() {
-      let settings = Settings()
-        .set(\.attributesToTransliterate, to: ["name", "description"])
-      
-      index.setSettings(settings) { result in
-        if case .success(let response) = result {
-          print("Response: \(response)")
-        }
-      }
-    }
-    func attributesToTransliterate() {
       /*
        attributesToTransliterate = ["name", "description"]
        */
