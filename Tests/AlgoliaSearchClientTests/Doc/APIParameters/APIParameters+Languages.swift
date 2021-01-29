@@ -246,5 +246,33 @@ extension APIParameters {
         }
       }
     }
+    
+    func decompoundQuery() {
+      /*
+       decompoundQuery = true
+       */
+      func enable_decompound_query_by_default() {
+        let settings = Settings()
+          .set(\.decompoundQuery, to: true)
+        
+        index.setSettings(settings) { result in
+          if case .success(let response) = result {
+            print("Response: \(response)")
+          }
+        }
+      }
+      
+      func enable_decompound_query_search_time() {
+        let query = Query("query")
+          .set(\.decompoundQuery, to: true)
+        
+        index.search(query: query) { result in
+          if case .success(let response) = result {
+            print("Response: \(response)")
+          }
+        }
+      }
+    }
+
   }
 }
