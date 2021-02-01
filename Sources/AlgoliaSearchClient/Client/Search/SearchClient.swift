@@ -77,11 +77,11 @@ extension SearchClient: TransportContainer {}
 
 extension SearchClient {
 
-  func execute<Output: Codable & Task>(_ command: AlgoliaCommand, completion: @escaping ResultTaskCallback<Output>) -> Operation & TransportTask {
+  func execute<Output: Codable & AppTask>(_ command: AlgoliaCommand, completion: @escaping ResultAppTaskCallback<Output>) -> Operation & TransportTask {
     transport.execute(command, transform: WaitableWrapper.wrap(with: self), completion: completion)
   }
 
-  func execute<Output: Codable & Task>(_ command: AlgoliaCommand) throws -> WaitableWrapper<Output> {
+  func execute<Output: Codable & AppTask>(_ command: AlgoliaCommand) throws -> WaitableWrapper<Output> {
     try transport.execute(command, transform: WaitableWrapper.wrap(with: self))
   }
 

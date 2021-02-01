@@ -26,7 +26,7 @@ extension Command {
         urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)
       }
 
-      init(taskID: TaskID, requestOptions: RequestOptions?) {
+      init(taskID: AppTaskID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         let path = .task >>> TaskCompletion.task(withID: taskID)
         urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)

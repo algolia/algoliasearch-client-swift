@@ -541,14 +541,10 @@ public extension Index {
           }
 
           let client = SearchClient(appID: self.applicationID, apiKey: self.apiKey)
-          let tasksToWait = tasks.map { (client.index(withName: $0.indexName), $0.taskID) }
+          let tasksToWait = tasks.map { Waitable(client: client, task: $0) }
+            
           WaitableWrapper(wrapped: tasks, tasksToWait: tasksToWait).wait { result in
-            switch result {
-            case .failure(let error):
-              completion(.failure(error))
-            case .success:
-              completion(.success(tasks))
-            }
+            completion(result.map { _ in tasks})
           }
           }
         }

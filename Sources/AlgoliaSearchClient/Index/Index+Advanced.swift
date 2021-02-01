@@ -53,11 +53,12 @@ public extension Index {
                                    timeout: TimeInterval? = nil,
                                    requestOptions: RequestOptions? = nil,
                                    completion: @escaping ResultCallback<TaskStatus>) -> Operation {
-    let task = WaitTask(taskStatusService: { taskID, requestOptions, completion in self.taskStatus(for: taskID, requestOptions: requestOptions, completion: completion) },
+    let task = WaitTask(index: self,
                         taskID: taskID,
                         timeout: timeout,
                         requestOptions: requestOptions,
                         completion: completion)
+
     return launch(task)
   }
 
@@ -75,7 +76,7 @@ public extension Index {
   @discardableResult func waitTask(withID taskID: TaskID,
                                    timeout: TimeInterval? = nil,
                                    requestOptions: RequestOptions? = nil) throws -> TaskStatus {
-    let task = WaitTask(taskStatusService: { taskID, requestOptions, completion in self.taskStatus(for: taskID, requestOptions: requestOptions, completion: completion) },
+    let task = WaitTask(index: self,
                         taskID: taskID,
                         timeout: timeout,
                         requestOptions: requestOptions,

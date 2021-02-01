@@ -9,11 +9,9 @@ import Foundation
 
 class WaitTask: AsyncOperation, ResultContainer {
 
-  typealias TaskIDProvider = () -> TaskID
-  typealias TaskStatusService = (TaskID, RequestOptions?, @escaping  ResultCallback<TaskInfo>) -> Void
+  typealias TaskStatusService = (RequestOptions?, @escaping  ResultCallback<TaskInfo>) -> Void
 
   let taskStatusService: TaskStatusService
-  let taskIDProvider: TaskIDProvider
   let requestOptions: RequestOptions?
   let timeout: TimeInterval?
   private var launchDate: Date?
@@ -34,12 +32,10 @@ class WaitTask: AsyncOperation, ResultContainer {
   }
 
   init(taskStatusService: @escaping TaskStatusService,
-       taskID: @autoclosure @escaping TaskIDProvider,
        timeout: TimeInterval? = nil,
        requestOptions: RequestOptions?,
        completion: @escaping ResultCallback<TaskStatus>) {
     self.taskStatusService = taskStatusService
-    self.taskIDProvider = taskID
     self.timeout = timeout
     self.requestOptions = requestOptions
     self.completion = completion
@@ -59,9 +55,7 @@ class WaitTask: AsyncOperation, ResultContainer {
       return
     }
 
-    let taskID = taskIDProvider()
-
-    taskStatusService(taskID, requestOptions) { [weak self] result in
+    taskStatusService(requestOptions) { [weak self] result in
       guard let request = self else { return }
 
       switch result {
@@ -90,24 +84,22 @@ class WaitTask: AsyncOperation, ResultContainer {
 extension WaitTask {
 
   convenience init(index: Index,
-                   task: Task,
+                   taskID: TaskID,
                    timeout: TimeInterval? = nil,
                    requestOptions: RequestOptions?,
                    completion: @escaping ResultCallback<TaskStatus>) {
-    self.init(taskStatusService: { taskID, requestOptions, completion in index.taskStatus(for: taskID, requestOptions: requestOptions, completion: completion) },
-              taskID: task.taskID,
+    self.init(taskStatusService: { requestOptions, completion in index.taskStatus(for: taskID, requestOptions: requestOptions, completion: completion) },
               timeout: timeout,
               requestOptions: requestOptions,
               completion: completion)
   }
 
   convenience init(client: Client,
-                   taskID: TaskID,
+                   taskID: AppTaskID,
                    timeout: TimeInterval? = nil,
                    requestOptions: RequestOptions?,
                    completion: @escaping ResultCallback<TaskStatus>) {
-    self.init(taskStatusService: { taskID, requestOptions, completion in client.taskStatus(for: taskID, requestOptions: requestOptions, completion: completion) },
-              taskID: taskID,
+    self.init(taskStatusService: { requestOptions, completion in client.taskStatus(for: taskID, requestOptions: requestOptions, completion: completion) },
               timeout: timeout,
               requestOptions: requestOptions,
               completion: completion)

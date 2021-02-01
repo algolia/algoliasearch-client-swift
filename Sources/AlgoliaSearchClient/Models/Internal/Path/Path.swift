@@ -60,7 +60,7 @@ struct TaskCompletion: PathComponent {
 
   private init(_ rawValue: String) { self.rawValue = rawValue }
 
-  static func task(withID taskID: TaskID) -> Self { .init(taskID.rawValue) }
+  static func task(withID taskID: AppTaskID) -> Self { .init(taskID.rawValue) }
 
 }
 

@@ -17,7 +17,7 @@ public extension Client {
     - parameter taskID: of the indexing [Task].
     - parameter requestOptions: Configure request locally with [RequestOptions]
   */
-  @discardableResult func taskStatus(for taskID: TaskID,
+  @discardableResult func taskStatus(for taskID: AppTaskID,
                                      requestOptions: RequestOptions? = nil,
                                      completion: @escaping  ResultCallback<TaskInfo>) -> Operation & TransportTask {
     let command = Command.Advanced.TaskStatus(taskID: taskID, requestOptions: requestOptions)
@@ -30,7 +30,7 @@ public extension Client {
     - parameter taskID: of the indexing [Task].
     - parameter requestOptions: Configure request locally with [RequestOptions]
   */
-  @discardableResult func taskStatus(for taskID: TaskID,
+  @discardableResult func taskStatus(for taskID: AppTaskID,
                                      requestOptions: RequestOptions? = nil) throws -> TaskInfo {
     let command = Command.Advanced.TaskStatus(taskID: taskID, requestOptions: requestOptions)
     return try execute(command)
@@ -49,7 +49,7 @@ public extension Client {
     - parameter taskID: of the indexing task to wait for.
     - parameter requestOptions: Configure request locally with RequestOptions
   */
-  @discardableResult func waitTask(withID taskID: TaskID,
+  @discardableResult func waitTask(withID taskID: AppTaskID,
                                    timeout: TimeInterval? = nil,
                                    requestOptions: RequestOptions? = nil,
                                    completion: @escaping ResultCallback<TaskStatus>) -> Operation {
@@ -72,7 +72,7 @@ public extension Client {
     - parameter taskID: of the indexing task to wait for.
     - parameter requestOptions: Configure request locally with RequestOptions
   */
-  @discardableResult func waitTask(withID taskID: TaskID,
+  @discardableResult func waitTask(withID taskID: AppTaskID,
                                    timeout: TimeInterval? = nil,
                                    requestOptions: RequestOptions? = nil) throws -> TaskStatus {
     let task = WaitTask(client: self,
@@ -84,5 +84,3 @@ public extension Client {
   }
 
 }
-
-extension SearchClient: TaskWaitable {}

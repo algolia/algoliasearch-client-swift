@@ -212,7 +212,7 @@ public extension SearchClient {
    */
   @discardableResult func setDictionarySettings(_ settings: DictionarySettings,
                                                 requestOptions: RequestOptions? = nil,
-                                                completion: @escaping ResultCallback<WaitableWrapper<Revision>>) -> Operation {
+                                                completion: @escaping ResultCallback<WaitableWrapper<AppRevision>>) -> Operation {
     let command = Command.Dictionaries.SetSettings(settings: settings,
                                                    requestOptions: requestOptions)
     return execute(command, completion: completion)
@@ -226,7 +226,7 @@ public extension SearchClient {
    - Returns: Response object
    */
   @discardableResult func setDictionarySettings(_ settings: DictionarySettings,
-                                                requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<Revision> {
+                                                requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<AppRevision> {
     let command = Command.Dictionaries.SetSettings(settings: settings,
                                                    requestOptions: requestOptions)
     return try execute(command)
