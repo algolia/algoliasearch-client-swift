@@ -20,6 +20,7 @@
   "attributesToTransliterate": ["a", "b", "c"],
   "exactOnSingleWordQuery": "attribute",
   "enablePersonalization": true,
+  "decompoundQuery": true,
   "ranking": [
     "typo",
     "geo",

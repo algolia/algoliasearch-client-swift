@@ -27,6 +27,6 @@ class SettingsTests: XCTestCase {
     XCTAssertEqual(settings.attributeCriteriaComputedByMinProximity, false)
     XCTAssertEqual(settings.enablePersonalization, true)
     XCTAssertEqual(settings.attributesToTransliterate, ["a", "b", "c"])
-
+    XCTAssertEqual(settings.decompoundQuery, true)
   }
 }

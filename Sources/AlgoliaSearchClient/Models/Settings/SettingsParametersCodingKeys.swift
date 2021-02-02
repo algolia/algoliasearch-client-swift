@@ -39,6 +39,7 @@ public enum SettingsParametersCodingKeys: String, CodingKey {
   case decompoundedAttributes
   case keepDiacriticsOnCharacters
   case queryLanguages
+  case decompoundQuery
   case enableRules
   case enablePersonalization
   case queryType

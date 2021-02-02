@@ -50,6 +50,7 @@ extension SearchParametersStorage: Codable {
     ignorePlurals = try container.decodeIfPresent(forKey: .ignorePlurals)
     removeStopWords = try container.decodeIfPresent(forKey: .removeStopWords)
     queryLanguages = try container.decodeIfPresent(forKey: .queryLanguages)
+    decompoundQuery = try container.decodeIfPresent(forKey: .decompoundQuery)
     enableRules = try container.decodeIfPresent(forKey: .enableRules)
     ruleContexts = try container.decodeIfPresent(forKey: .ruleContexts)
     enablePersonalization = try container.decodeIfPresent(forKey: .enablePersonalization)
@@ -120,6 +121,7 @@ extension SearchParametersStorage: Codable {
     try container.encodeIfPresent(ignorePlurals, forKey: .ignorePlurals)
     try container.encodeIfPresent(removeStopWords, forKey: .removeStopWords)
     try container.encodeIfPresent(queryLanguages, forKey: .queryLanguages)
+    try container.encodeIfPresent(decompoundQuery, forKey: .decompoundQuery)
     try container.encodeIfPresent(enableRules, forKey: .enableRules)
     try container.encodeIfPresent(ruleContexts, forKey: .ruleContexts)
     try container.encodeIfPresent(enablePersonalization, forKey: .enablePersonalization)
@@ -189,6 +191,7 @@ extension SearchParametersStorage: Codable {
     case ignorePlurals
     case removeStopWords
     case queryLanguages
+    case decompoundQuery
     case enableRules
     case ruleContexts
     case enablePersonalization
