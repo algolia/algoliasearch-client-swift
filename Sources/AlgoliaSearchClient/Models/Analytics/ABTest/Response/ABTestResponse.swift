@@ -17,7 +17,7 @@ public struct ABTestResponse {
   public let clickSignificance: Double?
 
   /// ABTest significance based on conversion data.
-  /// Should be > 0.95 to be considered significant (no matter which variant is winning
+  /// Should be > 0.95 to be considered significant (no matter which variant is winning)
   public let conversionSignificance: Double?
 
   /// Time at which the ABTest  has been created.
