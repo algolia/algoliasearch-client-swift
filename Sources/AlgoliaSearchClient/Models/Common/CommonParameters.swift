@@ -148,6 +148,15 @@ public protocol CommonParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/queryLanguages/?language=swift)
    */
   var queryLanguages: [Language]? { get set }
+  
+  /**
+    Enable word segmentation (also called decompounding) at query time for
+    compatible languages.
+    For example, this turns the Dutch query "spaanplaatbehang" into "spaan plaat behang" to retrieve more relevant results.
+   - Engine default: true
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/decompoundQuery/?client=swift)
+  */
+  var decompoundQuery: Bool? { get set }
 
   // MARK: - Query rules
 

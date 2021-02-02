@@ -40,6 +40,7 @@ struct SettingsParametersStorage: SettingsParameters {
   var customNormalization: [String: [String: String]]?
   var queryLanguages: [Language]?
   var indexLanguages: [Language]?
+  var decompoundQuery: Bool?
   var enableRules: Bool?
   var enablePersonalization: Bool?
   var queryType: QueryType?
@@ -202,6 +203,10 @@ extension SettingsParametersStorageContainer {
   public var indexLanguages: [Language]? {
     get { settingsParametersStorage.indexLanguages }
     set { settingsParametersStorage.indexLanguages = newValue }
+  }
+  public var decompoundQuery: Bool? {
+    get { settingsParametersStorage.decompoundQuery }
+    set { settingsParametersStorage.decompoundQuery = newValue }
   }
   public var enableRules: Bool? {
     get { settingsParametersStorage.enableRules }
