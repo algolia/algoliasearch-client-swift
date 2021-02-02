@@ -224,6 +224,16 @@ public struct SearchResponse {
    Meta-information as to how the query was processed.
   */
   public var explain: Explain?
+  
+  /**
+   Relevancy score applied to search in virtual index.
+   */
+  public var appliedRelevancyStrictness: Int?
+  
+  /**
+   Number of relevant hits to display in case of non-zero relevancyStrictness applied
+   */
+  public var nbSortedHits: Int?
 
   public init(hits: [Hit<JSON>] = []) {
     self.hits = hits
