@@ -75,6 +75,7 @@ public struct SearchParametersStorage: SearchParameters, Equatable {
   public var attributeCriteriaComputedByMinProximity: Bool?
   public var enableABTest: Bool?
   public var explainModules: [ExplainModule]?
+  public var relevancyStrictness: Int?
 }
 
 protocol SearchParametersStorageContainer: SearchParameters {
@@ -351,5 +352,9 @@ extension SearchParametersStorageContainer {
   public var explainModules: [ExplainModule]? {
     get { searchParametersStorage.explainModules }
     set { searchParametersStorage.explainModules = newValue }
+  }
+  public var relevancyStrictness: Int? {
+    get { searchParametersStorage.relevancyStrictness }
+    set { searchParametersStorage.relevancyStrictness = newValue }
   }
 }

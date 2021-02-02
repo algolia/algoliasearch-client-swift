@@ -268,4 +268,11 @@ public protocol CommonParameters {
    */
   var attributeCriteriaComputedByMinProximity: Bool? { get set }
   
+  /**
+   Relevancy score to apply for search in virtual index. Bigger value means less, but more relevant results, lesser value - more less relevant results.
+   - Engine default: false
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/?language=swift)
+   */
+  var relevancyStrictness: Int? { get set }
+  
 }

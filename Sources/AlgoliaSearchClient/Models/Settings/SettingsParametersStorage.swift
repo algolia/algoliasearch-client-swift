@@ -63,6 +63,7 @@ struct SettingsParametersStorage: SettingsParameters {
   var userData: JSON?
   var version: Int?
   var primary: IndexName?
+  var relevancyStrictness: Int?
 }
 
 extension SettingsParametersStorage: Codable {
@@ -295,5 +296,8 @@ extension SettingsParametersStorageContainer {
     get { settingsParametersStorage.primary }
     set { settingsParametersStorage.primary = newValue }
   }
-
+  public var relevancyStrictness: Int? {
+    get { settingsParametersStorage.relevancyStrictness }
+    set { settingsParametersStorage.relevancyStrictness = newValue }
+  }
 }
