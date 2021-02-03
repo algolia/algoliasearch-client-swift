@@ -84,8 +84,7 @@ public struct AccountClient {
       waitSettings
       ].map(\.task) + waitObjects.batchesResponse.tasks
 
-    let waitService = WaitService(taskIndices: tasks.map { (destination, $0.taskID) })
-    return WaitableWrapper(wrapped: tasks, waitService: waitService)
+    return WaitableWrapper(tasks: tasks, index: destination)
   }
 
 }

@@ -4,7 +4,6 @@
 //
 //  Created by Vladislav Fitc on 19/11/2020.
 //
-// swiftlint:disable file_length
 
 import Foundation
 
@@ -41,14 +40,14 @@ public protocol SettingsParameters: CommonParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/ranking/?language=swift)
    */
   var ranking: [RankingCriterion]? { get set }
-  
+
   /**
    Specifies the [CustomRankingCriterion].
    - Engine default: []
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/customRanking/?language=swift)
    */
   var customRanking: [CustomRankingCriterion]? { get set }
-  
+
   /**
    Creates replicas, exact copies of an index.
    - Engine default: []
@@ -132,7 +131,6 @@ public protocol SettingsParameters: CommonParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/disablePrefixOnAttributes/?language=swift)
    */
   var disablePrefixOnAttributes: [Attribute]? { get set }
-
 
   // MARK: - Performance
 
