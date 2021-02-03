@@ -542,7 +542,7 @@ public extension Index {
 
           let client = SearchClient(appID: self.applicationID, apiKey: self.apiKey)
           let tasksToWait = tasks.map { Waitable(client: client, task: $0) }
-            
+
           WaitableWrapper(wrapped: tasks, tasksToWait: tasksToWait).wait { result in
             completion(result.map { _ in tasks})
           }

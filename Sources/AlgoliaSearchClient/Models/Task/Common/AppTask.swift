@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol AppTask {
-  
+
   var taskID: AppTaskID { get }
-  
+
 }

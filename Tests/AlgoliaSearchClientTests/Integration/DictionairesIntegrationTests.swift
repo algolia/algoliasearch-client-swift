@@ -18,19 +18,18 @@ class DictionairesIntegrationTests: OnlineTestCase {
   }
   
   func testStopwordsDictionary() throws {
-    
     // Create one `entry_id` with a random string
     let entryID = ObjectID(rawValue: .random(length: 10))
 
-    // Search in the `compounds` dictionary with **search_dictionary_entries** for the entry_id and assert that the result count is 0
+    // Search in the `stopwords` dictionary with **search_dictionary_entries** for the entry_id and assert that the result count is 0
     var response = try client.searchDictionaryEntries(in: StopwordsDictionary.self, query: "\(entryID)")
     XCTAssert(response.hits.isEmpty)
     
-    // Add the following entry in the `compounds` dictionary with **save_dictionary_entries** and wait for the task to finish
+    // Add the following entry in the `stopwords` dictionary with **save_dictionary_entries** and wait for the task to finish
     let stopwordEntry = StopwordsDictionary.Entry(objectID: entryID, language: .english, word: "down", state: .enabled)
     try client.saveDictionaryEntries(to: StopwordsDictionary.self, dictionaryEntries: [stopwordEntry]).wait()
 
-    // Search in the `compounds` dictionary with **search_dictionary_entries** for the entry_id and assert that the result count is 1
+    // Search in the `stopwords` dictionary with **search_dictionary_entries** for the entry_id and assert that the result count is 1
     response = try client.searchDictionaryEntries(in: StopwordsDictionary.self, query: "\(entryID)")
     XCTAssertEqual(response.nbHits, 1)
     
@@ -40,7 +39,7 @@ class DictionairesIntegrationTests: OnlineTestCase {
     // Delete the entry with **delete_dictionary_entries** and wait for the task to finish
     try client.deleteDictionaryEntries(from: StopwordsDictionary.self, withObjectIDs: [entryID]).wait()
 
-    // Search in the `compounds` dictionary with **search_dictionary_entries** for the entry_id and assert that the result count is 0
+    // Search in the `stopwords` dictionary with **search_dictionary_entries** for the entry_id and assert that the result count is 0
     response = try client.searchDictionaryEntries(in: StopwordsDictionary.self, query: "\(entryID)")
     XCTAssert(response.hits.isEmpty)
     
@@ -106,7 +105,6 @@ class DictionairesIntegrationTests: OnlineTestCase {
     XCTAssert(response.hits.isEmpty)
     
     // Add the following entry in the `plurals` dictionary with **save_dictionary_entries** and wait for the task to finish
-    
     let pluralEntry = PluralsDictionary.Entry(objectID: entryID, language: .french, words: ["cheval", "chevaux"])
     try client.saveDictionaryEntries(to: PluralsDictionary.self, dictionaryEntries: [pluralEntry]).wait()
         

@@ -83,7 +83,7 @@ public struct AccountClient {
       waitRules,
       waitSettings
       ].map(\.task) + waitObjects.batchesResponse.tasks
-    
+
     return WaitableWrapper(tasks: tasks, index: destination)
   }
 

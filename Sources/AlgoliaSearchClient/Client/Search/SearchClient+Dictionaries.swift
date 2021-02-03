@@ -13,6 +13,7 @@ public extension SearchClient {
 
   /**
    Save dictionary entries
+   
    - Parameter dictionary: Target dictionary
    - Parameter dictionaryEntries: List of dictionary entries
    - Parameter requestOptions: Configure request locally with RequestOptions
@@ -168,7 +169,7 @@ public extension SearchClient {
    Search dictionary entries
    
    - Parameter dictionary: Target dictionary
-   - Parameter query:
+   - Parameter query: Search query
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
