@@ -34,6 +34,7 @@ struct SettingsParametersStorage: SettingsParameters {
   var separatorsToIndex: String?
   var ignorePlurals: LanguageFeature?
   var removeStopWords: LanguageFeature?
+  var attributesToTransliterate: [Attribute]?
   var camelCaseAttributes: [Attribute]?
   var decompoundedAttributes: DecompoundedAttributes?
   var keepDiacriticsOnCharacters: String?
@@ -179,6 +180,10 @@ extension SettingsParametersStorageContainer {
   public var removeStopWords: LanguageFeature? {
     get { settingsParametersStorage.removeStopWords }
     set { settingsParametersStorage.removeStopWords = newValue }
+  }
+  public var attributesToTransliterate: [Attribute]? {
+    get { settingsParametersStorage.attributesToTransliterate }
+    set { settingsParametersStorage.attributesToTransliterate = newValue }
   }
   public var camelCaseAttributes: [Attribute]? {
     get { settingsParametersStorage.camelCaseAttributes }
