@@ -5,7 +5,7 @@
 ### Feat
 
 - Custom dictionaries (#717) ([c3103b4](https://github.com/algolia/algoliasearch-client-swift/commit/c3103b4))
-- **settings**: Add attributesToTransliterate settings parameter (#723) ([722750b](https://github.com/algolia/algoliasearch-client-swift/commit/722750b))
+- Add `attributesToTransliterate` settings parameter (#723) ([722750b](https://github.com/algolia/algoliasearch-client-swift/commit/722750b))
 
 ### Fix
 
@@ -14,8 +14,8 @@
 
 ### Misc
 
-- feat(search/settings): Add decompoundQuery search & settings parameter (#722) ([2e5fa23](https://github.com/algolia/algoliasearch-client-swift/commit/2e5fa23))
-- Add filters field to Rule condition (#721) ([8d927d1](https://github.com/algolia/algoliasearch-client-swift/commit/8d927d1))
+- Add `decompoundQuery` search & settings parameter (#722) ([2e5fa23](https://github.com/algolia/algoliasearch-client-swift/commit/2e5fa23))
+- Add `filters` field to Rule condition (#721) ([8d927d1](https://github.com/algolia/algoliasearch-client-swift/commit/8d927d1))
 
 
 
