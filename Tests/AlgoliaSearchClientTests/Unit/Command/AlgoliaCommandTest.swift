@@ -8,11 +8,14 @@
 import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 protocol AlgoliaCommandTest {
 
   var test: TestValues { get }
-  func check(command: AlgoliaCommand, callType: CallType, method: HTTPMethod, urlPath: String, queryItems: Set<URLQueryItem>, body: Data?, additionalHeaders: [HTTPHeaderKey: String]?, requestOptions: RequestOptions, file: StaticString, line: UInt)
+  func check<Command: AlgoliaCommand>(command: Command, callType: CallType, method: HTTPMethod, urlPath: String, queryItems: Set<URLQueryItem>, body: Data?, additionalHeaders: [HTTPHeaderKey: String]?, requestOptions: RequestOptions, file: StaticString, line: UInt)
 
 }
 
@@ -22,9 +25,9 @@ extension AlgoliaCommandTest {
     return TestValues()
   }
 
-  func check(command: AlgoliaCommand, callType: CallType, method: HTTPMethod, urlPath: String, queryItems: Set<URLQueryItem>, body: Data?, additionalHeaders: [HTTPHeaderKey: String]? = nil, requestOptions: RequestOptions, file: StaticString = #file, line: UInt = #line) {
+  func check<Command: AlgoliaCommand>(command: Command, callType: CallType, method: HTTPMethod, urlPath: String, queryItems: Set<URLQueryItem>, body: Data?, additionalHeaders: [HTTPHeaderKey: String]? = nil, requestOptions: RequestOptions, file: StaticString = #file, line: UInt = #line) {
     
-    let request = command.urlRequest
+    let request = URLRequest(command: command)
     XCTAssertEqual(command.callType, callType, file: file, line: line)
     XCTAssertEqual(request.httpMethod, method.rawValue, file: file, line: line)
     XCTAssertEqual(request.url?.path, urlPath, file: file, line: line)

@@ -32,22 +32,22 @@ extension URLRequest {
 
   }
 
-  init<PC: PathComponent>(method: HTTPMethod, path: PC, body: Data? = nil, requestOptions: RequestOptions? = nil) {
+  init<Command: AlgoliaCommand>(command: Command) {
 
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"
-    urlComponents.path = path.fullPath
+    urlComponents.path = command.path.fullPath
 
-    if let urlParameters = requestOptions?.urlParameters {
+    if let urlParameters = command.requestOptions?.urlParameters {
       urlComponents.queryItems = urlParameters.map { (key, value) in .init(name: key.rawValue, value: value) }
     }
 
     var request = URLRequest(url: urlComponents.url!)
 
-    request.httpMethod = method.rawValue
-    request.httpBody = body
+    request.httpMethod = command.method.rawValue
+    request.httpBody = command.body
 
-    if let requestOptions = requestOptions {
+    if let requestOptions = command.requestOptions {
 
       requestOptions.headers.forEach { header in
         let (value, field) = (header.value, header.key.rawValue)
@@ -62,7 +62,7 @@ extension URLRequest {
 
     }
 
-    request.httpBody = body
+    request.httpBody = command.body
     self = request
   }
 

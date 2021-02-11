@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
 
 extension Command {
 
@@ -16,28 +13,27 @@ extension Command {
 
     struct ListClusters: AlgoliaCommand {
 
+      let method: HTTPMethod = .get
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: Path = .clustersV1
       let requestOptions: RequestOptions?
 
       init(requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = Path.clustersV1
-        urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)
       }
 
     }
 
     struct HasPendingMapping: AlgoliaCommand {
 
+      let method: HTTPMethod = .get
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: MappingCompletion
       let requestOptions: RequestOptions?
 
       init(retrieveMapping: Bool, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions.updateOrCreate([.getClusters: String(retrieveMapping)])
-        let path = .clustersV1 >>> .mapping >>> MappingCompletion.pending
-        urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)
+        self.path = (.clustersV1 >>> .mapping >>> .pending)
       }
 
     }
@@ -52,68 +48,69 @@ extension Command.MultiCluster {
 
     struct Assign: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: MappingRoute = .clustersV1 >>> .mapping
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init(userID: UserID, clusterName: ClusterName, requestOptions: RequestOptions?) {
         var updatedRequestOptions = requestOptions ?? .init()
         updatedRequestOptions.setHeader(userID.rawValue, forKey: .algoliaUserID)
         self.requestOptions = updatedRequestOptions
-        let path = .clustersV1 >>> MappingRoute.mapping
-        let body = ClusterWrapper(clusterName).httpBody
-        urlRequest = .init(method: .post, path: path, body: body, requestOptions: self.requestOptions)
+        self.body = ClusterWrapper(clusterName).httpBody
       }
 
     }
 
     struct BatchAssign: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: MappingCompletion = .clustersV1 >>> .mapping >>> .batch
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init(userIDs: [UserID], clusterName: ClusterName, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .clustersV1 >>> .mapping >>> MappingCompletion.batch
-        let body = AssignUserIDRequest(clusterName: clusterName, userIDs: userIDs).httpBody
-        urlRequest = .init(method: .post, path: path, body: body, requestOptions: self.requestOptions)
+        self.body = AssignUserIDRequest(clusterName: clusterName, userIDs: userIDs).httpBody
       }
 
     }
 
     struct Get: AlgoliaCommand {
 
+      let method: HTTPMethod = .get
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: MappingCompletion
       let requestOptions: RequestOptions?
 
       init(userID: UserID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .clustersV1 >>> .mapping >>> MappingCompletion.userID(userID)
-        urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)
+        self.path = (.clustersV1 >>> .mapping >>> .userID(userID))
       }
 
     }
 
     struct GetTop: AlgoliaCommand {
 
+      let method: HTTPMethod = .get
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: MappingCompletion
       let requestOptions: RequestOptions?
 
       init(requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .clustersV1 >>> .mapping >>> MappingCompletion.top
-        urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)
+        self.path = (.clustersV1 >>> .mapping >>> .top)
       }
 
     }
 
     struct GetList: AlgoliaCommand {
 
+      let method: HTTPMethod = .get
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: MappingRoute = .clustersV1 >>> .mapping
       let requestOptions: RequestOptions?
 
       init(page: Int?, hitsPerPage: Int?, requestOptions: RequestOptions?) {
@@ -122,38 +119,36 @@ extension Command.MultiCluster {
             .page: page.flatMap(String.init),
             .hitsPerPage: hitsPerPage.flatMap(String.init)
           ])
-        let path = .clustersV1 >>> MappingRoute.mapping
-        urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)
       }
 
     }
 
     struct Remove: AlgoliaCommand {
 
+      let method: HTTPMethod = .delete
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: MappingRoute = .clustersV1 >>> .mapping
       let requestOptions: RequestOptions?
 
       init(userID: UserID, requestOptions: RequestOptions?) {
         var updatedRequestOptions = requestOptions ?? .init()
         updatedRequestOptions.setHeader(userID.rawValue, forKey: .algoliaUserID)
         self.requestOptions = updatedRequestOptions
-        let path = .clustersV1 >>> MappingRoute.mapping
-        urlRequest = .init(method: .delete, path: path, requestOptions: self.requestOptions)
       }
 
     }
 
     struct Search: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: MappingCompletion = .clustersV1 >>> .mapping >>> .search
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init(userIDQuery: UserIDQuery, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .clustersV1 >>> .mapping >>> MappingCompletion.search
-        urlRequest = .init(method: .post, path: path, body: userIDQuery.httpBody, requestOptions: self.requestOptions)
+        self.body = userIDQuery.httpBody
       }
 
     }

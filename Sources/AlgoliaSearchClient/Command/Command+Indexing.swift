@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
 
 extension Command {
 
@@ -16,22 +13,25 @@ extension Command {
 
     struct SaveObject: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: IndexRoute
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init<T: Encodable>(indexName: IndexName, record: T, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .indexesV1 >>> IndexRoute.index(indexName)
-        urlRequest = .init(method: .post, path: path, body: record.httpBody, requestOptions: self.requestOptions)
+        self.path = (.indexesV1 >>> .index(indexName))
+        self.body = record.httpBody
       }
 
     }
 
     struct GetObject: AlgoliaCommand {
 
+      let method: HTTPMethod = .get
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: IndexCompletion
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, objectID: ObjectID, attributesToRetrieve: [Attribute], requestOptions: RequestOptions?) {
@@ -41,59 +41,63 @@ extension Command {
           return [.attributesToRetreive: attributesValue]
         }() )
         self.requestOptions = requestOptions
-        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objectID(objectID)
-        urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)
+        self.path = (.indexesV1 >>> .index(indexName) >>> .objectID(objectID))
       }
 
     }
 
     struct ReplaceObject: AlgoliaCommand {
 
+      let method: HTTPMethod = .put
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: IndexCompletion
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init<T: Encodable>(indexName: IndexName, objectID: ObjectID, replacementObject record: T, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objectID(objectID)
-        urlRequest = .init(method: .put, path: path, body: record.httpBody, requestOptions: self.requestOptions)
+        self.path = (.indexesV1 >>> .index(indexName) >>> .objectID(objectID))
+        self.body = record.httpBody
       }
 
     }
 
     struct DeleteObject: AlgoliaCommand {
 
+      let method: HTTPMethod = .delete
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: IndexCompletion
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, objectID: ObjectID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objectID(objectID)
-        urlRequest = .init(method: .delete, path: path, requestOptions: self.requestOptions)
+        self.path = (.indexesV1 >>> .index(indexName) >>> .objectID(objectID))
       }
 
     }
 
     struct DeleteByQuery: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: IndexCompletion
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, query: AlgoliaSearchClient.DeleteByQuery, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.deleteByQuery
-        let body = ParamsWrapper(query.urlEncodedString).httpBody
-        urlRequest = .init(method: .post, path: path, body: body, requestOptions: self.requestOptions)
+        self.path = (.indexesV1 >>> .index(indexName) >>> .deleteByQuery)
+        self.body = ParamsWrapper(query.urlEncodedString).httpBody
       }
 
     }
 
     struct PartialUpdate: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: IndexCompletion
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, objectID: ObjectID, partialUpdate: AlgoliaSearchClient.PartialUpdate, createIfNotExists: Bool?, requestOptions: RequestOptions?) {
@@ -102,23 +106,22 @@ extension Command {
           return [.createIfNotExists: String(createIfNotExists)]
           }() )
         self.requestOptions = requestOptions
-        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.objectID(objectID, partial: true)
-        let body = partialUpdate.httpBody
-        urlRequest = .init(method: .post, path: path, body: body, requestOptions: self.requestOptions)
+        self.path = (.indexesV1 >>> .index(indexName) >>> .objectID(objectID, partial: true))
+        self.body = partialUpdate.httpBody
       }
 
     }
 
     struct ClearObjects: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: IndexCompletion
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.clear
-        urlRequest = .init(method: .post, path: path, requestOptions: self.requestOptions)
+        self.path = (.indexesV1 >>> .index(indexName) >>> .clear)
       }
 
     }

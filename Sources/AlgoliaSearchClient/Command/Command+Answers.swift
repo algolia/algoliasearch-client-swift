@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
 
 extension Command {
 
@@ -16,16 +13,18 @@ extension Command {
 
     struct Find: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: IndexCompletion
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName,
            query: AnswersQuery,
            requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path: IndexCompletion = .answers >>> .index(indexName) >>> .prediction
-        urlRequest = .init(method: .post, path: path, body: query.httpBody, requestOptions: self.requestOptions)
+        self.path = (.answers >>> .index(indexName) >>> .prediction)
+        self.body = query.httpBody
       }
 
     }

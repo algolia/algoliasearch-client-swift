@@ -18,13 +18,13 @@ protocol TransportContainer {
 
 extension TransportContainer {
 
-  func execute<Response: Decodable, Output>(_ command: AlgoliaCommand,
+  func execute<Command: AlgoliaCommand, Response: Decodable, Output>(_ command: Command,
                                             transform: @escaping (Response) -> Output,
                                             completion: @escaping (Result<Output, Error>) -> Void) -> Operation & TransportTask {
     transport.execute(command, transform: transform, completion: completion)
   }
 
-  func execute<Response: Decodable, Output>(_ command: AlgoliaCommand,
+  func execute<Command: AlgoliaCommand, Response: Decodable, Output>(_ command: Command,
                                             transform: @escaping (Response) -> Output) throws -> Output {
     try transport.execute(command, transform: transform)
   }
@@ -50,11 +50,11 @@ extension TransportContainer {
 
 extension TransportContainer {
 
-  @discardableResult func execute<Output: Decodable>(_ command: AlgoliaCommand, completion: @escaping ResultCallback<Output>) -> Operation & TransportTask {
+  @discardableResult func execute<Command: AlgoliaCommand, Output: Decodable>(_ command: Command, completion: @escaping ResultCallback<Output>) -> Operation & TransportTask {
     execute(command, transform: { $0 }, completion: completion)
   }
 
-  @discardableResult func execute<Output: Decodable>(_ command: AlgoliaCommand) throws -> Output {
+  @discardableResult func execute<Command: AlgoliaCommand, Output: Decodable>(_ command: Command) throws -> Output {
     try execute(command, transform: { $0 })
   }
 
@@ -62,11 +62,11 @@ extension TransportContainer {
 
 extension TransportContainer where Self: Credentials {
 
-  func execute<Output: Decodable & Task & IndexNameContainer>(_ command: AlgoliaCommand, completion: @escaping ResultTaskCallback<Output>) -> Operation & TransportTask {
+  func execute<Command: AlgoliaCommand, Output: Decodable & Task & IndexNameContainer>(_ command: Command, completion: @escaping ResultTaskCallback<Output>) -> Operation & TransportTask {
     transport.execute(command, transform: WaitableWrapper.wrap(credentials: self), completion: completion)
   }
 
-  func execute<Output: Decodable & Task & IndexNameContainer>(_ command: AlgoliaCommand) throws -> WaitableWrapper<Output> {
+  func execute<Command: AlgoliaCommand, Output: Decodable & Task & IndexNameContainer>(_ command: Command) throws -> WaitableWrapper<Output> {
     try transport.execute(command, transform: WaitableWrapper.wrap(credentials: self))
   }
 

@@ -27,7 +27,9 @@ extension Transport {
                                                       request: URLRequest,
                                                       requestOptions: RequestOptions? = nil,
                                                       completion: @escaping ResultCallback<T>) -> Operation {
-    let command = Command.Custom(callType: callType, urlRequest: request, requestOptions: requestOptions)
+    guard let command = try? Command.Custom(callType: callType, urlRequest: request, requestOptions: requestOptions) else {
+      return Operation()
+    }
     return execute(command, completion: completion)
   }
 
@@ -44,7 +46,7 @@ extension Transport {
   @discardableResult func customRequest<T: Decodable>(callType: CallType,
                                                       request: URLRequest,
                                                       requestOptions: RequestOptions? = nil) throws -> T {
-    let command = Command.Custom(callType: callType, urlRequest: request, requestOptions: requestOptions)
+    let command = try Command.Custom(callType: callType, urlRequest: request, requestOptions: requestOptions)
     return try execute(command)
   }
 

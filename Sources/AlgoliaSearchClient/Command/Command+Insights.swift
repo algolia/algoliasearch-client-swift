@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
 
 extension Command {
 
@@ -16,16 +13,17 @@ extension Command {
 
     struct SendEvents: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: Path = .eventsV1
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init(events: [InsightsEvent], requestOptions: RequestOptions?) {
-        let body = EventsWrapper(events)
         var requestOptions = requestOptions.unwrapOrCreate()
         requestOptions.setHeader("application/json", forKey: .contentType)
         self.requestOptions = requestOptions
-        self.urlRequest = .init(method: .post, path: Path.eventsV1, body: body.httpBody, requestOptions: self.requestOptions)
+        self.body = EventsWrapper(events).httpBody
       }
 
     }

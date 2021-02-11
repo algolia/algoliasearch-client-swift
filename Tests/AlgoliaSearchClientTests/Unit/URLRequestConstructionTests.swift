@@ -18,13 +18,10 @@ class URLRequestConstructionTests: XCTestCase {
   func testConstruction() throws {
 
     let method = HTTPMethod.post
-    let path = TestPath.path
     let body: Data = "TestContent".data(using: .utf8)!
     let credentials = TestCredentials(applicationID: "testAppID", apiKey: "testApiKey")
-
-    let request = URLRequest(method: method,
-                             path: path,
-                             body: body).set(\.credentials, to: credentials)
+    let request = URLRequest(command: Command.Custom(method: method, callType: .read, path: .init("/my/test/path"), body: body, requestOptions: nil))
+      .set(\.credentials, to: credentials)
 
     let expectedHeaders: [String: String] = [
       HTTPHeaderKey.applicationID.rawValue: credentials.applicationID.rawValue,

@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
 
 extension Command {
 
@@ -16,23 +13,25 @@ extension Command {
 
     struct GetSettings: AlgoliaCommand {
 
+      let method: HTTPMethod = .get
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: IndexCompletion
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName,
            requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.settings
-        urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)
+        self.path = (.indexesV1 >>> .index(indexName) >>> .settings)
       }
 
     }
 
     struct SetSettings: AlgoliaCommand {
 
+      let method: HTTPMethod = .put
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: IndexCompletion
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName,
@@ -44,8 +43,8 @@ extension Command {
           guard let forwardToReplicas = forwardToReplicas else { return [:] }
           return [.forwardToReplicas: "\(forwardToReplicas)"]
         }())
-        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.settings
-        urlRequest = .init(method: .put, path: path, body: settings.httpBody, requestOptions: self.requestOptions)
+        self.path = (.indexesV1 >>> .index(indexName) >>> .settings)
+        self.body = settings.httpBody
       }
 
     }

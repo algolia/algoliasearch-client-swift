@@ -6,17 +6,16 @@
 //
 
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
 
 enum Command {
 }
 
 extension Command {
   struct Template: AlgoliaCommand {
+    var method: HTTPMethod = .get
     let callType: CallType = .read
-    let urlRequest: URLRequest = URLRequest(method: .get, path: Path.indexesV1)
+    let path: Path = .indexesV1
+    let body: Data?
     let requestOptions: RequestOptions? = nil
   }
 }
