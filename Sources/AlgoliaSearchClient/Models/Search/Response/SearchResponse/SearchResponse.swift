@@ -226,12 +226,12 @@ public struct SearchResponse {
   public var explain: Explain?
   
   /**
-   Relevancy score applied to search in virtual index.
+   The relevancy threshold applied to search in a virtual index.
    */
   public var appliedRelevancyStrictness: Int?
   
   /**
-   Number of relevant hits to display in case of non-zero relevancyStrictness applied
+   Subset of hits selected when relevancyStrictness is applied.
    */
   public var nbSortedHits: Int?
 
