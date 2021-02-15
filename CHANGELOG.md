@@ -1,5 +1,13 @@
 # ChangeLog
 
+## [8.7.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.6.0...8.7.0) (2021-02-15)
+
+### Misc
+
+- feat(virtual indices): Virtual indices related parameters (#727) ([3573863](https://github.com/algolia/algoliasearch-client-swift/commit/3573863))
+
+
+
 ## [8.6.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.5.0...8.6.0) (2021-02-03)
 
 ### Feat
