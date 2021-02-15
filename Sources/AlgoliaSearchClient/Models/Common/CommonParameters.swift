@@ -276,5 +276,14 @@ public protocol CommonParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/attributeCriteriaComputedByMinProximity/?language=swift)
    */
   var attributeCriteriaComputedByMinProximity: Bool? { get set }
-
+  
+  /**
+   The relevancy threshold to apply to search in a virtual index [0-100]. A Bigger
+   value means fewer, but more relevant results, smaller value means more, but
+   less relevant results.
+   - Engine default: false
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/?language=swift)
+   */
+  var relevancyStrictness: Int? { get set }
+  
 }
