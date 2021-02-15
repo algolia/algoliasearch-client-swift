@@ -33,9 +33,9 @@ struct Path: PathComponent {
   static var logs: Self { .init("/1/logs") }
   static var strategies: Self { .init("/1/strategies") }
   static var places: Self { .init("/1/places") }
-  static var task: Self { .init("/task") }
   static var answers: Self { .init("/1/answers") }
-
+  static var dictionaries: Self { .init("/1/dictionaries") }
+  static var task: Self { .init("/1/task") }
 }
 
 struct IndexRoute: PathComponent {
@@ -49,6 +49,18 @@ struct IndexRoute: PathComponent {
   static func index(_ indexName: IndexName) -> Self { .init(indexName.rawValue) }
 
   static var multiIndex: Self { .init("*") }
+
+}
+
+struct TaskCompletion: PathComponent {
+
+  var parent: Path?
+
+  let rawValue: String
+
+  private init(_ rawValue: String) { self.rawValue = rawValue }
+
+  static func task(withID taskID: AppTaskID) -> Self { .init(taskID.rawValue) }
 
 }
 
@@ -73,6 +85,35 @@ struct IndexCompletion: PathComponent {
   static var rules: Self { .init(#function) }
   static var synonyms: Self { .init(#function) }
   static var prediction: Self { .init(#function) }
+
+}
+
+struct DictionaryRoute: PathComponent {
+
+  var parent: Path?
+
+  let rawValue: String
+
+  private init(_ rawValue: String) { self.rawValue = rawValue }
+
+  static func dictionaryName(_ dictionaryName: DictionaryName) -> Self { .init(dictionaryName.rawValue) }
+
+  static var common: Self { .init("*") }
+
+}
+
+struct DictionaryCompletion: PathComponent {
+
+  var parent: DictionaryRoute?
+
+  let rawValue: String
+
+  private init(_ rawValue: String) { self.rawValue = rawValue }
+
+  static var batch: Self { .init(#function) }
+  static var search: Self { .init(#function) }
+  static var settings: Self { .init(#function) }
+  static var languages: Self { .init(#function) }
 
 }
 

@@ -48,6 +48,7 @@ public struct SearchParametersStorage: SearchParameters, Equatable {
   public var removeStopWords: LanguageFeature?
   public var queryLanguages: [Language]?
   public var naturalLanguages: [Language]?
+  public var decompoundQuery: Bool?
   public var enableRules: Bool?
   public var ruleContexts: [String]?
   public var enablePersonalization: Bool?
@@ -244,6 +245,10 @@ extension SearchParametersStorageContainer {
   public var naturalLanguages: [Language]? {
     get { searchParametersStorage.naturalLanguages }
     set { searchParametersStorage.naturalLanguages = newValue }
+  }
+  public var decompoundQuery: Bool? {
+    get { searchParametersStorage.decompoundQuery }
+    set { searchParametersStorage.decompoundQuery = newValue }
   }
   public var enableRules: Bool? {
     get { searchParametersStorage.enableRules }

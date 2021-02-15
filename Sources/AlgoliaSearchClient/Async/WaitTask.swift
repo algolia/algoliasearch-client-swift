@@ -9,10 +9,9 @@ import Foundation
 
 class WaitTask: AsyncOperation, ResultContainer {
 
-  typealias TaskIDProvider = () -> TaskID?
+  typealias TaskStatusService = (RequestOptions?, @escaping  ResultCallback<TaskInfo>) -> Void
 
-  let index: Index
-  let taskIDProvider: TaskIDProvider
+  let taskStatusService: TaskStatusService
   let requestOptions: RequestOptions?
   let timeout: TimeInterval?
   private var launchDate: Date?
@@ -32,25 +31,11 @@ class WaitTask: AsyncOperation, ResultContainer {
     return Date().timeIntervalSince(launchDate) >= timeout
   }
 
-  init(index: Index,
-       taskIDProvider: @autoclosure @escaping TaskIDProvider,
+  init(taskStatusService: @escaping TaskStatusService,
        timeout: TimeInterval? = nil,
        requestOptions: RequestOptions?,
        completion: @escaping ResultCallback<TaskStatus>) {
-    self.index = index
-    self.taskIDProvider = taskIDProvider
-    self.timeout = timeout
-    self.requestOptions = requestOptions
-    self.completion = completion
-  }
-
-  init(index: Index,
-       taskID: TaskID,
-       timeout: TimeInterval? = nil,
-       requestOptions: RequestOptions?,
-       completion: @escaping ResultCallback<TaskStatus>) {
-    self.index = index
-    self.taskIDProvider = { return taskID }
+    self.taskStatusService = taskStatusService
     self.timeout = timeout
     self.requestOptions = requestOptions
     self.completion = completion
@@ -70,12 +55,7 @@ class WaitTask: AsyncOperation, ResultContainer {
       return
     }
 
-    guard let taskID = taskIDProvider() else {
-      result = .failure(Error.missingTaskID)
-      return
-    }
-
-    index.taskStatus(for: taskID, requestOptions: requestOptions) { [weak self] result in
+    taskStatusService(requestOptions) { [weak self] result in
       guard let request = self else { return }
 
       switch result {
@@ -97,7 +77,6 @@ class WaitTask: AsyncOperation, ResultContainer {
 
   enum Error: Swift.Error {
     case timeout
-    case missingTaskID
   }
 
 }
@@ -105,12 +84,22 @@ class WaitTask: AsyncOperation, ResultContainer {
 extension WaitTask {
 
   convenience init(index: Index,
-                   task: Task,
+                   taskID: TaskID,
                    timeout: TimeInterval? = nil,
                    requestOptions: RequestOptions?,
                    completion: @escaping ResultCallback<TaskStatus>) {
-    self.init(index: index,
-              taskID: task.taskID,
+    self.init(taskStatusService: { requestOptions, completion in index.taskStatus(for: taskID, requestOptions: requestOptions, completion: completion) },
+              timeout: timeout,
+              requestOptions: requestOptions,
+              completion: completion)
+  }
+
+  convenience init(client: Client,
+                   taskID: AppTaskID,
+                   timeout: TimeInterval? = nil,
+                   requestOptions: RequestOptions?,
+                   completion: @escaping ResultCallback<TaskStatus>) {
+    self.init(taskStatusService: { requestOptions, completion in client.taskStatus(for: taskID, requestOptions: requestOptions, completion: completion) },
               timeout: timeout,
               requestOptions: requestOptions,
               completion: completion)

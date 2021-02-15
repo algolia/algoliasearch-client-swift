@@ -1,5 +1,24 @@
 # ChangeLog
 
+## [8.6.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.5.0...8.6.0) (2021-02-03)
+
+### Feat
+
+- Custom dictionaries (#717) ([c3103b4](https://github.com/algolia/algoliasearch-client-swift/commit/c3103b4))
+- Add `attributesToTransliterate` settings parameter (#723) ([722750b](https://github.com/algolia/algoliasearch-client-swift/commit/722750b))
+
+### Fix
+
+- Update carthage dependencies and prebuild script (#725) ([ab8a46d](https://github.com/algolia/algoliasearch-client-swift/commit/ab8a46d))
+- AB test variant fields nullability (#720) ([b97fefe](https://github.com/algolia/algoliasearch-client-swift/commit/b97fefe))
+
+### Misc
+
+- Add `decompoundQuery` search & settings parameter (#722) ([2e5fa23](https://github.com/algolia/algoliasearch-client-swift/commit/2e5fa23))
+- Add `filters` field to Rule condition (#721) ([8d927d1](https://github.com/algolia/algoliasearch-client-swift/commit/8d927d1))
+
+
+
 ## [8.5.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.4.2...8.5.0) (2021-01-18)
 
 ### Feat

@@ -17,8 +17,10 @@
   "attributesToHighlight": null,
   "paginationLimitedTo": 1000,
   "attributeForDistinct": null,
+  "attributesToTransliterate": ["a", "b", "c"],
   "exactOnSingleWordQuery": "attribute",
   "enablePersonalization": true,
+  "decompoundQuery": true,
   "ranking": [
     "typo",
     "geo",

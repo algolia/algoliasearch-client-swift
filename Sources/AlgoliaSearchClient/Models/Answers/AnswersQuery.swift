@@ -11,7 +11,7 @@ public struct AnswersQuery: SearchParameters, Codable {
 
   /// The query for which to retrieve results.
   public var query: String
-  
+
   /// The languages in the query.
   ///
   /// Default value: [.english]

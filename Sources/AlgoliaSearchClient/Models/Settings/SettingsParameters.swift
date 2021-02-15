@@ -4,7 +4,6 @@
 //
 //  Created by Vladislav Fitc on 19/11/2020.
 //
-// swiftlint:disable file_length
 
 import Foundation
 
@@ -41,14 +40,14 @@ public protocol SettingsParameters: CommonParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/ranking/?language=swift)
    */
   var ranking: [RankingCriterion]? { get set }
-  
+
   /**
    Specifies the [CustomRankingCriterion].
    - Engine default: []
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/customRanking/?language=swift)
    */
   var customRanking: [CustomRankingCriterion]? { get set }
-  
+
   /**
    Creates replicas, exact copies of an index.
    - Engine default: []
@@ -81,6 +80,15 @@ public protocol SettingsParameters: CommonParameters {
   var separatorsToIndex: String? { get set }
 
   // MARK: - Languages
+  
+  /**
+   Specify on which attributes to apply transliteration.
+   
+   Transliteration refers to the ability of finding results in a given alphabet with a query in another alphabet. For example, in Japanese, transliteration enables users to find results indexed in Kanji or Katakana with a query in Hiragana.
+   - Engine default: [*]
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/attributesToTransliterate/?language=swift)
+   */
+  var attributesToTransliterate: [Attribute]? { get set }
 
   /**
    List of [Attribute] on which to do a decomposition of camel case words.
@@ -123,7 +131,6 @@ public protocol SettingsParameters: CommonParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/disablePrefixOnAttributes/?language=swift)
    */
   var disablePrefixOnAttributes: [Attribute]? { get set }
-
 
   // MARK: - Performance
 

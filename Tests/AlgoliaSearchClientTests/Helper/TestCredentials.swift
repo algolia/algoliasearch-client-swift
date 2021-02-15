@@ -29,7 +29,8 @@ struct TestCredentials: Credentials {
   }
   
   enum Environment {
-    case `default`
+    case primary
+    case secondary
     case places
     case answers
     case mcm
@@ -37,8 +38,10 @@ struct TestCredentials: Credentials {
     
     var variables: (appID: String, apiKey: String) {
       switch self {
-      case .default:
+      case .primary:
         return ("ALGOLIA_APPLICATION_ID_1", "ALGOLIA_ADMIN_KEY_1")
+      case .secondary:
+        return ("ALGOLIA_APPLICATION_ID_2", "ALGOLIA_ADMIN_KEY_2")
       case .places:
         return ("ALGOLIA_PLACES_APPLICATION_ID", "ALGOLIA_PLACES_API_KEY")
       case .answers:

@@ -1,13 +1,13 @@
 //
-//  Index+Advanced.swift
+//  SearchClient+Wait.swift
 //  
 //
-//  Created by Vladislav Fitc on 06.03.2020.
+//  Created by Vladislav Fitc on 22/01/2021.
 //
 
 import Foundation
 
-public extension Index {
+public extension Client {
 
   // MARK: - Task status
 
@@ -17,10 +17,10 @@ public extension Index {
     - parameter taskID: of the indexing [Task].
     - parameter requestOptions: Configure request locally with [RequestOptions]
   */
-  @discardableResult func taskStatus(for taskID: TaskID,
+  @discardableResult func taskStatus(for taskID: AppTaskID,
                                      requestOptions: RequestOptions? = nil,
                                      completion: @escaping  ResultCallback<TaskInfo>) -> Operation & TransportTask {
-    let command = Command.Advanced.TaskStatus(indexName: name, taskID: taskID, requestOptions: requestOptions)
+    let command = Command.Advanced.TaskStatus(taskID: taskID, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
 
@@ -30,9 +30,9 @@ public extension Index {
     - parameter taskID: of the indexing [Task].
     - parameter requestOptions: Configure request locally with [RequestOptions]
   */
-  @discardableResult func taskStatus(for taskID: TaskID,
+  @discardableResult func taskStatus(for taskID: AppTaskID,
                                      requestOptions: RequestOptions? = nil) throws -> TaskInfo {
-    let command = Command.Advanced.TaskStatus(indexName: name, taskID: taskID, requestOptions: requestOptions)
+    let command = Command.Advanced.TaskStatus(taskID: taskID, requestOptions: requestOptions)
     return try execute(command)
   }
 
@@ -49,16 +49,15 @@ public extension Index {
     - parameter taskID: of the indexing task to wait for.
     - parameter requestOptions: Configure request locally with RequestOptions
   */
-  @discardableResult func waitTask(withID taskID: TaskID,
+  @discardableResult func waitTask(withID taskID: AppTaskID,
                                    timeout: TimeInterval? = nil,
                                    requestOptions: RequestOptions? = nil,
                                    completion: @escaping ResultCallback<TaskStatus>) -> Operation {
-    let task = WaitTask(index: self,
+    let task = WaitTask(client: self,
                         taskID: taskID,
                         timeout: timeout,
                         requestOptions: requestOptions,
                         completion: completion)
-
     return launch(task)
   }
 
@@ -73,10 +72,10 @@ public extension Index {
     - parameter taskID: of the indexing task to wait for.
     - parameter requestOptions: Configure request locally with RequestOptions
   */
-  @discardableResult func waitTask(withID taskID: TaskID,
+  @discardableResult func waitTask(withID taskID: AppTaskID,
                                    timeout: TimeInterval? = nil,
                                    requestOptions: RequestOptions? = nil) throws -> TaskStatus {
-    let task = WaitTask(index: self,
+    let task = WaitTask(client: self,
                         taskID: taskID,
                         timeout: timeout,
                         requestOptions: requestOptions,
@@ -85,5 +84,3 @@ public extension Index {
   }
 
 }
-
-extension Index: TaskWaitable {}

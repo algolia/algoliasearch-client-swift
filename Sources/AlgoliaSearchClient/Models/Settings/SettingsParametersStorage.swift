@@ -34,12 +34,14 @@ struct SettingsParametersStorage: SettingsParameters {
   var separatorsToIndex: String?
   var ignorePlurals: LanguageFeature?
   var removeStopWords: LanguageFeature?
+  var attributesToTransliterate: [Attribute]?
   var camelCaseAttributes: [Attribute]?
   var decompoundedAttributes: DecompoundedAttributes?
   var keepDiacriticsOnCharacters: String?
   var customNormalization: [String: [String: String]]?
   var queryLanguages: [Language]?
   var indexLanguages: [Language]?
+  var decompoundQuery: Bool?
   var enableRules: Bool?
   var enablePersonalization: Bool?
   var queryType: QueryType?
@@ -180,6 +182,10 @@ extension SettingsParametersStorageContainer {
     get { settingsParametersStorage.removeStopWords }
     set { settingsParametersStorage.removeStopWords = newValue }
   }
+  public var attributesToTransliterate: [Attribute]? {
+    get { settingsParametersStorage.attributesToTransliterate }
+    set { settingsParametersStorage.attributesToTransliterate = newValue }
+  }
   public var camelCaseAttributes: [Attribute]? {
     get { settingsParametersStorage.camelCaseAttributes }
     set { settingsParametersStorage.camelCaseAttributes = newValue }
@@ -203,6 +209,10 @@ extension SettingsParametersStorageContainer {
   public var indexLanguages: [Language]? {
     get { settingsParametersStorage.indexLanguages }
     set { settingsParametersStorage.indexLanguages = newValue }
+  }
+  public var decompoundQuery: Bool? {
+    get { settingsParametersStorage.decompoundQuery }
+    set { settingsParametersStorage.decompoundQuery = newValue }
   }
   public var enableRules: Bool? {
     get { settingsParametersStorage.enableRules }

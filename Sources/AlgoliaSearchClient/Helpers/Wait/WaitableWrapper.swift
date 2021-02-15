@@ -10,11 +10,11 @@ import Foundation
 public struct WaitableWrapper<T> {
 
   public let wrapped: T
-  let waitService: WaitService
+  let tasksToWait: [Waitable]
 
-  init(wrapped: T, waitService: WaitService) {
+  init(wrapped: T, tasksToWait: [Waitable]) {
     self.wrapped = wrapped
-    self.waitService = waitService
+    self.tasksToWait = tasksToWait
   }
 
 }
@@ -27,12 +27,44 @@ extension WaitableWrapper where T: Task {
 
   init(task: T, index: Index) {
     self.wrapped = task
-    self.waitService = .init(index: index, task: task)
+    self.tasksToWait = [.init(index: index, taskID: task.taskID)]
   }
 
   static func wrap(with index: Index) -> (T) -> WaitableWrapper<T> {
     return { task in
       return WaitableWrapper(task: task, index: index)
+    }
+  }
+
+}
+
+extension WaitableWrapper where T == [Task] {
+
+  public var tasks: T {
+    return wrapped
+  }
+
+  init(tasks: [Task], index: Index) {
+    self.wrapped = tasks
+    self.tasksToWait = tasks.map { Waitable(index: index, taskID: $0.taskID) }
+  }
+
+}
+
+extension WaitableWrapper where T: AppTask {
+
+  public var task: T {
+    return wrapped
+  }
+
+  init(task: T, client: SearchClient) {
+    self.wrapped = task
+    self.tasksToWait = [.init(client: client, taskID: task.taskID)]
+  }
+
+  static func wrap(with client: SearchClient) -> (T) -> WaitableWrapper<T> {
+    return { task in
+      return WaitableWrapper(task: task, client: client)
     }
   }
 
@@ -57,13 +89,12 @@ extension WaitableWrapper where T == BatchesResponse {
 
   init(batchesResponse: T, client: SearchClient) {
     self.wrapped = batchesResponse
-    self.waitService = .init(client: client, taskIndex: batchesResponse.tasks)
+    self.tasksToWait = batchesResponse.tasks.map { Waitable(index: client.index(withName: $0.indexName), taskID: $0.taskID) }
   }
 
   init(batchesResponse: T, index: Index) {
     self.wrapped = batchesResponse
-    let taskIndices = batchesResponse.tasks.map { (index, $0.taskID) }
-    self.waitService = .init(taskIndices: taskIndices)
+    self.tasksToWait = batchesResponse.tasks.map { Waitable(index: index, taskID: $0.taskID) }
   }
 
 }
@@ -72,13 +103,32 @@ extension WaitableWrapper: AnyWaitable {
 
   public func wait(timeout: TimeInterval? = nil,
                    requestOptions: RequestOptions? = nil) throws {
-    try waitService.wait(timeout: timeout, requestOptions: requestOptions)
+    for waiter in tasksToWait {
+      try waiter.wait(timeout: timeout, requestOptions: requestOptions)
+    }
   }
 
   public func wait(timeout: TimeInterval? = nil,
                    requestOptions: RequestOptions? = nil,
                    completion: @escaping (Result<Empty, Swift.Error>) -> Void) {
-    waitService.wait(timeout: timeout, requestOptions: requestOptions, completion: completion)
+    let dispatchGroup = DispatchGroup()
+    var outputError: Error?
+    for waiter in tasksToWait {
+      dispatchGroup.enter()
+      waiter.wait(timeout: timeout,
+                  requestOptions: requestOptions) { result in
+        switch result {
+        case .success:
+          break
+        case .failure(let error):
+          outputError = error
+        }
+        dispatchGroup.leave()
+      }
+    }
+    dispatchGroup.notify(queue: .global(qos: .userInteractive)) {
+      completion(outputError.flatMap { .failure($0) } ?? .success(.empty))
+    }
   }
 
 }

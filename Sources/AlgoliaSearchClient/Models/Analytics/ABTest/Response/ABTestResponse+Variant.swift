@@ -10,18 +10,18 @@ import Foundation
 extension ABTestResponse {
 
   public struct Variant: Codable {
-
-    /// Distinct click count for the variant.
-    public let clickCount: Int
-
-    /// Distinct conversion count for the variant.
-    public let conversionCount: Int
-
-    public let description: String
-
+    
     public let indexName: IndexName
 
     public let trafficPercentage: Int
+
+    /// Distinct click count for the variant.
+    public let clickCount: Int?
+
+    /// Distinct conversion count for the variant.
+    public let conversionCount: Int?
+
+    public let description: String?
 
     /// Conversion rate for the variant.
     public let conversionRate: Double?

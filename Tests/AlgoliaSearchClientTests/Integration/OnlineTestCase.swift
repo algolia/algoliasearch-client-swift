@@ -34,7 +34,7 @@ class OnlineTestCase: XCTestCase {
     return "swift_\(dateString)_\(NSUserName().description)"
   }
   
-  var environment: TestCredentials.Environment { .default }
+  var environment: TestCredentials.Environment { .primary }
 
   override func setUpWithError() throws {
 

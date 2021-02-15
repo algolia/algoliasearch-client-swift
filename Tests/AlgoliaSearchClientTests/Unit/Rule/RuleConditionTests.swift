@@ -12,11 +12,11 @@ import XCTest
 class RuleConditionTests: XCTestCase {
   
   func testCoding() throws {
-    var condition = Rule.Condition(anchoring: .is, pattern: .facet("testFacet"), context: "testContext", alternatives: false)
-    try AssertEncodeDecode(condition, ["anchoring": "is", "pattern": "{facet:testFacet}", "context": "testContext", "alternatives": false])
+    var condition = Rule.Condition(anchoring: .is, pattern: .facet("testFacet"), context: "testContext", alternatives: false, filters: "brand:samsung")
+    try AssertEncodeDecode(condition, ["anchoring": "is", "pattern": "{facet:testFacet}", "context": "testContext", "alternatives": false, "filters": "brand:samsung"])
     
-    condition = Rule.Condition(anchoring: .endsWith, pattern: .literal("testLiteral"), context: "testContext", alternatives: false)
-    try AssertEncodeDecode(condition, ["anchoring": "endsWith", "pattern": "testLiteral", "context": "testContext", "alternatives": false])
+    condition = Rule.Condition(anchoring: .endsWith, pattern: .literal("testLiteral"), context: "testContext", alternatives: false, filters: "brand:samsung")
+    try AssertEncodeDecode(condition, ["anchoring": "endsWith", "pattern": "testLiteral", "context": "testContext", "alternatives": false, "filters": "brand:samsung"])
   }
   
 }

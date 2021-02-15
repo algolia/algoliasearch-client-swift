@@ -4,7 +4,6 @@
 //
 //  Created by Vladislav Fitc on 19/11/2020.
 //
-// swiftlint:disable file_length
 
 import Foundation
 
@@ -277,5 +276,5 @@ public protocol SearchParameters: CommonParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/_/?language=swift)
    */
   var explainModules: [ExplainModule]? { get set }
-
+  
 }
