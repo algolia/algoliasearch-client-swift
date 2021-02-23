@@ -16,11 +16,8 @@ extension URLSession: HTTPRequester {
 
   public func perform<T: Decodable>(request: URLRequest, completion: @escaping (Result<T, Error>) -> Void) -> TransportTask {
     let task = dataTask(with: request) { (data, response, error) in
+      Logger.loggingService.log(level: .debug, message: "Response data: \(data.flatMap { $0.jsonString ?? $0.debugDescription } ?? "nil")")
       let result = Result<T, Error>(data: data, response: response, error: error)
-      if let data = data,
-        let responseJSON = try? JSONDecoder().decode(JSON.self, from: data) {
-        Logger.loggingService.log(level: .debug, message: "Response: \(responseJSON)")
-      }
       completion(result)
     }
     task.resume()

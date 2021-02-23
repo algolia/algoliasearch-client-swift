@@ -26,12 +26,31 @@ struct HostSwitcher {
 
 }
 
+extension URLRequest {
+  
+  func setting(_ host: RetryableHost, timeout: TimeInterval) throws -> URLRequest {
+    return try HostSwitcher.switchHost(in: self, by: host, timeout: timeout)
+  }
+  
+}
+
 extension HostSwitcher {
 
-  enum Error: Swift.Error {
+  enum Error: LocalizedError {
     case missingURL
     case malformedURL(String)
     case badHost(String)
+    
+    var errorDescription: String? {
+      switch self {
+      case .badHost(let host):
+        return "Bad host: \(host). Will retry with next host. Please contact support@algolia.com if this problem occurs."
+      case .malformedURL(let url):
+        return "Command's request URL is malformed: \(url). Please contact support@algolia.com if this problem occurs."
+      case .missingURL:
+        return "Command's request doesn't contain URL. Please contact support@algolia.com if this problem occurs."
+      }
+    }
   }
 
 }

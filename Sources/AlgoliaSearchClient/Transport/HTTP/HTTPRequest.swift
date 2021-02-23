@@ -63,80 +63,45 @@ class HTTPRequest<ResponseType: Decodable, Output>: AsyncOperation, ResultContai
   }
 
   override func main() {
-    tryLaunch(request: request)
+    tryLaunch(request: request, intermediateErrors: [])
   }
 
   // swiftlint:disable cyclomatic_complexity function_body_length
-  private func tryLaunch(request: URLRequest) {
+  private func tryLaunch(request: URLRequest, intermediateErrors: [Error]) {
 
     guard !isCancelled else {
       Logger.loggingService.log(level: .debug, message: "Request was cancelled")
       return
     }
 
-    guard let host = hostIterator.next() else {
-      Logger.loggingService.log(level: .debug, message: "Request failed. No available host found.")
-      result = .failure(HTTPTransport.Error.noReachableHosts)
-      return
-    }
-
     do {
-
-      let effectiveRequest = try HostSwitcher.switchHost(in: request, by: host, timeout: timeout)
-
-      if let url = effectiveRequest.url, let method = effectiveRequest.httpMethod {
-        Logger.loggingService.log(level: .debug, message: "\(method): \(url)")
+      
+      guard let host = hostIterator.next() else {
+        throw HTTPTransport.Error.noReachableHosts(intermediateErrors: intermediateErrors)
       }
 
-      if let headers = effectiveRequest.allHTTPHeaderFields {
-        Logger.loggingService.log(level: .debug, message: "Headers: \(headers)")
-      }
-
-      if let bodyData = effectiveRequest.httpBody {
-        if let json = try? JSONDecoder().decode(JSON.self, from: bodyData) {
-          Logger.loggingService.log(level: .debug, message: "Body: \(json)")
-        } else {
-          Logger.loggingService.log(level: .debug, message: "Body: data (\(bodyData.count) bytes)")
-        }
-      }
+      let effectiveRequest = try request.setting(host, timeout: timeout)
+      Logger.loggingService.log(level: .debug, message: description(for: request))
 
       underlyingTask = requester.perform(request: effectiveRequest) { [weak self] (result: IntermediateResult) in
         guard let httpRequest = self else { return }
+        
+        httpRequest.retryStrategy.notify(host: host, result: result)
 
-        let retryOutcome = httpRequest.retryStrategy.notify(host: host, result: result)
-
-        switch retryOutcome {
-        case .retry:
-          Logger.loggingService.log(level: .debug, message: "Request failed. Retry.")
-          httpRequest.tryLaunch(request: request)
-
-        case .success(let value):
-          let output = httpRequest.transform(value)
-          httpRequest.result = .success(output)
-
-        case .failure(let error):
-          Logger.loggingService.log(level: .debug, message: "Error: \(error)")
-          httpRequest.result = .failure(error)
+        switch result {
+        case .failure(let error) where httpRequest.retryStrategy.canRetry(inCaseOf: error):
+          httpRequest.tryLaunch(request: request, intermediateErrors: intermediateErrors + [error])
+        default:
+          httpRequest.result = result.map(httpRequest.transform)
         }
       }
 
     } catch let error {
-      switch error {
-      case HostSwitcher.Error.badHost(let host):
-        Logger.loggingService.log(level: .error, message: "Bad host: \(host). Will retry with next host. Please contact support@algolia.com if this problem occurs.")
-        assertionFailure("Bad host: \(host)")
-        tryLaunch(request: request)
-
-      case HostSwitcher.Error.missingURL:
-        Logger.loggingService.log(level: .error, message: "Command's request doesn't contain URL. Please contact support@algolia.com if this problem occurs.")
-        assertionFailure("Command's request doesn't contain URL")
-        result = .failure(error)
-
-      case HostSwitcher.Error.malformedURL(let url):
-        assertionFailure("Command's request URL is malformed: \(url). Please contact support@algolia.com if this problem occurs.")
-        result = .failure(error)
-
-      default:
+      Logger.loggingService.log(level: .debug, message: error.localizedDescription)
+      assertionFailure(error.localizedDescription)
+      if retryStrategy.canRetry(inCaseOf: error) {
+        tryLaunch(request: request, intermediateErrors: intermediateErrors + [error])
+      } else {
         result = .failure(error)
       }
     }
@@ -146,6 +111,15 @@ class HTTPRequest<ResponseType: Decodable, Output>: AsyncOperation, ResultContai
   override func cancel() {
     super.cancel()
     underlyingTask?.cancel()
+  }
+  
+  func description(for request: URLRequest) -> String {
+    [
+      "Method: \(request.httpMethod ?? "nil")",
+      "URL: \(request.url?.description ?? "nil")",
+      "Headers: \(request.allHTTPHeaderFields?.description ?? "nil")",
+      "Body: \(request.httpBody.flatMap { $0.jsonString ?? $0.debugDescription } ?? "nil")",
+    ].joined(separator: "\n")
   }
 
 }
