@@ -81,7 +81,7 @@ class HTTPRequest<ResponseType: Decodable, Output>: AsyncOperation, ResultContai
       }
 
       let effectiveRequest = try request.setting(host, timeout: timeout)
-      Logger.loggingService.log(level: .debug, message: description(for: request))
+      Logger.loggingService.log(level: .debug, message: description(for: effectiveRequest))
 
       underlyingTask = requester.perform(request: effectiveRequest) { [weak self] (result: IntermediateResult) in
         guard let httpRequest = self else { return }
@@ -98,7 +98,6 @@ class HTTPRequest<ResponseType: Decodable, Output>: AsyncOperation, ResultContai
 
     } catch let error {
       Logger.loggingService.log(level: .debug, message: error.localizedDescription)
-      assertionFailure(error.localizedDescription)
       if retryStrategy.canRetry(inCaseOf: error) {
         tryLaunch(request: request, intermediateErrors: intermediateErrors + [error])
       } else {

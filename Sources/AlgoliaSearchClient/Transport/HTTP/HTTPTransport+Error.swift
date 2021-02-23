@@ -16,8 +16,8 @@ extension HTTPTransport {
 
     var errorDescription: String? {
       switch self {
-      case .noReachableHosts:
-        return "All hosts are unreachable"
+      case .noReachableHosts(let errors):
+        return "All hosts are unreachable. Intermediate errors: \(errors)"
       case .missingData:
         return "Missing response data"
       case .decodingFailure:
