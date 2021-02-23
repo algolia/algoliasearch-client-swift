@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
-class QueryRulesIntegrationTests: OnlineTestCase {
+class QueryRulesIntegrationTests: IntegrationTestCase {
   
   override var indexNameSuffix: String? { return "rules" }
   

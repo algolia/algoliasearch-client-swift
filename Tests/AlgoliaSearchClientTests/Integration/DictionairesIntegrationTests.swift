@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
-class DictionairesIntegrationTests: OnlineTestCase {
+class DictionairesIntegrationTests: IntegrationTestCase {
     
   override func setUpWithError() throws {
     let fetchedCredentials = Result(catching: { try TestCredentials(environment: .secondary) }).mapError { XCTSkip("\($0)") }

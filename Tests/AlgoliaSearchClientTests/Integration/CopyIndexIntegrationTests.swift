@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
-class CopyIndexIntergrationTests: OnlineTestCase {
+class CopyIndexIntergrationTests: IntegrationTestCase {
 
   var sourceIndex: Index {
     return index!

@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
-class SettingsIntegrationTests: OnlineTestCase {
+class SettingsIntegrationTests: IntegrationTestCase {
   
   override var indexNameSuffix: String? {
     return "settings"

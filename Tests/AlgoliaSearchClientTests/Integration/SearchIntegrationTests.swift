@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
-class SearchIntegrationTests: OnlineTestCase {
+class SearchIntegrationTests: IntegrationTestCase {
   
   override var retryableTests: [() throws -> Void] {
     [search]

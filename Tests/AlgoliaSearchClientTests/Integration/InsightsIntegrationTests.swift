@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
-class InsightsIntegrationTests: OnlineTestCase {
+class InsightsIntegrationTests: IntegrationTestCase {
   
   override var indexNameSuffix: String? {
     return "sending_events"

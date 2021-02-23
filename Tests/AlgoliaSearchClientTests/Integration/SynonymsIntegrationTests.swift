@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
-class SynonymsIntegrationTests: OnlineTestCase {
+class SynonymsIntegrationTests: IntegrationTestCase {
 
   override var indexNameSuffix: String? { return "synonyms" }
   

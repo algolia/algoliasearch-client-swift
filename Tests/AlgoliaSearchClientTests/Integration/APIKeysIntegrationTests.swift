@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
-class APIKeysIntegrationTests: OnlineTestCase {
+class APIKeysIntegrationTests: IntegrationTestCase {
   
   override var indexNameSuffix: String? {
     return "apiKeys"
