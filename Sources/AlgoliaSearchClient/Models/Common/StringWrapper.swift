@@ -7,7 +7,7 @@
 
 import Foundation
 
-public protocol StringWrapper: RawRepresentable, ExpressibleByStringLiteral, Codable, CustomStringConvertible, Hashable where RawValue == String {
+public protocol StringWrapper: RawRepresentable, ExpressibleByStringInterpolation, Codable, CustomStringConvertible, Hashable where RawValue == String {
   init(rawValue: String)
 }
 

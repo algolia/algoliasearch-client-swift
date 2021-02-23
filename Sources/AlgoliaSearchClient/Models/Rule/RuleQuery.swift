@@ -37,7 +37,7 @@ public struct RuleQuery {
 
 }
 
-extension RuleQuery: ExpressibleByStringLiteral {
+extension RuleQuery: ExpressibleByStringInterpolation {
 
   public init(stringLiteral value: String) {
     self.query = value

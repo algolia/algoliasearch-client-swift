@@ -54,7 +54,7 @@ public extension JSON {
 
 }
 
-extension JSON: ExpressibleByStringLiteral {
+extension JSON: ExpressibleByStringInterpolation {
 
   public init(stringLiteral value: String) {
     self = .string(value)

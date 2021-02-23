@@ -77,7 +77,7 @@ public struct AnswersQuery: SearchParameters, Codable {
 
 }
 
-extension AnswersQuery: ExpressibleByStringLiteral {
+extension AnswersQuery: ExpressibleByStringInterpolation {
 
   public init(stringLiteral value: String) {
     self.init(query: value, queryLanguages: [.english])

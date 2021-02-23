@@ -15,7 +15,7 @@ public enum AttributeForFaceting: Equatable, Codable {
 
 }
 
-extension AttributeForFaceting: ExpressibleByStringLiteral {
+extension AttributeForFaceting: ExpressibleByStringInterpolation {
 
   public init(stringLiteral value: String) {
     self = .default(.init(rawValue: value))

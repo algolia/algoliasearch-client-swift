@@ -53,7 +53,7 @@ public struct PlacesQuery {
 
 extension PlacesQuery: Builder {}
 
-extension PlacesQuery: ExpressibleByStringLiteral {
+extension PlacesQuery: ExpressibleByStringInterpolation {
 
   public init(stringLiteral value: String) {
     self.init(value)

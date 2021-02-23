@@ -14,7 +14,7 @@ public enum SearchableAttribute: Codable, Equatable {
 
 }
 
-extension SearchableAttribute: ExpressibleByStringLiteral {
+extension SearchableAttribute: ExpressibleByStringInterpolation {
 
   public init(stringLiteral value: String) {
     self = .init(rawValue: value)
