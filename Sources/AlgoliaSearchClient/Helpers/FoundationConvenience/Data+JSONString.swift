@@ -10,7 +10,7 @@ import Foundation
 extension Data {
   
   var jsonString: String? {
-    return (try? JSONSerialization.jsonObject(with: self, options: .fragmentsAllowed))
+    return (try? JSONSerialization.jsonObject(with: self, options: .allowFragments))
       .flatMap {
         let writingOptions: JSONSerialization.WritingOptions
         if #available(OSX 10.13, *) {
