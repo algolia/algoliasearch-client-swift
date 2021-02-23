@@ -63,7 +63,7 @@ class HighlightedStringTests: XCTestCase {
     func testWithHTMLString() throws {
       let data = try Data(filename: "HighlightedHTML.json")
       let searchResponse = try JSONDecoder().decode(MarkupString.self, from: data)
-      let searchResponseJSON = try JSON(searchResponse)
+      _ = try JSON(searchResponse)
     }
 
 }

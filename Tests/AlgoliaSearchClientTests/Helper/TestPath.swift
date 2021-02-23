@@ -12,7 +12,9 @@ struct TestPath {
   static var path: TestPathLevel2 = TestPathRoot() >>> TestPathLevel1() >>> TestPathLevel2()
 }
 
-struct TestPathRoot: RootPath {
+struct TestPathRoot: PathComponent {
+  
+  var parent: Never?
 
   var rawValue: String = "/my"
 
