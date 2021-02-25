@@ -10,14 +10,14 @@ import Foundation
 extension HTTPTransport {
 
   enum Error: Swift.Error, LocalizedError {
-    case noReachableHosts
+    case noReachableHosts(intermediateErrors: [Swift.Error])
     case missingData
     case decodingFailure(Swift.Error)
 
-    var localizedDescription: String {
+    var errorDescription: String? {
       switch self {
-      case .noReachableHosts:
-        return "All hosts are unreachable"
+      case .noReachableHosts(let errors):
+        return "All hosts are unreachable. Intermediate errors: \(errors)"
       case .missingData:
         return "Missing response data"
       case .decodingFailure:

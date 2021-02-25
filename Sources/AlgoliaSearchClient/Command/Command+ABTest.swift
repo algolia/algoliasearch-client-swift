@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
 
 extension Command {
 
@@ -16,60 +13,66 @@ extension Command {
 
     struct Add: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: Path = .ABTestsV2
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init(abTest: AlgoliaSearchClient.ABTest, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.urlRequest = .init(method: .post, path: Path.ABTestsV2, body: abTest.httpBody, requestOptions: self.requestOptions)
+        self.body = abTest.httpBody
       }
 
     }
 
     struct Get: AlgoliaCommand {
 
+      let method: HTTPMethod = .get
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: ABTestRoute
       let requestOptions: RequestOptions?
 
       init(abTestID: ABTestID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.urlRequest = .init(method: .get, path: .ABTestsV2 >>> ABTestRoute.ABTestID(abTestID), requestOptions: self.requestOptions)
+        self.path = (.ABTestsV2 >>> .ABTestID(abTestID))
       }
 
     }
 
     struct Stop: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: ABTestCompletion
       let requestOptions: RequestOptions?
 
       init(abTestID: ABTestID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.urlRequest = .init(method: .post, path: .ABTestsV2 >>> .ABTestID(abTestID) >>> ABTestCompletion.stop, requestOptions: self.requestOptions)
+        self.path = (.ABTestsV2 >>> .ABTestID(abTestID) >>> .stop)
       }
 
     }
 
     struct Delete: AlgoliaCommand {
 
+      let method: HTTPMethod = .delete
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: ABTestRoute
       let requestOptions: RequestOptions?
 
       init(abTestID: ABTestID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.urlRequest = .init(method: .delete, path: .ABTestsV2 >>> ABTestRoute.ABTestID(abTestID), requestOptions: self.requestOptions)
+        self.path = (.ABTestsV2 >>> .ABTestID(abTestID))
       }
 
     }
 
     struct List: AlgoliaCommand {
 
+      let method: HTTPMethod = .get
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: Path = .ABTestsV2
       let requestOptions: RequestOptions?
 
       init(offset: Int?, limit: Int?, requestOptions: RequestOptions?) {
@@ -78,7 +81,6 @@ extension Command {
             .offset: offset.flatMap(String.init),
             .limit: limit.flatMap(String.init)
           ])
-        self.urlRequest = .init(method: .get, path: Path.ABTestsV2, requestOptions: self.requestOptions)
       }
 
     }

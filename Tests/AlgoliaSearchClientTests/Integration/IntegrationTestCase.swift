@@ -1,5 +1,5 @@
 //
-//  OnlineTestCase.swift
+//  IntegrationTestCase.swift
 //  
 //
 //  Created by Vladislav Fitc on 05/03/2020.
@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
-class OnlineTestCase: XCTestCase {
+class IntegrationTestCase: XCTestCase {
 
   var client: SearchClient!
   var index: Index!
@@ -76,7 +76,7 @@ class OnlineTestCase: XCTestCase {
 
 }
 
-extension OnlineTestCase {
+extension IntegrationTestCase {
   enum Error: Swift.Error {
     case missingCredentials
     case retryFailed(attemptCount: Int, error: Swift.Error)

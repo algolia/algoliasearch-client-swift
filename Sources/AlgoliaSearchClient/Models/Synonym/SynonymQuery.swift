@@ -29,7 +29,7 @@ public struct SynonymQuery {
 
 }
 
-extension SynonymQuery: ExpressibleByStringLiteral {
+extension SynonymQuery: ExpressibleByStringInterpolation {
 
   public init(stringLiteral value: String) {
     self.query = value

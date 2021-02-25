@@ -41,7 +41,7 @@ public struct UserIDQuery: Codable {
 
 extension UserIDQuery: Builder {}
 
-extension UserIDQuery: ExpressibleByStringLiteral {
+extension UserIDQuery: ExpressibleByStringInterpolation {
 
   public init(stringLiteral value: String) {
     self.query = value

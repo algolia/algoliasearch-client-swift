@@ -15,7 +15,7 @@ extension StringWrapper {
   }
 }
 
-class BrowseIntegrationTests: OnlineTestCase {
+class BrowseIntegrationTests: IntegrationTestCase {
 
   override var indexNameSuffix: String? {
     return "index_browse"

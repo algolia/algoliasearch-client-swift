@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
 
 extension Command {
 
@@ -16,22 +13,26 @@ extension Command {
 
     struct Save: AlgoliaCommand {
 
+      let method: HTTPMethod = .put
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: SynonymCompletion
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, synonym: AlgoliaSearchClient.Synonym, forwardToReplicas: Bool?, requestOptions: RequestOptions?) {
         self.requestOptions = forwardToReplicas.flatMap { requestOptions.updateOrCreate([.forwardToReplicas: String($0)]) } ?? requestOptions
-        let path = .indexesV1 >>> .index(indexName) >>> .synonyms >>> SynonymCompletion.objectID(synonym.objectID)
-        urlRequest = .init(method: .put, path: path, body: synonym.httpBody, requestOptions: self.requestOptions)
+        self.path = (.indexesV1 >>> .index(indexName) >>> .synonyms >>> .objectID(synonym.objectID))
+        self.body = synonym.httpBody
       }
 
     }
 
     struct SaveList: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: SynonymCompletion
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, synonyms: [AlgoliaSearchClient.Synonym], forwardToReplicas: Bool?, clearExistingSynonyms: Bool?, requestOptions: RequestOptions?) {
@@ -39,64 +40,66 @@ extension Command {
         forwardToReplicas.flatMap { parameters[.forwardToReplicas] = String($0) }
         clearExistingSynonyms.flatMap { parameters[.replaceExistingSynonyms] = String($0) }
         self.requestOptions = requestOptions.updateOrCreate(parameters)
-        let path = .indexesV1 >>> .index(indexName) >>> .synonyms >>> SynonymCompletion.batch
-        urlRequest = .init(method: .post, path: path, body: synonyms.httpBody, requestOptions: self.requestOptions)
+        self.path = (.indexesV1 >>> .index(indexName) >>> .synonyms >>> .batch)
+        self.body = synonyms.httpBody
       }
 
     }
 
     struct Get: AlgoliaCommand {
 
+      let method: HTTPMethod = .get
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: SynonymCompletion
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, objectID: ObjectID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .indexesV1 >>> .index(indexName) >>> .synonyms >>> SynonymCompletion.objectID(objectID)
-        urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)
+        self.path = (.indexesV1 >>> .index(indexName) >>> .synonyms >>> .objectID(objectID))
       }
 
     }
 
     struct Delete: AlgoliaCommand {
 
+      let method: HTTPMethod = .delete
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: SynonymCompletion
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, objectID: ObjectID, forwardToReplicas: Bool?, requestOptions: RequestOptions?) {
         self.requestOptions = forwardToReplicas.flatMap { requestOptions.updateOrCreate([.forwardToReplicas: String($0)]) } ?? requestOptions
-        let path = .indexesV1 >>> .index(indexName) >>> .synonyms >>> SynonymCompletion.objectID(objectID)
-        urlRequest = .init(method: .delete, path: path, requestOptions: self.requestOptions)
+        self.path = (.indexesV1 >>> .index(indexName) >>> .synonyms >>> .objectID(objectID))
       }
 
     }
 
     struct Search: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: SynonymCompletion
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, query: SynonymQuery, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .indexesV1 >>> .index(indexName) >>> .synonyms >>> SynonymCompletion.search
-        urlRequest = .init(method: .post, path: path, body: query.httpBody, requestOptions: self.requestOptions)
+        self.path = (.indexesV1 >>> .index(indexName) >>> .synonyms >>> .search)
+        self.body = query.httpBody
       }
 
     }
 
     struct Clear: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: SynonymCompletion
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, forwardToReplicas: Bool?, requestOptions: RequestOptions?) {
         self.requestOptions = forwardToReplicas.flatMap { requestOptions.updateOrCreate([.forwardToReplicas: String($0)]) } ?? requestOptions
-        let path = .indexesV1 >>> .index(indexName) >>> .synonyms >>> SynonymCompletion.clear
-        urlRequest = .init(method: .post, path: path, requestOptions: self.requestOptions)
+        self.path = (.indexesV1 >>> .index(indexName) >>> .synonyms >>> .clear)
       }
 
     }

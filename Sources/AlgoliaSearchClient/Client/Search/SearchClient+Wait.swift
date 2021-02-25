@@ -20,7 +20,7 @@ public extension Client {
   @discardableResult func taskStatus(for taskID: AppTaskID,
                                      requestOptions: RequestOptions? = nil,
                                      completion: @escaping  ResultCallback<TaskInfo>) -> Operation & TransportTask {
-    let command = Command.Advanced.TaskStatus(taskID: taskID, requestOptions: requestOptions)
+    let command = Command.Advanced.AppTaskStatus(taskID: taskID, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
 
@@ -32,7 +32,7 @@ public extension Client {
   */
   @discardableResult func taskStatus(for taskID: AppTaskID,
                                      requestOptions: RequestOptions? = nil) throws -> TaskInfo {
-    let command = Command.Advanced.TaskStatus(taskID: taskID, requestOptions: requestOptions)
+    let command = Command.Advanced.AppTaskStatus(taskID: taskID, requestOptions: requestOptions)
     return try execute(command)
   }
 

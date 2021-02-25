@@ -6,14 +6,23 @@
 //
 
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
 
 protocol AlgoliaCommand {
+  
+  associatedtype Path: PathComponent
 
+  var method: HTTPMethod { get }
   var callType: CallType { get }
-  var urlRequest: URLRequest { get }
+  var path: Path { get }
+  var body: Data? { get }
   var requestOptions: RequestOptions? { get }
 
+}
+
+extension AlgoliaCommand {
+  
+  var body: Data? {
+    return nil
+  }
+  
 }

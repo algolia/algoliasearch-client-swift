@@ -45,7 +45,7 @@ extension Query: SearchParametersStorageContainer {
 
 extension Query: Builder {}
 
-extension Query: ExpressibleByStringLiteral {
+extension Query: ExpressibleByStringInterpolation {
 
   public init(stringLiteral value: String) {
     self.init(value)

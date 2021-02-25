@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
 
 extension Command {
 
@@ -16,17 +13,18 @@ extension Command {
 
     struct Batch: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: DictionaryCompletion
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init<D: CustomDictionary>(dictionary: D.Type,
                                 requests: [DictionaryRequest<D.Entry>],
                                 clearExistingDictionaryEntries: Bool,
                                 requestOptions: RequestOptions?) where D.Entry: Encodable {
-        let path = .dictionaries >>> .dictionaryName(D.name) >>> DictionaryCompletion.batch
-        let body = Payload(requests: requests, clearExistingDictionaryEntries: clearExistingDictionaryEntries).httpBody
-        self.urlRequest = URLRequest(method: .post, path: path, body: body, requestOptions: requestOptions)
+        self.path = (.dictionaries >>> .dictionaryName(D.name) >>> .batch)
+        self.body = Payload(requests: requests, clearExistingDictionaryEntries: clearExistingDictionaryEntries).httpBody
         self.requestOptions = requestOptions
       }
 
@@ -40,69 +38,71 @@ extension Command {
 
     struct Search: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: DictionaryCompletion
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init(dictionaryName: DictionaryName,
            query: DictionaryQuery,
            requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .dictionaries >>> .dictionaryName(dictionaryName) >>> DictionaryCompletion.search
-        let body = query.httpBody
-        self.urlRequest = .init(method: .post, path: path, body: body, requestOptions: self.requestOptions)
+        self.path = (.dictionaries >>> .dictionaryName(dictionaryName) >>> .search)
+        self.body = query.httpBody
       }
 
       init<D: CustomDictionary>(dictionary: D.Type,
                                 query: DictionaryQuery,
                                 requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .dictionaries >>> .dictionaryName(D.name) >>> DictionaryCompletion.search
-        let body = query.httpBody
-        self.urlRequest = .init(method: .post, path: path, body: body, requestOptions: self.requestOptions)
+        self.path = (.dictionaries >>> .dictionaryName(D.name) >>> .search)
+        self.body = query.httpBody
       }
 
     }
 
     struct GetSettings: AlgoliaCommand {
 
+      let method: HTTPMethod = .get
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: DictionaryCompletion
       let requestOptions: RequestOptions?
 
       init(requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .dictionaries >>> .common >>> DictionaryCompletion.settings
-        self.urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)
+        self.path = (.dictionaries >>> .common >>> .settings)
       }
 
     }
 
     struct SetSettings: AlgoliaCommand {
 
+      let method: HTTPMethod = .put
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: DictionaryCompletion
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init(settings: DictionarySettings,
            requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .dictionaries >>> .common >>> DictionaryCompletion.settings
-        self.urlRequest = .init(method: .put, path: path, body: settings.httpBody, requestOptions: self.requestOptions)
+        self.path = (.dictionaries >>> .common >>> .settings)
+        self.body = settings.httpBody
       }
 
     }
 
     struct LanguagesList: AlgoliaCommand {
 
+      let method: HTTPMethod = .get
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: DictionaryCompletion
       let requestOptions: RequestOptions?
 
       init(requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .dictionaries >>> .common >>> DictionaryCompletion.languages
-        self.urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)
+        self.path = (.dictionaries >>> .common >>> .languages)
       }
 
     }

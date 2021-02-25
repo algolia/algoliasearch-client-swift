@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
 
 extension Command {
 
@@ -16,28 +13,38 @@ extension Command {
 
     struct TaskStatus: AlgoliaCommand {
 
+      let method: HTTPMethod = .get
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: IndexCompletion
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, taskID: TaskID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .indexesV1 >>> .index(indexName) >>> IndexCompletion.task(for: taskID)
-        urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)
+        self.path = (.indexesV1 >>> .index(indexName) >>> .task(for: taskID))
       }
+
+    }
+    
+    struct AppTaskStatus: AlgoliaCommand {
+
+      let method: HTTPMethod = .get
+      let callType: CallType = .read
+      let path: TaskCompletion
+      let requestOptions: RequestOptions?
 
       init(taskID: AppTaskID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let path = .task >>> TaskCompletion.task(withID: taskID)
-        urlRequest = .init(method: .get, path: path, requestOptions: self.requestOptions)
+        self.path = (.task >>> TaskCompletion.task(withID: taskID))
       }
 
     }
 
+
     struct GetLogs: AlgoliaCommand {
 
+      let method: HTTPMethod = .get
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: Path = .logs
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName?, offset: Int?, length: Int?, logType: LogType, requestOptions: RequestOptions?) {
@@ -49,7 +56,6 @@ extension Command {
             .merging([.type: logType.rawValue])
         )
         self.requestOptions = requestOptions
-        urlRequest = .init(method: .get, path: Path.logs, requestOptions: self.requestOptions)
       }
 
     }

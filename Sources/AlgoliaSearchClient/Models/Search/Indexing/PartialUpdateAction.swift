@@ -70,7 +70,7 @@ public extension PartialUpdate.Action {
 
 }
 
-extension PartialUpdate.Action: ExpressibleByStringLiteral {
+extension PartialUpdate.Action: ExpressibleByStringInterpolation {
 
   public init(stringLiteral value: String) {
     storage = .set(.string(value))

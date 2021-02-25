@@ -80,7 +80,7 @@ extension FiltersStorage: Codable {
 
 }
 
-extension FiltersStorage.Unit: ExpressibleByStringLiteral {
+extension FiltersStorage.Unit: ExpressibleByStringInterpolation {
 
   public init(stringLiteral value: String) {
     self = .and([value])

@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
 
 extension Command {
 
@@ -16,34 +13,37 @@ extension Command {
 
     struct ListIndices: AlgoliaCommand {
 
+      let method: HTTPMethod = .get
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: Path = .indexesV1
       let requestOptions: RequestOptions?
 
       init(requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.urlRequest = .init(method: .get, path: Path.indexesV1, requestOptions: requestOptions)
       }
 
     }
 
     struct ListIndexAPIKeys: AlgoliaCommand {
 
+      let method: HTTPMethod = .get
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: MultiIndexCompletion
       let requestOptions: RequestOptions?
 
       init(requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.urlRequest = .init(method: .get, path: .indexesV1 >>> .multiIndex >>> MultiIndexCompletion.keys, requestOptions: self.requestOptions)
+        self.path = (.indexesV1 >>> .multiIndex >>> .keys)
       }
 
     }
 
     struct Queries: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: MultiIndexCompletion
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, queries: [Query], strategy: MultipleQueriesStrategy = .none, requestOptions: RequestOptions?) {
@@ -53,16 +53,18 @@ extension Command {
 
       init(queries: [IndexedQuery], strategy: MultipleQueriesStrategy = .none, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let body = MultipleQueriesRequest(requests: queries, strategy: strategy).httpBody
-        self.urlRequest = .init(method: .post, path: .indexesV1 >>> .multiIndex >>> MultiIndexCompletion.queries, body: body, requestOptions: self.requestOptions)
+        self.body = MultipleQueriesRequest(requests: queries, strategy: strategy).httpBody
+        self.path = (.indexesV1 >>> .multiIndex >>> .queries)
       }
 
     }
 
     struct GetObjects: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: MultiIndexCompletion
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, objectIDs: [ObjectID], attributesToRetreive: [Attribute]?, requestOptions: RequestOptions?) {
@@ -72,16 +74,18 @@ extension Command {
 
       init(requests: [ObjectRequest], requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let body = RequestsWrapper(requests).httpBody
-        self.urlRequest = .init(method: .post, path: .indexesV1 >>> .multiIndex >>> MultiIndexCompletion.objects, body: body, requestOptions: self.requestOptions)
+        self.body = RequestsWrapper(requests).httpBody
+        self.path = (.indexesV1 >>> .multiIndex >>> .objects)
       }
 
     }
 
     struct BatchObjects: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: MultiIndexCompletion
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init(operations: [(IndexName, BatchOperation)], requestOptions: RequestOptions?) {
@@ -90,8 +94,8 @@ extension Command {
 
       init(operations: [IndexBatchOperation], requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        let body = RequestsWrapper(operations).httpBody
-        self.urlRequest = .init(method: .post, path: .indexesV1 >>> .multiIndex >>> MultiIndexCompletion.batch, body: body, requestOptions: self.requestOptions)
+        self.body = RequestsWrapper(operations).httpBody
+        self.path = (.indexesV1 >>> .multiIndex >>> .batch)
       }
 
     }

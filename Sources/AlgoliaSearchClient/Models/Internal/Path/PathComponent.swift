@@ -17,24 +17,8 @@ protocol PathComponent {
 
 }
 
-protocol RootPath: PathComponent where Parent == Never {
-
-}
-
-extension RootPath {
-
-  var parent: Parent? {
-    get {
-      return nil
-    }
-    // swiftlint:disable:next unused_setter_value
-    set { }
-  }
-
-}
-
 extension Never: PathComponent {
-
+  
   var rawValue: String {
     return ""
   }
@@ -47,7 +31,7 @@ extension Never: PathComponent {
     set {
     }
   }
-
+  
 }
 
 extension PathComponent {

@@ -516,7 +516,7 @@ public extension Index {
                                        completion: @escaping ResultCallback<[IndexedTask]>) {
     let moveOperations: [BatchOperation] = objects.map { .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }
     let sourceIndexName = name
-    let destinationIndexName = IndexName(rawValue: "\(name)_tmp_\(Int.random(in: 0...100000))")
+    let destinationIndexName: IndexName = "\(name)_tmp_\(Int.random(in: 0...100000))"
     let destinationIndex = Index(name: destinationIndexName, transport: transport, operationLauncher: operationLauncher, configuration: configuration)
 
     func extract<V>(_ result: Result<V, Error>, process: (V) -> Void) {

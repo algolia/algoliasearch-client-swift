@@ -30,7 +30,7 @@ public extension ProvidingCustomOption where Self: StringOption {
 
 }
 
-extension ExpressibleByStringLiteral where Self: StringOption {
+extension ExpressibleByStringInterpolation where Self: StringOption {
 
   init(stringLiteral value: String) {
     self = .init(rawValue: value)

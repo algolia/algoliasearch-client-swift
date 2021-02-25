@@ -33,35 +33,35 @@ class AlgoliaRetryStrategyTests: XCTestCase {
     XCTAssertEqual(readHosts.next()?.url.absoluteString, "algolia3.com")
 
     // First write host failed
-    XCTAssertNoThrow(strategy.notify(host: host1, result: retryableErrorResult))
+    strategy.notify(host: host1, result: retryableErrorResult)
     // Second write host is available now
     XCTAssertEqual(writeHosts.next()?.url.absoluteString, "algolia2.com")
     // First read host is still available
     XCTAssertEqual(readHosts.next()?.url.absoluteString, "algolia3.com")
 
     // Second write host failed
-    _ = strategy.notify(host: host2, result: retryableErrorResult)
+    strategy.notify(host: host2, result: retryableErrorResult)
     // No more writable hosts available
     XCTAssertEqual(writeHosts.next()?.url.absoluteString, nil)
     // First read host is still available
     XCTAssertEqual(readHosts.next()?.url.absoluteString, "algolia3.com")
 
     // First read host failed
-    _ = strategy.notify(host: host3, result: retryableErrorResult)
+    strategy.notify(host: host3, result: retryableErrorResult)
     // No more writable hosts available
     XCTAssertEqual(writeHosts.next()?.url.absoluteString, nil)
     // Second read host is available
     XCTAssertEqual(readHosts.next()?.url.absoluteString, "algolia4.com")
 
     // Second read host failed
-    _ = strategy.notify(host: host4, result: retryableErrorResult)
+    strategy.notify(host: host4, result: retryableErrorResult)
     // No more writable hosts available
     XCTAssertEqual(writeHosts.next()?.url.absoluteString, nil)
     // Third read host is available
     XCTAssertEqual(readHosts.next()?.url.absoluteString, "algolia5.com")
 
     // Third read host failed
-    _ = strategy.notify(host: host5, result: retryableErrorResult)
+    strategy.notify(host: host5, result: retryableErrorResult)
     // No more writable hosts available
     XCTAssertEqual(writeHosts.next()?.url.absoluteString, nil)
     // No more writable hosts available
@@ -100,7 +100,7 @@ class AlgoliaRetryStrategyTests: XCTestCase {
     var host: RetryableHost?
     var lastUpdate: Date? = readHosts.next()?.lastUpdated
 
-    _ = strategy.notify(host: host3, result: timeoutErrorResult)
+    strategy.notify(host: host3, result: timeoutErrorResult)
     host = readHosts.next()
     XCTAssertGreaterThan(host!.lastUpdated.timeIntervalSince1970, lastUpdate!.timeIntervalSince1970)
     lastUpdate = host?.lastUpdated
@@ -108,7 +108,7 @@ class AlgoliaRetryStrategyTests: XCTestCase {
     XCTAssertTrue(host!.isUp)
     XCTAssertEqual(host!.retryCount, 1)
 
-    _ = strategy.notify(host: host3, result: timeoutErrorResult)
+    strategy.notify(host: host3, result: timeoutErrorResult)
     host = readHosts.next()
     XCTAssertGreaterThan(host!.lastUpdated.timeIntervalSince1970, lastUpdate!.timeIntervalSince1970)
     XCTAssertNotNil(host)
@@ -122,9 +122,9 @@ class AlgoliaRetryStrategyTests: XCTestCase {
     let strategy = AlgoliaRetryStrategy(hosts: [host3, host4, host5], hostsExpirationDelay: expirationDelay)
     _ = strategy.retryableHosts(for: .read)
     
-    _ = strategy.notify(host: host3, result: retryableErrorResult)
-    _ = strategy.notify(host: host4, result: retryableErrorResult)
-    _ = strategy.notify(host: host5, result: retryableErrorResult)
+    strategy.notify(host: host3, result: retryableErrorResult)
+    strategy.notify(host: host4, result: retryableErrorResult)
+    strategy.notify(host: host5, result: retryableErrorResult)
 
     sleep(UInt32(expirationDelay))
     
@@ -192,11 +192,11 @@ class RetryableOperation: Operation {
     
     while let host = hostsIterator.next() {
       let result = getResult()
-      switch retryStrategy.notify(host: host, result: result) {
-      case .failure, .success:
-        break
-      case .retry:
+      retryStrategy.notify(host: host, result: result)
+      if case .failure(let error) = result, retryStrategy.canRetry(inCaseOf: error) {
         continue
+      } else {
+        break
       }
     }
   }

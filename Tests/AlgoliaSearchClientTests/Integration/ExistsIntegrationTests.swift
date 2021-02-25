@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
-class ExistsIntegrationTests: OnlineTestCase {
+class ExistsIntegrationTests: IntegrationTestCase {
   
   override var indexNameSuffix: String? {
     return "exists"

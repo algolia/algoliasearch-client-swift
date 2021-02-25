@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
-class SettingsIntegrationTests: OnlineTestCase {
+class SettingsIntegrationTests: IntegrationTestCase {
   
   override var indexNameSuffix: String? {
     return "settings"
@@ -32,7 +32,7 @@ class SettingsIntegrationTests: OnlineTestCase {
       .set(\.attributesToRetrieve, to: ["attribute3", "attribute4"])
       .set(\.ranking, to: [.asc("attribute1"), .desc("attribute2"), .attribute, .custom, .exact, .filters, .geo, .proximity, .typo, .words])
       .set(\.customRanking, to: [.asc("attribute1"), .desc("attribute1")])
-      .set(\.replicas, to: [IndexName(rawValue: index.name.rawValue + "_replica1"), IndexName(rawValue: index.name.rawValue + "_replica2")])
+      .set(\.replicas, to: ["\(index.name.rawValue)_replica1", "\(index.name.rawValue)_replica2"])
       .set(\.maxValuesPerFacet, to: 100)
       .set(\.sortFacetsBy, to: .count)
       .set(\.attributesToHighlight, to: ["attribute1", "attribute2"])
@@ -89,7 +89,7 @@ class SettingsIntegrationTests: OnlineTestCase {
     XCTAssertEqual(fetchedSettings.attributesToRetrieve, ["attribute3", "attribute4"])
     XCTAssertEqual(fetchedSettings.ranking, [.asc("attribute1"), .desc("attribute2"), .attribute, .custom, .exact, .filters, .geo, .proximity, .typo, .words])
     XCTAssertEqual(fetchedSettings.customRanking, [.asc("attribute1"), .desc("attribute1")])
-    XCTAssertEqual(fetchedSettings.replicas, [IndexName(rawValue: index.name.rawValue + "_replica1"), IndexName(rawValue: index.name.rawValue + "_replica2")])
+    XCTAssertEqual(fetchedSettings.replicas, ["\(index.name.rawValue)_replica1", "\(index.name.rawValue)_replica2"])
     XCTAssertEqual(fetchedSettings.maxValuesPerFacet, 100)
     XCTAssertEqual(fetchedSettings.sortFacetsBy, .count)
     XCTAssertEqual(fetchedSettings.attributesToHighlight, ["attribute1", "attribute2"])
@@ -150,7 +150,7 @@ class SettingsIntegrationTests: OnlineTestCase {
     XCTAssertEqual(fetchedSettings.attributesToRetrieve, ["attribute3", "attribute4"])
     XCTAssertEqual(fetchedSettings.ranking, [.asc("attribute1"), .desc("attribute2"), .attribute, .custom, .exact, .filters, .geo, .proximity, .typo, .words])
     XCTAssertEqual(fetchedSettings.customRanking, [.asc("attribute1"), .desc("attribute1")])
-    XCTAssertEqual(fetchedSettings.replicas, [IndexName(rawValue: index.name.rawValue + "_replica1"), IndexName(rawValue: index.name.rawValue + "_replica2")])
+    XCTAssertEqual(fetchedSettings.replicas, ["\(index.name.rawValue)_replica1", "\(index.name.rawValue)_replica2"])
     XCTAssertEqual(fetchedSettings.maxValuesPerFacet, 100)
     XCTAssertEqual(fetchedSettings.sortFacetsBy, .count)
     XCTAssertEqual(fetchedSettings.attributesToHighlight, ["attribute1", "attribute2"])

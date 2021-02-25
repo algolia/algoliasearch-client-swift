@@ -9,7 +9,7 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
-class SecuredAPIKeysIntegrationTests: OnlineTestCase {
+class SecuredAPIKeysIntegrationTests: IntegrationTestCase {
   
   var parentAPIKey: APIKey!
   

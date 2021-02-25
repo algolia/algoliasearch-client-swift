@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
 
 extension Command {
 
@@ -16,34 +13,39 @@ extension Command {
 
     struct Search: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: PlacesCompletion
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init(query: PlacesQuery, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.urlRequest = .init(method: .post, path: .places >>> PlacesCompletion.query, body: query.httpBody, requestOptions: self.requestOptions)
+        self.path = (.places >>> .query)
+        self.body = query.httpBody
       }
 
     }
 
     struct GetObject: AlgoliaCommand {
 
+      let method: HTTPMethod = .get
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: PlacesCompletion
       let requestOptions: RequestOptions?
 
       init(objectID: ObjectID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.urlRequest = .init(method: .get, path: .places >>> PlacesCompletion.objectID(objectID), requestOptions: self.requestOptions)
+        self.path = (.places >>> .objectID(objectID))
       }
 
     }
 
     struct ReverseGeocoding: AlgoliaCommand {
 
+      let method: HTTPMethod = .get
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: PlacesCompletion
       let requestOptions: RequestOptions?
 
       init(geolocation: Point, language: Language?, hitsPerPage: Int?, requestOptions: RequestOptions?) {
@@ -52,7 +54,7 @@ extension Command {
           .hitsPerPage: hitsPerPage.flatMap(String.init),
           .language: language?.rawValue
           ])
-        self.urlRequest = .init(method: .get, path: .places >>> PlacesCompletion.reverse, requestOptions: self.requestOptions)
+        self.path = (.places >>> .reverse)
       }
 
     }

@@ -14,7 +14,7 @@ public enum NumericAttributeFilter: Equatable, Codable {
 
 }
 
-extension NumericAttributeFilter: ExpressibleByStringLiteral {
+extension NumericAttributeFilter: ExpressibleByStringInterpolation {
   public init(stringLiteral value: String) {
     self.init(rawValue: value)
   }

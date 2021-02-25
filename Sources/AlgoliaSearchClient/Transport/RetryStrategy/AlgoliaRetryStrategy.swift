@@ -45,39 +45,62 @@ class AlgoliaRetryStrategy: RetryStrategy {
     }
   }
 
-  func notify<T>(host: RetryableHost, result: Result<T, Swift.Error>) -> RetryOutcome<T> {
+  func notify<T>(host: RetryableHost, result: Result<T, Swift.Error>) {
     return queue.sync {
 
       guard let hostIndex = hosts.firstIndex(where: { $0.url == host.url }) else {
-        return .failure(Error.unexpectedHost)
+        assertionFailure("Attempt to notify a host which is not in the strategy list")
+        return
       }
 
       switch result {
-      case .success(let value):
+      case .success:
         hosts[hostIndex].reset()
-        return .success(value)
 
-      case .failure(let error) where error.isTimeout:
+      case .failure(let error) where isTimeout(error):
         hosts[hostIndex].hasTimedOut()
-        return .retry
 
-      case .failure(let error) where error.isRetryable:
+      case .failure(let error) where isRetryable(error):
         hosts[hostIndex].hasFailed()
-        return .retry
 
-      case .failure(let error):
-        return .failure(error)
+      case .failure:
+        return
       }
     }
 
   }
+  
+  func isRetryable(_ error: Error) -> Bool {
+    switch error {
+    case HostSwitcher.Error.badHost:
+      return true
+      
+    case is URLError:
+      return true
+      
+    case let httpError as HTTPError where !httpError.statusCode.belongs(to: .success, .clientError):
+      return true
 
-  enum Error: Swift.Error {
-    case unexpectedHost
-
-    var localizedDescription: String {
-      return "Attempt to notify a host which is not in the strategy list"
+    default:
+      return false
     }
+  }
+  
+  func isTimeout(_ error: Error) -> Bool {
+    switch error {
+    case let urlError as URLError where urlError.code == .timedOut:
+      return true
+      
+    case let httpError as HTTPError where httpError.statusCode == .requestTimeout:
+      return true
+      
+    default:
+      return false
+    }
+  }
+  
+  func canRetry(inCaseOf error: Error) -> Bool {
+    return isTimeout(error) || isRetryable(error)
   }
 
 }

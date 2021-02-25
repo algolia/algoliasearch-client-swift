@@ -6,9 +6,6 @@
 //
 
 import Foundation
-#if canImport(FoundationNetworking)
-import FoundationNetworking
-#endif
 
 extension Command {
 
@@ -16,12 +13,14 @@ extension Command {
 
     struct Add: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: Path = .keysV1
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init(parameters: APIKeyParameters, requestOptions: RequestOptions?) {
-        self.urlRequest = URLRequest(method: .post, path: Path.keysV1, body: parameters.httpBody, requestOptions: requestOptions)
+        self.body = parameters.httpBody
         self.requestOptions = requestOptions
       }
 
@@ -29,12 +28,15 @@ extension Command {
 
     struct Update: AlgoliaCommand {
 
+      let method: HTTPMethod = .put
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: APIKeyCompletion
+      let body: Data?
       let requestOptions: RequestOptions?
 
       init(apiKey: AlgoliaSearchClient.APIKey, parameters: APIKeyParameters, requestOptions: RequestOptions?) {
-        self.urlRequest = URLRequest(method: .put, path: .keysV1 >>> APIKeyCompletion.apiKey(apiKey), body: parameters.httpBody, requestOptions: requestOptions)
+        self.path = (.keysV1 >>> .apiKey(apiKey))
+        self.body = parameters.httpBody
         self.requestOptions = requestOptions
       }
 
@@ -42,12 +44,13 @@ extension Command {
 
     struct Delete: AlgoliaCommand {
 
+      let method: HTTPMethod = .delete
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: APIKeyCompletion
       let requestOptions: RequestOptions?
 
       init(apiKey: AlgoliaSearchClient.APIKey, requestOptions: RequestOptions?) {
-        self.urlRequest = URLRequest(method: .delete, path: .keysV1 >>> APIKeyCompletion.apiKey(apiKey), requestOptions: requestOptions)
+        self.path = (.keysV1 >>> .apiKey(apiKey))
         self.requestOptions = requestOptions
       }
 
@@ -55,12 +58,13 @@ extension Command {
 
     struct Restore: AlgoliaCommand {
 
+      let method: HTTPMethod = .post
       let callType: CallType = .write
-      let urlRequest: URLRequest
+      let path: APIKeyCompletion
       let requestOptions: RequestOptions?
 
       init(apiKey: AlgoliaSearchClient.APIKey, requestOptions: RequestOptions?) {
-        self.urlRequest = URLRequest(method: .post, path: .keysV1 >>> APIKeyCompletion.restoreAPIKey(apiKey), requestOptions: requestOptions)
+        self.path = (.keysV1 >>> .restoreAPIKey(apiKey))
         self.requestOptions = requestOptions
       }
 
@@ -68,12 +72,13 @@ extension Command {
 
     struct Get: AlgoliaCommand {
 
+      let method: HTTPMethod = .get
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: APIKeyCompletion
       let requestOptions: RequestOptions?
 
       init(apiKey: AlgoliaSearchClient.APIKey, requestOptions: RequestOptions?) {
-        self.urlRequest = URLRequest(method: .get, path: .keysV1 >>> APIKeyCompletion.apiKey(apiKey), requestOptions: requestOptions)
+        self.path = (.keysV1 >>> .apiKey(apiKey))
         self.requestOptions = requestOptions
       }
 
@@ -81,12 +86,13 @@ extension Command {
 
     struct List: AlgoliaCommand {
 
+      let method: HTTPMethod = .get
       let callType: CallType = .read
-      let urlRequest: URLRequest
+      let path: Path
       let requestOptions: RequestOptions?
 
       init(requestOptions: RequestOptions?) {
-        self.urlRequest = URLRequest(method: .get, path: Path.keysV1, requestOptions: requestOptions)
+        self.path = .keysV1
         self.requestOptions = requestOptions
       }
 

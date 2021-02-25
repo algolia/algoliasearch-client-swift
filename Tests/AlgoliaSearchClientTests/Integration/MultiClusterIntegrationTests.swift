@@ -52,7 +52,7 @@ struct TestIdentifier {
   
 }
 
-class MultipleClusterIntegrationTests: OnlineTestCase {
+class MultipleClusterIntegrationTests: IntegrationTestCase {
   
   let date: Date = .init()
   

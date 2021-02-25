@@ -73,7 +73,7 @@ public struct HTTPParameterKey: RawRepresentable, Hashable {
 
 }
 
-extension HTTPParameterKey: ExpressibleByStringLiteral {
+extension HTTPParameterKey: ExpressibleByStringInterpolation {
 
   public init(stringLiteral value: String) {
     rawValue = value
@@ -113,7 +113,7 @@ extension HTTPHeaderKey {
 
 }
 
-extension HTTPHeaderKey: ExpressibleByStringLiteral {
+extension HTTPHeaderKey: ExpressibleByStringInterpolation {
 
   public init(stringLiteral value: String) {
     rawValue = value
