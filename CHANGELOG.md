@@ -1,5 +1,13 @@
 # ChangeLog
 
+## [8.8.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.7.0...8.8.0) (2021-03-01)
+
+### Refactor
+
+- Transport and logging improvements (#730) ([5a10763](https://github.com/algolia/algoliasearch-client-swift/commit/5a10763))
+
+
+
 ## [8.7.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.6.0...8.7.0) (2021-02-15)
 
 ### Misc
