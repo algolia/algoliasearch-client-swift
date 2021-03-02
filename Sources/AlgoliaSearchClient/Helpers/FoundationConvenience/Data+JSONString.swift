@@ -13,7 +13,7 @@ extension Data {
     return (try? JSONSerialization.jsonObject(with: self, options: .allowFragments))
       .flatMap {
         let writingOptions: JSONSerialization.WritingOptions
-        if #available(OSX 10.13, *) {
+        if #available(iOS 11, OSX 10.13, tvOS 11.0, watchOS 4.0, *) {
           writingOptions = [.prettyPrinted, .fragmentsAllowed, .sortedKeys]
         } else {
           writingOptions = [.prettyPrinted, .fragmentsAllowed]
