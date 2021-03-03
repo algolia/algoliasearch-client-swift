@@ -1,5 +1,13 @@
 # ChangeLog
 
+## [8.8.1](https://github.com/algolia/algoliasearch-client-swift/compare/8.8.0...8.8.1) (2021-03-03)
+
+### Fix
+
+- set the correct json decoding key for indexName field in the SearchResponse (#735) ([e4738cd](https://github.com/algolia/algoliasearch-client-swift/commit/e4738cd))
+
+
+
 ## [8.8.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.7.0...8.8.0) (2021-03-01)
 
 ### Refactor
