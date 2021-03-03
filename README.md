@@ -157,6 +157,12 @@ index.search(query: "jimmie") { result in
     print("Error: \(error)")
   case .success(let response):
     print("Response: \(response)")
+    do {
+      let foundContacts: [Contact] = try response.extractsHits()
+      print("Found contacts: \(foundContacts)")
+    } catch let error {
+      print("Contact parsing error: \(error)")
+    }
   }
 }
 ```
