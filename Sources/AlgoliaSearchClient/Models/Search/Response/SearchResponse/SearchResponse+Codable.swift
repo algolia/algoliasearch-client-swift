@@ -35,7 +35,7 @@ extension SearchResponse: Codable {
     case disjunctiveFacetsStorage = "disjunctiveFacets"
     case facetStatsStorage = "facets_stats"
     case cursor
-    case indexName
+    case indexName = "index"
     case processed
     case queryID
     case hierarchicalFacetsStorage = "hierarchicalFacets"
