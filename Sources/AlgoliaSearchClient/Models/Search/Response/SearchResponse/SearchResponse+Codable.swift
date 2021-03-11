@@ -75,6 +75,8 @@ extension SearchResponse: Codable {
     self.queryID = try container.decodeIfPresent(forKey: .queryID)
     self.hierarchicalFacetsStorage = try container.decodeIfPresent(forKey: .hierarchicalFacetsStorage)
     self.explain = try container.decodeIfPresent(forKey: .explain)
+    //TODO: temporary decoding for prototype
+    self.rules = try container.decodeIfPresent(forKey: .userData)
   }
 
   public func encode(to encoder: Encoder) throws {

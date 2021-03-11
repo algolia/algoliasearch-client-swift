@@ -88,16 +88,6 @@ extension Rule.Consequence {
 }
 
 extension Rule.Consequence {
-  
-  public struct RenderingContent: Codable {    
-    public let redirect: URL
-    public let facetMerchandising: [Attribute]
-    public let userData: JSON?
-  }
-  
-}
-
-extension Rule.Consequence {
 
   struct Params: Builder, Codable {
     var query: Query?
