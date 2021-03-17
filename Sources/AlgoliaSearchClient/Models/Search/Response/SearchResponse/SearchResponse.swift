@@ -243,40 +243,6 @@ public struct SearchResponse {
 
 }
 
-public extension SearchResponse {
-  
-  private struct Banner: Codable {
-    let title: String?
-    let banner: URL?
-    let link: URL
-  }
-  
-  struct Rules: Codable {
-    public let consequence: Consequence?
-    
-    //TODO: temporary decoding for prototype
-    public init(from decoder: Decoder) throws {
-      let userData = try [JSON](from: decoder)
-      let redirect = (userData[0]["link"]?.object() as? String).flatMap(URL.init(string:)).flatMap(Redirect.init(url:))
-      self.consequence = .init(
-        renderingContent: .init(
-          redirect: redirect,
-          facetMerchandising: [],
-          userData: userData
-        ))
-    }
-  }
-  
-}
-
-public extension SearchResponse.Rules {
-  
-  struct Consequence: Codable {
-    public let renderingContent: RenderingContent?
-  }
-  
-}
-
 extension SearchResponse: Builder {}
 
 public extension SearchResponse {

@@ -8,11 +8,10 @@
 import Foundation
 
 public struct RenderingContent: Codable {
+  
   public let redirect: Redirect?
-  public let facetMerchandising: [Attribute]
+  public let facetMerchandising: FacetOrderContainer?
   public let userData: [JSON]?
+  
 }
 
-public struct Redirect: Codable {
-  public let url: URL?
-}
