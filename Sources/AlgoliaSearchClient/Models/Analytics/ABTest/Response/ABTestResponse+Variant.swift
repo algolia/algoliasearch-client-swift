@@ -10,7 +10,7 @@ import Foundation
 extension ABTestResponse {
 
   public struct Variant: Codable {
-    
+
     public let indexName: IndexName
 
     public let trafficPercentage: Int

@@ -80,7 +80,7 @@ public protocol SettingsParameters: CommonParameters {
   var separatorsToIndex: String? { get set }
 
   // MARK: - Languages
-  
+
   /**
    Specify on which attributes to apply transliteration.
    

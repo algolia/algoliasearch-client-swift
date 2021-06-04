@@ -34,7 +34,7 @@ extension Rule {
 
     /// Objects to hide from hits.
     public var hide: [ObjectID]?
-    
+
     public var renderingContent: RenderingContent?
 
     /// Custom JSON object that will be appended to the SearchResponse.userData.

@@ -12,7 +12,7 @@ extension Command {
   enum Personalization {
 
     struct Get: AlgoliaCommand {
-      
+
       let method: HTTPMethod = .get
       let callType: CallType = .read
       let path: PersonalizationRoute = .strategies >>> .personalization

@@ -24,7 +24,7 @@ extension Command {
       }
 
     }
-    
+
     struct AppTaskStatus: AlgoliaCommand {
 
       let method: HTTPMethod = .get
@@ -38,7 +38,6 @@ extension Command {
       }
 
     }
-
 
     struct GetLogs: AlgoliaCommand {
 

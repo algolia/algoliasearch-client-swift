@@ -22,7 +22,7 @@ struct Path: PathComponent {
   }
 
   init(_ rawValue: String) { self.rawValue = rawValue }
-  
+
   static var indexesV1: Self { .init("/1/indexes") }
   static var settings: Self { .init("/settings") }
   static var clustersV1: Self { .init("/1/clusters") }

@@ -21,7 +21,7 @@ extension Rule {
 
     /// Indicates if the rule can be applied with alternatives.
     public var alternatives: Alternatives?
-    
+
     public var filters: String?
 
     public init(anchoring: Anchoring? = nil,

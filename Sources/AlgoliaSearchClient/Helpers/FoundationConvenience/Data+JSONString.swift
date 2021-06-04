@@ -8,7 +8,7 @@
 import Foundation
 
 extension Data {
-  
+
   var jsonString: String? {
     return (try? JSONSerialization.jsonObject(with: self, options: .allowFragments))
       .flatMap {
@@ -22,5 +22,5 @@ extension Data {
       }
       .flatMap { String(data: $0, encoding: .utf8) }
   }
-  
+
 }

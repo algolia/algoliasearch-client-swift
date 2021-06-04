@@ -9,8 +9,8 @@ import Foundation
 
 /// Container for Redirect information
 public struct Redirect: Codable {
-  
+
   /// Redirect URL
   public let url: URL?
-  
+
 }
