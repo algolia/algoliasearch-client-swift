@@ -7,10 +7,16 @@
 
 import Foundation
 
+///
 public struct RenderingContent: Codable {
   
+  ///
   public let redirect: Redirect?
-  public let facetMerchandising: FacetOrderContainer?
+  
+  ///
+  public let facetOrdering: FacetOrdering?
+  
+  ///
   public let userData: [JSON]?
   
 }

@@ -17,37 +17,61 @@ public struct FacetOrderContainer: Codable {
   
 }
 
-public struct FacetOrdering: Codable {
+public struct FacetOrdering {
   
-  public let facets: OrderingRule
-  public let facetValues: [String: OrderingRule]
+  public let facets: FacetsOrder
   
-  public init(facets: OrderingRule = .init(),
-              facetValues: [String: OrderingRule] = [:]) {
+  public let values: [Attribute: FacetValuesOrder]
+  
+  public init(facets: FacetsOrder = .init(),
+              values: [Attribute: FacetValuesOrder] = [:]) {
     self.facets = facets
-    self.facetValues = facetValues
+    self.values = values
   }
   
 }
 
+extension FacetOrdering: Codable {
+  
+  enum CodingKeys: String, CodingKey {
+    case facets
+    case values
+  }
+  
+  public init(from decoder: Decoder) throws {
+    let container = try decoder.container(keyedBy: CodingKeys.self)
+    self.facets = try container.decode(forKey: .facets)
+    let rawValues = try container.decode([String: FacetValuesOrder].self, forKey: .values)
+    self.values = rawValues.mapKeys(Attribute.init)
+  }
+  
+}
 
-public struct OrderingRule: Codable {
+public struct FacetsOrder: Codable {
+  
+  public let order: [Attribute]
+  
+  public init(order: [Attribute] = []) {
+    self.order = order
+  }
+  
+}
+
+public struct FacetValuesOrder: Codable {
   
   public let order: [String]?
-  public let hide: [String]?
-  public let sortBy: SortRule?
+  public let sortRemainingBy: SortRule?
   
   public enum SortRule: String, Codable {
     case alpha
     case count
+    case hidden
   }
   
-  public init(order: [String] = ["*"],
-              hide: [String]? = nil,
-              sortBy: SortRule? = nil) {
+  public init(order: [String] = [],
+              sortRemainingBy: SortRule? = nil) {
     self.order = order
-    self.hide = hide
-    self.sortBy = sortBy
+    self.sortRemainingBy = sortRemainingBy
   }
   
 }

@@ -230,7 +230,7 @@ public struct SearchResponse {
    */
   public var appliedRelevancyStrictness: Int?
   
-  public var rules: Rules?
+  public var renderingContent: RenderingContent?
   
   /**
    Subset of hits selected when relevancyStrictness is applied.
