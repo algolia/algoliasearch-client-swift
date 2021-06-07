@@ -10,6 +10,10 @@ import XCTest
 @testable import AlgoliaSearchClient
 
 class DictionairesIntegrationTests: IntegrationTestCase {
+  
+  override var allowFailure: Bool {
+    return true
+  }
     
   override func setUpWithError() throws {
     let fetchedCredentials = Result(catching: { try TestCredentials(environment: .secondary) }).mapError { XCTSkip("\($0)") }
