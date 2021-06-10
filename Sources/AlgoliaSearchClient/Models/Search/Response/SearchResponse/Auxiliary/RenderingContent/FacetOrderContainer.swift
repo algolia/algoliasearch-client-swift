@@ -70,7 +70,7 @@ public struct FacetValuesOrder: Codable {
 
   /// Pinned order of facet values.
   public let order: [String]?
-  
+
   /// How to display the remaining items.
   public let sortRemainingBy: SortRule?
 
@@ -78,10 +78,10 @@ public struct FacetValuesOrder: Codable {
   public enum SortRule: String, Codable {
     /// alphabetical (ascending)
     case alpha
-    
+
     /// facet count (descending)
     case count
-    
+
     /// hidden (show only pinned values)
     case hidden
   }
