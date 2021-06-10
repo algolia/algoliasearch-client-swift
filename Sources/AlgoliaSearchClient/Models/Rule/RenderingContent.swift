@@ -13,9 +13,6 @@ import Foundation
   */
 public struct RenderingContent: Codable {
 
-  ///
-  public let redirect: Redirect?
-
   /// Defining how facets should be ordered
   public let facetOrdering: FacetOrdering?
 
