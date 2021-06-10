@@ -230,6 +230,9 @@ public struct SearchResponse {
    */
   public var appliedRelevancyStrictness: Int?
 
+  /**
+   Content defining how the search interface should be rendered.
+   */
   public var renderingContent: RenderingContent?
 
   /**
