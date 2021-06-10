@@ -66,6 +66,7 @@ struct SettingsParametersStorage: SettingsParameters {
   var version: Int?
   var primary: IndexName?
   var relevancyStrictness: Int?
+  var renderingContent: RenderingContent?
 }
 
 extension SettingsParametersStorage: Codable {
@@ -309,5 +310,9 @@ extension SettingsParametersStorageContainer {
   public var relevancyStrictness: Int? {
     get { settingsParametersStorage.relevancyStrictness }
     set { settingsParametersStorage.relevancyStrictness = newValue }
+  }
+  public var renderingContent: RenderingContent? {
+    get { settingsParametersStorage.renderingContent }
+    set { settingsParametersStorage.renderingContent = newValue }
   }
 }

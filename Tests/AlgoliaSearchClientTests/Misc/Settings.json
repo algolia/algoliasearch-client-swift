@@ -42,5 +42,45 @@
     "ignorePlurals",
     "singleWordSynonym"
   ],
-  "attributeCriteriaComputedByMinProximity": false
+  "attributeCriteriaComputedByMinProximity": false,
+  "renderingContent": {
+      "facetOrdering": {
+        "facets": {
+          "order": [
+            "size",
+            "brand",
+            "country",
+            "color"
+          ]
+        },
+        "values": {
+          "brand": {
+            "order": [
+              "Uniqlo"
+            ],
+            "sortRemainingBy": "alpha"
+          },
+          "color": {
+            "order": [
+              "red",
+              "green",
+              "blue"
+            ],
+            "sortRemainingBy": "count"
+          },
+          "country": {
+            "order": [
+              "France",
+              "Germany",
+              "Finland"
+            ],
+            "sortRemainingBy": "hidden"
+          },
+          "size": {
+            "order": [],
+            "sortRemainingBy": "count"
+          }
+        }
+      }
+    }
 }
