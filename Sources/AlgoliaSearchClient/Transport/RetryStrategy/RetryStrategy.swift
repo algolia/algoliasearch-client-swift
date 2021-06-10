@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol RetryStrategy: class {
+protocol RetryStrategy: AnyObject {
 
   /// Returns the iterator providing retryable hosts for a call type
   func retryableHosts(for callType: CallType) -> HostIterator
