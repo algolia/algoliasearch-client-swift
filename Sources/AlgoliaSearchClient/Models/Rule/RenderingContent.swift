@@ -7,16 +7,16 @@
 
 import Foundation
 
-///
+/**
+  * Content defining how the search interface should be rendered.
+  * This is set via the settings for a default value and can be overridden via rules
+  */
 public struct RenderingContent: Codable {
 
   ///
   public let redirect: Redirect?
 
-  ///
+  /// Defining how facets should be ordered
   public let facetOrdering: FacetOrdering?
-
-  ///
-  public let userData: [JSON]?
 
 }
