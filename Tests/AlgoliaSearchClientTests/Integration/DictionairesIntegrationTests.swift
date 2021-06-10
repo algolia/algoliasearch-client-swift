@@ -30,6 +30,8 @@ class DictionairesIntegrationTests: IntegrationTestCase {
   }
   
   func testStopwordsDictionary() throws {
+    XCTSkip()
+    
     // Create one `entry_id` with a random string
     let entryID = ObjectID(rawValue: .random(length: 10))
 
@@ -82,6 +84,8 @@ class DictionairesIntegrationTests: IntegrationTestCase {
   }
   
   func testCompoundsDictionary() throws {
+    XCTSkip()
+
     // Create one `entry_id` with a random string
     let entryID = ObjectID(rawValue: .random(length: 10))
 
@@ -109,6 +113,8 @@ class DictionairesIntegrationTests: IntegrationTestCase {
   }
   
   func testPluralsDictionary() throws {
+    XCTSkip()
+    
     // Create one `entry_id` with a random string
     let entryID = ObjectID(rawValue: .random(length: 10))
     
