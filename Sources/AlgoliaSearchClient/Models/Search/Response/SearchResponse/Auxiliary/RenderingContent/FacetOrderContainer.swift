@@ -7,16 +7,6 @@
 
 import Foundation
 
-public struct FacetOrderContainer: Codable {
-
-  public let facetOrdering: FacetOrdering
-
-  public init(facetOrdering: FacetOrdering = .init()) {
-    self.facetOrdering = facetOrdering
-  }
-
-}
-
 public struct FacetOrdering {
 
   /// The ordering of facets.
