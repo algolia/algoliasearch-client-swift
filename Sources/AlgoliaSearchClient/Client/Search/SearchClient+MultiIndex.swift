@@ -87,6 +87,55 @@ public extension SearchClient {
     let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
+  
+  @discardableResult func multipleUniQueries(queries: [IndexedQuery],
+                                          strategy: MultipleQueriesStrategy = .none,
+                                          requestOptions: RequestOptions? = nil,
+                                          completion: @escaping ResultCallback<UniSearchesResponse>) -> Operation {
+    let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
+    return execute(command, completion: completion)
+  }
+  
+  struct UniSearchesResponse: Codable {
+    
+    public enum Response: Codable {
+            
+      case facet(FacetSearchResponse)
+      case search(SearchResponse)
+      
+      public init(from decoder: Decoder) throws {
+        do {
+          let searchResponse = try SearchResponse(from: decoder)
+          self = .search(searchResponse)
+        } catch let searchResponseError {
+          do {
+            let facetSearchResponse = try FacetSearchResponse(from: decoder)
+            self = .facet(facetSearchResponse)
+          } catch let facetSearchResponseError {
+            throw facetSearchResponseError
+          }
+        }
+      }
+      
+      public func encode(to encoder: Encoder) throws {
+        switch self {
+        case .facet(let response):
+          try response.encode(to: encoder)
+        case .search(let response):
+          try response.encode(to: encoder)
+        }
+      }
+      
+    }
+    
+    public var results: [Response]
+    
+    public init(results: [Response]) {
+      self.results = results
+    }
+    
+  }
+
 
   /**
    Perform a search on several indices at the same time, with one method call.
