@@ -14,7 +14,7 @@ public struct FacetValuesOrder {
   public let order: [String]
 
   /// How to display the remaining items.
-  public let sortRemainingBy: SortRule
+  public let sortRemainingBy: SortRule?
 
   /// Rule defining the sort order of facet values.
   public enum SortRule: String, Codable {
@@ -34,7 +34,7 @@ public struct FacetValuesOrder {
      - sortRemainingBy: How to display the remaining items.
    */
   public init(order: [String] = [],
-              sortRemainingBy: SortRule = .count) {
+              sortRemainingBy: SortRule? = nil) {
     self.order = order
     self.sortRemainingBy = sortRemainingBy
   }
@@ -51,7 +51,7 @@ extension FacetValuesOrder: Codable {
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     self.order = try container.decodeIfPresent(forKey: .order) ?? []
-    self.sortRemainingBy = try container.decodeIfPresent(forKey: .sortRemainingBy) ?? .count
+    self.sortRemainingBy = try container.decodeIfPresent(forKey: .sortRemainingBy)
   }
 
 }
