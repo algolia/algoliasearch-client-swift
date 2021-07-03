@@ -183,6 +183,7 @@ extension Query: URLEncodable {
     urlEncoder.set(responseFields, for: .responseFields)
     urlEncoder.set(percentileComputation, for: .percentileComputation)
     urlEncoder.set(naturalLanguages, for: .naturalLanguages)
+    urlEncoder.set(relevancyStrictness, for: .relevancyStrictness)
     urlEncoder.set(customParameters)
 
     return urlEncoder.encode()!

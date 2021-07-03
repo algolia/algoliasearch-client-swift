@@ -79,6 +79,7 @@ extension SearchParametersStorage: Codable {
     enableABTest = try container.decodeIfPresent(forKey: .enableABTest)
     explainModules = try container.decodeIfPresent(forKey: .explainModules)
     naturalLanguages = try container.decodeIfPresent(forKey: .naturalLanguages)
+    relevancyStrictness = try container.decodeIfPresent(forKey: .relevancyStrictness)
   }
 
   public func encode(to encoder: Encoder) throws {
@@ -150,6 +151,7 @@ extension SearchParametersStorage: Codable {
     try container.encodeIfPresent(enableABTest, forKey: .enableABTest)
     try container.encodeIfPresent(explainModules, forKey: .explainModules)
     try container.encodeIfPresent(naturalLanguages, forKey: .naturalLanguages)
+    try container.encodeIfPresent(relevancyStrictness, forKey: .relevancyStrictness)
   }
 
   enum CodingKeys: String, CodingKey, CaseIterable {
@@ -220,6 +222,7 @@ extension SearchParametersStorage: Codable {
     case enableABTest
     case explainModules
     case naturalLanguages
+    case relevancyStrictness
   }
 
 }
