@@ -41,6 +41,8 @@ extension SearchResponse: Codable {
     case hierarchicalFacetsStorage = "hierarchicalFacets"
     case explain
     case renderingContent
+    case appliedRelevancyStrictness
+    case nbSortedHits
   }
 
   public init(from decoder: Decoder) throws {
@@ -77,6 +79,8 @@ extension SearchResponse: Codable {
     self.hierarchicalFacetsStorage = try container.decodeIfPresent(forKey: .hierarchicalFacetsStorage)
     self.explain = try container.decodeIfPresent(forKey: .explain)
     self.renderingContent = try container.decodeIfPresent(forKey: .renderingContent)
+    self.appliedRelevancyStrictness = try container.decodeIfPresent(forKey: .appliedRelevancyStrictness)
+    self.nbSortedHits = try container.decodeIfPresent(forKey: .nbSortedHits)
   }
 
   public func encode(to encoder: Encoder) throws {
@@ -113,6 +117,8 @@ extension SearchResponse: Codable {
     try container.encodeIfPresent(hierarchicalFacetsStorage, forKey: .hierarchicalFacetsStorage)
     try container.encodeIfPresent(explain, forKey: .explain)
     try container.encodeIfPresent(renderingContent, forKey: .renderingContent)
+    try container.encodeIfPresent(appliedRelevancyStrictness, forKey: .appliedRelevancyStrictness)
+    try container.encodeIfPresent(nbSortedHits, forKey: .nbSortedHits)
   }
 
 }
