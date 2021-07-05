@@ -18,7 +18,7 @@ protocol PathComponent {
 }
 
 extension Never: PathComponent {
-  
+
   var rawValue: String {
     return ""
   }
@@ -31,7 +31,7 @@ extension Never: PathComponent {
     set {
     }
   }
-  
+
 }
 
 extension PathComponent {

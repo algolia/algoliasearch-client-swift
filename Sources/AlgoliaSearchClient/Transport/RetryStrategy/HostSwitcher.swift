@@ -27,11 +27,11 @@ struct HostSwitcher {
 }
 
 extension URLRequest {
-  
+
   func setting(_ host: RetryableHost, timeout: TimeInterval) throws -> URLRequest {
     return try HostSwitcher.switchHost(in: self, by: host, timeout: timeout)
   }
-  
+
 }
 
 extension HostSwitcher {
@@ -40,7 +40,7 @@ extension HostSwitcher {
     case missingURL
     case malformedURL(String)
     case badHost(String)
-    
+
     var errorDescription: String? {
       switch self {
       case .badHost(let host):

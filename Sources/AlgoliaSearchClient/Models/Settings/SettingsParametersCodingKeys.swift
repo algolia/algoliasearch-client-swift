@@ -64,4 +64,5 @@ public enum SettingsParametersCodingKeys: String, CodingKey {
   case customNormalization
   case primary
   case attributeCriteriaComputedByMinProximity
+  case renderingContent
 }

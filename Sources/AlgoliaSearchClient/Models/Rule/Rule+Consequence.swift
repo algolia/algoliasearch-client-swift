@@ -35,6 +35,10 @@ extension Rule {
     /// Objects to hide from hits.
     public var hide: [ObjectID]?
 
+    /// Content defining how the search interface should be rendered.
+    /// A default value for this can be set via settings.
+    public var renderingContent: RenderingContent?
+
     /// Custom JSON object that will be appended to the SearchResponse.userData.
     /// This object is not interpreted by the API. It is limited to 1kB of minified JSON.
     public var userData: JSON?
@@ -92,11 +96,13 @@ extension Rule.Consequence {
     var queryTextAlteration: QueryTextAlteration?
     var automaticFacetFilters: [Rule.AutomaticFacetFilters]?
     var automaticOptionalFacetFilters: [Rule.AutomaticFacetFilters]?
+    var renderingContent: RenderingContent?
 
     enum CodingKeys: String, CodingKey {
       case query
       case automaticFacetFilters
       case automaticOptionalFacetFilters
+      case renderingContent
     }
 
     public init() {}
@@ -107,6 +113,7 @@ extension Rule.Consequence {
       queryTextAlteration = try container.decodeIfPresent(forKey: .query)
       automaticFacetFilters = try container.decodeIfPresent(forKey: .automaticFacetFilters)
       automaticOptionalFacetFilters = try container.decodeIfPresent(forKey: .automaticOptionalFacetFilters)
+      renderingContent = try container.decodeIfPresent(forKey: .renderingContent)
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -115,6 +122,7 @@ extension Rule.Consequence {
       try container.encodeIfPresent(queryTextAlteration, forKey: .query)
       try container.encodeIfPresent(automaticFacetFilters, forKey: .automaticFacetFilters)
       try container.encodeIfPresent(automaticOptionalFacetFilters, forKey: .automaticOptionalFacetFilters)
+      try container.encodeIfPresent(renderingContent, forKey: .renderingContent)
     }
 
   }
@@ -136,6 +144,7 @@ extension Rule.Consequence: Codable {
     self.queryTextAlteration = params.wrapped.queryTextAlteration
     self.automaticFacetFilters = params.wrapped.automaticFacetFilters
     self.automaticOptionalFacetFilters = params.wrapped.automaticOptionalFacetFilters
+    self.renderingContent = params.wrapped.renderingContent
     let container = try decoder.container(keyedBy: CodingKeys.self)
     self.promote = try container.decodeIfPresent(forKey: .promote)
     self.filterPromotes = try container.decodeIfPresent(forKey: .filterPromotes)
@@ -150,6 +159,7 @@ extension Rule.Consequence: Codable {
       .set(\.queryTextAlteration, to: queryTextAlteration)
       .set(\.automaticFacetFilters, to: automaticFacetFilters)
       .set(\.automaticOptionalFacetFilters, to: automaticOptionalFacetFilters)
+      .set(\.renderingContent, to: renderingContent)
     try ParamsWrapper<Params>(params).encode(to: encoder)
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encodeIfPresent(promote, forKey: .promote)

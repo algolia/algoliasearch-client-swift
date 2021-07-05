@@ -11,15 +11,15 @@ import FoundationNetworking
 #endif
 
 extension Command {
-  
+
   struct Custom: AlgoliaCommand {
-    
+
     let method: HTTPMethod
     let callType: CallType
     let path: Path
     let body: Data?
     let requestOptions: RequestOptions?
-    
+
     init(method: HTTPMethod,
          callType: CallType,
          path: Path,
@@ -32,7 +32,6 @@ extension Command {
       self.requestOptions = requestOptions
     }
 
-    
     init(callType: CallType,
          urlRequest: URLRequest,
          requestOptions: RequestOptions?) throws {
@@ -48,11 +47,11 @@ extension Command {
       self.body = urlRequest.httpBody
       self.requestOptions = requestOptions
     }
-    
+
     enum AlgoliaCommandError: Error {
       case invalidHTTPMethod
       case invalidPath
     }
   }
-  
+
 }

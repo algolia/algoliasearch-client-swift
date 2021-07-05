@@ -276,5 +276,5 @@ public protocol SearchParameters: CommonParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/_/?language=swift)
    */
   var explainModules: [ExplainModule]? { get set }
-  
+
 }

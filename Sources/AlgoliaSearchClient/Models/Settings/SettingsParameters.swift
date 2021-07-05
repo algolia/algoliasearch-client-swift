@@ -80,7 +80,7 @@ public protocol SettingsParameters: CommonParameters {
   var separatorsToIndex: String? { get set }
 
   // MARK: - Languages
-  
+
   /**
    Specify on which attributes to apply transliteration.
    
@@ -156,6 +156,12 @@ public protocol SettingsParameters: CommonParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/attributeForDistinct/?language=swift)
    */
   var attributeForDistinct: Attribute? { get set }
+
+  /**
+   Content defining how the search interface should be rendered.
+   This is set via the settings for a default value and can be overridden via rules
+   */
+  var renderingContent: RenderingContent? { get set }
 
   /**
    Lets you store custom data in your indices.

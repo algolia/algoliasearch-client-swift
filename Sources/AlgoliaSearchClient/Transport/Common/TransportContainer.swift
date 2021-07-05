@@ -19,13 +19,13 @@ protocol TransportContainer {
 extension TransportContainer {
 
   func execute<Command: AlgoliaCommand, Response: Decodable, Output>(_ command: Command,
-                                            transform: @escaping (Response) -> Output,
-                                            completion: @escaping (Result<Output, Error>) -> Void) -> Operation & TransportTask {
+                                                                     transform: @escaping (Response) -> Output,
+                                                                     completion: @escaping (Result<Output, Error>) -> Void) -> Operation & TransportTask {
     transport.execute(command, transform: transform, completion: completion)
   }
 
   func execute<Command: AlgoliaCommand, Response: Decodable, Output>(_ command: Command,
-                                            transform: @escaping (Response) -> Output) throws -> Output {
+                                                                     transform: @escaping (Response) -> Output) throws -> Output {
     try transport.execute(command, transform: transform)
   }
 

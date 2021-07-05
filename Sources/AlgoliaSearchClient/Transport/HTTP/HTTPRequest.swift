@@ -66,7 +66,6 @@ class HTTPRequest<ResponseType: Decodable, Output>: AsyncOperation, ResultContai
     tryLaunch(request: request, intermediateErrors: [])
   }
 
-  // swiftlint:disable cyclomatic_complexity function_body_length
   private func tryLaunch(request: URLRequest, intermediateErrors: [Error]) {
 
     guard !isCancelled else {
@@ -75,7 +74,7 @@ class HTTPRequest<ResponseType: Decodable, Output>: AsyncOperation, ResultContai
     }
 
     do {
-      
+
       guard let host = hostIterator.next() else {
         throw HTTPTransport.Error.noReachableHosts(intermediateErrors: intermediateErrors)
       }
@@ -85,7 +84,7 @@ class HTTPRequest<ResponseType: Decodable, Output>: AsyncOperation, ResultContai
 
       underlyingTask = requester.perform(request: effectiveRequest) { [weak self] (result: IntermediateResult) in
         guard let httpRequest = self else { return }
-        
+
         httpRequest.retryStrategy.notify(host: host, result: result)
 
         switch result {
@@ -111,13 +110,13 @@ class HTTPRequest<ResponseType: Decodable, Output>: AsyncOperation, ResultContai
     super.cancel()
     underlyingTask?.cancel()
   }
-  
+
   func description(for request: URLRequest) -> String {
     [
       "Method: \(request.httpMethod ?? "nil")",
       "URL: \(request.url?.description ?? "nil")",
       "Headers: \(request.allHTTPHeaderFields?.description ?? "nil")",
-      "Body: \(request.httpBody.flatMap { $0.jsonString ?? $0.debugDescription } ?? "nil")",
+      "Body: \(request.httpBody.flatMap { $0.jsonString ?? $0.debugDescription } ?? "nil")"
     ].joined(separator: "\n")
   }
 

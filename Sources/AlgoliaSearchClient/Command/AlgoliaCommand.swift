@@ -8,7 +8,7 @@
 import Foundation
 
 protocol AlgoliaCommand {
-  
+
   associatedtype Path: PathComponent
 
   var method: HTTPMethod { get }
@@ -20,9 +20,9 @@ protocol AlgoliaCommand {
 }
 
 extension AlgoliaCommand {
-  
+
   var body: Data? {
     return nil
   }
-  
+
 }

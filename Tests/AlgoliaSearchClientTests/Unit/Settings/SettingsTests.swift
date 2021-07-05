@@ -28,5 +28,6 @@ class SettingsTests: XCTestCase {
     XCTAssertEqual(settings.enablePersonalization, true)
     XCTAssertEqual(settings.attributesToTransliterate, ["a", "b", "c"])
     XCTAssertEqual(settings.decompoundQuery, true)
+    XCTAssertNotNil(settings.renderingContent)
   }
 }

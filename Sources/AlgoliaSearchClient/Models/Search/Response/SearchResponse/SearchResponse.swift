@@ -224,12 +224,17 @@ public struct SearchResponse {
    Meta-information as to how the query was processed.
   */
   public var explain: Explain?
-  
+
   /**
    The relevancy threshold applied to search in a virtual index.
    */
   public var appliedRelevancyStrictness: Int?
-  
+
+  /**
+   Content defining how the search interface should be rendered.
+   */
+  public var renderingContent: RenderingContent?
+
   /**
    Subset of hits selected when relevancyStrictness is applied.
    */

@@ -69,15 +69,15 @@ class AlgoliaRetryStrategy: RetryStrategy {
     }
 
   }
-  
+
   func isRetryable(_ error: Error) -> Bool {
     switch error {
     case HostSwitcher.Error.badHost:
       return true
-      
+
     case is URLError:
       return true
-      
+
     case let httpError as HTTPError where !httpError.statusCode.belongs(to: .success, .clientError):
       return true
 
@@ -85,20 +85,20 @@ class AlgoliaRetryStrategy: RetryStrategy {
       return false
     }
   }
-  
+
   func isTimeout(_ error: Error) -> Bool {
     switch error {
     case let urlError as URLError where urlError.code == .timedOut:
       return true
-      
+
     case let httpError as HTTPError where httpError.statusCode == .requestTimeout:
       return true
-      
+
     default:
       return false
     }
   }
-  
+
   func canRetry(inCaseOf error: Error) -> Bool {
     return isTimeout(error) || isRetryable(error)
   }
