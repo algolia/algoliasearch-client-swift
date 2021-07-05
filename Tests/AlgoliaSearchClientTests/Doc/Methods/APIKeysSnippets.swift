@@ -47,7 +47,7 @@ extension APIKeysSnippets {
 
     let parentAPIKey = APIKey("SearchOnlyApiKeyKeptPrivate")
     let restriction = SecuredAPIKeyRestriction()
-      .set(\.validUntil, to: Date().addingTimeInterval(.hour).timeIntervalSince1970)
+      .set(\.validUntil, to: Date().addingTimeInterval(60 * 60).timeIntervalSince1970)
     
     let publicKey = client.generateSecuredApiKey(parentApiKey: parentAPIKey, with: restriction)
     _ = publicKey//to remove when pasted to doc

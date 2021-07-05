@@ -7,7 +7,7 @@
 
 import Foundation
 
-public extension TimeInterval {
+extension TimeInterval {
 
   var milliseconds: Int64 {
     return Int64((self * 1000.0).rounded())
@@ -15,7 +15,7 @@ public extension TimeInterval {
 
 }
 
-public extension TimeInterval {
+extension TimeInterval {
 
   static let hour: TimeInterval = minute * 60
 
@@ -25,7 +25,7 @@ public extension TimeInterval {
 
 }
 
-public extension TimeInterval {
+extension TimeInterval {
 
   static let minute: TimeInterval = 60
 
@@ -35,7 +35,7 @@ public extension TimeInterval {
 
 }
 
-public extension TimeInterval {
+extension TimeInterval {
 
   static let second: TimeInterval = 1
 
@@ -45,7 +45,7 @@ public extension TimeInterval {
 
 }
 
-public extension TimeInterval {
+extension TimeInterval {
 
   static let day: TimeInterval = hour * 24
 
