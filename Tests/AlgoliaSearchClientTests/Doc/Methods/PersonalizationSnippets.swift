@@ -10,20 +10,20 @@ import AlgoliaSearchClient
 
 struct PersonalizationSnippets: SnippetsCollection {
   
-  let recommendationClient = RecommendationClient(appID: "", apiKey: "")
+  let personalizationClient = PersonalizationClient(appID: "", apiKey: "")
 }
 
 //MARK: - Set region
 extension PersonalizationSnippets {
   
   func personalization_region() {
-    let recommendationClient = RecommendationClient(
+    let personalizationClient = PersonalizationClient(
       appID: "YourApplicationID",
       apiKey: "YourAdminAPIKey",
       region: .init(rawValue: "eu") // defaults to 'us'
     )
     
-    recommendationClient.getPersonalizationStrategy { result in
+    personalizationClient.getPersonalizationStrategy { result in
       if case .success(let response) = result {
         print("Response: \(response)")
       }
@@ -44,7 +44,7 @@ extension PersonalizationSnippets {
   """
   
   func addStrategy() {
-    let recommendationClient = RecommendationClient(appID: "YourApplicationID", apiKey: "YourAPIKey")
+    let personalizationClient = PersonalizationClient(appID: "YourApplicationID", apiKey: "YourAPIKey")
     
     let eventsScoring: [EventScoring] = [
       .init(eventName: "Add to cart", eventType: .conversion, score: 50),
@@ -60,7 +60,7 @@ extension PersonalizationSnippets {
                                            facetsScoring: facetsScoring,
                                            personalizationImpact: 0)
     
-    recommendationClient.setPersonalizationStrategy(strategy) { result in
+    personalizationClient.setPersonalizationStrategy(strategy) { result in
       if case .success(let response) = result {
         print("Response: \(response)")
       }
@@ -80,7 +80,7 @@ extension PersonalizationSnippets {
   """
   
   func getStrategy() {
-    recommendationClient.getPersonalizationStrategy { result in
+    personalizationClient.getPersonalizationStrategy { result in
       if case .success(let response) = result {
         print("Response: \(response)")
       }

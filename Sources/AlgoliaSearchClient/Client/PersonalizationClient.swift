@@ -1,8 +1,8 @@
 //
-//  RecommendationClient.swift
+//  PersonalizationClient.swift
 //  
 //
-//  Created by Vladislav Fitc on 27/05/2020.
+//  Created by Vladislav Fitc on 05/07/2021.
 //
 
 import Foundation
@@ -10,8 +10,7 @@ import Foundation
 import FoundationNetworking
 #endif
 
-@available(*, deprecated, renamed: "PersonalizationClient")
-public struct RecommendationClient: Credentials {
+public struct PersonalizationClient: Credentials {
 
   let transport: Transport
   let operationLauncher: OperationLauncher
@@ -27,7 +26,7 @@ public struct RecommendationClient: Credentials {
 
   public init(appID: ApplicationID, apiKey: APIKey, region: Region? = nil) {
 
-    let configuration = RecommendationConfiguration(applicationID: appID, apiKey: apiKey, region: region)
+    let configuration = PersonalizationConfiguration(applicationID: appID, apiKey: apiKey, region: region)
     let sessionConfiguration: URLSessionConfiguration = .default
     sessionConfiguration.httpAdditionalHeaders = configuration.defaultHeaders
 
@@ -37,7 +36,7 @@ public struct RecommendationClient: Credentials {
 
   }
 
-  public init(configuration: RecommendationConfiguration, requester: HTTPRequester) {
+  public init(configuration: PersonalizationConfiguration, requester: HTTPRequester) {
 
     let queue = OperationQueue()
     queue.qualityOfService = .userInitiated
@@ -65,11 +64,9 @@ public struct RecommendationClient: Credentials {
 
 }
 
-@available(*, deprecated, renamed: "PersonalizationClient")
-extension RecommendationClient: TransportContainer {}
+extension PersonalizationClient: TransportContainer {}
 
-@available(*, deprecated, renamed: "PersonalizationClient")
-public extension RecommendationClient {
+public extension PersonalizationClient {
 
   // MARK: - Set personalization strategy
 
@@ -128,3 +125,5 @@ public extension RecommendationClient {
   }
 
 }
+
+

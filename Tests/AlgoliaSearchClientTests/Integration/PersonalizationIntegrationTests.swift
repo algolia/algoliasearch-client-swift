@@ -19,13 +19,13 @@ class PersonalizationIntegrationTests: IntegrationTestCase {
   }
 
   func getStrategy() throws {
-    let recommendationClient = RecommendationClient(appID: client.applicationID, apiKey: client.apiKey, region: .custom("eu"))
+    let recommendationClient = PersonalizationClient(appID: client.applicationID, apiKey: client.apiKey, region: .custom("eu"))
     let _ = try recommendationClient.getPersonalizationStrategy()
   }
   
   func setStrategy() throws {
     
-    let recommendationClient = RecommendationClient(appID: client.applicationID, apiKey: client.apiKey, region: .custom("us"))
+    let personalizationClient = PersonalizationClient(appID: client.applicationID, apiKey: client.apiKey, region: .custom("us"))
 
     let strategy = PersonalizationStrategy(
       eventsScoring: [
@@ -40,7 +40,7 @@ class PersonalizationIntegrationTests: IntegrationTestCase {
     )
 
     do {
-      try recommendationClient.setPersonalizationStrategy(strategy)
+      try personalizationClient.setPersonalizationStrategy(strategy)
     } catch let httpError as HTTPError where httpError.statusCode == HTTPStatusСode.tooManyRequests {
       // The personalization API is now limiting the number of setPersonalizationStrategy()` successful calls
       // to 15 per day. If the 429 error is returned, the response is considered a "success".
