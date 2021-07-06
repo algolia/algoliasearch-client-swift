@@ -127,3 +127,6 @@ public extension PersonalizationClient {
 }
 
 
+
+@available(*, deprecated, renamed: "PersonalizationClient")
+public typealias RecommendationClient = PersonalizationClient

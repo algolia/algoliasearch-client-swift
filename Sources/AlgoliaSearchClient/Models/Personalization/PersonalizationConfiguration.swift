@@ -44,3 +44,6 @@ public struct PersonalizationConfiguration: Configuration, Credentials {
   }
 
 }
+
+@available(*, deprecated, renamed: "PersonalizationConfiguration")
+public typealias RecommendationConfiguration = PersonalizationConfiguration
