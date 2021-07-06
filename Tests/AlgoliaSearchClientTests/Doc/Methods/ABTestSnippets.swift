@@ -53,7 +53,7 @@ extension ABTestSnippets {
     let analyticsClient = AnalyticsClient(appID: "YourApplicationID", apiKey: "YourAdminAPIKey")
     
     let abTest = ABTest(name: "myABTest",
-                        endAt: Date().addingTimeInterval(.day),
+                        endAt: Date().addingTimeInterval(24 * 60 * 60),
                         variantA: .init(indexName: "indexName1",
                                         trafficPercentage: 90,
                                         description: "a description"),
@@ -72,7 +72,7 @@ extension ABTestSnippets {
     let analyticsClient = AnalyticsClient(appID: "YourApplicationID", apiKey: "YourAdminAPIKey")
     
     let abTest = ABTest(name: "myABTest",
-                        endAt: Date().addingTimeInterval(.day),
+                        endAt: Date().addingTimeInterval(24 * 60 * 60),
                         variantA: .init(indexName: "indexName1",
                                         trafficPercentage: 90,
                                         description: "a description"),

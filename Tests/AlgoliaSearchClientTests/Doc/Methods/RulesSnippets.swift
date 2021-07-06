@@ -37,7 +37,7 @@ extension RulesSnippets {
       )
       .set(\.validity, to: [
         TimeRange(from: Date(),
-                  until: Date().addingTimeInterval(.days(10)))
+                  until: Date().addingTimeInterval(10 * 24 * 60 * 60))
         ]
       )
     
