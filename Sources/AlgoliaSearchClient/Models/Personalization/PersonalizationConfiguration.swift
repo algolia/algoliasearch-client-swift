@@ -1,13 +1,13 @@
 //
-//  RecommendationConfiguration.swift
+//  PersonalizationConfiguration.swift
 //  
 //
-//  Created by Vladislav Fitc on 27/05/2020.
+//  Created by Vladislav Fitc on 05/07/2021.
 //
 
 import Foundation
 
-public struct RecommendationConfiguration: Configuration, Credentials {
+public struct PersonalizationConfiguration: Configuration, Credentials {
 
   public let applicationID: ApplicationID
 
@@ -44,3 +44,6 @@ public struct RecommendationConfiguration: Configuration, Credentials {
   }
 
 }
+
+@available(*, deprecated, renamed: "PersonalizationConfiguration")
+public typealias RecommendationConfiguration = PersonalizationConfiguration
