@@ -1,5 +1,22 @@
 # ChangeLog
 
+## [8.9.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.8.1...8.9.0) (2021-07-07)
+
+### Feat
+
+- Dynamic facet ordering support (#739)
+
+### Fix
+
+- Resolve conflict between TimeInterval convenient methods and DispatchTimeInterval (#744)
+- Add missing virtual replicas parameter coding (#743)
+
+### Misc
+
+- Rename Recommendation -> Personalization (#745)
+
+
+
 ## [8.8.1](https://github.com/algolia/algoliasearch-client-swift/compare/8.8.0...8.8.1) (2021-03-03)
 
 ### Fix
