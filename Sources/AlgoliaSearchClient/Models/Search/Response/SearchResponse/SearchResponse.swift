@@ -119,6 +119,12 @@ public struct SearchResponse {
    - Returned only if Query.getRankingInfo is set to true.
   */
   public var indexUsed: IndexName?
+  
+  /**
+   In case of A/B test, reports the ID of the A/B test used.
+   - Returned only if [Query.getRankingInfo] is set to true.
+   */
+  public var abTestID: ABTestID?
 
   /**
    In case of A/B test, reports the variant ID used. The variant ID is the position in the array of variants

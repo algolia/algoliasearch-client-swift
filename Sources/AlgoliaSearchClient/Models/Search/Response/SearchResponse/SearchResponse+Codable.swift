@@ -29,6 +29,7 @@ extension SearchResponse: Codable {
     case automaticRadius
     case serverUsed
     case indexUsed
+    case abTestID
     case abTestVariantID
     case parsedQuery
     case facetsStorage = "facets"
@@ -67,6 +68,7 @@ extension SearchResponse: Codable {
     self.automaticRadius = legacyAutomaticRadius.flatMap(Double.init)
     self.serverUsed = try container.decodeIfPresent(forKey: .serverUsed)
     self.indexUsed = try container.decodeIfPresent(forKey: .indexUsed)
+    self.abTestID = try container.decodeIfPresent(forKey: .abTestID)
     self.abTestVariantID = try container.decodeIfPresent(forKey: .abTestVariantID)
     self.parsedQuery = try container.decodeIfPresent(forKey: .parsedQuery)
     self.facetsStorage = try container.decodeIfPresent(forKey: .facetsStorage)
@@ -105,6 +107,7 @@ extension SearchResponse: Codable {
     try container.encodeIfPresent(legacyAutomaticRadius, forKey: .automaticRadius)
     try container.encodeIfPresent(serverUsed, forKey: .serverUsed)
     try container.encodeIfPresent(indexUsed, forKey: .indexUsed)
+    try container.encodeIfPresent(abTestID, forKey: .abTestID)
     try container.encodeIfPresent(abTestVariantID, forKey: .abTestVariantID)
     try container.encodeIfPresent(parsedQuery, forKey: .parsedQuery)
     try container.encodeIfPresent(facetsStorage, forKey: .facetsStorage)
