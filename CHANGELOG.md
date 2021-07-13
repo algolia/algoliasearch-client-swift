@@ -1,5 +1,17 @@
 # ChangeLog
 
+## [8.10.0](https://github.com/algolia/algoliasearch-client-swift/compare/...8.10.0) (2021-07-13)
+
+### Feat
+
+- Add abTestID to the search response (#749)
+
+### Fix
+
+- Make the RetryableHost initializer public (#747)
+
+
+
 ## [8.9.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.8.1...8.9.0) (2021-07-07)
 
 ### Feat
