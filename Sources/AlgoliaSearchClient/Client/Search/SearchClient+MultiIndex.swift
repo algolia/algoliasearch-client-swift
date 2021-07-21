@@ -84,59 +84,21 @@ public extension SearchClient {
                                           strategy: MultipleQueriesStrategy = .none,
                                           requestOptions: RequestOptions? = nil,
                                           completion: @escaping ResultCallback<SearchesResponse>) -> Operation {
+    
+    let containsFacetRequest = queries.contains(where: {
+      if case .facet = $0.type {
+        return true
+      } else {
+        return false
+      }
+    })
+
+    assert(!containsFacetRequest, "This method doesn't support search for facet values. Use the `search` method instead.")
+    
     let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
   
-  @discardableResult func multipleUniQueries(queries: [IndexedQuery],
-                                          strategy: MultipleQueriesStrategy = .none,
-                                          requestOptions: RequestOptions? = nil,
-                                          completion: @escaping ResultCallback<UniSearchesResponse>) -> Operation {
-    let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
-    return execute(command, completion: completion)
-  }
-  
-  struct UniSearchesResponse: Codable {
-    
-    public enum Response: Codable {
-            
-      case facet(FacetSearchResponse)
-      case search(SearchResponse)
-      
-      public init(from decoder: Decoder) throws {
-        do {
-          let searchResponse = try SearchResponse(from: decoder)
-          self = .search(searchResponse)
-        } catch let searchResponseError {
-          do {
-            let facetSearchResponse = try FacetSearchResponse(from: decoder)
-            self = .facet(facetSearchResponse)
-          } catch let facetSearchResponseError {
-            throw facetSearchResponseError
-          }
-        }
-      }
-      
-      public func encode(to encoder: Encoder) throws {
-        switch self {
-        case .facet(let response):
-          try response.encode(to: encoder)
-        case .search(let response):
-          try response.encode(to: encoder)
-        }
-      }
-      
-    }
-    
-    public var results: [Response]
-    
-    public init(results: [Response]) {
-      self.results = results
-    }
-    
-  }
-
-
   /**
    Perform a search on several indices at the same time, with one method call.
    
@@ -148,6 +110,50 @@ public extension SearchClient {
   @discardableResult func multipleQueries(queries: [IndexedQuery],
                                           strategy: MultipleQueriesStrategy = .none,
                                           requestOptions: RequestOptions? = nil) throws -> SearchesResponse {
+    let containsFacetRequest = queries.contains(where: {
+      if case .facet = $0.type {
+        return true
+      } else {
+        return false
+      }
+    })
+
+    assert(!containsFacetRequest, "This method doesn't support search for facet values. Use the `search` method instead.")
+
+    let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
+    return try execute(command)
+  }
+  
+  /**
+   Perform a search for hits or facet values on several indices at the same time, with one method call.
+   
+   - Parameter queries: The list of IndexedQuery objects mathcing index name and a query to execute on it.
+   - Parameter strategy: The MultipleQueriesStrategy of the query.
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronous operation
+   */
+  @discardableResult func search(queries: [IndexedQuery],
+                                 strategy: MultipleQueriesStrategy = .none,
+                                 requestOptions: RequestOptions? = nil,
+                                 completion: @escaping ResultCallback<MultiIndexSearchResponse>) -> Operation {
+    let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
+    return execute(command, completion: completion)
+  }
+  
+  
+  /**
+   Perform a search for hits or facet values on several indices at the same time, with one method call.
+
+   - Parameter queries: The list of IndexedQuery objects mathcing index name and a query to execute on it.
+   - Parameter strategy: The MultipleQueriesStrategy of the query.
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Parameter completion: Result completion
+   - Returns: MultiIndexSearchResponse object
+   */
+  @discardableResult func search(queries: [IndexedQuery],
+                                 strategy: MultipleQueriesStrategy = .none,
+                                 requestOptions: RequestOptions? = nil) throws -> MultiIndexSearchResponse {
     let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
     return try execute(command)
   }
