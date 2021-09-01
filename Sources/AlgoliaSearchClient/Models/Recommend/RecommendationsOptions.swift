@@ -101,7 +101,7 @@ public struct RelatedProductsOptions {
               threshold: Int = 0,
               maxRecommendations: Int? = nil,
               queryParameters: Query? = nil,
-              fallbackParameters: Query?) {
+              fallbackParameters: Query? = nil) {
     recommendationsOptions = .init(indexName: indexName,
                                    model: .relatedProducts,
                                    objectID: objectID,
