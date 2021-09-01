@@ -19,7 +19,7 @@ public struct RecommendationsOptions: Codable {
   public let objectID: ObjectID
 
   /// The threshold to use when filtering recommendations by their score
-  public let threshold: Int?
+  public let threshold: Int
 
   /// The maximum number of recommendations to retrieve
   public let maxRecommendations: Int?
@@ -42,7 +42,7 @@ public struct RecommendationsOptions: Codable {
   public init(indexName: IndexName,
               model: RecommendationModel,
               objectID: ObjectID,
-              threshold: Int? = nil,
+              threshold: Int = 0,
               maxRecommendations: Int? = nil,
               queryParameters: Query? = nil,
               fallbackParameters: Query? = nil) {
@@ -70,7 +70,7 @@ public struct FrequentlyBoughtTogetherOptions {
    */
   public init(indexName: IndexName,
               objectID: ObjectID,
-              threshold: Int? = nil,
+              threshold: Int = 0,
               maxRecommendations: Int? = nil,
               queryParameters: Query? = nil) {
     recommendationsOptions = .init(indexName: indexName,
@@ -98,7 +98,7 @@ public struct RelatedProductsOptions {
    */
   public init(indexName: IndexName,
               objectID: ObjectID,
-              threshold: Int? = nil,
+              threshold: Int = 0,
               maxRecommendations: Int? = nil,
               queryParameters: Query? = nil,
               fallbackParameters: Query?) {
