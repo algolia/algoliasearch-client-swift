@@ -38,6 +38,7 @@ public struct IndexedQuery {
     var parameters = query.customParameters ?? [:]
     parameters["facetQuery"] = .init(facetQuery)
     var effectiveQuery = query
+    effectiveQuery.customParameters = parameters
     effectiveQuery = query
     self.query = effectiveQuery
     self.type = .facet(attribute)
