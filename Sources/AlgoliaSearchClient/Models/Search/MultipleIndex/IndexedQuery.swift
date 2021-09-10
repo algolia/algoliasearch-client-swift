@@ -37,10 +37,8 @@ public struct IndexedQuery {
     self.indexName = indexName
     var parameters = query.customParameters ?? [:]
     parameters["facetQuery"] = .init(facetQuery)
-    var effectiveQuery = query
-    effectiveQuery.customParameters = parameters
-    effectiveQuery = query
-    self.query = effectiveQuery
+    self.query = query
+      .set(\.customParameters, to: parameters)
     self.type = .facet(attribute)
   }
 
@@ -69,9 +67,6 @@ extension IndexedQuery: Codable {
     try container.encode(query.urlEncodedString, forKey: .query)
     try container.encode(type.rawValue, forKey: .type)
     if case .facet(let facet) = type {
-      if case .string(let facetQuery) = query.customParameters?["facetQuery"] {
-        try container.encode(facetQuery, forKey: .facetQuery)
-      }
       try container.encode(facet.rawValue, forKey: .facet)
     }
   }
