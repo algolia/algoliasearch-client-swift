@@ -53,6 +53,7 @@ extension IndexedQuery: Codable {
     case query = "params"
     case type
     case facet
+    case facetQuery
   }
 
   public init(from decoder: Decoder) throws {
@@ -68,6 +69,9 @@ extension IndexedQuery: Codable {
     try container.encode(query.urlEncodedString, forKey: .query)
     try container.encode(type.rawValue, forKey: .type)
     if case .facet(let facet) = type {
+      if case .string(let facetQuery) = query.customParameters?["facetQuery"] {
+        try container.encode(facetQuery, forKey: .facetQuery)
+      }
       try container.encode(facet.rawValue, forKey: .facet)
     }
   }
