@@ -136,7 +136,7 @@ public extension SearchClient {
   @discardableResult func search(queries: [IndexedQuery],
                                  strategy: MultipleQueriesStrategy = .none,
                                  requestOptions: RequestOptions? = nil,
-                                 completion: @escaping ResultCallback<MultiIndexSearchResponse>) -> Operation {
+                                 completion: @escaping ResultCallback<CompoundSearchResponse>) -> Operation {
     let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
@@ -149,11 +149,11 @@ public extension SearchClient {
    - Parameter strategy: The MultipleQueriesStrategy of the query.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Parameter completion: Result completion
-   - Returns: MultiIndexSearchResponse object
+   - Returns: CompoundSearchResponse object
    */
   @discardableResult func search(queries: [IndexedQuery],
                                  strategy: MultipleQueriesStrategy = .none,
-                                 requestOptions: RequestOptions? = nil) throws -> MultiIndexSearchResponse {
+                                 requestOptions: RequestOptions? = nil) throws -> CompoundSearchResponse {
     let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
     return try execute(command)
   }

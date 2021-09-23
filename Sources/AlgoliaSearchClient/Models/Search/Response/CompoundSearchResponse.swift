@@ -1,5 +1,5 @@
 //
-//  MultiIndexSearchResponse.swift
+//  CompoundSearchResponse.swift
 //  
 //
 //  Created by Vladislav Fitc on 21/07/2021.
@@ -7,32 +7,50 @@
 
 import Foundation
 
-public struct MultiIndexSearchResponse: Codable {
+public struct CompoundSearchResponse: Codable {
       
+  /// List of result in the order they were submitted, one element for each IndexedQuery.
   public var results: [Response]
   
+  /// - parameter results: List of result in the order they were submitted, one element for each IndexedQuery.
   public init(results: [Response]) {
     self.results = results
   }
 
 }
 
-public extension MultiIndexSearchResponse {
+public extension CompoundSearchResponse {
   
   /// Unit response container for either FacetSearchResponse, or SearchResponse
   enum Response: Codable {
           
-    case facet(FacetSearchResponse)
-    case search(SearchResponse)
+    case facets(FacetSearchResponse)
+    case hits(SearchResponse)
+    
+    public var facetsResponse: FacetSearchResponse? {
+      if case .facets(let response) = self {
+        return response
+      } else {
+        return .none
+      }
+    }
+    
+    public var hitsResponse: SearchResponse? {
+      if case .hits(let response) = self {
+        return response
+      } else {
+        return .none
+      }
+    }
     
     public init(from decoder: Decoder) throws {
       do {
         let searchResponse = try SearchResponse(from: decoder)
-        self = .search(searchResponse)
+        self = .hits(searchResponse)
       } catch let searchResponseError {
         do {
           let facetSearchResponse = try FacetSearchResponse(from: decoder)
-          self = .facet(facetSearchResponse)
+          self = .facets(facetSearchResponse)
         } catch let facetSearchResponseError {
           throw DecodingError(searchResponseDecodingError: searchResponseError,
                               facetSearchResponseDecodingError: facetSearchResponseError)
@@ -42,9 +60,9 @@ public extension MultiIndexSearchResponse {
     
     public func encode(to encoder: Encoder) throws {
       switch self {
-      case .facet(let response):
+      case .facets(let response):
         try response.encode(to: encoder)
-      case .search(let response):
+      case .hits(let response):
         try response.encode(to: encoder)
       }
     }
