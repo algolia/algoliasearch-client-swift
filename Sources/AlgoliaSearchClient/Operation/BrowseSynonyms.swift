@@ -7,11 +7,11 @@
 import Foundation
 
 class BrowseSynonymsOperation: AsyncOperation {
-  
+
   let index: Index
   let query: SynonymQuery
   let requestOptions: RequestOptions?
-  
+
   var page = 0
   var responses: [SynonymSearchResponse] = []
   var result: Result<[SynonymSearchResponse], Swift.Error> = .failure(SyncOperationError.notFinished) {
@@ -19,17 +19,17 @@ class BrowseSynonymsOperation: AsyncOperation {
       state = .finished
     }
   }
-  
+
   init(index: Index, query: SynonymQuery, requestOptions: RequestOptions?) {
     self.index = index
     self.query = query
     self.requestOptions = requestOptions
   }
-  
+
   override func main() {
     perform()
   }
-  
+
   func perform() {
     index.searchSynonyms(query.set(\.page, to: page), requestOptions: requestOptions) { result in
       switch result {

@@ -84,7 +84,7 @@ public extension SearchClient {
                                           strategy: MultipleQueriesStrategy = .none,
                                           requestOptions: RequestOptions? = nil,
                                           completion: @escaping ResultCallback<SearchesResponse>) -> Operation {
-    
+
     let containsFacetRequest = queries.contains(where: {
       if case .facet = $0.type {
         return true
@@ -94,11 +94,11 @@ public extension SearchClient {
     })
 
     assert(!containsFacetRequest, "This method doesn't support search for facet values. Use the `search` method instead.")
-    
+
     let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
+
   /**
    Perform a search on several indices at the same time, with one method call.
    
@@ -123,7 +123,7 @@ public extension SearchClient {
     let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
     return try execute(command)
   }
-  
+
   /**
    Perform a search for hits or facet values on several indices at the same time, with one method call.
    
@@ -140,8 +140,7 @@ public extension SearchClient {
     let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
-  
-  
+
   /**
    Perform a search for hits or facet values on several indices at the same time, with one method call.
 

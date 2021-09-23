@@ -8,11 +8,11 @@
 import Foundation
 
 public struct IndexedQuery {
-  
+
   public enum QueryType {
     case `default`
     case facet(Attribute)
-    
+
     var rawValue: String {
       switch self {
       case .default:
@@ -32,7 +32,7 @@ public struct IndexedQuery {
     self.query = query
     self.type = .default
   }
-  
+
   public init(indexName: IndexName, query: Query, attribute: Attribute, facetQuery: String) {
     self.indexName = indexName
     var parameters = query.customParameters ?? [:]
