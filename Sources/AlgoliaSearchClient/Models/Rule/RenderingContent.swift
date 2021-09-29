@@ -16,4 +16,7 @@ public struct RenderingContent: Codable {
   /// Defining how facets should be ordered
   public let facetOrdering: FacetOrdering?
 
+  /// Redirect data container
+  public let redirect: Redirect?
+
 }
