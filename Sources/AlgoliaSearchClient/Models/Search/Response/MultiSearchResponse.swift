@@ -1,5 +1,5 @@
 //
-//  CompoundSearchResponse.swift
+//  MultiSearchResponse.swift
 //  
 //
 //  Created by Vladislav Fitc on 21/07/2021.
@@ -7,7 +7,8 @@
 
 import Foundation
 
-public struct CompoundSearchResponse: Codable {
+/// Wraps the list of multi search results (either FacetSearchResponse or SearchResponse)
+public struct MultiSearchResponse: Codable {
 
   /// List of result in the order they were submitted, one element for each IndexedQuery.
   public var results: [Response]
@@ -19,9 +20,9 @@ public struct CompoundSearchResponse: Codable {
 
 }
 
-public extension CompoundSearchResponse {
+public extension MultiSearchResponse {
 
-  /// Unit response container for either FacetSearchResponse, or SearchResponse
+  /// Container for either FacetSearchResponse or SearchResponse
   enum Response: Codable {
 
     case facets(FacetSearchResponse)
