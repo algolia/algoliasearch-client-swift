@@ -90,7 +90,7 @@ public extension RecommendClient {
   /**
    Returns recommendations.
    
-   - parameter options:
+   - parameter options: Recommend request options
    - parameter requestOptions: Configure request locally with RequestOptions
    - parameter completion: Result completion
    - returns: Launched asynchronous operation
@@ -105,10 +105,9 @@ public extension RecommendClient {
   /**
    Returns recommendations.
    
-   - parameter options:
+   - parameter options: Recommend request options
    - parameter requestOptions: Configure request locally with RequestOptions
-   - parameter completion: Result completion
-   - returns: Launched asynchronous operation
+   - returns: SearchesResponse object
    */
   @discardableResult func getRecommendations(options: [RecommendationsOptions],
                                              requestOptions: RequestOptions? = nil) throws -> SearchesResponse {
@@ -119,7 +118,7 @@ public extension RecommendClient {
   /**
    Returns [Related Products](https://algolia.com/doc/guides/algolia-ai/recommend/#related-products).
    
-   - parameter options:
+   - parameter options: Recommend request options
    - parameter requestOptions: Configure request locally with RequestOptions
    - parameter completion: Result completion
    - returns: Launched asynchronous operation
@@ -135,10 +134,9 @@ public extension RecommendClient {
   /**
    Returns [Related Products](https://algolia.com/doc/guides/algolia-ai/recommend/#related-products).
    
-   - parameter options:
+   - parameter options: Recommend request options
    - parameter requestOptions: Configure request locally with RequestOptions
-   - parameter completion: Result completion
-   - returns: Launched asynchronous operation
+   - returns: SearchesResponse object
    */
   @discardableResult func getRelatedProducts(options: [RelatedProductsOptions],
                                              requestOptions: RequestOptions? = nil) throws -> SearchesResponse {
@@ -149,7 +147,7 @@ public extension RecommendClient {
   /**
    Returns [Frequently Bought Together](https://algolia.com/doc/guides/algolia-ai/recommend/#frequently-bought-together) products.
    
-   - parameter options:
+   - parameter options: Recommend request options
    - parameter requestOptions: Configure request locally with RequestOptions
    - parameter completion: Result completion
    - returns: Launched asynchronous operation
@@ -165,10 +163,9 @@ public extension RecommendClient {
   /**
    Returns [Frequently Bought Together](https://algolia.com/doc/guides/algolia-ai/recommend/#frequently-bought-together) products.
    
-   - parameter options:
+   - parameter options: Recommend request options
    - parameter requestOptions: Configure request locally with RequestOptions
-   - parameter completion: Result completion
-   - returns: Launched asynchronous operation
+   - returns: SearchesResponse object
    */
   @discardableResult func getFrequentlyBoughtTogether(options: [FrequentlyBoughtTogetherOptions],
                                                       requestOptions: RequestOptions? = nil) throws -> SearchesResponse {
