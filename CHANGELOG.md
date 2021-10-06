@@ -1,5 +1,9 @@
 # ChangeLog
 
+## [8.11.0](https://github.com/algolia/algoliasearch-client-swift/compare/...8.11.0) (2021-10-06)
+
+
+
 ## [8.10.0](https://github.com/algolia/algoliasearch-client-swift/compare/...8.10.0) (2021-07-13)
 
 ### Feat
