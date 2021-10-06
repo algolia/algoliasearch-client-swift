@@ -1,5 +1,14 @@
 # ChangeLog
 
+## [8.11.0](https://github.com/algolia/algoliasearch-client-swift/compare/...8.11.0) (2021-10-06)
+
+### Feat
+
+- Implement Recommend client (#753) ([37b0046](https://github.com/algolia/algoliasearch-client-swift/commit/37b0046))
+- Implement enableReRanking search attribute (#757) ([9b0baf0](https://github.com/algolia/algoliasearch-client-swift/commit/9b0baf0))
+
+
+
 ## [8.10.0](https://github.com/algolia/algoliasearch-client-swift/compare/...8.10.0) (2021-07-13)
 
 ### Feat
