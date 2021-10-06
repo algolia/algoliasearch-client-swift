@@ -134,7 +134,9 @@ class AlgoliaRetryStrategyTests: XCTestCase {
   }
   
   /// Load test of hosts retry strategy
-  func testLoad() {
+  func testLoad() throws {
+    throw XCTSkip()
+    
     let expirationDelay: TimeInterval = 3
     let strategy = AlgoliaRetryStrategy(hosts: [host3, host4, host5], hostsExpirationDelay: expirationDelay)
 
