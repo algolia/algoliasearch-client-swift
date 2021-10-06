@@ -14,6 +14,17 @@ func AssertEncodeDecode<T: Codable>(_ value: T, _ rawValue: JSON, file: StaticSt
   try AssertDecode(rawValue, expected: value, file: file, line: line)
 }
 
+func AssertMatch(_ data: Data, _ expected: JSON, file: StaticString = #file, line: UInt = #line) {
+  let jsonDecoder = JSONDecoder()
+  jsonDecoder.dateDecodingStrategy = .swiftAPIClient
+  do {
+    let decoded = try jsonDecoder.decode(JSON.self, from: data)
+    XCTAssertEqual(decoded, expected)
+  } catch let error {
+    XCTFail("Failed decoding: \(error)")
+  }
+}
+
 func AssertDecode<T: Codable & Equatable>(_ input: JSON, expected: T, file: StaticString = #file, line: UInt = #line) throws {
 
   let encoder = JSONEncoder()
