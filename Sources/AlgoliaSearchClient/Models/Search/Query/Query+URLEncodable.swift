@@ -184,6 +184,7 @@ extension Query: URLEncodable {
     urlEncoder.set(percentileComputation, for: .percentileComputation)
     urlEncoder.set(naturalLanguages, for: .naturalLanguages)
     urlEncoder.set(relevancyStrictness, for: .relevancyStrictness)
+    urlEncoder.set(enableReRanking, for: .enableReRanking)
     urlEncoder.set(customParameters)
 
     return urlEncoder.encode()!

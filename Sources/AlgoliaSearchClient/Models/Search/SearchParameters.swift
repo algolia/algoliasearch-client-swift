@@ -276,5 +276,14 @@ public protocol SearchParameters: CommonParameters {
    - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/_/?language=swift)
    */
   var explainModules: [ExplainModule]? { get set }
+  
+  
+  /**
+   Whether this search should use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/).
+   - Engine default: true
+   - [Documentation](https://www.algolia.com/doc/api-reference/api-parameters/enableReRanking/?language=swift)
+   */
+
+  var enableReRanking: Bool? { get set }
 
 }
