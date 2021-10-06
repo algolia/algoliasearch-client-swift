@@ -80,6 +80,7 @@ class QueryTests: XCTestCase {
     .set(\.percentileComputation, to: false)
     .set(\.naturalLanguages, to: [.maori, .tamil])
     .set(\.customParameters, to: ["custom1": "val1", "custom2": 2])
+    .set(\.enableReRanking, to: true)
 
 
   func testURLStringEncoding() {
@@ -154,8 +155,9 @@ class QueryTests: XCTestCase {
       "responseFields=facets_stats,hits",
       "percentileComputation=false",
       "naturalLanguages=mi,ta",
+      "enableReRanking=true",
       "custom1=val1",
-      "custom2=2.0"
+      "custom2=2.0",
     ].joined(separator: "&")
     
     XCTAssertEqual(urlEncodedString, expectedString)
@@ -248,6 +250,7 @@ class QueryTests: XCTestCase {
       "naturalLanguages": ["mi", "ta"],
       "custom1": "val1",
       "custom2": 2,
+      "enableReRanking": true
     ])
   }
   

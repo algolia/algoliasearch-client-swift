@@ -77,6 +77,7 @@ public struct SearchParametersStorage: SearchParameters, Equatable {
   public var enableABTest: Bool?
   public var explainModules: [ExplainModule]?
   public var relevancyStrictness: Int?
+  public var enableReRanking: Bool?
 }
 
 protocol SearchParametersStorageContainer: SearchParameters {
@@ -361,5 +362,9 @@ extension SearchParametersStorageContainer {
   public var relevancyStrictness: Int? {
     get { searchParametersStorage.relevancyStrictness }
     set { searchParametersStorage.relevancyStrictness = newValue }
+  }
+  public var enableReRanking: Bool? {
+    get { searchParametersStorage.enableReRanking }
+    set { searchParametersStorage.enableReRanking = newValue }
   }
 }

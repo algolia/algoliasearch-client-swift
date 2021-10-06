@@ -80,6 +80,7 @@ extension SearchParametersStorage: Codable {
     explainModules = try container.decodeIfPresent(forKey: .explainModules)
     naturalLanguages = try container.decodeIfPresent(forKey: .naturalLanguages)
     relevancyStrictness = try container.decodeIfPresent(forKey: .relevancyStrictness)
+    enableReRanking = try container.decodeIfPresent(forKey: .enableReRanking)
   }
 
   public func encode(to encoder: Encoder) throws {
@@ -152,6 +153,7 @@ extension SearchParametersStorage: Codable {
     try container.encodeIfPresent(explainModules, forKey: .explainModules)
     try container.encodeIfPresent(naturalLanguages, forKey: .naturalLanguages)
     try container.encodeIfPresent(relevancyStrictness, forKey: .relevancyStrictness)
+    try container.encodeIfPresent(enableReRanking, forKey: .enableReRanking)
   }
 
   enum CodingKeys: String, CodingKey, CaseIterable {
@@ -223,6 +225,7 @@ extension SearchParametersStorage: Codable {
     case explainModules
     case naturalLanguages
     case relevancyStrictness
+    case enableReRanking
   }
 
 }
