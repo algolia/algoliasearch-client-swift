@@ -10,20 +10,20 @@ import Foundation
 /// The composition of search for facet values parameters with an associated index name
 public struct IndexedFacetQuery {
   
-  /// The IndexName to search in.
+  /// The name of the index to search in.
   public let indexName: IndexName
   
-  /// The Attribute to facet on.
+  /// The attribute to facet on.
   public let attribute: Attribute
   
-  /// The Query to filter results.
+  /// The query to filter results.
   public let query: Query
   
   /// The textual query used to search for facets.
   public let facetQuery: String
     
   /**
-   - Parameter indexName: The IndexName to search in
+   - Parameter indexName: The name of the index to search in
    - Parameter attribute: The Attribute to facet on.
    - Parameter query: The Query to filter results.
    - Parameter facetQuery: The textual query used to search for facets.

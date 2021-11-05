@@ -9,7 +9,7 @@ import Foundation
 
 public struct IndexedTask: Task {
 
-  /// The IndexName this task is running on.
+  /// The name of the index this task is running on.
   public let indexName: IndexName
 
   /// The TaskID which can be used with the .waitTask method.

@@ -10,13 +10,13 @@ import Foundation
 /// The composition of search parameters with an associated index name
 public struct IndexedQuery {
   
-  /// The IndexName to search in.
+  /// The name of the index to search in.
   public let indexName: IndexName
   
   /// The Query to filter results.
   public let query: Query
   
-  /// - parameter indexName: The IndexName to search in.
+  /// - parameter indexName: The name of the index to search in.
   /// - parameter query: The Query to filter results.
   public init(indexName: IndexName, query: Query) {
     self.indexName = indexName
