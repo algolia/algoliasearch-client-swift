@@ -74,7 +74,7 @@ public extension SearchClient {
   /**
    Perform a search on several indices at the same time, with one method call.
 
-   - Parameter queries: The list of IndexedQuery objects mathcing index name and a query to execute on it.
+   - Parameter queries: The list of IndexedQuery objects matching index name and a query to execute on it.
    - Parameter strategy: The MultipleQueriesStrategy of the query.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Parameter completion: Result completion
@@ -91,7 +91,7 @@ public extension SearchClient {
   /**
    Perform a search on several indices at the same time, with one method call.
    
-   - Parameter queries: The list of IndexedQuery objects mathcing index name and a query to execute on it.
+   - Parameter queries: The list of IndexedQuery objects matching index name and a query to execute on it.
    - Parameter strategy: The MultipleQueriesStrategy of the query.
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: SearchesResponse object
@@ -99,6 +99,39 @@ public extension SearchClient {
   @discardableResult func multipleQueries(queries: [IndexedQuery],
                                           strategy: MultipleQueriesStrategy = .none,
                                           requestOptions: RequestOptions? = nil) throws -> SearchesResponse {
+    let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
+    return try execute(command)
+  }
+
+  /**
+   Perform a search for hits or facet values on several indices at the same time, with one method call.
+   
+   - Parameter queries: The list of MultiSearchQuery objects encapsulating either IndexedQuery or IndexedFacetQuery.
+   - Parameter strategy: The MultipleQueriesStrategy of the query.
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronous operation
+   */
+  @discardableResult func search(queries: [MultiSearchQuery],
+                                 strategy: MultipleQueriesStrategy = .none,
+                                 requestOptions: RequestOptions? = nil,
+                                 completion: @escaping ResultCallback<MultiSearchResponse>) -> Operation {
+    let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
+    return execute(command, completion: completion)
+  }
+
+  /**
+   Perform a search for hits or facet values on several indices at the same time, with one method call.
+
+   - Parameter queries: The list of MultiSearchQuery objects encapsulating either IndexedQuery or IndexedFacetQuery.
+   - Parameter strategy: The MultipleQueriesStrategy of the query.
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Parameter completion: Result completion
+   - Returns: MultiSearchResponse object
+   */
+  @discardableResult func search(queries: [MultiSearchQuery],
+                                 strategy: MultipleQueriesStrategy = .none,
+                                 requestOptions: RequestOptions? = nil) throws -> MultiSearchResponse {
     let command = Command.MultipleIndex.Queries(queries: queries, strategy: strategy, requestOptions: requestOptions)
     return try execute(command)
   }

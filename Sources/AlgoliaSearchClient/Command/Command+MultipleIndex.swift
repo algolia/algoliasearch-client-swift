@@ -46,12 +46,31 @@ extension Command {
       let body: Data?
       let requestOptions: RequestOptions?
 
-      init(indexName: IndexName, queries: [Query], strategy: MultipleQueriesStrategy = .none, requestOptions: RequestOptions?) {
-        let queries = queries.map { IndexedQuery(indexName: indexName, query: $0) }
-        self.init(queries: queries, strategy: strategy, requestOptions: requestOptions)
+      init(indexName: IndexName,
+           queries: [Query],
+           strategy: MultipleQueriesStrategy = .none,
+           requestOptions: RequestOptions?) {
+        let queries = queries
+          .map { IndexedQuery(indexName: indexName, query: $0) }
+          .map(MultiSearchQuery.init)
+        self.init(queries: queries,
+                  strategy: strategy,
+                  requestOptions: requestOptions)
+      }
+      
+      init(queries: [IndexedQuery],
+           strategy: MultipleQueriesStrategy = .none,
+           requestOptions: RequestOptions?) {
+        let queries = queries.map(MultiSearchQuery.init)
+        self.init(queries: queries,
+                  strategy: strategy,
+                  requestOptions: requestOptions)
       }
 
-      init(queries: [IndexedQuery], strategy: MultipleQueriesStrategy = .none, requestOptions: RequestOptions?) {
+
+      init(queries: [MultiSearchQuery],
+           strategy: MultipleQueriesStrategy = .none,
+           requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         self.body = MultipleQueriesRequest(requests: queries, strategy: strategy).httpBody
         self.path = (.indexesV1 >>> .multiIndex >>> .queries)

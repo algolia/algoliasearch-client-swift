@@ -19,7 +19,7 @@ class PersonalizationIntegrationTests: IntegrationTestCase {
   }
 
   func getStrategy() throws {
-    let recommendationClient = PersonalizationClient(appID: client.applicationID, apiKey: client.apiKey, region: .custom("eu"))
+    let recommendationClient = PersonalizationClient(appID: client.applicationID, apiKey: client.apiKey, region: .custom("us"))
     let _ = try recommendationClient.getPersonalizationStrategy()
   }
   

@@ -9,22 +9,16 @@ import Foundation
 
 struct MultipleQueriesRequest {
 
-  let requests: [IndexedQuery]
+  let requests: [MultiSearchQuery]
   let strategy: MultipleQueriesStrategy
 
 }
 
-extension MultipleQueriesRequest: Codable {
+extension MultipleQueriesRequest: Encodable {
 
   enum CodingKeys: String, CodingKey {
     case requests
     case strategy
-  }
-
-  init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.requests = try container.decode(forKey: .requests)
-    self.strategy = try container.decodeIfPresent(forKey: .strategy) ?? .none
   }
 
   func encode(to encoder: Encoder) throws {
