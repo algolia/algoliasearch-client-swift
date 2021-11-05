@@ -120,6 +120,7 @@ public struct SearchResponse {
   */
   public var indexUsed: IndexName?
 
+  
   /**
    In case of A/B test, reports the ID of the A/B test used.
    - Returned only if [Query.getRankingInfo] is set to true.

@@ -17,6 +17,7 @@ public struct RetryableHost {
   var lastUpdated: Date
   var retryCount: Int
 
+  
   public init(url: URL) {
     self.init(url: url, callType: .universal)
   }
