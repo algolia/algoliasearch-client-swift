@@ -35,13 +35,18 @@ class MultiIndexCommandTest: XCTestCase, AlgoliaCommandTest {
   }
 
   func testQueries() {
-    let command = Command.MultipleIndex.Queries(queries: [.init(indexName: "index0", query: "query0"), .init(indexName: "index1", query: "query1")], strategy: .stopIfEnoughMatches, requestOptions: test.requestOptions)
+    let command = Command.MultipleIndex.Queries(queries: [
+      IndexedQuery(indexName: "index0", query: "query0"),
+      IndexedQuery(indexName: "index1", query: "query1")
+    ],
+                                                strategy: .stopIfEnoughMatches,
+                                                requestOptions: test.requestOptions)
     check(command: command,
           callType: .read,
           method: .post,
           urlPath: "/1/indexes/*/queries",
           queryItems: [.init(name: "testParameter", value: "testParameterValue")],
-          body: MultipleQueriesRequest(requests: [.init(indexName: "index0", query: "query0"), .init(indexName: "index1", query: "query1")], strategy: .stopIfEnoughMatches).httpBody,
+          body: MultipleQueriesRequest(requests: [.init(IndexedQuery(indexName: "index0", query: "query0")), .init(IndexedQuery(indexName: "index1", query: "query1"))], strategy: .stopIfEnoughMatches).httpBody,
           requestOptions: test.requestOptions)
   }
 
