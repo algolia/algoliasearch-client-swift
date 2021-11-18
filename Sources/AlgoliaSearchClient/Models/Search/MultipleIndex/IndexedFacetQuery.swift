@@ -9,19 +9,19 @@ import Foundation
 
 /// The composition of search for facet values parameters with an associated index name
 public struct IndexedFacetQuery {
-  
+
   /// The name of the index to search in.
   public let indexName: IndexName
-  
+
   /// The attribute to facet on.
   public let attribute: Attribute
-  
+
   /// The query to filter results.
   public let query: Query
-  
+
   /// The textual query used to search for facets.
   public let facetQuery: String
-    
+
   /**
    - Parameter indexName: The name of the index to search in
    - Parameter attribute: The Attribute to facet on.
@@ -39,11 +39,11 @@ public struct IndexedFacetQuery {
     parameters["facetQuery"] = .init(facetQuery)
     self.query = query.set(\.customParameters, to: parameters)
   }
-  
+
 }
 
 extension IndexedFacetQuery: Encodable {
-  
+
   enum CodingKeys: String, CodingKey {
     case indexName
     case query = "params"
@@ -51,7 +51,7 @@ extension IndexedFacetQuery: Encodable {
     case facet
     case facetQuery
   }
-  
+
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(indexName, forKey: .indexName)

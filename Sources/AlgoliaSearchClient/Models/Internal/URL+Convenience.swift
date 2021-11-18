@@ -8,7 +8,7 @@
 import Foundation
 
 extension URL {
-  
+
   static var indexesV1 = Self(string: "/1/indexes")!
   static var settings = Self(string: "/settings")!
   static var clustersV1 = Self(string: "/1/clusters")!
@@ -22,17 +22,17 @@ extension URL {
   static var answers = Self(string: "/1/answers")!
   static var dictionaries = Self(string: "/1/dictionaries")!
   static var task = Self(string: "/1/task")!
-  
-  func appending<R: RawRepresentable>(_ r: R) -> Self where R.RawValue == String {
-    return appendingPathComponent(r.rawValue, isDirectory: false)
+
+  func appending<R: RawRepresentable>(_ rawRepresentable: R) -> Self where R.RawValue == String {
+    return appendingPathComponent(rawRepresentable.rawValue, isDirectory: false)
   }
-  
-  func appending(_ p: PathComponent) -> Self {
-    return appendingPathComponent(p.rawValue, isDirectory: false)
+
+  func appending(_ pathComponent: PathComponent) -> Self {
+    return appendingPathComponent(pathComponent.rawValue, isDirectory: false)
   }
-  
+
   enum PathComponent: String {
-    
+
     case search
     case stop
     case clear
@@ -51,7 +51,7 @@ extension URL {
     case query
     case prediction
     case operation
-    
+
     case languages
     case keys
     case queries
@@ -62,9 +62,9 @@ extension URL {
     case facets
     case synonyms
     case settings
-    
+
     case asterisk = "*"
-    
+
   }
-  
+
 }

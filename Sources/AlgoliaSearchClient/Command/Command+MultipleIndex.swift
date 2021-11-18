@@ -60,7 +60,7 @@ extension Command {
                   strategy: strategy,
                   requestOptions: requestOptions)
       }
-      
+
       init(queries: [IndexedQuery],
            strategy: MultipleQueriesStrategy = .none,
            requestOptions: RequestOptions?) {
@@ -69,7 +69,6 @@ extension Command {
                   strategy: strategy,
                   requestOptions: requestOptions)
       }
-
 
       init(queries: [MultiSearchQuery],
            strategy: MultipleQueriesStrategy = .none,
