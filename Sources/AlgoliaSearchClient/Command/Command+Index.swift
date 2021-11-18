@@ -17,13 +17,15 @@ extension Command.Index {
 
     let method: HTTPMethod = .delete
     let callType: CallType = .write
-    let path: IndexRoute
+    let path: URL
     let requestOptions: RequestOptions?
 
     init(indexName: IndexName,
          requestOptions: RequestOptions?) {
       self.requestOptions = requestOptions
-      self.path = (.indexesV1 >>> .index(indexName))
+      self.path = URL
+        .indexesV1
+        .appending(indexName)
     }
 
   }
@@ -32,7 +34,7 @@ extension Command.Index {
 
     let method: HTTPMethod = .post
     let callType: CallType = .write
-    let path: IndexCompletion
+    let path: URL
     let body: Data?
     let requestOptions: RequestOptions?
 
@@ -40,7 +42,10 @@ extension Command.Index {
          batchOperations: [BatchOperation],
          requestOptions: RequestOptions?) {
       self.requestOptions = requestOptions
-      self.path = (.indexesV1 >>> .index(indexName) >>> IndexCompletion.batch)
+      self.path = URL
+        .indexesV1
+        .appending(indexName)
+        .appending(.batch)
       self.body = RequestsWrapper(batchOperations).httpBody
     }
 
@@ -50,13 +55,16 @@ extension Command.Index {
 
     let method: HTTPMethod = .post
     let callType: CallType = .write
-    let path: IndexCompletion
+    let path: URL
     let body: Data?
     let requestOptions: RequestOptions?
 
     init(indexName: IndexName, operation: IndexOperation, requestOptions: RequestOptions?) {
       self.requestOptions = requestOptions
-      self.path = (.indexesV1 >>> .index(indexName) >>> .operation)
+      self.path = URL
+        .indexesV1
+        .appending(indexName)
+        .appending(.operation)
       self.body = operation.httpBody
     }
 

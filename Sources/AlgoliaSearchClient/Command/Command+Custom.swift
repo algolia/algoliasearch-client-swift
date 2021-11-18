@@ -16,13 +16,13 @@ extension Command {
 
     let method: HTTPMethod
     let callType: CallType
-    let path: Path
+    let path: URL
     let body: Data?
     let requestOptions: RequestOptions?
 
     init(method: HTTPMethod,
          callType: CallType,
-         path: Path,
+         path: URL,
          body: Data?,
          requestOptions: RequestOptions?) {
       self.method = method
@@ -40,10 +40,10 @@ extension Command {
         throw AlgoliaCommandError.invalidHTTPMethod
       }
       self.method = method
-      guard let path = (urlRequest.url?.path).flatMap(Path.init) else {
+      guard let path = urlRequest.url?.path, let pathURL = URL(string: path) else {
         throw AlgoliaCommandError.invalidPath
       }
-      self.path = path
+      self.path = pathURL
       self.body = urlRequest.httpBody
       self.requestOptions = requestOptions
     }

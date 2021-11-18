@@ -15,13 +15,15 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .read
-      let path: PlacesCompletion
+      let path: URL
       let body: Data?
       let requestOptions: RequestOptions?
 
       init(query: PlacesQuery, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.places >>> .query)
+        self.path = URL
+          .places
+          .appending(.query)
         self.body = query.httpBody
       }
 
@@ -31,12 +33,14 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: PlacesCompletion
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(objectID: ObjectID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.places >>> .objectID(objectID))
+        self.path = URL
+          .places
+          .appending(objectID)
       }
 
     }
@@ -45,7 +49,7 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: PlacesCompletion
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(geolocation: Point, language: Language?, hitsPerPage: Int?, requestOptions: RequestOptions?) {
@@ -54,7 +58,9 @@ extension Command {
           .hitsPerPage: hitsPerPage.flatMap(String.init),
           .language: language?.rawValue
           ])
-        self.path = (.places >>> .reverse)
+        self.path = URL
+          .places
+          .appending(.reverse)
       }
 
     }

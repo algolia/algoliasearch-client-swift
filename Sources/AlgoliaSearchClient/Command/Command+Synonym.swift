@@ -15,13 +15,17 @@ extension Command {
 
       let method: HTTPMethod = .put
       let callType: CallType = .write
-      let path: SynonymCompletion
+      let path: URL
       let body: Data?
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, synonym: AlgoliaSearchClient.Synonym, forwardToReplicas: Bool?, requestOptions: RequestOptions?) {
         self.requestOptions = forwardToReplicas.flatMap { requestOptions.updateOrCreate([.forwardToReplicas: String($0)]) } ?? requestOptions
-        self.path = (.indexesV1 >>> .index(indexName) >>> .synonyms >>> .objectID(synonym.objectID))
+        self.path = URL
+          .indexesV1
+          .appending(indexName)
+          .appending(.synonyms)
+          .appending(synonym.objectID)
         self.body = synonym.httpBody
       }
 
@@ -31,7 +35,7 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .write
-      let path: SynonymCompletion
+      let path: URL
       let body: Data?
       let requestOptions: RequestOptions?
 
@@ -40,7 +44,11 @@ extension Command {
         forwardToReplicas.flatMap { parameters[.forwardToReplicas] = String($0) }
         clearExistingSynonyms.flatMap { parameters[.replaceExistingSynonyms] = String($0) }
         self.requestOptions = requestOptions.updateOrCreate(parameters)
-        self.path = (.indexesV1 >>> .index(indexName) >>> .synonyms >>> .batch)
+        self.path = URL
+          .indexesV1
+          .appending(indexName)
+          .appending(.synonyms)
+          .appending(.batch)
         self.body = synonyms.httpBody
       }
 
@@ -50,12 +58,16 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: SynonymCompletion
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, objectID: ObjectID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.indexesV1 >>> .index(indexName) >>> .synonyms >>> .objectID(objectID))
+        self.path = URL
+          .indexesV1
+          .appending(indexName)
+          .appending(.synonyms)
+          .appending(objectID)
       }
 
     }
@@ -64,12 +76,16 @@ extension Command {
 
       let method: HTTPMethod = .delete
       let callType: CallType = .write
-      let path: SynonymCompletion
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, objectID: ObjectID, forwardToReplicas: Bool?, requestOptions: RequestOptions?) {
         self.requestOptions = forwardToReplicas.flatMap { requestOptions.updateOrCreate([.forwardToReplicas: String($0)]) } ?? requestOptions
-        self.path = (.indexesV1 >>> .index(indexName) >>> .synonyms >>> .objectID(objectID))
+        self.path = URL
+          .indexesV1
+          .appending(indexName)
+          .appending(.synonyms)
+          .appending(objectID)
       }
 
     }
@@ -78,13 +94,17 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .read
-      let path: SynonymCompletion
+      let path: URL
       let body: Data?
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, query: SynonymQuery, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.indexesV1 >>> .index(indexName) >>> .synonyms >>> .search)
+        self.path = URL
+          .indexesV1
+          .appending(indexName)
+          .appending(.synonyms)
+          .appending(.search)
         self.body = query.httpBody
       }
 
@@ -94,12 +114,16 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .write
-      let path: SynonymCompletion
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, forwardToReplicas: Bool?, requestOptions: RequestOptions?) {
         self.requestOptions = forwardToReplicas.flatMap { requestOptions.updateOrCreate([.forwardToReplicas: String($0)]) } ?? requestOptions
-        self.path = (.indexesV1 >>> .index(indexName) >>> .synonyms >>> .clear)
+        self.path = URL
+          .indexesV1
+          .appending(indexName)
+          .appending(.synonyms)
+          .appending(.clear)
       }
 
     }

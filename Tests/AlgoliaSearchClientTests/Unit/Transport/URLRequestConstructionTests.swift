@@ -20,7 +20,7 @@ class URLRequestConstructionTests: XCTestCase {
     let method = HTTPMethod.post
     let body: Data = "TestContent".data(using: .utf8)!
     let credentials = TestCredentials(applicationID: "testAppID", apiKey: "testApiKey")
-    let request = URLRequest(command: Command.Custom(method: method, callType: .read, path: .init("/my/test/path"), body: body, requestOptions: nil))
+    let request = URLRequest(command: Command.Custom(method: method, callType: .read, path: .init(string: "/my/test/path")!, body: body, requestOptions: nil))
       .set(\.credentials, to: credentials)
 
     let expectedHeaders: [String: String] = [

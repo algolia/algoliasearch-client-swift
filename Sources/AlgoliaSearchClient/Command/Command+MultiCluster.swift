@@ -15,7 +15,7 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: Path = .clustersV1
+      let path: URL = .clustersV1
       let requestOptions: RequestOptions?
 
       init(requestOptions: RequestOptions?) {
@@ -28,12 +28,15 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: MappingCompletion
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(retrieveMapping: Bool, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions.updateOrCreate([.getClusters: String(retrieveMapping)])
-        self.path = (.clustersV1 >>> .mapping >>> .pending)
+        self.path = URL
+          .clustersV1
+          .appending(.mapping)
+          .appending(.pending)
       }
 
     }
@@ -50,7 +53,7 @@ extension Command.MultiCluster {
 
       let method: HTTPMethod = .post
       let callType: CallType = .write
-      let path: MappingRoute = .clustersV1 >>> .mapping
+      let path: URL = .clustersV1.appending(.mapping)
       let body: Data?
       let requestOptions: RequestOptions?
 
@@ -67,7 +70,10 @@ extension Command.MultiCluster {
 
       let method: HTTPMethod = .post
       let callType: CallType = .write
-      let path: MappingCompletion = .clustersV1 >>> .mapping >>> .batch
+      let path: URL = URL
+        .clustersV1
+        .appending(.mapping)
+        .appending(.batch)
       let body: Data?
       let requestOptions: RequestOptions?
 
@@ -82,12 +88,15 @@ extension Command.MultiCluster {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: MappingCompletion
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(userID: UserID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.clustersV1 >>> .mapping >>> .userID(userID))
+        self.path = URL
+          .clustersV1
+          .appending(.mapping)
+          .appending(userID)
       }
 
     }
@@ -96,12 +105,13 @@ extension Command.MultiCluster {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: MappingCompletion
+      let path: URL = .clustersV1
+        .appending(.mapping)
+        .appending(.top)
       let requestOptions: RequestOptions?
 
       init(requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.clustersV1 >>> .mapping >>> .top)
       }
 
     }
@@ -110,7 +120,8 @@ extension Command.MultiCluster {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: MappingRoute = .clustersV1 >>> .mapping
+      let path: URL = .clustersV1
+        .appending(.mapping)
       let requestOptions: RequestOptions?
 
       init(page: Int?, hitsPerPage: Int?, requestOptions: RequestOptions?) {
@@ -127,7 +138,9 @@ extension Command.MultiCluster {
 
       let method: HTTPMethod = .delete
       let callType: CallType = .write
-      let path: MappingRoute = .clustersV1 >>> .mapping
+      let path: URL = URL
+        .clustersV1
+        .appending(.mapping)
       let requestOptions: RequestOptions?
 
       init(userID: UserID, requestOptions: RequestOptions?) {
@@ -142,7 +155,9 @@ extension Command.MultiCluster {
 
       let method: HTTPMethod = .post
       let callType: CallType = .read
-      let path: MappingCompletion = .clustersV1 >>> .mapping >>> .search
+      let path: URL = .clustersV1
+        .appending(.mapping)
+        .appending(.search)
       let body: Data?
       let requestOptions: RequestOptions?
 

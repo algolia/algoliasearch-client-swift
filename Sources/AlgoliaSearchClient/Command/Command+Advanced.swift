@@ -15,12 +15,16 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: IndexCompletion
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, taskID: TaskID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.indexesV1 >>> .index(indexName) >>> .task(for: taskID))
+        self.path = URL
+          .indexesV1
+          .appending(indexName)
+          .appending(.task)
+          .appending(taskID)
       }
 
     }
@@ -29,12 +33,14 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: TaskCompletion
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(taskID: AppTaskID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.task >>> TaskCompletion.task(withID: taskID))
+        self.path = URL
+          .task
+          .appending(taskID)
       }
 
     }
@@ -43,7 +49,7 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: Path = .logs
+      let path: URL = .logs
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName?, offset: Int?, length: Int?, logType: LogType, requestOptions: RequestOptions?) {

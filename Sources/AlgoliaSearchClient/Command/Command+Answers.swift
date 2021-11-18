@@ -15,7 +15,7 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .read
-      let path: IndexCompletion
+      let path: URL
       let body: Data?
       let requestOptions: RequestOptions?
 
@@ -23,7 +23,10 @@ extension Command {
            query: AnswersQuery,
            requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.answers >>> .index(indexName) >>> .prediction)
+        self.path = URL
+          .answers
+          .appending(indexName)
+          .appending(.prediction)
         self.body = query.httpBody
       }
 
