@@ -124,7 +124,7 @@ class QueryTests: XCTestCase {
       "aroundLatLng=79.5,10.5",
       "aroundLatLngViaIP=true",
       "aroundRadius=80",
-      "aroundPrecision=%5B%7B%22from%22:0.0,%22value%22:1000.0%7D,%7B%22from%22:0.0,%22value%22:100000.0%7D%5D",
+      "aroundPrecision=%5B%7B%22from%22:0,%22value%22:1000%7D,%7B%22from%22:0,%22value%22:100000%7D%5D",
       "minimumAroundRadius=40",
       "insideBoundingBox=%5B%5B0.0,10.0,20.0,30.0%5D,%5B40.0,50.0,60.0,70.0%5D%5D",
       "insidePolygon=%5B%5B0.0,10.0,20.0,30.0,40.0,50.0%5D,%5B10.0,20.0,30.0,40.0,50.0,60.0%5D%5D",
