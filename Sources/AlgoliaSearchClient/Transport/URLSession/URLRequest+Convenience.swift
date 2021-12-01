@@ -32,7 +32,7 @@ extension URLRequest {
 
   }
 
-  init<Command: AlgoliaCommand>(command: Command) {
+  init(command: AlgoliaCommand) {
 
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"
