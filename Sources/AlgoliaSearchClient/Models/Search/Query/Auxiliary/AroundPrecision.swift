@@ -9,10 +9,10 @@ import Foundation
 
 public struct AroundPrecision: Codable, Equatable {
 
-  public let from: Double
-  public let value: Double
+  public let from: Int
+  public let value: Int
 
-  public init(from: Double, value: Double) {
+  public init(from: Int, value: Int) {
     self.from = from
     self.value = value
   }
@@ -21,9 +21,9 @@ public struct AroundPrecision: Codable, Equatable {
 
 extension AroundPrecision: ExpressibleByIntegerLiteral {
 
-  public init(integerLiteral value: UInt) {
+  public init(integerLiteral value: Int) {
     self.from = 0
-    self.value = Double(value)
+    self.value = value
   }
 
 }
@@ -32,7 +32,7 @@ extension AroundPrecision: ExpressibleByFloatLiteral {
 
   public init(floatLiteral value: Double) {
     self.from = 0
-    self.value = value
+    self.value = Int(value)
   }
 
 }
