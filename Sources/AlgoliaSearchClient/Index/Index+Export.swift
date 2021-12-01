@@ -97,6 +97,7 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: [SynonymSearchResponse] object
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func browseSynonyms(query: SynonymQuery = .init(),
                                          requestOptions: RequestOptions? = nil) throws -> [SynonymSearchResponse] {
     var responses: [SynonymSearchResponse] = []
@@ -104,6 +105,27 @@ public extension Index {
     var response = try searchSynonyms(query, requestOptions: requestOptions)
     while !response.hits.isEmpty {
       response = try searchSynonyms(query.set(\.page, to: page), requestOptions: requestOptions)
+      responses.append(response)
+      page += 1
+    }
+    return responses
+  }
+  
+  /**
+   Iterate over all Synonym in the index.
+   
+   - Parameter query: The SynonymQuery used to search.
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Returns: [SynonymSearchResponse] object
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func browseSynonyms(query: SynonymQuery = .init(),
+                                         requestOptions: RequestOptions? = nil) async throws -> [SynonymSearchResponse] {
+    var responses: [SynonymSearchResponse] = []
+    var page = 0
+    var response = try await searchSynonyms(query, requestOptions: requestOptions)
+    while !response.hits.isEmpty {
+      response = try await searchSynonyms(query.set(\.page, to: page), requestOptions: requestOptions)
       responses.append(response)
       page += 1
     }
@@ -133,6 +155,7 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: [RuleSearchResponse] object
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func browseRules(query: RuleQuery = .init(),
                                       requestOptions: RequestOptions? = nil) throws -> [RuleSearchResponse] {
     var responses: [RuleSearchResponse] = []
@@ -145,5 +168,27 @@ public extension Index {
     }
     return responses
   }
+  
+  /**
+   Iterate over all Rule in the index.
+   
+   - Parameter query: The RuleQuery used to search.
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Returns: [RuleSearchResponse] object
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func browseRules(query: RuleQuery = .init(),
+                                      requestOptions: RequestOptions? = nil) async throws -> [RuleSearchResponse] {
+    var responses: [RuleSearchResponse] = []
+    var page = 0
+    var response = try await searchRules(query, requestOptions: requestOptions)
+    while !response.hits.isEmpty {
+      response = try await searchRules(query.set(\.page, to: page), requestOptions: requestOptions)
+      responses.append(response)
+      page += 1
+    }
+    return responses
+  }
+
 
 }

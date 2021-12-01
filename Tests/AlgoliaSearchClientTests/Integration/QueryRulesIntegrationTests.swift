@@ -93,7 +93,7 @@ class QueryRulesIntegrationTests: IntegrationTestCase {
     let fetchedQueryPromoSummerRule = try index.getRule(withID: queryPromoSummerRule.objectID)
     try AssertEquallyEncoded(fetchedQueryPromoSummerRule, queryPromoSummerRule)
 
-    let fetchedRules = try index.searchRules("").hits.map(\.rule)
+    let fetchedRules = try await index.searchRules("").hits.map(\.rule)
     XCTAssertEqual(fetchedRules.count, 4)
     
     try AssertEquallyEncoded(fetchedRules.first(where: { $0.objectID ==  brandAutomaticFacetingRule.objectID}), brandAutomaticFacetingRule)
@@ -109,7 +109,8 @@ class QueryRulesIntegrationTests: IntegrationTestCase {
     try await AssertThrowsHTTPError(index.getRule(withID: queryPromoRule.objectID), statusCode: 404)
     try await AssertThrowsHTTPError(index.getRule(withID: queryPromoSummerRule.objectID), statusCode: 404)
     
-    XCTAssertEqual(try index.searchRules("").nbHits, 0)
+    let nbHits = try await index.searchRules("").nbHits
+    XCTAssertEqual(nbHits, 0)
     
   }
   

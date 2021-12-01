@@ -18,6 +18,22 @@ public func XCTExtract<T>(_ result: Result<T, Error>, completion: @escaping  (T)
   }
 }
 
+extension XCTestCase {
+  public func deleteIndex(_ index: Index) {
+    let deleteIndexExpectation = expectation(description: "delete index")
+    index.delete { result in
+      switch result {
+      case .failure(let error):
+        XCTFail(error.localizedDescription)
+      case .success:
+        break
+      }
+      deleteIndexExpectation.fulfill()
+    }
+    waitForExpectations(timeout: 5, handler: nil)
+  }
+}
+
 public func extract<T>(_ completion: @escaping (T) -> Void) -> ResultCallback<T> {
   return { result in
     switch result {

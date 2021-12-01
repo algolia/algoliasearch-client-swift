@@ -66,7 +66,7 @@ class BrowseIntegrationTests: IntegrationTestCase {
     
     try index.saveRules(rules).wait()
     
-    let responses = try index.browseRules()
+    let responses = try await index.browseRules()
     
     let fetchedRuleIDs = responses.flatMap(\.hits).map(\.rule.objectID)
     
@@ -91,7 +91,7 @@ class BrowseIntegrationTests: IntegrationTestCase {
     
     try index.saveSynonyms(synonyms).wait()
             
-    let responses = try index.browseSynonyms()
+    let responses = try await index.browseSynonyms()
 
     let fetchedSynonymIDs = responses.flatMap(\.hits).map(\.synonym.objectID)
 

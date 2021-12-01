@@ -257,10 +257,25 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: SynonymSearchResponse  object
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func searchSynonyms(_ query: SynonymQuery,
                                          requestOptions: RequestOptions? = nil) throws -> SynonymSearchResponse {
     let command = Command.Synonym.Search(indexName: name, query: query, requestOptions: requestOptions)
     return try execute(command)
+  }
+  
+  /**
+   Get all synonym that match a SynonymQuery.
+
+   - Parameter query: the SynonymQuery.
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Returns: SynonymSearchResponse  object
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func searchSynonyms(_ query: SynonymQuery,
+                                         requestOptions: RequestOptions? = nil) async throws -> SynonymSearchResponse {
+    let command = Command.Synonym.Search(indexName: name, query: query, requestOptions: requestOptions)
+    return try await execute(command)
   }
 
   // MARK: - Clear synonyms

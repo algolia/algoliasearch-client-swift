@@ -49,8 +49,7 @@ class IntegrationTestCase: XCTestCase {
     let indexNameSuffix = self.indexNameSuffix ?? name
     let indexName = IndexName(stringLiteral: "\(uniquePrefix())_\(indexNameSuffix)")
     index = client.index(withName: indexName)
-
-    try index.delete()
+    deleteIndex(index)
   }
   
   func testRetryable() throws {
@@ -89,7 +88,7 @@ class IntegrationTestCase: XCTestCase {
   override func tearDownWithError() throws {
     try super.tearDownWithError()
     if let index = index {
-      try index.delete()
+      deleteIndex(index)
     }
   }
 

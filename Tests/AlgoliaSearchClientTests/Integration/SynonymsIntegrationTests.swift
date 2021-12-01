@@ -64,7 +64,7 @@ class SynonymsIntegrationTests: IntegrationTestCase {
     let fetchedAltCorrection2 = try index.getSynonym(withID: altCorrection2Synonym.objectID)
     try AssertEquallyEncoded(fetchedAltCorrection2, altCorrection2Synonym)
     
-    let fetchedSynonyms = try index.searchSynonyms("").hits.map(\.synonym)
+    let fetchedSynonyms = try await index.searchSynonyms("").hits.map(\.synonym)
     XCTAssertEqual(fetchedSynonyms.count, 5)
 
     try AssertEquallyEncoded(fetchedSynonyms.first(where: { $0.objectID == multiWaySynonym.objectID}), multiWaySynonym)
@@ -82,7 +82,8 @@ class SynonymsIntegrationTests: IntegrationTestCase {
     try await AssertThrowsHTTPError(index.getSynonym(withID: altCorrection1Synonym.objectID), statusCode: 404)
     try await AssertThrowsHTTPError(index.getSynonym(withID: altCorrection2Synonym.objectID), statusCode: 404)
     
-    XCTAssertEqual(try index.searchSynonyms("").nbHits, 0)
+    let nbHits = try await index.searchSynonyms("").nbHits
+    XCTAssertEqual(nbHits, 0)
 
   }
   

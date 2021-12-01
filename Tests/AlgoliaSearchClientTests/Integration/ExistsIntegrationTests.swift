@@ -21,11 +21,14 @@ class ExistsIntegrationTests: IntegrationTestCase {
   }
   
   func exists() async throws {
-    XCTAssertFalse(try index.exists())
+    var exists = try await index.exists()
+    XCTAssertFalse(exists)
     try await index.saveObject(TestRecord(), autoGeneratingObjectID: true).wait()
-    XCTAssertTrue(try index.exists())
-    try index.delete().wait()
-    XCTAssertFalse(try index.exists())
+    exists = try await index.exists()
+    XCTAssertTrue(exists)
+    try await index.delete().wait()
+    exists = try await index.exists()
+    XCTAssertFalse(exists)
   }
   
 }

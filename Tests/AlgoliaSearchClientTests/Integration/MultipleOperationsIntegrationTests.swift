@@ -29,14 +29,14 @@ class MultipleOperationsIntegrationTests: IntegrationTestCase {
   
   override func setUpWithError() throws {
     try super.setUpWithError()
-    try firstIndex?.delete()
-    try secondIndex?.delete()
+    firstIndex.flatMap(deleteIndex)
+    secondIndex.flatMap(deleteIndex)
   }
   
   override func tearDownWithError() throws {
     try super.tearDownWithError()
-    try firstIndex?.delete()
-    try secondIndex?.delete()
+    firstIndex.flatMap(deleteIndex)
+    secondIndex.flatMap(deleteIndex)
   }
   
   func multipleOperations() throws {

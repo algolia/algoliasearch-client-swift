@@ -171,10 +171,25 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: RuleSearchResponse  object
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func searchRules(_ query: RuleQuery,
                                       requestOptions: RequestOptions? = nil) throws -> RuleSearchResponse {
     let command = Command.Rule.Search(indexName: name, query: query, requestOptions: requestOptions)
     return try execute(command)
+  }
+  
+  /**
+   Search for Rule matching RuleQuery.
+
+   - Parameter query: The RuleQuery
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Returns: RuleSearchResponse  object
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func searchRules(_ query: RuleQuery,
+                                      requestOptions: RequestOptions? = nil) async throws -> RuleSearchResponse {
+    let command = Command.Rule.Search(indexName: name, query: query, requestOptions: requestOptions)
+    return try await execute(command)
   }
 
   // MARK: - Clear rules

@@ -43,13 +43,13 @@ class CopyIndexIntergrationTests: IntegrationTestCase {
     try await sourceIndex.saveObjects(records).wait()
     try await sourceIndex.setSettings(settings).wait()
     
-    try sourceIndex.copy(.settings, to: targetIndex.name).wait()
+    try await sourceIndex.copy(.settings, to: targetIndex.name).wait()
     
     let fetchedSettings = try await targetIndex.getSettings()
 
     XCTAssertEqual(settings.attributesForFaceting, fetchedSettings.attributesForFaceting)
     
-    try targetIndex.delete().wait()
+    try await targetIndex.delete().wait()
     
   }
   
@@ -59,14 +59,14 @@ class CopyIndexIntergrationTests: IntegrationTestCase {
     
     try sourceIndex.saveRule(rule).wait()
     
-    try sourceIndex.copy(.rules, to: targetIndex.name).wait()
+    try await sourceIndex.copy(.rules, to: targetIndex.name).wait()
 
-    let fetchedRules = try targetIndex.searchRules("").hits.map(\.rule)
+    let fetchedRules = try await targetIndex.searchRules("").hits.map(\.rule)
     
     XCTAssertEqual(fetchedRules.count, 1)
     try AssertEquallyEncoded(fetchedRules.first!, rule)
     
-    try targetIndex.delete().wait()
+    try await targetIndex.delete().wait()
 
 
   }
@@ -77,14 +77,14 @@ class CopyIndexIntergrationTests: IntegrationTestCase {
     
     try sourceIndex.saveSynonym(synonym).wait()
     
-    try sourceIndex.copy(.synonyms, to: targetIndex.name).wait()
+    try await sourceIndex.copy(.synonyms, to: targetIndex.name).wait()
 
-    let fetchedSynonyms = try targetIndex.searchSynonyms("").hits.map(\.synonym)
+    let fetchedSynonyms = try await targetIndex.searchSynonyms("").hits.map(\.synonym)
     
     XCTAssertEqual(fetchedSynonyms.count, 1)
     try AssertEquallyEncoded(fetchedSynonyms.first!, synonym)
     
-    try targetIndex.delete().wait()
+    try await targetIndex.delete().wait()
     
   }
   
@@ -97,7 +97,7 @@ class CopyIndexIntergrationTests: IntegrationTestCase {
     try sourceIndex.saveRule(rule).wait()
     try sourceIndex.saveSynonym(synonym).wait()
     
-    try sourceIndex.copy(to: targetIndex.name).wait()
+    try await sourceIndex.copy(to: targetIndex.name).wait()
     
     let fullCopyRecords = try await targetIndex.browse().hits.map(\.object)
     
@@ -108,15 +108,15 @@ class CopyIndexIntergrationTests: IntegrationTestCase {
     let fullCopySettings = try await targetIndex.getSettings()
     XCTAssertEqual(settings.attributesForFaceting, fullCopySettings.attributesForFaceting)
     
-    let fullCopyRules = try targetIndex.searchRules("").hits.map(\.rule)
+    let fullCopyRules = try await targetIndex.searchRules("").hits.map(\.rule)
     XCTAssertEqual(fullCopyRules.count, 1)
     try AssertEquallyEncoded(fullCopyRules.first!, rule)
     
-    let fullCopySynonyms = try targetIndex.searchSynonyms("").hits.map(\.synonym)
+    let fullCopySynonyms = try await targetIndex.searchSynonyms("").hits.map(\.synonym)
     XCTAssertEqual(fullCopySynonyms.count, 1)
     try AssertEquallyEncoded(fullCopySynonyms.first!, synonym)
         
-    try targetIndex.delete().wait()
+    try await targetIndex.delete().wait()
 
   }
   

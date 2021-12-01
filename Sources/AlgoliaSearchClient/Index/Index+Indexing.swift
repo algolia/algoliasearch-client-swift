@@ -828,7 +828,7 @@ public extension Index {
     let destinationIndexName = IndexName(rawValue: "\(name)_tmp_\(Int.random(in: 0...100000))")
     let destinationIndex = Index(name: destinationIndexName, transport: transport, operationLauncher: operationLauncher, configuration: configuration)
     let moveTasks = try await destinationIndex.batch(moveOperations).wrapped.tasks
-    return [
+    return await [
       .init(indexName: name, taskID: try copy([.settings, .rules, .synonyms], to: destinationIndexName).task.taskID),
       .init(indexName: destinationIndexName, taskID: try destinationIndex.move(to: name).task.taskID)
     ] + moveTasks

@@ -107,17 +107,17 @@ public struct AccountClient {
       throw Error.sameApplicationID
     }
 
-    guard try source.exists() else {
+    guard try await source.exists() else {
       throw Error.sourceNotFound
     }
 
-    guard try !destination.exists() else {
+    guard try await !destination.exists() else {
       throw Error.existingDestination
     }
 
     let objects = try await source.browseObjects().flatMap(\.hits).map(\.object)
-    let synonyms = try source.browseSynonyms().flatMap(\.hits).map(\.synonym)
-    let rules = try source.browseRules().flatMap(\.hits).map(\.rule)
+    let synonyms = try await source.browseSynonyms().flatMap(\.hits).map(\.synonym)
+    let rules = try await source.browseRules().flatMap(\.hits).map(\.rule)
     let settings = try await source.getSettings()
 
     let waitObjects = try await destination.saveObjects(objects)
