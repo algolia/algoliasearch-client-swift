@@ -32,6 +32,7 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: [SearchResponse] object
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func browseObjects(query: Query = Query(),
                                         requestOptions: RequestOptions? = nil) throws -> [SearchResponse] {
     var responses: [SearchResponse] = []
@@ -41,6 +42,30 @@ public extension Index {
 
     while let nextCursor = cursor {
       let response = try browse(cursor: nextCursor)
+      responses.append(response)
+      cursor = response.cursor
+    }
+
+    return responses
+  }
+  
+  /**
+   Iterate over all objects in the index.
+   
+   - Parameter query: The Query used to search.
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Returns: [SearchResponse] object
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func browseObjects(query: Query = Query(),
+                                        requestOptions: RequestOptions? = nil) async throws -> [SearchResponse] {
+    var responses: [SearchResponse] = []
+    let initial = try await browse(query: query, requestOptions: requestOptions)
+    var cursor: Cursor? = initial.cursor
+    responses.append(initial)
+
+    while let nextCursor = cursor {
+      let response = try await browse(cursor: nextCursor)
       responses.append(response)
       cursor = response.cursor
     }

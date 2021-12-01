@@ -10,19 +10,20 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
+@available(iOS 15.0.0, *)
 class SettingsIntegrationTests: IntegrationTestCase {
   
   override var indexNameSuffix: String? {
     return "settings"
   }
   
-  override var retryableTests: [() throws -> Void] {
+  override var retryableAsyncTests: [() async throws -> Void] {
     [settings]
   }
   
-  func settings() throws {
+  func settings() async throws {
     
-    let indexInitialization = try index.saveObject(TestRecord(), autoGeneratingObjectID: true)
+    let indexInitialization = try await index.saveObject(TestRecord(), autoGeneratingObjectID: true)
     try indexInitialization.wait()
     
     let settings = Settings()
@@ -79,9 +80,9 @@ class SettingsIntegrationTests: IntegrationTestCase {
       .set(\.customNormalization, to: ["default": ["ä": "ae", "ö": "oe"]])
     
     
-    try index.setSettings(settings).wait()
+    try await index.setSettings(settings).wait()
     
-    var fetchedSettings = try index.getSettings()
+    var fetchedSettings = try await index.getSettings()
     
     XCTAssertEqual(fetchedSettings.searchableAttributes, ["attribute1", "attribute2", "attribute3", .unordered("attribute4"), .unordered("attribute5")])
     XCTAssertEqual(fetchedSettings.attributesForFaceting, [.default("attribute1"), .filterOnly("attribute2"), .searchable("attribute3")])
@@ -135,14 +136,14 @@ class SettingsIntegrationTests: IntegrationTestCase {
     XCTAssertEqual(fetchedSettings.indexLanguages, [.japanese])
     XCTAssertEqual(fetchedSettings.customNormalization, ["default": ["ä": "ae", "ö": "oe"]])
     
-    try index.setSettings(settings
+    try await index.setSettings(settings
       .set(\.typoTolerance, to: .min)
       .set(\.ignorePlurals, to: [.english, .french])
       .set(\.removeStopWords, to: [.english, .french])
       .set(\.distinct, to: true)
     ).wait()
     
-    fetchedSettings = try index.getSettings()
+    fetchedSettings = try await index.getSettings()
     
     XCTAssertEqual(fetchedSettings.searchableAttributes, ["attribute1", "attribute2", "attribute3", .unordered("attribute4"), .unordered("attribute5")])
     XCTAssertEqual(fetchedSettings.attributesForFaceting, [.default("attribute1"), .filterOnly("attribute2"), .searchable("attribute3")])

@@ -51,7 +51,7 @@ public struct AccountClient {
    AccountClient.Error.sourceNotFound if source doesnt exist
    AccountClient.Error.existingDestination if destination index already exists.
    */
-
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult public static func copyIndex(source: Index,
                                                   destination: Index,
                                                   requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<[Task]> {
@@ -86,6 +86,54 @@ public struct AccountClient {
 
     return WaitableWrapper(tasks: tasks, index: destination)
   }
+  
+  /**
+   Copy settings, synonyms, rules and objects from the source index to the destination index.
+   
+   - Parameter source: source Index
+   - Parameter destination: destination Index
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Returns: WaitableWrapper objects embedding all the tasks created while copying
+   - Throws: AccountClient.Error.sameApplicationID if source and destination have the same ApplicationID.
+   AccountClient.Error.sourceNotFound if source doesnt exist
+   AccountClient.Error.existingDestination if destination index already exists.
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult public static func copyIndex(source: Index,
+                                                  destination: Index,
+                                                  requestOptions: RequestOptions? = nil) async throws -> WaitableWrapper<[Task]> {
+
+    guard source.applicationID != destination.applicationID else {
+      throw Error.sameApplicationID
+    }
+
+    guard try source.exists() else {
+      throw Error.sourceNotFound
+    }
+
+    guard try !destination.exists() else {
+      throw Error.existingDestination
+    }
+
+    let objects = try await source.browseObjects().flatMap(\.hits).map(\.object)
+    let synonyms = try source.browseSynonyms().flatMap(\.hits).map(\.synonym)
+    let rules = try source.browseRules().flatMap(\.hits).map(\.rule)
+    let settings = try await source.getSettings()
+
+    let waitObjects = try await destination.saveObjects(objects)
+    let waitSynonyms = try destination.saveSynonyms(synonyms)
+    let waitRules = try destination.saveRules(rules)
+    let waitSettings = try await destination.setSettings(settings)
+
+    let tasks: [Task] = [
+      waitSynonyms,
+      waitRules,
+      waitSettings
+      ].map(\.task) + waitObjects.batchesResponse.tasks
+
+    return WaitableWrapper(tasks: tasks, index: destination)
+  }
+
 
 }
 

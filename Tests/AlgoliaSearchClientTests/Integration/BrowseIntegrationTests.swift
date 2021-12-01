@@ -15,13 +15,14 @@ extension StringWrapper {
   }
 }
 
+@available(iOS 15.0.0, *)
 class BrowseIntegrationTests: IntegrationTestCase {
 
   override var indexNameSuffix: String? {
     return "index_browse"
   }
   
-  override var retryableTests: [() throws -> Void] {
+  override var retryableAsyncTests: [() async throws -> Void] {
     [
       browseObjects,
       browseRules,
@@ -29,7 +30,7 @@ class BrowseIntegrationTests: IntegrationTestCase {
     ]
   }
   
-  func browseObjects() throws {
+  func browseObjects() async throws {
     
     struct Record: Codable {
       let objectID: String
@@ -40,10 +41,10 @@ class BrowseIntegrationTests: IntegrationTestCase {
         .init(objectID: .random(length: 5), name: String.random(length: .random(in: 1...20)))
     }
     
-    try index.setSettings(Settings().set(\.attributesForFaceting, to: ["metric", "color"]))
-    try index.saveObjects(records).wait()
+    try await index.setSettings(Settings().set(\.attributesForFaceting, to: ["metric", "color"]))
+    try await index.saveObjects(records).wait()
     
-    let responses = try index.browseObjects()
+    let responses = try await index.browseObjects()
     
     let fetchedObjectIDs = responses
       .map { (try? $0.extractHits() as [Record]) }
@@ -55,7 +56,7 @@ class BrowseIntegrationTests: IntegrationTestCase {
     
   }
   
-  func browseRules() throws {
+  func browseRules() async throws {
     
     let rules: [Rule] = (0...50).map { _ in
       return Rule(objectID: .random)
@@ -73,7 +74,7 @@ class BrowseIntegrationTests: IntegrationTestCase {
     
   }
   
-  func browseSynonyms() throws {
+  func browseSynonyms() async throws {
     
     let synonyms: [Synonym] = (0...50).map { _ in
       switch Int.random(in: 0...3) {

@@ -9,17 +9,18 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
+@available(iOS 15.0.0, *)
 class BatchingIntegrationTests: IntegrationTestCase {
   
   override var indexNameSuffix: String? {
     return "index_batching"
   }
-  
-  override var retryableTests: [() throws -> Void] {
+    
+  override var retryableAsyncTests: [() async throws -> Void] {
     [batching]
   }
 
-  func batching() throws {
+  func batching() async throws {
     
     let records: [JSON] = [
       ["objectID":"one", "key": "value"],
@@ -29,9 +30,9 @@ class BatchingIntegrationTests: IntegrationTestCase {
       ["objectID":"five", "key": "value"],
     ]
     
-    try index.saveObjects(records).wait()
+    try await index.saveObjects(records).wait()
     
-    try index.batch([
+    try await index.batch([
       .add(["objectID":"zero", "key": "value"]),
       .update(objectID: "one", ["k": "v"] as JSON),
       .partialUpdate(objectID: "two", ["k": "v"] as JSON, createIfNotExists: true),
@@ -40,7 +41,7 @@ class BatchingIntegrationTests: IntegrationTestCase {
       .delete(objectID: "four")
     ]).wait()
     
-    let results = try index.browse()
+    let results = try await index.browse()
     let fetchedRecords: [JSON] = try results.extractHits()
     XCTAssertEqual(fetchedRecords.count, 6)
     XCTAssert(fetchedRecords.contains(["objectID": "zero", "key": "value"]))

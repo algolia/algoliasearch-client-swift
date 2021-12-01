@@ -18,9 +18,11 @@ class IntegrationTestCase: XCTestCase {
   
   var retryableTests: [() throws -> Void] { return [] }
   
+  var retryableAsyncTests: [() async throws -> Void] { return [] }
+
   var allowFailure: Bool { return false }
 
-  /// Abstract base class for online test cases.
+  /// Abstract base class for integration test cases.
   ///
   
   var indexNameSuffix: String? {
@@ -56,6 +58,23 @@ class IntegrationTestCase: XCTestCase {
       for attemptCount in 1...retryCount {
         do {
           try test()
+          break
+        } catch let error where attemptCount == retryCount {
+          try XCTSkipIf(allowFailure)
+          throw Error.retryFailed(attemptCount: attemptCount, error: error)
+        } catch _ {
+          continue
+        }
+      }
+    }
+  }
+  
+  @available(iOS 15.0.0, *)
+  func testAsyncRetryable() async throws {
+    for test in retryableAsyncTests {
+      for attemptCount in 1...retryCount {
+        do {
+          try await test()
           break
         } catch let error where attemptCount == retryCount {
           try XCTSkipIf(allowFailure)

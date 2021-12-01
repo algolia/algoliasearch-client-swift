@@ -9,17 +9,18 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
+@available(iOS 15.0.0, *)
 class InsightsIntegrationTests: IntegrationTestCase {
   
   override var indexNameSuffix: String? {
     return "sending_events"
   }
   
-  override var retryableTests: [() throws -> Void] {
+  override var retryableAsyncTests: [() async throws -> Void] {
     [insights]
   }
 
-  func insights() throws {
+  func insights() async throws {
     
     let insightsClient = InsightsClient(appID: client.applicationID, apiKey: client.apiKey)
     
@@ -28,7 +29,7 @@ class InsightsIntegrationTests: IntegrationTestCase {
       ["objectID": "two"]
     ]
     
-    try index.saveObjects(records).wait()
+    try await index.saveObjects(records).wait()
     
     let timestamp = Date().addingTimeInterval(-.days(2))
     let event = try InsightsEvent.click(name: "foo", indexName: index.name, userToken: "bar", timestamp: timestamp, objectIDs: ["one", "two"])
@@ -40,7 +41,7 @@ class InsightsIntegrationTests: IntegrationTestCase {
     ]
     try insightsClient.sendEvents(events)
     
-    let queryID = try index.search(query: Query.empty.set(\.clickAnalytics, to: true)).queryID
+    let queryID = try await index.search(query: Query.empty.set(\.clickAnalytics, to: true)).queryID
     XCTAssertNotNil(queryID)
     
     let eventsAfterSearch = [

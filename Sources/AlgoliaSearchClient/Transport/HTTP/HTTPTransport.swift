@@ -39,6 +39,16 @@ class HTTPTransport: Transport {
     let request = requestBuilder.build(for: command, transform: transform, with: completion)
     return operationLauncher.launch(request)
   }
+  
+  @available(iOS 15.0.0, *)
+  func execute<Response: Decodable, Output>(_ command: AlgoliaCommand, transform: @escaping (Response) -> Output) async throws -> Output {
+    try await withCheckedThrowingContinuation { continuation in
+      let request = requestBuilder.build(for: command, transform: transform) { result in
+        continuation.resume(with: result)
+      }
+      operationLauncher.launch(request)
+    }
+  }
 
   func execute<Command: AlgoliaCommand, Response: Decodable, Output>(_ command: Command, transform: @escaping (Response) -> Output) throws -> Output {
     let request = requestBuilder.build(for: command, transform: transform, responseType: Output.self)

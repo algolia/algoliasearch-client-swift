@@ -38,11 +38,28 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: SearchResponse object
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func search(query: Query,
                                  requestOptions: RequestOptions? = nil) throws -> SearchResponse {
     let command = Command.Search.Search(indexName: name, query: query, requestOptions: requestOptions)
     return try execute(command)
   }
+  
+  /**
+   Method used for querying an index.
+   
+   - Parameter query: The Query used to search.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Parameter completion: Result completion
+   - Returns: SearchResponse object
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func search(query: Query,
+                                 requestOptions: RequestOptions? = nil) async throws -> SearchResponse {
+    let command = Command.Search.Search(indexName: name, query: query, requestOptions: requestOptions)
+    return try await execute(command)
+  }
+
 
   // MARK: - Multiple Queries
 
@@ -60,7 +77,7 @@ public extension Index {
                                  requestOptions: RequestOptions? = nil,
                                  completion: @escaping ResultCallback<SearchesResponse>) -> Operation & TransportTask {
     let command = Command.MultipleIndex.Queries(indexName: name, queries: queries, strategy: strategy, requestOptions: requestOptions)
-    return transport.execute(command, completion: completion)
+    return execute(command, completion: completion)
   }
 
   /**
@@ -72,11 +89,29 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: SearchesResponse object
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func search(queries: [Query],
                                  strategy: MultipleQueriesStrategy = .none,
                                  requestOptions: RequestOptions? = nil) throws -> SearchesResponse {
     let command = Command.MultipleIndex.Queries(indexName: name, queries: queries, strategy: strategy, requestOptions: requestOptions)
-    return try transport.execute(command)
+    return try execute(command)
+  }
+  
+  /**
+   Method used for perform multiple searches at the same time, with one method call.
+   
+   - Parameter queries: The Query used to search.
+   - Parameter strategy: The MultipleQueriesStrategy of the query.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Parameter completion: Result completion
+   - Returns: SearchesResponse object
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func search(queries: [Query],
+                                 strategy: MultipleQueriesStrategy = .none,
+                                 requestOptions: RequestOptions? = nil) async throws -> SearchesResponse {
+    let command = Command.MultipleIndex.Queries(indexName: name, queries: queries, strategy: strategy, requestOptions: requestOptions)
+    return try await execute(command)
   }
 
   // MARK: - Browse
@@ -122,10 +157,26 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func browse(query: Query = .init(),
                                  requestOptions: RequestOptions? = nil) throws -> SearchResponse {
     let command = Command.Search.Browse(indexName: name, query: query, requestOptions: requestOptions)
     return try execute(command)
+  }
+  
+  /**
+   Get all index content without any record limit. Can be used for backups.
+   
+   - Parameter query: The Query used to search.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronous operation
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func browse(query: Query = .init(),
+                                 requestOptions: RequestOptions? = nil) async throws -> SearchResponse {
+    let command = Command.Search.Browse(indexName: name, query: query, requestOptions: requestOptions)
+    return try await execute(command)
   }
 
   /**
@@ -152,10 +203,26 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: SearchResponse object
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func browse(cursor: Cursor,
                                  requestOptions: RequestOptions? = nil) throws -> SearchResponse {
     let command = Command.Search.Browse(indexName: name, cursor: cursor, requestOptions: requestOptions)
     return try execute(command)
+  }
+  
+  /**
+   Get all index content without any record limit. Can be used for backups.
+   
+   - Parameter cursor: Cursor indicating the location to resume browsing from.
+   Must match the value returned by the previous call to browse SearchResponse.cursor.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: SearchResponse object
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func browse(cursor: Cursor,
+                                 requestOptions: RequestOptions? = nil) async throws -> SearchResponse {
+    let command = Command.Search.Browse(indexName: name, cursor: cursor, requestOptions: requestOptions)
+    return try await execute(command)
   }
 
   // MARK: - Search for facets
@@ -192,12 +259,33 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: FacetSearchResponse  object.
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func searchForFacetValues(of facetName: Attribute,
                                                matching facetQuery: String,
                                                applicableFor searchQuery: Query? = nil,
                                                requestOptions: RequestOptions? = nil) throws -> FacetSearchResponse {
     let command = Command.Search.SearchForFacets(indexName: name, attribute: facetName, facetQuery: facetQuery, query: searchQuery, requestOptions: requestOptions)
     return try execute(command)
+  }
+  
+  /**
+   Search for a set of values within a given facet attribute. Can be combined with a query. This
+   method enables you to search through the values of a facet attribute, selecting only a subset
+   of those values that meet a given criteria.
+   
+   - Parameter facetName: The Attribute to facet on.
+   - Parameter facetQuery: The facetQuery used to search for facets.
+   - Parameter searchQuery: The Query to filter results.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: FacetSearchResponse  object.
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func searchForFacetValues(of facetName: Attribute,
+                                               matching facetQuery: String,
+                                               applicableFor searchQuery: Query? = nil,
+                                               requestOptions: RequestOptions? = nil) async throws -> FacetSearchResponse {
+    let command = Command.Search.SearchForFacets(indexName: name, attribute: facetName, facetQuery: facetQuery, query: searchQuery, requestOptions: requestOptions)
+    return try await execute(command)
   }
 
   // MARK: - Find object
@@ -241,6 +329,7 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: HitWithPosition  object
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func findObject<T: Decodable>(matching predicate: (T) -> Bool,
                                                    for query: Query = .init(),
                                                    paginate: Bool = true,
@@ -264,6 +353,42 @@ public extension Index {
     let nextPageQuery = query.set(\.page, to: currentPage + 1)
 
     return try findObject(matching: predicate, for: nextPageQuery, requestOptions: requestOptions)
+  }
+  
+  /**
+   Find object searches iteratively through the search response `Hits` field to find the first
+   response hit that would match against the given `predicate` function.
+   
+   - Parameter predicate: The predicate to match
+   - Parameter query: The search Query
+   - Parameter paginate: Should the method paginate or not
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Returns: HitWithPosition  object
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func findObject<T: Decodable>(matching predicate: (T) -> Bool,
+                                                   for query: Query = .init(),
+                                                   paginate: Bool = true,
+                                                   requestOptions: RequestOptions? = nil) async throws -> HitWithPosition<T>? {
+
+    let results = try await search(query: query)
+    let hits: [T] = try results.extractHits()
+
+    if let found = hits
+      .enumerated()
+      .first(where: {( _, object) in predicate(object)})
+      .flatMap({ HitWithPosition(hit: $0.element, page: query.page ?? 0, position: $0.offset) }) {
+      return found
+    }
+
+    let currentPage = query.page ?? 0
+    let totalPageCount = (results.nbPages ?? 1)
+
+    guard currentPage + 1 < totalPageCount, paginate else { return nil }
+
+    let nextPageQuery = query.set(\.page, to: currentPage + 1)
+
+    return try await findObject(matching: predicate, for: nextPageQuery, requestOptions: requestOptions)
   }
 
 }

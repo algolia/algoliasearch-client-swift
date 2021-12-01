@@ -28,7 +28,13 @@ extension TransportContainer {
                                                                      transform: @escaping (Response) -> Output) throws -> Output {
     try transport.execute(command, transform: transform)
   }
-
+  
+  @available(iOS 15.0.0, *)
+  func execute<Response: Decodable, Output>(_ command: AlgoliaCommand,
+                                            transform: @escaping (Response) -> Output) async throws -> Output {
+    try await transport.execute(command, transform: transform)
+  }
+  
 }
 
 extension TransportContainer {
@@ -56,6 +62,11 @@ extension TransportContainer {
 
   @discardableResult func execute<Command: AlgoliaCommand, Output: Decodable>(_ command: Command) throws -> Output {
     try execute(command, transform: { $0 })
+  }
+  
+  @available(iOS 15.0.0, *)
+  @discardableResult func execute<Output: Decodable>(_ command: AlgoliaCommand) async throws -> Output {
+    try await execute(command, transform: { $0 })
   }
 
 }

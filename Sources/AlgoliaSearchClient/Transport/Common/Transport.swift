@@ -11,6 +11,8 @@ protocol Transport: Credentials {
 
   func execute<Command: AlgoliaCommand, Response: Decodable, Output>(_ command: Command, transform: @escaping (Response) -> Output, completion: @escaping (Result<Output, Error>) -> Void) -> Operation & TransportTask
   func execute<Command: AlgoliaCommand, Response: Decodable, Output>(_ command: Command, transform: @escaping (Response) -> Output) throws -> Output
+  @available(iOS 15.0.0, *)
+  func execute<Response: Decodable, Output>(_ command: AlgoliaCommand, transform: @escaping (Response) -> Output) async throws -> Output
 
 }
 

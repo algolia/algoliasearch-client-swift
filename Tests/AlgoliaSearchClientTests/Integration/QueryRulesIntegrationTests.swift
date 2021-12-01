@@ -9,15 +9,16 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
+@available(iOS 15.0.0, *)
 class QueryRulesIntegrationTests: IntegrationTestCase {
   
   override var indexNameSuffix: String? { return "rules" }
   
-  override var retryableTests: [() throws -> Void] {
+  override var retryableAsyncTests: [() async throws -> Void] {
     [queryRules]
   }
   
-  func queryRules() throws {
+  func queryRules() async throws {
     
     Logger.minSeverityLevel = .warning
     
@@ -31,11 +32,11 @@ class QueryRulesIntegrationTests: IntegrationTestCase {
       ["objectID": "one_plus_two", "brand": "OnePlus", "model": "Two"],
     ]
     
-    try index.saveObjects(records).wait()
+    try await index.saveObjects(records).wait()
     
     let settings = Settings().set(\.attributesForFaceting, to: [.default("brand"), .default("model")])
     
-    try index.setSettings(settings).wait()
+    try await index.setSettings(settings).wait()
     
     let brandAutomaticFacetingRule = Rule(objectID: "brand_automatic_faceting")
       .set(\.isEnabled, to: false)
@@ -101,12 +102,12 @@ class QueryRulesIntegrationTests: IntegrationTestCase {
     try AssertEquallyEncoded(fetchedRules.first(where: { $0.objectID ==  queryPromoSummerRule.objectID}), queryPromoSummerRule)
 
     try index.deleteRule(withID: brandAutomaticFacetingRule.objectID).wait()
-    try AssertThrowsHTTPError(index.getRule(withID: brandAutomaticFacetingRule.objectID), statusCode: 404)
+    try await AssertThrowsHTTPError(index.getRule(withID: brandAutomaticFacetingRule.objectID), statusCode: 404)
 
     try index.clearRules().wait()
-    try AssertThrowsHTTPError(index.getRule(withID: queryEditsRule.objectID), statusCode: 404)
-    try AssertThrowsHTTPError(index.getRule(withID: queryPromoRule.objectID), statusCode: 404)
-    try AssertThrowsHTTPError(index.getRule(withID: queryPromoSummerRule.objectID), statusCode: 404)
+    try await AssertThrowsHTTPError(index.getRule(withID: queryEditsRule.objectID), statusCode: 404)
+    try await AssertThrowsHTTPError(index.getRule(withID: queryPromoRule.objectID), statusCode: 404)
+    try await AssertThrowsHTTPError(index.getRule(withID: queryPromoSummerRule.objectID), statusCode: 404)
     
     XCTAssertEqual(try index.searchRules("").nbHits, 0)
     

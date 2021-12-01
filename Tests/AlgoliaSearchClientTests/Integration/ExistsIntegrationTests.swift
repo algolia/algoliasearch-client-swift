@@ -9,19 +9,20 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
+@available(iOS 15.0.0, *)
 class ExistsIntegrationTests: IntegrationTestCase {
   
   override var indexNameSuffix: String? {
     return "exists"
   }
   
-  override var retryableTests: [() throws -> Void] {
+  override var retryableAsyncTests: [() async throws -> Void] {
     [exists]
   }
   
-  func exists() throws {
+  func exists() async throws {
     XCTAssertFalse(try index.exists())
-    try index.saveObject(TestRecord(), autoGeneratingObjectID: true).wait()
+    try await index.saveObject(TestRecord(), autoGeneratingObjectID: true).wait()
     XCTAssertTrue(try index.exists())
     try index.delete().wait()
     XCTAssertFalse(try index.exists())

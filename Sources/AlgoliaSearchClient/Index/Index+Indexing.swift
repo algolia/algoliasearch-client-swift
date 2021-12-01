@@ -50,6 +50,7 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: ObjectCreation task
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func saveObject<T: Encodable>(_ object: T,
                                                    autoGeneratingObjectID: Bool = false,
                                                    requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<ObjectCreation> {
@@ -59,6 +60,27 @@ public extension Index {
     let command = Command.Indexing.SaveObject(indexName: name, record: object, requestOptions: requestOptions)
     return try execute(command)
   }
+  
+  /**
+   Add a new record to an index.
+   
+   - See: saveObject
+   - Parameter object: The record of type T to save.
+   - Parameter autoGeneratingObjectID: Add objectID if record type doesn't provide it in serialized form.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: ObjectCreation task
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func saveObject<T: Encodable>(_ object: T,
+                                                   autoGeneratingObjectID: Bool = false,
+                                                   requestOptions: RequestOptions? = nil) async throws -> WaitableWrapper<ObjectCreation> {
+    if !autoGeneratingObjectID {
+      try ObjectIDChecker.checkObjectID(object)
+    }
+    let command = Command.Indexing.SaveObject(indexName: name, record: object, requestOptions: requestOptions)
+    return try await execute(command)
+  }
+
 
   // MARK: - Save objects
 
@@ -88,11 +110,29 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: Batch task
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func saveObjects<T: Encodable>(_ objects: [T],
                                                     autoGeneratingObjectID: Bool = false,
                                                     requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<BatchesResponse> {
     return try batch(objects.map { .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }, requestOptions: requestOptions)
   }
+  
+  /**
+   Add multiple schemaless objects to an index.
+   
+   - See: saveObject
+   - Parameter objects The list of records to save.
+   - Parameter autoGeneratingObjectID: Add objectID if record type doesn't provide it in serialized form.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: Batch task
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func saveObjects<T: Encodable>(_ objects: [T],
+                                                    autoGeneratingObjectID: Bool = false,
+                                                    requestOptions: RequestOptions? = nil) async throws -> WaitableWrapper<BatchesResponse> {
+    return try await batch(objects.map { .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }, requestOptions: requestOptions)
+  }
+
 
   // MARK: - Get object
 
@@ -121,11 +161,28 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: Requested record
   */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func getObject<T: Decodable>(withID objectID: ObjectID,
                                                   attributesToRetrieve: [Attribute] = [],
                                                   requestOptions: RequestOptions? = nil) throws -> T {
     let command = Command.Indexing.GetObject(indexName: name, objectID: objectID, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions)
     return try execute(command)
+  }
+  
+  /**
+   Get one record using its ObjectID.
+   
+   - Parameter objectID: The ObjectID to identify the record.
+   - Parameter attributesToRetrieve: Specify a list of Attribute to retrieve. This list will apply to all records. If you don’t specify any attributes, every attribute will be returned.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: Requested record
+  */
+  @available(iOS 15.0.0, *)
+  @discardableResult func getObject<T: Decodable>(withID objectID: ObjectID,
+                                                  attributesToRetrieve: [Attribute] = [],
+                                                  requestOptions: RequestOptions? = nil) async throws -> T {
+    let command = Command.Indexing.GetObject(indexName: name, objectID: objectID, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions)
+    return try await execute(command)
   }
 
   // MARK: - Get objects
@@ -156,11 +213,29 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: ObjectResponse object containing requested records
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func getObjects<T: Decodable>(withIDs objectIDs: [ObjectID],
                                                    attributesToRetrieve: [Attribute] = [],
                                                    requestOptions: RequestOptions? = nil) throws -> ObjectsResponse<T> {
     let command = Command.MultipleIndex.GetObjects(indexName: name, objectIDs: objectIDs, attributesToRetreive: attributesToRetrieve, requestOptions: requestOptions)
     return try execute(command)
+  }
+  
+  /**
+    Get multiple records using their ObjectID.
+   
+   - Parameter objectIDs: The list ObjectID to identify the records.
+   - Parameter attributesToRetrieve: Specify a list of Attribute to retrieve. This list will apply to all records. If you don’t specify any attributes, every attribute will be returned.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Parameter completion: Result completion
+   - Returns: ObjectResponse object containing requested records
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func getObjects<T: Decodable>(withIDs objectIDs: [ObjectID],
+                                                   attributesToRetrieve: [Attribute] = [],
+                                                   requestOptions: RequestOptions? = nil) async throws -> ObjectsResponse<T> {
+    let command = Command.MultipleIndex.GetObjects(indexName: name, objectIDs: objectIDs, attributesToRetreive: attributesToRetrieve, requestOptions: requestOptions)
+    return try await execute(command)
   }
 
   // MARK: - Replace object
@@ -202,11 +277,28 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: ObjectRevision object
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func replaceObject<T: Encodable>(withID objectID: ObjectID,
                                                       by object: T,
                                                       requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<ObjectRevision> {
     let command = Command.Indexing.ReplaceObject(indexName: name, objectID: objectID, replacementObject: object, requestOptions: requestOptions)
     return try execute(command)
+  }
+  
+  /**
+   Replace an existing object with an updated set of attributes.
+   - See_also: replaceObject
+   - Parameter objectID: The ObjectID to identify the object.
+   - Parameter record: The record T to replace.
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Returns: ObjectRevision object
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func replaceObject<T: Encodable>(withID objectID: ObjectID,
+                                                      by object: T,
+                                                      requestOptions: RequestOptions? = nil) async throws -> WaitableWrapper<ObjectRevision> {
+    let command = Command.Indexing.ReplaceObject(indexName: name, objectID: objectID, replacementObject: object, requestOptions: requestOptions)
+    return try await execute(command)
   }
 
   // MARK: - Replace objects
@@ -234,10 +326,26 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: ObjectRevision object
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func replaceObjects<T: Encodable>(replacements: [(objectID: ObjectID, object: T)],
                                                        requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<BatchesResponse> {
     return try batch(replacements.map { .update(objectID: $0.objectID, $0.object) }, requestOptions: requestOptions)
   }
+  
+  /**
+   Replace multiple objects with an updated set of attributes.
+   
+   - See: replaceObject
+   - Parameter replacements: The list of paris of ObjectID and the replacement object .
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Returns: ObjectRevision object
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func replaceObjects<T: Encodable>(replacements: [(objectID: ObjectID, object: T)],
+                                                       requestOptions: RequestOptions? = nil) async throws -> WaitableWrapper<BatchesResponse> {
+    return try await batch(replacements.map { .update(objectID: $0.objectID, $0.object) }, requestOptions: requestOptions)
+  }
+
 
   // MARK: - Delete object
 
@@ -263,10 +371,25 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: Requested record
   */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func deleteObject(withID objectID: ObjectID,
                                        requestOptions: RequestOptions? = nil) throws ->  WaitableWrapper<ObjectDeletion> {
     let command = Command.Indexing.DeleteObject(indexName: name, objectID: objectID, requestOptions: requestOptions)
     return try execute(command)
+  }
+  
+  /**
+   Remove an object from an index using its ObjectID.
+   
+   - Parameter objectID: The ObjectID to identify the record.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: Requested record
+  */
+  @available(iOS 15.0.0, *)
+  @discardableResult func deleteObject(withID objectID: ObjectID,
+                                       requestOptions: RequestOptions? = nil) async throws ->  WaitableWrapper<ObjectDeletion> {
+    let command = Command.Indexing.DeleteObject(indexName: name, objectID: objectID, requestOptions: requestOptions)
+    return try await execute(command)
   }
 
   // MARK: - Delete objects
@@ -290,10 +413,24 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: BatchResponse object
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func deleteObjects(withIDs objectIDs: [ObjectID],
                                         requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<BatchesResponse> {
     return try batch(objectIDs.map { .delete(objectID: $0) }, requestOptions: requestOptions)
   }
+  
+  /**
+   Remove multiple objects from an index using their ObjectID.
+   - Parameter objectIDs: The list ObjectID to identify the records.
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Returns: BatchResponse object
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func deleteObjects(withIDs objectIDs: [ObjectID],
+                                        requestOptions: RequestOptions? = nil) async throws -> WaitableWrapper<BatchesResponse> {
+    return try await batch(objectIDs.map { .delete(objectID: $0) }, requestOptions: requestOptions)
+  }
+
 
   /**
     Remove all objects matching a DeleteByQuery.
@@ -326,11 +463,27 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: RevisionIndex object
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func deleteObjects(byQuery query: DeleteByQuery,
                                         requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexRevision> {
     let command = Command.Indexing.DeleteByQuery(indexName: name, query: query, requestOptions: requestOptions)
     return try execute(command)
   }
+  
+  /**
+    Remove all objects matching a DeleteByQuery.
+   
+   - Parameter query: DeleteByQuery to match records for deletion.
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: RevisionIndex object
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func deleteObjects(byQuery query: DeleteByQuery,
+                                        requestOptions: RequestOptions? = nil) async throws -> WaitableWrapper<IndexRevision> {
+    let command = Command.Indexing.DeleteByQuery(indexName: name, query: query, requestOptions: requestOptions)
+    return try await execute(command)
+  }
+
 
   // MARK: - Partial update object
 
@@ -385,6 +538,7 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: ObjectRevision object
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func partialUpdateObject(withID objectID: ObjectID,
                                               with partialUpdate: PartialUpdate,
                                               createIfNotExists: Bool = true,
@@ -392,6 +546,27 @@ public extension Index {
     let command = Command.Indexing.PartialUpdate(indexName: name, objectID: objectID, partialUpdate: partialUpdate, createIfNotExists: createIfNotExists, requestOptions: requestOptions)
     return try execute(command)
   }
+  
+  /**
+   Update one or more attributes of an existing record.
+   
+   - Parameter objectID: The ObjectID identifying the record to partially update.
+   - Parameter partialUpdate: PartialUpdate
+   - Parameter createIfNotExists: When true, a partial update on a nonexistent record will create the record
+   (generating the objectID and using the attributes as defined in the record). When false, a partial
+   update on a nonexistent record will be ignored (but no error will be sent back).
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: ObjectRevision object
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func partialUpdateObject(withID objectID: ObjectID,
+                                              with partialUpdate: PartialUpdate,
+                                              createIfNotExists: Bool = true,
+                                              requestOptions: RequestOptions? = nil) async throws -> WaitableWrapper<ObjectRevision> {
+    let command = Command.Indexing.PartialUpdate(indexName: name, objectID: objectID, partialUpdate: partialUpdate, createIfNotExists: createIfNotExists, requestOptions: requestOptions)
+    return try await execute(command)
+  }
+
 
   // MARK: - Partial update objects
 
@@ -424,14 +599,50 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: BatchResponse object
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func partialUpdateObjects(updates: [(objectID: ObjectID, update: PartialUpdate)],
                                                createIfNotExists: Bool = true,
                                                requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<BatchesResponse> {
     return try batch(updates.map { .partialUpdate(objectID: $0.objectID, $0.update, createIfNotExists: createIfNotExists) }, requestOptions: requestOptions)
   }
+  
+  /**
+   Update one or more attributes of existing records.
+
+   - Parameter replacements: The list of pairs of ObjectID identifying the record and its PartialUpdate.
+   - Parameter createIfNotExists: When true, a partial update on a nonexistent record will create the record
+   (generating the objectID and using the attributes as defined in the record). When false, a partial
+   update on a nonexistent record will be ignored (but no error will be sent back).
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Parameter completion: Result completion
+   - Returns: BatchResponse object
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func partialUpdateObjects(updates: [(objectID: ObjectID, update: PartialUpdate)],
+                                               createIfNotExists: Bool = true,
+                                               requestOptions: RequestOptions? = nil) async throws -> WaitableWrapper<BatchesResponse> {
+    return try await batch(updates.map { .partialUpdate(objectID: $0.objectID, $0.update, createIfNotExists: createIfNotExists) }, requestOptions: requestOptions)
+  }
+
 
   // MARK: - Batch operations
 
+  /**
+   Perform several indexing operations in one API call.
+   
+   - Parameter batchOperations: List of BatchOperation
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: BatchesResponse object
+   */
+  @discardableResult func batch(_ batchOperations: [BatchOperation],
+                                requestOptions: RequestOptions? = nil,
+                                completion: @escaping ResultCallback<WaitableWrapper<BatchesResponse>>) -> Operation {
+    let operation = BlockOperation {
+      completion(.init { try self.batch(batchOperations, requestOptions: requestOptions) })
+    }
+    return launch(operation)
+  }
+  
   /**
    Perform several indexing operations in one API call.
    
@@ -450,21 +661,28 @@ public extension Index {
     return .init(batchesResponse: response, index: self)
 
   }
-
+  
   /**
    Perform several indexing operations in one API call.
    
+   - Note: This method enables you to batch multiple different indexing operations in one API, like add or delete records
+   potentially targeting multiple indices.
+   
    - Parameter batchOperations: List of BatchOperation
    - Parameter requestOptions: Configure request locally with RequestOptions.
-   - Returns: BatchesResponse object
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronous operation
    */
+  @available(iOS 15.0.0, *)
   @discardableResult func batch(_ batchOperations: [BatchOperation],
-                                requestOptions: RequestOptions? = nil,
-                                completion: @escaping ResultCallback<WaitableWrapper<BatchesResponse>>) -> Operation {
-    let operation = BlockOperation {
-      completion(.init { try self.batch(batchOperations, requestOptions: requestOptions) })
+                                requestOptions: RequestOptions? = nil) async throws -> WaitableWrapper<BatchesResponse> {
+    let chunks = batchOperations.chunked(into: configuration.batchSize)
+    var responses: [BatchResponse] = []
+    for chunk in chunks {
+      responses.append(try await internalBatch(chunk))
     }
-    return launch(operation)
+    let response = BatchesResponse(indexName: name, responses: responses)
+    return .init(batchesResponse: response, index: self)
   }
 
   // MARK: - Clear objects
@@ -492,9 +710,22 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: RevisionIndex object
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func clearObjects(requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexRevision> {
     let command = Command.Indexing.ClearObjects(indexName: name, requestOptions: requestOptions)
     return try execute(command)
+  }
+  
+  /**
+   Clear the records of an index without affecting its settings.
+
+   - Parameter requestOptions: Configure request locally with RequestOptions.
+   - Returns: RevisionIndex object
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func clearObjects(requestOptions: RequestOptions? = nil) async throws -> WaitableWrapper<IndexRevision> {
+    let command = Command.Indexing.ClearObjects(indexName: name, requestOptions: requestOptions)
+    return try await execute(command)
   }
 
   // MARK: - Replace all objects
@@ -563,6 +794,7 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions
    - Returns: [TaskIndex]  object
    */
+  @available(*, deprecated, message: "Use async version instead")
   @discardableResult func replaceAllObjects<T: Encodable>(with objects: [T],
                                                           autoGeneratingObjectID: Bool = false,
                                                           requestOptions: RequestOptions? = nil) throws -> [IndexedTask] {
@@ -577,6 +809,32 @@ public extension Index {
     ] + moveTasks
 
   }
+  
+  /**
+   Push a new set of objects and remove all previous ones. Settings, synonyms and query rules are untouched.
+   Replace all objects in an index without any downtime.
+   Internally, this method copies the existing index settings, synonyms and query rules and indexes all
+   passed objects. Finally, the existing index is replaced by the temporary one.
+   
+   - Parameter requestOptions: Configure request locally with RequestOptions
+   - Returns: [TaskIndex]  object
+   */
+  @available(iOS 15.0.0, *)
+  @discardableResult func replaceAllObjects<T: Encodable>(with objects: [T],
+                                                          autoGeneratingObjectID: Bool = false,
+                                                          requestOptions: RequestOptions? = nil) async throws -> [IndexedTask] {
+
+    let moveOperations: [BatchOperation] = objects.map { .add($0, autoGeneratingObjectID: autoGeneratingObjectID) }
+    let destinationIndexName = IndexName(rawValue: "\(name)_tmp_\(Int.random(in: 0...100000))")
+    let destinationIndex = Index(name: destinationIndexName, transport: transport, operationLauncher: operationLauncher, configuration: configuration)
+    let moveTasks = try await destinationIndex.batch(moveOperations).wrapped.tasks
+    return [
+      .init(indexName: name, taskID: try copy([.settings, .rules, .synonyms], to: destinationIndexName).task.taskID),
+      .init(indexName: destinationIndexName, taskID: try destinationIndex.move(to: name).task.taskID)
+    ] + moveTasks
+
+  }
+
 
 }
 
@@ -594,5 +852,13 @@ extension Index {
     let command = Command.Index.Batch(indexName: name, batchOperations: batchOperations, requestOptions: requestOptions)
     return try execute(command)
   }
+  
+  @available(iOS 15.0.0, *)
+  @discardableResult func internalBatch(_ batchOperations: [BatchOperation],
+                                        requestOptions: RequestOptions? = nil) async throws -> BatchResponse {
+    let command = Command.Index.Batch(indexName: name, batchOperations: batchOperations, requestOptions: requestOptions)
+    return try await execute(command)
+  }
+
 
 }

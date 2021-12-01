@@ -42,6 +42,11 @@ extension Index {
   func execute<Command: AlgoliaCommand, Output: Codable & Task>(_ command: Command) throws -> WaitableWrapper<Output> {
     try transport.execute(command, transform: WaitableWrapper.wrap(with: self))
   }
+  
+  @available(iOS 15.0.0, *)
+  func execute<Output: Codable & Task>(_ command: AlgoliaCommand) async throws -> WaitableWrapper<Output> {
+    try await transport.execute(command, transform: WaitableWrapper.wrap(with: self))
+  }
 
 }
 

@@ -9,15 +9,16 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
+@available(iOS 15.0.0, *)
 class SynonymsIntegrationTests: IntegrationTestCase {
 
   override var indexNameSuffix: String? { return "synonyms" }
   
-  override var retryableTests: [() throws -> Void] {
+  override var retryableAsyncTests: [() async throws -> Void] {
     [synonyms]
   }
 
-  func synonyms() throws {
+  func synonyms() async throws {
     
     let records: [JSON] = [
       ["console": "Sony PlayStation <PLAYSTATIONVERSION>"],
@@ -29,7 +30,7 @@ class SynonymsIntegrationTests: IntegrationTestCase {
       ["console": "Microsoft Xbox One"],
     ]
     
-    try index.saveObjects(records, autoGeneratingObjectID: true).wait()
+    try await index.saveObjects(records, autoGeneratingObjectID: true).wait()
     
     let multiWaySynonym: Synonym = .multiWay(objectID: "gba", synonyms: ["gba", "gameboy advance", "game boy advance"])
     
@@ -73,13 +74,13 @@ class SynonymsIntegrationTests: IntegrationTestCase {
     try AssertEquallyEncoded(fetchedSynonyms.first(where: { $0.objectID == altCorrection2Synonym.objectID}), altCorrection2Synonym)
 
     try index.deleteSynonym(withID: multiWaySynonym.objectID).wait()
-    try AssertThrowsHTTPError(index.getSynonym(withID: multiWaySynonym.objectID), statusCode: 404)
+    try await AssertThrowsHTTPError(index.getSynonym(withID: multiWaySynonym.objectID), statusCode: 404)
     
     try index.clearSynonyms().wait()
-    try AssertThrowsHTTPError(index.getSynonym(withID: oneWaySynonym.objectID), statusCode: 404)
-    try AssertThrowsHTTPError(index.getSynonym(withID: placeholderSynonym.objectID), statusCode: 404)
-    try AssertThrowsHTTPError(index.getSynonym(withID: altCorrection1Synonym.objectID), statusCode: 404)
-    try AssertThrowsHTTPError(index.getSynonym(withID: altCorrection2Synonym.objectID), statusCode: 404)
+    try await AssertThrowsHTTPError(index.getSynonym(withID: oneWaySynonym.objectID), statusCode: 404)
+    try await AssertThrowsHTTPError(index.getSynonym(withID: placeholderSynonym.objectID), statusCode: 404)
+    try await AssertThrowsHTTPError(index.getSynonym(withID: altCorrection1Synonym.objectID), statusCode: 404)
+    try await AssertThrowsHTTPError(index.getSynonym(withID: altCorrection2Synonym.objectID), statusCode: 404)
     
     XCTAssertEqual(try index.searchSynonyms("").nbHits, 0)
 

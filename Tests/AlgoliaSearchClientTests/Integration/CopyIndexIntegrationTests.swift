@@ -9,13 +9,14 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
+@available(iOS 15.0.0, *)
 class CopyIndexIntergrationTests: IntegrationTestCase {
 
   var sourceIndex: Index {
     return index!
   }
   
-  override var retryableTests: [() throws -> Void] {
+  override var retryableAsyncTests: [() async throws -> Void]{
     [
       copySettings,
       copyRules,
@@ -35,16 +36,16 @@ class CopyIndexIntergrationTests: IntegrationTestCase {
     .set(\.consequence, to: Rule.Consequence().set(\.automaticFacetFilters, to: [Rule.AutomaticFacetFilters(attribute: "company")]))
   let synonym = Synonym.placeholder(objectID: "google_placeholder", placeholder: "<GOOG>", replacements: ["Google", "GOOG"])
       
-  func copySettings() throws {
+  func copySettings() async throws {
     
     let targetIndex = client.index(withName: "copy_index_settings")
     
-    try sourceIndex.saveObjects(records).wait()
-    try sourceIndex.setSettings(settings).wait()
+    try await sourceIndex.saveObjects(records).wait()
+    try await sourceIndex.setSettings(settings).wait()
     
     try sourceIndex.copy(.settings, to: targetIndex.name).wait()
     
-    let fetchedSettings = try targetIndex.getSettings()
+    let fetchedSettings = try await targetIndex.getSettings()
 
     XCTAssertEqual(settings.attributesForFaceting, fetchedSettings.attributesForFaceting)
     
@@ -52,7 +53,7 @@ class CopyIndexIntergrationTests: IntegrationTestCase {
     
   }
   
-  func copyRules() throws {
+  func copyRules() async throws {
     
     let targetIndex = client.index(withName: "copy_index_rules")
     
@@ -70,7 +71,7 @@ class CopyIndexIntergrationTests: IntegrationTestCase {
 
   }
   
-  func copySynonyms() throws {
+  func copySynonyms() async throws {
     
     let targetIndex = client.index(withName: "copy_index_synonyms")
     
@@ -87,24 +88,24 @@ class CopyIndexIntergrationTests: IntegrationTestCase {
     
   }
   
-  func fullCopy() throws {
+  func fullCopy() async throws {
     
     let targetIndex = client.index(withName: "copy_index_full_copy")
     
-    try sourceIndex.saveObjects(records).wait()
-    try sourceIndex.setSettings(settings).wait()
+    try await sourceIndex.saveObjects(records).wait()
+    try await sourceIndex.setSettings(settings).wait()
     try sourceIndex.saveRule(rule).wait()
     try sourceIndex.saveSynonym(synonym).wait()
     
     try sourceIndex.copy(to: targetIndex.name).wait()
     
-    let fullCopyRecords = try targetIndex.browse().hits.map(\.object)
+    let fullCopyRecords = try await targetIndex.browse().hits.map(\.object)
     
     for record in records {
       XCTAssert(fullCopyRecords.contains(record))
     }
     
-    let fullCopySettings = try targetIndex.getSettings()
+    let fullCopySettings = try await targetIndex.getSettings()
     XCTAssertEqual(settings.attributesForFaceting, fullCopySettings.attributesForFaceting)
     
     let fullCopyRules = try targetIndex.searchRules("").hits.map(\.rule)

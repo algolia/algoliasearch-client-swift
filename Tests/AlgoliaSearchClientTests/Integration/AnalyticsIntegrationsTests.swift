@@ -9,9 +9,10 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
+@available(iOS 15.0.0, *)
 class AnalyticsIntegrationTests: IntegrationTestCase {
-  
-  override var retryableTests: [() throws -> Void] {
+    
+  override var retryableAsyncTests: [() async throws -> Void] {
     [
       browsing,
       abTesting,
@@ -19,21 +20,21 @@ class AnalyticsIntegrationTests: IntegrationTestCase {
     ]
   }
   
-  func browsing() throws {
+  func browsing() async throws {
     let analyticsClient = AnalyticsClient(appID: client.applicationID, apiKey: client.apiKey)
     let _ = try analyticsClient.browseAllABTests(hitsPerPage: 3)
   }
 
-  func abTesting() throws {
+  func abTesting() async throws {
         
     let analyticsClient = AnalyticsClient(appID: client.applicationID, apiKey: client.apiKey)
 
     let index1 = client.index(withName: "\(uniquePrefix())_ab_testing")
     let index2 = client.index(withName: "\(uniquePrefix())_ab_testing_dev")
     
-    let save1 = try index1.saveObject(["objectID": "one"] as JSON)
+    let save1 = try await index1.saveObject(["objectID": "one"] as JSON)
     try AssertWait(save1)
-    let save2 = try index2.saveObject(["objectID": "one"] as JSON)
+    let save2 = try await index2.saveObject(["objectID": "one"] as JSON)
     try AssertWait(save2)
     
     let abTestName = TestIdentifier().rawValue
@@ -65,15 +66,15 @@ class AnalyticsIntegrationTests: IntegrationTestCase {
     let deletion = try analyticsClient.deleteABTest(withID: creation.wrapped.abTestID)
     try AssertWait(deletion)
 
-    try AssertThrowsHTTPError(try analyticsClient.getABTest(withID: creation.wrapped.abTestID), statusCode: 404)
+    try await AssertThrowsHTTPError(try analyticsClient.getABTest(withID: creation.wrapped.abTestID), statusCode: 404)
   }
     
-  func aaTesting() throws {
+  func aaTesting() async throws {
     
     let analyticsClient = AnalyticsClient(appID: client.applicationID, apiKey: client.apiKey)
     let index = client.index(withName: "\(uniquePrefix())_aa_testing")
     
-    let saveObject = try index.saveObject(["objectID": "one"])
+    let saveObject = try await index.saveObject(["objectID": "one"])
     try AssertWait(saveObject)
     
     let abTestName = TestIdentifier().rawValue
@@ -99,7 +100,7 @@ class AnalyticsIntegrationTests: IntegrationTestCase {
 
     let deletion = try analyticsClient.deleteABTest(withID: creation.wrapped.abTestID)
     try AssertWait(deletion)
-    try AssertThrowsHTTPError(try analyticsClient.getABTest(withID: creation.wrapped.abTestID), statusCode: 404)
+    try await AssertThrowsHTTPError(try analyticsClient.getABTest(withID: creation.wrapped.abTestID), statusCode: 404)
     
   }
 
