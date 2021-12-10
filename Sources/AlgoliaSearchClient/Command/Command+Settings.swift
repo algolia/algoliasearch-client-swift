@@ -15,13 +15,16 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: IndexCompletion
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName,
            requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.indexesV1 >>> .index(indexName) >>> .settings)
+        self.path = URL
+          .indexesV1
+          .appending(indexName)
+          .appending(.settings)
       }
 
     }
@@ -30,7 +33,7 @@ extension Command {
 
       let method: HTTPMethod = .put
       let callType: CallType = .write
-      let path: IndexCompletion
+      let path: URL
       let body: Data?
       let requestOptions: RequestOptions?
 
@@ -43,7 +46,10 @@ extension Command {
           guard let forwardToReplicas = forwardToReplicas else { return [:] }
           return [.forwardToReplicas: "\(forwardToReplicas)"]
         }())
-        self.path = (.indexesV1 >>> .index(indexName) >>> .settings)
+        self.path = URL
+          .indexesV1
+          .appending(indexName)
+          .appending(.settings)
         self.body = settings.httpBody
       }
 

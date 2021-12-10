@@ -15,13 +15,15 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .write
-      let path: IndexRoute
+      let path: URL
       let body: Data?
       let requestOptions: RequestOptions?
 
       init<T: Encodable>(indexName: IndexName, record: T, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.indexesV1 >>> .index(indexName))
+        self.path = URL
+          .indexesV1
+          .appending(indexName)
         self.body = record.httpBody
       }
 
@@ -31,7 +33,7 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: IndexCompletion
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, objectID: ObjectID, attributesToRetrieve: [Attribute], requestOptions: RequestOptions?) {
@@ -41,7 +43,10 @@ extension Command {
           return [.attributesToRetreive: attributesValue]
         }() )
         self.requestOptions = requestOptions
-        self.path = (.indexesV1 >>> .index(indexName) >>> .objectID(objectID))
+        self.path = URL
+          .indexesV1
+          .appending(indexName)
+          .appending(objectID)
       }
 
     }
@@ -50,13 +55,16 @@ extension Command {
 
       let method: HTTPMethod = .put
       let callType: CallType = .write
-      let path: IndexCompletion
+      let path: URL
       let body: Data?
       let requestOptions: RequestOptions?
 
       init<T: Encodable>(indexName: IndexName, objectID: ObjectID, replacementObject record: T, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.indexesV1 >>> .index(indexName) >>> .objectID(objectID))
+        self.path = URL
+          .indexesV1
+          .appending(indexName)
+          .appending(objectID)
         self.body = record.httpBody
       }
 
@@ -66,12 +74,15 @@ extension Command {
 
       let method: HTTPMethod = .delete
       let callType: CallType = .write
-      let path: IndexCompletion
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, objectID: ObjectID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.indexesV1 >>> .index(indexName) >>> .objectID(objectID))
+        self.path = URL
+          .indexesV1
+          .appending(indexName)
+          .appending(objectID)
       }
 
     }
@@ -80,13 +91,16 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .write
-      let path: IndexCompletion
+      let path: URL
       let body: Data?
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, query: AlgoliaSearchClient.DeleteByQuery, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.indexesV1 >>> .index(indexName) >>> .deleteByQuery)
+        self.path = URL
+          .indexesV1
+          .appending(indexName)
+          .appending(.deleteByQuery)
         self.body = ParamsWrapper(query.urlEncodedString).httpBody
       }
 
@@ -96,7 +110,7 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .write
-      let path: IndexCompletion
+      let path: URL
       let body: Data?
       let requestOptions: RequestOptions?
 
@@ -106,7 +120,11 @@ extension Command {
           return [.createIfNotExists: String(createIfNotExists)]
           }() )
         self.requestOptions = requestOptions
-        self.path = (.indexesV1 >>> .index(indexName) >>> .objectID(objectID, partial: true))
+        self.path = URL
+          .indexesV1
+          .appending(indexName)
+          .appending(objectID)
+          .appending(.partial)
         self.body = partialUpdate.httpBody
       }
 
@@ -116,12 +134,15 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .write
-      let path: IndexCompletion
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.indexesV1 >>> .index(indexName) >>> .clear)
+        self.path = URL
+          .indexesV1
+          .appending(indexName)
+          .appending(.clear)
       }
 
     }

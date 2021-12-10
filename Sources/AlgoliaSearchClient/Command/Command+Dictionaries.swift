@@ -15,7 +15,7 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .write
-      let path: DictionaryCompletion
+      let path: URL
       let body: Data?
       let requestOptions: RequestOptions?
 
@@ -23,7 +23,10 @@ extension Command {
                                 requests: [DictionaryRequest<D.Entry>],
                                 clearExistingDictionaryEntries: Bool,
                                 requestOptions: RequestOptions?) where D.Entry: Encodable {
-        self.path = (.dictionaries >>> .dictionaryName(D.name) >>> .batch)
+        self.path = URL
+          .dictionaries
+          .appending(D.name)
+          .appending(.batch)
         self.body = Payload(requests: requests, clearExistingDictionaryEntries: clearExistingDictionaryEntries).httpBody
         self.requestOptions = requestOptions
       }
@@ -40,7 +43,7 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .read
-      let path: DictionaryCompletion
+      let path: URL
       let body: Data?
       let requestOptions: RequestOptions?
 
@@ -48,7 +51,10 @@ extension Command {
            query: DictionaryQuery,
            requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.dictionaries >>> .dictionaryName(dictionaryName) >>> .search)
+        self.path = URL
+          .dictionaries
+          .appending(dictionaryName)
+          .appending(.search)
         self.body = query.httpBody
       }
 
@@ -56,7 +62,10 @@ extension Command {
                                 query: DictionaryQuery,
                                 requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.dictionaries >>> .dictionaryName(D.name) >>> .search)
+        self.path = URL
+          .dictionaries
+          .appending(D.name)
+          .appending(.search)
         self.body = query.httpBody
       }
 
@@ -66,12 +75,15 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: DictionaryCompletion
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.dictionaries >>> .common >>> .settings)
+        self.path = URL
+          .dictionaries
+          .appending(.asterisk)
+          .appending(.settings)
       }
 
     }
@@ -80,14 +92,17 @@ extension Command {
 
       let method: HTTPMethod = .put
       let callType: CallType = .write
-      let path: DictionaryCompletion
+      let path: URL
       let body: Data?
       let requestOptions: RequestOptions?
 
       init(settings: DictionarySettings,
            requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.dictionaries >>> .common >>> .settings)
+        self.path = URL
+          .dictionaries
+          .appending(.asterisk)
+          .appending(.settings)
         self.body = settings.httpBody
       }
 
@@ -97,12 +112,15 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: DictionaryCompletion
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.dictionaries >>> .common >>> .languages)
+        self.path = URL
+          .dictionaries
+          .appending(.asterisk)
+          .appending(.languages)
       }
 
     }

@@ -17,7 +17,7 @@ class HostSwitcherTests: XCTestCase {
 
   func testSwitchHost() throws {
     let timeout: TimeInterval = 10
-    let request = URLRequest(command: Command.Custom(method: .post, callType: .write, path: .init("/my/test/path"), body: nil, requestOptions: nil))
+    let request = URLRequest(command: Command.Custom(method: .post, callType: .write, path: .init(string: "/my/test/path")!, body: nil, requestOptions: nil))
 
     for index in 0...20 {
       var host = RetryableHost(url: URL(string: "test\(index).algolia.com")!)

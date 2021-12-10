@@ -15,7 +15,7 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .read
-      let path: RecommendCompletion = .indexesV1 >>> .multiIndex >>> .recommendations
+      let path: URL
       let body: Data?
       let requestOptions: RequestOptions?
 
@@ -23,6 +23,10 @@ extension Command {
         var requestOptions = requestOptions.unwrapOrCreate()
         requestOptions.setHeader("application/json", forKey: .contentType)
         self.requestOptions = requestOptions
+        self.path = URL
+          .indexesV1
+          .appending(.asterisk)
+          .appending(.recommendations)
         self.body = RequestsWrapper(options).httpBody
       }
 

@@ -32,11 +32,11 @@ extension URLRequest {
 
   }
 
-  init<Command: AlgoliaCommand>(command: Command) {
+  init(command: AlgoliaCommand) {
 
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"
-    urlComponents.path = command.path.fullPath
+    urlComponents.path = command.path.absoluteString.removingPercentEncoding!
 
     if let urlParameters = command.requestOptions?.urlParameters {
       urlComponents.queryItems = urlParameters.map { (key, value) in .init(name: key.rawValue, value: value) }

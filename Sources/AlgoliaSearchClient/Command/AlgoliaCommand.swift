@@ -9,11 +9,9 @@ import Foundation
 
 protocol AlgoliaCommand {
 
-  associatedtype Path: PathComponent
-
   var method: HTTPMethod { get }
   var callType: CallType { get }
-  var path: Path { get }
+  var path: URL { get }
   var body: Data? { get }
   var requestOptions: RequestOptions? { get }
 

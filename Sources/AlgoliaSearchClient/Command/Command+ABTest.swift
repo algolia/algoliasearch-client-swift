@@ -15,7 +15,7 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .write
-      let path: Path = .ABTestsV2
+      let path: URL = .ABTestsV2
       let body: Data?
       let requestOptions: RequestOptions?
 
@@ -30,12 +30,14 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: ABTestRoute
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(abTestID: ABTestID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.ABTestsV2 >>> .ABTestID(abTestID))
+        self.path = URL
+          .ABTestsV2
+          .appending(abTestID)
       }
 
     }
@@ -44,12 +46,15 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .write
-      let path: ABTestCompletion
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(abTestID: ABTestID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.ABTestsV2 >>> .ABTestID(abTestID) >>> .stop)
+        self.path = URL
+          .ABTestsV2
+          .appending(abTestID)
+          .appending(.stop)
       }
 
     }
@@ -58,12 +63,14 @@ extension Command {
 
       let method: HTTPMethod = .delete
       let callType: CallType = .write
-      let path: ABTestRoute
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(abTestID: ABTestID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.ABTestsV2 >>> .ABTestID(abTestID))
+        self.path = URL
+          .ABTestsV2
+          .appending(abTestID)
       }
 
     }
@@ -72,7 +79,7 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: Path = .ABTestsV2
+      let path: URL = .ABTestsV2
       let requestOptions: RequestOptions?
 
       init(offset: Int?, limit: Int?, requestOptions: RequestOptions?) {

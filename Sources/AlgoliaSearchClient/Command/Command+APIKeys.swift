@@ -15,7 +15,7 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .write
-      let path: Path = .keysV1
+      let path: URL = .keysV1
       let body: Data?
       let requestOptions: RequestOptions?
 
@@ -30,12 +30,14 @@ extension Command {
 
       let method: HTTPMethod = .put
       let callType: CallType = .write
-      let path: APIKeyCompletion
+      let path: URL
       let body: Data?
       let requestOptions: RequestOptions?
 
       init(apiKey: AlgoliaSearchClient.APIKey, parameters: APIKeyParameters, requestOptions: RequestOptions?) {
-        self.path = (.keysV1 >>> .apiKey(apiKey))
+        self.path = URL
+          .keysV1
+          .appending(apiKey)
         self.body = parameters.httpBody
         self.requestOptions = requestOptions
       }
@@ -46,11 +48,13 @@ extension Command {
 
       let method: HTTPMethod = .delete
       let callType: CallType = .write
-      let path: APIKeyCompletion
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(apiKey: AlgoliaSearchClient.APIKey, requestOptions: RequestOptions?) {
-        self.path = (.keysV1 >>> .apiKey(apiKey))
+        self.path = URL
+          .keysV1
+          .appending(apiKey)
         self.requestOptions = requestOptions
       }
 
@@ -60,11 +64,14 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .write
-      let path: APIKeyCompletion
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(apiKey: AlgoliaSearchClient.APIKey, requestOptions: RequestOptions?) {
-        self.path = (.keysV1 >>> .restoreAPIKey(apiKey))
+        self.path = URL
+          .keysV1
+          .appending(apiKey)
+          .appending(.restore)
         self.requestOptions = requestOptions
       }
 
@@ -74,11 +81,13 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: APIKeyCompletion
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(apiKey: AlgoliaSearchClient.APIKey, requestOptions: RequestOptions?) {
-        self.path = (.keysV1 >>> .apiKey(apiKey))
+        self.path = URL
+          .keysV1
+          .appending(apiKey)
         self.requestOptions = requestOptions
       }
 
@@ -88,11 +97,10 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: Path
+      let path: URL = .keysV1
       let requestOptions: RequestOptions?
 
       init(requestOptions: RequestOptions?) {
-        self.path = .keysV1
         self.requestOptions = requestOptions
       }
 

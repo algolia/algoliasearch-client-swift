@@ -15,7 +15,7 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: Path = .indexesV1
+      let path: URL = .indexesV1
       let requestOptions: RequestOptions?
 
       init(requestOptions: RequestOptions?) {
@@ -28,12 +28,15 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: MultiIndexCompletion
+      let path: URL
       let requestOptions: RequestOptions?
 
       init(requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = (.indexesV1 >>> .multiIndex >>> .keys)
+        self.path = URL
+          .indexesV1
+          .appending(.asterisk)
+          .appending(.keys)
       }
 
     }
@@ -42,7 +45,7 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .read
-      let path: MultiIndexCompletion
+      let path: URL
       let body: Data?
       let requestOptions: RequestOptions?
 
@@ -57,7 +60,7 @@ extension Command {
                   strategy: strategy,
                   requestOptions: requestOptions)
       }
-      
+
       init(queries: [IndexedQuery],
            strategy: MultipleQueriesStrategy = .none,
            requestOptions: RequestOptions?) {
@@ -67,13 +70,15 @@ extension Command {
                   requestOptions: requestOptions)
       }
 
-
       init(queries: [MultiSearchQuery],
            strategy: MultipleQueriesStrategy = .none,
            requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         self.body = MultipleQueriesRequest(requests: queries, strategy: strategy).httpBody
-        self.path = (.indexesV1 >>> .multiIndex >>> .queries)
+        self.path = URL
+          .indexesV1
+          .appending(.asterisk)
+          .appending(.queries)
       }
 
     }
@@ -82,7 +87,7 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .read
-      let path: MultiIndexCompletion
+      let path: URL
       let body: Data?
       let requestOptions: RequestOptions?
 
@@ -94,7 +99,10 @@ extension Command {
       init(requests: [ObjectRequest], requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         self.body = RequestsWrapper(requests).httpBody
-        self.path = (.indexesV1 >>> .multiIndex >>> .objects)
+        self.path = URL
+          .indexesV1
+          .appending(.asterisk)
+          .appending(.objects)
       }
 
     }
@@ -103,7 +111,7 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .write
-      let path: MultiIndexCompletion
+      let path: URL
       let body: Data?
       let requestOptions: RequestOptions?
 
@@ -114,7 +122,10 @@ extension Command {
       init(operations: [IndexBatchOperation], requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
         self.body = RequestsWrapper(operations).httpBody
-        self.path = (.indexesV1 >>> .multiIndex >>> .batch)
+        self.path = URL
+          .indexesV1
+          .appending(.asterisk)
+          .appending(.batch)
       }
 
     }
