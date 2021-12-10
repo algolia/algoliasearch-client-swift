@@ -31,8 +31,7 @@ class HTTPRequestBuilder {
 
     let timeout = command.requestOptions?.timeout(for: command.callType) ?? configuration.timeout(for: command.callType)
     var request = URLRequest(command: command).setIfNotNil(\.credentials, to: credentials)
-    let userAgentsValue = UserAgentController.userAgents.map(\.description).joined(separator: "; ")
-    request.addValue(userAgentsValue, forHTTPHeaderField: HTTPHeaderKey.userAgent.rawValue)
+    request.addValue(UserAgentController.httpHeaderValue, forHTTPHeaderField: HTTPHeaderKey.userAgent.rawValue)
     return HTTPRequest(requester: requester,
                        retryStrategy: retryStrategy,
                        request: request,
