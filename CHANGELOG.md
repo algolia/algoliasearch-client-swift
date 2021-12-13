@@ -1,5 +1,21 @@
 # ChangeLog
 
+## [8.13.0](https://github.com/algolia/algoliasearch-client-swift/compare/...8.13.0) (2021-12-13)
+
+### Feat
+
+- Replace static UserAgent with UserAgent extensions (#764) ([52a682b](https://github.com/algolia/algoliasearch-client-swift/commit/58ad2eb))
+
+### Fix
+
+-  Around precision url component conversion issue (#765) ([58ad2eb](https://github.com/algolia/algoliasearch-client-swift/commit/52a682b))
+
+### Refactor
+
+- URL paths construction (#762) ([72dfa0e](https://github.com/algolia/algoliasearch-client-swift/commit/72dfa0e))
+
+
+
 ## [8.12.0](https://github.com/algolia/algoliasearch-client-swift/compare/...8.12.0) (2021-11-05)
 
 ### Feat
