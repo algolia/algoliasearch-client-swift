@@ -16,10 +16,9 @@ jobs:
           ls ${{ github.workspace }}
       - run: echo "🍏 This job's status is ${{ job.status }}."
   SwiftLint:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v1
       - name: Lint
-        uses: norio-nomura/action-swiftlint@3.2.1
-        with:
-          args: --strict
+      - run: brew install swiftlint
+      - run: swiftlint
