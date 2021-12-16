@@ -1,0 +1,9 @@
+name: Cocoapods
+on: [pull_request]
+jobs:
+  Lint:
+    runs-on: macos-latest
+    steps:
+      - uses: ty0x2333/cocoapods-action@master
+        with:
+          additional_lint_params: --allow-warnings
