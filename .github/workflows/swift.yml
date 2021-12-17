@@ -8,10 +8,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Select Xcode version
-        run: sudo xcode-select -p
-      - run: ls /Applications 
-      - run: sudo xcode-select -s '/Applications/Xcode_13.2.app/Contents/Developer'
-      - name: Build
+        run: sudo xcode-select -s '/Applications/Xcode_13.2.app/Contents/Developer'
+      - name: Build project
         run: swift build
       - name: Run tests
         run: swift test
