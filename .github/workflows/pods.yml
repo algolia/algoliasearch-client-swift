@@ -5,5 +5,7 @@ jobs:
     runs-on: macos-latest
     steps:
      - uses: actions/checkout@v2
+     - name: Select Xcode version
+       run: sudo xcode-select -s '/Applications/Xcode_13.2.app/Contents/Developer'
      - name: Pod lib lint
        run: pod lib lint
