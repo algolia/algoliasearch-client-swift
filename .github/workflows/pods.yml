@@ -2,7 +2,7 @@ name: Cocoapods
 on: [pull_request]
 jobs:
   Lint:
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
      - uses: actions/checkout@v2
      - name: Select Xcode version
