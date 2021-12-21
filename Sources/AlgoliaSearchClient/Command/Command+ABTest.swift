@@ -15,7 +15,7 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .write
-      let path: URL = .ABTestsV2
+      let path = URL.ABTestsV2
       let body: Data?
       let requestOptions: RequestOptions?
 
@@ -79,7 +79,7 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: URL = .ABTestsV2
+      let path = URL.ABTestsV2
       let requestOptions: RequestOptions?
 
       init(offset: Int?, limit: Int?, requestOptions: RequestOptions?) {
