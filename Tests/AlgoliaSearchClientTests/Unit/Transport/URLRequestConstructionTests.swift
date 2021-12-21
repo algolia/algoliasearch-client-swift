@@ -20,7 +20,7 @@ class URLRequestConstructionTests: XCTestCase {
     let method = HTTPMethod.post
     let body: Data = "TestContent".data(using: .utf8)!
     let credentials = TestCredentials(applicationID: "testAppID", apiKey: "testApiKey")
-    let request = URLRequest(command: Command.Custom(method: method, callType: .read, path: .init(string: "/my/test/path")!, body: body, requestOptions: nil))
+    let request = URLRequest(command: Command.Custom(method: method, callType: .read, path: URL(string: "/my/test/path")!, body: body, requestOptions: nil))
       .set(\.credentials, to: credentials)
 
     let expectedHeaders: [String: String] = [
@@ -36,6 +36,32 @@ class URLRequestConstructionTests: XCTestCase {
     XCTAssertEqual(request.url?.absoluteString, "https:/my/test/path")
     XCTAssertEqual(request.httpBody, body)
 
+  }
+  
+  func testStandartAPIKey() throws {
+    let command = Command.Settings.SetSettings(indexName: "testIndex",
+                                               settings: Settings(),
+                                               resetToDefault: [],
+                                               forwardToReplicas: nil,
+                                               requestOptions: nil)
+    var request = URLRequest(command: command)
+    let rawAPIKey = "TEST_API_KEY"
+    request.apiKey = APIKey(rawValue: rawAPIKey)
+    XCTAssertEqual(request.allHTTPHeaderFields?[HTTPHeaderKey.apiKey.rawValue], rawAPIKey)
+  }
+  
+  func testLongAPIKey() throws {
+    let command = Command.Settings.SetSettings(indexName: "testIndex",
+                                               settings: Settings(),
+                                               resetToDefault: [],
+                                               forwardToReplicas: nil,
+                                               requestOptions: nil)
+    var request = URLRequest(command: command)
+    let rawAPIKey = String.random(length: URLRequest.maxHeaderAPIKeyLength + 1)
+    request.apiKey = APIKey(rawValue: rawAPIKey)
+    let json = try JSONDecoder().decode(JSON.self, from: request.httpBody!)
+    XCTAssertNil(request.allHTTPHeaderFields?[HTTPHeaderKey.apiKey.rawValue])
+    XCTAssertEqual(json["apiKey"], .string(rawAPIKey))
   }
 
 }
