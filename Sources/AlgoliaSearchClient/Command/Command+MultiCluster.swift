@@ -15,7 +15,7 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: URL = .clustersV1
+      let path = URL.clustersV1
       let requestOptions: RequestOptions?
 
       init(requestOptions: RequestOptions?) {
@@ -53,7 +53,7 @@ extension Command.MultiCluster {
 
       let method: HTTPMethod = .post
       let callType: CallType = .write
-      let path: URL = .clustersV1.appending(.mapping)
+      let path = URL.clustersV1.appending(.mapping)
       let body: Data?
       let requestOptions: RequestOptions?
 
@@ -105,7 +105,7 @@ extension Command.MultiCluster {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: URL = .clustersV1
+      let path = URL.clustersV1
         .appending(.mapping)
         .appending(.top)
       let requestOptions: RequestOptions?
@@ -120,7 +120,7 @@ extension Command.MultiCluster {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: URL = .clustersV1
+      let path = URL.clustersV1
         .appending(.mapping)
       let requestOptions: RequestOptions?
 
@@ -155,7 +155,7 @@ extension Command.MultiCluster {
 
       let method: HTTPMethod = .post
       let callType: CallType = .read
-      let path: URL = .clustersV1
+      let path = URL.clustersV1
         .appending(.mapping)
         .appending(.search)
       let body: Data?

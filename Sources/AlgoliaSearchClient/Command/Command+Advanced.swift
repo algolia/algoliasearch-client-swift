@@ -49,7 +49,7 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: URL = .logs
+      let path = URL.logs
       let requestOptions: RequestOptions?
 
       init(indexName: IndexName?, offset: Int?, length: Int?, logType: LogType, requestOptions: RequestOptions?) {

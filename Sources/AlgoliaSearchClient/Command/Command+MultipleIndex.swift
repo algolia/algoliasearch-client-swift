@@ -15,7 +15,7 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: URL = .indexesV1
+      let path = URL.indexesV1
       let requestOptions: RequestOptions?
 
       init(requestOptions: RequestOptions?) {

@@ -34,11 +34,11 @@ extension UserAgent: CustomStringConvertible {
 }
 
 extension UserAgent: UserAgentExtending {
-  
+
   public var userAgentExtension: String {
     return description
   }
-  
+
 }
 
 extension UserAgent {

@@ -15,7 +15,7 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: URL = .strategies.appending(.personalization)
+      let path = URL.strategies.appending(.personalization)
       let requestOptions: RequestOptions?
 
       init(requestOptions: RequestOptions?) {
@@ -28,7 +28,7 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .write
-      let path: URL = .strategies.appending(.personalization)
+      let path = URL.strategies.appending(.personalization)
       let body: Data?
       let requestOptions: RequestOptions?
 

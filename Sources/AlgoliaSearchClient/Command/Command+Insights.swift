@@ -15,7 +15,7 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .write
-      let path: URL = .eventsV1
+      let path = URL.eventsV1
       let body: Data?
       let requestOptions: RequestOptions?
 

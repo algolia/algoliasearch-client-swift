@@ -15,7 +15,7 @@ extension Command {
 
       let method: HTTPMethod = .post
       let callType: CallType = .write
-      let path: URL = .keysV1
+      let path = URL.keysV1
       let body: Data?
       let requestOptions: RequestOptions?
 
@@ -97,7 +97,7 @@ extension Command {
 
       let method: HTTPMethod = .get
       let callType: CallType = .read
-      let path: URL = .keysV1
+      let path = URL.keysV1
       let requestOptions: RequestOptions?
 
       init(requestOptions: RequestOptions?) {
