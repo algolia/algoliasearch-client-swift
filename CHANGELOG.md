@@ -2,6 +2,10 @@
 
 ## [8.13.1](https://github.com/algolia/algoliasearch-client-swift/compare/...8.13.1) (2021-12-22)
 
+### Fix
+
+- Move API key to body if the key's length > 500 chars (#769) ([c1be4fb](https://github.com/algolia/algoliasearch-client-swift/commit/c1be4fb))
+
 
 
 ## [8.13.0](https://github.com/algolia/algoliasearch-client-swift/compare/...8.13.0) (2021-12-13)
