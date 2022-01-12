@@ -103,7 +103,7 @@ extension Query {
     func encode() -> String? {
       var components = URLComponents()
       components.queryItems = queryItems
-      return components.percentEncodedQuery
+      return components.query?.addingPercentEncoding(withAllowedCharacters: .uriAllowed)
     }
 
   }

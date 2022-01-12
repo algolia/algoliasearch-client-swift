@@ -19,7 +19,7 @@ class QueryTests: XCTestCase {
     .set(\.explainModules, to: [.matchAlternatives])
     .set(\.attributesToRetrieve, to: ["attr1", "attr2", "attr3"])
     .set(\.restrictSearchableAttributes, to: ["rattr1", "rattr2"])
-    .set(\.filters, to: "(color:red OR color:yellow) AND on-sale")
+    .set(\.filters, to: "(color:red OR color:yellow) AND on-sale AND 12+")
     .set(\.facetFilters, to: [.or("color:red", "color:blue"), "size:M"])
     .set(\.optionalFilters, to: [.or("color:red", "color:yellow"), "on-sale"])
     .set(\.numericFilters, to: [.or("price>100", "length<1000"), "metrics>5"])
@@ -95,7 +95,7 @@ class QueryTests: XCTestCase {
       "explainModules=match.alternatives",
       "attributesToRetrieve=attr1,attr2,attr3",
       "restrictSearchableAttributes=rattr1,rattr2",
-      "filters=(color:red%20OR%20color:yellow)%20AND%20on-sale",
+      "filters=(color:red%20OR%20color:yellow)%20AND%20on-sale%20AND%2012%2B",
       "facetFilters=%5B%5B%22color:red%22,%22color:blue%22%5D,%22size:M%22%5D",
       "optionalFilters=%5B%5B%22color:red%22,%22color:yellow%22%5D,%22on-sale%22%5D",
       "numericFilters=%5B%5B%22price%3E100%22,%22length%3C1000%22%5D,%22metrics%3E5%22%5D",
@@ -189,7 +189,7 @@ class QueryTests: XCTestCase {
       "explainModules": ["match.alternatives"],
       "attributesToRetrieve": ["attr1", "attr2", "attr3"],
       "restrictSearchableAttributes": ["rattr1", "rattr2"],
-      "filters": "(color:red OR color:yellow) AND on-sale",
+      "filters": "(color:red OR color:yellow) AND on-sale AND 12+",
       "facetFilters": [["color:red", "color:blue"], "size:M"],
       "optionalFilters": [["color:red", "color:yellow"], "on-sale"],
       "numericFilters": [["price>100", "length<1000"], "metrics>5"],
