@@ -2,6 +2,10 @@
 
 ## [8.13.2](https://github.com/algolia/algoliasearch-client-swift/compare/...8.13.2) (2022-01-12)
 
+### Fix
+
+- Query url encoding issue with plus sign (#772) ([0af9644](https://github.com/algolia/algoliasearch-client-swift/commit/0af9644))
+
 
 
 ## [8.13.1](https://github.com/algolia/algoliasearch-client-swift/compare/...8.13.1) (2021-12-22)
