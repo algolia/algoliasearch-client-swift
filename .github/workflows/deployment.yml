@@ -1,10 +1,10 @@
 name: Deployment
-on: [push]
-  # push:
-  #   tags: 
-  #    - patcht
-  #    - minort
-  #    - majort
+on: 
+  push:
+    tags: 
+     - patcht
+     - minort
+     - majort
 jobs:
   deploy:
     runs-on: macos-11
@@ -31,5 +31,11 @@ jobs:
           make install
           export PATH="$GOPATH/bin:$PATH"
           polyglot version
-          polyglot installation check
-          polyglot environment check
+      - uses: actions/setup-ruby@v1
+        with:
+          ruby-version: '2.7.2'
+      - uses: maierj/fastlane-action@v2.0.1
+        with:
+          lane: 'deploy'
+          options: '{ "type": $RELEASE_TYPE }'
+          

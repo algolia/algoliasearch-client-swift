@@ -76,7 +76,7 @@ lane :deploy do |options|
   )
   add_git_tag(
     build_number: new_version,
-    tag: new_version
+    tag: "test-#{new_version}"
   )
   push_to_git_remote(remote: "origin")
 
@@ -104,10 +104,10 @@ lane :deploy do |options|
     sh("git tag -d #{release_type}; git push --delete origin #{release_type}")
   end
 
-  pod_push(
-    path: podspec_path,
-    allow_warnings: true
-  )
+  # pod_push(
+  #   path: podspec_path,
+  #   allow_warnings: true
+  # )
 end
 
 lane :deployBeta do |options| 
