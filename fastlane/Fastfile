@@ -42,51 +42,6 @@ lane :lint do |options|
   )
 end
 
-desc "Test GH operations"
-lane :testgh do
-  repository_name = "algolia/algoliasearch-client-swift"
-  branch_name = "test-branch"
-  base_branch = "master"
-  release_type = "patch"
-  new_version = "1.2.3"
-
-  branch_name = "version-#{new_version}"
-  sh("git checkout -b #{branch_name}")
-
-  sh("cd ..; echo temp > tempFile; git add tempFile;")
-
-  git_commit(
-    path: ["tempFile"],
-    message: "chore: test [skip ci]"
-  )
-
-  add_git_tag(
-    build_number: new_version,
-    tag: "test-#{new_version}"
-  )
-  push_to_git_remote(remote: "origin")
-
-  create_pull_request(
-    repo: repository_name,
-    api_token: ENV["PERSONAL_ACCESS_TOKEN"],
-    title: "chore: Deploying new #{release_type} version #{new_version}",
-    head: branch_name,
-    base: base_branch,
-    body: "Please check the files before merging in case I've overidden something accidentally."
-  )
-
-  set_github_release(
-    repository_name: repository_name,
-    api_token: ENV["PERSONAL_ACCESS_TOKEN"],
-    name: new_version,
-    tag_name: new_version,
-    description: (File.read("../release_notes.md") rescue "No release notes provided"),
-    is_draft: true,
-    commitish: base_branch,
-    upload_assets: []
-  )
-end
-
 desc "Available options: type:major|minor|patch"
 lane :deploy do |options|
 
@@ -94,13 +49,13 @@ lane :deploy do |options|
   podspec_path = "AlgoliaSearchClient.podspec"
   base_branch = options[:branch] || "master"
 
-  # ensure branch and cleaniness locally but not on Bitrise.
-  # if !ENV['BITRISE_BUILD_NUMBER'] 
-  #   ensure_git_branch(
-  #     branch: base_branch
-  #   )
-  #   ensure_git_status_clean
-  # end
+  ensure branch and cleaniness locally but not on Bitrise.
+  if !ENV['GITHUB_ACTION'] 
+    ensure_git_branch(
+      branch: base_branch
+    )
+    ensure_git_status_clean
+  end
 
   release_type = options[:type]
 
@@ -127,7 +82,7 @@ lane :deploy do |options|
 
   create_pull_request(
     repo: repository_name,
-    api_token: ENV["PERSONAL_ACCESS_TOKEN"],
+    api_token: ENV["GH_PERSONAL_ACCESS_TOKEN"],
     title: "chore: Deploying new #{release_type} version #{new_version}",
     head: branch_name,
     base: base_branch,
@@ -136,7 +91,7 @@ lane :deploy do |options|
 
   set_github_release(
     repository_name: repository_name,
-    api_token: ENV["PERSONAL_ACCESS_TOKEN"],
+    api_token: ENV["GH_PERSONAL_ACCESS_TOKEN"],
     name: new_version,
     tag_name: new_version,
     description: (File.read("../release_notes.md") rescue "No release notes provided"),
