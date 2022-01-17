@@ -31,3 +31,5 @@ jobs:
           make install
           export PATH="$GOPATH/bin:$PATH"
           polyglot version
+          polyglot installation check
+          polyglot environment check
