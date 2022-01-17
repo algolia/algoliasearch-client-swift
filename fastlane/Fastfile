@@ -49,7 +49,7 @@ lane :deploy do |options|
   podspec_path = "AlgoliaSearchClient.podspec"
   base_branch = options[:branch] || "master"
 
-  ensure branch and cleaniness locally but not on Bitrise.
+  # ensure branch and cleaniness locally but not on CI.
   if !ENV['GITHUB_ACTION'] 
     ensure_git_branch(
       branch: base_branch
