@@ -1,10 +1,10 @@
 name: Deployment
-on: [push]
-  # push:
-  #   tags: 
-  #    - patcht
-  #    - minort
-  #    - majort
+on:
+  push:
+    tags: 
+     - patch
+     - minor
+     - major
 jobs:
   deploy:
     runs-on: macos-11
@@ -23,11 +23,8 @@ jobs:
           token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
       - name: Install polyglot
         run: |
-          echo $GOPATH
-          echo $PATH
           make install
           export PATH="$GOPATH/bin:$PATH"
-          polyglot version
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7.2'
@@ -35,7 +32,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: maierj/fastlane-action@v2.0.1
         with:
-          lane: 'testgh'
-          # lane: 'deploy'
-          # options: '{ "type": "${{ env.RELEASE_TYPE }}" }'
+          lane: 'deploy'
+          options: '{ "type": "${{ env.RELEASE_TYPE }}" }'
           

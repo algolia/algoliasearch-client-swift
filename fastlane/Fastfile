@@ -105,7 +105,7 @@ lane :deploy do |options|
   release_type = options[:type]
 
   new_version = version_bump_podspec(
-    bump_type: "patch",
+    bump_type: release_type,
     path: podspec_path
   )
 
