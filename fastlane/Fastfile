@@ -45,6 +45,7 @@ end
 desc "Test GH operations"
 lane :testgh do
   sh("cd ..; echo temp > tempFile")
+  sh("ls")
   repository_name = "algolia/algoliasearch-client-swift"
   branch_name = "test-branch"
   base_branch = "master"
