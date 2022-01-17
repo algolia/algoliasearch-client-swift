@@ -1,7 +1,7 @@
 name: Cocoapods
 on: [pull_request]
 jobs:
-  Lint:
+  lint:
     runs-on: macos-11
     steps:
      - uses: actions/checkout@v2
