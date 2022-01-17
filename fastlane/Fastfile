@@ -53,7 +53,7 @@ lane :testgh do
   branch_name = "version-#{new_version}"
   sh("git checkout -b #{branch_name}")
 
-  sh("cd ..; echo temp > tempFile; ls")
+  sh("cd ..; echo temp > tempFile; git add tempFile;")
 
   git_commit(
     path: ["tempFile"],
