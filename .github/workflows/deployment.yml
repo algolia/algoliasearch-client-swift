@@ -20,7 +20,6 @@ jobs:
       - name: Set env
         run: |
           echo "RELEASE_TYPE=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-          echo "PERSONAL_ACCESS_TOKEN=${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}" >> $GITHUB_ENV
       - name: Check out polyglot
         uses: actions/checkout@v2
         with:
@@ -38,5 +37,5 @@ jobs:
       - uses: maierj/fastlane-action@v2.0.1
         with:
           lane: 'deploy'
-          options: '{ "type": "${{ secrets.RELEASE_TYPE }}" }'
+          options: '{ "type": "${{ env.RELEASE_TYPE }}" }'
           
