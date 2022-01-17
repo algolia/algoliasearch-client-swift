@@ -50,17 +50,17 @@ lane :deploy do |options|
   base_branch = options[:branch] || "master"
 
   # ensure branch and cleaniness locally but not on Bitrise.
-  if !ENV['BITRISE_BUILD_NUMBER'] 
-    ensure_git_branch(
-      branch: base_branch
-    )
-    ensure_git_status_clean
-  end
+  # if !ENV['BITRISE_BUILD_NUMBER'] 
+  #   ensure_git_branch(
+  #     branch: base_branch
+  #   )
+  #   ensure_git_status_clean
+  # end
 
   release_type = options[:type]
 
   new_version = version_bump_podspec(
-    bump_type: release_type,
+    bump_type: "patch",
     path: podspec_path
   )
 
