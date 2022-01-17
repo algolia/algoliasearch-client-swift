@@ -51,7 +51,7 @@ lane :testgh do
   base_branch = "master"
 
   git_commit(
-    path: ["./tempFile"],
+    path: ["../tempFile"],
     message: "chore: test [skip ci]"
   )
 
