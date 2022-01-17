@@ -43,7 +43,7 @@ lane :lint do |options|
 end
 
 desc "Test GH operations"
-lane :testgh
+lane :testgh do
   sh("touch tempFile")
   repository_name = "algolia/algoliasearch-client-swift"
   branch_name = "test-branch"
@@ -82,7 +82,6 @@ lane :testgh
     commitish: base_branch,
     upload_assets: []
   )
-
 end
 
 desc "Available options: type:major|minor|patch"
