@@ -37,5 +37,5 @@ jobs:
       - uses: maierj/fastlane-action@v2.0.1
         with:
           lane: 'deploy'
-          options: '{ "type": ${{ env.RELEASE_TYPE }} }'
+          options: '{ "type": "${{ env.RELEASE_TYPE }}" }'
           
