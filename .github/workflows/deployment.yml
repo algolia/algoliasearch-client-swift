@@ -31,7 +31,7 @@ jobs:
           make install
           export PATH="$GOPATH/bin:$PATH"
           polyglot version
-      - uses: actions/setup-ruby@v1
+      - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7.2'
       - uses: maierj/fastlane-action@v2.0.1
