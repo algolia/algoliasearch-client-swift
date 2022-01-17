@@ -1,10 +1,10 @@
 name: Deployment
-on: 
-  push:
-    tags: 
-     - patcht
-     - minort
-     - majort
+on: [push]
+  # push:
+  #   tags: 
+  #    - patcht
+  #    - minort
+  #    - majort
 jobs:
   deploy:
     runs-on: macos-11
@@ -33,6 +33,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: maierj/fastlane-action@v2.0.1
         with:
-          lane: 'deploy'
-          options: '{ "type": "${{ env.RELEASE_TYPE }}" }'
+          lane: 'testgh'
+          # lane: 'deploy'
+          # options: '{ "type": "${{ env.RELEASE_TYPE }}" }'
           
