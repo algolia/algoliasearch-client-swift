@@ -1,0 +1,11 @@
+name: Cocoapods
+on: [pull_request]
+jobs:
+  lint:
+    runs-on: macos-11
+    steps:
+     - uses: actions/checkout@v2
+     - name: Select Xcode version
+       run: sudo xcode-select -s '/Applications/Xcode_13.2.app/Contents/Developer'
+     - name: Pod lib lint
+       run: pod lib lint
