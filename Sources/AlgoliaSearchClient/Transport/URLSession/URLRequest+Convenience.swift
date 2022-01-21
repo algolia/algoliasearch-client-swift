@@ -14,7 +14,7 @@ extension URLRequest: Builder {}
 
 extension CharacterSet {
 
-  static var uriAllowed = CharacterSet.urlQueryAllowed.subtracting(.init(charactersIn: "+"))
+  static let urlAllowed: CharacterSet = .alphanumerics.union(.init(charactersIn: "-._~")) // as per RFC 3986
 
 }
 
