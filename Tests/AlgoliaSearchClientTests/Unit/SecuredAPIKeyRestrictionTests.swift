@@ -22,7 +22,7 @@ class SecuredAPIKeyRestrictionTests: XCTestCase {
                                                validUntil: validUntil,
                                                userToken: "testUserToken")
     
-    XCTAssertEqual(restriction.urlEncodedString, "query=testQuery&clickAnalytics=true&restrictIndices=index1,index2&restrictSources=127.0.0.1,127.0.0.2&userToken=testUserToken&validUntil=\(Int(validUntil))")
+    XCTAssertEqual(restriction.urlEncodedString, "query=testQuery&clickAnalytics=true&restrictIndices=index1%2Cindex2&restrictSources=127.0.0.1%2C127.0.0.2&userToken=testUserToken&validUntil=\(Int(validUntil))")
   }
   
 }

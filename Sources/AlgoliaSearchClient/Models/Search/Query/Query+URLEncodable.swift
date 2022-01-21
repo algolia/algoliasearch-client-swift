@@ -101,9 +101,9 @@ extension Query {
     }
 
     func encode() -> String? {
-      var components = URLComponents()
-      components.queryItems = queryItems
-      return components.query?.addingPercentEncoding(withAllowedCharacters: .uriAllowed)
+      return queryItems
+        .map { "\($0.name)=\($0.value?.addingPercentEncoding(withAllowedCharacters: .urlAllowed) ?? "")" }
+        .joined(separator: "&")
     }
 
   }
