@@ -2,6 +2,10 @@
 
 ## [8.13.3](https://github.com/algolia/algoliasearch-client-swift/compare/...8.13.3) (2022-01-21)
 
+### Fix
+
+- Url percent encoding according to RFC 3986 (#781) ([43c77ce](https://github.com/algolia/algoliasearch-client-swift/commit/43c77ce))
+
 
 
 ## [8.13.2](https://github.com/algolia/algoliasearch-client-swift/compare/...8.13.2) (2022-01-12)
