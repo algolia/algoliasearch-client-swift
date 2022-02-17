@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ObjectsResponse<T: Codable>: Codable {
+public struct ObjectsResponse<T: Decodable>: Decodable {
 
   /// List of requested records. If a record is not found, it will be marked as null in the list.
   public let results: [T?]
