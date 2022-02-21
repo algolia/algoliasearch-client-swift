@@ -1,5 +1,13 @@
 # ChangeLog
 
+## [8.13.4](https://github.com/algolia/algoliasearch-client-swift/compare/...8.13.4) (2022-02-21)
+
+### Fix
+
+- Change `ObjectsResponse` results type constraint from `Codable` to `Decodable` (#783) ([62acdb7](https://github.com/algolia/algoliasearch-client-swift/commit/62acdb7))
+
+
+
 ## [8.13.3](https://github.com/algolia/algoliasearch-client-swift/compare/...8.13.3) (2022-01-21)
 
 ### Fix
