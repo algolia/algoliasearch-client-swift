@@ -18,9 +18,9 @@ public struct FacetStats: Codable {
   public let max: Double
 
   /// The average of all values.
-  public let avg: Double
+  public let avg: Double?
 
   /// The sum of all values.
-  public let sum: Double
+  public let sum: Double?
 
 }
