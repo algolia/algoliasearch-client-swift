@@ -69,7 +69,7 @@ extension ManageIndicesSnippets {
     [source](#method-param-indexsrc): __Index__,
     [destination](#method-param-indexdest): __Index__,
     requestOptions: RequestOptions? = nil,
-    completion: __Result<WaitableWrapper<[Task]>, Swift.Error>) -> Void__
+    completion: __Result<WaitableWrapper<[IndexTask]>, Swift.Error>) -> Void__
   )
   """
   

@@ -9,12 +9,12 @@ import Foundation
 
 public extension Index {
 
-  // MARK: - Task status
+  // MARK: - IndexTask status
 
   /**
-    Check the current TaskStatus of a given Task.
+    Check the current TaskStatus of a given IndexTask.
    
-    - parameter taskID: of the indexing [Task].
+    - parameter taskID: of the indexing [IndexTask].
     - parameter requestOptions: Configure request locally with [RequestOptions]
   */
   @discardableResult func taskStatus(for taskID: TaskID,
@@ -25,9 +25,9 @@ public extension Index {
   }
 
   /**
-    Check the current TaskStatus of a given Task.
+    Check the current TaskStatus of a given IndexTask.
    
-    - parameter taskID: of the indexing [Task].
+    - parameter taskID: of the indexing [IndexTask].
     - parameter requestOptions: Configure request locally with [RequestOptions]
   */
   @discardableResult func taskStatus(for taskID: TaskID,
@@ -39,7 +39,7 @@ public extension Index {
   // MARK: - Wait task
 
   /**
-    Wait for a Task to complete before executing the next line of code, to synchronize index updates.
+    Wait for a IndexTask to complete before executing the next line of code, to synchronize index updates.
     All write operations in Algolia are asynchronous by design.
     It means that when you add or update an object to your index, our servers will reply to your request with
     a TaskID as soon as they understood the write operation.
@@ -63,7 +63,7 @@ public extension Index {
   }
 
   /**
-    Wait for a Task to complete before executing the next line of code, to synchronize index updates.
+    Wait for a IndexTask to complete before executing the next line of code, to synchronize index updates.
     All write operations in Algolia are asynchronous by design.
     It means that when you add or update an object to your index, our servers will reply to your request with
     a TaskID as soon as they understood the write operation.

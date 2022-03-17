@@ -33,7 +33,7 @@ public struct AccountClient {
   @discardableResult public static func copyIndex(source: Index,
                                                   destination: Index,
                                                   requestOptions: RequestOptions? = nil,
-                                                  completion: @escaping (Result<WaitableWrapper<[Task]>, Swift.Error>) -> Void) throws -> Operation {
+                                                  completion: @escaping (Result<WaitableWrapper<[IndexTask]>, Swift.Error>) -> Void) throws -> Operation {
     let operation = BlockOperation {
       completion(.init { try AccountClient.copyIndex(source: source, destination: destination, requestOptions: requestOptions) })
     }
@@ -54,7 +54,7 @@ public struct AccountClient {
 
   @discardableResult public static func copyIndex(source: Index,
                                                   destination: Index,
-                                                  requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<[Task]> {
+                                                  requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<[IndexTask]> {
 
     guard source.applicationID != destination.applicationID else {
       throw Error.sameApplicationID
@@ -78,7 +78,7 @@ public struct AccountClient {
     let waitRules = try destination.saveRules(rules)
     let waitSettings = try destination.setSettings(settings)
 
-    let tasks: [Task] = [
+    let tasks: [IndexTask] = [
       waitSynonyms,
       waitRules,
       waitSettings
