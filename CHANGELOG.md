@@ -2,6 +2,14 @@
 
 ## [8.14.0](https://github.com/algolia/algoliasearch-client-swift/compare/...8.14.0) (2022-03-18)
 
+### Fix
+- Optional avg and sum fields in facet stats (#786) ([f10e119](https://github.com/algolia/algoliasearch-client-swift/commit/f10e119ba4578e4f091150f7a39f28ff101171e6))
+
+
+### Refactor
+ 
+- Rename Task -> IndexTask (#787) ([6aa3e87](https://github.com/algolia/algoliasearch-client-swift/commit/6aa3e872e19c08c23a5d411bc242fbdc108b0513))
+
 
 
 ## [8.13.4](https://github.com/algolia/algoliasearch-client-swift/compare/...8.13.4) (2022-02-21)
