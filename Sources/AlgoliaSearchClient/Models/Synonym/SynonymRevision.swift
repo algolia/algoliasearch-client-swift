@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct SynonymRevision: Task {
+public struct SynonymRevision: IndexTask {
 
   /// Date at which the Task to update the synonyms has been created.
   public let updatedAt: Date

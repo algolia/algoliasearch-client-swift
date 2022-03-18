@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ObjectRevision: Task, Codable {
+public struct ObjectRevision: IndexTask, Codable {
 
   /// The date at which the record has been revised.
   public let updatedAt: Date

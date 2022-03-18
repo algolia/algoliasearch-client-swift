@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct IndexRevision: Task, Codable {
+public struct IndexRevision: IndexTask, Codable {
 
   /// Date at which the Task to update the Index has been created.
   public let updatedAt: Date

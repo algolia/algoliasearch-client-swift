@@ -19,7 +19,7 @@ public struct WaitableWrapper<T> {
 
 }
 
-extension WaitableWrapper where T: Task {
+extension WaitableWrapper where T: IndexTask {
 
   public var task: T {
     return wrapped
@@ -38,13 +38,13 @@ extension WaitableWrapper where T: Task {
 
 }
 
-extension WaitableWrapper where T == [Task] {
+extension WaitableWrapper where T == [IndexTask] {
 
   public var tasks: T {
     return wrapped
   }
 
-  init(tasks: [Task], index: Index) {
+  init(tasks: [IndexTask], index: Index) {
     self.wrapped = tasks
     self.tasksToWait = tasks.map { Waitable(index: index, taskID: $0.taskID) }
   }
@@ -70,7 +70,7 @@ extension WaitableWrapper where T: AppTask {
 
 }
 
-extension WaitableWrapper where T: Task & IndexNameContainer {
+extension WaitableWrapper where T: IndexTask & IndexNameContainer {
 
   static func wrap(credentials: Credentials) -> (T) -> WaitableWrapper<T> {
     return { task in

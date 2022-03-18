@@ -35,11 +35,11 @@ extension Index: TransportContainer {}
 
 extension Index {
 
-  func execute<Command: AlgoliaCommand, Output: Codable & Task>(_ command: Command, completion: @escaping ResultTaskCallback<Output>) -> Operation & TransportTask {
+  func execute<Command: AlgoliaCommand, Output: Codable & IndexTask>(_ command: Command, completion: @escaping ResultTaskCallback<Output>) -> Operation & TransportTask {
     transport.execute(command, transform: WaitableWrapper.wrap(with: self), completion: completion)
   }
 
-  func execute<Command: AlgoliaCommand, Output: Codable & Task>(_ command: Command) throws -> WaitableWrapper<Output> {
+  func execute<Command: AlgoliaCommand, Output: Codable & IndexTask>(_ command: Command) throws -> WaitableWrapper<Output> {
     try transport.execute(command, transform: WaitableWrapper.wrap(with: self))
   }
 

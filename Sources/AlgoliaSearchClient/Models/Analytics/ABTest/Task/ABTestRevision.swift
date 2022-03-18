@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ABTestRevision: Task, IndexNameContainer, Codable {
+public struct ABTestRevision: IndexTask, IndexNameContainer, Codable {
 
   /// Generated ABTestID of the ABTest.
   public let abTestID: ABTestID
