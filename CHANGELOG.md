@@ -1,5 +1,9 @@
 # ChangeLog
 
+## [8.14.0](https://github.com/algolia/algoliasearch-client-swift/compare/...8.14.0) (2022-03-18)
+
+
+
 ## [8.13.4](https://github.com/algolia/algoliasearch-client-swift/compare/...8.13.4) (2022-02-21)
 
 ### Fix
