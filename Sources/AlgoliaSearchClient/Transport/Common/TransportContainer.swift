@@ -62,11 +62,11 @@ extension TransportContainer {
 
 extension TransportContainer where Self: Credentials {
 
-  func execute<Command: AlgoliaCommand, Output: Decodable & Task & IndexNameContainer>(_ command: Command, completion: @escaping ResultTaskCallback<Output>) -> Operation & TransportTask {
+  func execute<Command: AlgoliaCommand, Output: Decodable & IndexTask & IndexNameContainer>(_ command: Command, completion: @escaping ResultTaskCallback<Output>) -> Operation & TransportTask {
     transport.execute(command, transform: WaitableWrapper.wrap(credentials: self), completion: completion)
   }
 
-  func execute<Command: AlgoliaCommand, Output: Decodable & Task & IndexNameContainer>(_ command: Command) throws -> WaitableWrapper<Output> {
+  func execute<Command: AlgoliaCommand, Output: Decodable & IndexTask & IndexNameContainer>(_ command: Command) throws -> WaitableWrapper<Output> {
     try transport.execute(command, transform: WaitableWrapper.wrap(credentials: self))
   }
 

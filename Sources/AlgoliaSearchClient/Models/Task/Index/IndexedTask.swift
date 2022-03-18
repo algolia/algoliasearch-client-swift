@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct IndexedTask: Task {
+public struct IndexedTask: IndexTask {
 
   /// The name of the index this task is running on.
   public let indexName: IndexName

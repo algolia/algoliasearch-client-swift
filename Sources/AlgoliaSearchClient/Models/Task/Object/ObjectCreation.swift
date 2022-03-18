@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ObjectCreation: Task, Codable {
+public struct ObjectCreation: IndexTask, Codable {
 
   /// The date at which the record has been created.
   public let createdAt: Date

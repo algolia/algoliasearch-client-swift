@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ObjectDeletion: Task, Codable {
+public struct ObjectDeletion: IndexTask, Codable {
 
   /// The date at which the record has been deleted.
   public let deletedAt: Date
