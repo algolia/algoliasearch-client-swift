@@ -34,10 +34,17 @@ public struct Hosts {
     return [.init(url: URL(string: "insights\(regionComponent).algolia.io")!)]
   }
 
+  @available(*, deprecated, renamed: "personalization(forRegion:)")
   public static func recommendation(forRegion region: Region? = nil) -> [RetryableHost] {
     let regionComponent = region.flatMap { ".\($0.rawValue)" } ?? ""
     return [.init(url: URL(string: "recommendation\(regionComponent).algolia.com")!)]
   }
+  
+  public static func personalization(forRegion region: Region? = nil) -> [RetryableHost] {
+    let regionComponent = region.flatMap { ".\($0.rawValue)" } ?? ""
+    return [.init(url: URL(string: "personalization\(regionComponent).algolia.com")!)]
+  }
+
 
   public static var analytics: [RetryableHost] = [
     .init(url: URL(string: "analytics.algolia.com")!)
