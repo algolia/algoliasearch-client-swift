@@ -31,7 +31,7 @@ struct PrefixedString: CustomStringConvertible, Codable {
     if let prefixedString = PrefixedString(rawValue: rawValue) {
       self = prefixedString
     } else {
-      throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "string not matching prefixed string format"))
+      throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "\(rawValue) doesn't match the `prefix(value)` format"))
     }
   }
 
