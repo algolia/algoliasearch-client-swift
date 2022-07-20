@@ -52,7 +52,8 @@ extension InsightsEvent.Resources: Codable {
     } else if let filters = try? container.decode([String].self, forKey: .filters) {
       self = .filters(filters)
     } else {
-      throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Neither \(InsightsEvent.Resources.CodingKeys.filters.rawValue), nor \(InsightsEvent.Resources.CodingKeys.objectIDs.rawValue) key found on decoder"))
+      typealias Keys = InsightsEvent.Resources.CodingKeys
+      throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Neither \(Keys.filters.rawValue), nor \(Keys.objectIDs.rawValue) key found on decoder"))
     }
 
   }
