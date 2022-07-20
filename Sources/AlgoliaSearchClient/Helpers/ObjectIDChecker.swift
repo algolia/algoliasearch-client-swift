@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ObjectIDChecker {
+public struct ObjectIDChecker {
 
   static func checkObjectID<T: Encodable>(_ object: T) throws {
     let data = try JSONEncoder().encode(object)
@@ -26,7 +26,7 @@ struct ObjectIDChecker {
     }
   }
 
-  enum Error: Swift.Error {
+  public enum Error: Swift.Error {
     case missingObjectIDProperty
 
     var localizedDescription: String {
