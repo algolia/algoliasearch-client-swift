@@ -52,7 +52,7 @@ extension InsightsEvent.Resources: Codable {
     } else if let filters = try? container.decode([String].self, forKey: .filters) {
       self = .filters(filters)
     } else {
-      throw Error.decodingFailure
+      throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "Neither \(InsightsEvent.Resources.CodingKeys.filters.rawValue), nor \(InsightsEvent.Resources.CodingKeys.objectIDs.rawValue) key found on decoder"))
     }
 
   }
@@ -73,25 +73,6 @@ extension InsightsEvent.Resources: Codable {
       try container.encode(objectsIDs, forKey: .objectIDs)
     }
 
-  }
-
-}
-
-public extension InsightsEvent.Resources {
-
-  enum Error: Swift.Error {
-    case decodingFailure
-  }
-
-}
-
-extension InsightsEvent.Resources.Error: LocalizedError {
-
-  public var errorDescription: String? {
-    switch self {
-    case .decodingFailure:
-      return "Neither \(InsightsEvent.Resources.CodingKeys.filters.rawValue), nor \(InsightsEvent.Resources.CodingKeys.objectIDs.rawValue) key found on decoder"
-    }
   }
 
 }
