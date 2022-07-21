@@ -8,7 +8,7 @@
 import Foundation
 
 public enum TransportError: Error, LocalizedError {
-  
+
     case requestError(Error)
     case httpError(HTTPError)
     case noReachableHosts(intermediateErrors: [Error])

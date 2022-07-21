@@ -51,7 +51,7 @@ extension Scope {
 
 }
 
-public struct ScopeComponent: StringOption & ProvidingCustomOption {
+public struct ScopeComponent: StringOption, ProvidingCustomOption {
 
   public let rawValue: String
 

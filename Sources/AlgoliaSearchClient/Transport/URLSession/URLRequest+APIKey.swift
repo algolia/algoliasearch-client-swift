@@ -10,9 +10,8 @@ import Foundation
 import FoundationNetworking
 #endif
 
-
 extension URLRequest {
-  
+
   static let maxHeaderAPIKeyLength = 500
 
   internal mutating func setAPIKey(_ apiKey: APIKey?) throws {
@@ -56,7 +55,7 @@ extension URLRequest {
 }
 
 public extension URLRequest {
-  
+
   enum APIKeyBodyError: Error, CustomStringConvertible {
     case missingHTTPBody
     case bodyDecodingJSONError(Error)
@@ -76,5 +75,5 @@ public extension URLRequest {
       }
     }
   }
-  
+
 }

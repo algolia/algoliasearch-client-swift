@@ -53,7 +53,7 @@ public extension MultiSearchResponse {
       } catch let error {
         searchResponseDecodingError = error
       }
-      
+
       let facetSearchResponseDecodingError: Error
       do {
         let facetSearchResponse = try FacetSearchResponse(from: decoder)
@@ -62,7 +62,7 @@ public extension MultiSearchResponse {
       } catch let error {
         facetSearchResponseDecodingError = error
       }
-      
+
       let compositeError = CompositeError.with(searchResponseDecodingError, facetSearchResponseDecodingError)
       throw Swift.DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath,
                                                     debugDescription: "Failed to decode either SearchResponse or FacetSearchResponse value",

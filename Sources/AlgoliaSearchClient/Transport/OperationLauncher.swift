@@ -39,7 +39,7 @@ public typealias OperationWithResult = Operation & ResultContainer
 public enum SyncOperationError: LocalizedError {
   case cancelled
   case notFinished
-  
+
   public var errorDescription: String? {
     switch self {
     case .cancelled:
@@ -48,5 +48,5 @@ public enum SyncOperationError: LocalizedError {
       return "Operation is in progress"
     }
   }
-  
+
 }

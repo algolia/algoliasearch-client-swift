@@ -46,7 +46,7 @@ public struct TaggedString {
               options: String.CompareOptions = []) {
     // This string reconstruction is here to avoid a potential problems due to string encoding
     // Check unit test TaggedStringTests -> testWithDecodedString
-    let string = String(string.indices.map { string [$0] })
+    let string = String(string.indices.map { string[$0] })
     self.input = string
     self.preTag = preTag
     self.postTag = postTag

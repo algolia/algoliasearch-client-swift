@@ -42,10 +42,10 @@ extension InsightsEvent.Resources: Codable {
   public init(from decoder: Decoder) throws {
 
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    
+
     let objectIDsDecodingError: Error
     let filtersDecodingError: Error
-    
+
     do {
       let objectIDs = try container.decode([ObjectID].self, forKey: .objectIDs)
       if let positions = try? container.decode([Int].self, forKey: .positions) {
@@ -57,7 +57,7 @@ extension InsightsEvent.Resources: Codable {
     } catch let error {
       objectIDsDecodingError = error
     }
-    
+
     do {
       let filters = try container.decode([String].self, forKey: .filters)
       self = .filters(filters)
@@ -65,7 +65,7 @@ extension InsightsEvent.Resources: Codable {
     } catch let error {
       filtersDecodingError = error
     }
-    
+
     let compositeError = CompositeError.with(objectIDsDecodingError, filtersDecodingError)
     typealias Keys = InsightsEvent.Resources.CodingKeys
     let context = DecodingError.Context(codingPath: decoder.codingPath,
