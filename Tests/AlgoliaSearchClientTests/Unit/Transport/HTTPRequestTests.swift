@@ -55,7 +55,7 @@ class HTTPRequestTests: XCTestCase {
                               request: URLRequest(url: URL(string: "/1/test/")!),
                               callType: .read,
                               timeout: 10) { (result: Result<String, Error>) in
-      if case .failure(HTTPTransport.Error.noReachableHosts(intermediateErrors: let errors)) = result {
+      if case .failure(TransportError.noReachableHosts(intermediateErrors: let errors)) = result {
         XCTAssertEqual(errors[0] as! URLError, URLError(.timedOut))
         XCTAssertEqual((errors[1] as! HTTPError).statusCode, 503)
         XCTAssertEqual(errors[2] as! URLError, URLError(.cannotLoadFromNetwork))

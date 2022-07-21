@@ -7,15 +7,20 @@
 
 import Foundation
 
-extension HTTPTransport {
-
-  enum Error: Swift.Error, LocalizedError {
-    case noReachableHosts(intermediateErrors: [Swift.Error])
+public enum TransportError: Error, LocalizedError {
+  
+    case requestError(Error)
+    case httpError(HTTPError)
+    case noReachableHosts(intermediateErrors: [Error])
     case missingData
-    case decodingFailure(Swift.Error)
+    case decodingFailure(Error)
 
-    var errorDescription: String? {
+    public var errorDescription: String? {
       switch self {
+      case .requestError(let error):
+        return "Request failed: \(error)"
+      case .httpError(let error):
+        return "HTTP error: \(error)"
       case .noReachableHosts(let errors):
         return "All hosts are unreachable. Intermediate errors: \(errors)"
       case .missingData:
@@ -24,6 +29,4 @@ extension HTTPTransport {
         return "Response decoding failed"
       }
     }
-  }
-
 }

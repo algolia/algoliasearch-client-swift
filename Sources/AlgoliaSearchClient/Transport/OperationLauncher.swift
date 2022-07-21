@@ -36,7 +36,17 @@ class OperationLauncher {
 
 public typealias OperationWithResult = Operation & ResultContainer
 
-enum SyncOperationError: Error {
+public enum SyncOperationError: LocalizedError {
   case cancelled
   case notFinished
+  
+  public var errorDescription: String? {
+    switch self {
+    case .cancelled:
+      return "Attempt to launch the cancelled operation"
+    case .notFinished:
+      return "Operation is in progress"
+    }
+  }
+  
 }

@@ -53,7 +53,11 @@ extension URLRequest {
     httpBody = updatedBody
   }
 
-  public enum APIKeyBodyError: Error, CustomStringConvertible {
+}
+
+public extension URLRequest {
+  
+  enum APIKeyBodyError: Error, CustomStringConvertible {
     case missingHTTPBody
     case bodyDecodingJSONError(Error)
     case bodyNonKeyValueJSON

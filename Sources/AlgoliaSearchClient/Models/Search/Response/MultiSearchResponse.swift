@@ -45,18 +45,28 @@ public extension MultiSearchResponse {
     }
 
     public init(from decoder: Decoder) throws {
+      let searchResponseDecodingError: Error
       do {
         let searchResponse = try SearchResponse(from: decoder)
         self = .hits(searchResponse)
-      } catch let searchResponseError {
-        do {
-          let facetSearchResponse = try FacetSearchResponse(from: decoder)
-          self = .facets(facetSearchResponse)
-        } catch let facetSearchResponseError {
-          throw DecodingError(searchResponseDecodingError: searchResponseError,
-                              facetSearchResponseDecodingError: facetSearchResponseError)
-        }
+        return
+      } catch let error {
+        searchResponseDecodingError = error
       }
+      
+      let facetSearchResponseDecodingError: Error
+      do {
+        let facetSearchResponse = try FacetSearchResponse(from: decoder)
+        self = .facets(facetSearchResponse)
+        return
+      } catch let error {
+        facetSearchResponseDecodingError = error
+      }
+      
+      let compositeError = CompositeError.with(searchResponseDecodingError, facetSearchResponseDecodingError)
+      throw Swift.DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath,
+                                                    debugDescription: "Failed to decode either SearchResponse or FacetSearchResponse value",
+                                                    underlyingError: compositeError))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -68,6 +78,7 @@ public extension MultiSearchResponse {
       }
     }
 
+    @available(*, deprecated, message: "Replaced by DecodingError.dataCorrupted with CompositeError as underlyingError error")
     public struct DecodingError: Error {
 
       /// Error occured while search response decoding

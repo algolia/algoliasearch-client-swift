@@ -76,7 +76,7 @@ class HTTPRequest<ResponseType: Decodable, Output>: AsyncOperation, ResultContai
     do {
 
       guard let host = hostIterator.next() else {
-        throw HTTPTransport.Error.noReachableHosts(intermediateErrors: intermediateErrors)
+        throw TransportError.noReachableHosts(intermediateErrors: intermediateErrors)
       }
 
       let effectiveRequest = try request.switchingHost(by: host, withBaseTimeout: timeout)

@@ -89,9 +89,9 @@ public struct AccountClient {
 
 }
 
-extension AccountClient {
+public extension AccountClient {
 
-  public enum Error: Swift.Error {
+  enum Error: Swift.Error {
     case sourceNotFound
     case existingDestination
     case sameApplicationID

@@ -36,22 +36,18 @@ extension Command {
          urlRequest: URLRequest,
          requestOptions: RequestOptions?) throws {
       self.callType = callType
-      guard let method = urlRequest.httpMethod.flatMap(HTTPMethod.init(rawValue:)) else {
-        throw AlgoliaCommandError.invalidHTTPMethod
+      self.method = urlRequest.httpMethod.flatMap(HTTPMethod.init(rawValue:)) ?? .get
+      guard let url = urlRequest.url else {
+        throw URLRequest.FormatError.missingURL
       }
-      self.method = method
-      guard let path = urlRequest.url?.path, let pathURL = URL(string: path) else {
-        throw AlgoliaCommandError.invalidPath
+      guard let pathURL = URL(string: url.path) else {
+        throw URLRequest.FormatError.invalidPath(url.path)
       }
       self.path = pathURL
       self.body = urlRequest.httpBody
       self.requestOptions = requestOptions
     }
 
-    enum AlgoliaCommandError: Error {
-      case invalidHTTPMethod
-      case invalidPath
-    }
   }
 
 }
