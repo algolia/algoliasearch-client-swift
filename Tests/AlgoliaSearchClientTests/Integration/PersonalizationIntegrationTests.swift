@@ -19,13 +19,13 @@ class PersonalizationIntegrationTests: IntegrationTestCase {
   }
 
   func getStrategy() throws {
-    let recommendationClient = PersonalizationClient(appID: client.applicationID, apiKey: client.apiKey, region: .eu)
+    let recommendationClient = PersonalizationClient(appID: client.applicationID, apiKey: client.apiKey, region: .custom("us"))
     let _ = try recommendationClient.getPersonalizationStrategy()
   }
   
   func setStrategy() throws {
     
-    let personalizationClient = PersonalizationClient(appID: client.applicationID, apiKey: client.apiKey, region: .eu)
+    let personalizationClient = PersonalizationClient(appID: client.applicationID, apiKey: client.apiKey, region: .custom("us"))
 
     let strategy = PersonalizationStrategy(
       eventsScoring: [
