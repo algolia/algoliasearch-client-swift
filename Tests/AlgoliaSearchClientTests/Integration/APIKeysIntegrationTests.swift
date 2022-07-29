@@ -69,17 +69,6 @@ class APIKeysIntegrationTests: IntegrationTestCase {
     }
     
     try checkKey(exists: true)
-//    for _ in 0...100 {
-//      do {
-//        keyResponseContainer = try client.getAPIKey(addedKey.key)
-//      } catch let error {
-//        if case TransportError.httpError(let httpError) = error, httpError.statusCode == 404 {
-//          continue
-//        } else {
-//          throw error
-//        }
-//      }
-//    }
     
     guard let addedKeyResponse = keyResponseContainer else {
       XCTFail("Key fetch failed")
@@ -121,35 +110,12 @@ class APIKeysIntegrationTests: IntegrationTestCase {
     try client.deleteAPIKey(addedKey.key)
     
     try checkKey(exists: false)
-//    for _ in 0...100 {
-//      keyResponseContainer = nil
-//      do {
-//        keyResponseContainer = try client.getAPIKey(addedKey.key)
-//      } catch let error {
-//        if case TransportError.httpError(let httpError) = error, httpError.statusCode == 404 {
-//          continue
-//        } else {
-//          throw error
-//        }
-//      }
-//    }
     
     XCTAssertNil(keyResponseContainer)
     
     try client.restoreAPIKey(addedKey.key)
     
     try checkKey(exists: true)
-//    for _ in 0...100 {
-//      do {
-//        keyResponseContainer = try client.getAPIKey(addedKey.key)
-//      } catch let error {
-//        if case TransportError.httpError(let httpError) = error, httpError.statusCode == 404 {
-//          continue
-//        } else {
-//          throw error
-//        }
-//      }
-//    }
     
     guard let restoredKeyResponse = keyResponseContainer else {
       XCTFail("Key restoration failed")
