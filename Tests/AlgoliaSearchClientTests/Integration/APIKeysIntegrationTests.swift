@@ -39,17 +39,47 @@ class APIKeysIntegrationTests: IntegrationTestCase {
     
     var keyResponseContainer: APIKeyResponse? = nil
     
-    for _ in 0...100 {
-      do {
-        keyResponseContainer = try client.getAPIKey(addedKey.key)
-      } catch let error {
-        if (error as? HTTPError)?.statusCode == 404 {
-          continue
-        } else {
-          throw error
+    func checkKey(exists expectExists: Bool, attempts: Int = 100) throws {
+      // There is no way to be notified about the succesful operation with the API key
+      // That's why the operation performed multiple times until the expected key state achieved
+      for _ in 0...attempts {
+        if !expectExists {
+          keyResponseContainer = nil
+        }
+        do {
+          keyResponseContainer = try client.getAPIKey(addedKey.key)
+          if expectExists {
+            break
+          } else {
+            continue
+          }
+        } catch let error {
+          if case TransportError.httpError(let httpError) = error, httpError.statusCode == 404 {
+            if expectExists {
+              continue
+            } else {
+              break
+            }
+          } else {
+            throw error
+          }
         }
       }
+
     }
+    
+    try checkKey(exists: true)
+//    for _ in 0...100 {
+//      do {
+//        keyResponseContainer = try client.getAPIKey(addedKey.key)
+//      } catch let error {
+//        if case TransportError.httpError(let httpError) = error, httpError.statusCode == 404 {
+//          continue
+//        } else {
+//          throw error
+//        }
+//      }
+//    }
     
     guard let addedKeyResponse = keyResponseContainer else {
       XCTFail("Key fetch failed")
@@ -90,34 +120,36 @@ class APIKeysIntegrationTests: IntegrationTestCase {
 
     try client.deleteAPIKey(addedKey.key)
     
-    for _ in 0...100 {
-      keyResponseContainer = nil
-      do {
-        keyResponseContainer = try client.getAPIKey(addedKey.key)
-      } catch let error {
-        if (error as? HTTPError)?.statusCode == 404 {
-          break
-        } else {
-          throw error
-        }
-      }
-    }
+    try checkKey(exists: false)
+//    for _ in 0...100 {
+//      keyResponseContainer = nil
+//      do {
+//        keyResponseContainer = try client.getAPIKey(addedKey.key)
+//      } catch let error {
+//        if case TransportError.httpError(let httpError) = error, httpError.statusCode == 404 {
+//          continue
+//        } else {
+//          throw error
+//        }
+//      }
+//    }
     
     XCTAssertNil(keyResponseContainer)
     
     try client.restoreAPIKey(addedKey.key)
     
-    for _ in 0...100 {
-      do {
-        keyResponseContainer = try client.getAPIKey(addedKey.key)
-      } catch let error {
-        if (error as? HTTPError)?.statusCode == 404 {
-          continue
-        } else {
-          throw error
-        }
-      }
-    }
+    try checkKey(exists: true)
+//    for _ in 0...100 {
+//      do {
+//        keyResponseContainer = try client.getAPIKey(addedKey.key)
+//      } catch let error {
+//        if case TransportError.httpError(let httpError) = error, httpError.statusCode == 404 {
+//          continue
+//        } else {
+//          throw error
+//        }
+//      }
+//    }
     
     guard let restoredKeyResponse = keyResponseContainer else {
       XCTFail("Key restoration failed")

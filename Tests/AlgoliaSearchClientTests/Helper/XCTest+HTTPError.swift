@@ -14,8 +14,11 @@ func AssertThrowsHTTPError<T>(_ body: @autoclosure () throws -> T, statusCode: I
     let _ = try body()
     XCTFail("Expected HTTP error", file: (file), line: line)
   } catch let error {
-    guard let httpError = error as? HTTPError, httpError.statusCode == statusCode else {
+    guard case TransportError.httpError(let httpError) = error, httpError.statusCode == statusCode else {
       throw error
     }
+//    guard let httpError = error as? HTTPError, httpError.statusCode == statusCode else {
+//      throw error
+//    }
   }
 }

@@ -17,9 +17,9 @@ class DictionairesIntegrationTests: IntegrationTestCase {
   
   override var retryableTests: [() throws -> Void] {
     [
-      testStopwordsDictionary,
-      testCompoundsDictionary,
-      testPluralsDictionary
+      stopwordsDictionary,
+      compoundsDictionary,
+      pluralsDictionary
     ]
   }
     
@@ -29,9 +29,7 @@ class DictionairesIntegrationTests: IntegrationTestCase {
     client = SearchClient(appID: credentials.applicationID, apiKey: credentials.apiKey)
   }
   
-  func testStopwordsDictionary() throws {
-    throw XCTSkip()
-    
+  func stopwordsDictionary() throws {
     // Create one `entry_id` with a random string
     let entryID = ObjectID(rawValue: .random(length: 10))
 
@@ -75,17 +73,15 @@ class DictionairesIntegrationTests: IntegrationTestCase {
     XCTAssert(response.hits.isEmpty)
 
     // Set dictionaries settings with **set_dictionary_settings** the following settings and wait for the task to finish
-    let settings = DictionarySettings(disableStandardEntries: .init(stopwords: [.english: true]))
-    try client.setDictionarySettings(settings)
+    let settings = DictionarySettings(disableStandardEntries: .init(stopwords: [.english: true, .french: true]))
+    try client.setDictionarySettings(settings).wait()
 
     // Retrieve the dictionary settings with **get_dictionary_settings** and assert the settings match the one saved
     let fetchedSettings = try client.getDictionarySettings()
     XCTAssertEqual(settings, fetchedSettings)
   }
   
-  func testCompoundsDictionary() throws {
-    throw XCTSkip()
-
+  func compoundsDictionary() throws {
     // Create one `entry_id` with a random string
     let entryID = ObjectID(rawValue: .random(length: 10))
 
@@ -112,9 +108,7 @@ class DictionairesIntegrationTests: IntegrationTestCase {
     XCTAssert(response.hits.isEmpty)
   }
   
-  func testPluralsDictionary() throws {
-    throw XCTSkip()
-    
+  func pluralsDictionary() throws {
     // Create one `entry_id` with a random string
     let entryID = ObjectID(rawValue: .random(length: 10))
     
