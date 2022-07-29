@@ -67,10 +67,13 @@ public extension Index {
     switch result {
     case .success:
       return true
-    case .failure(let error) where (error as? HTTPError)?.statusCode == .notFound:
-      return false
     case .failure(let error):
-      throw error
+      switch error {
+      case TransportError.httpError(let httpError) where httpError.statusCode == .notFound:
+        return false
+      default:
+        throw error
+      }
     }
   }
 
