@@ -20,6 +20,10 @@ class APIKeysIntegrationTests: IntegrationTestCase {
   override var retryableTests: [() throws -> Void] {
     [apiKeys]
   }
+  
+  override var allowFailure: Bool {
+    true
+  }
 
   
   func apiKeys() throws {
