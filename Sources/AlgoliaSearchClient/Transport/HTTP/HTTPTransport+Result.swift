@@ -15,17 +15,17 @@ extension Result where Success: Decodable, Failure == Error {
   init(data: Data?, response: URLResponse?, error: Swift.Error?) {
 
     if let error = error {
-      self = .failure(error)
+      self = .failure(TransportError.requestError(error))
       return
     }
 
     if let httpError = HTTPError(response: response as? HTTPURLResponse, data: data) {
-      self = .failure(httpError)
+      self = .failure(TransportError.httpError(httpError))
       return
     }
 
     guard let data = data else {
-      self = .failure(HTTPTransport.Error.missingData)
+      self = .failure(TransportError.missingData)
       return
     }
 
@@ -35,7 +35,7 @@ extension Result where Success: Decodable, Failure == Error {
       let object = try jsonDecoder.decode(Success.self, from: data)
       self = .success(object)
     } catch let error {
-      self = .failure(HTTPTransport.Error.decodingFailure(error))
+      self = .failure(TransportError.decodingFailure(error))
     }
 
   }

@@ -43,18 +43,35 @@ extension InsightsEvent.Resources: Codable {
 
     let container = try decoder.container(keyedBy: CodingKeys.self)
 
-    if let objectIDs = try? container.decode([ObjectID].self, forKey: .objectIDs) {
+    let objectIDsDecodingError: Error
+    let filtersDecodingError: Error
+
+    do {
+      let objectIDs = try container.decode([ObjectID].self, forKey: .objectIDs)
       if let positions = try? container.decode([Int].self, forKey: .positions) {
         self = .objectIDsWithPositions(zip(objectIDs, positions).map { $0 })
       } else {
         self = .objectIDs(objectIDs)
       }
-    } else if let filters = try? container.decode([String].self, forKey: .filters) {
-      self = .filters(filters)
-    } else {
-      throw Error.decodingFailure
+      return
+    } catch let error {
+      objectIDsDecodingError = error
     }
 
+    do {
+      let filters = try container.decode([String].self, forKey: .filters)
+      self = .filters(filters)
+      return
+    } catch let error {
+      filtersDecodingError = error
+    }
+
+    let compositeError = CompositeError.with(objectIDsDecodingError, filtersDecodingError)
+    typealias Keys = InsightsEvent.Resources.CodingKeys
+    let context = DecodingError.Context(codingPath: decoder.codingPath,
+                                        debugDescription: "Neither \(Keys.filters.rawValue), nor \(Keys.objectIDs.rawValue) key found on decoder",
+                                        underlyingError: compositeError)
+    throw DecodingError.dataCorrupted(context)
   }
 
   public func encode(to encoder: Encoder) throws {
@@ -73,25 +90,6 @@ extension InsightsEvent.Resources: Codable {
       try container.encode(objectsIDs, forKey: .objectIDs)
     }
 
-  }
-
-}
-
-public extension InsightsEvent.Resources {
-
-  enum Error: Swift.Error {
-    case decodingFailure
-  }
-
-}
-
-extension InsightsEvent.Resources.Error: LocalizedError {
-
-  public var errorDescription: String? {
-    switch self {
-    case .decodingFailure:
-      return "Neither \(InsightsEvent.Resources.CodingKeys.filters.rawValue), nor \(InsightsEvent.Resources.CodingKeys.objectIDs.rawValue) key found on decoder"
-    }
   }
 
 }

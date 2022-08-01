@@ -72,7 +72,7 @@ class AlgoliaRetryStrategy: RetryStrategy {
 
   func isRetryable(_ error: Error) -> Bool {
     switch error {
-    case HostSwitcher.Error.badHost:
+    case URLRequest.FormatError.badHost:
       return true
 
     case is URLError:

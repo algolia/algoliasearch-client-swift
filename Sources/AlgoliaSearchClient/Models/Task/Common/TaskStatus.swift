@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct TaskStatus: StringOption & ProvidingCustomOption {
+public struct TaskStatus: StringOption, ProvidingCustomOption {
 
   public let rawValue: String
 

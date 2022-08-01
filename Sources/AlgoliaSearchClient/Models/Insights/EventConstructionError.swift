@@ -7,14 +7,14 @@
 
 import Foundation
 
-extension InsightsEvent {
+public extension InsightsEvent {
 
-  public enum Constraints {
+  enum Constraints {
     public static let maxObjectIDsCount = 20
     public static let maxFiltersCount = 10
   }
 
-  public enum ConstructionError: Error {
+  enum ConstructionError: Error {
 
     case emptyEventName
     case objectIDsCountOverflow

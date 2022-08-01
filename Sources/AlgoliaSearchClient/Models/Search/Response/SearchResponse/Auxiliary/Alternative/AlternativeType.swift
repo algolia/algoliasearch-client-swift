@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct AlternativeType: StringOption & ProvidingCustomOption {
+public struct AlternativeType: StringOption, ProvidingCustomOption {
 
   public let rawValue: String
 

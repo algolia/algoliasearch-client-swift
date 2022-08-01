@@ -31,7 +31,7 @@ struct PrefixedString: CustomStringConvertible, Codable {
     if let prefixedString = PrefixedString(rawValue: rawValue) {
       self = prefixedString
     } else {
-      throw Error.wrongFormat
+      throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "\(rawValue) doesn't match the `prefix(value)` format"))
     }
   }
 
@@ -42,10 +42,6 @@ struct PrefixedString: CustomStringConvertible, Codable {
 
   var description: String {
     return "\(prefix)(\(value))"
-  }
-
-  enum Error: Swift.Error {
-    case wrongFormat
   }
 
 }
