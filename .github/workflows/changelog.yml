@@ -13,6 +13,7 @@ jobs:
       - name: Set release type environment
         run: |
           echo "RELEASE_TYPE=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+          echo $GITHUB_ENV
       - name: Check out polyglot
         uses: actions/checkout@v2
         with:
