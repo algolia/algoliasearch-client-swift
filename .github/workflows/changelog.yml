@@ -24,4 +24,5 @@ jobs:
           export PATH="$GOPATH/bin:$PATH"
       - name: Test changelog generation
         run: |
+          git tag
           polyglot changelog -v -d 8.15.0
