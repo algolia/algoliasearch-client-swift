@@ -25,8 +25,9 @@ jobs:
           export PATH="$GOPATH/bin:$PATH"
       - name: Test changelog generation
         run: |
-          git fetch --prune --unshallow --tags
-          echo exit code $?
+          git fetch --depth=1 origin +refs/tags/*:refs/tags/*
+          # git fetch --prune --unshallow --tags
+          # echo exit code $?
           echo "before"
           echo $(git tag -l)
           echo "after"
