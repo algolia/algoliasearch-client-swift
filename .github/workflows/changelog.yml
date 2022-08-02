@@ -26,5 +26,5 @@ jobs:
         run: |
           git fetch --prune --unshallow --tags
           echo exit code $?
-          git tag --list
+          echo $(git tag -l)
           polyglot changelog -v -d 8.15.0
