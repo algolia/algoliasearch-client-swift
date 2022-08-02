@@ -24,7 +24,12 @@ jobs:
           make install
           export PATH="$GOPATH/bin:$PATH"
       - name: Get tags
-        run: git fetch --tags origin
+        run: |
+          git fetch --tags origin
+          git tag --list
+          git tag -l
+          echo $(git tag -l)
+          echo "test"
       - name: Test changelog generation
         run: |
           git fetch --prune --unshallow --tags
