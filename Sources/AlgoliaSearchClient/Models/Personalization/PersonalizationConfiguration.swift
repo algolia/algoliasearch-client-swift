@@ -38,7 +38,7 @@ public struct PersonalizationConfiguration: Configuration, Credentials {
     self.writeTimeout = writeTimeout
     self.readTimeout = readTimeout
     self.logLevel = logLevel
-    self.hosts = Hosts.recommendation(forRegion: region)
+    self.hosts = Hosts.personalization(forRegion: region)
     self.defaultHeaders = defaultHeaders
     self.batchSize = batchSize
   }
