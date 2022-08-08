@@ -1,4 +1,4 @@
-name: Cocoapods
+name: Cocoapods lint
 on: [pull_request]
 jobs:
   lint:
