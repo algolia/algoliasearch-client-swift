@@ -6,8 +6,8 @@
   <h4 align="center">The perfect starting point to integrate <a href="https://algolia.com" target="_blank">Algolia</a> within your Swift project</h4>
 
   <p align="center">
-    <a href="https://cocoapods.org/pods/AlgoliaSearchClient">
-      <img src="https://app.bitrise.io/app/6dcd3d9dd961c466/status.svg?token=q1GX8YovgWTvPx7Ueu77JQ&branch=develop"></img>
+    <a href="https://github.com/algolia/algoliasearch-client-swift/actions/workflows/tests.yml">
+      <img src="https://github.com/algolia/algoliasearch-client-swift/actions/workflows/tests.yml/badge.svg"></img>
     </a>
     <a href="https://cocoapods.org/pods/AlgoliaSearchClient">
       <img src="http://img.shields.io/cocoapods/v/AlgoliaSearchClient.svg?style=flat"></img>
