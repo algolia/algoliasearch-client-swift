@@ -6,7 +6,6 @@ on:
      - minor
      - major
 jobs:
-          # echo "COCOAPODS_TRUNK_TOKEN=${{ secrets.COCOAPODS_TRUNK_TOKEN }}" >> $GITHUB_ENV
   deploy:
     runs-on: macos-11
     env:
