@@ -1,5 +1,13 @@
 # ChangeLog
 
+## [8.15.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.14.0...8.15.0) (2022-08-04)
+
+### Refactor
+
+- consistent error handling (#792) ([23b1989](https://github.com/algolia/algoliasearch-client-swift/commit/23b1989))
+
+
+
 ## [8.14.0](https://github.com/algolia/algoliasearch-client-swift/compare/...8.14.0) (2022-03-18)
 
 ### Fix
