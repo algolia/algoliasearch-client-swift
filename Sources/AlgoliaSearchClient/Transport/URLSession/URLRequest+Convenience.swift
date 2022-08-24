@@ -25,7 +25,7 @@ extension CharacterSet {
   // - plus ('+') is removed because it is interpreted as a space by Algolia's servers.
   //
   static let urlParameterAllowed: CharacterSet = .alphanumerics.union(.init(charactersIn: "-._~:/[]@!$'()*,;"))
-  
+
   static let urlPathComponentAllowed: CharacterSet = {
     var characterSet = CharacterSet()
     characterSet.formUnion(CharacterSet.urlPathAllowed)
