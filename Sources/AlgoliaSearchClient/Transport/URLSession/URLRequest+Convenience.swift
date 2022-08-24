@@ -53,7 +53,7 @@ extension URLRequest {
 
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"
-    urlComponents.path = command.path.absoluteString.removingPercentEncoding!
+    urlComponents.percentEncodedPath = command.path.path
 
     if let urlParameters = command.requestOptions?.urlParameters {
       urlComponents.queryItems = urlParameters.map { (key, value) in .init(name: key.rawValue, value: value) }
