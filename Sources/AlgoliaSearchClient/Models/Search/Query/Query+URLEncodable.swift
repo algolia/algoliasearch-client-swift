@@ -102,7 +102,7 @@ extension Query {
 
     func encode() -> String? {
       return queryItems
-        .map { "\($0.name)=\($0.value?.addingPercentEncoding(withAllowedCharacters: .urlAllowed) ?? "")" }
+        .map { "\($0.name.addingPercentEncoding(withAllowedCharacters: .urlParameterAllowed)!)=\($0.value?.addingPercentEncoding(withAllowedCharacters: .urlParameterAllowed) ?? "")" }
         .joined(separator: "&")
     }
 

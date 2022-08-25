@@ -24,11 +24,11 @@ extension URL {
   static var task = Self(string: "/1/task")!
 
   func appending<R: RawRepresentable>(_ rawRepresentable: R) -> Self where R.RawValue == String {
-    return appendingPathComponent(rawRepresentable.rawValue, isDirectory: false)
+    return appendingPathComponent(rawRepresentable.rawValue.addingPercentEncoding(withAllowedCharacters: .urlPathComponentAllowed)!, isDirectory: false)
   }
 
   func appending(_ pathComponent: PathComponent) -> Self {
-    return appendingPathComponent(pathComponent.rawValue, isDirectory: false)
+    return appendingPathComponent(pathComponent.rawValue.addingPercentEncoding(withAllowedCharacters: .urlPathComponentAllowed)!, isDirectory: false)
   }
 
   enum PathComponent: String {

@@ -77,5 +77,19 @@ class URLRequestConstructionTests: XCTestCase {
     }
 
   }
+  
+  func testPathPercentEncoding() {
+    let command = Command.Indexing.GetObject(indexName: "myIndex",
+                                             objectID: "gid://shopify/Collection/1122334455",
+                                             attributesToRetrieve: [],
+                                             requestOptions: nil)
+    XCTAssertEqual(URLRequest(command: command).url?.absoluteString, "https:/1/indexes/myIndex/gid:%2F%2Fshopify%2FCollection%2F1122334455")
+  }
+  
+  func testFiltersEncoding() {
+    let query = Query("test")
+      .set(\.filters, to: "\"manufacturer\":\"&Quirky\"")
+    XCTAssertEqual(query.urlEncodedString, "query=test&filters=%22manufacturer%22:%22%26Quirky%22")
+  }
 
 }

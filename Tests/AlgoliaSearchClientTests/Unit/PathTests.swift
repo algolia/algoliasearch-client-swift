@@ -16,7 +16,7 @@ import FoundationNetworking
 class PathTests: XCTestCase {
   
   func testIndexNameEncoding() {
-    let path = URL(string: "/1/indexes/")!.appendingPathComponent("Index name with spaces")
+    let path = URL(string: "/1/indexes/")!.appendingPathComponent("Index name with spaces".addingPercentEncoding(withAllowedCharacters: .urlPathComponentAllowed)!)
     let request = URLRequest(command: Command.Custom(method: .post, callType: .write, path: path, body: nil, requestOptions: nil))
     XCTAssertEqual(request.url?.absoluteString, "https:/1/indexes/Index%20name%20with%20spaces")
   }
