@@ -1,5 +1,13 @@
 # ChangeLog
 
+## [8.15.1](https://github.com/algolia/algoliasearch-client-swift/compare/8.15.0...8.15.1) (2022-08-29)
+
+### Fix
+
+- URL percent encoding (#798) ([b28ebf1](https://github.com/algolia/algoliasearch-client-swift/commit/b28ebf1))
+
+
+
 ## [8.15.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.14.0...8.15.0) (2022-08-04)
 
 ### Refactor
