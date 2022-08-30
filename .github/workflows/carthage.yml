@@ -1,0 +1,13 @@
+name: Carthage
+on: [pull_request]
+jobs:
+  check:
+    runs-on: macos-12
+    steps:
+     - name: Select Xcode version
+       run: sudo xcode-select -s '/Applications/Xcode_13.4.app/Contents/Developer'
+     - name: Initialize Cartfile
+       run: |
+        tee Cartfile <<<"github \"algolia/algoliasearch-client-swift\" \"${{ github.head_ref }}\""
+        sh ./Carthage/Checkouts/algoliasearch-client-swift/carthage-prebuild
+        carthage build --use-xcframeworks --platform ios
