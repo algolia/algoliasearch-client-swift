@@ -9,5 +9,6 @@ jobs:
      - name: Initialize Cartfile
        run: |
         tee Cartfile <<<"github \"algolia/algoliasearch-client-swift\" \"${{ github.head_ref }}\""
+        carthage update --no-build
         sh ./Carthage/Checkouts/algoliasearch-client-swift/carthage-prebuild
         carthage build --use-xcframeworks --platform ios
