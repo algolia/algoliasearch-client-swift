@@ -70,6 +70,7 @@ class HTTPRequest<ResponseType: Decodable, Output>: AsyncOperation, ResultContai
 
     guard !isCancelled else {
       Logger.loggingService.log(level: .debug, message: "Request was cancelled")
+      result = .failure(SyncOperationError.cancelled)
       return
     }
 
