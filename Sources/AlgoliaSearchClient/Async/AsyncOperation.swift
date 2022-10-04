@@ -55,8 +55,20 @@ open class AsyncOperation: Operation {
     state = .executing
   }
 
-  open override func cancel() {
-    state = .finished
-  }
+  // Approach one, just use Operation.cancel()
+
+  // Approach two, override isCancelled and the cancel function
+
+//  private var _isCancelled: Bool = false
+//
+//  override open var isCancelled: Bool {
+//    _isCancelled
+//  }
+//
+//  open override func cancel() {
+//    if state != .finished {
+//      _isCancelled = true
+//    }
+//  }
 
 }
