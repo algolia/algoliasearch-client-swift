@@ -70,7 +70,7 @@ public extension Index {
    - Parameter strategy: The MultipleQueriesStrategy of the query.
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Parameter completion: Result completion
-   - Returns: SearchesResponse object
+   - Returns: Launched asynchronous operation
    */
   @discardableResult func search(queries: [Query],
                                  strategy: MultipleQueriesStrategy = .none,
@@ -78,7 +78,33 @@ public extension Index {
     let command = Command.MultipleIndex.Queries(indexName: name, queries: queries, strategy: strategy, requestOptions: requestOptions)
     return try transport.execute(command)
   }
-
+  
+  /**
+   Method used for perform search with disjunctive faets.
+   
+   - Parameter query: The Query used to search.
+   - Parameter disjunctiveFacets:
+   - Parameter refinements: Configure request locally with RequestOptions.
+   - Parameter completion: Result completion
+   - Returns: SearchesResponse object
+   */
+  func searchDisjunctiveFaceting(query: Query,
+                                 disjunctiveFacets: [Attribute],
+                                 refinements: [Attribute: [String]],
+                                 completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
+    let helper = DisjunctiveFacetingHelper(query: query,
+                                           refinements: refinements,
+                                           disjunctiveFacets: disjunctiveFacets)
+    let queries = helper.makeQueries()
+    return search(queries: queries) { result in
+      completion(result.flatMap { r in
+        Result {
+          try helper.mergeResponses(r.results, keepSelectedFacets: true)
+        }
+      })
+    }
+  }
+ 
   // MARK: - Browse
 
   /**
