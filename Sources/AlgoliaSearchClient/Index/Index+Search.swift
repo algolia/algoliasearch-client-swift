@@ -78,7 +78,7 @@ public extension Index {
     let command = Command.MultipleIndex.Queries(indexName: name, queries: queries, strategy: strategy, requestOptions: requestOptions)
     return try transport.execute(command)
   }
-  
+
   /**
    Method used for perform search with disjunctive faets.
    
@@ -97,14 +97,14 @@ public extension Index {
                                            disjunctiveFacets: disjunctiveFacets)
     let queries = helper.makeQueries()
     return search(queries: queries) { result in
-      completion(result.flatMap { r in
+      completion(result.flatMap { response in
         Result {
-          try helper.mergeResponses(r.results, keepSelectedFacets: true)
+          try helper.mergeResponses(response.results, keepSelectedFacets: true)
         }
       })
     }
   }
- 
+
   // MARK: - Browse
 
   /**

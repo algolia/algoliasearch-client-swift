@@ -8,17 +8,17 @@
 import Foundation
 
 struct DisjunctiveFacetingHelper {
-  
+
   let query: Query
   let refinements: [Attribute: [String]]
   let disjunctiveFacets: [Attribute]
-  
+
   init(query: Query, refinements: [Attribute: [String]], disjunctiveFacets: [Attribute]) {
     self.query = query
     self.refinements = refinements
     self.disjunctiveFacets = disjunctiveFacets
   }
-  
+
   func buildFilters(excluding excludedAttribute: Attribute?) -> String {
     String(
       refinements
@@ -35,22 +35,22 @@ struct DisjunctiveFacetingHelper {
       }.joined(separator: " AND ")
     )
   }
-  
+
   func appliedDisjunctiveFacetValues(for attribute: Attribute) -> Set<String> {
     guard disjunctiveFacets.contains(attribute) else {
       return []
     }
     return refinements[attribute].flatMap(Set.init) ?? []
   }
-  
+
   func makeQueries() -> [Query] {
     var queries = [Query]()
-    
+
     var mainQuery = query
     mainQuery.filters = buildFilters(excluding: .none)
-    
+
     queries.append(mainQuery)
-    
+
     disjunctiveFacets.forEach { disjunctiveFacet in
       var disjunctiveQuery = query
       disjunctiveQuery.facets = [disjunctiveFacet]
@@ -62,21 +62,21 @@ struct DisjunctiveFacetingHelper {
       disjunctiveQuery.analytics = false
       queries.append(disjunctiveQuery)
     }
-    
+
     return queries
   }
-  
+
   func mergeResponses(_ responses: [SearchResponse], keepSelectedFacets: Bool = true) throws -> SearchResponse {
     guard var mainResponse = responses.first else {
       throw Error.emptyResponses
     }
-    
+
     let responsesForDisjunctiveFaceting = responses.dropFirst()
-    
+
     var mergedDisjunctiveFacets = [Attribute: [Facet]]()
     var mergedFacetStats = mainResponse.facetStats ?? [:]
     var mergedExhaustiveFacetsCount = mainResponse.exhaustiveFacetsCount ?? true
-    
+
     for result in responsesForDisjunctiveFaceting {
       // Merge facet values
       if let facetsPerAttribute = result.facets {
@@ -103,13 +103,13 @@ struct DisjunctiveFacetingHelper {
     mainResponse.disjunctiveFacets = mergedDisjunctiveFacets
     mainResponse.facetStats = mergedFacetStats
     mainResponse.exhaustiveFacetsCount = mergedExhaustiveFacetsCount
-    
+
     return mainResponse
   }
-  
+
   enum Error: Swift.Error {
     case emptyResponses
-    
+
     var localizedDescription: String {
       switch self {
       case .emptyResponses:
@@ -117,5 +117,5 @@ struct DisjunctiveFacetingHelper {
       }
     }
   }
-  
+
 }
