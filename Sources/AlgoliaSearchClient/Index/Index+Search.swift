@@ -80,17 +80,18 @@ public extension Index {
   }
 
   /**
-   Method used for perform search with disjunctive faets.
+   Method used for perform search with disjunctive facets.
    
    - Parameter query: The Query used to search.
-   - Parameter disjunctiveFacets:
-   - Parameter refinements: Configure request locally with RequestOptions.
+   - Parameter refinements: Refinements to apply to the search in form of dictionary with
+     facet attribute as a key and a list of facet values for the designated attribute
+   - Parameter disjunctiveFacets: Set of facets attributes applied disjunctively (with OR operator)
    - Parameter completion: Result completion
    - Returns: SearchesResponse object
    */
   func searchDisjunctiveFaceting(query: Query,
-                                 disjunctiveFacets: [Attribute],
                                  refinements: [Attribute: [String]],
+                                 disjunctiveFacets: Set<Attribute>,
                                  completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
     let helper = DisjunctiveFacetingHelper(query: query,
                                            refinements: refinements,
@@ -99,7 +100,7 @@ public extension Index {
     return search(queries: queries) { result in
       completion(result.flatMap { response in
         Result {
-          try helper.mergeResponses(response.results, keepSelectedFacets: true)
+          try helper.mergeResponses(response.results, keepSelectedEmptyFacets: true)
         }
       })
     }

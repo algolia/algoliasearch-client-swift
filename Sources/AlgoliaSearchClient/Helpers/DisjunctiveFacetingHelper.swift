@@ -7,18 +7,24 @@
 
 import Foundation
 
+/// Helper making multiple queries for disjunctive faceting
+/// and merging the multiple search responses into a single one with
+/// combined facets information
 struct DisjunctiveFacetingHelper {
 
   let query: Query
   let refinements: [Attribute: [String]]
-  let disjunctiveFacets: [Attribute]
+  let disjunctiveFacets: Set<Attribute>
 
-  init(query: Query, refinements: [Attribute: [String]], disjunctiveFacets: [Attribute]) {
+  init(query: Query,
+       refinements: [Attribute: [String]],
+       disjunctiveFacets: Set<Attribute>) {
     self.query = query
     self.refinements = refinements
     self.disjunctiveFacets = disjunctiveFacets
   }
 
+  /// Build filters SQL string from the provided refinements and disjunctive facets set
   func buildFilters(excluding excludedAttribute: Attribute?) -> String {
     String(
       refinements
@@ -29,13 +35,17 @@ struct DisjunctiveFacetingHelper {
         let facetOperator = disjunctiveFacets.contains(name) ? " OR " : " AND "
         let expression = values
           .sorted(by: { $0 < $1 })
-          .map { value in "\(name):\(value)" }
+          .map { value in """
+          "\(name)":"\(value)"
+          """
+          }
           .joined(separator: facetOperator)
         return "(\(expression))"
       }.joined(separator: " AND ")
     )
   }
 
+  /// Get applied disjunctive facet values for provided attribute
   func appliedDisjunctiveFacetValues(for attribute: Attribute) -> Set<String> {
     guard disjunctiveFacets.contains(attribute) else {
       return []
@@ -43,6 +53,8 @@ struct DisjunctiveFacetingHelper {
     return refinements[attribute].flatMap(Set.init) ?? []
   }
 
+  /// Build search queries to fetch the necessary facets information for disjunctive faceting
+  /// If the disjunctive facets set is empty, makes a single request with applied conjunctive filters
   func makeQueries() -> [Query] {
     var queries = [Query]()
 
@@ -51,7 +63,9 @@ struct DisjunctiveFacetingHelper {
 
     queries.append(mainQuery)
 
-    disjunctiveFacets.forEach { disjunctiveFacet in
+    disjunctiveFacets
+      .sorted(by: { $0.rawValue < $1.rawValue })
+      .forEach { disjunctiveFacet in
       var disjunctiveQuery = query
       disjunctiveQuery.facets = [disjunctiveFacet]
       disjunctiveQuery.filters = buildFilters(excluding: disjunctiveFacet)
@@ -66,7 +80,8 @@ struct DisjunctiveFacetingHelper {
     return queries
   }
 
-  func mergeResponses(_ responses: [SearchResponse], keepSelectedFacets: Bool = true) throws -> SearchResponse {
+  /// Merge received search responses into single one with combined facets information
+  func mergeResponses(_ responses: [SearchResponse], keepSelectedEmptyFacets: Bool = true) throws -> SearchResponse {
     guard var mainResponse = responses.first else {
       throw Error.emptyResponses
     }
