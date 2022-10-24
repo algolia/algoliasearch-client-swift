@@ -83,7 +83,7 @@ struct DisjunctiveFacetingHelper {
   /// Merge received search responses into single one with combined facets information
   func mergeResponses(_ responses: [SearchResponse], keepSelectedEmptyFacets: Bool = true) throws -> SearchResponse {
     guard var mainResponse = responses.first else {
-      throw Error.emptyResponses
+      throw DisjunctiveFacetingError.emptyResponses
     }
 
     let responsesForDisjunctiveFaceting = responses.dropFirst()
@@ -122,15 +122,17 @@ struct DisjunctiveFacetingHelper {
     return mainResponse
   }
 
-  enum Error: Swift.Error {
-    case emptyResponses
+}
 
-    var localizedDescription: String {
-      switch self {
-      case .emptyResponses:
-        return "Unexpected empty search responses list. At least one search responses might be present."
-      }
+public enum DisjunctiveFacetingError: LocalizedError {
+  
+  case emptyResponses
+
+  var localizedDescription: String {
+    switch self {
+    case .emptyResponses:
+      return "Unexpected empty search responses list. At least one search responses might be present."
     }
   }
-
+  
 }
