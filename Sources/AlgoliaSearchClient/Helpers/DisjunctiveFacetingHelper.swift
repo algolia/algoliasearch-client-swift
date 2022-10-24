@@ -34,7 +34,6 @@ struct DisjunctiveFacetingHelper {
       }.map { (name: Attribute, values: [String]) in
         let facetOperator = disjunctiveFacets.contains(name) ? " OR " : " AND "
         let expression = values
-          .sorted(by: { $0 < $1 })
           .map { value in """
           "\(name)":"\(value)"
           """

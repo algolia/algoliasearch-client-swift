@@ -13,9 +13,9 @@ class DisjunctiveFacetingHelperTests: XCTestCase {
   
   func testBuildFilters() throws {
     let refinements: [Attribute: [String]] = [
-      "size": ["s", "m"],
-      "color": ["red", "green", "blue"],
-      "brand": ["samsung", "sony", "apple"]
+      "size": ["m", "s"],
+      "color": ["blue", "green", "red"],
+      "brand": ["apple", "samsung", "sony"]
     ]
     
     let disjunctiveFacets: Set<Attribute> = [
@@ -45,11 +45,11 @@ class DisjunctiveFacetingHelperTests: XCTestCase {
   
   func testAppliedDisjunctiveFacetValues() {
     let refinements: [Attribute: [String]] = [
-      "size": ["s", "m"],
-      "color": ["red", "green", "blue"],
-      "brand": ["samsung", "sony", "apple"]
+      "size": ["m", "s"],
+      "color": ["blue", "green", "red"],
+      "brand": ["apple", "samsung", "sony"]
     ]
-    
+
     let disjunctiveFacets: Set<Attribute> = [
       "color",
       "brand"
@@ -67,11 +67,11 @@ class DisjunctiveFacetingHelperTests: XCTestCase {
   
   func testMakeQueriesNoDisjunctive() {
     let refinements: [Attribute: [String]] = [
-      "size": ["s", "m"],
-      "color": ["red", "green", "blue"],
-      "brand": ["samsung", "sony", "apple"]
+      "size": ["m", "s"],
+      "color": ["blue", "green", "red"],
+      "brand": ["apple", "samsung", "sony"]
     ]
-    
+
     let helper = DisjunctiveFacetingHelper(query: Query(),
                                            refinements: refinements,
                                            disjunctiveFacets: [])
@@ -84,11 +84,11 @@ class DisjunctiveFacetingHelperTests: XCTestCase {
   
   func testMakeQueriesDisjunctiveSingle() {
     let refinements: [Attribute: [String]] = [
-      "size": ["s", "m"],
-      "color": ["red", "green", "blue"],
-      "brand": ["samsung", "sony", "apple"]
+      "size": ["m", "s"],
+      "color": ["blue", "green", "red"],
+      "brand": ["apple", "samsung", "sony"]
     ]
-    
+
     let helper = DisjunctiveFacetingHelper(query: Query(),
                                            refinements: refinements,
                                            disjunctiveFacets: ["color"])
@@ -105,9 +105,9 @@ class DisjunctiveFacetingHelperTests: XCTestCase {
   
   func testMakeQueriesDisjunctiveDouble() {
     let refinements: [Attribute: [String]] = [
-      "size": ["s", "m"],
-      "color": ["red", "green", "blue"],
-      "brand": ["samsung", "sony", "apple"]
+      "size": ["m", "s"],
+      "color": ["blue", "green", "red"],
+      "brand": ["apple", "samsung", "sony"]
     ]
     let disjunctiveFacets: Set<Attribute> = [
       "color",
@@ -133,9 +133,9 @@ class DisjunctiveFacetingHelperTests: XCTestCase {
   
   func testMergeEmptyResponses() {
     let refinements: [Attribute: [String]] = [
-      "size": ["s", "m"],
-      "color": ["red", "green", "blue"],
-      "brand": ["samsung", "sony", "apple"]
+      "size": ["m", "s"],
+      "color": ["blue", "green", "red"],
+      "brand": ["apple", "samsung", "sony"]
     ]
     let disjunctiveFacets: Set<Attribute> = [
       "color",
@@ -150,9 +150,9 @@ class DisjunctiveFacetingHelperTests: XCTestCase {
   
   func testMergeDisjunctiveSingle() throws {
     let refinements: [Attribute: [String]] = [
-      "size": ["s", "m"],
-      "color": ["red", "green", "blue"],
-      "brand": ["samsung", "sony", "apple"]
+      "size": ["m", "s"],
+      "color": ["blue", "green", "red"],
+      "brand": ["apple", "samsung", "sony"]
     ]
     let disjunctiveFacets: Set<Attribute> = [
       "color"
@@ -214,9 +214,9 @@ class DisjunctiveFacetingHelperTests: XCTestCase {
   
   func testMergeDisjunctiveDouble() throws {
     let refinements: [Attribute: [String]] = [
-      "size": ["s", "m"],
-      "color": ["red", "green", "blue"],
-      "brand": ["samsung", "sony", "apple"]
+      "size": ["m", "s"],
+      "color": ["blue", "green", "red"],
+      "brand": ["apple", "samsung", "sony"]
     ]
     let disjunctiveFacets: Set<Attribute> = [
       "color",
