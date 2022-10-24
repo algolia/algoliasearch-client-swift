@@ -125,7 +125,7 @@ struct DisjunctiveFacetingHelper {
 }
 
 public enum DisjunctiveFacetingError: LocalizedError {
-  
+
   case emptyResponses
 
   var localizedDescription: String {
@@ -134,5 +134,5 @@ public enum DisjunctiveFacetingError: LocalizedError {
       return "Unexpected empty search responses list. At least one search responses might be present."
     }
   }
-  
+
 }

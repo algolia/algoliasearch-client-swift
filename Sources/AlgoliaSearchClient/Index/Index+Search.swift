@@ -78,9 +78,9 @@ public extension Index {
     let command = Command.MultipleIndex.Queries(indexName: name, queries: queries, strategy: strategy, requestOptions: requestOptions)
     return try transport.execute(command)
   }
-  
+
   // MARK: - Disjunctive Faceting
-  
+
   /**
    Method used for perform search with disjunctive facets.
    
