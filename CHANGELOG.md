@@ -1,5 +1,13 @@
 # ChangeLog
 
+## [8.16.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.15.1...8.16.0) (2022-10-24)
+
+### Feat
+
+- **search**: Disjunctive Faceting (#802) ([b2a82ba](https://github.com/algolia/algoliasearch-client-swift/commit/b2a82ba))
+
+
+
 ## [8.15.1](https://github.com/algolia/algoliasearch-client-swift/compare/8.15.0...8.15.1) (2022-08-29)
 
 ### Fix
