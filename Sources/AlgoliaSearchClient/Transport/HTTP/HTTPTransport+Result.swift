@@ -10,7 +10,7 @@ import Foundation
 import FoundationNetworking
 #endif
 
-extension Result where Success: Decodable, Failure == Error {
+public extension Result where Success: Decodable, Failure == Error {
 
   init(data: Data?, response: URLResponse?, error: Swift.Error?) {
 
