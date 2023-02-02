@@ -54,9 +54,14 @@ extension URLRequest {
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"
     urlComponents.percentEncodedPath = command.path.path
-
+    urlComponents.queryItems = [
+      URLQueryItem(name: "X-Algolia-Agent", value: UserAgentController.httpHeaderValue)
+    ]
+    
     if let urlParameters = command.requestOptions?.urlParameters {
-      urlComponents.queryItems = urlParameters.map { (key, value) in .init(name: key.rawValue, value: value) }
+      let existingQueryItems = urlComponents.queryItems ?? []
+      let extraQueryItems = urlParameters.mapKeys(\.rawValue).map(URLQueryItem.init)
+      urlComponents.queryItems = existingQueryItems + extraQueryItems
     }
 
     var request = URLRequest(url: urlComponents.url!)
