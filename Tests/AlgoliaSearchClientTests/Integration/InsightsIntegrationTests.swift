@@ -20,6 +20,7 @@ class InsightsIntegrationTests: IntegrationTestCase {
   }
 
   func insights() throws {
+    Logger.minSeverityLevel = .trace
     
     let insightsClient = InsightsClient(appID: client.applicationID, apiKey: client.apiKey)
     

@@ -264,7 +264,7 @@ public extension Index {
    - Returns: Requested record
   */
   @discardableResult func deleteObject(withID objectID: ObjectID,
-                                       requestOptions: RequestOptions? = nil) throws ->  WaitableWrapper<ObjectDeletion> {
+                                       requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<ObjectDeletion> {
     let command = Command.Indexing.DeleteObject(indexName: name, objectID: objectID, requestOptions: requestOptions)
     return try execute(command)
   }

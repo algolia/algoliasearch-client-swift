@@ -44,7 +44,7 @@ class HTTPRequestBuilder {
   func build<Response: Decodable, Output>(for command: AlgoliaCommand, transform: @escaping (Response) -> Output, responseType: Output.Type) -> HTTPRequest<Response, Output> {
     return build(for: command,
                  transform: transform,
-                 with: { (_:HTTPRequest<Response, Output>.Result) in })
+                 with: { (_: HTTPRequest<Response, Output>.Result) in })
   }
 
 }
