@@ -57,7 +57,7 @@ extension URLRequest {
     urlComponents.queryItems = [
       URLQueryItem(name: "X-Algolia-Agent", value: UserAgentController.httpHeaderValue)
     ]
-    
+
     if let urlParameters = command.requestOptions?.urlParameters {
       let existingQueryItems = urlComponents.queryItems ?? []
       let extraQueryItems = urlParameters.mapKeys(\.rawValue).map(URLQueryItem.init)
