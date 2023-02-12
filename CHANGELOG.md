@@ -1,5 +1,14 @@
 # ChangeLog
 
+## [8.17.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.16.0...8.17.0) (2023-02-06)
+
+### Fix
+
+- provide user agents as url parmeter (#808) ([43f6105](https://github.com/algolia/algoliasearch-client-swift/commit/43f6105))
+- lint issues (#809) ([09622f8](https://github.com/algolia/algoliasearch-client-swift/commit/09622f8))
+
+
+
 ## [8.16.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.15.1...8.16.0) (2022-10-24)
 
 ### Feat
