@@ -272,7 +272,7 @@ public extension AnalyticsClient {
    - Returns: [ABTestsResponse]  object
    */
   func browseAllABTests(hitsPerPage: Int? = nil,
-                        requestOptions: RequestOptions? = nil) throws ->  [ABTestResponse] {
+                        requestOptions: RequestOptions? = nil) throws -> [ABTestResponse] {
       var responses: [ABTestResponse] = []
       var page = 0
       while true {

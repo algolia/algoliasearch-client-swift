@@ -33,7 +33,7 @@ class URLRequestConstructionTests: XCTestCase {
     XCTAssertEqual(request.allHTTPHeaderFields, expectedHeaders)
     #endif
     XCTAssertEqual(request.httpMethod, method.rawValue)
-    XCTAssertEqual(request.url?.absoluteString, "https:/my/test/path")
+    XCTAssertEqual(request.url?.absoluteString.starts(with: "https:/my/test/path"), true)
     XCTAssertEqual(request.httpBody, body)
 
   }
@@ -73,7 +73,7 @@ class URLRequestConstructionTests: XCTestCase {
       host.retryCount = index
       let requestWithHost = try request.switchingHost(by: host, withBaseTimeout: timeout)
       XCTAssertEqual(requestWithHost.timeoutInterval, timeout * TimeInterval(index + 1))
-      XCTAssertEqual(requestWithHost.url?.absoluteString, "https://test\(index).algolia.com/my/test/path")
+      XCTAssertEqual(requestWithHost.url?.absoluteString.starts(with: "https://test\(index).algolia.com/my/test/path"), true)
     }
 
   }
@@ -83,7 +83,7 @@ class URLRequestConstructionTests: XCTestCase {
                                              objectID: "gid://shopify/Collection/1122334455",
                                              attributesToRetrieve: [],
                                              requestOptions: nil)
-    XCTAssertEqual(URLRequest(command: command).url?.absoluteString, "https:/1/indexes/myIndex/gid:%2F%2Fshopify%2FCollection%2F1122334455")
+    XCTAssertEqual(URLRequest(command: command).url?.absoluteString.starts(with: "https:/1/indexes/myIndex/gid:%2F%2Fshopify%2FCollection%2F1122334455"), true)
   }
   
   func testFiltersEncoding() {

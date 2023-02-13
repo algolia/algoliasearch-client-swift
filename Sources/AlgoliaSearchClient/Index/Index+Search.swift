@@ -70,13 +70,70 @@ public extension Index {
    - Parameter strategy: The MultipleQueriesStrategy of the query.
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Parameter completion: Result completion
-   - Returns: SearchesResponse object
+   - Returns: Launched asynchronous operation
    */
   @discardableResult func search(queries: [Query],
                                  strategy: MultipleQueriesStrategy = .none,
                                  requestOptions: RequestOptions? = nil) throws -> SearchesResponse {
     let command = Command.MultipleIndex.Queries(indexName: name, queries: queries, strategy: strategy, requestOptions: requestOptions)
     return try transport.execute(command)
+  }
+
+  // MARK: - Disjunctive Faceting
+
+  /**
+   Method used for perform search with disjunctive facets.
+   
+   - Parameter query: The Query used to search.
+   - Parameter refinements: Refinements to apply to the search in form of dictionary with
+     facet attribute as a key and a list of facet values for the designated attribute
+   - Parameter disjunctiveFacets: Set of facets attributes applied disjunctively (with OR operator)
+   - Parameter keepSelectedEmptyFacets: Whether the selected facet values might be preserved even
+     in case of their absence in the search response
+   - Returns: SearchesResponse object
+   */
+  func searchDisjunctiveFaceting(query: Query,
+                                 refinements: [Attribute: [String]],
+                                 disjunctiveFacets: Set<Attribute>,
+                                 keepSelectedEmptyFacets: Bool = true) throws -> SearchResponse {
+    let helper = DisjunctiveFacetingHelper(query: query,
+                                           refinements: refinements,
+                                           disjunctiveFacets: disjunctiveFacets)
+    let queries = helper.makeQueries()
+    let response = try search(queries: queries)
+    return try helper.mergeResponses(response.results,
+                                     keepSelectedEmptyFacets: keepSelectedEmptyFacets)
+  }
+
+  /**
+   Method used for perform search with disjunctive facets.
+   
+   - Parameter query: The Query used to search.
+   - Parameter refinements: Refinements to apply to the search in form of dictionary with
+     facet attribute as a key and a list of facet values for the designated attribute
+   - Parameter disjunctiveFacets: Set of facets attributes applied disjunctively (with OR operator)
+   - Parameter keepSelectedEmptyFacets: Whether the selected facet values might be preserved even
+     in case of their absence in the search response
+   - Parameter completion: Result completion
+   - Returns: Launched asynchronous operation
+   */
+  func searchDisjunctiveFaceting(query: Query,
+                                 refinements: [Attribute: [String]],
+                                 disjunctiveFacets: Set<Attribute>,
+                                 keepSelectedEmptyFacets: Bool = true,
+                                 completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
+    let helper = DisjunctiveFacetingHelper(query: query,
+                                           refinements: refinements,
+                                           disjunctiveFacets: disjunctiveFacets)
+    let queries = helper.makeQueries()
+    return search(queries: queries) { result in
+      completion(result.flatMap { response in
+        Result {
+          try helper.mergeResponses(response.results,
+                                    keepSelectedEmptyFacets: keepSelectedEmptyFacets)
+        }
+      })
+    }
   }
 
   // MARK: - Browse
