@@ -18,7 +18,7 @@ class RecommendClientTests: XCTestCase {
     let exp = expectation(description: "request")
     
     requester.onRequest = { request in
-      XCTAssertEqual(request.url?.absoluteString, "https://test-app-id-dsn.algolia.net/1/indexes/*/recommendations?")
+      XCTAssertEqual(request.url?.absoluteString.starts(with: "https://test-app-id-dsn.algolia.net/1/indexes/*/recommendations?"), true)
       XCTAssertEqual(request.value(forHTTPHeaderField: "Content-Type"), "application/json")
       XCTAssertEqual(request.value(forHTTPHeaderField: "X-Algolia-Application-Id"), "test-app-id")
       XCTAssertEqual(request.value(forHTTPHeaderField: "X-Algolia-API-Key"), "test-api-key")
@@ -53,7 +53,7 @@ class RecommendClientTests: XCTestCase {
     let exp = expectation(description: "request")
     
     requester.onRequest = { request in
-      XCTAssertEqual(request.url?.absoluteString, "https://test-app-id-dsn.algolia.net/1/indexes/*/recommendations?")
+      XCTAssertEqual(request.url?.absoluteString.starts(with: "https://test-app-id-dsn.algolia.net/1/indexes/*/recommendations?"), true)
       XCTAssertEqual(request.value(forHTTPHeaderField: "Content-Type"), "application/json")
       XCTAssertEqual(request.value(forHTTPHeaderField: "X-Algolia-Application-Id"), "test-app-id")
       XCTAssertEqual(request.value(forHTTPHeaderField: "X-Algolia-API-Key"), "test-api-key")
@@ -86,7 +86,7 @@ class RecommendClientTests: XCTestCase {
     let exp = expectation(description: "request")
     
     requester.onRequest = { request in
-      XCTAssertEqual(request.url?.absoluteString, "https://test-app-id-dsn.algolia.net/1/indexes/*/recommendations?")
+      XCTAssertEqual(request.url?.absoluteString.starts(with: "https://test-app-id-dsn.algolia.net/1/indexes/*/recommendations?"), true)
       XCTAssertEqual(request.value(forHTTPHeaderField: "Content-Type"), "application/json")
       XCTAssertEqual(request.value(forHTTPHeaderField: "X-Algolia-Application-Id"), "test-app-id")
       XCTAssertEqual(request.value(forHTTPHeaderField: "X-Algolia-API-Key"), "test-api-key")

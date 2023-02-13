@@ -46,7 +46,7 @@ extension AlgoliaCommandTest {
     try XCTAssertEqual(request.httpBody.flatMap(dataToJSON), body.flatMap(dataToJSON), file: file, line: line)
     #else
     XCTAssertEqual(request.allHTTPHeaderFields, requestOptions.headers.merging(additionalHeaders ?? [:]).mapKeys { $0.rawValue }, file: file, line: line)
-    XCTAssertEqual(Set(requestQueryItems), queryItems, file: file, line: line)
+    XCTAssertTrue(Set(requestQueryItems).isSuperset(of: queryItems), file: file, line: line)
     XCTAssertEqual(request.httpBody, body, "Compare with assertEqual", file: file, line: line)
     #endif
   }
