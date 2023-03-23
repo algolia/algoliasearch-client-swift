@@ -230,6 +230,11 @@ public struct SearchResponse {
    Meta-information as to how the query was processed.
   */
   public var explain: Explain?
+  
+  /**
+   The rules applied to the query.
+   */
+  public var appliedRules: [JSON]?
 
   /**
    The relevancy threshold applied to search in a virtual index.
