@@ -230,7 +230,7 @@ public struct SearchResponse {
    Meta-information as to how the query was processed.
   */
   public var explain: Explain?
-  
+
   /**
    The rules applied to the query.
    */
