@@ -232,6 +232,11 @@ public struct SearchResponse {
   public var explain: Explain?
 
   /**
+   The rules applied to the query.
+   */
+  public var appliedRules: [JSON]?
+
+  /**
    The relevancy threshold applied to search in a virtual index.
    */
   public var appliedRelevancyStrictness: Int?
