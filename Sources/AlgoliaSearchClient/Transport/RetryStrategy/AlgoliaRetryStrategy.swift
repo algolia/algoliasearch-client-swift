@@ -10,7 +10,6 @@ import Foundation
 import FoundationNetworking
 #endif
 
-
 /** Algolia's retry strategy in case of server error, timeouts... */
 
 class AlgoliaRetryStrategy: RetryStrategy {
@@ -78,7 +77,7 @@ class AlgoliaRetryStrategy: RetryStrategy {
     switch error {
     case .requestError(let error) as TransportError where error is URLError:
       return true
-      
+
     case .httpError(let httpError) as TransportError where !httpError.statusCode.belongs(to: .success, .clientError):
       return true
 
@@ -94,10 +93,10 @@ class AlgoliaRetryStrategy: RetryStrategy {
     switch error {
     case .requestError(let error as URLError) as TransportError where error.code == .timedOut:
       return true
-      
+
     case .httpError(let error) as TransportError where error.statusCode == .requestTimeout:
       return true
-  
+
     default:
       return false
     }
