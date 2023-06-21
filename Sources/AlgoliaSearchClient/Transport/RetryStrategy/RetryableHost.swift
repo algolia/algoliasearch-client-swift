@@ -91,17 +91,6 @@ extension RetryableHost: CustomDebugStringConvertible {
 
 }
 
-extension RetryableHost {
-
-  func timeout(requestOptions: RequestOptions? = nil, default: TimeInterval) -> TimeInterval {
-    let callType: CallType = supportedCallTypes.contains(.write) ? .write : .read
-    let unitTimeout = requestOptions?.timeout(for: callType) ?? `default`
-    let multiplier = retryCount + 1
-    return TimeInterval(multiplier) * unitTimeout
-  }
-
-}
-
 extension Array where Element == RetryableHost {
 
   /** Reset all hosts down for more than specified interval.
