@@ -1,4 +1,4 @@
-name: Cocoapods lint
+name: Cocoapods
 on: 
   push:
     branches:
