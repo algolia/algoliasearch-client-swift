@@ -10,7 +10,6 @@ import Foundation
 import FoundationNetworking
 #endif
 
-
 /** Algolia's retry strategy in case of server error, timeouts... */
 
 class AlgoliaRetryStrategy: RetryStrategy {
