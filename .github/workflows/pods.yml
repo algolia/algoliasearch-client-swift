@@ -1,5 +1,6 @@
-name: Cocoapods lint
-on: [pull_request]
+name: Cocoapods
+on: 
+  pull_request:
 jobs:
   lint:
     runs-on: macos-12

@@ -1,5 +1,6 @@
 name: Carthage
-on: [pull_request]
+on: 
+  pull_request:
 jobs:
   check:
     runs-on: macos-12
