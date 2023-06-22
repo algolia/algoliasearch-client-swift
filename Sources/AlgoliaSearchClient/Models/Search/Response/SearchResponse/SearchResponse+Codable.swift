@@ -41,6 +41,7 @@ extension SearchResponse: Codable {
     case queryID
     case hierarchicalFacetsStorage = "hierarchicalFacets"
     case explain
+    case appliedRules
     case renderingContent
     case appliedRelevancyStrictness
     case nbSortedHits
@@ -80,6 +81,7 @@ extension SearchResponse: Codable {
     self.queryID = try container.decodeIfPresent(forKey: .queryID)
     self.hierarchicalFacetsStorage = try container.decodeIfPresent(forKey: .hierarchicalFacetsStorage)
     self.explain = try container.decodeIfPresent(forKey: .explain)
+    self.appliedRules = try container.decodeIfPresent(forKey: .appliedRules)
     self.renderingContent = try container.decodeIfPresent(forKey: .renderingContent)
     self.appliedRelevancyStrictness = try container.decodeIfPresent(forKey: .appliedRelevancyStrictness)
     self.nbSortedHits = try container.decodeIfPresent(forKey: .nbSortedHits)
@@ -119,6 +121,7 @@ extension SearchResponse: Codable {
     try container.encodeIfPresent(queryID, forKey: .queryID)
     try container.encodeIfPresent(hierarchicalFacetsStorage, forKey: .hierarchicalFacetsStorage)
     try container.encodeIfPresent(explain, forKey: .explain)
+    try container.encodeIfPresent(appliedRules, forKey: .appliedRules)
     try container.encodeIfPresent(renderingContent, forKey: .renderingContent)
     try container.encodeIfPresent(appliedRelevancyStrictness, forKey: .appliedRelevancyStrictness)
     try container.encodeIfPresent(nbSortedHits, forKey: .nbSortedHits)

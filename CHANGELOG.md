@@ -1,5 +1,17 @@
 # ChangeLog
 
+## [8.18.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.17.0...8.18.0) (2023-03-24)
+
+### Feat
+
+- **rules**: add applied rules to the search response (#812) ([c25ec23](https://github.com/algolia/algoliasearch-client-swift/commit/c25ec23))
+
+### Misc
+
+- making result public (#807) ([150970e](https://github.com/algolia/algoliasearch-client-swift/commit/150970e))
+
+
+
 ## [8.17.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.16.0...8.17.0) (2023-02-06)
 
 ### Fix
