@@ -41,7 +41,7 @@ class PersonalizationIntegrationTests: IntegrationTestCase {
 
     do {
       try personalizationClient.setPersonalizationStrategy(strategy)
-    } catch let httpError as HTTPError where httpError.statusCode == HTTPStatusСode.tooManyRequests {
+    } catch .httpError(let httpError) as TransportError where httpError.statusCode == HTTPStatusСode.tooManyRequests {
       // The personalization API is now limiting the number of setPersonalizationStrategy()` successful calls
       // to 15 per day. If the 429 error is returned, the response is considered a "success".
     } catch let error {

@@ -18,11 +18,11 @@ public enum TransportError: Error, LocalizedError {
     public var errorDescription: String? {
       switch self {
       case .requestError(let error):
-        return "Request failed: \(error)"
+        return "Request failed: \(error.localizedDescription)"
       case .httpError(let error):
         return "HTTP error: \(error)"
       case .noReachableHosts(let errors):
-        return "All hosts are unreachable. Intermediate errors: \(errors)"
+        return "All hosts are unreachable. Intermediate errors: \(errors.map { $0.localizedDescription }.joined(separator: ", "))"
       case .missingData:
         return "Missing response data"
       case .decodingFailure:

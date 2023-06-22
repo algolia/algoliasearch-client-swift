@@ -25,3 +25,4 @@ public struct Region: StringOption, ProvidingCustomOption {
   }
 
 }
+// swiftlint:enable identifier_name
