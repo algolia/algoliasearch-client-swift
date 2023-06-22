@@ -18,8 +18,8 @@ class AlgoliaRetryStrategyTests: XCTestCase {
   let host5 = RetryableHost(url: URL(string: "algolia5.com")!, callType: .read)
 
   let successResult = Result<String, Error>.success("success")
-  let retryableErrorResult = Result<String, Error>.failure(URLError(.networkConnectionLost))
-  let timeoutErrorResult = Result<String, Error>.failure(URLError(.timedOut))
+  let retryableErrorResult = Result<String, Error>.failure(TransportError.requestError(URLError(.networkConnectionLost)))
+  let timeoutErrorResult = Result<String, Error>.failure(TransportError.requestError(URLError(.timedOut)))
 
   func testHostsRotation() {
 

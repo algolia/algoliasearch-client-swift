@@ -27,13 +27,13 @@ class HTTPRequestTests: XCTestCase {
       count += 1
       switch count {
       case 1:
-        completion(.failure(URLError(.timedOut)))
+        completion(.failure(TransportError.requestError(URLError(.timedOut))))
       case 2:
-        completion(.failure(HTTPError(statusCode: 503, message: nil)))
+        completion(.failure(TransportError.httpError(HTTPError(statusCode: 503, message: nil))))
       case 3:
-        completion(.failure(URLError(.cannotLoadFromNetwork)))
+        completion(.failure(TransportError.requestError(URLError(.cannotLoadFromNetwork))))
       case 4:
-        completion(.failure(URLError(.backgroundSessionWasDisconnected)))
+        completion(.failure(TransportError.requestError(URLError(.backgroundSessionWasDisconnected))))
       default:
         break
       }
@@ -56,10 +56,20 @@ class HTTPRequestTests: XCTestCase {
                               callType: .read,
                               timeout: 10) { (result: Result<String, Error>) in
       if case .failure(TransportError.noReachableHosts(intermediateErrors: let errors)) = result {
-        XCTAssertEqual(errors[0] as! URLError, URLError(.timedOut))
-        XCTAssertEqual((errors[1] as! HTTPError).statusCode, 503)
-        XCTAssertEqual(errors[2] as! URLError, URLError(.cannotLoadFromNetwork))
-        XCTAssertEqual(errors[3] as! URLError, URLError(.backgroundSessionWasDisconnected))
+        for (index, error) in errors.enumerated() {
+          switch (index, error) {
+          case (0, TransportError.requestError(URLError.timedOut)):
+            break
+          case (1, TransportError.httpError(let httpError)) where httpError.statusCode == 503:
+            break
+          case (2, TransportError.requestError(URLError.cannotLoadFromNetwork)):
+            break
+          case (3, TransportError.requestError(URLError.backgroundSessionWasDisconnected)):
+            break
+          default:
+            XCTFail("Unexpected error at index \(index): \(error.localizedDescription)")
+          }
+        }
       } else {
         XCTFail("Unexpected success result")
       }
