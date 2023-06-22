@@ -229,3 +229,4 @@ extension SearchParametersStorage: Codable {
   }
 
 }
+// swiftlint:enable function_body_length
