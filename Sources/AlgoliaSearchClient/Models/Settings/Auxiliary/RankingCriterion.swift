@@ -95,3 +95,4 @@ extension RankingCriterion: RawRepresentable {
   }
 
 }
+// swiftlint:enable cyclomatic_complexity
