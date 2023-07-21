@@ -1,5 +1,14 @@
 # ChangeLog
 
+## [8.18.1](https://github.com/algolia/algoliasearch-client-swift/compare/8.18.0...8.18.1) (2023-06-22)
+
+### Fix
+
+- matching errors in the retry strategy (#817) ([0726cc5](https://github.com/algolia/algoliasearch-client-swift/commit/0726cc5))
+- added conditional FoundationNetworking import to AlgoliaRetryStrategy.swift (#815) ([1281375](https://github.com/algolia/algoliasearch-client-swift/commit/1281375))
+
+
+
 ## [8.18.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.17.0...8.18.0) (2023-03-24)
 
 ### Feat

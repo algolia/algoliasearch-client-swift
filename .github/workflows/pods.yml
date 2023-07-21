@@ -1,8 +1,5 @@
 name: Cocoapods
 on: 
-  push:
-    branches:
-      master
   pull_request:
 jobs:
   lint:
