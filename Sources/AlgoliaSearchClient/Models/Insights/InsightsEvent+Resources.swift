@@ -31,6 +31,21 @@ extension InsightsEvent {
 
 }
 
+extension InsightsEvent.Resources: CustomStringConvertible {
+
+  public var description: String {
+    switch self {
+    case .filters(let filters):
+      return "filters: \(filters)"
+    case .objectIDs(let objectIDs):
+      return "object IDs: \(objectIDs)"
+    case .objectIDsWithPositions(let objectIDsPositions):
+      return "object IDs & positions: \(objectIDsPositions)"
+    }
+  }
+
+}
+
 extension InsightsEvent.Resources: Codable {
 
   enum CodingKeys: String, CodingKey {

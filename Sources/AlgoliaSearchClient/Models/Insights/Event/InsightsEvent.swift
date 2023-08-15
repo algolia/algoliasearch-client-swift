@@ -91,3 +91,21 @@ extension InsightsEvent: Codable {
   }
 
 }
+
+extension InsightsEvent: CustomStringConvertible {
+
+  public var description: String {
+    """
+    \n{
+      name: \"\(name)\",
+      type: \(type),
+      indexName: \(indexName),
+      userToken: \(userToken ?? "none"),
+      timestamp: \(timestamp?.description ?? "none"),
+      queryID: \(queryID ?? "none"),
+      \(resources)
+    }
+    """
+  }
+
+}

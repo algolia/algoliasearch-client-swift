@@ -12,11 +12,6 @@ public struct WaitableWrapper<T> {
   public let wrapped: T
   let tasksToWait: [Waitable]
 
-  init(wrapped: T, tasksToWait: [Waitable]) {
-    self.wrapped = wrapped
-    self.tasksToWait = tasksToWait
-  }
-
 }
 
 extension WaitableWrapper where T: IndexTask {
