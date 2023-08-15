@@ -11,10 +11,6 @@ public struct LogType: Codable {
 
   let rawValue: String
 
-  init(rawValue: String) {
-    self.rawValue = rawValue
-  }
-
   /// Retrieve all the logs.
   public static var all: Self { .init(rawValue: #function) }
 

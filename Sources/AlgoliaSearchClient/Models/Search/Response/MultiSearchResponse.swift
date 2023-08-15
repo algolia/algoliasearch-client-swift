@@ -87,12 +87,6 @@ public extension MultiSearchResponse {
       /// Error occured while facets search response decoding
       public let facetSearchResponseDecodingError: Error
 
-      init(searchResponseDecodingError: Error,
-           facetSearchResponseDecodingError: Error) {
-        self.searchResponseDecodingError = searchResponseDecodingError
-        self.facetSearchResponseDecodingError = facetSearchResponseDecodingError
-      }
-
     }
 
   }

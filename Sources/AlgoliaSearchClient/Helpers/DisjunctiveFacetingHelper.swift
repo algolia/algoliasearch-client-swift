@@ -16,14 +16,6 @@ struct DisjunctiveFacetingHelper {
   let refinements: [Attribute: [String]]
   let disjunctiveFacets: Set<Attribute>
 
-  init(query: Query,
-       refinements: [Attribute: [String]],
-       disjunctiveFacets: Set<Attribute>) {
-    self.query = query
-    self.refinements = refinements
-    self.disjunctiveFacets = disjunctiveFacets
-  }
-
   /// Build filters SQL string from the provided refinements and disjunctive facets set
   func buildFilters(excluding excludedAttribute: Attribute?) -> String {
     String(
