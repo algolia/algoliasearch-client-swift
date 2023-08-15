@@ -20,7 +20,7 @@ jobs:
         run: |
           echo "RELEASE_TYPE=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
       - name: Check out polyglot
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: algolia/polyglot
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
