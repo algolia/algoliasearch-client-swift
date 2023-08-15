@@ -54,9 +54,4 @@ open class AsyncOperation: Operation {
     main()
     state = .executing
   }
-
-  open override func cancel() {
-    state = .finished
-  }
-
 }
