@@ -1,5 +1,13 @@
 # ChangeLog
 
+## [8.18.2](https://github.com/algolia/algoliasearch-client-swift/compare/8.18.1...8.18.2) (2023-08-15)
+
+### Fix
+
+- **AsyncOperation**: cancel() and isCancelled behavior (#801) ([c060289](https://github.com/algolia/algoliasearch-client-swift/commit/c060289))
+
+
+
 ## [8.18.1](https://github.com/algolia/algoliasearch-client-swift/compare/8.18.0...8.18.1) (2023-06-22)
 
 ### Fix
