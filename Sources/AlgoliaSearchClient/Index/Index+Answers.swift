@@ -17,6 +17,7 @@ public extension Index {
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
+  @available(*, deprecated, message: "Answers functionality is deprecated")
   @discardableResult func findAnswers(for query: AnswersQuery,
                                       requestOptions: RequestOptions? = nil,
                                       completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
@@ -31,6 +32,7 @@ public extension Index {
    - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: SearchResponse object
    */
+  @available(*, deprecated, message: "Answers functionality is deprecated")
   @discardableResult func findAnswers(for query: AnswersQuery,
                                       requestOptions: RequestOptions? = nil) throws -> SearchResponse {
     let command = Command.Answers.Find(indexName: name, query: query, requestOptions: requestOptions)
