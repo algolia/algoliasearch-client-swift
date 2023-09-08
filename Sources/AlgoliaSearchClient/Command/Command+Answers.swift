@@ -7,6 +7,7 @@
 
 import Foundation
 
+@available(*, deprecated, message: "Answers functionality is deprecated")
 extension Command {
 
   enum Answers {

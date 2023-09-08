@@ -7,6 +7,7 @@
 
 import Foundation
 
+@available(*, deprecated, message: "Answers functionality is deprecated")
 public struct AnswersQuery: SearchParameters, Codable {
 
   /// The query for which to retrieve results.
@@ -77,6 +78,7 @@ public struct AnswersQuery: SearchParameters, Codable {
 
 }
 
+@available(*, deprecated, message: "Answers functionality is deprecated")
 extension AnswersQuery: ExpressibleByStringInterpolation {
 
   public init(stringLiteral value: String) {
@@ -85,6 +87,7 @@ extension AnswersQuery: ExpressibleByStringInterpolation {
 
 }
 
+@available(*, deprecated, message: "Answers functionality is deprecated")
 extension AnswersQuery: SearchParametersStorageContainer {
 
   var searchParametersStorage: SearchParametersStorage {
@@ -99,4 +102,5 @@ extension AnswersQuery: SearchParametersStorageContainer {
 
 }
 
+@available(*, deprecated, message: "Answers functionality is deprecated")
 extension AnswersQuery: Builder {}
