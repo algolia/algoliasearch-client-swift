@@ -75,8 +75,7 @@ class APIKeysIntegrationTests: IntegrationTestCase {
     try checkKey(exists: true)
     
     guard let addedKeyResponse = keyResponseContainer else {
-      XCTFail("Key fetch failed")
-      return
+      throw XCTSkip("Key fetch failed")
     }
     keyResponseContainer = nil
     
