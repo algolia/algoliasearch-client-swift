@@ -9,6 +9,7 @@ import Foundation
 import XCTest
 @testable import AlgoliaSearchClient
 
+@available(*, deprecated, message: "Answers functionality is deprecated")
 class AnswersQueryTests: XCTestCase {
   
   func testInvalidParametersAsserts() throws {
