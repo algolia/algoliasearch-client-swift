@@ -20,11 +20,11 @@ extension CustomRankingCriterion: RawRepresentable {
   }
 
   public var rawValue: String {
-     switch self {
-     case .asc(let attribute):
-       return PrefixedString(prefix: Prefix.asc.rawValue, value: attribute.rawValue).description
-     case .desc(let attribute):
-       return PrefixedString(prefix: Prefix.desc.rawValue, value: attribute.rawValue).description
+    switch self {
+    case .asc(let attribute):
+      return PrefixedString(prefix: Prefix.asc.rawValue, value: attribute.rawValue).description
+    case .desc(let attribute):
+      return PrefixedString(prefix: Prefix.desc.rawValue, value: attribute.rawValue).description
     }
   }
 
