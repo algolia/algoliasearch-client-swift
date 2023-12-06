@@ -32,7 +32,7 @@ extension CustomRankingCriterion: RawRepresentable {
     guard
       let prefixedString = PrefixedString(rawValue: rawValue),
       let prefix = Prefix(rawValue: prefixedString.prefix) else {
-        return nil
+      return nil
     }
     switch prefix {
     case .asc:
