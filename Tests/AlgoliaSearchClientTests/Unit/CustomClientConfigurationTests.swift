@@ -35,7 +35,7 @@ class CustomClientConfigurationTests: XCTestCase {
       .hitsSearch(.init(indexName: "some-index", query: "search"))
     ]
     
-    let requestOptions = RequestOptions(headers: ["Content-Type": "application/json"])
+    let requestOptions = RequestOptions(headers: ["another-header": "another-value"])
     
     client.search(queries: queries, requestOptions: requestOptions) { _ in }
     
