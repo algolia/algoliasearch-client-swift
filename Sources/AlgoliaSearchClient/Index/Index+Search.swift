@@ -90,17 +90,19 @@ public extension Index {
    - Parameter disjunctiveFacets: Set of facets attributes applied disjunctively (with OR operator)
    - Parameter keepSelectedEmptyFacets: Whether the selected facet values might be preserved even
      in case of their absence in the search response
+   - Parameter requestOptions: Configure request locally with RequestOptions.
    - Returns: SearchesResponse object
    */
   func searchDisjunctiveFaceting(query: Query,
                                  refinements: [Attribute: [String]],
                                  disjunctiveFacets: Set<Attribute>,
-                                 keepSelectedEmptyFacets: Bool = true) throws -> SearchResponse {
+                                 keepSelectedEmptyFacets: Bool = true,
+                                 requestOptions: RequestOptions? = nil) throws -> SearchResponse {
     let helper = DisjunctiveFacetingHelper(query: query,
                                            refinements: refinements,
                                            disjunctiveFacets: disjunctiveFacets)
     let queries = helper.makeQueries()
-    let response = try search(queries: queries)
+    let response = try search(queries: queries, requestOptions: requestOptions)
     return try helper.mergeResponses(response.results,
                                      keepSelectedEmptyFacets: keepSelectedEmptyFacets)
   }
@@ -114,6 +116,7 @@ public extension Index {
    - Parameter disjunctiveFacets: Set of facets attributes applied disjunctively (with OR operator)
    - Parameter keepSelectedEmptyFacets: Whether the selected facet values might be preserved even
      in case of their absence in the search response
+   - Parameter requestOptions: Configure request locally with RequestOptions.
    - Parameter completion: Result completion
    - Returns: Launched asynchronous operation
    */
@@ -121,12 +124,13 @@ public extension Index {
                                  refinements: [Attribute: [String]],
                                  disjunctiveFacets: Set<Attribute>,
                                  keepSelectedEmptyFacets: Bool = true,
+                                 requestOptions: RequestOptions? = nil,
                                  completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
     let helper = DisjunctiveFacetingHelper(query: query,
                                            refinements: refinements,
                                            disjunctiveFacets: disjunctiveFacets)
     let queries = helper.makeQueries()
-    return search(queries: queries) { result in
+    return search(queries: queries, requestOptions: requestOptions) { result in
       completion(result.flatMap { response in
         Result {
           try helper.mergeResponses(response.results,
