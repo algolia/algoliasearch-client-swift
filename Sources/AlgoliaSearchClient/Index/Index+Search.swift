@@ -124,7 +124,7 @@ public extension Index {
                                  refinements: [Attribute: [String]],
                                  disjunctiveFacets: Set<Attribute>,
                                  keepSelectedEmptyFacets: Bool = true,
-                                  requestOptions: RequestOptions? = nil,
+                                 requestOptions: RequestOptions? = nil,
                                  completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
     let helper = DisjunctiveFacetingHelper(query: query,
                                            refinements: refinements,
