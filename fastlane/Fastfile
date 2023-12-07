@@ -48,6 +48,7 @@ lane :deploy do |options|
   repository_name = "algolia/algoliasearch-client-swift"
   podspec_path = "AlgoliaSearchClient.podspec"
   base_branch = options[:branch] || "master"
+  no_dry_run = options[:no_dry_run] || false
 
   # ensure branch and cleaniness locally but not on CI.
   if !ENV['GITHUB_ACTION'] 
@@ -105,10 +106,19 @@ lane :deploy do |options|
     sh("git tag -d #{release_type}; git push --delete origin #{release_type}")
   end
 
-  pod_push(
-    path: podspec_path,
-    allow_warnings: true
-  )
+  if no_dry_run
+    pod_push(
+      path: podspec_path,
+      allow_warnings: true
+    )
+  else
+    pod_lib_lint(
+      podspec: podspec_path,
+      verbose: true,
+      allow_warnings: true
+    )
+  end
+
 end
 
 lane :deployBeta do |options| 
