@@ -1,5 +1,15 @@
 # ChangeLog
 
+## [8.19.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.18.2...8.19.0) (2023-12-07)
+
+### Misc
+
+- fix(client configuration): default headers not applied (#839) ([f7745ae](https://github.com/algolia/algoliasearch-client-swift/commit/f7745ae))
+- feat(search disjunctive faceting): add request options (#840) ([5a21b35](https://github.com/algolia/algoliasearch-client-swift/commit/5a21b35))
+- chore(api key test): skip if failed (#835) ([7355d13](https://github.com/algolia/algoliasearch-client-swift/commit/7355d13))
+
+
+
 ## [8.18.2](https://github.com/algolia/algoliasearch-client-swift/compare/8.18.1...8.18.2) (2023-08-15)
 
 ### Fix
