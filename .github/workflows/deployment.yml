@@ -1,13 +1,13 @@
 name: Deployment
 on:
   push:
-    tags: 
-     - patch
-     - minor
-     - major
+    tags:
+      - patch
+      - minor
+      - major
 jobs:
   deploy:
-    runs-on: macos-12
+    runs-on: macos-latest
     env:
       GITHUB_ACTION: ${{ github.action_path }}
       GITHUB_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/setup-go@v5
         with:
-          go-version: '1.17'
+          go-version: "1.17"
       - name: Set release type environment
         run: |
           echo "RELEASE_TYPE=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
@@ -30,14 +30,10 @@ jobs:
           export PATH="$GOPATH/bin:$PATH"
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7.2'
+          ruby-version: "2.7.2"
           bundler-cache: true
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
         with:
           fetch-depth: 0
-      - uses: maierj/fastlane-action@v3.0.0
-        with:
-          lane: 'deploy'
-          verbose: 'true'
-          options: '{ "type": "${{ env.RELEASE_TYPE }}" }'
-          
+      - name: Deploy library release
+        run: bundle exec fastlane deploy verbose:true type:${{ env.RELEASE_TYPE }}
