@@ -5,6 +5,15 @@ on:
       - patch
       - minor
       - major
+  workflow_dispatch:
+    inputs:
+      type: choice
+      description: Deploy new package release
+      options:
+        - patch
+        - minor
+        - major
+
 jobs:
   deploy:
     runs-on: macos-latest
@@ -19,8 +28,12 @@ jobs:
       - name: Set release type environment
         run: |
           echo "RELEASE_TYPE=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+          if [[ "$RELEASE_TYPE" != "patch" && "$RELEASE_TYPE" != "minor" && "$RELEASE_TYPE" != "major" ]]; then
+            echo "RELEASE_TYPE=${{ github.event.inputs.name }}" >> $GITHUB_ENV
+          fi
       - name: Check out polyglot
-        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+        uses: actions/checkout@v4
         with:
           repository: algolia/polyglot
           token: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}
@@ -32,7 +45,7 @@ jobs:
         with:
           ruby-version: "2.7.2"
           bundler-cache: true
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Deploy library release
