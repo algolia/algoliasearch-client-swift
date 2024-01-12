@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class PersonalizationStrategyParams: NSObject, Codable, JSONEncodable {
+public struct PersonalizationStrategyParams: Codable, JSONEncodable, Hashable {
 
   /** Scores associated with the events. */
   public var eventScoring: [EventScoring]

@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SearchHits: NSObject, Codable, JSONEncodable {
+public struct SearchHits: Codable, JSONEncodable, Hashable {
 
   public var hits: [Hit]
   /** Text to search for in an index. */
@@ -55,7 +55,7 @@ import Foundation
 
   // Decodable protocol methods
 
-  public required init(from decoder: Decoder) throws {
+  public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
 
     hits = try container.decode([Hit].self, forKey: .hits)

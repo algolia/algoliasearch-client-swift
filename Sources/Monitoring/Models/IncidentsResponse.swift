@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class IncidentsResponse: NSObject, Codable, JSONEncodable {
+public struct IncidentsResponse: Codable, JSONEncodable, Hashable {
 
   public var incidents: [String: [IncidentsInner]]?
 

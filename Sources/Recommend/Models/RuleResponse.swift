@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Rule object.
-@objcMembers public class RuleResponse: NSObject, Codable, JSONEncodable {
+public struct RuleResponse: Codable, JSONEncodable, Hashable {
 
   public var metadata: RuleResponseMetadata?
   /** Unique identifier for a rule object. */
@@ -17,22 +17,19 @@ import Foundation
   public var conditions: [Condition]?
   public var consequence: Consequence?
   /** Description of the rule's purpose. This can be helpful for display in the Algolia dashboard. */
-  public var _description: String?
+  public var description: String?
   /** Indicates whether to enable the rule. If it isn't enabled, it isn't applied at query time. */
   public var enabled: Bool? = true
-  public var enabledNum: NSNumber? {
-    return enabled as NSNumber?
-  }
 
   public init(
     metadata: RuleResponseMetadata? = nil, objectID: String, conditions: [Condition]? = nil,
-    consequence: Consequence? = nil, _description: String? = nil, enabled: Bool? = true
+    consequence: Consequence? = nil, description: String? = nil, enabled: Bool? = true
   ) {
     self.metadata = metadata
     self.objectID = objectID
     self.conditions = conditions
     self.consequence = consequence
-    self._description = _description
+    self.description = description
     self.enabled = enabled
   }
 
@@ -41,7 +38,7 @@ import Foundation
     case objectID
     case conditions
     case consequence
-    case _description = "description"
+    case description
     case enabled
   }
 
@@ -53,7 +50,7 @@ import Foundation
     try container.encode(objectID, forKey: .objectID)
     try container.encodeIfPresent(conditions, forKey: .conditions)
     try container.encodeIfPresent(consequence, forKey: .consequence)
-    try container.encodeIfPresent(_description, forKey: ._description)
+    try container.encodeIfPresent(description, forKey: .description)
     try container.encodeIfPresent(enabled, forKey: .enabled)
   }
 }

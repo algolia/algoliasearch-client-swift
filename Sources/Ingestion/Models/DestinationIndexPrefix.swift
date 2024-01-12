@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class DestinationIndexPrefix: NSObject, Codable, JSONEncodable {
+public struct DestinationIndexPrefix: Codable, JSONEncodable, Hashable {
 
   /** The prefix of the final index name. */
   public var indexPrefix: String

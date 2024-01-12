@@ -7,23 +7,14 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class MatchedGeoLocation: NSObject, Codable, JSONEncodable {
+public struct MatchedGeoLocation: Codable, JSONEncodable, Hashable {
 
   /** Latitude of the matched location. */
   public var lat: Double?
-  public var latNum: NSNumber? {
-    return lat as NSNumber?
-  }
   /** Longitude of the matched location. */
   public var lng: Double?
-  public var lngNum: NSNumber? {
-    return lng as NSNumber?
-  }
   /** Distance between the matched location and the search location (in meters). */
   public var distance: Int?
-  public var distanceNum: NSNumber? {
-    return distance as NSNumber?
-  }
 
   public init(lat: Double? = nil, lng: Double? = nil, distance: Int? = nil) {
     self.lat = lat

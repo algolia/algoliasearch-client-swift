@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// The trigger input for a task of type &#39;subscription&#39;.
-@objcMembers public class SubscriptionTrigger: NSObject, Codable, JSONEncodable {
+public struct SubscriptionTrigger: Codable, JSONEncodable, Hashable {
 
   public var type: SubscriptionTriggerType
 

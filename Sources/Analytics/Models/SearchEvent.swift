@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SearchEvent: NSObject, Codable, JSONEncodable {
+public struct SearchEvent: Codable, JSONEncodable, Hashable {
 
   /** Date of the event in the format YYYY-MM-DD. */
   public var date: String

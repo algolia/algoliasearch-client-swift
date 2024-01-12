@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// An authentication is used to login into a Source or a Destination.
-@objcMembers public class Authentication: NSObject, Codable, JSONEncodable {
+public struct Authentication: Codable, JSONEncodable, Hashable {
 
   /** The authentication UUID. */
   public var authenticationID: String

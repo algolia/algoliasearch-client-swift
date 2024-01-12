@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class Task: NSObject, Codable, JSONEncodable {
+public struct Task: Codable, JSONEncodable, Hashable {
 
   static let failureThresholdRule = NumericRule<Int>(
     minimum: 0, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
@@ -23,9 +23,6 @@ import Foundation
   public var enabled: Bool = true
   /** A percentage representing the accepted failure threshold to determine if a `run` succeeded or not. */
   public var failureThreshold: Int?
-  public var failureThresholdNum: NSNumber? {
-    return failureThreshold as NSNumber?
-  }
   public var action: ActionType
   /** Date of creation (RFC3339 format). */
   public var createdAt: String

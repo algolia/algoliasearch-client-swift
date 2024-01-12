@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SearchMethodParams: NSObject, Codable, JSONEncodable {
+public struct SearchMethodParams: Codable, JSONEncodable, Hashable {
 
   public var requests: [SearchQuery]
   public var strategy: SearchStrategy?

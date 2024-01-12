@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// [Redirect results to a URL](https://www.algolia.com/doc/guides/managing-results/rules/merchandising-and-promoting/how-to/redirects/).
-@objcMembers public class Redirect: NSObject, Codable, JSONEncodable {
+public struct Redirect: Codable, JSONEncodable, Hashable {
 
   public var index: [RedirectRuleIndexMetadata]?
 

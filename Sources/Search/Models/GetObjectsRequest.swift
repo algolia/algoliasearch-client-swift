@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Record retrieval operation.
-@objcMembers public class GetObjectsRequest: NSObject, Codable, JSONEncodable {
+public struct GetObjectsRequest: Codable, JSONEncodable, Hashable {
 
   /** Attributes to retrieve. If not specified, all retrievable attributes are returned. */
   public var attributesToRetrieve: [String]?

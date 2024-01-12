@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class EventScoring: NSObject, Codable, JSONEncodable {
+public struct EventScoring: Codable, JSONEncodable, Hashable {
 
   /** The score for the event. */
   public var score: Int

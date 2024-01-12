@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Unique identifier of the record to hide.
-@objcMembers public class ConsequenceHide: NSObject, Codable, JSONEncodable {
+public struct ConsequenceHide: Codable, JSONEncodable, Hashable {
 
   /** Unique object identifier. */
   public var objectID: String

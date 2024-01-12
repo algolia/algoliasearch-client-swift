@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SearchParamsString: NSObject, Codable, JSONEncodable {
+public struct SearchParamsString: Codable, JSONEncodable, Hashable {
 
   /** Search parameters as a URL-encoded query string. */
   public var params: String? = ""

@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class UserHit: NSObject, Codable, JSONEncodable {
+public struct UserHit: Codable, JSONEncodable, Hashable {
 
   static let userIDRule = StringRule(
     minLength: nil, maxLength: nil, pattern: "^[a-zA-Z0-9 \\-*.]+$")

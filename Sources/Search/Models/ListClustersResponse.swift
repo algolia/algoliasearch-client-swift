@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Clusters.
-@objcMembers public class ListClustersResponse: NSObject, Codable, JSONEncodable {
+public struct ListClustersResponse: Codable, JSONEncodable, Hashable {
 
   /** Key-value pairs with cluster names as keys and lists of users with the highest number of records per cluster as values. */
   public var topUsers: [String]

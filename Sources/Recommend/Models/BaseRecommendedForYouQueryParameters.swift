@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class BaseRecommendedForYouQueryParameters: NSObject, Codable, JSONEncodable {
+public struct BaseRecommendedForYouQueryParameters: Codable, JSONEncodable, Hashable {
 
   /** Associates a [user token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken/) with the current search. */
   public var userToken: String

@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class Server: NSObject, Codable, JSONEncodable {
+public struct Server: Codable, JSONEncodable, Hashable {
 
   /** Server name. */
   public var name: String?
@@ -15,14 +15,8 @@ import Foundation
   /** Included to support legacy applications. Do not rely on this attribute being present in the response. Use `is_replica` instead.  */
   @available(*, deprecated, message: "This property is deprecated.")
   public var isSlave: Bool? = false
-  public var isSlaveNum: NSNumber? {
-    return isSlave as NSNumber?
-  }
   /** Indicates whether this server is a replica of another server. */
   public var isReplica: Bool? = false
-  public var isReplicaNum: NSNumber? {
-    return isReplica as NSNumber?
-  }
   /** Name of the cluster to which this server belongs. */
   public var cluster: String?
   public var status: ServerStatus?

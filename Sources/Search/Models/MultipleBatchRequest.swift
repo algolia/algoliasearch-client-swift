@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class MultipleBatchRequest: NSObject, Codable, JSONEncodable {
+public struct MultipleBatchRequest: Codable, JSONEncodable, Hashable {
 
   public var action: Action
   /** Operation arguments (varies with specified `action`). */

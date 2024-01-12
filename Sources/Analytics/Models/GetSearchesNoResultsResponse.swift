@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class GetSearchesNoResultsResponse: NSObject, Codable, JSONEncodable {
+public struct GetSearchesNoResultsResponse: Codable, JSONEncodable, Hashable {
 
   /** Searches with no results. */
   public var searches: [SearchNoResultEvent]

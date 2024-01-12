@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class RedirectRuleIndexMetadata: NSObject, Codable, JSONEncodable {
+public struct RedirectRuleIndexMetadata: Codable, JSONEncodable, Hashable {
 
   /** Source index for the redirect rule. */
   public var source: String

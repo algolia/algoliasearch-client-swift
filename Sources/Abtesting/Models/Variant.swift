@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class Variant: NSObject, Codable, JSONEncodable {
+public struct Variant: Codable, JSONEncodable, Hashable {
 
   /** Number of add-to-cart events for this variant. */
   public var addToCartCount: Int
@@ -26,7 +26,7 @@ import Foundation
   /** A/B test currencies. */
   public var currencies: [String: CurrenciesValue]
   /** A/B test description. */
-  public var _description: String
+  public var description: String
   public var filterEffects: FilterEffects?
   /** A/B test index. */
   public var index: String
@@ -48,10 +48,9 @@ import Foundation
   public init(
     addToCartCount: Int, addToCartRate: Double, averageClickPosition: Int, clickCount: Int,
     clickThroughRate: Double, conversionCount: Int, conversionRate: Double,
-    currencies: [String: CurrenciesValue], _description: String,
-    filterEffects: FilterEffects? = nil, index: String, noResultCount: Int, purchaseCount: Int,
-    purchaseRate: Double, searchCount: Int, trackedSearchCount: Int, trafficPercentage: Int,
-    userCount: Int
+    currencies: [String: CurrenciesValue], description: String, filterEffects: FilterEffects? = nil,
+    index: String, noResultCount: Int, purchaseCount: Int, purchaseRate: Double, searchCount: Int,
+    trackedSearchCount: Int, trafficPercentage: Int, userCount: Int
   ) {
     self.addToCartCount = addToCartCount
     self.addToCartRate = addToCartRate
@@ -61,7 +60,7 @@ import Foundation
     self.conversionCount = conversionCount
     self.conversionRate = conversionRate
     self.currencies = currencies
-    self._description = _description
+    self.description = description
     self.filterEffects = filterEffects
     self.index = index
     self.noResultCount = noResultCount
@@ -82,7 +81,7 @@ import Foundation
     case conversionCount
     case conversionRate
     case currencies
-    case _description = "description"
+    case description
     case filterEffects
     case index
     case noResultCount
@@ -106,7 +105,7 @@ import Foundation
     try container.encode(conversionCount, forKey: .conversionCount)
     try container.encode(conversionRate, forKey: .conversionRate)
     try container.encode(currencies, forKey: .currencies)
-    try container.encode(_description, forKey: ._description)
+    try container.encode(description, forKey: .description)
     try container.encodeIfPresent(filterEffects, forKey: .filterEffects)
     try container.encode(index, forKey: .index)
     try container.encode(noResultCount, forKey: .noResultCount)

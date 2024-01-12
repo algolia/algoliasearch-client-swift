@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class DeleteByParams: NSObject, Codable, JSONEncodable {
+public struct DeleteByParams: Codable, JSONEncodable, Hashable {
 
   public var facetFilters: FacetFilters?
   /** [Filter](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/) the query with numeric, facet, or tag filters.  */

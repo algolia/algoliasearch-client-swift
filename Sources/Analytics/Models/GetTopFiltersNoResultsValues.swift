@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class GetTopFiltersNoResultsValues: NSObject, Codable, JSONEncodable {
+public struct GetTopFiltersNoResultsValues: Codable, JSONEncodable, Hashable {
 
   /** Number of occurrences. */
   public var count: Int

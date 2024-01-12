@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Query Suggestions configuration.
-@objcMembers public class QuerySuggestionsConfiguration: NSObject, Codable, JSONEncodable {
+public struct QuerySuggestionsConfiguration: Codable, JSONEncodable, Hashable {
 
   /** Algolia indices from which to get the popular searches for query suggestions. */
   public var sourceIndices: [SourceIndex]
@@ -17,14 +17,8 @@ import Foundation
   public var exclude: [String]?
   /** Turn on personalized query suggestions. */
   public var enablePersonalization: Bool? = false
-  public var enablePersonalizationNum: NSNumber? {
-    return enablePersonalization as NSNumber?
-  }
   /** Allow suggestions with special characters. */
   public var allowSpecialCharacters: Bool? = false
-  public var allowSpecialCharactersNum: NSNumber? {
-    return allowSpecialCharacters as NSNumber?
-  }
 
   public init(
     sourceIndices: [SourceIndex], languages: Languages? = nil, exclude: [String]? = nil,

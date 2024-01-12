@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class BatchResponse: NSObject, Codable, JSONEncodable {
+public struct BatchResponse: Codable, JSONEncodable, Hashable {
 
   /** Unique identifier of a task. A successful API response means that a task was added to a queue. It might not run immediately. You can check the task's progress with the `task` operation and this `taskID`.  */
   public var taskID: Int64

@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class ListABTestsResponse: NSObject, Codable, JSONEncodable {
+public struct ListABTestsResponse: Codable, JSONEncodable, Hashable {
 
   /** A/B tests. */
   public var abtests: [ABTest]

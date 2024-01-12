@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// &#x60;searchDictionaryEntries&#x60; parameters.
-@objcMembers public class SearchDictionaryEntriesParams: NSObject, Codable, JSONEncodable {
+public struct SearchDictionaryEntriesParams: Codable, JSONEncodable, Hashable {
 
   static let hitsPerPageRule = NumericRule<Int>(
     minimum: 1, exclusiveMinimum: false, maximum: 1000, exclusiveMaximum: false, multipleOf: nil)
@@ -16,14 +16,8 @@ import Foundation
   public var query: String = ""
   /** Page to retrieve (the first page is `0`, not `1`). */
   public var page: Int? = 0
-  public var pageNum: NSNumber? {
-    return page as NSNumber?
-  }
   /** Number of hits per page. */
   public var hitsPerPage: Int? = 20
-  public var hitsPerPageNum: NSNumber? {
-    return hitsPerPage as NSNumber?
-  }
   /** [Supported language ISO code](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/).  */
   public var language: String?
 

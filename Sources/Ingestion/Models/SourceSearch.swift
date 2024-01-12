@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SourceSearch: NSObject, Codable, JSONEncodable {
+public struct SourceSearch: Codable, JSONEncodable, Hashable {
 
   public var sourceIDs: [String]
 

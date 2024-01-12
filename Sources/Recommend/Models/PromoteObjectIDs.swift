@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Records to promote.
-@objcMembers public class PromoteObjectIDs: NSObject, Codable, JSONEncodable {
+public struct PromoteObjectIDs: Codable, JSONEncodable, Hashable {
 
   /** Unique identifiers of the records to promote. */
   public var objectIDs: [String]

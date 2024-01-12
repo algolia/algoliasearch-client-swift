@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class HasPendingMappingsResponse: NSObject, Codable, JSONEncodable {
+public struct HasPendingMappingsResponse: Codable, JSONEncodable, Hashable {
 
   /** Indicates whether there are clusters undergoing migration, creation, or deletion. */
   public var pending: Bool

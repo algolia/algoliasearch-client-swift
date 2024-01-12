@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class BatchDictionaryEntriesRequest: NSObject, Codable, JSONEncodable {
+public struct BatchDictionaryEntriesRequest: Codable, JSONEncodable, Hashable {
 
   public var action: DictionaryAction
   public var body: DictionaryEntry

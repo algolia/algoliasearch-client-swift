@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class ListApiKeysResponse: NSObject, Codable, JSONEncodable {
+public struct ListApiKeysResponse: Codable, JSONEncodable, Hashable {
 
   /** API keys. */
   public var keys: [GetApiKeyResponse]

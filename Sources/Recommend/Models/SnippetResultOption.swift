@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Snippeted attributes show parts of the matched attributes. Only returned when attributesToSnippet is non-empty.
-@objcMembers public class SnippetResultOption: NSObject, Codable, JSONEncodable {
+public struct SnippetResultOption: Codable, JSONEncodable, Hashable {
 
   /** Markup text with `facetQuery` matches highlighted. */
   public var value: String

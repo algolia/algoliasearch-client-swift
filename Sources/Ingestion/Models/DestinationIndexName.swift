@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class DestinationIndexName: NSObject, Codable, JSONEncodable {
+public struct DestinationIndexName: Codable, JSONEncodable, Hashable {
 
   /** The index name to store data in. */
   public var indexName: String

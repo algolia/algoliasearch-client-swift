@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class TopCountry: NSObject, Codable, JSONEncodable {
+public struct TopCountry: Codable, JSONEncodable, Hashable {
 
   /** Country. */
   public var country: String

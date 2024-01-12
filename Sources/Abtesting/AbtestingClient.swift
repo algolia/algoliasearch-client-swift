@@ -9,7 +9,7 @@ import Foundation
 
 typealias Client = AbtestingClient
 
-@objcMembers open class AbtestingClient: NSObject {
+open class AbtestingClient {
 
   private var configuration: Configuration
   private var transporter: Transporter
@@ -295,14 +295,14 @@ typealias Client = AbtestingClient
   /**
      Delete an A/B test.
 
-     - parameter _id: (path) Unique A/B test ID.
+     - parameter id: (path) Unique A/B test ID.
      - returns: ABTestResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteABTest(_id: Int, requestOptions: RequestOptions? = nil) async throws
+  open func deleteABTest(id: Int, requestOptions: RequestOptions? = nil) async throws
     -> ABTestResponse
   {
-    return try await deleteABTestWithRequestBuilder(_id: _id, requestOptions: requestOptions)
+    return try await deleteABTestWithRequestBuilder(id: id, requestOptions: requestOptions)
       .execute().body
   }
 
@@ -310,18 +310,18 @@ typealias Client = AbtestingClient
      Delete an A/B test.
 
      Delete an A/B test. To determine the `id` for an A/B test, use the [`listABTests` operation](#tag/abtest/operation/listABTests).
-     - parameter _id: (path) Unique A/B test ID.
+     - parameter id: (path) Unique A/B test ID.
      - returns: RequestBuilder<ABTestResponse>
      */
-  open func deleteABTestWithRequestBuilder(_id: Int, requestOptions: RequestOptions? = nil)
+  open func deleteABTestWithRequestBuilder(id: Int, requestOptions: RequestOptions? = nil)
     -> RequestBuilder<ABTestResponse>
   {
     var localVariablePath = "/2/abtests/{id}"
-    let _idPreEscape = "\(APIHelper.mapValueToPathItem(_id))"
-    let _idPostEscape =
-      _idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+    let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+    let idPostEscape =
+      idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
-      of: "{id}", with: _idPostEscape, options: .literal, range: nil)
+      of: "{id}", with: idPostEscape, options: .literal, range: nil)
     let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
@@ -342,12 +342,12 @@ typealias Client = AbtestingClient
   /**
      Get A/B test details.
 
-     - parameter _id: (path) Unique A/B test ID.
+     - parameter id: (path) Unique A/B test ID.
      - returns: ABTest
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getABTest(_id: Int, requestOptions: RequestOptions? = nil) async throws -> ABTest {
-    return try await getABTestWithRequestBuilder(_id: _id, requestOptions: requestOptions).execute()
+  open func getABTest(id: Int, requestOptions: RequestOptions? = nil) async throws -> ABTest {
+    return try await getABTestWithRequestBuilder(id: id, requestOptions: requestOptions).execute()
       .body
   }
 
@@ -355,18 +355,18 @@ typealias Client = AbtestingClient
      Get A/B test details.
 
      Get specific details for an A/B test. To determine the `id` for an A/B test, use the [`listABTests` operation](#tag/abtest/operation/listABTests).
-     - parameter _id: (path) Unique A/B test ID.
+     - parameter id: (path) Unique A/B test ID.
      - returns: RequestBuilder<ABTest>
      */
-  open func getABTestWithRequestBuilder(_id: Int, requestOptions: RequestOptions? = nil)
+  open func getABTestWithRequestBuilder(id: Int, requestOptions: RequestOptions? = nil)
     -> RequestBuilder<ABTest>
   {
     var localVariablePath = "/2/abtests/{id}"
-    let _idPreEscape = "\(APIHelper.mapValueToPathItem(_id))"
-    let _idPostEscape =
-      _idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+    let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+    let idPostEscape =
+      idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
-      of: "{id}", with: _idPostEscape, options: .literal, range: nil)
+      of: "{id}", with: idPostEscape, options: .literal, range: nil)
     let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
@@ -444,33 +444,33 @@ typealias Client = AbtestingClient
   /**
      Stop an A/B test.
 
-     - parameter _id: (path) Unique A/B test ID.
+     - parameter id: (path) Unique A/B test ID.
      - returns: ABTestResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func stopABTest(_id: Int, requestOptions: RequestOptions? = nil) async throws
+  open func stopABTest(id: Int, requestOptions: RequestOptions? = nil) async throws
     -> ABTestResponse
   {
-    return try await stopABTestWithRequestBuilder(_id: _id, requestOptions: requestOptions)
-      .execute().body
+    return try await stopABTestWithRequestBuilder(id: id, requestOptions: requestOptions).execute()
+      .body
   }
 
   /**
      Stop an A/B test.
 
      If stopped, the test is over and can't be restarted. There is now only one index, receiving 100% of all search requests. The data gathered for stopped A/B tests is retained. To determine the `id` for an A/B test, use the [`listABTests` operation](#tag/abtest/operation/listABTests).
-     - parameter _id: (path) Unique A/B test ID.
+     - parameter id: (path) Unique A/B test ID.
      - returns: RequestBuilder<ABTestResponse>
      */
-  open func stopABTestWithRequestBuilder(_id: Int, requestOptions: RequestOptions? = nil)
+  open func stopABTestWithRequestBuilder(id: Int, requestOptions: RequestOptions? = nil)
     -> RequestBuilder<ABTestResponse>
   {
     var localVariablePath = "/2/abtests/{id}/stop"
-    let _idPreEscape = "\(APIHelper.mapValueToPathItem(_id))"
-    let _idPostEscape =
-      _idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+    let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
+    let idPostEscape =
+      idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
-      of: "{id}", with: _idPostEscape, options: .literal, range: nil)
+      of: "{id}", with: idPostEscape, options: .literal, range: nil)
     let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil

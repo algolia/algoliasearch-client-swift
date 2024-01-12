@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class BaseTrendingItemsQuery: NSObject, Codable, JSONEncodable {
+public struct BaseTrendingItemsQuery: Codable, JSONEncodable, Hashable {
 
   /** Facet name for trending models. */
   public var facetName: String?

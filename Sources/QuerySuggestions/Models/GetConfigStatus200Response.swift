@@ -7,15 +7,12 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class GetConfigStatus200Response: NSObject, Codable, JSONEncodable {
+public struct GetConfigStatus200Response: Codable, JSONEncodable, Hashable {
 
   /** Query Suggestions index name. */
   public var indexName: String?
   /** Indicates whether the creation or update of the Query Suggestions is in progress. */
   public var isRunning: Bool?
-  public var isRunningNum: NSNumber? {
-    return isRunning as NSNumber?
-  }
   /** Timestamp in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format when the Query Suggestions index was last built. */
   public var lastBuiltAt: String?
   /** Timestamp in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format when the Query Suggestions index was last updated successfully. */

@@ -7,25 +7,25 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class AbTestsVariant: NSObject, Codable, JSONEncodable {
+public struct AbTestsVariant: Codable, JSONEncodable, Hashable {
 
   /** A/B test index. */
   public var index: String
   /** A/B test traffic percentage. */
   public var trafficPercentage: Int
   /** A/B test description. */
-  public var _description: String?
+  public var description: String?
 
-  public init(index: String, trafficPercentage: Int, _description: String? = nil) {
+  public init(index: String, trafficPercentage: Int, description: String? = nil) {
     self.index = index
     self.trafficPercentage = trafficPercentage
-    self._description = _description
+    self.description = description
   }
 
   public enum CodingKeys: String, CodingKey, CaseIterable {
     case index
     case trafficPercentage
-    case _description = "description"
+    case description
   }
 
   // Encodable protocol methods
@@ -34,6 +34,6 @@ import Foundation
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(index, forKey: .index)
     try container.encode(trafficPercentage, forKey: .trafficPercentage)
-    try container.encodeIfPresent(_description, forKey: ._description)
+    try container.encodeIfPresent(description, forKey: .description)
   }
 }

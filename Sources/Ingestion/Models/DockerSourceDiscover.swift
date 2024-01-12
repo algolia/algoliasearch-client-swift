@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class DockerSourceDiscover: NSObject, Codable, JSONEncodable {
+public struct DockerSourceDiscover: Codable, JSONEncodable, Hashable {
 
   /** The run UUID. */
   public var runID: String

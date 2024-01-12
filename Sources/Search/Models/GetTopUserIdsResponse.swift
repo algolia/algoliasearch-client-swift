@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// User IDs and clusters.
-@objcMembers public class GetTopUserIdsResponse: NSObject, Codable, JSONEncodable {
+public struct GetTopUserIdsResponse: Codable, JSONEncodable, Hashable {
 
   /** Key-value pairs with cluster names as keys and lists of users with the highest number of records per cluster as values. */
   public var topUsers: [[String: [UserId]]]

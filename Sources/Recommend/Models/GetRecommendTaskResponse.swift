@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class GetRecommendTaskResponse: NSObject, Codable, JSONEncodable {
+public struct GetRecommendTaskResponse: Codable, JSONEncodable, Hashable {
 
   public var status: TaskStatus
 

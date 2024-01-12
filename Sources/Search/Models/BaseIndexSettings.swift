@@ -7,15 +7,12 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class BaseIndexSettings: NSObject, Codable, JSONEncodable {
+public struct BaseIndexSettings: Codable, JSONEncodable, Hashable {
 
   /** Creates [replicas](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/), which are copies of a primary index with the same records but different settings. */
   public var replicas: [String]?
   /** Maximum number of hits accessible through pagination. */
   public var paginationLimitedTo: Int? = 1000
-  public var paginationLimitedToNum: NSNumber? {
-    return paginationLimitedTo as NSNumber?
-  }
   /** Attributes that can't be retrieved at query time. */
   public var unretrievableAttributes: [String]?
   /** Words for which you want to turn off [typo tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/). */
@@ -32,9 +29,6 @@ import Foundation
   public var disablePrefixOnAttributes: [String]?
   /** Incidates whether the engine compresses arrays with exclusively non-negative integers. When enabled, the compressed arrays may be reordered.  */
   public var allowCompressionOfIntegerArray: Bool? = false
-  public var allowCompressionOfIntegerArrayNum: NSNumber? {
-    return allowCompressionOfIntegerArray as NSNumber?
-  }
   /** Numeric attributes that can be used as [numerical filters](https://www.algolia.com/doc/guides/managing-results/rules/detecting-intent/how-to/applying-a-custom-filter-for-a-specific-query/#numerical-filters). */
   public var numericAttributesForFiltering: [String]?
   /** Controls which separators are added to an Algolia index as part of [normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/#what-does-normalization-mean). Separators are all non-letter characters except spaces and currency characters, such as $€£¥. */

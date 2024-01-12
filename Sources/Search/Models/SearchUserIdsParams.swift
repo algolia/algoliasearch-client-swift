@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// OK
-@objcMembers public class SearchUserIdsParams: NSObject, Codable, JSONEncodable {
+public struct SearchUserIdsParams: Codable, JSONEncodable, Hashable {
 
   static let hitsPerPageRule = NumericRule<Int>(
     minimum: 1, exclusiveMinimum: false, maximum: 1000, exclusiveMaximum: false, multipleOf: nil)
@@ -18,14 +18,8 @@ import Foundation
   public var clusterName: String?
   /** Page to retrieve (the first page is `0`, not `1`). */
   public var page: Int? = 0
-  public var pageNum: NSNumber? {
-    return page as NSNumber?
-  }
   /** Number of hits per page. */
   public var hitsPerPage: Int? = 20
-  public var hitsPerPageNum: NSNumber? {
-    return hitsPerPage as NSNumber?
-  }
 
   public init(query: String, clusterName: String? = nil, page: Int? = 0, hitsPerPage: Int? = 20) {
     self.query = query

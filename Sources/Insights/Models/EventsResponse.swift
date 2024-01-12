@@ -8,15 +8,12 @@ import Foundation
 #endif
 
 /// The response of the Insights API.
-@objcMembers public class EventsResponse: NSObject, Codable, JSONEncodable {
+public struct EventsResponse: Codable, JSONEncodable, Hashable {
 
   /** Details about the response, such as error messages. */
   public var message: String?
   /** The HTTP status code of the response. */
   public var status: Int?
-  public var statusNum: NSNumber? {
-    return status as NSNumber?
-  }
 
   public init(message: String? = nil, status: Int? = nil) {
     self.message = message

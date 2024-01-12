@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SearchForFacetValuesResponse: NSObject, Codable, JSONEncodable {
+public struct SearchForFacetValuesResponse: Codable, JSONEncodable, Hashable {
 
   public var facetHits: [FacetHits]
   /** See the `facetsCount` field of the `exhaustive` object in the response. */
@@ -15,9 +15,6 @@ import Foundation
   public var exhaustiveFacetsCount: Bool
   /** Time the server took to process the request, in milliseconds. */
   public var processingTimeMS: Int?
-  public var processingTimeMSNum: NSNumber? {
-    return processingTimeMS as NSNumber?
-  }
 
   public init(facetHits: [FacetHits], exhaustiveFacetsCount: Bool, processingTimeMS: Int? = nil) {
     self.facetHits = facetHits

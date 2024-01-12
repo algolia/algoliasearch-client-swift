@@ -8,13 +8,10 @@ import Foundation
 #endif
 
 /// &#x60;batchDictionaryEntries&#x60; parameters.
-@objcMembers public class BatchDictionaryEntriesParams: NSObject, Codable, JSONEncodable {
+public struct BatchDictionaryEntriesParams: Codable, JSONEncodable, Hashable {
 
   /** Incidates whether to replace all custom entries in the dictionary with the ones sent with this request. */
   public var clearExistingDictionaryEntries: Bool? = false
-  public var clearExistingDictionaryEntriesNum: NSNumber? {
-    return clearExistingDictionaryEntries as NSNumber?
-  }
   /** Operations to batch. */
   public var requests: [BatchDictionaryEntriesRequest]
 

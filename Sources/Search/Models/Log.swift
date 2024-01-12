@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class Log: NSObject, Codable, JSONEncodable {
+public struct Log: Codable, JSONEncodable, Hashable {
 
   /** Timestamp in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format. */
   public var timestamp: String

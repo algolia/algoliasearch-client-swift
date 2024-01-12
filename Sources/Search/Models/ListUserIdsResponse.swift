@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// User ID data.
-@objcMembers public class ListUserIdsResponse: NSObject, Codable, JSONEncodable {
+public struct ListUserIdsResponse: Codable, JSONEncodable, Hashable {
 
   /** User IDs. */
   public var userIDs: [UserId]

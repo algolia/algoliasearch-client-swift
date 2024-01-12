@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class GetLogFile200Response: NSObject, Codable, JSONEncodable {
+public struct GetLogFile200Response: Codable, JSONEncodable, Hashable {
 
   /** Timestamp in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format. */
   public var timestamp: String?
@@ -16,9 +16,6 @@ import Foundation
   public var message: String?
   /** Level indicating the position of a suggestion in a hierarchy of records.   For example, a `contextLevel` of 1 indicates that this suggestion belongs to a previous suggestion with `contextLevel` 0.  */
   public var contextLevel: Int?
-  public var contextLevelNum: NSNumber? {
-    return contextLevel as NSNumber?
-  }
 
   public init(
     timestamp: String? = nil, level: ModelLogLevel? = nil, message: String? = nil,

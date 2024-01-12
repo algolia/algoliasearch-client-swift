@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class GetInventory403Response: NSObject, Codable, JSONEncodable {
+public struct GetInventory403Response: Codable, JSONEncodable, Hashable {
 
   public var reason: String?
 

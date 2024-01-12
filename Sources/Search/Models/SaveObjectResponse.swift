@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SaveObjectResponse: NSObject, Codable, JSONEncodable {
+public struct SaveObjectResponse: Codable, JSONEncodable, Hashable {
 
   /** Date of creation (ISO-8601 format). */
   public var createdAt: String

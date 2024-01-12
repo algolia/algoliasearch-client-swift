@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class BaseRecommendationsQuery: NSObject, Codable, JSONEncodable {
+public struct BaseRecommendationsQuery: Codable, JSONEncodable, Hashable {
 
   public var model: RecommendationModels
   /** Unique object identifier. */

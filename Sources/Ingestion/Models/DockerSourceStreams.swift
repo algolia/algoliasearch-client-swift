@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class DockerSourceStreams: NSObject, Codable, JSONEncodable {
+public struct DockerSourceStreams: Codable, JSONEncodable, Hashable {
 
   public var streams: [AnyCodable]
 

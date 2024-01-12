@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Payload to search for multiple authentications, based on the given &#x60;authenticationIDs&#x60;.
-@objcMembers public class AuthenticationSearch: NSObject, Codable, JSONEncodable {
+public struct AuthenticationSearch: Codable, JSONEncodable, Hashable {
 
   public var authenticationIDs: [String]
 

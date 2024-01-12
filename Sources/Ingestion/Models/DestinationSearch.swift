@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Payload to search for multiple destinations, based on the given &#x60;destinationIDs&#x60;.
-@objcMembers public class DestinationSearch: NSObject, Codable, JSONEncodable {
+public struct DestinationSearch: Codable, JSONEncodable, Hashable {
 
   public var destinationIDs: [String]
 

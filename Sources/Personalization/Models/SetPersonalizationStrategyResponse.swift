@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SetPersonalizationStrategyResponse: NSObject, Codable, JSONEncodable {
+public struct SetPersonalizationStrategyResponse: Codable, JSONEncodable, Hashable {
 
   /** A message confirming the strategy update. */
   public var message: String

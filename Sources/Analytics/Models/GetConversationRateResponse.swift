@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class GetConversationRateResponse: NSObject, Codable, JSONEncodable {
+public struct GetConversationRateResponse: Codable, JSONEncodable, Hashable {
 
   static let rateRule = NumericRule<Double>(
     minimum: 0, exclusiveMinimum: false, maximum: 1, exclusiveMaximum: false, multipleOf: nil)

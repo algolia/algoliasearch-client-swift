@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class InfrastructureResponse: NSObject, Codable, JSONEncodable {
+public struct InfrastructureResponse: Codable, JSONEncodable, Hashable {
 
   public var metrics: InfrastructureResponseMetrics?
 

@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Applies search parameters from [a restricted set of options](https://www.algolia.com/doc/api-reference/api-methods/add-ab-test/#method-param-customsearchparameters). Only use this parameter if the two variants use the same index.
-@objcMembers public class CustomSearchParams: NSObject, Codable, JSONEncodable {
+public struct CustomSearchParams: Codable, JSONEncodable, Hashable {
 
   public var customSearchParameters: AnyCodable
 

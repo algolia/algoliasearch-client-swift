@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class RecommendationsHits: NSObject, Codable, JSONEncodable {
+public struct RecommendationsHits: Codable, JSONEncodable, Hashable {
 
   public var hits: [RecommendationsHit]
   /** Text to search for in an index. */

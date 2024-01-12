@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class FacetScoring: NSObject, Codable, JSONEncodable {
+public struct FacetScoring: Codable, JSONEncodable, Hashable {
 
   /** The score for the event. */
   public var score: Int

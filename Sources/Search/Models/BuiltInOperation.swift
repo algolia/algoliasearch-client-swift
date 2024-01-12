@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// To update an attribute without pushing the entire record, you can use these built-in operations.
-@objcMembers public class BuiltInOperation: NSObject, Codable, JSONEncodable {
+public struct BuiltInOperation: Codable, JSONEncodable, Hashable {
 
   public var operation: BuiltInOperationType
   /** Value that corresponds to the operation, for example an `Increment` or `Decrement` step, `Add` or `Remove` value. */

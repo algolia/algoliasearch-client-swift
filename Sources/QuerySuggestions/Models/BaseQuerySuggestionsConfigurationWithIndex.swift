@@ -7,8 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers
-public class BaseQuerySuggestionsConfigurationWithIndex: NSObject, Codable, JSONEncodable {
+public struct BaseQuerySuggestionsConfigurationWithIndex: Codable, JSONEncodable, Hashable {
 
   /** Query Suggestions index name. */
   public var indexName: String

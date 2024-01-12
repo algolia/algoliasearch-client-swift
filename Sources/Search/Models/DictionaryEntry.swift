@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Dictionary entry.
-@objcMembers public class DictionaryEntry: NSObject, Codable, JSONEncodable {
+public struct DictionaryEntry: Codable, JSONEncodable, Hashable {
 
   /** Unique identifier for a dictionary object. */
   public var objectID: String
@@ -74,7 +74,7 @@ import Foundation
 
   // Decodable protocol methods
 
-  public required init(from decoder: Decoder) throws {
+  public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
 
     objectID = try container.decode(String.self, forKey: .objectID)

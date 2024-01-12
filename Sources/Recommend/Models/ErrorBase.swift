@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Error.
-@objcMembers public class ErrorBase: NSObject, Codable, JSONEncodable {
+public struct ErrorBase: Codable, JSONEncodable, Hashable {
 
   public var message: String?
 
@@ -46,7 +46,7 @@ import Foundation
 
   // Decodable protocol methods
 
-  public required init(from decoder: Decoder) throws {
+  public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
 
     message = try container.decodeIfPresent(String.self, forKey: .message)

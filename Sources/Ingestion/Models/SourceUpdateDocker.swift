@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SourceUpdateDocker: NSObject, Codable, JSONEncodable {
+public struct SourceUpdateDocker: Codable, JSONEncodable, Hashable {
 
   public var registry: DockerRegistry?
   /** The name of the image to pull. */

@@ -9,7 +9,7 @@ import Foundation
 
 typealias Client = RecommendClient
 
-@objcMembers open class RecommendClient: NSObject {
+open class RecommendClient {
 
   private var configuration: Configuration
   private var transporter: Transporter

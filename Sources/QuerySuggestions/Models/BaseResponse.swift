@@ -7,13 +7,10 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class BaseResponse: NSObject, Codable, JSONEncodable {
+public struct BaseResponse: Codable, JSONEncodable, Hashable {
 
   /** HTTP status code. */
   public var status: Int?
-  public var statusNum: NSNumber? {
-    return status as NSNumber?
-  }
   /** Details about the response, such as error messages. */
   public var message: String?
 

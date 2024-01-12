@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class ReplaceSourceResponse: NSObject, Codable, JSONEncodable {
+public struct ReplaceSourceResponse: Codable, JSONEncodable, Hashable {
 
   /** Timestamp of the last update in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format. */
   public var updatedAt: String

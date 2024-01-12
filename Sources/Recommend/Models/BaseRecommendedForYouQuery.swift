@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class BaseRecommendedForYouQuery: NSObject, Codable, JSONEncodable {
+public struct BaseRecommendedForYouQuery: Codable, JSONEncodable, Hashable {
 
   public var model: RecommendedForYouModel
   public var queryParameters: RecommendedForYouQueryParameters?

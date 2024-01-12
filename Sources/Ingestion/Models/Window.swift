@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// The window parameter represents the holds the dates used to query the Observability data from the database in a given window.
-@objcMembers public class Window: NSObject, Codable, JSONEncodable {
+public struct Window: Codable, JSONEncodable, Hashable {
 
   /** A date in format RFC3339 representing the oldest possible data in query window. */
   public var startDate: String

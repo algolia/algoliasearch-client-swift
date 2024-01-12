@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Redirect rule data.
-@objcMembers public class RedirectRuleIndexMetadataData: NSObject, Codable, JSONEncodable {
+public struct RedirectRuleIndexMetadataData: Codable, JSONEncodable, Hashable {
 
   public var ruleObjectID: String
 

@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class DeleteResponse: NSObject, Codable, JSONEncodable {
+public struct DeleteResponse: Codable, JSONEncodable, Hashable {
 
   /** Date of deletion (RFC3339 format). */
   public var deletedAt: String

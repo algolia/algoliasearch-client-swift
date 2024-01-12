@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// The trigger input for a task update.
-@objcMembers public class TriggerUpdateInput: NSObject, Codable, JSONEncodable {
+public struct TriggerUpdateInput: Codable, JSONEncodable, Hashable {
 
   /** A cron expression that represent at which regularity the task should run. */
   public var cron: String

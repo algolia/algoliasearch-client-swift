@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class FetchedIndex: NSObject, Codable, JSONEncodable {
+public struct FetchedIndex: Codable, JSONEncodable, Hashable {
 
   /** Index name. */
   public var name: String

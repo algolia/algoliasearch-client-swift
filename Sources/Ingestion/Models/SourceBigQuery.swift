@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SourceBigQuery: NSObject, Codable, JSONEncodable {
+public struct SourceBigQuery: Codable, JSONEncodable, Hashable {
 
   /** Project ID of the BigQuery Source. */
   public var projectID: String

@@ -9,7 +9,7 @@ import Foundation
 
 typealias Client = PersonalizationClient
 
-@objcMembers open class PersonalizationClient: NSObject {
+open class PersonalizationClient {
 
   private var configuration: Configuration
   private var transporter: Transporter

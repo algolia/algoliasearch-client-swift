@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class TopHitWithAnalytics: NSObject, Codable, JSONEncodable {
+public struct TopHitWithAnalytics: Codable, JSONEncodable, Hashable {
 
   static let clickThroughRateRule = NumericRule<Double>(
     minimum: 0, exclusiveMinimum: false, maximum: 1, exclusiveMaximum: false, multipleOf: nil)

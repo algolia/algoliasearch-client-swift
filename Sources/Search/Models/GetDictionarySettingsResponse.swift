@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class GetDictionarySettingsResponse: NSObject, Codable, JSONEncodable {
+public struct GetDictionarySettingsResponse: Codable, JSONEncodable, Hashable {
 
   public var disableStandardEntries: StandardEntries
 

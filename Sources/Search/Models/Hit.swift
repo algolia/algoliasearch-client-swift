@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// A single hit.
-@objcMembers public class Hit: NSObject, Codable, JSONEncodable {
+public struct Hit: Codable, JSONEncodable, Hashable {
 
   /** Unique object identifier. */
   public var objectID: String
@@ -18,9 +18,6 @@ import Foundation
   public var snippetResult: [String: SnippetResult]?
   public var rankingInfo: RankingInfo?
   public var distinctSeqID: Int?
-  public var distinctSeqIDNum: NSNumber? {
-    return distinctSeqID as NSNumber?
-  }
 
   public init(
     objectID: String, highlightResult: [String: HighlightResult]? = nil,
@@ -72,7 +69,7 @@ import Foundation
 
   // Decodable protocol methods
 
-  public required init(from decoder: Decoder) throws {
+  public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
 
     objectID = try container.decode(String.self, forKey: .objectID)

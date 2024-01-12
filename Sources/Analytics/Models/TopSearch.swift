@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class TopSearch: NSObject, Codable, JSONEncodable {
+public struct TopSearch: Codable, JSONEncodable, Hashable {
 
   /** User query. */
   public var search: String

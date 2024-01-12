@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class ConsequenceQueryObject: NSObject, Codable, JSONEncodable {
+public struct ConsequenceQueryObject: Codable, JSONEncodable, Hashable {
 
   /** Words to remove. */
   public var remove: [String]?

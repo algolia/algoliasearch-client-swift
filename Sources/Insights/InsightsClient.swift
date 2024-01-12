@@ -9,7 +9,7 @@ import Foundation
 
 typealias Client = InsightsClient
 
-@objcMembers open class InsightsClient: NSObject {
+open class InsightsClient {
 
   private var configuration: Configuration
   private var transporter: Transporter

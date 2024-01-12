@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Trending facet hit.
-@objcMembers public class TrendingFacetHit: NSObject, Codable, JSONEncodable {
+public struct TrendingFacetHit: Codable, JSONEncodable, Hashable {
 
   static let scoreRule = NumericRule<Double>(
     minimum: 0, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)

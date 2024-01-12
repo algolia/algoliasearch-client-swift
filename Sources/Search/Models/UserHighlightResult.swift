@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class UserHighlightResult: NSObject, Codable, JSONEncodable {
+public struct UserHighlightResult: Codable, JSONEncodable, Hashable {
 
   public var userID: HighlightResult
   public var clusterName: HighlightResult

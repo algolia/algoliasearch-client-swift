@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class MultipleBatchResponse: NSObject, Codable, JSONEncodable {
+public struct MultipleBatchResponse: Codable, JSONEncodable, Hashable {
 
   /** TaskIDs per index. */
   public var taskID: [String: Int64]

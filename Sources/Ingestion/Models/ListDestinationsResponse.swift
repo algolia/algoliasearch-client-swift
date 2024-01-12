@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class ListDestinationsResponse: NSObject, Codable, JSONEncodable {
+public struct ListDestinationsResponse: Codable, JSONEncodable, Hashable {
 
   public var destinations: [Destination]
   public var pagination: Pagination

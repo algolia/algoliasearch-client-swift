@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// The input for a &#x60;schedule&#x60; task whose source is of type &#x60;bigquery&#x60; and for which extracted data spans a fixed number of days.
-@objcMembers public class ScheduleDateUtilsInput: NSObject, Codable, JSONEncodable {
+public struct ScheduleDateUtilsInput: Codable, JSONEncodable, Hashable {
 
   static let timeframeRule = NumericRule<Int>(
     minimum: 1, exclusiveMinimum: false, maximum: 30, exclusiveMaximum: false, multipleOf: nil)

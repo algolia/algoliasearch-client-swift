@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SourceJSON: NSObject, Codable, JSONEncodable {
+public struct SourceJSON: Codable, JSONEncodable, Hashable {
 
   /** The URL of the file. */
   public var url: String

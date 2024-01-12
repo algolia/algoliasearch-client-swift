@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class LatencyResponse: NSObject, Codable, JSONEncodable {
+public struct LatencyResponse: Codable, JSONEncodable, Hashable {
 
   public var metrics: LatencyResponseMetrics?
 

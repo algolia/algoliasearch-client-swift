@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class RunListResponse: NSObject, Codable, JSONEncodable {
+public struct RunListResponse: Codable, JSONEncodable, Hashable {
 
   public var runs: [Run]
   public var pagination: Pagination

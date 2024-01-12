@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class QuerySuggestionsConfigurationResponse: NSObject, Codable, JSONEncodable {
+public struct QuerySuggestionsConfigurationResponse: Codable, JSONEncodable, Hashable {
 
   /** Your Algolia application ID. */
   public var appId: String?
@@ -26,14 +26,8 @@ import Foundation
   public var exclude: [String]?
   /** Turn on personalized query suggestions. */
   public var enablePersonalization: Bool? = false
-  public var enablePersonalizationNum: NSNumber? {
-    return enablePersonalization as NSNumber?
-  }
   /** Allow suggestions with special characters. */
   public var allowSpecialCharacters: Bool? = false
-  public var allowSpecialCharactersNum: NSNumber? {
-    return allowSpecialCharacters as NSNumber?
-  }
 
   public init(
     appId: String? = nil, sourceIndicesAPIKey: String? = nil,

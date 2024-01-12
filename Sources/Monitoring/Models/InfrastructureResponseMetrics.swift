@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class InfrastructureResponseMetrics: NSObject, Codable, JSONEncodable {
+public struct InfrastructureResponseMetrics: Codable, JSONEncodable, Hashable {
 
   /** CPU idleness in %. */
   public var cpuUsage: [String: [ProbesMetric]]?

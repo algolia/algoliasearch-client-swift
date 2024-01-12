@@ -7,16 +7,10 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class AroundPrecisionFromValueInner: NSObject, Codable, JSONEncodable {
+public struct AroundPrecisionFromValueInner: Codable, JSONEncodable, Hashable {
 
   public var from: Int?
-  public var fromNum: NSNumber? {
-    return from as NSNumber?
-  }
   public var value: Int?
-  public var valueNum: NSNumber? {
-    return value as NSNumber?
-  }
 
   public init(from: Int? = nil, value: Int? = nil) {
     self.from = from

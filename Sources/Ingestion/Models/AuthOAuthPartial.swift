@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Authentication input for OAuth login.
-@objcMembers public class AuthOAuthPartial: NSObject, Codable, JSONEncodable {
+public struct AuthOAuthPartial: Codable, JSONEncodable, Hashable {
 
   /** The OAuth endpoint URL. */
   public var url: String?

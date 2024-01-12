@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SourceUpdate: NSObject, Codable, JSONEncodable {
+public struct SourceUpdate: Codable, JSONEncodable, Hashable {
 
   public var name: String?
   public var input: SourceUpdateInput?

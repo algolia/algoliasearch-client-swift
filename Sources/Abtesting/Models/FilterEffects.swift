@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// A/B test filter effects resulting from configuration settings.
-@objcMembers public class FilterEffects: NSObject, Codable, JSONEncodable {
+public struct FilterEffects: Codable, JSONEncodable, Hashable {
 
   public var outliers: FilterEffectsOutliers?
   public var emptySearch: FilterEffectsEmptySearch?

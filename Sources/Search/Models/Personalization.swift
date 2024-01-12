@@ -7,23 +7,14 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class Personalization: NSObject, Codable, JSONEncodable {
+public struct Personalization: Codable, JSONEncodable, Hashable {
 
   /** The score of the filters. */
   public var filtersScore: Int?
-  public var filtersScoreNum: NSNumber? {
-    return filtersScore as NSNumber?
-  }
   /** The score of the ranking. */
   public var rankingScore: Int?
-  public var rankingScoreNum: NSNumber? {
-    return rankingScore as NSNumber?
-  }
   /** The score of the event. */
   public var score: Int?
-  public var scoreNum: NSNumber? {
-    return score as NSNumber?
-  }
 
   public init(filtersScore: Int? = nil, rankingScore: Int? = nil, score: Int? = nil) {
     self.filtersScore = filtersScore

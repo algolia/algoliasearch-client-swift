@@ -9,7 +9,7 @@ import Foundation
 
 typealias Client = IngestionClient
 
-@objcMembers open class IngestionClient: NSObject {
+open class IngestionClient {
 
   private var configuration: Configuration
   private var transporter: Transporter

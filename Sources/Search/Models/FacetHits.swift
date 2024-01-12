@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class FacetHits: NSObject, Codable, JSONEncodable {
+public struct FacetHits: Codable, JSONEncodable, Hashable {
 
   /** Facet value. */
   public var value: String

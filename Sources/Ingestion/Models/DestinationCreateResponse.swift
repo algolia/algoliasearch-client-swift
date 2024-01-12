@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Response from the API when the Destination is successfully created.
-@objcMembers public class DestinationCreateResponse: NSObject, Codable, JSONEncodable {
+public struct DestinationCreateResponse: Codable, JSONEncodable, Hashable {
 
   /** The destination UUID. */
   public var destinationID: String

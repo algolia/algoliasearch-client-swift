@@ -7,28 +7,16 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class FacetsStats: NSObject, Codable, JSONEncodable {
+public struct FacetsStats: Codable, JSONEncodable, Hashable {
 
   /** Minimum value in the results. */
   public var min: Double?
-  public var minNum: NSNumber? {
-    return min as NSNumber?
-  }
   /** Maximum value in the results. */
   public var max: Double?
-  public var maxNum: NSNumber? {
-    return max as NSNumber?
-  }
   /** Average facet value in the results. */
   public var avg: Double?
-  public var avgNum: NSNumber? {
-    return avg as NSNumber?
-  }
   /** Sum of all values in the results. */
   public var sum: Double?
-  public var sumNum: NSNumber? {
-    return sum as NSNumber?
-  }
 
   public init(min: Double? = nil, max: Double? = nil, avg: Double? = nil, sum: Double? = nil) {
     self.min = min

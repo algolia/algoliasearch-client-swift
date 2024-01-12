@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Response from the API when the Authentication is successfully created.
-@objcMembers public class AuthenticationCreateResponse: NSObject, Codable, JSONEncodable {
+public struct AuthenticationCreateResponse: Codable, JSONEncodable, Hashable {
 
   /** The authentication UUID. */
   public var authenticationID: String

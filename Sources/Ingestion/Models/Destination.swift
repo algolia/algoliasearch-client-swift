@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// A destination describe how the data is indexed on the Algolia side.
-@objcMembers public class Destination: NSObject, Codable, JSONEncodable {
+public struct Destination: Codable, JSONEncodable, Hashable {
 
   /** The destination UUID. */
   public var destinationID: String

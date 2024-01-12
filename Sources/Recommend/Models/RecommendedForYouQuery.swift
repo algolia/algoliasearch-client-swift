@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class RecommendedForYouQuery: NSObject, Codable, JSONEncodable {
+public struct RecommendedForYouQuery: Codable, JSONEncodable, Hashable {
 
   static let thresholdRule = NumericRule<Int>(
     minimum: 0, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
@@ -15,14 +15,8 @@ import Foundation
   public var indexName: String
   /** Recommendations with a confidence score lower than `threshold` won't appear in results. > **Note**: Each recommendation has a confidence score of 0 to 100. The closer the score is to 100, the more relevant the recommendations are.  */
   public var threshold: Int?
-  public var thresholdNum: NSNumber? {
-    return threshold as NSNumber?
-  }
   /** Maximum number of recommendations to retrieve. If 0, all recommendations will be returned. */
   public var maxRecommendations: Int? = 0
-  public var maxRecommendationsNum: NSNumber? {
-    return maxRecommendations as NSNumber?
-  }
   public var model: RecommendedForYouModel
   public var queryParameters: RecommendedForYouQueryParameters?
   public var fallbackParameters: RecommendedForYouQueryParameters?

@@ -8,13 +8,10 @@ import Foundation
 #endif
 
 /// Response, taskID, unique object identifier, and an update timestamp.
-@objcMembers public class UpdatedAtWithObjectIdResponse: NSObject, Codable, JSONEncodable {
+public struct UpdatedAtWithObjectIdResponse: Codable, JSONEncodable, Hashable {
 
   /** Unique identifier of a task. A successful API response means that a task was added to a queue. It might not run immediately. You can check the task's progress with the `task` operation and this `taskID`.  */
   public var taskID: Int64?
-  public var taskIDNum: NSNumber? {
-    return taskID as NSNumber?
-  }
   /** Timestamp of the last update in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format. */
   public var updatedAt: String?
   /** Unique object identifier. */

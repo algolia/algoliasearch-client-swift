@@ -8,21 +8,21 @@ import Foundation
 #endif
 
 /// Source.
-@objcMembers public class Source: NSObject, Codable, JSONEncodable {
+public struct Source: Codable, JSONEncodable, Hashable {
 
   /** IP address range of the source. */
   public var source: String
   /** Source description. */
-  public var _description: String?
+  public var description: String?
 
-  public init(source: String, _description: String? = nil) {
+  public init(source: String, description: String? = nil) {
     self.source = source
-    self._description = _description
+    self.description = description
   }
 
   public enum CodingKeys: String, CodingKey, CaseIterable {
     case source
-    case _description = "description"
+    case description
   }
 
   // Encodable protocol methods
@@ -30,6 +30,6 @@ import Foundation
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(source, forKey: .source)
-    try container.encodeIfPresent(_description, forKey: ._description)
+    try container.encodeIfPresent(description, forKey: .description)
   }
 }

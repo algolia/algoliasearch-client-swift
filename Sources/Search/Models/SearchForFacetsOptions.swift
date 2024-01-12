@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SearchForFacetsOptions: NSObject, Codable, JSONEncodable {
+public struct SearchForFacetsOptions: Codable, JSONEncodable, Hashable {
 
   static let maxFacetHitsRule = NumericRule<Int>(
     minimum: nil, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
@@ -19,9 +19,6 @@ import Foundation
   public var facetQuery: String? = ""
   /** Maximum number of facet hits to return when [searching for facet values](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#search-for-facet-values). */
   public var maxFacetHits: Int? = 10
-  public var maxFacetHitsNum: NSNumber? {
-    return maxFacetHits as NSNumber?
-  }
   public var type: SearchTypeFacet
 
   public init(

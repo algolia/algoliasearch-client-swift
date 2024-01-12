@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Payload to partially update an Authentication.
-@objcMembers public class AuthenticationUpdate: NSObject, Codable, JSONEncodable {
+public struct AuthenticationUpdate: Codable, JSONEncodable, Hashable {
 
   public var type: AuthenticationType?
   /** An human readable name describing the object. */

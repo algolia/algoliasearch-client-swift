@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class OperationIndexParams: NSObject, Codable, JSONEncodable {
+public struct OperationIndexParams: Codable, JSONEncodable, Hashable {
 
   public var operation: OperationType
   /** Algolia index name. */

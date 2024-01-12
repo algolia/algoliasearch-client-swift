@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Synonym object.
-@objcMembers public class SynonymHit: NSObject, Codable, JSONEncodable {
+public struct SynonymHit: Codable, JSONEncodable, Hashable {
 
   /** Unique identifier of a synonym object. */
   public var objectID: String

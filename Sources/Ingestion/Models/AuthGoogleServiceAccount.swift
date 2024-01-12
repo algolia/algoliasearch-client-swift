@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Authentication input to connect to a Google service (e.g. BigQuery).
-@objcMembers public class AuthGoogleServiceAccount: NSObject, Codable, JSONEncodable {
+public struct AuthGoogleServiceAccount: Codable, JSONEncodable, Hashable {
 
   /** Email address of the Service Account. */
   public var clientEmail: String

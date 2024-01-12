@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// The response from the API after a task creation.
-@objcMembers public class TaskCreateResponse: NSObject, Codable, JSONEncodable {
+public struct TaskCreateResponse: Codable, JSONEncodable, Hashable {
 
   /** The task UUID. */
   public var taskID: String

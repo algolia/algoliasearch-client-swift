@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class ClickPosition: NSObject, Codable, JSONEncodable {
+public struct ClickPosition: Codable, JSONEncodable, Hashable {
 
   /** Range of positions with the following pattern: - For positions 1 to 10, the number of click events are shown for each position - For positions 11 to 20, all click events are grouped - For positions 21 and up, all click events are grouped.  */
   public var position: [Int]

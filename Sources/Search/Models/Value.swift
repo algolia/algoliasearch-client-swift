@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class Value: NSObject, Codable, JSONEncodable {
+public struct Value: Codable, JSONEncodable, Hashable {
 
   /** Pinned order of facet lists. */
   public var order: [String]?

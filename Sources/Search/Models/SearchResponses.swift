@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SearchResponses: NSObject, Codable, JSONEncodable {
+public struct SearchResponses: Codable, JSONEncodable, Hashable {
 
   public var results: [SearchResult]
 

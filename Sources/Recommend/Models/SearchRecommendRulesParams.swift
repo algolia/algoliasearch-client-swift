@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Recommend rules search parameters.
-@objcMembers public class SearchRecommendRulesParams: NSObject, Codable, JSONEncodable {
+public struct SearchRecommendRulesParams: Codable, JSONEncodable, Hashable {
 
   static let pageRule = NumericRule<Int>(
     minimum: 0, exclusiveMinimum: false, maximum: nil, exclusiveMaximum: false, multipleOf: nil)
@@ -20,19 +20,10 @@ import Foundation
   public var context: String?
   /** Requested page (the first page is page 0). */
   public var page: Int?
-  public var pageNum: NSNumber? {
-    return page as NSNumber?
-  }
   /** Maximum number of hits per page. */
   public var hitsPerPage: Int? = 20
-  public var hitsPerPageNum: NSNumber? {
-    return hitsPerPage as NSNumber?
-  }
   /** Restricts responses to enabled rules. When absent (default), _all_ rules are retrieved. */
   public var enabled: Bool?
-  public var enabledNum: NSNumber? {
-    return enabled as NSNumber?
-  }
 
   public init(
     query: String? = "", context: String? = nil, page: Int? = nil, hitsPerPage: Int? = 20,

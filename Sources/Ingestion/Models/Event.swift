@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// An event describe a step of the task execution flow..
-@objcMembers public class Event: NSObject, Codable, JSONEncodable {
+public struct Event: Codable, JSONEncodable, Hashable {
 
   static let batchSizeRule = NumericRule<Int>(
     minimum: 0, exclusiveMinimum: false, maximum: nil, exclusiveMaximum: false, multipleOf: 1)

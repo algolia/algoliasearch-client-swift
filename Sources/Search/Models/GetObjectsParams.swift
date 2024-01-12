@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Request parameters.
-@objcMembers public class GetObjectsParams: NSObject, Codable, JSONEncodable {
+public struct GetObjectsParams: Codable, JSONEncodable, Hashable {
 
   public var requests: [GetObjectsRequest]
 

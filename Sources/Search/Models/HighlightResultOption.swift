@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Show highlighted section and words matched on a query.
-@objcMembers public class HighlightResultOption: NSObject, Codable, JSONEncodable {
+public struct HighlightResultOption: Codable, JSONEncodable, Hashable {
 
   /** Markup text with `facetQuery` matches highlighted. */
   public var value: String
@@ -17,9 +17,6 @@ import Foundation
   public var matchedWords: [String]
   /** Whether the entire attribute value is highlighted. */
   public var fullyHighlighted: Bool?
-  public var fullyHighlightedNum: NSNumber? {
-    return fullyHighlighted as NSNumber?
-  }
 
   public init(
     value: String, matchLevel: MatchLevel, matchedWords: [String], fullyHighlighted: Bool? = nil

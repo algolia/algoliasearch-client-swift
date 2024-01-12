@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Unique user ID.
-@objcMembers public class UserId: NSObject, Codable, JSONEncodable {
+public struct UserId: Codable, JSONEncodable, Hashable {
 
   static let userIDRule = StringRule(
     minLength: nil, maxLength: nil, pattern: "^[a-zA-Z0-9 \\-*.]+$")

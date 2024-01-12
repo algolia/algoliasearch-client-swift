@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class LogQuery: NSObject, Codable, JSONEncodable {
+public struct LogQuery: Codable, JSONEncodable, Hashable {
 
   /** Index targeted by the query. */
   public var indexName: String?

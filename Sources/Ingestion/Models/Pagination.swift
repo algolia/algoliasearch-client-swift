@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class Pagination: NSObject, Codable, JSONEncodable {
+public struct Pagination: Codable, JSONEncodable, Hashable {
 
   public var nbPages: Int
   public var page: Int

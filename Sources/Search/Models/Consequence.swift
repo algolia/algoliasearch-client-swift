@@ -8,16 +8,13 @@ import Foundation
 #endif
 
 /// [Consequences](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/#consequences) of a rule.
-@objcMembers public class Consequence: NSObject, Codable, JSONEncodable {
+public struct Consequence: Codable, JSONEncodable, Hashable {
 
   public var params: ConsequenceParams?
   /** Records to promote. */
   public var promote: [Promote]?
   /** Only use in combination with the `promote` consequence. When `true`, promoted results will be restricted to match the filters of the current search. When `false`, the promoted results will show up regardless of the filters. */
   public var filterPromotes: Bool? = false
-  public var filterPromotesNum: NSNumber? {
-    return filterPromotes as NSNumber?
-  }
   /** Records to hide. By default, you can hide up to 50 records per rule. */
   public var hide: [ConsequenceHide]?
   /** Custom JSON object that will be appended to the userData array in the response. This object isn't interpreted by the API. It's limited to 1kB of minified JSON. */

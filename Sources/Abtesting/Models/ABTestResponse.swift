@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class ABTestResponse: NSObject, Codable, JSONEncodable {
+public struct ABTestResponse: Codable, JSONEncodable, Hashable {
 
   /** A/B test index. */
   public var index: String

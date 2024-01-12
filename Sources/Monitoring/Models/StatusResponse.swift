@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class StatusResponse: NSObject, Codable, JSONEncodable {
+public struct StatusResponse: Codable, JSONEncodable, Hashable {
 
   public var status: [String: Status]?
 

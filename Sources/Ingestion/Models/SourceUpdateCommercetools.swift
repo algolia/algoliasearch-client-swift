@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SourceUpdateCommercetools: NSObject, Codable, JSONEncodable {
+public struct SourceUpdateCommercetools: Codable, JSONEncodable, Hashable {
 
   /** Unique and immutable key of the referenced Store. */
   public var storeKeys: [String]?

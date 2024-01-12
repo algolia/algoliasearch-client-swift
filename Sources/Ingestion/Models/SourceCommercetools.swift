@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SourceCommercetools: NSObject, Codable, JSONEncodable {
+public struct SourceCommercetools: Codable, JSONEncodable, Hashable {
 
   public var storeKeys: [String]?
   /** Array of locales that must match the following pattern: ^[a-z]{2}(-[A-Z]{2})?$. For example [\"fr-FR\", \"en\"].  */
@@ -16,9 +16,6 @@ import Foundation
   public var projectKey: String
   /** Determines the value that will be stored in the Algolia record if there's no inventory information on the product.  */
   public var fallbackIsInStockValue: Bool? = true
-  public var fallbackIsInStockValueNum: NSNumber? {
-    return fallbackIsInStockValue as NSNumber?
-  }
 
   public init(
     storeKeys: [String]? = nil, locales: [String]? = nil, url: String, projectKey: String,

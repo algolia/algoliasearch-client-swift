@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Query Suggestions configuration.
-@objcMembers public class QuerySuggestionsConfigurationWithIndex: NSObject, Codable, JSONEncodable {
+public struct QuerySuggestionsConfigurationWithIndex: Codable, JSONEncodable, Hashable {
 
   /** Query Suggestions index name. */
   public var indexName: String
@@ -19,14 +19,8 @@ import Foundation
   public var exclude: [String]?
   /** Turn on personalized query suggestions. */
   public var enablePersonalization: Bool? = false
-  public var enablePersonalizationNum: NSNumber? {
-    return enablePersonalization as NSNumber?
-  }
   /** Allow suggestions with special characters. */
   public var allowSpecialCharacters: Bool? = false
-  public var allowSpecialCharactersNum: NSNumber? {
-    return allowSpecialCharacters as NSNumber?
-  }
 
   public init(
     indexName: String, sourceIndices: [SourceIndex], languages: Languages? = nil,

@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Ordering of facets (widgets).
-@objcMembers public class Facets: NSObject, Codable, JSONEncodable {
+public struct Facets: Codable, JSONEncodable, Hashable {
 
   /** Pinned order of facet lists. */
   public var order: [String]?

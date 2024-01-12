@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SearchNoClickEvent: NSObject, Codable, JSONEncodable {
+public struct SearchNoClickEvent: Codable, JSONEncodable, Hashable {
 
   /** User query. */
   public var search: String

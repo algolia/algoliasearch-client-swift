@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Algolia index settings.
-@objcMembers public class IndexSettings: NSObject, Codable, JSONEncodable {
+public struct IndexSettings: Codable, JSONEncodable, Hashable {
 
   static let hitsPerPageRule = NumericRule<Int>(
     minimum: 1, exclusiveMinimum: false, maximum: 1000, exclusiveMaximum: false, multipleOf: nil)
@@ -20,9 +20,6 @@ import Foundation
   public var replicas: [String]?
   /** Maximum number of hits accessible through pagination. */
   public var paginationLimitedTo: Int? = 1000
-  public var paginationLimitedToNum: NSNumber? {
-    return paginationLimitedTo as NSNumber?
-  }
   /** Attributes that can't be retrieved at query time. */
   public var unretrievableAttributes: [String]?
   /** Words for which you want to turn off [typo tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/). */
@@ -39,9 +36,6 @@ import Foundation
   public var disablePrefixOnAttributes: [String]?
   /** Incidates whether the engine compresses arrays with exclusively non-negative integers. When enabled, the compressed arrays may be reordered.  */
   public var allowCompressionOfIntegerArray: Bool? = false
-  public var allowCompressionOfIntegerArrayNum: NSNumber? {
-    return allowCompressionOfIntegerArray as NSNumber?
-  }
   /** Numeric attributes that can be used as [numerical filters](https://www.algolia.com/doc/guides/managing-results/rules/detecting-intent/how-to/applying-a-custom-filter-for-a-specific-query/#numerical-filters). */
   public var numericAttributesForFiltering: [String]?
   /** Controls which separators are added to an Algolia index as part of [normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/#what-does-normalization-mean). Separators are all non-letter characters except spaces and currency characters, such as $€£¥. */
@@ -64,9 +58,6 @@ import Foundation
   public var customRanking: [String]?
   /** Relevancy threshold below which less relevant results aren't included in the results. */
   public var relevancyStrictness: Int? = 100
-  public var relevancyStrictnessNum: NSNumber? {
-    return relevancyStrictness as NSNumber?
-  }
   /** Attributes to highlight. Strings that match the search query in the attributes are highlighted by surrounding them with HTML tags (`highlightPreTag` and `highlightPostTag`). */
   public var attributesToHighlight: [String]?
   /** Attributes to _snippet_. 'Snippeting' is shortening the attribute to a certain number of words. If not specified, the attribute is shortened to the 10 words around the matching string but you can specify the number. For example: `body:20`.  */
@@ -79,30 +70,15 @@ import Foundation
   public var snippetEllipsisText: String? = "…"
   /** Restrict highlighting and snippeting to items that matched the query. */
   public var restrictHighlightAndSnippetArrays: Bool? = false
-  public var restrictHighlightAndSnippetArraysNum: NSNumber? {
-    return restrictHighlightAndSnippetArrays as NSNumber?
-  }
   /** Number of hits per page. */
   public var hitsPerPage: Int? = 20
-  public var hitsPerPageNum: NSNumber? {
-    return hitsPerPage as NSNumber?
-  }
   /** Minimum number of characters a word in the query string must contain to accept matches with [one typo](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#configuring-word-length-for-typos). */
   public var minWordSizefor1Typo: Int? = 4
-  public var minWordSizefor1TypoNum: NSNumber? {
-    return minWordSizefor1Typo as NSNumber?
-  }
   /** Minimum number of characters a word in the query string must contain to accept matches with [two typos](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#configuring-word-length-for-typos). */
   public var minWordSizefor2Typos: Int? = 8
-  public var minWordSizefor2TyposNum: NSNumber? {
-    return minWordSizefor2Typos as NSNumber?
-  }
   public var typoTolerance: TypoTolerance?
   /** Whether to allow typos on numbers (\"numeric tokens\") in the query string. */
   public var allowTyposOnNumericTokens: Bool? = true
-  public var allowTyposOnNumericTokensNum: NSNumber? {
-    return allowTyposOnNumericTokens as NSNumber?
-  }
   /** Attributes for which you want to turn off [typo tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/). */
   public var disableTypoToleranceOnAttributes: [String]?
   public var ignorePlurals: IgnorePlurals?
@@ -113,28 +89,16 @@ import Foundation
   public var queryLanguages: [String]?
   /** [Splits compound words](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/#splitting-compound-words) into their component word parts in the query.  */
   public var decompoundQuery: Bool? = true
-  public var decompoundQueryNum: NSNumber? {
-    return decompoundQuery as NSNumber?
-  }
   /** Incidates whether [Rules](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/) are enabled. */
   public var enableRules: Bool? = true
-  public var enableRulesNum: NSNumber? {
-    return enableRules as NSNumber?
-  }
   /** Incidates whether [Personalization](https://www.algolia.com/doc/guides/personalization/what-is-personalization/) is enabled. */
   public var enablePersonalization: Bool? = false
-  public var enablePersonalizationNum: NSNumber? {
-    return enablePersonalization as NSNumber?
-  }
   public var queryType: QueryType?
   public var removeWordsIfNoResults: RemoveWordsIfNoResults?
   public var mode: Mode?
   public var semanticSearch: SemanticSearch?
   /** Enables the [advanced query syntax](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/#advanced-syntax). */
   public var advancedSyntax: Bool? = false
-  public var advancedSyntaxNum: NSNumber? {
-    return advancedSyntax as NSNumber?
-  }
   /** Words which should be considered [optional](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/empty-or-insufficient-results/#creating-a-list-of-optional-words) when found in a query. */
   public var optionalWords: [String]?
   /** Attributes for which you want to [turn off the exact ranking criterion](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/in-depth/adjust-exact-settings/#turn-off-exact-for-some-attributes). */
@@ -147,39 +111,21 @@ import Foundation
   public var distinct: Distinct?
   /** Whether to highlight and snippet the original word that matches the synonym or the synonym itself. */
   public var replaceSynonymsInHighlight: Bool? = false
-  public var replaceSynonymsInHighlightNum: NSNumber? {
-    return replaceSynonymsInHighlight as NSNumber?
-  }
   /** Precision of the [proximity ranking criterion](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria/#proximity). */
   public var minProximity: Int? = 1
-  public var minProximityNum: NSNumber? {
-    return minProximity as NSNumber?
-  }
   /** Attributes to include in the API response for search and browse queries. */
   public var responseFields: [String]?
   /** Maximum number of facet hits to return when [searching for facet values](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#search-for-facet-values). */
   public var maxFacetHits: Int? = 10
-  public var maxFacetHitsNum: NSNumber? {
-    return maxFacetHits as NSNumber?
-  }
   /** Maximum number of facet values to return for each facet. */
   public var maxValuesPerFacet: Int? = 100
-  public var maxValuesPerFacetNum: NSNumber? {
-    return maxValuesPerFacet as NSNumber?
-  }
   /** Controls how facet values are fetched. */
   public var sortFacetValuesBy: String? = "count"
   /** When the [Attribute criterion is ranked above Proximity](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria/#attribute-and-proximity-combinations) in your ranking formula, Proximity is used to select which searchable attribute is matched in the Attribute ranking stage. */
   public var attributeCriteriaComputedByMinProximity: Bool? = false
-  public var attributeCriteriaComputedByMinProximityNum: NSNumber? {
-    return attributeCriteriaComputedByMinProximity as NSNumber?
-  }
   public var renderingContent: RenderingContent?
   /** Indicates whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/). */
   public var enableReRanking: Bool? = true
-  public var enableReRankingNum: NSNumber? {
-    return enableReRanking as NSNumber?
-  }
   public var reRankingApplyFilter: ReRankingApplyFilter?
 
   public init(

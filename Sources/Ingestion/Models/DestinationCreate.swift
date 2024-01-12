@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// The payload when creating a destination.
-@objcMembers public class DestinationCreate: NSObject, Codable, JSONEncodable {
+public struct DestinationCreate: Codable, JSONEncodable, Hashable {
 
   public var type: DestinationType
   /** An human readable name describing the object. */

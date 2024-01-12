@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// The payload when creating an authentication.
-@objcMembers public class AuthenticationCreate: NSObject, Codable, JSONEncodable {
+public struct AuthenticationCreate: Codable, JSONEncodable, Hashable {
 
   public var type: AuthenticationType
   /** An human readable name describing the object. */

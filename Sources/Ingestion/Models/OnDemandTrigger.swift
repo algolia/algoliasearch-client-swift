@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// The trigger information of a task of type &#x60;onDemand&#x60;.
-@objcMembers public class OnDemandTrigger: NSObject, Codable, JSONEncodable {
+public struct OnDemandTrigger: Codable, JSONEncodable, Hashable {
 
   public var type: OnDemandTriggerType
   /** The last time the scheduled task ran (RFC3339 format). */

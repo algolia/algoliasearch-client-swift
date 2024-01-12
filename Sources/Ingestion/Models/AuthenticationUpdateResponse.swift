@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Response from the API when the Authentication is successfully updated.
-@objcMembers public class AuthenticationUpdateResponse: NSObject, Codable, JSONEncodable {
+public struct AuthenticationUpdateResponse: Codable, JSONEncodable, Hashable {
 
   /** The authentication UUID. */
   public var authenticationID: String

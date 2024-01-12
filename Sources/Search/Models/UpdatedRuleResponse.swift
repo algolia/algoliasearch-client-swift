@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class UpdatedRuleResponse: NSObject, Codable, JSONEncodable {
+public struct UpdatedRuleResponse: Codable, JSONEncodable, Hashable {
 
   /** Unique object identifier. */
   public var objectID: String

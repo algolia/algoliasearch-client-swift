@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Use this event to track when users add items to their shopping cart after a previous Algolia request. If you&#39;re building your category pages with Algolia, you&#39;ll also use this event.
-@objcMembers public class AddedToCartObjectIDsAfterSearch: NSObject, Codable, JSONEncodable {
+public struct AddedToCartObjectIDsAfterSearch: Codable, JSONEncodable, Hashable {
 
   static let eventNameRule = StringRule(minLength: 1, maxLength: 64, pattern: "[\\x20-\\x7E]{1,64}")
   static let queryIDRule = StringRule(minLength: 32, maxLength: 32, pattern: "[0-9a-f]{32}")
@@ -32,9 +32,6 @@ import Foundation
   public var userToken: String
   /** Time of the event in milliseconds in [Unix epoch time](https://wikipedia.org/wiki/Unix_time). By default, the Insights API uses the time it receives an event as its timestamp.  */
   public var timestamp: Int64?
-  public var timestampNum: NSNumber? {
-    return timestamp as NSNumber?
-  }
   /** User token for authenticated users. */
   public var authenticatedUserToken: String?
 

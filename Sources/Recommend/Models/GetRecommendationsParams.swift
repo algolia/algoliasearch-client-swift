@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Recommend parameters.
-@objcMembers public class GetRecommendationsParams: NSObject, Codable, JSONEncodable {
+public struct GetRecommendationsParams: Codable, JSONEncodable, Hashable {
 
   /** Request parameters depend on the model (recommendations or trending). */
   public var requests: [RecommendationsRequest]

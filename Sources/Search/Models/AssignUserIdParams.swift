@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Assign userID parameters.
-@objcMembers public class AssignUserIdParams: NSObject, Codable, JSONEncodable {
+public struct AssignUserIdParams: Codable, JSONEncodable, Hashable {
 
   /** Cluster name. */
   public var cluster: String

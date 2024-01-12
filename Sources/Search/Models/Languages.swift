@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Dictionary language.
-@objcMembers public class Languages: NSObject, Codable, JSONEncodable {
+public struct Languages: Codable, JSONEncodable, Hashable {
 
   public var plurals: DictionaryLanguage?
   public var stopwords: DictionaryLanguage?

@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Authentication input for Basic login with username and password.
-@objcMembers public class AuthBasicPartial: NSObject, Codable, JSONEncodable {
+public struct AuthBasicPartial: Codable, JSONEncodable, Hashable {
 
   public var username: String?
   public var password: String?

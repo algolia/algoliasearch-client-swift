@@ -8,15 +8,12 @@ import Foundation
 #endif
 
 /// Facet to use as category.
-@objcMembers public class Facet: NSObject, Codable, JSONEncodable {
+public struct Facet: Codable, JSONEncodable, Hashable {
 
   /** Facet name. */
   public var attribute: String?
   /** Number of suggestions. */
   public var amount: Int?
-  public var amountNum: NSNumber? {
-    return amount as NSNumber?
-  }
 
   public init(attribute: String? = nil, amount: Int? = nil) {
     self.attribute = attribute

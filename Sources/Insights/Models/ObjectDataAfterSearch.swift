@@ -7,16 +7,13 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class ObjectDataAfterSearch: NSObject, Codable, JSONEncodable {
+public struct ObjectDataAfterSearch: Codable, JSONEncodable, Hashable {
 
   /** ID of the query that this specific record is attributable to. Used to track purchase events with multiple items originating from different searches. */
   public var queryID: String?
   public var price: Price?
   /** The quantity of the purchased or added-to-cart item. The total value of a purchase is the sum of `quantity` multiplied with the `price` for each purchased item. */
   public var quantity: Int?
-  public var quantityNum: NSNumber? {
-    return quantity as NSNumber?
-  }
   public var discount: Discount?
 
   public init(

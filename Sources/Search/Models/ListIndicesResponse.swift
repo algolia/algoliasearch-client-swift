@@ -7,15 +7,12 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class ListIndicesResponse: NSObject, Codable, JSONEncodable {
+public struct ListIndicesResponse: Codable, JSONEncodable, Hashable {
 
   /** All indices in your Algolia application. */
   public var items: [FetchedIndex]
   /** Number of pages. */
   public var nbPages: Int?
-  public var nbPagesNum: NSNumber? {
-    return nbPages as NSNumber?
-  }
 
   public init(items: [FetchedIndex], nbPages: Int? = nil) {
     self.items = items

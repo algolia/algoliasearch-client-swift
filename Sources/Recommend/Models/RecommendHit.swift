@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Recommend hit.
-@objcMembers public class RecommendHit: NSObject, Codable, JSONEncodable {
+public struct RecommendHit: Codable, JSONEncodable, Hashable {
 
   static let scoreRule = NumericRule<Double>(
     minimum: 0, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
@@ -20,9 +20,6 @@ import Foundation
   public var snippetResult: [String: SnippetResult]?
   public var rankingInfo: RankingInfo?
   public var distinctSeqID: Int?
-  public var distinctSeqIDNum: NSNumber? {
-    return distinctSeqID as NSNumber?
-  }
   /** Recommendation score. */
   public var score: Double
 
@@ -79,7 +76,7 @@ import Foundation
 
   // Decodable protocol methods
 
-  public required init(from decoder: Decoder) throws {
+  public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
 
     objectID = try container.decode(String.self, forKey: .objectID)

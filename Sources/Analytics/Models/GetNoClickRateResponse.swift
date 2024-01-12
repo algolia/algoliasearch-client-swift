@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class GetNoClickRateResponse: NSObject, Codable, JSONEncodable {
+public struct GetNoClickRateResponse: Codable, JSONEncodable, Hashable {
 
   static let rateRule = NumericRule<Double>(
     minimum: 0, exclusiveMinimum: false, maximum: 1, exclusiveMaximum: false, multipleOf: nil)

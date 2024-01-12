@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class AverageClickEvent: NSObject, Codable, JSONEncodable {
+public struct AverageClickEvent: Codable, JSONEncodable, Hashable {
 
   /** Average count of all click events. */
   public var average: Double

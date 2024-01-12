@@ -7,30 +7,30 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class AbTestsVariantSearchParams: NSObject, Codable, JSONEncodable {
+public struct AbTestsVariantSearchParams: Codable, JSONEncodable, Hashable {
 
   /** A/B test index. */
   public var index: String
   /** A/B test traffic percentage. */
   public var trafficPercentage: Int
   /** A/B test description. */
-  public var _description: String?
+  public var description: String?
   public var customSearchParameters: AnyCodable
 
   public init(
-    index: String, trafficPercentage: Int, _description: String? = nil,
+    index: String, trafficPercentage: Int, description: String? = nil,
     customSearchParameters: AnyCodable
   ) {
     self.index = index
     self.trafficPercentage = trafficPercentage
-    self._description = _description
+    self.description = description
     self.customSearchParameters = customSearchParameters
   }
 
   public enum CodingKeys: String, CodingKey, CaseIterable {
     case index
     case trafficPercentage
-    case _description = "description"
+    case description
     case customSearchParameters
   }
 
@@ -40,7 +40,7 @@ import Foundation
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(index, forKey: .index)
     try container.encode(trafficPercentage, forKey: .trafficPercentage)
-    try container.encodeIfPresent(_description, forKey: ._description)
+    try container.encodeIfPresent(description, forKey: .description)
     try container.encode(customSearchParameters, forKey: .customSearchParameters)
   }
 }

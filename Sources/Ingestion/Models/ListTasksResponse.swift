@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// A list of tasks with pagination details.
-@objcMembers public class ListTasksResponse: NSObject, Codable, JSONEncodable {
+public struct ListTasksResponse: Codable, JSONEncodable, Hashable {
 
   public var tasks: [Task]
   public var pagination: Pagination

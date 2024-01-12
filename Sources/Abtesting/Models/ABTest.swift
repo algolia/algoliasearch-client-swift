@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class ABTest: NSObject, Codable, JSONEncodable {
+public struct ABTest: Codable, JSONEncodable, Hashable {
 
   /** Unique A/B test ID. */
   public var abTestID: Int

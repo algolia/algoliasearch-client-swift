@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// The response from the run task API, containing an Observability Run ID and the time it was created at.
-@objcMembers public class RunResponse: NSObject, Codable, JSONEncodable {
+public struct RunResponse: Codable, JSONEncodable, Hashable {
 
   /** The run UUID. */
   public var runID: String

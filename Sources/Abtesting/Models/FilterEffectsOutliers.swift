@@ -8,18 +8,12 @@ import Foundation
 #endif
 
 /// Outliers removed from the A/B test as a result of configuration settings.
-@objcMembers public class FilterEffectsOutliers: NSObject, Codable, JSONEncodable {
+public struct FilterEffectsOutliers: Codable, JSONEncodable, Hashable {
 
   /** Number of users removed from the A/B test. */
   public var usersCount: Int?
-  public var usersCountNum: NSNumber? {
-    return usersCount as NSNumber?
-  }
   /** Number of tracked searches removed from the A/B test. */
   public var trackedSearchesCount: Int?
-  public var trackedSearchesCountNum: NSNumber? {
-    return trackedSearchesCount as NSNumber?
-  }
 
   public init(usersCount: Int? = nil, trackedSearchesCount: Int? = nil) {
     self.usersCount = usersCount

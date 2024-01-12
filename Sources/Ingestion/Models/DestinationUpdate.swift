@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Payload to partially update a Destination.
-@objcMembers public class DestinationUpdate: NSObject, Codable, JSONEncodable {
+public struct DestinationUpdate: Codable, JSONEncodable, Hashable {
 
   public var type: DestinationType?
   /** An human readable name describing the object. */

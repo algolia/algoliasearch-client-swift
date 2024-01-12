@@ -7,13 +7,10 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class IncidentsInner: NSObject, Codable, JSONEncodable {
+public struct IncidentsInner: Codable, JSONEncodable, Hashable {
 
   /** Timestamp in [Unix epoch time](https://wikipedia.org/wiki/Unix_time) in milliseconds. */
   public var t: Int64?
-  public var tNum: NSNumber? {
-    return t as NSNumber?
-  }
   public var v: Incident?
 
   public init(t: Int64? = nil, v: Incident? = nil) {

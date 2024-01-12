@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Rules search parameters.
-@objcMembers public class SearchRulesParams: NSObject, Codable, JSONEncodable {
+public struct SearchRulesParams: Codable, JSONEncodable, Hashable {
 
   static let pageRule = NumericRule<Int>(
     minimum: 0, exclusiveMinimum: false, maximum: nil, exclusiveMaximum: false, multipleOf: nil)
@@ -21,19 +21,10 @@ import Foundation
   public var context: String?
   /** Requested page (the first page is page 0). */
   public var page: Int?
-  public var pageNum: NSNumber? {
-    return page as NSNumber?
-  }
   /** Maximum number of hits per page. */
   public var hitsPerPage: Int? = 20
-  public var hitsPerPageNum: NSNumber? {
-    return hitsPerPage as NSNumber?
-  }
   /** Restricts responses to enabled rules. When not specified (default), _all_ rules are retrieved. */
   public var enabled: Bool?
-  public var enabledNum: NSNumber? {
-    return enabled as NSNumber?
-  }
   /** Request options to send with the API call. */
   public var requestOptions: [AnyCodable]?
 

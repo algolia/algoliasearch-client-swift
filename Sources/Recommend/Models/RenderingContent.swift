@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Extra content for the search UI, for example, to control the [ordering and display of facets](https://www.algolia.com/doc/guides/managing-results/rules/merchandising-and-promoting/how-to/merchandising-facets/#merchandise-facets-and-their-values-in-the-manual-editor). You can set a default value and dynamically override it with [Rules](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/).
-@objcMembers public class RenderingContent: NSObject, Codable, JSONEncodable {
+public struct RenderingContent: Codable, JSONEncodable, Hashable {
 
   public var facetOrdering: FacetOrdering?
 

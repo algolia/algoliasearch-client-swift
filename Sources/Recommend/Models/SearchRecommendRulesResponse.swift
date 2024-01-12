@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SearchRecommendRulesResponse: NSObject, Codable, JSONEncodable {
+public struct SearchRecommendRulesResponse: Codable, JSONEncodable, Hashable {
 
   /** Fetched rules. */
   public var hits: [RuleResponse]

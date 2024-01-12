@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// userIDs data.
-@objcMembers public class SearchUserIdsResponse: NSObject, Codable, JSONEncodable {
+public struct SearchUserIdsResponse: Codable, JSONEncodable, Hashable {
 
   static let hitsPerPageRule = NumericRule<Int>(
     minimum: 1, exclusiveMinimum: false, maximum: 1000, exclusiveMaximum: false, multipleOf: nil)

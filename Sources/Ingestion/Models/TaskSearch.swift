@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class TaskSearch: NSObject, Codable, JSONEncodable {
+public struct TaskSearch: Codable, JSONEncodable, Hashable {
 
   public var taskIDs: [String]
 

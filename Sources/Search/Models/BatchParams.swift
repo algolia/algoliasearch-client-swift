@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Batch parameters.
-@objcMembers public class BatchParams: NSObject, Codable, JSONEncodable {
+public struct BatchParams: Codable, JSONEncodable, Hashable {
 
   public var requests: [MultipleBatchRequest]
 

@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Incident details.
-@objcMembers public class Incident: NSObject, Codable, JSONEncodable {
+public struct Incident: Codable, JSONEncodable, Hashable {
 
   /** Description of the incident. */
   public var title: String?

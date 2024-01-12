@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class GetTopFilterAttributesResponse: NSObject, Codable, JSONEncodable {
+public struct GetTopFilterAttributesResponse: Codable, JSONEncodable, Hashable {
 
   /** Filterable attributes. */
   public var attributes: [GetTopFilterAttribute]

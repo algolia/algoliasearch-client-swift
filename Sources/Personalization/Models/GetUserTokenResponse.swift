@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class GetUserTokenResponse: NSObject, Codable, JSONEncodable {
+public struct GetUserTokenResponse: Codable, JSONEncodable, Hashable {
 
   /** userToken representing the user for which to fetch the Personalization profile. */
   public var userToken: String

@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// The trigger information of a task of type &#x60;onDemand&#x60;.
-@objcMembers public class OnDemandTriggerInput: NSObject, Codable, JSONEncodable {
+public struct OnDemandTriggerInput: Codable, JSONEncodable, Hashable {
 
   public var type: OnDemandTriggerType
 

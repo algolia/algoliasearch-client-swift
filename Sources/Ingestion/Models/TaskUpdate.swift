@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// The payload for a task update.
-@objcMembers public class TaskUpdate: NSObject, Codable, JSONEncodable {
+public struct TaskUpdate: Codable, JSONEncodable, Hashable {
 
   static let failureThresholdRule = NumericRule<Int>(
     minimum: 0, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
@@ -18,14 +18,8 @@ import Foundation
   public var input: TaskInput?
   /** Whether the task is enabled or not. */
   public var enabled: Bool?
-  public var enabledNum: NSNumber? {
-    return enabled as NSNumber?
-  }
   /** A percentage representing the accepted failure threshold to determine if a `run` succeeded or not. */
   public var failureThreshold: Int?
-  public var failureThresholdNum: NSNumber? {
-    return failureThreshold as NSNumber?
-  }
 
   public init(
     destinationID: String? = nil, trigger: TriggerUpdateInput? = nil, input: TaskInput? = nil,

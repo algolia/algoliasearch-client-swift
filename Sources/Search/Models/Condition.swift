@@ -7,16 +7,13 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class Condition: NSObject, Codable, JSONEncodable {
+public struct Condition: Codable, JSONEncodable, Hashable {
 
   /** Query pattern syntax. */
   public var pattern: String?
   public var anchoring: Anchoring?
   /** Whether the pattern matches on plurals, synonyms, and typos. */
   public var alternatives: Bool? = false
-  public var alternativesNum: NSNumber? {
-    return alternatives as NSNumber?
-  }
   /** Rule context format: [A-Za-z0-9_-]+). */
   public var context: String?
 

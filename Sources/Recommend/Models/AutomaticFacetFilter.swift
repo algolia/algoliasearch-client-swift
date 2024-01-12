@@ -8,20 +8,14 @@ import Foundation
 #endif
 
 /// Automatic facet Filter.
-@objcMembers public class AutomaticFacetFilter: NSObject, Codable, JSONEncodable {
+public struct AutomaticFacetFilter: Codable, JSONEncodable, Hashable {
 
   /** Attribute to filter on. This must match a facet placeholder in the Rule's pattern. */
   public var facet: String
   /** Score for the filter. Typically used for optional or disjunctive filters. */
   public var score: Int? = 1
-  public var scoreNum: NSNumber? {
-    return score as NSNumber?
-  }
   /** Whether the filter is disjunctive (true) or conjunctive (false). */
   public var disjunctive: Bool? = false
-  public var disjunctiveNum: NSNumber? {
-    return disjunctive as NSNumber?
-  }
 
   public init(facet: String, score: Int? = 1, disjunctive: Bool? = false) {
     self.facet = facet

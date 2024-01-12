@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class TopSearchesResponse: NSObject, Codable, JSONEncodable {
+public struct TopSearchesResponse: Codable, JSONEncodable, Hashable {
 
   /** Top searches with their hits count. */
   public var searches: [TopSearch]

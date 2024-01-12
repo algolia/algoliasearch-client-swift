@@ -7,8 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers
-public class BaseQuerySuggestionsConfigurationResponse: NSObject, Codable, JSONEncodable {
+public struct BaseQuerySuggestionsConfigurationResponse: Codable, JSONEncodable, Hashable {
 
   /** Your Algolia application ID. */
   public var appId: String?

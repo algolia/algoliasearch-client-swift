@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class AuthAlgolia: NSObject, Codable, JSONEncodable {
+public struct AuthAlgolia: Codable, JSONEncodable, Hashable {
 
   /** Algolia Application ID. */
   public var appID: String

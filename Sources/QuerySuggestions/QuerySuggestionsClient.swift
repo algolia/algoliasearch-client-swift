@@ -9,7 +9,7 @@ import Foundation
 
 typealias Client = QuerySuggestionsClient
 
-@objcMembers open class QuerySuggestionsClient: NSObject {
+open class QuerySuggestionsClient {
 
   private var configuration: Configuration
   private var transporter: Transporter

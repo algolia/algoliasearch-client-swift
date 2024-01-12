@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SourceBigCommerce: NSObject, Codable, JSONEncodable {
+public struct SourceBigCommerce: Codable, JSONEncodable, Hashable {
 
   /** The store hash identifying the store the shopper is signing in to. */
   public var storeHash: String?

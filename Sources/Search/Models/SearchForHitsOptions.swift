@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SearchForHitsOptions: NSObject, Codable, JSONEncodable {
+public struct SearchForHitsOptions: Codable, JSONEncodable, Hashable {
 
   /** Algolia index name. */
   public var indexName: String

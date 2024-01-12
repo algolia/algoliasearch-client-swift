@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Response and creation timestamp.
-@objcMembers public class CreatedAtResponse: NSObject, Codable, JSONEncodable {
+public struct CreatedAtResponse: Codable, JSONEncodable, Hashable {
 
   /** Timestamp of creation in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format. */
   public var createdAt: String

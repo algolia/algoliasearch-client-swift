@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class BaseSearchParams: NSObject, Codable, JSONEncodable {
+public struct BaseSearchParams: Codable, JSONEncodable, Hashable {
 
   static let lengthRule = NumericRule<Int>(
     minimum: 1, exclusiveMinimum: false, maximum: 1000, exclusiveMaximum: false, multipleOf: nil)
@@ -25,47 +25,26 @@ import Foundation
   public var tagFilters: TagFilters?
   /** Determines how to calculate [filter scores](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/in-depth/filter-scoring/#accumulating-scores-with-sumorfiltersscores). If `false`, maximum score is kept. If `true`, score is summed.  */
   public var sumOrFiltersScores: Bool? = false
-  public var sumOrFiltersScoresNum: NSNumber? {
-    return sumOrFiltersScores as NSNumber?
-  }
   /** Restricts a query to only look at a subset of your [searchable attributes](https://www.algolia.com/doc/guides/managing-results/must-do/searchable-attributes/). */
   public var restrictSearchableAttributes: [String]?
   /** Returns [facets](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#contextual-facet-values-and-counts), their facet values, and the number of matching facet values. */
   public var facets: [String]?
   /** Forces faceting to be applied after [de-duplication](https://www.algolia.com/doc/guides/managing-results/refine-results/grouping/) (with the distinct feature). Alternatively, the `afterDistinct` [modifier](https://www.algolia.com/doc/api-reference/api-parameters/attributesForFaceting/#modifiers) of `attributesForFaceting` allows for more granular control.  */
   public var facetingAfterDistinct: Bool? = false
-  public var facetingAfterDistinctNum: NSNumber? {
-    return facetingAfterDistinct as NSNumber?
-  }
   /** Page to retrieve (the first page is `0`, not `1`). */
   public var page: Int? = 0
-  public var pageNum: NSNumber? {
-    return page as NSNumber?
-  }
   /** Specifies the offset of the first hit to return. > **Note**: Using `page` and `hitsPerPage` is the recommended method for [paging results](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/pagination/js/). However, you can use `offset` and `length` to implement [an alternative approach to paging](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/pagination/js/#retrieving-a-subset-of-records-with-offset-and-length).  */
   public var offset: Int?
-  public var offsetNum: NSNumber? {
-    return offset as NSNumber?
-  }
   /** Sets the number of hits to retrieve (for use with `offset`). > **Note**: Using `page` and `hitsPerPage` is the recommended method for [paging results](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/pagination/js/). However, you can use `offset` and `length` to implement [an alternative approach to paging](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/pagination/js/#retrieving-a-subset-of-records-with-offset-and-length).  */
   public var length: Int?
-  public var lengthNum: NSNumber? {
-    return length as NSNumber?
-  }
   /** Search for entries [around a central location](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#filter-around-a-central-point), enabling a geographical search within a circular area. */
   public var aroundLatLng: String? = ""
   /** Search for entries around a location. The location is automatically computed from the requester's IP address. */
   public var aroundLatLngViaIP: Bool? = false
-  public var aroundLatLngViaIPNum: NSNumber? {
-    return aroundLatLngViaIP as NSNumber?
-  }
   public var aroundRadius: AroundRadius?
   public var aroundPrecision: AroundPrecision?
   /** Minimum radius (in meters) used for a geographical search when `aroundRadius` isn't set. */
   public var minimumAroundRadius: Int?
-  public var minimumAroundRadiusNum: NSNumber? {
-    return minimumAroundRadius as NSNumber?
-  }
   /** Search inside a [rectangular area](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#filtering-inside-rectangular-or-polygonal-areas) (in geographical coordinates). */
   public var insideBoundingBox: [[Double]]?
   /** Search inside a [polygon](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#filtering-inside-rectangular-or-polygonal-areas) (in geographical coordinates). */
@@ -76,45 +55,24 @@ import Foundation
   public var ruleContexts: [String]?
   /** Defines how much [Personalization affects results](https://www.algolia.com/doc/guides/personalization/personalizing-results/in-depth/configuring-personalization/#understanding-personalization-impact). */
   public var personalizationImpact: Int? = 100
-  public var personalizationImpactNum: NSNumber? {
-    return personalizationImpact as NSNumber?
-  }
   /** Associates a [user token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken/) with the current search. */
   public var userToken: String?
   /** Incidates whether the search response includes [detailed ranking information](https://www.algolia.com/doc/guides/building-search-ui/going-further/backend-search/in-depth/understanding-the-api-response/#ranking-information). */
   public var getRankingInfo: Bool? = false
-  public var getRankingInfoNum: NSNumber? {
-    return getRankingInfo as NSNumber?
-  }
   /** Enriches the API's response with information about how the query was processed. */
   public var explain: [String]?
   /** Whether to take into account an index's synonyms for a particular search. */
   public var synonyms: Bool? = true
-  public var synonymsNum: NSNumber? {
-    return synonyms as NSNumber?
-  }
   /** Indicates whether a query ID parameter is included in the search response. This is required for [tracking click and conversion events](https://www.algolia.com/doc/guides/sending-events/concepts/event-types/#events-related-to-algolia-requests). */
   public var clickAnalytics: Bool? = false
-  public var clickAnalyticsNum: NSNumber? {
-    return clickAnalytics as NSNumber?
-  }
   /** Indicates whether this query will be included in [analytics](https://www.algolia.com/doc/guides/search-analytics/guides/exclude-queries/). */
   public var analytics: Bool? = true
-  public var analyticsNum: NSNumber? {
-    return analytics as NSNumber?
-  }
   /** Tags to apply to the query for [segmenting analytics data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/). */
   public var analyticsTags: [String]?
   /** Whether to include or exclude a query from the processing-time percentile computation. */
   public var percentileComputation: Bool? = true
-  public var percentileComputationNum: NSNumber? {
-    return percentileComputation as NSNumber?
-  }
   /** Incidates whether this search will be considered in A/B testing. */
   public var enableABTest: Bool? = true
-  public var enableABTestNum: NSNumber? {
-    return enableABTest as NSNumber?
-  }
 
   public init(
     query: String? = "", similarQuery: String? = "", filters: String? = "",

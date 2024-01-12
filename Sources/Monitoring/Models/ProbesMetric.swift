@@ -7,18 +7,12 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class ProbesMetric: NSObject, Codable, JSONEncodable {
+public struct ProbesMetric: Codable, JSONEncodable, Hashable {
 
   /** Timestamp in [Unix epoch time](https://wikipedia.org/wiki/Unix_time) in milliseconds. */
   public var t: Int64?
-  public var tNum: NSNumber? {
-    return t as NSNumber?
-  }
   /** Value of the metric. */
   public var v: Int?
-  public var vNum: NSNumber? {
-    return v as NSNumber?
-  }
 
   public init(t: Int64? = nil, v: Int? = nil) {
     self.t = t

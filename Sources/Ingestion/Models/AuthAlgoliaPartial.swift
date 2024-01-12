@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class AuthAlgoliaPartial: NSObject, Codable, JSONEncodable {
+public struct AuthAlgoliaPartial: Codable, JSONEncodable, Hashable {
 
   /** Algolia Application ID. */
   public var appID: String?

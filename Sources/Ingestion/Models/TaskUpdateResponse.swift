@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// The response from the API after a task update.
-@objcMembers public class TaskUpdateResponse: NSObject, Codable, JSONEncodable {
+public struct TaskUpdateResponse: Codable, JSONEncodable, Hashable {
 
   /** The task UUID. */
   public var taskID: String

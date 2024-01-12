@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Response, taskID, and deletion timestamp.
-@objcMembers public class DeletedAtResponse: NSObject, Codable, JSONEncodable {
+public struct DeletedAtResponse: Codable, JSONEncodable, Hashable {
 
   /** Unique identifier of a task. A successful API response means that a task was added to a queue. It might not run immediately. You can check the task's progress with the `task` operation and this `taskID`.  */
   public var taskID: Int64

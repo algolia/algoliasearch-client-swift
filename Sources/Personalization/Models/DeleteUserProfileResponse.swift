@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class DeleteUserProfileResponse: NSObject, Codable, JSONEncodable {
+public struct DeleteUserProfileResponse: Codable, JSONEncodable, Hashable {
 
   /** userToken representing the user for which to fetch the Personalization profile. */
   public var userToken: String

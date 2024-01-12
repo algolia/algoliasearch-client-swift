@@ -7,16 +7,10 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class RunProgress: NSObject, Codable, JSONEncodable {
+public struct RunProgress: Codable, JSONEncodable, Hashable {
 
   public var expectedNbOfEvents: Int?
-  public var expectedNbOfEventsNum: NSNumber? {
-    return expectedNbOfEvents as NSNumber?
-  }
   public var receivedNbOfEvents: Int?
-  public var receivedNbOfEventsNum: NSNumber? {
-    return receivedNbOfEvents as NSNumber?
-  }
 
   public init(expectedNbOfEvents: Int? = nil, receivedNbOfEvents: Int? = nil) {
     self.expectedNbOfEvents = expectedNbOfEvents

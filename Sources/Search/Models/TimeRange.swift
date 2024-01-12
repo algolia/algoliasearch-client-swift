@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class TimeRange: NSObject, Codable, JSONEncodable {
+public struct TimeRange: Codable, JSONEncodable, Hashable {
 
   /** Lower bound of the time range (Unix timestamp). */
   public var from: Int

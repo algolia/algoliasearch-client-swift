@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SourceDocker: NSObject, Codable, JSONEncodable {
+public struct SourceDocker: Codable, JSONEncodable, Hashable {
 
   public var imageType: DockerImageType
   public var registry: DockerRegistry

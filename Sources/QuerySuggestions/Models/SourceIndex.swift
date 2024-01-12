@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Configuration of an Algolia index for Query Suggestions.
-@objcMembers public class SourceIndex: NSObject, Codable, JSONEncodable {
+public struct SourceIndex: Codable, JSONEncodable, Hashable {
 
   static let minHitsRule = NumericRule<Int>(
     minimum: 0, exclusiveMinimum: false, maximum: nil, exclusiveMaximum: false, multipleOf: nil)
@@ -18,23 +18,14 @@ import Foundation
   public var indexName: String
   /** If true, Query Suggestions uses all replicas of the primary index to find popular searches. If false, only the primary index is used.   */
   public var replicas: Bool? = false
-  public var replicasNum: NSNumber? {
-    return replicas as NSNumber?
-  }
   /** [Analytics tags](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) for filtering the popular searches.  */
   public var analyticsTags: [String]?
   /** Facets to use as top categories with your suggestions.  If provided, Query Suggestions adds the top facet values to each suggestion.  */
   public var facets: [Facet]?
   /** Minimum number of hits required to be included as a suggestion.  A search query must at least generate `minHits` hits to be included in the Query Suggestions index.  */
   public var minHits: Int? = 5
-  public var minHitsNum: NSNumber? {
-    return minHits as NSNumber?
-  }
   /** Minimum letters required to be included as a suggestion.  A search query must be at least `minLetters` long to be included in the Query Suggestions index.  */
   public var minLetters: Int? = 4
-  public var minLettersNum: NSNumber? {
-    return minLetters as NSNumber?
-  }
   public var generate: [[String]]?
   /** Algolia indices with popular searches to use as query suggestions.  Records of these indices must have these attributes:    - `query`: search query which will be added as a suggestion   - `count`: measure of popularity of that search query  For example, you can export popular searches from an external analytics tool, such as Google Analytics or Adobe Analytics, and feed this data into an external Algolia index. You can use this external index to generate query suggestions until your Algolia analytics has collected enough data.  */
   public var external: [String]?

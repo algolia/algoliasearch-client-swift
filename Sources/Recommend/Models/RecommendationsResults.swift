@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class RecommendationsResults: NSObject, Codable, JSONEncodable {
+public struct RecommendationsResults: Codable, JSONEncodable, Hashable {
 
   static let abTestVariantIDRule = NumericRule<Int>(
     minimum: 1, exclusiveMinimum: false, maximum: nil, exclusiveMaximum: false, multipleOf: nil)
@@ -17,14 +17,8 @@ import Foundation
     minimum: 1, exclusiveMinimum: false, maximum: 1000, exclusiveMaximum: false, multipleOf: nil)
   /** A/B test ID. This is only included in the response for indices that are part of an A/B test. */
   public var abTestID: Int?
-  public var abTestIDNum: NSNumber? {
-    return abTestID as NSNumber?
-  }
   /** Variant ID. This is only included in the response for indices that are part of an A/B test. */
   public var abTestVariantID: Int?
-  public var abTestVariantIDNum: NSNumber? {
-    return abTestVariantID as NSNumber?
-  }
   /** Computed geographical location. */
   public var aroundLatLng: String?
   /** Automatically-computed radius. */
@@ -33,21 +27,12 @@ import Foundation
   /** See the `facetsCount` field of the `exhaustive` object in the response. */
   @available(*, deprecated, message: "This property is deprecated.")
   public var exhaustiveFacetsCount: Bool?
-  public var exhaustiveFacetsCountNum: NSNumber? {
-    return exhaustiveFacetsCount as NSNumber?
-  }
   /** See the `nbHits` field of the `exhaustive` object in the response. */
   @available(*, deprecated, message: "This property is deprecated.")
   public var exhaustiveNbHits: Bool?
-  public var exhaustiveNbHitsNum: NSNumber? {
-    return exhaustiveNbHits as NSNumber?
-  }
   /** See the `typo` field of the `exhaustive` object in the response. */
   @available(*, deprecated, message: "This property is deprecated.")
   public var exhaustiveTypo: Bool?
-  public var exhaustiveTypoNum: NSNumber? {
-    return exhaustiveTypo as NSNumber?
-  }
   /** Mapping of each facet name to the corresponding facet counts. */
   public var facets: [String: [String: Int]]?
   /** Statistics for numerical facets. */
@@ -66,9 +51,6 @@ import Foundation
   public var nbPages: Int
   /** Number of hits selected and sorted by the relevant sort algorithm. */
   public var nbSortedHits: Int?
-  public var nbSortedHitsNum: NSNumber? {
-    return nbSortedHits as NSNumber?
-  }
   /** Page to retrieve (the first page is `0`, not `1`). */
   public var page: Int = 0
   /** Post-[normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/#what-does-normalization-mean) query string that will be searched. */
@@ -83,9 +65,6 @@ import Foundation
   public var renderingContent: RenderingContent?
   /** Time the server took to process the request, in milliseconds. */
   public var serverTimeMS: Int?
-  public var serverTimeMSNum: NSNumber? {
-    return serverTimeMS as NSNumber?
-  }
   /** Host name of the server that processed the request. */
   public var serverUsed: String?
   /** Lets you store custom data in your indices. */

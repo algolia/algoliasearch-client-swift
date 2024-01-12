@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SearchParamsQuery: NSObject, Codable, JSONEncodable {
+public struct SearchParamsQuery: Codable, JSONEncodable, Hashable {
 
   /** Text to search for in an index. */
   public var query: String? = ""

@@ -9,7 +9,7 @@ import Foundation
 
 typealias Client = MonitoringClient
 
-@objcMembers open class MonitoringClient: NSObject {
+open class MonitoringClient {
 
   private var configuration: Configuration
   private var transporter: Transporter

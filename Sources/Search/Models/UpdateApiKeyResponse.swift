@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class UpdateApiKeyResponse: NSObject, Codable, JSONEncodable {
+public struct UpdateApiKeyResponse: Codable, JSONEncodable, Hashable {
 
   /** API key. */
   public var key: String

@@ -9,7 +9,7 @@ import Foundation
 
 typealias Client = SearchClient
 
-@objcMembers open class SearchClient: NSObject {
+open class SearchClient {
 
   private var configuration: Configuration
   private var transporter: Transporter

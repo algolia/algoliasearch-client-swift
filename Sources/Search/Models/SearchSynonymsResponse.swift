@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SearchSynonymsResponse: NSObject, Codable, JSONEncodable {
+public struct SearchSynonymsResponse: Codable, JSONEncodable, Hashable {
 
   /** Synonym objects. */
   public var hits: [SynonymHit]
@@ -51,7 +51,7 @@ import Foundation
 
   // Decodable protocol methods
 
-  public required init(from decoder: Decoder) throws {
+  public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
 
     hits = try container.decode([SynonymHit].self, forKey: .hits)

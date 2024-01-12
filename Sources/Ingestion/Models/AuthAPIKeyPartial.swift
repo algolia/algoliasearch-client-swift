@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Authentication input used for token credentials.
-@objcMembers public class AuthAPIKeyPartial: NSObject, Codable, JSONEncodable {
+public struct AuthAPIKeyPartial: Codable, JSONEncodable, Hashable {
 
   public var key: String?
 

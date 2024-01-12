@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class ListEventsResponse: NSObject, Codable, JSONEncodable {
+public struct ListEventsResponse: Codable, JSONEncodable, Hashable {
 
   public var events: [Event]
   public var pagination: Pagination

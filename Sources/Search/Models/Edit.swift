@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class Edit: NSObject, Codable, JSONEncodable {
+public struct Edit: Codable, JSONEncodable, Hashable {
 
   public var type: EditType?
   /** Text or patterns to remove from the query string. */

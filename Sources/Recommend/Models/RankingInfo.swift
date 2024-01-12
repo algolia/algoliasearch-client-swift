@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class RankingInfo: NSObject, Codable, JSONEncodable {
+public struct RankingInfo: Codable, JSONEncodable, Hashable {
 
   /** This field is reserved for advanced usage. */
   public var filters: Int
@@ -17,9 +17,6 @@ import Foundation
   public var geoDistance: Int
   /** Precision used when computing the geo distance, in meters. */
   public var geoPrecision: Int?
-  public var geoPrecisionNum: NSNumber? {
-    return geoPrecision as NSNumber?
-  }
   public var matchedGeoLocation: MatchedGeoLocation?
   public var personalization: Personalization?
   /** Number of exactly matched words. */
@@ -30,18 +27,12 @@ import Foundation
   public var promoted: Bool
   /** When the query contains more than one word, the sum of the distances between matched words (in meters). */
   public var proximityDistance: Int?
-  public var proximityDistanceNum: NSNumber? {
-    return proximityDistance as NSNumber?
-  }
   /** Custom ranking for the object, expressed as a single integer value. */
   public var userScore: Int
   /** Number of matched words, including prefixes and typos. */
   public var words: Int
   /** Wether the record are promoted by the re-ranking strategy. */
   public var promotedByReRanking: Bool?
-  public var promotedByReRankingNum: NSNumber? {
-    return promotedByReRanking as NSNumber?
-  }
 
   public init(
     filters: Int, firstMatchedWord: Int, geoDistance: Int, geoPrecision: Int? = nil,

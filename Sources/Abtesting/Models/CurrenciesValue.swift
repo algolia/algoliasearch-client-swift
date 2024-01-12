@@ -7,25 +7,16 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class CurrenciesValue: NSObject, Codable, JSONEncodable {
+public struct CurrenciesValue: Codable, JSONEncodable, Hashable {
 
   /** Currency code. */
   public var currency: String?
   /** Revenue for this currency. */
   public var revenue: Double?
-  public var revenueNum: NSNumber? {
-    return revenue as NSNumber?
-  }
   /** Mean for this currency. */
   public var mean: Double?
-  public var meanNum: NSNumber? {
-    return mean as NSNumber?
-  }
   /** Standard deviation for this currency. */
   public var standardDeviation: Double?
-  public var standardDeviationNum: NSNumber? {
-    return standardDeviation as NSNumber?
-  }
 
   public init(
     currency: String? = nil, revenue: Double? = nil, mean: Double? = nil,

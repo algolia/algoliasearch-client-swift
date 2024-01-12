@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Additional search parameters.
-@objcMembers public class Params: NSObject, Codable, JSONEncodable {
+public struct Params: Codable, JSONEncodable, Hashable {
 
   public var query: ConsequenceQuery?
   public var automaticFacetFilters: AutomaticFacetFilters?

@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Enable or turn off the built-in Algolia stop words for a specific language.
-@objcMembers public class DictionarySettingsParams: NSObject, Codable, JSONEncodable {
+public struct DictionarySettingsParams: Codable, JSONEncodable, Hashable {
 
   public var disableStandardEntries: StandardEntries
 

@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class GetSearchesCountResponse: NSObject, Codable, JSONEncodable {
+public struct GetSearchesCountResponse: Codable, JSONEncodable, Hashable {
 
   /** Number of occurrences. */
   public var count: Int

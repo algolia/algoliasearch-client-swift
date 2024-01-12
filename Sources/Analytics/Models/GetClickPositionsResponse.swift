@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class GetClickPositionsResponse: NSObject, Codable, JSONEncodable {
+public struct GetClickPositionsResponse: Codable, JSONEncodable, Hashable {
 
   /** Click positions. */
   public var positions: [ClickPosition]

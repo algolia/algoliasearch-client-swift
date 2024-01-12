@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class Source: NSObject, Codable, JSONEncodable {
+public struct Source: Codable, JSONEncodable, Hashable {
 
   /** The source UUID. */
   public var sourceID: String

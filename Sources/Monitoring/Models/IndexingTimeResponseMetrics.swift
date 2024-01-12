@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class IndexingTimeResponseMetrics: NSObject, Codable, JSONEncodable {
+public struct IndexingTimeResponseMetrics: Codable, JSONEncodable, Hashable {
 
   public var indexing: [String: [TimeInner]]?
 

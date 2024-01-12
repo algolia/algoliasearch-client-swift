@@ -9,7 +9,7 @@ import Foundation
 
 typealias Client = AnalyticsClient
 
-@objcMembers open class AnalyticsClient: NSObject {
+open class AnalyticsClient {
 
   private var configuration: Configuration
   private var transporter: Transporter

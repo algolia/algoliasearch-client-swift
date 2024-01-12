@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class BigCommerceMetafield: NSObject, Codable, JSONEncodable {
+public struct BigCommerceMetafield: Codable, JSONEncodable, Hashable {
 
   /** The namespace of the metafield. */
   public var namespace: String

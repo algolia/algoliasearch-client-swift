@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 /// Rule object.
-@objcMembers public class Rule: NSObject, Codable, JSONEncodable {
+public struct Rule: Codable, JSONEncodable, Hashable {
 
   /** Unique identifier for a rule object. */
   public var objectID: String
@@ -16,23 +16,20 @@ import Foundation
   public var conditions: [Condition]?
   public var consequence: Consequence?
   /** Description of the rule's purpose. This can be helpful for display in the Algolia dashboard. */
-  public var _description: String?
+  public var description: String?
   /** Indicates whether to enable the rule. If it isn't enabled, it isn't applied at query time. */
   public var enabled: Bool? = true
-  public var enabledNum: NSNumber? {
-    return enabled as NSNumber?
-  }
   /** If you specify a validity period, the rule _only_ applies only during that period. If specified, the array must not be empty. */
   public var validity: [TimeRange]?
 
   public init(
     objectID: String, conditions: [Condition]? = nil, consequence: Consequence? = nil,
-    _description: String? = nil, enabled: Bool? = true, validity: [TimeRange]? = nil
+    description: String? = nil, enabled: Bool? = true, validity: [TimeRange]? = nil
   ) {
     self.objectID = objectID
     self.conditions = conditions
     self.consequence = consequence
-    self._description = _description
+    self.description = description
     self.enabled = enabled
     self.validity = validity
   }
@@ -41,7 +38,7 @@ import Foundation
     case objectID
     case conditions
     case consequence
-    case _description = "description"
+    case description
     case enabled
     case validity
   }
@@ -53,7 +50,7 @@ import Foundation
     try container.encode(objectID, forKey: .objectID)
     try container.encodeIfPresent(conditions, forKey: .conditions)
     try container.encodeIfPresent(consequence, forKey: .consequence)
-    try container.encodeIfPresent(_description, forKey: ._description)
+    try container.encodeIfPresent(description, forKey: .description)
     try container.encodeIfPresent(enabled, forKey: .enabled)
     try container.encodeIfPresent(validity, forKey: .validity)
   }

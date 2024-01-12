@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-@objcMembers public class SourceCSV: NSObject, Codable, JSONEncodable {
+public struct SourceCSV: Codable, JSONEncodable, Hashable {
 
   static let delimiterRule = StringRule(minLength: 1, maxLength: 1, pattern: nil)
   /** The URL of the file. */
