@@ -40,11 +40,12 @@ typealias Client = AnalyticsClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customDelete(path: String, parameters: [String: AnyCodable]? = nil) async throws
-    -> AnyCodable
-  {
-    return try await customDeleteWithRequestBuilder(path: path, parameters: parameters).execute()
-      .body
+  open func customDelete(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customDeleteWithRequestBuilder(
+      path: path, parameters: parameters, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -55,16 +56,16 @@ typealias Client = AnalyticsClient
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customDeleteWithRequestBuilder(path: String, parameters: [String: AnyCodable]? = nil)
-    -> RequestBuilder<AnyCodable>
-  {
+  open func customDeleteWithRequestBuilder(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
@@ -80,7 +81,7 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -91,10 +92,12 @@ typealias Client = AnalyticsClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customGet(path: String, parameters: [String: AnyCodable]? = nil) async throws
-    -> AnyCodable
-  {
-    return try await customGetWithRequestBuilder(path: path, parameters: parameters).execute().body
+  open func customGet(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customGetWithRequestBuilder(
+      path: path, parameters: parameters, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -105,16 +108,16 @@ typealias Client = AnalyticsClient
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customGetWithRequestBuilder(path: String, parameters: [String: AnyCodable]? = nil)
-    -> RequestBuilder<AnyCodable>
-  {
+  open func customGetWithRequestBuilder(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
@@ -130,7 +133,7 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -143,10 +146,12 @@ typealias Client = AnalyticsClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPost(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPostWithRequestBuilder(path: path, parameters: parameters, body: body)
-      .execute().body
+    return try await customPostWithRequestBuilder(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -159,7 +164,8 @@ typealias Client = AnalyticsClient
      - returns: RequestBuilder<AnyCodable>
      */
   open func customPostWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
@@ -183,7 +189,7 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -195,11 +201,13 @@ typealias Client = AnalyticsClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customPut(path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil)
-    async throws -> AnyCodable
-  {
-    return try await customPutWithRequestBuilder(path: path, parameters: parameters, body: body)
-      .execute().body
+  open func customPut(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customPutWithRequestBuilder(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -212,7 +220,8 @@ typealias Client = AnalyticsClient
      - returns: RequestBuilder<AnyCodable>
      */
   open func customPutWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
@@ -236,7 +245,7 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -250,10 +259,12 @@ typealias Client = AnalyticsClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getAverageClickPosition(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> GetAverageClickPositionResponse {
     return try await getAverageClickPositionWithRequestBuilder(
-      index: index, startDate: startDate, endDate: endDate, tags: tags
+      index: index, startDate: startDate, endDate: endDate, tags: tags,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -268,10 +279,11 @@ typealias Client = AnalyticsClient
      - returns: RequestBuilder<GetAverageClickPositionResponse>
      */
   open func getAverageClickPositionWithRequestBuilder(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<GetAverageClickPositionResponse> {
     let localVariablePath = "/2/clicks/averageClickPosition"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
@@ -290,7 +302,7 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -304,10 +316,12 @@ typealias Client = AnalyticsClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getClickPositions(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> GetClickPositionsResponse {
     return try await getClickPositionsWithRequestBuilder(
-      index: index, startDate: startDate, endDate: endDate, tags: tags
+      index: index, startDate: startDate, endDate: endDate, tags: tags,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -322,10 +336,11 @@ typealias Client = AnalyticsClient
      - returns: RequestBuilder<GetClickPositionsResponse>
      */
   open func getClickPositionsWithRequestBuilder(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<GetClickPositionsResponse> {
     let localVariablePath = "/2/clicks/positions"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
@@ -344,7 +359,7 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -358,10 +373,12 @@ typealias Client = AnalyticsClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getClickThroughRate(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> GetClickThroughRateResponse {
     return try await getClickThroughRateWithRequestBuilder(
-      index: index, startDate: startDate, endDate: endDate, tags: tags
+      index: index, startDate: startDate, endDate: endDate, tags: tags,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -376,10 +393,11 @@ typealias Client = AnalyticsClient
      - returns: RequestBuilder<GetClickThroughRateResponse>
      */
   open func getClickThroughRateWithRequestBuilder(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<GetClickThroughRateResponse> {
     let localVariablePath = "/2/clicks/clickThroughRate"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
@@ -398,7 +416,7 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -412,10 +430,12 @@ typealias Client = AnalyticsClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getConversationRate(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> GetConversationRateResponse {
     return try await getConversationRateWithRequestBuilder(
-      index: index, startDate: startDate, endDate: endDate, tags: tags
+      index: index, startDate: startDate, endDate: endDate, tags: tags,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -430,10 +450,11 @@ typealias Client = AnalyticsClient
      - returns: RequestBuilder<GetConversationRateResponse>
      */
   open func getConversationRateWithRequestBuilder(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<GetConversationRateResponse> {
     let localVariablePath = "/2/conversions/conversionRate"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
@@ -452,7 +473,7 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -466,10 +487,12 @@ typealias Client = AnalyticsClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getNoClickRate(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> GetNoClickRateResponse {
     return try await getNoClickRateWithRequestBuilder(
-      index: index, startDate: startDate, endDate: endDate, tags: tags
+      index: index, startDate: startDate, endDate: endDate, tags: tags,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -484,10 +507,11 @@ typealias Client = AnalyticsClient
      - returns: RequestBuilder<GetNoClickRateResponse>
      */
   open func getNoClickRateWithRequestBuilder(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<GetNoClickRateResponse> {
     let localVariablePath = "/2/searches/noClickRate"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
@@ -506,7 +530,7 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -520,10 +544,12 @@ typealias Client = AnalyticsClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getNoResultsRate(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> GetNoResultsRateResponse {
     return try await getNoResultsRateWithRequestBuilder(
-      index: index, startDate: startDate, endDate: endDate, tags: tags
+      index: index, startDate: startDate, endDate: endDate, tags: tags,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -538,10 +564,11 @@ typealias Client = AnalyticsClient
      - returns: RequestBuilder<GetNoResultsRateResponse>
      */
   open func getNoResultsRateWithRequestBuilder(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<GetNoResultsRateResponse> {
     let localVariablePath = "/2/searches/noResultRate"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
@@ -560,7 +587,7 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -574,10 +601,12 @@ typealias Client = AnalyticsClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getSearchesCount(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> GetSearchesCountResponse {
     return try await getSearchesCountWithRequestBuilder(
-      index: index, startDate: startDate, endDate: endDate, tags: tags
+      index: index, startDate: startDate, endDate: endDate, tags: tags,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -592,10 +621,11 @@ typealias Client = AnalyticsClient
      - returns: RequestBuilder<GetSearchesCountResponse>
      */
   open func getSearchesCountWithRequestBuilder(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<GetSearchesCountResponse> {
     let localVariablePath = "/2/searches/count"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
@@ -614,7 +644,7 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -631,10 +661,11 @@ typealias Client = AnalyticsClient
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getSearchesNoClicks(
     index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil,
-    offset: Int? = nil, tags: String? = nil
+    offset: Int? = nil, tags: String? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> GetSearchesNoClicksResponse {
     return try await getSearchesNoClicksWithRequestBuilder(
-      index: index, startDate: startDate, endDate: endDate, limit: limit, offset: offset, tags: tags
+      index: index, startDate: startDate, endDate: endDate, limit: limit, offset: offset,
+      tags: tags, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -652,10 +683,10 @@ typealias Client = AnalyticsClient
      */
   open func getSearchesNoClicksWithRequestBuilder(
     index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil,
-    offset: Int? = nil, tags: String? = nil
+    offset: Int? = nil, tags: String? = nil, requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<GetSearchesNoClicksResponse> {
     let localVariablePath = "/2/searches/noClicks"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
@@ -676,7 +707,7 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -693,10 +724,11 @@ typealias Client = AnalyticsClient
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getSearchesNoResults(
     index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil,
-    offset: Int? = nil, tags: String? = nil
+    offset: Int? = nil, tags: String? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> GetSearchesNoResultsResponse {
     return try await getSearchesNoResultsWithRequestBuilder(
-      index: index, startDate: startDate, endDate: endDate, limit: limit, offset: offset, tags: tags
+      index: index, startDate: startDate, endDate: endDate, limit: limit, offset: offset,
+      tags: tags, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -714,10 +746,10 @@ typealias Client = AnalyticsClient
      */
   open func getSearchesNoResultsWithRequestBuilder(
     index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil,
-    offset: Int? = nil, tags: String? = nil
+    offset: Int? = nil, tags: String? = nil, requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<GetSearchesNoResultsResponse> {
     let localVariablePath = "/2/searches/noResults"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
@@ -738,7 +770,7 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -748,8 +780,11 @@ typealias Client = AnalyticsClient
      - returns: GetStatusResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getStatus(index: String) async throws -> GetStatusResponse {
-    return try await getStatusWithRequestBuilder(index: index).execute().body
+  open func getStatus(index: String, requestOptions: RequestOptions? = nil) async throws
+    -> GetStatusResponse
+  {
+    return try await getStatusWithRequestBuilder(index: index, requestOptions: requestOptions)
+      .execute().body
   }
 
   /**
@@ -759,9 +794,11 @@ typealias Client = AnalyticsClient
      - parameter index: (query) Index name to target.
      - returns: RequestBuilder<GetStatusResponse>
      */
-  open func getStatusWithRequestBuilder(index: String) -> RequestBuilder<GetStatusResponse> {
+  open func getStatusWithRequestBuilder(index: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<GetStatusResponse>
+  {
     let localVariablePath = "/2/status"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true)
@@ -777,7 +814,7 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -794,10 +831,11 @@ typealias Client = AnalyticsClient
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getTopCountries(
     index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil,
-    offset: Int? = nil, tags: String? = nil
+    offset: Int? = nil, tags: String? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> GetTopCountriesResponse {
     return try await getTopCountriesWithRequestBuilder(
-      index: index, startDate: startDate, endDate: endDate, limit: limit, offset: offset, tags: tags
+      index: index, startDate: startDate, endDate: endDate, limit: limit, offset: offset,
+      tags: tags, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -815,10 +853,10 @@ typealias Client = AnalyticsClient
      */
   open func getTopCountriesWithRequestBuilder(
     index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil,
-    offset: Int? = nil, tags: String? = nil
+    offset: Int? = nil, tags: String? = nil, requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<GetTopCountriesResponse> {
     let localVariablePath = "/2/countries"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
@@ -839,7 +877,7 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -857,11 +895,12 @@ typealias Client = AnalyticsClient
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getTopFilterAttributes(
     index: String, search: String? = nil, startDate: String? = nil, endDate: String? = nil,
-    limit: Int? = nil, offset: Int? = nil, tags: String? = nil
+    limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> GetTopFilterAttributesResponse {
     return try await getTopFilterAttributesWithRequestBuilder(
       index: index, search: search, startDate: startDate, endDate: endDate, limit: limit,
-      offset: offset, tags: tags
+      offset: offset, tags: tags, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -880,10 +919,11 @@ typealias Client = AnalyticsClient
      */
   open func getTopFilterAttributesWithRequestBuilder(
     index: String, search: String? = nil, startDate: String? = nil, endDate: String? = nil,
-    limit: Int? = nil, offset: Int? = nil, tags: String? = nil
+    limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<GetTopFilterAttributesResponse> {
     let localVariablePath = "/2/filters"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
@@ -905,7 +945,7 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -924,11 +964,12 @@ typealias Client = AnalyticsClient
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getTopFilterForAttribute(
     attribute: String, index: String, search: String? = nil, startDate: String? = nil,
-    endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil
+    endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> GetTopFilterForAttributeResponse {
     return try await getTopFilterForAttributeWithRequestBuilder(
       attribute: attribute, index: index, search: search, startDate: startDate, endDate: endDate,
-      limit: limit, offset: offset, tags: tags
+      limit: limit, offset: offset, tags: tags, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -948,7 +989,8 @@ typealias Client = AnalyticsClient
      */
   open func getTopFilterForAttributeWithRequestBuilder(
     attribute: String, index: String, search: String? = nil, startDate: String? = nil,
-    endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil
+    endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<GetTopFilterForAttributeResponse> {
     var localVariablePath = "/2/filters/{attribute}"
     let attributePreEscape = "\(APIHelper.mapValueToPathItem(attribute))"
@@ -956,7 +998,7 @@ typealias Client = AnalyticsClient
       attributePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{attribute}", with: attributePostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
@@ -978,7 +1020,7 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -996,11 +1038,12 @@ typealias Client = AnalyticsClient
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getTopFiltersNoResults(
     index: String, search: String? = nil, startDate: String? = nil, endDate: String? = nil,
-    limit: Int? = nil, offset: Int? = nil, tags: String? = nil
+    limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> GetTopFiltersNoResultsResponse {
     return try await getTopFiltersNoResultsWithRequestBuilder(
       index: index, search: search, startDate: startDate, endDate: endDate, limit: limit,
-      offset: offset, tags: tags
+      offset: offset, tags: tags, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -1019,10 +1062,11 @@ typealias Client = AnalyticsClient
      */
   open func getTopFiltersNoResultsWithRequestBuilder(
     index: String, search: String? = nil, startDate: String? = nil, endDate: String? = nil,
-    limit: Int? = nil, offset: Int? = nil, tags: String? = nil
+    limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<GetTopFiltersNoResultsResponse> {
     let localVariablePath = "/2/filters/noResults"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
@@ -1044,7 +1088,7 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1063,11 +1107,12 @@ typealias Client = AnalyticsClient
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getTopHits(
     index: String, search: String? = nil, clickAnalytics: Bool? = nil, startDate: String? = nil,
-    endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil
+    endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> GetTopHitsResponse {
     return try await getTopHitsWithRequestBuilder(
       index: index, search: search, clickAnalytics: clickAnalytics, startDate: startDate,
-      endDate: endDate, limit: limit, offset: offset, tags: tags
+      endDate: endDate, limit: limit, offset: offset, tags: tags, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -1087,10 +1132,11 @@ typealias Client = AnalyticsClient
      */
   open func getTopHitsWithRequestBuilder(
     index: String, search: String? = nil, clickAnalytics: Bool? = nil, startDate: String? = nil,
-    endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil
+    endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<GetTopHitsResponse> {
     let localVariablePath = "/2/hits"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
@@ -1113,7 +1159,7 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1134,11 +1180,12 @@ typealias Client = AnalyticsClient
   open func getTopSearches(
     index: String, clickAnalytics: Bool? = nil, startDate: String? = nil, endDate: String? = nil,
     orderBy: OrderBy? = nil, direction: Direction? = nil, limit: Int? = nil, offset: Int? = nil,
-    tags: String? = nil
+    tags: String? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> GetTopSearchesResponse {
     return try await getTopSearchesWithRequestBuilder(
       index: index, clickAnalytics: clickAnalytics, startDate: startDate, endDate: endDate,
-      orderBy: orderBy, direction: direction, limit: limit, offset: offset, tags: tags
+      orderBy: orderBy, direction: direction, limit: limit, offset: offset, tags: tags,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -1160,10 +1207,10 @@ typealias Client = AnalyticsClient
   open func getTopSearchesWithRequestBuilder(
     index: String, clickAnalytics: Bool? = nil, startDate: String? = nil, endDate: String? = nil,
     orderBy: OrderBy? = nil, direction: Direction? = nil, limit: Int? = nil, offset: Int? = nil,
-    tags: String? = nil
+    tags: String? = nil, requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<GetTopSearchesResponse> {
     let localVariablePath = "/2/searches"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
@@ -1187,7 +1234,7 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1201,10 +1248,12 @@ typealias Client = AnalyticsClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getUsersCount(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> GetUsersCountResponse {
     return try await getUsersCountWithRequestBuilder(
-      index: index, startDate: startDate, endDate: endDate, tags: tags
+      index: index, startDate: startDate, endDate: endDate, tags: tags,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -1219,10 +1268,11 @@ typealias Client = AnalyticsClient
      - returns: RequestBuilder<GetUsersCountResponse>
      */
   open func getUsersCountWithRequestBuilder(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<GetUsersCountResponse> {
     let localVariablePath = "/2/users/count"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
@@ -1241,6 +1291,6 @@ typealias Client = AnalyticsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 }

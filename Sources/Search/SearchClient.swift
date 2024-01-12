@@ -38,8 +38,11 @@ typealias Client = SearchClient
      - returns: AddApiKeyResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func addApiKey(apiKey: ApiKey) async throws -> AddApiKeyResponse {
-    return try await addApiKeyWithRequestBuilder(apiKey: apiKey).execute().body
+  open func addApiKey(apiKey: ApiKey, requestOptions: RequestOptions? = nil) async throws
+    -> AddApiKeyResponse
+  {
+    return try await addApiKeyWithRequestBuilder(apiKey: apiKey, requestOptions: requestOptions)
+      .execute().body
   }
 
   /**
@@ -49,7 +52,9 @@ typealias Client = SearchClient
      - parameter apiKey: (body)
      - returns: RequestBuilder<AddApiKeyResponse>
      */
-  open func addApiKeyWithRequestBuilder(apiKey: ApiKey) -> RequestBuilder<AddApiKeyResponse> {
+  open func addApiKeyWithRequestBuilder(apiKey: ApiKey, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<AddApiKeyResponse>
+  {
     let localVariablePath = "/1/keys"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: apiKey)
 
@@ -65,7 +70,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -77,11 +82,11 @@ typealias Client = SearchClient
      - returns: UpdatedAtWithObjectIdResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func addOrUpdateObject(indexName: String, objectID: String, body: Encodable) async throws
-    -> UpdatedAtWithObjectIdResponse
-  {
+  open func addOrUpdateObject(
+    indexName: String, objectID: String, body: Encodable, requestOptions: RequestOptions? = nil
+  ) async throws -> UpdatedAtWithObjectIdResponse {
     return try await addOrUpdateObjectWithRequestBuilder(
-      indexName: indexName, objectID: objectID, body: body
+      indexName: indexName, objectID: objectID, body: body, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -95,7 +100,7 @@ typealias Client = SearchClient
      - returns: RequestBuilder<UpdatedAtWithObjectIdResponse>
      */
   open func addOrUpdateObjectWithRequestBuilder(
-    indexName: String, objectID: String, body: Encodable
+    indexName: String, objectID: String, body: Encodable, requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<UpdatedAtWithObjectIdResponse> {
     var localVariablePath = "/1/indexes/{indexName}/{objectID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
@@ -122,7 +127,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -132,8 +137,11 @@ typealias Client = SearchClient
      - returns: CreatedAtResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func appendSource(source: Source) async throws -> CreatedAtResponse {
-    return try await appendSourceWithRequestBuilder(source: source).execute().body
+  open func appendSource(source: Source, requestOptions: RequestOptions? = nil) async throws
+    -> CreatedAtResponse
+  {
+    return try await appendSourceWithRequestBuilder(source: source, requestOptions: requestOptions)
+      .execute().body
   }
 
   /**
@@ -143,7 +151,9 @@ typealias Client = SearchClient
      - parameter source: (body) Source to add.
      - returns: RequestBuilder<CreatedAtResponse>
      */
-  open func appendSourceWithRequestBuilder(source: Source) -> RequestBuilder<CreatedAtResponse> {
+  open func appendSourceWithRequestBuilder(source: Source, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<CreatedAtResponse>
+  {
     let localVariablePath = "/1/security/sources/append"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: source)
 
@@ -159,7 +169,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -170,11 +180,13 @@ typealias Client = SearchClient
      - returns: CreatedAtResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func assignUserId(xAlgoliaUserID: String, assignUserIdParams: AssignUserIdParams)
-    async throws -> CreatedAtResponse
-  {
+  open func assignUserId(
+    xAlgoliaUserID: String, assignUserIdParams: AssignUserIdParams,
+    requestOptions: RequestOptions? = nil
+  ) async throws -> CreatedAtResponse {
     return try await assignUserIdWithRequestBuilder(
-      xAlgoliaUserID: xAlgoliaUserID, assignUserIdParams: assignUserIdParams
+      xAlgoliaUserID: xAlgoliaUserID, assignUserIdParams: assignUserIdParams,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -187,7 +199,8 @@ typealias Client = SearchClient
      - returns: RequestBuilder<CreatedAtResponse>
      */
   open func assignUserIdWithRequestBuilder(
-    xAlgoliaUserID: String, assignUserIdParams: AssignUserIdParams
+    xAlgoliaUserID: String, assignUserIdParams: AssignUserIdParams,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<CreatedAtResponse> {
     let localVariablePath = "/1/clusters/mapping"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(
@@ -207,7 +220,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -218,11 +231,11 @@ typealias Client = SearchClient
      - returns: BatchResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func batch(indexName: String, batchWriteParams: BatchWriteParams) async throws
-    -> BatchResponse
-  {
+  open func batch(
+    indexName: String, batchWriteParams: BatchWriteParams, requestOptions: RequestOptions? = nil
+  ) async throws -> BatchResponse {
     return try await batchWithRequestBuilder(
-      indexName: indexName, batchWriteParams: batchWriteParams
+      indexName: indexName, batchWriteParams: batchWriteParams, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -234,9 +247,9 @@ typealias Client = SearchClient
      - parameter batchWriteParams: (body)
      - returns: RequestBuilder<BatchResponse>
      */
-  open func batchWithRequestBuilder(indexName: String, batchWriteParams: BatchWriteParams)
-    -> RequestBuilder<BatchResponse>
-  {
+  open func batchWithRequestBuilder(
+    indexName: String, batchWriteParams: BatchWriteParams, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<BatchResponse> {
     var localVariablePath = "/1/indexes/{indexName}/batch"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
@@ -258,7 +271,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -270,10 +283,12 @@ typealias Client = SearchClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func batchAssignUserIds(
-    xAlgoliaUserID: String, batchAssignUserIdsParams: BatchAssignUserIdsParams
+    xAlgoliaUserID: String, batchAssignUserIdsParams: BatchAssignUserIdsParams,
+    requestOptions: RequestOptions? = nil
   ) async throws -> CreatedAtResponse {
     return try await batchAssignUserIdsWithRequestBuilder(
-      xAlgoliaUserID: xAlgoliaUserID, batchAssignUserIdsParams: batchAssignUserIdsParams
+      xAlgoliaUserID: xAlgoliaUserID, batchAssignUserIdsParams: batchAssignUserIdsParams,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -286,7 +301,8 @@ typealias Client = SearchClient
      - returns: RequestBuilder<CreatedAtResponse>
      */
   open func batchAssignUserIdsWithRequestBuilder(
-    xAlgoliaUserID: String, batchAssignUserIdsParams: BatchAssignUserIdsParams
+    xAlgoliaUserID: String, batchAssignUserIdsParams: BatchAssignUserIdsParams,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<CreatedAtResponse> {
     let localVariablePath = "/1/clusters/mapping/batch"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(
@@ -306,7 +322,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -318,10 +334,12 @@ typealias Client = SearchClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func batchDictionaryEntries(
-    dictionaryName: DictionaryType, batchDictionaryEntriesParams: BatchDictionaryEntriesParams
+    dictionaryName: DictionaryType, batchDictionaryEntriesParams: BatchDictionaryEntriesParams,
+    requestOptions: RequestOptions? = nil
   ) async throws -> UpdatedAtResponse {
     return try await batchDictionaryEntriesWithRequestBuilder(
-      dictionaryName: dictionaryName, batchDictionaryEntriesParams: batchDictionaryEntriesParams
+      dictionaryName: dictionaryName, batchDictionaryEntriesParams: batchDictionaryEntriesParams,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -334,7 +352,8 @@ typealias Client = SearchClient
      - returns: RequestBuilder<UpdatedAtResponse>
      */
   open func batchDictionaryEntriesWithRequestBuilder(
-    dictionaryName: DictionaryType, batchDictionaryEntriesParams: BatchDictionaryEntriesParams
+    dictionaryName: DictionaryType, batchDictionaryEntriesParams: BatchDictionaryEntriesParams,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<UpdatedAtResponse> {
     var localVariablePath = "/1/dictionaries/{dictionaryName}/batch"
     let dictionaryNamePreEscape = "\(APIHelper.mapValueToPathItem(dictionaryName))"
@@ -357,7 +376,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -368,11 +387,12 @@ typealias Client = SearchClient
      - returns: BrowseResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func browse(indexName: String, browseParams: BrowseParams? = nil) async throws
-    -> BrowseResponse
-  {
-    return try await browseWithRequestBuilder(indexName: indexName, browseParams: browseParams)
-      .execute().body
+  open func browse(
+    indexName: String, browseParams: BrowseParams? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> BrowseResponse {
+    return try await browseWithRequestBuilder(
+      indexName: indexName, browseParams: browseParams, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -383,9 +403,9 @@ typealias Client = SearchClient
      - parameter browseParams: (body)  (optional)
      - returns: RequestBuilder<BrowseResponse>
      */
-  open func browseWithRequestBuilder(indexName: String, browseParams: BrowseParams? = nil)
-    -> RequestBuilder<BrowseResponse>
-  {
+  open func browseWithRequestBuilder(
+    indexName: String, browseParams: BrowseParams? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<BrowseResponse> {
     var localVariablePath = "/1/indexes/{indexName}/browse"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
@@ -407,7 +427,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -418,11 +438,11 @@ typealias Client = SearchClient
      - returns: UpdatedAtResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func clearAllSynonyms(indexName: String, forwardToReplicas: Bool? = nil) async throws
-    -> UpdatedAtResponse
-  {
+  open func clearAllSynonyms(
+    indexName: String, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> UpdatedAtResponse {
     return try await clearAllSynonymsWithRequestBuilder(
-      indexName: indexName, forwardToReplicas: forwardToReplicas
+      indexName: indexName, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -434,16 +454,16 @@ typealias Client = SearchClient
      - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica indices. (optional)
      - returns: RequestBuilder<UpdatedAtResponse>
      */
-  open func clearAllSynonymsWithRequestBuilder(indexName: String, forwardToReplicas: Bool? = nil)
-    -> RequestBuilder<UpdatedAtResponse>
-  {
+  open func clearAllSynonymsWithRequestBuilder(
+    indexName: String, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<UpdatedAtResponse> {
     var localVariablePath = "/1/indexes/{indexName}/synonyms/clear"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
       indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "forwardToReplicas": (wrappedValue: forwardToReplicas?.encodeToJSON(), isExplode: true)
@@ -459,7 +479,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -469,8 +489,12 @@ typealias Client = SearchClient
      - returns: UpdatedAtResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func clearObjects(indexName: String) async throws -> UpdatedAtResponse {
-    return try await clearObjectsWithRequestBuilder(indexName: indexName).execute().body
+  open func clearObjects(indexName: String, requestOptions: RequestOptions? = nil) async throws
+    -> UpdatedAtResponse
+  {
+    return try await clearObjectsWithRequestBuilder(
+      indexName: indexName, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -480,14 +504,16 @@ typealias Client = SearchClient
      - parameter indexName: (path) Index on which to perform the request.
      - returns: RequestBuilder<UpdatedAtResponse>
      */
-  open func clearObjectsWithRequestBuilder(indexName: String) -> RequestBuilder<UpdatedAtResponse> {
+  open func clearObjectsWithRequestBuilder(indexName: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<UpdatedAtResponse>
+  {
     var localVariablePath = "/1/indexes/{indexName}/clear"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
       indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -501,7 +527,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -512,11 +538,11 @@ typealias Client = SearchClient
      - returns: UpdatedAtResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func clearRules(indexName: String, forwardToReplicas: Bool? = nil) async throws
-    -> UpdatedAtResponse
-  {
+  open func clearRules(
+    indexName: String, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> UpdatedAtResponse {
     return try await clearRulesWithRequestBuilder(
-      indexName: indexName, forwardToReplicas: forwardToReplicas
+      indexName: indexName, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -528,16 +554,16 @@ typealias Client = SearchClient
      - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica indices. (optional)
      - returns: RequestBuilder<UpdatedAtResponse>
      */
-  open func clearRulesWithRequestBuilder(indexName: String, forwardToReplicas: Bool? = nil)
-    -> RequestBuilder<UpdatedAtResponse>
-  {
+  open func clearRulesWithRequestBuilder(
+    indexName: String, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<UpdatedAtResponse> {
     var localVariablePath = "/1/indexes/{indexName}/rules/clear"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
       indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "forwardToReplicas": (wrappedValue: forwardToReplicas?.encodeToJSON(), isExplode: true)
@@ -553,7 +579,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -564,11 +590,12 @@ typealias Client = SearchClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customDelete(path: String, parameters: [String: AnyCodable]? = nil) async throws
-    -> AnyCodable
-  {
-    return try await customDeleteWithRequestBuilder(path: path, parameters: parameters).execute()
-      .body
+  open func customDelete(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customDeleteWithRequestBuilder(
+      path: path, parameters: parameters, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -579,16 +606,16 @@ typealias Client = SearchClient
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customDeleteWithRequestBuilder(path: String, parameters: [String: AnyCodable]? = nil)
-    -> RequestBuilder<AnyCodable>
-  {
+  open func customDeleteWithRequestBuilder(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
@@ -604,7 +631,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -615,10 +642,12 @@ typealias Client = SearchClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customGet(path: String, parameters: [String: AnyCodable]? = nil) async throws
-    -> AnyCodable
-  {
-    return try await customGetWithRequestBuilder(path: path, parameters: parameters).execute().body
+  open func customGet(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customGetWithRequestBuilder(
+      path: path, parameters: parameters, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -629,16 +658,16 @@ typealias Client = SearchClient
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customGetWithRequestBuilder(path: String, parameters: [String: AnyCodable]? = nil)
-    -> RequestBuilder<AnyCodable>
-  {
+  open func customGetWithRequestBuilder(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
@@ -654,7 +683,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -667,10 +696,12 @@ typealias Client = SearchClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPost(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPostWithRequestBuilder(path: path, parameters: parameters, body: body)
-      .execute().body
+    return try await customPostWithRequestBuilder(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -683,7 +714,8 @@ typealias Client = SearchClient
      - returns: RequestBuilder<AnyCodable>
      */
   open func customPostWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
@@ -707,7 +739,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -719,11 +751,13 @@ typealias Client = SearchClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customPut(path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil)
-    async throws -> AnyCodable
-  {
-    return try await customPutWithRequestBuilder(path: path, parameters: parameters, body: body)
-      .execute().body
+  open func customPut(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customPutWithRequestBuilder(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -736,7 +770,8 @@ typealias Client = SearchClient
      - returns: RequestBuilder<AnyCodable>
      */
   open func customPutWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
@@ -760,7 +795,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -770,8 +805,11 @@ typealias Client = SearchClient
      - returns: DeleteApiKeyResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteApiKey(key: String) async throws -> DeleteApiKeyResponse {
-    return try await deleteApiKeyWithRequestBuilder(key: key).execute().body
+  open func deleteApiKey(key: String, requestOptions: RequestOptions? = nil) async throws
+    -> DeleteApiKeyResponse
+  {
+    return try await deleteApiKeyWithRequestBuilder(key: key, requestOptions: requestOptions)
+      .execute().body
   }
 
   /**
@@ -781,14 +819,16 @@ typealias Client = SearchClient
      - parameter key: (path) API key.
      - returns: RequestBuilder<DeleteApiKeyResponse>
      */
-  open func deleteApiKeyWithRequestBuilder(key: String) -> RequestBuilder<DeleteApiKeyResponse> {
+  open func deleteApiKeyWithRequestBuilder(key: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<DeleteApiKeyResponse>
+  {
     var localVariablePath = "/1/keys/{key}"
     let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
     let keyPostEscape =
       keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{key}", with: keyPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -802,7 +842,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -813,11 +853,11 @@ typealias Client = SearchClient
      - returns: DeletedAtResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteBy(indexName: String, deleteByParams: DeleteByParams) async throws
-    -> DeletedAtResponse
-  {
+  open func deleteBy(
+    indexName: String, deleteByParams: DeleteByParams, requestOptions: RequestOptions? = nil
+  ) async throws -> DeletedAtResponse {
     return try await deleteByWithRequestBuilder(
-      indexName: indexName, deleteByParams: deleteByParams
+      indexName: indexName, deleteByParams: deleteByParams, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -829,9 +869,9 @@ typealias Client = SearchClient
      - parameter deleteByParams: (body)
      - returns: RequestBuilder<DeletedAtResponse>
      */
-  open func deleteByWithRequestBuilder(indexName: String, deleteByParams: DeleteByParams)
-    -> RequestBuilder<DeletedAtResponse>
-  {
+  open func deleteByWithRequestBuilder(
+    indexName: String, deleteByParams: DeleteByParams, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<DeletedAtResponse> {
     var localVariablePath = "/1/indexes/{indexName}/deleteByQuery"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
@@ -853,7 +893,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -863,8 +903,12 @@ typealias Client = SearchClient
      - returns: DeletedAtResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteIndex(indexName: String) async throws -> DeletedAtResponse {
-    return try await deleteIndexWithRequestBuilder(indexName: indexName).execute().body
+  open func deleteIndex(indexName: String, requestOptions: RequestOptions? = nil) async throws
+    -> DeletedAtResponse
+  {
+    return try await deleteIndexWithRequestBuilder(
+      indexName: indexName, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -874,14 +918,16 @@ typealias Client = SearchClient
      - parameter indexName: (path) Index on which to perform the request.
      - returns: RequestBuilder<DeletedAtResponse>
      */
-  open func deleteIndexWithRequestBuilder(indexName: String) -> RequestBuilder<DeletedAtResponse> {
+  open func deleteIndexWithRequestBuilder(indexName: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<DeletedAtResponse>
+  {
     var localVariablePath = "/1/indexes/{indexName}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
       indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -895,7 +941,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -906,9 +952,12 @@ typealias Client = SearchClient
      - returns: DeletedAtResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteObject(indexName: String, objectID: String) async throws -> DeletedAtResponse {
-    return try await deleteObjectWithRequestBuilder(indexName: indexName, objectID: objectID)
-      .execute().body
+  open func deleteObject(indexName: String, objectID: String, requestOptions: RequestOptions? = nil)
+    async throws -> DeletedAtResponse
+  {
+    return try await deleteObjectWithRequestBuilder(
+      indexName: indexName, objectID: objectID, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -919,9 +968,9 @@ typealias Client = SearchClient
      - parameter objectID: (path) Unique record (object) identifier.
      - returns: RequestBuilder<DeletedAtResponse>
      */
-  open func deleteObjectWithRequestBuilder(indexName: String, objectID: String) -> RequestBuilder<
-    DeletedAtResponse
-  > {
+  open func deleteObjectWithRequestBuilder(
+    indexName: String, objectID: String, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<DeletedAtResponse> {
     var localVariablePath = "/1/indexes/{indexName}/{objectID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
@@ -933,7 +982,7 @@ typealias Client = SearchClient
       objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -947,7 +996,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -959,11 +1008,13 @@ typealias Client = SearchClient
      - returns: UpdatedAtResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteRule(indexName: String, objectID: String, forwardToReplicas: Bool? = nil)
-    async throws -> UpdatedAtResponse
-  {
+  open func deleteRule(
+    indexName: String, objectID: String, forwardToReplicas: Bool? = nil,
+    requestOptions: RequestOptions? = nil
+  ) async throws -> UpdatedAtResponse {
     return try await deleteRuleWithRequestBuilder(
-      indexName: indexName, objectID: objectID, forwardToReplicas: forwardToReplicas
+      indexName: indexName, objectID: objectID, forwardToReplicas: forwardToReplicas,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -977,7 +1028,8 @@ typealias Client = SearchClient
      - returns: RequestBuilder<UpdatedAtResponse>
      */
   open func deleteRuleWithRequestBuilder(
-    indexName: String, objectID: String, forwardToReplicas: Bool? = nil
+    indexName: String, objectID: String, forwardToReplicas: Bool? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<UpdatedAtResponse> {
     var localVariablePath = "/1/indexes/{indexName}/rules/{objectID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
@@ -990,7 +1042,7 @@ typealias Client = SearchClient
       objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "forwardToReplicas": (wrappedValue: forwardToReplicas?.encodeToJSON(), isExplode: true)
@@ -1006,7 +1058,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1016,8 +1068,11 @@ typealias Client = SearchClient
      - returns: DeleteSourceResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteSource(source: String) async throws -> DeleteSourceResponse {
-    return try await deleteSourceWithRequestBuilder(source: source).execute().body
+  open func deleteSource(source: String, requestOptions: RequestOptions? = nil) async throws
+    -> DeleteSourceResponse
+  {
+    return try await deleteSourceWithRequestBuilder(source: source, requestOptions: requestOptions)
+      .execute().body
   }
 
   /**
@@ -1027,14 +1082,16 @@ typealias Client = SearchClient
      - parameter source: (path) IP address range of the source.
      - returns: RequestBuilder<DeleteSourceResponse>
      */
-  open func deleteSourceWithRequestBuilder(source: String) -> RequestBuilder<DeleteSourceResponse> {
+  open func deleteSourceWithRequestBuilder(source: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<DeleteSourceResponse>
+  {
     var localVariablePath = "/1/security/sources/{source}"
     let sourcePreEscape = "\(APIHelper.mapValueToPathItem(source))"
     let sourcePostEscape =
       sourcePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{source}", with: sourcePostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -1048,7 +1105,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1060,11 +1117,13 @@ typealias Client = SearchClient
      - returns: DeletedAtResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteSynonym(indexName: String, objectID: String, forwardToReplicas: Bool? = nil)
-    async throws -> DeletedAtResponse
-  {
+  open func deleteSynonym(
+    indexName: String, objectID: String, forwardToReplicas: Bool? = nil,
+    requestOptions: RequestOptions? = nil
+  ) async throws -> DeletedAtResponse {
     return try await deleteSynonymWithRequestBuilder(
-      indexName: indexName, objectID: objectID, forwardToReplicas: forwardToReplicas
+      indexName: indexName, objectID: objectID, forwardToReplicas: forwardToReplicas,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -1078,7 +1137,8 @@ typealias Client = SearchClient
      - returns: RequestBuilder<DeletedAtResponse>
      */
   open func deleteSynonymWithRequestBuilder(
-    indexName: String, objectID: String, forwardToReplicas: Bool? = nil
+    indexName: String, objectID: String, forwardToReplicas: Bool? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<DeletedAtResponse> {
     var localVariablePath = "/1/indexes/{indexName}/synonyms/{objectID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
@@ -1091,7 +1151,7 @@ typealias Client = SearchClient
       objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "forwardToReplicas": (wrappedValue: forwardToReplicas?.encodeToJSON(), isExplode: true)
@@ -1107,7 +1167,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1117,8 +1177,11 @@ typealias Client = SearchClient
      - returns: GetApiKeyResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getApiKey(key: String) async throws -> GetApiKeyResponse {
-    return try await getApiKeyWithRequestBuilder(key: key).execute().body
+  open func getApiKey(key: String, requestOptions: RequestOptions? = nil) async throws
+    -> GetApiKeyResponse
+  {
+    return try await getApiKeyWithRequestBuilder(key: key, requestOptions: requestOptions).execute()
+      .body
   }
 
   /**
@@ -1128,14 +1191,16 @@ typealias Client = SearchClient
      - parameter key: (path) API key.
      - returns: RequestBuilder<GetApiKeyResponse>
      */
-  open func getApiKeyWithRequestBuilder(key: String) -> RequestBuilder<GetApiKeyResponse> {
+  open func getApiKeyWithRequestBuilder(key: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<GetApiKeyResponse>
+  {
     var localVariablePath = "/1/keys/{key}"
     let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
     let keyPostEscape =
       keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{key}", with: keyPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -1149,7 +1214,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1158,8 +1223,11 @@ typealias Client = SearchClient
      - returns: [String: Languages]
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getDictionaryLanguages() async throws -> [String: Languages] {
-    return try await getDictionaryLanguagesWithRequestBuilder().execute().body
+  open func getDictionaryLanguages(requestOptions: RequestOptions? = nil) async throws -> [String:
+    Languages]
+  {
+    return try await getDictionaryLanguagesWithRequestBuilder(requestOptions: requestOptions)
+      .execute().body
   }
 
   /**
@@ -1168,9 +1236,11 @@ typealias Client = SearchClient
      Lists Algolia's [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/) and any customizations applied to each language's [stop word](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-stop-words/), [plural](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-plurals-and-other-declensions/), and [segmentation (compound)](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-segmentation/) features.
      - returns: RequestBuilder<[String: Languages]>
      */
-  open func getDictionaryLanguagesWithRequestBuilder() -> RequestBuilder<[String: Languages]> {
+  open func getDictionaryLanguagesWithRequestBuilder(requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<[String: Languages]>
+  {
     let localVariablePath = "/1/dictionaries/*/languages"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -1184,7 +1254,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1193,8 +1263,11 @@ typealias Client = SearchClient
      - returns: GetDictionarySettingsResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getDictionarySettings() async throws -> GetDictionarySettingsResponse {
-    return try await getDictionarySettingsWithRequestBuilder().execute().body
+  open func getDictionarySettings(requestOptions: RequestOptions? = nil) async throws
+    -> GetDictionarySettingsResponse
+  {
+    return try await getDictionarySettingsWithRequestBuilder(requestOptions: requestOptions)
+      .execute().body
   }
 
   /**
@@ -1203,11 +1276,11 @@ typealias Client = SearchClient
      Get the languages for which [stop words are turned off](#tag/Dictionaries/operation/setDictionarySettings).
      - returns: RequestBuilder<GetDictionarySettingsResponse>
      */
-  open func getDictionarySettingsWithRequestBuilder() -> RequestBuilder<
-    GetDictionarySettingsResponse
-  > {
+  open func getDictionarySettingsWithRequestBuilder(requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<GetDictionarySettingsResponse>
+  {
     let localVariablePath = "/1/dictionaries/*/settings"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -1221,7 +1294,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1235,10 +1308,12 @@ typealias Client = SearchClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getLogs(
-    offset: Int? = nil, length: Int? = nil, indexName: String? = nil, type: LogType? = nil
+    offset: Int? = nil, length: Int? = nil, indexName: String? = nil, type: LogType? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> GetLogsResponse {
     return try await getLogsWithRequestBuilder(
-      offset: offset, length: length, indexName: indexName, type: type
+      offset: offset, length: length, indexName: indexName, type: type,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -1253,10 +1328,11 @@ typealias Client = SearchClient
      - returns: RequestBuilder<GetLogsResponse>
      */
   open func getLogsWithRequestBuilder(
-    offset: Int? = nil, length: Int? = nil, indexName: String? = nil, type: LogType? = nil
+    offset: Int? = nil, length: Int? = nil, indexName: String? = nil, type: LogType? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<GetLogsResponse> {
     let localVariablePath = "/1/logs"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "offset": (wrappedValue: offset?.encodeToJSON(), isExplode: true),
@@ -1275,7 +1351,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1287,11 +1363,13 @@ typealias Client = SearchClient
      - returns: [String: String]
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getObject(indexName: String, objectID: String, attributesToRetrieve: [String]? = nil)
-    async throws -> [String: String]
-  {
+  open func getObject(
+    indexName: String, objectID: String, attributesToRetrieve: [String]? = nil,
+    requestOptions: RequestOptions? = nil
+  ) async throws -> [String: String] {
     return try await getObjectWithRequestBuilder(
-      indexName: indexName, objectID: objectID, attributesToRetrieve: attributesToRetrieve
+      indexName: indexName, objectID: objectID, attributesToRetrieve: attributesToRetrieve,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -1305,7 +1383,8 @@ typealias Client = SearchClient
      - returns: RequestBuilder<[String: String]>
      */
   open func getObjectWithRequestBuilder(
-    indexName: String, objectID: String, attributesToRetrieve: [String]? = nil
+    indexName: String, objectID: String, attributesToRetrieve: [String]? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<[String: String]> {
     var localVariablePath = "/1/indexes/{indexName}/{objectID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
@@ -1318,7 +1397,7 @@ typealias Client = SearchClient
       objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "attributesToRetrieve": (wrappedValue: attributesToRetrieve?.encodeToJSON(), isExplode: true)
@@ -1334,7 +1413,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1344,8 +1423,12 @@ typealias Client = SearchClient
      - returns: GetObjectsResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getObjects(getObjectsParams: GetObjectsParams) async throws -> GetObjectsResponse {
-    return try await getObjectsWithRequestBuilder(getObjectsParams: getObjectsParams).execute().body
+  open func getObjects(getObjectsParams: GetObjectsParams, requestOptions: RequestOptions? = nil)
+    async throws -> GetObjectsResponse
+  {
+    return try await getObjectsWithRequestBuilder(
+      getObjectsParams: getObjectsParams, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -1355,9 +1438,9 @@ typealias Client = SearchClient
      - parameter getObjectsParams: (body) Request object.
      - returns: RequestBuilder<GetObjectsResponse>
      */
-  open func getObjectsWithRequestBuilder(getObjectsParams: GetObjectsParams) -> RequestBuilder<
-    GetObjectsResponse
-  > {
+  open func getObjectsWithRequestBuilder(
+    getObjectsParams: GetObjectsParams, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<GetObjectsResponse> {
     let localVariablePath = "/1/indexes/*/objects"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(
       forEncodableObject: getObjectsParams)
@@ -1374,7 +1457,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1385,9 +1468,12 @@ typealias Client = SearchClient
      - returns: Rule
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getRule(indexName: String, objectID: String) async throws -> Rule {
-    return try await getRuleWithRequestBuilder(indexName: indexName, objectID: objectID).execute()
-      .body
+  open func getRule(indexName: String, objectID: String, requestOptions: RequestOptions? = nil)
+    async throws -> Rule
+  {
+    return try await getRuleWithRequestBuilder(
+      indexName: indexName, objectID: objectID, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -1398,7 +1484,9 @@ typealias Client = SearchClient
      - parameter objectID: (path) Unique identifier of a rule object.
      - returns: RequestBuilder<Rule>
      */
-  open func getRuleWithRequestBuilder(indexName: String, objectID: String) -> RequestBuilder<Rule> {
+  open func getRuleWithRequestBuilder(
+    indexName: String, objectID: String, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<Rule> {
     var localVariablePath = "/1/indexes/{indexName}/rules/{objectID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
@@ -1410,7 +1498,7 @@ typealias Client = SearchClient
       objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -1424,7 +1512,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1434,8 +1522,12 @@ typealias Client = SearchClient
      - returns: IndexSettings
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getSettings(indexName: String) async throws -> IndexSettings {
-    return try await getSettingsWithRequestBuilder(indexName: indexName).execute().body
+  open func getSettings(indexName: String, requestOptions: RequestOptions? = nil) async throws
+    -> IndexSettings
+  {
+    return try await getSettingsWithRequestBuilder(
+      indexName: indexName, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -1445,14 +1537,16 @@ typealias Client = SearchClient
      - parameter indexName: (path) Index on which to perform the request.
      - returns: RequestBuilder<IndexSettings>
      */
-  open func getSettingsWithRequestBuilder(indexName: String) -> RequestBuilder<IndexSettings> {
+  open func getSettingsWithRequestBuilder(indexName: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<IndexSettings>
+  {
     var localVariablePath = "/1/indexes/{indexName}/settings"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
       indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -1466,7 +1560,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1475,8 +1569,8 @@ typealias Client = SearchClient
      - returns: [Source]
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getSources() async throws -> [Source] {
-    return try await getSourcesWithRequestBuilder().execute().body
+  open func getSources(requestOptions: RequestOptions? = nil) async throws -> [Source] {
+    return try await getSourcesWithRequestBuilder(requestOptions: requestOptions).execute().body
   }
 
   /**
@@ -1485,9 +1579,11 @@ typealias Client = SearchClient
      Get all allowed sources (IP addresses).
      - returns: RequestBuilder<[Source]>
      */
-  open func getSourcesWithRequestBuilder() -> RequestBuilder<[Source]> {
+  open func getSourcesWithRequestBuilder(requestOptions: RequestOptions? = nil) -> RequestBuilder<
+    [Source]
+  > {
     let localVariablePath = "/1/security/sources"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -1501,7 +1597,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1512,9 +1608,12 @@ typealias Client = SearchClient
      - returns: SynonymHit
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getSynonym(indexName: String, objectID: String) async throws -> SynonymHit {
-    return try await getSynonymWithRequestBuilder(indexName: indexName, objectID: objectID)
-      .execute().body
+  open func getSynonym(indexName: String, objectID: String, requestOptions: RequestOptions? = nil)
+    async throws -> SynonymHit
+  {
+    return try await getSynonymWithRequestBuilder(
+      indexName: indexName, objectID: objectID, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -1525,9 +1624,9 @@ typealias Client = SearchClient
      - parameter objectID: (path) Unique identifier of a synonym object.
      - returns: RequestBuilder<SynonymHit>
      */
-  open func getSynonymWithRequestBuilder(indexName: String, objectID: String) -> RequestBuilder<
-    SynonymHit
-  > {
+  open func getSynonymWithRequestBuilder(
+    indexName: String, objectID: String, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<SynonymHit> {
     var localVariablePath = "/1/indexes/{indexName}/synonyms/{objectID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
@@ -1539,7 +1638,7 @@ typealias Client = SearchClient
       objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -1553,7 +1652,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1564,8 +1663,12 @@ typealias Client = SearchClient
      - returns: GetTaskResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getTask(indexName: String, taskID: Int64) async throws -> GetTaskResponse {
-    return try await getTaskWithRequestBuilder(indexName: indexName, taskID: taskID).execute().body
+  open func getTask(indexName: String, taskID: Int64, requestOptions: RequestOptions? = nil)
+    async throws -> GetTaskResponse
+  {
+    return try await getTaskWithRequestBuilder(
+      indexName: indexName, taskID: taskID, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -1576,9 +1679,9 @@ typealias Client = SearchClient
      - parameter taskID: (path) Unique task identifier.
      - returns: RequestBuilder<GetTaskResponse>
      */
-  open func getTaskWithRequestBuilder(indexName: String, taskID: Int64) -> RequestBuilder<
-    GetTaskResponse
-  > {
+  open func getTaskWithRequestBuilder(
+    indexName: String, taskID: Int64, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<GetTaskResponse> {
     var localVariablePath = "/1/indexes/{indexName}/task/{taskID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
@@ -1590,7 +1693,7 @@ typealias Client = SearchClient
       taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -1604,7 +1707,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1613,8 +1716,10 @@ typealias Client = SearchClient
      - returns: GetTopUserIdsResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getTopUserIds() async throws -> GetTopUserIdsResponse {
-    return try await getTopUserIdsWithRequestBuilder().execute().body
+  open func getTopUserIds(requestOptions: RequestOptions? = nil) async throws
+    -> GetTopUserIdsResponse
+  {
+    return try await getTopUserIdsWithRequestBuilder(requestOptions: requestOptions).execute().body
   }
 
   /**
@@ -1623,9 +1728,11 @@ typealias Client = SearchClient
      Get the IDs of the 10 users with the highest number of records per cluster. Since it can take up to a few seconds to get the data from the different clusters, the response isn't real-time.
      - returns: RequestBuilder<GetTopUserIdsResponse>
      */
-  open func getTopUserIdsWithRequestBuilder() -> RequestBuilder<GetTopUserIdsResponse> {
+  open func getTopUserIdsWithRequestBuilder(requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<GetTopUserIdsResponse>
+  {
     let localVariablePath = "/1/clusters/mapping/top"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -1639,7 +1746,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1649,8 +1756,10 @@ typealias Client = SearchClient
      - returns: UserId
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getUserId(userID: String) async throws -> UserId {
-    return try await getUserIdWithRequestBuilder(userID: userID).execute().body
+  open func getUserId(userID: String, requestOptions: RequestOptions? = nil) async throws -> UserId
+  {
+    return try await getUserIdWithRequestBuilder(userID: userID, requestOptions: requestOptions)
+      .execute().body
   }
 
   /**
@@ -1660,14 +1769,16 @@ typealias Client = SearchClient
      - parameter userID: (path) userID to assign.
      - returns: RequestBuilder<UserId>
      */
-  open func getUserIdWithRequestBuilder(userID: String) -> RequestBuilder<UserId> {
+  open func getUserIdWithRequestBuilder(userID: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<UserId>
+  {
     var localVariablePath = "/1/clusters/mapping/{userID}"
     let userIDPreEscape = "\(APIHelper.mapValueToPathItem(userID))"
     let userIDPostEscape =
       userIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{userID}", with: userIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -1681,7 +1792,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1691,9 +1802,12 @@ typealias Client = SearchClient
      - returns: HasPendingMappingsResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func hasPendingMappings(getClusters: Bool? = nil) async throws -> HasPendingMappingsResponse
+  open func hasPendingMappings(getClusters: Bool? = nil, requestOptions: RequestOptions? = nil)
+    async throws -> HasPendingMappingsResponse
   {
-    return try await hasPendingMappingsWithRequestBuilder(getClusters: getClusters).execute().body
+    return try await hasPendingMappingsWithRequestBuilder(
+      getClusters: getClusters, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -1703,11 +1817,11 @@ typealias Client = SearchClient
      - parameter getClusters: (query) Indicates whether to include the cluster&#39;s pending mapping state in the response. (optional)
      - returns: RequestBuilder<HasPendingMappingsResponse>
      */
-  open func hasPendingMappingsWithRequestBuilder(getClusters: Bool? = nil) -> RequestBuilder<
-    HasPendingMappingsResponse
-  > {
+  open func hasPendingMappingsWithRequestBuilder(
+    getClusters: Bool? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<HasPendingMappingsResponse> {
     let localVariablePath = "/1/clusters/mapping/pending"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "getClusters": (wrappedValue: getClusters?.encodeToJSON(), isExplode: true)
@@ -1723,7 +1837,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1732,8 +1846,8 @@ typealias Client = SearchClient
      - returns: ListApiKeysResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func listApiKeys() async throws -> ListApiKeysResponse {
-    return try await listApiKeysWithRequestBuilder().execute().body
+  open func listApiKeys(requestOptions: RequestOptions? = nil) async throws -> ListApiKeysResponse {
+    return try await listApiKeysWithRequestBuilder(requestOptions: requestOptions).execute().body
   }
 
   /**
@@ -1742,9 +1856,11 @@ typealias Client = SearchClient
      List all API keys associated with your Algolia application, including their permissions and restrictions.
      - returns: RequestBuilder<ListApiKeysResponse>
      */
-  open func listApiKeysWithRequestBuilder() -> RequestBuilder<ListApiKeysResponse> {
+  open func listApiKeysWithRequestBuilder(requestOptions: RequestOptions? = nil) -> RequestBuilder<
+    ListApiKeysResponse
+  > {
     let localVariablePath = "/1/keys"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -1758,7 +1874,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1767,8 +1883,9 @@ typealias Client = SearchClient
      - returns: ListClustersResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func listClusters() async throws -> ListClustersResponse {
-    return try await listClustersWithRequestBuilder().execute().body
+  open func listClusters(requestOptions: RequestOptions? = nil) async throws -> ListClustersResponse
+  {
+    return try await listClustersWithRequestBuilder(requestOptions: requestOptions).execute().body
   }
 
   /**
@@ -1777,9 +1894,11 @@ typealias Client = SearchClient
      List the available clusters in a multi-cluster setup.
      - returns: RequestBuilder<ListClustersResponse>
      */
-  open func listClustersWithRequestBuilder() -> RequestBuilder<ListClustersResponse> {
+  open func listClustersWithRequestBuilder(requestOptions: RequestOptions? = nil) -> RequestBuilder<
+    ListClustersResponse
+  > {
     let localVariablePath = "/1/clusters"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -1793,7 +1912,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1804,11 +1923,12 @@ typealias Client = SearchClient
      - returns: ListIndicesResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func listIndices(page: Int? = nil, hitsPerPage: Int? = nil) async throws
-    -> ListIndicesResponse
-  {
-    return try await listIndicesWithRequestBuilder(page: page, hitsPerPage: hitsPerPage).execute()
-      .body
+  open func listIndices(
+    page: Int? = nil, hitsPerPage: Int? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> ListIndicesResponse {
+    return try await listIndicesWithRequestBuilder(
+      page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -1819,11 +1939,11 @@ typealias Client = SearchClient
      - parameter hitsPerPage: (query) Maximum number of hits per page. (optional, default to 100)
      - returns: RequestBuilder<ListIndicesResponse>
      */
-  open func listIndicesWithRequestBuilder(page: Int? = nil, hitsPerPage: Int? = nil)
-    -> RequestBuilder<ListIndicesResponse>
-  {
+  open func listIndicesWithRequestBuilder(
+    page: Int? = nil, hitsPerPage: Int? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<ListIndicesResponse> {
     let localVariablePath = "/1/indexes"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
@@ -1840,7 +1960,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1851,11 +1971,12 @@ typealias Client = SearchClient
      - returns: ListUserIdsResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func listUserIds(page: Int? = nil, hitsPerPage: Int? = nil) async throws
-    -> ListUserIdsResponse
-  {
-    return try await listUserIdsWithRequestBuilder(page: page, hitsPerPage: hitsPerPage).execute()
-      .body
+  open func listUserIds(
+    page: Int? = nil, hitsPerPage: Int? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> ListUserIdsResponse {
+    return try await listUserIdsWithRequestBuilder(
+      page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -1866,11 +1987,11 @@ typealias Client = SearchClient
      - parameter hitsPerPage: (query) Maximum number of hits per page. (optional, default to 100)
      - returns: RequestBuilder<ListUserIdsResponse>
      */
-  open func listUserIdsWithRequestBuilder(page: Int? = nil, hitsPerPage: Int? = nil)
-    -> RequestBuilder<ListUserIdsResponse>
-  {
+  open func listUserIdsWithRequestBuilder(
+    page: Int? = nil, hitsPerPage: Int? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<ListUserIdsResponse> {
     let localVariablePath = "/1/clusters/mapping"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
@@ -1887,7 +2008,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1897,8 +2018,12 @@ typealias Client = SearchClient
      - returns: MultipleBatchResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func multipleBatch(batchParams: BatchParams) async throws -> MultipleBatchResponse {
-    return try await multipleBatchWithRequestBuilder(batchParams: batchParams).execute().body
+  open func multipleBatch(batchParams: BatchParams, requestOptions: RequestOptions? = nil)
+    async throws -> MultipleBatchResponse
+  {
+    return try await multipleBatchWithRequestBuilder(
+      batchParams: batchParams, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -1908,9 +2033,9 @@ typealias Client = SearchClient
      - parameter batchParams: (body)
      - returns: RequestBuilder<MultipleBatchResponse>
      */
-  open func multipleBatchWithRequestBuilder(batchParams: BatchParams) -> RequestBuilder<
-    MultipleBatchResponse
-  > {
+  open func multipleBatchWithRequestBuilder(
+    batchParams: BatchParams, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<MultipleBatchResponse> {
     let localVariablePath = "/1/indexes/*/batch"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(
       forEncodableObject: batchParams)
@@ -1927,7 +2052,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1938,11 +2063,13 @@ typealias Client = SearchClient
      - returns: UpdatedAtResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func operationIndex(indexName: String, operationIndexParams: OperationIndexParams)
-    async throws -> UpdatedAtResponse
-  {
+  open func operationIndex(
+    indexName: String, operationIndexParams: OperationIndexParams,
+    requestOptions: RequestOptions? = nil
+  ) async throws -> UpdatedAtResponse {
     return try await operationIndexWithRequestBuilder(
-      indexName: indexName, operationIndexParams: operationIndexParams
+      indexName: indexName, operationIndexParams: operationIndexParams,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -1955,7 +2082,8 @@ typealias Client = SearchClient
      - returns: RequestBuilder<UpdatedAtResponse>
      */
   open func operationIndexWithRequestBuilder(
-    indexName: String, operationIndexParams: OperationIndexParams
+    indexName: String, operationIndexParams: OperationIndexParams,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<UpdatedAtResponse> {
     var localVariablePath = "/1/indexes/{indexName}/operation"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
@@ -1978,7 +2106,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1993,11 +2121,11 @@ typealias Client = SearchClient
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func partialUpdateObject(
     indexName: String, objectID: String, attributesToUpdate: [String: AttributeToUpdate],
-    createIfNotExists: Bool? = nil
+    createIfNotExists: Bool? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> UpdatedAtWithObjectIdResponse {
     return try await partialUpdateObjectWithRequestBuilder(
       indexName: indexName, objectID: objectID, attributesToUpdate: attributesToUpdate,
-      createIfNotExists: createIfNotExists
+      createIfNotExists: createIfNotExists, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -2013,7 +2141,7 @@ typealias Client = SearchClient
      */
   open func partialUpdateObjectWithRequestBuilder(
     indexName: String, objectID: String, attributesToUpdate: [String: AttributeToUpdate],
-    createIfNotExists: Bool? = nil
+    createIfNotExists: Bool? = nil, requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<UpdatedAtWithObjectIdResponse> {
     var localVariablePath = "/1/indexes/{indexName}/{objectID}/partial"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
@@ -2043,7 +2171,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -2053,8 +2181,11 @@ typealias Client = SearchClient
      - returns: RemoveUserIdResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func removeUserId(userID: String) async throws -> RemoveUserIdResponse {
-    return try await removeUserIdWithRequestBuilder(userID: userID).execute().body
+  open func removeUserId(userID: String, requestOptions: RequestOptions? = nil) async throws
+    -> RemoveUserIdResponse
+  {
+    return try await removeUserIdWithRequestBuilder(userID: userID, requestOptions: requestOptions)
+      .execute().body
   }
 
   /**
@@ -2064,14 +2195,16 @@ typealias Client = SearchClient
      - parameter userID: (path) userID to assign.
      - returns: RequestBuilder<RemoveUserIdResponse>
      */
-  open func removeUserIdWithRequestBuilder(userID: String) -> RequestBuilder<RemoveUserIdResponse> {
+  open func removeUserIdWithRequestBuilder(userID: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<RemoveUserIdResponse>
+  {
     var localVariablePath = "/1/clusters/mapping/{userID}"
     let userIDPreEscape = "\(APIHelper.mapValueToPathItem(userID))"
     let userIDPostEscape =
       userIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{userID}", with: userIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -2085,7 +2218,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -2095,8 +2228,12 @@ typealias Client = SearchClient
      - returns: ReplaceSourceResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func replaceSources(source: [Source]) async throws -> ReplaceSourceResponse {
-    return try await replaceSourcesWithRequestBuilder(source: source).execute().body
+  open func replaceSources(source: [Source], requestOptions: RequestOptions? = nil) async throws
+    -> ReplaceSourceResponse
+  {
+    return try await replaceSourcesWithRequestBuilder(
+      source: source, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -2106,9 +2243,9 @@ typealias Client = SearchClient
      - parameter source: (body) Allowed sources.
      - returns: RequestBuilder<ReplaceSourceResponse>
      */
-  open func replaceSourcesWithRequestBuilder(source: [Source]) -> RequestBuilder<
-    ReplaceSourceResponse
-  > {
+  open func replaceSourcesWithRequestBuilder(
+    source: [Source], requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<ReplaceSourceResponse> {
     let localVariablePath = "/1/security/sources"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: source)
 
@@ -2124,7 +2261,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -2134,8 +2271,11 @@ typealias Client = SearchClient
      - returns: AddApiKeyResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func restoreApiKey(key: String) async throws -> AddApiKeyResponse {
-    return try await restoreApiKeyWithRequestBuilder(key: key).execute().body
+  open func restoreApiKey(key: String, requestOptions: RequestOptions? = nil) async throws
+    -> AddApiKeyResponse
+  {
+    return try await restoreApiKeyWithRequestBuilder(key: key, requestOptions: requestOptions)
+      .execute().body
   }
 
   /**
@@ -2145,14 +2285,16 @@ typealias Client = SearchClient
      - parameter key: (path) API key.
      - returns: RequestBuilder<AddApiKeyResponse>
      */
-  open func restoreApiKeyWithRequestBuilder(key: String) -> RequestBuilder<AddApiKeyResponse> {
+  open func restoreApiKeyWithRequestBuilder(key: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<AddApiKeyResponse>
+  {
     var localVariablePath = "/1/keys/{key}/restore"
     let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
     let keyPostEscape =
       keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{key}", with: keyPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -2166,7 +2308,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -2177,8 +2319,12 @@ typealias Client = SearchClient
      - returns: SaveObjectResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func saveObject(indexName: String, body: Encodable) async throws -> SaveObjectResponse {
-    return try await saveObjectWithRequestBuilder(indexName: indexName, body: body).execute().body
+  open func saveObject(indexName: String, body: Encodable, requestOptions: RequestOptions? = nil)
+    async throws -> SaveObjectResponse
+  {
+    return try await saveObjectWithRequestBuilder(
+      indexName: indexName, body: body, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -2189,9 +2335,9 @@ typealias Client = SearchClient
      - parameter body: (body) The Algolia record.
      - returns: RequestBuilder<SaveObjectResponse>
      */
-  open func saveObjectWithRequestBuilder(indexName: String, body: Encodable) -> RequestBuilder<
-    SaveObjectResponse
-  > {
+  open func saveObjectWithRequestBuilder(
+    indexName: String, body: Encodable, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<SaveObjectResponse> {
     var localVariablePath = "/1/indexes/{indexName}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
@@ -2212,7 +2358,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -2226,10 +2372,12 @@ typealias Client = SearchClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func saveRule(
-    indexName: String, objectID: String, rule: Rule, forwardToReplicas: Bool? = nil
+    indexName: String, objectID: String, rule: Rule, forwardToReplicas: Bool? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> UpdatedRuleResponse {
     return try await saveRuleWithRequestBuilder(
-      indexName: indexName, objectID: objectID, rule: rule, forwardToReplicas: forwardToReplicas
+      indexName: indexName, objectID: objectID, rule: rule, forwardToReplicas: forwardToReplicas,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -2244,7 +2392,8 @@ typealias Client = SearchClient
      - returns: RequestBuilder<UpdatedRuleResponse>
      */
   open func saveRuleWithRequestBuilder(
-    indexName: String, objectID: String, rule: Rule, forwardToReplicas: Bool? = nil
+    indexName: String, objectID: String, rule: Rule, forwardToReplicas: Bool? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<UpdatedRuleResponse> {
     var localVariablePath = "/1/indexes/{indexName}/rules/{objectID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
@@ -2273,7 +2422,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -2288,11 +2437,11 @@ typealias Client = SearchClient
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func saveRules(
     indexName: String, rules: [Rule], forwardToReplicas: Bool? = nil,
-    clearExistingRules: Bool? = nil
+    clearExistingRules: Bool? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> UpdatedAtResponse {
     return try await saveRulesWithRequestBuilder(
       indexName: indexName, rules: rules, forwardToReplicas: forwardToReplicas,
-      clearExistingRules: clearExistingRules
+      clearExistingRules: clearExistingRules, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -2308,7 +2457,7 @@ typealias Client = SearchClient
      */
   open func saveRulesWithRequestBuilder(
     indexName: String, rules: [Rule], forwardToReplicas: Bool? = nil,
-    clearExistingRules: Bool? = nil
+    clearExistingRules: Bool? = nil, requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<UpdatedAtResponse> {
     var localVariablePath = "/1/indexes/{indexName}/rules/batch"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
@@ -2333,7 +2482,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -2347,11 +2496,12 @@ typealias Client = SearchClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func saveSynonym(
-    indexName: String, objectID: String, synonymHit: SynonymHit, forwardToReplicas: Bool? = nil
+    indexName: String, objectID: String, synonymHit: SynonymHit, forwardToReplicas: Bool? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> SaveSynonymResponse {
     return try await saveSynonymWithRequestBuilder(
       indexName: indexName, objectID: objectID, synonymHit: synonymHit,
-      forwardToReplicas: forwardToReplicas
+      forwardToReplicas: forwardToReplicas, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -2366,7 +2516,8 @@ typealias Client = SearchClient
      - returns: RequestBuilder<SaveSynonymResponse>
      */
   open func saveSynonymWithRequestBuilder(
-    indexName: String, objectID: String, synonymHit: SynonymHit, forwardToReplicas: Bool? = nil
+    indexName: String, objectID: String, synonymHit: SynonymHit, forwardToReplicas: Bool? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<SaveSynonymResponse> {
     var localVariablePath = "/1/indexes/{indexName}/synonyms/{objectID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
@@ -2396,7 +2547,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -2411,11 +2562,11 @@ typealias Client = SearchClient
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func saveSynonyms(
     indexName: String, synonymHit: [SynonymHit], forwardToReplicas: Bool? = nil,
-    replaceExistingSynonyms: Bool? = nil
+    replaceExistingSynonyms: Bool? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> UpdatedAtResponse {
     return try await saveSynonymsWithRequestBuilder(
       indexName: indexName, synonymHit: synonymHit, forwardToReplicas: forwardToReplicas,
-      replaceExistingSynonyms: replaceExistingSynonyms
+      replaceExistingSynonyms: replaceExistingSynonyms, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -2431,7 +2582,7 @@ typealias Client = SearchClient
      */
   open func saveSynonymsWithRequestBuilder(
     indexName: String, synonymHit: [SynonymHit], forwardToReplicas: Bool? = nil,
-    replaceExistingSynonyms: Bool? = nil
+    replaceExistingSynonyms: Bool? = nil, requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<UpdatedAtResponse> {
     var localVariablePath = "/1/indexes/{indexName}/synonyms/batch"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
@@ -2459,7 +2610,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -2469,8 +2620,12 @@ typealias Client = SearchClient
      - returns: SearchResponses
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func search(searchMethodParams: SearchMethodParams) async throws -> SearchResponses {
-    return try await searchWithRequestBuilder(searchMethodParams: searchMethodParams).execute().body
+  open func search(searchMethodParams: SearchMethodParams, requestOptions: RequestOptions? = nil)
+    async throws -> SearchResponses
+  {
+    return try await searchWithRequestBuilder(
+      searchMethodParams: searchMethodParams, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -2480,9 +2635,9 @@ typealias Client = SearchClient
      - parameter searchMethodParams: (body) Query requests and strategies. Results will be received in the same order as the queries.
      - returns: RequestBuilder<SearchResponses>
      */
-  open func searchWithRequestBuilder(searchMethodParams: SearchMethodParams) -> RequestBuilder<
-    SearchResponses
-  > {
+  open func searchWithRequestBuilder(
+    searchMethodParams: SearchMethodParams, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<SearchResponses> {
     let localVariablePath = "/1/indexes/*/queries"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(
       forEncodableObject: searchMethodParams)
@@ -2499,7 +2654,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -2511,10 +2666,12 @@ typealias Client = SearchClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func searchDictionaryEntries(
-    dictionaryName: DictionaryType, searchDictionaryEntriesParams: SearchDictionaryEntriesParams
+    dictionaryName: DictionaryType, searchDictionaryEntriesParams: SearchDictionaryEntriesParams,
+    requestOptions: RequestOptions? = nil
   ) async throws -> UpdatedAtResponse {
     return try await searchDictionaryEntriesWithRequestBuilder(
-      dictionaryName: dictionaryName, searchDictionaryEntriesParams: searchDictionaryEntriesParams
+      dictionaryName: dictionaryName, searchDictionaryEntriesParams: searchDictionaryEntriesParams,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -2527,7 +2684,8 @@ typealias Client = SearchClient
      - returns: RequestBuilder<UpdatedAtResponse>
      */
   open func searchDictionaryEntriesWithRequestBuilder(
-    dictionaryName: DictionaryType, searchDictionaryEntriesParams: SearchDictionaryEntriesParams
+    dictionaryName: DictionaryType, searchDictionaryEntriesParams: SearchDictionaryEntriesParams,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<UpdatedAtResponse> {
     var localVariablePath = "/1/dictionaries/{dictionaryName}/search"
     let dictionaryNamePreEscape = "\(APIHelper.mapValueToPathItem(dictionaryName))"
@@ -2550,7 +2708,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -2564,11 +2722,12 @@ typealias Client = SearchClient
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func searchForFacetValues(
     indexName: String, facetName: String,
-    searchForFacetValuesRequest: SearchForFacetValuesRequest? = nil
+    searchForFacetValuesRequest: SearchForFacetValuesRequest? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> SearchForFacetValuesResponse {
     return try await searchForFacetValuesWithRequestBuilder(
       indexName: indexName, facetName: facetName,
-      searchForFacetValuesRequest: searchForFacetValuesRequest
+      searchForFacetValuesRequest: searchForFacetValuesRequest, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -2583,7 +2742,8 @@ typealias Client = SearchClient
      */
   open func searchForFacetValuesWithRequestBuilder(
     indexName: String, facetName: String,
-    searchForFacetValuesRequest: SearchForFacetValuesRequest? = nil
+    searchForFacetValuesRequest: SearchForFacetValuesRequest? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<SearchForFacetValuesResponse> {
     var localVariablePath = "/1/indexes/{indexName}/facets/{facetName}/query"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
@@ -2611,7 +2771,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -2622,11 +2782,12 @@ typealias Client = SearchClient
      - returns: SearchRulesResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func searchRules(indexName: String, searchRulesParams: SearchRulesParams? = nil) async throws
-    -> SearchRulesResponse
-  {
+  open func searchRules(
+    indexName: String, searchRulesParams: SearchRulesParams? = nil,
+    requestOptions: RequestOptions? = nil
+  ) async throws -> SearchRulesResponse {
     return try await searchRulesWithRequestBuilder(
-      indexName: indexName, searchRulesParams: searchRulesParams
+      indexName: indexName, searchRulesParams: searchRulesParams, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -2639,7 +2800,8 @@ typealias Client = SearchClient
      - returns: RequestBuilder<SearchRulesResponse>
      */
   open func searchRulesWithRequestBuilder(
-    indexName: String, searchRulesParams: SearchRulesParams? = nil
+    indexName: String, searchRulesParams: SearchRulesParams? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<SearchRulesResponse> {
     var localVariablePath = "/1/indexes/{indexName}/rules/search"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
@@ -2662,7 +2824,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -2673,11 +2835,11 @@ typealias Client = SearchClient
      - returns: SearchResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func searchSingleIndex(indexName: String, searchParams: SearchParams? = nil) async throws
-    -> SearchResponse
-  {
+  open func searchSingleIndex(
+    indexName: String, searchParams: SearchParams? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> SearchResponse {
     return try await searchSingleIndexWithRequestBuilder(
-      indexName: indexName, searchParams: searchParams
+      indexName: indexName, searchParams: searchParams, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -2690,7 +2852,7 @@ typealias Client = SearchClient
      - returns: RequestBuilder<SearchResponse>
      */
   open func searchSingleIndexWithRequestBuilder(
-    indexName: String, searchParams: SearchParams? = nil
+    indexName: String, searchParams: SearchParams? = nil, requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<SearchResponse> {
     var localVariablePath = "/1/indexes/{indexName}/query"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
@@ -2713,7 +2875,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -2729,11 +2891,11 @@ typealias Client = SearchClient
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func searchSynonyms(
     indexName: String, type: SynonymType? = nil, page: Int? = nil, hitsPerPage: Int? = nil,
-    searchSynonymsParams: SearchSynonymsParams? = nil
+    searchSynonymsParams: SearchSynonymsParams? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> SearchSynonymsResponse {
     return try await searchSynonymsWithRequestBuilder(
       indexName: indexName, type: type, page: page, hitsPerPage: hitsPerPage,
-      searchSynonymsParams: searchSynonymsParams
+      searchSynonymsParams: searchSynonymsParams, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -2750,7 +2912,7 @@ typealias Client = SearchClient
      */
   open func searchSynonymsWithRequestBuilder(
     indexName: String, type: SynonymType? = nil, page: Int? = nil, hitsPerPage: Int? = nil,
-    searchSynonymsParams: SearchSynonymsParams? = nil
+    searchSynonymsParams: SearchSynonymsParams? = nil, requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<SearchSynonymsResponse> {
     var localVariablePath = "/1/indexes/{indexName}/synonyms/search"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
@@ -2777,7 +2939,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -2787,11 +2949,12 @@ typealias Client = SearchClient
      - returns: SearchUserIdsResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func searchUserIds(searchUserIdsParams: SearchUserIdsParams) async throws
-    -> SearchUserIdsResponse
-  {
-    return try await searchUserIdsWithRequestBuilder(searchUserIdsParams: searchUserIdsParams)
-      .execute().body
+  open func searchUserIds(
+    searchUserIdsParams: SearchUserIdsParams, requestOptions: RequestOptions? = nil
+  ) async throws -> SearchUserIdsResponse {
+    return try await searchUserIdsWithRequestBuilder(
+      searchUserIdsParams: searchUserIdsParams, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -2801,9 +2964,9 @@ typealias Client = SearchClient
      - parameter searchUserIdsParams: (body)
      - returns: RequestBuilder<SearchUserIdsResponse>
      */
-  open func searchUserIdsWithRequestBuilder(searchUserIdsParams: SearchUserIdsParams)
-    -> RequestBuilder<SearchUserIdsResponse>
-  {
+  open func searchUserIdsWithRequestBuilder(
+    searchUserIdsParams: SearchUserIdsParams, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<SearchUserIdsResponse> {
     let localVariablePath = "/1/clusters/mapping/search"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(
       forEncodableObject: searchUserIdsParams)
@@ -2820,7 +2983,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -2830,11 +2993,11 @@ typealias Client = SearchClient
      - returns: UpdatedAtResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func setDictionarySettings(dictionarySettingsParams: DictionarySettingsParams) async throws
-    -> UpdatedAtResponse
-  {
+  open func setDictionarySettings(
+    dictionarySettingsParams: DictionarySettingsParams, requestOptions: RequestOptions? = nil
+  ) async throws -> UpdatedAtResponse {
     return try await setDictionarySettingsWithRequestBuilder(
-      dictionarySettingsParams: dictionarySettingsParams
+      dictionarySettingsParams: dictionarySettingsParams, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -2846,7 +3009,7 @@ typealias Client = SearchClient
      - returns: RequestBuilder<UpdatedAtResponse>
      */
   open func setDictionarySettingsWithRequestBuilder(
-    dictionarySettingsParams: DictionarySettingsParams
+    dictionarySettingsParams: DictionarySettingsParams, requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<UpdatedAtResponse> {
     let localVariablePath = "/1/dictionaries/*/settings"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(
@@ -2864,7 +3027,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -2877,10 +3040,12 @@ typealias Client = SearchClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func setSettings(
-    indexName: String, indexSettings: IndexSettings, forwardToReplicas: Bool? = nil
+    indexName: String, indexSettings: IndexSettings, forwardToReplicas: Bool? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> UpdatedAtResponse {
     return try await setSettingsWithRequestBuilder(
-      indexName: indexName, indexSettings: indexSettings, forwardToReplicas: forwardToReplicas
+      indexName: indexName, indexSettings: indexSettings, forwardToReplicas: forwardToReplicas,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -2894,7 +3059,8 @@ typealias Client = SearchClient
      - returns: RequestBuilder<UpdatedAtResponse>
      */
   open func setSettingsWithRequestBuilder(
-    indexName: String, indexSettings: IndexSettings, forwardToReplicas: Bool? = nil
+    indexName: String, indexSettings: IndexSettings, forwardToReplicas: Bool? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<UpdatedAtResponse> {
     var localVariablePath = "/1/indexes/{indexName}/settings"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
@@ -2919,7 +3085,7 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -2930,8 +3096,12 @@ typealias Client = SearchClient
      - returns: UpdateApiKeyResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func updateApiKey(key: String, apiKey: ApiKey) async throws -> UpdateApiKeyResponse {
-    return try await updateApiKeyWithRequestBuilder(key: key, apiKey: apiKey).execute().body
+  open func updateApiKey(key: String, apiKey: ApiKey, requestOptions: RequestOptions? = nil)
+    async throws -> UpdateApiKeyResponse
+  {
+    return try await updateApiKeyWithRequestBuilder(
+      key: key, apiKey: apiKey, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -2942,9 +3112,9 @@ typealias Client = SearchClient
      - parameter apiKey: (body)
      - returns: RequestBuilder<UpdateApiKeyResponse>
      */
-  open func updateApiKeyWithRequestBuilder(key: String, apiKey: ApiKey) -> RequestBuilder<
-    UpdateApiKeyResponse
-  > {
+  open func updateApiKeyWithRequestBuilder(
+    key: String, apiKey: ApiKey, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<UpdateApiKeyResponse> {
     var localVariablePath = "/1/keys/{key}"
     let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
     let keyPostEscape =
@@ -2965,6 +3135,6 @@ typealias Client = SearchClient
     return localVariableRequestBuilder.init(
       method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 }

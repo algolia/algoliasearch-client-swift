@@ -40,10 +40,12 @@ typealias Client = QuerySuggestionsClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func createConfig(
-    querySuggestionsConfigurationWithIndex: QuerySuggestionsConfigurationWithIndex
+    querySuggestionsConfigurationWithIndex: QuerySuggestionsConfigurationWithIndex,
+    requestOptions: RequestOptions? = nil
   ) async throws -> BaseResponse {
     return try await createConfigWithRequestBuilder(
-      querySuggestionsConfigurationWithIndex: querySuggestionsConfigurationWithIndex
+      querySuggestionsConfigurationWithIndex: querySuggestionsConfigurationWithIndex,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -55,7 +57,8 @@ typealias Client = QuerySuggestionsClient
      - returns: RequestBuilder<BaseResponse>
      */
   open func createConfigWithRequestBuilder(
-    querySuggestionsConfigurationWithIndex: QuerySuggestionsConfigurationWithIndex
+    querySuggestionsConfigurationWithIndex: QuerySuggestionsConfigurationWithIndex,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<BaseResponse> {
     let localVariablePath = "/1/configs"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(
@@ -73,7 +76,7 @@ typealias Client = QuerySuggestionsClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -84,11 +87,12 @@ typealias Client = QuerySuggestionsClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customDelete(path: String, parameters: [String: AnyCodable]? = nil) async throws
-    -> AnyCodable
-  {
-    return try await customDeleteWithRequestBuilder(path: path, parameters: parameters).execute()
-      .body
+  open func customDelete(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customDeleteWithRequestBuilder(
+      path: path, parameters: parameters, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -99,16 +103,16 @@ typealias Client = QuerySuggestionsClient
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customDeleteWithRequestBuilder(path: String, parameters: [String: AnyCodable]? = nil)
-    -> RequestBuilder<AnyCodable>
-  {
+  open func customDeleteWithRequestBuilder(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
@@ -124,7 +128,7 @@ typealias Client = QuerySuggestionsClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -135,10 +139,12 @@ typealias Client = QuerySuggestionsClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customGet(path: String, parameters: [String: AnyCodable]? = nil) async throws
-    -> AnyCodable
-  {
-    return try await customGetWithRequestBuilder(path: path, parameters: parameters).execute().body
+  open func customGet(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customGetWithRequestBuilder(
+      path: path, parameters: parameters, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -149,16 +155,16 @@ typealias Client = QuerySuggestionsClient
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customGetWithRequestBuilder(path: String, parameters: [String: AnyCodable]? = nil)
-    -> RequestBuilder<AnyCodable>
-  {
+  open func customGetWithRequestBuilder(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
@@ -174,7 +180,7 @@ typealias Client = QuerySuggestionsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -187,10 +193,12 @@ typealias Client = QuerySuggestionsClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPost(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPostWithRequestBuilder(path: path, parameters: parameters, body: body)
-      .execute().body
+    return try await customPostWithRequestBuilder(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -203,7 +211,8 @@ typealias Client = QuerySuggestionsClient
      - returns: RequestBuilder<AnyCodable>
      */
   open func customPostWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
@@ -227,7 +236,7 @@ typealias Client = QuerySuggestionsClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -239,11 +248,13 @@ typealias Client = QuerySuggestionsClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customPut(path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil)
-    async throws -> AnyCodable
-  {
-    return try await customPutWithRequestBuilder(path: path, parameters: parameters, body: body)
-      .execute().body
+  open func customPut(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customPutWithRequestBuilder(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -256,7 +267,8 @@ typealias Client = QuerySuggestionsClient
      - returns: RequestBuilder<AnyCodable>
      */
   open func customPutWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
@@ -280,7 +292,7 @@ typealias Client = QuerySuggestionsClient
     return localVariableRequestBuilder.init(
       method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -290,8 +302,12 @@ typealias Client = QuerySuggestionsClient
      - returns: BaseResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteConfig(indexName: String) async throws -> BaseResponse {
-    return try await deleteConfigWithRequestBuilder(indexName: indexName).execute().body
+  open func deleteConfig(indexName: String, requestOptions: RequestOptions? = nil) async throws
+    -> BaseResponse
+  {
+    return try await deleteConfigWithRequestBuilder(
+      indexName: indexName, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -301,14 +317,16 @@ typealias Client = QuerySuggestionsClient
      - parameter indexName: (path) Query Suggestions index name.
      - returns: RequestBuilder<BaseResponse>
      */
-  open func deleteConfigWithRequestBuilder(indexName: String) -> RequestBuilder<BaseResponse> {
+  open func deleteConfigWithRequestBuilder(indexName: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<BaseResponse>
+  {
     var localVariablePath = "/1/configs/{indexName}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
       indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -322,7 +340,7 @@ typealias Client = QuerySuggestionsClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -331,8 +349,10 @@ typealias Client = QuerySuggestionsClient
      - returns: [QuerySuggestionsConfigurationResponse]
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getAllConfigs() async throws -> [QuerySuggestionsConfigurationResponse] {
-    return try await getAllConfigsWithRequestBuilder().execute().body
+  open func getAllConfigs(requestOptions: RequestOptions? = nil) async throws
+    -> [QuerySuggestionsConfigurationResponse]
+  {
+    return try await getAllConfigsWithRequestBuilder(requestOptions: requestOptions).execute().body
   }
 
   /**
@@ -341,11 +361,11 @@ typealias Client = QuerySuggestionsClient
      List all Query Suggestions configurations of your Algolia application.
      - returns: RequestBuilder<[QuerySuggestionsConfigurationResponse]>
      */
-  open func getAllConfigsWithRequestBuilder() -> RequestBuilder<
-    [QuerySuggestionsConfigurationResponse]
-  > {
+  open func getAllConfigsWithRequestBuilder(requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<[QuerySuggestionsConfigurationResponse]>
+  {
     let localVariablePath = "/1/configs"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -359,7 +379,7 @@ typealias Client = QuerySuggestionsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -369,8 +389,12 @@ typealias Client = QuerySuggestionsClient
      - returns: QuerySuggestionsConfigurationResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getConfig(indexName: String) async throws -> QuerySuggestionsConfigurationResponse {
-    return try await getConfigWithRequestBuilder(indexName: indexName).execute().body
+  open func getConfig(indexName: String, requestOptions: RequestOptions? = nil) async throws
+    -> QuerySuggestionsConfigurationResponse
+  {
+    return try await getConfigWithRequestBuilder(
+      indexName: indexName, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -380,16 +404,16 @@ typealias Client = QuerySuggestionsClient
      - parameter indexName: (path) Query Suggestions index name.
      - returns: RequestBuilder<QuerySuggestionsConfigurationResponse>
      */
-  open func getConfigWithRequestBuilder(indexName: String) -> RequestBuilder<
-    QuerySuggestionsConfigurationResponse
-  > {
+  open func getConfigWithRequestBuilder(indexName: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<QuerySuggestionsConfigurationResponse>
+  {
     var localVariablePath = "/1/configs/{indexName}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
       indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -403,7 +427,7 @@ typealias Client = QuerySuggestionsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -413,8 +437,12 @@ typealias Client = QuerySuggestionsClient
      - returns: GetConfigStatus200Response
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getConfigStatus(indexName: String) async throws -> GetConfigStatus200Response {
-    return try await getConfigStatusWithRequestBuilder(indexName: indexName).execute().body
+  open func getConfigStatus(indexName: String, requestOptions: RequestOptions? = nil) async throws
+    -> GetConfigStatus200Response
+  {
+    return try await getConfigStatusWithRequestBuilder(
+      indexName: indexName, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -424,16 +452,16 @@ typealias Client = QuerySuggestionsClient
      - parameter indexName: (path) Query Suggestions index name.
      - returns: RequestBuilder<GetConfigStatus200Response>
      */
-  open func getConfigStatusWithRequestBuilder(indexName: String) -> RequestBuilder<
-    GetConfigStatus200Response
-  > {
+  open func getConfigStatusWithRequestBuilder(
+    indexName: String, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<GetConfigStatus200Response> {
     var localVariablePath = "/1/configs/{indexName}/status"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
       indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -447,7 +475,7 @@ typealias Client = QuerySuggestionsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -457,8 +485,12 @@ typealias Client = QuerySuggestionsClient
      - returns: GetLogFile200Response
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getLogFile(indexName: String) async throws -> GetLogFile200Response {
-    return try await getLogFileWithRequestBuilder(indexName: indexName).execute().body
+  open func getLogFile(indexName: String, requestOptions: RequestOptions? = nil) async throws
+    -> GetLogFile200Response
+  {
+    return try await getLogFileWithRequestBuilder(
+      indexName: indexName, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -468,7 +500,8 @@ typealias Client = QuerySuggestionsClient
      - parameter indexName: (path) Query Suggestions index name.
      - returns: RequestBuilder<GetLogFile200Response>
      */
-  open func getLogFileWithRequestBuilder(indexName: String) -> RequestBuilder<GetLogFile200Response>
+  open func getLogFileWithRequestBuilder(indexName: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<GetLogFile200Response>
   {
     var localVariablePath = "/1/logs/{indexName}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
@@ -476,7 +509,7 @@ typealias Client = QuerySuggestionsClient
       indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -490,7 +523,7 @@ typealias Client = QuerySuggestionsClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -502,10 +535,12 @@ typealias Client = QuerySuggestionsClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func updateConfig(
-    indexName: String, querySuggestionsConfiguration: QuerySuggestionsConfiguration
+    indexName: String, querySuggestionsConfiguration: QuerySuggestionsConfiguration,
+    requestOptions: RequestOptions? = nil
   ) async throws -> BaseResponse {
     return try await updateConfigWithRequestBuilder(
-      indexName: indexName, querySuggestionsConfiguration: querySuggestionsConfiguration
+      indexName: indexName, querySuggestionsConfiguration: querySuggestionsConfiguration,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -518,7 +553,8 @@ typealias Client = QuerySuggestionsClient
      - returns: RequestBuilder<BaseResponse>
      */
   open func updateConfigWithRequestBuilder(
-    indexName: String, querySuggestionsConfiguration: QuerySuggestionsConfiguration
+    indexName: String, querySuggestionsConfiguration: QuerySuggestionsConfiguration,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<BaseResponse> {
     var localVariablePath = "/1/configs/{indexName}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
@@ -541,6 +577,6 @@ typealias Client = QuerySuggestionsClient
     return localVariableRequestBuilder.init(
       method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 }

@@ -26,13 +26,13 @@ open class Transporter {
 open class RequestBuilder<T> {
   var credential: URLCredential?
   var headers: [String: String]
-  public let parameters: [String: Any]?
+  public var parameters: [String: Any?]?
   public let method: String
   public let path: String
-  public let queryItems: [URLQueryItem]?
+  public var queryItems: [URLQueryItem]
   public let requestTask: RequestTask = RequestTask()
-  public let requiresAuthentication: Bool
   public let hostIterator: HostIterator
+  public let timeout: TimeInterval
 
   public let transporter: Transporter
 
@@ -40,16 +40,13 @@ open class RequestBuilder<T> {
   public var onProgressReady: ((Progress) -> Void)?
 
   required public init(
-    method: String, path: String, queryItems: [URLQueryItem]?, parameters: [String: Any]?,
-    headers: [String: String] = [:],
-    requiresAuthentication: Bool, transporter: Transporter
+    method: String, path: String, queryItems: [URLQueryItem]?, parameters: [String: Any?]?,
+    headers: [String: String] = [:], transporter: Transporter, requestOptions: RequestOptions? = nil
   ) {
     self.method = method
     self.path = path
-    self.queryItems = queryItems
-    self.parameters = parameters
+    self.queryItems = queryItems ?? []
     self.headers = headers
-    self.requiresAuthentication = requiresAuthentication
     self.transporter = transporter
 
     let httpMethod = HTTPMethod(rawValue: method)
@@ -59,6 +56,30 @@ open class RequestBuilder<T> {
     }
 
     self.hostIterator = transporter.retryStrategy.retryableHosts(for: httpMethod.toCallType())
+
+    self.timeout =
+      requestOptions?.timeout(for: httpMethod.toCallType())
+      ?? self.transporter.configuration.timeout(for: httpMethod.toCallType())
+
+    if let requestOptions = requestOptions {
+      self.queryItems.append(contentsOf: requestOptions.queryItems)
+
+      for (key, value) in requestOptions.headers {
+        self.headers.updateValue(value, forKey: key)
+      }
+
+      if requestOptions.body == nil && parameters == nil {
+        self.parameters = nil
+        return
+      }
+
+      if requestOptions.body != nil {
+        self.parameters = JSONDataEncoding.encodingParameters(jsonData: requestOptions.body)
+        return
+      }
+    }
+
+    self.parameters = parameters
   }
 
   open func addHeaders(_ aHeaders: [String: String]) {
@@ -104,11 +125,6 @@ open class RequestBuilder<T> {
     if !value.isEmpty {
       headers[name] = value
     }
-    return self
-  }
-
-  open func addCredential() -> Self {
-    credential = Transporter.credential
     return self
   }
 }

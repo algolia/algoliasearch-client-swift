@@ -40,11 +40,12 @@ typealias Client = PersonalizationClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customDelete(path: String, parameters: [String: AnyCodable]? = nil) async throws
-    -> AnyCodable
-  {
-    return try await customDeleteWithRequestBuilder(path: path, parameters: parameters).execute()
-      .body
+  open func customDelete(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customDeleteWithRequestBuilder(
+      path: path, parameters: parameters, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -55,16 +56,16 @@ typealias Client = PersonalizationClient
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customDeleteWithRequestBuilder(path: String, parameters: [String: AnyCodable]? = nil)
-    -> RequestBuilder<AnyCodable>
-  {
+  open func customDeleteWithRequestBuilder(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
@@ -80,7 +81,7 @@ typealias Client = PersonalizationClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -91,10 +92,12 @@ typealias Client = PersonalizationClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customGet(path: String, parameters: [String: AnyCodable]? = nil) async throws
-    -> AnyCodable
-  {
-    return try await customGetWithRequestBuilder(path: path, parameters: parameters).execute().body
+  open func customGet(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customGetWithRequestBuilder(
+      path: path, parameters: parameters, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -105,16 +108,16 @@ typealias Client = PersonalizationClient
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customGetWithRequestBuilder(path: String, parameters: [String: AnyCodable]? = nil)
-    -> RequestBuilder<AnyCodable>
-  {
+  open func customGetWithRequestBuilder(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
@@ -130,7 +133,7 @@ typealias Client = PersonalizationClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -143,10 +146,12 @@ typealias Client = PersonalizationClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPost(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPostWithRequestBuilder(path: path, parameters: parameters, body: body)
-      .execute().body
+    return try await customPostWithRequestBuilder(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -159,7 +164,8 @@ typealias Client = PersonalizationClient
      - returns: RequestBuilder<AnyCodable>
      */
   open func customPostWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
@@ -183,7 +189,7 @@ typealias Client = PersonalizationClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -195,11 +201,13 @@ typealias Client = PersonalizationClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customPut(path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil)
-    async throws -> AnyCodable
-  {
-    return try await customPutWithRequestBuilder(path: path, parameters: parameters, body: body)
-      .execute().body
+  open func customPut(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customPutWithRequestBuilder(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -212,7 +220,8 @@ typealias Client = PersonalizationClient
      - returns: RequestBuilder<AnyCodable>
      */
   open func customPutWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
@@ -236,7 +245,7 @@ typealias Client = PersonalizationClient
     return localVariableRequestBuilder.init(
       method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -246,8 +255,12 @@ typealias Client = PersonalizationClient
      - returns: DeleteUserProfileResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteUserProfile(userToken: String) async throws -> DeleteUserProfileResponse {
-    return try await deleteUserProfileWithRequestBuilder(userToken: userToken).execute().body
+  open func deleteUserProfile(userToken: String, requestOptions: RequestOptions? = nil) async throws
+    -> DeleteUserProfileResponse
+  {
+    return try await deleteUserProfileWithRequestBuilder(
+      userToken: userToken, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -257,16 +270,16 @@ typealias Client = PersonalizationClient
      - parameter userToken: (path) userToken representing the user for which to fetch the Personalization profile.
      - returns: RequestBuilder<DeleteUserProfileResponse>
      */
-  open func deleteUserProfileWithRequestBuilder(userToken: String) -> RequestBuilder<
-    DeleteUserProfileResponse
-  > {
+  open func deleteUserProfileWithRequestBuilder(
+    userToken: String, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<DeleteUserProfileResponse> {
     var localVariablePath = "/1/profiles/{userToken}"
     let userTokenPreEscape = "\(APIHelper.mapValueToPathItem(userToken))"
     let userTokenPostEscape =
       userTokenPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{userToken}", with: userTokenPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -280,7 +293,7 @@ typealias Client = PersonalizationClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -289,8 +302,11 @@ typealias Client = PersonalizationClient
      - returns: PersonalizationStrategyParams
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getPersonalizationStrategy() async throws -> PersonalizationStrategyParams {
-    return try await getPersonalizationStrategyWithRequestBuilder().execute().body
+  open func getPersonalizationStrategy(requestOptions: RequestOptions? = nil) async throws
+    -> PersonalizationStrategyParams
+  {
+    return try await getPersonalizationStrategyWithRequestBuilder(requestOptions: requestOptions)
+      .execute().body
   }
 
   /**
@@ -299,11 +315,11 @@ typealias Client = PersonalizationClient
      The strategy contains information on the events and facets that impact user profiles and personalized search results.
      - returns: RequestBuilder<PersonalizationStrategyParams>
      */
-  open func getPersonalizationStrategyWithRequestBuilder() -> RequestBuilder<
-    PersonalizationStrategyParams
-  > {
+  open func getPersonalizationStrategyWithRequestBuilder(requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<PersonalizationStrategyParams>
+  {
     let localVariablePath = "/1/strategies/personalization"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -317,7 +333,7 @@ typealias Client = PersonalizationClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -327,8 +343,12 @@ typealias Client = PersonalizationClient
      - returns: GetUserTokenResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getUserTokenProfile(userToken: String) async throws -> GetUserTokenResponse {
-    return try await getUserTokenProfileWithRequestBuilder(userToken: userToken).execute().body
+  open func getUserTokenProfile(userToken: String, requestOptions: RequestOptions? = nil)
+    async throws -> GetUserTokenResponse
+  {
+    return try await getUserTokenProfileWithRequestBuilder(
+      userToken: userToken, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -338,16 +358,16 @@ typealias Client = PersonalizationClient
      - parameter userToken: (path) userToken representing the user for which to fetch the Personalization profile.
      - returns: RequestBuilder<GetUserTokenResponse>
      */
-  open func getUserTokenProfileWithRequestBuilder(userToken: String) -> RequestBuilder<
-    GetUserTokenResponse
-  > {
+  open func getUserTokenProfileWithRequestBuilder(
+    userToken: String, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<GetUserTokenResponse> {
     var localVariablePath = "/1/profiles/personalization/{userToken}"
     let userTokenPreEscape = "\(APIHelper.mapValueToPathItem(userToken))"
     let userTokenPostEscape =
       userTokenPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{userToken}", with: userTokenPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -361,7 +381,7 @@ typealias Client = PersonalizationClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -371,11 +391,12 @@ typealias Client = PersonalizationClient
      - returns: SetPersonalizationStrategyResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func setPersonalizationStrategy(personalizationStrategyParams: PersonalizationStrategyParams)
-    async throws -> SetPersonalizationStrategyResponse
-  {
+  open func setPersonalizationStrategy(
+    personalizationStrategyParams: PersonalizationStrategyParams,
+    requestOptions: RequestOptions? = nil
+  ) async throws -> SetPersonalizationStrategyResponse {
     return try await setPersonalizationStrategyWithRequestBuilder(
-      personalizationStrategyParams: personalizationStrategyParams
+      personalizationStrategyParams: personalizationStrategyParams, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -387,7 +408,8 @@ typealias Client = PersonalizationClient
      - returns: RequestBuilder<SetPersonalizationStrategyResponse>
      */
   open func setPersonalizationStrategyWithRequestBuilder(
-    personalizationStrategyParams: PersonalizationStrategyParams
+    personalizationStrategyParams: PersonalizationStrategyParams,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<SetPersonalizationStrategyResponse> {
     let localVariablePath = "/1/strategies/personalization"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(
@@ -405,6 +427,6 @@ typealias Client = PersonalizationClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 }

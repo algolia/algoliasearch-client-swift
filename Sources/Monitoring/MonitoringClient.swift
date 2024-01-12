@@ -39,11 +39,12 @@ typealias Client = MonitoringClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customDelete(path: String, parameters: [String: AnyCodable]? = nil) async throws
-    -> AnyCodable
-  {
-    return try await customDeleteWithRequestBuilder(path: path, parameters: parameters).execute()
-      .body
+  open func customDelete(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customDeleteWithRequestBuilder(
+      path: path, parameters: parameters, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -54,16 +55,16 @@ typealias Client = MonitoringClient
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customDeleteWithRequestBuilder(path: String, parameters: [String: AnyCodable]? = nil)
-    -> RequestBuilder<AnyCodable>
-  {
+  open func customDeleteWithRequestBuilder(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
@@ -79,7 +80,7 @@ typealias Client = MonitoringClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: false, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -90,10 +91,12 @@ typealias Client = MonitoringClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customGet(path: String, parameters: [String: AnyCodable]? = nil) async throws
-    -> AnyCodable
-  {
-    return try await customGetWithRequestBuilder(path: path, parameters: parameters).execute().body
+  open func customGet(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customGetWithRequestBuilder(
+      path: path, parameters: parameters, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -104,16 +107,16 @@ typealias Client = MonitoringClient
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customGetWithRequestBuilder(path: String, parameters: [String: AnyCodable]? = nil)
-    -> RequestBuilder<AnyCodable>
-  {
+  open func customGetWithRequestBuilder(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
@@ -129,7 +132,7 @@ typealias Client = MonitoringClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: false, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -142,10 +145,12 @@ typealias Client = MonitoringClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPost(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPostWithRequestBuilder(path: path, parameters: parameters, body: body)
-      .execute().body
+    return try await customPostWithRequestBuilder(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -158,7 +163,8 @@ typealias Client = MonitoringClient
      - returns: RequestBuilder<AnyCodable>
      */
   open func customPostWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
@@ -182,7 +188,7 @@ typealias Client = MonitoringClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: false, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -194,11 +200,13 @@ typealias Client = MonitoringClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customPut(path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil)
-    async throws -> AnyCodable
-  {
-    return try await customPutWithRequestBuilder(path: path, parameters: parameters, body: body)
-      .execute().body
+  open func customPut(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customPutWithRequestBuilder(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -211,7 +219,8 @@ typealias Client = MonitoringClient
      - returns: RequestBuilder<AnyCodable>
      */
   open func customPutWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
@@ -235,7 +244,7 @@ typealias Client = MonitoringClient
     return localVariableRequestBuilder.init(
       method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: false, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -245,8 +254,12 @@ typealias Client = MonitoringClient
      - returns: IncidentsResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getClusterIncidents(clusters: String) async throws -> IncidentsResponse {
-    return try await getClusterIncidentsWithRequestBuilder(clusters: clusters).execute().body
+  open func getClusterIncidents(clusters: String, requestOptions: RequestOptions? = nil)
+    async throws -> IncidentsResponse
+  {
+    return try await getClusterIncidentsWithRequestBuilder(
+      clusters: clusters, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -256,16 +269,16 @@ typealias Client = MonitoringClient
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: RequestBuilder<IncidentsResponse>
      */
-  open func getClusterIncidentsWithRequestBuilder(clusters: String) -> RequestBuilder<
-    IncidentsResponse
-  > {
+  open func getClusterIncidentsWithRequestBuilder(
+    clusters: String, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<IncidentsResponse> {
     var localVariablePath = "/1/incidents/{clusters}"
     let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
     let clustersPostEscape =
       clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{clusters}", with: clustersPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -279,7 +292,7 @@ typealias Client = MonitoringClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: false, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -289,8 +302,12 @@ typealias Client = MonitoringClient
      - returns: StatusResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getClusterStatus(clusters: String) async throws -> StatusResponse {
-    return try await getClusterStatusWithRequestBuilder(clusters: clusters).execute().body
+  open func getClusterStatus(clusters: String, requestOptions: RequestOptions? = nil) async throws
+    -> StatusResponse
+  {
+    return try await getClusterStatusWithRequestBuilder(
+      clusters: clusters, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -300,14 +317,16 @@ typealias Client = MonitoringClient
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: RequestBuilder<StatusResponse>
      */
-  open func getClusterStatusWithRequestBuilder(clusters: String) -> RequestBuilder<StatusResponse> {
+  open func getClusterStatusWithRequestBuilder(
+    clusters: String, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<StatusResponse> {
     var localVariablePath = "/1/status/{clusters}"
     let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
     let clustersPostEscape =
       clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{clusters}", with: clustersPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -321,7 +340,7 @@ typealias Client = MonitoringClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: false, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -330,8 +349,8 @@ typealias Client = MonitoringClient
      - returns: IncidentsResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getIncidents() async throws -> IncidentsResponse {
-    return try await getIncidentsWithRequestBuilder().execute().body
+  open func getIncidents(requestOptions: RequestOptions? = nil) async throws -> IncidentsResponse {
+    return try await getIncidentsWithRequestBuilder(requestOptions: requestOptions).execute().body
   }
 
   /**
@@ -340,9 +359,11 @@ typealias Client = MonitoringClient
      List known incidents for all clusters.
      - returns: RequestBuilder<IncidentsResponse>
      */
-  open func getIncidentsWithRequestBuilder() -> RequestBuilder<IncidentsResponse> {
+  open func getIncidentsWithRequestBuilder(requestOptions: RequestOptions? = nil) -> RequestBuilder<
+    IncidentsResponse
+  > {
     let localVariablePath = "/1/incidents"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -356,7 +377,7 @@ typealias Client = MonitoringClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: false, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -366,8 +387,12 @@ typealias Client = MonitoringClient
      - returns: IndexingTimeResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getIndexingTime(clusters: String) async throws -> IndexingTimeResponse {
-    return try await getIndexingTimeWithRequestBuilder(clusters: clusters).execute().body
+  open func getIndexingTime(clusters: String, requestOptions: RequestOptions? = nil) async throws
+    -> IndexingTimeResponse
+  {
+    return try await getIndexingTimeWithRequestBuilder(
+      clusters: clusters, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -377,16 +402,16 @@ typealias Client = MonitoringClient
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: RequestBuilder<IndexingTimeResponse>
      */
-  open func getIndexingTimeWithRequestBuilder(clusters: String) -> RequestBuilder<
-    IndexingTimeResponse
-  > {
+  open func getIndexingTimeWithRequestBuilder(
+    clusters: String, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<IndexingTimeResponse> {
     var localVariablePath = "/1/indexing/{clusters}"
     let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
     let clustersPostEscape =
       clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{clusters}", with: clustersPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -400,7 +425,7 @@ typealias Client = MonitoringClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: false, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -409,8 +434,8 @@ typealias Client = MonitoringClient
      - returns: InventoryResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getInventory() async throws -> InventoryResponse {
-    return try await getInventoryWithRequestBuilder().execute().body
+  open func getInventory(requestOptions: RequestOptions? = nil) async throws -> InventoryResponse {
+    return try await getInventoryWithRequestBuilder(requestOptions: requestOptions).execute().body
   }
 
   /**
@@ -419,9 +444,11 @@ typealias Client = MonitoringClient
      List the servers belonging to clusters.  The response depends on whether you authenticate your API request:  - With authentication, the response lists the servers assigned to your Algolia application's cluster.  - Without authentication, the response lists the servers for all Algolia clusters.
      - returns: RequestBuilder<InventoryResponse>
      */
-  open func getInventoryWithRequestBuilder() -> RequestBuilder<InventoryResponse> {
+  open func getInventoryWithRequestBuilder(requestOptions: RequestOptions? = nil) -> RequestBuilder<
+    InventoryResponse
+  > {
     let localVariablePath = "/1/inventory/servers"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -435,7 +462,7 @@ typealias Client = MonitoringClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -445,8 +472,12 @@ typealias Client = MonitoringClient
      - returns: LatencyResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getLatency(clusters: String) async throws -> LatencyResponse {
-    return try await getLatencyWithRequestBuilder(clusters: clusters).execute().body
+  open func getLatency(clusters: String, requestOptions: RequestOptions? = nil) async throws
+    -> LatencyResponse
+  {
+    return try await getLatencyWithRequestBuilder(
+      clusters: clusters, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -456,14 +487,16 @@ typealias Client = MonitoringClient
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: RequestBuilder<LatencyResponse>
      */
-  open func getLatencyWithRequestBuilder(clusters: String) -> RequestBuilder<LatencyResponse> {
+  open func getLatencyWithRequestBuilder(clusters: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<LatencyResponse>
+  {
     var localVariablePath = "/1/latency/{clusters}"
     let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
     let clustersPostEscape =
       clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{clusters}", with: clustersPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -477,7 +510,7 @@ typealias Client = MonitoringClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: false, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -488,8 +521,12 @@ typealias Client = MonitoringClient
      - returns: InfrastructureResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getMetrics(metric: Metric, period: Period) async throws -> InfrastructureResponse {
-    return try await getMetricsWithRequestBuilder(metric: metric, period: period).execute().body
+  open func getMetrics(metric: Metric, period: Period, requestOptions: RequestOptions? = nil)
+    async throws -> InfrastructureResponse
+  {
+    return try await getMetricsWithRequestBuilder(
+      metric: metric, period: period, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -500,9 +537,9 @@ typealias Client = MonitoringClient
      - parameter period: (path) Period over which to aggregate the metrics:  - &#x60;minute&#x60;. Aggregate the last minute. 1 data point per 10 seconds. - &#x60;hour&#x60;. Aggregate the last hour. 1 data point per minute. - &#x60;day&#x60;. Aggregate the last day. 1 data point per 10 minutes. - &#x60;week&#x60;. Aggregate the last week. 1 data point per hour. - &#x60;month&#x60;. Aggregate the last month. 1 data point per day.
      - returns: RequestBuilder<InfrastructureResponse>
      */
-  open func getMetricsWithRequestBuilder(metric: Metric, period: Period) -> RequestBuilder<
-    InfrastructureResponse
-  > {
+  open func getMetricsWithRequestBuilder(
+    metric: Metric, period: Period, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<InfrastructureResponse> {
     var localVariablePath = "/1/infrastructure/{metric}/period/{period}"
     let metricPreEscape = "\(APIHelper.mapValueToPathItem(metric))"
     let metricPostEscape =
@@ -514,7 +551,7 @@ typealias Client = MonitoringClient
       periodPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{period}", with: periodPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -528,7 +565,7 @@ typealias Client = MonitoringClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: false, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -538,8 +575,12 @@ typealias Client = MonitoringClient
      - returns: [String: [String: Bool]]
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getReachability(clusters: String) async throws -> [String: [String: Bool]] {
-    return try await getReachabilityWithRequestBuilder(clusters: clusters).execute().body
+  open func getReachability(clusters: String, requestOptions: RequestOptions? = nil) async throws
+    -> [String: [String: Bool]]
+  {
+    return try await getReachabilityWithRequestBuilder(
+      clusters: clusters, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -549,16 +590,16 @@ typealias Client = MonitoringClient
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: RequestBuilder<[String: [String: Bool]]>
      */
-  open func getReachabilityWithRequestBuilder(clusters: String) -> RequestBuilder<
-    [String: [String: Bool]]
-  > {
+  open func getReachabilityWithRequestBuilder(
+    clusters: String, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<[String: [String: Bool]]> {
     var localVariablePath = "/1/reachability/{clusters}/probes"
     let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
     let clustersPostEscape =
       clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{clusters}", with: clustersPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -572,7 +613,7 @@ typealias Client = MonitoringClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: false, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -581,8 +622,8 @@ typealias Client = MonitoringClient
      - returns: StatusResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getStatus() async throws -> StatusResponse {
-    return try await getStatusWithRequestBuilder().execute().body
+  open func getStatus(requestOptions: RequestOptions? = nil) async throws -> StatusResponse {
+    return try await getStatusWithRequestBuilder(requestOptions: requestOptions).execute().body
   }
 
   /**
@@ -591,9 +632,11 @@ typealias Client = MonitoringClient
      Report whether clusters are operational.  The response depends on whether you authenticate your API request.  - With authentication, the response includes the status of the cluster assigned to your Algolia application.  - Without authentication, the response lists the statuses of all public Algolia clusters.
      - returns: RequestBuilder<StatusResponse>
      */
-  open func getStatusWithRequestBuilder() -> RequestBuilder<StatusResponse> {
+  open func getStatusWithRequestBuilder(requestOptions: RequestOptions? = nil) -> RequestBuilder<
+    StatusResponse
+  > {
     let localVariablePath = "/1/status"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -607,6 +650,6 @@ typealias Client = MonitoringClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 }

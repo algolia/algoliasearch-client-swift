@@ -60,13 +60,12 @@ open class URLSessionRequestBuilder<T>: RequestBuilder<T> {
   public var taskDidReceiveChallenge: AlgoliaSearchClientAPIChallengeHandler?
 
   required public init(
-    method: String, path: String, queryItems: [URLQueryItem]?, parameters: [String: Any]?,
-    headers: [String: String] = [:],
-    requiresAuthentication: Bool, transporter: Transporter
+    method: String, path: String, queryItems: [URLQueryItem]?, parameters: [String: Any?]?,
+    headers: [String: String] = [:], transporter: Transporter, requestOptions: RequestOptions? = nil
   ) {
     super.init(
       method: method, path: path, queryItems: queryItems, parameters: parameters, headers: headers,
-      requiresAuthentication: requiresAuthentication, transporter: transporter)
+      transporter: transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -291,7 +290,7 @@ open class URLSessionDecodableRequestBuilder<T: Decodable>: URLSessionRequestBui
   ) throws -> URLRequest {
     var superReq = try super.createURLRequest(
       urlSession: urlSession, method: method, host: host, encoding: encoding, headers: headers)
-    superReq.timeoutInterval = self.transporter.configuration.timeout(for: method.toCallType())
+    superReq.timeoutInterval = self.timeout
 
     guard let url = superReq.url else { throw URLRequest.FormatError.missingURL }
     guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
@@ -422,11 +421,11 @@ public enum HTTPMethod: String {
 }
 
 public protocol ParameterEncoding {
-  func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest
+  func encode(_ urlRequest: URLRequest, with parameters: [String: Any?]?) throws -> URLRequest
 }
 
 private class URLEncoding: ParameterEncoding {
-  func encode(_ urlRequest: URLRequest, with parameters: [String: Any]?) throws -> URLRequest {
+  func encode(_ urlRequest: URLRequest, with parameters: [String: Any?]?) throws -> URLRequest {
 
     var urlRequest = urlRequest
 

@@ -39,11 +39,11 @@ typealias Client = IngestionClient
      - returns: AuthenticationCreateResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func createAuthentication(authenticationCreate: AuthenticationCreate) async throws
-    -> AuthenticationCreateResponse
-  {
+  open func createAuthentication(
+    authenticationCreate: AuthenticationCreate, requestOptions: RequestOptions? = nil
+  ) async throws -> AuthenticationCreateResponse {
     return try await createAuthenticationWithRequestBuilder(
-      authenticationCreate: authenticationCreate
+      authenticationCreate: authenticationCreate, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -54,9 +54,9 @@ typealias Client = IngestionClient
      - parameter authenticationCreate: (body)
      - returns: RequestBuilder<AuthenticationCreateResponse>
      */
-  open func createAuthenticationWithRequestBuilder(authenticationCreate: AuthenticationCreate)
-    -> RequestBuilder<AuthenticationCreateResponse>
-  {
+  open func createAuthenticationWithRequestBuilder(
+    authenticationCreate: AuthenticationCreate, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<AuthenticationCreateResponse> {
     let localVariablePath = "/1/authentications"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(
       forEncodableObject: authenticationCreate)
@@ -73,7 +73,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -83,11 +83,12 @@ typealias Client = IngestionClient
      - returns: DestinationCreateResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func createDestination(destinationCreate: DestinationCreate) async throws
-    -> DestinationCreateResponse
-  {
-    return try await createDestinationWithRequestBuilder(destinationCreate: destinationCreate)
-      .execute().body
+  open func createDestination(
+    destinationCreate: DestinationCreate, requestOptions: RequestOptions? = nil
+  ) async throws -> DestinationCreateResponse {
+    return try await createDestinationWithRequestBuilder(
+      destinationCreate: destinationCreate, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -97,9 +98,9 @@ typealias Client = IngestionClient
      - parameter destinationCreate: (body)
      - returns: RequestBuilder<DestinationCreateResponse>
      */
-  open func createDestinationWithRequestBuilder(destinationCreate: DestinationCreate)
-    -> RequestBuilder<DestinationCreateResponse>
-  {
+  open func createDestinationWithRequestBuilder(
+    destinationCreate: DestinationCreate, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<DestinationCreateResponse> {
     let localVariablePath = "/1/destinations"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(
       forEncodableObject: destinationCreate)
@@ -116,7 +117,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -126,8 +127,12 @@ typealias Client = IngestionClient
      - returns: SourceCreateResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func createSource(sourceCreate: SourceCreate) async throws -> SourceCreateResponse {
-    return try await createSourceWithRequestBuilder(sourceCreate: sourceCreate).execute().body
+  open func createSource(sourceCreate: SourceCreate, requestOptions: RequestOptions? = nil)
+    async throws -> SourceCreateResponse
+  {
+    return try await createSourceWithRequestBuilder(
+      sourceCreate: sourceCreate, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -137,9 +142,9 @@ typealias Client = IngestionClient
      - parameter sourceCreate: (body)
      - returns: RequestBuilder<SourceCreateResponse>
      */
-  open func createSourceWithRequestBuilder(sourceCreate: SourceCreate) -> RequestBuilder<
-    SourceCreateResponse
-  > {
+  open func createSourceWithRequestBuilder(
+    sourceCreate: SourceCreate, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<SourceCreateResponse> {
     let localVariablePath = "/1/sources"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(
       forEncodableObject: sourceCreate)
@@ -156,7 +161,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -166,8 +171,12 @@ typealias Client = IngestionClient
      - returns: TaskCreateResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func createTask(taskCreate: TaskCreate) async throws -> TaskCreateResponse {
-    return try await createTaskWithRequestBuilder(taskCreate: taskCreate).execute().body
+  open func createTask(taskCreate: TaskCreate, requestOptions: RequestOptions? = nil) async throws
+    -> TaskCreateResponse
+  {
+    return try await createTaskWithRequestBuilder(
+      taskCreate: taskCreate, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -177,9 +186,9 @@ typealias Client = IngestionClient
      - parameter taskCreate: (body)
      - returns: RequestBuilder<TaskCreateResponse>
      */
-  open func createTaskWithRequestBuilder(taskCreate: TaskCreate) -> RequestBuilder<
-    TaskCreateResponse
-  > {
+  open func createTaskWithRequestBuilder(
+    taskCreate: TaskCreate, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<TaskCreateResponse> {
     let localVariablePath = "/1/tasks"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(
       forEncodableObject: taskCreate)
@@ -196,7 +205,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -207,11 +216,12 @@ typealias Client = IngestionClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customDelete(path: String, parameters: [String: AnyCodable]? = nil) async throws
-    -> AnyCodable
-  {
-    return try await customDeleteWithRequestBuilder(path: path, parameters: parameters).execute()
-      .body
+  open func customDelete(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customDeleteWithRequestBuilder(
+      path: path, parameters: parameters, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -222,16 +232,16 @@ typealias Client = IngestionClient
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customDeleteWithRequestBuilder(path: String, parameters: [String: AnyCodable]? = nil)
-    -> RequestBuilder<AnyCodable>
-  {
+  open func customDeleteWithRequestBuilder(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
@@ -247,7 +257,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -258,10 +268,12 @@ typealias Client = IngestionClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customGet(path: String, parameters: [String: AnyCodable]? = nil) async throws
-    -> AnyCodable
-  {
-    return try await customGetWithRequestBuilder(path: path, parameters: parameters).execute().body
+  open func customGet(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customGetWithRequestBuilder(
+      path: path, parameters: parameters, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -272,16 +284,16 @@ typealias Client = IngestionClient
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customGetWithRequestBuilder(path: String, parameters: [String: AnyCodable]? = nil)
-    -> RequestBuilder<AnyCodable>
-  {
+  open func customGetWithRequestBuilder(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
@@ -297,7 +309,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -310,10 +322,12 @@ typealias Client = IngestionClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPost(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPostWithRequestBuilder(path: path, parameters: parameters, body: body)
-      .execute().body
+    return try await customPostWithRequestBuilder(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -326,7 +340,8 @@ typealias Client = IngestionClient
      - returns: RequestBuilder<AnyCodable>
      */
   open func customPostWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
@@ -350,7 +365,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -362,11 +377,13 @@ typealias Client = IngestionClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customPut(path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil)
-    async throws -> AnyCodable
-  {
-    return try await customPutWithRequestBuilder(path: path, parameters: parameters, body: body)
-      .execute().body
+  open func customPut(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customPutWithRequestBuilder(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -379,7 +396,8 @@ typealias Client = IngestionClient
      - returns: RequestBuilder<AnyCodable>
      */
   open func customPutWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
@@ -403,7 +421,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -413,9 +431,12 @@ typealias Client = IngestionClient
      - returns: DeleteResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteAuthentication(authenticationID: String) async throws -> DeleteResponse {
-    return try await deleteAuthenticationWithRequestBuilder(authenticationID: authenticationID)
-      .execute().body
+  open func deleteAuthentication(authenticationID: String, requestOptions: RequestOptions? = nil)
+    async throws -> DeleteResponse
+  {
+    return try await deleteAuthenticationWithRequestBuilder(
+      authenticationID: authenticationID, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -425,16 +446,16 @@ typealias Client = IngestionClient
      - parameter authenticationID: (path) The authentication UUID.
      - returns: RequestBuilder<DeleteResponse>
      */
-  open func deleteAuthenticationWithRequestBuilder(authenticationID: String) -> RequestBuilder<
-    DeleteResponse
-  > {
+  open func deleteAuthenticationWithRequestBuilder(
+    authenticationID: String, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<DeleteResponse> {
     var localVariablePath = "/1/authentications/{authenticationID}"
     let authenticationIDPreEscape = "\(APIHelper.mapValueToPathItem(authenticationID))"
     let authenticationIDPostEscape =
       authenticationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{authenticationID}", with: authenticationIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -448,7 +469,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -458,9 +479,12 @@ typealias Client = IngestionClient
      - returns: DeleteResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteDestination(destinationID: String) async throws -> DeleteResponse {
-    return try await deleteDestinationWithRequestBuilder(destinationID: destinationID).execute()
-      .body
+  open func deleteDestination(destinationID: String, requestOptions: RequestOptions? = nil)
+    async throws -> DeleteResponse
+  {
+    return try await deleteDestinationWithRequestBuilder(
+      destinationID: destinationID, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -470,16 +494,16 @@ typealias Client = IngestionClient
      - parameter destinationID: (path) The destination UUID.
      - returns: RequestBuilder<DeleteResponse>
      */
-  open func deleteDestinationWithRequestBuilder(destinationID: String) -> RequestBuilder<
-    DeleteResponse
-  > {
+  open func deleteDestinationWithRequestBuilder(
+    destinationID: String, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<DeleteResponse> {
     var localVariablePath = "/1/destinations/{destinationID}"
     let destinationIDPreEscape = "\(APIHelper.mapValueToPathItem(destinationID))"
     let destinationIDPostEscape =
       destinationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{destinationID}", with: destinationIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -493,7 +517,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -503,8 +527,12 @@ typealias Client = IngestionClient
      - returns: DeleteResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteSource(sourceID: String) async throws -> DeleteResponse {
-    return try await deleteSourceWithRequestBuilder(sourceID: sourceID).execute().body
+  open func deleteSource(sourceID: String, requestOptions: RequestOptions? = nil) async throws
+    -> DeleteResponse
+  {
+    return try await deleteSourceWithRequestBuilder(
+      sourceID: sourceID, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -514,14 +542,16 @@ typealias Client = IngestionClient
      - parameter sourceID: (path) The source UUID.
      - returns: RequestBuilder<DeleteResponse>
      */
-  open func deleteSourceWithRequestBuilder(sourceID: String) -> RequestBuilder<DeleteResponse> {
+  open func deleteSourceWithRequestBuilder(sourceID: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<DeleteResponse>
+  {
     var localVariablePath = "/1/sources/{sourceID}"
     let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
     let sourceIDPostEscape =
       sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{sourceID}", with: sourceIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -535,7 +565,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -545,8 +575,11 @@ typealias Client = IngestionClient
      - returns: DeleteResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteTask(taskID: String) async throws -> DeleteResponse {
-    return try await deleteTaskWithRequestBuilder(taskID: taskID).execute().body
+  open func deleteTask(taskID: String, requestOptions: RequestOptions? = nil) async throws
+    -> DeleteResponse
+  {
+    return try await deleteTaskWithRequestBuilder(taskID: taskID, requestOptions: requestOptions)
+      .execute().body
   }
 
   /**
@@ -556,14 +589,16 @@ typealias Client = IngestionClient
      - parameter taskID: (path) The task UUID.
      - returns: RequestBuilder<DeleteResponse>
      */
-  open func deleteTaskWithRequestBuilder(taskID: String) -> RequestBuilder<DeleteResponse> {
+  open func deleteTaskWithRequestBuilder(taskID: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<DeleteResponse>
+  {
     var localVariablePath = "/1/tasks/{taskID}"
     let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
     let taskIDPostEscape =
       taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -577,7 +612,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -587,8 +622,11 @@ typealias Client = IngestionClient
      - returns: TaskUpdateResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func disableTask(taskID: String) async throws -> TaskUpdateResponse {
-    return try await disableTaskWithRequestBuilder(taskID: taskID).execute().body
+  open func disableTask(taskID: String, requestOptions: RequestOptions? = nil) async throws
+    -> TaskUpdateResponse
+  {
+    return try await disableTaskWithRequestBuilder(taskID: taskID, requestOptions: requestOptions)
+      .execute().body
   }
 
   /**
@@ -598,14 +636,16 @@ typealias Client = IngestionClient
      - parameter taskID: (path) The task UUID.
      - returns: RequestBuilder<TaskUpdateResponse>
      */
-  open func disableTaskWithRequestBuilder(taskID: String) -> RequestBuilder<TaskUpdateResponse> {
+  open func disableTaskWithRequestBuilder(taskID: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<TaskUpdateResponse>
+  {
     var localVariablePath = "/1/tasks/{taskID}/disable"
     let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
     let taskIDPostEscape =
       taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -619,7 +659,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -629,8 +669,11 @@ typealias Client = IngestionClient
      - returns: TaskUpdateResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func enableTask(taskID: String) async throws -> TaskUpdateResponse {
-    return try await enableTaskWithRequestBuilder(taskID: taskID).execute().body
+  open func enableTask(taskID: String, requestOptions: RequestOptions? = nil) async throws
+    -> TaskUpdateResponse
+  {
+    return try await enableTaskWithRequestBuilder(taskID: taskID, requestOptions: requestOptions)
+      .execute().body
   }
 
   /**
@@ -640,14 +683,16 @@ typealias Client = IngestionClient
      - parameter taskID: (path) The task UUID.
      - returns: RequestBuilder<TaskUpdateResponse>
      */
-  open func enableTaskWithRequestBuilder(taskID: String) -> RequestBuilder<TaskUpdateResponse> {
+  open func enableTaskWithRequestBuilder(taskID: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<TaskUpdateResponse>
+  {
     var localVariablePath = "/1/tasks/{taskID}/enable"
     let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
     let taskIDPostEscape =
       taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -661,7 +706,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -671,9 +716,12 @@ typealias Client = IngestionClient
      - returns: Authentication
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getAuthentication(authenticationID: String) async throws -> Authentication {
-    return try await getAuthenticationWithRequestBuilder(authenticationID: authenticationID)
-      .execute().body
+  open func getAuthentication(authenticationID: String, requestOptions: RequestOptions? = nil)
+    async throws -> Authentication
+  {
+    return try await getAuthenticationWithRequestBuilder(
+      authenticationID: authenticationID, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -683,16 +731,16 @@ typealias Client = IngestionClient
      - parameter authenticationID: (path) The authentication UUID.
      - returns: RequestBuilder<Authentication>
      */
-  open func getAuthenticationWithRequestBuilder(authenticationID: String) -> RequestBuilder<
-    Authentication
-  > {
+  open func getAuthenticationWithRequestBuilder(
+    authenticationID: String, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<Authentication> {
     var localVariablePath = "/1/authentications/{authenticationID}"
     let authenticationIDPreEscape = "\(APIHelper.mapValueToPathItem(authenticationID))"
     let authenticationIDPostEscape =
       authenticationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{authenticationID}", with: authenticationIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -706,7 +754,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -724,11 +772,11 @@ typealias Client = IngestionClient
   open func getAuthentications(
     itemsPerPage: Int? = nil, page: Int? = nil, type: [AuthenticationType]? = nil,
     platform: [PlatformWithNone]? = nil, sort: AuthenticationSortKeys? = nil,
-    order: OrderKeys? = nil
+    order: OrderKeys? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> ListAuthenticationsResponse {
     return try await getAuthenticationsWithRequestBuilder(
       itemsPerPage: itemsPerPage, page: page, type: type, platform: platform, sort: sort,
-      order: order
+      order: order, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -747,10 +795,10 @@ typealias Client = IngestionClient
   open func getAuthenticationsWithRequestBuilder(
     itemsPerPage: Int? = nil, page: Int? = nil, type: [AuthenticationType]? = nil,
     platform: [PlatformWithNone]? = nil, sort: AuthenticationSortKeys? = nil,
-    order: OrderKeys? = nil
+    order: OrderKeys? = nil, requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<ListAuthenticationsResponse> {
     let localVariablePath = "/1/authentications"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "itemsPerPage": (wrappedValue: itemsPerPage?.encodeToJSON(), isExplode: true),
@@ -771,7 +819,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -781,8 +829,12 @@ typealias Client = IngestionClient
      - returns: Destination
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getDestination(destinationID: String) async throws -> Destination {
-    return try await getDestinationWithRequestBuilder(destinationID: destinationID).execute().body
+  open func getDestination(destinationID: String, requestOptions: RequestOptions? = nil)
+    async throws -> Destination
+  {
+    return try await getDestinationWithRequestBuilder(
+      destinationID: destinationID, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -792,14 +844,16 @@ typealias Client = IngestionClient
      - parameter destinationID: (path) The destination UUID.
      - returns: RequestBuilder<Destination>
      */
-  open func getDestinationWithRequestBuilder(destinationID: String) -> RequestBuilder<Destination> {
+  open func getDestinationWithRequestBuilder(
+    destinationID: String, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<Destination> {
     var localVariablePath = "/1/destinations/{destinationID}"
     let destinationIDPreEscape = "\(APIHelper.mapValueToPathItem(destinationID))"
     let destinationIDPostEscape =
       destinationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{destinationID}", with: destinationIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -813,7 +867,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -830,11 +884,12 @@ typealias Client = IngestionClient
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getDestinations(
     itemsPerPage: Int? = nil, page: Int? = nil, type: [DestinationType]? = nil,
-    authenticationID: [String]? = nil, sort: DestinationSortKeys? = nil, order: OrderKeys? = nil
+    authenticationID: [String]? = nil, sort: DestinationSortKeys? = nil, order: OrderKeys? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> ListDestinationsResponse {
     return try await getDestinationsWithRequestBuilder(
       itemsPerPage: itemsPerPage, page: page, type: type, authenticationID: authenticationID,
-      sort: sort, order: order
+      sort: sort, order: order, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -852,10 +907,11 @@ typealias Client = IngestionClient
      */
   open func getDestinationsWithRequestBuilder(
     itemsPerPage: Int? = nil, page: Int? = nil, type: [DestinationType]? = nil,
-    authenticationID: [String]? = nil, sort: DestinationSortKeys? = nil, order: OrderKeys? = nil
+    authenticationID: [String]? = nil, sort: DestinationSortKeys? = nil, order: OrderKeys? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<ListDestinationsResponse> {
     let localVariablePath = "/1/destinations"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "itemsPerPage": (wrappedValue: itemsPerPage?.encodeToJSON(), isExplode: true),
@@ -876,7 +932,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -886,8 +942,12 @@ typealias Client = IngestionClient
      - returns: DockerSourceStreams
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getDockerSourceStreams(sourceID: String) async throws -> DockerSourceStreams {
-    return try await getDockerSourceStreamsWithRequestBuilder(sourceID: sourceID).execute().body
+  open func getDockerSourceStreams(sourceID: String, requestOptions: RequestOptions? = nil)
+    async throws -> DockerSourceStreams
+  {
+    return try await getDockerSourceStreamsWithRequestBuilder(
+      sourceID: sourceID, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -897,16 +957,16 @@ typealias Client = IngestionClient
      - parameter sourceID: (path) The source UUID.
      - returns: RequestBuilder<DockerSourceStreams>
      */
-  open func getDockerSourceStreamsWithRequestBuilder(sourceID: String) -> RequestBuilder<
-    DockerSourceStreams
-  > {
+  open func getDockerSourceStreamsWithRequestBuilder(
+    sourceID: String, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<DockerSourceStreams> {
     var localVariablePath = "/1/sources/{sourceID}/discover"
     let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
     let sourceIDPostEscape =
       sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{sourceID}", with: sourceIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -920,7 +980,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -931,8 +991,12 @@ typealias Client = IngestionClient
      - returns: Event
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getEvent(runID: String, eventID: String) async throws -> Event {
-    return try await getEventWithRequestBuilder(runID: runID, eventID: eventID).execute().body
+  open func getEvent(runID: String, eventID: String, requestOptions: RequestOptions? = nil)
+    async throws -> Event
+  {
+    return try await getEventWithRequestBuilder(
+      runID: runID, eventID: eventID, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -943,7 +1007,9 @@ typealias Client = IngestionClient
      - parameter eventID: (path) The event UUID.
      - returns: RequestBuilder<Event>
      */
-  open func getEventWithRequestBuilder(runID: String, eventID: String) -> RequestBuilder<Event> {
+  open func getEventWithRequestBuilder(
+    runID: String, eventID: String, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<Event> {
     var localVariablePath = "/1/runs/{runID}/events/{eventID}"
     let runIDPreEscape = "\(APIHelper.mapValueToPathItem(runID))"
     let runIDPostEscape =
@@ -955,7 +1021,7 @@ typealias Client = IngestionClient
       eventIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{eventID}", with: eventIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -969,7 +1035,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -990,11 +1056,11 @@ typealias Client = IngestionClient
   open func getEvents(
     runID: String, itemsPerPage: Int? = nil, page: Int? = nil, status: [EventStatus]? = nil,
     type: [EventType]? = nil, sort: EventSortKeys? = nil, order: OrderKeys? = nil,
-    startDate: String? = nil, endDate: String? = nil
+    startDate: String? = nil, endDate: String? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> ListEventsResponse {
     return try await getEventsWithRequestBuilder(
       runID: runID, itemsPerPage: itemsPerPage, page: page, status: status, type: type, sort: sort,
-      order: order, startDate: startDate, endDate: endDate
+      order: order, startDate: startDate, endDate: endDate, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -1016,7 +1082,7 @@ typealias Client = IngestionClient
   open func getEventsWithRequestBuilder(
     runID: String, itemsPerPage: Int? = nil, page: Int? = nil, status: [EventStatus]? = nil,
     type: [EventType]? = nil, sort: EventSortKeys? = nil, order: OrderKeys? = nil,
-    startDate: String? = nil, endDate: String? = nil
+    startDate: String? = nil, endDate: String? = nil, requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<ListEventsResponse> {
     var localVariablePath = "/1/runs/{runID}/events"
     let runIDPreEscape = "\(APIHelper.mapValueToPathItem(runID))"
@@ -1024,7 +1090,7 @@ typealias Client = IngestionClient
       runIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{runID}", with: runIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "itemsPerPage": (wrappedValue: itemsPerPage?.encodeToJSON(), isExplode: true),
@@ -1047,7 +1113,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1057,8 +1123,9 @@ typealias Client = IngestionClient
      - returns: Run
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getRun(runID: String) async throws -> Run {
-    return try await getRunWithRequestBuilder(runID: runID).execute().body
+  open func getRun(runID: String, requestOptions: RequestOptions? = nil) async throws -> Run {
+    return try await getRunWithRequestBuilder(runID: runID, requestOptions: requestOptions)
+      .execute().body
   }
 
   /**
@@ -1068,14 +1135,16 @@ typealias Client = IngestionClient
      - parameter runID: (path) The run UUID.
      - returns: RequestBuilder<Run>
      */
-  open func getRunWithRequestBuilder(runID: String) -> RequestBuilder<Run> {
+  open func getRunWithRequestBuilder(runID: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<Run>
+  {
     var localVariablePath = "/1/runs/{runID}"
     let runIDPreEscape = "\(APIHelper.mapValueToPathItem(runID))"
     let runIDPostEscape =
       runIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{runID}", with: runIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -1089,7 +1158,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1109,11 +1178,11 @@ typealias Client = IngestionClient
   open func getRuns(
     itemsPerPage: Int? = nil, page: Int? = nil, status: [RunStatus]? = nil, taskID: String? = nil,
     sort: RunSortKeys? = nil, order: OrderKeys? = nil, startDate: String? = nil,
-    endDate: String? = nil
+    endDate: String? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> RunListResponse {
     return try await getRunsWithRequestBuilder(
       itemsPerPage: itemsPerPage, page: page, status: status, taskID: taskID, sort: sort,
-      order: order, startDate: startDate, endDate: endDate
+      order: order, startDate: startDate, endDate: endDate, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -1134,10 +1203,10 @@ typealias Client = IngestionClient
   open func getRunsWithRequestBuilder(
     itemsPerPage: Int? = nil, page: Int? = nil, status: [RunStatus]? = nil, taskID: String? = nil,
     sort: RunSortKeys? = nil, order: OrderKeys? = nil, startDate: String? = nil,
-    endDate: String? = nil
+    endDate: String? = nil, requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<RunListResponse> {
     let localVariablePath = "/1/runs"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "itemsPerPage": (wrappedValue: itemsPerPage?.encodeToJSON(), isExplode: true),
@@ -1160,7 +1229,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1170,8 +1239,11 @@ typealias Client = IngestionClient
      - returns: Source
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getSource(sourceID: String) async throws -> Source {
-    return try await getSourceWithRequestBuilder(sourceID: sourceID).execute().body
+  open func getSource(sourceID: String, requestOptions: RequestOptions? = nil) async throws
+    -> Source
+  {
+    return try await getSourceWithRequestBuilder(sourceID: sourceID, requestOptions: requestOptions)
+      .execute().body
   }
 
   /**
@@ -1181,14 +1253,16 @@ typealias Client = IngestionClient
      - parameter sourceID: (path) The source UUID.
      - returns: RequestBuilder<Source>
      */
-  open func getSourceWithRequestBuilder(sourceID: String) -> RequestBuilder<Source> {
+  open func getSourceWithRequestBuilder(sourceID: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<Source>
+  {
     var localVariablePath = "/1/sources/{sourceID}"
     let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
     let sourceIDPostEscape =
       sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{sourceID}", with: sourceIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -1202,7 +1276,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1219,11 +1293,12 @@ typealias Client = IngestionClient
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getSources(
     itemsPerPage: Int? = nil, page: Int? = nil, type: [SourceType]? = nil,
-    authenticationID: [String]? = nil, sort: SourceSortKeys? = nil, order: OrderKeys? = nil
+    authenticationID: [String]? = nil, sort: SourceSortKeys? = nil, order: OrderKeys? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> ListSourcesResponse {
     return try await getSourcesWithRequestBuilder(
       itemsPerPage: itemsPerPage, page: page, type: type, authenticationID: authenticationID,
-      sort: sort, order: order
+      sort: sort, order: order, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -1241,10 +1316,11 @@ typealias Client = IngestionClient
      */
   open func getSourcesWithRequestBuilder(
     itemsPerPage: Int? = nil, page: Int? = nil, type: [SourceType]? = nil,
-    authenticationID: [String]? = nil, sort: SourceSortKeys? = nil, order: OrderKeys? = nil
+    authenticationID: [String]? = nil, sort: SourceSortKeys? = nil, order: OrderKeys? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<ListSourcesResponse> {
     let localVariablePath = "/1/sources"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "itemsPerPage": (wrappedValue: itemsPerPage?.encodeToJSON(), isExplode: true),
@@ -1265,7 +1341,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1275,8 +1351,9 @@ typealias Client = IngestionClient
      - returns: Task
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getTask(taskID: String) async throws -> Task {
-    return try await getTaskWithRequestBuilder(taskID: taskID).execute().body
+  open func getTask(taskID: String, requestOptions: RequestOptions? = nil) async throws -> Task {
+    return try await getTaskWithRequestBuilder(taskID: taskID, requestOptions: requestOptions)
+      .execute().body
   }
 
   /**
@@ -1286,14 +1363,16 @@ typealias Client = IngestionClient
      - parameter taskID: (path) The task UUID.
      - returns: RequestBuilder<Task>
      */
-  open func getTaskWithRequestBuilder(taskID: String) -> RequestBuilder<Task> {
+  open func getTaskWithRequestBuilder(taskID: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<Task>
+  {
     var localVariablePath = "/1/tasks/{taskID}"
     let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
     let taskIDPostEscape =
       taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -1307,7 +1386,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1328,11 +1407,12 @@ typealias Client = IngestionClient
   open func getTasks(
     itemsPerPage: Int? = nil, page: Int? = nil, action: [ActionType]? = nil, enabled: Bool? = nil,
     sourceID: [String]? = nil, destinationID: [String]? = nil, triggerType: [TriggerType]? = nil,
-    sort: TaskSortKeys? = nil, order: OrderKeys? = nil
+    sort: TaskSortKeys? = nil, order: OrderKeys? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> ListTasksResponse {
     return try await getTasksWithRequestBuilder(
       itemsPerPage: itemsPerPage, page: page, action: action, enabled: enabled, sourceID: sourceID,
-      destinationID: destinationID, triggerType: triggerType, sort: sort, order: order
+      destinationID: destinationID, triggerType: triggerType, sort: sort, order: order,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -1354,10 +1434,10 @@ typealias Client = IngestionClient
   open func getTasksWithRequestBuilder(
     itemsPerPage: Int? = nil, page: Int? = nil, action: [ActionType]? = nil, enabled: Bool? = nil,
     sourceID: [String]? = nil, destinationID: [String]? = nil, triggerType: [TriggerType]? = nil,
-    sort: TaskSortKeys? = nil, order: OrderKeys? = nil
+    sort: TaskSortKeys? = nil, order: OrderKeys? = nil, requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<ListTasksResponse> {
     let localVariablePath = "/1/tasks"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "itemsPerPage": (wrappedValue: itemsPerPage?.encodeToJSON(), isExplode: true),
@@ -1381,7 +1461,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1391,8 +1471,11 @@ typealias Client = IngestionClient
      - returns: RunResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func runTask(taskID: String) async throws -> RunResponse {
-    return try await runTaskWithRequestBuilder(taskID: taskID).execute().body
+  open func runTask(taskID: String, requestOptions: RequestOptions? = nil) async throws
+    -> RunResponse
+  {
+    return try await runTaskWithRequestBuilder(taskID: taskID, requestOptions: requestOptions)
+      .execute().body
   }
 
   /**
@@ -1402,14 +1485,16 @@ typealias Client = IngestionClient
      - parameter taskID: (path) The task UUID.
      - returns: RequestBuilder<RunResponse>
      */
-  open func runTaskWithRequestBuilder(taskID: String) -> RequestBuilder<RunResponse> {
+  open func runTaskWithRequestBuilder(taskID: String, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<RunResponse>
+  {
     var localVariablePath = "/1/tasks/{taskID}/run"
     let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
     let taskIDPostEscape =
       taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -1423,7 +1508,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1433,11 +1518,11 @@ typealias Client = IngestionClient
      - returns: [Authentication]
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func searchAuthentications(authenticationSearch: AuthenticationSearch) async throws
-    -> [Authentication]
-  {
+  open func searchAuthentications(
+    authenticationSearch: AuthenticationSearch, requestOptions: RequestOptions? = nil
+  ) async throws -> [Authentication] {
     return try await searchAuthenticationsWithRequestBuilder(
-      authenticationSearch: authenticationSearch
+      authenticationSearch: authenticationSearch, requestOptions: requestOptions
     ).execute().body
   }
 
@@ -1448,9 +1533,9 @@ typealias Client = IngestionClient
      - parameter authenticationSearch: (body)
      - returns: RequestBuilder<[Authentication]>
      */
-  open func searchAuthenticationsWithRequestBuilder(authenticationSearch: AuthenticationSearch)
-    -> RequestBuilder<[Authentication]>
-  {
+  open func searchAuthenticationsWithRequestBuilder(
+    authenticationSearch: AuthenticationSearch, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<[Authentication]> {
     let localVariablePath = "/1/authentications/search"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(
       forEncodableObject: authenticationSearch)
@@ -1467,7 +1552,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1477,9 +1562,12 @@ typealias Client = IngestionClient
      - returns: [Destination]
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func searchDestinations(destinationSearch: DestinationSearch) async throws -> [Destination] {
-    return try await searchDestinationsWithRequestBuilder(destinationSearch: destinationSearch)
-      .execute().body
+  open func searchDestinations(
+    destinationSearch: DestinationSearch, requestOptions: RequestOptions? = nil
+  ) async throws -> [Destination] {
+    return try await searchDestinationsWithRequestBuilder(
+      destinationSearch: destinationSearch, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -1489,9 +1577,9 @@ typealias Client = IngestionClient
      - parameter destinationSearch: (body)
      - returns: RequestBuilder<[Destination]>
      */
-  open func searchDestinationsWithRequestBuilder(destinationSearch: DestinationSearch)
-    -> RequestBuilder<[Destination]>
-  {
+  open func searchDestinationsWithRequestBuilder(
+    destinationSearch: DestinationSearch, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<[Destination]> {
     let localVariablePath = "/1/destinations/search"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(
       forEncodableObject: destinationSearch)
@@ -1508,7 +1596,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1518,8 +1606,12 @@ typealias Client = IngestionClient
      - returns: [Source]
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func searchSources(sourceSearch: SourceSearch) async throws -> [Source] {
-    return try await searchSourcesWithRequestBuilder(sourceSearch: sourceSearch).execute().body
+  open func searchSources(sourceSearch: SourceSearch, requestOptions: RequestOptions? = nil)
+    async throws -> [Source]
+  {
+    return try await searchSourcesWithRequestBuilder(
+      sourceSearch: sourceSearch, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -1529,8 +1621,9 @@ typealias Client = IngestionClient
      - parameter sourceSearch: (body)
      - returns: RequestBuilder<[Source]>
      */
-  open func searchSourcesWithRequestBuilder(sourceSearch: SourceSearch) -> RequestBuilder<[Source]>
-  {
+  open func searchSourcesWithRequestBuilder(
+    sourceSearch: SourceSearch, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<[Source]> {
     let localVariablePath = "/1/sources/search"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(
       forEncodableObject: sourceSearch)
@@ -1547,7 +1640,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1557,8 +1650,12 @@ typealias Client = IngestionClient
      - returns: [Task]
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func searchTasks(taskSearch: TaskSearch) async throws -> [Task] {
-    return try await searchTasksWithRequestBuilder(taskSearch: taskSearch).execute().body
+  open func searchTasks(taskSearch: TaskSearch, requestOptions: RequestOptions? = nil) async throws
+    -> [Task]
+  {
+    return try await searchTasksWithRequestBuilder(
+      taskSearch: taskSearch, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -1568,7 +1665,9 @@ typealias Client = IngestionClient
      - parameter taskSearch: (body)
      - returns: RequestBuilder<[Task]>
      */
-  open func searchTasksWithRequestBuilder(taskSearch: TaskSearch) -> RequestBuilder<[Task]> {
+  open func searchTasksWithRequestBuilder(
+    taskSearch: TaskSearch, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<[Task]> {
     let localVariablePath = "/1/tasks/search"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(
       forEncodableObject: taskSearch)
@@ -1585,7 +1684,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1595,9 +1694,12 @@ typealias Client = IngestionClient
      - returns: DockerSourceDiscover
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func triggerDockerSourceDiscover(sourceID: String) async throws -> DockerSourceDiscover {
-    return try await triggerDockerSourceDiscoverWithRequestBuilder(sourceID: sourceID).execute()
-      .body
+  open func triggerDockerSourceDiscover(sourceID: String, requestOptions: RequestOptions? = nil)
+    async throws -> DockerSourceDiscover
+  {
+    return try await triggerDockerSourceDiscoverWithRequestBuilder(
+      sourceID: sourceID, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -1607,16 +1709,16 @@ typealias Client = IngestionClient
      - parameter sourceID: (path) The source UUID.
      - returns: RequestBuilder<DockerSourceDiscover>
      */
-  open func triggerDockerSourceDiscoverWithRequestBuilder(sourceID: String) -> RequestBuilder<
-    DockerSourceDiscover
-  > {
+  open func triggerDockerSourceDiscoverWithRequestBuilder(
+    sourceID: String, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<DockerSourceDiscover> {
     var localVariablePath = "/1/sources/{sourceID}/discover"
     let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
     let sourceIDPostEscape =
       sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{sourceID}", with: sourceIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -1630,7 +1732,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1642,10 +1744,12 @@ typealias Client = IngestionClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func updateAuthentication(
-    authenticationID: String, authenticationUpdate: AuthenticationUpdate
+    authenticationID: String, authenticationUpdate: AuthenticationUpdate,
+    requestOptions: RequestOptions? = nil
   ) async throws -> AuthenticationUpdateResponse {
     return try await updateAuthenticationWithRequestBuilder(
-      authenticationID: authenticationID, authenticationUpdate: authenticationUpdate
+      authenticationID: authenticationID, authenticationUpdate: authenticationUpdate,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -1658,7 +1762,8 @@ typealias Client = IngestionClient
      - returns: RequestBuilder<AuthenticationUpdateResponse>
      */
   open func updateAuthenticationWithRequestBuilder(
-    authenticationID: String, authenticationUpdate: AuthenticationUpdate
+    authenticationID: String, authenticationUpdate: AuthenticationUpdate,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<AuthenticationUpdateResponse> {
     var localVariablePath = "/1/authentications/{authenticationID}"
     let authenticationIDPreEscape = "\(APIHelper.mapValueToPathItem(authenticationID))"
@@ -1681,7 +1786,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "PATCH", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1692,11 +1797,13 @@ typealias Client = IngestionClient
      - returns: DestinationUpdateResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func updateDestination(destinationID: String, destinationUpdate: DestinationUpdate)
-    async throws -> DestinationUpdateResponse
-  {
+  open func updateDestination(
+    destinationID: String, destinationUpdate: DestinationUpdate,
+    requestOptions: RequestOptions? = nil
+  ) async throws -> DestinationUpdateResponse {
     return try await updateDestinationWithRequestBuilder(
-      destinationID: destinationID, destinationUpdate: destinationUpdate
+      destinationID: destinationID, destinationUpdate: destinationUpdate,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -1709,7 +1816,8 @@ typealias Client = IngestionClient
      - returns: RequestBuilder<DestinationUpdateResponse>
      */
   open func updateDestinationWithRequestBuilder(
-    destinationID: String, destinationUpdate: DestinationUpdate
+    destinationID: String, destinationUpdate: DestinationUpdate,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<DestinationUpdateResponse> {
     var localVariablePath = "/1/destinations/{destinationID}"
     let destinationIDPreEscape = "\(APIHelper.mapValueToPathItem(destinationID))"
@@ -1732,7 +1840,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "PATCH", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1743,11 +1851,12 @@ typealias Client = IngestionClient
      - returns: SourceUpdateResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func updateSource(sourceID: String, sourceUpdate: SourceUpdate) async throws
-    -> SourceUpdateResponse
-  {
-    return try await updateSourceWithRequestBuilder(sourceID: sourceID, sourceUpdate: sourceUpdate)
-      .execute().body
+  open func updateSource(
+    sourceID: String, sourceUpdate: SourceUpdate, requestOptions: RequestOptions? = nil
+  ) async throws -> SourceUpdateResponse {
+    return try await updateSourceWithRequestBuilder(
+      sourceID: sourceID, sourceUpdate: sourceUpdate, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -1758,9 +1867,9 @@ typealias Client = IngestionClient
      - parameter sourceUpdate: (body)
      - returns: RequestBuilder<SourceUpdateResponse>
      */
-  open func updateSourceWithRequestBuilder(sourceID: String, sourceUpdate: SourceUpdate)
-    -> RequestBuilder<SourceUpdateResponse>
-  {
+  open func updateSourceWithRequestBuilder(
+    sourceID: String, sourceUpdate: SourceUpdate, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<SourceUpdateResponse> {
     var localVariablePath = "/1/sources/{sourceID}"
     let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
     let sourceIDPostEscape =
@@ -1782,7 +1891,7 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "PATCH", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -1793,9 +1902,12 @@ typealias Client = IngestionClient
      - returns: TaskUpdateResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func updateTask(taskID: String, taskUpdate: TaskUpdate) async throws -> TaskUpdateResponse {
-    return try await updateTaskWithRequestBuilder(taskID: taskID, taskUpdate: taskUpdate).execute()
-      .body
+  open func updateTask(
+    taskID: String, taskUpdate: TaskUpdate, requestOptions: RequestOptions? = nil
+  ) async throws -> TaskUpdateResponse {
+    return try await updateTaskWithRequestBuilder(
+      taskID: taskID, taskUpdate: taskUpdate, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -1806,9 +1918,9 @@ typealias Client = IngestionClient
      - parameter taskUpdate: (body)
      - returns: RequestBuilder<TaskUpdateResponse>
      */
-  open func updateTaskWithRequestBuilder(taskID: String, taskUpdate: TaskUpdate) -> RequestBuilder<
-    TaskUpdateResponse
-  > {
+  open func updateTaskWithRequestBuilder(
+    taskID: String, taskUpdate: TaskUpdate, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<TaskUpdateResponse> {
     var localVariablePath = "/1/tasks/{taskID}"
     let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
     let taskIDPostEscape =
@@ -1830,6 +1942,6 @@ typealias Client = IngestionClient
     return localVariableRequestBuilder.init(
       method: "PATCH", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 }

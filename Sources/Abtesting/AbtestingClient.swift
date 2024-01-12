@@ -39,9 +39,12 @@ typealias Client = AbtestingClient
      - returns: ABTestResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func addABTests(addABTestsRequest: AddABTestsRequest) async throws -> ABTestResponse {
-    return try await addABTestsWithRequestBuilder(addABTestsRequest: addABTestsRequest).execute()
-      .body
+  open func addABTests(addABTestsRequest: AddABTestsRequest, requestOptions: RequestOptions? = nil)
+    async throws -> ABTestResponse
+  {
+    return try await addABTestsWithRequestBuilder(
+      addABTestsRequest: addABTestsRequest, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -51,9 +54,9 @@ typealias Client = AbtestingClient
      - parameter addABTestsRequest: (body)
      - returns: RequestBuilder<ABTestResponse>
      */
-  open func addABTestsWithRequestBuilder(addABTestsRequest: AddABTestsRequest) -> RequestBuilder<
-    ABTestResponse
-  > {
+  open func addABTestsWithRequestBuilder(
+    addABTestsRequest: AddABTestsRequest, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<ABTestResponse> {
     let localVariablePath = "/2/abtests"
     let localVariableParameters = JSONEncodingHelper.encodingParameters(
       forEncodableObject: addABTestsRequest)
@@ -70,7 +73,7 @@ typealias Client = AbtestingClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -81,11 +84,12 @@ typealias Client = AbtestingClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customDelete(path: String, parameters: [String: AnyCodable]? = nil) async throws
-    -> AnyCodable
-  {
-    return try await customDeleteWithRequestBuilder(path: path, parameters: parameters).execute()
-      .body
+  open func customDelete(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customDeleteWithRequestBuilder(
+      path: path, parameters: parameters, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -96,16 +100,16 @@ typealias Client = AbtestingClient
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customDeleteWithRequestBuilder(path: String, parameters: [String: AnyCodable]? = nil)
-    -> RequestBuilder<AnyCodable>
-  {
+  open func customDeleteWithRequestBuilder(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
@@ -121,7 +125,7 @@ typealias Client = AbtestingClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -132,10 +136,12 @@ typealias Client = AbtestingClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customGet(path: String, parameters: [String: AnyCodable]? = nil) async throws
-    -> AnyCodable
-  {
-    return try await customGetWithRequestBuilder(path: path, parameters: parameters).execute().body
+  open func customGet(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customGetWithRequestBuilder(
+      path: path, parameters: parameters, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -146,16 +152,16 @@ typealias Client = AbtestingClient
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customGetWithRequestBuilder(path: String, parameters: [String: AnyCodable]? = nil)
-    -> RequestBuilder<AnyCodable>
-  {
+  open func customGetWithRequestBuilder(
+    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
@@ -171,7 +177,7 @@ typealias Client = AbtestingClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -184,10 +190,12 @@ typealias Client = AbtestingClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPost(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPostWithRequestBuilder(path: path, parameters: parameters, body: body)
-      .execute().body
+    return try await customPostWithRequestBuilder(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -200,7 +208,8 @@ typealias Client = AbtestingClient
      - returns: RequestBuilder<AnyCodable>
      */
   open func customPostWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
@@ -224,7 +233,7 @@ typealias Client = AbtestingClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -236,11 +245,13 @@ typealias Client = AbtestingClient
      - returns: AnyCodable
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customPut(path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil)
-    async throws -> AnyCodable
-  {
-    return try await customPutWithRequestBuilder(path: path, parameters: parameters, body: body)
-      .execute().body
+  open func customPut(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
+  ) async throws -> AnyCodable {
+    return try await customPutWithRequestBuilder(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions
+    ).execute().body
   }
 
   /**
@@ -253,7 +264,8 @@ typealias Client = AbtestingClient
      - returns: RequestBuilder<AnyCodable>
      */
   open func customPutWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil
+    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<AnyCodable> {
     var localVariablePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
@@ -277,7 +289,7 @@ typealias Client = AbtestingClient
     return localVariableRequestBuilder.init(
       method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -287,8 +299,11 @@ typealias Client = AbtestingClient
      - returns: ABTestResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteABTest(_id: Int) async throws -> ABTestResponse {
-    return try await deleteABTestWithRequestBuilder(_id: _id).execute().body
+  open func deleteABTest(_id: Int, requestOptions: RequestOptions? = nil) async throws
+    -> ABTestResponse
+  {
+    return try await deleteABTestWithRequestBuilder(_id: _id, requestOptions: requestOptions)
+      .execute().body
   }
 
   /**
@@ -298,14 +313,16 @@ typealias Client = AbtestingClient
      - parameter _id: (path) Unique A/B test ID.
      - returns: RequestBuilder<ABTestResponse>
      */
-  open func deleteABTestWithRequestBuilder(_id: Int) -> RequestBuilder<ABTestResponse> {
+  open func deleteABTestWithRequestBuilder(_id: Int, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<ABTestResponse>
+  {
     var localVariablePath = "/2/abtests/{id}"
     let _idPreEscape = "\(APIHelper.mapValueToPathItem(_id))"
     let _idPostEscape =
       _idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{id}", with: _idPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -319,7 +336,7 @@ typealias Client = AbtestingClient
     return localVariableRequestBuilder.init(
       method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -329,8 +346,9 @@ typealias Client = AbtestingClient
      - returns: ABTest
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getABTest(_id: Int) async throws -> ABTest {
-    return try await getABTestWithRequestBuilder(_id: _id).execute().body
+  open func getABTest(_id: Int, requestOptions: RequestOptions? = nil) async throws -> ABTest {
+    return try await getABTestWithRequestBuilder(_id: _id, requestOptions: requestOptions).execute()
+      .body
   }
 
   /**
@@ -340,14 +358,16 @@ typealias Client = AbtestingClient
      - parameter _id: (path) Unique A/B test ID.
      - returns: RequestBuilder<ABTest>
      */
-  open func getABTestWithRequestBuilder(_id: Int) -> RequestBuilder<ABTest> {
+  open func getABTestWithRequestBuilder(_id: Int, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<ABTest>
+  {
     var localVariablePath = "/2/abtests/{id}"
     let _idPreEscape = "\(APIHelper.mapValueToPathItem(_id))"
     let _idPostEscape =
       _idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{id}", with: _idPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -361,7 +381,7 @@ typealias Client = AbtestingClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -375,10 +395,12 @@ typealias Client = AbtestingClient
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func listABTests(
-    offset: Int? = nil, limit: Int? = nil, indexPrefix: String? = nil, indexSuffix: String? = nil
+    offset: Int? = nil, limit: Int? = nil, indexPrefix: String? = nil, indexSuffix: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> ListABTestsResponse {
     return try await listABTestsWithRequestBuilder(
-      offset: offset, limit: limit, indexPrefix: indexPrefix, indexSuffix: indexSuffix
+      offset: offset, limit: limit, indexPrefix: indexPrefix, indexSuffix: indexSuffix,
+      requestOptions: requestOptions
     ).execute().body
   }
 
@@ -393,10 +415,11 @@ typealias Client = AbtestingClient
      - returns: RequestBuilder<ListABTestsResponse>
      */
   open func listABTestsWithRequestBuilder(
-    offset: Int? = nil, limit: Int? = nil, indexPrefix: String? = nil, indexSuffix: String? = nil
+    offset: Int? = nil, limit: Int? = nil, indexPrefix: String? = nil, indexSuffix: String? = nil,
+    requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<ListABTestsResponse> {
     let localVariablePath = "/2/abtests"
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
       "offset": (wrappedValue: offset?.encodeToJSON(), isExplode: true),
@@ -415,7 +438,7 @@ typealias Client = AbtestingClient
     return localVariableRequestBuilder.init(
       method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 
   /**
@@ -425,8 +448,11 @@ typealias Client = AbtestingClient
      - returns: ABTestResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func stopABTest(_id: Int) async throws -> ABTestResponse {
-    return try await stopABTestWithRequestBuilder(_id: _id).execute().body
+  open func stopABTest(_id: Int, requestOptions: RequestOptions? = nil) async throws
+    -> ABTestResponse
+  {
+    return try await stopABTestWithRequestBuilder(_id: _id, requestOptions: requestOptions)
+      .execute().body
   }
 
   /**
@@ -436,14 +462,16 @@ typealias Client = AbtestingClient
      - parameter _id: (path) Unique A/B test ID.
      - returns: RequestBuilder<ABTestResponse>
      */
-  open func stopABTestWithRequestBuilder(_id: Int) -> RequestBuilder<ABTestResponse> {
+  open func stopABTestWithRequestBuilder(_id: Int, requestOptions: RequestOptions? = nil)
+    -> RequestBuilder<ABTestResponse>
+  {
     var localVariablePath = "/2/abtests/{id}/stop"
     let _idPreEscape = "\(APIHelper.mapValueToPathItem(_id))"
     let _idPostEscape =
       _idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
     localVariablePath = localVariablePath.replacingOccurrences(
       of: "{id}", with: _idPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any]? = nil
+    let localVariableParameters: [String: Any?]? = nil
 
     let localVariableQueryItems: [URLQueryItem]? = nil
 
@@ -457,6 +485,6 @@ typealias Client = AbtestingClient
     return localVariableRequestBuilder.init(
       method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
       parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      requiresAuthentication: true, transporter: self.transporter)
+      transporter: self.transporter, requestOptions: requestOptions)
   }
 }
