@@ -249,6 +249,53 @@ open class InsightsClient {
   }
 
   /**
+     Delete user token.
+
+     - parameter userToken: (path) The user token for which to delete all associated events.
+     - returns: Void
+     */
+  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+  open func deleteUserToken(userToken: String, requestOptions: RequestOptions? = nil) async throws {
+    return try await deleteUserTokenWithRequestBuilder(
+      userToken: userToken, requestOptions: requestOptions
+    ).execute().body
+  }
+
+  /**
+     Delete user token.
+
+     Delete all events related to a certain user token from events metrics and analytics. To delete a personalization user profile, see [Delete a user profile](https://www.algolia.com/doc/rest-api/personalization/#delete-a-user-profile).
+     - responseHeaders: [x-ratelimit-limit(Int), x-ratelimit-remaining(Int), x-ratelimit-reset(Int)]
+     - parameter userToken: (path) The user token for which to delete all associated events.
+     - returns: RequestBuilder<Void>
+     */
+  open func deleteUserTokenWithRequestBuilder(
+    userToken: String, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<Void> {
+    var localVariablePath = "/1/usertokens/{userToken}"
+    let userTokenPreEscape = "\(APIHelper.mapValueToPathItem(userToken))"
+    let userTokenPostEscape =
+      userTokenPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+    localVariablePath = localVariablePath.replacingOccurrences(
+      of: "{userToken}", with: userTokenPostEscape, options: .literal, range: nil)
+    let localVariableParameters: [String: Any?]? = nil
+
+    let localVariableQueryItems: [URLQueryItem]? = nil
+
+    let localVariableNillableHeaders: [String: Any?] = [:]
+
+    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+    let localVariableRequestBuilder: RequestBuilder<Void>.Type = Transporter.requestBuilderFactory
+      .getNonDecodableBuilder()
+
+    return localVariableRequestBuilder.init(
+      method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
+      parameters: localVariableParameters, headers: localVariableHeaderParameters,
+      transporter: self.transporter, requestOptions: requestOptions)
+  }
+
+  /**
      Send events.
 
      - parameter insightsEvents: (body)

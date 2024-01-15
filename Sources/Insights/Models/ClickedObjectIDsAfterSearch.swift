@@ -14,28 +14,30 @@ public struct ClickedObjectIDsAfterSearch: Codable, JSONEncodable, Hashable {
   static let queryIDRule = StringRule(minLength: 32, maxLength: 32, pattern: "[0-9a-f]{32}")
   static let userTokenRule = StringRule(
     minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
-  /** Can contain up to 64 ASCII characters.   Consider naming events consistently—for example, by adopting Segment's [object-action](https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/#the-object-action-framework) framework.  */
+  static let authenticatedUserTokenRule = StringRule(
+    minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
+  /** The name of the event, up to 64 ASCII characters.  Consider naming events consistently—for example, by adopting Segment's [object-action](https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/#the-object-action-framework) framework.  */
   public var eventName: String
   public var eventType: ClickEvent
-  /** Name of the Algolia index. */
+  /** The name of an Algolia index. */
   public var index: String
-  /** List of object identifiers for items of an Algolia index. */
+  /** The object IDs of the records that are part of the event. */
   public var objectIDs: [String]
-  /** Position of the clicked objects in the search results.  The first search result has a position of 1 (not 0). You must provide 1 `position` for each `objectID`.  */
+  /** The position of the clicked item the search results.  The first search result has a position of 1 (not 0). You must provide 1 `position` for each `objectID`.  */
   public var positions: [Int]
   /** Unique identifier for a search query.  The query ID is required for events related to search or browse requests. If you add `clickAnalytics: true` as a search request parameter, the query ID is included in the API response.  */
   public var queryID: String
-  /** Anonymous or pseudonymous user identifier.   > **Note**: Never include personally identifiable information in user tokens.  */
+  /** An anonymous or pseudonymous user identifier.  > **Note**: Never include personally identifiable information in user tokens.  */
   public var userToken: String
-  /** Time of the event in milliseconds in [Unix epoch time](https://wikipedia.org/wiki/Unix_time). By default, the Insights API uses the time it receives an event as its timestamp.  */
-  public var timestamp: Int64?
-  /** User token for authenticated users. */
+  /** An identifier for authenticated users.  > **Note**: Never include personally identifiable information in user tokens.  */
   public var authenticatedUserToken: String?
+  /** The timestamp of the event in milliseconds in [Unix epoch time](https://wikipedia.org/wiki/Unix_time). By default, the Insights API uses the time it receives an event as its timestamp.  */
+  public var timestamp: Int64?
 
   public init(
     eventName: String, eventType: ClickEvent, index: String, objectIDs: [String], positions: [Int],
-    queryID: String, userToken: String, timestamp: Int64? = nil,
-    authenticatedUserToken: String? = nil
+    queryID: String, userToken: String, authenticatedUserToken: String? = nil,
+    timestamp: Int64? = nil
   ) {
     self.eventName = eventName
     self.eventType = eventType
@@ -44,8 +46,8 @@ public struct ClickedObjectIDsAfterSearch: Codable, JSONEncodable, Hashable {
     self.positions = positions
     self.queryID = queryID
     self.userToken = userToken
-    self.timestamp = timestamp
     self.authenticatedUserToken = authenticatedUserToken
+    self.timestamp = timestamp
   }
 
   public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -56,8 +58,8 @@ public struct ClickedObjectIDsAfterSearch: Codable, JSONEncodable, Hashable {
     case positions
     case queryID
     case userToken
-    case timestamp
     case authenticatedUserToken
+    case timestamp
   }
 
   // Encodable protocol methods
@@ -71,7 +73,7 @@ public struct ClickedObjectIDsAfterSearch: Codable, JSONEncodable, Hashable {
     try container.encode(positions, forKey: .positions)
     try container.encode(queryID, forKey: .queryID)
     try container.encode(userToken, forKey: .userToken)
-    try container.encodeIfPresent(timestamp, forKey: .timestamp)
     try container.encodeIfPresent(authenticatedUserToken, forKey: .authenticatedUserToken)
+    try container.encodeIfPresent(timestamp, forKey: .timestamp)
   }
 }

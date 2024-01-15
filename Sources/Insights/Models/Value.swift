@@ -7,8 +7,8 @@ import Foundation
   import AnyCodable
 #endif
 
-/// The total price of a product, including any discounts, in units of &#x60;currency&#x60;.
-public enum Price: Codable, JSONEncodable, Hashable {
+/// Total monetary value of this event in units of &#x60;currency&#x60;.
+public enum Value: Codable, JSONEncodable, Hashable {
   case double(Double)
   case string(String)
 
@@ -32,7 +32,7 @@ public enum Price: Codable, JSONEncodable, Hashable {
       throw DecodingError.typeMismatch(
         Self.Type.self,
         .init(
-          codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of Price"))
+          codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of Value"))
     }
   }
 }

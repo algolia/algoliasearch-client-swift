@@ -9,10 +9,11 @@ import Foundation
 
 public struct ObjectDataAfterSearch: Codable, JSONEncodable, Hashable {
 
-  /** ID of the query that this specific record is attributable to. Used to track purchase events with multiple items originating from different searches. */
+  static let queryIDRule = StringRule(minLength: 32, maxLength: 32, pattern: "[0-9a-f]{32}")
+  /** Unique identifier for a search query, used to track purchase events with multiple records that originate from different searches. */
   public var queryID: String?
   public var price: Price?
-  /** The quantity of the purchased or added-to-cart item. The total value of a purchase is the sum of `quantity` multiplied with the `price` for each purchased item. */
+  /** The quantity of a product that has been purchased or added to the cart. The total value of a purchase is the sum of `quantity` multiplied with the `price` for each purchased item.  */
   public var quantity: Int?
   public var discount: Discount?
 

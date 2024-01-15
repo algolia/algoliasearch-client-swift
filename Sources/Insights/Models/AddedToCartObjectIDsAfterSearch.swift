@@ -14,32 +14,35 @@ public struct AddedToCartObjectIDsAfterSearch: Codable, JSONEncodable, Hashable 
   static let queryIDRule = StringRule(minLength: 32, maxLength: 32, pattern: "[0-9a-f]{32}")
   static let userTokenRule = StringRule(
     minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
-  /** Can contain up to 64 ASCII characters.   Consider naming events consistently—for example, by adopting Segment's [object-action](https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/#the-object-action-framework) framework.  */
+  static let authenticatedUserTokenRule = StringRule(
+    minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
+  /** The name of the event, up to 64 ASCII characters.  Consider naming events consistently—for example, by adopting Segment's [object-action](https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/#the-object-action-framework) framework.  */
   public var eventName: String
   public var eventType: ConversionEvent
   public var eventSubtype: AddToCartEvent
-  /** Name of the Algolia index. */
+  /** The name of an Algolia index. */
   public var index: String
   /** Unique identifier for a search query.  The query ID is required for events related to search or browse requests. If you add `clickAnalytics: true` as a search request parameter, the query ID is included in the API response.  */
   public var queryID: String
-  /** List of object identifiers for items of an Algolia index. */
+  /** The object IDs of the records that are part of the event. */
   public var objectIDs: [String]
-  /** Extra information about the records involved in the event—for example, to add price and quantities of purchased products.  If provided, must be the same length as `objectIDs`.  */
-  public var objectData: [ObjectDataAfterSearch]?
-  /** If you include pricing information in the `objectData` parameter, you must also specify the currency as ISO-4217 currency code, such as USD or EUR. */
-  public var currency: String?
-  /** Anonymous or pseudonymous user identifier.   > **Note**: Never include personally identifiable information in user tokens.  */
+  /** An anonymous or pseudonymous user identifier.  > **Note**: Never include personally identifiable information in user tokens.  */
   public var userToken: String
-  /** Time of the event in milliseconds in [Unix epoch time](https://wikipedia.org/wiki/Unix_time). By default, the Insights API uses the time it receives an event as its timestamp.  */
-  public var timestamp: Int64?
-  /** User token for authenticated users. */
+  /** An identifier for authenticated users.  > **Note**: Never include personally identifiable information in user tokens.  */
   public var authenticatedUserToken: String?
+  /** Three-letter [currency code](https://www.iso.org/iso-4217-currency-codes.html). */
+  public var currency: String?
+  /** Extra information about the records involved in a purchase or add-to-cart events.  If provided, it must be the same length as `objectIDs`.  */
+  public var objectData: [ObjectDataAfterSearch]?
+  /** The timestamp of the event in milliseconds in [Unix epoch time](https://wikipedia.org/wiki/Unix_time). By default, the Insights API uses the time it receives an event as its timestamp.  */
+  public var timestamp: Int64?
+  public var value: Value?
 
   public init(
     eventName: String, eventType: ConversionEvent, eventSubtype: AddToCartEvent, index: String,
-    queryID: String, objectIDs: [String], objectData: [ObjectDataAfterSearch]? = nil,
-    currency: String? = nil, userToken: String, timestamp: Int64? = nil,
-    authenticatedUserToken: String? = nil
+    queryID: String, objectIDs: [String], userToken: String, authenticatedUserToken: String? = nil,
+    currency: String? = nil, objectData: [ObjectDataAfterSearch]? = nil, timestamp: Int64? = nil,
+    value: Value? = nil
   ) {
     self.eventName = eventName
     self.eventType = eventType
@@ -47,11 +50,12 @@ public struct AddedToCartObjectIDsAfterSearch: Codable, JSONEncodable, Hashable 
     self.index = index
     self.queryID = queryID
     self.objectIDs = objectIDs
-    self.objectData = objectData
-    self.currency = currency
     self.userToken = userToken
-    self.timestamp = timestamp
     self.authenticatedUserToken = authenticatedUserToken
+    self.currency = currency
+    self.objectData = objectData
+    self.timestamp = timestamp
+    self.value = value
   }
 
   public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -61,11 +65,12 @@ public struct AddedToCartObjectIDsAfterSearch: Codable, JSONEncodable, Hashable 
     case index
     case queryID
     case objectIDs
-    case objectData
-    case currency
     case userToken
-    case timestamp
     case authenticatedUserToken
+    case currency
+    case objectData
+    case timestamp
+    case value
   }
 
   // Encodable protocol methods
@@ -78,10 +83,11 @@ public struct AddedToCartObjectIDsAfterSearch: Codable, JSONEncodable, Hashable 
     try container.encode(index, forKey: .index)
     try container.encode(queryID, forKey: .queryID)
     try container.encode(objectIDs, forKey: .objectIDs)
-    try container.encodeIfPresent(objectData, forKey: .objectData)
-    try container.encodeIfPresent(currency, forKey: .currency)
     try container.encode(userToken, forKey: .userToken)
-    try container.encodeIfPresent(timestamp, forKey: .timestamp)
     try container.encodeIfPresent(authenticatedUserToken, forKey: .authenticatedUserToken)
+    try container.encodeIfPresent(currency, forKey: .currency)
+    try container.encodeIfPresent(objectData, forKey: .objectData)
+    try container.encodeIfPresent(timestamp, forKey: .timestamp)
+    try container.encodeIfPresent(value, forKey: .value)
   }
 }

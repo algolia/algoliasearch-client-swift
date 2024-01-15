@@ -7,7 +7,7 @@ import Foundation
   import AnyCodable
 #endif
 
-/// Absolute value of the discount in effect for this object, measured in &#x60;currency&#x60;.
+/// The absolute value of the discount for this product, in units of &#x60;currency&#x60;.
 public enum Discount: Codable, JSONEncodable, Hashable {
   case double(Double)
   case string(String)
