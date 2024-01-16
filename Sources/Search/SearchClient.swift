@@ -431,58 +431,6 @@ open class SearchClient {
   }
 
   /**
-     Delete all synonyms.
-
-     - parameter indexName: (path) Index on which to perform the request.
-     - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica indices. (optional)
-     - returns: UpdatedAtResponse
-     */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func clearAllSynonyms(
-    indexName: String, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil
-  ) async throws -> UpdatedAtResponse {
-    return try await clearAllSynonymsWithRequestBuilder(
-      indexName: indexName, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions
-    ).execute().body
-  }
-
-  /**
-     Delete all synonyms.
-
-     Delete all synonyms in the index.
-     - parameter indexName: (path) Index on which to perform the request.
-     - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica indices. (optional)
-     - returns: RequestBuilder<UpdatedAtResponse>
-     */
-  open func clearAllSynonymsWithRequestBuilder(
-    indexName: String, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<UpdatedAtResponse> {
-    var localVariablePath = "/1/indexes/{indexName}/synonyms/clear"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
-
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
-      "forwardToReplicas": (wrappedValue: forwardToReplicas?.encodeToJSON(), isExplode: true)
-    ])
-
-    let localVariableNillableHeaders: [String: Any?] = [:]
-
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
-
-    let localVariableRequestBuilder: RequestBuilder<UpdatedAtResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
-  }
-
-  /**
      Delete all records from an index.
 
      - parameter indexName: (path) Index on which to perform the request.
@@ -558,6 +506,58 @@ open class SearchClient {
     indexName: String, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil
   ) -> RequestBuilder<UpdatedAtResponse> {
     var localVariablePath = "/1/indexes/{indexName}/rules/clear"
+    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+    let indexNamePostEscape =
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+    localVariablePath = localVariablePath.replacingOccurrences(
+      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+    let localVariableParameters: [String: Any?]? = nil
+
+    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+      "forwardToReplicas": (wrappedValue: forwardToReplicas?.encodeToJSON(), isExplode: true)
+    ])
+
+    let localVariableNillableHeaders: [String: Any?] = [:]
+
+    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+
+    let localVariableRequestBuilder: RequestBuilder<UpdatedAtResponse>.Type = Transporter
+      .requestBuilderFactory.getBuilder()
+
+    return localVariableRequestBuilder.init(
+      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
+      parameters: localVariableParameters, headers: localVariableHeaderParameters,
+      transporter: self.transporter, requestOptions: requestOptions)
+  }
+
+  /**
+     Delete all synonyms.
+
+     - parameter indexName: (path) Index on which to perform the request.
+     - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica indices. (optional)
+     - returns: UpdatedAtResponse
+     */
+  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+  open func clearSynonyms(
+    indexName: String, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil
+  ) async throws -> UpdatedAtResponse {
+    return try await clearSynonymsWithRequestBuilder(
+      indexName: indexName, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions
+    ).execute().body
+  }
+
+  /**
+     Delete all synonyms.
+
+     Delete all synonyms in the index.
+     - parameter indexName: (path) Index on which to perform the request.
+     - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica indices. (optional)
+     - returns: RequestBuilder<UpdatedAtResponse>
+     */
+  open func clearSynonymsWithRequestBuilder(
+    indexName: String, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil
+  ) -> RequestBuilder<UpdatedAtResponse> {
+    var localVariablePath = "/1/indexes/{indexName}/synonyms/clear"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
       indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
