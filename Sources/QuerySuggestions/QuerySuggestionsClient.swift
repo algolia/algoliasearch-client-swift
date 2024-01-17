@@ -43,10 +43,10 @@ open class QuerySuggestionsClient {
     querySuggestionsConfigurationWithIndex: QuerySuggestionsConfigurationWithIndex,
     requestOptions: RequestOptions? = nil
   ) async throws -> BaseResponse {
-    return try await createConfigWithRequestBuilder(
+    return try await createConfigWithHTTPInfo(
       querySuggestionsConfigurationWithIndex: querySuggestionsConfigurationWithIndex,
       requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -56,27 +56,26 @@ open class QuerySuggestionsClient {
      - parameter querySuggestionsConfigurationWithIndex: (body)
      - returns: RequestBuilder<BaseResponse>
      */
-  open func createConfigWithRequestBuilder(
+
+  open func createConfigWithHTTPInfo(
     querySuggestionsConfigurationWithIndex: QuerySuggestionsConfigurationWithIndex,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<BaseResponse> {
-    let localVariablePath = "/1/configs"
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(
-      forEncodableObject: querySuggestionsConfigurationWithIndex)
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<BaseResponse> {
+    let path = "/1/configs"
+    let body = querySuggestionsConfigurationWithIndex
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<BaseResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -90,9 +89,9 @@ open class QuerySuggestionsClient {
   open func customDelete(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customDeleteWithRequestBuilder(
+    return try await customDeleteWithHTTPInfo(
       path: path, parameters: parameters, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -103,32 +102,33 @@ open class QuerySuggestionsClient {
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customDeleteWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customDeleteWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "DELETE",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -142,9 +142,9 @@ open class QuerySuggestionsClient {
   open func customGet(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customGetWithRequestBuilder(
+    return try await customGetWithHTTPInfo(
       path: path, parameters: parameters, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -155,32 +155,33 @@ open class QuerySuggestionsClient {
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customGetWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customGetWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -193,12 +194,12 @@ open class QuerySuggestionsClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPost(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPostWithRequestBuilder(
+    return try await customPostWithHTTPInfo(
       path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -210,33 +211,33 @@ open class QuerySuggestionsClient {
      - parameter body: (body) Parameters to send with the custom request. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customPostWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customPostWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+    let body = body
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -249,12 +250,12 @@ open class QuerySuggestionsClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPut(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPutWithRequestBuilder(
+    return try await customPutWithHTTPInfo(
       path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -266,33 +267,33 @@ open class QuerySuggestionsClient {
      - parameter body: (body) Parameters to send with the custom request. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customPutWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customPutWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+    let body = body
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "PUT",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -305,9 +306,8 @@ open class QuerySuggestionsClient {
   open func deleteConfig(indexName: String, requestOptions: RequestOptions? = nil) async throws
     -> BaseResponse
   {
-    return try await deleteConfigWithRequestBuilder(
-      indexName: indexName, requestOptions: requestOptions
-    ).execute().body
+    return try await deleteConfigWithHTTPInfo(indexName: indexName, requestOptions: requestOptions)
+      .body
   }
 
   /**
@@ -317,30 +317,30 @@ open class QuerySuggestionsClient {
      - parameter indexName: (path) Query Suggestions index name.
      - returns: RequestBuilder<BaseResponse>
      */
-  open func deleteConfigWithRequestBuilder(indexName: String, requestOptions: RequestOptions? = nil)
-    -> RequestBuilder<BaseResponse>
-  {
-    var localVariablePath = "/1/configs/{indexName}"
+
+  open func deleteConfigWithHTTPInfo(
+    indexName: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<BaseResponse> {
+    var path = "/1/configs/{indexName}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
       indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<BaseResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "DELETE",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -352,7 +352,7 @@ open class QuerySuggestionsClient {
   open func getAllConfigs(requestOptions: RequestOptions? = nil) async throws
     -> [QuerySuggestionsConfigurationResponse]
   {
-    return try await getAllConfigsWithRequestBuilder(requestOptions: requestOptions).execute().body
+    return try await getAllConfigsWithHTTPInfo(requestOptions: requestOptions).body
   }
 
   /**
@@ -361,25 +361,25 @@ open class QuerySuggestionsClient {
      List all Query Suggestions configurations of your Algolia application.
      - returns: RequestBuilder<[QuerySuggestionsConfigurationResponse]>
      */
-  open func getAllConfigsWithRequestBuilder(requestOptions: RequestOptions? = nil)
-    -> RequestBuilder<[QuerySuggestionsConfigurationResponse]>
+
+  open func getAllConfigsWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil)
+    async throws -> Response<[QuerySuggestionsConfigurationResponse]>
   {
-    let localVariablePath = "/1/configs"
-    let localVariableParameters: [String: Any?]? = nil
+    let path = "/1/configs"
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<[QuerySuggestionsConfigurationResponse]>.Type =
-      Transporter.requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -392,9 +392,8 @@ open class QuerySuggestionsClient {
   open func getConfig(indexName: String, requestOptions: RequestOptions? = nil) async throws
     -> QuerySuggestionsConfigurationResponse
   {
-    return try await getConfigWithRequestBuilder(
-      indexName: indexName, requestOptions: requestOptions
-    ).execute().body
+    return try await getConfigWithHTTPInfo(indexName: indexName, requestOptions: requestOptions)
+      .body
   }
 
   /**
@@ -404,30 +403,30 @@ open class QuerySuggestionsClient {
      - parameter indexName: (path) Query Suggestions index name.
      - returns: RequestBuilder<QuerySuggestionsConfigurationResponse>
      */
-  open func getConfigWithRequestBuilder(indexName: String, requestOptions: RequestOptions? = nil)
-    -> RequestBuilder<QuerySuggestionsConfigurationResponse>
-  {
-    var localVariablePath = "/1/configs/{indexName}"
+
+  open func getConfigWithHTTPInfo(
+    indexName: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<QuerySuggestionsConfigurationResponse> {
+    var path = "/1/configs/{indexName}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
       indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<QuerySuggestionsConfigurationResponse>.Type =
-      Transporter.requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -440,9 +439,9 @@ open class QuerySuggestionsClient {
   open func getConfigStatus(indexName: String, requestOptions: RequestOptions? = nil) async throws
     -> GetConfigStatus200Response
   {
-    return try await getConfigStatusWithRequestBuilder(
+    return try await getConfigStatusWithHTTPInfo(
       indexName: indexName, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -452,30 +451,30 @@ open class QuerySuggestionsClient {
      - parameter indexName: (path) Query Suggestions index name.
      - returns: RequestBuilder<GetConfigStatus200Response>
      */
-  open func getConfigStatusWithRequestBuilder(
-    indexName: String, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<GetConfigStatus200Response> {
-    var localVariablePath = "/1/configs/{indexName}/status"
+
+  open func getConfigStatusWithHTTPInfo(
+    indexName: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetConfigStatus200Response> {
+    var path = "/1/configs/{indexName}/status"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
       indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<GetConfigStatus200Response>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -488,9 +487,8 @@ open class QuerySuggestionsClient {
   open func getLogFile(indexName: String, requestOptions: RequestOptions? = nil) async throws
     -> GetLogFile200Response
   {
-    return try await getLogFileWithRequestBuilder(
-      indexName: indexName, requestOptions: requestOptions
-    ).execute().body
+    return try await getLogFileWithHTTPInfo(indexName: indexName, requestOptions: requestOptions)
+      .body
   }
 
   /**
@@ -500,30 +498,30 @@ open class QuerySuggestionsClient {
      - parameter indexName: (path) Query Suggestions index name.
      - returns: RequestBuilder<GetLogFile200Response>
      */
-  open func getLogFileWithRequestBuilder(indexName: String, requestOptions: RequestOptions? = nil)
-    -> RequestBuilder<GetLogFile200Response>
-  {
-    var localVariablePath = "/1/logs/{indexName}"
+
+  open func getLogFileWithHTTPInfo(
+    indexName: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetLogFile200Response> {
+    var path = "/1/logs/{indexName}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
       indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<GetLogFile200Response>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -538,10 +536,10 @@ open class QuerySuggestionsClient {
     indexName: String, querySuggestionsConfiguration: QuerySuggestionsConfiguration,
     requestOptions: RequestOptions? = nil
   ) async throws -> BaseResponse {
-    return try await updateConfigWithRequestBuilder(
+    return try await updateConfigWithHTTPInfo(
       indexName: indexName, querySuggestionsConfiguration: querySuggestionsConfiguration,
       requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -552,31 +550,30 @@ open class QuerySuggestionsClient {
      - parameter querySuggestionsConfiguration: (body)
      - returns: RequestBuilder<BaseResponse>
      */
-  open func updateConfigWithRequestBuilder(
+
+  open func updateConfigWithHTTPInfo(
     indexName: String, querySuggestionsConfiguration: QuerySuggestionsConfiguration,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<BaseResponse> {
-    var localVariablePath = "/1/configs/{indexName}"
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<BaseResponse> {
+    var path = "/1/configs/{indexName}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
       indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(
-      forEncodableObject: querySuggestionsConfiguration)
+    let body = querySuggestionsConfiguration
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<BaseResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "PUT",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 }

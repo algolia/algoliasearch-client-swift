@@ -42,9 +42,9 @@ open class MonitoringClient {
   open func customDelete(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customDeleteWithRequestBuilder(
+    return try await customDeleteWithHTTPInfo(
       path: path, parameters: parameters, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -55,32 +55,33 @@ open class MonitoringClient {
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customDeleteWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customDeleteWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "DELETE",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -94,9 +95,9 @@ open class MonitoringClient {
   open func customGet(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customGetWithRequestBuilder(
+    return try await customGetWithHTTPInfo(
       path: path, parameters: parameters, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -107,32 +108,33 @@ open class MonitoringClient {
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customGetWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customGetWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -145,12 +147,12 @@ open class MonitoringClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPost(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPostWithRequestBuilder(
+    return try await customPostWithHTTPInfo(
       path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -162,33 +164,33 @@ open class MonitoringClient {
      - parameter body: (body) Parameters to send with the custom request. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customPostWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customPostWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+    let body = body
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -201,12 +203,12 @@ open class MonitoringClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPut(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPutWithRequestBuilder(
+    return try await customPutWithHTTPInfo(
       path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -218,33 +220,33 @@ open class MonitoringClient {
      - parameter body: (body) Parameters to send with the custom request. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customPutWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customPutWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+    let body = body
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "PUT",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -257,9 +259,9 @@ open class MonitoringClient {
   open func getClusterIncidents(clusters: String, requestOptions: RequestOptions? = nil)
     async throws -> IncidentsResponse
   {
-    return try await getClusterIncidentsWithRequestBuilder(
+    return try await getClusterIncidentsWithHTTPInfo(
       clusters: clusters, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -269,30 +271,30 @@ open class MonitoringClient {
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: RequestBuilder<IncidentsResponse>
      */
-  open func getClusterIncidentsWithRequestBuilder(
-    clusters: String, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<IncidentsResponse> {
-    var localVariablePath = "/1/incidents/{clusters}"
+
+  open func getClusterIncidentsWithHTTPInfo(
+    clusters: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<IncidentsResponse> {
+    var path = "/1/incidents/{clusters}"
     let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
     let clustersPostEscape =
       clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{clusters}", with: clustersPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<IncidentsResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -305,9 +307,9 @@ open class MonitoringClient {
   open func getClusterStatus(clusters: String, requestOptions: RequestOptions? = nil) async throws
     -> StatusResponse
   {
-    return try await getClusterStatusWithRequestBuilder(
+    return try await getClusterStatusWithHTTPInfo(
       clusters: clusters, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -317,30 +319,30 @@ open class MonitoringClient {
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: RequestBuilder<StatusResponse>
      */
-  open func getClusterStatusWithRequestBuilder(
-    clusters: String, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<StatusResponse> {
-    var localVariablePath = "/1/status/{clusters}"
+
+  open func getClusterStatusWithHTTPInfo(
+    clusters: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<StatusResponse> {
+    var path = "/1/status/{clusters}"
     let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
     let clustersPostEscape =
       clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{clusters}", with: clustersPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<StatusResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -350,7 +352,7 @@ open class MonitoringClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getIncidents(requestOptions: RequestOptions? = nil) async throws -> IncidentsResponse {
-    return try await getIncidentsWithRequestBuilder(requestOptions: requestOptions).execute().body
+    return try await getIncidentsWithHTTPInfo(requestOptions: requestOptions).body
   }
 
   /**
@@ -359,25 +361,25 @@ open class MonitoringClient {
      List known incidents for all clusters.
      - returns: RequestBuilder<IncidentsResponse>
      */
-  open func getIncidentsWithRequestBuilder(requestOptions: RequestOptions? = nil) -> RequestBuilder<
-    IncidentsResponse
-  > {
-    let localVariablePath = "/1/incidents"
-    let localVariableParameters: [String: Any?]? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+  open func getIncidentsWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil)
+    async throws -> Response<IncidentsResponse>
+  {
+    let path = "/1/incidents"
+    let body: AnyCodable? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableRequestBuilder: RequestBuilder<IncidentsResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -390,9 +392,8 @@ open class MonitoringClient {
   open func getIndexingTime(clusters: String, requestOptions: RequestOptions? = nil) async throws
     -> IndexingTimeResponse
   {
-    return try await getIndexingTimeWithRequestBuilder(
-      clusters: clusters, requestOptions: requestOptions
-    ).execute().body
+    return try await getIndexingTimeWithHTTPInfo(clusters: clusters, requestOptions: requestOptions)
+      .body
   }
 
   /**
@@ -402,30 +403,30 @@ open class MonitoringClient {
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: RequestBuilder<IndexingTimeResponse>
      */
-  open func getIndexingTimeWithRequestBuilder(
-    clusters: String, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<IndexingTimeResponse> {
-    var localVariablePath = "/1/indexing/{clusters}"
+
+  open func getIndexingTimeWithHTTPInfo(
+    clusters: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<IndexingTimeResponse> {
+    var path = "/1/indexing/{clusters}"
     let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
     let clustersPostEscape =
       clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{clusters}", with: clustersPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<IndexingTimeResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -435,7 +436,7 @@ open class MonitoringClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getInventory(requestOptions: RequestOptions? = nil) async throws -> InventoryResponse {
-    return try await getInventoryWithRequestBuilder(requestOptions: requestOptions).execute().body
+    return try await getInventoryWithHTTPInfo(requestOptions: requestOptions).body
   }
 
   /**
@@ -444,25 +445,25 @@ open class MonitoringClient {
      List the servers belonging to clusters.  The response depends on whether you authenticate your API request:  - With authentication, the response lists the servers assigned to your Algolia application's cluster.  - Without authentication, the response lists the servers for all Algolia clusters.
      - returns: RequestBuilder<InventoryResponse>
      */
-  open func getInventoryWithRequestBuilder(requestOptions: RequestOptions? = nil) -> RequestBuilder<
-    InventoryResponse
-  > {
-    let localVariablePath = "/1/inventory/servers"
-    let localVariableParameters: [String: Any?]? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+  open func getInventoryWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil)
+    async throws -> Response<InventoryResponse>
+  {
+    let path = "/1/inventory/servers"
+    let body: AnyCodable? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableRequestBuilder: RequestBuilder<InventoryResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -475,9 +476,7 @@ open class MonitoringClient {
   open func getLatency(clusters: String, requestOptions: RequestOptions? = nil) async throws
     -> LatencyResponse
   {
-    return try await getLatencyWithRequestBuilder(
-      clusters: clusters, requestOptions: requestOptions
-    ).execute().body
+    return try await getLatencyWithHTTPInfo(clusters: clusters, requestOptions: requestOptions).body
   }
 
   /**
@@ -487,30 +486,30 @@ open class MonitoringClient {
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: RequestBuilder<LatencyResponse>
      */
-  open func getLatencyWithRequestBuilder(clusters: String, requestOptions: RequestOptions? = nil)
-    -> RequestBuilder<LatencyResponse>
-  {
-    var localVariablePath = "/1/latency/{clusters}"
+
+  open func getLatencyWithHTTPInfo(
+    clusters: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<LatencyResponse> {
+    var path = "/1/latency/{clusters}"
     let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
     let clustersPostEscape =
       clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{clusters}", with: clustersPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<LatencyResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -524,9 +523,9 @@ open class MonitoringClient {
   open func getMetrics(metric: Metric, period: Period, requestOptions: RequestOptions? = nil)
     async throws -> InfrastructureResponse
   {
-    return try await getMetricsWithRequestBuilder(
+    return try await getMetricsWithHTTPInfo(
       metric: metric, period: period, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -537,35 +536,35 @@ open class MonitoringClient {
      - parameter period: (path) Period over which to aggregate the metrics:  - &#x60;minute&#x60;. Aggregate the last minute. 1 data point per 10 seconds. - &#x60;hour&#x60;. Aggregate the last hour. 1 data point per minute. - &#x60;day&#x60;. Aggregate the last day. 1 data point per 10 minutes. - &#x60;week&#x60;. Aggregate the last week. 1 data point per hour. - &#x60;month&#x60;. Aggregate the last month. 1 data point per day.
      - returns: RequestBuilder<InfrastructureResponse>
      */
-  open func getMetricsWithRequestBuilder(
-    metric: Metric, period: Period, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<InfrastructureResponse> {
-    var localVariablePath = "/1/infrastructure/{metric}/period/{period}"
+
+  open func getMetricsWithHTTPInfo(
+    metric: Metric, period: Period, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<InfrastructureResponse> {
+    var path = "/1/infrastructure/{metric}/period/{period}"
     let metricPreEscape = "\(APIHelper.mapValueToPathItem(metric))"
     let metricPostEscape =
       metricPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{metric}", with: metricPostEscape, options: .literal, range: nil)
     let periodPreEscape = "\(APIHelper.mapValueToPathItem(period))"
     let periodPostEscape =
       periodPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{period}", with: periodPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<InfrastructureResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -578,9 +577,8 @@ open class MonitoringClient {
   open func getReachability(clusters: String, requestOptions: RequestOptions? = nil) async throws
     -> [String: [String: Bool]]
   {
-    return try await getReachabilityWithRequestBuilder(
-      clusters: clusters, requestOptions: requestOptions
-    ).execute().body
+    return try await getReachabilityWithHTTPInfo(clusters: clusters, requestOptions: requestOptions)
+      .body
   }
 
   /**
@@ -590,30 +588,30 @@ open class MonitoringClient {
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: RequestBuilder<[String: [String: Bool]]>
      */
-  open func getReachabilityWithRequestBuilder(
-    clusters: String, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<[String: [String: Bool]]> {
-    var localVariablePath = "/1/reachability/{clusters}/probes"
+
+  open func getReachabilityWithHTTPInfo(
+    clusters: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<[String: [String: Bool]]> {
+    var path = "/1/reachability/{clusters}/probes"
     let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
     let clustersPostEscape =
       clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{clusters}", with: clustersPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<[String: [String: Bool]]>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -623,7 +621,7 @@ open class MonitoringClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getStatus(requestOptions: RequestOptions? = nil) async throws -> StatusResponse {
-    return try await getStatusWithRequestBuilder(requestOptions: requestOptions).execute().body
+    return try await getStatusWithHTTPInfo(requestOptions: requestOptions).body
   }
 
   /**
@@ -632,24 +630,24 @@ open class MonitoringClient {
      Report whether clusters are operational.  The response depends on whether you authenticate your API request.  - With authentication, the response includes the status of the cluster assigned to your Algolia application.  - Without authentication, the response lists the statuses of all public Algolia clusters.
      - returns: RequestBuilder<StatusResponse>
      */
-  open func getStatusWithRequestBuilder(requestOptions: RequestOptions? = nil) -> RequestBuilder<
-    StatusResponse
-  > {
-    let localVariablePath = "/1/status"
-    let localVariableParameters: [String: Any?]? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+  open func getStatusWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil)
+    async throws -> Response<StatusResponse>
+  {
+    let path = "/1/status"
+    let body: AnyCodable? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableRequestBuilder: RequestBuilder<StatusResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 }

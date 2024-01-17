@@ -87,44 +87,24 @@ public enum DecodableRequestBuilderError: Error {
 
 open class Response<T> {
   public let statusCode: Int
-  public let header: [String: String]
+  public let headers: [String: String]
   public let body: T
   public let bodyData: Data?
+  public let httpResponse: HTTPURLResponse
 
-  public init(statusCode: Int, header: [String: String], body: T, bodyData: Data?) {
-    self.statusCode = statusCode
-    self.header = header
-    self.body = body
-    self.bodyData = bodyData
-  }
-
-  public convenience init(response: HTTPURLResponse, body: T, bodyData: Data?) {
+  public init(response: HTTPURLResponse, body: T, bodyData: Data?) {
     let rawHeader = response.allHeaderFields
-    var responseHeader = [String: String]()
+    var responseHeaders = [String: String]()
     for (key, value) in rawHeader {
       if let key = key.base as? String, let value = value as? String {
-        responseHeader[key] = value
+        responseHeaders[key] = value
       }
     }
-    self.init(
-      statusCode: response.statusCode, header: responseHeader, body: body, bodyData: bodyData)
-  }
-}
 
-public final class RequestTask: URLSessionTask {
-  private var lock = NSRecursiveLock()
-  private var task: URLSessionTask?
-
-  internal func set(task: URLSessionTask) {
-    lock.lock()
-    defer { lock.unlock() }
-    self.task = task
-  }
-
-  override public func cancel() {
-    lock.lock()
-    defer { lock.unlock() }
-    task?.cancel()
-    task = nil
+    self.statusCode = response.statusCode
+    self.headers = responseHeaders
+    self.body = body
+    self.bodyData = bodyData
+    self.httpResponse = response
   }
 }

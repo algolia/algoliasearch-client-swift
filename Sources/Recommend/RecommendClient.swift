@@ -42,9 +42,9 @@ open class RecommendClient {
   open func customDelete(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customDeleteWithRequestBuilder(
+    return try await customDeleteWithHTTPInfo(
       path: path, parameters: parameters, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -55,32 +55,33 @@ open class RecommendClient {
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customDeleteWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customDeleteWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "DELETE",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -94,9 +95,9 @@ open class RecommendClient {
   open func customGet(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customGetWithRequestBuilder(
+    return try await customGetWithHTTPInfo(
       path: path, parameters: parameters, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -107,32 +108,33 @@ open class RecommendClient {
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customGetWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customGetWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -145,12 +147,12 @@ open class RecommendClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPost(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPostWithRequestBuilder(
+    return try await customPostWithHTTPInfo(
       path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -162,33 +164,33 @@ open class RecommendClient {
      - parameter body: (body) Parameters to send with the custom request. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customPostWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customPostWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+    let body = body
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -201,12 +203,12 @@ open class RecommendClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPut(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPutWithRequestBuilder(
+    return try await customPutWithHTTPInfo(
       path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -218,33 +220,33 @@ open class RecommendClient {
      - parameter body: (body) Parameters to send with the custom request. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customPutWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customPutWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+    let body = body
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "PUT",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -260,9 +262,9 @@ open class RecommendClient {
     indexName: String, model: RecommendModels, objectID: String,
     requestOptions: RequestOptions? = nil
   ) async throws -> DeletedAtResponse {
-    return try await deleteRecommendRuleWithRequestBuilder(
+    return try await deleteRecommendRuleWithHTTPInfo(
       indexName: indexName, model: model, objectID: objectID, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -274,41 +276,41 @@ open class RecommendClient {
      - parameter objectID: (path) Unique record (object) identifier.
      - returns: RequestBuilder<DeletedAtResponse>
      */
-  open func deleteRecommendRuleWithRequestBuilder(
+
+  open func deleteRecommendRuleWithHTTPInfo(
     indexName: String, model: RecommendModels, objectID: String,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<DeletedAtResponse> {
-    var localVariablePath = "/1/indexes/{indexName}/{model}/recommend/rules/{objectID}"
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<DeletedAtResponse> {
+    var path = "/1/indexes/{indexName}/{model}/recommend/rules/{objectID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
       indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let modelPreEscape = "\(APIHelper.mapValueToPathItem(model))"
     let modelPostEscape =
       modelPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{model}", with: modelPostEscape, options: .literal, range: nil)
     let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
     let objectIDPostEscape =
       objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<DeletedAtResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "DELETE",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -324,9 +326,9 @@ open class RecommendClient {
     indexName: String, model: RecommendModels, objectID: String,
     requestOptions: RequestOptions? = nil
   ) async throws -> RuleResponse {
-    return try await getRecommendRuleWithRequestBuilder(
+    return try await getRecommendRuleWithHTTPInfo(
       indexName: indexName, model: model, objectID: objectID, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -338,41 +340,41 @@ open class RecommendClient {
      - parameter objectID: (path) Unique record (object) identifier.
      - returns: RequestBuilder<RuleResponse>
      */
-  open func getRecommendRuleWithRequestBuilder(
+
+  open func getRecommendRuleWithHTTPInfo(
     indexName: String, model: RecommendModels, objectID: String,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<RuleResponse> {
-    var localVariablePath = "/1/indexes/{indexName}/{model}/recommend/rules/{objectID}"
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<RuleResponse> {
+    var path = "/1/indexes/{indexName}/{model}/recommend/rules/{objectID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
       indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let modelPreEscape = "\(APIHelper.mapValueToPathItem(model))"
     let modelPostEscape =
       modelPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{model}", with: modelPostEscape, options: .literal, range: nil)
     let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
     let objectIDPostEscape =
       objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<RuleResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -387,9 +389,9 @@ open class RecommendClient {
   open func getRecommendStatus(
     indexName: String, model: RecommendModels, taskID: Int64, requestOptions: RequestOptions? = nil
   ) async throws -> GetRecommendTaskResponse {
-    return try await getRecommendStatusWithRequestBuilder(
+    return try await getRecommendStatusWithHTTPInfo(
       indexName: indexName, model: model, taskID: taskID, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -401,40 +403,41 @@ open class RecommendClient {
      - parameter taskID: (path) Unique identifier of a task. Numeric value (up to 64bits).
      - returns: RequestBuilder<GetRecommendTaskResponse>
      */
-  open func getRecommendStatusWithRequestBuilder(
-    indexName: String, model: RecommendModels, taskID: Int64, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<GetRecommendTaskResponse> {
-    var localVariablePath = "/1/indexes/{indexName}/{model}/task/{taskID}"
+
+  open func getRecommendStatusWithHTTPInfo(
+    indexName: String, model: RecommendModels, taskID: Int64,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetRecommendTaskResponse> {
+    var path = "/1/indexes/{indexName}/{model}/task/{taskID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
       indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let modelPreEscape = "\(APIHelper.mapValueToPathItem(model))"
     let modelPostEscape =
       modelPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{model}", with: modelPostEscape, options: .literal, range: nil)
     let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
     let taskIDPostEscape =
       taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<GetRecommendTaskResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -447,9 +450,9 @@ open class RecommendClient {
   open func getRecommendations(
     getRecommendationsParams: GetRecommendationsParams, requestOptions: RequestOptions? = nil
   ) async throws -> GetRecommendationsResponse {
-    return try await getRecommendationsWithRequestBuilder(
+    return try await getRecommendationsWithHTTPInfo(
       getRecommendationsParams: getRecommendationsParams, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -459,26 +462,26 @@ open class RecommendClient {
      - parameter getRecommendationsParams: (body)
      - returns: RequestBuilder<GetRecommendationsResponse>
      */
-  open func getRecommendationsWithRequestBuilder(
-    getRecommendationsParams: GetRecommendationsParams, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<GetRecommendationsResponse> {
-    let localVariablePath = "/1/indexes/*/recommendations"
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(
-      forEncodableObject: getRecommendationsParams)
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+  open func getRecommendationsWithHTTPInfo(
+    getRecommendationsParams: GetRecommendationsParams,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetRecommendationsResponse> {
+    let path = "/1/indexes/*/recommendations"
+    let body = getRecommendationsParams
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableRequestBuilder: RequestBuilder<GetRecommendationsResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -495,10 +498,10 @@ open class RecommendClient {
     searchRecommendRulesParams: SearchRecommendRulesParams? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> SearchRecommendRulesResponse {
-    return try await searchRecommendRulesWithRequestBuilder(
+    return try await searchRecommendRulesWithHTTPInfo(
       indexName: indexName, model: model, searchRecommendRulesParams: searchRecommendRulesParams,
       requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -510,37 +513,36 @@ open class RecommendClient {
      - parameter searchRecommendRulesParams: (body)  (optional)
      - returns: RequestBuilder<SearchRecommendRulesResponse>
      */
-  open func searchRecommendRulesWithRequestBuilder(
+
+  open func searchRecommendRulesWithHTTPInfo(
     indexName: String, model: RecommendModels,
     searchRecommendRulesParams: SearchRecommendRulesParams? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<SearchRecommendRulesResponse> {
-    var localVariablePath = "/1/indexes/{indexName}/{model}/recommend/rules/search"
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<SearchRecommendRulesResponse> {
+    var path = "/1/indexes/{indexName}/{model}/recommend/rules/search"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
       indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let modelPreEscape = "\(APIHelper.mapValueToPathItem(model))"
     let modelPostEscape =
       modelPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{model}", with: modelPostEscape, options: .literal, range: nil)
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(
-      forEncodableObject: searchRecommendRulesParams)
+    let body = searchRecommendRulesParams
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<SearchRecommendRulesResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 }

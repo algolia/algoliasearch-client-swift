@@ -42,9 +42,9 @@ open class AbtestingClient {
   open func addABTests(addABTestsRequest: AddABTestsRequest, requestOptions: RequestOptions? = nil)
     async throws -> ABTestResponse
   {
-    return try await addABTestsWithRequestBuilder(
+    return try await addABTestsWithHTTPInfo(
       addABTestsRequest: addABTestsRequest, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -54,26 +54,25 @@ open class AbtestingClient {
      - parameter addABTestsRequest: (body)
      - returns: RequestBuilder<ABTestResponse>
      */
-  open func addABTestsWithRequestBuilder(
-    addABTestsRequest: AddABTestsRequest, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<ABTestResponse> {
-    let localVariablePath = "/2/abtests"
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(
-      forEncodableObject: addABTestsRequest)
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+  open func addABTestsWithHTTPInfo(
+    addABTestsRequest: AddABTestsRequest, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<ABTestResponse> {
+    let path = "/2/abtests"
+    let body = addABTestsRequest
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableRequestBuilder: RequestBuilder<ABTestResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -87,9 +86,9 @@ open class AbtestingClient {
   open func customDelete(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customDeleteWithRequestBuilder(
+    return try await customDeleteWithHTTPInfo(
       path: path, parameters: parameters, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -100,32 +99,33 @@ open class AbtestingClient {
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customDeleteWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customDeleteWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "DELETE",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -139,9 +139,9 @@ open class AbtestingClient {
   open func customGet(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customGetWithRequestBuilder(
+    return try await customGetWithHTTPInfo(
       path: path, parameters: parameters, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -152,32 +152,33 @@ open class AbtestingClient {
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customGetWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customGetWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -190,12 +191,12 @@ open class AbtestingClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPost(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPostWithRequestBuilder(
+    return try await customPostWithHTTPInfo(
       path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -207,33 +208,33 @@ open class AbtestingClient {
      - parameter body: (body) Parameters to send with the custom request. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customPostWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customPostWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+    let body = body
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -246,12 +247,12 @@ open class AbtestingClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPut(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPutWithRequestBuilder(
+    return try await customPutWithHTTPInfo(
       path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -263,33 +264,33 @@ open class AbtestingClient {
      - parameter body: (body) Parameters to send with the custom request. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customPutWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customPutWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+    let body = body
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "PUT",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -302,8 +303,7 @@ open class AbtestingClient {
   open func deleteABTest(id: Int, requestOptions: RequestOptions? = nil) async throws
     -> ABTestResponse
   {
-    return try await deleteABTestWithRequestBuilder(id: id, requestOptions: requestOptions)
-      .execute().body
+    return try await deleteABTestWithHTTPInfo(id: id, requestOptions: requestOptions).body
   }
 
   /**
@@ -313,30 +313,29 @@ open class AbtestingClient {
      - parameter id: (path) Unique A/B test ID.
      - returns: RequestBuilder<ABTestResponse>
      */
-  open func deleteABTestWithRequestBuilder(id: Int, requestOptions: RequestOptions? = nil)
-    -> RequestBuilder<ABTestResponse>
-  {
-    var localVariablePath = "/2/abtests/{id}"
+
+  open func deleteABTestWithHTTPInfo(
+    id: Int, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<ABTestResponse> {
+    var path = "/2/abtests/{id}"
     let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
     let idPostEscape =
       idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
-      of: "{id}", with: idPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    path = path.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<ABTestResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "DELETE",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -347,8 +346,7 @@ open class AbtestingClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getABTest(id: Int, requestOptions: RequestOptions? = nil) async throws -> ABTest {
-    return try await getABTestWithRequestBuilder(id: id, requestOptions: requestOptions).execute()
-      .body
+    return try await getABTestWithHTTPInfo(id: id, requestOptions: requestOptions).body
   }
 
   /**
@@ -358,30 +356,29 @@ open class AbtestingClient {
      - parameter id: (path) Unique A/B test ID.
      - returns: RequestBuilder<ABTest>
      */
-  open func getABTestWithRequestBuilder(id: Int, requestOptions: RequestOptions? = nil)
-    -> RequestBuilder<ABTest>
+
+  open func getABTestWithHTTPInfo(id: Int, requestOptions userRequestOptions: RequestOptions? = nil)
+    async throws -> Response<ABTest>
   {
-    var localVariablePath = "/2/abtests/{id}"
+    var path = "/2/abtests/{id}"
     let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
     let idPostEscape =
       idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
-      of: "{id}", with: idPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    path = path.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<ABTest>.Type = Transporter.requestBuilderFactory
-      .getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -398,10 +395,10 @@ open class AbtestingClient {
     offset: Int? = nil, limit: Int? = nil, indexPrefix: String? = nil, indexSuffix: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> ListABTestsResponse {
-    return try await listABTestsWithRequestBuilder(
+    return try await listABTestsWithHTTPInfo(
       offset: offset, limit: limit, indexPrefix: indexPrefix, indexSuffix: indexSuffix,
       requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -414,31 +411,31 @@ open class AbtestingClient {
      - parameter indexSuffix: (query) Only return A/B tests for indices ending with this suffix. (optional)
      - returns: RequestBuilder<ListABTestsResponse>
      */
-  open func listABTestsWithRequestBuilder(
-    offset: Int? = nil, limit: Int? = nil, indexPrefix: String? = nil, indexSuffix: String? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<ListABTestsResponse> {
-    let localVariablePath = "/2/abtests"
-    let localVariableParameters: [String: Any?]? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+  open func listABTestsWithHTTPInfo(
+    offset: Int? = nil, limit: Int? = nil, indexPrefix: String? = nil, indexSuffix: String? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<ListABTestsResponse> {
+    let path = "/2/abtests"
+    let body: AnyCodable? = nil
+
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "offset": (wrappedValue: offset?.encodeToJSON(), isExplode: true),
       "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
       "indexPrefix": (wrappedValue: indexPrefix?.encodeToJSON(), isExplode: true),
       "indexSuffix": (wrappedValue: indexSuffix?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<ListABTestsResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -451,8 +448,7 @@ open class AbtestingClient {
   open func stopABTest(id: Int, requestOptions: RequestOptions? = nil) async throws
     -> ABTestResponse
   {
-    return try await stopABTestWithRequestBuilder(id: id, requestOptions: requestOptions).execute()
-      .body
+    return try await stopABTestWithHTTPInfo(id: id, requestOptions: requestOptions).body
   }
 
   /**
@@ -462,29 +458,28 @@ open class AbtestingClient {
      - parameter id: (path) Unique A/B test ID.
      - returns: RequestBuilder<ABTestResponse>
      */
-  open func stopABTestWithRequestBuilder(id: Int, requestOptions: RequestOptions? = nil)
-    -> RequestBuilder<ABTestResponse>
-  {
-    var localVariablePath = "/2/abtests/{id}/stop"
+
+  open func stopABTestWithHTTPInfo(
+    id: Int, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<ABTestResponse> {
+    var path = "/2/abtests/{id}/stop"
     let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
     let idPostEscape =
       idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
-      of: "{id}", with: idPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    path = path.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<ABTestResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 }

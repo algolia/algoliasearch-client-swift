@@ -43,9 +43,9 @@ open class InsightsClient {
   open func customDelete(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customDeleteWithRequestBuilder(
+    return try await customDeleteWithHTTPInfo(
       path: path, parameters: parameters, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -56,32 +56,33 @@ open class InsightsClient {
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customDeleteWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customDeleteWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "DELETE",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -95,9 +96,9 @@ open class InsightsClient {
   open func customGet(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customGetWithRequestBuilder(
+    return try await customGetWithHTTPInfo(
       path: path, parameters: parameters, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -108,32 +109,33 @@ open class InsightsClient {
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customGetWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customGetWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -146,12 +148,12 @@ open class InsightsClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPost(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPostWithRequestBuilder(
+    return try await customPostWithHTTPInfo(
       path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -163,33 +165,33 @@ open class InsightsClient {
      - parameter body: (body) Parameters to send with the custom request. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customPostWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customPostWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+    let body = body
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -202,12 +204,12 @@ open class InsightsClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPut(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPutWithRequestBuilder(
+    return try await customPutWithHTTPInfo(
       path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -219,33 +221,33 @@ open class InsightsClient {
      - parameter body: (body) Parameters to send with the custom request. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customPutWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customPutWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+    let body = body
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "PUT",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -256,9 +258,7 @@ open class InsightsClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func deleteUserToken(userToken: String, requestOptions: RequestOptions? = nil) async throws {
-    return try await deleteUserTokenWithRequestBuilder(
-      userToken: userToken, requestOptions: requestOptions
-    ).execute().body
+    try await deleteUserTokenWithHTTPInfo(userToken: userToken, requestOptions: requestOptions)
   }
 
   /**
@@ -269,30 +269,30 @@ open class InsightsClient {
      - parameter userToken: (path) The user token for which to delete all associated events.
      - returns: RequestBuilder<Void>
      */
-  open func deleteUserTokenWithRequestBuilder(
-    userToken: String, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<Void> {
-    var localVariablePath = "/1/usertokens/{userToken}"
+  @discardableResult
+  open func deleteUserTokenWithHTTPInfo(
+    userToken: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1/usertokens/{userToken}"
     let userTokenPreEscape = "\(APIHelper.mapValueToPathItem(userToken))"
     let userTokenPostEscape =
       userTokenPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{userToken}", with: userTokenPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<Void>.Type = Transporter.requestBuilderFactory
-      .getNonDecodableBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "DELETE",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -305,9 +305,9 @@ open class InsightsClient {
   open func pushEvents(insightsEvents: InsightsEvents, requestOptions: RequestOptions? = nil)
     async throws -> EventsResponse
   {
-    return try await pushEventsWithRequestBuilder(
+    return try await pushEventsWithHTTPInfo(
       insightsEvents: insightsEvents, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -317,25 +317,24 @@ open class InsightsClient {
      - parameter insightsEvents: (body)
      - returns: RequestBuilder<EventsResponse>
      */
-  open func pushEventsWithRequestBuilder(
-    insightsEvents: InsightsEvents, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<EventsResponse> {
-    let localVariablePath = "/1/events"
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(
-      forEncodableObject: insightsEvents)
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+  open func pushEventsWithHTTPInfo(
+    insightsEvents: InsightsEvents, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<EventsResponse> {
+    let path = "/1/events"
+    let body = insightsEvents
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableRequestBuilder: RequestBuilder<EventsResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 }

@@ -19,7 +19,11 @@ public struct APIHelper {
     return destination
   }
 
-  public static func rejectNilHeaders(_ source: [String: Any?]) -> [String: String] {
+  public static func rejectNilHeaders(_ source: [String: Any?]?) -> [String: String]? {
+    guard let source = source else {
+      return nil
+    }
+
     return source.reduce(into: [String: String]()) { result, item in
       if let collection = item.value as? [Any?] {
         result[item.key] =
@@ -103,7 +107,11 @@ public struct APIHelper {
   /// maps all values from source to query parameters
   ///
   /// collection values are always exploded
-  public static func mapValuesToQueryItems(_ source: [String: Any?]) -> [URLQueryItem]? {
+  public static func mapValuesToQueryItems(_ source: [String: Any?]?) -> [URLQueryItem]? {
+    guard let source = source else {
+      return nil
+    }
+
     let destination = source.filter { $0.value != nil }.reduce(into: [URLQueryItem]()) {
       result, item in
       if let collection = item.value as? [Any?] {

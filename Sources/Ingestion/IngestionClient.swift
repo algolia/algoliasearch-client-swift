@@ -42,9 +42,9 @@ open class IngestionClient {
   open func createAuthentication(
     authenticationCreate: AuthenticationCreate, requestOptions: RequestOptions? = nil
   ) async throws -> AuthenticationCreateResponse {
-    return try await createAuthenticationWithRequestBuilder(
+    return try await createAuthenticationWithHTTPInfo(
       authenticationCreate: authenticationCreate, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -54,26 +54,26 @@ open class IngestionClient {
      - parameter authenticationCreate: (body)
      - returns: RequestBuilder<AuthenticationCreateResponse>
      */
-  open func createAuthenticationWithRequestBuilder(
-    authenticationCreate: AuthenticationCreate, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AuthenticationCreateResponse> {
-    let localVariablePath = "/1/authentications"
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(
-      forEncodableObject: authenticationCreate)
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+  open func createAuthenticationWithHTTPInfo(
+    authenticationCreate: AuthenticationCreate,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AuthenticationCreateResponse> {
+    let path = "/1/authentications"
+    let body = authenticationCreate
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableRequestBuilder: RequestBuilder<AuthenticationCreateResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -86,9 +86,9 @@ open class IngestionClient {
   open func createDestination(
     destinationCreate: DestinationCreate, requestOptions: RequestOptions? = nil
   ) async throws -> DestinationCreateResponse {
-    return try await createDestinationWithRequestBuilder(
+    return try await createDestinationWithHTTPInfo(
       destinationCreate: destinationCreate, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -98,26 +98,25 @@ open class IngestionClient {
      - parameter destinationCreate: (body)
      - returns: RequestBuilder<DestinationCreateResponse>
      */
-  open func createDestinationWithRequestBuilder(
-    destinationCreate: DestinationCreate, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<DestinationCreateResponse> {
-    let localVariablePath = "/1/destinations"
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(
-      forEncodableObject: destinationCreate)
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+  open func createDestinationWithHTTPInfo(
+    destinationCreate: DestinationCreate, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<DestinationCreateResponse> {
+    let path = "/1/destinations"
+    let body = destinationCreate
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableRequestBuilder: RequestBuilder<DestinationCreateResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -130,9 +129,9 @@ open class IngestionClient {
   open func createSource(sourceCreate: SourceCreate, requestOptions: RequestOptions? = nil)
     async throws -> SourceCreateResponse
   {
-    return try await createSourceWithRequestBuilder(
+    return try await createSourceWithHTTPInfo(
       sourceCreate: sourceCreate, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -142,26 +141,25 @@ open class IngestionClient {
      - parameter sourceCreate: (body)
      - returns: RequestBuilder<SourceCreateResponse>
      */
-  open func createSourceWithRequestBuilder(
-    sourceCreate: SourceCreate, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<SourceCreateResponse> {
-    let localVariablePath = "/1/sources"
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(
-      forEncodableObject: sourceCreate)
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+  open func createSourceWithHTTPInfo(
+    sourceCreate: SourceCreate, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<SourceCreateResponse> {
+    let path = "/1/sources"
+    let body = sourceCreate
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableRequestBuilder: RequestBuilder<SourceCreateResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -174,9 +172,8 @@ open class IngestionClient {
   open func createTask(taskCreate: TaskCreate, requestOptions: RequestOptions? = nil) async throws
     -> TaskCreateResponse
   {
-    return try await createTaskWithRequestBuilder(
-      taskCreate: taskCreate, requestOptions: requestOptions
-    ).execute().body
+    return try await createTaskWithHTTPInfo(taskCreate: taskCreate, requestOptions: requestOptions)
+      .body
   }
 
   /**
@@ -186,26 +183,25 @@ open class IngestionClient {
      - parameter taskCreate: (body)
      - returns: RequestBuilder<TaskCreateResponse>
      */
-  open func createTaskWithRequestBuilder(
-    taskCreate: TaskCreate, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<TaskCreateResponse> {
-    let localVariablePath = "/1/tasks"
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(
-      forEncodableObject: taskCreate)
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+  open func createTaskWithHTTPInfo(
+    taskCreate: TaskCreate, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<TaskCreateResponse> {
+    let path = "/1/tasks"
+    let body = taskCreate
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableRequestBuilder: RequestBuilder<TaskCreateResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -219,9 +215,9 @@ open class IngestionClient {
   open func customDelete(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customDeleteWithRequestBuilder(
+    return try await customDeleteWithHTTPInfo(
       path: path, parameters: parameters, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -232,32 +228,33 @@ open class IngestionClient {
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customDeleteWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customDeleteWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "DELETE",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -271,9 +268,9 @@ open class IngestionClient {
   open func customGet(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customGetWithRequestBuilder(
+    return try await customGetWithHTTPInfo(
       path: path, parameters: parameters, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -284,32 +281,33 @@ open class IngestionClient {
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customGetWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customGetWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -322,12 +320,12 @@ open class IngestionClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPost(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPostWithRequestBuilder(
+    return try await customPostWithHTTPInfo(
       path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -339,33 +337,33 @@ open class IngestionClient {
      - parameter body: (body) Parameters to send with the custom request. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customPostWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customPostWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+    let body = body
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -378,12 +376,12 @@ open class IngestionClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPut(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPutWithRequestBuilder(
+    return try await customPutWithHTTPInfo(
       path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -395,33 +393,33 @@ open class IngestionClient {
      - parameter body: (body) Parameters to send with the custom request. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customPutWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customPutWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+    let body = body
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "PUT",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -434,9 +432,9 @@ open class IngestionClient {
   open func deleteAuthentication(authenticationID: String, requestOptions: RequestOptions? = nil)
     async throws -> DeleteResponse
   {
-    return try await deleteAuthenticationWithRequestBuilder(
+    return try await deleteAuthenticationWithHTTPInfo(
       authenticationID: authenticationID, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -446,30 +444,30 @@ open class IngestionClient {
      - parameter authenticationID: (path) The authentication UUID.
      - returns: RequestBuilder<DeleteResponse>
      */
-  open func deleteAuthenticationWithRequestBuilder(
-    authenticationID: String, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<DeleteResponse> {
-    var localVariablePath = "/1/authentications/{authenticationID}"
+
+  open func deleteAuthenticationWithHTTPInfo(
+    authenticationID: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<DeleteResponse> {
+    var path = "/1/authentications/{authenticationID}"
     let authenticationIDPreEscape = "\(APIHelper.mapValueToPathItem(authenticationID))"
     let authenticationIDPostEscape =
       authenticationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{authenticationID}", with: authenticationIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<DeleteResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "DELETE",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -482,9 +480,9 @@ open class IngestionClient {
   open func deleteDestination(destinationID: String, requestOptions: RequestOptions? = nil)
     async throws -> DeleteResponse
   {
-    return try await deleteDestinationWithRequestBuilder(
+    return try await deleteDestinationWithHTTPInfo(
       destinationID: destinationID, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -494,30 +492,30 @@ open class IngestionClient {
      - parameter destinationID: (path) The destination UUID.
      - returns: RequestBuilder<DeleteResponse>
      */
-  open func deleteDestinationWithRequestBuilder(
-    destinationID: String, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<DeleteResponse> {
-    var localVariablePath = "/1/destinations/{destinationID}"
+
+  open func deleteDestinationWithHTTPInfo(
+    destinationID: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<DeleteResponse> {
+    var path = "/1/destinations/{destinationID}"
     let destinationIDPreEscape = "\(APIHelper.mapValueToPathItem(destinationID))"
     let destinationIDPostEscape =
       destinationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{destinationID}", with: destinationIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<DeleteResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "DELETE",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -530,9 +528,8 @@ open class IngestionClient {
   open func deleteSource(sourceID: String, requestOptions: RequestOptions? = nil) async throws
     -> DeleteResponse
   {
-    return try await deleteSourceWithRequestBuilder(
-      sourceID: sourceID, requestOptions: requestOptions
-    ).execute().body
+    return try await deleteSourceWithHTTPInfo(sourceID: sourceID, requestOptions: requestOptions)
+      .body
   }
 
   /**
@@ -542,30 +539,30 @@ open class IngestionClient {
      - parameter sourceID: (path) The source UUID.
      - returns: RequestBuilder<DeleteResponse>
      */
-  open func deleteSourceWithRequestBuilder(sourceID: String, requestOptions: RequestOptions? = nil)
-    -> RequestBuilder<DeleteResponse>
-  {
-    var localVariablePath = "/1/sources/{sourceID}"
+
+  open func deleteSourceWithHTTPInfo(
+    sourceID: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<DeleteResponse> {
+    var path = "/1/sources/{sourceID}"
     let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
     let sourceIDPostEscape =
       sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{sourceID}", with: sourceIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<DeleteResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "DELETE",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -578,8 +575,7 @@ open class IngestionClient {
   open func deleteTask(taskID: String, requestOptions: RequestOptions? = nil) async throws
     -> DeleteResponse
   {
-    return try await deleteTaskWithRequestBuilder(taskID: taskID, requestOptions: requestOptions)
-      .execute().body
+    return try await deleteTaskWithHTTPInfo(taskID: taskID, requestOptions: requestOptions).body
   }
 
   /**
@@ -589,30 +585,30 @@ open class IngestionClient {
      - parameter taskID: (path) The task UUID.
      - returns: RequestBuilder<DeleteResponse>
      */
-  open func deleteTaskWithRequestBuilder(taskID: String, requestOptions: RequestOptions? = nil)
-    -> RequestBuilder<DeleteResponse>
-  {
-    var localVariablePath = "/1/tasks/{taskID}"
+
+  open func deleteTaskWithHTTPInfo(
+    taskID: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<DeleteResponse> {
+    var path = "/1/tasks/{taskID}"
     let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
     let taskIDPostEscape =
       taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<DeleteResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "DELETE",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -625,8 +621,7 @@ open class IngestionClient {
   open func disableTask(taskID: String, requestOptions: RequestOptions? = nil) async throws
     -> TaskUpdateResponse
   {
-    return try await disableTaskWithRequestBuilder(taskID: taskID, requestOptions: requestOptions)
-      .execute().body
+    return try await disableTaskWithHTTPInfo(taskID: taskID, requestOptions: requestOptions).body
   }
 
   /**
@@ -636,30 +631,30 @@ open class IngestionClient {
      - parameter taskID: (path) The task UUID.
      - returns: RequestBuilder<TaskUpdateResponse>
      */
-  open func disableTaskWithRequestBuilder(taskID: String, requestOptions: RequestOptions? = nil)
-    -> RequestBuilder<TaskUpdateResponse>
-  {
-    var localVariablePath = "/1/tasks/{taskID}/disable"
+
+  open func disableTaskWithHTTPInfo(
+    taskID: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<TaskUpdateResponse> {
+    var path = "/1/tasks/{taskID}/disable"
     let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
     let taskIDPostEscape =
       taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<TaskUpdateResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "PUT",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -672,8 +667,7 @@ open class IngestionClient {
   open func enableTask(taskID: String, requestOptions: RequestOptions? = nil) async throws
     -> TaskUpdateResponse
   {
-    return try await enableTaskWithRequestBuilder(taskID: taskID, requestOptions: requestOptions)
-      .execute().body
+    return try await enableTaskWithHTTPInfo(taskID: taskID, requestOptions: requestOptions).body
   }
 
   /**
@@ -683,30 +677,30 @@ open class IngestionClient {
      - parameter taskID: (path) The task UUID.
      - returns: RequestBuilder<TaskUpdateResponse>
      */
-  open func enableTaskWithRequestBuilder(taskID: String, requestOptions: RequestOptions? = nil)
-    -> RequestBuilder<TaskUpdateResponse>
-  {
-    var localVariablePath = "/1/tasks/{taskID}/enable"
+
+  open func enableTaskWithHTTPInfo(
+    taskID: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<TaskUpdateResponse> {
+    var path = "/1/tasks/{taskID}/enable"
     let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
     let taskIDPostEscape =
       taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<TaskUpdateResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "PUT",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -719,9 +713,9 @@ open class IngestionClient {
   open func getAuthentication(authenticationID: String, requestOptions: RequestOptions? = nil)
     async throws -> Authentication
   {
-    return try await getAuthenticationWithRequestBuilder(
+    return try await getAuthenticationWithHTTPInfo(
       authenticationID: authenticationID, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -731,30 +725,30 @@ open class IngestionClient {
      - parameter authenticationID: (path) The authentication UUID.
      - returns: RequestBuilder<Authentication>
      */
-  open func getAuthenticationWithRequestBuilder(
-    authenticationID: String, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<Authentication> {
-    var localVariablePath = "/1/authentications/{authenticationID}"
+
+  open func getAuthenticationWithHTTPInfo(
+    authenticationID: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<Authentication> {
+    var path = "/1/authentications/{authenticationID}"
     let authenticationIDPreEscape = "\(APIHelper.mapValueToPathItem(authenticationID))"
     let authenticationIDPostEscape =
       authenticationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{authenticationID}", with: authenticationIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<Authentication>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -774,10 +768,10 @@ open class IngestionClient {
     platform: [PlatformWithNone]? = nil, sort: AuthenticationSortKeys? = nil,
     order: OrderKeys? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> ListAuthenticationsResponse {
-    return try await getAuthenticationsWithRequestBuilder(
+    return try await getAuthenticationsWithHTTPInfo(
       itemsPerPage: itemsPerPage, page: page, type: type, platform: platform, sort: sort,
       order: order, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -792,15 +786,16 @@ open class IngestionClient {
      - parameter order: (query) The order of the returned list. (optional)
      - returns: RequestBuilder<ListAuthenticationsResponse>
      */
-  open func getAuthenticationsWithRequestBuilder(
+
+  open func getAuthenticationsWithHTTPInfo(
     itemsPerPage: Int? = nil, page: Int? = nil, type: [AuthenticationType]? = nil,
     platform: [PlatformWithNone]? = nil, sort: AuthenticationSortKeys? = nil,
-    order: OrderKeys? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<ListAuthenticationsResponse> {
-    let localVariablePath = "/1/authentications"
-    let localVariableParameters: [String: Any?]? = nil
+    order: OrderKeys? = nil, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<ListAuthenticationsResponse> {
+    let path = "/1/authentications"
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "itemsPerPage": (wrappedValue: itemsPerPage?.encodeToJSON(), isExplode: true),
       "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
       "type": (wrappedValue: type?.encodeToJSON(), isExplode: false),
@@ -809,17 +804,16 @@ open class IngestionClient {
       "order": (wrappedValue: order?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<ListAuthenticationsResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -832,9 +826,9 @@ open class IngestionClient {
   open func getDestination(destinationID: String, requestOptions: RequestOptions? = nil)
     async throws -> Destination
   {
-    return try await getDestinationWithRequestBuilder(
+    return try await getDestinationWithHTTPInfo(
       destinationID: destinationID, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -844,30 +838,30 @@ open class IngestionClient {
      - parameter destinationID: (path) The destination UUID.
      - returns: RequestBuilder<Destination>
      */
-  open func getDestinationWithRequestBuilder(
-    destinationID: String, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<Destination> {
-    var localVariablePath = "/1/destinations/{destinationID}"
+
+  open func getDestinationWithHTTPInfo(
+    destinationID: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<Destination> {
+    var path = "/1/destinations/{destinationID}"
     let destinationIDPreEscape = "\(APIHelper.mapValueToPathItem(destinationID))"
     let destinationIDPostEscape =
       destinationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{destinationID}", with: destinationIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<Destination>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -887,10 +881,10 @@ open class IngestionClient {
     authenticationID: [String]? = nil, sort: DestinationSortKeys? = nil, order: OrderKeys? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> ListDestinationsResponse {
-    return try await getDestinationsWithRequestBuilder(
+    return try await getDestinationsWithHTTPInfo(
       itemsPerPage: itemsPerPage, page: page, type: type, authenticationID: authenticationID,
       sort: sort, order: order, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -905,15 +899,16 @@ open class IngestionClient {
      - parameter order: (query) The order of the returned list. (optional)
      - returns: RequestBuilder<ListDestinationsResponse>
      */
-  open func getDestinationsWithRequestBuilder(
+
+  open func getDestinationsWithHTTPInfo(
     itemsPerPage: Int? = nil, page: Int? = nil, type: [DestinationType]? = nil,
     authenticationID: [String]? = nil, sort: DestinationSortKeys? = nil, order: OrderKeys? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<ListDestinationsResponse> {
-    let localVariablePath = "/1/destinations"
-    let localVariableParameters: [String: Any?]? = nil
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<ListDestinationsResponse> {
+    let path = "/1/destinations"
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "itemsPerPage": (wrappedValue: itemsPerPage?.encodeToJSON(), isExplode: true),
       "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
       "type": (wrappedValue: type?.encodeToJSON(), isExplode: false),
@@ -922,17 +917,16 @@ open class IngestionClient {
       "order": (wrappedValue: order?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<ListDestinationsResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -945,9 +939,9 @@ open class IngestionClient {
   open func getDockerSourceStreams(sourceID: String, requestOptions: RequestOptions? = nil)
     async throws -> DockerSourceStreams
   {
-    return try await getDockerSourceStreamsWithRequestBuilder(
+    return try await getDockerSourceStreamsWithHTTPInfo(
       sourceID: sourceID, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -957,30 +951,30 @@ open class IngestionClient {
      - parameter sourceID: (path) The source UUID.
      - returns: RequestBuilder<DockerSourceStreams>
      */
-  open func getDockerSourceStreamsWithRequestBuilder(
-    sourceID: String, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<DockerSourceStreams> {
-    var localVariablePath = "/1/sources/{sourceID}/discover"
+
+  open func getDockerSourceStreamsWithHTTPInfo(
+    sourceID: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<DockerSourceStreams> {
+    var path = "/1/sources/{sourceID}/discover"
     let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
     let sourceIDPostEscape =
       sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{sourceID}", with: sourceIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<DockerSourceStreams>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -994,9 +988,9 @@ open class IngestionClient {
   open func getEvent(runID: String, eventID: String, requestOptions: RequestOptions? = nil)
     async throws -> Event
   {
-    return try await getEventWithRequestBuilder(
+    return try await getEventWithHTTPInfo(
       runID: runID, eventID: eventID, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -1007,35 +1001,35 @@ open class IngestionClient {
      - parameter eventID: (path) The event UUID.
      - returns: RequestBuilder<Event>
      */
-  open func getEventWithRequestBuilder(
-    runID: String, eventID: String, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<Event> {
-    var localVariablePath = "/1/runs/{runID}/events/{eventID}"
+
+  open func getEventWithHTTPInfo(
+    runID: String, eventID: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<Event> {
+    var path = "/1/runs/{runID}/events/{eventID}"
     let runIDPreEscape = "\(APIHelper.mapValueToPathItem(runID))"
     let runIDPostEscape =
       runIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{runID}", with: runIDPostEscape, options: .literal, range: nil)
     let eventIDPreEscape = "\(APIHelper.mapValueToPathItem(eventID))"
     let eventIDPostEscape =
       eventIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{eventID}", with: eventIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<Event>.Type = Transporter.requestBuilderFactory
-      .getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1058,10 +1052,10 @@ open class IngestionClient {
     type: [EventType]? = nil, sort: EventSortKeys? = nil, order: OrderKeys? = nil,
     startDate: String? = nil, endDate: String? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> ListEventsResponse {
-    return try await getEventsWithRequestBuilder(
+    return try await getEventsWithHTTPInfo(
       runID: runID, itemsPerPage: itemsPerPage, page: page, status: status, type: type, sort: sort,
       order: order, startDate: startDate, endDate: endDate, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -1079,20 +1073,22 @@ open class IngestionClient {
      - parameter endDate: (query) The end date (in RFC3339 format) of the events fetching window. Defaults to &#39;now&#39; days if omitted. (optional)
      - returns: RequestBuilder<ListEventsResponse>
      */
-  open func getEventsWithRequestBuilder(
+
+  open func getEventsWithHTTPInfo(
     runID: String, itemsPerPage: Int? = nil, page: Int? = nil, status: [EventStatus]? = nil,
     type: [EventType]? = nil, sort: EventSortKeys? = nil, order: OrderKeys? = nil,
-    startDate: String? = nil, endDate: String? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<ListEventsResponse> {
-    var localVariablePath = "/1/runs/{runID}/events"
+    startDate: String? = nil, endDate: String? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<ListEventsResponse> {
+    var path = "/1/runs/{runID}/events"
     let runIDPreEscape = "\(APIHelper.mapValueToPathItem(runID))"
     let runIDPostEscape =
       runIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{runID}", with: runIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "itemsPerPage": (wrappedValue: itemsPerPage?.encodeToJSON(), isExplode: true),
       "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
       "status": (wrappedValue: status?.encodeToJSON(), isExplode: true),
@@ -1103,17 +1099,16 @@ open class IngestionClient {
       "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<ListEventsResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1124,8 +1119,7 @@ open class IngestionClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getRun(runID: String, requestOptions: RequestOptions? = nil) async throws -> Run {
-    return try await getRunWithRequestBuilder(runID: runID, requestOptions: requestOptions)
-      .execute().body
+    return try await getRunWithHTTPInfo(runID: runID, requestOptions: requestOptions).body
   }
 
   /**
@@ -1135,30 +1129,30 @@ open class IngestionClient {
      - parameter runID: (path) The run UUID.
      - returns: RequestBuilder<Run>
      */
-  open func getRunWithRequestBuilder(runID: String, requestOptions: RequestOptions? = nil)
-    -> RequestBuilder<Run>
-  {
-    var localVariablePath = "/1/runs/{runID}"
+
+  open func getRunWithHTTPInfo(
+    runID: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<Run> {
+    var path = "/1/runs/{runID}"
     let runIDPreEscape = "\(APIHelper.mapValueToPathItem(runID))"
     let runIDPostEscape =
       runIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{runID}", with: runIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<Run>.Type = Transporter.requestBuilderFactory
-      .getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1180,10 +1174,10 @@ open class IngestionClient {
     sort: RunSortKeys? = nil, order: OrderKeys? = nil, startDate: String? = nil,
     endDate: String? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> RunListResponse {
-    return try await getRunsWithRequestBuilder(
+    return try await getRunsWithHTTPInfo(
       itemsPerPage: itemsPerPage, page: page, status: status, taskID: taskID, sort: sort,
       order: order, startDate: startDate, endDate: endDate, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -1200,15 +1194,16 @@ open class IngestionClient {
      - parameter endDate: (query) The end date (in RFC3339 format) of the runs fetching window. Defaults to &#39;now&#39; days if omitted. (optional)
      - returns: RequestBuilder<RunListResponse>
      */
-  open func getRunsWithRequestBuilder(
+
+  open func getRunsWithHTTPInfo(
     itemsPerPage: Int? = nil, page: Int? = nil, status: [RunStatus]? = nil, taskID: String? = nil,
     sort: RunSortKeys? = nil, order: OrderKeys? = nil, startDate: String? = nil,
-    endDate: String? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<RunListResponse> {
-    let localVariablePath = "/1/runs"
-    let localVariableParameters: [String: Any?]? = nil
+    endDate: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<RunListResponse> {
+    let path = "/1/runs"
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "itemsPerPage": (wrappedValue: itemsPerPage?.encodeToJSON(), isExplode: true),
       "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
       "status": (wrappedValue: status?.encodeToJSON(), isExplode: true),
@@ -1219,17 +1214,16 @@ open class IngestionClient {
       "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<RunListResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1242,8 +1236,7 @@ open class IngestionClient {
   open func getSource(sourceID: String, requestOptions: RequestOptions? = nil) async throws
     -> Source
   {
-    return try await getSourceWithRequestBuilder(sourceID: sourceID, requestOptions: requestOptions)
-      .execute().body
+    return try await getSourceWithHTTPInfo(sourceID: sourceID, requestOptions: requestOptions).body
   }
 
   /**
@@ -1253,30 +1246,30 @@ open class IngestionClient {
      - parameter sourceID: (path) The source UUID.
      - returns: RequestBuilder<Source>
      */
-  open func getSourceWithRequestBuilder(sourceID: String, requestOptions: RequestOptions? = nil)
-    -> RequestBuilder<Source>
-  {
-    var localVariablePath = "/1/sources/{sourceID}"
+
+  open func getSourceWithHTTPInfo(
+    sourceID: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<Source> {
+    var path = "/1/sources/{sourceID}"
     let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
     let sourceIDPostEscape =
       sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{sourceID}", with: sourceIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<Source>.Type = Transporter.requestBuilderFactory
-      .getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1296,10 +1289,10 @@ open class IngestionClient {
     authenticationID: [String]? = nil, sort: SourceSortKeys? = nil, order: OrderKeys? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> ListSourcesResponse {
-    return try await getSourcesWithRequestBuilder(
+    return try await getSourcesWithHTTPInfo(
       itemsPerPage: itemsPerPage, page: page, type: type, authenticationID: authenticationID,
       sort: sort, order: order, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -1314,15 +1307,16 @@ open class IngestionClient {
      - parameter order: (query) The order of the returned list. (optional)
      - returns: RequestBuilder<ListSourcesResponse>
      */
-  open func getSourcesWithRequestBuilder(
+
+  open func getSourcesWithHTTPInfo(
     itemsPerPage: Int? = nil, page: Int? = nil, type: [SourceType]? = nil,
     authenticationID: [String]? = nil, sort: SourceSortKeys? = nil, order: OrderKeys? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<ListSourcesResponse> {
-    let localVariablePath = "/1/sources"
-    let localVariableParameters: [String: Any?]? = nil
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<ListSourcesResponse> {
+    let path = "/1/sources"
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "itemsPerPage": (wrappedValue: itemsPerPage?.encodeToJSON(), isExplode: true),
       "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
       "type": (wrappedValue: type?.encodeToJSON(), isExplode: false),
@@ -1331,17 +1325,16 @@ open class IngestionClient {
       "order": (wrappedValue: order?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<ListSourcesResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1352,8 +1345,7 @@ open class IngestionClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getTask(taskID: String, requestOptions: RequestOptions? = nil) async throws -> Task {
-    return try await getTaskWithRequestBuilder(taskID: taskID, requestOptions: requestOptions)
-      .execute().body
+    return try await getTaskWithHTTPInfo(taskID: taskID, requestOptions: requestOptions).body
   }
 
   /**
@@ -1363,30 +1355,30 @@ open class IngestionClient {
      - parameter taskID: (path) The task UUID.
      - returns: RequestBuilder<Task>
      */
-  open func getTaskWithRequestBuilder(taskID: String, requestOptions: RequestOptions? = nil)
-    -> RequestBuilder<Task>
-  {
-    var localVariablePath = "/1/tasks/{taskID}"
+
+  open func getTaskWithHTTPInfo(
+    taskID: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<Task> {
+    var path = "/1/tasks/{taskID}"
     let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
     let taskIDPostEscape =
       taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<Task>.Type = Transporter.requestBuilderFactory
-      .getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1409,11 +1401,11 @@ open class IngestionClient {
     sourceID: [String]? = nil, destinationID: [String]? = nil, triggerType: [TriggerType]? = nil,
     sort: TaskSortKeys? = nil, order: OrderKeys? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> ListTasksResponse {
-    return try await getTasksWithRequestBuilder(
+    return try await getTasksWithHTTPInfo(
       itemsPerPage: itemsPerPage, page: page, action: action, enabled: enabled, sourceID: sourceID,
       destinationID: destinationID, triggerType: triggerType, sort: sort, order: order,
       requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -1431,15 +1423,17 @@ open class IngestionClient {
      - parameter order: (query) The order of the returned list. (optional)
      - returns: RequestBuilder<ListTasksResponse>
      */
-  open func getTasksWithRequestBuilder(
+
+  open func getTasksWithHTTPInfo(
     itemsPerPage: Int? = nil, page: Int? = nil, action: [ActionType]? = nil, enabled: Bool? = nil,
     sourceID: [String]? = nil, destinationID: [String]? = nil, triggerType: [TriggerType]? = nil,
-    sort: TaskSortKeys? = nil, order: OrderKeys? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<ListTasksResponse> {
-    let localVariablePath = "/1/tasks"
-    let localVariableParameters: [String: Any?]? = nil
+    sort: TaskSortKeys? = nil, order: OrderKeys? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<ListTasksResponse> {
+    let path = "/1/tasks"
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "itemsPerPage": (wrappedValue: itemsPerPage?.encodeToJSON(), isExplode: true),
       "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
       "action": (wrappedValue: action?.encodeToJSON(), isExplode: false),
@@ -1451,17 +1445,16 @@ open class IngestionClient {
       "order": (wrappedValue: order?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<ListTasksResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1474,8 +1467,7 @@ open class IngestionClient {
   open func runTask(taskID: String, requestOptions: RequestOptions? = nil) async throws
     -> RunResponse
   {
-    return try await runTaskWithRequestBuilder(taskID: taskID, requestOptions: requestOptions)
-      .execute().body
+    return try await runTaskWithHTTPInfo(taskID: taskID, requestOptions: requestOptions).body
   }
 
   /**
@@ -1485,30 +1477,30 @@ open class IngestionClient {
      - parameter taskID: (path) The task UUID.
      - returns: RequestBuilder<RunResponse>
      */
-  open func runTaskWithRequestBuilder(taskID: String, requestOptions: RequestOptions? = nil)
-    -> RequestBuilder<RunResponse>
-  {
-    var localVariablePath = "/1/tasks/{taskID}/run"
+
+  open func runTaskWithHTTPInfo(
+    taskID: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<RunResponse> {
+    var path = "/1/tasks/{taskID}/run"
     let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
     let taskIDPostEscape =
       taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<RunResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1521,9 +1513,9 @@ open class IngestionClient {
   open func searchAuthentications(
     authenticationSearch: AuthenticationSearch, requestOptions: RequestOptions? = nil
   ) async throws -> [Authentication] {
-    return try await searchAuthenticationsWithRequestBuilder(
+    return try await searchAuthenticationsWithHTTPInfo(
       authenticationSearch: authenticationSearch, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -1533,26 +1525,26 @@ open class IngestionClient {
      - parameter authenticationSearch: (body)
      - returns: RequestBuilder<[Authentication]>
      */
-  open func searchAuthenticationsWithRequestBuilder(
-    authenticationSearch: AuthenticationSearch, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<[Authentication]> {
-    let localVariablePath = "/1/authentications/search"
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(
-      forEncodableObject: authenticationSearch)
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+  open func searchAuthenticationsWithHTTPInfo(
+    authenticationSearch: AuthenticationSearch,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<[Authentication]> {
+    let path = "/1/authentications/search"
+    let body = authenticationSearch
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableRequestBuilder: RequestBuilder<[Authentication]>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1565,9 +1557,9 @@ open class IngestionClient {
   open func searchDestinations(
     destinationSearch: DestinationSearch, requestOptions: RequestOptions? = nil
   ) async throws -> [Destination] {
-    return try await searchDestinationsWithRequestBuilder(
+    return try await searchDestinationsWithHTTPInfo(
       destinationSearch: destinationSearch, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -1577,26 +1569,25 @@ open class IngestionClient {
      - parameter destinationSearch: (body)
      - returns: RequestBuilder<[Destination]>
      */
-  open func searchDestinationsWithRequestBuilder(
-    destinationSearch: DestinationSearch, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<[Destination]> {
-    let localVariablePath = "/1/destinations/search"
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(
-      forEncodableObject: destinationSearch)
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+  open func searchDestinationsWithHTTPInfo(
+    destinationSearch: DestinationSearch, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<[Destination]> {
+    let path = "/1/destinations/search"
+    let body = destinationSearch
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableRequestBuilder: RequestBuilder<[Destination]>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1609,9 +1600,9 @@ open class IngestionClient {
   open func searchSources(sourceSearch: SourceSearch, requestOptions: RequestOptions? = nil)
     async throws -> [Source]
   {
-    return try await searchSourcesWithRequestBuilder(
+    return try await searchSourcesWithHTTPInfo(
       sourceSearch: sourceSearch, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -1621,26 +1612,25 @@ open class IngestionClient {
      - parameter sourceSearch: (body)
      - returns: RequestBuilder<[Source]>
      */
-  open func searchSourcesWithRequestBuilder(
-    sourceSearch: SourceSearch, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<[Source]> {
-    let localVariablePath = "/1/sources/search"
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(
-      forEncodableObject: sourceSearch)
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+  open func searchSourcesWithHTTPInfo(
+    sourceSearch: SourceSearch, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<[Source]> {
+    let path = "/1/sources/search"
+    let body = sourceSearch
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableRequestBuilder: RequestBuilder<[Source]>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1653,9 +1643,8 @@ open class IngestionClient {
   open func searchTasks(taskSearch: TaskSearch, requestOptions: RequestOptions? = nil) async throws
     -> [Task]
   {
-    return try await searchTasksWithRequestBuilder(
-      taskSearch: taskSearch, requestOptions: requestOptions
-    ).execute().body
+    return try await searchTasksWithHTTPInfo(taskSearch: taskSearch, requestOptions: requestOptions)
+      .body
   }
 
   /**
@@ -1665,26 +1654,25 @@ open class IngestionClient {
      - parameter taskSearch: (body)
      - returns: RequestBuilder<[Task]>
      */
-  open func searchTasksWithRequestBuilder(
-    taskSearch: TaskSearch, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<[Task]> {
-    let localVariablePath = "/1/tasks/search"
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(
-      forEncodableObject: taskSearch)
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+  open func searchTasksWithHTTPInfo(
+    taskSearch: TaskSearch, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<[Task]> {
+    let path = "/1/tasks/search"
+    let body = taskSearch
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableRequestBuilder: RequestBuilder<[Task]>.Type = Transporter.requestBuilderFactory
-      .getBuilder()
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1697,9 +1685,9 @@ open class IngestionClient {
   open func triggerDockerSourceDiscover(sourceID: String, requestOptions: RequestOptions? = nil)
     async throws -> DockerSourceDiscover
   {
-    return try await triggerDockerSourceDiscoverWithRequestBuilder(
+    return try await triggerDockerSourceDiscoverWithHTTPInfo(
       sourceID: sourceID, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -1709,30 +1697,30 @@ open class IngestionClient {
      - parameter sourceID: (path) The source UUID.
      - returns: RequestBuilder<DockerSourceDiscover>
      */
-  open func triggerDockerSourceDiscoverWithRequestBuilder(
-    sourceID: String, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<DockerSourceDiscover> {
-    var localVariablePath = "/1/sources/{sourceID}/discover"
+
+  open func triggerDockerSourceDiscoverWithHTTPInfo(
+    sourceID: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<DockerSourceDiscover> {
+    var path = "/1/sources/{sourceID}/discover"
     let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
     let sourceIDPostEscape =
       sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{sourceID}", with: sourceIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<DockerSourceDiscover>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1747,10 +1735,10 @@ open class IngestionClient {
     authenticationID: String, authenticationUpdate: AuthenticationUpdate,
     requestOptions: RequestOptions? = nil
   ) async throws -> AuthenticationUpdateResponse {
-    return try await updateAuthenticationWithRequestBuilder(
+    return try await updateAuthenticationWithHTTPInfo(
       authenticationID: authenticationID, authenticationUpdate: authenticationUpdate,
       requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -1761,32 +1749,31 @@ open class IngestionClient {
      - parameter authenticationUpdate: (body)
      - returns: RequestBuilder<AuthenticationUpdateResponse>
      */
-  open func updateAuthenticationWithRequestBuilder(
+
+  open func updateAuthenticationWithHTTPInfo(
     authenticationID: String, authenticationUpdate: AuthenticationUpdate,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AuthenticationUpdateResponse> {
-    var localVariablePath = "/1/authentications/{authenticationID}"
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AuthenticationUpdateResponse> {
+    var path = "/1/authentications/{authenticationID}"
     let authenticationIDPreEscape = "\(APIHelper.mapValueToPathItem(authenticationID))"
     let authenticationIDPostEscape =
       authenticationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{authenticationID}", with: authenticationIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(
-      forEncodableObject: authenticationUpdate)
+    let body = authenticationUpdate
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AuthenticationUpdateResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "PATCH", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "PATCH",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1801,10 +1788,10 @@ open class IngestionClient {
     destinationID: String, destinationUpdate: DestinationUpdate,
     requestOptions: RequestOptions? = nil
   ) async throws -> DestinationUpdateResponse {
-    return try await updateDestinationWithRequestBuilder(
+    return try await updateDestinationWithHTTPInfo(
       destinationID: destinationID, destinationUpdate: destinationUpdate,
       requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -1815,32 +1802,31 @@ open class IngestionClient {
      - parameter destinationUpdate: (body)
      - returns: RequestBuilder<DestinationUpdateResponse>
      */
-  open func updateDestinationWithRequestBuilder(
+
+  open func updateDestinationWithHTTPInfo(
     destinationID: String, destinationUpdate: DestinationUpdate,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<DestinationUpdateResponse> {
-    var localVariablePath = "/1/destinations/{destinationID}"
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<DestinationUpdateResponse> {
+    var path = "/1/destinations/{destinationID}"
     let destinationIDPreEscape = "\(APIHelper.mapValueToPathItem(destinationID))"
     let destinationIDPostEscape =
       destinationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{destinationID}", with: destinationIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(
-      forEncodableObject: destinationUpdate)
+    let body = destinationUpdate
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<DestinationUpdateResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "PATCH", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "PATCH",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1854,9 +1840,9 @@ open class IngestionClient {
   open func updateSource(
     sourceID: String, sourceUpdate: SourceUpdate, requestOptions: RequestOptions? = nil
   ) async throws -> SourceUpdateResponse {
-    return try await updateSourceWithRequestBuilder(
+    return try await updateSourceWithHTTPInfo(
       sourceID: sourceID, sourceUpdate: sourceUpdate, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -1867,31 +1853,31 @@ open class IngestionClient {
      - parameter sourceUpdate: (body)
      - returns: RequestBuilder<SourceUpdateResponse>
      */
-  open func updateSourceWithRequestBuilder(
-    sourceID: String, sourceUpdate: SourceUpdate, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<SourceUpdateResponse> {
-    var localVariablePath = "/1/sources/{sourceID}"
+
+  open func updateSourceWithHTTPInfo(
+    sourceID: String, sourceUpdate: SourceUpdate,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<SourceUpdateResponse> {
+    var path = "/1/sources/{sourceID}"
     let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
     let sourceIDPostEscape =
       sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{sourceID}", with: sourceIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(
-      forEncodableObject: sourceUpdate)
+    let body = sourceUpdate
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<SourceUpdateResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "PATCH", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "PATCH",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1905,9 +1891,9 @@ open class IngestionClient {
   open func updateTask(
     taskID: String, taskUpdate: TaskUpdate, requestOptions: RequestOptions? = nil
   ) async throws -> TaskUpdateResponse {
-    return try await updateTaskWithRequestBuilder(
+    return try await updateTaskWithHTTPInfo(
       taskID: taskID, taskUpdate: taskUpdate, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -1918,30 +1904,29 @@ open class IngestionClient {
      - parameter taskUpdate: (body)
      - returns: RequestBuilder<TaskUpdateResponse>
      */
-  open func updateTaskWithRequestBuilder(
-    taskID: String, taskUpdate: TaskUpdate, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<TaskUpdateResponse> {
-    var localVariablePath = "/1/tasks/{taskID}"
+
+  open func updateTaskWithHTTPInfo(
+    taskID: String, taskUpdate: TaskUpdate, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<TaskUpdateResponse> {
+    var path = "/1/tasks/{taskID}"
     let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
     let taskIDPostEscape =
       taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(
-      forEncodableObject: taskUpdate)
+    let body = taskUpdate
 
-    let localVariableQueryItems: [URLQueryItem]? = nil
+    let queryItems: [URLQueryItem]? = nil
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<TaskUpdateResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "PATCH", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "PATCH",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 }

@@ -8,128 +8,141 @@ import Foundation
 #if canImport(FoundationNetworking)
   import FoundationNetworking
 #endif
+
 open class Transporter {
-  public static var customHeaders: [String: String] = [:]
-  public static var credential: URLCredential?
-  public static var requestBuilderFactory: RequestBuilderFactory = URLSessionRequestBuilderFactory()
-  public static var apiResponseQueue: DispatchQueue = .main
 
-  var configuration: Configuration
-  var retryStrategy: RetryStrategy
+  let configuration: Configuration
+  let retryStrategy: RetryStrategy
+  let requestBuilder: RequestBuilder
 
-  public init(configuration: Configuration, retryStrategy: RetryStrategy? = nil) {
+  public init(
+    configuration: Configuration,
+    retryStrategy: RetryStrategy? = nil,
+    requestBuilder: RequestBuilder? = nil
+  ) {
     self.configuration = configuration
     self.retryStrategy = retryStrategy ?? AlgoliaRetryStrategy(configuration: configuration)
+
+    guard let requestBuilder = requestBuilder else {
+
+      let sessionConfiguration: URLSessionConfiguration = .default
+
+      sessionConfiguration.timeoutIntervalForRequest = configuration.readTimeout
+      sessionConfiguration.timeoutIntervalForResource = configuration.writeTimeout
+
+      self.requestBuilder =
+        requestBuilder
+        ?? URLSessionRequestBuilder(
+          sessionConfiguration: sessionConfiguration
+        )
+
+      return
+    }
+
+    self.requestBuilder = requestBuilder
   }
-}
 
-open class RequestBuilder<T> {
-  var credential: URLCredential?
-  var headers: [String: String]
-  public var parameters: [String: Any?]?
-  public let method: String
-  public let path: String
-  public var queryItems: [URLQueryItem]
-  public let requestTask: RequestTask = RequestTask()
-  public let hostIterator: HostIterator
-  public let timeout: TimeInterval
-
-  public let transporter: Transporter
-
-  /// Optional block to obtain a reference to the request's progress instance when available.
-  public var onProgressReady: ((Progress) -> Void)?
-
-  required public init(
-    method: String, path: String, queryItems: [URLQueryItem]?, parameters: [String: Any?]?,
-    headers: [String: String] = [:], transporter: Transporter, requestOptions: RequestOptions? = nil
-  ) {
-    self.method = method
-    self.path = path
-    self.queryItems = queryItems ?? []
-    self.headers = headers
-    self.transporter = transporter
-
+  public func send<T: Decodable>(
+    method: String, path: String, data: Codable?, requestOptions: RequestOptions? = nil,
+    useReadTransporter: Bool = false
+  ) async throws -> Response<T> {
     let httpMethod = HTTPMethod(rawValue: method)
 
     guard let httpMethod = httpMethod else {
-      fatalError("Unknown HTTP method: '\(method)'")
+      throw TransportError.requestError(AlgoliaError(errorMessage: "Unknown HTTP method"))
     }
 
-    self.hostIterator = transporter.retryStrategy.retryableHosts(for: httpMethod.toCallType())
+    let callType = httpMethod.toCallType()
+    let hostIterator = self.retryStrategy.retryableHosts(for: callType)
 
-    self.timeout =
-      requestOptions?.timeout(for: httpMethod.toCallType())
-      ?? self.transporter.configuration.timeout(for: httpMethod.toCallType())
+    let queryItems: [URLQueryItem] = requestOptions?.queryItems ?? []
+    let headers: [String: String] = requestOptions?.headers ?? [:]
+    var body: Data? = nil
 
-    if let requestOptions = requestOptions {
-      self.queryItems.append(contentsOf: requestOptions.queryItems)
-
-      for (key, value) in requestOptions.headers {
-        self.headers.updateValue(value, forKey: key)
-      }
-
-      if requestOptions.body == nil && parameters == nil {
-        self.parameters = nil
-        return
-      }
-
-      if requestOptions.body != nil {
-        self.parameters = JSONDataEncoding.encodingParameters(jsonData: requestOptions.body)
-        return
-      }
+    if let requestOptionsData = requestOptions?.body {
+      body = try JSONSerialization.data(withJSONObject: requestOptionsData as Any, options: [])
+    } else if let data = data {
+      body = try CodableHelper.jsonEncoder.encode(data)
     }
 
-    self.parameters = parameters
-  }
+    var urlComponents = URLComponents()
 
-  open func addHeaders(_ aHeaders: [String: String]) {
-    for (header, value) in aHeaders {
-      headers[header] = value
-    }
-  }
+    urlComponents = urlComponents.set(\.path, to: path)
+    urlComponents = urlComponents.set(\.queryItems, to: queryItems)
 
-  @discardableResult
-  open func execute(
-    _ apiResponseQueue: DispatchQueue = Transporter.apiResponseQueue,
-    _ completion: @escaping (_ result: Swift.Result<Response<T>, ErrorResponse>) -> Void
-  ) -> RequestTask {
-    return requestTask
-  }
-
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  @discardableResult
-  open func execute() async throws -> Response<T> {
-    return try await withTaskCancellationHandler {
-      try Task.checkCancellation()
-      return try await withCheckedThrowingContinuation { continuation in
-        guard !Task.isCancelled else {
-          continuation.resume(throwing: CancellationError())
-          return
-        }
-
-        self.execute { result in
-          switch result {
-          case let .success(response):
-            continuation.resume(returning: response)
-          case let .failure(error):
-            continuation.resume(throwing: error)
-          }
+    if callType == CallType.read || useReadTransporter {
+      if let body = body {
+        let bodyDictionary: [String: Any?]? =
+          try? JSONSerialization.jsonObject(with: body, options: []) as? [String: Any?]
+        let bodyQueryItems: [URLQueryItem]? = APIHelper.mapValuesToQueryItems(bodyDictionary)
+        if let bodyQueryItems = bodyQueryItems {
+          urlComponents.queryItems?.append(contentsOf: bodyQueryItems)
         }
       }
-    } onCancel: {
-      self.requestTask.cancel()
     }
+
+    var intermediateErrors: [Error] = []
+
+    while let host = hostIterator.next() {
+
+      let rawTimeout =
+        requestOptions?.timeout(for: callType) ?? self.configuration.timeout(for: callType)
+      let timeout = TimeInterval(host.retryCount + 1) * rawTimeout
+
+      guard let url = urlComponents.url(relativeTo: host.url) else {
+        throw TransportError.requestError(AlgoliaError(errorMessage: "Malformed URL"))
+      }
+
+      var request = URLRequest(url: url)
+
+      request = request.set(\.httpMethod, to: httpMethod.rawValue)
+      request = request.set(\.timeoutInterval, to: timeout)
+
+      buildHeaders(with: headers).forEach { key, value in
+        request.setValue(value, forHTTPHeaderField: key)
+      }
+
+      if callType == CallType.write && !useReadTransporter {
+        let contentType = headers["Content-Type"] ?? "application/json"
+
+        if contentType.hasPrefix("application/json") {
+          request = request.set(\.httpBody, to: body)
+        } else {
+          throw TransportError.requestError(
+            AlgoliaError(errorMessage: "Unsupported Media Type - \(contentType)"))
+        }
+      }
+
+      do {
+        let response: Response<T> = try await self.requestBuilder.execute(
+          urlRequest: request, timeout: timeout)
+        self.retryStrategy.notify(host: host, error: nil)
+        return response
+      } catch let cancellationError as CancellationError {
+        throw TransportError.requestError(cancellationError)
+      } catch {
+        intermediateErrors.append(error)
+        self.retryStrategy.notify(host: host, error: error)
+
+        guard self.retryStrategy.canRetry(inCaseOf: error) else {
+          break
+        }
+      }
+
+    }
+
+    throw TransportError.noReachableHosts(intermediateErrors: intermediateErrors)
   }
 
-  public func addHeader(name: String, value: String) -> Self {
-    if !value.isEmpty {
-      headers[name] = value
+  private func buildHeaders(with requestHeaders: [String: String]) -> [String: String] {
+    var httpHeaders: [String: String] = [:]
+    for (key, value) in self.configuration.defaultHeaders ?? [:] {
+      httpHeaders[key] = value
     }
-    return self
+    httpHeaders["User-Agent"] = UserAgentController.httpHeaderValue
+    for (key, value) in requestHeaders {
+      httpHeaders[key] = value
+    }
+    return httpHeaders
   }
-}
-
-public protocol RequestBuilderFactory {
-  func getNonDecodableBuilder<T>() -> RequestBuilder<T>.Type
-  func getBuilder<T: Decodable>() -> RequestBuilder<T>.Type
 }

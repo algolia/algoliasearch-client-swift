@@ -49,7 +49,7 @@ class AlgoliaRetryStrategy: RetryStrategy {
     }
   }
 
-  func notify<T>(host: RetryableHost, result: Swift.Result<Response<T>, ErrorResponse>) {
+  func notify(host: RetryableHost, error: Error? = nil) {
     return queue.sync {
 
       guard let hostIndex = hosts.firstIndex(where: { $0.url == host.url }) else {
@@ -57,21 +57,21 @@ class AlgoliaRetryStrategy: RetryStrategy {
         return
       }
 
-      switch result {
-      case .success:
+      guard let error = error else {
         hosts[hostIndex].reset()
+        return
+      }
 
-      case .failure(let error) where isTimeout(error):
+      if isTimeout(error) {
         hosts[hostIndex].hasTimedOut()
+        return
+      }
 
-      case .failure(let error) where isRetryable(error):
+      if isRetryable(error) {
         hosts[hostIndex].hasFailed()
-
-      case .failure:
         return
       }
     }
-
   }
 
   func isRetryable(_ error: Error) -> Bool {

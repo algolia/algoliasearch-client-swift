@@ -43,9 +43,9 @@ open class AnalyticsClient {
   open func customDelete(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customDeleteWithRequestBuilder(
+    return try await customDeleteWithHTTPInfo(
       path: path, parameters: parameters, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -56,32 +56,33 @@ open class AnalyticsClient {
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customDeleteWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customDeleteWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "DELETE", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "DELETE",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -95,9 +96,9 @@ open class AnalyticsClient {
   open func customGet(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customGetWithRequestBuilder(
+    return try await customGetWithHTTPInfo(
       path: path, parameters: parameters, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -108,32 +109,33 @@ open class AnalyticsClient {
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customGetWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customGetWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -146,12 +148,12 @@ open class AnalyticsClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPost(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPostWithRequestBuilder(
+    return try await customPostWithHTTPInfo(
       path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -163,33 +165,33 @@ open class AnalyticsClient {
      - parameter body: (body) Parameters to send with the custom request. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customPostWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customPostWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+    let body = body
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "POST", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "POST",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -202,12 +204,12 @@ open class AnalyticsClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPut(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPutWithRequestBuilder(
+    return try await customPutWithHTTPInfo(
       path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -219,33 +221,33 @@ open class AnalyticsClient {
      - parameter body: (body) Parameters to send with the custom request. (optional)
      - returns: RequestBuilder<AnyCodable>
      */
-  open func customPutWithRequestBuilder(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Encodable? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<AnyCodable> {
-    var localVariablePath = "/1{path}"
+
+  open func customPutWithHTTPInfo(
+    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<AnyCodable> {
+    var path = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let localVariableParameters = JSONEncodingHelper.encodingParameters(forEncodableObject: body)
+    let body = body
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<AnyCodable>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "PUT", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "PUT",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -262,10 +264,10 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetAverageClickPositionResponse {
-    return try await getAverageClickPositionWithRequestBuilder(
+    return try await getAverageClickPositionWithHTTPInfo(
       index: index, startDate: startDate, endDate: endDate, tags: tags,
       requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -278,31 +280,31 @@ open class AnalyticsClient {
      - parameter tags: (query) Filter analytics on the [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or parentheses, it must be URL-encoded. (optional)
      - returns: RequestBuilder<GetAverageClickPositionResponse>
      */
-  open func getAverageClickPositionWithRequestBuilder(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<GetAverageClickPositionResponse> {
-    let localVariablePath = "/2/clicks/averageClickPosition"
-    let localVariableParameters: [String: Any?]? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+  open func getAverageClickPositionWithHTTPInfo(
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetAverageClickPositionResponse> {
+    let path = "/2/clicks/averageClickPosition"
+    let body: AnyCodable? = nil
+
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
       "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
       "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
       "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<GetAverageClickPositionResponse>.Type =
-      Transporter.requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -319,10 +321,10 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetClickPositionsResponse {
-    return try await getClickPositionsWithRequestBuilder(
+    return try await getClickPositionsWithHTTPInfo(
       index: index, startDate: startDate, endDate: endDate, tags: tags,
       requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -335,31 +337,31 @@ open class AnalyticsClient {
      - parameter tags: (query) Filter analytics on the [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or parentheses, it must be URL-encoded. (optional)
      - returns: RequestBuilder<GetClickPositionsResponse>
      */
-  open func getClickPositionsWithRequestBuilder(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<GetClickPositionsResponse> {
-    let localVariablePath = "/2/clicks/positions"
-    let localVariableParameters: [String: Any?]? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+  open func getClickPositionsWithHTTPInfo(
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetClickPositionsResponse> {
+    let path = "/2/clicks/positions"
+    let body: AnyCodable? = nil
+
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
       "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
       "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
       "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<GetClickPositionsResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -376,10 +378,10 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetClickThroughRateResponse {
-    return try await getClickThroughRateWithRequestBuilder(
+    return try await getClickThroughRateWithHTTPInfo(
       index: index, startDate: startDate, endDate: endDate, tags: tags,
       requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -392,31 +394,31 @@ open class AnalyticsClient {
      - parameter tags: (query) Filter analytics on the [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or parentheses, it must be URL-encoded. (optional)
      - returns: RequestBuilder<GetClickThroughRateResponse>
      */
-  open func getClickThroughRateWithRequestBuilder(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<GetClickThroughRateResponse> {
-    let localVariablePath = "/2/clicks/clickThroughRate"
-    let localVariableParameters: [String: Any?]? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+  open func getClickThroughRateWithHTTPInfo(
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetClickThroughRateResponse> {
+    let path = "/2/clicks/clickThroughRate"
+    let body: AnyCodable? = nil
+
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
       "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
       "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
       "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<GetClickThroughRateResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -433,10 +435,10 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetConversationRateResponse {
-    return try await getConversationRateWithRequestBuilder(
+    return try await getConversationRateWithHTTPInfo(
       index: index, startDate: startDate, endDate: endDate, tags: tags,
       requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -449,31 +451,31 @@ open class AnalyticsClient {
      - parameter tags: (query) Filter analytics on the [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or parentheses, it must be URL-encoded. (optional)
      - returns: RequestBuilder<GetConversationRateResponse>
      */
-  open func getConversationRateWithRequestBuilder(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<GetConversationRateResponse> {
-    let localVariablePath = "/2/conversions/conversionRate"
-    let localVariableParameters: [String: Any?]? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+  open func getConversationRateWithHTTPInfo(
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetConversationRateResponse> {
+    let path = "/2/conversions/conversionRate"
+    let body: AnyCodable? = nil
+
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
       "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
       "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
       "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<GetConversationRateResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -490,10 +492,10 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetNoClickRateResponse {
-    return try await getNoClickRateWithRequestBuilder(
+    return try await getNoClickRateWithHTTPInfo(
       index: index, startDate: startDate, endDate: endDate, tags: tags,
       requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -506,31 +508,31 @@ open class AnalyticsClient {
      - parameter tags: (query) Filter analytics on the [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or parentheses, it must be URL-encoded. (optional)
      - returns: RequestBuilder<GetNoClickRateResponse>
      */
-  open func getNoClickRateWithRequestBuilder(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<GetNoClickRateResponse> {
-    let localVariablePath = "/2/searches/noClickRate"
-    let localVariableParameters: [String: Any?]? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+  open func getNoClickRateWithHTTPInfo(
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetNoClickRateResponse> {
+    let path = "/2/searches/noClickRate"
+    let body: AnyCodable? = nil
+
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
       "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
       "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
       "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<GetNoClickRateResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -547,10 +549,10 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetNoResultsRateResponse {
-    return try await getNoResultsRateWithRequestBuilder(
+    return try await getNoResultsRateWithHTTPInfo(
       index: index, startDate: startDate, endDate: endDate, tags: tags,
       requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -563,31 +565,31 @@ open class AnalyticsClient {
      - parameter tags: (query) Filter analytics on the [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or parentheses, it must be URL-encoded. (optional)
      - returns: RequestBuilder<GetNoResultsRateResponse>
      */
-  open func getNoResultsRateWithRequestBuilder(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<GetNoResultsRateResponse> {
-    let localVariablePath = "/2/searches/noResultRate"
-    let localVariableParameters: [String: Any?]? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+  open func getNoResultsRateWithHTTPInfo(
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetNoResultsRateResponse> {
+    let path = "/2/searches/noResultRate"
+    let body: AnyCodable? = nil
+
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
       "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
       "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
       "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<GetNoResultsRateResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -604,10 +606,10 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetSearchesCountResponse {
-    return try await getSearchesCountWithRequestBuilder(
+    return try await getSearchesCountWithHTTPInfo(
       index: index, startDate: startDate, endDate: endDate, tags: tags,
       requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -620,31 +622,31 @@ open class AnalyticsClient {
      - parameter tags: (query) Filter analytics on the [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or parentheses, it must be URL-encoded. (optional)
      - returns: RequestBuilder<GetSearchesCountResponse>
      */
-  open func getSearchesCountWithRequestBuilder(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<GetSearchesCountResponse> {
-    let localVariablePath = "/2/searches/count"
-    let localVariableParameters: [String: Any?]? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+  open func getSearchesCountWithHTTPInfo(
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetSearchesCountResponse> {
+    let path = "/2/searches/count"
+    let body: AnyCodable? = nil
+
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
       "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
       "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
       "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<GetSearchesCountResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -663,10 +665,10 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil,
     offset: Int? = nil, tags: String? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> GetSearchesNoClicksResponse {
-    return try await getSearchesNoClicksWithRequestBuilder(
+    return try await getSearchesNoClicksWithHTTPInfo(
       index: index, startDate: startDate, endDate: endDate, limit: limit, offset: offset,
       tags: tags, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -681,14 +683,16 @@ open class AnalyticsClient {
      - parameter tags: (query) Filter analytics on the [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or parentheses, it must be URL-encoded. (optional)
      - returns: RequestBuilder<GetSearchesNoClicksResponse>
      */
-  open func getSearchesNoClicksWithRequestBuilder(
-    index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil,
-    offset: Int? = nil, tags: String? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<GetSearchesNoClicksResponse> {
-    let localVariablePath = "/2/searches/noClicks"
-    let localVariableParameters: [String: Any?]? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+  open func getSearchesNoClicksWithHTTPInfo(
+    index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil,
+    offset: Int? = nil, tags: String? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetSearchesNoClicksResponse> {
+    let path = "/2/searches/noClicks"
+    let body: AnyCodable? = nil
+
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
       "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
       "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
@@ -697,17 +701,16 @@ open class AnalyticsClient {
       "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<GetSearchesNoClicksResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -726,10 +729,10 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil,
     offset: Int? = nil, tags: String? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> GetSearchesNoResultsResponse {
-    return try await getSearchesNoResultsWithRequestBuilder(
+    return try await getSearchesNoResultsWithHTTPInfo(
       index: index, startDate: startDate, endDate: endDate, limit: limit, offset: offset,
       tags: tags, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -744,14 +747,16 @@ open class AnalyticsClient {
      - parameter tags: (query) Filter analytics on the [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or parentheses, it must be URL-encoded. (optional)
      - returns: RequestBuilder<GetSearchesNoResultsResponse>
      */
-  open func getSearchesNoResultsWithRequestBuilder(
-    index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil,
-    offset: Int? = nil, tags: String? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<GetSearchesNoResultsResponse> {
-    let localVariablePath = "/2/searches/noResults"
-    let localVariableParameters: [String: Any?]? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+  open func getSearchesNoResultsWithHTTPInfo(
+    index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil,
+    offset: Int? = nil, tags: String? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetSearchesNoResultsResponse> {
+    let path = "/2/searches/noResults"
+    let body: AnyCodable? = nil
+
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
       "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
       "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
@@ -760,17 +765,16 @@ open class AnalyticsClient {
       "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<GetSearchesNoResultsResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -783,8 +787,7 @@ open class AnalyticsClient {
   open func getStatus(index: String, requestOptions: RequestOptions? = nil) async throws
     -> GetStatusResponse
   {
-    return try await getStatusWithRequestBuilder(index: index, requestOptions: requestOptions)
-      .execute().body
+    return try await getStatusWithHTTPInfo(index: index, requestOptions: requestOptions).body
   }
 
   /**
@@ -794,27 +797,27 @@ open class AnalyticsClient {
      - parameter index: (query) Index name to target.
      - returns: RequestBuilder<GetStatusResponse>
      */
-  open func getStatusWithRequestBuilder(index: String, requestOptions: RequestOptions? = nil)
-    -> RequestBuilder<GetStatusResponse>
-  {
-    let localVariablePath = "/2/status"
-    let localVariableParameters: [String: Any?]? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+  open func getStatusWithHTTPInfo(
+    index: String, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetStatusResponse> {
+    let path = "/2/status"
+    let body: AnyCodable? = nil
+
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true)
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<GetStatusResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -833,10 +836,10 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil,
     offset: Int? = nil, tags: String? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> GetTopCountriesResponse {
-    return try await getTopCountriesWithRequestBuilder(
+    return try await getTopCountriesWithHTTPInfo(
       index: index, startDate: startDate, endDate: endDate, limit: limit, offset: offset,
       tags: tags, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -851,14 +854,16 @@ open class AnalyticsClient {
      - parameter tags: (query) Filter analytics on the [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or parentheses, it must be URL-encoded. (optional)
      - returns: RequestBuilder<GetTopCountriesResponse>
      */
-  open func getTopCountriesWithRequestBuilder(
-    index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil,
-    offset: Int? = nil, tags: String? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<GetTopCountriesResponse> {
-    let localVariablePath = "/2/countries"
-    let localVariableParameters: [String: Any?]? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+  open func getTopCountriesWithHTTPInfo(
+    index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil,
+    offset: Int? = nil, tags: String? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetTopCountriesResponse> {
+    let path = "/2/countries"
+    let body: AnyCodable? = nil
+
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
       "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
       "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
@@ -867,17 +872,16 @@ open class AnalyticsClient {
       "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<GetTopCountriesResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -898,10 +902,10 @@ open class AnalyticsClient {
     limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetTopFilterAttributesResponse {
-    return try await getTopFilterAttributesWithRequestBuilder(
+    return try await getTopFilterAttributesWithHTTPInfo(
       index: index, search: search, startDate: startDate, endDate: endDate, limit: limit,
       offset: offset, tags: tags, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -917,15 +921,16 @@ open class AnalyticsClient {
      - parameter tags: (query) Filter analytics on the [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or parentheses, it must be URL-encoded. (optional)
      - returns: RequestBuilder<GetTopFilterAttributesResponse>
      */
-  open func getTopFilterAttributesWithRequestBuilder(
+
+  open func getTopFilterAttributesWithHTTPInfo(
     index: String, search: String? = nil, startDate: String? = nil, endDate: String? = nil,
     limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<GetTopFilterAttributesResponse> {
-    let localVariablePath = "/2/filters"
-    let localVariableParameters: [String: Any?]? = nil
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetTopFilterAttributesResponse> {
+    let path = "/2/filters"
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
       "search": (wrappedValue: search?.encodeToJSON(), isExplode: true),
       "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
@@ -935,17 +940,16 @@ open class AnalyticsClient {
       "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<GetTopFilterAttributesResponse>.Type =
-      Transporter.requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -967,10 +971,10 @@ open class AnalyticsClient {
     endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetTopFilterForAttributeResponse {
-    return try await getTopFilterForAttributeWithRequestBuilder(
+    return try await getTopFilterForAttributeWithHTTPInfo(
       attribute: attribute, index: index, search: search, startDate: startDate, endDate: endDate,
       limit: limit, offset: offset, tags: tags, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -987,20 +991,21 @@ open class AnalyticsClient {
      - parameter tags: (query) Filter analytics on the [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or parentheses, it must be URL-encoded. (optional)
      - returns: RequestBuilder<GetTopFilterForAttributeResponse>
      */
-  open func getTopFilterForAttributeWithRequestBuilder(
+
+  open func getTopFilterForAttributeWithHTTPInfo(
     attribute: String, index: String, search: String? = nil, startDate: String? = nil,
     endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<GetTopFilterForAttributeResponse> {
-    var localVariablePath = "/2/filters/{attribute}"
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetTopFilterForAttributeResponse> {
+    var path = "/2/filters/{attribute}"
     let attributePreEscape = "\(APIHelper.mapValueToPathItem(attribute))"
     let attributePostEscape =
       attributePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    localVariablePath = localVariablePath.replacingOccurrences(
+    path = path.replacingOccurrences(
       of: "{attribute}", with: attributePostEscape, options: .literal, range: nil)
-    let localVariableParameters: [String: Any?]? = nil
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
       "search": (wrappedValue: search?.encodeToJSON(), isExplode: true),
       "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
@@ -1010,17 +1015,16 @@ open class AnalyticsClient {
       "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<GetTopFilterForAttributeResponse>.Type =
-      Transporter.requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1041,10 +1045,10 @@ open class AnalyticsClient {
     limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetTopFiltersNoResultsResponse {
-    return try await getTopFiltersNoResultsWithRequestBuilder(
+    return try await getTopFiltersNoResultsWithHTTPInfo(
       index: index, search: search, startDate: startDate, endDate: endDate, limit: limit,
       offset: offset, tags: tags, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -1060,15 +1064,16 @@ open class AnalyticsClient {
      - parameter tags: (query) Filter analytics on the [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or parentheses, it must be URL-encoded. (optional)
      - returns: RequestBuilder<GetTopFiltersNoResultsResponse>
      */
-  open func getTopFiltersNoResultsWithRequestBuilder(
+
+  open func getTopFiltersNoResultsWithHTTPInfo(
     index: String, search: String? = nil, startDate: String? = nil, endDate: String? = nil,
     limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<GetTopFiltersNoResultsResponse> {
-    let localVariablePath = "/2/filters/noResults"
-    let localVariableParameters: [String: Any?]? = nil
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetTopFiltersNoResultsResponse> {
+    let path = "/2/filters/noResults"
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
       "search": (wrappedValue: search?.encodeToJSON(), isExplode: true),
       "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
@@ -1078,17 +1083,16 @@ open class AnalyticsClient {
       "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<GetTopFiltersNoResultsResponse>.Type =
-      Transporter.requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1110,10 +1114,10 @@ open class AnalyticsClient {
     endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetTopHitsResponse {
-    return try await getTopHitsWithRequestBuilder(
+    return try await getTopHitsWithHTTPInfo(
       index: index, search: search, clickAnalytics: clickAnalytics, startDate: startDate,
       endDate: endDate, limit: limit, offset: offset, tags: tags, requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -1130,15 +1134,16 @@ open class AnalyticsClient {
      - parameter tags: (query) Filter analytics on the [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or parentheses, it must be URL-encoded. (optional)
      - returns: RequestBuilder<GetTopHitsResponse>
      */
-  open func getTopHitsWithRequestBuilder(
+
+  open func getTopHitsWithHTTPInfo(
     index: String, search: String? = nil, clickAnalytics: Bool? = nil, startDate: String? = nil,
     endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<GetTopHitsResponse> {
-    let localVariablePath = "/2/hits"
-    let localVariableParameters: [String: Any?]? = nil
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetTopHitsResponse> {
+    let path = "/2/hits"
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
       "search": (wrappedValue: search?.encodeToJSON(), isExplode: true),
       "clickAnalytics": (wrappedValue: clickAnalytics?.encodeToJSON(), isExplode: true),
@@ -1149,17 +1154,16 @@ open class AnalyticsClient {
       "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<GetTopHitsResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1182,11 +1186,11 @@ open class AnalyticsClient {
     orderBy: OrderBy? = nil, direction: Direction? = nil, limit: Int? = nil, offset: Int? = nil,
     tags: String? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> GetTopSearchesResponse {
-    return try await getTopSearchesWithRequestBuilder(
+    return try await getTopSearchesWithHTTPInfo(
       index: index, clickAnalytics: clickAnalytics, startDate: startDate, endDate: endDate,
       orderBy: orderBy, direction: direction, limit: limit, offset: offset, tags: tags,
       requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -1204,15 +1208,16 @@ open class AnalyticsClient {
      - parameter tags: (query) Filter analytics on the [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or parentheses, it must be URL-encoded. (optional)
      - returns: RequestBuilder<GetTopSearchesResponse>
      */
-  open func getTopSearchesWithRequestBuilder(
+
+  open func getTopSearchesWithHTTPInfo(
     index: String, clickAnalytics: Bool? = nil, startDate: String? = nil, endDate: String? = nil,
     orderBy: OrderBy? = nil, direction: Direction? = nil, limit: Int? = nil, offset: Int? = nil,
-    tags: String? = nil, requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<GetTopSearchesResponse> {
-    let localVariablePath = "/2/searches"
-    let localVariableParameters: [String: Any?]? = nil
+    tags: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetTopSearchesResponse> {
+    let path = "/2/searches"
+    let body: AnyCodable? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
       "clickAnalytics": (wrappedValue: clickAnalytics?.encodeToJSON(), isExplode: true),
       "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
@@ -1224,17 +1229,16 @@ open class AnalyticsClient {
       "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<GetTopSearchesResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 
   /**
@@ -1251,10 +1255,10 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetUsersCountResponse {
-    return try await getUsersCountWithRequestBuilder(
+    return try await getUsersCountWithHTTPInfo(
       index: index, startDate: startDate, endDate: endDate, tags: tags,
       requestOptions: requestOptions
-    ).execute().body
+    ).body
   }
 
   /**
@@ -1267,30 +1271,30 @@ open class AnalyticsClient {
      - parameter tags: (query) Filter analytics on the [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or parentheses, it must be URL-encoded. (optional)
      - returns: RequestBuilder<GetUsersCountResponse>
      */
-  open func getUsersCountWithRequestBuilder(
-    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
-    requestOptions: RequestOptions? = nil
-  ) -> RequestBuilder<GetUsersCountResponse> {
-    let localVariablePath = "/2/users/count"
-    let localVariableParameters: [String: Any?]? = nil
 
-    let localVariableQueryItems = APIHelper.mapValuesToQueryItems([
+  open func getUsersCountWithHTTPInfo(
+    index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
+    requestOptions userRequestOptions: RequestOptions? = nil
+  ) async throws -> Response<GetUsersCountResponse> {
+    let path = "/2/users/count"
+    let body: AnyCodable? = nil
+
+    let queryItems = APIHelper.mapValuesToQueryItems([
       "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
       "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
       "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
       "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
     ])
 
-    let localVariableNillableHeaders: [String: Any?] = [:]
+    let nillableHeaders: [String: Any?]? = [:]
 
-    let localVariableHeaderParameters = APIHelper.rejectNilHeaders(localVariableNillableHeaders)
+    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    let localVariableRequestBuilder: RequestBuilder<GetUsersCountResponse>.Type = Transporter
-      .requestBuilderFactory.getBuilder()
-
-    return localVariableRequestBuilder.init(
-      method: "GET", path: localVariablePath, queryItems: localVariableQueryItems,
-      parameters: localVariableParameters, headers: localVariableHeaderParameters,
-      transporter: self.transporter, requestOptions: requestOptions)
+    return try await self.transporter.send(
+      method: "GET",
+      path: path,
+      data: body,
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+    )
   }
 }
