@@ -44,13 +44,15 @@ public struct Variant: Codable, JSONEncodable, Hashable {
   public var trafficPercentage: Int
   /** Number of users during the A/B test. */
   public var userCount: Int
+  /** Number of users that performed a tracked search during the A/B test. */
+  public var trackedUserCount: Int
 
   public init(
     addToCartCount: Int, addToCartRate: Double, averageClickPosition: Int, clickCount: Int,
     clickThroughRate: Double, conversionCount: Int, conversionRate: Double,
     currencies: [String: CurrenciesValue], description: String, filterEffects: FilterEffects? = nil,
     index: String, noResultCount: Int, purchaseCount: Int, purchaseRate: Double, searchCount: Int,
-    trackedSearchCount: Int, trafficPercentage: Int, userCount: Int
+    trackedSearchCount: Int, trafficPercentage: Int, userCount: Int, trackedUserCount: Int
   ) {
     self.addToCartCount = addToCartCount
     self.addToCartRate = addToCartRate
@@ -70,6 +72,7 @@ public struct Variant: Codable, JSONEncodable, Hashable {
     self.trackedSearchCount = trackedSearchCount
     self.trafficPercentage = trafficPercentage
     self.userCount = userCount
+    self.trackedUserCount = trackedUserCount
   }
 
   public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -91,6 +94,7 @@ public struct Variant: Codable, JSONEncodable, Hashable {
     case trackedSearchCount
     case trafficPercentage
     case userCount
+    case trackedUserCount
   }
 
   // Encodable protocol methods
@@ -115,5 +119,6 @@ public struct Variant: Codable, JSONEncodable, Hashable {
     try container.encode(trackedSearchCount, forKey: .trackedSearchCount)
     try container.encode(trafficPercentage, forKey: .trafficPercentage)
     try container.encode(userCount, forKey: .userCount)
+    try container.encode(trackedUserCount, forKey: .trackedUserCount)
   }
 }
