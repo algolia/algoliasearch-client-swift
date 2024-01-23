@@ -2861,20 +2861,17 @@ open class SearchClient {
      Search for synonyms.
 
      - parameter indexName: (path) Index on which to perform the request.
-     - parameter type: (query) Search for specific [types of synonyms](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/adding-synonyms/#the-different-types-of-synonyms). (optional)
-     - parameter page: (query) Returns the requested page number (the first page is 0). Page size is set by &#x60;hitsPerPage&#x60;. When null, there&#39;s no pagination.  (optional, default to 0)
-     - parameter hitsPerPage: (query) Maximum number of hits per page. (optional, default to 100)
      - parameter searchSynonymsParams: (body) Body of the &#x60;searchSynonyms&#x60; operation. (optional)
      - returns: SearchSynonymsResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func searchSynonyms(
-    indexName: String, type: SynonymType? = nil, page: Int? = nil, hitsPerPage: Int? = nil,
-    searchSynonymsParams: SearchSynonymsParams? = nil, requestOptions: RequestOptions? = nil
+    indexName: String, searchSynonymsParams: SearchSynonymsParams? = nil,
+    requestOptions: RequestOptions? = nil
   ) async throws -> SearchSynonymsResponse {
     return try await searchSynonymsWithHTTPInfo(
-      indexName: indexName, type: type, page: page, hitsPerPage: hitsPerPage,
-      searchSynonymsParams: searchSynonymsParams, requestOptions: requestOptions
+      indexName: indexName, searchSynonymsParams: searchSynonymsParams,
+      requestOptions: requestOptions
     ).body
   }
 
@@ -2883,16 +2880,12 @@ open class SearchClient {
 
      Search for synonyms in your index. You can control and filter the search with parameters. To get all synonyms, send an empty request body.
      - parameter indexName: (path) Index on which to perform the request.
-     - parameter type: (query) Search for specific [types of synonyms](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/adding-synonyms/#the-different-types-of-synonyms). (optional)
-     - parameter page: (query) Returns the requested page number (the first page is 0). Page size is set by &#x60;hitsPerPage&#x60;. When null, there&#39;s no pagination.  (optional, default to 0)
-     - parameter hitsPerPage: (query) Maximum number of hits per page. (optional, default to 100)
      - parameter searchSynonymsParams: (body) Body of the &#x60;searchSynonyms&#x60; operation. (optional)
      - returns: RequestBuilder<SearchSynonymsResponse>
      */
 
   open func searchSynonymsWithHTTPInfo(
-    indexName: String, type: SynonymType? = nil, page: Int? = nil, hitsPerPage: Int? = nil,
-    searchSynonymsParams: SearchSynonymsParams? = nil,
+    indexName: String, searchSynonymsParams: SearchSynonymsParams? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<SearchSynonymsResponse> {
     var path = "/1/indexes/{indexName}/synonyms/search"
@@ -2903,11 +2896,7 @@ open class SearchClient {
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let body = searchSynonymsParams
 
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "type": (wrappedValue: type?.encodeToJSON(), isExplode: true),
-      "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
-      "hitsPerPage": (wrappedValue: hitsPerPage?.encodeToJSON(), isExplode: true),
-    ])
+    let queryItems: [URLQueryItem]? = nil
 
     let nillableHeaders: [String: Any?]? = [:]
 
