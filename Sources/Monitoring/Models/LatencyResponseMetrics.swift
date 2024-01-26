@@ -2,27 +2,25 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct LatencyResponseMetrics: Codable, JSONEncodable, Hashable {
+    public var latency: [String: [TimeInner]]?
 
-  public var latency: [String: [TimeInner]]?
+    public init(latency: [String: [TimeInner]]? = nil) {
+        self.latency = latency
+    }
 
-  public init(latency: [String: [TimeInner]]? = nil) {
-    self.latency = latency
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case latency
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case latency
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(latency, forKey: .latency)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(latency, forKey: .latency)
+    }
 }

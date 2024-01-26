@@ -2,14 +2,13 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum RecommendModels: String, Codable, CaseIterable {
-  case relatedProducts = "related-products"
-  case boughtTogether = "bought-together"
-  case trendingFacets = "trending-facets"
-  case trendingItems = "trending-items"
+    case relatedProducts = "related-products"
+    case boughtTogether = "bought-together"
+    case trendingFacets = "trending-facets"
+    case trendingItems = "trending-items"
 }

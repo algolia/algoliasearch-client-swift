@@ -2,12 +2,11 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum Direction: String, Codable, CaseIterable {
-  case asc = "asc"
-  case desc = "desc"
+    case asc
+    case desc
 }

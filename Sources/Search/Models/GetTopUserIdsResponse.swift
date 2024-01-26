@@ -2,29 +2,27 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// User IDs and clusters.
+/** User IDs and clusters. */
 public struct GetTopUserIdsResponse: Codable, JSONEncodable, Hashable {
+    /** Key-value pairs with cluster names as keys and lists of users with the highest number of records per cluster as values. */
+    public var topUsers: [[String: [UserId]]]
 
-  /** Key-value pairs with cluster names as keys and lists of users with the highest number of records per cluster as values. */
-  public var topUsers: [[String: [UserId]]]
+    public init(topUsers: [[String: [UserId]]]) {
+        self.topUsers = topUsers
+    }
 
-  public init(topUsers: [[String: [UserId]]]) {
-    self.topUsers = topUsers
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case topUsers
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case topUsers
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(topUsers, forKey: .topUsers)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(topUsers, forKey: .topUsers)
+    }
 }

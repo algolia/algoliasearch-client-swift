@@ -2,38 +2,36 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct MatchedGeoLocation: Codable, JSONEncodable, Hashable {
+    /** Latitude of the matched location. */
+    public var lat: Double?
+    /** Longitude of the matched location. */
+    public var lng: Double?
+    /** Distance between the matched location and the search location (in meters). */
+    public var distance: Int?
 
-  /** Latitude of the matched location. */
-  public var lat: Double?
-  /** Longitude of the matched location. */
-  public var lng: Double?
-  /** Distance between the matched location and the search location (in meters). */
-  public var distance: Int?
+    public init(lat: Double? = nil, lng: Double? = nil, distance: Int? = nil) {
+        self.lat = lat
+        self.lng = lng
+        self.distance = distance
+    }
 
-  public init(lat: Double? = nil, lng: Double? = nil, distance: Int? = nil) {
-    self.lat = lat
-    self.lng = lng
-    self.distance = distance
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case lat
+        case lng
+        case distance
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case lat
-    case lng
-    case distance
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(lat, forKey: .lat)
-    try container.encodeIfPresent(lng, forKey: .lng)
-    try container.encodeIfPresent(distance, forKey: .distance)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(lat, forKey: .lat)
+        try container.encodeIfPresent(lng, forKey: .lng)
+        try container.encodeIfPresent(distance, forKey: .distance)
+    }
 }

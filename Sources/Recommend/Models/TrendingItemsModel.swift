@@ -2,12 +2,11 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Trending items model.
+/** Trending items model. */
 public enum TrendingItemsModel: String, Codable, CaseIterable {
-  case trendingItems = "trending-items"
+    case trendingItems = "trending-items"
 }

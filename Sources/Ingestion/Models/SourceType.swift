@@ -2,16 +2,15 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum SourceType: String, Codable, CaseIterable {
-  case bigcommerce = "bigcommerce"
-  case commercetools = "commercetools"
-  case json = "json"
-  case csv = "csv"
-  case bigquery = "bigquery"
-  case docker = "docker"
+    case bigcommerce
+    case commercetools
+    case json
+    case csv
+    case bigquery
+    case docker
 }

@@ -2,45 +2,41 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Show highlighted section and words matched on a query.
+/** Show highlighted section and words matched on a query. */
 public struct HighlightResultOption: Codable, JSONEncodable, Hashable {
+    /** Markup text with `facetQuery` matches highlighted. */
+    public var value: String
+    public var matchLevel: MatchLevel
+    /** List of words from the query that matched the object. */
+    public var matchedWords: [String]
+    /** Whether the entire attribute value is highlighted. */
+    public var fullyHighlighted: Bool?
 
-  /** Markup text with `facetQuery` matches highlighted. */
-  public var value: String
-  public var matchLevel: MatchLevel
-  /** List of words from the query that matched the object. */
-  public var matchedWords: [String]
-  /** Whether the entire attribute value is highlighted. */
-  public var fullyHighlighted: Bool?
+    public init(value: String, matchLevel: MatchLevel, matchedWords: [String], fullyHighlighted: Bool? = nil) {
+        self.value = value
+        self.matchLevel = matchLevel
+        self.matchedWords = matchedWords
+        self.fullyHighlighted = fullyHighlighted
+    }
 
-  public init(
-    value: String, matchLevel: MatchLevel, matchedWords: [String], fullyHighlighted: Bool? = nil
-  ) {
-    self.value = value
-    self.matchLevel = matchLevel
-    self.matchedWords = matchedWords
-    self.fullyHighlighted = fullyHighlighted
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case value
+        case matchLevel
+        case matchedWords
+        case fullyHighlighted
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case value
-    case matchLevel
-    case matchedWords
-    case fullyHighlighted
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(value, forKey: .value)
-    try container.encode(matchLevel, forKey: .matchLevel)
-    try container.encode(matchedWords, forKey: .matchedWords)
-    try container.encodeIfPresent(fullyHighlighted, forKey: .fullyHighlighted)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(value, forKey: .value)
+        try container.encode(matchLevel, forKey: .matchLevel)
+        try container.encode(matchedWords, forKey: .matchedWords)
+        try container.encodeIfPresent(fullyHighlighted, forKey: .fullyHighlighted)
+    }
 }

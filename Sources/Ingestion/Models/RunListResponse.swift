@@ -2,35 +2,33 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct RunListResponse: Codable, JSONEncodable, Hashable {
+    public var runs: [Run]
+    public var pagination: Pagination
+    public var window: Window
 
-  public var runs: [Run]
-  public var pagination: Pagination
-  public var window: Window
+    public init(runs: [Run], pagination: Pagination, window: Window) {
+        self.runs = runs
+        self.pagination = pagination
+        self.window = window
+    }
 
-  public init(runs: [Run], pagination: Pagination, window: Window) {
-    self.runs = runs
-    self.pagination = pagination
-    self.window = window
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case runs
+        case pagination
+        case window
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case runs
-    case pagination
-    case window
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(runs, forKey: .runs)
-    try container.encode(pagination, forKey: .pagination)
-    try container.encode(window, forKey: .window)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(runs, forKey: .runs)
+        try container.encode(pagination, forKey: .pagination)
+        try container.encode(window, forKey: .window)
+    }
 }

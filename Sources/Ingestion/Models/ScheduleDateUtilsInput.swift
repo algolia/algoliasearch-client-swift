@@ -2,31 +2,28 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// The input for a &#x60;schedule&#x60; task whose source is of type &#x60;bigquery&#x60; and for which extracted data spans a fixed number of days.
+/** The input for a &#x60;schedule&#x60; task whose source is of type &#x60;bigquery&#x60; and for which extracted data spans a fixed number of days. */
 public struct ScheduleDateUtilsInput: Codable, JSONEncodable, Hashable {
+    static let timeframeRule = NumericRule<Int>(minimum: 1, exclusiveMinimum: false, maximum: 30, exclusiveMaximum: false, multipleOf: nil)
+    /** The timeframe of the extraction, in number of days from today. */
+    public var timeframe: Int
 
-  static let timeframeRule = NumericRule<Int>(
-    minimum: 1, exclusiveMinimum: false, maximum: 30, exclusiveMaximum: false, multipleOf: nil)
-  /** The timeframe of the extraction, in number of days from today. */
-  public var timeframe: Int
+    public init(timeframe: Int) {
+        self.timeframe = timeframe
+    }
 
-  public init(timeframe: Int) {
-    self.timeframe = timeframe
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case timeframe
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case timeframe
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(timeframe, forKey: .timeframe)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(timeframe, forKey: .timeframe)
+    }
 }

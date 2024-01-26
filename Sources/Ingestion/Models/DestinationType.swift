@@ -2,14 +2,13 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Type of the Destination, defines in which Algolia product the data will be stored.
+/** Type of the Destination, defines in which Algolia product the data will be stored. */
 public enum DestinationType: String, Codable, CaseIterable {
-  case search = "search"
-  case insights = "insights"
-  case flow = "flow"
+    case search
+    case insights
+    case flow
 }

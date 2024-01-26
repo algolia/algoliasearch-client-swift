@@ -2,33 +2,31 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct BaseResponse: Codable, JSONEncodable, Hashable {
+    /** HTTP status code. */
+    public var status: Int?
+    /** Details about the response, such as error messages. */
+    public var message: String?
 
-  /** HTTP status code. */
-  public var status: Int?
-  /** Details about the response, such as error messages. */
-  public var message: String?
+    public init(status: Int? = nil, message: String? = nil) {
+        self.status = status
+        self.message = message
+    }
 
-  public init(status: Int? = nil, message: String? = nil) {
-    self.status = status
-    self.message = message
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case status
+        case message
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case status
-    case message
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(status, forKey: .status)
-    try container.encodeIfPresent(message, forKey: .message)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(status, forKey: .status)
+        try container.encodeIfPresent(message, forKey: .message)
+    }
 }

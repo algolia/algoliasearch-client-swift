@@ -2,41 +2,39 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// The payload when creating an authentication.
+/** The payload when creating an authentication. */
 public struct AuthenticationCreate: Codable, JSONEncodable, Hashable {
+    public var type: AuthenticationType
+    /** An human readable name describing the object. */
+    public var name: String
+    public var platform: Platform?
+    public var input: AuthInput
 
-  public var type: AuthenticationType
-  /** An human readable name describing the object. */
-  public var name: String
-  public var platform: Platform?
-  public var input: AuthInput
+    public init(type: AuthenticationType, name: String, platform: Platform? = nil, input: AuthInput) {
+        self.type = type
+        self.name = name
+        self.platform = platform
+        self.input = input
+    }
 
-  public init(type: AuthenticationType, name: String, platform: Platform? = nil, input: AuthInput) {
-    self.type = type
-    self.name = name
-    self.platform = platform
-    self.input = input
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case type
+        case name
+        case platform
+        case input
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case type
-    case name
-    case platform
-    case input
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(type, forKey: .type)
-    try container.encode(name, forKey: .name)
-    try container.encodeIfPresent(platform, forKey: .platform)
-    try container.encode(input, forKey: .input)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(type, forKey: .type)
+        try container.encode(name, forKey: .name)
+        try container.encodeIfPresent(platform, forKey: .platform)
+        try container.encode(input, forKey: .input)
+    }
 }

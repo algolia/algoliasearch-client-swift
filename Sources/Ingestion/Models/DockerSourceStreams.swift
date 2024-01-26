@@ -2,27 +2,25 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct DockerSourceStreams: Codable, JSONEncodable, Hashable {
+    public var streams: [AnyCodable]
 
-  public var streams: [AnyCodable]
+    public init(streams: [AnyCodable]) {
+        self.streams = streams
+    }
 
-  public init(streams: [AnyCodable]) {
-    self.streams = streams
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case streams
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case streams
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(streams, forKey: .streams)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(streams, forKey: .streams)
+    }
 }

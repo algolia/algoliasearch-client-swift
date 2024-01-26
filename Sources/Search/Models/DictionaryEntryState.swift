@@ -2,13 +2,12 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Indicates whether a dictionary entry is active (&#x60;enabled&#x60;) or inactive (&#x60;disabled&#x60;).
+/** Indicates whether a dictionary entry is active (&#x60;enabled&#x60;) or inactive (&#x60;disabled&#x60;). */
 public enum DictionaryEntryState: String, Codable, CaseIterable {
-  case enabled = "enabled"
-  case disabled = "disabled"
+    case enabled
+    case disabled
 }

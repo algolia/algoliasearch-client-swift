@@ -2,38 +2,33 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// The absolute value of the discount for this product, in units of &#x60;currency&#x60;.
+/** The absolute value of the discount for this product, in units of &#x60;currency&#x60;.  */
 public enum Discount: Codable, JSONEncodable, Hashable {
-  case double(Double)
-  case string(String)
+    case double(Double)
+    case string(String)
 
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    switch self {
-    case .double(let value):
-      try container.encode(value)
-    case .string(let value):
-      try container.encode(value)
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .double(value):
+            try container.encode(value)
+        case let .string(value):
+            try container.encode(value)
+        }
     }
-  }
 
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    if let value = try? container.decode(Double.self) {
-      self = .double(value)
-    } else if let value = try? container.decode(String.self) {
-      self = .string(value)
-    } else {
-      throw DecodingError.typeMismatch(
-        Self.Type.self,
-        .init(
-          codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of Discount")
-      )
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(Double.self) {
+            self = .double(value)
+        } else if let value = try? container.decode(String.self) {
+            self = .string(value)
+        } else {
+            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of Discount"))
+        }
     }
-  }
 }

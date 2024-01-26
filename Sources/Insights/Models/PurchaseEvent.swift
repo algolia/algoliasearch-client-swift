@@ -2,11 +2,10 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum PurchaseEvent: String, Codable, CaseIterable {
-  case purchase = "purchase"
+    case purchase
 }

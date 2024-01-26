@@ -2,39 +2,37 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Response from the API when the Authentication is successfully updated.
+/** Response from the API when the Authentication is successfully updated. */
 public struct AuthenticationUpdateResponse: Codable, JSONEncodable, Hashable {
+    /** The authentication UUID. */
+    public var authenticationID: String
+    /** An human readable name describing the object. */
+    public var name: String
+    /** Date of last update (RFC3339 format). */
+    public var updatedAt: String
 
-  /** The authentication UUID. */
-  public var authenticationID: String
-  /** An human readable name describing the object. */
-  public var name: String
-  /** Date of last update (RFC3339 format). */
-  public var updatedAt: String
+    public init(authenticationID: String, name: String, updatedAt: String) {
+        self.authenticationID = authenticationID
+        self.name = name
+        self.updatedAt = updatedAt
+    }
 
-  public init(authenticationID: String, name: String, updatedAt: String) {
-    self.authenticationID = authenticationID
-    self.name = name
-    self.updatedAt = updatedAt
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case authenticationID
+        case name
+        case updatedAt
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case authenticationID
-    case name
-    case updatedAt
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(authenticationID, forKey: .authenticationID)
-    try container.encode(name, forKey: .name)
-    try container.encode(updatedAt, forKey: .updatedAt)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(authenticationID, forKey: .authenticationID)
+        try container.encode(name, forKey: .name)
+        try container.encode(updatedAt, forKey: .updatedAt)
+    }
 }

@@ -2,37 +2,32 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum GetTopSearchesResponse: Codable, JSONEncodable, Hashable {
-  case topSearchesResponse(TopSearchesResponse)
-  case topSearchesResponseWithAnalytics(TopSearchesResponseWithAnalytics)
+    case topSearchesResponse(TopSearchesResponse)
+    case topSearchesResponseWithAnalytics(TopSearchesResponseWithAnalytics)
 
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    switch self {
-    case .topSearchesResponse(let value):
-      try container.encode(value)
-    case .topSearchesResponseWithAnalytics(let value):
-      try container.encode(value)
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .topSearchesResponse(value):
+            try container.encode(value)
+        case let .topSearchesResponseWithAnalytics(value):
+            try container.encode(value)
+        }
     }
-  }
 
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    if let value = try? container.decode(TopSearchesResponse.self) {
-      self = .topSearchesResponse(value)
-    } else if let value = try? container.decode(TopSearchesResponseWithAnalytics.self) {
-      self = .topSearchesResponseWithAnalytics(value)
-    } else {
-      throw DecodingError.typeMismatch(
-        Self.Type.self,
-        .init(
-          codingPath: decoder.codingPath,
-          debugDescription: "Unable to decode instance of GetTopSearchesResponse"))
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(TopSearchesResponse.self) {
+            self = .topSearchesResponse(value)
+        } else if let value = try? container.decode(TopSearchesResponseWithAnalytics.self) {
+            self = .topSearchesResponseWithAnalytics(value)
+        } else {
+            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of GetTopSearchesResponse"))
+        }
     }
-  }
 }

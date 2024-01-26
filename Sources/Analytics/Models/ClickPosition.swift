@@ -2,33 +2,31 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct ClickPosition: Codable, JSONEncodable, Hashable {
+    /** Range of positions with the following pattern: - For positions 1 to 10, the number of click events are shown for each position - For positions 11 to 20, all click events are grouped - For positions 21 and up, all click events are grouped.  */
+    public var position: [Int]
+    /** Number of click events. */
+    public var clickCount: Int
 
-  /** Range of positions with the following pattern: - For positions 1 to 10, the number of click events are shown for each position - For positions 11 to 20, all click events are grouped - For positions 21 and up, all click events are grouped.  */
-  public var position: [Int]
-  /** Number of click events. */
-  public var clickCount: Int
+    public init(position: [Int], clickCount: Int) {
+        self.position = position
+        self.clickCount = clickCount
+    }
 
-  public init(position: [Int], clickCount: Int) {
-    self.position = position
-    self.clickCount = clickCount
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case position
+        case clickCount
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case position
-    case clickCount
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(position, forKey: .position)
-    try container.encode(clickCount, forKey: .clickCount)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(position, forKey: .position)
+        try container.encode(clickCount, forKey: .clickCount)
+    }
 }

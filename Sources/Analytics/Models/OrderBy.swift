@@ -2,15 +2,14 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Method for ordering results. &#x60;clickThroughRate&#x60;, &#x60;conversionRate&#x60; and &#x60;averageClickPosition&#x60; are only available if the &#x60;clickAnalytics&#x60; parameter is &#x60;true&#x60;.
+/** Method for ordering results. &#x60;clickThroughRate&#x60;, &#x60;conversionRate&#x60; and &#x60;averageClickPosition&#x60; are only available if the &#x60;clickAnalytics&#x60; parameter is &#x60;true&#x60;.  */
 public enum OrderBy: String, Codable, CaseIterable {
-  case searchCount = "searchCount"
-  case clickThroughRate = "clickThroughRate"
-  case conversionRate = "conversionRate"
-  case averageClickPosition = "averageClickPosition"
+    case searchCount
+    case clickThroughRate
+    case conversionRate
+    case averageClickPosition
 }

@@ -2,33 +2,31 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct AddApiKeyResponse: Codable, JSONEncodable, Hashable {
+    /** API key. */
+    public var key: String
+    /** Timestamp of creation in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format. */
+    public var createdAt: String
 
-  /** API key. */
-  public var key: String
-  /** Timestamp of creation in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format. */
-  public var createdAt: String
+    public init(key: String, createdAt: String) {
+        self.key = key
+        self.createdAt = createdAt
+    }
 
-  public init(key: String, createdAt: String) {
-    self.key = key
-    self.createdAt = createdAt
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case key
+        case createdAt
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case key
-    case createdAt
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(key, forKey: .key)
-    try container.encode(createdAt, forKey: .createdAt)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(key, forKey: .key)
+        try container.encode(createdAt, forKey: .createdAt)
+    }
 }

@@ -2,14 +2,13 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum EventType: String, Codable, CaseIterable {
-  case fetch = "fetch"
-  case record = "record"
-  case log = "log"
-  case transform = "transform"
+    case fetch
+    case record
+    case log
+    case transform
 }

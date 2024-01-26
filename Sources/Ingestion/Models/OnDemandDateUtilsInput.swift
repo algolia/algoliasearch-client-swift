@@ -2,34 +2,32 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// The input for an &#x60;onDemand&#x60; task whose source is of type &#x60;bigquery&#x60; and for which extracted data spans a given time range.
+/** The input for an &#x60;onDemand&#x60; task whose source is of type &#x60;bigquery&#x60; and for which extracted data spans a given time range. */
 public struct OnDemandDateUtilsInput: Codable, JSONEncodable, Hashable {
+    /** The start date of the extraction (RFC3339 format). */
+    public var startDate: String
+    /** The end date of the extraction (RFC3339 format). */
+    public var endDate: String
 
-  /** The start date of the extraction (RFC3339 format). */
-  public var startDate: String
-  /** The end date of the extraction (RFC3339 format). */
-  public var endDate: String
+    public init(startDate: String, endDate: String) {
+        self.startDate = startDate
+        self.endDate = endDate
+    }
 
-  public init(startDate: String, endDate: String) {
-    self.startDate = startDate
-    self.endDate = endDate
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case startDate
+        case endDate
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case startDate
-    case endDate
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(startDate, forKey: .startDate)
-    try container.encode(endDate, forKey: .endDate)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(startDate, forKey: .startDate)
+        try container.encode(endDate, forKey: .endDate)
+    }
 }

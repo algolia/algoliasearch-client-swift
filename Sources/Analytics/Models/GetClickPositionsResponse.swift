@@ -2,28 +2,26 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct GetClickPositionsResponse: Codable, JSONEncodable, Hashable {
+    /** Click positions. */
+    public var positions: [ClickPosition]
 
-  /** Click positions. */
-  public var positions: [ClickPosition]
+    public init(positions: [ClickPosition]) {
+        self.positions = positions
+    }
 
-  public init(positions: [ClickPosition]) {
-    self.positions = positions
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case positions
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case positions
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(positions, forKey: .positions)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(positions, forKey: .positions)
+    }
 }

@@ -2,11 +2,10 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum AroundRadiusAll: String, Codable, CaseIterable {
-  case all = "all"
+    case all
 }

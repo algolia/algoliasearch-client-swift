@@ -2,28 +2,26 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct InsightsEvents: Codable, JSONEncodable, Hashable {
+    /** List of click and conversion events.  An event is an object representing a user interaction. Events have attributes that describe the interaction, such as an event name, a type, or a user token.  **All** events must be valid, otherwise the API returns an error.  */
+    public var events: [EventsItems]
 
-  /** List of click and conversion events.  An event is an object representing a user interaction. Events have attributes that describe the interaction, such as an event name, a type, or a user token.  **All** events must be valid, otherwise the API returns an error.  */
-  public var events: [EventsItems]
+    public init(events: [EventsItems]) {
+        self.events = events
+    }
 
-  public init(events: [EventsItems]) {
-    self.events = events
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case events
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case events
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(events, forKey: .events)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(events, forKey: .events)
+    }
 }

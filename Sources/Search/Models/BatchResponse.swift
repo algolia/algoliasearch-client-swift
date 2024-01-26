@@ -2,33 +2,31 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct BatchResponse: Codable, JSONEncodable, Hashable {
+    /** Unique identifier of a task. A successful API response means that a task was added to a queue. It might not run immediately. You can check the task's progress with the `task` operation and this `taskID`.  */
+    public var taskID: Int64
+    /** Unique object (record) identifiers. */
+    public var objectIDs: [String]
 
-  /** Unique identifier of a task. A successful API response means that a task was added to a queue. It might not run immediately. You can check the task's progress with the `task` operation and this `taskID`.  */
-  public var taskID: Int64
-  /** Unique object (record) identifiers. */
-  public var objectIDs: [String]
+    public init(taskID: Int64, objectIDs: [String]) {
+        self.taskID = taskID
+        self.objectIDs = objectIDs
+    }
 
-  public init(taskID: Int64, objectIDs: [String]) {
-    self.taskID = taskID
-    self.objectIDs = objectIDs
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case taskID
+        case objectIDs
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case taskID
-    case objectIDs
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(taskID, forKey: .taskID)
-    try container.encode(objectIDs, forKey: .objectIDs)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(taskID, forKey: .taskID)
+        try container.encode(objectIDs, forKey: .objectIDs)
+    }
 }

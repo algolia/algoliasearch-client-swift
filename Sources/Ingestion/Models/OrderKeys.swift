@@ -2,13 +2,12 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Used to order a sorted request.
+/** Used to order a sorted request. */
 public enum OrderKeys: String, Codable, CaseIterable {
-  case asc = "asc"
-  case desc = "desc"
+    case asc
+    case desc
 }

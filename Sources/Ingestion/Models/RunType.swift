@@ -2,13 +2,12 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum RunType: String, Codable, CaseIterable {
-  case reindex = "reindex"
-  case update = "update"
-  case discover = "discover"
+    case reindex
+    case update
+    case discover
 }

@@ -2,11 +2,10 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum ServerStatus: String, Codable, CaseIterable {
-  case production = "PRODUCTION"
+    case production = "PRODUCTION"
 }

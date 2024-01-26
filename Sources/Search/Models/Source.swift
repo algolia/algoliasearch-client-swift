@@ -2,34 +2,32 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Source.
+/** Source. */
 public struct Source: Codable, JSONEncodable, Hashable {
+    /** IP address range of the source. */
+    public var source: String
+    /** Source description. */
+    public var description: String?
 
-  /** IP address range of the source. */
-  public var source: String
-  /** Source description. */
-  public var description: String?
+    public init(source: String, description: String? = nil) {
+        self.source = source
+        self.description = description
+    }
 
-  public init(source: String, description: String? = nil) {
-    self.source = source
-    self.description = description
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case source
+        case description
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case source
-    case description
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(source, forKey: .source)
-    try container.encodeIfPresent(description, forKey: .description)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(source, forKey: .source)
+        try container.encodeIfPresent(description, forKey: .description)
+    }
 }

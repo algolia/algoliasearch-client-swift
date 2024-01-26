@@ -2,58 +2,53 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct Source: Codable, JSONEncodable, Hashable {
+    /** The source UUID. */
+    public var sourceID: String
+    public var type: SourceType
+    public var name: String
+    public var input: SourceInput
+    /** The authentication UUID. */
+    public var authenticationID: String?
+    /** Date of creation (RFC3339 format). */
+    public var createdAt: String
+    /** Date of last update (RFC3339 format). */
+    public var updatedAt: String?
 
-  /** The source UUID. */
-  public var sourceID: String
-  public var type: SourceType
-  public var name: String
-  public var input: SourceInput
-  /** The authentication UUID. */
-  public var authenticationID: String?
-  /** Date of creation (RFC3339 format). */
-  public var createdAt: String
-  /** Date of last update (RFC3339 format). */
-  public var updatedAt: String?
+    public init(sourceID: String, type: SourceType, name: String, input: SourceInput, authenticationID: String? = nil, createdAt: String, updatedAt: String? = nil) {
+        self.sourceID = sourceID
+        self.type = type
+        self.name = name
+        self.input = input
+        self.authenticationID = authenticationID
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+    }
 
-  public init(
-    sourceID: String, type: SourceType, name: String, input: SourceInput,
-    authenticationID: String? = nil, createdAt: String, updatedAt: String? = nil
-  ) {
-    self.sourceID = sourceID
-    self.type = type
-    self.name = name
-    self.input = input
-    self.authenticationID = authenticationID
-    self.createdAt = createdAt
-    self.updatedAt = updatedAt
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case sourceID
+        case type
+        case name
+        case input
+        case authenticationID
+        case createdAt
+        case updatedAt
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case sourceID
-    case type
-    case name
-    case input
-    case authenticationID
-    case createdAt
-    case updatedAt
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(sourceID, forKey: .sourceID)
-    try container.encode(type, forKey: .type)
-    try container.encode(name, forKey: .name)
-    try container.encode(input, forKey: .input)
-    try container.encodeIfPresent(authenticationID, forKey: .authenticationID)
-    try container.encode(createdAt, forKey: .createdAt)
-    try container.encodeIfPresent(updatedAt, forKey: .updatedAt)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(sourceID, forKey: .sourceID)
+        try container.encode(type, forKey: .type)
+        try container.encode(name, forKey: .name)
+        try container.encode(input, forKey: .input)
+        try container.encodeIfPresent(authenticationID, forKey: .authenticationID)
+        try container.encode(createdAt, forKey: .createdAt)
+        try container.encodeIfPresent(updatedAt, forKey: .updatedAt)
+    }
 }

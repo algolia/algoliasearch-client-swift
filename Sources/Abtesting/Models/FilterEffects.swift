@@ -2,33 +2,30 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// A/B test filter effects resulting from configuration settings.
+/** A/B test filter effects resulting from configuration settings. */
 public struct FilterEffects: Codable, JSONEncodable, Hashable {
+    public var outliers: FilterEffectsOutliers?
+    public var emptySearch: FilterEffectsEmptySearch?
 
-  public var outliers: FilterEffectsOutliers?
-  public var emptySearch: FilterEffectsEmptySearch?
+    public init(outliers: FilterEffectsOutliers? = nil, emptySearch: FilterEffectsEmptySearch? = nil) {
+        self.outliers = outliers
+        self.emptySearch = emptySearch
+    }
 
-  public init(outliers: FilterEffectsOutliers? = nil, emptySearch: FilterEffectsEmptySearch? = nil)
-  {
-    self.outliers = outliers
-    self.emptySearch = emptySearch
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case outliers
+        case emptySearch
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case outliers
-    case emptySearch
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(outliers, forKey: .outliers)
-    try container.encodeIfPresent(emptySearch, forKey: .emptySearch)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(outliers, forKey: .outliers)
+        try container.encodeIfPresent(emptySearch, forKey: .emptySearch)
+    }
 }

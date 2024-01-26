@@ -2,46 +2,43 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// &#x60;searchDictionaryEntries&#x60; parameters.
+/** &#x60;searchDictionaryEntries&#x60; parameters.  */
 public struct SearchDictionaryEntriesParams: Codable, JSONEncodable, Hashable {
+    static let hitsPerPageRule = NumericRule<Int>(minimum: 1, exclusiveMinimum: false, maximum: 1000, exclusiveMaximum: false, multipleOf: nil)
+    /** Text to search for in an index. */
+    public var query: String
+    /** Page to retrieve (the first page is `0`, not `1`). */
+    public var page: Int?
+    /** Number of hits per page. */
+    public var hitsPerPage: Int?
+    /** [Supported language ISO code](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/).  */
+    public var language: String?
 
-  static let hitsPerPageRule = NumericRule<Int>(
-    minimum: 1, exclusiveMinimum: false, maximum: 1000, exclusiveMaximum: false, multipleOf: nil)
-  /** Text to search for in an index. */
-  public var query: String
-  /** Page to retrieve (the first page is `0`, not `1`). */
-  public var page: Int?
-  /** Number of hits per page. */
-  public var hitsPerPage: Int?
-  /** [Supported language ISO code](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/).  */
-  public var language: String?
+    public init(query: String, page: Int? = nil, hitsPerPage: Int? = nil, language: String? = nil) {
+        self.query = query
+        self.page = page
+        self.hitsPerPage = hitsPerPage
+        self.language = language
+    }
 
-  public init(query: String, page: Int? = nil, hitsPerPage: Int? = nil, language: String? = nil) {
-    self.query = query
-    self.page = page
-    self.hitsPerPage = hitsPerPage
-    self.language = language
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case query
+        case page
+        case hitsPerPage
+        case language
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case query
-    case page
-    case hitsPerPage
-    case language
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(query, forKey: .query)
-    try container.encodeIfPresent(page, forKey: .page)
-    try container.encodeIfPresent(hitsPerPage, forKey: .hitsPerPage)
-    try container.encodeIfPresent(language, forKey: .language)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(query, forKey: .query)
+        try container.encodeIfPresent(page, forKey: .page)
+        try container.encodeIfPresent(hitsPerPage, forKey: .hitsPerPage)
+        try container.encodeIfPresent(language, forKey: .language)
+    }
 }

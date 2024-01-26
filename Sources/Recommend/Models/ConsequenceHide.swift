@@ -2,29 +2,27 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Unique identifier of the record to hide.
+/** Unique identifier of the record to hide. */
 public struct ConsequenceHide: Codable, JSONEncodable, Hashable {
+    /** Unique object identifier. */
+    public var objectID: String
 
-  /** Unique object identifier. */
-  public var objectID: String
+    public init(objectID: String) {
+        self.objectID = objectID
+    }
 
-  public init(objectID: String) {
-    self.objectID = objectID
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case objectID
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case objectID
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(objectID, forKey: .objectID)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(objectID, forKey: .objectID)
+    }
 }

@@ -2,38 +2,33 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// When [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/) is enabled, only records that match these filters will be affected by Dynamic Re-Ranking.
+/** When [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/) is enabled, only records that match these filters will be affected by Dynamic Re-Ranking. */
 public enum ReRankingApplyFilter: Codable, JSONEncodable, Hashable {
-  case string(String)
-  case arrayOfMixedSearchFilters([MixedSearchFilters])
+    case string(String)
+    case arrayOfMixedSearchFilters([MixedSearchFilters])
 
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    switch self {
-    case .string(let value):
-      try container.encode(value)
-    case .arrayOfMixedSearchFilters(let value):
-      try container.encode(value)
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .string(value):
+            try container.encode(value)
+        case let .arrayOfMixedSearchFilters(value):
+            try container.encode(value)
+        }
     }
-  }
 
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    if let value = try? container.decode(String.self) {
-      self = .string(value)
-    } else if let value = try? container.decode([MixedSearchFilters].self) {
-      self = .arrayOfMixedSearchFilters(value)
-    } else {
-      throw DecodingError.typeMismatch(
-        Self.Type.self,
-        .init(
-          codingPath: decoder.codingPath,
-          debugDescription: "Unable to decode instance of ReRankingApplyFilter"))
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(String.self) {
+            self = .string(value)
+        } else if let value = try? container.decode([MixedSearchFilters].self) {
+            self = .arrayOfMixedSearchFilters(value)
+        } else {
+            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of ReRankingApplyFilter"))
+        }
     }
-  }
 }

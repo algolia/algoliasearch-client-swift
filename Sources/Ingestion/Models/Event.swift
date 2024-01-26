@@ -2,66 +2,60 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// An event describe a step of the task execution flow..
+/** An event describe a step of the task execution flow.. */
 public struct Event: Codable, JSONEncodable, Hashable {
+    static let batchSizeRule = NumericRule<Int>(minimum: 0, exclusiveMinimum: false, maximum: nil, exclusiveMaximum: false, multipleOf: 1)
+    /** The event UUID. */
+    public var eventID: String
+    /** The run UUID. */
+    public var runID: String
+    /** The parent event, the cause of this event. */
+    public var parentID: String?
+    public var status: EventStatus
+    public var type: EventType
+    /** The extracted record batch size. */
+    public var batchSize: Int
+    public var data: [String: AnyCodable]?
+    /** Date of publish (RFC3339 format). */
+    public var publishedAt: String
 
-  static let batchSizeRule = NumericRule<Int>(
-    minimum: 0, exclusiveMinimum: false, maximum: nil, exclusiveMaximum: false, multipleOf: 1)
-  /** The event UUID. */
-  public var eventID: String
-  /** The run UUID. */
-  public var runID: String
-  /** The parent event, the cause of this event. */
-  public var parentID: String?
-  public var status: EventStatus
-  public var type: EventType
-  /** The extracted record batch size. */
-  public var batchSize: Int
-  public var data: [String: AnyCodable]?
-  /** Date of publish (RFC3339 format). */
-  public var publishedAt: String
+    public init(eventID: String, runID: String, parentID: String? = nil, status: EventStatus, type: EventType, batchSize: Int, data: [String: AnyCodable]? = nil, publishedAt: String) {
+        self.eventID = eventID
+        self.runID = runID
+        self.parentID = parentID
+        self.status = status
+        self.type = type
+        self.batchSize = batchSize
+        self.data = data
+        self.publishedAt = publishedAt
+    }
 
-  public init(
-    eventID: String, runID: String, parentID: String? = nil, status: EventStatus, type: EventType,
-    batchSize: Int, data: [String: AnyCodable]? = nil, publishedAt: String
-  ) {
-    self.eventID = eventID
-    self.runID = runID
-    self.parentID = parentID
-    self.status = status
-    self.type = type
-    self.batchSize = batchSize
-    self.data = data
-    self.publishedAt = publishedAt
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case eventID
+        case runID
+        case parentID
+        case status
+        case type
+        case batchSize
+        case data
+        case publishedAt
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case eventID
-    case runID
-    case parentID
-    case status
-    case type
-    case batchSize
-    case data
-    case publishedAt
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(eventID, forKey: .eventID)
-    try container.encode(runID, forKey: .runID)
-    try container.encodeIfPresent(parentID, forKey: .parentID)
-    try container.encode(status, forKey: .status)
-    try container.encode(type, forKey: .type)
-    try container.encode(batchSize, forKey: .batchSize)
-    try container.encodeIfPresent(data, forKey: .data)
-    try container.encode(publishedAt, forKey: .publishedAt)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(eventID, forKey: .eventID)
+        try container.encode(runID, forKey: .runID)
+        try container.encodeIfPresent(parentID, forKey: .parentID)
+        try container.encode(status, forKey: .status)
+        try container.encode(type, forKey: .type)
+        try container.encode(batchSize, forKey: .batchSize)
+        try container.encodeIfPresent(data, forKey: .data)
+        try container.encode(publishedAt, forKey: .publishedAt)
+    }
 }

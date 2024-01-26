@@ -2,31 +2,29 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct SearchMethodParams: Codable, JSONEncodable, Hashable {
+    public var requests: [SearchQuery]
+    public var strategy: SearchStrategy?
 
-  public var requests: [SearchQuery]
-  public var strategy: SearchStrategy?
+    public init(requests: [SearchQuery], strategy: SearchStrategy? = nil) {
+        self.requests = requests
+        self.strategy = strategy
+    }
 
-  public init(requests: [SearchQuery], strategy: SearchStrategy? = nil) {
-    self.requests = requests
-    self.strategy = strategy
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case requests
+        case strategy
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case requests
-    case strategy
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(requests, forKey: .requests)
-    try container.encodeIfPresent(strategy, forKey: .strategy)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(requests, forKey: .requests)
+        try container.encodeIfPresent(strategy, forKey: .strategy)
+    }
 }

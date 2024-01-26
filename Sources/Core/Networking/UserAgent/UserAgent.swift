@@ -8,76 +8,66 @@
 import Foundation
 
 public struct UserAgent: Hashable {
+    public let title: String
+    public let version: String
 
-  public let title: String
-  public let version: String
-
-  public init(title: String, version: String) {
-    self.title = title
-    self.version = version
-  }
-
+    public init(title: String, version: String) {
+        self.title = title
+        self.version = version
+    }
 }
 
 extension UserAgent: CustomStringConvertible {
-
-  public var description: String {
-    let versionOutput: String
-    if version.isEmpty {
-      versionOutput = version
-    } else {
-      versionOutput = "(\(version))"
+    public var description: String {
+        let versionOutput: String
+        if version.isEmpty {
+            versionOutput = version
+        } else {
+            versionOutput = "(\(version))"
+        }
+        return [title, versionOutput].filter { !$0.isEmpty }.joined(separator: " ")
     }
-    return [title, versionOutput].filter { !$0.isEmpty }.joined(separator: " ")
-  }
-
 }
 
 extension UserAgent: UserAgentExtending {
-
-  public var userAgentExtension: String {
-    return description
-  }
-
+    public var userAgentExtension: String {
+        description
+    }
 }
 
 extension UserAgent {
-
-  static var library: UserAgent {
-    return UserAgent(title: "Algolia for Swift", version: Version.current.description)
-  }
-
+    static var library: UserAgent {
+        UserAgent(title: "Algolia for Swift", version: Version.current.description)
+    }
 }
 
 extension UserAgent {
+    static var operatingSystem: UserAgent = {
+        let osVersion = ProcessInfo.processInfo.operatingSystemVersion
+        var osVersionString = "\(osVersion.majorVersion).\(osVersion.minorVersion)"
+        if osVersion.patchVersion != 0 {
+            osVersionString += ".\(osVersion.patchVersion)"
+        }
+        if let osName = osName {
+            return UserAgent(title: osName, version: osVersionString)
+        } else {
+            return UserAgent(title: ProcessInfo.processInfo.operatingSystemVersionString, version: "")
+        }
+    }()
 
-  static var operatingSystem: UserAgent = {
-    let osVersion = ProcessInfo.processInfo.operatingSystemVersion
-    var osVersionString = "\(osVersion.majorVersion).\(osVersion.minorVersion)"
-    if osVersion.patchVersion != 0 {
-      osVersionString += ".\(osVersion.patchVersion)"
+    private static var osName: String? {
+        #if os(iOS)
+            return "iOS"
+        #elseif os(OSX)
+            return "macOS"
+        #elseif os(tvOS)
+            return "tvOS"
+        #elseif os(watchOS)
+            return "watchOS"
+        #elseif os(Linux)
+            return "Linux"
+        #else
+            return nil
+        #endif
     }
-    if let osName = osName {
-      return UserAgent(title: osName, version: osVersionString)
-    } else {
-      return UserAgent(title: ProcessInfo.processInfo.operatingSystemVersionString, version: "")
-    }
-  }()
-
-  private static var osName: String? {
-    #if os(iOS)
-      return "iOS"
-    #elseif os(OSX)
-      return "macOS"
-    #elseif os(tvOS)
-      return "tvOS"
-    #elseif os(watchOS)
-      return "watchOS"
-    #elseif os(Linux)
-      return "Linux"
-    #else
-      return nil
-    #endif
-  }
-
 }

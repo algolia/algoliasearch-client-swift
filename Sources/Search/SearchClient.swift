@@ -2,56 +2,51 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 typealias Client = SearchClient
 
 open class SearchClient {
+    private var configuration: Configuration
+    private var transporter: Transporter
 
-  private var configuration: Configuration
-  private var transporter: Transporter
+    var applicationID: String {
+        configuration.applicationID
+    }
 
-  var applicationID: String {
-    self.configuration.applicationID
-  }
+    public init(configuration: Configuration, transporter: Transporter) {
+        self.configuration = configuration
+        self.transporter = transporter
+    }
 
-  public init(configuration: Configuration, transporter: Transporter) {
-    self.configuration = configuration
-    self.transporter = transporter
-  }
+    public convenience init(configuration: Configuration) {
+        self.init(configuration: configuration, transporter: Transporter(configuration: configuration))
+    }
 
-  public convenience init(configuration: Configuration) {
-    self.init(configuration: configuration, transporter: Transporter(configuration: configuration))
-  }
+    public convenience init(applicationID: String, apiKey: String) throws {
+        try self.init(configuration: Configuration(applicationID: applicationID, apiKey: apiKey))
+    }
 
-  public convenience init(applicationID: String, apiKey: String) throws {
-    self.init(configuration: try Configuration(applicationID: applicationID, apiKey: apiKey))
-  }
-
-  /**
+    /**
      Add API key.
 
      - parameter apiKey: (body)
      - returns: AddApiKeyResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func addApiKey(apiKey: ApiKey, requestOptions: RequestOptions? = nil) async throws
-    -> AddApiKeyResponse
-  {
-    let response: Response<AddApiKeyResponse> = try await addApiKeyWithHTTPInfo(
-      apiKey: apiKey, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func addApiKey(apiKey: ApiKey, requestOptions: RequestOptions? = nil) async throws -> AddApiKeyResponse {
+        let response: Response<AddApiKeyResponse> = try await addApiKeyWithHTTPInfo(apiKey: apiKey, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Add API key.
 
      Add a new API key with specific permissions and restrictions. The request must be authenticated with the admin API key. The response returns an API key string.
@@ -59,26 +54,24 @@ open class SearchClient {
      - returns: RequestBuilder<AddApiKeyResponse>
      */
 
-  open func addApiKeyWithHTTPInfo(
-    apiKey: ApiKey, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<AddApiKeyResponse> {
-    let resourcePath = "/1/keys"
-    let body = apiKey
-    let queryItems: [URLQueryItem]? = nil
+    open func addApiKeyWithHTTPInfo(apiKey: ApiKey, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AddApiKeyResponse> {
+        let resourcePath = "/1/keys"
+        let body = apiKey
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Add or update a record (using objectID).
 
      - parameter indexName: (path) Index on which to perform the request.
@@ -86,22 +79,18 @@ open class SearchClient {
      - parameter body: (body) Algolia record.
      - returns: UpdatedAtWithObjectIdResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func addOrUpdateObject(
-    indexName: String, objectID: String, body: [String: AnyCodable],
-    requestOptions: RequestOptions? = nil
-  ) async throws -> UpdatedAtWithObjectIdResponse {
-    let response: Response<UpdatedAtWithObjectIdResponse> = try await addOrUpdateObjectWithHTTPInfo(
-      indexName: indexName, objectID: objectID, body: body, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func addOrUpdateObject(indexName: String, objectID: String, body: [String: AnyCodable], requestOptions: RequestOptions? = nil) async throws -> UpdatedAtWithObjectIdResponse {
+        let response: Response<UpdatedAtWithObjectIdResponse> = try await addOrUpdateObjectWithHTTPInfo(indexName: indexName, objectID: objectID, body: body, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Add or update a record (using objectID).
 
      If you use an existing `objectID`, the existing record will be replaced with the new one.  To update only some attributes of an existing record, use the [`partial` operation](#tag/Records/operation/partialUpdateObject) instead.  To add multiple records to your index in a single API request, use the [`batch` operation](#tag/Records/operation/batch).
@@ -111,57 +100,47 @@ open class SearchClient {
      - returns: RequestBuilder<UpdatedAtWithObjectIdResponse>
      */
 
-  open func addOrUpdateObjectWithHTTPInfo(
-    indexName: String, objectID: String, body: [String: AnyCodable],
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<UpdatedAtWithObjectIdResponse> {
-    var resourcePath = "/1/indexes/{indexName}/{objectID}"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
-    let objectIDPostEscape =
-      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
-    let body = body
-    let queryItems: [URLQueryItem]? = nil
+    open func addOrUpdateObjectWithHTTPInfo(indexName: String, objectID: String, body: [String: AnyCodable], requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtWithObjectIdResponse> {
+        var resourcePath = "/1/indexes/{indexName}/{objectID}"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
+        let objectIDPostEscape = objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
+        let body = body
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "PUT",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "PUT",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Add a source.
 
      - parameter source: (body) Source to add.
      - returns: CreatedAtResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func appendSource(source: Source, requestOptions: RequestOptions? = nil) async throws
-    -> CreatedAtResponse
-  {
-    let response: Response<CreatedAtResponse> = try await appendSourceWithHTTPInfo(
-      source: source, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func appendSource(source: Source, requestOptions: RequestOptions? = nil) async throws -> CreatedAtResponse {
+        let response: Response<CreatedAtResponse> = try await appendSourceWithHTTPInfo(source: source, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Add a source.
 
      Add a source to the list of allowed sources.
@@ -169,49 +148,42 @@ open class SearchClient {
      - returns: RequestBuilder<CreatedAtResponse>
      */
 
-  open func appendSourceWithHTTPInfo(
-    source: Source, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<CreatedAtResponse> {
-    let resourcePath = "/1/security/sources/append"
-    let body = source
-    let queryItems: [URLQueryItem]? = nil
+    open func appendSourceWithHTTPInfo(source: Source, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<CreatedAtResponse> {
+        let resourcePath = "/1/security/sources/append"
+        let body = source
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Assign or move a user ID.
 
      - parameter xAlgoliaUserID: (header) userID to assign.
      - parameter assignUserIdParams: (body)
      - returns: CreatedAtResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func assignUserId(
-    xAlgoliaUserID: String, assignUserIdParams: AssignUserIdParams,
-    requestOptions: RequestOptions? = nil
-  ) async throws -> CreatedAtResponse {
-    let response: Response<CreatedAtResponse> = try await assignUserIdWithHTTPInfo(
-      xAlgoliaUserID: xAlgoliaUserID, assignUserIdParams: assignUserIdParams,
-      requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func assignUserId(xAlgoliaUserID: String, assignUserIdParams: AssignUserIdParams, requestOptions: RequestOptions? = nil) async throws -> CreatedAtResponse {
+        let response: Response<CreatedAtResponse> = try await assignUserIdWithHTTPInfo(xAlgoliaUserID: xAlgoliaUserID, assignUserIdParams: assignUserIdParams, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Assign or move a user ID.
 
      Assign or move a user ID to a cluster. The time it takes to move a user is proportional to the amount of data linked to the user ID.
@@ -220,50 +192,44 @@ open class SearchClient {
      - returns: RequestBuilder<CreatedAtResponse>
      */
 
-  open func assignUserIdWithHTTPInfo(
-    xAlgoliaUserID: String, assignUserIdParams: AssignUserIdParams,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<CreatedAtResponse> {
-    let resourcePath = "/1/clusters/mapping"
-    let body = assignUserIdParams
-    let queryItems: [URLQueryItem]? = nil
+    open func assignUserIdWithHTTPInfo(xAlgoliaUserID: String, assignUserIdParams: AssignUserIdParams, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<CreatedAtResponse> {
+        let resourcePath = "/1/clusters/mapping"
+        let body = assignUserIdParams
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [
-      "X-Algolia-User-ID": xAlgoliaUserID.encodeToJSON()
-    ]
+        let nillableHeaders: [String: Any?]? = [
+            "X-Algolia-User-ID": xAlgoliaUserID.encodeToJSON(),
+        ]
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Batch write operations on one index.
 
      - parameter indexName: (path) Index on which to perform the request.
      - parameter batchWriteParams: (body)
      - returns: BatchResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func batch(
-    indexName: String, batchWriteParams: BatchWriteParams, requestOptions: RequestOptions? = nil
-  ) async throws -> BatchResponse {
-    let response: Response<BatchResponse> = try await batchWithHTTPInfo(
-      indexName: indexName, batchWriteParams: batchWriteParams, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func batch(indexName: String, batchWriteParams: BatchWriteParams, requestOptions: RequestOptions? = nil) async throws -> BatchResponse {
+        let response: Response<BatchResponse> = try await batchWithHTTPInfo(indexName: indexName, batchWriteParams: batchWriteParams, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Batch write operations on one index.
 
      To reduce the time spent on network round trips, you can perform several write actions in a single API call. Actions are applied in the order they are specified. The supported `action`s are equivalent to the individual operations of the same name.
@@ -272,55 +238,45 @@ open class SearchClient {
      - returns: RequestBuilder<BatchResponse>
      */
 
-  open func batchWithHTTPInfo(
-    indexName: String, batchWriteParams: BatchWriteParams,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<BatchResponse> {
-    var resourcePath = "/1/indexes/{indexName}/batch"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let body = batchWriteParams
-    let queryItems: [URLQueryItem]? = nil
+    open func batchWithHTTPInfo(indexName: String, batchWriteParams: BatchWriteParams, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<BatchResponse> {
+        var resourcePath = "/1/indexes/{indexName}/batch"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let body = batchWriteParams
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Batch assign userIDs.
 
      - parameter xAlgoliaUserID: (header) userID to assign.
      - parameter batchAssignUserIdsParams: (body)
      - returns: CreatedAtResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func batchAssignUserIds(
-    xAlgoliaUserID: String, batchAssignUserIdsParams: BatchAssignUserIdsParams,
-    requestOptions: RequestOptions? = nil
-  ) async throws -> CreatedAtResponse {
-    let response: Response<CreatedAtResponse> = try await batchAssignUserIdsWithHTTPInfo(
-      xAlgoliaUserID: xAlgoliaUserID, batchAssignUserIdsParams: batchAssignUserIdsParams,
-      requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func batchAssignUserIds(xAlgoliaUserID: String, batchAssignUserIdsParams: BatchAssignUserIdsParams, requestOptions: RequestOptions? = nil) async throws -> CreatedAtResponse {
+        let response: Response<CreatedAtResponse> = try await batchAssignUserIdsWithHTTPInfo(xAlgoliaUserID: xAlgoliaUserID, batchAssignUserIdsParams: batchAssignUserIdsParams, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Batch assign userIDs.
 
      Assign multiple user IDs to a cluster. **You can't _move_ users with this operation.**.
@@ -329,52 +285,44 @@ open class SearchClient {
      - returns: RequestBuilder<CreatedAtResponse>
      */
 
-  open func batchAssignUserIdsWithHTTPInfo(
-    xAlgoliaUserID: String, batchAssignUserIdsParams: BatchAssignUserIdsParams,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<CreatedAtResponse> {
-    let resourcePath = "/1/clusters/mapping/batch"
-    let body = batchAssignUserIdsParams
-    let queryItems: [URLQueryItem]? = nil
+    open func batchAssignUserIdsWithHTTPInfo(xAlgoliaUserID: String, batchAssignUserIdsParams: BatchAssignUserIdsParams, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<CreatedAtResponse> {
+        let resourcePath = "/1/clusters/mapping/batch"
+        let body = batchAssignUserIdsParams
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [
-      "X-Algolia-User-ID": xAlgoliaUserID.encodeToJSON()
-    ]
+        let nillableHeaders: [String: Any?]? = [
+            "X-Algolia-User-ID": xAlgoliaUserID.encodeToJSON(),
+        ]
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Batch dictionary entries.
 
      - parameter dictionaryName: (path) Dictionary to search in.
      - parameter batchDictionaryEntriesParams: (body)
      - returns: UpdatedAtResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func batchDictionaryEntries(
-    dictionaryName: DictionaryType, batchDictionaryEntriesParams: BatchDictionaryEntriesParams,
-    requestOptions: RequestOptions? = nil
-  ) async throws -> UpdatedAtResponse {
-    let response: Response<UpdatedAtResponse> = try await batchDictionaryEntriesWithHTTPInfo(
-      dictionaryName: dictionaryName, batchDictionaryEntriesParams: batchDictionaryEntriesParams,
-      requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func batchDictionaryEntries(dictionaryName: DictionaryType, batchDictionaryEntriesParams: BatchDictionaryEntriesParams, requestOptions: RequestOptions? = nil) async throws -> UpdatedAtResponse {
+        let response: Response<UpdatedAtResponse> = try await batchDictionaryEntriesWithHTTPInfo(dictionaryName: dictionaryName, batchDictionaryEntriesParams: batchDictionaryEntriesParams, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Batch dictionary entries.
 
      Add or remove a batch of dictionary entries.
@@ -383,54 +331,45 @@ open class SearchClient {
      - returns: RequestBuilder<UpdatedAtResponse>
      */
 
-  open func batchDictionaryEntriesWithHTTPInfo(
-    dictionaryName: DictionaryType, batchDictionaryEntriesParams: BatchDictionaryEntriesParams,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<UpdatedAtResponse> {
-    var resourcePath = "/1/dictionaries/{dictionaryName}/batch"
-    let dictionaryNamePreEscape = "\(APIHelper.mapValueToPathItem(dictionaryName))"
-    let dictionaryNamePostEscape =
-      dictionaryNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed)
-      ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{dictionaryName}", with: dictionaryNamePostEscape, options: .literal, range: nil)
-    let body = batchDictionaryEntriesParams
-    let queryItems: [URLQueryItem]? = nil
+    open func batchDictionaryEntriesWithHTTPInfo(dictionaryName: DictionaryType, batchDictionaryEntriesParams: BatchDictionaryEntriesParams, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtResponse> {
+        var resourcePath = "/1/dictionaries/{dictionaryName}/batch"
+        let dictionaryNamePreEscape = "\(APIHelper.mapValueToPathItem(dictionaryName))"
+        let dictionaryNamePostEscape = dictionaryNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{dictionaryName}", with: dictionaryNamePostEscape, options: .literal, range: nil)
+        let body = batchDictionaryEntriesParams
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Get all records from an index.
 
      - parameter indexName: (path) Index on which to perform the request.
      - parameter browseParams: (body)  (optional)
      - returns: BrowseResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func browse(
-    indexName: String, browseParams: BrowseParams? = nil, requestOptions: RequestOptions? = nil
-  ) async throws -> BrowseResponse {
-    let response: Response<BrowseResponse> = try await browseWithHTTPInfo(
-      indexName: indexName, browseParams: browseParams, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func browse(indexName: String, browseParams: BrowseParams? = nil, requestOptions: RequestOptions? = nil) async throws -> BrowseResponse {
+        let response: Response<BrowseResponse> = try await browseWithHTTPInfo(indexName: indexName, browseParams: browseParams, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Get all records from an index.
 
      Retrieve up to 1,000 records per call. Supports full-text search and filters. For better performance, it doesn't support: - The `distinct` query parameter - Sorting by typos, proximity, words, or geographical distance.
@@ -439,52 +378,44 @@ open class SearchClient {
      - returns: RequestBuilder<BrowseResponse>
      */
 
-  open func browseWithHTTPInfo(
-    indexName: String, browseParams: BrowseParams? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<BrowseResponse> {
-    var resourcePath = "/1/indexes/{indexName}/browse"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let body = browseParams
-    let queryItems: [URLQueryItem]? = nil
+    open func browseWithHTTPInfo(indexName: String, browseParams: BrowseParams? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<BrowseResponse> {
+        var resourcePath = "/1/indexes/{indexName}/browse"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let body = browseParams
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body ?? AnyCodable(),
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body ?? AnyCodable(),
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Delete all records from an index.
 
      - parameter indexName: (path) Index on which to perform the request.
      - returns: UpdatedAtResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func clearObjects(indexName: String, requestOptions: RequestOptions? = nil) async throws
-    -> UpdatedAtResponse
-  {
-    let response: Response<UpdatedAtResponse> = try await clearObjectsWithHTTPInfo(
-      indexName: indexName, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func clearObjects(indexName: String, requestOptions: RequestOptions? = nil) async throws -> UpdatedAtResponse {
+        let response: Response<UpdatedAtResponse> = try await clearObjectsWithHTTPInfo(indexName: indexName, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Delete all records from an index.
 
      Delete the records but leave settings and index-specific API keys untouched.
@@ -492,52 +423,45 @@ open class SearchClient {
      - returns: RequestBuilder<UpdatedAtResponse>
      */
 
-  open func clearObjectsWithHTTPInfo(
-    indexName: String, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<UpdatedAtResponse> {
-    var resourcePath = "/1/indexes/{indexName}/clear"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func clearObjectsWithHTTPInfo(indexName: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtResponse> {
+        var resourcePath = "/1/indexes/{indexName}/clear"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Delete all rules.
 
      - parameter indexName: (path) Index on which to perform the request.
      - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica indices. (optional)
      - returns: UpdatedAtResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func clearRules(
-    indexName: String, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil
-  ) async throws -> UpdatedAtResponse {
-    let response: Response<UpdatedAtResponse> = try await clearRulesWithHTTPInfo(
-      indexName: indexName, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func clearRules(indexName: String, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> UpdatedAtResponse {
+        let response: Response<UpdatedAtResponse> = try await clearRulesWithHTTPInfo(indexName: indexName, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Delete all rules.
 
      Delete all rules in the index.
@@ -546,55 +470,47 @@ open class SearchClient {
      - returns: RequestBuilder<UpdatedAtResponse>
      */
 
-  open func clearRulesWithHTTPInfo(
-    indexName: String, forwardToReplicas: Bool? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<UpdatedAtResponse> {
-    var resourcePath = "/1/indexes/{indexName}/rules/clear"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "forwardToReplicas": forwardToReplicas?.encodeToJSON()
-    ])
+    open func clearRulesWithHTTPInfo(indexName: String, forwardToReplicas: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtResponse> {
+        var resourcePath = "/1/indexes/{indexName}/rules/clear"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems = APIHelper.mapValuesToQueryItems([
+            "forwardToReplicas": forwardToReplicas?.encodeToJSON(),
+        ])
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Delete all synonyms.
 
      - parameter indexName: (path) Index on which to perform the request.
      - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica indices. (optional)
      - returns: UpdatedAtResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func clearSynonyms(
-    indexName: String, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil
-  ) async throws -> UpdatedAtResponse {
-    let response: Response<UpdatedAtResponse> = try await clearSynonymsWithHTTPInfo(
-      indexName: indexName, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func clearSynonyms(indexName: String, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> UpdatedAtResponse {
+        let response: Response<UpdatedAtResponse> = try await clearSynonymsWithHTTPInfo(indexName: indexName, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Delete all synonyms.
 
      Delete all synonyms in the index.
@@ -603,55 +519,47 @@ open class SearchClient {
      - returns: RequestBuilder<UpdatedAtResponse>
      */
 
-  open func clearSynonymsWithHTTPInfo(
-    indexName: String, forwardToReplicas: Bool? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<UpdatedAtResponse> {
-    var resourcePath = "/1/indexes/{indexName}/synonyms/clear"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "forwardToReplicas": forwardToReplicas?.encodeToJSON()
-    ])
+    open func clearSynonymsWithHTTPInfo(indexName: String, forwardToReplicas: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtResponse> {
+        var resourcePath = "/1/indexes/{indexName}/synonyms/clear"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems = APIHelper.mapValuesToQueryItems([
+            "forwardToReplicas": forwardToReplicas?.encodeToJSON(),
+        ])
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Send requests to the Algolia REST API.
 
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: AnyCodable
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customDelete(
-    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
-  ) async throws -> AnyCodable {
-    let response: Response<AnyCodable> = try await customDeleteWithHTTPInfo(
-      path: path, parameters: parameters, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func customDelete(path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil) async throws -> AnyCodable {
+        let response: Response<AnyCodable> = try await customDeleteWithHTTPInfo(path: path, parameters: parameters, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Send requests to the Algolia REST API.
 
      This method allow you to send requests to the Algolia REST API.
@@ -660,53 +568,45 @@ open class SearchClient {
      - returns: RequestBuilder<AnyCodable>
      */
 
-  open func customDeleteWithHTTPInfo(
-    path: String, parameters: [String: AnyCodable]? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<AnyCodable> {
-    var resourcePath = "/1{path}"
-    let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
-    let pathPostEscape =
-      pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
+    open func customDeleteWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        var resourcePath = "/1{path}"
+        let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
+        let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{path}", with: pathPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "DELETE",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "DELETE",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Send requests to the Algolia REST API.
 
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: AnyCodable
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customGet(
-    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
-  ) async throws -> AnyCodable {
-    let response: Response<AnyCodable> = try await customGetWithHTTPInfo(
-      path: path, parameters: parameters, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func customGet(path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil) async throws -> AnyCodable {
+        let response: Response<AnyCodable> = try await customGetWithHTTPInfo(path: path, parameters: parameters, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Send requests to the Algolia REST API.
 
      This method allow you to send requests to the Algolia REST API.
@@ -715,32 +615,27 @@ open class SearchClient {
      - returns: RequestBuilder<AnyCodable>
      */
 
-  open func customGetWithHTTPInfo(
-    path: String, parameters: [String: AnyCodable]? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<AnyCodable> {
-    var resourcePath = "/1{path}"
-    let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
-    let pathPostEscape =
-      pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
+    open func customGetWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        var resourcePath = "/1{path}"
+        let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
+        let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{path}", with: pathPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Send requests to the Algolia REST API.
 
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
@@ -748,22 +643,18 @@ open class SearchClient {
      - parameter body: (body) Parameters to send with the custom request. (optional)
      - returns: AnyCodable
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customPost(
-    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
-    requestOptions: RequestOptions? = nil
-  ) async throws -> AnyCodable {
-    let response: Response<AnyCodable> = try await customPostWithHTTPInfo(
-      path: path, parameters: parameters, body: body, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func customPost(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil) async throws -> AnyCodable {
+        let response: Response<AnyCodable> = try await customPostWithHTTPInfo(path: path, parameters: parameters, body: body, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Send requests to the Algolia REST API.
 
      This method allow you to send requests to the Algolia REST API.
@@ -773,32 +664,27 @@ open class SearchClient {
      - returns: RequestBuilder<AnyCodable>
      */
 
-  open func customPostWithHTTPInfo(
-    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<AnyCodable> {
-    var resourcePath = "/1{path}"
-    let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
-    let pathPostEscape =
-      pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let body = body
-    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
+    open func customPostWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        var resourcePath = "/1{path}"
+        let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
+        let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{path}", with: pathPostEscape, options: .literal, range: nil)
+        let body = body
+        let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body ?? AnyCodable(),
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body ?? AnyCodable(),
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Send requests to the Algolia REST API.
 
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
@@ -806,22 +692,18 @@ open class SearchClient {
      - parameter body: (body) Parameters to send with the custom request. (optional)
      - returns: AnyCodable
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customPut(
-    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
-    requestOptions: RequestOptions? = nil
-  ) async throws -> AnyCodable {
-    let response: Response<AnyCodable> = try await customPutWithHTTPInfo(
-      path: path, parameters: parameters, body: body, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func customPut(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil) async throws -> AnyCodable {
+        let response: Response<AnyCodable> = try await customPutWithHTTPInfo(path: path, parameters: parameters, body: body, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Send requests to the Algolia REST API.
 
      This method allow you to send requests to the Algolia REST API.
@@ -831,52 +713,44 @@ open class SearchClient {
      - returns: RequestBuilder<AnyCodable>
      */
 
-  open func customPutWithHTTPInfo(
-    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<AnyCodable> {
-    var resourcePath = "/1{path}"
-    let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
-    let pathPostEscape =
-      pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let body = body
-    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
+    open func customPutWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        var resourcePath = "/1{path}"
+        let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
+        let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{path}", with: pathPostEscape, options: .literal, range: nil)
+        let body = body
+        let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "PUT",
-      path: resourcePath,
-      data: body ?? AnyCodable(),
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "PUT",
+            path: resourcePath,
+            data: body ?? AnyCodable(),
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Delete API key.
 
      - parameter key: (path) API key.
      - returns: DeleteApiKeyResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteApiKey(key: String, requestOptions: RequestOptions? = nil) async throws
-    -> DeleteApiKeyResponse
-  {
-    let response: Response<DeleteApiKeyResponse> = try await deleteApiKeyWithHTTPInfo(
-      key: key, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func deleteApiKey(key: String, requestOptions: RequestOptions? = nil) async throws -> DeleteApiKeyResponse {
+        let response: Response<DeleteApiKeyResponse> = try await deleteApiKeyWithHTTPInfo(key: key, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Delete API key.
 
      Delete an existing API key. The request must be authenticated with the admin API key.
@@ -884,52 +758,45 @@ open class SearchClient {
      - returns: RequestBuilder<DeleteApiKeyResponse>
      */
 
-  open func deleteApiKeyWithHTTPInfo(
-    key: String, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<DeleteApiKeyResponse> {
-    var resourcePath = "/1/keys/{key}"
-    let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
-    let keyPostEscape =
-      keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{key}", with: keyPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func deleteApiKeyWithHTTPInfo(key: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DeleteApiKeyResponse> {
+        var resourcePath = "/1/keys/{key}"
+        let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
+        let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{key}", with: keyPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "DELETE",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "DELETE",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Delete all records matching a query.
 
      - parameter indexName: (path) Index on which to perform the request.
      - parameter deleteByParams: (body)
      - returns: DeletedAtResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteBy(
-    indexName: String, deleteByParams: DeleteByParams, requestOptions: RequestOptions? = nil
-  ) async throws -> DeletedAtResponse {
-    let response: Response<DeletedAtResponse> = try await deleteByWithHTTPInfo(
-      indexName: indexName, deleteByParams: deleteByParams, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func deleteBy(indexName: String, deleteByParams: DeleteByParams, requestOptions: RequestOptions? = nil) async throws -> DeletedAtResponse {
+        let response: Response<DeletedAtResponse> = try await deleteByWithHTTPInfo(indexName: indexName, deleteByParams: deleteByParams, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Delete all records matching a query.
 
      This operation doesn't support all the query options, only its filters (numeric, facet, or tag) and geo queries. It doesn't accept empty filters or queries.
@@ -938,52 +805,44 @@ open class SearchClient {
      - returns: RequestBuilder<DeletedAtResponse>
      */
 
-  open func deleteByWithHTTPInfo(
-    indexName: String, deleteByParams: DeleteByParams,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<DeletedAtResponse> {
-    var resourcePath = "/1/indexes/{indexName}/deleteByQuery"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let body = deleteByParams
-    let queryItems: [URLQueryItem]? = nil
+    open func deleteByWithHTTPInfo(indexName: String, deleteByParams: DeleteByParams, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DeletedAtResponse> {
+        var resourcePath = "/1/indexes/{indexName}/deleteByQuery"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let body = deleteByParams
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Delete index.
 
      - parameter indexName: (path) Index on which to perform the request.
      - returns: DeletedAtResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteIndex(indexName: String, requestOptions: RequestOptions? = nil) async throws
-    -> DeletedAtResponse
-  {
-    let response: Response<DeletedAtResponse> = try await deleteIndexWithHTTPInfo(
-      indexName: indexName, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func deleteIndex(indexName: String, requestOptions: RequestOptions? = nil) async throws -> DeletedAtResponse {
+        let response: Response<DeletedAtResponse> = try await deleteIndexWithHTTPInfo(indexName: indexName, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Delete index.
 
      Delete an existing index.
@@ -991,52 +850,45 @@ open class SearchClient {
      - returns: RequestBuilder<DeletedAtResponse>
      */
 
-  open func deleteIndexWithHTTPInfo(
-    indexName: String, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<DeletedAtResponse> {
-    var resourcePath = "/1/indexes/{indexName}"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func deleteIndexWithHTTPInfo(indexName: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DeletedAtResponse> {
+        var resourcePath = "/1/indexes/{indexName}"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "DELETE",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "DELETE",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Delete a record.
 
      - parameter indexName: (path) Index on which to perform the request.
      - parameter objectID: (path) Unique record (object) identifier.
      - returns: DeletedAtResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteObject(indexName: String, objectID: String, requestOptions: RequestOptions? = nil)
-    async throws -> DeletedAtResponse
-  {
-    let response: Response<DeletedAtResponse> = try await deleteObjectWithHTTPInfo(
-      indexName: indexName, objectID: objectID, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func deleteObject(indexName: String, objectID: String, requestOptions: RequestOptions? = nil) async throws -> DeletedAtResponse {
+        let response: Response<DeletedAtResponse> = try await deleteObjectWithHTTPInfo(indexName: indexName, objectID: objectID, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Delete a record.
 
      To delete a set of records matching a query, use the [`deleteByQuery` operation](#tag/Records/operation/deleteBy) instead.
@@ -1045,36 +897,30 @@ open class SearchClient {
      - returns: RequestBuilder<DeletedAtResponse>
      */
 
-  open func deleteObjectWithHTTPInfo(
-    indexName: String, objectID: String, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<DeletedAtResponse> {
-    var resourcePath = "/1/indexes/{indexName}/{objectID}"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
-    let objectIDPostEscape =
-      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func deleteObjectWithHTTPInfo(indexName: String, objectID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DeletedAtResponse> {
+        var resourcePath = "/1/indexes/{indexName}/{objectID}"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
+        let objectIDPostEscape = objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "DELETE",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "DELETE",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Delete a rule.
 
      - parameter indexName: (path) Index on which to perform the request.
@@ -1082,23 +928,18 @@ open class SearchClient {
      - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica indices. (optional)
      - returns: UpdatedAtResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteRule(
-    indexName: String, objectID: String, forwardToReplicas: Bool? = nil,
-    requestOptions: RequestOptions? = nil
-  ) async throws -> UpdatedAtResponse {
-    let response: Response<UpdatedAtResponse> = try await deleteRuleWithHTTPInfo(
-      indexName: indexName, objectID: objectID, forwardToReplicas: forwardToReplicas,
-      requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func deleteRule(indexName: String, objectID: String, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> UpdatedAtResponse {
+        let response: Response<UpdatedAtResponse> = try await deleteRuleWithHTTPInfo(indexName: indexName, objectID: objectID, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Delete a rule.
 
      Delete a rule by its `objectID`. To find the `objectID` for rules, use the [`search` operation](#tag/Rules/operation/searchRules).
@@ -1108,59 +949,49 @@ open class SearchClient {
      - returns: RequestBuilder<UpdatedAtResponse>
      */
 
-  open func deleteRuleWithHTTPInfo(
-    indexName: String, objectID: String, forwardToReplicas: Bool? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<UpdatedAtResponse> {
-    var resourcePath = "/1/indexes/{indexName}/rules/{objectID}"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
-    let objectIDPostEscape =
-      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "forwardToReplicas": forwardToReplicas?.encodeToJSON()
-    ])
+    open func deleteRuleWithHTTPInfo(indexName: String, objectID: String, forwardToReplicas: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtResponse> {
+        var resourcePath = "/1/indexes/{indexName}/rules/{objectID}"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
+        let objectIDPostEscape = objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems = APIHelper.mapValuesToQueryItems([
+            "forwardToReplicas": forwardToReplicas?.encodeToJSON(),
+        ])
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "DELETE",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "DELETE",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Remove a source.
 
      - parameter source: (path) IP address range of the source.
      - returns: DeleteSourceResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteSource(source: String, requestOptions: RequestOptions? = nil) async throws
-    -> DeleteSourceResponse
-  {
-    let response: Response<DeleteSourceResponse> = try await deleteSourceWithHTTPInfo(
-      source: source, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func deleteSource(source: String, requestOptions: RequestOptions? = nil) async throws -> DeleteSourceResponse {
+        let response: Response<DeleteSourceResponse> = try await deleteSourceWithHTTPInfo(source: source, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Remove a source.
 
      Remove a source from the list of allowed sources.
@@ -1168,31 +999,27 @@ open class SearchClient {
      - returns: RequestBuilder<DeleteSourceResponse>
      */
 
-  open func deleteSourceWithHTTPInfo(
-    source: String, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<DeleteSourceResponse> {
-    var resourcePath = "/1/security/sources/{source}"
-    let sourcePreEscape = "\(APIHelper.mapValueToPathItem(source))"
-    let sourcePostEscape =
-      sourcePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{source}", with: sourcePostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func deleteSourceWithHTTPInfo(source: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DeleteSourceResponse> {
+        var resourcePath = "/1/security/sources/{source}"
+        let sourcePreEscape = "\(APIHelper.mapValueToPathItem(source))"
+        let sourcePostEscape = sourcePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{source}", with: sourcePostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "DELETE",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "DELETE",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Delete a synonym.
 
      - parameter indexName: (path) Index on which to perform the request.
@@ -1200,23 +1027,18 @@ open class SearchClient {
      - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica indices. (optional)
      - returns: DeletedAtResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func deleteSynonym(
-    indexName: String, objectID: String, forwardToReplicas: Bool? = nil,
-    requestOptions: RequestOptions? = nil
-  ) async throws -> DeletedAtResponse {
-    let response: Response<DeletedAtResponse> = try await deleteSynonymWithHTTPInfo(
-      indexName: indexName, objectID: objectID, forwardToReplicas: forwardToReplicas,
-      requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func deleteSynonym(indexName: String, objectID: String, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> DeletedAtResponse {
+        let response: Response<DeletedAtResponse> = try await deleteSynonymWithHTTPInfo(indexName: indexName, objectID: objectID, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Delete a synonym.
 
      Delete a synonym by its `objectID`. To find the object IDs of your synonyms, use the [`search` operation](#tag/Synonyms/operation/searchSynonyms).
@@ -1226,59 +1048,49 @@ open class SearchClient {
      - returns: RequestBuilder<DeletedAtResponse>
      */
 
-  open func deleteSynonymWithHTTPInfo(
-    indexName: String, objectID: String, forwardToReplicas: Bool? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<DeletedAtResponse> {
-    var resourcePath = "/1/indexes/{indexName}/synonyms/{objectID}"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
-    let objectIDPostEscape =
-      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "forwardToReplicas": forwardToReplicas?.encodeToJSON()
-    ])
+    open func deleteSynonymWithHTTPInfo(indexName: String, objectID: String, forwardToReplicas: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DeletedAtResponse> {
+        var resourcePath = "/1/indexes/{indexName}/synonyms/{objectID}"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
+        let objectIDPostEscape = objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems = APIHelper.mapValuesToQueryItems([
+            "forwardToReplicas": forwardToReplicas?.encodeToJSON(),
+        ])
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "DELETE",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "DELETE",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Get API key permissions.
 
      - parameter key: (path) API key.
      - returns: GetApiKeyResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getApiKey(key: String, requestOptions: RequestOptions? = nil) async throws
-    -> GetApiKeyResponse
-  {
-    let response: Response<GetApiKeyResponse> = try await getApiKeyWithHTTPInfo(
-      key: key, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getApiKey(key: String, requestOptions: RequestOptions? = nil) async throws -> GetApiKeyResponse {
+        let response: Response<GetApiKeyResponse> = try await getApiKeyWithHTTPInfo(key: key, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Get API key permissions.
 
      Get the permissions and restrictions of a specific API key. When authenticating with the admin API key, you can request information for any of your application's keys. When authenticating with other API keys, you can only retrieve information for that key.
@@ -1286,121 +1098,107 @@ open class SearchClient {
      - returns: RequestBuilder<GetApiKeyResponse>
      */
 
-  open func getApiKeyWithHTTPInfo(
-    key: String, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<GetApiKeyResponse> {
-    var resourcePath = "/1/keys/{key}"
-    let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
-    let keyPostEscape =
-      keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{key}", with: keyPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func getApiKeyWithHTTPInfo(key: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetApiKeyResponse> {
+        var resourcePath = "/1/keys/{key}"
+        let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
+        let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{key}", with: keyPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      List available languages.
 
      - returns: [String: Languages]
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getDictionaryLanguages(requestOptions: RequestOptions? = nil) async throws -> [String:
-    Languages]
-  {
-    let response: Response<[String: Languages]> = try await getDictionaryLanguagesWithHTTPInfo(
-      requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getDictionaryLanguages(requestOptions: RequestOptions? = nil) async throws -> [String: Languages] {
+        let response: Response<[String: Languages]> = try await getDictionaryLanguagesWithHTTPInfo(requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      List available languages.
 
      Lists Algolia's [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/) and any customizations applied to each language's [stop word](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-stop-words/), [plural](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-plurals-and-other-declensions/), and [segmentation (compound)](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-segmentation/) features.
      - returns: RequestBuilder<[String: Languages]>
      */
 
-  open func getDictionaryLanguagesWithHTTPInfo(
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<[String: Languages]> {
-    let resourcePath = "/1/dictionaries/*/languages"
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func getDictionaryLanguagesWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<[String: Languages]> {
+        let resourcePath = "/1/dictionaries/*/languages"
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Get stop word settings.
 
      - returns: GetDictionarySettingsResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getDictionarySettings(requestOptions: RequestOptions? = nil) async throws
-    -> GetDictionarySettingsResponse
-  {
-    let response: Response<GetDictionarySettingsResponse> =
-      try await getDictionarySettingsWithHTTPInfo(requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getDictionarySettings(requestOptions: RequestOptions? = nil) async throws -> GetDictionarySettingsResponse {
+        let response: Response<GetDictionarySettingsResponse> = try await getDictionarySettingsWithHTTPInfo(requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Get stop word settings.
 
      Get the languages for which [stop words are turned off](#tag/Dictionaries/operation/setDictionarySettings).
      - returns: RequestBuilder<GetDictionarySettingsResponse>
      */
 
-  open func getDictionarySettingsWithHTTPInfo(
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<GetDictionarySettingsResponse> {
-    let resourcePath = "/1/dictionaries/*/settings"
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func getDictionarySettingsWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetDictionarySettingsResponse> {
+        let resourcePath = "/1/dictionaries/*/settings"
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Return the latest log entries.
 
      - parameter offset: (query) First log entry to retrieve. Sorted by decreasing date with 0 being the most recent. (optional, default to 0)
@@ -1409,23 +1207,18 @@ open class SearchClient {
      - parameter type: (query) Type of log entries to retrieve. When omitted, all log entries are retrieved. (optional)
      - returns: GetLogsResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getLogs(
-    offset: Int? = nil, length: Int? = nil, indexName: String? = nil, type: LogType? = nil,
-    requestOptions: RequestOptions? = nil
-  ) async throws -> GetLogsResponse {
-    let response: Response<GetLogsResponse> = try await getLogsWithHTTPInfo(
-      offset: offset, length: length, indexName: indexName, type: type,
-      requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getLogs(offset: Int? = nil, length: Int? = nil, indexName: String? = nil, type: LogType? = nil, requestOptions: RequestOptions? = nil) async throws -> GetLogsResponse {
+        let response: Response<GetLogsResponse> = try await getLogsWithHTTPInfo(offset: offset, length: length, indexName: indexName, type: type, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Return the latest log entries.
 
      The request must be authenticated by an API key with the [`logs` ACL](https://www.algolia.com/doc/guides/security/api-keys/#access-control-list-acl). Logs are held for the last seven days. There's also a logging limit of 1,000 API calls per server. This request counts towards your [operations quota](https://support.algolia.com/hc/en-us/articles/4406981829777-How-does-Algolia-count-records-and-operations-) but doesn't appear in the logs itself. > **Note**: To fetch the logs for a Distributed Search Network (DSN) cluster, target the [DSN's endpoint](https://www.algolia.com/doc/guides/scaling/distributed-search-network-dsn/#accessing-dsn-servers).
@@ -1436,32 +1229,29 @@ open class SearchClient {
      - returns: RequestBuilder<GetLogsResponse>
      */
 
-  open func getLogsWithHTTPInfo(
-    offset: Int? = nil, length: Int? = nil, indexName: String? = nil, type: LogType? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<GetLogsResponse> {
-    let resourcePath = "/1/logs"
-    let body: AnyCodable? = nil
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "offset": offset?.encodeToJSON(),
-      "length": length?.encodeToJSON(),
-      "indexName": indexName?.encodeToJSON(),
-      "type": type?.encodeToJSON(),
-    ])
+    open func getLogsWithHTTPInfo(offset: Int? = nil, length: Int? = nil, indexName: String? = nil, type: LogType? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetLogsResponse> {
+        let resourcePath = "/1/logs"
+        let body: AnyCodable? = nil
+        let queryItems = APIHelper.mapValuesToQueryItems([
+            "offset": offset?.encodeToJSON(),
+            "length": length?.encodeToJSON(),
+            "indexName": indexName?.encodeToJSON(),
+            "type": type?.encodeToJSON(),
+        ])
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Get a record.
 
      - parameter indexName: (path) Index on which to perform the request.
@@ -1469,23 +1259,18 @@ open class SearchClient {
      - parameter attributesToRetrieve: (query) Attributes to include with the records in the response. This is useful to reduce the size of the API response. By default, all retrievable attributes are returned. &#x60;objectID&#x60; is always retrieved, even when not specified. [&#x60;unretrievableAttributes&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/unretrievableAttributes/) won&#39;t be retrieved unless the request is authenticated with the admin API key.  (optional)
      - returns: [String: String]
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getObject(
-    indexName: String, objectID: String, attributesToRetrieve: [String]? = nil,
-    requestOptions: RequestOptions? = nil
-  ) async throws -> [String: String] {
-    let response: Response<[String: String]> = try await getObjectWithHTTPInfo(
-      indexName: indexName, objectID: objectID, attributesToRetrieve: attributesToRetrieve,
-      requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getObject(indexName: String, objectID: String, attributesToRetrieve: [String]? = nil, requestOptions: RequestOptions? = nil) async throws -> [String: String] {
+        let response: Response<[String: String]> = try await getObjectWithHTTPInfo(indexName: indexName, objectID: objectID, attributesToRetrieve: attributesToRetrieve, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Get a record.
 
      To get more than one record, use the [`objects` operation](#tag/Records/operation/getObjects).
@@ -1495,59 +1280,49 @@ open class SearchClient {
      - returns: RequestBuilder<[String: String]>
      */
 
-  open func getObjectWithHTTPInfo(
-    indexName: String, objectID: String, attributesToRetrieve: [String]? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<[String: String]> {
-    var resourcePath = "/1/indexes/{indexName}/{objectID}"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
-    let objectIDPostEscape =
-      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "attributesToRetrieve": attributesToRetrieve?.encodeToJSON()
-    ])
+    open func getObjectWithHTTPInfo(indexName: String, objectID: String, attributesToRetrieve: [String]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<[String: String]> {
+        var resourcePath = "/1/indexes/{indexName}/{objectID}"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
+        let objectIDPostEscape = objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems = APIHelper.mapValuesToQueryItems([
+            "attributesToRetrieve": attributesToRetrieve?.encodeToJSON(),
+        ])
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Get multiple records.
 
      - parameter getObjectsParams: (body) Request object.
      - returns: GetObjectsResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getObjects(getObjectsParams: GetObjectsParams, requestOptions: RequestOptions? = nil)
-    async throws -> GetObjectsResponse
-  {
-    let response: Response<GetObjectsResponse> = try await getObjectsWithHTTPInfo(
-      getObjectsParams: getObjectsParams, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getObjects(getObjectsParams: GetObjectsParams, requestOptions: RequestOptions? = nil) async throws -> GetObjectsResponse {
+        let response: Response<GetObjectsResponse> = try await getObjectsWithHTTPInfo(getObjectsParams: getObjectsParams, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Get multiple records.
 
      Retrieve one or more records, potentially from different indices, in a single API operation. Results will be received in the same order as the requests.
@@ -1555,48 +1330,43 @@ open class SearchClient {
      - returns: RequestBuilder<GetObjectsResponse>
      */
 
-  open func getObjectsWithHTTPInfo(
-    getObjectsParams: GetObjectsParams, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<GetObjectsResponse> {
-    let resourcePath = "/1/indexes/*/objects"
-    let body = getObjectsParams
-    let queryItems: [URLQueryItem]? = nil
+    open func getObjectsWithHTTPInfo(getObjectsParams: GetObjectsParams, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetObjectsResponse> {
+        let resourcePath = "/1/indexes/*/objects"
+        let body = getObjectsParams
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
-      useReadTransporter: true
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
+            useReadTransporter: true
+        )
+    }
 
-  /**
+    /**
      Get a rule.
 
      - parameter indexName: (path) Index on which to perform the request.
      - parameter objectID: (path) Unique identifier of a rule object.
      - returns: Rule
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getRule(indexName: String, objectID: String, requestOptions: RequestOptions? = nil)
-    async throws -> Rule
-  {
-    let response: Response<Rule> = try await getRuleWithHTTPInfo(
-      indexName: indexName, objectID: objectID, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getRule(indexName: String, objectID: String, requestOptions: RequestOptions? = nil) async throws -> Rule {
+        let response: Response<Rule> = try await getRuleWithHTTPInfo(indexName: indexName, objectID: objectID, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Get a rule.
 
      Get a rule by its `objectID`. To find the `objectID` for rules, use the [`search` operation](#tag/Rules/operation/searchRules).
@@ -1605,56 +1375,47 @@ open class SearchClient {
      - returns: RequestBuilder<Rule>
      */
 
-  open func getRuleWithHTTPInfo(
-    indexName: String, objectID: String, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<Rule> {
-    var resourcePath = "/1/indexes/{indexName}/rules/{objectID}"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
-    let objectIDPostEscape =
-      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func getRuleWithHTTPInfo(indexName: String, objectID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<Rule> {
+        var resourcePath = "/1/indexes/{indexName}/rules/{objectID}"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
+        let objectIDPostEscape = objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Get index settings.
 
      - parameter indexName: (path) Index on which to perform the request.
      - returns: IndexSettings
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getSettings(indexName: String, requestOptions: RequestOptions? = nil) async throws
-    -> IndexSettings
-  {
-    let response: Response<IndexSettings> = try await getSettingsWithHTTPInfo(
-      indexName: indexName, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getSettings(indexName: String, requestOptions: RequestOptions? = nil) async throws -> IndexSettings {
+        let response: Response<IndexSettings> = try await getSettingsWithHTTPInfo(indexName: indexName, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Get index settings.
 
      Return an object containing an index's [configuration settings](https://www.algolia.com/doc/api-reference/settings-api-parameters/).
@@ -1662,95 +1423,85 @@ open class SearchClient {
      - returns: RequestBuilder<IndexSettings>
      */
 
-  open func getSettingsWithHTTPInfo(
-    indexName: String, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<IndexSettings> {
-    var resourcePath = "/1/indexes/{indexName}/settings"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func getSettingsWithHTTPInfo(indexName: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<IndexSettings> {
+        var resourcePath = "/1/indexes/{indexName}/settings"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Get all allowed IP addresses.
 
      - returns: [Source]
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getSources(requestOptions: RequestOptions? = nil) async throws -> [Source] {
-    let response: Response<[Source]> = try await getSourcesWithHTTPInfo(
-      requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getSources(requestOptions: RequestOptions? = nil) async throws -> [Source] {
+        let response: Response<[Source]> = try await getSourcesWithHTTPInfo(requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Get all allowed IP addresses.
 
      Get all allowed sources (IP addresses).
      - returns: RequestBuilder<[Source]>
      */
 
-  open func getSourcesWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil)
-    async throws -> Response<[Source]>
-  {
-    let resourcePath = "/1/security/sources"
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func getSourcesWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<[Source]> {
+        let resourcePath = "/1/security/sources"
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Get a synonym object.
 
      - parameter indexName: (path) Index on which to perform the request.
      - parameter objectID: (path) Unique identifier of a synonym object.
      - returns: SynonymHit
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getSynonym(indexName: String, objectID: String, requestOptions: RequestOptions? = nil)
-    async throws -> SynonymHit
-  {
-    let response: Response<SynonymHit> = try await getSynonymWithHTTPInfo(
-      indexName: indexName, objectID: objectID, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getSynonym(indexName: String, objectID: String, requestOptions: RequestOptions? = nil) async throws -> SynonymHit {
+        let response: Response<SynonymHit> = try await getSynonymWithHTTPInfo(indexName: indexName, objectID: objectID, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Get a synonym object.
 
      Get a syonym by its `objectID`. To find the object IDs for your synonyms, use the [`search` operation](#tag/Synonyms/operation/searchSynonyms).
@@ -1759,57 +1510,48 @@ open class SearchClient {
      - returns: RequestBuilder<SynonymHit>
      */
 
-  open func getSynonymWithHTTPInfo(
-    indexName: String, objectID: String, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<SynonymHit> {
-    var resourcePath = "/1/indexes/{indexName}/synonyms/{objectID}"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
-    let objectIDPostEscape =
-      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func getSynonymWithHTTPInfo(indexName: String, objectID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<SynonymHit> {
+        var resourcePath = "/1/indexes/{indexName}/synonyms/{objectID}"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
+        let objectIDPostEscape = objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Check a task's status.
 
      - parameter indexName: (path) Index on which to perform the request.
      - parameter taskID: (path) Unique task identifier.
      - returns: GetTaskResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getTask(indexName: String, taskID: Int64, requestOptions: RequestOptions? = nil)
-    async throws -> GetTaskResponse
-  {
-    let response: Response<GetTaskResponse> = try await getTaskWithHTTPInfo(
-      indexName: indexName, taskID: taskID, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getTask(indexName: String, taskID: Int64, requestOptions: RequestOptions? = nil) async throws -> GetTaskResponse {
+        let response: Response<GetTaskResponse> = try await getTaskWithHTTPInfo(indexName: indexName, taskID: taskID, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Check a task's status.
 
      Some operations, such as copying an index, will respond with a `taskID` value. Use this value here to check the status of that task.
@@ -1818,100 +1560,87 @@ open class SearchClient {
      - returns: RequestBuilder<GetTaskResponse>
      */
 
-  open func getTaskWithHTTPInfo(
-    indexName: String, taskID: Int64, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<GetTaskResponse> {
-    var resourcePath = "/1/indexes/{indexName}/task/{taskID}"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
-    let taskIDPostEscape =
-      taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func getTaskWithHTTPInfo(indexName: String, taskID: Int64, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetTaskResponse> {
+        var resourcePath = "/1/indexes/{indexName}/task/{taskID}"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
+        let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Get top userID.
 
      - returns: GetTopUserIdsResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getTopUserIds(requestOptions: RequestOptions? = nil) async throws
-    -> GetTopUserIdsResponse
-  {
-    let response: Response<GetTopUserIdsResponse> = try await getTopUserIdsWithHTTPInfo(
-      requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getTopUserIds(requestOptions: RequestOptions? = nil) async throws -> GetTopUserIdsResponse {
+        let response: Response<GetTopUserIdsResponse> = try await getTopUserIdsWithHTTPInfo(requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Get top userID.
 
      Get the IDs of the 10 users with the highest number of records per cluster. Since it can take up to a few seconds to get the data from the different clusters, the response isn't real-time.
      - returns: RequestBuilder<GetTopUserIdsResponse>
      */
 
-  open func getTopUserIdsWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil)
-    async throws -> Response<GetTopUserIdsResponse>
-  {
-    let resourcePath = "/1/clusters/mapping/top"
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func getTopUserIdsWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetTopUserIdsResponse> {
+        let resourcePath = "/1/clusters/mapping/top"
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Get userID.
 
      - parameter userID: (path) userID to assign.
      - returns: UserId
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getUserId(userID: String, requestOptions: RequestOptions? = nil) async throws -> UserId
-  {
-    let response: Response<UserId> = try await getUserIdWithHTTPInfo(
-      userID: userID, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getUserId(userID: String, requestOptions: RequestOptions? = nil) async throws -> UserId {
+        let response: Response<UserId> = try await getUserIdWithHTTPInfo(userID: userID, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Get userID.
 
      Returns the userID data stored in the mapping. Since it can take up to a few seconds to get the data from the different clusters, the response isn't real-time.
@@ -1919,51 +1648,44 @@ open class SearchClient {
      - returns: RequestBuilder<UserId>
      */
 
-  open func getUserIdWithHTTPInfo(
-    userID: String, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<UserId> {
-    var resourcePath = "/1/clusters/mapping/{userID}"
-    let userIDPreEscape = "\(APIHelper.mapValueToPathItem(userID))"
-    let userIDPostEscape =
-      userIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{userID}", with: userIDPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func getUserIdWithHTTPInfo(userID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UserId> {
+        var resourcePath = "/1/clusters/mapping/{userID}"
+        let userIDPreEscape = "\(APIHelper.mapValueToPathItem(userID))"
+        let userIDPostEscape = userIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{userID}", with: userIDPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Get migration and user mapping status.
 
      - parameter getClusters: (query) Indicates whether to include the cluster&#39;s pending mapping state in the response. (optional)
      - returns: HasPendingMappingsResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func hasPendingMappings(getClusters: Bool? = nil, requestOptions: RequestOptions? = nil)
-    async throws -> HasPendingMappingsResponse
-  {
-    let response: Response<HasPendingMappingsResponse> = try await hasPendingMappingsWithHTTPInfo(
-      getClusters: getClusters, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func hasPendingMappings(getClusters: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> HasPendingMappingsResponse {
+        let response: Response<HasPendingMappingsResponse> = try await hasPendingMappingsWithHTTPInfo(getClusters: getClusters, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Get migration and user mapping status.
 
      To determine when the time-consuming process of creating a large batch of users or migrating users from one cluster to another is complete, this operation retrieves the status of the process.
@@ -1971,136 +1693,124 @@ open class SearchClient {
      - returns: RequestBuilder<HasPendingMappingsResponse>
      */
 
-  open func hasPendingMappingsWithHTTPInfo(
-    getClusters: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<HasPendingMappingsResponse> {
-    let resourcePath = "/1/clusters/mapping/pending"
-    let body: AnyCodable? = nil
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "getClusters": getClusters?.encodeToJSON()
-    ])
+    open func hasPendingMappingsWithHTTPInfo(getClusters: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<HasPendingMappingsResponse> {
+        let resourcePath = "/1/clusters/mapping/pending"
+        let body: AnyCodable? = nil
+        let queryItems = APIHelper.mapValuesToQueryItems([
+            "getClusters": getClusters?.encodeToJSON(),
+        ])
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      List API keys.
 
      - returns: ListApiKeysResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func listApiKeys(requestOptions: RequestOptions? = nil) async throws -> ListApiKeysResponse {
-    let response: Response<ListApiKeysResponse> = try await listApiKeysWithHTTPInfo(
-      requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func listApiKeys(requestOptions: RequestOptions? = nil) async throws -> ListApiKeysResponse {
+        let response: Response<ListApiKeysResponse> = try await listApiKeysWithHTTPInfo(requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      List API keys.
 
      List all API keys associated with your Algolia application, including their permissions and restrictions.
      - returns: RequestBuilder<ListApiKeysResponse>
      */
 
-  open func listApiKeysWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil)
-    async throws -> Response<ListApiKeysResponse>
-  {
-    let resourcePath = "/1/keys"
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func listApiKeysWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<ListApiKeysResponse> {
+        let resourcePath = "/1/keys"
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      List clusters.
 
      - returns: ListClustersResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func listClusters(requestOptions: RequestOptions? = nil) async throws -> ListClustersResponse
-  {
-    let response: Response<ListClustersResponse> = try await listClustersWithHTTPInfo(
-      requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func listClusters(requestOptions: RequestOptions? = nil) async throws -> ListClustersResponse {
+        let response: Response<ListClustersResponse> = try await listClustersWithHTTPInfo(requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      List clusters.
 
      List the available clusters in a multi-cluster setup.
      - returns: RequestBuilder<ListClustersResponse>
      */
 
-  open func listClustersWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil)
-    async throws -> Response<ListClustersResponse>
-  {
-    let resourcePath = "/1/clusters"
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func listClustersWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<ListClustersResponse> {
+        let resourcePath = "/1/clusters"
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      List indices.
 
      - parameter page: (query) Returns the requested page number. The page size is determined by the &#x60;hitsPerPage&#x60; parameter. You can see the number of available pages in the &#x60;nbPages&#x60; response attribute. When &#x60;page&#x60; is null, the API response is not paginated.  (optional)
      - parameter hitsPerPage: (query) Maximum number of hits per page. (optional, default to 100)
      - returns: ListIndicesResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func listIndices(
-    page: Int? = nil, hitsPerPage: Int? = nil, requestOptions: RequestOptions? = nil
-  ) async throws -> ListIndicesResponse {
-    let response: Response<ListIndicesResponse> = try await listIndicesWithHTTPInfo(
-      page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func listIndices(page: Int? = nil, hitsPerPage: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> ListIndicesResponse {
+        let response: Response<ListIndicesResponse> = try await listIndicesWithHTTPInfo(page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      List indices.
 
      List indices in an Algolia application.
@@ -2109,51 +1819,45 @@ open class SearchClient {
      - returns: RequestBuilder<ListIndicesResponse>
      */
 
-  open func listIndicesWithHTTPInfo(
-    page: Int? = nil, hitsPerPage: Int? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<ListIndicesResponse> {
-    let resourcePath = "/1/indexes"
-    let body: AnyCodable? = nil
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "page": page?.encodeToJSON(),
-      "hitsPerPage": hitsPerPage?.encodeToJSON(),
-    ])
+    open func listIndicesWithHTTPInfo(page: Int? = nil, hitsPerPage: Int? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<ListIndicesResponse> {
+        let resourcePath = "/1/indexes"
+        let body: AnyCodable? = nil
+        let queryItems = APIHelper.mapValuesToQueryItems([
+            "page": page?.encodeToJSON(),
+            "hitsPerPage": hitsPerPage?.encodeToJSON(),
+        ])
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      List userIDs.
 
      - parameter page: (query) Returns the requested page number. The page size is determined by the &#x60;hitsPerPage&#x60; parameter. You can see the number of available pages in the &#x60;nbPages&#x60; response attribute. When &#x60;page&#x60; is null, the API response is not paginated.  (optional)
      - parameter hitsPerPage: (query) Maximum number of hits per page. (optional, default to 100)
      - returns: ListUserIdsResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func listUserIds(
-    page: Int? = nil, hitsPerPage: Int? = nil, requestOptions: RequestOptions? = nil
-  ) async throws -> ListUserIdsResponse {
-    let response: Response<ListUserIdsResponse> = try await listUserIdsWithHTTPInfo(
-      page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func listUserIds(page: Int? = nil, hitsPerPage: Int? = nil, requestOptions: RequestOptions? = nil) async throws -> ListUserIdsResponse {
+        let response: Response<ListUserIdsResponse> = try await listUserIdsWithHTTPInfo(page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      List userIDs.
 
      List the userIDs assigned to a multi-cluster application. Since it can take up to a few seconds to get the data from the different clusters, the response isn't real-time.
@@ -2162,50 +1866,44 @@ open class SearchClient {
      - returns: RequestBuilder<ListUserIdsResponse>
      */
 
-  open func listUserIdsWithHTTPInfo(
-    page: Int? = nil, hitsPerPage: Int? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<ListUserIdsResponse> {
-    let resourcePath = "/1/clusters/mapping"
-    let body: AnyCodable? = nil
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "page": page?.encodeToJSON(),
-      "hitsPerPage": hitsPerPage?.encodeToJSON(),
-    ])
+    open func listUserIdsWithHTTPInfo(page: Int? = nil, hitsPerPage: Int? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<ListUserIdsResponse> {
+        let resourcePath = "/1/clusters/mapping"
+        let body: AnyCodable? = nil
+        let queryItems = APIHelper.mapValuesToQueryItems([
+            "page": page?.encodeToJSON(),
+            "hitsPerPage": hitsPerPage?.encodeToJSON(),
+        ])
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Batch write operations on multiple indices.
 
      - parameter batchParams: (body)
      - returns: MultipleBatchResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func multipleBatch(batchParams: BatchParams, requestOptions: RequestOptions? = nil)
-    async throws -> MultipleBatchResponse
-  {
-    let response: Response<MultipleBatchResponse> = try await multipleBatchWithHTTPInfo(
-      batchParams: batchParams, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func multipleBatch(batchParams: BatchParams, requestOptions: RequestOptions? = nil) async throws -> MultipleBatchResponse {
+        let response: Response<MultipleBatchResponse> = try await multipleBatchWithHTTPInfo(batchParams: batchParams, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Batch write operations on multiple indices.
 
      To reduce the time spent on network round trips, you can perform several write actions in a single request. It's a multi-index version of the [`batch` operation](#tag/Records/operation/batch). Actions are applied in the order they are specified. The supported actions are equivalent to the individual operations of the same name.
@@ -2213,49 +1911,42 @@ open class SearchClient {
      - returns: RequestBuilder<MultipleBatchResponse>
      */
 
-  open func multipleBatchWithHTTPInfo(
-    batchParams: BatchParams, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<MultipleBatchResponse> {
-    let resourcePath = "/1/indexes/*/batch"
-    let body = batchParams
-    let queryItems: [URLQueryItem]? = nil
+    open func multipleBatchWithHTTPInfo(batchParams: BatchParams, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<MultipleBatchResponse> {
+        let resourcePath = "/1/indexes/*/batch"
+        let body = batchParams
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Copy, move, or rename an index.
 
      - parameter indexName: (path) Index on which to perform the request.
      - parameter operationIndexParams: (body)
      - returns: UpdatedAtResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func operationIndex(
-    indexName: String, operationIndexParams: OperationIndexParams,
-    requestOptions: RequestOptions? = nil
-  ) async throws -> UpdatedAtResponse {
-    let response: Response<UpdatedAtResponse> = try await operationIndexWithHTTPInfo(
-      indexName: indexName, operationIndexParams: operationIndexParams,
-      requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func operationIndex(indexName: String, operationIndexParams: OperationIndexParams, requestOptions: RequestOptions? = nil) async throws -> UpdatedAtResponse {
+        let response: Response<UpdatedAtResponse> = try await operationIndexWithHTTPInfo(indexName: indexName, operationIndexParams: operationIndexParams, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Copy, move, or rename an index.
 
      This `operation`, _copy_ or _move_, will copy or move a source index's (`IndexName`) records, settings, synonyms, and rules to a `destination` index. If the destination index exists, it will be replaced, except for index-specific API keys and analytics data. If the destination index doesn't exist, it will be created.  The choice between moving or copying an index depends on your needs. Choose:  - **Move** to rename an index. - **Copy** to create a new index with the same records and configuration as an existing one.  > **Note**: When considering copying or moving, be aware of the [rate limitations](https://www.algolia.com/doc/guides/scaling/algolia-service-limits/#application-record-and-index-limits) on these processes and the [impact on your analytics data](https://www.algolia.com/doc/guides/sending-and-managing-data/manage-indices-and-apps/manage-indices/concepts/indices-analytics/).
@@ -2264,32 +1955,27 @@ open class SearchClient {
      - returns: RequestBuilder<UpdatedAtResponse>
      */
 
-  open func operationIndexWithHTTPInfo(
-    indexName: String, operationIndexParams: OperationIndexParams,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<UpdatedAtResponse> {
-    var resourcePath = "/1/indexes/{indexName}/operation"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let body = operationIndexParams
-    let queryItems: [URLQueryItem]? = nil
+    open func operationIndexWithHTTPInfo(indexName: String, operationIndexParams: OperationIndexParams, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtResponse> {
+        var resourcePath = "/1/indexes/{indexName}/operation"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let body = operationIndexParams
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Update record attributes.
 
      - parameter indexName: (path) Index on which to perform the request.
@@ -2298,24 +1984,18 @@ open class SearchClient {
      - parameter createIfNotExists: (query) Indicates whether to create a new record if it doesn&#39;t exist yet.  (optional, default to true)
      - returns: UpdatedAtWithObjectIdResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func partialUpdateObject(
-    indexName: String, objectID: String, attributesToUpdate: [String: AttributeToUpdate],
-    createIfNotExists: Bool? = nil, requestOptions: RequestOptions? = nil
-  ) async throws -> UpdatedAtWithObjectIdResponse {
-    let response: Response<UpdatedAtWithObjectIdResponse> =
-      try await partialUpdateObjectWithHTTPInfo(
-        indexName: indexName, objectID: objectID, attributesToUpdate: attributesToUpdate,
-        createIfNotExists: createIfNotExists, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func partialUpdateObject(indexName: String, objectID: String, attributesToUpdate: [String: AttributeToUpdate], createIfNotExists: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> UpdatedAtWithObjectIdResponse {
+        let response: Response<UpdatedAtWithObjectIdResponse> = try await partialUpdateObjectWithHTTPInfo(indexName: indexName, objectID: objectID, attributesToUpdate: attributesToUpdate, createIfNotExists: createIfNotExists, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Update record attributes.
 
      Add new attributes or update current ones in an existing record. You can use any first-level attribute but not nested attributes. If you specify a [nested attribute](https://www.algolia.com/doc/guides/sending-and-managing-data/prepare-your-data/how-to/creating-and-using-nested-attributes/), the engine treats it as a replacement for its first-level ancestor.
@@ -2326,59 +2006,49 @@ open class SearchClient {
      - returns: RequestBuilder<UpdatedAtWithObjectIdResponse>
      */
 
-  open func partialUpdateObjectWithHTTPInfo(
-    indexName: String, objectID: String, attributesToUpdate: [String: AttributeToUpdate],
-    createIfNotExists: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<UpdatedAtWithObjectIdResponse> {
-    var resourcePath = "/1/indexes/{indexName}/{objectID}/partial"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
-    let objectIDPostEscape =
-      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
-    let body = attributesToUpdate
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "createIfNotExists": createIfNotExists?.encodeToJSON()
-    ])
+    open func partialUpdateObjectWithHTTPInfo(indexName: String, objectID: String, attributesToUpdate: [String: AttributeToUpdate], createIfNotExists: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtWithObjectIdResponse> {
+        var resourcePath = "/1/indexes/{indexName}/{objectID}/partial"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
+        let objectIDPostEscape = objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
+        let body = attributesToUpdate
+        let queryItems = APIHelper.mapValuesToQueryItems([
+            "createIfNotExists": createIfNotExists?.encodeToJSON(),
+        ])
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Remove userID.
 
      - parameter userID: (path) userID to assign.
      - returns: RemoveUserIdResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func removeUserId(userID: String, requestOptions: RequestOptions? = nil) async throws
-    -> RemoveUserIdResponse
-  {
-    let response: Response<RemoveUserIdResponse> = try await removeUserIdWithHTTPInfo(
-      userID: userID, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func removeUserId(userID: String, requestOptions: RequestOptions? = nil) async throws -> RemoveUserIdResponse {
+        let response: Response<RemoveUserIdResponse> = try await removeUserIdWithHTTPInfo(userID: userID, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Remove userID.
 
      Remove a userID and its associated data from the multi-clusters.
@@ -2386,51 +2056,44 @@ open class SearchClient {
      - returns: RequestBuilder<RemoveUserIdResponse>
      */
 
-  open func removeUserIdWithHTTPInfo(
-    userID: String, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<RemoveUserIdResponse> {
-    var resourcePath = "/1/clusters/mapping/{userID}"
-    let userIDPreEscape = "\(APIHelper.mapValueToPathItem(userID))"
-    let userIDPostEscape =
-      userIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{userID}", with: userIDPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func removeUserIdWithHTTPInfo(userID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<RemoveUserIdResponse> {
+        var resourcePath = "/1/clusters/mapping/{userID}"
+        let userIDPreEscape = "\(APIHelper.mapValueToPathItem(userID))"
+        let userIDPostEscape = userIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{userID}", with: userIDPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "DELETE",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "DELETE",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Replace all sources.
 
      - parameter source: (body) Allowed sources.
      - returns: ReplaceSourceResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func replaceSources(source: [Source], requestOptions: RequestOptions? = nil) async throws
-    -> ReplaceSourceResponse
-  {
-    let response: Response<ReplaceSourceResponse> = try await replaceSourcesWithHTTPInfo(
-      source: source, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func replaceSources(source: [Source], requestOptions: RequestOptions? = nil) async throws -> ReplaceSourceResponse {
+        let response: Response<ReplaceSourceResponse> = try await replaceSourcesWithHTTPInfo(source: source, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Replace all sources.
 
      Replace all allowed sources.
@@ -2438,46 +2101,41 @@ open class SearchClient {
      - returns: RequestBuilder<ReplaceSourceResponse>
      */
 
-  open func replaceSourcesWithHTTPInfo(
-    source: [Source], requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<ReplaceSourceResponse> {
-    let resourcePath = "/1/security/sources"
-    let body = source
-    let queryItems: [URLQueryItem]? = nil
+    open func replaceSourcesWithHTTPInfo(source: [Source], requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<ReplaceSourceResponse> {
+        let resourcePath = "/1/security/sources"
+        let body = source
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "PUT",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "PUT",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Restore API key.
 
      - parameter key: (path) API key.
      - returns: AddApiKeyResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func restoreApiKey(key: String, requestOptions: RequestOptions? = nil) async throws
-    -> AddApiKeyResponse
-  {
-    let response: Response<AddApiKeyResponse> = try await restoreApiKeyWithHTTPInfo(
-      key: key, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func restoreApiKey(key: String, requestOptions: RequestOptions? = nil) async throws -> AddApiKeyResponse {
+        let response: Response<AddApiKeyResponse> = try await restoreApiKeyWithHTTPInfo(key: key, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Restore API key.
 
      Restore a deleted API key, along with its associated permissions. The request must be authenticated with the admin API key.
@@ -2485,52 +2143,45 @@ open class SearchClient {
      - returns: RequestBuilder<AddApiKeyResponse>
      */
 
-  open func restoreApiKeyWithHTTPInfo(
-    key: String, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<AddApiKeyResponse> {
-    var resourcePath = "/1/keys/{key}/restore"
-    let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
-    let keyPostEscape =
-      keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{key}", with: keyPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func restoreApiKeyWithHTTPInfo(key: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AddApiKeyResponse> {
+        var resourcePath = "/1/keys/{key}/restore"
+        let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
+        let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{key}", with: keyPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Add or update a record.
 
      - parameter indexName: (path) Index on which to perform the request.
      - parameter body: (body) The Algolia record.
      - returns: SaveObjectResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func saveObject(
-    indexName: String, body: [String: AnyCodable], requestOptions: RequestOptions? = nil
-  ) async throws -> SaveObjectResponse {
-    let response: Response<SaveObjectResponse> = try await saveObjectWithHTTPInfo(
-      indexName: indexName, body: body, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func saveObject(indexName: String, body: [String: AnyCodable], requestOptions: RequestOptions? = nil) async throws -> SaveObjectResponse {
+        let response: Response<SaveObjectResponse> = try await saveObjectWithHTTPInfo(indexName: indexName, body: body, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Add or update a record.
 
      Add a record (object) to an index or replace it. If the record doesn't contain an `objectID`, Algolia automatically adds it. If you use an existing `objectID`, the existing record is replaced with the new one. To add multiple records to your index in a single API request, use the [`batch` operation](#tag/Records/operation/batch).
@@ -2539,32 +2190,27 @@ open class SearchClient {
      - returns: RequestBuilder<SaveObjectResponse>
      */
 
-  open func saveObjectWithHTTPInfo(
-    indexName: String, body: [String: AnyCodable],
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<SaveObjectResponse> {
-    var resourcePath = "/1/indexes/{indexName}"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let body = body
-    let queryItems: [URLQueryItem]? = nil
+    open func saveObjectWithHTTPInfo(indexName: String, body: [String: AnyCodable], requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<SaveObjectResponse> {
+        var resourcePath = "/1/indexes/{indexName}"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let body = body
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Create or update a rule.
 
      - parameter indexName: (path) Index on which to perform the request.
@@ -2573,23 +2219,18 @@ open class SearchClient {
      - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica indices. (optional)
      - returns: UpdatedRuleResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func saveRule(
-    indexName: String, objectID: String, rule: Rule, forwardToReplicas: Bool? = nil,
-    requestOptions: RequestOptions? = nil
-  ) async throws -> UpdatedRuleResponse {
-    let response: Response<UpdatedRuleResponse> = try await saveRuleWithHTTPInfo(
-      indexName: indexName, objectID: objectID, rule: rule, forwardToReplicas: forwardToReplicas,
-      requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func saveRule(indexName: String, objectID: String, rule: Rule, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> UpdatedRuleResponse {
+        let response: Response<UpdatedRuleResponse> = try await saveRuleWithHTTPInfo(indexName: indexName, objectID: objectID, rule: rule, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Create or update a rule.
 
      To create or update more than one rule, use the [`batch` operation](#tag/Rules/operation/saveRules).
@@ -2600,39 +2241,32 @@ open class SearchClient {
      - returns: RequestBuilder<UpdatedRuleResponse>
      */
 
-  open func saveRuleWithHTTPInfo(
-    indexName: String, objectID: String, rule: Rule, forwardToReplicas: Bool? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<UpdatedRuleResponse> {
-    var resourcePath = "/1/indexes/{indexName}/rules/{objectID}"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
-    let objectIDPostEscape =
-      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
-    let body = rule
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "forwardToReplicas": forwardToReplicas?.encodeToJSON()
-    ])
+    open func saveRuleWithHTTPInfo(indexName: String, objectID: String, rule: Rule, forwardToReplicas: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedRuleResponse> {
+        var resourcePath = "/1/indexes/{indexName}/rules/{objectID}"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
+        let objectIDPostEscape = objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
+        let body = rule
+        let queryItems = APIHelper.mapValuesToQueryItems([
+            "forwardToReplicas": forwardToReplicas?.encodeToJSON(),
+        ])
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "PUT",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "PUT",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Save a batch of rules.
 
      - parameter indexName: (path) Index on which to perform the request.
@@ -2641,23 +2275,18 @@ open class SearchClient {
      - parameter clearExistingRules: (query) Indicates whether existing rules should be deleted before adding this batch. (optional)
      - returns: UpdatedAtResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func saveRules(
-    indexName: String, rules: [Rule], forwardToReplicas: Bool? = nil,
-    clearExistingRules: Bool? = nil, requestOptions: RequestOptions? = nil
-  ) async throws -> UpdatedAtResponse {
-    let response: Response<UpdatedAtResponse> = try await saveRulesWithHTTPInfo(
-      indexName: indexName, rules: rules, forwardToReplicas: forwardToReplicas,
-      clearExistingRules: clearExistingRules, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func saveRules(indexName: String, rules: [Rule], forwardToReplicas: Bool? = nil, clearExistingRules: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> UpdatedAtResponse {
+        let response: Response<UpdatedAtResponse> = try await saveRulesWithHTTPInfo(indexName: indexName, rules: rules, forwardToReplicas: forwardToReplicas, clearExistingRules: clearExistingRules, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Save a batch of rules.
 
      Create or update multiple rules.
@@ -2668,35 +2297,30 @@ open class SearchClient {
      - returns: RequestBuilder<UpdatedAtResponse>
      */
 
-  open func saveRulesWithHTTPInfo(
-    indexName: String, rules: [Rule], forwardToReplicas: Bool? = nil,
-    clearExistingRules: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<UpdatedAtResponse> {
-    var resourcePath = "/1/indexes/{indexName}/rules/batch"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let body = rules
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "forwardToReplicas": forwardToReplicas?.encodeToJSON(),
-      "clearExistingRules": clearExistingRules?.encodeToJSON(),
-    ])
+    open func saveRulesWithHTTPInfo(indexName: String, rules: [Rule], forwardToReplicas: Bool? = nil, clearExistingRules: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtResponse> {
+        var resourcePath = "/1/indexes/{indexName}/rules/batch"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let body = rules
+        let queryItems = APIHelper.mapValuesToQueryItems([
+            "forwardToReplicas": forwardToReplicas?.encodeToJSON(),
+            "clearExistingRules": clearExistingRules?.encodeToJSON(),
+        ])
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Save a synonym.
 
      - parameter indexName: (path) Index on which to perform the request.
@@ -2705,23 +2329,18 @@ open class SearchClient {
      - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica indices. (optional)
      - returns: SaveSynonymResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func saveSynonym(
-    indexName: String, objectID: String, synonymHit: SynonymHit, forwardToReplicas: Bool? = nil,
-    requestOptions: RequestOptions? = nil
-  ) async throws -> SaveSynonymResponse {
-    let response: Response<SaveSynonymResponse> = try await saveSynonymWithHTTPInfo(
-      indexName: indexName, objectID: objectID, synonymHit: synonymHit,
-      forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func saveSynonym(indexName: String, objectID: String, synonymHit: SynonymHit, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> SaveSynonymResponse {
+        let response: Response<SaveSynonymResponse> = try await saveSynonymWithHTTPInfo(indexName: indexName, objectID: objectID, synonymHit: synonymHit, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Save a synonym.
 
      Add a [synonym](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/adding-synonyms/#the-different-types-of-synonyms) to an index or replace it. If the synonym `objectID` doesn't exist, Algolia adds a new one. If you use an existing synonym `objectID`, the existing synonym is replaced with the new one. To add multiple synonyms in a single API request, use the [`batch` operation](#tag/Synonyms/operation/saveSynonyms).
@@ -2732,39 +2351,32 @@ open class SearchClient {
      - returns: RequestBuilder<SaveSynonymResponse>
      */
 
-  open func saveSynonymWithHTTPInfo(
-    indexName: String, objectID: String, synonymHit: SynonymHit, forwardToReplicas: Bool? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<SaveSynonymResponse> {
-    var resourcePath = "/1/indexes/{indexName}/synonyms/{objectID}"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
-    let objectIDPostEscape =
-      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
-    let body = synonymHit
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "forwardToReplicas": forwardToReplicas?.encodeToJSON()
-    ])
+    open func saveSynonymWithHTTPInfo(indexName: String, objectID: String, synonymHit: SynonymHit, forwardToReplicas: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<SaveSynonymResponse> {
+        var resourcePath = "/1/indexes/{indexName}/synonyms/{objectID}"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
+        let objectIDPostEscape = objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
+        let body = synonymHit
+        let queryItems = APIHelper.mapValuesToQueryItems([
+            "forwardToReplicas": forwardToReplicas?.encodeToJSON(),
+        ])
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "PUT",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "PUT",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Save a batch of synonyms.
 
      - parameter indexName: (path) Index on which to perform the request.
@@ -2773,23 +2385,18 @@ open class SearchClient {
      - parameter replaceExistingSynonyms: (query) Indicates whether to replace all synonyms in the index with the ones sent with this request. (optional)
      - returns: UpdatedAtResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func saveSynonyms(
-    indexName: String, synonymHit: [SynonymHit], forwardToReplicas: Bool? = nil,
-    replaceExistingSynonyms: Bool? = nil, requestOptions: RequestOptions? = nil
-  ) async throws -> UpdatedAtResponse {
-    let response: Response<UpdatedAtResponse> = try await saveSynonymsWithHTTPInfo(
-      indexName: indexName, synonymHit: synonymHit, forwardToReplicas: forwardToReplicas,
-      replaceExistingSynonyms: replaceExistingSynonyms, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func saveSynonyms(indexName: String, synonymHit: [SynonymHit], forwardToReplicas: Bool? = nil, replaceExistingSynonyms: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> UpdatedAtResponse {
+        let response: Response<UpdatedAtResponse> = try await saveSynonymsWithHTTPInfo(indexName: indexName, synonymHit: synonymHit, forwardToReplicas: forwardToReplicas, replaceExistingSynonyms: replaceExistingSynonyms, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Save a batch of synonyms.
 
      Create or update multiple synonyms.
@@ -2800,55 +2407,47 @@ open class SearchClient {
      - returns: RequestBuilder<UpdatedAtResponse>
      */
 
-  open func saveSynonymsWithHTTPInfo(
-    indexName: String, synonymHit: [SynonymHit], forwardToReplicas: Bool? = nil,
-    replaceExistingSynonyms: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<UpdatedAtResponse> {
-    var resourcePath = "/1/indexes/{indexName}/synonyms/batch"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let body = synonymHit
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "forwardToReplicas": forwardToReplicas?.encodeToJSON(),
-      "replaceExistingSynonyms": replaceExistingSynonyms?.encodeToJSON(),
-    ])
+    open func saveSynonymsWithHTTPInfo(indexName: String, synonymHit: [SynonymHit], forwardToReplicas: Bool? = nil, replaceExistingSynonyms: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtResponse> {
+        var resourcePath = "/1/indexes/{indexName}/synonyms/batch"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let body = synonymHit
+        let queryItems = APIHelper.mapValuesToQueryItems([
+            "forwardToReplicas": forwardToReplicas?.encodeToJSON(),
+            "replaceExistingSynonyms": replaceExistingSynonyms?.encodeToJSON(),
+        ])
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Search multiple indices.
 
      - parameter searchMethodParams: (body) Query requests and strategies. Results will be received in the same order as the queries.
      - returns: SearchResponses
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func search(searchMethodParams: SearchMethodParams, requestOptions: RequestOptions? = nil)
-    async throws -> SearchResponses
-  {
-    let response: Response<SearchResponses> = try await searchWithHTTPInfo(
-      searchMethodParams: searchMethodParams, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func search(searchMethodParams: SearchMethodParams, requestOptions: RequestOptions? = nil) async throws -> SearchResponses {
+        let response: Response<SearchResponses> = try await searchWithHTTPInfo(searchMethodParams: searchMethodParams, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Search multiple indices.
 
      Send multiple search queries to one or more indices.
@@ -2856,50 +2455,43 @@ open class SearchClient {
      - returns: RequestBuilder<SearchResponses>
      */
 
-  open func searchWithHTTPInfo(
-    searchMethodParams: SearchMethodParams, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<SearchResponses> {
-    let resourcePath = "/1/indexes/*/queries"
-    let body = searchMethodParams
-    let queryItems: [URLQueryItem]? = nil
+    open func searchWithHTTPInfo(searchMethodParams: SearchMethodParams, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<SearchResponses> {
+        let resourcePath = "/1/indexes/*/queries"
+        let body = searchMethodParams
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
-      useReadTransporter: true
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
+            useReadTransporter: true
+        )
+    }
 
-  /**
+    /**
      Search dictionary entries.
 
      - parameter dictionaryName: (path) Dictionary to search in.
      - parameter searchDictionaryEntriesParams: (body)
      - returns: UpdatedAtResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func searchDictionaryEntries(
-    dictionaryName: DictionaryType, searchDictionaryEntriesParams: SearchDictionaryEntriesParams,
-    requestOptions: RequestOptions? = nil
-  ) async throws -> UpdatedAtResponse {
-    let response: Response<UpdatedAtResponse> = try await searchDictionaryEntriesWithHTTPInfo(
-      dictionaryName: dictionaryName, searchDictionaryEntriesParams: searchDictionaryEntriesParams,
-      requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func searchDictionaryEntries(dictionaryName: DictionaryType, searchDictionaryEntriesParams: SearchDictionaryEntriesParams, requestOptions: RequestOptions? = nil) async throws -> UpdatedAtResponse {
+        let response: Response<UpdatedAtResponse> = try await searchDictionaryEntriesWithHTTPInfo(dictionaryName: dictionaryName, searchDictionaryEntriesParams: searchDictionaryEntriesParams, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Search dictionary entries.
 
      Search for standard and [custom](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-stop-words/) entries in the [stop words](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-stop-words/), [plurals](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-plurals-and-other-declensions/), or [segmentation (compounds)](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-segmentation/) dictionaries.
@@ -2908,34 +2500,28 @@ open class SearchClient {
      - returns: RequestBuilder<UpdatedAtResponse>
      */
 
-  open func searchDictionaryEntriesWithHTTPInfo(
-    dictionaryName: DictionaryType, searchDictionaryEntriesParams: SearchDictionaryEntriesParams,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<UpdatedAtResponse> {
-    var resourcePath = "/1/dictionaries/{dictionaryName}/search"
-    let dictionaryNamePreEscape = "\(APIHelper.mapValueToPathItem(dictionaryName))"
-    let dictionaryNamePostEscape =
-      dictionaryNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed)
-      ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{dictionaryName}", with: dictionaryNamePostEscape, options: .literal, range: nil)
-    let body = searchDictionaryEntriesParams
-    let queryItems: [URLQueryItem]? = nil
+    open func searchDictionaryEntriesWithHTTPInfo(dictionaryName: DictionaryType, searchDictionaryEntriesParams: SearchDictionaryEntriesParams, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtResponse> {
+        var resourcePath = "/1/dictionaries/{dictionaryName}/search"
+        let dictionaryNamePreEscape = "\(APIHelper.mapValueToPathItem(dictionaryName))"
+        let dictionaryNamePostEscape = dictionaryNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{dictionaryName}", with: dictionaryNamePostEscape, options: .literal, range: nil)
+        let body = searchDictionaryEntriesParams
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
-      useReadTransporter: true
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
+            useReadTransporter: true
+        )
+    }
 
-  /**
+    /**
      Search for facet values.
 
      - parameter indexName: (path) Index on which to perform the request.
@@ -2943,25 +2529,18 @@ open class SearchClient {
      - parameter searchForFacetValuesRequest: (body)  (optional)
      - returns: SearchForFacetValuesResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func searchForFacetValues(
-    indexName: String, facetName: String,
-    searchForFacetValuesRequest: SearchForFacetValuesRequest? = nil,
-    requestOptions: RequestOptions? = nil
-  ) async throws -> SearchForFacetValuesResponse {
-    let response: Response<SearchForFacetValuesResponse> =
-      try await searchForFacetValuesWithHTTPInfo(
-        indexName: indexName, facetName: facetName,
-        searchForFacetValuesRequest: searchForFacetValuesRequest, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func searchForFacetValues(indexName: String, facetName: String, searchForFacetValuesRequest: SearchForFacetValuesRequest? = nil, requestOptions: RequestOptions? = nil) async throws -> SearchForFacetValuesResponse {
+        let response: Response<SearchForFacetValuesResponse> = try await searchForFacetValuesWithHTTPInfo(indexName: indexName, facetName: facetName, searchForFacetValuesRequest: searchForFacetValuesRequest, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Search for facet values.
 
      [Search for a facet's values](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#search-for-facet-values), optionally restricting the returned values to those contained in records matching other search criteria. > **Note**: Pagination isn't supported (`page` and `hitsPerPage` are ignored). By default, the engine returns a maximum of 10 values but you can adjust this with `maxFacetHits`.
@@ -2971,61 +2550,49 @@ open class SearchClient {
      - returns: RequestBuilder<SearchForFacetValuesResponse>
      */
 
-  open func searchForFacetValuesWithHTTPInfo(
-    indexName: String, facetName: String,
-    searchForFacetValuesRequest: SearchForFacetValuesRequest? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<SearchForFacetValuesResponse> {
-    var resourcePath = "/1/indexes/{indexName}/facets/{facetName}/query"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let facetNamePreEscape = "\(APIHelper.mapValueToPathItem(facetName))"
-    let facetNamePostEscape =
-      facetNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{facetName}", with: facetNamePostEscape, options: .literal, range: nil)
-    let body = searchForFacetValuesRequest
-    let queryItems: [URLQueryItem]? = nil
+    open func searchForFacetValuesWithHTTPInfo(indexName: String, facetName: String, searchForFacetValuesRequest: SearchForFacetValuesRequest? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<SearchForFacetValuesResponse> {
+        var resourcePath = "/1/indexes/{indexName}/facets/{facetName}/query"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let facetNamePreEscape = "\(APIHelper.mapValueToPathItem(facetName))"
+        let facetNamePostEscape = facetNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{facetName}", with: facetNamePostEscape, options: .literal, range: nil)
+        let body = searchForFacetValuesRequest
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body ?? AnyCodable(),
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
-      useReadTransporter: true
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body ?? AnyCodable(),
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
+            useReadTransporter: true
+        )
+    }
 
-  /**
+    /**
      Search for rules.
 
      - parameter indexName: (path) Index on which to perform the request.
      - parameter searchRulesParams: (body)  (optional)
      - returns: SearchRulesResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func searchRules(
-    indexName: String, searchRulesParams: SearchRulesParams? = nil,
-    requestOptions: RequestOptions? = nil
-  ) async throws -> SearchRulesResponse {
-    let response: Response<SearchRulesResponse> = try await searchRulesWithHTTPInfo(
-      indexName: indexName, searchRulesParams: searchRulesParams, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func searchRules(indexName: String, searchRulesParams: SearchRulesParams? = nil, requestOptions: RequestOptions? = nil) async throws -> SearchRulesResponse {
+        let response: Response<SearchRulesResponse> = try await searchRulesWithHTTPInfo(indexName: indexName, searchRulesParams: searchRulesParams, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Search for rules.
 
      Search for rules in your index. You can control the search with parameters. To list all rules, send an empty request body.
@@ -3034,54 +2601,46 @@ open class SearchClient {
      - returns: RequestBuilder<SearchRulesResponse>
      */
 
-  open func searchRulesWithHTTPInfo(
-    indexName: String, searchRulesParams: SearchRulesParams? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<SearchRulesResponse> {
-    var resourcePath = "/1/indexes/{indexName}/rules/search"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let body = searchRulesParams
-    let queryItems: [URLQueryItem]? = nil
+    open func searchRulesWithHTTPInfo(indexName: String, searchRulesParams: SearchRulesParams? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<SearchRulesResponse> {
+        var resourcePath = "/1/indexes/{indexName}/rules/search"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let body = searchRulesParams
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body ?? AnyCodable(),
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
-      useReadTransporter: true
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body ?? AnyCodable(),
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
+            useReadTransporter: true
+        )
+    }
 
-  /**
+    /**
      Search an index.
 
      - parameter indexName: (path) Index on which to perform the request.
      - parameter searchParams: (body)  (optional)
      - returns: SearchResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func searchSingleIndex(
-    indexName: String, searchParams: SearchParams? = nil, requestOptions: RequestOptions? = nil
-  ) async throws -> SearchResponse {
-    let response: Response<SearchResponse> = try await searchSingleIndexWithHTTPInfo(
-      indexName: indexName, searchParams: searchParams, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func searchSingleIndex(indexName: String, searchParams: SearchParams? = nil, requestOptions: RequestOptions? = nil) async throws -> SearchResponse {
+        let response: Response<SearchResponse> = try await searchSingleIndexWithHTTPInfo(indexName: indexName, searchParams: searchParams, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Search an index.
 
      Return records that match the query.
@@ -3090,56 +2649,46 @@ open class SearchClient {
      - returns: RequestBuilder<SearchResponse>
      */
 
-  open func searchSingleIndexWithHTTPInfo(
-    indexName: String, searchParams: SearchParams? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<SearchResponse> {
-    var resourcePath = "/1/indexes/{indexName}/query"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let body = searchParams
-    let queryItems: [URLQueryItem]? = nil
+    open func searchSingleIndexWithHTTPInfo(indexName: String, searchParams: SearchParams? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<SearchResponse> {
+        var resourcePath = "/1/indexes/{indexName}/query"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let body = searchParams
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body ?? AnyCodable(),
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
-      useReadTransporter: true
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body ?? AnyCodable(),
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
+            useReadTransporter: true
+        )
+    }
 
-  /**
+    /**
      Search for synonyms.
 
      - parameter indexName: (path) Index on which to perform the request.
      - parameter searchSynonymsParams: (body) Body of the &#x60;searchSynonyms&#x60; operation. (optional)
      - returns: SearchSynonymsResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func searchSynonyms(
-    indexName: String, searchSynonymsParams: SearchSynonymsParams? = nil,
-    requestOptions: RequestOptions? = nil
-  ) async throws -> SearchSynonymsResponse {
-    let response: Response<SearchSynonymsResponse> = try await searchSynonymsWithHTTPInfo(
-      indexName: indexName, searchSynonymsParams: searchSynonymsParams,
-      requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func searchSynonyms(indexName: String, searchSynonymsParams: SearchSynonymsParams? = nil, requestOptions: RequestOptions? = nil) async throws -> SearchSynonymsResponse {
+        let response: Response<SearchSynonymsResponse> = try await searchSynonymsWithHTTPInfo(indexName: indexName, searchSynonymsParams: searchSynonymsParams, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Search for synonyms.
 
      Search for synonyms in your index. You can control and filter the search with parameters. To get all synonyms, send an empty request body.
@@ -3148,53 +2697,45 @@ open class SearchClient {
      - returns: RequestBuilder<SearchSynonymsResponse>
      */
 
-  open func searchSynonymsWithHTTPInfo(
-    indexName: String, searchSynonymsParams: SearchSynonymsParams? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<SearchSynonymsResponse> {
-    var resourcePath = "/1/indexes/{indexName}/synonyms/search"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let body = searchSynonymsParams
-    let queryItems: [URLQueryItem]? = nil
+    open func searchSynonymsWithHTTPInfo(indexName: String, searchSynonymsParams: SearchSynonymsParams? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<SearchSynonymsResponse> {
+        var resourcePath = "/1/indexes/{indexName}/synonyms/search"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let body = searchSynonymsParams
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body ?? AnyCodable(),
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
-      useReadTransporter: true
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body ?? AnyCodable(),
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
+            useReadTransporter: true
+        )
+    }
 
-  /**
+    /**
      Search for a user ID.
 
      - parameter searchUserIdsParams: (body)
      - returns: SearchUserIdsResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func searchUserIds(
-    searchUserIdsParams: SearchUserIdsParams, requestOptions: RequestOptions? = nil
-  ) async throws -> SearchUserIdsResponse {
-    let response: Response<SearchUserIdsResponse> = try await searchUserIdsWithHTTPInfo(
-      searchUserIdsParams: searchUserIdsParams, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func searchUserIds(searchUserIdsParams: SearchUserIdsParams, requestOptions: RequestOptions? = nil) async throws -> SearchUserIdsResponse {
+        let response: Response<SearchUserIdsResponse> = try await searchUserIdsWithHTTPInfo(searchUserIdsParams: searchUserIdsParams, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Search for a user ID.
 
      Since it can take up to a few seconds to get the data from the different clusters, the response isn't real-time. To ensure rapid updates, the user IDs index isn't built at the same time as the mapping. Instead, it's built every 12 hours, at the same time as the update of user ID usage. For example, if you add or move a user ID, the search will show an old value until the next time the mapping is rebuilt (every 12 hours).
@@ -3202,48 +2743,42 @@ open class SearchClient {
      - returns: RequestBuilder<SearchUserIdsResponse>
      */
 
-  open func searchUserIdsWithHTTPInfo(
-    searchUserIdsParams: SearchUserIdsParams,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<SearchUserIdsResponse> {
-    let resourcePath = "/1/clusters/mapping/search"
-    let body = searchUserIdsParams
-    let queryItems: [URLQueryItem]? = nil
+    open func searchUserIdsWithHTTPInfo(searchUserIdsParams: SearchUserIdsParams, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<SearchUserIdsResponse> {
+        let resourcePath = "/1/clusters/mapping/search"
+        let body = searchUserIdsParams
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
-      useReadTransporter: true
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
+            useReadTransporter: true
+        )
+    }
 
-  /**
+    /**
      Set stop word settings.
 
      - parameter dictionarySettingsParams: (body)
      - returns: UpdatedAtResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func setDictionarySettings(
-    dictionarySettingsParams: DictionarySettingsParams, requestOptions: RequestOptions? = nil
-  ) async throws -> UpdatedAtResponse {
-    let response: Response<UpdatedAtResponse> = try await setDictionarySettingsWithHTTPInfo(
-      dictionarySettingsParams: dictionarySettingsParams, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func setDictionarySettings(dictionarySettingsParams: DictionarySettingsParams, requestOptions: RequestOptions? = nil) async throws -> UpdatedAtResponse {
+        let response: Response<UpdatedAtResponse> = try await setDictionarySettingsWithHTTPInfo(dictionarySettingsParams: dictionarySettingsParams, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Set stop word settings.
 
      Set stop word settings for a specific language.
@@ -3251,27 +2786,24 @@ open class SearchClient {
      - returns: RequestBuilder<UpdatedAtResponse>
      */
 
-  open func setDictionarySettingsWithHTTPInfo(
-    dictionarySettingsParams: DictionarySettingsParams,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<UpdatedAtResponse> {
-    let resourcePath = "/1/dictionaries/*/settings"
-    let body = dictionarySettingsParams
-    let queryItems: [URLQueryItem]? = nil
+    open func setDictionarySettingsWithHTTPInfo(dictionarySettingsParams: DictionarySettingsParams, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtResponse> {
+        let resourcePath = "/1/dictionaries/*/settings"
+        let body = dictionarySettingsParams
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "PUT",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "PUT",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Update index settings.
 
      - parameter indexName: (path) Index on which to perform the request.
@@ -3279,23 +2811,18 @@ open class SearchClient {
      - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica indices. (optional)
      - returns: UpdatedAtResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func setSettings(
-    indexName: String, indexSettings: IndexSettings, forwardToReplicas: Bool? = nil,
-    requestOptions: RequestOptions? = nil
-  ) async throws -> UpdatedAtResponse {
-    let response: Response<UpdatedAtResponse> = try await setSettingsWithHTTPInfo(
-      indexName: indexName, indexSettings: indexSettings, forwardToReplicas: forwardToReplicas,
-      requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func setSettings(indexName: String, indexSettings: IndexSettings, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil) async throws -> UpdatedAtResponse {
+        let response: Response<UpdatedAtResponse> = try await setSettingsWithHTTPInfo(indexName: indexName, indexSettings: indexSettings, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Update index settings.
 
      Update the specified [index settings](https://www.algolia.com/doc/api-reference/settings-api-parameters/). Specifying null for a setting resets it to its default value.
@@ -3305,55 +2832,47 @@ open class SearchClient {
      - returns: RequestBuilder<UpdatedAtResponse>
      */
 
-  open func setSettingsWithHTTPInfo(
-    indexName: String, indexSettings: IndexSettings, forwardToReplicas: Bool? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<UpdatedAtResponse> {
-    var resourcePath = "/1/indexes/{indexName}/settings"
-    let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
-    let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
-    let body = indexSettings
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "forwardToReplicas": forwardToReplicas?.encodeToJSON()
-    ])
+    open func setSettingsWithHTTPInfo(indexName: String, indexSettings: IndexSettings, forwardToReplicas: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtResponse> {
+        var resourcePath = "/1/indexes/{indexName}/settings"
+        let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
+        let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
+        let body = indexSettings
+        let queryItems = APIHelper.mapValuesToQueryItems([
+            "forwardToReplicas": forwardToReplicas?.encodeToJSON(),
+        ])
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "PUT",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "PUT",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Update an API key.
 
      - parameter key: (path) API key.
      - parameter apiKey: (body)
      - returns: UpdateApiKeyResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func updateApiKey(key: String, apiKey: ApiKey, requestOptions: RequestOptions? = nil)
-    async throws -> UpdateApiKeyResponse
-  {
-    let response: Response<UpdateApiKeyResponse> = try await updateApiKeyWithHTTPInfo(
-      key: key, apiKey: apiKey, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func updateApiKey(key: String, apiKey: ApiKey, requestOptions: RequestOptions? = nil) async throws -> UpdateApiKeyResponse {
+        let response: Response<UpdateApiKeyResponse> = try await updateApiKeyWithHTTPInfo(key: key, apiKey: apiKey, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Update an API key.
 
      Replace the permissions of an existing API key. Any unspecified parameter resets that permission to its default value. The request must be authenticated with the admin API key.
@@ -3362,27 +2881,23 @@ open class SearchClient {
      - returns: RequestBuilder<UpdateApiKeyResponse>
      */
 
-  open func updateApiKeyWithHTTPInfo(
-    key: String, apiKey: ApiKey, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<UpdateApiKeyResponse> {
-    var resourcePath = "/1/keys/{key}"
-    let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
-    let keyPostEscape =
-      keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{key}", with: keyPostEscape, options: .literal, range: nil)
-    let body = apiKey
-    let queryItems: [URLQueryItem]? = nil
+    open func updateApiKeyWithHTTPInfo(key: String, apiKey: ApiKey, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdateApiKeyResponse> {
+        var resourcePath = "/1/keys/{key}"
+        let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
+        let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{key}", with: keyPostEscape, options: .literal, range: nil)
+        let body = apiKey
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "PUT",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "PUT",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 }

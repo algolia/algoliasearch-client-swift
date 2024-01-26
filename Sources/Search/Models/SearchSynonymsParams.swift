@@ -2,46 +2,41 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct SearchSynonymsParams: Codable, JSONEncodable, Hashable {
+    static let hitsPerPageRule = NumericRule<Int>(minimum: 1, exclusiveMinimum: false, maximum: 1000, exclusiveMaximum: false, multipleOf: nil)
+    /** Text to search for in an index. */
+    public var query: String?
+    public var type: SynonymType?
+    /** Page to retrieve (the first page is `0`, not `1`). */
+    public var page: Int?
+    /** Number of hits per page. */
+    public var hitsPerPage: Int?
 
-  static let hitsPerPageRule = NumericRule<Int>(
-    minimum: 1, exclusiveMinimum: false, maximum: 1000, exclusiveMaximum: false, multipleOf: nil)
-  /** Text to search for in an index. */
-  public var query: String?
-  public var type: SynonymType?
-  /** Page to retrieve (the first page is `0`, not `1`). */
-  public var page: Int?
-  /** Number of hits per page. */
-  public var hitsPerPage: Int?
+    public init(query: String? = nil, type: SynonymType? = nil, page: Int? = nil, hitsPerPage: Int? = nil) {
+        self.query = query
+        self.type = type
+        self.page = page
+        self.hitsPerPage = hitsPerPage
+    }
 
-  public init(
-    query: String? = nil, type: SynonymType? = nil, page: Int? = nil, hitsPerPage: Int? = nil
-  ) {
-    self.query = query
-    self.type = type
-    self.page = page
-    self.hitsPerPage = hitsPerPage
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case query
+        case type
+        case page
+        case hitsPerPage
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case query
-    case type
-    case page
-    case hitsPerPage
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(query, forKey: .query)
-    try container.encodeIfPresent(type, forKey: .type)
-    try container.encodeIfPresent(page, forKey: .page)
-    try container.encodeIfPresent(hitsPerPage, forKey: .hitsPerPage)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(query, forKey: .query)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(page, forKey: .page)
+        try container.encodeIfPresent(hitsPerPage, forKey: .hitsPerPage)
+    }
 }

@@ -2,16 +2,15 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Type of the Authentication, defines what kind of object is stored in the input.
+/** Type of the Authentication, defines what kind of object is stored in the input. */
 public enum AuthenticationType: String, Codable, CaseIterable {
-  case googleServiceAccount = "googleServiceAccount"
-  case basic = "basic"
-  case apiKey = "apiKey"
-  case oauth = "oauth"
-  case algolia = "algolia"
+    case googleServiceAccount
+    case basic
+    case apiKey
+    case oauth
+    case algolia
 }

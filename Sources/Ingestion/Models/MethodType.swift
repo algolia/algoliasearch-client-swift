@@ -2,12 +2,11 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum MethodType: String, Codable, CaseIterable {
-  case `get` = "GET"
-  case post = "POST"
+    case get = "GET"
+    case post = "POST"
 }

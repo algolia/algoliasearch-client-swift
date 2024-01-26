@@ -2,38 +2,33 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// [Maximum radius](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#increase-the-search-radius) for a geographical search (in meters).
+/** [Maximum radius](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#increase-the-search-radius) for a geographical search (in meters).  */
 public enum AroundRadius: Codable, JSONEncodable, Hashable {
-  case aroundRadiusAll(AroundRadiusAll)
-  case int(Int)
+    case aroundRadiusAll(AroundRadiusAll)
+    case int(Int)
 
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    switch self {
-    case .aroundRadiusAll(let value):
-      try container.encode(value)
-    case .int(let value):
-      try container.encode(value)
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .aroundRadiusAll(value):
+            try container.encode(value)
+        case let .int(value):
+            try container.encode(value)
+        }
     }
-  }
 
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    if let value = try? container.decode(AroundRadiusAll.self) {
-      self = .aroundRadiusAll(value)
-    } else if let value = try? container.decode(Int.self) {
-      self = .int(value)
-    } else {
-      throw DecodingError.typeMismatch(
-        Self.Type.self,
-        .init(
-          codingPath: decoder.codingPath,
-          debugDescription: "Unable to decode instance of AroundRadius"))
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(AroundRadiusAll.self) {
+            self = .aroundRadiusAll(value)
+        } else if let value = try? container.decode(Int.self) {
+            self = .int(value)
+        } else {
+            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of AroundRadius"))
+        }
     }
-  }
 }

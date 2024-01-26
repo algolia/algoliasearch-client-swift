@@ -2,37 +2,32 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum DestinationInput: Codable, JSONEncodable, Hashable {
-  case destinationIndexName(DestinationIndexName)
-  case destinationIndexPrefix(DestinationIndexPrefix)
+    case destinationIndexName(DestinationIndexName)
+    case destinationIndexPrefix(DestinationIndexPrefix)
 
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    switch self {
-    case .destinationIndexName(let value):
-      try container.encode(value)
-    case .destinationIndexPrefix(let value):
-      try container.encode(value)
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .destinationIndexName(value):
+            try container.encode(value)
+        case let .destinationIndexPrefix(value):
+            try container.encode(value)
+        }
     }
-  }
 
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    if let value = try? container.decode(DestinationIndexName.self) {
-      self = .destinationIndexName(value)
-    } else if let value = try? container.decode(DestinationIndexPrefix.self) {
-      self = .destinationIndexPrefix(value)
-    } else {
-      throw DecodingError.typeMismatch(
-        Self.Type.self,
-        .init(
-          codingPath: decoder.codingPath,
-          debugDescription: "Unable to decode instance of DestinationInput"))
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(DestinationIndexName.self) {
+            self = .destinationIndexName(value)
+        } else if let value = try? container.decode(DestinationIndexPrefix.self) {
+            self = .destinationIndexPrefix(value)
+        } else {
+            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of DestinationInput"))
+        }
     }
-  }
 }

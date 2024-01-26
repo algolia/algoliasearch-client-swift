@@ -2,37 +2,32 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum AddABTestsVariant: Codable, JSONEncodable, Hashable {
-  case abTestsVariant(AbTestsVariant)
-  case abTestsVariantSearchParams(AbTestsVariantSearchParams)
+    case abTestsVariant(AbTestsVariant)
+    case abTestsVariantSearchParams(AbTestsVariantSearchParams)
 
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    switch self {
-    case .abTestsVariant(let value):
-      try container.encode(value)
-    case .abTestsVariantSearchParams(let value):
-      try container.encode(value)
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .abTestsVariant(value):
+            try container.encode(value)
+        case let .abTestsVariantSearchParams(value):
+            try container.encode(value)
+        }
     }
-  }
 
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    if let value = try? container.decode(AbTestsVariant.self) {
-      self = .abTestsVariant(value)
-    } else if let value = try? container.decode(AbTestsVariantSearchParams.self) {
-      self = .abTestsVariantSearchParams(value)
-    } else {
-      throw DecodingError.typeMismatch(
-        Self.Type.self,
-        .init(
-          codingPath: decoder.codingPath,
-          debugDescription: "Unable to decode instance of AddABTestsVariant"))
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(AbTestsVariant.self) {
+            self = .abTestsVariant(value)
+        } else if let value = try? container.decode(AbTestsVariantSearchParams.self) {
+            self = .abTestsVariantSearchParams(value)
+        } else {
+            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of AddABTestsVariant"))
+        }
     }
-  }
 }

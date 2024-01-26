@@ -2,15 +2,14 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum RunStatus: String, Codable, CaseIterable {
-  case created = "created"
-  case started = "started"
-  case idled = "idled"
-  case finished = "finished"
-  case skipped = "skipped"
+    case created
+    case started
+    case idled
+    case finished
+    case skipped
 }

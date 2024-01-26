@@ -2,18 +2,17 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Operation to apply to the attribute.
+/** Operation to apply to the attribute. */
 public enum BuiltInOperationType: String, Codable, CaseIterable {
-  case increment = "Increment"
-  case decrement = "Decrement"
-  case add = "Add"
-  case remove = "Remove"
-  case addUnique = "AddUnique"
-  case incrementFrom = "IncrementFrom"
-  case incrementSet = "IncrementSet"
+    case increment = "Increment"
+    case decrement = "Decrement"
+    case add = "Add"
+    case remove = "Remove"
+    case addUnique = "AddUnique"
+    case incrementFrom = "IncrementFrom"
+    case incrementSet = "IncrementSet"
 }

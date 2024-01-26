@@ -8,12 +8,12 @@
 import Foundation
 
 #if canImport(FoundationNetworking)
-  import FoundationNetworking
+    import FoundationNetworking
 #endif
 
 public protocol RequestBuilder {
-  init()
+    init()
 
-  func execute<T: Decodable>(urlRequest: URLRequest, timeout: TimeInterval) async throws
-    -> Response<T>
+    func execute<T: Decodable>(urlRequest: URLRequest, timeout: TimeInterval) async throws
+        -> Response<T>
 }

@@ -2,16 +2,15 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Synonym type.
+/** Synonym type. */
 public enum SynonymType: String, Codable, CaseIterable {
-  case synonym = "synonym"
-  case onewaysynonym = "onewaysynonym"
-  case altcorrection1 = "altcorrection1"
-  case altcorrection2 = "altcorrection2"
-  case placeholder = "placeholder"
+    case synonym
+    case onewaysynonym
+    case altcorrection1
+    case altcorrection2
+    case placeholder
 }

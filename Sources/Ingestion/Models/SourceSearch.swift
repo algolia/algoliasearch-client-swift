@@ -2,27 +2,25 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct SourceSearch: Codable, JSONEncodable, Hashable {
+    public var sourceIDs: [String]
 
-  public var sourceIDs: [String]
+    public init(sourceIDs: [String]) {
+        self.sourceIDs = sourceIDs
+    }
 
-  public init(sourceIDs: [String]) {
-    self.sourceIDs = sourceIDs
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case sourceIDs
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case sourceIDs
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(sourceIDs, forKey: .sourceIDs)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(sourceIDs, forKey: .sourceIDs)
+    }
 }

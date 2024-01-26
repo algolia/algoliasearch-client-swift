@@ -2,26 +2,25 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// The region where the cluster is located.
+/** The region where the cluster is located. */
 public enum Region: String, Codable, CaseIterable {
-  case au = "au"
-  case br = "br"
-  case ca = "ca"
-  case de = "de"
-  case eu = "eu"
-  case hk = "hk"
-  case `in` = "in"
-  case jp = "jp"
-  case sg = "sg"
-  case uae = "uae"
-  case uk = "uk"
-  case usc = "usc"
-  case use = "use"
-  case usw = "usw"
-  case za = "za"
+    case au
+    case br
+    case ca
+    case de
+    case eu
+    case hk
+    case `in`
+    case jp
+    case sg
+    case uae
+    case uk
+    case usc
+    case use
+    case usw
+    case za
 }

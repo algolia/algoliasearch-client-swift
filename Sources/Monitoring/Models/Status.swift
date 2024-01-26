@@ -2,15 +2,14 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Status of the cluster.
+/** Status of the cluster. */
 public enum Status: String, Codable, CaseIterable {
-  case operational = "operational"
-  case degradedPerformance = "degraded_performance"
-  case partialOutage = "partial_outage"
-  case majorOutage = "major_outage"
+    case operational
+    case degradedPerformance = "degraded_performance"
+    case partialOutage = "partial_outage"
+    case majorOutage = "major_outage"
 }

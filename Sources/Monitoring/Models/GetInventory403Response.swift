@@ -2,27 +2,25 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct GetInventory403Response: Codable, JSONEncodable, Hashable {
+    public var reason: String?
 
-  public var reason: String?
+    public init(reason: String? = nil) {
+        self.reason = reason
+    }
 
-  public init(reason: String? = nil) {
-    self.reason = reason
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case reason
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case reason
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(reason, forKey: .reason)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(reason, forKey: .reason)
+    }
 }

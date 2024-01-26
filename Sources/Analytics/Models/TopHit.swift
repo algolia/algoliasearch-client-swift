@@ -2,33 +2,31 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct TopHit: Codable, JSONEncodable, Hashable {
+    /** Hit. */
+    public var hit: String
+    /** Number of occurrences. */
+    public var count: Int
 
-  /** Hit. */
-  public var hit: String
-  /** Number of occurrences. */
-  public var count: Int
+    public init(hit: String, count: Int) {
+        self.hit = hit
+        self.count = count
+    }
 
-  public init(hit: String, count: Int) {
-    self.hit = hit
-    self.count = count
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case hit
+        case count
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case hit
-    case count
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(hit, forKey: .hit)
-    try container.encode(count, forKey: .count)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(hit, forKey: .hit)
+        try container.encode(count, forKey: .count)
+    }
 }

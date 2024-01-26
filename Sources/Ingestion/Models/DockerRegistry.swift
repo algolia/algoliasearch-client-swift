@@ -2,13 +2,12 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// The registry where the image is stored.
+/** The registry where the image is stored. */
 public enum DockerRegistry: String, Codable, CaseIterable {
-  case dockerhub = "dockerhub"
-  case ghcr = "ghcr"
+    case dockerhub
+    case ghcr
 }

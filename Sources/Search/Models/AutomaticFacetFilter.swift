@@ -2,39 +2,37 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Automatic facet Filter.
+/** Automatic facet Filter. */
 public struct AutomaticFacetFilter: Codable, JSONEncodable, Hashable {
+    /** Attribute to filter on. This must match a facet placeholder in the Rule's pattern. */
+    public var facet: String
+    /** Score for the filter. Typically used for optional or disjunctive filters. */
+    public var score: Int?
+    /** Whether the filter is disjunctive (true) or conjunctive (false). */
+    public var disjunctive: Bool?
 
-  /** Attribute to filter on. This must match a facet placeholder in the Rule's pattern. */
-  public var facet: String
-  /** Score for the filter. Typically used for optional or disjunctive filters. */
-  public var score: Int?
-  /** Whether the filter is disjunctive (true) or conjunctive (false). */
-  public var disjunctive: Bool?
+    public init(facet: String, score: Int? = nil, disjunctive: Bool? = nil) {
+        self.facet = facet
+        self.score = score
+        self.disjunctive = disjunctive
+    }
 
-  public init(facet: String, score: Int? = nil, disjunctive: Bool? = nil) {
-    self.facet = facet
-    self.score = score
-    self.disjunctive = disjunctive
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case facet
+        case score
+        case disjunctive
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case facet
-    case score
-    case disjunctive
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(facet, forKey: .facet)
-    try container.encodeIfPresent(score, forKey: .score)
-    try container.encodeIfPresent(disjunctive, forKey: .disjunctive)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(facet, forKey: .facet)
+        try container.encodeIfPresent(score, forKey: .score)
+        try container.encodeIfPresent(disjunctive, forKey: .disjunctive)
+    }
 }

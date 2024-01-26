@@ -2,65 +2,58 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct ConvertedFilters: Codable, JSONEncodable, Hashable {
+    static let eventNameRule = StringRule(minLength: 1, maxLength: 64, pattern: "[\\x20-\\x7E]{1,64}")
+    static let userTokenRule = StringRule(minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
+    static let authenticatedUserTokenRule = StringRule(minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
+    /** The name of the event, up to 64 ASCII characters.  Consider naming events consistently—for example, by adopting Segment's [object-action](https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/#the-object-action-framework) framework.  */
+    public var eventName: String
+    public var eventType: ConversionEvent
+    /** The name of an Algolia index. */
+    public var index: String
+    /** Facet filters.  Each facet filter string must be URL-encoded, such as, `discount:10%25`.  */
+    public var filters: [String]
+    /** An anonymous or pseudonymous user identifier.  > **Note**: Never include personally identifiable information in user tokens.  */
+    public var userToken: String
+    /** An identifier for authenticated users.  > **Note**: Never include personally identifiable information in user tokens.  */
+    public var authenticatedUserToken: String?
+    /** The timestamp of the event in milliseconds in [Unix epoch time](https://wikipedia.org/wiki/Unix_time). By default, the Insights API uses the time it receives an event as its timestamp.  */
+    public var timestamp: Int64?
 
-  static let eventNameRule = StringRule(minLength: 1, maxLength: 64, pattern: "[\\x20-\\x7E]{1,64}")
-  static let userTokenRule = StringRule(
-    minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
-  static let authenticatedUserTokenRule = StringRule(
-    minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
-  /** The name of the event, up to 64 ASCII characters.  Consider naming events consistently—for example, by adopting Segment's [object-action](https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/#the-object-action-framework) framework.  */
-  public var eventName: String
-  public var eventType: ConversionEvent
-  /** The name of an Algolia index. */
-  public var index: String
-  /** Facet filters.  Each facet filter string must be URL-encoded, such as, `discount:10%25`.  */
-  public var filters: [String]
-  /** An anonymous or pseudonymous user identifier.  > **Note**: Never include personally identifiable information in user tokens.  */
-  public var userToken: String
-  /** An identifier for authenticated users.  > **Note**: Never include personally identifiable information in user tokens.  */
-  public var authenticatedUserToken: String?
-  /** The timestamp of the event in milliseconds in [Unix epoch time](https://wikipedia.org/wiki/Unix_time). By default, the Insights API uses the time it receives an event as its timestamp.  */
-  public var timestamp: Int64?
+    public init(eventName: String, eventType: ConversionEvent, index: String, filters: [String], userToken: String, authenticatedUserToken: String? = nil, timestamp: Int64? = nil) {
+        self.eventName = eventName
+        self.eventType = eventType
+        self.index = index
+        self.filters = filters
+        self.userToken = userToken
+        self.authenticatedUserToken = authenticatedUserToken
+        self.timestamp = timestamp
+    }
 
-  public init(
-    eventName: String, eventType: ConversionEvent, index: String, filters: [String],
-    userToken: String, authenticatedUserToken: String? = nil, timestamp: Int64? = nil
-  ) {
-    self.eventName = eventName
-    self.eventType = eventType
-    self.index = index
-    self.filters = filters
-    self.userToken = userToken
-    self.authenticatedUserToken = authenticatedUserToken
-    self.timestamp = timestamp
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case eventName
+        case eventType
+        case index
+        case filters
+        case userToken
+        case authenticatedUserToken
+        case timestamp
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case eventName
-    case eventType
-    case index
-    case filters
-    case userToken
-    case authenticatedUserToken
-    case timestamp
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(eventName, forKey: .eventName)
-    try container.encode(eventType, forKey: .eventType)
-    try container.encode(index, forKey: .index)
-    try container.encode(filters, forKey: .filters)
-    try container.encode(userToken, forKey: .userToken)
-    try container.encodeIfPresent(authenticatedUserToken, forKey: .authenticatedUserToken)
-    try container.encodeIfPresent(timestamp, forKey: .timestamp)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(eventName, forKey: .eventName)
+        try container.encode(eventType, forKey: .eventType)
+        try container.encode(index, forKey: .index)
+        try container.encode(filters, forKey: .filters)
+        try container.encode(userToken, forKey: .userToken)
+        try container.encodeIfPresent(authenticatedUserToken, forKey: .authenticatedUserToken)
+        try container.encodeIfPresent(timestamp, forKey: .timestamp)
+    }
 }

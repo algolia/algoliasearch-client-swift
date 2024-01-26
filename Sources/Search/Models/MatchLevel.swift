@@ -2,14 +2,13 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Indicates how well the attribute matched the search query.
+/** Indicates how well the attribute matched the search query. */
 public enum MatchLevel: String, Codable, CaseIterable {
-  case `none` = "none"
-  case partial = "partial"
-  case full = "full"
+    case none
+    case partial
+    case full
 }

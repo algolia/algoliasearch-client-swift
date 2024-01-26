@@ -2,13 +2,12 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Describe which platform the Authentication is used for.
+/** Describe which platform the Authentication is used for. */
 public enum Platform: String, Codable, CaseIterable {
-  case bigcommerce = "bigcommerce"
-  case commercetools = "commercetools"
+    case bigcommerce
+    case commercetools
 }

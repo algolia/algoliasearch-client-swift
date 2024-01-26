@@ -2,12 +2,11 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// A task which is manually executed via the run task endpoint.
+/** A task which is manually executed via the run task endpoint. */
 public enum OnDemandTriggerType: String, Codable, CaseIterable {
-  case onDemand = "onDemand"
+    case onDemand
 }

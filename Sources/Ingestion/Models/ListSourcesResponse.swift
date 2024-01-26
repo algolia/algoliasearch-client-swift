@@ -2,31 +2,29 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct ListSourcesResponse: Codable, JSONEncodable, Hashable {
+    public var sources: [Source]
+    public var pagination: Pagination
 
-  public var sources: [Source]
-  public var pagination: Pagination
+    public init(sources: [Source], pagination: Pagination) {
+        self.sources = sources
+        self.pagination = pagination
+    }
 
-  public init(sources: [Source], pagination: Pagination) {
-    self.sources = sources
-    self.pagination = pagination
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case sources
+        case pagination
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case sources
-    case pagination
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(sources, forKey: .sources)
-    try container.encode(pagination, forKey: .pagination)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(sources, forKey: .sources)
+        try container.encode(pagination, forKey: .pagination)
+    }
 }

@@ -2,13 +2,12 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// _published_ if the task has been processed, _notPublished_ otherwise.
+/** _published_ if the task has been processed, _notPublished_ otherwise. */
 public enum TaskStatus: String, Codable, CaseIterable {
-  case published = "published"
-  case notPublished = "notPublished"
+    case published
+    case notPublished
 }

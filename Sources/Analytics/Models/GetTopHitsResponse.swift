@@ -2,37 +2,32 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum GetTopHitsResponse: Codable, JSONEncodable, Hashable {
-  case topHitsResponse(TopHitsResponse)
-  case topHitsResponseWithAnalytics(TopHitsResponseWithAnalytics)
+    case topHitsResponse(TopHitsResponse)
+    case topHitsResponseWithAnalytics(TopHitsResponseWithAnalytics)
 
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    switch self {
-    case .topHitsResponse(let value):
-      try container.encode(value)
-    case .topHitsResponseWithAnalytics(let value):
-      try container.encode(value)
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .topHitsResponse(value):
+            try container.encode(value)
+        case let .topHitsResponseWithAnalytics(value):
+            try container.encode(value)
+        }
     }
-  }
 
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    if let value = try? container.decode(TopHitsResponse.self) {
-      self = .topHitsResponse(value)
-    } else if let value = try? container.decode(TopHitsResponseWithAnalytics.self) {
-      self = .topHitsResponseWithAnalytics(value)
-    } else {
-      throw DecodingError.typeMismatch(
-        Self.Type.self,
-        .init(
-          codingPath: decoder.codingPath,
-          debugDescription: "Unable to decode instance of GetTopHitsResponse"))
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(TopHitsResponse.self) {
+            self = .topHitsResponse(value)
+        } else if let value = try? container.decode(TopHitsResponseWithAnalytics.self) {
+            self = .topHitsResponseWithAnalytics(value)
+        } else {
+            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of GetTopHitsResponse"))
+        }
     }
-  }
 }

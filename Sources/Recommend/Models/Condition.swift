@@ -2,45 +2,40 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct Condition: Codable, JSONEncodable, Hashable {
+    /** Query pattern syntax. */
+    public var pattern: String?
+    public var anchoring: Anchoring?
+    /** Whether the pattern matches on plurals, synonyms, and typos. */
+    public var alternatives: Bool?
+    /** Rule context format: [A-Za-z0-9_-]+). */
+    public var context: String?
 
-  /** Query pattern syntax. */
-  public var pattern: String?
-  public var anchoring: Anchoring?
-  /** Whether the pattern matches on plurals, synonyms, and typos. */
-  public var alternatives: Bool?
-  /** Rule context format: [A-Za-z0-9_-]+). */
-  public var context: String?
+    public init(pattern: String? = nil, anchoring: Anchoring? = nil, alternatives: Bool? = nil, context: String? = nil) {
+        self.pattern = pattern
+        self.anchoring = anchoring
+        self.alternatives = alternatives
+        self.context = context
+    }
 
-  public init(
-    pattern: String? = nil, anchoring: Anchoring? = nil, alternatives: Bool? = nil,
-    context: String? = nil
-  ) {
-    self.pattern = pattern
-    self.anchoring = anchoring
-    self.alternatives = alternatives
-    self.context = context
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case pattern
+        case anchoring
+        case alternatives
+        case context
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case pattern
-    case anchoring
-    case alternatives
-    case context
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(pattern, forKey: .pattern)
-    try container.encodeIfPresent(anchoring, forKey: .anchoring)
-    try container.encodeIfPresent(alternatives, forKey: .alternatives)
-    try container.encodeIfPresent(context, forKey: .context)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(pattern, forKey: .pattern)
+        try container.encodeIfPresent(anchoring, forKey: .anchoring)
+        try container.encodeIfPresent(alternatives, forKey: .alternatives)
+        try container.encodeIfPresent(context, forKey: .context)
+    }
 }

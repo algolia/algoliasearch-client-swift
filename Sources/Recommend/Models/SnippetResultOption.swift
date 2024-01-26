@@ -2,33 +2,31 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Snippeted attributes show parts of the matched attributes. Only returned when attributesToSnippet is non-empty.
+/** Snippeted attributes show parts of the matched attributes. Only returned when attributesToSnippet is non-empty. */
 public struct SnippetResultOption: Codable, JSONEncodable, Hashable {
+    /** Markup text with `facetQuery` matches highlighted. */
+    public var value: String
+    public var matchLevel: MatchLevel
 
-  /** Markup text with `facetQuery` matches highlighted. */
-  public var value: String
-  public var matchLevel: MatchLevel
+    public init(value: String, matchLevel: MatchLevel) {
+        self.value = value
+        self.matchLevel = matchLevel
+    }
 
-  public init(value: String, matchLevel: MatchLevel) {
-    self.value = value
-    self.matchLevel = matchLevel
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case value
+        case matchLevel
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case value
-    case matchLevel
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(value, forKey: .value)
-    try container.encode(matchLevel, forKey: .matchLevel)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(value, forKey: .value)
+        try container.encode(matchLevel, forKey: .matchLevel)
+    }
 }

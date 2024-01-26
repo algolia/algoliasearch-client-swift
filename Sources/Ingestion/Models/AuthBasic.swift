@@ -2,32 +2,30 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Authentication input for Basic login with username and password.
+/** Authentication input for Basic login with username and password. */
 public struct AuthBasic: Codable, JSONEncodable, Hashable {
+    public var username: String
+    public var password: String
 
-  public var username: String
-  public var password: String
+    public init(username: String, password: String) {
+        self.username = username
+        self.password = password
+    }
 
-  public init(username: String, password: String) {
-    self.username = username
-    self.password = password
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case username
+        case password
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case username
-    case password
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(username, forKey: .username)
-    try container.encode(password, forKey: .password)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(username, forKey: .username)
+        try container.encode(password, forKey: .password)
+    }
 }

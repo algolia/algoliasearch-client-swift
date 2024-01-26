@@ -2,13 +2,12 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Operation to perform (_move_ or _copy_).
+/** Operation to perform (_move_ or _copy_). */
 public enum OperationType: String, Codable, CaseIterable {
-  case move = "move"
-  case copy = "copy"
+    case move
+    case copy
 }

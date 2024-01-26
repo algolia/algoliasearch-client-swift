@@ -2,14 +2,13 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// The type of the task reflect how it can be used:   - onDemand: a task that runs manually   - schedule: a task that runs regularly, following a given cron expression   - subscription: a task that runs after a subscription event is received from an integration (e.g. Webhook).
+/** The type of the task reflect how it can be used:   - onDemand: a task that runs manually   - schedule: a task that runs regularly, following a given cron expression   - subscription: a task that runs after a subscription event is received from an integration (e.g. Webhook).  */
 public enum TriggerType: String, Codable, CaseIterable {
-  case onDemand = "onDemand"
-  case schedule = "schedule"
-  case subscription = "subscription"
+    case onDemand
+    case schedule
+    case subscription
 }

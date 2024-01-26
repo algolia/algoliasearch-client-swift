@@ -2,33 +2,31 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct MultipleBatchResponse: Codable, JSONEncodable, Hashable {
+    /** TaskIDs per index. */
+    public var taskID: [String: Int64]
+    /** Unique object (record) identifiers. */
+    public var objectIDs: [String]
 
-  /** TaskIDs per index. */
-  public var taskID: [String: Int64]
-  /** Unique object (record) identifiers. */
-  public var objectIDs: [String]
+    public init(taskID: [String: Int64], objectIDs: [String]) {
+        self.taskID = taskID
+        self.objectIDs = objectIDs
+    }
 
-  public init(taskID: [String: Int64], objectIDs: [String]) {
-    self.taskID = taskID
-    self.objectIDs = objectIDs
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case taskID
+        case objectIDs
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case taskID
-    case objectIDs
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(taskID, forKey: .taskID)
-    try container.encode(objectIDs, forKey: .objectIDs)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(taskID, forKey: .taskID)
+        try container.encode(objectIDs, forKey: .objectIDs)
+    }
 }

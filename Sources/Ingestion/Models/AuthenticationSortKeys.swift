@@ -2,16 +2,15 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Used to sort the Authentication list endpoint.
+/** Used to sort the Authentication list endpoint. */
 public enum AuthenticationSortKeys: String, Codable, CaseIterable {
-  case name = "name"
-  case authType = "auth_type"
-  case platform = "platform"
-  case updatedAt = "updatedAt"
-  case createdAt = "createdAt"
+    case name
+    case authType = "auth_type"
+    case platform
+    case updatedAt
+    case createdAt
 }

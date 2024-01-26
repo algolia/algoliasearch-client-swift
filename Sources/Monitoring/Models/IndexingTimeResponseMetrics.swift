@@ -2,27 +2,25 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct IndexingTimeResponseMetrics: Codable, JSONEncodable, Hashable {
+    public var indexing: [String: [TimeInner]]?
 
-  public var indexing: [String: [TimeInner]]?
+    public init(indexing: [String: [TimeInner]]? = nil) {
+        self.indexing = indexing
+    }
 
-  public init(indexing: [String: [TimeInner]]? = nil) {
-    self.indexing = indexing
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case indexing
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case indexing
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(indexing, forKey: .indexing)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(indexing, forKey: .indexing)
+    }
 }

@@ -2,33 +2,31 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// The trigger input for a task of type &#39;schedule&#39;.
+/** The trigger input for a task of type &#39;schedule&#39;. */
 public struct ScheduleTriggerInput: Codable, JSONEncodable, Hashable {
+    public var type: ScheduleTriggerType
+    /** A cron expression that represent at which regularity the task should run. */
+    public var cron: String
 
-  public var type: ScheduleTriggerType
-  /** A cron expression that represent at which regularity the task should run. */
-  public var cron: String
+    public init(type: ScheduleTriggerType, cron: String) {
+        self.type = type
+        self.cron = cron
+    }
 
-  public init(type: ScheduleTriggerType, cron: String) {
-    self.type = type
-    self.cron = cron
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case type
+        case cron
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case type
-    case cron
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(type, forKey: .type)
-    try container.encode(cron, forKey: .cron)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(type, forKey: .type)
+        try container.encode(cron, forKey: .cron)
+    }
 }

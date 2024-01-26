@@ -2,78 +2,70 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Click event after an Algolia request.  Use this event to track when users click items in the search results. If you&#39;re building your category pages with Algolia, you&#39;ll also use this event.
+/** Click event after an Algolia request.  Use this event to track when users click items in the search results. If you&#39;re building your category pages with Algolia, you&#39;ll also use this event.  */
 public struct ClickedObjectIDsAfterSearch: Codable, JSONEncodable, Hashable {
+    static let eventNameRule = StringRule(minLength: 1, maxLength: 64, pattern: "[\\x20-\\x7E]{1,64}")
+    static let queryIDRule = StringRule(minLength: 32, maxLength: 32, pattern: "[0-9a-f]{32}")
+    static let userTokenRule = StringRule(minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
+    static let authenticatedUserTokenRule = StringRule(minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
+    /** The name of the event, up to 64 ASCII characters.  Consider naming events consistently—for example, by adopting Segment's [object-action](https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/#the-object-action-framework) framework.  */
+    public var eventName: String
+    public var eventType: ClickEvent
+    /** The name of an Algolia index. */
+    public var index: String
+    /** The object IDs of the records that are part of the event. */
+    public var objectIDs: [String]
+    /** The position of the clicked item the search results.  The first search result has a position of 1 (not 0). You must provide 1 `position` for each `objectID`.  */
+    public var positions: [Int]
+    /** Unique identifier for a search query.  The query ID is required for events related to search or browse requests. If you add `clickAnalytics: true` as a search request parameter, the query ID is included in the API response.  */
+    public var queryID: String
+    /** An anonymous or pseudonymous user identifier.  > **Note**: Never include personally identifiable information in user tokens.  */
+    public var userToken: String
+    /** An identifier for authenticated users.  > **Note**: Never include personally identifiable information in user tokens.  */
+    public var authenticatedUserToken: String?
+    /** The timestamp of the event in milliseconds in [Unix epoch time](https://wikipedia.org/wiki/Unix_time). By default, the Insights API uses the time it receives an event as its timestamp.  */
+    public var timestamp: Int64?
 
-  static let eventNameRule = StringRule(minLength: 1, maxLength: 64, pattern: "[\\x20-\\x7E]{1,64}")
-  static let queryIDRule = StringRule(minLength: 32, maxLength: 32, pattern: "[0-9a-f]{32}")
-  static let userTokenRule = StringRule(
-    minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
-  static let authenticatedUserTokenRule = StringRule(
-    minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
-  /** The name of the event, up to 64 ASCII characters.  Consider naming events consistently—for example, by adopting Segment's [object-action](https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/#the-object-action-framework) framework.  */
-  public var eventName: String
-  public var eventType: ClickEvent
-  /** The name of an Algolia index. */
-  public var index: String
-  /** The object IDs of the records that are part of the event. */
-  public var objectIDs: [String]
-  /** The position of the clicked item the search results.  The first search result has a position of 1 (not 0). You must provide 1 `position` for each `objectID`.  */
-  public var positions: [Int]
-  /** Unique identifier for a search query.  The query ID is required for events related to search or browse requests. If you add `clickAnalytics: true` as a search request parameter, the query ID is included in the API response.  */
-  public var queryID: String
-  /** An anonymous or pseudonymous user identifier.  > **Note**: Never include personally identifiable information in user tokens.  */
-  public var userToken: String
-  /** An identifier for authenticated users.  > **Note**: Never include personally identifiable information in user tokens.  */
-  public var authenticatedUserToken: String?
-  /** The timestamp of the event in milliseconds in [Unix epoch time](https://wikipedia.org/wiki/Unix_time). By default, the Insights API uses the time it receives an event as its timestamp.  */
-  public var timestamp: Int64?
+    public init(eventName: String, eventType: ClickEvent, index: String, objectIDs: [String], positions: [Int], queryID: String, userToken: String, authenticatedUserToken: String? = nil, timestamp: Int64? = nil) {
+        self.eventName = eventName
+        self.eventType = eventType
+        self.index = index
+        self.objectIDs = objectIDs
+        self.positions = positions
+        self.queryID = queryID
+        self.userToken = userToken
+        self.authenticatedUserToken = authenticatedUserToken
+        self.timestamp = timestamp
+    }
 
-  public init(
-    eventName: String, eventType: ClickEvent, index: String, objectIDs: [String], positions: [Int],
-    queryID: String, userToken: String, authenticatedUserToken: String? = nil,
-    timestamp: Int64? = nil
-  ) {
-    self.eventName = eventName
-    self.eventType = eventType
-    self.index = index
-    self.objectIDs = objectIDs
-    self.positions = positions
-    self.queryID = queryID
-    self.userToken = userToken
-    self.authenticatedUserToken = authenticatedUserToken
-    self.timestamp = timestamp
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case eventName
+        case eventType
+        case index
+        case objectIDs
+        case positions
+        case queryID
+        case userToken
+        case authenticatedUserToken
+        case timestamp
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case eventName
-    case eventType
-    case index
-    case objectIDs
-    case positions
-    case queryID
-    case userToken
-    case authenticatedUserToken
-    case timestamp
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(eventName, forKey: .eventName)
-    try container.encode(eventType, forKey: .eventType)
-    try container.encode(index, forKey: .index)
-    try container.encode(objectIDs, forKey: .objectIDs)
-    try container.encode(positions, forKey: .positions)
-    try container.encode(queryID, forKey: .queryID)
-    try container.encode(userToken, forKey: .userToken)
-    try container.encodeIfPresent(authenticatedUserToken, forKey: .authenticatedUserToken)
-    try container.encodeIfPresent(timestamp, forKey: .timestamp)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(eventName, forKey: .eventName)
+        try container.encode(eventType, forKey: .eventType)
+        try container.encode(index, forKey: .index)
+        try container.encode(objectIDs, forKey: .objectIDs)
+        try container.encode(positions, forKey: .positions)
+        try container.encode(queryID, forKey: .queryID)
+        try container.encode(userToken, forKey: .userToken)
+        try container.encodeIfPresent(authenticatedUserToken, forKey: .authenticatedUserToken)
+        try container.encodeIfPresent(timestamp, forKey: .timestamp)
+    }
 }

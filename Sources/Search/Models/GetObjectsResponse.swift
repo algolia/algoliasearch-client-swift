@@ -2,28 +2,26 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct GetObjectsResponse: Codable, JSONEncodable, Hashable {
+    /** Retrieved results. */
+    public var results: [AnyCodable]
 
-  /** Retrieved results. */
-  public var results: [AnyCodable]
+    public init(results: [AnyCodable]) {
+        self.results = results
+    }
 
-  public init(results: [AnyCodable]) {
-    self.results = results
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case results
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case results
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(results, forKey: .results)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(results, forKey: .results)
+    }
 }

@@ -2,15 +2,14 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Strategy to [remove words](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/empty-or-insufficient-results/in-depth/why-use-remove-words-if-no-results/) from the query when it doesn&#39;t match any hits.
+/** Strategy to [remove words](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/empty-or-insufficient-results/in-depth/why-use-remove-words-if-no-results/) from the query when it doesn&#39;t match any hits. */
 public enum RemoveWordsIfNoResults: String, Codable, CaseIterable {
-  case `none` = "none"
-  case lastWords = "lastWords"
-  case firstWords = "firstWords"
-  case allOptional = "allOptional"
+    case none
+    case lastWords
+    case firstWords
+    case allOptional
 }

@@ -2,44 +2,39 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Payload to partially update an Authentication.
+/** Payload to partially update an Authentication. */
 public struct AuthenticationUpdate: Codable, JSONEncodable, Hashable {
+    public var type: AuthenticationType?
+    /** An human readable name describing the object. */
+    public var name: String?
+    public var platform: Platform?
+    public var input: AuthInputPartial?
 
-  public var type: AuthenticationType?
-  /** An human readable name describing the object. */
-  public var name: String?
-  public var platform: Platform?
-  public var input: AuthInputPartial?
+    public init(type: AuthenticationType? = nil, name: String? = nil, platform: Platform? = nil, input: AuthInputPartial? = nil) {
+        self.type = type
+        self.name = name
+        self.platform = platform
+        self.input = input
+    }
 
-  public init(
-    type: AuthenticationType? = nil, name: String? = nil, platform: Platform? = nil,
-    input: AuthInputPartial? = nil
-  ) {
-    self.type = type
-    self.name = name
-    self.platform = platform
-    self.input = input
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case type
+        case name
+        case platform
+        case input
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case type
-    case name
-    case platform
-    case input
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(type, forKey: .type)
-    try container.encodeIfPresent(name, forKey: .name)
-    try container.encodeIfPresent(platform, forKey: .platform)
-    try container.encodeIfPresent(input, forKey: .input)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(platform, forKey: .platform)
+        try container.encodeIfPresent(input, forKey: .input)
+    }
 }

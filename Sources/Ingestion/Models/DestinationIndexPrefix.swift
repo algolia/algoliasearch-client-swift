@@ -2,28 +2,26 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct DestinationIndexPrefix: Codable, JSONEncodable, Hashable {
+    /** The prefix of the final index name. */
+    public var indexPrefix: String
 
-  /** The prefix of the final index name. */
-  public var indexPrefix: String
+    public init(indexPrefix: String) {
+        self.indexPrefix = indexPrefix
+    }
 
-  public init(indexPrefix: String) {
-    self.indexPrefix = indexPrefix
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case indexPrefix
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case indexPrefix
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(indexPrefix, forKey: .indexPrefix)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(indexPrefix, forKey: .indexPrefix)
+    }
 }

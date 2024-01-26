@@ -2,35 +2,33 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct ListEventsResponse: Codable, JSONEncodable, Hashable {
+    public var events: [Event]
+    public var pagination: Pagination
+    public var window: Window
 
-  public var events: [Event]
-  public var pagination: Pagination
-  public var window: Window
+    public init(events: [Event], pagination: Pagination, window: Window) {
+        self.events = events
+        self.pagination = pagination
+        self.window = window
+    }
 
-  public init(events: [Event], pagination: Pagination, window: Window) {
-    self.events = events
-    self.pagination = pagination
-    self.window = window
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case events
+        case pagination
+        case window
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case events
-    case pagination
-    case window
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(events, forKey: .events)
-    try container.encode(pagination, forKey: .pagination)
-    try container.encode(window, forKey: .window)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(events, forKey: .events)
+        try container.encode(pagination, forKey: .pagination)
+        try container.encode(window, forKey: .window)
+    }
 }

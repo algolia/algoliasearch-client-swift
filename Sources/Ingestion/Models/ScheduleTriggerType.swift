@@ -2,12 +2,11 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// A task which is triggered by a schedule (cron expression).
+/** A task which is triggered by a schedule (cron expression). */
 public enum ScheduleTriggerType: String, Codable, CaseIterable {
-  case schedule = "schedule"
+    case schedule
 }

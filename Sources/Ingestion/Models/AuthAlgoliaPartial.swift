@@ -2,33 +2,31 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct AuthAlgoliaPartial: Codable, JSONEncodable, Hashable {
+    /** Algolia Application ID. */
+    public var appID: String?
+    /** Algolia API Key, with the correct rights to push to an index and change settings. */
+    public var apiKey: String?
 
-  /** Algolia Application ID. */
-  public var appID: String?
-  /** Algolia API Key, with the correct rights to push to an index and change settings. */
-  public var apiKey: String?
+    public init(appID: String? = nil, apiKey: String? = nil) {
+        self.appID = appID
+        self.apiKey = apiKey
+    }
 
-  public init(appID: String? = nil, apiKey: String? = nil) {
-    self.appID = appID
-    self.apiKey = apiKey
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case appID
+        case apiKey
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case appID
-    case apiKey
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(appID, forKey: .appID)
-    try container.encodeIfPresent(apiKey, forKey: .apiKey)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(appID, forKey: .appID)
+        try container.encodeIfPresent(apiKey, forKey: .apiKey)
+    }
 }

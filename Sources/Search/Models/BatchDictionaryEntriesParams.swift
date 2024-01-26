@@ -2,37 +2,32 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// &#x60;batchDictionaryEntries&#x60; parameters.
+/** &#x60;batchDictionaryEntries&#x60; parameters.  */
 public struct BatchDictionaryEntriesParams: Codable, JSONEncodable, Hashable {
+    /** Incidates whether to replace all custom entries in the dictionary with the ones sent with this request. */
+    public var clearExistingDictionaryEntries: Bool?
+    /** Operations to batch. */
+    public var requests: [BatchDictionaryEntriesRequest]
 
-  /** Incidates whether to replace all custom entries in the dictionary with the ones sent with this request. */
-  public var clearExistingDictionaryEntries: Bool?
-  /** Operations to batch. */
-  public var requests: [BatchDictionaryEntriesRequest]
+    public init(clearExistingDictionaryEntries: Bool? = nil, requests: [BatchDictionaryEntriesRequest]) {
+        self.clearExistingDictionaryEntries = clearExistingDictionaryEntries
+        self.requests = requests
+    }
 
-  public init(
-    clearExistingDictionaryEntries: Bool? = nil, requests: [BatchDictionaryEntriesRequest]
-  ) {
-    self.clearExistingDictionaryEntries = clearExistingDictionaryEntries
-    self.requests = requests
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case clearExistingDictionaryEntries
+        case requests
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case clearExistingDictionaryEntries
-    case requests
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(
-      clearExistingDictionaryEntries, forKey: .clearExistingDictionaryEntries)
-    try container.encode(requests, forKey: .requests)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(clearExistingDictionaryEntries, forKey: .clearExistingDictionaryEntries)
+        try container.encode(requests, forKey: .requests)
+    }
 }

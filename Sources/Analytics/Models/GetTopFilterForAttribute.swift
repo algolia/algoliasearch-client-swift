@@ -2,43 +2,41 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct GetTopFilterForAttribute: Codable, JSONEncodable, Hashable {
+    /** Attribute name. */
+    public var attribute: String
+    /** Operator. */
+    public var `operator`: String
+    /** Attribute value. */
+    public var value: String
+    /** Number of occurrences. */
+    public var count: Int
 
-  /** Attribute name. */
-  public var attribute: String
-  /** Operator. */
-  public var `operator`: String
-  /** Attribute value. */
-  public var value: String
-  /** Number of occurrences. */
-  public var count: Int
+    public init(attribute: String, operator: String, value: String, count: Int) {
+        self.attribute = attribute
+        self.operator = `operator`
+        self.value = value
+        self.count = count
+    }
 
-  public init(attribute: String, `operator`: String, value: String, count: Int) {
-    self.attribute = attribute
-    self.`operator` = `operator`
-    self.value = value
-    self.count = count
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case attribute
+        case `operator`
+        case value
+        case count
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case attribute
-    case `operator` = "operator"
-    case value
-    case count
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(attribute, forKey: .attribute)
-    try container.encode(`operator`, forKey: .`operator`)
-    try container.encode(value, forKey: .value)
-    try container.encode(count, forKey: .count)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(attribute, forKey: .attribute)
+        try container.encode(`operator`, forKey: .operator)
+        try container.encode(value, forKey: .value)
+        try container.encode(count, forKey: .count)
+    }
 }

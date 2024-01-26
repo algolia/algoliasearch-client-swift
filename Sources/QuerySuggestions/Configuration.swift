@@ -2,65 +2,56 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct Configuration: Core.Configuration, Credentials {
-
-  private let authorizedRegions: [Region] = [
-    Region.eu, Region.us,
-  ]
-
-  public let applicationID: String
-  public let apiKey: String
-  public var writeTimeout: TimeInterval
-  public var readTimeout: TimeInterval
-  public var logLevel: LogLevel
-  public var defaultHeaders: [String: String]?
-  public var hosts: [RetryableHost]
-
-  init(
-    applicationID: String,
-    apiKey: String,
-    region: Region,
-    writeTimeout: TimeInterval = DefaultConfiguration.default.writeTimeout,
-    readTimeout: TimeInterval = DefaultConfiguration.default.readTimeout,
-    logLevel: LogLevel = DefaultConfiguration.default.logLevel,
-    defaultHeaders: [String: String]? = DefaultConfiguration.default.defaultHeaders
-  ) throws {
-    self.applicationID = applicationID
-    self.apiKey = apiKey
-    self.writeTimeout = writeTimeout
-    self.readTimeout = readTimeout
-    self.logLevel = logLevel
-    self.defaultHeaders = [
-      "X-Algolia-Application-Id": applicationID,
-      "X-Algolia-API-Key": apiKey,
-      "Content-Type": "application/json",
-    ].merging(defaultHeaders ?? [:]) { (_, new) in new }
-
-    guard authorizedRegions.contains(region) else {
-      throw GenericError(
-        description:
-          "`region` is required and must be one of the following: \(authorizedRegions.map { $0.rawValue }.joined(separator: ", "))"
-      )
-    }
-
-    guard
-      let url = URL(
-        string: "https://query-suggestions.{region}.algolia.com".replacingOccurrences(
-          of: "{region}", with: region.rawValue))
-    else {
-      throw GenericError(description: "Malformed URL")
-    }
-
-    self.hosts = [
-      .init(url: url)
+    private let authorizedRegions: [Region] = [
+        Region.eu, Region.us,
     ]
 
-    UserAgentController.append(
-      UserAgent(title: "QuerySuggestions", version: Version.current.description))
-  }
+    public let applicationID: String
+    public let apiKey: String
+    public var writeTimeout: TimeInterval
+    public var readTimeout: TimeInterval
+    public var logLevel: LogLevel
+    public var defaultHeaders: [String: String]?
+    public var hosts: [RetryableHost]
+
+    init(applicationID: String,
+         apiKey: String,
+         region: Region,
+         writeTimeout: TimeInterval = DefaultConfiguration.default.writeTimeout,
+         readTimeout: TimeInterval = DefaultConfiguration.default.readTimeout,
+         logLevel: LogLevel = DefaultConfiguration.default.logLevel,
+         defaultHeaders: [String: String]? = DefaultConfiguration.default.defaultHeaders) throws
+    {
+        self.applicationID = applicationID
+        self.apiKey = apiKey
+        self.writeTimeout = writeTimeout
+        self.readTimeout = readTimeout
+        self.logLevel = logLevel
+        self.defaultHeaders = [
+            "X-Algolia-Application-Id": applicationID,
+            "X-Algolia-API-Key": apiKey,
+            "Content-Type": "application/json",
+        ].merging(defaultHeaders ?? [:]) { _, new in new }
+
+        guard authorizedRegions.contains(region) else {
+            throw GenericError(description:
+                "`region` is required and must be one of the following: \(authorizedRegions.map(\.rawValue).joined(separator: ", "))"
+            )
+        }
+
+        guard let url = URL(string: "https://query-suggestions.{region}.algolia.com".replacingOccurrences(of: "{region}", with: region.rawValue)) else {
+            throw GenericError(description: "Malformed URL")
+        }
+
+        hosts = [
+            .init(url: url),
+        ]
+
+        UserAgentController.append(UserAgent(title: "QuerySuggestions", version: Version.current.description))
+    }
 }

@@ -2,12 +2,11 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum AdvancedSyntaxFeatures: String, Codable, CaseIterable {
-  case exactPhrase = "exactPhrase"
-  case excludeWords = "excludeWords"
+    case exactPhrase
+    case excludeWords
 }

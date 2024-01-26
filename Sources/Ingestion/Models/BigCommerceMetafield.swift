@@ -2,33 +2,31 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct BigCommerceMetafield: Codable, JSONEncodable, Hashable {
+    /** The namespace of the metafield. */
+    public var namespace: String
+    /** The key identifier of the metafield. */
+    public var key: String
 
-  /** The namespace of the metafield. */
-  public var namespace: String
-  /** The key identifier of the metafield. */
-  public var key: String
+    public init(namespace: String, key: String) {
+        self.namespace = namespace
+        self.key = key
+    }
 
-  public init(namespace: String, key: String) {
-    self.namespace = namespace
-    self.key = key
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case namespace
+        case key
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case namespace
-    case key
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(namespace, forKey: .namespace)
-    try container.encode(key, forKey: .key)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(namespace, forKey: .namespace)
+        try container.encode(key, forKey: .key)
+    }
 }

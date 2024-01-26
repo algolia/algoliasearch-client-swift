@@ -2,48 +2,42 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct SourceBigCommerce: Codable, JSONEncodable, Hashable {
+    /** The store hash identifying the store the shopper is signing in to. */
+    public var storeHash: String?
+    public var channel: BigCommerceChannel?
+    public var customFields: [String]?
+    public var productMetafields: [BigCommerceMetafield]?
+    public var variantMetafields: [BigCommerceMetafield]?
 
-  /** The store hash identifying the store the shopper is signing in to. */
-  public var storeHash: String?
-  public var channel: BigCommerceChannel?
-  public var customFields: [String]?
-  public var productMetafields: [BigCommerceMetafield]?
-  public var variantMetafields: [BigCommerceMetafield]?
+    public init(storeHash: String? = nil, channel: BigCommerceChannel? = nil, customFields: [String]? = nil, productMetafields: [BigCommerceMetafield]? = nil, variantMetafields: [BigCommerceMetafield]? = nil) {
+        self.storeHash = storeHash
+        self.channel = channel
+        self.customFields = customFields
+        self.productMetafields = productMetafields
+        self.variantMetafields = variantMetafields
+    }
 
-  public init(
-    storeHash: String? = nil, channel: BigCommerceChannel? = nil, customFields: [String]? = nil,
-    productMetafields: [BigCommerceMetafield]? = nil,
-    variantMetafields: [BigCommerceMetafield]? = nil
-  ) {
-    self.storeHash = storeHash
-    self.channel = channel
-    self.customFields = customFields
-    self.productMetafields = productMetafields
-    self.variantMetafields = variantMetafields
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case storeHash
+        case channel
+        case customFields
+        case productMetafields
+        case variantMetafields
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case storeHash
-    case channel
-    case customFields
-    case productMetafields
-    case variantMetafields
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(storeHash, forKey: .storeHash)
-    try container.encodeIfPresent(channel, forKey: .channel)
-    try container.encodeIfPresent(customFields, forKey: .customFields)
-    try container.encodeIfPresent(productMetafields, forKey: .productMetafields)
-    try container.encodeIfPresent(variantMetafields, forKey: .variantMetafields)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(storeHash, forKey: .storeHash)
+        try container.encodeIfPresent(channel, forKey: .channel)
+        try container.encodeIfPresent(customFields, forKey: .customFields)
+        try container.encodeIfPresent(productMetafields, forKey: .productMetafields)
+        try container.encodeIfPresent(variantMetafields, forKey: .variantMetafields)
+    }
 }

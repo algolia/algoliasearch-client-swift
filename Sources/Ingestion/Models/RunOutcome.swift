@@ -2,13 +2,12 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum RunOutcome: String, Codable, CaseIterable {
-  case success = "success"
-  case failure = "failure"
-  case processing = "processing"
+    case success
+    case failure
+    case processing
 }

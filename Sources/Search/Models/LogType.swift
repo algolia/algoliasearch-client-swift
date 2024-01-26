@@ -2,14 +2,13 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum LogType: String, Codable, CaseIterable {
-  case all = "all"
-  case query = "query"
-  case build = "build"
-  case error = "error"
+    case all
+    case query
+    case build
+    case error
 }

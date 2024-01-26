@@ -2,11 +2,10 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum ClickEvent: String, Codable, CaseIterable {
-  case click = "click"
+    case click
 }

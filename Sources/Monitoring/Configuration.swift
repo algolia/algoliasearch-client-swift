@@ -2,63 +2,60 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct Configuration: Core.Configuration, Credentials {
+    public let applicationID: String
+    public let apiKey: String
+    public var writeTimeout: TimeInterval
+    public var readTimeout: TimeInterval
+    public var logLevel: LogLevel
+    public var defaultHeaders: [String: String]?
+    public var hosts: [RetryableHost]
 
-  public let applicationID: String
-  public let apiKey: String
-  public var writeTimeout: TimeInterval
-  public var readTimeout: TimeInterval
-  public var logLevel: LogLevel
-  public var defaultHeaders: [String: String]?
-  public var hosts: [RetryableHost]
-
-  init(
-    applicationID: String,
-    apiKey: String,
-    writeTimeout: TimeInterval = DefaultConfiguration.default.writeTimeout,
-    readTimeout: TimeInterval = DefaultConfiguration.default.readTimeout,
-    logLevel: LogLevel = DefaultConfiguration.default.logLevel,
-    defaultHeaders: [String: String]? = DefaultConfiguration.default.defaultHeaders
-  ) throws {
-    self.applicationID = applicationID
-    self.apiKey = apiKey
-    self.writeTimeout = writeTimeout
-    self.readTimeout = readTimeout
-    self.logLevel = logLevel
-    self.defaultHeaders = [
-      "X-Algolia-Application-Id": applicationID,
-      "X-Algolia-API-Key": apiKey,
-      "Content-Type": "application/json",
-    ].merging(defaultHeaders ?? [:]) { (_, new) in new }
-
-    func buildHost(_ components: (suffix: String, callType: RetryableHost.CallTypeSupport)) throws
-      -> RetryableHost
+    init(applicationID: String,
+         apiKey: String,
+         writeTimeout: TimeInterval = DefaultConfiguration.default.writeTimeout,
+         readTimeout: TimeInterval = DefaultConfiguration.default.readTimeout,
+         logLevel: LogLevel = DefaultConfiguration.default.logLevel,
+         defaultHeaders: [String: String]? = DefaultConfiguration.default.defaultHeaders) throws
     {
-      guard let url = URL(string: "https://\(applicationID)\(components.suffix)") else {
-        throw GenericError(description: "Malformed URL")
-      }
+        self.applicationID = applicationID
+        self.apiKey = apiKey
+        self.writeTimeout = writeTimeout
+        self.readTimeout = readTimeout
+        self.logLevel = logLevel
+        self.defaultHeaders = [
+            "X-Algolia-Application-Id": applicationID,
+            "X-Algolia-API-Key": apiKey,
+            "Content-Type": "application/json",
+        ].merging(defaultHeaders ?? [:]) { _, new in new }
 
-      return RetryableHost(url: url, callType: components.callType)
+        func buildHost(_ components: (suffix: String, callType: RetryableHost.CallTypeSupport)) throws
+            -> RetryableHost
+        {
+            guard let url = URL(string: "https://\(applicationID)\(components.suffix)") else {
+                throw GenericError(description: "Malformed URL")
+            }
+
+            return RetryableHost(url: url, callType: components.callType)
+        }
+
+        let hosts = try [
+            ("-dsn.algolia.net", .read),
+            (".algolia.net", .write),
+        ].map(buildHost)
+
+        let commonHosts = try [
+            ("-1.algolianet.com", .universal),
+            ("-2.algolianet.com", .universal),
+            ("-3.algolianet.com", .universal),
+        ].map(buildHost).shuffled()
+
+        self.hosts = hosts + commonHosts
+
+        UserAgentController.append(UserAgent(title: "Monitoring", version: Version.current.description))
     }
-
-    let hosts = try [
-      ("-dsn.algolia.net", .read),
-      (".algolia.net", .write),
-    ].map(buildHost)
-
-    let commonHosts = try [
-      ("-1.algolianet.com", .universal),
-      ("-2.algolianet.com", .universal),
-      ("-3.algolianet.com", .universal),
-    ].map(buildHost).shuffled()
-
-    self.hosts = hosts + commonHosts
-
-    UserAgentController.append(UserAgent(title: "Monitoring", version: Version.current.description))
-  }
 }

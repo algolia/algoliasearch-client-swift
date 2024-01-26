@@ -2,12 +2,11 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Used to filter Authentication without platform property.
+/** Used to filter Authentication without platform property. */
 public enum PlatformNone: String, Codable, CaseIterable {
-  case `none` = "none"
+    case none
 }

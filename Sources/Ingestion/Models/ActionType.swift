@@ -2,14 +2,13 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// The action to perform on the Algolia index.
+/** The action to perform on the Algolia index. */
 public enum ActionType: String, Codable, CaseIterable {
-  case replace = "replace"
-  case save = "save"
-  case partial = "partial"
+    case replace
+    case save
+    case partial
 }

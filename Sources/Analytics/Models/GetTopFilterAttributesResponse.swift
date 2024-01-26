@@ -2,28 +2,26 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct GetTopFilterAttributesResponse: Codable, JSONEncodable, Hashable {
+    /** Filterable attributes. */
+    public var attributes: [GetTopFilterAttribute]
 
-  /** Filterable attributes. */
-  public var attributes: [GetTopFilterAttribute]
+    public init(attributes: [GetTopFilterAttribute]) {
+        self.attributes = attributes
+    }
 
-  public init(attributes: [GetTopFilterAttribute]) {
-    self.attributes = attributes
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case attributes
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case attributes
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(attributes, forKey: .attributes)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(attributes, forKey: .attributes)
+    }
 }

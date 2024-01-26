@@ -2,14 +2,13 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// The type of the image.
+/** The type of the image. */
 public enum DockerImageType: String, Codable, CaseIterable {
-  case singer = "singer"
-  case custom = "custom"
-  case airbyte = "airbyte"
+    case singer
+    case custom
+    case airbyte
 }

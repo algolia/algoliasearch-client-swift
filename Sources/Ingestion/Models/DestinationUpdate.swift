@@ -2,44 +2,39 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Payload to partially update a Destination.
+/** Payload to partially update a Destination. */
 public struct DestinationUpdate: Codable, JSONEncodable, Hashable {
+    public var type: DestinationType?
+    /** An human readable name describing the object. */
+    public var name: String?
+    public var input: DestinationInput?
+    public var authenticationID: String?
 
-  public var type: DestinationType?
-  /** An human readable name describing the object. */
-  public var name: String?
-  public var input: DestinationInput?
-  public var authenticationID: String?
+    public init(type: DestinationType? = nil, name: String? = nil, input: DestinationInput? = nil, authenticationID: String? = nil) {
+        self.type = type
+        self.name = name
+        self.input = input
+        self.authenticationID = authenticationID
+    }
 
-  public init(
-    type: DestinationType? = nil, name: String? = nil, input: DestinationInput? = nil,
-    authenticationID: String? = nil
-  ) {
-    self.type = type
-    self.name = name
-    self.input = input
-    self.authenticationID = authenticationID
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case type
+        case name
+        case input
+        case authenticationID
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case type
-    case name
-    case input
-    case authenticationID
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(type, forKey: .type)
-    try container.encodeIfPresent(name, forKey: .name)
-    try container.encodeIfPresent(input, forKey: .input)
-    try container.encodeIfPresent(authenticationID, forKey: .authenticationID)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(type, forKey: .type)
+        try container.encodeIfPresent(name, forKey: .name)
+        try container.encodeIfPresent(input, forKey: .input)
+        try container.encodeIfPresent(authenticationID, forKey: .authenticationID)
+    }
 }

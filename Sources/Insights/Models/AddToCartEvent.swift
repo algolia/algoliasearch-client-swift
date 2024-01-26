@@ -2,11 +2,10 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum AddToCartEvent: String, Codable, CaseIterable {
-  case addToCart = "addToCart"
+    case addToCart
 }

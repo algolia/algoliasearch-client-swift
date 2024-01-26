@@ -2,38 +2,36 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct LogQuery: Codable, JSONEncodable, Hashable {
+    /** Index targeted by the query. */
+    public var indexName: String?
+    /** User identifier. */
+    public var userToken: String?
+    /** Unique query identifier. */
+    public var queryId: String?
 
-  /** Index targeted by the query. */
-  public var indexName: String?
-  /** User identifier. */
-  public var userToken: String?
-  /** Unique query identifier. */
-  public var queryId: String?
+    public init(indexName: String? = nil, userToken: String? = nil, queryId: String? = nil) {
+        self.indexName = indexName
+        self.userToken = userToken
+        self.queryId = queryId
+    }
 
-  public init(indexName: String? = nil, userToken: String? = nil, queryId: String? = nil) {
-    self.indexName = indexName
-    self.userToken = userToken
-    self.queryId = queryId
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case indexName = "index_name"
+        case userToken = "user_token"
+        case queryId = "query_id"
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case indexName = "index_name"
-    case userToken = "user_token"
-    case queryId = "query_id"
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(indexName, forKey: .indexName)
-    try container.encodeIfPresent(userToken, forKey: .userToken)
-    try container.encodeIfPresent(queryId, forKey: .queryId)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(indexName, forKey: .indexName)
+        try container.encodeIfPresent(userToken, forKey: .userToken)
+        try container.encodeIfPresent(queryId, forKey: .queryId)
+    }
 }

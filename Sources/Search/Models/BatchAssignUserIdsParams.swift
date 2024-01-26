@@ -2,34 +2,32 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Assign userID parameters.
+/** Assign userID parameters. */
 public struct BatchAssignUserIdsParams: Codable, JSONEncodable, Hashable {
+    /** Cluster name. */
+    public var cluster: String
+    /** User IDs to assign. */
+    public var users: [String]
 
-  /** Cluster name. */
-  public var cluster: String
-  /** User IDs to assign. */
-  public var users: [String]
+    public init(cluster: String, users: [String]) {
+        self.cluster = cluster
+        self.users = users
+    }
 
-  public init(cluster: String, users: [String]) {
-    self.cluster = cluster
-    self.users = users
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case cluster
+        case users
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case cluster
-    case users
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(cluster, forKey: .cluster)
-    try container.encode(users, forKey: .users)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(cluster, forKey: .cluster)
+        try container.encode(users, forKey: .users)
+    }
 }

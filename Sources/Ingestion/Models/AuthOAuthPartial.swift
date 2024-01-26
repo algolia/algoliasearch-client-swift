@@ -2,39 +2,37 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Authentication input for OAuth login.
+/** Authentication input for OAuth login. */
 public struct AuthOAuthPartial: Codable, JSONEncodable, Hashable {
+    /** The OAuth endpoint URL. */
+    public var url: String?
+    /** The clientID. */
+    public var clientId: String?
+    /** The secret. */
+    public var clientSecret: String?
 
-  /** The OAuth endpoint URL. */
-  public var url: String?
-  /** The clientID. */
-  public var clientId: String?
-  /** The secret. */
-  public var clientSecret: String?
+    public init(url: String? = nil, clientId: String? = nil, clientSecret: String? = nil) {
+        self.url = url
+        self.clientId = clientId
+        self.clientSecret = clientSecret
+    }
 
-  public init(url: String? = nil, clientId: String? = nil, clientSecret: String? = nil) {
-    self.url = url
-    self.clientId = clientId
-    self.clientSecret = clientSecret
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case url
+        case clientId = "client_id"
+        case clientSecret = "client_secret"
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case url
-    case clientId = "client_id"
-    case clientSecret = "client_secret"
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(url, forKey: .url)
-    try container.encodeIfPresent(clientId, forKey: .clientId)
-    try container.encodeIfPresent(clientSecret, forKey: .clientSecret)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(url, forKey: .url)
+        try container.encodeIfPresent(clientId, forKey: .clientId)
+        try container.encodeIfPresent(clientSecret, forKey: .clientSecret)
+    }
 }

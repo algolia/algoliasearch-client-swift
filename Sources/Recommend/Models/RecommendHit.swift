@@ -2,128 +2,117 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Recommend hit.
+/** Recommend hit. */
 public struct RecommendHit: Codable, JSONEncodable, Hashable {
+    static let scoreRule = NumericRule<Double>(minimum: 0, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
+    /** Unique object identifier. */
+    public var objectID: String
+    /** Show highlighted section and words matched on a query. */
+    public var highlightResult: [String: HighlightResult]?
+    /** Snippeted attributes show parts of the matched attributes. Only returned when attributesToSnippet is non-empty. */
+    public var snippetResult: [String: SnippetResult]?
+    public var rankingInfo: RankingInfo?
+    public var distinctSeqID: Int?
+    /** Recommendation score. */
+    public var score: Double
 
-  static let scoreRule = NumericRule<Double>(
-    minimum: 0, exclusiveMinimum: false, maximum: 100, exclusiveMaximum: false, multipleOf: nil)
-  /** Unique object identifier. */
-  public var objectID: String
-  /** Show highlighted section and words matched on a query. */
-  public var highlightResult: [String: HighlightResult]?
-  /** Snippeted attributes show parts of the matched attributes. Only returned when attributesToSnippet is non-empty. */
-  public var snippetResult: [String: SnippetResult]?
-  public var rankingInfo: RankingInfo?
-  public var distinctSeqID: Int?
-  /** Recommendation score. */
-  public var score: Double
-
-  public init(
-    objectID: String, highlightResult: [String: HighlightResult]? = nil,
-    snippetResult: [String: SnippetResult]? = nil, rankingInfo: RankingInfo? = nil,
-    distinctSeqID: Int? = nil, score: Double
-  ) {
-    self.objectID = objectID
-    self.highlightResult = highlightResult
-    self.snippetResult = snippetResult
-    self.rankingInfo = rankingInfo
-    self.distinctSeqID = distinctSeqID
-    self.score = score
-  }
-
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case objectID
-    case highlightResult = "_highlightResult"
-    case snippetResult = "_snippetResult"
-    case rankingInfo = "_rankingInfo"
-    case distinctSeqID = "_distinctSeqID"
-    case score = "_score"
-  }
-
-  public var additionalProperties: [String: AnyCodable] = [:]
-
-  public subscript(key: String) -> AnyCodable? {
-    get {
-      if let value = additionalProperties[key] {
-        return value
-      }
-      return nil
+    public init(objectID: String, highlightResult: [String: HighlightResult]? = nil, snippetResult: [String: SnippetResult]? = nil, rankingInfo: RankingInfo? = nil, distinctSeqID: Int? = nil, score: Double) {
+        self.objectID = objectID
+        self.highlightResult = highlightResult
+        self.snippetResult = snippetResult
+        self.rankingInfo = rankingInfo
+        self.distinctSeqID = distinctSeqID
+        self.score = score
     }
 
-    set {
-      additionalProperties[key] = newValue
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case objectID
+        case highlightResult = "_highlightResult"
+        case snippetResult = "_snippetResult"
+        case rankingInfo = "_rankingInfo"
+        case distinctSeqID = "_distinctSeqID"
+        case score = "_score"
     }
-  }
 
-  public init(from dictionary: [String: AnyCodable]) throws {
+    public var additionalProperties: [String: AnyCodable] = [:]
 
-    guard let objectID = dictionary["objectID"]?.value as? String else {
-      throw GenericError(description: "Failed to cast")
+    public subscript(key: String) -> AnyCodable? {
+        get {
+            if let value = additionalProperties[key] {
+                return value
+            }
+            return nil
+        }
+
+        set {
+            additionalProperties[key] = newValue
+        }
     }
-    self.objectID = objectID
-    self.highlightResult = dictionary["highlightResult"]?.value as? [String: HighlightResult]
 
-    self.snippetResult = dictionary["snippetResult"]?.value as? [String: SnippetResult]
+    public init(from dictionary: [String: AnyCodable]) throws {
+        guard let objectID = dictionary["objectID"]?.value as? String else {
+            throw GenericError(description: "Failed to cast")
+        }
+        self.objectID = objectID
+        highlightResult = dictionary["highlightResult"]?.value as? [String: HighlightResult]
 
-    self.rankingInfo = dictionary["rankingInfo"]?.value as? RankingInfo
+        snippetResult = dictionary["snippetResult"]?.value as? [String: SnippetResult]
 
-    self.distinctSeqID = dictionary["distinctSeqID"]?.value as? Int
+        rankingInfo = dictionary["rankingInfo"]?.value as? RankingInfo
 
-    guard let score = dictionary["score"]?.value as? Double else {
-      throw GenericError(description: "Failed to cast")
+        distinctSeqID = dictionary["distinctSeqID"]?.value as? Int
+
+        guard let score = dictionary["score"]?.value as? Double else {
+            throw GenericError(description: "Failed to cast")
+        }
+        self.score = score
+        for (key, value) in dictionary {
+            switch key {
+            case "objectID", "highlightResult", "snippetResult", "rankingInfo", "distinctSeqID", "score":
+                continue
+            default:
+                additionalProperties[key] = value
+            }
+        }
     }
-    self.score = score
-    for (key, value) in dictionary {
-      switch key {
-      case "objectID", "highlightResult", "snippetResult", "rankingInfo", "distinctSeqID", "score":
-        continue
-      default:
-        self.additionalProperties[key] = value
-      }
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(objectID, forKey: .objectID)
+        try container.encodeIfPresent(highlightResult, forKey: .highlightResult)
+        try container.encodeIfPresent(snippetResult, forKey: .snippetResult)
+        try container.encodeIfPresent(rankingInfo, forKey: .rankingInfo)
+        try container.encodeIfPresent(distinctSeqID, forKey: .distinctSeqID)
+        try container.encode(score, forKey: .score)
+        var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
+        try additionalPropertiesContainer.encodeMap(additionalProperties)
     }
-  }
 
-  // Encodable protocol methods
+    // Decodable protocol methods
 
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(objectID, forKey: .objectID)
-    try container.encodeIfPresent(highlightResult, forKey: .highlightResult)
-    try container.encodeIfPresent(snippetResult, forKey: .snippetResult)
-    try container.encodeIfPresent(rankingInfo, forKey: .rankingInfo)
-    try container.encodeIfPresent(distinctSeqID, forKey: .distinctSeqID)
-    try container.encode(score, forKey: .score)
-    var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
-    try additionalPropertiesContainer.encodeMap(additionalProperties)
-  }
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
 
-  // Decodable protocol methods
-
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-
-    objectID = try container.decode(String.self, forKey: .objectID)
-    highlightResult = try container.decodeIfPresent(
-      [String: HighlightResult].self, forKey: .highlightResult)
-    snippetResult = try container.decodeIfPresent(
-      [String: SnippetResult].self, forKey: .snippetResult)
-    rankingInfo = try container.decodeIfPresent(RankingInfo.self, forKey: .rankingInfo)
-    distinctSeqID = try container.decodeIfPresent(Int.self, forKey: .distinctSeqID)
-    score = try container.decode(Double.self, forKey: .score)
-    var nonAdditionalPropertyKeys = Set<String>()
-    nonAdditionalPropertyKeys.insert("objectID")
-    nonAdditionalPropertyKeys.insert("_highlightResult")
-    nonAdditionalPropertyKeys.insert("_snippetResult")
-    nonAdditionalPropertyKeys.insert("_rankingInfo")
-    nonAdditionalPropertyKeys.insert("_distinctSeqID")
-    nonAdditionalPropertyKeys.insert("_score")
-    let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
-    additionalProperties = try additionalPropertiesContainer.decodeMap(
-      AnyCodable.self, excludedKeys: nonAdditionalPropertyKeys)
-  }
+        objectID = try container.decode(String.self, forKey: .objectID)
+        highlightResult = try container.decodeIfPresent([String: HighlightResult].self, forKey: .highlightResult)
+        snippetResult = try container.decodeIfPresent([String: SnippetResult].self, forKey: .snippetResult)
+        rankingInfo = try container.decodeIfPresent(RankingInfo.self, forKey: .rankingInfo)
+        distinctSeqID = try container.decodeIfPresent(Int.self, forKey: .distinctSeqID)
+        score = try container.decode(Double.self, forKey: .score)
+        var nonAdditionalPropertyKeys = Set<String>()
+        nonAdditionalPropertyKeys.insert("objectID")
+        nonAdditionalPropertyKeys.insert("_highlightResult")
+        nonAdditionalPropertyKeys.insert("_snippetResult")
+        nonAdditionalPropertyKeys.insert("_rankingInfo")
+        nonAdditionalPropertyKeys.insert("_distinctSeqID")
+        nonAdditionalPropertyKeys.insert("_score")
+        let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
+        additionalProperties = try additionalPropertiesContainer.decodeMap(AnyCodable.self, excludedKeys: nonAdditionalPropertyKeys)
+    }
 }

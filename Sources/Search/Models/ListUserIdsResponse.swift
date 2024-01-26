@@ -2,29 +2,27 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// User ID data.
+/** User ID data. */
 public struct ListUserIdsResponse: Codable, JSONEncodable, Hashable {
+    /** User IDs. */
+    public var userIDs: [UserId]
 
-  /** User IDs. */
-  public var userIDs: [UserId]
+    public init(userIDs: [UserId]) {
+        self.userIDs = userIDs
+    }
 
-  public init(userIDs: [UserId]) {
-    self.userIDs = userIDs
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case userIDs
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case userIDs
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(userIDs, forKey: .userIDs)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(userIDs, forKey: .userIDs)
+    }
 }

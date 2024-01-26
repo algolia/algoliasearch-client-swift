@@ -2,38 +2,36 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct Personalization: Codable, JSONEncodable, Hashable {
+    /** The score of the filters. */
+    public var filtersScore: Int?
+    /** The score of the ranking. */
+    public var rankingScore: Int?
+    /** The score of the event. */
+    public var score: Int?
 
-  /** The score of the filters. */
-  public var filtersScore: Int?
-  /** The score of the ranking. */
-  public var rankingScore: Int?
-  /** The score of the event. */
-  public var score: Int?
+    public init(filtersScore: Int? = nil, rankingScore: Int? = nil, score: Int? = nil) {
+        self.filtersScore = filtersScore
+        self.rankingScore = rankingScore
+        self.score = score
+    }
 
-  public init(filtersScore: Int? = nil, rankingScore: Int? = nil, score: Int? = nil) {
-    self.filtersScore = filtersScore
-    self.rankingScore = rankingScore
-    self.score = score
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case filtersScore
+        case rankingScore
+        case score
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case filtersScore
-    case rankingScore
-    case score
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(filtersScore, forKey: .filtersScore)
-    try container.encodeIfPresent(rankingScore, forKey: .rankingScore)
-    try container.encodeIfPresent(score, forKey: .score)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(filtersScore, forKey: .filtersScore)
+        try container.encodeIfPresent(rankingScore, forKey: .rankingScore)
+        try container.encodeIfPresent(score, forKey: .score)
+    }
 }

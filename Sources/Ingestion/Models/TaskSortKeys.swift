@@ -2,16 +2,15 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Used to sort the Task list endpoint.
+/** Used to sort the Task list endpoint. */
 public enum TaskSortKeys: String, Codable, CaseIterable {
-  case enabled = "enabled"
-  case triggerType = "triggerType"
-  case action = "action"
-  case updatedAt = "updatedAt"
-  case createdAt = "createdAt"
+    case enabled
+    case triggerType
+    case action
+    case updatedAt
+    case createdAt
 }

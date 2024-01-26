@@ -2,38 +2,33 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Precision of a geographical search (in meters), to [group results that are more or less the same distance from a central point](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/in-depth/geo-ranking-precision/).
+/** Precision of a geographical search (in meters), to [group results that are more or less the same distance from a central point](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/in-depth/geo-ranking-precision/). */
 public enum AroundPrecision: Codable, JSONEncodable, Hashable {
-  case int(Int)
-  case arrayOfAroundPrecisionFromValueInner([AroundPrecisionFromValueInner])
+    case int(Int)
+    case arrayOfAroundPrecisionFromValueInner([AroundPrecisionFromValueInner])
 
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    switch self {
-    case .int(let value):
-      try container.encode(value)
-    case .arrayOfAroundPrecisionFromValueInner(let value):
-      try container.encode(value)
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .int(value):
+            try container.encode(value)
+        case let .arrayOfAroundPrecisionFromValueInner(value):
+            try container.encode(value)
+        }
     }
-  }
 
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    if let value = try? container.decode(Int.self) {
-      self = .int(value)
-    } else if let value = try? container.decode([AroundPrecisionFromValueInner].self) {
-      self = .arrayOfAroundPrecisionFromValueInner(value)
-    } else {
-      throw DecodingError.typeMismatch(
-        Self.Type.self,
-        .init(
-          codingPath: decoder.codingPath,
-          debugDescription: "Unable to decode instance of AroundPrecision"))
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(Int.self) {
+            self = .int(value)
+        } else if let value = try? container.decode([AroundPrecisionFromValueInner].self) {
+            self = .arrayOfAroundPrecisionFromValueInner(value)
+        } else {
+            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of AroundPrecision"))
+        }
     }
-  }
 }

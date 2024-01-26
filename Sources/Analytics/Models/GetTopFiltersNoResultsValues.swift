@@ -2,33 +2,31 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct GetTopFiltersNoResultsValues: Codable, JSONEncodable, Hashable {
+    /** Number of occurrences. */
+    public var count: Int
+    /** Filters with no results. */
+    public var values: [GetTopFiltersNoResultsValue]
 
-  /** Number of occurrences. */
-  public var count: Int
-  /** Filters with no results. */
-  public var values: [GetTopFiltersNoResultsValue]
+    public init(count: Int, values: [GetTopFiltersNoResultsValue]) {
+        self.count = count
+        self.values = values
+    }
 
-  public init(count: Int, values: [GetTopFiltersNoResultsValue]) {
-    self.count = count
-    self.values = values
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case count
+        case values
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case count
-    case values
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(count, forKey: .count)
-    try container.encode(values, forKey: .values)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(count, forKey: .count)
+        try container.encode(values, forKey: .values)
+    }
 }

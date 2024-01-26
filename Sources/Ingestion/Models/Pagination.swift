@@ -2,39 +2,37 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct Pagination: Codable, JSONEncodable, Hashable {
+    public var nbPages: Int
+    public var page: Int
+    public var nbItems: Int
+    public var itemsPerPage: Int
 
-  public var nbPages: Int
-  public var page: Int
-  public var nbItems: Int
-  public var itemsPerPage: Int
+    public init(nbPages: Int, page: Int, nbItems: Int, itemsPerPage: Int) {
+        self.nbPages = nbPages
+        self.page = page
+        self.nbItems = nbItems
+        self.itemsPerPage = itemsPerPage
+    }
 
-  public init(nbPages: Int, page: Int, nbItems: Int, itemsPerPage: Int) {
-    self.nbPages = nbPages
-    self.page = page
-    self.nbItems = nbItems
-    self.itemsPerPage = itemsPerPage
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case nbPages
+        case page
+        case nbItems
+        case itemsPerPage
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case nbPages
-    case page
-    case nbItems
-    case itemsPerPage
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(nbPages, forKey: .nbPages)
-    try container.encode(page, forKey: .page)
-    try container.encode(nbItems, forKey: .nbItems)
-    try container.encode(itemsPerPage, forKey: .itemsPerPage)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(nbPages, forKey: .nbPages)
+        try container.encode(page, forKey: .page)
+        try container.encode(nbItems, forKey: .nbItems)
+        try container.encode(itemsPerPage, forKey: .itemsPerPage)
+    }
 }

@@ -2,15 +2,14 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum MappingTypeCSV: String, Codable, CaseIterable {
-  case string = "string"
-  case integer = "integer"
-  case float = "float"
-  case boolean = "boolean"
-  case json = "json"
+    case string
+    case integer
+    case float
+    case boolean
+    case json
 }

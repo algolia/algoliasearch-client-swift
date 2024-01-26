@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension CharacterSet {
-  public static let urlPathAlgoliaAllowed: CharacterSet = .alphanumerics.union(
-    .init(charactersIn: "-._~!'()*"))
+public extension CharacterSet {
+    static let urlPathAlgoliaAllowed: CharacterSet = .alphanumerics.union(
+        .init(charactersIn: "-._~!'()*"))
 }

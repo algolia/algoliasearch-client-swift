@@ -2,15 +2,14 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum Period: String, Codable, CaseIterable {
-  case minute = "minute"
-  case hour = "hour"
-  case day = "day"
-  case week = "week"
-  case month = "month"
+    case minute
+    case hour
+    case day
+    case week
+    case month
 }

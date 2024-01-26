@@ -2,40 +2,36 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct PersonalizationStrategyParams: Codable, JSONEncodable, Hashable {
+    /** Scores associated with the events. */
+    public var eventScoring: [EventScoring]
+    /** Scores associated with the facets. */
+    public var facetScoring: [FacetScoring]
+    /** The impact that personalization has on search results: a number between 0 (personalization disabled) and 100 (personalization fully enabled). */
+    public var personalizationImpact: Int
 
-  /** Scores associated with the events. */
-  public var eventScoring: [EventScoring]
-  /** Scores associated with the facets. */
-  public var facetScoring: [FacetScoring]
-  /** The impact that personalization has on search results: a number between 0 (personalization disabled) and 100 (personalization fully enabled). */
-  public var personalizationImpact: Int
+    public init(eventScoring: [EventScoring], facetScoring: [FacetScoring], personalizationImpact: Int) {
+        self.eventScoring = eventScoring
+        self.facetScoring = facetScoring
+        self.personalizationImpact = personalizationImpact
+    }
 
-  public init(
-    eventScoring: [EventScoring], facetScoring: [FacetScoring], personalizationImpact: Int
-  ) {
-    self.eventScoring = eventScoring
-    self.facetScoring = facetScoring
-    self.personalizationImpact = personalizationImpact
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case eventScoring
+        case facetScoring
+        case personalizationImpact
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case eventScoring
-    case facetScoring
-    case personalizationImpact
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(eventScoring, forKey: .eventScoring)
-    try container.encode(facetScoring, forKey: .facetScoring)
-    try container.encode(personalizationImpact, forKey: .personalizationImpact)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(eventScoring, forKey: .eventScoring)
+        try container.encode(facetScoring, forKey: .facetScoring)
+        try container.encode(personalizationImpact, forKey: .personalizationImpact)
+    }
 }

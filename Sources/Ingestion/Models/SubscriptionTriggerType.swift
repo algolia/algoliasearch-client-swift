@@ -2,12 +2,11 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// A task which is triggered by an external subscription (e.g. Webhook).
+/** A task which is triggered by an external subscription (e.g. Webhook). */
 public enum SubscriptionTriggerType: String, Codable, CaseIterable {
-  case subscription = "subscription"
+    case subscription
 }

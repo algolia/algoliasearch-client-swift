@@ -2,28 +2,26 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Enable or turn off the built-in Algolia stop words for a specific language.
+/** Enable or turn off the built-in Algolia stop words for a specific language. */
 public struct DictionarySettingsParams: Codable, JSONEncodable, Hashable {
+    public var disableStandardEntries: StandardEntries
 
-  public var disableStandardEntries: StandardEntries
+    public init(disableStandardEntries: StandardEntries) {
+        self.disableStandardEntries = disableStandardEntries
+    }
 
-  public init(disableStandardEntries: StandardEntries) {
-    self.disableStandardEntries = disableStandardEntries
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case disableStandardEntries
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case disableStandardEntries
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(disableStandardEntries, forKey: .disableStandardEntries)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(disableStandardEntries, forKey: .disableStandardEntries)
+    }
 }

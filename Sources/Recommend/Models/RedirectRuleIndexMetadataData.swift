@@ -2,28 +2,26 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Redirect rule data.
+/** Redirect rule data. */
 public struct RedirectRuleIndexMetadataData: Codable, JSONEncodable, Hashable {
+    public var ruleObjectID: String
 
-  public var ruleObjectID: String
+    public init(ruleObjectID: String) {
+        self.ruleObjectID = ruleObjectID
+    }
 
-  public init(ruleObjectID: String) {
-    self.ruleObjectID = ruleObjectID
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case ruleObjectID
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case ruleObjectID
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(ruleObjectID, forKey: .ruleObjectID)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(ruleObjectID, forKey: .ruleObjectID)
+    }
 }

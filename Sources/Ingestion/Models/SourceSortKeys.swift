@@ -2,15 +2,14 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Used to sort the Source list endpoint.
+/** Used to sort the Source list endpoint. */
 public enum SourceSortKeys: String, Codable, CaseIterable {
-  case name = "name"
-  case type = "type"
-  case updatedAt = "updatedAt"
-  case createdAt = "createdAt"
+    case name
+    case type
+    case updatedAt
+    case createdAt
 }

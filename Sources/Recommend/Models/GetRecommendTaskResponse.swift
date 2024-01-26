@@ -2,27 +2,25 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct GetRecommendTaskResponse: Codable, JSONEncodable, Hashable {
+    public var status: TaskStatus
 
-  public var status: TaskStatus
+    public init(status: TaskStatus) {
+        self.status = status
+    }
 
-  public init(status: TaskStatus) {
-    self.status = status
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case status
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case status
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(status, forKey: .status)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(status, forKey: .status)
+    }
 }

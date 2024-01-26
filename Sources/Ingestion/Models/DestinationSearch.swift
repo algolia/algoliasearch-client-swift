@@ -2,28 +2,26 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Payload to search for multiple destinations, based on the given &#x60;destinationIDs&#x60;.
+/** Payload to search for multiple destinations, based on the given &#x60;destinationIDs&#x60;. */
 public struct DestinationSearch: Codable, JSONEncodable, Hashable {
+    public var destinationIDs: [String]
 
-  public var destinationIDs: [String]
+    public init(destinationIDs: [String]) {
+        self.destinationIDs = destinationIDs
+    }
 
-  public init(destinationIDs: [String]) {
-    self.destinationIDs = destinationIDs
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case destinationIDs
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case destinationIDs
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(destinationIDs, forKey: .destinationIDs)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(destinationIDs, forKey: .destinationIDs)
+    }
 }

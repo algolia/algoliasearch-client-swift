@@ -2,16 +2,15 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum EventStatus: String, Codable, CaseIterable {
-  case created = "created"
-  case started = "started"
-  case retried = "retried"
-  case failed = "failed"
-  case succeeded = "succeeded"
-  case critical = "critical"
+    case created
+    case started
+    case retried
+    case failed
+    case succeeded
+    case critical
 }

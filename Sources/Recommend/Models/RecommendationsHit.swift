@@ -2,37 +2,32 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum RecommendationsHit: Codable, JSONEncodable, Hashable {
-  case recommendHit(RecommendHit)
-  case trendingFacetHit(TrendingFacetHit)
+    case recommendHit(RecommendHit)
+    case trendingFacetHit(TrendingFacetHit)
 
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    switch self {
-    case .recommendHit(let value):
-      try container.encode(value)
-    case .trendingFacetHit(let value):
-      try container.encode(value)
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .recommendHit(value):
+            try container.encode(value)
+        case let .trendingFacetHit(value):
+            try container.encode(value)
+        }
     }
-  }
 
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    if let value = try? container.decode(RecommendHit.self) {
-      self = .recommendHit(value)
-    } else if let value = try? container.decode(TrendingFacetHit.self) {
-      self = .trendingFacetHit(value)
-    } else {
-      throw DecodingError.typeMismatch(
-        Self.Type.self,
-        .init(
-          codingPath: decoder.codingPath,
-          debugDescription: "Unable to decode instance of RecommendationsHit"))
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(RecommendHit.self) {
+            self = .recommendHit(value)
+        } else if let value = try? container.decode(TrendingFacetHit.self) {
+            self = .trendingFacetHit(value)
+        } else {
+            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of RecommendationsHit"))
+        }
     }
-  }
 }

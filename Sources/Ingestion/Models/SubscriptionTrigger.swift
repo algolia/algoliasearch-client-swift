@@ -2,28 +2,26 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// The trigger input for a task of type &#39;subscription&#39;.
+/** The trigger input for a task of type &#39;subscription&#39;. */
 public struct SubscriptionTrigger: Codable, JSONEncodable, Hashable {
+    public var type: SubscriptionTriggerType
 
-  public var type: SubscriptionTriggerType
+    public init(type: SubscriptionTriggerType) {
+        self.type = type
+    }
 
-  public init(type: SubscriptionTriggerType) {
-    self.type = type
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case type
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case type
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(type, forKey: .type)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(type, forKey: .type)
+    }
 }

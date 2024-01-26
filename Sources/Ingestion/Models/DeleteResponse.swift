@@ -2,28 +2,26 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct DeleteResponse: Codable, JSONEncodable, Hashable {
+    /** Date of deletion (RFC3339 format). */
+    public var deletedAt: String
 
-  /** Date of deletion (RFC3339 format). */
-  public var deletedAt: String
+    public init(deletedAt: String) {
+        self.deletedAt = deletedAt
+    }
 
-  public init(deletedAt: String) {
-    self.deletedAt = deletedAt
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case deletedAt
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case deletedAt
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(deletedAt, forKey: .deletedAt)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(deletedAt, forKey: .deletedAt)
+    }
 }

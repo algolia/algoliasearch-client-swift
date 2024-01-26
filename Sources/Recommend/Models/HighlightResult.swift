@@ -2,37 +2,32 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum HighlightResult: Codable, JSONEncodable, Hashable {
-  case highlightResultOption(HighlightResultOption)
-  case dictionaryOfStringToHighlightResultOption([String: HighlightResultOption])
+    case highlightResultOption(HighlightResultOption)
+    case dictionaryOfStringToHighlightResultOption([String: HighlightResultOption])
 
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    switch self {
-    case .highlightResultOption(let value):
-      try container.encode(value)
-    case .dictionaryOfStringToHighlightResultOption(let value):
-      try container.encode(value)
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .highlightResultOption(value):
+            try container.encode(value)
+        case let .dictionaryOfStringToHighlightResultOption(value):
+            try container.encode(value)
+        }
     }
-  }
 
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    if let value = try? container.decode(HighlightResultOption.self) {
-      self = .highlightResultOption(value)
-    } else if let value = try? container.decode([String: HighlightResultOption].self) {
-      self = .dictionaryOfStringToHighlightResultOption(value)
-    } else {
-      throw DecodingError.typeMismatch(
-        Self.Type.self,
-        .init(
-          codingPath: decoder.codingPath,
-          debugDescription: "Unable to decode instance of HighlightResult"))
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(HighlightResultOption.self) {
+            self = .highlightResultOption(value)
+        } else if let value = try? container.decode([String: HighlightResultOption].self) {
+            self = .dictionaryOfStringToHighlightResultOption(value)
+        } else {
+            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of HighlightResult"))
+        }
     }
-  }
 }

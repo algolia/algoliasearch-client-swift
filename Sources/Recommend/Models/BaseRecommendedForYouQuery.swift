@@ -2,38 +2,33 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct BaseRecommendedForYouQuery: Codable, JSONEncodable, Hashable {
+    public var model: RecommendedForYouModel
+    public var queryParameters: RecommendedForYouQueryParameters?
+    public var fallbackParameters: RecommendedForYouQueryParameters?
 
-  public var model: RecommendedForYouModel
-  public var queryParameters: RecommendedForYouQueryParameters?
-  public var fallbackParameters: RecommendedForYouQueryParameters?
+    public init(model: RecommendedForYouModel, queryParameters: RecommendedForYouQueryParameters? = nil, fallbackParameters: RecommendedForYouQueryParameters? = nil) {
+        self.model = model
+        self.queryParameters = queryParameters
+        self.fallbackParameters = fallbackParameters
+    }
 
-  public init(
-    model: RecommendedForYouModel, queryParameters: RecommendedForYouQueryParameters? = nil,
-    fallbackParameters: RecommendedForYouQueryParameters? = nil
-  ) {
-    self.model = model
-    self.queryParameters = queryParameters
-    self.fallbackParameters = fallbackParameters
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case model
+        case queryParameters
+        case fallbackParameters
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case model
-    case queryParameters
-    case fallbackParameters
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(model, forKey: .model)
-    try container.encodeIfPresent(queryParameters, forKey: .queryParameters)
-    try container.encodeIfPresent(fallbackParameters, forKey: .fallbackParameters)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(model, forKey: .model)
+        try container.encodeIfPresent(queryParameters, forKey: .queryParameters)
+        try container.encodeIfPresent(fallbackParameters, forKey: .fallbackParameters)
+    }
 }

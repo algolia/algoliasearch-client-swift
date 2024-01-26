@@ -2,13 +2,12 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Type of edit.
+/** Type of edit. */
 public enum EditType: String, Codable, CaseIterable {
-  case remove = "remove"
-  case replace = "replace"
+    case remove
+    case replace
 }

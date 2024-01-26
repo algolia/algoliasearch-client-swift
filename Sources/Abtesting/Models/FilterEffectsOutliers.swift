@@ -2,34 +2,32 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Outliers removed from the A/B test as a result of configuration settings.
+/** Outliers removed from the A/B test as a result of configuration settings. */
 public struct FilterEffectsOutliers: Codable, JSONEncodable, Hashable {
+    /** Number of users removed from the A/B test. */
+    public var usersCount: Int?
+    /** Number of tracked searches removed from the A/B test. */
+    public var trackedSearchesCount: Int?
 
-  /** Number of users removed from the A/B test. */
-  public var usersCount: Int?
-  /** Number of tracked searches removed from the A/B test. */
-  public var trackedSearchesCount: Int?
+    public init(usersCount: Int? = nil, trackedSearchesCount: Int? = nil) {
+        self.usersCount = usersCount
+        self.trackedSearchesCount = trackedSearchesCount
+    }
 
-  public init(usersCount: Int? = nil, trackedSearchesCount: Int? = nil) {
-    self.usersCount = usersCount
-    self.trackedSearchesCount = trackedSearchesCount
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case usersCount
+        case trackedSearchesCount
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case usersCount
-    case trackedSearchesCount
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(usersCount, forKey: .usersCount)
-    try container.encodeIfPresent(trackedSearchesCount, forKey: .trackedSearchesCount)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(usersCount, forKey: .usersCount)
+        try container.encodeIfPresent(trackedSearchesCount, forKey: .trackedSearchesCount)
+    }
 }

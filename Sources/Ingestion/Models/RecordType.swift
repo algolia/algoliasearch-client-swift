@@ -2,13 +2,12 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Determines the indexing strategy to use for a given e-commerce source.
+/** Determines the indexing strategy to use for a given e-commerce source. */
 public enum RecordType: String, Codable, CaseIterable {
-  case product = "product"
-  case variant = "variant"
+    case product
+    case variant
 }

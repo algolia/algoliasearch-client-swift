@@ -2,13 +2,12 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum DictionaryType: String, Codable, CaseIterable {
-  case plurals = "plurals"
-  case stopwords = "stopwords"
-  case compounds = "compounds"
+    case plurals
+    case stopwords
+    case compounds
 }

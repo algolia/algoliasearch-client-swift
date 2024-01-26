@@ -2,12 +2,11 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum TypoToleranceEnum: String, Codable, CaseIterable {
-  case min = "min"
-  case strict = "strict"
+    case min
+    case strict
 }

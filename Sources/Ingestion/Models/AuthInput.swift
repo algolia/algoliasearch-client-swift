@@ -2,52 +2,47 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum AuthInput: Codable, JSONEncodable, Hashable {
-  case authAPIKey(AuthAPIKey)
-  case authAlgolia(AuthAlgolia)
-  case authBasic(AuthBasic)
-  case authGoogleServiceAccount(AuthGoogleServiceAccount)
-  case authOAuth(AuthOAuth)
+    case authAPIKey(AuthAPIKey)
+    case authAlgolia(AuthAlgolia)
+    case authBasic(AuthBasic)
+    case authGoogleServiceAccount(AuthGoogleServiceAccount)
+    case authOAuth(AuthOAuth)
 
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    switch self {
-    case .authAPIKey(let value):
-      try container.encode(value)
-    case .authAlgolia(let value):
-      try container.encode(value)
-    case .authBasic(let value):
-      try container.encode(value)
-    case .authGoogleServiceAccount(let value):
-      try container.encode(value)
-    case .authOAuth(let value):
-      try container.encode(value)
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .authAPIKey(value):
+            try container.encode(value)
+        case let .authAlgolia(value):
+            try container.encode(value)
+        case let .authBasic(value):
+            try container.encode(value)
+        case let .authGoogleServiceAccount(value):
+            try container.encode(value)
+        case let .authOAuth(value):
+            try container.encode(value)
+        }
     }
-  }
 
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    if let value = try? container.decode(AuthAPIKey.self) {
-      self = .authAPIKey(value)
-    } else if let value = try? container.decode(AuthAlgolia.self) {
-      self = .authAlgolia(value)
-    } else if let value = try? container.decode(AuthBasic.self) {
-      self = .authBasic(value)
-    } else if let value = try? container.decode(AuthGoogleServiceAccount.self) {
-      self = .authGoogleServiceAccount(value)
-    } else if let value = try? container.decode(AuthOAuth.self) {
-      self = .authOAuth(value)
-    } else {
-      throw DecodingError.typeMismatch(
-        Self.Type.self,
-        .init(
-          codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of AuthInput"
-        ))
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(AuthAPIKey.self) {
+            self = .authAPIKey(value)
+        } else if let value = try? container.decode(AuthAlgolia.self) {
+            self = .authAlgolia(value)
+        } else if let value = try? container.decode(AuthBasic.self) {
+            self = .authBasic(value)
+        } else if let value = try? container.decode(AuthGoogleServiceAccount.self) {
+            self = .authGoogleServiceAccount(value)
+        } else if let value = try? container.decode(AuthOAuth.self) {
+            self = .authOAuth(value)
+        } else {
+            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of AuthInput"))
+        }
     }
-  }
 }

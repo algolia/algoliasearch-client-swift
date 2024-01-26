@@ -2,42 +2,37 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum TaskCreateTrigger: Codable, JSONEncodable, Hashable {
-  case onDemandTriggerInput(OnDemandTriggerInput)
-  case scheduleTriggerInput(ScheduleTriggerInput)
-  case subscriptionTrigger(SubscriptionTrigger)
+    case onDemandTriggerInput(OnDemandTriggerInput)
+    case scheduleTriggerInput(ScheduleTriggerInput)
+    case subscriptionTrigger(SubscriptionTrigger)
 
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    switch self {
-    case .onDemandTriggerInput(let value):
-      try container.encode(value)
-    case .scheduleTriggerInput(let value):
-      try container.encode(value)
-    case .subscriptionTrigger(let value):
-      try container.encode(value)
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .onDemandTriggerInput(value):
+            try container.encode(value)
+        case let .scheduleTriggerInput(value):
+            try container.encode(value)
+        case let .subscriptionTrigger(value):
+            try container.encode(value)
+        }
     }
-  }
 
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    if let value = try? container.decode(OnDemandTriggerInput.self) {
-      self = .onDemandTriggerInput(value)
-    } else if let value = try? container.decode(ScheduleTriggerInput.self) {
-      self = .scheduleTriggerInput(value)
-    } else if let value = try? container.decode(SubscriptionTrigger.self) {
-      self = .subscriptionTrigger(value)
-    } else {
-      throw DecodingError.typeMismatch(
-        Self.Type.self,
-        .init(
-          codingPath: decoder.codingPath,
-          debugDescription: "Unable to decode instance of TaskCreateTrigger"))
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(OnDemandTriggerInput.self) {
+            self = .onDemandTriggerInput(value)
+        } else if let value = try? container.decode(ScheduleTriggerInput.self) {
+            self = .scheduleTriggerInput(value)
+        } else if let value = try? container.decode(SubscriptionTrigger.self) {
+            self = .subscriptionTrigger(value)
+        } else {
+            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of TaskCreateTrigger"))
+        }
     }
-  }
 }

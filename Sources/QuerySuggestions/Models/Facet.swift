@@ -2,34 +2,32 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Facet to use as category.
+/** Facet to use as category. */
 public struct Facet: Codable, JSONEncodable, Hashable {
+    /** Facet name. */
+    public var attribute: String?
+    /** Number of suggestions. */
+    public var amount: Int?
 
-  /** Facet name. */
-  public var attribute: String?
-  /** Number of suggestions. */
-  public var amount: Int?
+    public init(attribute: String? = nil, amount: Int? = nil) {
+        self.attribute = attribute
+        self.amount = amount
+    }
 
-  public init(attribute: String? = nil, amount: Int? = nil) {
-    self.attribute = attribute
-    self.amount = amount
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case attribute
+        case amount
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case attribute
-    case amount
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(attribute, forKey: .attribute)
-    try container.encodeIfPresent(amount, forKey: .amount)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(attribute, forKey: .attribute)
+        try container.encodeIfPresent(amount, forKey: .amount)
+    }
 }

@@ -2,11 +2,10 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum ConversionEvent: String, Codable, CaseIterable {
-  case conversion = "conversion"
+    case conversion
 }

@@ -2,56 +2,49 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Recommend rules search parameters.
+/** Recommend rules search parameters. */
 public struct SearchRecommendRulesParams: Codable, JSONEncodable, Hashable {
+    static let pageRule = NumericRule<Int>(minimum: 0, exclusiveMinimum: false, maximum: nil, exclusiveMaximum: false, multipleOf: nil)
+    static let hitsPerPageRule = NumericRule<Int>(minimum: 1, exclusiveMinimum: false, maximum: 1000, exclusiveMaximum: false, multipleOf: nil)
+    /** Full-text query. */
+    public var query: String?
+    /** Restricts responses to the specified [contextual rule](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#creating-contextual-rules). */
+    public var context: String?
+    /** Requested page (the first page is page 0). */
+    public var page: Int?
+    /** Maximum number of hits per page. */
+    public var hitsPerPage: Int?
+    /** Restricts responses to enabled rules. When absent (default), _all_ rules are retrieved. */
+    public var enabled: Bool?
 
-  static let pageRule = NumericRule<Int>(
-    minimum: 0, exclusiveMinimum: false, maximum: nil, exclusiveMaximum: false, multipleOf: nil)
-  static let hitsPerPageRule = NumericRule<Int>(
-    minimum: 1, exclusiveMinimum: false, maximum: 1000, exclusiveMaximum: false, multipleOf: nil)
-  /** Full-text query. */
-  public var query: String?
-  /** Restricts responses to the specified [contextual rule](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#creating-contextual-rules). */
-  public var context: String?
-  /** Requested page (the first page is page 0). */
-  public var page: Int?
-  /** Maximum number of hits per page. */
-  public var hitsPerPage: Int?
-  /** Restricts responses to enabled rules. When absent (default), _all_ rules are retrieved. */
-  public var enabled: Bool?
+    public init(query: String? = nil, context: String? = nil, page: Int? = nil, hitsPerPage: Int? = nil, enabled: Bool? = nil) {
+        self.query = query
+        self.context = context
+        self.page = page
+        self.hitsPerPage = hitsPerPage
+        self.enabled = enabled
+    }
 
-  public init(
-    query: String? = nil, context: String? = nil, page: Int? = nil, hitsPerPage: Int? = nil,
-    enabled: Bool? = nil
-  ) {
-    self.query = query
-    self.context = context
-    self.page = page
-    self.hitsPerPage = hitsPerPage
-    self.enabled = enabled
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case query
+        case context
+        case page
+        case hitsPerPage
+        case enabled
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case query
-    case context
-    case page
-    case hitsPerPage
-    case enabled
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(query, forKey: .query)
-    try container.encodeIfPresent(context, forKey: .context)
-    try container.encodeIfPresent(page, forKey: .page)
-    try container.encodeIfPresent(hitsPerPage, forKey: .hitsPerPage)
-    try container.encodeIfPresent(enabled, forKey: .enabled)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(query, forKey: .query)
+        try container.encodeIfPresent(context, forKey: .context)
+        try container.encodeIfPresent(page, forKey: .page)
+        try container.encodeIfPresent(hitsPerPage, forKey: .hitsPerPage)
+        try container.encodeIfPresent(enabled, forKey: .enabled)
+    }
 }

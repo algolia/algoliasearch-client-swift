@@ -2,40 +2,38 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct SourceCreate: Codable, JSONEncodable, Hashable {
+    public var type: SourceType
+    public var name: String
+    public var input: SourceInput
+    /** The authentication UUID. */
+    public var authenticationID: String?
 
-  public var type: SourceType
-  public var name: String
-  public var input: SourceInput
-  /** The authentication UUID. */
-  public var authenticationID: String?
+    public init(type: SourceType, name: String, input: SourceInput, authenticationID: String? = nil) {
+        self.type = type
+        self.name = name
+        self.input = input
+        self.authenticationID = authenticationID
+    }
 
-  public init(type: SourceType, name: String, input: SourceInput, authenticationID: String? = nil) {
-    self.type = type
-    self.name = name
-    self.input = input
-    self.authenticationID = authenticationID
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case type
+        case name
+        case input
+        case authenticationID
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case type
-    case name
-    case input
-    case authenticationID
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(type, forKey: .type)
-    try container.encode(name, forKey: .name)
-    try container.encode(input, forKey: .input)
-    try container.encodeIfPresent(authenticationID, forKey: .authenticationID)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(type, forKey: .type)
+        try container.encode(name, forKey: .name)
+        try container.encode(input, forKey: .input)
+        try container.encodeIfPresent(authenticationID, forKey: .authenticationID)
+    }
 }

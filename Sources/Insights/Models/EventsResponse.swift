@@ -2,34 +2,32 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// The response of the Insights API.
+/** The response of the Insights API. */
 public struct EventsResponse: Codable, JSONEncodable, Hashable {
+    /** Details about the response, such as error messages. */
+    public var message: String?
+    /** The HTTP status code of the response. */
+    public var status: Int?
 
-  /** Details about the response, such as error messages. */
-  public var message: String?
-  /** The HTTP status code of the response. */
-  public var status: Int?
+    public init(message: String? = nil, status: Int? = nil) {
+        self.message = message
+        self.status = status
+    }
 
-  public init(message: String? = nil, status: Int? = nil) {
-    self.message = message
-    self.status = status
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case message
+        case status
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case message
-    case status
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(message, forKey: .message)
-    try container.encodeIfPresent(status, forKey: .status)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(message, forKey: .message)
+        try container.encodeIfPresent(status, forKey: .status)
+    }
 }

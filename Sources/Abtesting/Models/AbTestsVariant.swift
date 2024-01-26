@@ -2,38 +2,36 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct AbTestsVariant: Codable, JSONEncodable, Hashable {
+    /** A/B test index. */
+    public var index: String
+    /** A/B test traffic percentage. */
+    public var trafficPercentage: Int
+    /** A/B test description. */
+    public var description: String?
 
-  /** A/B test index. */
-  public var index: String
-  /** A/B test traffic percentage. */
-  public var trafficPercentage: Int
-  /** A/B test description. */
-  public var description: String?
+    public init(index: String, trafficPercentage: Int, description: String? = nil) {
+        self.index = index
+        self.trafficPercentage = trafficPercentage
+        self.description = description
+    }
 
-  public init(index: String, trafficPercentage: Int, description: String? = nil) {
-    self.index = index
-    self.trafficPercentage = trafficPercentage
-    self.description = description
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case index
+        case trafficPercentage
+        case description
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case index
-    case trafficPercentage
-    case description
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(index, forKey: .index)
-    try container.encode(trafficPercentage, forKey: .trafficPercentage)
-    try container.encodeIfPresent(description, forKey: .description)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(index, forKey: .index)
+        try container.encode(trafficPercentage, forKey: .trafficPercentage)
+        try container.encodeIfPresent(description, forKey: .description)
+    }
 }

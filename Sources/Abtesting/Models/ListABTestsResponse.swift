@@ -2,38 +2,36 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct ListABTestsResponse: Codable, JSONEncodable, Hashable {
+    /** A/B tests. */
+    public var abtests: [ABTest]
+    /** Number of A/B tests implemented. */
+    public var count: Int
+    /** Number of retrievable A/B tests. */
+    public var total: Int
 
-  /** A/B tests. */
-  public var abtests: [ABTest]
-  /** Number of A/B tests implemented. */
-  public var count: Int
-  /** Number of retrievable A/B tests. */
-  public var total: Int
+    public init(abtests: [ABTest], count: Int, total: Int) {
+        self.abtests = abtests
+        self.count = count
+        self.total = total
+    }
 
-  public init(abtests: [ABTest], count: Int, total: Int) {
-    self.abtests = abtests
-    self.count = count
-    self.total = total
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case abtests
+        case count
+        case total
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case abtests
-    case count
-    case total
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(abtests, forKey: .abtests)
-    try container.encode(count, forKey: .count)
-    try container.encode(total, forKey: .total)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(abtests, forKey: .abtests)
+        try container.encode(count, forKey: .count)
+        try container.encode(total, forKey: .total)
+    }
 }

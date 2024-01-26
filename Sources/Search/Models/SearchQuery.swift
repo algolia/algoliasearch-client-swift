@@ -2,37 +2,32 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum SearchQuery: Codable, JSONEncodable, Hashable {
-  case searchForFacets(SearchForFacets)
-  case searchForHits(SearchForHits)
+    case searchForFacets(SearchForFacets)
+    case searchForHits(SearchForHits)
 
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    switch self {
-    case .searchForFacets(let value):
-      try container.encode(value)
-    case .searchForHits(let value):
-      try container.encode(value)
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .searchForFacets(value):
+            try container.encode(value)
+        case let .searchForHits(value):
+            try container.encode(value)
+        }
     }
-  }
 
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    if let value = try? container.decode(SearchForFacets.self) {
-      self = .searchForFacets(value)
-    } else if let value = try? container.decode(SearchForHits.self) {
-      self = .searchForHits(value)
-    } else {
-      throw DecodingError.typeMismatch(
-        Self.Type.self,
-        .init(
-          codingPath: decoder.codingPath,
-          debugDescription: "Unable to decode instance of SearchQuery"))
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(SearchForFacets.self) {
+            self = .searchForFacets(value)
+        } else if let value = try? container.decode(SearchForHits.self) {
+            self = .searchForHits(value)
+        } else {
+            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of SearchQuery"))
+        }
     }
-  }
 }

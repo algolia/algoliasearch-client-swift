@@ -2,47 +2,43 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// OK
+/** OK */
 public struct SearchUserIdsParams: Codable, JSONEncodable, Hashable {
+    static let hitsPerPageRule = NumericRule<Int>(minimum: 1, exclusiveMinimum: false, maximum: 1000, exclusiveMaximum: false, multipleOf: nil)
+    /** Query to search. The search is a prefix search with [typo tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/) enabled. An empty query will retrieve all users. */
+    public var query: String
+    /** Cluster name. */
+    public var clusterName: String?
+    /** Page to retrieve (the first page is `0`, not `1`). */
+    public var page: Int?
+    /** Number of hits per page. */
+    public var hitsPerPage: Int?
 
-  static let hitsPerPageRule = NumericRule<Int>(
-    minimum: 1, exclusiveMinimum: false, maximum: 1000, exclusiveMaximum: false, multipleOf: nil)
-  /** Query to search. The search is a prefix search with [typo tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/) enabled. An empty query will retrieve all users. */
-  public var query: String
-  /** Cluster name. */
-  public var clusterName: String?
-  /** Page to retrieve (the first page is `0`, not `1`). */
-  public var page: Int?
-  /** Number of hits per page. */
-  public var hitsPerPage: Int?
+    public init(query: String, clusterName: String? = nil, page: Int? = nil, hitsPerPage: Int? = nil) {
+        self.query = query
+        self.clusterName = clusterName
+        self.page = page
+        self.hitsPerPage = hitsPerPage
+    }
 
-  public init(query: String, clusterName: String? = nil, page: Int? = nil, hitsPerPage: Int? = nil)
-  {
-    self.query = query
-    self.clusterName = clusterName
-    self.page = page
-    self.hitsPerPage = hitsPerPage
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case query
+        case clusterName
+        case page
+        case hitsPerPage
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case query
-    case clusterName
-    case page
-    case hitsPerPage
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(query, forKey: .query)
-    try container.encodeIfPresent(clusterName, forKey: .clusterName)
-    try container.encodeIfPresent(page, forKey: .page)
-    try container.encodeIfPresent(hitsPerPage, forKey: .hitsPerPage)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(query, forKey: .query)
+        try container.encodeIfPresent(clusterName, forKey: .clusterName)
+        try container.encodeIfPresent(page, forKey: .page)
+        try container.encodeIfPresent(hitsPerPage, forKey: .hitsPerPage)
+    }
 }

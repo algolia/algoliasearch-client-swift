@@ -2,16 +2,15 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum Metric: String, Codable, CaseIterable {
-  case avgBuildTime = "avg_build_time"
-  case ssdUsage = "ssd_usage"
-  case ramSearchUsage = "ram_search_usage"
-  case ramIndexingUsage = "ram_indexing_usage"
-  case cpuUsage = "cpu_usage"
-  case star = "*"
+    case avgBuildTime = "avg_build_time"
+    case ssdUsage = "ssd_usage"
+    case ramSearchUsage = "ram_search_usage"
+    case ramIndexingUsage = "ram_indexing_usage"
+    case cpuUsage = "cpu_usage"
+    case star = "*"
 }

@@ -2,41 +2,37 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum Trigger: Codable, JSONEncodable, Hashable {
-  case onDemandTrigger(OnDemandTrigger)
-  case scheduleTrigger(ScheduleTrigger)
-  case subscriptionTrigger(SubscriptionTrigger)
+    case onDemandTrigger(OnDemandTrigger)
+    case scheduleTrigger(ScheduleTrigger)
+    case subscriptionTrigger(SubscriptionTrigger)
 
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    switch self {
-    case .onDemandTrigger(let value):
-      try container.encode(value)
-    case .scheduleTrigger(let value):
-      try container.encode(value)
-    case .subscriptionTrigger(let value):
-      try container.encode(value)
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .onDemandTrigger(value):
+            try container.encode(value)
+        case let .scheduleTrigger(value):
+            try container.encode(value)
+        case let .subscriptionTrigger(value):
+            try container.encode(value)
+        }
     }
-  }
 
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    if let value = try? container.decode(OnDemandTrigger.self) {
-      self = .onDemandTrigger(value)
-    } else if let value = try? container.decode(ScheduleTrigger.self) {
-      self = .scheduleTrigger(value)
-    } else if let value = try? container.decode(SubscriptionTrigger.self) {
-      self = .subscriptionTrigger(value)
-    } else {
-      throw DecodingError.typeMismatch(
-        Self.Type.self,
-        .init(
-          codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of Trigger"))
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(OnDemandTrigger.self) {
+            self = .onDemandTrigger(value)
+        } else if let value = try? container.decode(ScheduleTrigger.self) {
+            self = .scheduleTrigger(value)
+        } else if let value = try? container.decode(SubscriptionTrigger.self) {
+            self = .subscriptionTrigger(value)
+        } else {
+            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of Trigger"))
+        }
     }
-  }
 }

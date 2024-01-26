@@ -2,31 +2,29 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct AroundPrecisionFromValueInner: Codable, JSONEncodable, Hashable {
+    public var from: Int?
+    public var value: Int?
 
-  public var from: Int?
-  public var value: Int?
+    public init(from: Int? = nil, value: Int? = nil) {
+        self.from = from
+        self.value = value
+    }
 
-  public init(from: Int? = nil, value: Int? = nil) {
-    self.from = from
-    self.value = value
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case from
+        case value
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case from
-    case value
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(from, forKey: .from)
-    try container.encodeIfPresent(value, forKey: .value)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(from, forKey: .from)
+        try container.encodeIfPresent(value, forKey: .value)
+    }
 }

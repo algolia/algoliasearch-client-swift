@@ -2,59 +2,54 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// An authentication is used to login into a Source or a Destination.
+/** An authentication is used to login into a Source or a Destination. */
 public struct Authentication: Codable, JSONEncodable, Hashable {
+    /** The authentication UUID. */
+    public var authenticationID: String
+    public var type: AuthenticationType
+    /** An human readable name describing the object. */
+    public var name: String
+    public var platform: Platform?
+    public var input: AuthInput
+    /** Date of creation (RFC3339 format). */
+    public var createdAt: String
+    /** Date of last update (RFC3339 format). */
+    public var updatedAt: String?
 
-  /** The authentication UUID. */
-  public var authenticationID: String
-  public var type: AuthenticationType
-  /** An human readable name describing the object. */
-  public var name: String
-  public var platform: Platform?
-  public var input: AuthInput
-  /** Date of creation (RFC3339 format). */
-  public var createdAt: String
-  /** Date of last update (RFC3339 format). */
-  public var updatedAt: String?
+    public init(authenticationID: String, type: AuthenticationType, name: String, platform: Platform? = nil, input: AuthInput, createdAt: String, updatedAt: String? = nil) {
+        self.authenticationID = authenticationID
+        self.type = type
+        self.name = name
+        self.platform = platform
+        self.input = input
+        self.createdAt = createdAt
+        self.updatedAt = updatedAt
+    }
 
-  public init(
-    authenticationID: String, type: AuthenticationType, name: String, platform: Platform? = nil,
-    input: AuthInput, createdAt: String, updatedAt: String? = nil
-  ) {
-    self.authenticationID = authenticationID
-    self.type = type
-    self.name = name
-    self.platform = platform
-    self.input = input
-    self.createdAt = createdAt
-    self.updatedAt = updatedAt
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case authenticationID
+        case type
+        case name
+        case platform
+        case input
+        case createdAt
+        case updatedAt
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case authenticationID
-    case type
-    case name
-    case platform
-    case input
-    case createdAt
-    case updatedAt
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(authenticationID, forKey: .authenticationID)
-    try container.encode(type, forKey: .type)
-    try container.encode(name, forKey: .name)
-    try container.encodeIfPresent(platform, forKey: .platform)
-    try container.encode(input, forKey: .input)
-    try container.encode(createdAt, forKey: .createdAt)
-    try container.encodeIfPresent(updatedAt, forKey: .updatedAt)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(authenticationID, forKey: .authenticationID)
+        try container.encode(type, forKey: .type)
+        try container.encode(name, forKey: .name)
+        try container.encodeIfPresent(platform, forKey: .platform)
+        try container.encode(input, forKey: .input)
+        try container.encode(createdAt, forKey: .createdAt)
+        try container.encodeIfPresent(updatedAt, forKey: .updatedAt)
+    }
 }

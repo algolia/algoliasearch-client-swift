@@ -2,14 +2,13 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Used to sort the Event list endpoint.
+/** Used to sort the Event list endpoint. */
 public enum EventSortKeys: String, Codable, CaseIterable {
-  case status = "status"
-  case type = "type"
-  case publishedAt = "publishedAt"
+    case status
+    case type
+    case publishedAt
 }

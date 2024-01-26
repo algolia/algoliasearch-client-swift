@@ -2,13 +2,12 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum ScopeType: String, Codable, CaseIterable {
-  case settings = "settings"
-  case synonyms = "synonyms"
-  case rules = "rules"
+    case settings
+    case synonyms
+    case rules
 }

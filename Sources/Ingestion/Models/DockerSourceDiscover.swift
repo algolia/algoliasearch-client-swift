@@ -2,33 +2,31 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct DockerSourceDiscover: Codable, JSONEncodable, Hashable {
+    /** The run UUID. */
+    public var runID: String
+    /** Date of creation (RFC3339 format). */
+    public var createdAt: String
 
-  /** The run UUID. */
-  public var runID: String
-  /** Date of creation (RFC3339 format). */
-  public var createdAt: String
+    public init(runID: String, createdAt: String) {
+        self.runID = runID
+        self.createdAt = createdAt
+    }
 
-  public init(runID: String, createdAt: String) {
-    self.runID = runID
-    self.createdAt = createdAt
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case runID
+        case createdAt
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case runID
-    case createdAt
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(runID, forKey: .runID)
-    try container.encode(createdAt, forKey: .createdAt)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(runID, forKey: .runID)
+        try container.encode(createdAt, forKey: .createdAt)
+    }
 }

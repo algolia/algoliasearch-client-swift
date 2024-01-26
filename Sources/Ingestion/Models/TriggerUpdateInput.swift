@@ -2,29 +2,27 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// The trigger input for a task update.
+/** The trigger input for a task update. */
 public struct TriggerUpdateInput: Codable, JSONEncodable, Hashable {
+    /** A cron expression that represent at which regularity the task should run. */
+    public var cron: String
 
-  /** A cron expression that represent at which regularity the task should run. */
-  public var cron: String
+    public init(cron: String) {
+        self.cron = cron
+    }
 
-  public init(cron: String) {
-    self.cron = cron
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case cron
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case cron
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(cron, forKey: .cron)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(cron, forKey: .cron)
+    }
 }

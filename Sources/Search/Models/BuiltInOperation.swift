@@ -2,33 +2,31 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// To update an attribute without pushing the entire record, you can use these built-in operations.
+/** To update an attribute without pushing the entire record, you can use these built-in operations. */
 public struct BuiltInOperation: Codable, JSONEncodable, Hashable {
+    public var operation: BuiltInOperationType
+    /** Value that corresponds to the operation, for example an `Increment` or `Decrement` step, `Add` or `Remove` value. */
+    public var value: String
 
-  public var operation: BuiltInOperationType
-  /** Value that corresponds to the operation, for example an `Increment` or `Decrement` step, `Add` or `Remove` value. */
-  public var value: String
+    public init(operation: BuiltInOperationType, value: String) {
+        self.operation = operation
+        self.value = value
+    }
 
-  public init(operation: BuiltInOperationType, value: String) {
-    self.operation = operation
-    self.value = value
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case operation = "_operation"
+        case value
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case operation = "_operation"
-    case value
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(operation, forKey: .operation)
-    try container.encode(value, forKey: .value)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(operation, forKey: .operation)
+        try container.encode(value, forKey: .value)
+    }
 }

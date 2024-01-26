@@ -2,37 +2,35 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct MultipleBatchRequest: Codable, JSONEncodable, Hashable {
+    public var action: Action
+    /** Operation arguments (varies with specified `action`). */
+    public var body: AnyCodable
+    /** Index to target for this operation. */
+    public var indexName: String
 
-  public var action: Action
-  /** Operation arguments (varies with specified `action`). */
-  public var body: AnyCodable
-  /** Index to target for this operation. */
-  public var indexName: String
+    public init(action: Action, body: AnyCodable, indexName: String) {
+        self.action = action
+        self.body = body
+        self.indexName = indexName
+    }
 
-  public init(action: Action, body: AnyCodable, indexName: String) {
-    self.action = action
-    self.body = body
-    self.indexName = indexName
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case action
+        case body
+        case indexName
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case action
-    case body
-    case indexName
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(action, forKey: .action)
-    try container.encode(body, forKey: .body)
-    try container.encode(indexName, forKey: .indexName)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(action, forKey: .action)
+        try container.encode(body, forKey: .body)
+        try container.encode(indexName, forKey: .indexName)
+    }
 }

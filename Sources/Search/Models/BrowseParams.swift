@@ -2,37 +2,32 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum BrowseParams: Codable, JSONEncodable, Hashable {
-  case browseParamsObject(BrowseParamsObject)
-  case searchParamsString(SearchParamsString)
+    case browseParamsObject(BrowseParamsObject)
+    case searchParamsString(SearchParamsString)
 
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    switch self {
-    case .browseParamsObject(let value):
-      try container.encode(value)
-    case .searchParamsString(let value):
-      try container.encode(value)
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .browseParamsObject(value):
+            try container.encode(value)
+        case let .searchParamsString(value):
+            try container.encode(value)
+        }
     }
-  }
 
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    if let value = try? container.decode(BrowseParamsObject.self) {
-      self = .browseParamsObject(value)
-    } else if let value = try? container.decode(SearchParamsString.self) {
-      self = .searchParamsString(value)
-    } else {
-      throw DecodingError.typeMismatch(
-        Self.Type.self,
-        .init(
-          codingPath: decoder.codingPath,
-          debugDescription: "Unable to decode instance of BrowseParams"))
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(BrowseParamsObject.self) {
+            self = .browseParamsObject(value)
+        } else if let value = try? container.decode(SearchParamsString.self) {
+            self = .searchParamsString(value)
+        } else {
+            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of BrowseParams"))
+        }
     }
-  }
 }

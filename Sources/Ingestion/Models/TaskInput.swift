@@ -2,37 +2,32 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum TaskInput: Codable, JSONEncodable, Hashable {
-  case onDemandDateUtilsInput(OnDemandDateUtilsInput)
-  case scheduleDateUtilsInput(ScheduleDateUtilsInput)
+    case onDemandDateUtilsInput(OnDemandDateUtilsInput)
+    case scheduleDateUtilsInput(ScheduleDateUtilsInput)
 
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    switch self {
-    case .onDemandDateUtilsInput(let value):
-      try container.encode(value)
-    case .scheduleDateUtilsInput(let value):
-      try container.encode(value)
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .onDemandDateUtilsInput(value):
+            try container.encode(value)
+        case let .scheduleDateUtilsInput(value):
+            try container.encode(value)
+        }
     }
-  }
 
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    if let value = try? container.decode(OnDemandDateUtilsInput.self) {
-      self = .onDemandDateUtilsInput(value)
-    } else if let value = try? container.decode(ScheduleDateUtilsInput.self) {
-      self = .scheduleDateUtilsInput(value)
-    } else {
-      throw DecodingError.typeMismatch(
-        Self.Type.self,
-        .init(
-          codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of TaskInput"
-        ))
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(OnDemandDateUtilsInput.self) {
+            self = .onDemandDateUtilsInput(value)
+        } else if let value = try? container.decode(ScheduleDateUtilsInput.self) {
+            self = .scheduleDateUtilsInput(value)
+        } else {
+            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of TaskInput"))
+        }
     }
-  }
 }

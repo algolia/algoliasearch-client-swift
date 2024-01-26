@@ -2,28 +2,26 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct TopSearchesResponseWithAnalytics: Codable, JSONEncodable, Hashable {
+    /** Top searches with their hits count and analytics. */
+    public var searches: [TopSearchWithAnalytics]
 
-  /** Top searches with their hits count and analytics. */
-  public var searches: [TopSearchWithAnalytics]
+    public init(searches: [TopSearchWithAnalytics]) {
+        self.searches = searches
+    }
 
-  public init(searches: [TopSearchWithAnalytics]) {
-    self.searches = searches
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case searches
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case searches
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(searches, forKey: .searches)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(searches, forKey: .searches)
+    }
 }

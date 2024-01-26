@@ -2,11 +2,10 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum ModelType: String, Codable, CaseIterable {
-  case cluster = "cluster"
+    case cluster
 }

@@ -2,12 +2,11 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum BigQueryDataType: String, Codable, CaseIterable {
-  case ga4 = "ga4"
-  case ga360 = "ga360"
+    case ga4
+    case ga360
 }

@@ -2,36 +2,32 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum Promote: Codable, JSONEncodable, Hashable {
-  case promoteObjectID(PromoteObjectID)
-  case promoteObjectIDs(PromoteObjectIDs)
+    case promoteObjectID(PromoteObjectID)
+    case promoteObjectIDs(PromoteObjectIDs)
 
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    switch self {
-    case .promoteObjectID(let value):
-      try container.encode(value)
-    case .promoteObjectIDs(let value):
-      try container.encode(value)
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .promoteObjectID(value):
+            try container.encode(value)
+        case let .promoteObjectIDs(value):
+            try container.encode(value)
+        }
     }
-  }
 
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    if let value = try? container.decode(PromoteObjectID.self) {
-      self = .promoteObjectID(value)
-    } else if let value = try? container.decode(PromoteObjectIDs.self) {
-      self = .promoteObjectIDs(value)
-    } else {
-      throw DecodingError.typeMismatch(
-        Self.Type.self,
-        .init(
-          codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of Promote"))
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(PromoteObjectID.self) {
+            self = .promoteObjectID(value)
+        } else if let value = try? container.decode(PromoteObjectIDs.self) {
+            self = .promoteObjectIDs(value)
+        } else {
+            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of Promote"))
+        }
     }
-  }
 }

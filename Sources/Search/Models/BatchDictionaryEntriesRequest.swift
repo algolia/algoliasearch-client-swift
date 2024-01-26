@@ -2,31 +2,29 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct BatchDictionaryEntriesRequest: Codable, JSONEncodable, Hashable {
+    public var action: DictionaryAction
+    public var body: DictionaryEntry
 
-  public var action: DictionaryAction
-  public var body: DictionaryEntry
+    public init(action: DictionaryAction, body: DictionaryEntry) {
+        self.action = action
+        self.body = body
+    }
 
-  public init(action: DictionaryAction, body: DictionaryEntry) {
-    self.action = action
-    self.body = body
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case action
+        case body
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case action
-    case body
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(action, forKey: .action)
-    try container.encode(body, forKey: .body)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(action, forKey: .action)
+        try container.encode(body, forKey: .body)
+    }
 }

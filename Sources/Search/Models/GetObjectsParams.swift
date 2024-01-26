@@ -2,28 +2,26 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Request parameters.
+/** Request parameters. */
 public struct GetObjectsParams: Codable, JSONEncodable, Hashable {
+    public var requests: [GetObjectsRequest]
 
-  public var requests: [GetObjectsRequest]
+    public init(requests: [GetObjectsRequest]) {
+        self.requests = requests
+    }
 
-  public init(requests: [GetObjectsRequest]) {
-    self.requests = requests
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case requests
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case requests
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(requests, forKey: .requests)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(requests, forKey: .requests)
+    }
 }

@@ -2,45 +2,42 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct NoResultsRateEvent: Codable, JSONEncodable, Hashable {
+    static let rateRule = NumericRule<Double>(minimum: 0, exclusiveMinimum: false, maximum: 1, exclusiveMaximum: false, multipleOf: nil)
+    /** Date of the event in the format YYYY-MM-DD. */
+    public var date: String
+    /** Number of occurences. */
+    public var noResultCount: Int
+    /** Number of tracked _and_ untracked searches (where the `clickAnalytics` parameter isn't `true`). */
+    public var count: Int
+    /** [Click-through rate (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).  */
+    public var rate: Double
 
-  static let rateRule = NumericRule<Double>(
-    minimum: 0, exclusiveMinimum: false, maximum: 1, exclusiveMaximum: false, multipleOf: nil)
-  /** Date of the event in the format YYYY-MM-DD. */
-  public var date: String
-  /** Number of occurences. */
-  public var noResultCount: Int
-  /** Number of tracked _and_ untracked searches (where the `clickAnalytics` parameter isn't `true`). */
-  public var count: Int
-  /** [Click-through rate (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).  */
-  public var rate: Double
+    public init(date: String, noResultCount: Int, count: Int, rate: Double) {
+        self.date = date
+        self.noResultCount = noResultCount
+        self.count = count
+        self.rate = rate
+    }
 
-  public init(date: String, noResultCount: Int, count: Int, rate: Double) {
-    self.date = date
-    self.noResultCount = noResultCount
-    self.count = count
-    self.rate = rate
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case date
+        case noResultCount
+        case count
+        case rate
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case date
-    case noResultCount
-    case count
-    case rate
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(date, forKey: .date)
-    try container.encode(noResultCount, forKey: .noResultCount)
-    try container.encode(count, forKey: .count)
-    try container.encode(rate, forKey: .rate)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(date, forKey: .date)
+        try container.encode(noResultCount, forKey: .noResultCount)
+        try container.encode(count, forKey: .count)
+        try container.encode(rate, forKey: .rate)
+    }
 }

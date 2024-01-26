@@ -2,12 +2,11 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Trending facets model.
+/** Trending facets model. */
 public enum TrendingFacetsModel: String, Codable, CaseIterable {
-  case trendingFacets = "trending-facets"
+    case trendingFacets = "trending-facets"
 }

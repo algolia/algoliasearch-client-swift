@@ -2,95 +2,91 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct SearchHits: Codable, JSONEncodable, Hashable {
+    public var hits: [Hit]
+    /** Text to search for in an index. */
+    public var query: String
+    /** URL-encoded string of all search parameters. */
+    public var params: String
 
-  public var hits: [Hit]
-  /** Text to search for in an index. */
-  public var query: String
-  /** URL-encoded string of all search parameters. */
-  public var params: String
-
-  public init(hits: [Hit], query: String, params: String) {
-    self.hits = hits
-    self.query = query
-    self.params = params
-  }
-
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case hits
-    case query
-    case params
-  }
-
-  public var additionalProperties: [String: AnyCodable] = [:]
-
-  public subscript(key: String) -> AnyCodable? {
-    get {
-      if let value = additionalProperties[key] {
-        return value
-      }
-      return nil
+    public init(hits: [Hit], query: String, params: String) {
+        self.hits = hits
+        self.query = query
+        self.params = params
     }
 
-    set {
-      additionalProperties[key] = newValue
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case hits
+        case query
+        case params
     }
-  }
 
-  public init(from dictionary: [String: AnyCodable]) throws {
+    public var additionalProperties: [String: AnyCodable] = [:]
 
-    guard let hits = dictionary["hits"]?.value as? [Hit] else {
-      throw GenericError(description: "Failed to cast")
+    public subscript(key: String) -> AnyCodable? {
+        get {
+            if let value = additionalProperties[key] {
+                return value
+            }
+            return nil
+        }
+
+        set {
+            additionalProperties[key] = newValue
+        }
     }
-    self.hits = hits
-    guard let query = dictionary["query"]?.value as? String else {
-      throw GenericError(description: "Failed to cast")
+
+    public init(from dictionary: [String: AnyCodable]) throws {
+        guard let hits = dictionary["hits"]?.value as? [Hit] else {
+            throw GenericError(description: "Failed to cast")
+        }
+        self.hits = hits
+        guard let query = dictionary["query"]?.value as? String else {
+            throw GenericError(description: "Failed to cast")
+        }
+        self.query = query
+        guard let params = dictionary["params"]?.value as? String else {
+            throw GenericError(description: "Failed to cast")
+        }
+        self.params = params
+        for (key, value) in dictionary {
+            switch key {
+            case "hits", "query", "params":
+                continue
+            default:
+                additionalProperties[key] = value
+            }
+        }
     }
-    self.query = query
-    guard let params = dictionary["params"]?.value as? String else {
-      throw GenericError(description: "Failed to cast")
+
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(hits, forKey: .hits)
+        try container.encode(query, forKey: .query)
+        try container.encode(params, forKey: .params)
+        var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
+        try additionalPropertiesContainer.encodeMap(additionalProperties)
     }
-    self.params = params
-    for (key, value) in dictionary {
-      switch key {
-      case "hits", "query", "params":
-        continue
-      default:
-        self.additionalProperties[key] = value
-      }
+
+    // Decodable protocol methods
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+
+        hits = try container.decode([Hit].self, forKey: .hits)
+        query = try container.decode(String.self, forKey: .query)
+        params = try container.decode(String.self, forKey: .params)
+        var nonAdditionalPropertyKeys = Set<String>()
+        nonAdditionalPropertyKeys.insert("hits")
+        nonAdditionalPropertyKeys.insert("query")
+        nonAdditionalPropertyKeys.insert("params")
+        let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
+        additionalProperties = try additionalPropertiesContainer.decodeMap(AnyCodable.self, excludedKeys: nonAdditionalPropertyKeys)
     }
-  }
-
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(hits, forKey: .hits)
-    try container.encode(query, forKey: .query)
-    try container.encode(params, forKey: .params)
-    var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
-    try additionalPropertiesContainer.encodeMap(additionalProperties)
-  }
-
-  // Decodable protocol methods
-
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-
-    hits = try container.decode([Hit].self, forKey: .hits)
-    query = try container.decode(String.self, forKey: .query)
-    params = try container.decode(String.self, forKey: .params)
-    var nonAdditionalPropertyKeys = Set<String>()
-    nonAdditionalPropertyKeys.insert("hits")
-    nonAdditionalPropertyKeys.insert("query")
-    nonAdditionalPropertyKeys.insert("params")
-    let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
-    additionalProperties = try additionalPropertiesContainer.decodeMap(
-      AnyCodable.self, excludedKeys: nonAdditionalPropertyKeys)
-  }
 }

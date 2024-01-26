@@ -2,38 +2,36 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct GetUserTokenResponse: Codable, JSONEncodable, Hashable {
+    /** userToken representing the user for which to fetch the Personalization profile. */
+    public var userToken: String
+    /** Date of last event update. (ISO-8601 format). */
+    public var lastEventAt: String
+    /** The userToken scores. */
+    public var scores: AnyCodable
 
-  /** userToken representing the user for which to fetch the Personalization profile. */
-  public var userToken: String
-  /** Date of last event update. (ISO-8601 format). */
-  public var lastEventAt: String
-  /** The userToken scores. */
-  public var scores: AnyCodable
+    public init(userToken: String, lastEventAt: String, scores: AnyCodable) {
+        self.userToken = userToken
+        self.lastEventAt = lastEventAt
+        self.scores = scores
+    }
 
-  public init(userToken: String, lastEventAt: String, scores: AnyCodable) {
-    self.userToken = userToken
-    self.lastEventAt = lastEventAt
-    self.scores = scores
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case userToken
+        case lastEventAt
+        case scores
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case userToken
-    case lastEventAt
-    case scores
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(userToken, forKey: .userToken)
-    try container.encode(lastEventAt, forKey: .lastEventAt)
-    try container.encode(scores, forKey: .scores)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(userToken, forKey: .userToken)
+        try container.encode(lastEventAt, forKey: .lastEventAt)
+        try container.encode(scores, forKey: .scores)
+    }
 }

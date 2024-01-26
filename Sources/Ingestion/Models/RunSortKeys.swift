@@ -2,14 +2,13 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Used to sort the Run list endpoint.
+/** Used to sort the Run list endpoint. */
 public enum RunSortKeys: String, Codable, CaseIterable {
-  case status = "status"
-  case updatedAt = "updatedAt"
-  case createdAt = "createdAt"
+    case status
+    case updatedAt
+    case createdAt
 }

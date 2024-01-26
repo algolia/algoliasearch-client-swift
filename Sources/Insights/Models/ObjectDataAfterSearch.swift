@@ -2,44 +2,40 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct ObjectDataAfterSearch: Codable, JSONEncodable, Hashable {
+    static let queryIDRule = StringRule(minLength: 32, maxLength: 32, pattern: "[0-9a-f]{32}")
+    /** Unique identifier for a search query, used to track purchase events with multiple records that originate from different searches. */
+    public var queryID: String?
+    public var price: Price?
+    /** The quantity of a product that has been purchased or added to the cart. The total value of a purchase is the sum of `quantity` multiplied with the `price` for each purchased item.  */
+    public var quantity: Int?
+    public var discount: Discount?
 
-  static let queryIDRule = StringRule(minLength: 32, maxLength: 32, pattern: "[0-9a-f]{32}")
-  /** Unique identifier for a search query, used to track purchase events with multiple records that originate from different searches. */
-  public var queryID: String?
-  public var price: Price?
-  /** The quantity of a product that has been purchased or added to the cart. The total value of a purchase is the sum of `quantity` multiplied with the `price` for each purchased item.  */
-  public var quantity: Int?
-  public var discount: Discount?
+    public init(queryID: String? = nil, price: Price? = nil, quantity: Int? = nil, discount: Discount? = nil) {
+        self.queryID = queryID
+        self.price = price
+        self.quantity = quantity
+        self.discount = discount
+    }
 
-  public init(
-    queryID: String? = nil, price: Price? = nil, quantity: Int? = nil, discount: Discount? = nil
-  ) {
-    self.queryID = queryID
-    self.price = price
-    self.quantity = quantity
-    self.discount = discount
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case queryID
+        case price
+        case quantity
+        case discount
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case queryID
-    case price
-    case quantity
-    case discount
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encodeIfPresent(queryID, forKey: .queryID)
-    try container.encodeIfPresent(price, forKey: .price)
-    try container.encodeIfPresent(quantity, forKey: .quantity)
-    try container.encodeIfPresent(discount, forKey: .discount)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(queryID, forKey: .queryID)
+        try container.encodeIfPresent(price, forKey: .price)
+        try container.encodeIfPresent(quantity, forKey: .quantity)
+        try container.encodeIfPresent(discount, forKey: .discount)
+    }
 }

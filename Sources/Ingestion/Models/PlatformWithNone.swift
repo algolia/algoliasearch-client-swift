@@ -2,37 +2,32 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public enum PlatformWithNone: Codable, JSONEncodable, Hashable {
-  case platform(Platform)
-  case platformNone(PlatformNone)
+    case platform(Platform)
+    case platformNone(PlatformNone)
 
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.singleValueContainer()
-    switch self {
-    case .platform(let value):
-      try container.encode(value)
-    case .platformNone(let value):
-      try container.encode(value)
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .platform(value):
+            try container.encode(value)
+        case let .platformNone(value):
+            try container.encode(value)
+        }
     }
-  }
 
-  public init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    if let value = try? container.decode(Platform.self) {
-      self = .platform(value)
-    } else if let value = try? container.decode(PlatformNone.self) {
-      self = .platformNone(value)
-    } else {
-      throw DecodingError.typeMismatch(
-        Self.Type.self,
-        .init(
-          codingPath: decoder.codingPath,
-          debugDescription: "Unable to decode instance of PlatformWithNone"))
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        if let value = try? container.decode(Platform.self) {
+            self = .platform(value)
+        } else if let value = try? container.decode(PlatformNone.self) {
+            self = .platformNone(value)
+        } else {
+            throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of PlatformWithNone"))
+        }
     }
-  }
 }

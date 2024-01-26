@@ -2,18 +2,17 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// An identifier that pairs with the outcome reason.
+/** An identifier that pairs with the outcome reason. */
 public enum RunReasonCode: String, Codable, CaseIterable {
-  case `internal` = "internal"
-  case critical = "critical"
-  case noEvents = "no_events"
-  case tooManyErrors = "too_many_errors"
-  case ok = "ok"
-  case discarded = "discarded"
-  case blocking = "blocking"
+    case `internal`
+    case critical
+    case noEvents = "no_events"
+    case tooManyErrors = "too_many_errors"
+    case ok
+    case discarded
+    case blocking
 }

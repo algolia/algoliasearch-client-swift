@@ -2,38 +2,36 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct AverageClickEvent: Codable, JSONEncodable, Hashable {
+    /** Average count of all click events. */
+    public var average: Double
+    /** Number of click events. */
+    public var clickCount: Int
+    /** Date of the event in the format YYYY-MM-DD. */
+    public var date: String
 
-  /** Average count of all click events. */
-  public var average: Double
-  /** Number of click events. */
-  public var clickCount: Int
-  /** Date of the event in the format YYYY-MM-DD. */
-  public var date: String
+    public init(average: Double, clickCount: Int, date: String) {
+        self.average = average
+        self.clickCount = clickCount
+        self.date = date
+    }
 
-  public init(average: Double, clickCount: Int, date: String) {
-    self.average = average
-    self.clickCount = clickCount
-    self.date = date
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case average
+        case clickCount
+        case date
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case average
-    case clickCount
-    case date
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(average, forKey: .average)
-    try container.encode(clickCount, forKey: .clickCount)
-    try container.encode(date, forKey: .date)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(average, forKey: .average)
+        try container.encode(clickCount, forKey: .clickCount)
+        try container.encode(date, forKey: .date)
+    }
 }

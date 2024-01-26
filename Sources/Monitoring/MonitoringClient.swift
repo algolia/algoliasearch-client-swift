@@ -2,57 +2,52 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 typealias Client = MonitoringClient
 
 open class MonitoringClient {
+    private var configuration: Configuration
+    private var transporter: Transporter
 
-  private var configuration: Configuration
-  private var transporter: Transporter
+    var applicationID: String {
+        configuration.applicationID
+    }
 
-  var applicationID: String {
-    self.configuration.applicationID
-  }
+    public init(configuration: Configuration, transporter: Transporter) {
+        self.configuration = configuration
+        self.transporter = transporter
+    }
 
-  public init(configuration: Configuration, transporter: Transporter) {
-    self.configuration = configuration
-    self.transporter = transporter
-  }
+    public convenience init(configuration: Configuration) {
+        self.init(configuration: configuration, transporter: Transporter(configuration: configuration))
+    }
 
-  public convenience init(configuration: Configuration) {
-    self.init(configuration: configuration, transporter: Transporter(configuration: configuration))
-  }
+    public convenience init(applicationID: String, apiKey: String) throws {
+        try self.init(configuration: Configuration(applicationID: applicationID, apiKey: apiKey))
+    }
 
-  public convenience init(applicationID: String, apiKey: String) throws {
-    self.init(configuration: try Configuration(applicationID: applicationID, apiKey: apiKey))
-  }
-
-  /**
+    /**
      Send requests to the Algolia REST API.
 
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: AnyCodable
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customDelete(
-    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
-  ) async throws -> AnyCodable {
-    let response: Response<AnyCodable> = try await customDeleteWithHTTPInfo(
-      path: path, parameters: parameters, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func customDelete(path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil) async throws -> AnyCodable {
+        let response: Response<AnyCodable> = try await customDeleteWithHTTPInfo(path: path, parameters: parameters, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Send requests to the Algolia REST API.
 
      This method allow you to send requests to the Algolia REST API.
@@ -61,53 +56,45 @@ open class MonitoringClient {
      - returns: RequestBuilder<AnyCodable>
      */
 
-  open func customDeleteWithHTTPInfo(
-    path: String, parameters: [String: AnyCodable]? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<AnyCodable> {
-    var resourcePath = "/1{path}"
-    let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
-    let pathPostEscape =
-      pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
+    open func customDeleteWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        var resourcePath = "/1{path}"
+        let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
+        let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{path}", with: pathPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "DELETE",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "DELETE",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Send requests to the Algolia REST API.
 
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: AnyCodable
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customGet(
-    path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
-  ) async throws -> AnyCodable {
-    let response: Response<AnyCodable> = try await customGetWithHTTPInfo(
-      path: path, parameters: parameters, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func customGet(path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil) async throws -> AnyCodable {
+        let response: Response<AnyCodable> = try await customGetWithHTTPInfo(path: path, parameters: parameters, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Send requests to the Algolia REST API.
 
      This method allow you to send requests to the Algolia REST API.
@@ -116,32 +103,27 @@ open class MonitoringClient {
      - returns: RequestBuilder<AnyCodable>
      */
 
-  open func customGetWithHTTPInfo(
-    path: String, parameters: [String: AnyCodable]? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<AnyCodable> {
-    var resourcePath = "/1{path}"
-    let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
-    let pathPostEscape =
-      pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
+    open func customGetWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        var resourcePath = "/1{path}"
+        let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
+        let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{path}", with: pathPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Send requests to the Algolia REST API.
 
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
@@ -149,22 +131,18 @@ open class MonitoringClient {
      - parameter body: (body) Parameters to send with the custom request. (optional)
      - returns: AnyCodable
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customPost(
-    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
-    requestOptions: RequestOptions? = nil
-  ) async throws -> AnyCodable {
-    let response: Response<AnyCodable> = try await customPostWithHTTPInfo(
-      path: path, parameters: parameters, body: body, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func customPost(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil) async throws -> AnyCodable {
+        let response: Response<AnyCodable> = try await customPostWithHTTPInfo(path: path, parameters: parameters, body: body, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Send requests to the Algolia REST API.
 
      This method allow you to send requests to the Algolia REST API.
@@ -174,32 +152,27 @@ open class MonitoringClient {
      - returns: RequestBuilder<AnyCodable>
      */
 
-  open func customPostWithHTTPInfo(
-    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<AnyCodable> {
-    var resourcePath = "/1{path}"
-    let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
-    let pathPostEscape =
-      pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let body = body
-    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
+    open func customPostWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        var resourcePath = "/1{path}"
+        let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
+        let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{path}", with: pathPostEscape, options: .literal, range: nil)
+        let body = body
+        let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "POST",
-      path: resourcePath,
-      data: body ?? AnyCodable(),
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "POST",
+            path: resourcePath,
+            data: body ?? AnyCodable(),
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Send requests to the Algolia REST API.
 
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
@@ -207,22 +180,18 @@ open class MonitoringClient {
      - parameter body: (body) Parameters to send with the custom request. (optional)
      - returns: AnyCodable
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func customPut(
-    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
-    requestOptions: RequestOptions? = nil
-  ) async throws -> AnyCodable {
-    let response: Response<AnyCodable> = try await customPutWithHTTPInfo(
-      path: path, parameters: parameters, body: body, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func customPut(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil) async throws -> AnyCodable {
+        let response: Response<AnyCodable> = try await customPutWithHTTPInfo(path: path, parameters: parameters, body: body, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Send requests to the Algolia REST API.
 
      This method allow you to send requests to the Algolia REST API.
@@ -232,52 +201,44 @@ open class MonitoringClient {
      - returns: RequestBuilder<AnyCodable>
      */
 
-  open func customPutWithHTTPInfo(
-    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
-    requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<AnyCodable> {
-    var resourcePath = "/1{path}"
-    let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
-    let pathPostEscape =
-      pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{path}", with: pathPostEscape, options: .literal, range: nil)
-    let body = body
-    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
+    open func customPutWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        var resourcePath = "/1{path}"
+        let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
+        let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{path}", with: pathPostEscape, options: .literal, range: nil)
+        let body = body
+        let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "PUT",
-      path: resourcePath,
-      data: body ?? AnyCodable(),
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "PUT",
+            path: resourcePath,
+            data: body ?? AnyCodable(),
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      List incidents for selected clusters.
 
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: IncidentsResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getClusterIncidents(clusters: String, requestOptions: RequestOptions? = nil)
-    async throws -> IncidentsResponse
-  {
-    let response: Response<IncidentsResponse> = try await getClusterIncidentsWithHTTPInfo(
-      clusters: clusters, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getClusterIncidents(clusters: String, requestOptions: RequestOptions? = nil) async throws -> IncidentsResponse {
+        let response: Response<IncidentsResponse> = try await getClusterIncidentsWithHTTPInfo(clusters: clusters, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      List incidents for selected clusters.
 
      List known incidents for selected clusters.
@@ -285,51 +246,44 @@ open class MonitoringClient {
      - returns: RequestBuilder<IncidentsResponse>
      */
 
-  open func getClusterIncidentsWithHTTPInfo(
-    clusters: String, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<IncidentsResponse> {
-    var resourcePath = "/1/incidents/{clusters}"
-    let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
-    let clustersPostEscape =
-      clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{clusters}", with: clustersPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func getClusterIncidentsWithHTTPInfo(clusters: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<IncidentsResponse> {
+        var resourcePath = "/1/incidents/{clusters}"
+        let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
+        let clustersPostEscape = clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{clusters}", with: clustersPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      List statuses of selected clusters.
 
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: StatusResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getClusterStatus(clusters: String, requestOptions: RequestOptions? = nil) async throws
-    -> StatusResponse
-  {
-    let response: Response<StatusResponse> = try await getClusterStatusWithHTTPInfo(
-      clusters: clusters, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getClusterStatus(clusters: String, requestOptions: RequestOptions? = nil) async throws -> StatusResponse {
+        let response: Response<StatusResponse> = try await getClusterStatusWithHTTPInfo(clusters: clusters, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      List statuses of selected clusters.
 
      Report whether a cluster is operational.
@@ -337,94 +291,84 @@ open class MonitoringClient {
      - returns: RequestBuilder<StatusResponse>
      */
 
-  open func getClusterStatusWithHTTPInfo(
-    clusters: String, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<StatusResponse> {
-    var resourcePath = "/1/status/{clusters}"
-    let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
-    let clustersPostEscape =
-      clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{clusters}", with: clustersPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func getClusterStatusWithHTTPInfo(clusters: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<StatusResponse> {
+        var resourcePath = "/1/status/{clusters}"
+        let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
+        let clustersPostEscape = clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{clusters}", with: clustersPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      List incidents.
 
      - returns: IncidentsResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getIncidents(requestOptions: RequestOptions? = nil) async throws -> IncidentsResponse {
-    let response: Response<IncidentsResponse> = try await getIncidentsWithHTTPInfo(
-      requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getIncidents(requestOptions: RequestOptions? = nil) async throws -> IncidentsResponse {
+        let response: Response<IncidentsResponse> = try await getIncidentsWithHTTPInfo(requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      List incidents.
 
      List known incidents for all clusters.
      - returns: RequestBuilder<IncidentsResponse>
      */
 
-  open func getIncidentsWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil)
-    async throws -> Response<IncidentsResponse>
-  {
-    let resourcePath = "/1/incidents"
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func getIncidentsWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<IncidentsResponse> {
+        let resourcePath = "/1/incidents"
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Get indexing times.
 
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: IndexingTimeResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getIndexingTime(clusters: String, requestOptions: RequestOptions? = nil) async throws
-    -> IndexingTimeResponse
-  {
-    let response: Response<IndexingTimeResponse> = try await getIndexingTimeWithHTTPInfo(
-      clusters: clusters, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getIndexingTime(clusters: String, requestOptions: RequestOptions? = nil) async throws -> IndexingTimeResponse {
+        let response: Response<IndexingTimeResponse> = try await getIndexingTimeWithHTTPInfo(clusters: clusters, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Get indexing times.
 
      List the average times for indexing operations for selected clusters.
@@ -432,94 +376,84 @@ open class MonitoringClient {
      - returns: RequestBuilder<IndexingTimeResponse>
      */
 
-  open func getIndexingTimeWithHTTPInfo(
-    clusters: String, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<IndexingTimeResponse> {
-    var resourcePath = "/1/indexing/{clusters}"
-    let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
-    let clustersPostEscape =
-      clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{clusters}", with: clustersPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func getIndexingTimeWithHTTPInfo(clusters: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<IndexingTimeResponse> {
+        var resourcePath = "/1/indexing/{clusters}"
+        let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
+        let clustersPostEscape = clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{clusters}", with: clustersPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      List servers.
 
      - returns: InventoryResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getInventory(requestOptions: RequestOptions? = nil) async throws -> InventoryResponse {
-    let response: Response<InventoryResponse> = try await getInventoryWithHTTPInfo(
-      requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getInventory(requestOptions: RequestOptions? = nil) async throws -> InventoryResponse {
+        let response: Response<InventoryResponse> = try await getInventoryWithHTTPInfo(requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      List servers.
 
      List the servers belonging to clusters.  The response depends on whether you authenticate your API request:  - With authentication, the response lists the servers assigned to your Algolia application's cluster.  - Without authentication, the response lists the servers for all Algolia clusters.
      - returns: RequestBuilder<InventoryResponse>
      */
 
-  open func getInventoryWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil)
-    async throws -> Response<InventoryResponse>
-  {
-    let resourcePath = "/1/inventory/servers"
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func getInventoryWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<InventoryResponse> {
+        let resourcePath = "/1/inventory/servers"
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Get search latency times.
 
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: LatencyResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getLatency(clusters: String, requestOptions: RequestOptions? = nil) async throws
-    -> LatencyResponse
-  {
-    let response: Response<LatencyResponse> = try await getLatencyWithHTTPInfo(
-      clusters: clusters, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getLatency(clusters: String, requestOptions: RequestOptions? = nil) async throws -> LatencyResponse {
+        let response: Response<LatencyResponse> = try await getLatencyWithHTTPInfo(clusters: clusters, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Get search latency times.
 
      List the average latency for search requests for selected clusters.
@@ -527,52 +461,45 @@ open class MonitoringClient {
      - returns: RequestBuilder<LatencyResponse>
      */
 
-  open func getLatencyWithHTTPInfo(
-    clusters: String, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<LatencyResponse> {
-    var resourcePath = "/1/latency/{clusters}"
-    let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
-    let clustersPostEscape =
-      clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{clusters}", with: clustersPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func getLatencyWithHTTPInfo(clusters: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<LatencyResponse> {
+        var resourcePath = "/1/latency/{clusters}"
+        let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
+        let clustersPostEscape = clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{clusters}", with: clustersPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Get metrics for a given period.
 
      - parameter metric: (path) Metric to report.  For more information about the individual metrics, see the response. To include all metrics, use &#x60;*&#x60; as the parameter.
      - parameter period: (path) Period over which to aggregate the metrics:  - &#x60;minute&#x60;. Aggregate the last minute. 1 data point per 10 seconds. - &#x60;hour&#x60;. Aggregate the last hour. 1 data point per minute. - &#x60;day&#x60;. Aggregate the last day. 1 data point per 10 minutes. - &#x60;week&#x60;. Aggregate the last week. 1 data point per hour. - &#x60;month&#x60;. Aggregate the last month. 1 data point per day.
      - returns: InfrastructureResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getMetrics(metric: Metric, period: Period, requestOptions: RequestOptions? = nil)
-    async throws -> InfrastructureResponse
-  {
-    let response: Response<InfrastructureResponse> = try await getMetricsWithHTTPInfo(
-      metric: metric, period: period, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getMetrics(metric: Metric, period: Period, requestOptions: RequestOptions? = nil) async throws -> InfrastructureResponse {
+        let response: Response<InfrastructureResponse> = try await getMetricsWithHTTPInfo(metric: metric, period: period, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Get metrics for a given period.
 
      Report the aggregate value of a metric for a selected period of time.
@@ -581,56 +508,47 @@ open class MonitoringClient {
      - returns: RequestBuilder<InfrastructureResponse>
      */
 
-  open func getMetricsWithHTTPInfo(
-    metric: Metric, period: Period, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<InfrastructureResponse> {
-    var resourcePath = "/1/infrastructure/{metric}/period/{period}"
-    let metricPreEscape = "\(APIHelper.mapValueToPathItem(metric))"
-    let metricPostEscape =
-      metricPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{metric}", with: metricPostEscape, options: .literal, range: nil)
-    let periodPreEscape = "\(APIHelper.mapValueToPathItem(period))"
-    let periodPostEscape =
-      periodPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{period}", with: periodPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func getMetricsWithHTTPInfo(metric: Metric, period: Period, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<InfrastructureResponse> {
+        var resourcePath = "/1/infrastructure/{metric}/period/{period}"
+        let metricPreEscape = "\(APIHelper.mapValueToPathItem(metric))"
+        let metricPostEscape = metricPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{metric}", with: metricPostEscape, options: .literal, range: nil)
+        let periodPreEscape = "\(APIHelper.mapValueToPathItem(period))"
+        let periodPostEscape = periodPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{period}", with: periodPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      Test the reachability of clusters.
 
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: [String: [String: Bool]]
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getReachability(clusters: String, requestOptions: RequestOptions? = nil) async throws
-    -> [String: [String: Bool]]
-  {
-    let response: Response<[String: [String: Bool]]> = try await getReachabilityWithHTTPInfo(
-      clusters: clusters, requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getReachability(clusters: String, requestOptions: RequestOptions? = nil) async throws -> [String: [String: Bool]] {
+        let response: Response<[String: [String: Bool]]> = try await getReachabilityWithHTTPInfo(clusters: clusters, requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      Test the reachability of clusters.
 
      Test whether clusters are reachable or not.
@@ -638,70 +556,63 @@ open class MonitoringClient {
      - returns: RequestBuilder<[String: [String: Bool]]>
      */
 
-  open func getReachabilityWithHTTPInfo(
-    clusters: String, requestOptions userRequestOptions: RequestOptions? = nil
-  ) async throws -> Response<[String: [String: Bool]]> {
-    var resourcePath = "/1/reachability/{clusters}/probes"
-    let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
-    let clustersPostEscape =
-      clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
-    resourcePath = resourcePath.replacingOccurrences(
-      of: "{clusters}", with: clustersPostEscape, options: .literal, range: nil)
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func getReachabilityWithHTTPInfo(clusters: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<[String: [String: Bool]]> {
+        var resourcePath = "/1/reachability/{clusters}/probes"
+        let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
+        let clustersPostEscape = clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+        resourcePath = resourcePath.replacingOccurrences(of: "{clusters}", with: clustersPostEscape, options: .literal, range: nil)
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 
-  /**
+    /**
      List cluster statuses.
 
      - returns: StatusResponse
      */
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func getStatus(requestOptions: RequestOptions? = nil) async throws -> StatusResponse {
-    let response: Response<StatusResponse> = try await getStatusWithHTTPInfo(
-      requestOptions: requestOptions)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getStatus(requestOptions: RequestOptions? = nil) async throws -> StatusResponse {
+        let response: Response<StatusResponse> = try await getStatusWithHTTPInfo(requestOptions: requestOptions)
 
-    guard let body = response.body else {
-      throw AlgoliaError.missingData
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
     }
 
-    return body
-  }
-
-  /**
+    /**
      List cluster statuses.
 
      Report whether clusters are operational.  The response depends on whether you authenticate your API request.  - With authentication, the response includes the status of the cluster assigned to your Algolia application.  - Without authentication, the response lists the statuses of all public Algolia clusters.
      - returns: RequestBuilder<StatusResponse>
      */
 
-  open func getStatusWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil)
-    async throws -> Response<StatusResponse>
-  {
-    let resourcePath = "/1/status"
-    let body: AnyCodable? = nil
-    let queryItems: [URLQueryItem]? = nil
+    open func getStatusWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<StatusResponse> {
+        let resourcePath = "/1/status"
+        let body: AnyCodable? = nil
+        let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = nil
+        let nillableHeaders: [String: Any?]? = nil
 
-    let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
-    return try await self.transporter.send(
-      method: "GET",
-      path: resourcePath,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
-    )
-  }
+        return try await transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+        )
+    }
 }

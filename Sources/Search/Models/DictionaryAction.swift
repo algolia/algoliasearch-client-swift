@@ -2,13 +2,12 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
-/// Actions to perform.
+/** Actions to perform. */
 public enum DictionaryAction: String, Codable, CaseIterable {
-  case addEntry = "addEntry"
-  case deleteEntry = "deleteEntry"
+    case addEntry
+    case deleteEntry
 }

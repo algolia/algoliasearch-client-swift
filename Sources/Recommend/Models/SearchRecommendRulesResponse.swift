@@ -2,43 +2,41 @@
 
 import Core
 import Foundation
-
 #if canImport(AnyCodable)
-  import AnyCodable
+    import AnyCodable
 #endif
 
 public struct SearchRecommendRulesResponse: Codable, JSONEncodable, Hashable {
+    /** Fetched rules. */
+    public var hits: [RuleResponse]
+    /** Number of hits the search query matched. */
+    public var nbHits: Int
+    /** Page to retrieve (the first page is `0`, not `1`). */
+    public var page: Int
+    /** Number of pages of results for the current query. */
+    public var nbPages: Int
 
-  /** Fetched rules. */
-  public var hits: [RuleResponse]
-  /** Number of hits the search query matched. */
-  public var nbHits: Int
-  /** Page to retrieve (the first page is `0`, not `1`). */
-  public var page: Int
-  /** Number of pages of results for the current query. */
-  public var nbPages: Int
+    public init(hits: [RuleResponse], nbHits: Int, page: Int, nbPages: Int) {
+        self.hits = hits
+        self.nbHits = nbHits
+        self.page = page
+        self.nbPages = nbPages
+    }
 
-  public init(hits: [RuleResponse], nbHits: Int, page: Int, nbPages: Int) {
-    self.hits = hits
-    self.nbHits = nbHits
-    self.page = page
-    self.nbPages = nbPages
-  }
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case hits
+        case nbHits
+        case page
+        case nbPages
+    }
 
-  public enum CodingKeys: String, CodingKey, CaseIterable {
-    case hits
-    case nbHits
-    case page
-    case nbPages
-  }
+    // Encodable protocol methods
 
-  // Encodable protocol methods
-
-  public func encode(to encoder: Encoder) throws {
-    var container = encoder.container(keyedBy: CodingKeys.self)
-    try container.encode(hits, forKey: .hits)
-    try container.encode(nbHits, forKey: .nbHits)
-    try container.encode(page, forKey: .page)
-    try container.encode(nbPages, forKey: .nbPages)
-  }
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(hits, forKey: .hits)
+        try container.encode(nbHits, forKey: .nbHits)
+        try container.encode(page, forKey: .page)
+        try container.encode(nbPages, forKey: .nbPages)
+    }
 }
