@@ -17,14 +17,13 @@ public struct SearchUserIdsResponse: Codable, JSONEncodable, Hashable {
   /** Number of hits the search query matched. */
   public var nbHits: Int
   /** Page to retrieve (the first page is `0`, not `1`). */
-  public var page: Int = 0
+  public var page: Int
   /** Maximum number of hits per page. */
-  public var hitsPerPage: Int = 20
+  public var hitsPerPage: Int
   /** Timestamp of the last update in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format. */
   public var updatedAt: String
 
-  public init(hits: [UserHit], nbHits: Int, page: Int = 0, hitsPerPage: Int = 20, updatedAt: String)
-  {
+  public init(hits: [UserHit], nbHits: Int, page: Int, hitsPerPage: Int, updatedAt: String) {
     self.hits = hits
     self.nbHits = nbHits
     self.page = page

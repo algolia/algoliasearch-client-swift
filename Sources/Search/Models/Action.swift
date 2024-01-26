@@ -9,11 +9,11 @@ import Foundation
 
 /// Type of batch operation.
 public enum Action: String, Codable, CaseIterable {
-  case addobject = "addObject"
-  case updateobject = "updateObject"
-  case partialupdateobject = "partialUpdateObject"
-  case partialupdateobjectnocreate = "partialUpdateObjectNoCreate"
-  case deleteobject = "deleteObject"
+  case addObject = "addObject"
+  case updateObject = "updateObject"
+  case partialUpdateObject = "partialUpdateObject"
+  case partialUpdateObjectNoCreate = "partialUpdateObjectNoCreate"
+  case deleteObject = "deleteObject"
   case delete = "delete"
   case clear = "clear"
 }

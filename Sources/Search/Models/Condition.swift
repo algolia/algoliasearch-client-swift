@@ -13,12 +13,12 @@ public struct Condition: Codable, JSONEncodable, Hashable {
   public var pattern: String?
   public var anchoring: Anchoring?
   /** Whether the pattern matches on plurals, synonyms, and typos. */
-  public var alternatives: Bool? = false
+  public var alternatives: Bool?
   /** Rule context format: [A-Za-z0-9_-]+). */
   public var context: String?
 
   public init(
-    pattern: String? = nil, anchoring: Anchoring? = nil, alternatives: Bool? = false,
+    pattern: String? = nil, anchoring: Anchoring? = nil, alternatives: Bool? = nil,
     context: String? = nil
   ) {
     self.pattern = pattern

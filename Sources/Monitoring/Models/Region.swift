@@ -15,7 +15,7 @@ public enum Region: String, Codable, CaseIterable {
   case de = "de"
   case eu = "eu"
   case hk = "hk"
-  case _in = "in"
+  case `in` = "in"
   case jp = "jp"
   case sg = "sg"
   case uae = "uae"

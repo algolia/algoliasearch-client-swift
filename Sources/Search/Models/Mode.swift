@@ -9,6 +9,6 @@ import Foundation
 
 /// Search mode the index will use to query for results.
 public enum Mode: String, Codable, CaseIterable {
-  case neuralsearch = "neuralSearch"
-  case keywordsearch = "keywordSearch"
+  case neuralSearch = "neuralSearch"
+  case keywordSearch = "keywordSearch"
 }

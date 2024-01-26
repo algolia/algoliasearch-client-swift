@@ -8,6 +8,6 @@ import Foundation
 #endif
 
 public enum AdvancedSyntaxFeatures: String, Codable, CaseIterable {
-  case exactphrase = "exactPhrase"
-  case excludewords = "excludeWords"
+  case exactPhrase = "exactPhrase"
+  case excludeWords = "excludeWords"
 }

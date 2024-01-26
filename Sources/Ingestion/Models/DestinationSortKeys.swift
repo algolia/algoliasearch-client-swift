@@ -11,6 +11,6 @@ import Foundation
 public enum DestinationSortKeys: String, Codable, CaseIterable {
   case name = "name"
   case type = "type"
-  case updatedat = "updatedAt"
-  case createdat = "createdAt"
+  case updatedAt = "updatedAt"
+  case createdAt = "createdAt"
 }

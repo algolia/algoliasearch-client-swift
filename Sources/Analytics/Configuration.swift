@@ -29,7 +29,7 @@ public struct Configuration: Core.Configuration, Credentials {
     readTimeout: TimeInterval = DefaultConfiguration.default.readTimeout,
     logLevel: LogLevel = DefaultConfiguration.default.logLevel,
     defaultHeaders: [String: String]? = DefaultConfiguration.default.defaultHeaders
-  ) {
+  ) throws {
     self.applicationID = applicationID
     self.apiKey = apiKey
     self.writeTimeout = writeTimeout
@@ -42,8 +42,9 @@ public struct Configuration: Core.Configuration, Credentials {
     ].merging(defaultHeaders ?? [:]) { (_, new) in new }
 
     guard region == nil || authorizedRegions.contains(region!) else {
-      fatalError(
-        "Region must be one of the following: \(authorizedRegions.map { $0.rawValue }.joined(separator: ", "))"
+      throw GenericError(
+        description:
+          "`region` must be one of the following: \(authorizedRegions.map { $0.rawValue }.joined(separator: ", "))"
       )
     }
 
@@ -53,7 +54,7 @@ public struct Configuration: Core.Configuration, Credentials {
           string: "https://analytics.{region}.algolia.com".replacingOccurrences(
             of: "{region}", with: region.rawValue))
       else {
-        fatalError("Malformed URL")
+        throw GenericError(description: "Malformed URL")
       }
 
       self.hosts = [
@@ -61,7 +62,7 @@ public struct Configuration: Core.Configuration, Credentials {
       ]
     } else {
       guard let url = URL(string: "https://analytics.algolia.com") else {
-        fatalError("Malformed URL")
+        throw GenericError(description: "Malformed URL")
       }
 
       self.hosts = [

@@ -10,9 +10,9 @@ import Foundation
 public struct SearchParamsQuery: Codable, JSONEncodable, Hashable {
 
   /** Text to search for in an index. */
-  public var query: String? = ""
+  public var query: String?
 
-  public init(query: String? = "") {
+  public init(query: String? = nil) {
     self.query = query
   }
 

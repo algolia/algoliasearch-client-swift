@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum HTTPMethod: String {
+public enum HTTPMethod: String, Codable {
   case options = "OPTIONS"
   case get = "GET"
   case head = "HEAD"

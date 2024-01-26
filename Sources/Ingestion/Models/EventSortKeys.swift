@@ -11,5 +11,5 @@ import Foundation
 public enum EventSortKeys: String, Codable, CaseIterable {
   case status = "status"
   case type = "type"
-  case publishedat = "publishedAt"
+  case publishedAt = "publishedAt"
 }

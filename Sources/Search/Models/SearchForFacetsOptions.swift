@@ -16,13 +16,13 @@ public struct SearchForFacetsOptions: Codable, JSONEncodable, Hashable {
   /** Algolia index name. */
   public var indexName: String
   /** Text to search inside the facet's values. */
-  public var facetQuery: String? = ""
+  public var facetQuery: String?
   /** Maximum number of facet hits to return when [searching for facet values](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#search-for-facet-values). */
-  public var maxFacetHits: Int? = 10
+  public var maxFacetHits: Int?
   public var type: SearchTypeFacet
 
   public init(
-    facet: String, indexName: String, facetQuery: String? = "", maxFacetHits: Int? = 10,
+    facet: String, indexName: String, facetQuery: String? = nil, maxFacetHits: Int? = nil,
     type: SearchTypeFacet
   ) {
     self.facet = facet

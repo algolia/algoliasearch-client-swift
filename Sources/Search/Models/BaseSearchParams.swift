@@ -14,33 +14,33 @@ public struct BaseSearchParams: Codable, JSONEncodable, Hashable {
   static let minimumAroundRadiusRule = NumericRule<Int>(
     minimum: 1, exclusiveMinimum: false, maximum: nil, exclusiveMaximum: false, multipleOf: nil)
   /** Text to search for in an index. */
-  public var query: String? = ""
+  public var query: String?
   /** Overrides the query parameter and performs a more generic search. */
-  public var similarQuery: String? = ""
+  public var similarQuery: String?
   /** [Filter](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/) the query with numeric, facet, or tag filters.  */
-  public var filters: String? = ""
+  public var filters: String?
   public var facetFilters: FacetFilters?
   public var optionalFilters: OptionalFilters?
   public var numericFilters: NumericFilters?
   public var tagFilters: TagFilters?
   /** Determines how to calculate [filter scores](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/in-depth/filter-scoring/#accumulating-scores-with-sumorfiltersscores). If `false`, maximum score is kept. If `true`, score is summed.  */
-  public var sumOrFiltersScores: Bool? = false
+  public var sumOrFiltersScores: Bool?
   /** Restricts a query to only look at a subset of your [searchable attributes](https://www.algolia.com/doc/guides/managing-results/must-do/searchable-attributes/). */
   public var restrictSearchableAttributes: [String]?
   /** Returns [facets](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#contextual-facet-values-and-counts), their facet values, and the number of matching facet values. */
   public var facets: [String]?
   /** Forces faceting to be applied after [de-duplication](https://www.algolia.com/doc/guides/managing-results/refine-results/grouping/) (with the distinct feature). Alternatively, the `afterDistinct` [modifier](https://www.algolia.com/doc/api-reference/api-parameters/attributesForFaceting/#modifiers) of `attributesForFaceting` allows for more granular control.  */
-  public var facetingAfterDistinct: Bool? = false
+  public var facetingAfterDistinct: Bool?
   /** Page to retrieve (the first page is `0`, not `1`). */
-  public var page: Int? = 0
+  public var page: Int?
   /** Specifies the offset of the first hit to return. > **Note**: Using `page` and `hitsPerPage` is the recommended method for [paging results](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/pagination/js/). However, you can use `offset` and `length` to implement [an alternative approach to paging](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/pagination/js/#retrieving-a-subset-of-records-with-offset-and-length).  */
   public var offset: Int?
   /** Sets the number of hits to retrieve (for use with `offset`). > **Note**: Using `page` and `hitsPerPage` is the recommended method for [paging results](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/pagination/js/). However, you can use `offset` and `length` to implement [an alternative approach to paging](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/pagination/js/#retrieving-a-subset-of-records-with-offset-and-length).  */
   public var length: Int?
   /** Search for entries [around a central location](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#filter-around-a-central-point), enabling a geographical search within a circular area. */
-  public var aroundLatLng: String? = ""
+  public var aroundLatLng: String?
   /** Search for entries around a location. The location is automatically computed from the requester's IP address. */
-  public var aroundLatLngViaIP: Bool? = false
+  public var aroundLatLngViaIP: Bool?
   public var aroundRadius: AroundRadius?
   public var aroundPrecision: AroundPrecision?
   /** Minimum radius (in meters) used for a geographical search when `aroundRadius` isn't set. */
@@ -54,41 +54,41 @@ public struct BaseSearchParams: Codable, JSONEncodable, Hashable {
   /** Assigns [rule contexts](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#whats-a-context) to search queries. */
   public var ruleContexts: [String]?
   /** Defines how much [Personalization affects results](https://www.algolia.com/doc/guides/personalization/personalizing-results/in-depth/configuring-personalization/#understanding-personalization-impact). */
-  public var personalizationImpact: Int? = 100
+  public var personalizationImpact: Int?
   /** Associates a [user token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken/) with the current search. */
   public var userToken: String?
   /** Incidates whether the search response includes [detailed ranking information](https://www.algolia.com/doc/guides/building-search-ui/going-further/backend-search/in-depth/understanding-the-api-response/#ranking-information). */
-  public var getRankingInfo: Bool? = false
+  public var getRankingInfo: Bool?
   /** Enriches the API's response with information about how the query was processed. */
   public var explain: [String]?
   /** Whether to take into account an index's synonyms for a particular search. */
-  public var synonyms: Bool? = true
+  public var synonyms: Bool?
   /** Indicates whether a query ID parameter is included in the search response. This is required for [tracking click and conversion events](https://www.algolia.com/doc/guides/sending-events/concepts/event-types/#events-related-to-algolia-requests). */
-  public var clickAnalytics: Bool? = false
+  public var clickAnalytics: Bool?
   /** Indicates whether this query will be included in [analytics](https://www.algolia.com/doc/guides/search-analytics/guides/exclude-queries/). */
-  public var analytics: Bool? = true
+  public var analytics: Bool?
   /** Tags to apply to the query for [segmenting analytics data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/). */
   public var analyticsTags: [String]?
   /** Whether to include or exclude a query from the processing-time percentile computation. */
-  public var percentileComputation: Bool? = true
+  public var percentileComputation: Bool?
   /** Incidates whether this search will be considered in A/B testing. */
-  public var enableABTest: Bool? = true
+  public var enableABTest: Bool?
 
   public init(
-    query: String? = "", similarQuery: String? = "", filters: String? = "",
+    query: String? = nil, similarQuery: String? = nil, filters: String? = nil,
     facetFilters: FacetFilters? = nil, optionalFilters: OptionalFilters? = nil,
     numericFilters: NumericFilters? = nil, tagFilters: TagFilters? = nil,
-    sumOrFiltersScores: Bool? = false, restrictSearchableAttributes: [String]? = nil,
-    facets: [String]? = nil, facetingAfterDistinct: Bool? = false, page: Int? = 0,
-    offset: Int? = nil, length: Int? = nil, aroundLatLng: String? = "",
-    aroundLatLngViaIP: Bool? = false, aroundRadius: AroundRadius? = nil,
+    sumOrFiltersScores: Bool? = nil, restrictSearchableAttributes: [String]? = nil,
+    facets: [String]? = nil, facetingAfterDistinct: Bool? = nil, page: Int? = nil,
+    offset: Int? = nil, length: Int? = nil, aroundLatLng: String? = nil,
+    aroundLatLngViaIP: Bool? = nil, aroundRadius: AroundRadius? = nil,
     aroundPrecision: AroundPrecision? = nil, minimumAroundRadius: Int? = nil,
     insideBoundingBox: [[Double]]? = nil, insidePolygon: [[Double]]? = nil,
     naturalLanguages: [String]? = nil, ruleContexts: [String]? = nil,
-    personalizationImpact: Int? = 100, userToken: String? = nil, getRankingInfo: Bool? = false,
-    explain: [String]? = nil, synonyms: Bool? = true, clickAnalytics: Bool? = false,
-    analytics: Bool? = true, analyticsTags: [String]? = nil, percentileComputation: Bool? = true,
-    enableABTest: Bool? = true
+    personalizationImpact: Int? = nil, userToken: String? = nil, getRankingInfo: Bool? = nil,
+    explain: [String]? = nil, synonyms: Bool? = nil, clickAnalytics: Bool? = nil,
+    analytics: Bool? = nil, analyticsTags: [String]? = nil, percentileComputation: Bool? = nil,
+    enableABTest: Bool? = nil
   ) {
     self.query = query
     self.similarQuery = similarQuery

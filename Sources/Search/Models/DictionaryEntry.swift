@@ -58,6 +58,34 @@ public struct DictionaryEntry: Codable, JSONEncodable, Hashable {
     }
   }
 
+  public init(from dictionary: [String: AnyCodable]) throws {
+
+    guard let objectID = dictionary["objectID"]?.value as? String else {
+      throw GenericError(description: "Failed to cast")
+    }
+    self.objectID = objectID
+    guard let language = dictionary["language"]?.value as? String else {
+      throw GenericError(description: "Failed to cast")
+    }
+    self.language = language
+    self.word = dictionary["word"]?.value as? String
+
+    self.words = dictionary["words"]?.value as? [String]
+
+    self.decomposition = dictionary["decomposition"]?.value as? [String]
+
+    self.state = dictionary["state"]?.value as? DictionaryEntryState
+
+    for (key, value) in dictionary {
+      switch key {
+      case "objectID", "language", "word", "words", "decomposition", "state":
+        continue
+      default:
+        self.additionalProperties[key] = value
+      }
+    }
+  }
+
   // Encodable protocol methods
 
   public func encode(to encoder: Encoder) throws {

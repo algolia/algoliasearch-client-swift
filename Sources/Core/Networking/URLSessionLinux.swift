@@ -46,12 +46,12 @@ extension URLSession {
           }
           guard let response = response as? HTTPURLResponse else {
             continuation.resume(
-              throwing: TransportError.decodingFailure(
-                AlgoliaError(errorMessage: "Unable to decode HTTPURLResponse")))
+              throwing: AlgoliaError.decodingFailure(
+                GenericError(description: "Unable to decode HTTPURLResponse")))
             return
           }
           guard let data = data else {
-            continuation.resume(throwing: TransportError.missingData)
+            continuation.resume(throwing: AlgoliaError.missingData)
             return
           }
           continuation.resume(returning: (data, response))

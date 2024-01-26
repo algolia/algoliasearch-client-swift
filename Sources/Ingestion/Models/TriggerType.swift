@@ -9,7 +9,7 @@ import Foundation
 
 /// The type of the task reflect how it can be used:   - onDemand: a task that runs manually   - schedule: a task that runs regularly, following a given cron expression   - subscription: a task that runs after a subscription event is received from an integration (e.g. Webhook).
 public enum TriggerType: String, Codable, CaseIterable {
-  case ondemand = "onDemand"
+  case onDemand = "onDemand"
   case schedule = "schedule"
   case subscription = "subscription"
 }

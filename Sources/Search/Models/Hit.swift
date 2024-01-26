@@ -54,6 +54,30 @@ public struct Hit: Codable, JSONEncodable, Hashable {
     }
   }
 
+  public init(from dictionary: [String: AnyCodable]) throws {
+
+    guard let objectID = dictionary["objectID"]?.value as? String else {
+      throw GenericError(description: "Failed to cast")
+    }
+    self.objectID = objectID
+    self.highlightResult = dictionary["highlightResult"]?.value as? [String: HighlightResult]
+
+    self.snippetResult = dictionary["snippetResult"]?.value as? [String: SnippetResult]
+
+    self.rankingInfo = dictionary["rankingInfo"]?.value as? RankingInfo
+
+    self.distinctSeqID = dictionary["distinctSeqID"]?.value as? Int
+
+    for (key, value) in dictionary {
+      switch key {
+      case "objectID", "highlightResult", "snippetResult", "rankingInfo", "distinctSeqID":
+        continue
+      default:
+        self.additionalProperties[key] = value
+      }
+    }
+  }
+
   // Encodable protocol methods
 
   public func encode(to encoder: Encoder) throws {

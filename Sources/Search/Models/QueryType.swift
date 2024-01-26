@@ -9,7 +9,7 @@ import Foundation
 
 /// Determines how query words are [interpreted as prefixes](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/in-depth/prefix-searching/).
 public enum QueryType: String, Codable, CaseIterable {
-  case prefixlast = "prefixLast"
-  case prefixall = "prefixAll"
-  case prefixnone = "prefixNone"
+  case prefixLast = "prefixLast"
+  case prefixAll = "prefixAll"
+  case prefixNone = "prefixNone"
 }

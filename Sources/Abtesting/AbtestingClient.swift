@@ -27,9 +27,10 @@ open class AbtestingClient {
     self.init(configuration: configuration, transporter: Transporter(configuration: configuration))
   }
 
-  public convenience init(applicationID: String, apiKey: String, region: Region?) {
+  public convenience init(applicationID: String, apiKey: String, region: Region?) throws {
     self.init(
-      configuration: Configuration(applicationID: applicationID, apiKey: apiKey, region: region))
+      configuration: try Configuration(applicationID: applicationID, apiKey: apiKey, region: region)
+    )
   }
 
   /**
@@ -42,9 +43,14 @@ open class AbtestingClient {
   open func addABTests(addABTestsRequest: AddABTestsRequest, requestOptions: RequestOptions? = nil)
     async throws -> ABTestResponse
   {
-    return try await addABTestsWithHTTPInfo(
-      addABTestsRequest: addABTestsRequest, requestOptions: requestOptions
-    ).body
+    let response: Response<ABTestResponse> = try await addABTestsWithHTTPInfo(
+      addABTestsRequest: addABTestsRequest, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -58,18 +64,17 @@ open class AbtestingClient {
   open func addABTestsWithHTTPInfo(
     addABTestsRequest: AddABTestsRequest, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<ABTestResponse> {
-    let path = "/2/abtests"
+    let resourcePath = "/2/abtests"
     let body = addABTestsRequest
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -86,9 +91,14 @@ open class AbtestingClient {
   open func customDelete(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customDeleteWithHTTPInfo(
-      path: path, parameters: parameters, requestOptions: requestOptions
-    ).body
+    let response: Response<AnyCodable> = try await customDeleteWithHTTPInfo(
+      path: path, parameters: parameters, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -104,25 +114,22 @@ open class AbtestingClient {
     path: String, parameters: [String: AnyCodable]? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<AnyCodable> {
-    var path = "/1{path}"
+    var resourcePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
+    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
-    ])
-
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "DELETE",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -139,9 +146,14 @@ open class AbtestingClient {
   open func customGet(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customGetWithHTTPInfo(
-      path: path, parameters: parameters, requestOptions: requestOptions
-    ).body
+    let response: Response<AnyCodable> = try await customGetWithHTTPInfo(
+      path: path, parameters: parameters, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -157,25 +169,22 @@ open class AbtestingClient {
     path: String, parameters: [String: AnyCodable]? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<AnyCodable> {
-    var path = "/1{path}"
+    var resourcePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
+    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
-    ])
-
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -191,12 +200,17 @@ open class AbtestingClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPost(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPostWithHTTPInfo(
-      path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).body
+    let response: Response<AnyCodable> = try await customPostWithHTTPInfo(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -210,29 +224,26 @@ open class AbtestingClient {
      */
 
   open func customPostWithHTTPInfo(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<AnyCodable> {
-    var path = "/1{path}"
+    var resourcePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
     let body = body
+    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
-    ])
-
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
-      data: body,
+      path: resourcePath,
+      data: body ?? AnyCodable(),
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
   }
@@ -247,12 +258,17 @@ open class AbtestingClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPut(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPutWithHTTPInfo(
-      path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).body
+    let response: Response<AnyCodable> = try await customPutWithHTTPInfo(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -266,29 +282,26 @@ open class AbtestingClient {
      */
 
   open func customPutWithHTTPInfo(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<AnyCodable> {
-    var path = "/1{path}"
+    var resourcePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
     let body = body
+    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
-    ])
-
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "PUT",
-      path: path,
-      data: body,
+      path: resourcePath,
+      data: body ?? AnyCodable(),
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
   }
@@ -303,7 +316,14 @@ open class AbtestingClient {
   open func deleteABTest(id: Int, requestOptions: RequestOptions? = nil) async throws
     -> ABTestResponse
   {
-    return try await deleteABTestWithHTTPInfo(id: id, requestOptions: requestOptions).body
+    let response: Response<ABTestResponse> = try await deleteABTestWithHTTPInfo(
+      id: id, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -317,22 +337,22 @@ open class AbtestingClient {
   open func deleteABTestWithHTTPInfo(
     id: Int, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<ABTestResponse> {
-    var path = "/2/abtests/{id}"
+    var resourcePath = "/2/abtests/{id}"
     let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
     let idPostEscape =
-      idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+      idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
+      of: "{id}", with: idPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "DELETE",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -346,7 +366,14 @@ open class AbtestingClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getABTest(id: Int, requestOptions: RequestOptions? = nil) async throws -> ABTest {
-    return try await getABTestWithHTTPInfo(id: id, requestOptions: requestOptions).body
+    let response: Response<ABTest> = try await getABTestWithHTTPInfo(
+      id: id, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -360,22 +387,22 @@ open class AbtestingClient {
   open func getABTestWithHTTPInfo(id: Int, requestOptions userRequestOptions: RequestOptions? = nil)
     async throws -> Response<ABTest>
   {
-    var path = "/2/abtests/{id}"
+    var resourcePath = "/2/abtests/{id}"
     let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
     let idPostEscape =
-      idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+      idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
+      of: "{id}", with: idPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -395,10 +422,15 @@ open class AbtestingClient {
     offset: Int? = nil, limit: Int? = nil, indexPrefix: String? = nil, indexSuffix: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> ListABTestsResponse {
-    return try await listABTestsWithHTTPInfo(
+    let response: Response<ListABTestsResponse> = try await listABTestsWithHTTPInfo(
       offset: offset, limit: limit, indexPrefix: indexPrefix, indexSuffix: indexSuffix,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -416,23 +448,22 @@ open class AbtestingClient {
     offset: Int? = nil, limit: Int? = nil, indexPrefix: String? = nil, indexSuffix: String? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<ListABTestsResponse> {
-    let path = "/2/abtests"
+    let resourcePath = "/2/abtests"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "offset": (wrappedValue: offset?.encodeToJSON(), isExplode: true),
-      "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-      "indexPrefix": (wrappedValue: indexPrefix?.encodeToJSON(), isExplode: true),
-      "indexSuffix": (wrappedValue: indexSuffix?.encodeToJSON(), isExplode: true),
+      "offset": offset?.encodeToJSON(),
+      "limit": limit?.encodeToJSON(),
+      "indexPrefix": indexPrefix?.encodeToJSON(),
+      "indexSuffix": indexSuffix?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -448,7 +479,14 @@ open class AbtestingClient {
   open func stopABTest(id: Int, requestOptions: RequestOptions? = nil) async throws
     -> ABTestResponse
   {
-    return try await stopABTestWithHTTPInfo(id: id, requestOptions: requestOptions).body
+    let response: Response<ABTestResponse> = try await stopABTestWithHTTPInfo(
+      id: id, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -462,22 +500,22 @@ open class AbtestingClient {
   open func stopABTestWithHTTPInfo(
     id: Int, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<ABTestResponse> {
-    var path = "/2/abtests/{id}/stop"
+    var resourcePath = "/2/abtests/{id}/stop"
     let idPreEscape = "\(APIHelper.mapValueToPathItem(id))"
     let idPostEscape =
-      idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(of: "{id}", with: idPostEscape, options: .literal, range: nil)
+      idPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
+      of: "{id}", with: idPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )

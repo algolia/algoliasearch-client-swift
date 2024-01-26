@@ -8,6 +8,6 @@ import Foundation
 #endif
 
 public enum MethodType: String, Codable, CaseIterable {
-  case _get = "GET"
+  case `get` = "GET"
   case post = "POST"
 }

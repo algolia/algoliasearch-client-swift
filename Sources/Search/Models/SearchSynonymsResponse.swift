@@ -39,6 +39,26 @@ public struct SearchSynonymsResponse: Codable, JSONEncodable, Hashable {
     }
   }
 
+  public init(from dictionary: [String: AnyCodable]) throws {
+
+    guard let hits = dictionary["hits"]?.value as? [SynonymHit] else {
+      throw GenericError(description: "Failed to cast")
+    }
+    self.hits = hits
+    guard let nbHits = dictionary["nbHits"]?.value as? Int else {
+      throw GenericError(description: "Failed to cast")
+    }
+    self.nbHits = nbHits
+    for (key, value) in dictionary {
+      switch key {
+      case "hits", "nbHits":
+        continue
+      default:
+        self.additionalProperties[key] = value
+      }
+    }
+  }
+
   // Encodable protocol methods
 
   public func encode(to encoder: Encoder) throws {

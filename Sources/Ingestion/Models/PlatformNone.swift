@@ -9,5 +9,5 @@ import Foundation
 
 /// Used to filter Authentication without platform property.
 public enum PlatformNone: String, Codable, CaseIterable {
-  case _none = "none"
+  case `none` = "none"
 }

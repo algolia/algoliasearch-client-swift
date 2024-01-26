@@ -16,13 +16,13 @@ public struct QuerySuggestionsConfiguration: Codable, JSONEncodable, Hashable {
   /** Patterns to exclude from query suggestions. */
   public var exclude: [String]?
   /** Turn on personalized query suggestions. */
-  public var enablePersonalization: Bool? = false
+  public var enablePersonalization: Bool?
   /** Allow suggestions with special characters. */
-  public var allowSpecialCharacters: Bool? = false
+  public var allowSpecialCharacters: Bool?
 
   public init(
     sourceIndices: [SourceIndex], languages: Languages? = nil, exclude: [String]? = nil,
-    enablePersonalization: Bool? = false, allowSpecialCharacters: Bool? = false
+    enablePersonalization: Bool? = nil, allowSpecialCharacters: Bool? = nil
   ) {
     self.sourceIndices = sourceIndices
     self.languages = languages

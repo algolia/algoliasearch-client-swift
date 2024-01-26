@@ -9,5 +9,5 @@ import Foundation
 
 /// A task which is manually executed via the run task endpoint.
 public enum OnDemandTriggerType: String, Codable, CaseIterable {
-  case ondemand = "onDemand"
+  case onDemand = "onDemand"
 }

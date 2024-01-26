@@ -10,6 +10,6 @@ import Foundation
 /// Used to sort the Run list endpoint.
 public enum RunSortKeys: String, Codable, CaseIterable {
   case status = "status"
-  case updatedat = "updatedAt"
-  case createdat = "createdAt"
+  case updatedAt = "updatedAt"
+  case createdAt = "createdAt"
 }

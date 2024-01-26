@@ -15,18 +15,18 @@ public struct SearchRecommendRulesParams: Codable, JSONEncodable, Hashable {
   static let hitsPerPageRule = NumericRule<Int>(
     minimum: 1, exclusiveMinimum: false, maximum: 1000, exclusiveMaximum: false, multipleOf: nil)
   /** Full-text query. */
-  public var query: String? = ""
+  public var query: String?
   /** Restricts responses to the specified [contextual rule](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#creating-contextual-rules). */
   public var context: String?
   /** Requested page (the first page is page 0). */
   public var page: Int?
   /** Maximum number of hits per page. */
-  public var hitsPerPage: Int? = 20
+  public var hitsPerPage: Int?
   /** Restricts responses to enabled rules. When absent (default), _all_ rules are retrieved. */
   public var enabled: Bool?
 
   public init(
-    query: String? = "", context: String? = nil, page: Int? = nil, hitsPerPage: Int? = 20,
+    query: String? = nil, context: String? = nil, page: Int? = nil, hitsPerPage: Int? = nil,
     enabled: Bool? = nil
   ) {
     self.query = query

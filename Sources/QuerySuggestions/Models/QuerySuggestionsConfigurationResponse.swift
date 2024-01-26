@@ -16,7 +16,7 @@ public struct QuerySuggestionsConfigurationResponse: Codable, JSONEncodable, Has
   /** API key used to write and configure your Query Suggestions index. */
   public var suggestionsIndicesAPIKey: String?
   /** API key used to read from external Algolia indices. */
-  public var externalIndicesAPIKey: String? = ""
+  public var externalIndicesAPIKey: String?
   /** Query Suggestions index name. */
   public var indexName: String
   /** Algolia indices from which to get the popular searches for query suggestions. */
@@ -25,15 +25,16 @@ public struct QuerySuggestionsConfigurationResponse: Codable, JSONEncodable, Has
   /** Patterns to exclude from query suggestions. */
   public var exclude: [String]?
   /** Turn on personalized query suggestions. */
-  public var enablePersonalization: Bool? = false
+  public var enablePersonalization: Bool?
   /** Allow suggestions with special characters. */
-  public var allowSpecialCharacters: Bool? = false
+  public var allowSpecialCharacters: Bool?
 
   public init(
     appId: String? = nil, sourceIndicesAPIKey: String? = nil,
-    suggestionsIndicesAPIKey: String? = nil, externalIndicesAPIKey: String? = "", indexName: String,
-    sourceIndices: [SourceIndex], languages: Languages? = nil, exclude: [String]? = nil,
-    enablePersonalization: Bool? = false, allowSpecialCharacters: Bool? = false
+    suggestionsIndicesAPIKey: String? = nil, externalIndicesAPIKey: String? = nil,
+    indexName: String, sourceIndices: [SourceIndex], languages: Languages? = nil,
+    exclude: [String]? = nil, enablePersonalization: Bool? = nil,
+    allowSpecialCharacters: Bool? = nil
   ) {
     self.appId = appId
     self.sourceIndicesAPIKey = sourceIndicesAPIKey

@@ -12,7 +12,7 @@ public struct BaseIndexSettings: Codable, JSONEncodable, Hashable {
   /** Creates [replicas](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/), which are copies of a primary index with the same records but different settings. */
   public var replicas: [String]?
   /** Maximum number of hits accessible through pagination. */
-  public var paginationLimitedTo: Int? = 1000
+  public var paginationLimitedTo: Int?
   /** Attributes that can't be retrieved at query time. */
   public var unretrievableAttributes: [String]?
   /** Words for which you want to turn off [typo tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/). */
@@ -28,11 +28,11 @@ public struct BaseIndexSettings: Codable, JSONEncodable, Hashable {
   /** Attributes for which you want to turn off [prefix matching](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/#adjusting-prefix-search). */
   public var disablePrefixOnAttributes: [String]?
   /** Incidates whether the engine compresses arrays with exclusively non-negative integers. When enabled, the compressed arrays may be reordered.  */
-  public var allowCompressionOfIntegerArray: Bool? = false
+  public var allowCompressionOfIntegerArray: Bool?
   /** Numeric attributes that can be used as [numerical filters](https://www.algolia.com/doc/guides/managing-results/rules/detecting-intent/how-to/applying-a-custom-filter-for-a-specific-query/#numerical-filters). */
   public var numericAttributesForFiltering: [String]?
   /** Controls which separators are added to an Algolia index as part of [normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/#what-does-normalization-mean). Separators are all non-letter characters except spaces and currency characters, such as $€£¥. */
-  public var separatorsToIndex: String? = ""
+  public var separatorsToIndex: String?
   /** [Attributes used for searching](https://www.algolia.com/doc/guides/managing-results/must-do/searchable-attributes/), including determining [if matches at the beginning of a word are important (ordered) or not (unordered)](https://www.algolia.com/doc/guides/managing-results/must-do/searchable-attributes/how-to/configuring-searchable-attributes-the-right-way/#understanding-word-position).  */
   public var searchableAttributes: [String]?
   /** Lets you store custom data in your indices. */
@@ -43,12 +43,12 @@ public struct BaseIndexSettings: Codable, JSONEncodable, Hashable {
   public var attributeForDistinct: String?
 
   public init(
-    replicas: [String]? = nil, paginationLimitedTo: Int? = 1000,
+    replicas: [String]? = nil, paginationLimitedTo: Int? = nil,
     unretrievableAttributes: [String]? = nil, disableTypoToleranceOnWords: [String]? = nil,
     attributesToTransliterate: [String]? = nil, camelCaseAttributes: [String]? = nil,
     decompoundedAttributes: AnyCodable? = nil, indexLanguages: [String]? = nil,
-    disablePrefixOnAttributes: [String]? = nil, allowCompressionOfIntegerArray: Bool? = false,
-    numericAttributesForFiltering: [String]? = nil, separatorsToIndex: String? = "",
+    disablePrefixOnAttributes: [String]? = nil, allowCompressionOfIntegerArray: Bool? = nil,
+    numericAttributesForFiltering: [String]? = nil, separatorsToIndex: String? = nil,
     searchableAttributes: [String]? = nil, userData: AnyCodable? = nil,
     customNormalization: [String: [String: String]]? = nil, attributeForDistinct: String? = nil
   ) {

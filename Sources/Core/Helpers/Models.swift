@@ -88,11 +88,11 @@ public enum DecodableRequestBuilderError: Error {
 open class Response<T> {
   public let statusCode: Int
   public let headers: [String: String]
-  public let body: T
+  public let body: T?
   public let bodyData: Data?
   public let httpResponse: HTTPURLResponse
 
-  public init(response: HTTPURLResponse, body: T, bodyData: Data?) {
+  public init(response: HTTPURLResponse, body: T?, bodyData: Data?) {
     let rawHeader = response.allHeaderFields
     var responseHeaders = [String: String]()
     for (key, value) in rawHeader {

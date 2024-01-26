@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum TransportError: Error, LocalizedError {
+public enum AlgoliaError: Error, LocalizedError {
 
   case requestError(Error)
   case httpError(HTTPError)

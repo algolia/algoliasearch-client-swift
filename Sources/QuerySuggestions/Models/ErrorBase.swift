@@ -35,6 +35,20 @@ public struct ErrorBase: Codable, JSONEncodable, Hashable {
     }
   }
 
+  public init(from dictionary: [String: AnyCodable]) throws {
+
+    self.message = dictionary["message"]?.value as? String
+
+    for (key, value) in dictionary {
+      switch key {
+      case "message":
+        continue
+      default:
+        self.additionalProperties[key] = value
+      }
+    }
+  }
+
   // Encodable protocol methods
 
   public func encode(to encoder: Encoder) throws {

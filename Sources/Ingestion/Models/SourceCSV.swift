@@ -18,11 +18,11 @@ public struct SourceCSV: Codable, JSONEncodable, Hashable {
   public var mapping: [String: MappingTypeCSV]?
   public var method: MethodType?
   /** The character used to split the value on each line, default to a comma (\\r, \\n, 0xFFFD, and space are forbidden). */
-  public var delimiter: String? = ","
+  public var delimiter: String?
 
   public init(
     url: String, uniqueIDColumn: String? = nil, mapping: [String: MappingTypeCSV]? = nil,
-    method: MethodType? = nil, delimiter: String? = ","
+    method: MethodType? = nil, delimiter: String? = nil
   ) {
     self.url = url
     self.uniqueIDColumn = uniqueIDColumn

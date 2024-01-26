@@ -15,11 +15,11 @@ public struct SourceCommercetools: Codable, JSONEncodable, Hashable {
   public var url: String
   public var projectKey: String
   /** Determines the value that will be stored in the Algolia record if there's no inventory information on the product.  */
-  public var fallbackIsInStockValue: Bool? = true
+  public var fallbackIsInStockValue: Bool?
 
   public init(
     storeKeys: [String]? = nil, locales: [String]? = nil, url: String, projectKey: String,
-    fallbackIsInStockValue: Bool? = true
+    fallbackIsInStockValue: Bool? = nil
   ) {
     self.storeKeys = storeKeys
     self.locales = locales

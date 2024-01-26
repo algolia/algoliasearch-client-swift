@@ -16,13 +16,13 @@ public struct RecommendedForYouQuery: Codable, JSONEncodable, Hashable {
   /** Recommendations with a confidence score lower than `threshold` won't appear in results. > **Note**: Each recommendation has a confidence score of 0 to 100. The closer the score is to 100, the more relevant the recommendations are.  */
   public var threshold: Int?
   /** Maximum number of recommendations to retrieve. If 0, all recommendations will be returned. */
-  public var maxRecommendations: Int? = 0
+  public var maxRecommendations: Int?
   public var model: RecommendedForYouModel
   public var queryParameters: RecommendedForYouQueryParameters?
   public var fallbackParameters: RecommendedForYouQueryParameters?
 
   public init(
-    indexName: String, threshold: Int? = nil, maxRecommendations: Int? = 0,
+    indexName: String, threshold: Int? = nil, maxRecommendations: Int? = nil,
     model: RecommendedForYouModel, queryParameters: RecommendedForYouQueryParameters? = nil,
     fallbackParameters: RecommendedForYouQueryParameters? = nil
   ) {

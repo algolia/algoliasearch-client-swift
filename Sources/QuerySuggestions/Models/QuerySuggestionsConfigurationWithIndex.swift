@@ -18,14 +18,14 @@ public struct QuerySuggestionsConfigurationWithIndex: Codable, JSONEncodable, Ha
   /** Patterns to exclude from query suggestions. */
   public var exclude: [String]?
   /** Turn on personalized query suggestions. */
-  public var enablePersonalization: Bool? = false
+  public var enablePersonalization: Bool?
   /** Allow suggestions with special characters. */
-  public var allowSpecialCharacters: Bool? = false
+  public var allowSpecialCharacters: Bool?
 
   public init(
     indexName: String, sourceIndices: [SourceIndex], languages: Languages? = nil,
-    exclude: [String]? = nil, enablePersonalization: Bool? = false,
-    allowSpecialCharacters: Bool? = false
+    exclude: [String]? = nil, enablePersonalization: Bool? = nil,
+    allowSpecialCharacters: Bool? = nil
   ) {
     self.indexName = indexName
     self.sourceIndices = sourceIndices

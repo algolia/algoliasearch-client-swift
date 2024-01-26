@@ -67,6 +67,10 @@ public struct APIHelper {
         .compactMap { value in convertAnyToString(value) }
         .joined(separator: ",")
     }
+
+    if let source = source as? any RawRepresentable {
+      return source.rawValue
+    }
     return source
   }
 
@@ -115,12 +119,12 @@ public struct APIHelper {
     let destination = source.filter { $0.value != nil }.reduce(into: [URLQueryItem]()) {
       result, item in
       if let collection = item.value as? [Any?] {
-        collection
-          .compactMap { value in convertAnyToString(value) }
-          .forEach { value in
-            result.append(URLQueryItem(name: item.key, value: value))
-          }
-
+        let collectionValues: [String] = collection.compactMap { value in
+          convertAnyToString(value)
+        }
+        result.append(
+          URLQueryItem(name: item.key, value: collectionValues.joined(separator: ","))
+        )
       } else if let value = item.value {
         result.append(URLQueryItem(name: item.key, value: convertAnyToString(value)))
       }

@@ -41,7 +41,7 @@ open class URLSessionRequestBuilder: RequestBuilder {
         (responseData, httpResponse) = try await self.sessionManager.data(for: urlRequest)
       #endif
     } catch {
-      throw TransportError.requestError(error)
+      throw AlgoliaError.requestError(error)
     }
 
     return try await self.processRequestResponse(
@@ -53,13 +53,13 @@ open class URLSessionRequestBuilder: RequestBuilder {
   ) async throws -> Response<T> {
 
     guard let httpResponse = response as? HTTPURLResponse else {
-      throw TransportError.decodingFailure(
-        AlgoliaError(errorMessage: "Unable to decode HTTPURLResponse"))
+      throw AlgoliaError.decodingFailure(
+        GenericError(description: "Unable to decode HTTPURLResponse"))
     }
 
     // This initializer returns `nil` if the HTTP response status code is in the successful range
     if let httpError = HTTPError(response: httpResponse, data: data) {
-      throw TransportError.httpError(httpError)
+      throw AlgoliaError.httpError(httpError)
     }
 
     switch T.self {
@@ -81,7 +81,7 @@ open class URLSessionRequestBuilder: RequestBuilder {
             response: httpResponse,
             body: expressibleByNilLiteralType.init(nilLiteral: ()) as! T, bodyData: data)
         } else {
-          throw TransportError.missingData
+          throw AlgoliaError.missingData
         }
       }
 
@@ -91,9 +91,9 @@ open class URLSessionRequestBuilder: RequestBuilder {
       case let .success(decodableObj):
         return Response(response: httpResponse, body: decodableObj, bodyData: unwrappedData)
       case let .failure(error):
-        throw TransportError.decodingFailure(
-          AlgoliaError(
-            errorMessage: "Unable to decode response decodable object: "
+        throw AlgoliaError.decodingFailure(
+          GenericError(
+            description: "Unable to decode response decodable object: "
               + error.localizedDescription))
       }
     }

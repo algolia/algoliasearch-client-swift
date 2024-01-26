@@ -19,11 +19,11 @@ public struct RuleResponse: Codable, JSONEncodable, Hashable {
   /** Description of the rule's purpose. This can be helpful for display in the Algolia dashboard. */
   public var description: String?
   /** Indicates whether to enable the rule. If it isn't enabled, it isn't applied at query time. */
-  public var enabled: Bool? = true
+  public var enabled: Bool?
 
   public init(
     metadata: RuleResponseMetadata? = nil, objectID: String, conditions: [Condition]? = nil,
-    consequence: Consequence? = nil, description: String? = nil, enabled: Bool? = true
+    consequence: Consequence? = nil, description: String? = nil, enabled: Bool? = nil
   ) {
     self.metadata = metadata
     self.objectID = objectID

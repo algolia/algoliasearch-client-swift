@@ -9,6 +9,6 @@ import Foundation
 
 /// Actions to perform.
 public enum DictionaryAction: String, Codable, CaseIterable {
-  case addentry = "addEntry"
-  case deleteentry = "deleteEntry"
+  case addEntry = "addEntry"
+  case deleteEntry = "deleteEntry"
 }

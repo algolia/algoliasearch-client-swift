@@ -18,13 +18,13 @@ public struct Rule: Codable, JSONEncodable, Hashable {
   /** Description of the rule's purpose. This can be helpful for display in the Algolia dashboard. */
   public var description: String?
   /** Indicates whether to enable the rule. If it isn't enabled, it isn't applied at query time. */
-  public var enabled: Bool? = true
+  public var enabled: Bool?
   /** If you specify a validity period, the rule _only_ applies only during that period. If specified, the array must not be empty. */
   public var validity: [TimeRange]?
 
   public init(
     objectID: String, conditions: [Condition]? = nil, consequence: Consequence? = nil,
-    description: String? = nil, enabled: Bool? = true, validity: [TimeRange]? = nil
+    description: String? = nil, enabled: Bool? = nil, validity: [TimeRange]? = nil
   ) {
     self.objectID = objectID
     self.conditions = conditions

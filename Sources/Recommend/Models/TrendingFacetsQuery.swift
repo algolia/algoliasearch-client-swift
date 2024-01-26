@@ -16,13 +16,13 @@ public struct TrendingFacetsQuery: Codable, JSONEncodable, Hashable {
   /** Recommendations with a confidence score lower than `threshold` won't appear in results. > **Note**: Each recommendation has a confidence score of 0 to 100. The closer the score is to 100, the more relevant the recommendations are.  */
   public var threshold: Int?
   /** Maximum number of recommendations to retrieve. If 0, all recommendations will be returned. */
-  public var maxRecommendations: Int? = 0
+  public var maxRecommendations: Int?
   /** Facet name for trending models. */
   public var facetName: String
   public var model: TrendingFacetsModel?
 
   public init(
-    indexName: String, threshold: Int? = nil, maxRecommendations: Int? = 0, facetName: String,
+    indexName: String, threshold: Int? = nil, maxRecommendations: Int? = nil, facetName: String,
     model: TrendingFacetsModel? = nil
   ) {
     self.indexName = indexName

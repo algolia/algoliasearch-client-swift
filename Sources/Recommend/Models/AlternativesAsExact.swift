@@ -8,7 +8,7 @@ import Foundation
 #endif
 
 public enum AlternativesAsExact: String, Codable, CaseIterable {
-  case ignoreplurals = "ignorePlurals"
-  case singlewordsynonym = "singleWordSynonym"
-  case multiwordssynonym = "multiWordsSynonym"
+  case ignorePlurals = "ignorePlurals"
+  case singleWordSynonym = "singleWordSynonym"
+  case multiWordsSynonym = "multiWordsSynonym"
 }

@@ -27,9 +27,10 @@ open class IngestionClient {
     self.init(configuration: configuration, transporter: Transporter(configuration: configuration))
   }
 
-  public convenience init(applicationID: String, apiKey: String, region: Region) {
+  public convenience init(applicationID: String, apiKey: String, region: Region) throws {
     self.init(
-      configuration: Configuration(applicationID: applicationID, apiKey: apiKey, region: region))
+      configuration: try Configuration(applicationID: applicationID, apiKey: apiKey, region: region)
+    )
   }
 
   /**
@@ -42,9 +43,15 @@ open class IngestionClient {
   open func createAuthentication(
     authenticationCreate: AuthenticationCreate, requestOptions: RequestOptions? = nil
   ) async throws -> AuthenticationCreateResponse {
-    return try await createAuthenticationWithHTTPInfo(
-      authenticationCreate: authenticationCreate, requestOptions: requestOptions
-    ).body
+    let response: Response<AuthenticationCreateResponse> =
+      try await createAuthenticationWithHTTPInfo(
+        authenticationCreate: authenticationCreate, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -59,18 +66,17 @@ open class IngestionClient {
     authenticationCreate: AuthenticationCreate,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<AuthenticationCreateResponse> {
-    let path = "/1/authentications"
+    let resourcePath = "/1/authentications"
     let body = authenticationCreate
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -86,9 +92,14 @@ open class IngestionClient {
   open func createDestination(
     destinationCreate: DestinationCreate, requestOptions: RequestOptions? = nil
   ) async throws -> DestinationCreateResponse {
-    return try await createDestinationWithHTTPInfo(
-      destinationCreate: destinationCreate, requestOptions: requestOptions
-    ).body
+    let response: Response<DestinationCreateResponse> = try await createDestinationWithHTTPInfo(
+      destinationCreate: destinationCreate, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -102,18 +113,17 @@ open class IngestionClient {
   open func createDestinationWithHTTPInfo(
     destinationCreate: DestinationCreate, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<DestinationCreateResponse> {
-    let path = "/1/destinations"
+    let resourcePath = "/1/destinations"
     let body = destinationCreate
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -129,9 +139,14 @@ open class IngestionClient {
   open func createSource(sourceCreate: SourceCreate, requestOptions: RequestOptions? = nil)
     async throws -> SourceCreateResponse
   {
-    return try await createSourceWithHTTPInfo(
-      sourceCreate: sourceCreate, requestOptions: requestOptions
-    ).body
+    let response: Response<SourceCreateResponse> = try await createSourceWithHTTPInfo(
+      sourceCreate: sourceCreate, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -145,18 +160,17 @@ open class IngestionClient {
   open func createSourceWithHTTPInfo(
     sourceCreate: SourceCreate, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<SourceCreateResponse> {
-    let path = "/1/sources"
+    let resourcePath = "/1/sources"
     let body = sourceCreate
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -172,8 +186,14 @@ open class IngestionClient {
   open func createTask(taskCreate: TaskCreate, requestOptions: RequestOptions? = nil) async throws
     -> TaskCreateResponse
   {
-    return try await createTaskWithHTTPInfo(taskCreate: taskCreate, requestOptions: requestOptions)
-      .body
+    let response: Response<TaskCreateResponse> = try await createTaskWithHTTPInfo(
+      taskCreate: taskCreate, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -187,18 +207,17 @@ open class IngestionClient {
   open func createTaskWithHTTPInfo(
     taskCreate: TaskCreate, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<TaskCreateResponse> {
-    let path = "/1/tasks"
+    let resourcePath = "/1/tasks"
     let body = taskCreate
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -215,9 +234,14 @@ open class IngestionClient {
   open func customDelete(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customDeleteWithHTTPInfo(
-      path: path, parameters: parameters, requestOptions: requestOptions
-    ).body
+    let response: Response<AnyCodable> = try await customDeleteWithHTTPInfo(
+      path: path, parameters: parameters, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -233,25 +257,22 @@ open class IngestionClient {
     path: String, parameters: [String: AnyCodable]? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<AnyCodable> {
-    var path = "/1{path}"
+    var resourcePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
+    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
-    ])
-
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "DELETE",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -268,9 +289,14 @@ open class IngestionClient {
   open func customGet(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customGetWithHTTPInfo(
-      path: path, parameters: parameters, requestOptions: requestOptions
-    ).body
+    let response: Response<AnyCodable> = try await customGetWithHTTPInfo(
+      path: path, parameters: parameters, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -286,25 +312,22 @@ open class IngestionClient {
     path: String, parameters: [String: AnyCodable]? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<AnyCodable> {
-    var path = "/1{path}"
+    var resourcePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
+    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
-    ])
-
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -320,12 +343,17 @@ open class IngestionClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPost(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPostWithHTTPInfo(
-      path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).body
+    let response: Response<AnyCodable> = try await customPostWithHTTPInfo(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -339,29 +367,26 @@ open class IngestionClient {
      */
 
   open func customPostWithHTTPInfo(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<AnyCodable> {
-    var path = "/1{path}"
+    var resourcePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
     let body = body
+    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
-    ])
-
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
-      data: body,
+      path: resourcePath,
+      data: body ?? AnyCodable(),
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
   }
@@ -376,12 +401,17 @@ open class IngestionClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPut(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPutWithHTTPInfo(
-      path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).body
+    let response: Response<AnyCodable> = try await customPutWithHTTPInfo(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -395,29 +425,26 @@ open class IngestionClient {
      */
 
   open func customPutWithHTTPInfo(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<AnyCodable> {
-    var path = "/1{path}"
+    var resourcePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
     let body = body
+    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
-    ])
-
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "PUT",
-      path: path,
-      data: body,
+      path: resourcePath,
+      data: body ?? AnyCodable(),
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
   }
@@ -432,9 +459,14 @@ open class IngestionClient {
   open func deleteAuthentication(authenticationID: String, requestOptions: RequestOptions? = nil)
     async throws -> DeleteResponse
   {
-    return try await deleteAuthenticationWithHTTPInfo(
-      authenticationID: authenticationID, requestOptions: requestOptions
-    ).body
+    let response: Response<DeleteResponse> = try await deleteAuthenticationWithHTTPInfo(
+      authenticationID: authenticationID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -448,23 +480,23 @@ open class IngestionClient {
   open func deleteAuthenticationWithHTTPInfo(
     authenticationID: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<DeleteResponse> {
-    var path = "/1/authentications/{authenticationID}"
+    var resourcePath = "/1/authentications/{authenticationID}"
     let authenticationIDPreEscape = "\(APIHelper.mapValueToPathItem(authenticationID))"
     let authenticationIDPostEscape =
-      authenticationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      authenticationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed)
+      ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{authenticationID}", with: authenticationIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "DELETE",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -480,9 +512,14 @@ open class IngestionClient {
   open func deleteDestination(destinationID: String, requestOptions: RequestOptions? = nil)
     async throws -> DeleteResponse
   {
-    return try await deleteDestinationWithHTTPInfo(
-      destinationID: destinationID, requestOptions: requestOptions
-    ).body
+    let response: Response<DeleteResponse> = try await deleteDestinationWithHTTPInfo(
+      destinationID: destinationID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -496,23 +533,23 @@ open class IngestionClient {
   open func deleteDestinationWithHTTPInfo(
     destinationID: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<DeleteResponse> {
-    var path = "/1/destinations/{destinationID}"
+    var resourcePath = "/1/destinations/{destinationID}"
     let destinationIDPreEscape = "\(APIHelper.mapValueToPathItem(destinationID))"
     let destinationIDPostEscape =
-      destinationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      destinationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed)
+      ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{destinationID}", with: destinationIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "DELETE",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -528,8 +565,14 @@ open class IngestionClient {
   open func deleteSource(sourceID: String, requestOptions: RequestOptions? = nil) async throws
     -> DeleteResponse
   {
-    return try await deleteSourceWithHTTPInfo(sourceID: sourceID, requestOptions: requestOptions)
-      .body
+    let response: Response<DeleteResponse> = try await deleteSourceWithHTTPInfo(
+      sourceID: sourceID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -543,23 +586,22 @@ open class IngestionClient {
   open func deleteSourceWithHTTPInfo(
     sourceID: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<DeleteResponse> {
-    var path = "/1/sources/{sourceID}"
+    var resourcePath = "/1/sources/{sourceID}"
     let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
     let sourceIDPostEscape =
-      sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{sourceID}", with: sourceIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "DELETE",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -575,7 +617,14 @@ open class IngestionClient {
   open func deleteTask(taskID: String, requestOptions: RequestOptions? = nil) async throws
     -> DeleteResponse
   {
-    return try await deleteTaskWithHTTPInfo(taskID: taskID, requestOptions: requestOptions).body
+    let response: Response<DeleteResponse> = try await deleteTaskWithHTTPInfo(
+      taskID: taskID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -589,23 +638,22 @@ open class IngestionClient {
   open func deleteTaskWithHTTPInfo(
     taskID: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<DeleteResponse> {
-    var path = "/1/tasks/{taskID}"
+    var resourcePath = "/1/tasks/{taskID}"
     let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
     let taskIDPostEscape =
-      taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "DELETE",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -621,7 +669,14 @@ open class IngestionClient {
   open func disableTask(taskID: String, requestOptions: RequestOptions? = nil) async throws
     -> TaskUpdateResponse
   {
-    return try await disableTaskWithHTTPInfo(taskID: taskID, requestOptions: requestOptions).body
+    let response: Response<TaskUpdateResponse> = try await disableTaskWithHTTPInfo(
+      taskID: taskID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -635,23 +690,22 @@ open class IngestionClient {
   open func disableTaskWithHTTPInfo(
     taskID: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<TaskUpdateResponse> {
-    var path = "/1/tasks/{taskID}/disable"
+    var resourcePath = "/1/tasks/{taskID}/disable"
     let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
     let taskIDPostEscape =
-      taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "PUT",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -667,7 +721,14 @@ open class IngestionClient {
   open func enableTask(taskID: String, requestOptions: RequestOptions? = nil) async throws
     -> TaskUpdateResponse
   {
-    return try await enableTaskWithHTTPInfo(taskID: taskID, requestOptions: requestOptions).body
+    let response: Response<TaskUpdateResponse> = try await enableTaskWithHTTPInfo(
+      taskID: taskID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -681,23 +742,22 @@ open class IngestionClient {
   open func enableTaskWithHTTPInfo(
     taskID: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<TaskUpdateResponse> {
-    var path = "/1/tasks/{taskID}/enable"
+    var resourcePath = "/1/tasks/{taskID}/enable"
     let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
     let taskIDPostEscape =
-      taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "PUT",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -713,9 +773,14 @@ open class IngestionClient {
   open func getAuthentication(authenticationID: String, requestOptions: RequestOptions? = nil)
     async throws -> Authentication
   {
-    return try await getAuthenticationWithHTTPInfo(
-      authenticationID: authenticationID, requestOptions: requestOptions
-    ).body
+    let response: Response<Authentication> = try await getAuthenticationWithHTTPInfo(
+      authenticationID: authenticationID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -729,23 +794,23 @@ open class IngestionClient {
   open func getAuthenticationWithHTTPInfo(
     authenticationID: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<Authentication> {
-    var path = "/1/authentications/{authenticationID}"
+    var resourcePath = "/1/authentications/{authenticationID}"
     let authenticationIDPreEscape = "\(APIHelper.mapValueToPathItem(authenticationID))"
     let authenticationIDPostEscape =
-      authenticationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      authenticationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed)
+      ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{authenticationID}", with: authenticationIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -768,10 +833,15 @@ open class IngestionClient {
     platform: [PlatformWithNone]? = nil, sort: AuthenticationSortKeys? = nil,
     order: OrderKeys? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> ListAuthenticationsResponse {
-    return try await getAuthenticationsWithHTTPInfo(
+    let response: Response<ListAuthenticationsResponse> = try await getAuthenticationsWithHTTPInfo(
       itemsPerPage: itemsPerPage, page: page, type: type, platform: platform, sort: sort,
-      order: order, requestOptions: requestOptions
-    ).body
+      order: order, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -792,25 +862,24 @@ open class IngestionClient {
     platform: [PlatformWithNone]? = nil, sort: AuthenticationSortKeys? = nil,
     order: OrderKeys? = nil, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<ListAuthenticationsResponse> {
-    let path = "/1/authentications"
+    let resourcePath = "/1/authentications"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "itemsPerPage": (wrappedValue: itemsPerPage?.encodeToJSON(), isExplode: true),
-      "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
-      "type": (wrappedValue: type?.encodeToJSON(), isExplode: false),
-      "platform": (wrappedValue: platform?.encodeToJSON(), isExplode: false),
-      "sort": (wrappedValue: sort?.encodeToJSON(), isExplode: true),
-      "order": (wrappedValue: order?.encodeToJSON(), isExplode: true),
+      "itemsPerPage": itemsPerPage?.encodeToJSON(),
+      "page": page?.encodeToJSON(),
+      "type": type?.encodeToJSON(),
+      "platform": platform?.encodeToJSON(),
+      "sort": sort?.encodeToJSON(),
+      "order": order?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -826,9 +895,14 @@ open class IngestionClient {
   open func getDestination(destinationID: String, requestOptions: RequestOptions? = nil)
     async throws -> Destination
   {
-    return try await getDestinationWithHTTPInfo(
-      destinationID: destinationID, requestOptions: requestOptions
-    ).body
+    let response: Response<Destination> = try await getDestinationWithHTTPInfo(
+      destinationID: destinationID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -842,23 +916,23 @@ open class IngestionClient {
   open func getDestinationWithHTTPInfo(
     destinationID: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<Destination> {
-    var path = "/1/destinations/{destinationID}"
+    var resourcePath = "/1/destinations/{destinationID}"
     let destinationIDPreEscape = "\(APIHelper.mapValueToPathItem(destinationID))"
     let destinationIDPostEscape =
-      destinationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      destinationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed)
+      ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{destinationID}", with: destinationIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -881,10 +955,15 @@ open class IngestionClient {
     authenticationID: [String]? = nil, sort: DestinationSortKeys? = nil, order: OrderKeys? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> ListDestinationsResponse {
-    return try await getDestinationsWithHTTPInfo(
+    let response: Response<ListDestinationsResponse> = try await getDestinationsWithHTTPInfo(
       itemsPerPage: itemsPerPage, page: page, type: type, authenticationID: authenticationID,
-      sort: sort, order: order, requestOptions: requestOptions
-    ).body
+      sort: sort, order: order, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -905,25 +984,24 @@ open class IngestionClient {
     authenticationID: [String]? = nil, sort: DestinationSortKeys? = nil, order: OrderKeys? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<ListDestinationsResponse> {
-    let path = "/1/destinations"
+    let resourcePath = "/1/destinations"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "itemsPerPage": (wrappedValue: itemsPerPage?.encodeToJSON(), isExplode: true),
-      "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
-      "type": (wrappedValue: type?.encodeToJSON(), isExplode: false),
-      "authenticationID": (wrappedValue: authenticationID?.encodeToJSON(), isExplode: false),
-      "sort": (wrappedValue: sort?.encodeToJSON(), isExplode: true),
-      "order": (wrappedValue: order?.encodeToJSON(), isExplode: true),
+      "itemsPerPage": itemsPerPage?.encodeToJSON(),
+      "page": page?.encodeToJSON(),
+      "type": type?.encodeToJSON(),
+      "authenticationID": authenticationID?.encodeToJSON(),
+      "sort": sort?.encodeToJSON(),
+      "order": order?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -939,9 +1017,14 @@ open class IngestionClient {
   open func getDockerSourceStreams(sourceID: String, requestOptions: RequestOptions? = nil)
     async throws -> DockerSourceStreams
   {
-    return try await getDockerSourceStreamsWithHTTPInfo(
-      sourceID: sourceID, requestOptions: requestOptions
-    ).body
+    let response: Response<DockerSourceStreams> = try await getDockerSourceStreamsWithHTTPInfo(
+      sourceID: sourceID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -955,23 +1038,22 @@ open class IngestionClient {
   open func getDockerSourceStreamsWithHTTPInfo(
     sourceID: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<DockerSourceStreams> {
-    var path = "/1/sources/{sourceID}/discover"
+    var resourcePath = "/1/sources/{sourceID}/discover"
     let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
     let sourceIDPostEscape =
-      sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{sourceID}", with: sourceIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -988,9 +1070,14 @@ open class IngestionClient {
   open func getEvent(runID: String, eventID: String, requestOptions: RequestOptions? = nil)
     async throws -> Event
   {
-    return try await getEventWithHTTPInfo(
-      runID: runID, eventID: eventID, requestOptions: requestOptions
-    ).body
+    let response: Response<Event> = try await getEventWithHTTPInfo(
+      runID: runID, eventID: eventID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1005,28 +1092,27 @@ open class IngestionClient {
   open func getEventWithHTTPInfo(
     runID: String, eventID: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<Event> {
-    var path = "/1/runs/{runID}/events/{eventID}"
+    var resourcePath = "/1/runs/{runID}/events/{eventID}"
     let runIDPreEscape = "\(APIHelper.mapValueToPathItem(runID))"
     let runIDPostEscape =
-      runIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      runIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{runID}", with: runIDPostEscape, options: .literal, range: nil)
     let eventIDPreEscape = "\(APIHelper.mapValueToPathItem(eventID))"
     let eventIDPostEscape =
-      eventIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      eventIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{eventID}", with: eventIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1052,10 +1138,15 @@ open class IngestionClient {
     type: [EventType]? = nil, sort: EventSortKeys? = nil, order: OrderKeys? = nil,
     startDate: String? = nil, endDate: String? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> ListEventsResponse {
-    return try await getEventsWithHTTPInfo(
+    let response: Response<ListEventsResponse> = try await getEventsWithHTTPInfo(
       runID: runID, itemsPerPage: itemsPerPage, page: page, status: status, type: type, sort: sort,
-      order: order, startDate: startDate, endDate: endDate, requestOptions: requestOptions
-    ).body
+      order: order, startDate: startDate, endDate: endDate, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1080,32 +1171,31 @@ open class IngestionClient {
     startDate: String? = nil, endDate: String? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<ListEventsResponse> {
-    var path = "/1/runs/{runID}/events"
+    var resourcePath = "/1/runs/{runID}/events"
     let runIDPreEscape = "\(APIHelper.mapValueToPathItem(runID))"
     let runIDPostEscape =
-      runIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      runIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{runID}", with: runIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "itemsPerPage": (wrappedValue: itemsPerPage?.encodeToJSON(), isExplode: true),
-      "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
-      "status": (wrappedValue: status?.encodeToJSON(), isExplode: true),
-      "type": (wrappedValue: type?.encodeToJSON(), isExplode: true),
-      "sort": (wrappedValue: sort?.encodeToJSON(), isExplode: true),
-      "order": (wrappedValue: order?.encodeToJSON(), isExplode: true),
-      "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
-      "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
+      "itemsPerPage": itemsPerPage?.encodeToJSON(),
+      "page": page?.encodeToJSON(),
+      "status": status?.encodeToJSON(),
+      "type": type?.encodeToJSON(),
+      "sort": sort?.encodeToJSON(),
+      "order": order?.encodeToJSON(),
+      "startDate": startDate?.encodeToJSON(),
+      "endDate": endDate?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1119,7 +1209,14 @@ open class IngestionClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getRun(runID: String, requestOptions: RequestOptions? = nil) async throws -> Run {
-    return try await getRunWithHTTPInfo(runID: runID, requestOptions: requestOptions).body
+    let response: Response<Run> = try await getRunWithHTTPInfo(
+      runID: runID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1133,23 +1230,22 @@ open class IngestionClient {
   open func getRunWithHTTPInfo(
     runID: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<Run> {
-    var path = "/1/runs/{runID}"
+    var resourcePath = "/1/runs/{runID}"
     let runIDPreEscape = "\(APIHelper.mapValueToPathItem(runID))"
     let runIDPostEscape =
-      runIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      runIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{runID}", with: runIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1174,10 +1270,15 @@ open class IngestionClient {
     sort: RunSortKeys? = nil, order: OrderKeys? = nil, startDate: String? = nil,
     endDate: String? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> RunListResponse {
-    return try await getRunsWithHTTPInfo(
+    let response: Response<RunListResponse> = try await getRunsWithHTTPInfo(
       itemsPerPage: itemsPerPage, page: page, status: status, taskID: taskID, sort: sort,
-      order: order, startDate: startDate, endDate: endDate, requestOptions: requestOptions
-    ).body
+      order: order, startDate: startDate, endDate: endDate, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1200,27 +1301,26 @@ open class IngestionClient {
     sort: RunSortKeys? = nil, order: OrderKeys? = nil, startDate: String? = nil,
     endDate: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<RunListResponse> {
-    let path = "/1/runs"
+    let resourcePath = "/1/runs"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "itemsPerPage": (wrappedValue: itemsPerPage?.encodeToJSON(), isExplode: true),
-      "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
-      "status": (wrappedValue: status?.encodeToJSON(), isExplode: true),
-      "taskID": (wrappedValue: taskID?.encodeToJSON(), isExplode: true),
-      "sort": (wrappedValue: sort?.encodeToJSON(), isExplode: true),
-      "order": (wrappedValue: order?.encodeToJSON(), isExplode: true),
-      "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
-      "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
+      "itemsPerPage": itemsPerPage?.encodeToJSON(),
+      "page": page?.encodeToJSON(),
+      "status": status?.encodeToJSON(),
+      "taskID": taskID?.encodeToJSON(),
+      "sort": sort?.encodeToJSON(),
+      "order": order?.encodeToJSON(),
+      "startDate": startDate?.encodeToJSON(),
+      "endDate": endDate?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1236,7 +1336,14 @@ open class IngestionClient {
   open func getSource(sourceID: String, requestOptions: RequestOptions? = nil) async throws
     -> Source
   {
-    return try await getSourceWithHTTPInfo(sourceID: sourceID, requestOptions: requestOptions).body
+    let response: Response<Source> = try await getSourceWithHTTPInfo(
+      sourceID: sourceID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1250,23 +1357,22 @@ open class IngestionClient {
   open func getSourceWithHTTPInfo(
     sourceID: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<Source> {
-    var path = "/1/sources/{sourceID}"
+    var resourcePath = "/1/sources/{sourceID}"
     let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
     let sourceIDPostEscape =
-      sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{sourceID}", with: sourceIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1289,10 +1395,15 @@ open class IngestionClient {
     authenticationID: [String]? = nil, sort: SourceSortKeys? = nil, order: OrderKeys? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> ListSourcesResponse {
-    return try await getSourcesWithHTTPInfo(
+    let response: Response<ListSourcesResponse> = try await getSourcesWithHTTPInfo(
       itemsPerPage: itemsPerPage, page: page, type: type, authenticationID: authenticationID,
-      sort: sort, order: order, requestOptions: requestOptions
-    ).body
+      sort: sort, order: order, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1313,25 +1424,24 @@ open class IngestionClient {
     authenticationID: [String]? = nil, sort: SourceSortKeys? = nil, order: OrderKeys? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<ListSourcesResponse> {
-    let path = "/1/sources"
+    let resourcePath = "/1/sources"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "itemsPerPage": (wrappedValue: itemsPerPage?.encodeToJSON(), isExplode: true),
-      "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
-      "type": (wrappedValue: type?.encodeToJSON(), isExplode: false),
-      "authenticationID": (wrappedValue: authenticationID?.encodeToJSON(), isExplode: false),
-      "sort": (wrappedValue: sort?.encodeToJSON(), isExplode: true),
-      "order": (wrappedValue: order?.encodeToJSON(), isExplode: true),
+      "itemsPerPage": itemsPerPage?.encodeToJSON(),
+      "page": page?.encodeToJSON(),
+      "type": type?.encodeToJSON(),
+      "authenticationID": authenticationID?.encodeToJSON(),
+      "sort": sort?.encodeToJSON(),
+      "order": order?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1345,7 +1455,14 @@ open class IngestionClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getTask(taskID: String, requestOptions: RequestOptions? = nil) async throws -> Task {
-    return try await getTaskWithHTTPInfo(taskID: taskID, requestOptions: requestOptions).body
+    let response: Response<Task> = try await getTaskWithHTTPInfo(
+      taskID: taskID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1359,23 +1476,22 @@ open class IngestionClient {
   open func getTaskWithHTTPInfo(
     taskID: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<Task> {
-    var path = "/1/tasks/{taskID}"
+    var resourcePath = "/1/tasks/{taskID}"
     let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
     let taskIDPostEscape =
-      taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1401,11 +1517,16 @@ open class IngestionClient {
     sourceID: [String]? = nil, destinationID: [String]? = nil, triggerType: [TriggerType]? = nil,
     sort: TaskSortKeys? = nil, order: OrderKeys? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> ListTasksResponse {
-    return try await getTasksWithHTTPInfo(
+    let response: Response<ListTasksResponse> = try await getTasksWithHTTPInfo(
       itemsPerPage: itemsPerPage, page: page, action: action, enabled: enabled, sourceID: sourceID,
       destinationID: destinationID, triggerType: triggerType, sort: sort, order: order,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1430,28 +1551,27 @@ open class IngestionClient {
     sort: TaskSortKeys? = nil, order: OrderKeys? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<ListTasksResponse> {
-    let path = "/1/tasks"
+    let resourcePath = "/1/tasks"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "itemsPerPage": (wrappedValue: itemsPerPage?.encodeToJSON(), isExplode: true),
-      "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
-      "action": (wrappedValue: action?.encodeToJSON(), isExplode: false),
-      "enabled": (wrappedValue: enabled?.encodeToJSON(), isExplode: true),
-      "sourceID": (wrappedValue: sourceID?.encodeToJSON(), isExplode: false),
-      "destinationID": (wrappedValue: destinationID?.encodeToJSON(), isExplode: false),
-      "triggerType": (wrappedValue: triggerType?.encodeToJSON(), isExplode: false),
-      "sort": (wrappedValue: sort?.encodeToJSON(), isExplode: true),
-      "order": (wrappedValue: order?.encodeToJSON(), isExplode: true),
+      "itemsPerPage": itemsPerPage?.encodeToJSON(),
+      "page": page?.encodeToJSON(),
+      "action": action?.encodeToJSON(),
+      "enabled": enabled?.encodeToJSON(),
+      "sourceID": sourceID?.encodeToJSON(),
+      "destinationID": destinationID?.encodeToJSON(),
+      "triggerType": triggerType?.encodeToJSON(),
+      "sort": sort?.encodeToJSON(),
+      "order": order?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1467,7 +1587,14 @@ open class IngestionClient {
   open func runTask(taskID: String, requestOptions: RequestOptions? = nil) async throws
     -> RunResponse
   {
-    return try await runTaskWithHTTPInfo(taskID: taskID, requestOptions: requestOptions).body
+    let response: Response<RunResponse> = try await runTaskWithHTTPInfo(
+      taskID: taskID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1481,23 +1608,22 @@ open class IngestionClient {
   open func runTaskWithHTTPInfo(
     taskID: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<RunResponse> {
-    var path = "/1/tasks/{taskID}/run"
+    var resourcePath = "/1/tasks/{taskID}/run"
     let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
     let taskIDPostEscape =
-      taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1513,9 +1639,14 @@ open class IngestionClient {
   open func searchAuthentications(
     authenticationSearch: AuthenticationSearch, requestOptions: RequestOptions? = nil
   ) async throws -> [Authentication] {
-    return try await searchAuthenticationsWithHTTPInfo(
-      authenticationSearch: authenticationSearch, requestOptions: requestOptions
-    ).body
+    let response: Response<[Authentication]> = try await searchAuthenticationsWithHTTPInfo(
+      authenticationSearch: authenticationSearch, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1530,18 +1661,17 @@ open class IngestionClient {
     authenticationSearch: AuthenticationSearch,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<[Authentication]> {
-    let path = "/1/authentications/search"
+    let resourcePath = "/1/authentications/search"
     let body = authenticationSearch
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1557,9 +1687,14 @@ open class IngestionClient {
   open func searchDestinations(
     destinationSearch: DestinationSearch, requestOptions: RequestOptions? = nil
   ) async throws -> [Destination] {
-    return try await searchDestinationsWithHTTPInfo(
-      destinationSearch: destinationSearch, requestOptions: requestOptions
-    ).body
+    let response: Response<[Destination]> = try await searchDestinationsWithHTTPInfo(
+      destinationSearch: destinationSearch, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1573,18 +1708,17 @@ open class IngestionClient {
   open func searchDestinationsWithHTTPInfo(
     destinationSearch: DestinationSearch, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<[Destination]> {
-    let path = "/1/destinations/search"
+    let resourcePath = "/1/destinations/search"
     let body = destinationSearch
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1600,9 +1734,14 @@ open class IngestionClient {
   open func searchSources(sourceSearch: SourceSearch, requestOptions: RequestOptions? = nil)
     async throws -> [Source]
   {
-    return try await searchSourcesWithHTTPInfo(
-      sourceSearch: sourceSearch, requestOptions: requestOptions
-    ).body
+    let response: Response<[Source]> = try await searchSourcesWithHTTPInfo(
+      sourceSearch: sourceSearch, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1616,18 +1755,17 @@ open class IngestionClient {
   open func searchSourcesWithHTTPInfo(
     sourceSearch: SourceSearch, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<[Source]> {
-    let path = "/1/sources/search"
+    let resourcePath = "/1/sources/search"
     let body = sourceSearch
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1643,8 +1781,14 @@ open class IngestionClient {
   open func searchTasks(taskSearch: TaskSearch, requestOptions: RequestOptions? = nil) async throws
     -> [Task]
   {
-    return try await searchTasksWithHTTPInfo(taskSearch: taskSearch, requestOptions: requestOptions)
-      .body
+    let response: Response<[Task]> = try await searchTasksWithHTTPInfo(
+      taskSearch: taskSearch, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1658,18 +1802,17 @@ open class IngestionClient {
   open func searchTasksWithHTTPInfo(
     taskSearch: TaskSearch, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<[Task]> {
-    let path = "/1/tasks/search"
+    let resourcePath = "/1/tasks/search"
     let body = taskSearch
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1685,9 +1828,15 @@ open class IngestionClient {
   open func triggerDockerSourceDiscover(sourceID: String, requestOptions: RequestOptions? = nil)
     async throws -> DockerSourceDiscover
   {
-    return try await triggerDockerSourceDiscoverWithHTTPInfo(
-      sourceID: sourceID, requestOptions: requestOptions
-    ).body
+    let response: Response<DockerSourceDiscover> =
+      try await triggerDockerSourceDiscoverWithHTTPInfo(
+        sourceID: sourceID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1701,23 +1850,22 @@ open class IngestionClient {
   open func triggerDockerSourceDiscoverWithHTTPInfo(
     sourceID: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<DockerSourceDiscover> {
-    var path = "/1/sources/{sourceID}/discover"
+    var resourcePath = "/1/sources/{sourceID}/discover"
     let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
     let sourceIDPostEscape =
-      sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{sourceID}", with: sourceIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1735,10 +1883,16 @@ open class IngestionClient {
     authenticationID: String, authenticationUpdate: AuthenticationUpdate,
     requestOptions: RequestOptions? = nil
   ) async throws -> AuthenticationUpdateResponse {
-    return try await updateAuthenticationWithHTTPInfo(
-      authenticationID: authenticationID, authenticationUpdate: authenticationUpdate,
-      requestOptions: requestOptions
-    ).body
+    let response: Response<AuthenticationUpdateResponse> =
+      try await updateAuthenticationWithHTTPInfo(
+        authenticationID: authenticationID, authenticationUpdate: authenticationUpdate,
+        requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1754,23 +1908,23 @@ open class IngestionClient {
     authenticationID: String, authenticationUpdate: AuthenticationUpdate,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<AuthenticationUpdateResponse> {
-    var path = "/1/authentications/{authenticationID}"
+    var resourcePath = "/1/authentications/{authenticationID}"
     let authenticationIDPreEscape = "\(APIHelper.mapValueToPathItem(authenticationID))"
     let authenticationIDPostEscape =
-      authenticationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      authenticationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed)
+      ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{authenticationID}", with: authenticationIDPostEscape, options: .literal, range: nil)
     let body = authenticationUpdate
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "PATCH",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1788,10 +1942,15 @@ open class IngestionClient {
     destinationID: String, destinationUpdate: DestinationUpdate,
     requestOptions: RequestOptions? = nil
   ) async throws -> DestinationUpdateResponse {
-    return try await updateDestinationWithHTTPInfo(
+    let response: Response<DestinationUpdateResponse> = try await updateDestinationWithHTTPInfo(
       destinationID: destinationID, destinationUpdate: destinationUpdate,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1807,23 +1966,23 @@ open class IngestionClient {
     destinationID: String, destinationUpdate: DestinationUpdate,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<DestinationUpdateResponse> {
-    var path = "/1/destinations/{destinationID}"
+    var resourcePath = "/1/destinations/{destinationID}"
     let destinationIDPreEscape = "\(APIHelper.mapValueToPathItem(destinationID))"
     let destinationIDPostEscape =
-      destinationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      destinationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed)
+      ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{destinationID}", with: destinationIDPostEscape, options: .literal, range: nil)
     let body = destinationUpdate
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "PATCH",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1840,9 +1999,14 @@ open class IngestionClient {
   open func updateSource(
     sourceID: String, sourceUpdate: SourceUpdate, requestOptions: RequestOptions? = nil
   ) async throws -> SourceUpdateResponse {
-    return try await updateSourceWithHTTPInfo(
-      sourceID: sourceID, sourceUpdate: sourceUpdate, requestOptions: requestOptions
-    ).body
+    let response: Response<SourceUpdateResponse> = try await updateSourceWithHTTPInfo(
+      sourceID: sourceID, sourceUpdate: sourceUpdate, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1858,23 +2022,22 @@ open class IngestionClient {
     sourceID: String, sourceUpdate: SourceUpdate,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<SourceUpdateResponse> {
-    var path = "/1/sources/{sourceID}"
+    var resourcePath = "/1/sources/{sourceID}"
     let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
     let sourceIDPostEscape =
-      sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{sourceID}", with: sourceIDPostEscape, options: .literal, range: nil)
     let body = sourceUpdate
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "PATCH",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1891,9 +2054,14 @@ open class IngestionClient {
   open func updateTask(
     taskID: String, taskUpdate: TaskUpdate, requestOptions: RequestOptions? = nil
   ) async throws -> TaskUpdateResponse {
-    return try await updateTaskWithHTTPInfo(
-      taskID: taskID, taskUpdate: taskUpdate, requestOptions: requestOptions
-    ).body
+    let response: Response<TaskUpdateResponse> = try await updateTaskWithHTTPInfo(
+      taskID: taskID, taskUpdate: taskUpdate, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1908,23 +2076,22 @@ open class IngestionClient {
   open func updateTaskWithHTTPInfo(
     taskID: String, taskUpdate: TaskUpdate, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<TaskUpdateResponse> {
-    var path = "/1/tasks/{taskID}"
+    var resourcePath = "/1/tasks/{taskID}"
     let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
     let taskIDPostEscape =
-      taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
     let body = taskUpdate
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "PATCH",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )

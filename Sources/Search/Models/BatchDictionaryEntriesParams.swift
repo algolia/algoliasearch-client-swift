@@ -11,12 +11,12 @@ import Foundation
 public struct BatchDictionaryEntriesParams: Codable, JSONEncodable, Hashable {
 
   /** Incidates whether to replace all custom entries in the dictionary with the ones sent with this request. */
-  public var clearExistingDictionaryEntries: Bool? = false
+  public var clearExistingDictionaryEntries: Bool?
   /** Operations to batch. */
   public var requests: [BatchDictionaryEntriesRequest]
 
   public init(
-    clearExistingDictionaryEntries: Bool? = false, requests: [BatchDictionaryEntriesRequest]
+    clearExistingDictionaryEntries: Bool? = nil, requests: [BatchDictionaryEntriesRequest]
   ) {
     self.clearExistingDictionaryEntries = clearExistingDictionaryEntries
     self.requests = requests

@@ -14,14 +14,14 @@ public struct Consequence: Codable, JSONEncodable, Hashable {
   /** Records to promote. */
   public var promote: [Promote]?
   /** Only use in combination with the `promote` consequence. When `true`, promoted results will be restricted to match the filters of the current search. When `false`, the promoted results will show up regardless of the filters. */
-  public var filterPromotes: Bool? = false
+  public var filterPromotes: Bool?
   /** Records to hide. By default, you can hide up to 50 records per rule. */
   public var hide: [ConsequenceHide]?
   /** Custom JSON object that will be appended to the userData array in the response. This object isn't interpreted by the API. It's limited to 1kB of minified JSON. */
   public var userData: AnyCodable?
 
   public init(
-    params: ConsequenceParams? = nil, promote: [Promote]? = nil, filterPromotes: Bool? = false,
+    params: ConsequenceParams? = nil, promote: [Promote]? = nil, filterPromotes: Bool? = nil,
     hide: [ConsequenceHide]? = nil, userData: AnyCodable? = nil
   ) {
     self.params = params

@@ -8,5 +8,5 @@ import Foundation
 #endif
 
 public enum AddToCartEvent: String, Codable, CaseIterable {
-  case addtocart = "addToCart"
+  case addToCart = "addToCart"
 }

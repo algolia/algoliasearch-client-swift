@@ -7,11 +7,11 @@
 
 import Foundation
 
-public struct AlgoliaError: Error, CustomStringConvertible {
+public struct GenericError: Error, CustomStringConvertible {
   public var description: String
 
-  public init(errorMessage: String) {
-    self.description = errorMessage
+  public init(description: String) {
+    self.description = description
   }
 }
 

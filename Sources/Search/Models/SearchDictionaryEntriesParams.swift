@@ -13,15 +13,15 @@ public struct SearchDictionaryEntriesParams: Codable, JSONEncodable, Hashable {
   static let hitsPerPageRule = NumericRule<Int>(
     minimum: 1, exclusiveMinimum: false, maximum: 1000, exclusiveMaximum: false, multipleOf: nil)
   /** Text to search for in an index. */
-  public var query: String = ""
+  public var query: String
   /** Page to retrieve (the first page is `0`, not `1`). */
-  public var page: Int? = 0
+  public var page: Int?
   /** Number of hits per page. */
-  public var hitsPerPage: Int? = 20
+  public var hitsPerPage: Int?
   /** [Supported language ISO code](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/).  */
   public var language: String?
 
-  public init(query: String = "", page: Int? = 0, hitsPerPage: Int? = 20, language: String? = nil) {
+  public init(query: String, page: Int? = nil, hitsPerPage: Int? = nil, language: String? = nil) {
     self.query = query
     self.page = page
     self.hitsPerPage = hitsPerPage

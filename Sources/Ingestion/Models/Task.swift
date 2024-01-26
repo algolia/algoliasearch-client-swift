@@ -20,7 +20,7 @@ public struct Task: Codable, JSONEncodable, Hashable {
   public var trigger: Trigger
   public var input: TaskInput?
   /** Whether the task is enabled or not. */
-  public var enabled: Bool = true
+  public var enabled: Bool
   /** A percentage representing the accepted failure threshold to determine if a `run` succeeded or not. */
   public var failureThreshold: Int?
   public var action: ActionType
@@ -31,7 +31,7 @@ public struct Task: Codable, JSONEncodable, Hashable {
 
   public init(
     taskID: String, sourceID: String, destinationID: String, trigger: Trigger,
-    input: TaskInput? = nil, enabled: Bool = true, failureThreshold: Int? = nil, action: ActionType,
+    input: TaskInput? = nil, enabled: Bool, failureThreshold: Int? = nil, action: ActionType,
     createdAt: String, updatedAt: String? = nil
   ) {
     self.taskID = taskID

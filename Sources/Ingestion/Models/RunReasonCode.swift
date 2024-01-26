@@ -9,7 +9,7 @@ import Foundation
 
 /// An identifier that pairs with the outcome reason.
 public enum RunReasonCode: String, Codable, CaseIterable {
-  case _internal = "internal"
+  case `internal` = "internal"
   case critical = "critical"
   case noEvents = "no_events"
   case tooManyErrors = "too_many_errors"

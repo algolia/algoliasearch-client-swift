@@ -11,11 +11,11 @@ public struct SearchHits: Codable, JSONEncodable, Hashable {
 
   public var hits: [Hit]
   /** Text to search for in an index. */
-  public var query: String = ""
+  public var query: String
   /** URL-encoded string of all search parameters. */
   public var params: String
 
-  public init(hits: [Hit], query: String = "", params: String) {
+  public init(hits: [Hit], query: String, params: String) {
     self.hits = hits
     self.query = query
     self.params = params
@@ -39,6 +39,30 @@ public struct SearchHits: Codable, JSONEncodable, Hashable {
 
     set {
       additionalProperties[key] = newValue
+    }
+  }
+
+  public init(from dictionary: [String: AnyCodable]) throws {
+
+    guard let hits = dictionary["hits"]?.value as? [Hit] else {
+      throw GenericError(description: "Failed to cast")
+    }
+    self.hits = hits
+    guard let query = dictionary["query"]?.value as? String else {
+      throw GenericError(description: "Failed to cast")
+    }
+    self.query = query
+    guard let params = dictionary["params"]?.value as? String else {
+      throw GenericError(description: "Failed to cast")
+    }
+    self.params = params
+    for (key, value) in dictionary {
+      switch key {
+      case "hits", "query", "params":
+        continue
+      default:
+        self.additionalProperties[key] = value
+      }
     }
   }
 

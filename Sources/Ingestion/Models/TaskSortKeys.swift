@@ -10,8 +10,8 @@ import Foundation
 /// Used to sort the Task list endpoint.
 public enum TaskSortKeys: String, Codable, CaseIterable {
   case enabled = "enabled"
-  case triggertype = "triggerType"
+  case triggerType = "triggerType"
   case action = "action"
-  case updatedat = "updatedAt"
-  case createdat = "createdAt"
+  case updatedAt = "updatedAt"
+  case createdAt = "createdAt"
 }

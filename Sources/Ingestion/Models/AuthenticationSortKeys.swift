@@ -12,6 +12,6 @@ public enum AuthenticationSortKeys: String, Codable, CaseIterable {
   case name = "name"
   case authType = "auth_type"
   case platform = "platform"
-  case updatedat = "updatedAt"
-  case createdat = "createdAt"
+  case updatedAt = "updatedAt"
+  case createdAt = "createdAt"
 }

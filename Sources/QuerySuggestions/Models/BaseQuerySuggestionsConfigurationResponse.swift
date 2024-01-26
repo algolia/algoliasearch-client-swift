@@ -16,11 +16,11 @@ public struct BaseQuerySuggestionsConfigurationResponse: Codable, JSONEncodable,
   /** API key used to write and configure your Query Suggestions index. */
   public var suggestionsIndicesAPIKey: String?
   /** API key used to read from external Algolia indices. */
-  public var externalIndicesAPIKey: String? = ""
+  public var externalIndicesAPIKey: String?
 
   public init(
     appId: String? = nil, sourceIndicesAPIKey: String? = nil,
-    suggestionsIndicesAPIKey: String? = nil, externalIndicesAPIKey: String? = ""
+    suggestionsIndicesAPIKey: String? = nil, externalIndicesAPIKey: String? = nil
   ) {
     self.appId = appId
     self.sourceIndicesAPIKey = sourceIndicesAPIKey

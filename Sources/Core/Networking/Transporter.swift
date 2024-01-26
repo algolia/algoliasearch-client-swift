@@ -30,11 +30,9 @@ open class Transporter {
       sessionConfiguration.timeoutIntervalForRequest = configuration.readTimeout
       sessionConfiguration.timeoutIntervalForResource = configuration.writeTimeout
 
-      self.requestBuilder =
-        requestBuilder
-        ?? URLSessionRequestBuilder(
-          sessionConfiguration: sessionConfiguration
-        )
+      self.requestBuilder = URLSessionRequestBuilder(
+        sessionConfiguration: sessionConfiguration
+      )
 
       return
     }
@@ -49,15 +47,15 @@ open class Transporter {
     let httpMethod = HTTPMethod(rawValue: method)
 
     guard let httpMethod = httpMethod else {
-      throw TransportError.requestError(AlgoliaError(errorMessage: "Unknown HTTP method"))
+      throw AlgoliaError.requestError(GenericError(description: "Unknown HTTP method"))
     }
 
-    let callType = httpMethod.toCallType()
-    let hostIterator = self.retryStrategy.retryableHosts(for: callType)
-
-    let queryItems: [URLQueryItem] = requestOptions?.queryItems ?? []
+    let callType: CallType = useReadTransporter ? CallType.read : httpMethod.toCallType()
+    let hostIterator: HostIterator = self.retryStrategy.retryableHosts(for: callType)
     let headers: [String: String] = requestOptions?.headers ?? [:]
     var body: Data? = nil
+    var urlComponents = URLComponents()
+    var intermediateErrors: [Error] = []
 
     if let requestOptionsData = requestOptions?.body {
       body = try JSONSerialization.data(withJSONObject: requestOptionsData as Any, options: [])
@@ -65,23 +63,14 @@ open class Transporter {
       body = try CodableHelper.jsonEncoder.encode(data)
     }
 
-    var urlComponents = URLComponents()
-
-    urlComponents = urlComponents.set(\.path, to: path)
-    urlComponents = urlComponents.set(\.queryItems, to: queryItems)
-
-    if callType == CallType.read || useReadTransporter {
-      if let body = body {
-        let bodyDictionary: [String: Any?]? =
-          try? JSONSerialization.jsonObject(with: body, options: []) as? [String: Any?]
-        let bodyQueryItems: [URLQueryItem]? = APIHelper.mapValuesToQueryItems(bodyDictionary)
-        if let bodyQueryItems = bodyQueryItems {
-          urlComponents.queryItems?.append(contentsOf: bodyQueryItems)
-        }
-      }
+    if httpMethod == .get {
+      body = nil
+    } else if body == nil && httpMethod != .delete {
+      body = "{}".data(using: .utf8)
     }
 
-    var intermediateErrors: [Error] = []
+    urlComponents = urlComponents.set(\.path, to: path)
+    urlComponents = urlComponents.setIfNotNil(\.queryItems, to: requestOptions?.queryItems)
 
     while let host = hostIterator.next() {
 
@@ -90,7 +79,7 @@ open class Transporter {
       let timeout = TimeInterval(host.retryCount + 1) * rawTimeout
 
       guard let url = urlComponents.url(relativeTo: host.url) else {
-        throw TransportError.requestError(AlgoliaError(errorMessage: "Malformed URL"))
+        throw AlgoliaError.requestError(GenericError(description: "Malformed URL"))
       }
 
       var request = URLRequest(url: url)
@@ -98,20 +87,25 @@ open class Transporter {
       request = request.set(\.httpMethod, to: httpMethod.rawValue)
       request = request.set(\.timeoutInterval, to: timeout)
 
-      buildHeaders(with: headers).forEach { key, value in
-        request.setValue(value, forHTTPHeaderField: key)
+      for (key, value) in self.configuration.defaultHeaders ?? [:] {
+        request.setValue(value, forHTTPHeaderField: key.lowercased())
+      }
+      request.setValue(
+        UserAgentController.httpHeaderValue, forHTTPHeaderField: "User-Agent".lowercased())
+      for (key, value) in headers {
+        request.setValue(value, forHTTPHeaderField: key.lowercased())
       }
 
-      if callType == CallType.write && !useReadTransporter {
-        let contentType = headers["Content-Type"] ?? "application/json"
-
-        if contentType.hasPrefix("application/json") {
-          request = request.set(\.httpBody, to: body)
-        } else {
-          throw TransportError.requestError(
-            AlgoliaError(errorMessage: "Unsupported Media Type - \(contentType)"))
+      if callType == CallType.write {
+        guard let contentType = request.allHTTPHeaderFields?["Content-Type"],
+          contentType.hasPrefix("application/json")
+        else {
+          throw AlgoliaError.requestError(
+            GenericError(description: "Unsupported Content-Type"))
         }
       }
+
+      request = request.set(\.httpBody, to: body)
 
       do {
         let response: Response<T> = try await self.requestBuilder.execute(
@@ -119,29 +113,30 @@ open class Transporter {
         self.retryStrategy.notify(host: host, error: nil)
         return response
       } catch let cancellationError as CancellationError {
-        throw TransportError.requestError(cancellationError)
+        throw cancellationError
       } catch {
-        intermediateErrors.append(error)
         self.retryStrategy.notify(host: host, error: error)
 
         guard self.retryStrategy.canRetry(inCaseOf: error) else {
-          break
+          throw AlgoliaError.requestError(error)
         }
+
+        intermediateErrors.append(error)
       }
 
     }
 
-    throw TransportError.noReachableHosts(intermediateErrors: intermediateErrors)
+    throw AlgoliaError.noReachableHosts(intermediateErrors: intermediateErrors)
   }
 
   private func buildHeaders(with requestHeaders: [String: String]) -> [String: String] {
     var httpHeaders: [String: String] = [:]
     for (key, value) in self.configuration.defaultHeaders ?? [:] {
-      httpHeaders[key] = value
+      httpHeaders.updateValue(value, forKey: key)
     }
-    httpHeaders["User-Agent"] = UserAgentController.httpHeaderValue
+    httpHeaders.updateValue(UserAgentController.httpHeaderValue, forKey: "User-Agent")
     for (key, value) in requestHeaders {
-      httpHeaders[key] = value
+      httpHeaders.updateValue(value, forKey: key)
     }
     return httpHeaders
   }

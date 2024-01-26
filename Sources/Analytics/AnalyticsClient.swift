@@ -27,9 +27,10 @@ open class AnalyticsClient {
     self.init(configuration: configuration, transporter: Transporter(configuration: configuration))
   }
 
-  public convenience init(applicationID: String, apiKey: String, region: Region?) {
+  public convenience init(applicationID: String, apiKey: String, region: Region?) throws {
     self.init(
-      configuration: Configuration(applicationID: applicationID, apiKey: apiKey, region: region))
+      configuration: try Configuration(applicationID: applicationID, apiKey: apiKey, region: region)
+    )
   }
 
   /**
@@ -43,9 +44,14 @@ open class AnalyticsClient {
   open func customDelete(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customDeleteWithHTTPInfo(
-      path: path, parameters: parameters, requestOptions: requestOptions
-    ).body
+    let response: Response<AnyCodable> = try await customDeleteWithHTTPInfo(
+      path: path, parameters: parameters, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -61,25 +67,22 @@ open class AnalyticsClient {
     path: String, parameters: [String: AnyCodable]? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<AnyCodable> {
-    var path = "/1{path}"
+    var resourcePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
+    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
-    ])
-
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "DELETE",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -96,9 +99,14 @@ open class AnalyticsClient {
   open func customGet(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customGetWithHTTPInfo(
-      path: path, parameters: parameters, requestOptions: requestOptions
-    ).body
+    let response: Response<AnyCodable> = try await customGetWithHTTPInfo(
+      path: path, parameters: parameters, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -114,25 +122,22 @@ open class AnalyticsClient {
     path: String, parameters: [String: AnyCodable]? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<AnyCodable> {
-    var path = "/1{path}"
+    var resourcePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
+    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
-    ])
-
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -148,12 +153,17 @@ open class AnalyticsClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPost(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPostWithHTTPInfo(
-      path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).body
+    let response: Response<AnyCodable> = try await customPostWithHTTPInfo(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -167,29 +177,26 @@ open class AnalyticsClient {
      */
 
   open func customPostWithHTTPInfo(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<AnyCodable> {
-    var path = "/1{path}"
+    var resourcePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
     let body = body
+    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
-    ])
-
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
-      data: body,
+      path: resourcePath,
+      data: body ?? AnyCodable(),
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
   }
@@ -204,12 +211,17 @@ open class AnalyticsClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPut(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPutWithHTTPInfo(
-      path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).body
+    let response: Response<AnyCodable> = try await customPutWithHTTPInfo(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -223,29 +235,26 @@ open class AnalyticsClient {
      */
 
   open func customPutWithHTTPInfo(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<AnyCodable> {
-    var path = "/1{path}"
+    var resourcePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
     let body = body
+    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
-    ])
-
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "PUT",
-      path: path,
-      data: body,
+      path: resourcePath,
+      data: body ?? AnyCodable(),
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
   }
@@ -264,10 +273,16 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetAverageClickPositionResponse {
-    return try await getAverageClickPositionWithHTTPInfo(
-      index: index, startDate: startDate, endDate: endDate, tags: tags,
-      requestOptions: requestOptions
-    ).body
+    let response: Response<GetAverageClickPositionResponse> =
+      try await getAverageClickPositionWithHTTPInfo(
+        index: index, startDate: startDate, endDate: endDate, tags: tags,
+        requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -285,23 +300,22 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetAverageClickPositionResponse> {
-    let path = "/2/clicks/averageClickPosition"
+    let resourcePath = "/2/clicks/averageClickPosition"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
-      "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
-      "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
-      "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
+      "index": index.encodeToJSON(),
+      "startDate": startDate?.encodeToJSON(),
+      "endDate": endDate?.encodeToJSON(),
+      "tags": tags?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -321,10 +335,15 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetClickPositionsResponse {
-    return try await getClickPositionsWithHTTPInfo(
+    let response: Response<GetClickPositionsResponse> = try await getClickPositionsWithHTTPInfo(
       index: index, startDate: startDate, endDate: endDate, tags: tags,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -342,23 +361,22 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetClickPositionsResponse> {
-    let path = "/2/clicks/positions"
+    let resourcePath = "/2/clicks/positions"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
-      "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
-      "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
-      "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
+      "index": index.encodeToJSON(),
+      "startDate": startDate?.encodeToJSON(),
+      "endDate": endDate?.encodeToJSON(),
+      "tags": tags?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -378,10 +396,15 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetClickThroughRateResponse {
-    return try await getClickThroughRateWithHTTPInfo(
+    let response: Response<GetClickThroughRateResponse> = try await getClickThroughRateWithHTTPInfo(
       index: index, startDate: startDate, endDate: endDate, tags: tags,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -399,23 +422,22 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetClickThroughRateResponse> {
-    let path = "/2/clicks/clickThroughRate"
+    let resourcePath = "/2/clicks/clickThroughRate"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
-      "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
-      "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
-      "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
+      "index": index.encodeToJSON(),
+      "startDate": startDate?.encodeToJSON(),
+      "endDate": endDate?.encodeToJSON(),
+      "tags": tags?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -435,10 +457,15 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetConversationRateResponse {
-    return try await getConversationRateWithHTTPInfo(
+    let response: Response<GetConversationRateResponse> = try await getConversationRateWithHTTPInfo(
       index: index, startDate: startDate, endDate: endDate, tags: tags,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -456,23 +483,22 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetConversationRateResponse> {
-    let path = "/2/conversions/conversionRate"
+    let resourcePath = "/2/conversions/conversionRate"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
-      "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
-      "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
-      "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
+      "index": index.encodeToJSON(),
+      "startDate": startDate?.encodeToJSON(),
+      "endDate": endDate?.encodeToJSON(),
+      "tags": tags?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -492,10 +518,15 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetNoClickRateResponse {
-    return try await getNoClickRateWithHTTPInfo(
+    let response: Response<GetNoClickRateResponse> = try await getNoClickRateWithHTTPInfo(
       index: index, startDate: startDate, endDate: endDate, tags: tags,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -513,23 +544,22 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetNoClickRateResponse> {
-    let path = "/2/searches/noClickRate"
+    let resourcePath = "/2/searches/noClickRate"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
-      "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
-      "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
-      "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
+      "index": index.encodeToJSON(),
+      "startDate": startDate?.encodeToJSON(),
+      "endDate": endDate?.encodeToJSON(),
+      "tags": tags?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -549,10 +579,15 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetNoResultsRateResponse {
-    return try await getNoResultsRateWithHTTPInfo(
+    let response: Response<GetNoResultsRateResponse> = try await getNoResultsRateWithHTTPInfo(
       index: index, startDate: startDate, endDate: endDate, tags: tags,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -570,23 +605,22 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetNoResultsRateResponse> {
-    let path = "/2/searches/noResultRate"
+    let resourcePath = "/2/searches/noResultRate"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
-      "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
-      "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
-      "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
+      "index": index.encodeToJSON(),
+      "startDate": startDate?.encodeToJSON(),
+      "endDate": endDate?.encodeToJSON(),
+      "tags": tags?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -606,10 +640,15 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetSearchesCountResponse {
-    return try await getSearchesCountWithHTTPInfo(
+    let response: Response<GetSearchesCountResponse> = try await getSearchesCountWithHTTPInfo(
       index: index, startDate: startDate, endDate: endDate, tags: tags,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -627,23 +666,22 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetSearchesCountResponse> {
-    let path = "/2/searches/count"
+    let resourcePath = "/2/searches/count"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
-      "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
-      "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
-      "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
+      "index": index.encodeToJSON(),
+      "startDate": startDate?.encodeToJSON(),
+      "endDate": endDate?.encodeToJSON(),
+      "tags": tags?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -665,10 +703,15 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil,
     offset: Int? = nil, tags: String? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> GetSearchesNoClicksResponse {
-    return try await getSearchesNoClicksWithHTTPInfo(
+    let response: Response<GetSearchesNoClicksResponse> = try await getSearchesNoClicksWithHTTPInfo(
       index: index, startDate: startDate, endDate: endDate, limit: limit, offset: offset,
-      tags: tags, requestOptions: requestOptions
-    ).body
+      tags: tags, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -689,25 +732,24 @@ open class AnalyticsClient {
     offset: Int? = nil, tags: String? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetSearchesNoClicksResponse> {
-    let path = "/2/searches/noClicks"
+    let resourcePath = "/2/searches/noClicks"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
-      "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
-      "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
-      "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-      "offset": (wrappedValue: offset?.encodeToJSON(), isExplode: true),
-      "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
+      "index": index.encodeToJSON(),
+      "startDate": startDate?.encodeToJSON(),
+      "endDate": endDate?.encodeToJSON(),
+      "limit": limit?.encodeToJSON(),
+      "offset": offset?.encodeToJSON(),
+      "tags": tags?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -729,10 +771,16 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil,
     offset: Int? = nil, tags: String? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> GetSearchesNoResultsResponse {
-    return try await getSearchesNoResultsWithHTTPInfo(
-      index: index, startDate: startDate, endDate: endDate, limit: limit, offset: offset,
-      tags: tags, requestOptions: requestOptions
-    ).body
+    let response: Response<GetSearchesNoResultsResponse> =
+      try await getSearchesNoResultsWithHTTPInfo(
+        index: index, startDate: startDate, endDate: endDate, limit: limit, offset: offset,
+        tags: tags, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -753,25 +801,24 @@ open class AnalyticsClient {
     offset: Int? = nil, tags: String? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetSearchesNoResultsResponse> {
-    let path = "/2/searches/noResults"
+    let resourcePath = "/2/searches/noResults"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
-      "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
-      "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
-      "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-      "offset": (wrappedValue: offset?.encodeToJSON(), isExplode: true),
-      "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
+      "index": index.encodeToJSON(),
+      "startDate": startDate?.encodeToJSON(),
+      "endDate": endDate?.encodeToJSON(),
+      "limit": limit?.encodeToJSON(),
+      "offset": offset?.encodeToJSON(),
+      "tags": tags?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -787,7 +834,14 @@ open class AnalyticsClient {
   open func getStatus(index: String, requestOptions: RequestOptions? = nil) async throws
     -> GetStatusResponse
   {
-    return try await getStatusWithHTTPInfo(index: index, requestOptions: requestOptions).body
+    let response: Response<GetStatusResponse> = try await getStatusWithHTTPInfo(
+      index: index, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -801,20 +855,19 @@ open class AnalyticsClient {
   open func getStatusWithHTTPInfo(
     index: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetStatusResponse> {
-    let path = "/2/status"
+    let resourcePath = "/2/status"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "index": (wrappedValue: index.encodeToJSON(), isExplode: true)
+      "index": index.encodeToJSON()
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -836,10 +889,15 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil,
     offset: Int? = nil, tags: String? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> GetTopCountriesResponse {
-    return try await getTopCountriesWithHTTPInfo(
+    let response: Response<GetTopCountriesResponse> = try await getTopCountriesWithHTTPInfo(
       index: index, startDate: startDate, endDate: endDate, limit: limit, offset: offset,
-      tags: tags, requestOptions: requestOptions
-    ).body
+      tags: tags, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -860,25 +918,24 @@ open class AnalyticsClient {
     offset: Int? = nil, tags: String? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetTopCountriesResponse> {
-    let path = "/2/countries"
+    let resourcePath = "/2/countries"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
-      "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
-      "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
-      "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-      "offset": (wrappedValue: offset?.encodeToJSON(), isExplode: true),
-      "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
+      "index": index.encodeToJSON(),
+      "startDate": startDate?.encodeToJSON(),
+      "endDate": endDate?.encodeToJSON(),
+      "limit": limit?.encodeToJSON(),
+      "offset": offset?.encodeToJSON(),
+      "tags": tags?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -902,10 +959,16 @@ open class AnalyticsClient {
     limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetTopFilterAttributesResponse {
-    return try await getTopFilterAttributesWithHTTPInfo(
-      index: index, search: search, startDate: startDate, endDate: endDate, limit: limit,
-      offset: offset, tags: tags, requestOptions: requestOptions
-    ).body
+    let response: Response<GetTopFilterAttributesResponse> =
+      try await getTopFilterAttributesWithHTTPInfo(
+        index: index, search: search, startDate: startDate, endDate: endDate, limit: limit,
+        offset: offset, tags: tags, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -927,26 +990,25 @@ open class AnalyticsClient {
     limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetTopFilterAttributesResponse> {
-    let path = "/2/filters"
+    let resourcePath = "/2/filters"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
-      "search": (wrappedValue: search?.encodeToJSON(), isExplode: true),
-      "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
-      "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
-      "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-      "offset": (wrappedValue: offset?.encodeToJSON(), isExplode: true),
-      "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
+      "index": index.encodeToJSON(),
+      "search": search?.encodeToJSON(),
+      "startDate": startDate?.encodeToJSON(),
+      "endDate": endDate?.encodeToJSON(),
+      "limit": limit?.encodeToJSON(),
+      "offset": offset?.encodeToJSON(),
+      "tags": tags?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -971,10 +1033,16 @@ open class AnalyticsClient {
     endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetTopFilterForAttributeResponse {
-    return try await getTopFilterForAttributeWithHTTPInfo(
-      attribute: attribute, index: index, search: search, startDate: startDate, endDate: endDate,
-      limit: limit, offset: offset, tags: tags, requestOptions: requestOptions
-    ).body
+    let response: Response<GetTopFilterForAttributeResponse> =
+      try await getTopFilterForAttributeWithHTTPInfo(
+        attribute: attribute, index: index, search: search, startDate: startDate, endDate: endDate,
+        limit: limit, offset: offset, tags: tags, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -997,31 +1065,30 @@ open class AnalyticsClient {
     endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetTopFilterForAttributeResponse> {
-    var path = "/2/filters/{attribute}"
+    var resourcePath = "/2/filters/{attribute}"
     let attributePreEscape = "\(APIHelper.mapValueToPathItem(attribute))"
     let attributePostEscape =
-      attributePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      attributePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{attribute}", with: attributePostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
-      "search": (wrappedValue: search?.encodeToJSON(), isExplode: true),
-      "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
-      "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
-      "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-      "offset": (wrappedValue: offset?.encodeToJSON(), isExplode: true),
-      "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
+      "index": index.encodeToJSON(),
+      "search": search?.encodeToJSON(),
+      "startDate": startDate?.encodeToJSON(),
+      "endDate": endDate?.encodeToJSON(),
+      "limit": limit?.encodeToJSON(),
+      "offset": offset?.encodeToJSON(),
+      "tags": tags?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1045,10 +1112,16 @@ open class AnalyticsClient {
     limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetTopFiltersNoResultsResponse {
-    return try await getTopFiltersNoResultsWithHTTPInfo(
-      index: index, search: search, startDate: startDate, endDate: endDate, limit: limit,
-      offset: offset, tags: tags, requestOptions: requestOptions
-    ).body
+    let response: Response<GetTopFiltersNoResultsResponse> =
+      try await getTopFiltersNoResultsWithHTTPInfo(
+        index: index, search: search, startDate: startDate, endDate: endDate, limit: limit,
+        offset: offset, tags: tags, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1070,26 +1143,25 @@ open class AnalyticsClient {
     limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetTopFiltersNoResultsResponse> {
-    let path = "/2/filters/noResults"
+    let resourcePath = "/2/filters/noResults"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
-      "search": (wrappedValue: search?.encodeToJSON(), isExplode: true),
-      "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
-      "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
-      "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-      "offset": (wrappedValue: offset?.encodeToJSON(), isExplode: true),
-      "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
+      "index": index.encodeToJSON(),
+      "search": search?.encodeToJSON(),
+      "startDate": startDate?.encodeToJSON(),
+      "endDate": endDate?.encodeToJSON(),
+      "limit": limit?.encodeToJSON(),
+      "offset": offset?.encodeToJSON(),
+      "tags": tags?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1114,10 +1186,15 @@ open class AnalyticsClient {
     endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetTopHitsResponse {
-    return try await getTopHitsWithHTTPInfo(
+    let response: Response<GetTopHitsResponse> = try await getTopHitsWithHTTPInfo(
       index: index, search: search, clickAnalytics: clickAnalytics, startDate: startDate,
-      endDate: endDate, limit: limit, offset: offset, tags: tags, requestOptions: requestOptions
-    ).body
+      endDate: endDate, limit: limit, offset: offset, tags: tags, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1140,27 +1217,26 @@ open class AnalyticsClient {
     endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetTopHitsResponse> {
-    let path = "/2/hits"
+    let resourcePath = "/2/hits"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
-      "search": (wrappedValue: search?.encodeToJSON(), isExplode: true),
-      "clickAnalytics": (wrappedValue: clickAnalytics?.encodeToJSON(), isExplode: true),
-      "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
-      "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
-      "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-      "offset": (wrappedValue: offset?.encodeToJSON(), isExplode: true),
-      "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
+      "index": index.encodeToJSON(),
+      "search": search?.encodeToJSON(),
+      "clickAnalytics": clickAnalytics?.encodeToJSON(),
+      "startDate": startDate?.encodeToJSON(),
+      "endDate": endDate?.encodeToJSON(),
+      "limit": limit?.encodeToJSON(),
+      "offset": offset?.encodeToJSON(),
+      "tags": tags?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1186,11 +1262,16 @@ open class AnalyticsClient {
     orderBy: OrderBy? = nil, direction: Direction? = nil, limit: Int? = nil, offset: Int? = nil,
     tags: String? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> GetTopSearchesResponse {
-    return try await getTopSearchesWithHTTPInfo(
+    let response: Response<GetTopSearchesResponse> = try await getTopSearchesWithHTTPInfo(
       index: index, clickAnalytics: clickAnalytics, startDate: startDate, endDate: endDate,
       orderBy: orderBy, direction: direction, limit: limit, offset: offset, tags: tags,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1214,28 +1295,27 @@ open class AnalyticsClient {
     orderBy: OrderBy? = nil, direction: Direction? = nil, limit: Int? = nil, offset: Int? = nil,
     tags: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetTopSearchesResponse> {
-    let path = "/2/searches"
+    let resourcePath = "/2/searches"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
-      "clickAnalytics": (wrappedValue: clickAnalytics?.encodeToJSON(), isExplode: true),
-      "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
-      "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
-      "orderBy": (wrappedValue: orderBy?.encodeToJSON(), isExplode: true),
-      "direction": (wrappedValue: direction?.encodeToJSON(), isExplode: true),
-      "limit": (wrappedValue: limit?.encodeToJSON(), isExplode: true),
-      "offset": (wrappedValue: offset?.encodeToJSON(), isExplode: true),
-      "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
+      "index": index.encodeToJSON(),
+      "clickAnalytics": clickAnalytics?.encodeToJSON(),
+      "startDate": startDate?.encodeToJSON(),
+      "endDate": endDate?.encodeToJSON(),
+      "orderBy": orderBy?.encodeToJSON(),
+      "direction": direction?.encodeToJSON(),
+      "limit": limit?.encodeToJSON(),
+      "offset": offset?.encodeToJSON(),
+      "tags": tags?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1255,10 +1335,15 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetUsersCountResponse {
-    return try await getUsersCountWithHTTPInfo(
+    let response: Response<GetUsersCountResponse> = try await getUsersCountWithHTTPInfo(
       index: index, startDate: startDate, endDate: endDate, tags: tags,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1276,23 +1361,22 @@ open class AnalyticsClient {
     index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetUsersCountResponse> {
-    let path = "/2/users/count"
+    let resourcePath = "/2/users/count"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "index": (wrappedValue: index.encodeToJSON(), isExplode: true),
-      "startDate": (wrappedValue: startDate?.encodeToJSON(), isExplode: true),
-      "endDate": (wrappedValue: endDate?.encodeToJSON(), isExplode: true),
-      "tags": (wrappedValue: tags?.encodeToJSON(), isExplode: true),
+      "index": index.encodeToJSON(),
+      "startDate": startDate?.encodeToJSON(),
+      "endDate": endDate?.encodeToJSON(),
+      "tags": tags?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )

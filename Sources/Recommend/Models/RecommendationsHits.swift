@@ -11,11 +11,11 @@ public struct RecommendationsHits: Codable, JSONEncodable, Hashable {
 
   public var hits: [RecommendationsHit]
   /** Text to search for in an index. */
-  public var query: String? = ""
+  public var query: String?
   /** URL-encoded string of all search parameters. */
   public var params: String?
 
-  public init(hits: [RecommendationsHit], query: String? = "", params: String? = nil) {
+  public init(hits: [RecommendationsHit], query: String? = nil, params: String? = nil) {
     self.hits = hits
     self.query = query
     self.params = params

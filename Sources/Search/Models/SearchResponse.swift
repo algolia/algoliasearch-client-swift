@@ -38,7 +38,7 @@ public struct SearchResponse: Codable, JSONEncodable, Hashable {
   /** Statistics for numerical facets. */
   public var facetsStats: [String: FacetsStats]?
   /** Number of hits per page. */
-  public var hitsPerPage: Int = 20
+  public var hitsPerPage: Int
   /** Index name used for the query. */
   public var index: String?
   /** Index name used for the query. During A/B testing, the targeted index isn't always the index used by the query. */
@@ -52,7 +52,7 @@ public struct SearchResponse: Codable, JSONEncodable, Hashable {
   /** Number of hits selected and sorted by the relevant sort algorithm. */
   public var nbSortedHits: Int?
   /** Page to retrieve (the first page is `0`, not `1`). */
-  public var page: Int = 0
+  public var page: Int
   /** Post-[normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/#what-does-normalization-mean) query string that will be searched. */
   public var parsedQuery: String?
   /** Time the server took to process the request, in milliseconds. */
@@ -71,7 +71,7 @@ public struct SearchResponse: Codable, JSONEncodable, Hashable {
   public var userData: AnyCodable?
   public var hits: [Hit]
   /** Text to search for in an index. */
-  public var query: String = ""
+  public var query: String
   /** URL-encoded string of all search parameters. */
   public var params: String
 
@@ -80,11 +80,11 @@ public struct SearchResponse: Codable, JSONEncodable, Hashable {
     automaticRadius: String? = nil, exhaustive: Exhaustive? = nil,
     exhaustiveFacetsCount: Bool? = nil, exhaustiveNbHits: Bool? = nil, exhaustiveTypo: Bool? = nil,
     facets: [String: [String: Int]]? = nil, facetsStats: [String: FacetsStats]? = nil,
-    hitsPerPage: Int = 20, index: String? = nil, indexUsed: String? = nil, message: String? = nil,
-    nbHits: Int, nbPages: Int, nbSortedHits: Int? = nil, page: Int = 0, parsedQuery: String? = nil,
+    hitsPerPage: Int, index: String? = nil, indexUsed: String? = nil, message: String? = nil,
+    nbHits: Int, nbPages: Int, nbSortedHits: Int? = nil, page: Int, parsedQuery: String? = nil,
     processingTimeMS: Int, processingTimingsMS: AnyCodable? = nil, queryAfterRemoval: String? = nil,
     redirect: Redirect? = nil, renderingContent: RenderingContent? = nil, serverTimeMS: Int? = nil,
-    serverUsed: String? = nil, userData: AnyCodable? = nil, hits: [Hit], query: String = "",
+    serverUsed: String? = nil, userData: AnyCodable? = nil, hits: [Hit], query: String,
     params: String
   ) {
     self.abTestID = abTestID
@@ -164,6 +164,98 @@ public struct SearchResponse: Codable, JSONEncodable, Hashable {
 
     set {
       additionalProperties[key] = newValue
+    }
+  }
+
+  public init(from dictionary: [String: AnyCodable]) throws {
+
+    self.abTestID = dictionary["abTestID"]?.value as? Int
+
+    self.abTestVariantID = dictionary["abTestVariantID"]?.value as? Int
+
+    self.aroundLatLng = dictionary["aroundLatLng"]?.value as? String
+
+    self.automaticRadius = dictionary["automaticRadius"]?.value as? String
+
+    self.exhaustive = dictionary["exhaustive"]?.value as? Exhaustive
+
+    self.exhaustiveFacetsCount = dictionary["exhaustiveFacetsCount"]?.value as? Bool
+
+    self.exhaustiveNbHits = dictionary["exhaustiveNbHits"]?.value as? Bool
+
+    self.exhaustiveTypo = dictionary["exhaustiveTypo"]?.value as? Bool
+
+    self.facets = dictionary["facets"]?.value as? [String: [String: Int]]
+
+    self.facetsStats = dictionary["facetsStats"]?.value as? [String: FacetsStats]
+
+    guard let hitsPerPage = dictionary["hitsPerPage"]?.value as? Int else {
+      throw GenericError(description: "Failed to cast")
+    }
+    self.hitsPerPage = hitsPerPage
+    self.index = dictionary["index"]?.value as? String
+
+    self.indexUsed = dictionary["indexUsed"]?.value as? String
+
+    self.message = dictionary["message"]?.value as? String
+
+    guard let nbHits = dictionary["nbHits"]?.value as? Int else {
+      throw GenericError(description: "Failed to cast")
+    }
+    self.nbHits = nbHits
+    guard let nbPages = dictionary["nbPages"]?.value as? Int else {
+      throw GenericError(description: "Failed to cast")
+    }
+    self.nbPages = nbPages
+    self.nbSortedHits = dictionary["nbSortedHits"]?.value as? Int
+
+    guard let page = dictionary["page"]?.value as? Int else {
+      throw GenericError(description: "Failed to cast")
+    }
+    self.page = page
+    self.parsedQuery = dictionary["parsedQuery"]?.value as? String
+
+    guard let processingTimeMS = dictionary["processingTimeMS"]?.value as? Int else {
+      throw GenericError(description: "Failed to cast")
+    }
+    self.processingTimeMS = processingTimeMS
+    self.processingTimingsMS = dictionary["processingTimingsMS"]?.value as? AnyCodable
+
+    self.queryAfterRemoval = dictionary["queryAfterRemoval"]?.value as? String
+
+    self.redirect = dictionary["redirect"]?.value as? Redirect
+
+    self.renderingContent = dictionary["renderingContent"]?.value as? RenderingContent
+
+    self.serverTimeMS = dictionary["serverTimeMS"]?.value as? Int
+
+    self.serverUsed = dictionary["serverUsed"]?.value as? String
+
+    self.userData = dictionary["userData"]?.value as? AnyCodable
+
+    guard let hits = dictionary["hits"]?.value as? [Hit] else {
+      throw GenericError(description: "Failed to cast")
+    }
+    self.hits = hits
+    guard let query = dictionary["query"]?.value as? String else {
+      throw GenericError(description: "Failed to cast")
+    }
+    self.query = query
+    guard let params = dictionary["params"]?.value as? String else {
+      throw GenericError(description: "Failed to cast")
+    }
+    self.params = params
+    for (key, value) in dictionary {
+      switch key {
+      case "abTestID", "abTestVariantID", "aroundLatLng", "automaticRadius", "exhaustive",
+        "exhaustiveFacetsCount", "exhaustiveNbHits", "exhaustiveTypo", "facets", "facetsStats",
+        "hitsPerPage", "index", "indexUsed", "message", "nbHits", "nbPages", "nbSortedHits", "page",
+        "parsedQuery", "processingTimeMS", "processingTimingsMS", "queryAfterRemoval", "redirect",
+        "renderingContent", "serverTimeMS", "serverUsed", "userData", "hits", "query", "params":
+        continue
+      default:
+        self.additionalProperties[key] = value
+      }
     }
   }
 

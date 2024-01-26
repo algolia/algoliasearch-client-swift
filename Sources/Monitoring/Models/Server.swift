@@ -14,16 +14,16 @@ public struct Server: Codable, JSONEncodable, Hashable {
   public var region: Region?
   /** Included to support legacy applications. Do not rely on this attribute being present in the response. Use `is_replica` instead.  */
   @available(*, deprecated, message: "This property is deprecated.")
-  public var isSlave: Bool? = false
+  public var isSlave: Bool?
   /** Indicates whether this server is a replica of another server. */
-  public var isReplica: Bool? = false
+  public var isReplica: Bool?
   /** Name of the cluster to which this server belongs. */
   public var cluster: String?
   public var status: ServerStatus?
   public var type: ModelType?
 
   public init(
-    name: String? = nil, region: Region? = nil, isSlave: Bool? = false, isReplica: Bool? = false,
+    name: String? = nil, region: Region? = nil, isSlave: Bool? = nil, isReplica: Bool? = nil,
     cluster: String? = nil, status: ServerStatus? = nil, type: ModelType? = nil
   ) {
     self.name = name

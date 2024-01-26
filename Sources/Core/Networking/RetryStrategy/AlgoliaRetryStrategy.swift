@@ -76,10 +76,10 @@ class AlgoliaRetryStrategy: RetryStrategy {
 
   func isRetryable(_ error: Error) -> Bool {
     switch error {
-    case .requestError(let error) as TransportError where error is URLError:
+    case .requestError(let error) as AlgoliaError where error is URLError:
       return true
 
-    case .httpError(let httpError) as TransportError
+    case .httpError(let httpError) as AlgoliaError
     where !httpError.statusCode.belongs(to: .success, .clientError):
       return true
 
@@ -93,10 +93,10 @@ class AlgoliaRetryStrategy: RetryStrategy {
 
   func isTimeout(_ error: Error) -> Bool {
     switch error {
-    case .requestError(let error as URLError) as TransportError where error.code == .timedOut:
+    case .requestError(let error as URLError) as AlgoliaError where error.code == .timedOut:
       return true
 
-    case .httpError(let error) as TransportError where error.statusCode == .requestTimeout:
+    case .httpError(let error) as AlgoliaError where error.statusCode == .requestTimeout:
       return true
 
     default:

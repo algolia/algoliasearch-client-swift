@@ -13,11 +13,11 @@ public struct AutomaticFacetFilter: Codable, JSONEncodable, Hashable {
   /** Attribute to filter on. This must match a facet placeholder in the Rule's pattern. */
   public var facet: String
   /** Score for the filter. Typically used for optional or disjunctive filters. */
-  public var score: Int? = 1
+  public var score: Int?
   /** Whether the filter is disjunctive (true) or conjunctive (false). */
-  public var disjunctive: Bool? = false
+  public var disjunctive: Bool?
 
-  public init(facet: String, score: Int? = 1, disjunctive: Bool? = false) {
+  public init(facet: String, score: Int? = nil, disjunctive: Bool? = nil) {
     self.facet = facet
     self.score = score
     self.disjunctive = disjunctive

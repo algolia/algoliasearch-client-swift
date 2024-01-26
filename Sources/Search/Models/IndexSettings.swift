@@ -19,7 +19,7 @@ public struct IndexSettings: Codable, JSONEncodable, Hashable {
   /** Creates [replicas](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/), which are copies of a primary index with the same records but different settings. */
   public var replicas: [String]?
   /** Maximum number of hits accessible through pagination. */
-  public var paginationLimitedTo: Int? = 1000
+  public var paginationLimitedTo: Int?
   /** Attributes that can't be retrieved at query time. */
   public var unretrievableAttributes: [String]?
   /** Words for which you want to turn off [typo tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/). */
@@ -35,11 +35,11 @@ public struct IndexSettings: Codable, JSONEncodable, Hashable {
   /** Attributes for which you want to turn off [prefix matching](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/#adjusting-prefix-search). */
   public var disablePrefixOnAttributes: [String]?
   /** Incidates whether the engine compresses arrays with exclusively non-negative integers. When enabled, the compressed arrays may be reordered.  */
-  public var allowCompressionOfIntegerArray: Bool? = false
+  public var allowCompressionOfIntegerArray: Bool?
   /** Numeric attributes that can be used as [numerical filters](https://www.algolia.com/doc/guides/managing-results/rules/detecting-intent/how-to/applying-a-custom-filter-for-a-specific-query/#numerical-filters). */
   public var numericAttributesForFiltering: [String]?
   /** Controls which separators are added to an Algolia index as part of [normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/#what-does-normalization-mean). Separators are all non-letter characters except spaces and currency characters, such as $€£¥. */
-  public var separatorsToIndex: String? = ""
+  public var separatorsToIndex: String?
   /** [Attributes used for searching](https://www.algolia.com/doc/guides/managing-results/must-do/searchable-attributes/), including determining [if matches at the beginning of a word are important (ordered) or not (unordered)](https://www.algolia.com/doc/guides/managing-results/must-do/searchable-attributes/how-to/configuring-searchable-attributes-the-right-way/#understanding-word-position).  */
   public var searchableAttributes: [String]?
   /** Lets you store custom data in your indices. */
@@ -57,48 +57,48 @@ public struct IndexSettings: Codable, JSONEncodable, Hashable {
   /** Specifies the [Custom ranking criterion](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/). Use the `asc` and `desc` modifiers to specify the ranking order: ascending or descending.  */
   public var customRanking: [String]?
   /** Relevancy threshold below which less relevant results aren't included in the results. */
-  public var relevancyStrictness: Int? = 100
+  public var relevancyStrictness: Int?
   /** Attributes to highlight. Strings that match the search query in the attributes are highlighted by surrounding them with HTML tags (`highlightPreTag` and `highlightPostTag`). */
   public var attributesToHighlight: [String]?
   /** Attributes to _snippet_. 'Snippeting' is shortening the attribute to a certain number of words. If not specified, the attribute is shortened to the 10 words around the matching string but you can specify the number. For example: `body:20`.  */
   public var attributesToSnippet: [String]?
   /** HTML string to insert before the highlighted parts in all highlight and snippet results. */
-  public var highlightPreTag: String? = "<em>"
+  public var highlightPreTag: String?
   /** HTML string to insert after the highlighted parts in all highlight and snippet results. */
-  public var highlightPostTag: String? = "</em>"
+  public var highlightPostTag: String?
   /** String used as an ellipsis indicator when a snippet is truncated. */
-  public var snippetEllipsisText: String? = "…"
+  public var snippetEllipsisText: String?
   /** Restrict highlighting and snippeting to items that matched the query. */
-  public var restrictHighlightAndSnippetArrays: Bool? = false
+  public var restrictHighlightAndSnippetArrays: Bool?
   /** Number of hits per page. */
-  public var hitsPerPage: Int? = 20
+  public var hitsPerPage: Int?
   /** Minimum number of characters a word in the query string must contain to accept matches with [one typo](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#configuring-word-length-for-typos). */
-  public var minWordSizefor1Typo: Int? = 4
+  public var minWordSizefor1Typo: Int?
   /** Minimum number of characters a word in the query string must contain to accept matches with [two typos](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#configuring-word-length-for-typos). */
-  public var minWordSizefor2Typos: Int? = 8
+  public var minWordSizefor2Typos: Int?
   public var typoTolerance: TypoTolerance?
   /** Whether to allow typos on numbers (\"numeric tokens\") in the query string. */
-  public var allowTyposOnNumericTokens: Bool? = true
+  public var allowTyposOnNumericTokens: Bool?
   /** Attributes for which you want to turn off [typo tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/). */
   public var disableTypoToleranceOnAttributes: [String]?
   public var ignorePlurals: IgnorePlurals?
   public var removeStopWords: RemoveStopWords?
   /** Characters that the engine shouldn't automatically [normalize](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/). */
-  public var keepDiacriticsOnCharacters: String? = ""
+  public var keepDiacriticsOnCharacters: String?
   /** Sets your user's search language. This adjusts language-specific settings and features such as `ignorePlurals`, `removeStopWords`, and [CJK](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/#normalization-for-logogram-based-languages-cjk) word detection. */
   public var queryLanguages: [String]?
   /** [Splits compound words](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/#splitting-compound-words) into their component word parts in the query.  */
-  public var decompoundQuery: Bool? = true
+  public var decompoundQuery: Bool?
   /** Incidates whether [Rules](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/) are enabled. */
-  public var enableRules: Bool? = true
+  public var enableRules: Bool?
   /** Incidates whether [Personalization](https://www.algolia.com/doc/guides/personalization/what-is-personalization/) is enabled. */
-  public var enablePersonalization: Bool? = false
+  public var enablePersonalization: Bool?
   public var queryType: QueryType?
   public var removeWordsIfNoResults: RemoveWordsIfNoResults?
   public var mode: Mode?
   public var semanticSearch: SemanticSearch?
   /** Enables the [advanced query syntax](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/#advanced-syntax). */
-  public var advancedSyntax: Bool? = false
+  public var advancedSyntax: Bool?
   /** Words which should be considered [optional](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/empty-or-insufficient-results/#creating-a-list-of-optional-words) when found in a query. */
   public var optionalWords: [String]?
   /** Attributes for which you want to [turn off the exact ranking criterion](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/in-depth/adjust-exact-settings/#turn-off-exact-for-some-attributes). */
@@ -110,54 +110,54 @@ public struct IndexSettings: Codable, JSONEncodable, Hashable {
   public var advancedSyntaxFeatures: [AdvancedSyntaxFeatures]?
   public var distinct: Distinct?
   /** Whether to highlight and snippet the original word that matches the synonym or the synonym itself. */
-  public var replaceSynonymsInHighlight: Bool? = false
+  public var replaceSynonymsInHighlight: Bool?
   /** Precision of the [proximity ranking criterion](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria/#proximity). */
-  public var minProximity: Int? = 1
+  public var minProximity: Int?
   /** Attributes to include in the API response for search and browse queries. */
   public var responseFields: [String]?
   /** Maximum number of facet hits to return when [searching for facet values](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#search-for-facet-values). */
-  public var maxFacetHits: Int? = 10
+  public var maxFacetHits: Int?
   /** Maximum number of facet values to return for each facet. */
-  public var maxValuesPerFacet: Int? = 100
+  public var maxValuesPerFacet: Int?
   /** Controls how facet values are fetched. */
-  public var sortFacetValuesBy: String? = "count"
+  public var sortFacetValuesBy: String?
   /** When the [Attribute criterion is ranked above Proximity](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria/#attribute-and-proximity-combinations) in your ranking formula, Proximity is used to select which searchable attribute is matched in the Attribute ranking stage. */
-  public var attributeCriteriaComputedByMinProximity: Bool? = false
+  public var attributeCriteriaComputedByMinProximity: Bool?
   public var renderingContent: RenderingContent?
   /** Indicates whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/). */
-  public var enableReRanking: Bool? = true
+  public var enableReRanking: Bool?
   public var reRankingApplyFilter: ReRankingApplyFilter?
 
   public init(
-    replicas: [String]? = nil, paginationLimitedTo: Int? = 1000,
+    replicas: [String]? = nil, paginationLimitedTo: Int? = nil,
     unretrievableAttributes: [String]? = nil, disableTypoToleranceOnWords: [String]? = nil,
     attributesToTransliterate: [String]? = nil, camelCaseAttributes: [String]? = nil,
     decompoundedAttributes: AnyCodable? = nil, indexLanguages: [String]? = nil,
-    disablePrefixOnAttributes: [String]? = nil, allowCompressionOfIntegerArray: Bool? = false,
-    numericAttributesForFiltering: [String]? = nil, separatorsToIndex: String? = "",
+    disablePrefixOnAttributes: [String]? = nil, allowCompressionOfIntegerArray: Bool? = nil,
+    numericAttributesForFiltering: [String]? = nil, separatorsToIndex: String? = nil,
     searchableAttributes: [String]? = nil, userData: AnyCodable? = nil,
     customNormalization: [String: [String: String]]? = nil, attributeForDistinct: String? = nil,
     attributesForFaceting: [String]? = nil, attributesToRetrieve: [String]? = nil,
-    ranking: [String]? = nil, customRanking: [String]? = nil, relevancyStrictness: Int? = 100,
+    ranking: [String]? = nil, customRanking: [String]? = nil, relevancyStrictness: Int? = nil,
     attributesToHighlight: [String]? = nil, attributesToSnippet: [String]? = nil,
-    highlightPreTag: String? = "<em>", highlightPostTag: String? = "</em>",
-    snippetEllipsisText: String? = "…", restrictHighlightAndSnippetArrays: Bool? = false,
-    hitsPerPage: Int? = 20, minWordSizefor1Typo: Int? = 4, minWordSizefor2Typos: Int? = 8,
-    typoTolerance: TypoTolerance? = nil, allowTyposOnNumericTokens: Bool? = true,
+    highlightPreTag: String? = nil, highlightPostTag: String? = nil,
+    snippetEllipsisText: String? = nil, restrictHighlightAndSnippetArrays: Bool? = nil,
+    hitsPerPage: Int? = nil, minWordSizefor1Typo: Int? = nil, minWordSizefor2Typos: Int? = nil,
+    typoTolerance: TypoTolerance? = nil, allowTyposOnNumericTokens: Bool? = nil,
     disableTypoToleranceOnAttributes: [String]? = nil, ignorePlurals: IgnorePlurals? = nil,
-    removeStopWords: RemoveStopWords? = nil, keepDiacriticsOnCharacters: String? = "",
-    queryLanguages: [String]? = nil, decompoundQuery: Bool? = true, enableRules: Bool? = true,
-    enablePersonalization: Bool? = false, queryType: QueryType? = nil,
+    removeStopWords: RemoveStopWords? = nil, keepDiacriticsOnCharacters: String? = nil,
+    queryLanguages: [String]? = nil, decompoundQuery: Bool? = nil, enableRules: Bool? = nil,
+    enablePersonalization: Bool? = nil, queryType: QueryType? = nil,
     removeWordsIfNoResults: RemoveWordsIfNoResults? = nil, mode: Mode? = nil,
-    semanticSearch: SemanticSearch? = nil, advancedSyntax: Bool? = false,
+    semanticSearch: SemanticSearch? = nil, advancedSyntax: Bool? = nil,
     optionalWords: [String]? = nil, disableExactOnAttributes: [String]? = nil,
     exactOnSingleWordQuery: ExactOnSingleWordQuery? = nil,
     alternativesAsExact: [AlternativesAsExact]? = nil,
     advancedSyntaxFeatures: [AdvancedSyntaxFeatures]? = nil, distinct: Distinct? = nil,
-    replaceSynonymsInHighlight: Bool? = false, minProximity: Int? = 1,
-    responseFields: [String]? = nil, maxFacetHits: Int? = 10, maxValuesPerFacet: Int? = 100,
-    sortFacetValuesBy: String? = "count", attributeCriteriaComputedByMinProximity: Bool? = false,
-    renderingContent: RenderingContent? = nil, enableReRanking: Bool? = true,
+    replaceSynonymsInHighlight: Bool? = nil, minProximity: Int? = nil,
+    responseFields: [String]? = nil, maxFacetHits: Int? = nil, maxValuesPerFacet: Int? = nil,
+    sortFacetValuesBy: String? = nil, attributeCriteriaComputedByMinProximity: Bool? = nil,
+    renderingContent: RenderingContent? = nil, enableReRanking: Bool? = nil,
     reRankingApplyFilter: ReRankingApplyFilter? = nil
   ) {
     self.replicas = replicas

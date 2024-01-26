@@ -17,11 +17,12 @@ public struct SearchUserIdsParams: Codable, JSONEncodable, Hashable {
   /** Cluster name. */
   public var clusterName: String?
   /** Page to retrieve (the first page is `0`, not `1`). */
-  public var page: Int? = 0
+  public var page: Int?
   /** Number of hits per page. */
-  public var hitsPerPage: Int? = 20
+  public var hitsPerPage: Int?
 
-  public init(query: String, clusterName: String? = nil, page: Int? = 0, hitsPerPage: Int? = 20) {
+  public init(query: String, clusterName: String? = nil, page: Int? = nil, hitsPerPage: Int? = nil)
+  {
     self.query = query
     self.clusterName = clusterName
     self.page = page

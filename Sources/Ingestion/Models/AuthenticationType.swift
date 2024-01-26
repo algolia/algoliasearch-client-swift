@@ -9,9 +9,9 @@ import Foundation
 
 /// Type of the Authentication, defines what kind of object is stored in the input.
 public enum AuthenticationType: String, Codable, CaseIterable {
-  case googleserviceaccount = "googleServiceAccount"
+  case googleServiceAccount = "googleServiceAccount"
   case basic = "basic"
-  case apikey = "apiKey"
+  case apiKey = "apiKey"
   case oauth = "oauth"
   case algolia = "algolia"
 }

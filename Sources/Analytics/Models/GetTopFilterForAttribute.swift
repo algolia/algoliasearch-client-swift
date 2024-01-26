@@ -12,22 +12,22 @@ public struct GetTopFilterForAttribute: Codable, JSONEncodable, Hashable {
   /** Attribute name. */
   public var attribute: String
   /** Operator. */
-  public var _operator: String
+  public var `operator`: String
   /** Attribute value. */
   public var value: String
   /** Number of occurrences. */
   public var count: Int
 
-  public init(attribute: String, _operator: String, value: String, count: Int) {
+  public init(attribute: String, `operator`: String, value: String, count: Int) {
     self.attribute = attribute
-    self._operator = _operator
+    self.`operator` = `operator`
     self.value = value
     self.count = count
   }
 
   public enum CodingKeys: String, CodingKey, CaseIterable {
     case attribute
-    case _operator = "operator"
+    case `operator` = "operator"
     case value
     case count
   }
@@ -37,7 +37,7 @@ public struct GetTopFilterForAttribute: Codable, JSONEncodable, Hashable {
   public func encode(to encoder: Encoder) throws {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encode(attribute, forKey: .attribute)
-    try container.encode(_operator, forKey: ._operator)
+    try container.encode(`operator`, forKey: .`operator`)
     try container.encode(value, forKey: .value)
     try container.encode(count, forKey: .count)
   }

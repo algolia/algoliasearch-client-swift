@@ -38,7 +38,7 @@ public struct RecommendationsResults: Codable, JSONEncodable, Hashable {
   /** Statistics for numerical facets. */
   public var facetsStats: [String: FacetsStats]?
   /** Number of hits per page. */
-  public var hitsPerPage: Int = 20
+  public var hitsPerPage: Int
   /** Index name used for the query. */
   public var index: String?
   /** Index name used for the query. During A/B testing, the targeted index isn't always the index used by the query. */
@@ -52,7 +52,7 @@ public struct RecommendationsResults: Codable, JSONEncodable, Hashable {
   /** Number of hits selected and sorted by the relevant sort algorithm. */
   public var nbSortedHits: Int?
   /** Page to retrieve (the first page is `0`, not `1`). */
-  public var page: Int = 0
+  public var page: Int
   /** Post-[normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/#what-does-normalization-mean) query string that will be searched. */
   public var parsedQuery: String?
   /** Time the server took to process the request, in milliseconds. */
@@ -71,7 +71,7 @@ public struct RecommendationsResults: Codable, JSONEncodable, Hashable {
   public var userData: AnyCodable?
   public var hits: [RecommendationsHit]
   /** Text to search for in an index. */
-  public var query: String? = ""
+  public var query: String?
   /** URL-encoded string of all search parameters. */
   public var params: String?
 
@@ -80,12 +80,12 @@ public struct RecommendationsResults: Codable, JSONEncodable, Hashable {
     automaticRadius: String? = nil, exhaustive: Exhaustive? = nil,
     exhaustiveFacetsCount: Bool? = nil, exhaustiveNbHits: Bool? = nil, exhaustiveTypo: Bool? = nil,
     facets: [String: [String: Int]]? = nil, facetsStats: [String: FacetsStats]? = nil,
-    hitsPerPage: Int = 20, index: String? = nil, indexUsed: String? = nil, message: String? = nil,
-    nbHits: Int, nbPages: Int, nbSortedHits: Int? = nil, page: Int = 0, parsedQuery: String? = nil,
+    hitsPerPage: Int, index: String? = nil, indexUsed: String? = nil, message: String? = nil,
+    nbHits: Int, nbPages: Int, nbSortedHits: Int? = nil, page: Int, parsedQuery: String? = nil,
     processingTimeMS: Int, processingTimingsMS: AnyCodable? = nil, queryAfterRemoval: String? = nil,
     redirect: Redirect? = nil, renderingContent: RenderingContent? = nil, serverTimeMS: Int? = nil,
     serverUsed: String? = nil, userData: AnyCodable? = nil, hits: [RecommendationsHit],
-    query: String? = "", params: String? = nil
+    query: String? = nil, params: String? = nil
   ) {
     self.abTestID = abTestID
     self.abTestVariantID = abTestVariantID

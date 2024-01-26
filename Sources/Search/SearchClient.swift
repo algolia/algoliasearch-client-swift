@@ -27,8 +27,8 @@ open class SearchClient {
     self.init(configuration: configuration, transporter: Transporter(configuration: configuration))
   }
 
-  public convenience init(applicationID: String, apiKey: String) {
-    self.init(configuration: Configuration(applicationID: applicationID, apiKey: apiKey))
+  public convenience init(applicationID: String, apiKey: String) throws {
+    self.init(configuration: try Configuration(applicationID: applicationID, apiKey: apiKey))
   }
 
   /**
@@ -41,7 +41,14 @@ open class SearchClient {
   open func addApiKey(apiKey: ApiKey, requestOptions: RequestOptions? = nil) async throws
     -> AddApiKeyResponse
   {
-    return try await addApiKeyWithHTTPInfo(apiKey: apiKey, requestOptions: requestOptions).body
+    let response: Response<AddApiKeyResponse> = try await addApiKeyWithHTTPInfo(
+      apiKey: apiKey, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -55,18 +62,17 @@ open class SearchClient {
   open func addApiKeyWithHTTPInfo(
     apiKey: ApiKey, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<AddApiKeyResponse> {
-    let path = "/1/keys"
+    let resourcePath = "/1/keys"
     let body = apiKey
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -82,11 +88,17 @@ open class SearchClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func addOrUpdateObject(
-    indexName: String, objectID: String, body: Codable, requestOptions: RequestOptions? = nil
+    indexName: String, objectID: String, body: [String: AnyCodable],
+    requestOptions: RequestOptions? = nil
   ) async throws -> UpdatedAtWithObjectIdResponse {
-    return try await addOrUpdateObjectWithHTTPInfo(
-      indexName: indexName, objectID: objectID, body: body, requestOptions: requestOptions
-    ).body
+    let response: Response<UpdatedAtWithObjectIdResponse> = try await addOrUpdateObjectWithHTTPInfo(
+      indexName: indexName, objectID: objectID, body: body, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -100,31 +112,30 @@ open class SearchClient {
      */
 
   open func addOrUpdateObjectWithHTTPInfo(
-    indexName: String, objectID: String, body: Codable,
+    indexName: String, objectID: String, body: [String: AnyCodable],
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<UpdatedAtWithObjectIdResponse> {
-    var path = "/1/indexes/{indexName}/{objectID}"
+    var resourcePath = "/1/indexes/{indexName}/{objectID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
     let objectIDPostEscape =
-      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
     let body = body
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "PUT",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -140,7 +151,14 @@ open class SearchClient {
   open func appendSource(source: Source, requestOptions: RequestOptions? = nil) async throws
     -> CreatedAtResponse
   {
-    return try await appendSourceWithHTTPInfo(source: source, requestOptions: requestOptions).body
+    let response: Response<CreatedAtResponse> = try await appendSourceWithHTTPInfo(
+      source: source, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -154,18 +172,17 @@ open class SearchClient {
   open func appendSourceWithHTTPInfo(
     source: Source, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<CreatedAtResponse> {
-    let path = "/1/security/sources/append"
+    let resourcePath = "/1/security/sources/append"
     let body = source
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -183,10 +200,15 @@ open class SearchClient {
     xAlgoliaUserID: String, assignUserIdParams: AssignUserIdParams,
     requestOptions: RequestOptions? = nil
   ) async throws -> CreatedAtResponse {
-    return try await assignUserIdWithHTTPInfo(
+    let response: Response<CreatedAtResponse> = try await assignUserIdWithHTTPInfo(
       xAlgoliaUserID: xAlgoliaUserID, assignUserIdParams: assignUserIdParams,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -202,9 +224,8 @@ open class SearchClient {
     xAlgoliaUserID: String, assignUserIdParams: AssignUserIdParams,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<CreatedAtResponse> {
-    let path = "/1/clusters/mapping"
+    let resourcePath = "/1/clusters/mapping"
     let body = assignUserIdParams
-
     let queryItems: [URLQueryItem]? = nil
 
     let nillableHeaders: [String: Any?]? = [
@@ -215,7 +236,7 @@ open class SearchClient {
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -232,9 +253,14 @@ open class SearchClient {
   open func batch(
     indexName: String, batchWriteParams: BatchWriteParams, requestOptions: RequestOptions? = nil
   ) async throws -> BatchResponse {
-    return try await batchWithHTTPInfo(
-      indexName: indexName, batchWriteParams: batchWriteParams, requestOptions: requestOptions
-    ).body
+    let response: Response<BatchResponse> = try await batchWithHTTPInfo(
+      indexName: indexName, batchWriteParams: batchWriteParams, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -250,23 +276,22 @@ open class SearchClient {
     indexName: String, batchWriteParams: BatchWriteParams,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<BatchResponse> {
-    var path = "/1/indexes/{indexName}/batch"
+    var resourcePath = "/1/indexes/{indexName}/batch"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let body = batchWriteParams
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -284,10 +309,15 @@ open class SearchClient {
     xAlgoliaUserID: String, batchAssignUserIdsParams: BatchAssignUserIdsParams,
     requestOptions: RequestOptions? = nil
   ) async throws -> CreatedAtResponse {
-    return try await batchAssignUserIdsWithHTTPInfo(
+    let response: Response<CreatedAtResponse> = try await batchAssignUserIdsWithHTTPInfo(
       xAlgoliaUserID: xAlgoliaUserID, batchAssignUserIdsParams: batchAssignUserIdsParams,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -303,9 +333,8 @@ open class SearchClient {
     xAlgoliaUserID: String, batchAssignUserIdsParams: BatchAssignUserIdsParams,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<CreatedAtResponse> {
-    let path = "/1/clusters/mapping/batch"
+    let resourcePath = "/1/clusters/mapping/batch"
     let body = batchAssignUserIdsParams
-
     let queryItems: [URLQueryItem]? = nil
 
     let nillableHeaders: [String: Any?]? = [
@@ -316,7 +345,7 @@ open class SearchClient {
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -334,10 +363,15 @@ open class SearchClient {
     dictionaryName: DictionaryType, batchDictionaryEntriesParams: BatchDictionaryEntriesParams,
     requestOptions: RequestOptions? = nil
   ) async throws -> UpdatedAtResponse {
-    return try await batchDictionaryEntriesWithHTTPInfo(
+    let response: Response<UpdatedAtResponse> = try await batchDictionaryEntriesWithHTTPInfo(
       dictionaryName: dictionaryName, batchDictionaryEntriesParams: batchDictionaryEntriesParams,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -353,23 +387,23 @@ open class SearchClient {
     dictionaryName: DictionaryType, batchDictionaryEntriesParams: BatchDictionaryEntriesParams,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<UpdatedAtResponse> {
-    var path = "/1/dictionaries/{dictionaryName}/batch"
+    var resourcePath = "/1/dictionaries/{dictionaryName}/batch"
     let dictionaryNamePreEscape = "\(APIHelper.mapValueToPathItem(dictionaryName))"
     let dictionaryNamePostEscape =
-      dictionaryNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      dictionaryNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed)
+      ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{dictionaryName}", with: dictionaryNamePostEscape, options: .literal, range: nil)
     let body = batchDictionaryEntriesParams
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -386,9 +420,14 @@ open class SearchClient {
   open func browse(
     indexName: String, browseParams: BrowseParams? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> BrowseResponse {
-    return try await browseWithHTTPInfo(
-      indexName: indexName, browseParams: browseParams, requestOptions: requestOptions
-    ).body
+    let response: Response<BrowseResponse> = try await browseWithHTTPInfo(
+      indexName: indexName, browseParams: browseParams, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -404,24 +443,23 @@ open class SearchClient {
     indexName: String, browseParams: BrowseParams? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<BrowseResponse> {
-    var path = "/1/indexes/{indexName}/browse"
+    var resourcePath = "/1/indexes/{indexName}/browse"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let body = browseParams
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
-      data: body,
+      path: resourcePath,
+      data: body ?? AnyCodable(),
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
   }
@@ -436,8 +474,14 @@ open class SearchClient {
   open func clearObjects(indexName: String, requestOptions: RequestOptions? = nil) async throws
     -> UpdatedAtResponse
   {
-    return try await clearObjectsWithHTTPInfo(indexName: indexName, requestOptions: requestOptions)
-      .body
+    let response: Response<UpdatedAtResponse> = try await clearObjectsWithHTTPInfo(
+      indexName: indexName, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -451,23 +495,22 @@ open class SearchClient {
   open func clearObjectsWithHTTPInfo(
     indexName: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<UpdatedAtResponse> {
-    var path = "/1/indexes/{indexName}/clear"
+    var resourcePath = "/1/indexes/{indexName}/clear"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -484,9 +527,14 @@ open class SearchClient {
   open func clearRules(
     indexName: String, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> UpdatedAtResponse {
-    return try await clearRulesWithHTTPInfo(
-      indexName: indexName, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions
-    ).body
+    let response: Response<UpdatedAtResponse> = try await clearRulesWithHTTPInfo(
+      indexName: indexName, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -502,25 +550,24 @@ open class SearchClient {
     indexName: String, forwardToReplicas: Bool? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<UpdatedAtResponse> {
-    var path = "/1/indexes/{indexName}/rules/clear"
+    var resourcePath = "/1/indexes/{indexName}/rules/clear"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "forwardToReplicas": (wrappedValue: forwardToReplicas?.encodeToJSON(), isExplode: true)
+      "forwardToReplicas": forwardToReplicas?.encodeToJSON()
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -537,9 +584,14 @@ open class SearchClient {
   open func clearSynonyms(
     indexName: String, forwardToReplicas: Bool? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> UpdatedAtResponse {
-    return try await clearSynonymsWithHTTPInfo(
-      indexName: indexName, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions
-    ).body
+    let response: Response<UpdatedAtResponse> = try await clearSynonymsWithHTTPInfo(
+      indexName: indexName, forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -555,25 +607,24 @@ open class SearchClient {
     indexName: String, forwardToReplicas: Bool? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<UpdatedAtResponse> {
-    var path = "/1/indexes/{indexName}/synonyms/clear"
+    var resourcePath = "/1/indexes/{indexName}/synonyms/clear"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "forwardToReplicas": (wrappedValue: forwardToReplicas?.encodeToJSON(), isExplode: true)
+      "forwardToReplicas": forwardToReplicas?.encodeToJSON()
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -590,9 +641,14 @@ open class SearchClient {
   open func customDelete(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customDeleteWithHTTPInfo(
-      path: path, parameters: parameters, requestOptions: requestOptions
-    ).body
+    let response: Response<AnyCodable> = try await customDeleteWithHTTPInfo(
+      path: path, parameters: parameters, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -608,25 +664,22 @@ open class SearchClient {
     path: String, parameters: [String: AnyCodable]? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<AnyCodable> {
-    var path = "/1{path}"
+    var resourcePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
+    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
-    ])
-
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "DELETE",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -643,9 +696,14 @@ open class SearchClient {
   open func customGet(
     path: String, parameters: [String: AnyCodable]? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customGetWithHTTPInfo(
-      path: path, parameters: parameters, requestOptions: requestOptions
-    ).body
+    let response: Response<AnyCodable> = try await customGetWithHTTPInfo(
+      path: path, parameters: parameters, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -661,25 +719,22 @@ open class SearchClient {
     path: String, parameters: [String: AnyCodable]? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<AnyCodable> {
-    var path = "/1{path}"
+    var resourcePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
+    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
-    ])
-
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -695,12 +750,17 @@ open class SearchClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPost(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPostWithHTTPInfo(
-      path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).body
+    let response: Response<AnyCodable> = try await customPostWithHTTPInfo(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -714,29 +774,26 @@ open class SearchClient {
      */
 
   open func customPostWithHTTPInfo(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<AnyCodable> {
-    var path = "/1{path}"
+    var resourcePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
     let body = body
+    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
-    ])
-
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
-      data: body,
+      path: resourcePath,
+      data: body ?? AnyCodable(),
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
   }
@@ -751,12 +808,17 @@ open class SearchClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func customPut(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> AnyCodable {
-    return try await customPutWithHTTPInfo(
-      path: path, parameters: parameters, body: body, requestOptions: requestOptions
-    ).body
+    let response: Response<AnyCodable> = try await customPutWithHTTPInfo(
+      path: path, parameters: parameters, body: body, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -770,29 +832,26 @@ open class SearchClient {
      */
 
   open func customPutWithHTTPInfo(
-    path: String, parameters: [String: AnyCodable]? = nil, body: Codable? = nil,
+    path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<AnyCodable> {
-    var path = "/1{path}"
+    var resourcePath = "/1{path}"
     let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
     let pathPostEscape =
       pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{path}", with: pathPostEscape, options: .literal, range: nil)
     let body = body
+    let queryItems = APIHelper.mapValuesToQueryItems(parameters)
 
-    let queryItems = APIHelper.mapValuesToQueryItems([
-      "parameters": (wrappedValue: parameters?.encodeToJSON(), isExplode: true)
-    ])
-
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "PUT",
-      path: path,
-      data: body,
+      path: resourcePath,
+      data: body ?? AnyCodable(),
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
   }
@@ -807,7 +866,14 @@ open class SearchClient {
   open func deleteApiKey(key: String, requestOptions: RequestOptions? = nil) async throws
     -> DeleteApiKeyResponse
   {
-    return try await deleteApiKeyWithHTTPInfo(key: key, requestOptions: requestOptions).body
+    let response: Response<DeleteApiKeyResponse> = try await deleteApiKeyWithHTTPInfo(
+      key: key, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -821,23 +887,22 @@ open class SearchClient {
   open func deleteApiKeyWithHTTPInfo(
     key: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<DeleteApiKeyResponse> {
-    var path = "/1/keys/{key}"
+    var resourcePath = "/1/keys/{key}"
     let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
     let keyPostEscape =
-      keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{key}", with: keyPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "DELETE",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -854,9 +919,14 @@ open class SearchClient {
   open func deleteBy(
     indexName: String, deleteByParams: DeleteByParams, requestOptions: RequestOptions? = nil
   ) async throws -> DeletedAtResponse {
-    return try await deleteByWithHTTPInfo(
-      indexName: indexName, deleteByParams: deleteByParams, requestOptions: requestOptions
-    ).body
+    let response: Response<DeletedAtResponse> = try await deleteByWithHTTPInfo(
+      indexName: indexName, deleteByParams: deleteByParams, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -872,23 +942,22 @@ open class SearchClient {
     indexName: String, deleteByParams: DeleteByParams,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<DeletedAtResponse> {
-    var path = "/1/indexes/{indexName}/deleteByQuery"
+    var resourcePath = "/1/indexes/{indexName}/deleteByQuery"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let body = deleteByParams
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -904,8 +973,14 @@ open class SearchClient {
   open func deleteIndex(indexName: String, requestOptions: RequestOptions? = nil) async throws
     -> DeletedAtResponse
   {
-    return try await deleteIndexWithHTTPInfo(indexName: indexName, requestOptions: requestOptions)
-      .body
+    let response: Response<DeletedAtResponse> = try await deleteIndexWithHTTPInfo(
+      indexName: indexName, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -919,23 +994,22 @@ open class SearchClient {
   open func deleteIndexWithHTTPInfo(
     indexName: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<DeletedAtResponse> {
-    var path = "/1/indexes/{indexName}"
+    var resourcePath = "/1/indexes/{indexName}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "DELETE",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -952,9 +1026,14 @@ open class SearchClient {
   open func deleteObject(indexName: String, objectID: String, requestOptions: RequestOptions? = nil)
     async throws -> DeletedAtResponse
   {
-    return try await deleteObjectWithHTTPInfo(
-      indexName: indexName, objectID: objectID, requestOptions: requestOptions
-    ).body
+    let response: Response<DeletedAtResponse> = try await deleteObjectWithHTTPInfo(
+      indexName: indexName, objectID: objectID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -969,28 +1048,27 @@ open class SearchClient {
   open func deleteObjectWithHTTPInfo(
     indexName: String, objectID: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<DeletedAtResponse> {
-    var path = "/1/indexes/{indexName}/{objectID}"
+    var resourcePath = "/1/indexes/{indexName}/{objectID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
     let objectIDPostEscape =
-      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "DELETE",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1009,10 +1087,15 @@ open class SearchClient {
     indexName: String, objectID: String, forwardToReplicas: Bool? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> UpdatedAtResponse {
-    return try await deleteRuleWithHTTPInfo(
+    let response: Response<UpdatedAtResponse> = try await deleteRuleWithHTTPInfo(
       indexName: indexName, objectID: objectID, forwardToReplicas: forwardToReplicas,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1029,30 +1112,29 @@ open class SearchClient {
     indexName: String, objectID: String, forwardToReplicas: Bool? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<UpdatedAtResponse> {
-    var path = "/1/indexes/{indexName}/rules/{objectID}"
+    var resourcePath = "/1/indexes/{indexName}/rules/{objectID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
     let objectIDPostEscape =
-      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "forwardToReplicas": (wrappedValue: forwardToReplicas?.encodeToJSON(), isExplode: true)
+      "forwardToReplicas": forwardToReplicas?.encodeToJSON()
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "DELETE",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1068,7 +1150,14 @@ open class SearchClient {
   open func deleteSource(source: String, requestOptions: RequestOptions? = nil) async throws
     -> DeleteSourceResponse
   {
-    return try await deleteSourceWithHTTPInfo(source: source, requestOptions: requestOptions).body
+    let response: Response<DeleteSourceResponse> = try await deleteSourceWithHTTPInfo(
+      source: source, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1082,23 +1171,22 @@ open class SearchClient {
   open func deleteSourceWithHTTPInfo(
     source: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<DeleteSourceResponse> {
-    var path = "/1/security/sources/{source}"
+    var resourcePath = "/1/security/sources/{source}"
     let sourcePreEscape = "\(APIHelper.mapValueToPathItem(source))"
     let sourcePostEscape =
-      sourcePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      sourcePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{source}", with: sourcePostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "DELETE",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1117,10 +1205,15 @@ open class SearchClient {
     indexName: String, objectID: String, forwardToReplicas: Bool? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> DeletedAtResponse {
-    return try await deleteSynonymWithHTTPInfo(
+    let response: Response<DeletedAtResponse> = try await deleteSynonymWithHTTPInfo(
       indexName: indexName, objectID: objectID, forwardToReplicas: forwardToReplicas,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1137,30 +1230,29 @@ open class SearchClient {
     indexName: String, objectID: String, forwardToReplicas: Bool? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<DeletedAtResponse> {
-    var path = "/1/indexes/{indexName}/synonyms/{objectID}"
+    var resourcePath = "/1/indexes/{indexName}/synonyms/{objectID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
     let objectIDPostEscape =
-      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "forwardToReplicas": (wrappedValue: forwardToReplicas?.encodeToJSON(), isExplode: true)
+      "forwardToReplicas": forwardToReplicas?.encodeToJSON()
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "DELETE",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1176,7 +1268,14 @@ open class SearchClient {
   open func getApiKey(key: String, requestOptions: RequestOptions? = nil) async throws
     -> GetApiKeyResponse
   {
-    return try await getApiKeyWithHTTPInfo(key: key, requestOptions: requestOptions).body
+    let response: Response<GetApiKeyResponse> = try await getApiKeyWithHTTPInfo(
+      key: key, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1190,23 +1289,22 @@ open class SearchClient {
   open func getApiKeyWithHTTPInfo(
     key: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetApiKeyResponse> {
-    var path = "/1/keys/{key}"
+    var resourcePath = "/1/keys/{key}"
     let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
     let keyPostEscape =
-      keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{key}", with: keyPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1221,7 +1319,14 @@ open class SearchClient {
   open func getDictionaryLanguages(requestOptions: RequestOptions? = nil) async throws -> [String:
     Languages]
   {
-    return try await getDictionaryLanguagesWithHTTPInfo(requestOptions: requestOptions).body
+    let response: Response<[String: Languages]> = try await getDictionaryLanguagesWithHTTPInfo(
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1234,18 +1339,17 @@ open class SearchClient {
   open func getDictionaryLanguagesWithHTTPInfo(
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<[String: Languages]> {
-    let path = "/1/dictionaries/*/languages"
+    let resourcePath = "/1/dictionaries/*/languages"
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1260,7 +1364,14 @@ open class SearchClient {
   open func getDictionarySettings(requestOptions: RequestOptions? = nil) async throws
     -> GetDictionarySettingsResponse
   {
-    return try await getDictionarySettingsWithHTTPInfo(requestOptions: requestOptions).body
+    let response: Response<GetDictionarySettingsResponse> =
+      try await getDictionarySettingsWithHTTPInfo(requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1273,18 +1384,17 @@ open class SearchClient {
   open func getDictionarySettingsWithHTTPInfo(
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetDictionarySettingsResponse> {
-    let path = "/1/dictionaries/*/settings"
+    let resourcePath = "/1/dictionaries/*/settings"
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1304,10 +1414,15 @@ open class SearchClient {
     offset: Int? = nil, length: Int? = nil, indexName: String? = nil, type: LogType? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> GetLogsResponse {
-    return try await getLogsWithHTTPInfo(
+    let response: Response<GetLogsResponse> = try await getLogsWithHTTPInfo(
       offset: offset, length: length, indexName: indexName, type: type,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1325,23 +1440,22 @@ open class SearchClient {
     offset: Int? = nil, length: Int? = nil, indexName: String? = nil, type: LogType? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetLogsResponse> {
-    let path = "/1/logs"
+    let resourcePath = "/1/logs"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "offset": (wrappedValue: offset?.encodeToJSON(), isExplode: true),
-      "length": (wrappedValue: length?.encodeToJSON(), isExplode: true),
-      "indexName": (wrappedValue: indexName?.encodeToJSON(), isExplode: true),
-      "type": (wrappedValue: type?.encodeToJSON(), isExplode: true),
+      "offset": offset?.encodeToJSON(),
+      "length": length?.encodeToJSON(),
+      "indexName": indexName?.encodeToJSON(),
+      "type": type?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1360,10 +1474,15 @@ open class SearchClient {
     indexName: String, objectID: String, attributesToRetrieve: [String]? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> [String: String] {
-    return try await getObjectWithHTTPInfo(
+    let response: Response<[String: String]> = try await getObjectWithHTTPInfo(
       indexName: indexName, objectID: objectID, attributesToRetrieve: attributesToRetrieve,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1380,30 +1499,29 @@ open class SearchClient {
     indexName: String, objectID: String, attributesToRetrieve: [String]? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<[String: String]> {
-    var path = "/1/indexes/{indexName}/{objectID}"
+    var resourcePath = "/1/indexes/{indexName}/{objectID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
     let objectIDPostEscape =
-      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "attributesToRetrieve": (wrappedValue: attributesToRetrieve?.encodeToJSON(), isExplode: true)
+      "attributesToRetrieve": attributesToRetrieve?.encodeToJSON()
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1419,9 +1537,14 @@ open class SearchClient {
   open func getObjects(getObjectsParams: GetObjectsParams, requestOptions: RequestOptions? = nil)
     async throws -> GetObjectsResponse
   {
-    return try await getObjectsWithHTTPInfo(
-      getObjectsParams: getObjectsParams, requestOptions: requestOptions
-    ).body
+    let response: Response<GetObjectsResponse> = try await getObjectsWithHTTPInfo(
+      getObjectsParams: getObjectsParams, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1435,20 +1558,20 @@ open class SearchClient {
   open func getObjectsWithHTTPInfo(
     getObjectsParams: GetObjectsParams, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetObjectsResponse> {
-    let path = "/1/indexes/*/objects"
+    let resourcePath = "/1/indexes/*/objects"
     let body = getObjectsParams
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
+      useReadTransporter: true
     )
   }
 
@@ -1463,9 +1586,14 @@ open class SearchClient {
   open func getRule(indexName: String, objectID: String, requestOptions: RequestOptions? = nil)
     async throws -> Rule
   {
-    return try await getRuleWithHTTPInfo(
-      indexName: indexName, objectID: objectID, requestOptions: requestOptions
-    ).body
+    let response: Response<Rule> = try await getRuleWithHTTPInfo(
+      indexName: indexName, objectID: objectID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1480,28 +1608,27 @@ open class SearchClient {
   open func getRuleWithHTTPInfo(
     indexName: String, objectID: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<Rule> {
-    var path = "/1/indexes/{indexName}/rules/{objectID}"
+    var resourcePath = "/1/indexes/{indexName}/rules/{objectID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
     let objectIDPostEscape =
-      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1517,8 +1644,14 @@ open class SearchClient {
   open func getSettings(indexName: String, requestOptions: RequestOptions? = nil) async throws
     -> IndexSettings
   {
-    return try await getSettingsWithHTTPInfo(indexName: indexName, requestOptions: requestOptions)
-      .body
+    let response: Response<IndexSettings> = try await getSettingsWithHTTPInfo(
+      indexName: indexName, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1532,23 +1665,22 @@ open class SearchClient {
   open func getSettingsWithHTTPInfo(
     indexName: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<IndexSettings> {
-    var path = "/1/indexes/{indexName}/settings"
+    var resourcePath = "/1/indexes/{indexName}/settings"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1561,7 +1693,14 @@ open class SearchClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getSources(requestOptions: RequestOptions? = nil) async throws -> [Source] {
-    return try await getSourcesWithHTTPInfo(requestOptions: requestOptions).body
+    let response: Response<[Source]> = try await getSourcesWithHTTPInfo(
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1574,18 +1713,17 @@ open class SearchClient {
   open func getSourcesWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil)
     async throws -> Response<[Source]>
   {
-    let path = "/1/security/sources"
+    let resourcePath = "/1/security/sources"
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1602,9 +1740,14 @@ open class SearchClient {
   open func getSynonym(indexName: String, objectID: String, requestOptions: RequestOptions? = nil)
     async throws -> SynonymHit
   {
-    return try await getSynonymWithHTTPInfo(
-      indexName: indexName, objectID: objectID, requestOptions: requestOptions
-    ).body
+    let response: Response<SynonymHit> = try await getSynonymWithHTTPInfo(
+      indexName: indexName, objectID: objectID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1619,28 +1762,27 @@ open class SearchClient {
   open func getSynonymWithHTTPInfo(
     indexName: String, objectID: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<SynonymHit> {
-    var path = "/1/indexes/{indexName}/synonyms/{objectID}"
+    var resourcePath = "/1/indexes/{indexName}/synonyms/{objectID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
     let objectIDPostEscape =
-      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1657,9 +1799,14 @@ open class SearchClient {
   open func getTask(indexName: String, taskID: Int64, requestOptions: RequestOptions? = nil)
     async throws -> GetTaskResponse
   {
-    return try await getTaskWithHTTPInfo(
-      indexName: indexName, taskID: taskID, requestOptions: requestOptions
-    ).body
+    let response: Response<GetTaskResponse> = try await getTaskWithHTTPInfo(
+      indexName: indexName, taskID: taskID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1674,28 +1821,27 @@ open class SearchClient {
   open func getTaskWithHTTPInfo(
     indexName: String, taskID: Int64, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<GetTaskResponse> {
-    var path = "/1/indexes/{indexName}/task/{taskID}"
+    var resourcePath = "/1/indexes/{indexName}/task/{taskID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
     let taskIDPostEscape =
-      taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{taskID}", with: taskIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1710,7 +1856,14 @@ open class SearchClient {
   open func getTopUserIds(requestOptions: RequestOptions? = nil) async throws
     -> GetTopUserIdsResponse
   {
-    return try await getTopUserIdsWithHTTPInfo(requestOptions: requestOptions).body
+    let response: Response<GetTopUserIdsResponse> = try await getTopUserIdsWithHTTPInfo(
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1723,18 +1876,17 @@ open class SearchClient {
   open func getTopUserIdsWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil)
     async throws -> Response<GetTopUserIdsResponse>
   {
-    let path = "/1/clusters/mapping/top"
+    let resourcePath = "/1/clusters/mapping/top"
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1749,7 +1901,14 @@ open class SearchClient {
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func getUserId(userID: String, requestOptions: RequestOptions? = nil) async throws -> UserId
   {
-    return try await getUserIdWithHTTPInfo(userID: userID, requestOptions: requestOptions).body
+    let response: Response<UserId> = try await getUserIdWithHTTPInfo(
+      userID: userID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1763,23 +1922,22 @@ open class SearchClient {
   open func getUserIdWithHTTPInfo(
     userID: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<UserId> {
-    var path = "/1/clusters/mapping/{userID}"
+    var resourcePath = "/1/clusters/mapping/{userID}"
     let userIDPreEscape = "\(APIHelper.mapValueToPathItem(userID))"
     let userIDPostEscape =
-      userIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      userIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{userID}", with: userIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1795,9 +1953,14 @@ open class SearchClient {
   open func hasPendingMappings(getClusters: Bool? = nil, requestOptions: RequestOptions? = nil)
     async throws -> HasPendingMappingsResponse
   {
-    return try await hasPendingMappingsWithHTTPInfo(
-      getClusters: getClusters, requestOptions: requestOptions
-    ).body
+    let response: Response<HasPendingMappingsResponse> = try await hasPendingMappingsWithHTTPInfo(
+      getClusters: getClusters, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1811,20 +1974,19 @@ open class SearchClient {
   open func hasPendingMappingsWithHTTPInfo(
     getClusters: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<HasPendingMappingsResponse> {
-    let path = "/1/clusters/mapping/pending"
+    let resourcePath = "/1/clusters/mapping/pending"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "getClusters": (wrappedValue: getClusters?.encodeToJSON(), isExplode: true)
+      "getClusters": getClusters?.encodeToJSON()
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1837,7 +1999,14 @@ open class SearchClient {
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func listApiKeys(requestOptions: RequestOptions? = nil) async throws -> ListApiKeysResponse {
-    return try await listApiKeysWithHTTPInfo(requestOptions: requestOptions).body
+    let response: Response<ListApiKeysResponse> = try await listApiKeysWithHTTPInfo(
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1850,18 +2019,17 @@ open class SearchClient {
   open func listApiKeysWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil)
     async throws -> Response<ListApiKeysResponse>
   {
-    let path = "/1/keys"
+    let resourcePath = "/1/keys"
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1875,7 +2043,14 @@ open class SearchClient {
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   open func listClusters(requestOptions: RequestOptions? = nil) async throws -> ListClustersResponse
   {
-    return try await listClustersWithHTTPInfo(requestOptions: requestOptions).body
+    let response: Response<ListClustersResponse> = try await listClustersWithHTTPInfo(
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1888,18 +2063,17 @@ open class SearchClient {
   open func listClustersWithHTTPInfo(requestOptions userRequestOptions: RequestOptions? = nil)
     async throws -> Response<ListClustersResponse>
   {
-    let path = "/1/clusters"
+    let resourcePath = "/1/clusters"
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1916,9 +2090,14 @@ open class SearchClient {
   open func listIndices(
     page: Int? = nil, hitsPerPage: Int? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> ListIndicesResponse {
-    return try await listIndicesWithHTTPInfo(
-      page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions
-    ).body
+    let response: Response<ListIndicesResponse> = try await listIndicesWithHTTPInfo(
+      page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1934,21 +2113,20 @@ open class SearchClient {
     page: Int? = nil, hitsPerPage: Int? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<ListIndicesResponse> {
-    let path = "/1/indexes"
+    let resourcePath = "/1/indexes"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
-      "hitsPerPage": (wrappedValue: hitsPerPage?.encodeToJSON(), isExplode: true),
+      "page": page?.encodeToJSON(),
+      "hitsPerPage": hitsPerPage?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -1965,9 +2143,14 @@ open class SearchClient {
   open func listUserIds(
     page: Int? = nil, hitsPerPage: Int? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> ListUserIdsResponse {
-    return try await listUserIdsWithHTTPInfo(
-      page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions
-    ).body
+    let response: Response<ListUserIdsResponse> = try await listUserIdsWithHTTPInfo(
+      page: page, hitsPerPage: hitsPerPage, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -1983,21 +2166,20 @@ open class SearchClient {
     page: Int? = nil, hitsPerPage: Int? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<ListUserIdsResponse> {
-    let path = "/1/clusters/mapping"
+    let resourcePath = "/1/clusters/mapping"
     let body: AnyCodable? = nil
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "page": (wrappedValue: page?.encodeToJSON(), isExplode: true),
-      "hitsPerPage": (wrappedValue: hitsPerPage?.encodeToJSON(), isExplode: true),
+      "page": page?.encodeToJSON(),
+      "hitsPerPage": hitsPerPage?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "GET",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -2013,9 +2195,14 @@ open class SearchClient {
   open func multipleBatch(batchParams: BatchParams, requestOptions: RequestOptions? = nil)
     async throws -> MultipleBatchResponse
   {
-    return try await multipleBatchWithHTTPInfo(
-      batchParams: batchParams, requestOptions: requestOptions
-    ).body
+    let response: Response<MultipleBatchResponse> = try await multipleBatchWithHTTPInfo(
+      batchParams: batchParams, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -2029,18 +2216,17 @@ open class SearchClient {
   open func multipleBatchWithHTTPInfo(
     batchParams: BatchParams, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<MultipleBatchResponse> {
-    let path = "/1/indexes/*/batch"
+    let resourcePath = "/1/indexes/*/batch"
     let body = batchParams
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -2058,10 +2244,15 @@ open class SearchClient {
     indexName: String, operationIndexParams: OperationIndexParams,
     requestOptions: RequestOptions? = nil
   ) async throws -> UpdatedAtResponse {
-    return try await operationIndexWithHTTPInfo(
+    let response: Response<UpdatedAtResponse> = try await operationIndexWithHTTPInfo(
       indexName: indexName, operationIndexParams: operationIndexParams,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -2077,23 +2268,22 @@ open class SearchClient {
     indexName: String, operationIndexParams: OperationIndexParams,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<UpdatedAtResponse> {
-    var path = "/1/indexes/{indexName}/operation"
+    var resourcePath = "/1/indexes/{indexName}/operation"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let body = operationIndexParams
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -2113,10 +2303,16 @@ open class SearchClient {
     indexName: String, objectID: String, attributesToUpdate: [String: AttributeToUpdate],
     createIfNotExists: Bool? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> UpdatedAtWithObjectIdResponse {
-    return try await partialUpdateObjectWithHTTPInfo(
-      indexName: indexName, objectID: objectID, attributesToUpdate: attributesToUpdate,
-      createIfNotExists: createIfNotExists, requestOptions: requestOptions
-    ).body
+    let response: Response<UpdatedAtWithObjectIdResponse> =
+      try await partialUpdateObjectWithHTTPInfo(
+        indexName: indexName, objectID: objectID, attributesToUpdate: attributesToUpdate,
+        createIfNotExists: createIfNotExists, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -2134,30 +2330,29 @@ open class SearchClient {
     indexName: String, objectID: String, attributesToUpdate: [String: AttributeToUpdate],
     createIfNotExists: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<UpdatedAtWithObjectIdResponse> {
-    var path = "/1/indexes/{indexName}/{objectID}/partial"
+    var resourcePath = "/1/indexes/{indexName}/{objectID}/partial"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
     let objectIDPostEscape =
-      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
     let body = attributesToUpdate
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "createIfNotExists": (wrappedValue: createIfNotExists?.encodeToJSON(), isExplode: true)
+      "createIfNotExists": createIfNotExists?.encodeToJSON()
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -2173,7 +2368,14 @@ open class SearchClient {
   open func removeUserId(userID: String, requestOptions: RequestOptions? = nil) async throws
     -> RemoveUserIdResponse
   {
-    return try await removeUserIdWithHTTPInfo(userID: userID, requestOptions: requestOptions).body
+    let response: Response<RemoveUserIdResponse> = try await removeUserIdWithHTTPInfo(
+      userID: userID, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -2187,23 +2389,22 @@ open class SearchClient {
   open func removeUserIdWithHTTPInfo(
     userID: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<RemoveUserIdResponse> {
-    var path = "/1/clusters/mapping/{userID}"
+    var resourcePath = "/1/clusters/mapping/{userID}"
     let userIDPreEscape = "\(APIHelper.mapValueToPathItem(userID))"
     let userIDPostEscape =
-      userIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      userIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{userID}", with: userIDPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "DELETE",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -2219,7 +2420,14 @@ open class SearchClient {
   open func replaceSources(source: [Source], requestOptions: RequestOptions? = nil) async throws
     -> ReplaceSourceResponse
   {
-    return try await replaceSourcesWithHTTPInfo(source: source, requestOptions: requestOptions).body
+    let response: Response<ReplaceSourceResponse> = try await replaceSourcesWithHTTPInfo(
+      source: source, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -2233,18 +2441,17 @@ open class SearchClient {
   open func replaceSourcesWithHTTPInfo(
     source: [Source], requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<ReplaceSourceResponse> {
-    let path = "/1/security/sources"
+    let resourcePath = "/1/security/sources"
     let body = source
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "PUT",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -2260,7 +2467,14 @@ open class SearchClient {
   open func restoreApiKey(key: String, requestOptions: RequestOptions? = nil) async throws
     -> AddApiKeyResponse
   {
-    return try await restoreApiKeyWithHTTPInfo(key: key, requestOptions: requestOptions).body
+    let response: Response<AddApiKeyResponse> = try await restoreApiKeyWithHTTPInfo(
+      key: key, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -2274,23 +2488,22 @@ open class SearchClient {
   open func restoreApiKeyWithHTTPInfo(
     key: String, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<AddApiKeyResponse> {
-    var path = "/1/keys/{key}/restore"
+    var resourcePath = "/1/keys/{key}/restore"
     let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
     let keyPostEscape =
-      keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{key}", with: keyPostEscape, options: .literal, range: nil)
     let body: AnyCodable? = nil
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -2304,12 +2517,17 @@ open class SearchClient {
      - returns: SaveObjectResponse
      */
   @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  open func saveObject(indexName: String, body: Codable, requestOptions: RequestOptions? = nil)
-    async throws -> SaveObjectResponse
-  {
-    return try await saveObjectWithHTTPInfo(
-      indexName: indexName, body: body, requestOptions: requestOptions
-    ).body
+  open func saveObject(
+    indexName: String, body: [String: AnyCodable], requestOptions: RequestOptions? = nil
+  ) async throws -> SaveObjectResponse {
+    let response: Response<SaveObjectResponse> = try await saveObjectWithHTTPInfo(
+      indexName: indexName, body: body, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -2322,25 +2540,25 @@ open class SearchClient {
      */
 
   open func saveObjectWithHTTPInfo(
-    indexName: String, body: Codable, requestOptions userRequestOptions: RequestOptions? = nil
+    indexName: String, body: [String: AnyCodable],
+    requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<SaveObjectResponse> {
-    var path = "/1/indexes/{indexName}"
+    var resourcePath = "/1/indexes/{indexName}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let body = body
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -2360,10 +2578,15 @@ open class SearchClient {
     indexName: String, objectID: String, rule: Rule, forwardToReplicas: Bool? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> UpdatedRuleResponse {
-    return try await saveRuleWithHTTPInfo(
+    let response: Response<UpdatedRuleResponse> = try await saveRuleWithHTTPInfo(
       indexName: indexName, objectID: objectID, rule: rule, forwardToReplicas: forwardToReplicas,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -2381,30 +2604,29 @@ open class SearchClient {
     indexName: String, objectID: String, rule: Rule, forwardToReplicas: Bool? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<UpdatedRuleResponse> {
-    var path = "/1/indexes/{indexName}/rules/{objectID}"
+    var resourcePath = "/1/indexes/{indexName}/rules/{objectID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
     let objectIDPostEscape =
-      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
     let body = rule
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "forwardToReplicas": (wrappedValue: forwardToReplicas?.encodeToJSON(), isExplode: true)
+      "forwardToReplicas": forwardToReplicas?.encodeToJSON()
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "PUT",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -2424,10 +2646,15 @@ open class SearchClient {
     indexName: String, rules: [Rule], forwardToReplicas: Bool? = nil,
     clearExistingRules: Bool? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> UpdatedAtResponse {
-    return try await saveRulesWithHTTPInfo(
+    let response: Response<UpdatedAtResponse> = try await saveRulesWithHTTPInfo(
       indexName: indexName, rules: rules, forwardToReplicas: forwardToReplicas,
-      clearExistingRules: clearExistingRules, requestOptions: requestOptions
-    ).body
+      clearExistingRules: clearExistingRules, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -2445,26 +2672,25 @@ open class SearchClient {
     indexName: String, rules: [Rule], forwardToReplicas: Bool? = nil,
     clearExistingRules: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<UpdatedAtResponse> {
-    var path = "/1/indexes/{indexName}/rules/batch"
+    var resourcePath = "/1/indexes/{indexName}/rules/batch"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let body = rules
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "forwardToReplicas": (wrappedValue: forwardToReplicas?.encodeToJSON(), isExplode: true),
-      "clearExistingRules": (wrappedValue: clearExistingRules?.encodeToJSON(), isExplode: true),
+      "forwardToReplicas": forwardToReplicas?.encodeToJSON(),
+      "clearExistingRules": clearExistingRules?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -2484,10 +2710,15 @@ open class SearchClient {
     indexName: String, objectID: String, synonymHit: SynonymHit, forwardToReplicas: Bool? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> SaveSynonymResponse {
-    return try await saveSynonymWithHTTPInfo(
+    let response: Response<SaveSynonymResponse> = try await saveSynonymWithHTTPInfo(
       indexName: indexName, objectID: objectID, synonymHit: synonymHit,
-      forwardToReplicas: forwardToReplicas, requestOptions: requestOptions
-    ).body
+      forwardToReplicas: forwardToReplicas, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -2505,30 +2736,29 @@ open class SearchClient {
     indexName: String, objectID: String, synonymHit: SynonymHit, forwardToReplicas: Bool? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<SaveSynonymResponse> {
-    var path = "/1/indexes/{indexName}/synonyms/{objectID}"
+    var resourcePath = "/1/indexes/{indexName}/synonyms/{objectID}"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let objectIDPreEscape = "\(APIHelper.mapValueToPathItem(objectID))"
     let objectIDPostEscape =
-      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      objectIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{objectID}", with: objectIDPostEscape, options: .literal, range: nil)
     let body = synonymHit
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "forwardToReplicas": (wrappedValue: forwardToReplicas?.encodeToJSON(), isExplode: true)
+      "forwardToReplicas": forwardToReplicas?.encodeToJSON()
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "PUT",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -2548,10 +2778,15 @@ open class SearchClient {
     indexName: String, synonymHit: [SynonymHit], forwardToReplicas: Bool? = nil,
     replaceExistingSynonyms: Bool? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> UpdatedAtResponse {
-    return try await saveSynonymsWithHTTPInfo(
+    let response: Response<UpdatedAtResponse> = try await saveSynonymsWithHTTPInfo(
       indexName: indexName, synonymHit: synonymHit, forwardToReplicas: forwardToReplicas,
-      replaceExistingSynonyms: replaceExistingSynonyms, requestOptions: requestOptions
-    ).body
+      replaceExistingSynonyms: replaceExistingSynonyms, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -2569,28 +2804,25 @@ open class SearchClient {
     indexName: String, synonymHit: [SynonymHit], forwardToReplicas: Bool? = nil,
     replaceExistingSynonyms: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<UpdatedAtResponse> {
-    var path = "/1/indexes/{indexName}/synonyms/batch"
+    var resourcePath = "/1/indexes/{indexName}/synonyms/batch"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let body = synonymHit
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "forwardToReplicas": (wrappedValue: forwardToReplicas?.encodeToJSON(), isExplode: true),
-      "replaceExistingSynonyms": (
-        wrappedValue: replaceExistingSynonyms?.encodeToJSON(), isExplode: true
-      ),
+      "forwardToReplicas": forwardToReplicas?.encodeToJSON(),
+      "replaceExistingSynonyms": replaceExistingSynonyms?.encodeToJSON(),
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -2606,9 +2838,14 @@ open class SearchClient {
   open func search(searchMethodParams: SearchMethodParams, requestOptions: RequestOptions? = nil)
     async throws -> SearchResponses
   {
-    return try await searchWithHTTPInfo(
-      searchMethodParams: searchMethodParams, requestOptions: requestOptions
-    ).body
+    let response: Response<SearchResponses> = try await searchWithHTTPInfo(
+      searchMethodParams: searchMethodParams, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -2622,20 +2859,20 @@ open class SearchClient {
   open func searchWithHTTPInfo(
     searchMethodParams: SearchMethodParams, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<SearchResponses> {
-    let path = "/1/indexes/*/queries"
+    let resourcePath = "/1/indexes/*/queries"
     let body = searchMethodParams
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
+      useReadTransporter: true
     )
   }
 
@@ -2651,10 +2888,15 @@ open class SearchClient {
     dictionaryName: DictionaryType, searchDictionaryEntriesParams: SearchDictionaryEntriesParams,
     requestOptions: RequestOptions? = nil
   ) async throws -> UpdatedAtResponse {
-    return try await searchDictionaryEntriesWithHTTPInfo(
+    let response: Response<UpdatedAtResponse> = try await searchDictionaryEntriesWithHTTPInfo(
       dictionaryName: dictionaryName, searchDictionaryEntriesParams: searchDictionaryEntriesParams,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -2670,25 +2912,26 @@ open class SearchClient {
     dictionaryName: DictionaryType, searchDictionaryEntriesParams: SearchDictionaryEntriesParams,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<UpdatedAtResponse> {
-    var path = "/1/dictionaries/{dictionaryName}/search"
+    var resourcePath = "/1/dictionaries/{dictionaryName}/search"
     let dictionaryNamePreEscape = "\(APIHelper.mapValueToPathItem(dictionaryName))"
     let dictionaryNamePostEscape =
-      dictionaryNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      dictionaryNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed)
+      ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{dictionaryName}", with: dictionaryNamePostEscape, options: .literal, range: nil)
     let body = searchDictionaryEntriesParams
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
+      useReadTransporter: true
     )
   }
 
@@ -2706,10 +2949,16 @@ open class SearchClient {
     searchForFacetValuesRequest: SearchForFacetValuesRequest? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> SearchForFacetValuesResponse {
-    return try await searchForFacetValuesWithHTTPInfo(
-      indexName: indexName, facetName: facetName,
-      searchForFacetValuesRequest: searchForFacetValuesRequest, requestOptions: requestOptions
-    ).body
+    let response: Response<SearchForFacetValuesResponse> =
+      try await searchForFacetValuesWithHTTPInfo(
+        indexName: indexName, facetName: facetName,
+        searchForFacetValuesRequest: searchForFacetValuesRequest, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -2727,30 +2976,30 @@ open class SearchClient {
     searchForFacetValuesRequest: SearchForFacetValuesRequest? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<SearchForFacetValuesResponse> {
-    var path = "/1/indexes/{indexName}/facets/{facetName}/query"
+    var resourcePath = "/1/indexes/{indexName}/facets/{facetName}/query"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let facetNamePreEscape = "\(APIHelper.mapValueToPathItem(facetName))"
     let facetNamePostEscape =
-      facetNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      facetNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{facetName}", with: facetNamePostEscape, options: .literal, range: nil)
     let body = searchForFacetValuesRequest
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+      path: resourcePath,
+      data: body ?? AnyCodable(),
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
+      useReadTransporter: true
     )
   }
 
@@ -2766,9 +3015,14 @@ open class SearchClient {
     indexName: String, searchRulesParams: SearchRulesParams? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> SearchRulesResponse {
-    return try await searchRulesWithHTTPInfo(
-      indexName: indexName, searchRulesParams: searchRulesParams, requestOptions: requestOptions
-    ).body
+    let response: Response<SearchRulesResponse> = try await searchRulesWithHTTPInfo(
+      indexName: indexName, searchRulesParams: searchRulesParams, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -2784,25 +3038,25 @@ open class SearchClient {
     indexName: String, searchRulesParams: SearchRulesParams? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<SearchRulesResponse> {
-    var path = "/1/indexes/{indexName}/rules/search"
+    var resourcePath = "/1/indexes/{indexName}/rules/search"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let body = searchRulesParams
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+      path: resourcePath,
+      data: body ?? AnyCodable(),
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
+      useReadTransporter: true
     )
   }
 
@@ -2817,9 +3071,14 @@ open class SearchClient {
   open func searchSingleIndex(
     indexName: String, searchParams: SearchParams? = nil, requestOptions: RequestOptions? = nil
   ) async throws -> SearchResponse {
-    return try await searchSingleIndexWithHTTPInfo(
-      indexName: indexName, searchParams: searchParams, requestOptions: requestOptions
-    ).body
+    let response: Response<SearchResponse> = try await searchSingleIndexWithHTTPInfo(
+      indexName: indexName, searchParams: searchParams, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -2835,25 +3094,25 @@ open class SearchClient {
     indexName: String, searchParams: SearchParams? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<SearchResponse> {
-    var path = "/1/indexes/{indexName}/query"
+    var resourcePath = "/1/indexes/{indexName}/query"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let body = searchParams
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+      path: resourcePath,
+      data: body ?? AnyCodable(),
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
+      useReadTransporter: true
     )
   }
 
@@ -2869,10 +3128,15 @@ open class SearchClient {
     indexName: String, searchSynonymsParams: SearchSynonymsParams? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> SearchSynonymsResponse {
-    return try await searchSynonymsWithHTTPInfo(
+    let response: Response<SearchSynonymsResponse> = try await searchSynonymsWithHTTPInfo(
       indexName: indexName, searchSynonymsParams: searchSynonymsParams,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -2888,25 +3152,25 @@ open class SearchClient {
     indexName: String, searchSynonymsParams: SearchSynonymsParams? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<SearchSynonymsResponse> {
-    var path = "/1/indexes/{indexName}/synonyms/search"
+    var resourcePath = "/1/indexes/{indexName}/synonyms/search"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let body = searchSynonymsParams
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
-      data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+      path: resourcePath,
+      data: body ?? AnyCodable(),
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
+      useReadTransporter: true
     )
   }
 
@@ -2920,9 +3184,14 @@ open class SearchClient {
   open func searchUserIds(
     searchUserIdsParams: SearchUserIdsParams, requestOptions: RequestOptions? = nil
   ) async throws -> SearchUserIdsResponse {
-    return try await searchUserIdsWithHTTPInfo(
-      searchUserIdsParams: searchUserIdsParams, requestOptions: requestOptions
-    ).body
+    let response: Response<SearchUserIdsResponse> = try await searchUserIdsWithHTTPInfo(
+      searchUserIdsParams: searchUserIdsParams, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -2937,20 +3206,20 @@ open class SearchClient {
     searchUserIdsParams: SearchUserIdsParams,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<SearchUserIdsResponse> {
-    let path = "/1/clusters/mapping/search"
+    let resourcePath = "/1/clusters/mapping/search"
     let body = searchUserIdsParams
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "POST",
-      path: path,
+      path: resourcePath,
       data: body,
-      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
+      requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions,
+      useReadTransporter: true
     )
   }
 
@@ -2964,9 +3233,14 @@ open class SearchClient {
   open func setDictionarySettings(
     dictionarySettingsParams: DictionarySettingsParams, requestOptions: RequestOptions? = nil
   ) async throws -> UpdatedAtResponse {
-    return try await setDictionarySettingsWithHTTPInfo(
-      dictionarySettingsParams: dictionarySettingsParams, requestOptions: requestOptions
-    ).body
+    let response: Response<UpdatedAtResponse> = try await setDictionarySettingsWithHTTPInfo(
+      dictionarySettingsParams: dictionarySettingsParams, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -2981,18 +3255,17 @@ open class SearchClient {
     dictionarySettingsParams: DictionarySettingsParams,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<UpdatedAtResponse> {
-    let path = "/1/dictionaries/*/settings"
+    let resourcePath = "/1/dictionaries/*/settings"
     let body = dictionarySettingsParams
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "PUT",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -3011,10 +3284,15 @@ open class SearchClient {
     indexName: String, indexSettings: IndexSettings, forwardToReplicas: Bool? = nil,
     requestOptions: RequestOptions? = nil
   ) async throws -> UpdatedAtResponse {
-    return try await setSettingsWithHTTPInfo(
+    let response: Response<UpdatedAtResponse> = try await setSettingsWithHTTPInfo(
       indexName: indexName, indexSettings: indexSettings, forwardToReplicas: forwardToReplicas,
-      requestOptions: requestOptions
-    ).body
+      requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -3031,25 +3309,24 @@ open class SearchClient {
     indexName: String, indexSettings: IndexSettings, forwardToReplicas: Bool? = nil,
     requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<UpdatedAtResponse> {
-    var path = "/1/indexes/{indexName}/settings"
+    var resourcePath = "/1/indexes/{indexName}/settings"
     let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
     let indexNamePostEscape =
-      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{indexName}", with: indexNamePostEscape, options: .literal, range: nil)
     let body = indexSettings
-
     let queryItems = APIHelper.mapValuesToQueryItems([
-      "forwardToReplicas": (wrappedValue: forwardToReplicas?.encodeToJSON(), isExplode: true)
+      "forwardToReplicas": forwardToReplicas?.encodeToJSON()
     ])
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "PUT",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )
@@ -3066,9 +3343,14 @@ open class SearchClient {
   open func updateApiKey(key: String, apiKey: ApiKey, requestOptions: RequestOptions? = nil)
     async throws -> UpdateApiKeyResponse
   {
-    return try await updateApiKeyWithHTTPInfo(
-      key: key, apiKey: apiKey, requestOptions: requestOptions
-    ).body
+    let response: Response<UpdateApiKeyResponse> = try await updateApiKeyWithHTTPInfo(
+      key: key, apiKey: apiKey, requestOptions: requestOptions)
+
+    guard let body = response.body else {
+      throw AlgoliaError.missingData
+    }
+
+    return body
   }
 
   /**
@@ -3083,23 +3365,22 @@ open class SearchClient {
   open func updateApiKeyWithHTTPInfo(
     key: String, apiKey: ApiKey, requestOptions userRequestOptions: RequestOptions? = nil
   ) async throws -> Response<UpdateApiKeyResponse> {
-    var path = "/1/keys/{key}"
+    var resourcePath = "/1/keys/{key}"
     let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
     let keyPostEscape =
-      keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
-    path = path.replacingOccurrences(
+      keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
+    resourcePath = resourcePath.replacingOccurrences(
       of: "{key}", with: keyPostEscape, options: .literal, range: nil)
     let body = apiKey
-
     let queryItems: [URLQueryItem]? = nil
 
-    let nillableHeaders: [String: Any?]? = [:]
+    let nillableHeaders: [String: Any?]? = nil
 
     let headers = APIHelper.rejectNilHeaders(nillableHeaders)
 
     return try await self.transporter.send(
       method: "PUT",
-      path: path,
+      path: resourcePath,
       data: body,
       requestOptions: RequestOptions(headers: headers, queryItems: queryItems) + userRequestOptions
     )

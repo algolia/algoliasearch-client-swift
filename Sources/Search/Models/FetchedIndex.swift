@@ -24,9 +24,9 @@ public struct FetchedIndex: Codable, JSONEncodable, Hashable {
   /** Last build time. */
   public var lastBuildTimeS: Int
   /** Number of pending indexing operations. This value is deprecated and should not be used. */
-  public var numberOfPendingTasks: Int = 0
+  public var numberOfPendingTasks: Int
   /** A boolean which says whether the index has pending tasks. This value is deprecated and should not be used. */
-  public var pendingTask: Bool = false
+  public var pendingTask: Bool
   /** Only present if the index is a replica. Contains the name of the related primary index. */
   public var primary: String?
   /** Only present if the index is a primary index with replicas. Contains the names of all linked replicas. */
@@ -34,8 +34,8 @@ public struct FetchedIndex: Codable, JSONEncodable, Hashable {
 
   public init(
     name: String, createdAt: String, updatedAt: String, entries: Int, dataSize: Int, fileSize: Int,
-    lastBuildTimeS: Int, numberOfPendingTasks: Int = 0, pendingTask: Bool = false,
-    primary: String? = nil, replicas: [String]? = nil
+    lastBuildTimeS: Int, numberOfPendingTasks: Int, pendingTask: Bool, primary: String? = nil,
+    replicas: [String]? = nil
   ) {
     self.name = name
     self.createdAt = createdAt

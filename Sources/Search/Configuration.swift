@@ -27,7 +27,7 @@ public struct Configuration: Core.Configuration, Credentials {
     logLevel: LogLevel = DefaultConfiguration.default.logLevel,
     defaultHeaders: [String: String]? = DefaultConfiguration.default.defaultHeaders,
     batchSize: Int = 1000
-  ) {
+  ) throws {
     self.applicationID = applicationID
     self.apiKey = apiKey
     self.writeTimeout = writeTimeout
@@ -41,19 +41,22 @@ public struct Configuration: Core.Configuration, Credentials {
 
     self.batchSize = batchSize
 
-    func buildHost(_ components: (suffix: String, callType: RetryableHost.CallTypeSupport))
+    func buildHost(_ components: (suffix: String, callType: RetryableHost.CallTypeSupport)) throws
       -> RetryableHost
     {
-      let url = URL(string: "https://\(applicationID)\(components.suffix)")!
+      guard let url = URL(string: "https://\(applicationID)\(components.suffix)") else {
+        throw GenericError(description: "Malformed URL")
+      }
+
       return RetryableHost(url: url, callType: components.callType)
     }
 
-    let hosts = [
+    let hosts = try [
       ("-dsn.algolia.net", .read),
       (".algolia.net", .write),
     ].map(buildHost)
 
-    let commonHosts = [
+    let commonHosts = try [
       ("-1.algolianet.com", .universal),
       ("-2.algolianet.com", .universal),
       ("-3.algolianet.com", .universal),
