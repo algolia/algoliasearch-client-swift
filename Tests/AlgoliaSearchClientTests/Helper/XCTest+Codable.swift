@@ -81,3 +81,28 @@ func AssertEquallyEncoded<A: Encodable, B: Encodable>(_ l: A, _ r: B, file: Stat
   try XCTAssertEqual(decoder.decode(JSON.self, from: lData), decoder.decode(JSON.self, from: rData))
 }
 
+func AssertJSONEqual(_ data1: Data?,
+                     _ data2: Data?,
+                     message: String = "JSON objects are not equal",
+                     file: StaticString = #file,
+                     line: UInt = #line) {
+    guard let data1, let data2 else {
+      XCTAssertEqual(data1, 
+                     data2,
+                     file: file,
+                     line: line)
+      return
+    }
+    do {
+        let json1 = try JSONSerialization.jsonObject(with: data1, options: [])
+        let json2 = try JSONSerialization.jsonObject(with: data2, options: [])
+
+        let isEqual = (json1 as AnyObject).isEqual(json2)
+        if !isEqual {
+            XCTFail(message, file: file, line: line)
+        }
+    } catch {
+        XCTFail("JSON conversion failed: \(error)", file: file, line: line)
+    }
+}
+

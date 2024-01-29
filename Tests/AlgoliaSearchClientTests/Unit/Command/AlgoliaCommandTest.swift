@@ -1,6 +1,6 @@
 //
 //  AlgoliaCommandTest.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 26/03/2020.
 //
@@ -47,8 +47,34 @@ extension AlgoliaCommandTest {
     #else
     XCTAssertEqual(request.allHTTPHeaderFields, requestOptions.headers.merging(additionalHeaders ?? [:]).mapKeys { $0.rawValue }, file: file, line: line)
     XCTAssertTrue(Set(requestQueryItems).isSuperset(of: queryItems), file: file, line: line)
-    XCTAssertEqual(request.httpBody, body, "Compare with assertEqual", file: file, line: line)
+//    XCTAssertEqual(request.httpBody, body, "Compare with assertEqual", file: file, line: line)
+//    print(request.httpBody!.toJsonString()!)
+//    print(body!.toJsonString()!)
+    AssertJSONEqual(request.httpBody, body)
     #endif
   }
 
+}
+
+
+extension Data {
+    /// Converts the Data to a hexadecimal string representation.
+    func toHexString() -> String {
+        return map { String(format: "%02x", $0) }.joined()
+    }
+  
+    func toJsonString() -> String? {
+      do {
+        // Convert the Data object to a JSON object
+        let jsonObject = try JSONSerialization.jsonObject(with: self, options: [])
+        
+        // Convert the JSON object to a pretty-printed JSON string
+        let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: [.prettyPrinted])
+        
+        return String(data: jsonData, encoding: .utf8)
+      } catch {
+        print("Error converting Data to JSON String: \(error)")
+        return nil
+      }
+    }
 }
