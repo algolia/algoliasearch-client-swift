@@ -50,7 +50,7 @@ let package = Package(
     .testTarget(
       name: "AlgoliaSearchClientTests",
       dependencies: [
-        .target(name: "AlgoliaSearchClient"),
+        .target(name: "AlgoliaSearchClient")
       ] + extraTargetDependencies)
   ]
 )

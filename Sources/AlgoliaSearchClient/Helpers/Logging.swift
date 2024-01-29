@@ -136,7 +136,7 @@ extension SwiftLog: Loggable {
 #else
 
 extension LogLevel {
-  
+
   init(_ type: OSLogType) {
     switch type {
     case .debug:
@@ -151,7 +151,7 @@ extension LogLevel {
       self = .info
     }
   }
-  
+
   var type: OSLogType {
     switch self {
     case .trace: return .info
@@ -163,23 +163,25 @@ extension LogLevel {
     case .critical: return .fault
     }
   }
-  
+
 }
 
 extension SwiftLog: Loggable {
-  
+
   var minSeverityLevel: LogLevel {
     get {
       .init(.default)
     }
+    // swiftlint:disable:next unused_setter_value
     set {
+      log(level: .info, "minSeverityLevel is deprecated")
     }
   }
-  
+
   func log(level: LogLevel, message: String) {
     log(level: level.type, "\(message)")
   }
-  
+
 }
 
 #endif
@@ -192,4 +194,3 @@ protocol Loggable {
   func log(level: LogLevel, message: String)
 
 }
-
