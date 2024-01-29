@@ -37,8 +37,8 @@ extension AlgoliaCommandTest {
     #if canImport(FoundationNetworking)
     XCTAssertEqual(request.allHTTPHeaderFields?.mapKeys { $0.lowercased() }, requestOptions.headers.merging(additionalHeaders ?? [:]).mapKeys { $0.rawValue.lowercased() }, file: file, line: line)
     
-    for item in requestQueryItems {
-      XCTAssertTrue(queryItems.contains(where: { $0.name == item.name && $0.value == item.value }) , file: file, line: line)
+    for item in queryItems {
+      XCTAssertTrue(requestQueryItems.contains(where: { $0.name.lowercased() == item.name.lowercased() && $0.value == item.value }) , file: file, line: line)
     }
 
     let jsonDecoder = JSONDecoder()
@@ -47,9 +47,6 @@ extension AlgoliaCommandTest {
     #else
     XCTAssertEqual(request.allHTTPHeaderFields, requestOptions.headers.merging(additionalHeaders ?? [:]).mapKeys { $0.rawValue }, file: file, line: line)
     XCTAssertTrue(Set(requestQueryItems).isSuperset(of: queryItems), file: file, line: line)
-//    XCTAssertEqual(request.httpBody, body, "Compare with assertEqual", file: file, line: line)
-//    print(request.httpBody!.toJsonString()!)
-//    print(body!.toJsonString()!)
     AssertJSONEqual(request.httpBody, body)
     #endif
   }

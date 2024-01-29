@@ -12,6 +12,7 @@ import XCTest
 @available(*, deprecated, message: "Answers functionality is deprecated")
 class AnswersQueryTests: XCTestCase {
   
+  @available(*, deprecated, message: "Answers functionality is deprecated")
   func testInvalidParametersAsserts() throws {
     expectingAssertionFailure(expectedMessage: "attributesToSnippet is not supported by answers") {
       _ = AnswersQuery(query: "query", queryLanguages: [.english])
@@ -27,6 +28,7 @@ class AnswersQueryTests: XCTestCase {
     }
   }
   
+  @available(*, deprecated, message: "Answers functionality is deprecated")
   func testSpecificParams() throws {
     let query = AnswersQuery(query: "query", queryLanguages: [.english])
       .set(\.attributesForPrediction, to: ["a1", "a2"])
@@ -42,6 +44,7 @@ class AnswersQueryTests: XCTestCase {
     try AssertEncodeDecode(query, expectedQueryJSON)
   }
   
+  @available(*, deprecated, message: "Answers functionality is deprecated")
   func testSearchParams() throws {
     let query = AnswersQuery(query: "query", queryLanguages: [.english])
       .set(\.filters, to: "brand:sony")

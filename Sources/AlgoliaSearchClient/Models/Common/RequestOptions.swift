@@ -108,7 +108,7 @@ extension HTTPHeaderKey {
   static let algoliaUserID: HTTPHeaderKey = "X-Algolia-User-ID"
   static let forwardedFor: HTTPHeaderKey = "X-Forwarded-For"
   static let applicationID: HTTPHeaderKey = "X-Algolia-Application-Id"
-  static let apiKey: HTTPHeaderKey = "X-Algolia-API-Key"
+  static let apiKey: HTTPHeaderKey = "X-Algolia-Api-Key"
   static let userAgent: HTTPHeaderKey = "User-Agent"
 
 }
