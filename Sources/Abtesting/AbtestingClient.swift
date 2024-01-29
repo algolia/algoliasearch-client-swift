@@ -30,8 +30,6 @@ open class AbtestingClient {
     }
 
     /**
-     Create an A/B test.
-
      - parameter addABTestsRequest: (body)
      - returns: ABTestResponse
      */
@@ -47,9 +45,11 @@ open class AbtestingClient {
     }
 
     /**
-     Create an A/B test.
-
      Creates an A/B test.
+
+     Required API Key ACLs:
+       - editSettings
+
      - parameter addABTestsRequest: (body)
      - returns: RequestBuilder<ABTestResponse>
      */
@@ -72,8 +72,6 @@ open class AbtestingClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: AnyCodable
@@ -90,9 +88,8 @@ open class AbtestingClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      This method allow you to send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
@@ -119,8 +116,6 @@ open class AbtestingClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: AnyCodable
@@ -137,9 +132,8 @@ open class AbtestingClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      This method allow you to send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
@@ -166,8 +160,6 @@ open class AbtestingClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -185,9 +177,8 @@ open class AbtestingClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      This method allow you to send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -215,8 +206,6 @@ open class AbtestingClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -234,9 +223,8 @@ open class AbtestingClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      This method allow you to send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -264,8 +252,6 @@ open class AbtestingClient {
     }
 
     /**
-     Delete an A/B test.
-
      - parameter id: (path) Unique A/B test ID.
      - returns: ABTestResponse
      */
@@ -281,9 +267,11 @@ open class AbtestingClient {
     }
 
     /**
-     Delete an A/B test.
-
      Delete an A/B test. To determine the `id` for an A/B test, use the [`listABTests` operation](#tag/abtest/operation/listABTests).
+
+     Required API Key ACLs:
+       - editSettings
+
      - parameter id: (path) Unique A/B test ID.
      - returns: RequestBuilder<ABTestResponse>
      */
@@ -309,8 +297,6 @@ open class AbtestingClient {
     }
 
     /**
-     Get A/B test details.
-
      - parameter id: (path) Unique A/B test ID.
      - returns: ABTest
      */
@@ -326,9 +312,11 @@ open class AbtestingClient {
     }
 
     /**
-     Get A/B test details.
-
      Get specific details for an A/B test. To determine the `id` for an A/B test, use the [`listABTests` operation](#tag/abtest/operation/listABTests).
+
+     Required API Key ACLs:
+       - analytics
+
      - parameter id: (path) Unique A/B test ID.
      - returns: RequestBuilder<ABTest>
      */
@@ -354,8 +342,6 @@ open class AbtestingClient {
     }
 
     /**
-     List all A/B tests.
-
      - parameter offset: (query) Position of the starting record. Used for paging. 0 is the first record. (optional, default to 0)
      - parameter limit: (query) Number of records to return (page size). (optional, default to 10)
      - parameter indexPrefix: (query) Only return A/B tests for indices starting with this prefix. (optional)
@@ -376,7 +362,9 @@ open class AbtestingClient {
     /**
      List all A/B tests.
 
-     List all A/B tests.
+     Required API Key ACLs:
+       - analytics
+
      - parameter offset: (query) Position of the starting record. Used for paging. 0 is the first record. (optional, default to 0)
      - parameter limit: (query) Number of records to return (page size). (optional, default to 10)
      - parameter indexPrefix: (query) Only return A/B tests for indices starting with this prefix. (optional)
@@ -407,8 +395,6 @@ open class AbtestingClient {
     }
 
     /**
-     Stop an A/B test.
-
      - parameter id: (path) Unique A/B test ID.
      - returns: ABTestResponse
      */
@@ -424,9 +410,11 @@ open class AbtestingClient {
     }
 
     /**
-     Stop an A/B test.
-
      If stopped, the test is over and can't be restarted. There is now only one index, receiving 100% of all search requests. The data gathered for stopped A/B tests is retained. To determine the `id` for an A/B test, use the [`listABTests` operation](#tag/abtest/operation/listABTests).
+
+     Required API Key ACLs:
+       - editSettings
+
      - parameter id: (path) Unique A/B test ID.
      - returns: RequestBuilder<ABTestResponse>
      */
