@@ -30,6 +30,8 @@ open class RecommendClient {
     }
 
     /**
+     Send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: AnyCodable
@@ -46,8 +48,9 @@ open class RecommendClient {
     }
 
     /**
-     This method allow you to send requests to the Algolia REST API.
+     Send requests to the Algolia REST API.
 
+     This method allow you to send requests to the Algolia REST API.
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
@@ -74,6 +77,8 @@ open class RecommendClient {
     }
 
     /**
+     Send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: AnyCodable
@@ -90,8 +95,9 @@ open class RecommendClient {
     }
 
     /**
-     This method allow you to send requests to the Algolia REST API.
+     Send requests to the Algolia REST API.
 
+     This method allow you to send requests to the Algolia REST API.
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
@@ -118,6 +124,8 @@ open class RecommendClient {
     }
 
     /**
+     Send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -135,8 +143,9 @@ open class RecommendClient {
     }
 
     /**
-     This method allow you to send requests to the Algolia REST API.
+     Send requests to the Algolia REST API.
 
+     This method allow you to send requests to the Algolia REST API.
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -164,6 +173,8 @@ open class RecommendClient {
     }
 
     /**
+     Send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -181,8 +192,9 @@ open class RecommendClient {
     }
 
     /**
-     This method allow you to send requests to the Algolia REST API.
+     Send requests to the Algolia REST API.
 
+     This method allow you to send requests to the Algolia REST API.
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -210,6 +222,8 @@ open class RecommendClient {
     }
 
     /**
+     Delete a Recommend rule.
+
      - parameter indexName: (path) Index on which to perform the request.
      - parameter model: (path) [Recommend models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
      - parameter objectID: (path) Unique record (object) identifier.
@@ -227,11 +241,9 @@ open class RecommendClient {
     }
 
     /**
+     Delete a Recommend rule.
+
      Delete a [Recommend rule](https://www.algolia.com/doc/guides/algolia-recommend/how-to/rules/).
-
-     Required API Key ACLs:
-       - editSettings
-
      - parameter indexName: (path) Index on which to perform the request.
      - parameter model: (path) [Recommend models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
      - parameter objectID: (path) Unique record (object) identifier.
@@ -265,6 +277,8 @@ open class RecommendClient {
     }
 
     /**
+     Get a Recommend rule.
+
      - parameter indexName: (path) Index on which to perform the request.
      - parameter model: (path) [Recommend models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
      - parameter objectID: (path) Unique record (object) identifier.
@@ -282,11 +296,9 @@ open class RecommendClient {
     }
 
     /**
+     Get a Recommend rule.
+
      Return a [Recommend rule](https://www.algolia.com/doc/guides/algolia-recommend/how-to/rules/).
-
-     Required API Key ACLs:
-       - settings
-
      - parameter indexName: (path) Index on which to perform the request.
      - parameter model: (path) [Recommend models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
      - parameter objectID: (path) Unique record (object) identifier.
@@ -320,6 +332,8 @@ open class RecommendClient {
     }
 
     /**
+     Get a Recommend task's status.
+
      - parameter indexName: (path) Index on which to perform the request.
      - parameter model: (path) [Recommend models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
      - parameter taskID: (path) Unique identifier of a task. Numeric value (up to 64bits).
@@ -337,11 +351,9 @@ open class RecommendClient {
     }
 
     /**
+     Get a Recommend task's status.
+
      Some operations, such as deleting a Recommend rule, will respond with a `taskID` value. Use this value here to check the status of that task.
-
-     Required API Key ACLs:
-       - editSettings
-
      - parameter indexName: (path) Index on which to perform the request.
      - parameter model: (path) [Recommend models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
      - parameter taskID: (path) Unique identifier of a task. Numeric value (up to 64bits).
@@ -375,6 +387,8 @@ open class RecommendClient {
     }
 
     /**
+     Get recommendations and trending items.
+
      - parameter getRecommendationsParams: (body)
      - returns: GetRecommendationsResponse
      */
@@ -390,11 +404,9 @@ open class RecommendClient {
     }
 
     /**
+     Get recommendations and trending items.
+
      Returns results from either recommendation or trending models:    - **Recommendations** are provided by the [Related Products](https://www.algolia.com/doc/guides/algolia-recommend/overview/#related-products-and-related-content) and [Frequently Bought Together](https://www.algolia.com/doc/guides/algolia-recommend/overview/#frequently-bought-together) models   - **Trending** models are [Trending Items and Trending Facet Values](https://www.algolia.com/doc/guides/algolia-recommend/overview/#trending-items-and-trending-facet-values).
-
-     Required API Key ACLs:
-       - search
-
      - parameter getRecommendationsParams: (body)
      - returns: RequestBuilder<GetRecommendationsResponse>
      */
@@ -418,6 +430,8 @@ open class RecommendClient {
     }
 
     /**
+     List Recommend rules.
+
      - parameter indexName: (path) Index on which to perform the request.
      - parameter model: (path) [Recommend models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
      - parameter searchRecommendRulesParams: (body)  (optional)
@@ -435,11 +449,9 @@ open class RecommendClient {
     }
 
     /**
+     List Recommend rules.
+
      List [Recommend rules](https://www.algolia.com/doc/guides/algolia-recommend/how-to/rules/).
-
-     Required API Key ACLs:
-       - settings
-
      - parameter indexName: (path) Index on which to perform the request.
      - parameter model: (path) [Recommend models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
      - parameter searchRecommendRulesParams: (body)  (optional)

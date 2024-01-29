@@ -30,6 +30,8 @@ open class MonitoringClient {
     }
 
     /**
+     Send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: AnyCodable
@@ -46,8 +48,9 @@ open class MonitoringClient {
     }
 
     /**
-     This method allow you to send requests to the Algolia REST API.
+     Send requests to the Algolia REST API.
 
+     This method allow you to send requests to the Algolia REST API.
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
@@ -74,6 +77,8 @@ open class MonitoringClient {
     }
 
     /**
+     Send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: AnyCodable
@@ -90,8 +95,9 @@ open class MonitoringClient {
     }
 
     /**
-     This method allow you to send requests to the Algolia REST API.
+     Send requests to the Algolia REST API.
 
+     This method allow you to send requests to the Algolia REST API.
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
@@ -118,6 +124,8 @@ open class MonitoringClient {
     }
 
     /**
+     Send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -135,8 +143,9 @@ open class MonitoringClient {
     }
 
     /**
-     This method allow you to send requests to the Algolia REST API.
+     Send requests to the Algolia REST API.
 
+     This method allow you to send requests to the Algolia REST API.
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -164,6 +173,8 @@ open class MonitoringClient {
     }
 
     /**
+     Send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -181,8 +192,9 @@ open class MonitoringClient {
     }
 
     /**
-     This method allow you to send requests to the Algolia REST API.
+     Send requests to the Algolia REST API.
 
+     This method allow you to send requests to the Algolia REST API.
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -210,6 +222,8 @@ open class MonitoringClient {
     }
 
     /**
+     List incidents for selected clusters.
+
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: IncidentsResponse
      */
@@ -225,8 +239,9 @@ open class MonitoringClient {
     }
 
     /**
-     List known incidents for selected clusters.
+     List incidents for selected clusters.
 
+     List known incidents for selected clusters.
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: RequestBuilder<IncidentsResponse>
      */
@@ -252,6 +267,8 @@ open class MonitoringClient {
     }
 
     /**
+     List statuses of selected clusters.
+
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: StatusResponse
      */
@@ -267,8 +284,9 @@ open class MonitoringClient {
     }
 
     /**
-     Report whether a cluster is operational.
+     List statuses of selected clusters.
 
+     Report whether a cluster is operational.
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: RequestBuilder<StatusResponse>
      */
@@ -294,6 +312,8 @@ open class MonitoringClient {
     }
 
     /**
+     List incidents.
+
      - returns: IncidentsResponse
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -308,8 +328,9 @@ open class MonitoringClient {
     }
 
     /**
-     List known incidents for all clusters.
+     List incidents.
 
+     List known incidents for all clusters.
      - returns: RequestBuilder<IncidentsResponse>
      */
 
@@ -331,6 +352,8 @@ open class MonitoringClient {
     }
 
     /**
+     Get indexing times.
+
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: IndexingTimeResponse
      */
@@ -346,8 +369,9 @@ open class MonitoringClient {
     }
 
     /**
-     List the average times for indexing operations for selected clusters.
+     Get indexing times.
 
+     List the average times for indexing operations for selected clusters.
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: RequestBuilder<IndexingTimeResponse>
      */
@@ -373,6 +397,8 @@ open class MonitoringClient {
     }
 
     /**
+     List servers.
+
      - returns: InventoryResponse
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -387,8 +413,9 @@ open class MonitoringClient {
     }
 
     /**
-     List the servers belonging to clusters.  The response depends on whether you authenticate your API request:  - With authentication, the response lists the servers assigned to your Algolia application's cluster.  - Without authentication, the response lists the servers for all Algolia clusters.
+     List servers.
 
+     List the servers belonging to clusters.  The response depends on whether you authenticate your API request:  - With authentication, the response lists the servers assigned to your Algolia application's cluster.  - Without authentication, the response lists the servers for all Algolia clusters.
      - returns: RequestBuilder<InventoryResponse>
      */
 
@@ -410,6 +437,8 @@ open class MonitoringClient {
     }
 
     /**
+     Get search latency times.
+
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: LatencyResponse
      */
@@ -425,8 +454,9 @@ open class MonitoringClient {
     }
 
     /**
-     List the average latency for search requests for selected clusters.
+     Get search latency times.
 
+     List the average latency for search requests for selected clusters.
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: RequestBuilder<LatencyResponse>
      */
@@ -452,6 +482,8 @@ open class MonitoringClient {
     }
 
     /**
+     Get metrics for a given period.
+
      - parameter metric: (path) Metric to report.  For more information about the individual metrics, see the response. To include all metrics, use &#x60;*&#x60; as the parameter.
      - parameter period: (path) Period over which to aggregate the metrics:  - &#x60;minute&#x60;. Aggregate the last minute. 1 data point per 10 seconds. - &#x60;hour&#x60;. Aggregate the last hour. 1 data point per minute. - &#x60;day&#x60;. Aggregate the last day. 1 data point per 10 minutes. - &#x60;week&#x60;. Aggregate the last week. 1 data point per hour. - &#x60;month&#x60;. Aggregate the last month. 1 data point per day.
      - returns: InfrastructureResponse
@@ -468,8 +500,9 @@ open class MonitoringClient {
     }
 
     /**
-     Report the aggregate value of a metric for a selected period of time.
+     Get metrics for a given period.
 
+     Report the aggregate value of a metric for a selected period of time.
      - parameter metric: (path) Metric to report.  For more information about the individual metrics, see the response. To include all metrics, use &#x60;*&#x60; as the parameter.
      - parameter period: (path) Period over which to aggregate the metrics:  - &#x60;minute&#x60;. Aggregate the last minute. 1 data point per 10 seconds. - &#x60;hour&#x60;. Aggregate the last hour. 1 data point per minute. - &#x60;day&#x60;. Aggregate the last day. 1 data point per 10 minutes. - &#x60;week&#x60;. Aggregate the last week. 1 data point per hour. - &#x60;month&#x60;. Aggregate the last month. 1 data point per day.
      - returns: RequestBuilder<InfrastructureResponse>
@@ -499,6 +532,8 @@ open class MonitoringClient {
     }
 
     /**
+     Test the reachability of clusters.
+
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: [String: [String: Bool]]
      */
@@ -514,8 +549,9 @@ open class MonitoringClient {
     }
 
     /**
-     Test whether clusters are reachable or not.
+     Test the reachability of clusters.
 
+     Test whether clusters are reachable or not.
      - parameter clusters: (path) Subset of clusters, separated by comma.
      - returns: RequestBuilder<[String: [String: Bool]]>
      */
@@ -541,6 +577,8 @@ open class MonitoringClient {
     }
 
     /**
+     List cluster statuses.
+
      - returns: StatusResponse
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -555,8 +593,9 @@ open class MonitoringClient {
     }
 
     /**
-     Report whether clusters are operational.  The response depends on whether you authenticate your API request.  - With authentication, the response includes the status of the cluster assigned to your Algolia application.  - Without authentication, the response lists the statuses of all public Algolia clusters.
+     List cluster statuses.
 
+     Report whether clusters are operational.  The response depends on whether you authenticate your API request.  - With authentication, the response includes the status of the cluster assigned to your Algolia application.  - Without authentication, the response lists the statuses of all public Algolia clusters.
      - returns: RequestBuilder<StatusResponse>
      */
 

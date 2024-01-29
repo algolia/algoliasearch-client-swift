@@ -30,6 +30,8 @@ open class QuerySuggestionsClient {
     }
 
     /**
+     Create a configuration.
+
      - parameter querySuggestionsConfigurationWithIndex: (body)
      - returns: BaseResponse
      */
@@ -45,11 +47,9 @@ open class QuerySuggestionsClient {
     }
 
     /**
+     Create a configuration.
+
      Create a new Query Suggestions configuration.  You can have up to 100 configurations per Algolia application.
-
-     Required API Key ACLs:
-       - editSettings
-
      - parameter querySuggestionsConfigurationWithIndex: (body)
      - returns: RequestBuilder<BaseResponse>
      */
@@ -72,6 +72,8 @@ open class QuerySuggestionsClient {
     }
 
     /**
+     Send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: AnyCodable
@@ -88,8 +90,9 @@ open class QuerySuggestionsClient {
     }
 
     /**
-     This method allow you to send requests to the Algolia REST API.
+     Send requests to the Algolia REST API.
 
+     This method allow you to send requests to the Algolia REST API.
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
@@ -116,6 +119,8 @@ open class QuerySuggestionsClient {
     }
 
     /**
+     Send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: AnyCodable
@@ -132,8 +137,9 @@ open class QuerySuggestionsClient {
     }
 
     /**
-     This method allow you to send requests to the Algolia REST API.
+     Send requests to the Algolia REST API.
 
+     This method allow you to send requests to the Algolia REST API.
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
@@ -160,6 +166,8 @@ open class QuerySuggestionsClient {
     }
 
     /**
+     Send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -177,8 +185,9 @@ open class QuerySuggestionsClient {
     }
 
     /**
-     This method allow you to send requests to the Algolia REST API.
+     Send requests to the Algolia REST API.
 
+     This method allow you to send requests to the Algolia REST API.
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -206,6 +215,8 @@ open class QuerySuggestionsClient {
     }
 
     /**
+     Send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -223,8 +234,9 @@ open class QuerySuggestionsClient {
     }
 
     /**
-     This method allow you to send requests to the Algolia REST API.
+     Send requests to the Algolia REST API.
 
+     This method allow you to send requests to the Algolia REST API.
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -252,6 +264,8 @@ open class QuerySuggestionsClient {
     }
 
     /**
+     Delete a configuration.
+
      - parameter indexName: (path) Query Suggestions index name.
      - returns: BaseResponse
      */
@@ -267,11 +281,9 @@ open class QuerySuggestionsClient {
     }
 
     /**
+     Delete a configuration.
+
      Delete a Query Suggestions configuration.  Deleting only removes the configuration and stops updates to the Query Suggestions index. The Query Suggestions index itself is not deleted.
-
-     Required API Key ACLs:
-       - editSettings
-
      - parameter indexName: (path) Query Suggestions index name.
      - returns: RequestBuilder<BaseResponse>
      */
@@ -297,6 +309,8 @@ open class QuerySuggestionsClient {
     }
 
     /**
+     List configurations.
+
      - returns: [QuerySuggestionsConfigurationResponse]
      */
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -311,11 +325,9 @@ open class QuerySuggestionsClient {
     }
 
     /**
+     List configurations.
+
      List all Query Suggestions configurations of your Algolia application.
-
-     Required API Key ACLs:
-       - settings
-
      - returns: RequestBuilder<[QuerySuggestionsConfigurationResponse]>
      */
 
@@ -337,6 +349,8 @@ open class QuerySuggestionsClient {
     }
 
     /**
+     Get a configuration.
+
      - parameter indexName: (path) Query Suggestions index name.
      - returns: QuerySuggestionsConfigurationResponse
      */
@@ -352,11 +366,9 @@ open class QuerySuggestionsClient {
     }
 
     /**
+     Get a configuration.
+
      Get a single Query Suggestions configuration.
-
-     Required API Key ACLs:
-       - settings
-
      - parameter indexName: (path) Query Suggestions index name.
      - returns: RequestBuilder<QuerySuggestionsConfigurationResponse>
      */
@@ -382,6 +394,8 @@ open class QuerySuggestionsClient {
     }
 
     /**
+     Get configuration status.
+
      - parameter indexName: (path) Query Suggestions index name.
      - returns: GetConfigStatus200Response
      */
@@ -397,11 +411,9 @@ open class QuerySuggestionsClient {
     }
 
     /**
+     Get configuration status.
+
      Report the status of a Query Suggestions index.
-
-     Required API Key ACLs:
-       - settings
-
      - parameter indexName: (path) Query Suggestions index name.
      - returns: RequestBuilder<GetConfigStatus200Response>
      */
@@ -427,6 +439,8 @@ open class QuerySuggestionsClient {
     }
 
     /**
+     Get logs.
+
      - parameter indexName: (path) Query Suggestions index name.
      - returns: GetLogFile200Response
      */
@@ -442,11 +456,9 @@ open class QuerySuggestionsClient {
     }
 
     /**
+     Get logs.
+
      Get the logs for a single Query Suggestions index.
-
-     Required API Key ACLs:
-       - settings
-
      - parameter indexName: (path) Query Suggestions index name.
      - returns: RequestBuilder<GetLogFile200Response>
      */
@@ -472,6 +484,8 @@ open class QuerySuggestionsClient {
     }
 
     /**
+     Update a configuration.
+
      - parameter indexName: (path) Query Suggestions index name.
      - parameter querySuggestionsConfiguration: (body)
      - returns: BaseResponse
@@ -488,11 +502,9 @@ open class QuerySuggestionsClient {
     }
 
     /**
+     Update a configuration.
+
      Update a QuerySuggestions configuration.
-
-     Required API Key ACLs:
-       - editSettings
-
      - parameter indexName: (path) Query Suggestions index name.
      - parameter querySuggestionsConfiguration: (body)
      - returns: RequestBuilder<BaseResponse>
