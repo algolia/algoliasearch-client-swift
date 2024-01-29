@@ -30,8 +30,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: AnyCodable
@@ -48,9 +46,8 @@ open class AnalyticsClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      This method allow you to send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
@@ -77,8 +74,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: AnyCodable
@@ -95,9 +90,8 @@ open class AnalyticsClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      This method allow you to send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
@@ -124,8 +118,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -143,9 +135,8 @@ open class AnalyticsClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      This method allow you to send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -173,8 +164,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -192,9 +181,8 @@ open class AnalyticsClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      This method allow you to send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -222,8 +210,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Get average click position.
-
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -242,9 +228,11 @@ open class AnalyticsClient {
     }
 
     /**
-     Get average click position.
-
      Return the average click position for the complete time range and for individual days. > **Note**: If all `positions` have a `clickCount` of `0` or `null`, it means Algolia didn't receive any click events for tracked searches. A _tracked_ search is a search request where the `clickAnalytics` parameter is `true`.
+
+     Required API Key ACLs:
+       - analytics
+
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -275,8 +263,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Get click positions.
-
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -295,9 +281,11 @@ open class AnalyticsClient {
     }
 
     /**
-     Get click positions.
-
      Show the number of clicks events and their associated position in the search results.  > **Note**: If all `positions` have a `clickCount` of `0` or `null`, it means Algolia didn't receive any click events for tracked searches. A _tracked_ search is a search request where the `clickAnalytics` parameter is `true`.
+
+     Required API Key ACLs:
+       - analytics
+
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -328,8 +316,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Get click-through rate (CTR).
-
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -348,9 +334,11 @@ open class AnalyticsClient {
     }
 
     /**
-     Get click-through rate (CTR).
-
      Returns a [click-through rate (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
+
+     Required API Key ACLs:
+       - analytics
+
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -381,8 +369,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Get conversion rate (CR).
-
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -401,9 +387,11 @@ open class AnalyticsClient {
     }
 
     /**
-     Get conversion rate (CR).
-
      Return a [conversion rate](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#conversion-rate).
+
+     Required API Key ACLs:
+       - analytics
+
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -434,8 +422,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Get no click rate.
-
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -454,9 +440,11 @@ open class AnalyticsClient {
     }
 
     /**
-     Get no click rate.
-
      Returns the rate at which searches don't lead to any clicks. The endpoint returns a value for the complete given time range, as well as a value per day. It also returns the count of searches and searches without clicks.
+
+     Required API Key ACLs:
+       - analytics
+
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -487,8 +475,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Get no results rate.
-
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -507,9 +493,11 @@ open class AnalyticsClient {
     }
 
     /**
-     Get no results rate.
-
      Returns the rate at which searches didn't return any results.
+
+     Required API Key ACLs:
+       - analytics
+
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -540,8 +528,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Get number of searches.
-
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -560,9 +546,11 @@ open class AnalyticsClient {
     }
 
     /**
-     Get number of searches.
-
      Returns the number of searches within a time range.
+
+     Required API Key ACLs:
+       - analytics
+
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -593,8 +581,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Get top searches with no clicks.
-
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -615,9 +601,11 @@ open class AnalyticsClient {
     }
 
     /**
-     Get top searches with no clicks.
-
      Return the most popular of the last 1,000 searches that didn't lead to any clicks.
+
+     Required API Key ACLs:
+       - analytics
+
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -652,8 +640,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Get top searches with no results.
-
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -674,9 +660,11 @@ open class AnalyticsClient {
     }
 
     /**
-     Get top searches with no results.
-
      Returns the most popular of the latest 1,000 searches that didn't return any results.
+
+     Required API Key ACLs:
+       - analytics
+
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -711,8 +699,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Get Analytics API status.
-
      - parameter index: (query) Index name to target.
      - returns: GetStatusResponse
      */
@@ -728,9 +714,11 @@ open class AnalyticsClient {
     }
 
     /**
-     Get Analytics API status.
-
      Return the latest update time of the Analytics API for an index. If the index has been recently created or no search has been performed yet, `updatedAt` will be `null`. > **Note**: The Analytics API is updated every 5&nbsp;minutes.
+
+     Required API Key ACLs:
+       - analytics
+
      - parameter index: (query) Index name to target.
      - returns: RequestBuilder<GetStatusResponse>
      */
@@ -755,8 +743,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Get top countries.
-
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -777,9 +763,11 @@ open class AnalyticsClient {
     }
 
     /**
-     Get top countries.
-
      Returns top countries. Limited to the 1,000 most frequent ones.
+
+     Required API Key ACLs:
+       - analytics
+
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -814,8 +802,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Get top filterable attributes.
-
      - parameter index: (query) Index name to target.
      - parameter search: (query) User query. (optional)
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -837,9 +823,11 @@ open class AnalyticsClient {
     }
 
     /**
-     Get top filterable attributes.
-
      Return the most popular [filterable attributes](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/) in the 1,000 most recently used filters.
+
+     Required API Key ACLs:
+       - analytics
+
      - parameter index: (query) Index name to target.
      - parameter search: (query) User query. (optional)
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -876,8 +864,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Get top filter values for an attribute.
-
      - parameter attribute: (path) Attribute name.
      - parameter index: (query) Index name to target.
      - parameter search: (query) User query. (optional)
@@ -900,9 +886,11 @@ open class AnalyticsClient {
     }
 
     /**
-     Get top filter values for an attribute.
-
      Returns the most popular filter values for an attribute in the 1,000 most recently used filters.
+
+     Required API Key ACLs:
+       - analytics
+
      - parameter attribute: (path) Attribute name.
      - parameter index: (query) Index name to target.
      - parameter search: (query) User query. (optional)
@@ -943,8 +931,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Get top filters for a no result search.
-
      - parameter index: (query) Index name to target.
      - parameter search: (query) User query. (optional)
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -966,9 +952,11 @@ open class AnalyticsClient {
     }
 
     /**
-     Get top filters for a no result search.
-
      Returns top filters for filter-enabled searches that don't return results. Limited to the 1,000 most recently used filters.
+
+     Required API Key ACLs:
+       - analytics
+
      - parameter index: (query) Index name to target.
      - parameter search: (query) User query. (optional)
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -1005,8 +993,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Get top hits.
-
      - parameter index: (query) Index name to target.
      - parameter search: (query) User query. (optional)
      - parameter clickAnalytics: (query) Whether to include [click and conversion](https://www.algolia.com/doc/guides/sending-events/getting-started/) rates for a search. (optional, default to false)
@@ -1029,9 +1015,11 @@ open class AnalyticsClient {
     }
 
     /**
-     Get top hits.
-
      Return the most popular clicked results in the last 1,000 searches.
+
+     Required API Key ACLs:
+       - analytics
+
      - parameter index: (query) Index name to target.
      - parameter search: (query) User query. (optional)
      - parameter clickAnalytics: (query) Whether to include [click and conversion](https://www.algolia.com/doc/guides/sending-events/getting-started/) rates for a search. (optional, default to false)
@@ -1070,8 +1058,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Get top searches.
-
      - parameter index: (query) Index name to target.
      - parameter clickAnalytics: (query) Whether to include [click and conversion](https://www.algolia.com/doc/guides/sending-events/getting-started/) rates for a search. (optional, default to false)
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -1095,9 +1081,11 @@ open class AnalyticsClient {
     }
 
     /**
-     Get top searches.
-
      Returns the most popular of the latest 1,000 searches. For each search, also returns the number of hits.
+
+     Required API Key ACLs:
+       - analytics
+
      - parameter index: (query) Index name to target.
      - parameter clickAnalytics: (query) Whether to include [click and conversion](https://www.algolia.com/doc/guides/sending-events/getting-started/) rates for a search. (optional, default to false)
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -1138,8 +1126,6 @@ open class AnalyticsClient {
     }
 
     /**
-     Get user count.
-
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
@@ -1158,9 +1144,11 @@ open class AnalyticsClient {
     }
 
     /**
-     Get user count.
-
      Return the count of unique users.
+
+     Required API Key ACLs:
+       - analytics
+
      - parameter index: (query) Index name to target.
      - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
      - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)

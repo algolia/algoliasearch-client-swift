@@ -30,8 +30,6 @@ open class IngestionClient {
     }
 
     /**
-     Create a authentication.
-
      - parameter authenticationCreate: (body)
      - returns: AuthenticationCreateResponse
      */
@@ -49,7 +47,11 @@ open class IngestionClient {
     /**
      Create a authentication.
 
-     Create a authentication.
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter authenticationCreate: (body)
      - returns: RequestBuilder<AuthenticationCreateResponse>
      */
@@ -72,8 +74,6 @@ open class IngestionClient {
     }
 
     /**
-     Create a destination.
-
      - parameter destinationCreate: (body)
      - returns: DestinationCreateResponse
      */
@@ -91,7 +91,11 @@ open class IngestionClient {
     /**
      Create a destination.
 
-     Create a destination.
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter destinationCreate: (body)
      - returns: RequestBuilder<DestinationCreateResponse>
      */
@@ -114,8 +118,6 @@ open class IngestionClient {
     }
 
     /**
-     Create a source.
-
      - parameter sourceCreate: (body)
      - returns: SourceCreateResponse
      */
@@ -133,7 +135,11 @@ open class IngestionClient {
     /**
      Create a source.
 
-     Create a source.
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter sourceCreate: (body)
      - returns: RequestBuilder<SourceCreateResponse>
      */
@@ -156,8 +162,6 @@ open class IngestionClient {
     }
 
     /**
-     Create a task.
-
      - parameter taskCreate: (body)
      - returns: TaskCreateResponse
      */
@@ -175,7 +179,6 @@ open class IngestionClient {
     /**
      Create a task.
 
-     Create a task.
      - parameter taskCreate: (body)
      - returns: RequestBuilder<TaskCreateResponse>
      */
@@ -198,8 +201,6 @@ open class IngestionClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: AnyCodable
@@ -216,9 +217,8 @@ open class IngestionClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      This method allow you to send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
@@ -245,8 +245,6 @@ open class IngestionClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: AnyCodable
@@ -263,9 +261,8 @@ open class IngestionClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      This method allow you to send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - returns: RequestBuilder<AnyCodable>
@@ -292,8 +289,6 @@ open class IngestionClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -311,9 +306,8 @@ open class IngestionClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      This method allow you to send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -341,8 +335,6 @@ open class IngestionClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -360,9 +352,8 @@ open class IngestionClient {
     }
 
     /**
-     Send requests to the Algolia REST API.
-
      This method allow you to send requests to the Algolia REST API.
+
      - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
      - parameter parameters: (query) Query parameters to apply to the current query. (optional)
      - parameter body: (body) Parameters to send with the custom request. (optional)
@@ -390,8 +381,6 @@ open class IngestionClient {
     }
 
     /**
-     Delete a authentication.
-
      - parameter authenticationID: (path) The authentication UUID.
      - returns: DeleteResponse
      */
@@ -407,9 +396,13 @@ open class IngestionClient {
     }
 
     /**
-     Delete a authentication.
-
      Soft delete the authentication of the given authenticationID.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter authenticationID: (path) The authentication UUID.
      - returns: RequestBuilder<DeleteResponse>
      */
@@ -435,8 +428,6 @@ open class IngestionClient {
     }
 
     /**
-     Delete a destination.
-
      - parameter destinationID: (path) The destination UUID.
      - returns: DeleteResponse
      */
@@ -452,9 +443,13 @@ open class IngestionClient {
     }
 
     /**
-     Delete a destination.
-
      Soft delete the destination of the given destinationID.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter destinationID: (path) The destination UUID.
      - returns: RequestBuilder<DeleteResponse>
      */
@@ -480,8 +475,6 @@ open class IngestionClient {
     }
 
     /**
-     Delete a source.
-
      - parameter sourceID: (path) The source UUID.
      - returns: DeleteResponse
      */
@@ -497,9 +490,13 @@ open class IngestionClient {
     }
 
     /**
-     Delete a source.
-
      Soft delete the source of the given sourceID.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter sourceID: (path) The source UUID.
      - returns: RequestBuilder<DeleteResponse>
      */
@@ -525,8 +522,6 @@ open class IngestionClient {
     }
 
     /**
-     Delete a task.
-
      - parameter taskID: (path) The task UUID.
      - returns: DeleteResponse
      */
@@ -542,9 +537,8 @@ open class IngestionClient {
     }
 
     /**
-     Delete a task.
-
      Soft delete the task of the given taskID.
+
      - parameter taskID: (path) The task UUID.
      - returns: RequestBuilder<DeleteResponse>
      */
@@ -570,8 +564,6 @@ open class IngestionClient {
     }
 
     /**
-     Disable a task.
-
      - parameter taskID: (path) The task UUID.
      - returns: TaskUpdateResponse
      */
@@ -587,9 +579,13 @@ open class IngestionClient {
     }
 
     /**
-     Disable a task.
-
      Disable the task of the given taskID.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter taskID: (path) The task UUID.
      - returns: RequestBuilder<TaskUpdateResponse>
      */
@@ -615,8 +611,6 @@ open class IngestionClient {
     }
 
     /**
-     Enable a task.
-
      - parameter taskID: (path) The task UUID.
      - returns: TaskUpdateResponse
      */
@@ -632,9 +626,13 @@ open class IngestionClient {
     }
 
     /**
-     Enable a task.
-
      Enable the task of the given taskID.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter taskID: (path) The task UUID.
      - returns: RequestBuilder<TaskUpdateResponse>
      */
@@ -660,8 +658,6 @@ open class IngestionClient {
     }
 
     /**
-     Get a authentication.
-
      - parameter authenticationID: (path) The authentication UUID.
      - returns: Authentication
      */
@@ -677,9 +673,13 @@ open class IngestionClient {
     }
 
     /**
-     Get a authentication.
-
      Get the authentication of the given authenticationID.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter authenticationID: (path) The authentication UUID.
      - returns: RequestBuilder<Authentication>
      */
@@ -705,8 +705,6 @@ open class IngestionClient {
     }
 
     /**
-     Get a list of authentications.
-
      - parameter itemsPerPage: (query) The number of items per page to return. (optional)
      - parameter page: (query) The page number to fetch, starting at 1. (optional)
      - parameter type: (query) The type of the authentications to retrieve. (optional)
@@ -727,9 +725,13 @@ open class IngestionClient {
     }
 
     /**
-     Get a list of authentications.
-
      Get a list of authentications for the given query parameters, with pagination details.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter itemsPerPage: (query) The number of items per page to return. (optional)
      - parameter page: (query) The page number to fetch, starting at 1. (optional)
      - parameter type: (query) The type of the authentications to retrieve. (optional)
@@ -764,8 +766,6 @@ open class IngestionClient {
     }
 
     /**
-     Get a destination.
-
      - parameter destinationID: (path) The destination UUID.
      - returns: Destination
      */
@@ -781,9 +781,13 @@ open class IngestionClient {
     }
 
     /**
-     Get a destination.
-
      Get the destination of the given destinationID.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter destinationID: (path) The destination UUID.
      - returns: RequestBuilder<Destination>
      */
@@ -809,8 +813,6 @@ open class IngestionClient {
     }
 
     /**
-     Get a list of destinations.
-
      - parameter itemsPerPage: (query) The number of items per page to return. (optional)
      - parameter page: (query) The page number to fetch, starting at 1. (optional)
      - parameter type: (query) The type of the destinations to retrive. (optional)
@@ -831,9 +833,13 @@ open class IngestionClient {
     }
 
     /**
-     Get a list of destinations.
-
      Get a list of destinations for the given query parameters, with pagination details.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter itemsPerPage: (query) The number of items per page to return. (optional)
      - parameter page: (query) The page number to fetch, starting at 1. (optional)
      - parameter type: (query) The type of the destinations to retrive. (optional)
@@ -868,8 +874,6 @@ open class IngestionClient {
     }
 
     /**
-     Retrieve a stream listing.
-
      - parameter sourceID: (path) The source UUID.
      - returns: DockerSourceStreams
      */
@@ -885,9 +889,13 @@ open class IngestionClient {
     }
 
     /**
-     Retrieve a stream listing.
-
      Retrieve a stream listing for a given Singer specification compatible docker type source ID.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter sourceID: (path) The source UUID.
      - returns: RequestBuilder<DockerSourceStreams>
      */
@@ -913,8 +921,6 @@ open class IngestionClient {
     }
 
     /**
-     Get an event.
-
      - parameter runID: (path) The run UUID.
      - parameter eventID: (path) The event UUID.
      - returns: Event
@@ -931,9 +937,13 @@ open class IngestionClient {
     }
 
     /**
-     Get an event.
-
      Get a single event for a specific runID.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter runID: (path) The run UUID.
      - parameter eventID: (path) The event UUID.
      - returns: RequestBuilder<Event>
@@ -963,8 +973,6 @@ open class IngestionClient {
     }
 
     /**
-     Get a list of events.
-
      - parameter runID: (path) The run UUID.
      - parameter itemsPerPage: (query) The number of items per page to return. (optional)
      - parameter page: (query) The page number to fetch, starting at 1. (optional)
@@ -988,9 +996,13 @@ open class IngestionClient {
     }
 
     /**
-     Get a list of events.
-
      Get a list of events associated to the given runID, for the given query parameters.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter runID: (path) The run UUID.
      - parameter itemsPerPage: (query) The number of items per page to return. (optional)
      - parameter page: (query) The page number to fetch, starting at 1. (optional)
@@ -1033,8 +1045,6 @@ open class IngestionClient {
     }
 
     /**
-     Get a run.
-
      - parameter runID: (path) The run UUID.
      - returns: Run
      */
@@ -1050,9 +1060,13 @@ open class IngestionClient {
     }
 
     /**
-     Get a run.
-
      Get a single run for the given ID.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter runID: (path) The run UUID.
      - returns: RequestBuilder<Run>
      */
@@ -1078,8 +1092,6 @@ open class IngestionClient {
     }
 
     /**
-     Get a list of runs.
-
      - parameter itemsPerPage: (query) The number of items per page to return. (optional)
      - parameter page: (query) The page number to fetch, starting at 1. (optional)
      - parameter status: (query) Filter the status of the runs. (optional)
@@ -1102,9 +1114,13 @@ open class IngestionClient {
     }
 
     /**
-     Get a list of runs.
-
      Get a list of runs for the given query parameters, with pagination details.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter itemsPerPage: (query) The number of items per page to return. (optional)
      - parameter page: (query) The page number to fetch, starting at 1. (optional)
      - parameter status: (query) Filter the status of the runs. (optional)
@@ -1143,8 +1159,6 @@ open class IngestionClient {
     }
 
     /**
-     Get a source.
-
      - parameter sourceID: (path) The source UUID.
      - returns: Source
      */
@@ -1160,9 +1174,13 @@ open class IngestionClient {
     }
 
     /**
-     Get a source.
-
      Get the source of the given sourceID.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter sourceID: (path) The source UUID.
      - returns: RequestBuilder<Source>
      */
@@ -1188,8 +1206,6 @@ open class IngestionClient {
     }
 
     /**
-     Get a list of sources.
-
      - parameter itemsPerPage: (query) The number of items per page to return. (optional)
      - parameter page: (query) The page number to fetch, starting at 1. (optional)
      - parameter type: (query) The type of the sources to retrieve. (optional)
@@ -1210,9 +1226,13 @@ open class IngestionClient {
     }
 
     /**
-     Get a list of sources.
-
      Get a list of sources for the given query parameters, with pagination details.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter itemsPerPage: (query) The number of items per page to return. (optional)
      - parameter page: (query) The page number to fetch, starting at 1. (optional)
      - parameter type: (query) The type of the sources to retrieve. (optional)
@@ -1247,8 +1267,6 @@ open class IngestionClient {
     }
 
     /**
-     Get a task.
-
      - parameter taskID: (path) The task UUID.
      - returns: Task
      */
@@ -1264,9 +1282,13 @@ open class IngestionClient {
     }
 
     /**
-     Get a task.
-
      Get the task of the given taskID.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter taskID: (path) The task UUID.
      - returns: RequestBuilder<Task>
      */
@@ -1292,8 +1314,6 @@ open class IngestionClient {
     }
 
     /**
-     Get a list of tasks.
-
      - parameter itemsPerPage: (query) The number of items per page to return. (optional)
      - parameter page: (query) The page number to fetch, starting at 1. (optional)
      - parameter action: (query) The action of the tasks to retrieve. (optional)
@@ -1317,9 +1337,13 @@ open class IngestionClient {
     }
 
     /**
-     Get a list of tasks.
-
      Get a list of tasks for the given query parameters, with pagination details.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter itemsPerPage: (query) The number of items per page to return. (optional)
      - parameter page: (query) The page number to fetch, starting at 1. (optional)
      - parameter action: (query) The action of the tasks to retrieve. (optional)
@@ -1360,8 +1384,6 @@ open class IngestionClient {
     }
 
     /**
-     Run a task.
-
      - parameter taskID: (path) The task UUID.
      - returns: RunResponse
      */
@@ -1377,9 +1399,13 @@ open class IngestionClient {
     }
 
     /**
-     Run a task.
-
      Run the task of the given taskID.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter taskID: (path) The task UUID.
      - returns: RequestBuilder<RunResponse>
      */
@@ -1405,8 +1431,6 @@ open class IngestionClient {
     }
 
     /**
-     Search among authentications.
-
      - parameter authenticationSearch: (body)
      - returns: [Authentication]
      */
@@ -1422,9 +1446,13 @@ open class IngestionClient {
     }
 
     /**
-     Search among authentications.
-
      Search among authentications with a defined set of parameters.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter authenticationSearch: (body)
      - returns: RequestBuilder<[Authentication]>
      */
@@ -1447,8 +1475,6 @@ open class IngestionClient {
     }
 
     /**
-     Search among destinations.
-
      - parameter destinationSearch: (body)
      - returns: [Destination]
      */
@@ -1464,9 +1490,13 @@ open class IngestionClient {
     }
 
     /**
-     Search among destinations.
-
      Search among destinations with a defined set of parameters.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter destinationSearch: (body)
      - returns: RequestBuilder<[Destination]>
      */
@@ -1489,8 +1519,6 @@ open class IngestionClient {
     }
 
     /**
-     Search among sources.
-
      - parameter sourceSearch: (body)
      - returns: [Source]
      */
@@ -1506,9 +1534,13 @@ open class IngestionClient {
     }
 
     /**
-     Search among sources.
-
      Search among sources with a defined set of parameters.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter sourceSearch: (body)
      - returns: RequestBuilder<[Source]>
      */
@@ -1531,8 +1563,6 @@ open class IngestionClient {
     }
 
     /**
-     Search among tasks.
-
      - parameter taskSearch: (body)
      - returns: [Task]
      */
@@ -1548,9 +1578,13 @@ open class IngestionClient {
     }
 
     /**
-     Search among tasks.
-
      Search among tasks with a defined set of parameters.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter taskSearch: (body)
      - returns: RequestBuilder<[Task]>
      */
@@ -1573,8 +1607,6 @@ open class IngestionClient {
     }
 
     /**
-     Trigger a stream listing request.
-
      - parameter sourceID: (path) The source UUID.
      - returns: DockerSourceDiscover
      */
@@ -1590,9 +1622,13 @@ open class IngestionClient {
     }
 
     /**
-     Trigger a stream listing request.
-
      Trigger a stream listing request for a Singer specification compatible docker type source.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter sourceID: (path) The source UUID.
      - returns: RequestBuilder<DockerSourceDiscover>
      */
@@ -1618,8 +1654,6 @@ open class IngestionClient {
     }
 
     /**
-     Update a authentication.
-
      - parameter authenticationID: (path) The authentication UUID.
      - parameter authenticationUpdate: (body)
      - returns: AuthenticationUpdateResponse
@@ -1636,9 +1670,13 @@ open class IngestionClient {
     }
 
     /**
-     Update a authentication.
-
      Update the authentication of the given authenticationID.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter authenticationID: (path) The authentication UUID.
      - parameter authenticationUpdate: (body)
      - returns: RequestBuilder<AuthenticationUpdateResponse>
@@ -1665,8 +1703,6 @@ open class IngestionClient {
     }
 
     /**
-     Update a destination.
-
      - parameter destinationID: (path) The destination UUID.
      - parameter destinationUpdate: (body)
      - returns: DestinationUpdateResponse
@@ -1683,9 +1719,13 @@ open class IngestionClient {
     }
 
     /**
-     Update a destination.
-
      Update the destination of the given destinationID.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter destinationID: (path) The destination UUID.
      - parameter destinationUpdate: (body)
      - returns: RequestBuilder<DestinationUpdateResponse>
@@ -1712,8 +1752,6 @@ open class IngestionClient {
     }
 
     /**
-     Update a source.
-
      - parameter sourceID: (path) The source UUID.
      - parameter sourceUpdate: (body)
      - returns: SourceUpdateResponse
@@ -1730,9 +1768,13 @@ open class IngestionClient {
     }
 
     /**
-     Update a source.
-
      Update the source of the given sourceID.
+
+     Required API Key ACLs:
+       - addObject
+       - deleteIndex
+       - editSettings
+
      - parameter sourceID: (path) The source UUID.
      - parameter sourceUpdate: (body)
      - returns: RequestBuilder<SourceUpdateResponse>
@@ -1759,8 +1801,6 @@ open class IngestionClient {
     }
 
     /**
-     Update a task.
-
      - parameter taskID: (path) The task UUID.
      - parameter taskUpdate: (body)
      - returns: TaskUpdateResponse
@@ -1777,9 +1817,8 @@ open class IngestionClient {
     }
 
     /**
-     Update a task.
-
      Update the task of the given taskID.
+
      - parameter taskID: (path) The task UUID.
      - parameter taskUpdate: (body)
      - returns: RequestBuilder<TaskUpdateResponse>
