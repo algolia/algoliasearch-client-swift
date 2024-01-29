@@ -10,9 +10,9 @@ import Foundation
 import Logging
 typealias SwiftLog = Logging.Logger
 #else
-#endif
 import OSLog
 typealias SwiftLog = os.Logger
+#endif
 
 public struct Logger {
 
@@ -20,14 +20,13 @@ public struct Logger {
     var logger: Loggable
     #if os(Linux)
     logger = SwiftLog(label: "com.algolia.searchClientSwift")
-    logger.logLevel = .info
     #else
     logger = SwiftLog(subsystem: "com.algolia", category: "searchClientSwift")
     #endif
-    print("Algolia Search Client Swift: Default minimal log severity level is info. Change Logger.minLogServerityLevel value if you want to change it.")
     return logger
   }()
 
+  @available(*, deprecated, message: "minSeverityLevel is deprecated")
   public static var minSeverityLevel: LogLevel {
     get {
       return loggingService.minSeverityLevel
@@ -174,7 +173,6 @@ extension SwiftLog: Loggable {
       .init(.default)
     }
     set {
-      
     }
   }
   
@@ -188,6 +186,7 @@ extension SwiftLog: Loggable {
 
 protocol Loggable {
 
+  @available(*, deprecated, message: "minSeverityLevel is deprecated")
   var minSeverityLevel: LogLevel { get set }
 
   func log(level: LogLevel, message: String)
