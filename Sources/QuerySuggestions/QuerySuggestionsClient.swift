@@ -12,8 +12,8 @@ open class QuerySuggestionsClient {
     private var configuration: Configuration
     private var transporter: Transporter
 
-    var applicationID: String {
-        configuration.applicationID
+    var appId: String {
+        configuration.appId
     }
 
     public init(configuration: Configuration, transporter: Transporter) {
@@ -25,8 +25,8 @@ open class QuerySuggestionsClient {
         self.init(configuration: configuration, transporter: Transporter(configuration: configuration))
     }
 
-    public convenience init(applicationID: String, apiKey: String, region: Region) throws {
-        try self.init(configuration: Configuration(applicationID: applicationID, apiKey: apiKey, region: region))
+    public convenience init(appId: String, apiKey: String, region: Region) throws {
+        try self.init(configuration: Configuration(appId: appId, apiKey: apiKey, region: region))
     }
 
     /**
@@ -96,6 +96,10 @@ open class QuerySuggestionsClient {
      */
 
     open func customDeleteWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customDelete")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -140,6 +144,10 @@ open class QuerySuggestionsClient {
      */
 
     open func customGetWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customGet")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -186,6 +194,10 @@ open class QuerySuggestionsClient {
      */
 
     open func customPostWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customPost")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -232,6 +244,10 @@ open class QuerySuggestionsClient {
      */
 
     open func customPutWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customPut")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -277,6 +293,10 @@ open class QuerySuggestionsClient {
      */
 
     open func deleteConfigWithHTTPInfo(indexName: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<BaseResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "deleteConfig")
+        }
+
         var resourcePath = "/1/configs/{indexName}"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -362,6 +382,10 @@ open class QuerySuggestionsClient {
      */
 
     open func getConfigWithHTTPInfo(indexName: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<QuerySuggestionsConfigurationResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "getConfig")
+        }
+
         var resourcePath = "/1/configs/{indexName}"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -407,6 +431,10 @@ open class QuerySuggestionsClient {
      */
 
     open func getConfigStatusWithHTTPInfo(indexName: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetConfigStatus200Response> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "getConfigStatus")
+        }
+
         var resourcePath = "/1/configs/{indexName}/status"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -452,6 +480,10 @@ open class QuerySuggestionsClient {
      */
 
     open func getLogFileWithHTTPInfo(indexName: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetLogFile200Response> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "getLogFile")
+        }
+
         var resourcePath = "/1/logs/{indexName}"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -499,6 +531,10 @@ open class QuerySuggestionsClient {
      */
 
     open func updateConfigWithHTTPInfo(indexName: String, querySuggestionsConfiguration: QuerySuggestionsConfiguration, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<BaseResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "updateConfig")
+        }
+
         var resourcePath = "/1/configs/{indexName}"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""

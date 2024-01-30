@@ -85,13 +85,13 @@ open class Transporter {
             request = request.set(\.timeoutInterval, to: timeout)
 
             for (key, value) in configuration.defaultHeaders ?? [:] {
-                request.setValue(value, forHTTPHeaderField: key.lowercased())
+                request.setValue(value, forHTTPHeaderField: key.capitalized)
             }
             request.setValue(
-                UserAgentController.httpHeaderValue, forHTTPHeaderField: "User-Agent".lowercased()
+                UserAgentController.httpHeaderValue, forHTTPHeaderField: "User-Agent".capitalized
             )
             for (key, value) in headers {
-                request.setValue(value, forHTTPHeaderField: key.lowercased())
+                request.setValue(value, forHTTPHeaderField: key.capitalized)
             }
 
             if callType == CallType.write {
@@ -125,17 +125,5 @@ open class Transporter {
         }
 
         throw AlgoliaError.noReachableHosts(intermediateErrors: intermediateErrors)
-    }
-
-    private func buildHeaders(with requestHeaders: [String: String]) -> [String: String] {
-        var httpHeaders: [String: String] = [:]
-        for (key, value) in configuration.defaultHeaders ?? [:] {
-            httpHeaders.updateValue(value, forKey: key)
-        }
-        httpHeaders.updateValue(UserAgentController.httpHeaderValue, forKey: "User-Agent")
-        for (key, value) in requestHeaders {
-            httpHeaders.updateValue(value, forKey: key)
-        }
-        return httpHeaders
     }
 }

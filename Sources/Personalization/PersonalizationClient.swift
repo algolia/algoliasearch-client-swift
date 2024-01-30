@@ -12,8 +12,8 @@ open class PersonalizationClient {
     private var configuration: Configuration
     private var transporter: Transporter
 
-    var applicationID: String {
-        configuration.applicationID
+    var appId: String {
+        configuration.appId
     }
 
     public init(configuration: Configuration, transporter: Transporter) {
@@ -25,8 +25,8 @@ open class PersonalizationClient {
         self.init(configuration: configuration, transporter: Transporter(configuration: configuration))
     }
 
-    public convenience init(applicationID: String, apiKey: String, region: Region) throws {
-        try self.init(configuration: Configuration(applicationID: applicationID, apiKey: apiKey, region: region))
+    public convenience init(appId: String, apiKey: String, region: Region) throws {
+        try self.init(configuration: Configuration(appId: appId, apiKey: apiKey, region: region))
     }
 
     /**
@@ -54,6 +54,10 @@ open class PersonalizationClient {
      */
 
     open func customDeleteWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customDelete")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -98,6 +102,10 @@ open class PersonalizationClient {
      */
 
     open func customGetWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customGet")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -144,6 +152,10 @@ open class PersonalizationClient {
      */
 
     open func customPostWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customPost")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -190,6 +202,10 @@ open class PersonalizationClient {
      */
 
     open func customPutWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customPut")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -235,6 +251,10 @@ open class PersonalizationClient {
      */
 
     open func deleteUserProfileWithHTTPInfo(userToken: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DeleteUserProfileResponse> {
+        guard !userToken.isEmpty else {
+            throw AlgoliaError.invalidArgument("userToken", "deleteUserProfile")
+        }
+
         var resourcePath = "/1/profiles/{userToken}"
         let userTokenPreEscape = "\(APIHelper.mapValueToPathItem(userToken))"
         let userTokenPostEscape = userTokenPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -320,6 +340,10 @@ open class PersonalizationClient {
      */
 
     open func getUserTokenProfileWithHTTPInfo(userToken: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetUserTokenResponse> {
+        guard !userToken.isEmpty else {
+            throw AlgoliaError.invalidArgument("userToken", "getUserTokenProfile")
+        }
+
         var resourcePath = "/1/profiles/personalization/{userToken}"
         let userTokenPreEscape = "\(APIHelper.mapValueToPathItem(userToken))"
         let userTokenPostEscape = userTokenPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""

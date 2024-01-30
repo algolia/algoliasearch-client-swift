@@ -12,8 +12,8 @@ open class MonitoringClient {
     private var configuration: Configuration
     private var transporter: Transporter
 
-    var applicationID: String {
-        configuration.applicationID
+    var appId: String {
+        configuration.appId
     }
 
     public init(configuration: Configuration, transporter: Transporter) {
@@ -25,8 +25,8 @@ open class MonitoringClient {
         self.init(configuration: configuration, transporter: Transporter(configuration: configuration))
     }
 
-    public convenience init(applicationID: String, apiKey: String) throws {
-        try self.init(configuration: Configuration(applicationID: applicationID, apiKey: apiKey))
+    public convenience init(appId: String, apiKey: String) throws {
+        try self.init(configuration: Configuration(appId: appId, apiKey: apiKey))
     }
 
     /**
@@ -54,6 +54,10 @@ open class MonitoringClient {
      */
 
     open func customDeleteWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customDelete")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -98,6 +102,10 @@ open class MonitoringClient {
      */
 
     open func customGetWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customGet")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -144,6 +152,10 @@ open class MonitoringClient {
      */
 
     open func customPostWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customPost")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -190,6 +202,10 @@ open class MonitoringClient {
      */
 
     open func customPutWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customPut")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -232,6 +248,10 @@ open class MonitoringClient {
      */
 
     open func getClusterIncidentsWithHTTPInfo(clusters: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<IncidentsResponse> {
+        guard !clusters.isEmpty else {
+            throw AlgoliaError.invalidArgument("clusters", "getClusterIncidents")
+        }
+
         var resourcePath = "/1/incidents/{clusters}"
         let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
         let clustersPostEscape = clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -274,6 +294,10 @@ open class MonitoringClient {
      */
 
     open func getClusterStatusWithHTTPInfo(clusters: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<StatusResponse> {
+        guard !clusters.isEmpty else {
+            throw AlgoliaError.invalidArgument("clusters", "getClusterStatus")
+        }
+
         var resourcePath = "/1/status/{clusters}"
         let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
         let clustersPostEscape = clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -353,6 +377,10 @@ open class MonitoringClient {
      */
 
     open func getIndexingTimeWithHTTPInfo(clusters: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<IndexingTimeResponse> {
+        guard !clusters.isEmpty else {
+            throw AlgoliaError.invalidArgument("clusters", "getIndexingTime")
+        }
+
         var resourcePath = "/1/indexing/{clusters}"
         let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
         let clustersPostEscape = clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -432,6 +460,10 @@ open class MonitoringClient {
      */
 
     open func getLatencyWithHTTPInfo(clusters: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<LatencyResponse> {
+        guard !clusters.isEmpty else {
+            throw AlgoliaError.invalidArgument("clusters", "getLatency")
+        }
+
         var resourcePath = "/1/latency/{clusters}"
         let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
         let clustersPostEscape = clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -521,6 +553,10 @@ open class MonitoringClient {
      */
 
     open func getReachabilityWithHTTPInfo(clusters: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<[String: [String: Bool]]> {
+        guard !clusters.isEmpty else {
+            throw AlgoliaError.invalidArgument("clusters", "getReachability")
+        }
+
         var resourcePath = "/1/reachability/{clusters}/probes"
         let clustersPreEscape = "\(APIHelper.mapValueToPathItem(clusters))"
         let clustersPostEscape = clustersPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""

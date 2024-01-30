@@ -22,8 +22,16 @@ public struct Version {
 
         major = Int(components[0]) ?? 0
         minor = Int(components[1]) ?? 0
-        patch = Int(components[2]) ?? 0
-        prereleaseIdentifier = components.count == 4 ? components[3] : nil
+
+        if components.count == 4 {
+            let prereleaseComponents = components[2].components(separatedBy: "-")
+
+            patch = Int(prereleaseComponents[0]) ?? 0
+            prereleaseIdentifier = "\(prereleaseComponents[1]).\(components[3])"
+        } else {
+            patch = Int(components[2]) ?? 0
+            prereleaseIdentifier = nil
+        }
     }
 }
 

@@ -12,8 +12,8 @@ open class SearchClient {
     private var configuration: Configuration
     private var transporter: Transporter
 
-    var applicationID: String {
-        configuration.applicationID
+    var appId: String {
+        configuration.appId
     }
 
     public init(configuration: Configuration, transporter: Transporter) {
@@ -25,8 +25,8 @@ open class SearchClient {
         self.init(configuration: configuration, transporter: Transporter(configuration: configuration))
     }
 
-    public convenience init(applicationID: String, apiKey: String) throws {
-        try self.init(configuration: Configuration(applicationID: applicationID, apiKey: apiKey))
+    public convenience init(appId: String, apiKey: String) throws {
+        try self.init(configuration: Configuration(appId: appId, apiKey: apiKey))
     }
 
     /**
@@ -101,6 +101,18 @@ open class SearchClient {
      */
 
     open func addOrUpdateObjectWithHTTPInfo(indexName: String, objectID: String, body: [String: AnyCodable], requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtWithObjectIdResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "addOrUpdateObject")
+        }
+
+        guard !objectID.isEmpty else {
+            throw AlgoliaError.invalidArgument("objectID", "addOrUpdateObject")
+        }
+
+        guard !body.isEmpty else {
+            throw AlgoliaError.invalidArgument("body", "addOrUpdateObject")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/{objectID}"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -236,6 +248,10 @@ open class SearchClient {
      */
 
     open func batchWithHTTPInfo(indexName: String, batchWriteParams: BatchWriteParams, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<BatchResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "batch")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/batch"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -376,6 +392,10 @@ open class SearchClient {
      */
 
     open func browseWithHTTPInfo(indexName: String, browseParams: BrowseParams? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<BrowseResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "browse")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/browse"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -421,6 +441,10 @@ open class SearchClient {
      */
 
     open func clearObjectsWithHTTPInfo(indexName: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "clearObjects")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/clear"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -468,6 +492,10 @@ open class SearchClient {
      */
 
     open func clearRulesWithHTTPInfo(indexName: String, forwardToReplicas: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "clearRules")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/rules/clear"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -517,6 +545,10 @@ open class SearchClient {
      */
 
     open func clearSynonymsWithHTTPInfo(indexName: String, forwardToReplicas: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "clearSynonyms")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/synonyms/clear"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -563,6 +595,10 @@ open class SearchClient {
      */
 
     open func customDeleteWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customDelete")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -607,6 +643,10 @@ open class SearchClient {
      */
 
     open func customGetWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customGet")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -653,6 +693,10 @@ open class SearchClient {
      */
 
     open func customPostWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customPost")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -699,6 +743,10 @@ open class SearchClient {
      */
 
     open func customPutWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customPut")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -744,6 +792,10 @@ open class SearchClient {
      */
 
     open func deleteApiKeyWithHTTPInfo(key: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DeleteApiKeyResponse> {
+        guard !key.isEmpty else {
+            throw AlgoliaError.invalidArgument("key", "deleteApiKey")
+        }
+
         var resourcePath = "/1/keys/{key}"
         let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
         let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -791,6 +843,10 @@ open class SearchClient {
      */
 
     open func deleteByWithHTTPInfo(indexName: String, deleteByParams: DeleteByParams, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DeletedAtResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "deleteBy")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/deleteByQuery"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -836,6 +892,10 @@ open class SearchClient {
      */
 
     open func deleteIndexWithHTTPInfo(indexName: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DeletedAtResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "deleteIndex")
+        }
+
         var resourcePath = "/1/indexes/{indexName}"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -883,6 +943,14 @@ open class SearchClient {
      */
 
     open func deleteObjectWithHTTPInfo(indexName: String, objectID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DeletedAtResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "deleteObject")
+        }
+
+        guard !objectID.isEmpty else {
+            throw AlgoliaError.invalidArgument("objectID", "deleteObject")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/{objectID}"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -935,6 +1003,14 @@ open class SearchClient {
      */
 
     open func deleteRuleWithHTTPInfo(indexName: String, objectID: String, forwardToReplicas: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "deleteRule")
+        }
+
+        guard !objectID.isEmpty else {
+            throw AlgoliaError.invalidArgument("objectID", "deleteRule")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/rules/{objectID}"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -985,6 +1061,10 @@ open class SearchClient {
      */
 
     open func deleteSourceWithHTTPInfo(source: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DeleteSourceResponse> {
+        guard !source.isEmpty else {
+            throw AlgoliaError.invalidArgument("source", "deleteSource")
+        }
+
         var resourcePath = "/1/security/sources/{source}"
         let sourcePreEscape = "\(APIHelper.mapValueToPathItem(source))"
         let sourcePostEscape = sourcePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1034,6 +1114,14 @@ open class SearchClient {
      */
 
     open func deleteSynonymWithHTTPInfo(indexName: String, objectID: String, forwardToReplicas: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DeletedAtResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "deleteSynonym")
+        }
+
+        guard !objectID.isEmpty else {
+            throw AlgoliaError.invalidArgument("objectID", "deleteSynonym")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/synonyms/{objectID}"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1081,6 +1169,10 @@ open class SearchClient {
      */
 
     open func getApiKeyWithHTTPInfo(key: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetApiKeyResponse> {
+        guard !key.isEmpty else {
+            throw AlgoliaError.invalidArgument("key", "getApiKey")
+        }
+
         var resourcePath = "/1/keys/{key}"
         let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
         let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1263,6 +1355,14 @@ open class SearchClient {
      */
 
     open func getObjectWithHTTPInfo(indexName: String, objectID: String, attributesToRetrieve: [String]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<[String: String]> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "getObject")
+        }
+
+        guard !objectID.isEmpty else {
+            throw AlgoliaError.invalidArgument("objectID", "getObject")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/{objectID}"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1358,6 +1458,14 @@ open class SearchClient {
      */
 
     open func getRuleWithHTTPInfo(indexName: String, objectID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<Rule> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "getRule")
+        }
+
+        guard !objectID.isEmpty else {
+            throw AlgoliaError.invalidArgument("objectID", "getRule")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/rules/{objectID}"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1406,6 +1514,10 @@ open class SearchClient {
      */
 
     open func getSettingsWithHTTPInfo(indexName: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<IndexSettings> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "getSettings")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/settings"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1493,6 +1605,14 @@ open class SearchClient {
      */
 
     open func getSynonymWithHTTPInfo(indexName: String, objectID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<SynonymHit> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "getSynonym")
+        }
+
+        guard !objectID.isEmpty else {
+            throw AlgoliaError.invalidArgument("objectID", "getSynonym")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/synonyms/{objectID}"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1543,6 +1663,10 @@ open class SearchClient {
      */
 
     open func getTaskWithHTTPInfo(indexName: String, taskID: Int64, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetTaskResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "getTask")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/task/{taskID}"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1631,6 +1755,10 @@ open class SearchClient {
      */
 
     open func getUserIdWithHTTPInfo(userID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UserId> {
+        guard !userID.isEmpty else {
+            throw AlgoliaError.invalidArgument("userID", "getUserId")
+        }
+
         var resourcePath = "/1/clusters/mapping/{userID}"
         let userIDPreEscape = "\(APIHelper.mapValueToPathItem(userID))"
         let userIDPostEscape = userIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1935,6 +2063,10 @@ open class SearchClient {
      */
 
     open func operationIndexWithHTTPInfo(indexName: String, operationIndexParams: OperationIndexParams, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "operationIndex")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/operation"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1986,6 +2118,14 @@ open class SearchClient {
      */
 
     open func partialUpdateObjectWithHTTPInfo(indexName: String, objectID: String, attributesToUpdate: [String: AttributeToUpdate], createIfNotExists: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtWithObjectIdResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "partialUpdateObject")
+        }
+
+        guard !objectID.isEmpty else {
+            throw AlgoliaError.invalidArgument("objectID", "partialUpdateObject")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/{objectID}/partial"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -2036,6 +2176,10 @@ open class SearchClient {
      */
 
     open func removeUserIdWithHTTPInfo(userID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<RemoveUserIdResponse> {
+        guard !userID.isEmpty else {
+            throw AlgoliaError.invalidArgument("userID", "removeUserId")
+        }
+
         var resourcePath = "/1/clusters/mapping/{userID}"
         let userIDPreEscape = "\(APIHelper.mapValueToPathItem(userID))"
         let userIDPostEscape = userIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -2123,6 +2267,10 @@ open class SearchClient {
      */
 
     open func restoreApiKeyWithHTTPInfo(key: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AddApiKeyResponse> {
+        guard !key.isEmpty else {
+            throw AlgoliaError.invalidArgument("key", "restoreApiKey")
+        }
+
         var resourcePath = "/1/keys/{key}/restore"
         let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
         let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -2170,6 +2318,14 @@ open class SearchClient {
      */
 
     open func saveObjectWithHTTPInfo(indexName: String, body: [String: AnyCodable], requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<SaveObjectResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "saveObject")
+        }
+
+        guard !body.isEmpty else {
+            throw AlgoliaError.invalidArgument("body", "saveObject")
+        }
+
         var resourcePath = "/1/indexes/{indexName}"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -2221,6 +2377,14 @@ open class SearchClient {
      */
 
     open func saveRuleWithHTTPInfo(indexName: String, objectID: String, rule: Rule, forwardToReplicas: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedRuleResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "saveRule")
+        }
+
+        guard !objectID.isEmpty else {
+            throw AlgoliaError.invalidArgument("objectID", "saveRule")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/rules/{objectID}"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -2277,6 +2441,10 @@ open class SearchClient {
      */
 
     open func saveRulesWithHTTPInfo(indexName: String, rules: [Rule], forwardToReplicas: Bool? = nil, clearExistingRules: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "saveRules")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/rules/batch"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -2331,6 +2499,14 @@ open class SearchClient {
      */
 
     open func saveSynonymWithHTTPInfo(indexName: String, objectID: String, synonymHit: SynonymHit, forwardToReplicas: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<SaveSynonymResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "saveSynonym")
+        }
+
+        guard !objectID.isEmpty else {
+            throw AlgoliaError.invalidArgument("objectID", "saveSynonym")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/synonyms/{objectID}"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -2387,6 +2563,10 @@ open class SearchClient {
      */
 
     open func saveSynonymsWithHTTPInfo(indexName: String, synonymHit: [SynonymHit], forwardToReplicas: Bool? = nil, replaceExistingSynonyms: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "saveSynonyms")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/synonyms/batch"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -2530,6 +2710,14 @@ open class SearchClient {
      */
 
     open func searchForFacetValuesWithHTTPInfo(indexName: String, facetName: String, searchForFacetValuesRequest: SearchForFacetValuesRequest? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<SearchForFacetValuesResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "searchForFacetValues")
+        }
+
+        guard !facetName.isEmpty else {
+            throw AlgoliaError.invalidArgument("facetName", "searchForFacetValues")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/facets/{facetName}/query"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -2581,6 +2769,10 @@ open class SearchClient {
      */
 
     open func searchRulesWithHTTPInfo(indexName: String, searchRulesParams: SearchRulesParams? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<SearchRulesResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "searchRules")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/rules/search"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -2629,6 +2821,10 @@ open class SearchClient {
      */
 
     open func searchSingleIndexWithHTTPInfo(indexName: String, searchParams: SearchParams? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<SearchResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "searchSingleIndex")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/query"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -2677,6 +2873,10 @@ open class SearchClient {
      */
 
     open func searchSynonymsWithHTTPInfo(indexName: String, searchSynonymsParams: SearchSynonymsParams? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<SearchSynonymsResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "searchSynonyms")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/synonyms/search"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -2812,6 +3012,10 @@ open class SearchClient {
      */
 
     open func setSettingsWithHTTPInfo(indexName: String, indexSettings: IndexSettings, forwardToReplicas: Bool? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdatedAtResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "setSettings")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/settings"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -2861,6 +3065,10 @@ open class SearchClient {
      */
 
     open func updateApiKeyWithHTTPInfo(key: String, apiKey: ApiKey, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<UpdateApiKeyResponse> {
+        guard !key.isEmpty else {
+            throw AlgoliaError.invalidArgument("key", "updateApiKey")
+        }
+
         var resourcePath = "/1/keys/{key}"
         let keyPreEscape = "\(APIHelper.mapValueToPathItem(key))"
         let keyPostEscape = keyPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""

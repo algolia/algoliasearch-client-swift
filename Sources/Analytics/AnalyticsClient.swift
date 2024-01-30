@@ -12,8 +12,8 @@ open class AnalyticsClient {
     private var configuration: Configuration
     private var transporter: Transporter
 
-    var applicationID: String {
-        configuration.applicationID
+    var appId: String {
+        configuration.appId
     }
 
     public init(configuration: Configuration, transporter: Transporter) {
@@ -25,8 +25,8 @@ open class AnalyticsClient {
         self.init(configuration: configuration, transporter: Transporter(configuration: configuration))
     }
 
-    public convenience init(applicationID: String, apiKey: String, region: Region?) throws {
-        try self.init(configuration: Configuration(applicationID: applicationID, apiKey: apiKey, region: region))
+    public convenience init(appId: String, apiKey: String, region: Region?) throws {
+        try self.init(configuration: Configuration(appId: appId, apiKey: apiKey, region: region))
     }
 
     /**
@@ -54,6 +54,10 @@ open class AnalyticsClient {
      */
 
     open func customDeleteWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customDelete")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -98,6 +102,10 @@ open class AnalyticsClient {
      */
 
     open func customGetWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customGet")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -144,6 +152,10 @@ open class AnalyticsClient {
      */
 
     open func customPostWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customPost")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -190,6 +202,10 @@ open class AnalyticsClient {
      */
 
     open func customPutWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customPut")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -241,6 +257,10 @@ open class AnalyticsClient {
      */
 
     open func getAverageClickPositionWithHTTPInfo(index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetAverageClickPositionResponse> {
+        guard !index.isEmpty else {
+            throw AlgoliaError.invalidArgument("index", "getAverageClickPosition")
+        }
+
         let resourcePath = "/2/clicks/averageClickPosition"
         let body: AnyCodable? = nil
         let queryItems = APIHelper.mapValuesToQueryItems([
@@ -294,6 +314,10 @@ open class AnalyticsClient {
      */
 
     open func getClickPositionsWithHTTPInfo(index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetClickPositionsResponse> {
+        guard !index.isEmpty else {
+            throw AlgoliaError.invalidArgument("index", "getClickPositions")
+        }
+
         let resourcePath = "/2/clicks/positions"
         let body: AnyCodable? = nil
         let queryItems = APIHelper.mapValuesToQueryItems([
@@ -347,6 +371,10 @@ open class AnalyticsClient {
      */
 
     open func getClickThroughRateWithHTTPInfo(index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetClickThroughRateResponse> {
+        guard !index.isEmpty else {
+            throw AlgoliaError.invalidArgument("index", "getClickThroughRate")
+        }
+
         let resourcePath = "/2/clicks/clickThroughRate"
         let body: AnyCodable? = nil
         let queryItems = APIHelper.mapValuesToQueryItems([
@@ -400,6 +428,10 @@ open class AnalyticsClient {
      */
 
     open func getConversationRateWithHTTPInfo(index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetConversationRateResponse> {
+        guard !index.isEmpty else {
+            throw AlgoliaError.invalidArgument("index", "getConversationRate")
+        }
+
         let resourcePath = "/2/conversions/conversionRate"
         let body: AnyCodable? = nil
         let queryItems = APIHelper.mapValuesToQueryItems([
@@ -453,6 +485,10 @@ open class AnalyticsClient {
      */
 
     open func getNoClickRateWithHTTPInfo(index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetNoClickRateResponse> {
+        guard !index.isEmpty else {
+            throw AlgoliaError.invalidArgument("index", "getNoClickRate")
+        }
+
         let resourcePath = "/2/searches/noClickRate"
         let body: AnyCodable? = nil
         let queryItems = APIHelper.mapValuesToQueryItems([
@@ -506,6 +542,10 @@ open class AnalyticsClient {
      */
 
     open func getNoResultsRateWithHTTPInfo(index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetNoResultsRateResponse> {
+        guard !index.isEmpty else {
+            throw AlgoliaError.invalidArgument("index", "getNoResultsRate")
+        }
+
         let resourcePath = "/2/searches/noResultRate"
         let body: AnyCodable? = nil
         let queryItems = APIHelper.mapValuesToQueryItems([
@@ -559,6 +599,10 @@ open class AnalyticsClient {
      */
 
     open func getSearchesCountWithHTTPInfo(index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetSearchesCountResponse> {
+        guard !index.isEmpty else {
+            throw AlgoliaError.invalidArgument("index", "getSearchesCount")
+        }
+
         let resourcePath = "/2/searches/count"
         let body: AnyCodable? = nil
         let queryItems = APIHelper.mapValuesToQueryItems([
@@ -616,6 +660,10 @@ open class AnalyticsClient {
      */
 
     open func getSearchesNoClicksWithHTTPInfo(index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetSearchesNoClicksResponse> {
+        guard !index.isEmpty else {
+            throw AlgoliaError.invalidArgument("index", "getSearchesNoClicks")
+        }
+
         let resourcePath = "/2/searches/noClicks"
         let body: AnyCodable? = nil
         let queryItems = APIHelper.mapValuesToQueryItems([
@@ -675,6 +723,10 @@ open class AnalyticsClient {
      */
 
     open func getSearchesNoResultsWithHTTPInfo(index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetSearchesNoResultsResponse> {
+        guard !index.isEmpty else {
+            throw AlgoliaError.invalidArgument("index", "getSearchesNoResults")
+        }
+
         let resourcePath = "/2/searches/noResults"
         let body: AnyCodable? = nil
         let queryItems = APIHelper.mapValuesToQueryItems([
@@ -724,6 +776,10 @@ open class AnalyticsClient {
      */
 
     open func getStatusWithHTTPInfo(index: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetStatusResponse> {
+        guard !index.isEmpty else {
+            throw AlgoliaError.invalidArgument("index", "getStatus")
+        }
+
         let resourcePath = "/2/status"
         let body: AnyCodable? = nil
         let queryItems = APIHelper.mapValuesToQueryItems([
@@ -778,6 +834,10 @@ open class AnalyticsClient {
      */
 
     open func getTopCountriesWithHTTPInfo(index: String, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetTopCountriesResponse> {
+        guard !index.isEmpty else {
+            throw AlgoliaError.invalidArgument("index", "getTopCountries")
+        }
+
         let resourcePath = "/2/countries"
         let body: AnyCodable? = nil
         let queryItems = APIHelper.mapValuesToQueryItems([
@@ -839,6 +899,10 @@ open class AnalyticsClient {
      */
 
     open func getTopFilterAttributesWithHTTPInfo(index: String, search: String? = nil, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetTopFilterAttributesResponse> {
+        guard !index.isEmpty else {
+            throw AlgoliaError.invalidArgument("index", "getTopFilterAttributes")
+        }
+
         let resourcePath = "/2/filters"
         let body: AnyCodable? = nil
         let queryItems = APIHelper.mapValuesToQueryItems([
@@ -903,6 +967,14 @@ open class AnalyticsClient {
      */
 
     open func getTopFilterForAttributeWithHTTPInfo(attribute: String, index: String, search: String? = nil, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetTopFilterForAttributeResponse> {
+        guard !attribute.isEmpty else {
+            throw AlgoliaError.invalidArgument("attribute", "getTopFilterForAttribute")
+        }
+
+        guard !index.isEmpty else {
+            throw AlgoliaError.invalidArgument("index", "getTopFilterForAttribute")
+        }
+
         var resourcePath = "/2/filters/{attribute}"
         let attributePreEscape = "\(APIHelper.mapValueToPathItem(attribute))"
         let attributePostEscape = attributePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -968,6 +1040,10 @@ open class AnalyticsClient {
      */
 
     open func getTopFiltersNoResultsWithHTTPInfo(index: String, search: String? = nil, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetTopFiltersNoResultsResponse> {
+        guard !index.isEmpty else {
+            throw AlgoliaError.invalidArgument("index", "getTopFiltersNoResults")
+        }
+
         let resourcePath = "/2/filters/noResults"
         let body: AnyCodable? = nil
         let queryItems = APIHelper.mapValuesToQueryItems([
@@ -1032,6 +1108,10 @@ open class AnalyticsClient {
      */
 
     open func getTopHitsWithHTTPInfo(index: String, search: String? = nil, clickAnalytics: Bool? = nil, startDate: String? = nil, endDate: String? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetTopHitsResponse> {
+        guard !index.isEmpty else {
+            throw AlgoliaError.invalidArgument("index", "getTopHits")
+        }
+
         let resourcePath = "/2/hits"
         let body: AnyCodable? = nil
         let queryItems = APIHelper.mapValuesToQueryItems([
@@ -1099,6 +1179,10 @@ open class AnalyticsClient {
      */
 
     open func getTopSearchesWithHTTPInfo(index: String, clickAnalytics: Bool? = nil, startDate: String? = nil, endDate: String? = nil, orderBy: OrderBy? = nil, direction: Direction? = nil, limit: Int? = nil, offset: Int? = nil, tags: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetTopSearchesResponse> {
+        guard !index.isEmpty else {
+            throw AlgoliaError.invalidArgument("index", "getTopSearches")
+        }
+
         let resourcePath = "/2/searches"
         let body: AnyCodable? = nil
         let queryItems = APIHelper.mapValuesToQueryItems([
@@ -1157,6 +1241,10 @@ open class AnalyticsClient {
      */
 
     open func getUsersCountWithHTTPInfo(index: String, startDate: String? = nil, endDate: String? = nil, tags: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetUsersCountResponse> {
+        guard !index.isEmpty else {
+            throw AlgoliaError.invalidArgument("index", "getUsersCount")
+        }
+
         let resourcePath = "/2/users/count"
         let body: AnyCodable? = nil
         let queryItems = APIHelper.mapValuesToQueryItems([

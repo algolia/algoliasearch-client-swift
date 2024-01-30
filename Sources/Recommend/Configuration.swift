@@ -6,8 +6,10 @@ import Foundation
     import AnyCodable
 #endif
 
+typealias RecommendClientConfiguration = Configuration
+
 public struct Configuration: Core.Configuration, Credentials {
-    public let applicationID: String
+    public let appId: String
     public let apiKey: String
     public var writeTimeout: TimeInterval
     public var readTimeout: TimeInterval
@@ -15,20 +17,28 @@ public struct Configuration: Core.Configuration, Credentials {
     public var defaultHeaders: [String: String]?
     public var hosts: [RetryableHost]
 
-    init(applicationID: String,
+    init(appId: String,
          apiKey: String,
          writeTimeout: TimeInterval = DefaultConfiguration.default.writeTimeout,
          readTimeout: TimeInterval = DefaultConfiguration.default.readTimeout,
          logLevel: LogLevel = DefaultConfiguration.default.logLevel,
          defaultHeaders: [String: String]? = DefaultConfiguration.default.defaultHeaders) throws
     {
-        self.applicationID = applicationID
+        guard !appId.isEmpty else {
+            throw AlgoliaError.invalidCredentials("appId")
+        }
+
+        guard !apiKey.isEmpty else {
+            throw AlgoliaError.invalidCredentials("apiKey")
+        }
+
+        self.appId = appId
         self.apiKey = apiKey
         self.writeTimeout = writeTimeout
         self.readTimeout = readTimeout
         self.logLevel = logLevel
         self.defaultHeaders = [
-            "X-Algolia-Application-Id": applicationID,
+            "X-Algolia-Application-Id": appId,
             "X-Algolia-API-Key": apiKey,
             "Content-Type": "application/json",
         ].merging(defaultHeaders ?? [:]) { _, new in new }
@@ -36,8 +46,8 @@ public struct Configuration: Core.Configuration, Credentials {
         func buildHost(_ components: (suffix: String, callType: RetryableHost.CallTypeSupport)) throws
             -> RetryableHost
         {
-            guard let url = URL(string: "https://\(applicationID)\(components.suffix)") else {
-                throw GenericError(description: "Malformed URL")
+            guard let url = URL(string: "https://\(appId)\(components.suffix)") else {
+                throw AlgoliaError.runtimeError("Malformed URL")
             }
 
             return RetryableHost(url: url, callType: components.callType)

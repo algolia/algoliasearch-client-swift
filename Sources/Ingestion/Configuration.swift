@@ -6,12 +6,14 @@ import Foundation
     import AnyCodable
 #endif
 
+typealias IngestionClientConfiguration = Configuration
+
 public struct Configuration: Core.Configuration, Credentials {
     private let authorizedRegions: [Region] = [
         Region.eu, Region.us,
     ]
 
-    public let applicationID: String
+    public let appId: String
     public let apiKey: String
     public var writeTimeout: TimeInterval
     public var readTimeout: TimeInterval
@@ -19,7 +21,7 @@ public struct Configuration: Core.Configuration, Credentials {
     public var defaultHeaders: [String: String]?
     public var hosts: [RetryableHost]
 
-    init(applicationID: String,
+    init(appId: String,
          apiKey: String,
          region: Region,
          writeTimeout: TimeInterval = DefaultConfiguration.default.writeTimeout,
@@ -27,25 +29,33 @@ public struct Configuration: Core.Configuration, Credentials {
          logLevel: LogLevel = DefaultConfiguration.default.logLevel,
          defaultHeaders: [String: String]? = DefaultConfiguration.default.defaultHeaders) throws
     {
-        self.applicationID = applicationID
+        guard !appId.isEmpty else {
+            throw AlgoliaError.invalidCredentials("appId")
+        }
+
+        guard !apiKey.isEmpty else {
+            throw AlgoliaError.invalidCredentials("apiKey")
+        }
+
+        self.appId = appId
         self.apiKey = apiKey
         self.writeTimeout = writeTimeout
         self.readTimeout = readTimeout
         self.logLevel = logLevel
         self.defaultHeaders = [
-            "X-Algolia-Application-Id": applicationID,
+            "X-Algolia-Application-Id": appId,
             "X-Algolia-API-Key": apiKey,
             "Content-Type": "application/json",
         ].merging(defaultHeaders ?? [:]) { _, new in new }
 
         guard authorizedRegions.contains(region) else {
-            throw GenericError(description:
+            throw AlgoliaError.runtimeError(
                 "`region` is required and must be one of the following: \(authorizedRegions.map(\.rawValue).joined(separator: ", "))"
             )
         }
 
         guard let url = URL(string: "https://data.{region}.algolia.com".replacingOccurrences(of: "{region}", with: region.rawValue)) else {
-            throw GenericError(description: "Malformed URL")
+            throw AlgoliaError.runtimeError("Malformed URL")
         }
 
         hosts = [

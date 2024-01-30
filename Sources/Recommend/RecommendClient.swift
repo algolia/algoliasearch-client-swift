@@ -12,8 +12,8 @@ open class RecommendClient {
     private var configuration: Configuration
     private var transporter: Transporter
 
-    var applicationID: String {
-        configuration.applicationID
+    var appId: String {
+        configuration.appId
     }
 
     public init(configuration: Configuration, transporter: Transporter) {
@@ -25,8 +25,8 @@ open class RecommendClient {
         self.init(configuration: configuration, transporter: Transporter(configuration: configuration))
     }
 
-    public convenience init(applicationID: String, apiKey: String) throws {
-        try self.init(configuration: Configuration(applicationID: applicationID, apiKey: apiKey))
+    public convenience init(appId: String, apiKey: String) throws {
+        try self.init(configuration: Configuration(appId: appId, apiKey: apiKey))
     }
 
     /**
@@ -54,6 +54,10 @@ open class RecommendClient {
      */
 
     open func customDeleteWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customDelete")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -98,6 +102,10 @@ open class RecommendClient {
      */
 
     open func customGetWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customGet")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -144,6 +152,10 @@ open class RecommendClient {
      */
 
     open func customPostWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customPost")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -190,6 +202,10 @@ open class RecommendClient {
      */
 
     open func customPutWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customPut")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -239,6 +255,14 @@ open class RecommendClient {
      */
 
     open func deleteRecommendRuleWithHTTPInfo(indexName: String, model: RecommendModels, objectID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DeletedAtResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "deleteRecommendRule")
+        }
+
+        guard !objectID.isEmpty else {
+            throw AlgoliaError.invalidArgument("objectID", "deleteRecommendRule")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/{model}/recommend/rules/{objectID}"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -294,6 +318,14 @@ open class RecommendClient {
      */
 
     open func getRecommendRuleWithHTTPInfo(indexName: String, model: RecommendModels, objectID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<RuleResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "getRecommendRule")
+        }
+
+        guard !objectID.isEmpty else {
+            throw AlgoliaError.invalidArgument("objectID", "getRecommendRule")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/{model}/recommend/rules/{objectID}"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -349,6 +381,10 @@ open class RecommendClient {
      */
 
     open func getRecommendStatusWithHTTPInfo(indexName: String, model: RecommendModels, taskID: Int64, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<GetRecommendTaskResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "getRecommendStatus")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/{model}/task/{taskID}"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -447,6 +483,10 @@ open class RecommendClient {
      */
 
     open func searchRecommendRulesWithHTTPInfo(indexName: String, model: RecommendModels, searchRecommendRulesParams: SearchRecommendRulesParams? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<SearchRecommendRulesResponse> {
+        guard !indexName.isEmpty else {
+            throw AlgoliaError.invalidArgument("indexName", "searchRecommendRules")
+        }
+
         var resourcePath = "/1/indexes/{indexName}/{model}/recommend/rules/search"
         let indexNamePreEscape = "\(APIHelper.mapValueToPathItem(indexName))"
         let indexNamePostEscape = indexNamePreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""

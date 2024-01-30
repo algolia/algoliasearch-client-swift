@@ -13,7 +13,7 @@ public enum UserAgentController {
     }
 
     public internal(set) static var extensions: [UserAgentExtending] = [
-        UserAgent.operatingSystem, UserAgent.library,
+        UserAgent.library, UserAgent.operatingSystem,
     ]
 
     public static var httpHeaderValue: String {

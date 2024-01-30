@@ -12,8 +12,8 @@ open class IngestionClient {
     private var configuration: Configuration
     private var transporter: Transporter
 
-    var applicationID: String {
-        configuration.applicationID
+    var appId: String {
+        configuration.appId
     }
 
     public init(configuration: Configuration, transporter: Transporter) {
@@ -25,8 +25,8 @@ open class IngestionClient {
         self.init(configuration: configuration, transporter: Transporter(configuration: configuration))
     }
 
-    public convenience init(applicationID: String, apiKey: String, region: Region) throws {
-        try self.init(configuration: Configuration(applicationID: applicationID, apiKey: apiKey, region: region))
+    public convenience init(appId: String, apiKey: String, region: Region) throws {
+        try self.init(configuration: Configuration(appId: appId, apiKey: apiKey, region: region))
     }
 
     /**
@@ -225,6 +225,10 @@ open class IngestionClient {
      */
 
     open func customDeleteWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customDelete")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -269,6 +273,10 @@ open class IngestionClient {
      */
 
     open func customGetWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customGet")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -315,6 +323,10 @@ open class IngestionClient {
      */
 
     open func customPostWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customPost")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -361,6 +373,10 @@ open class IngestionClient {
      */
 
     open func customPutWithHTTPInfo(path: String, parameters: [String: AnyCodable]? = nil, body: [String: AnyCodable]? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AnyCodable> {
+        guard !path.isEmpty else {
+            throw AlgoliaError.invalidArgument("path", "customPut")
+        }
+
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
@@ -408,6 +424,10 @@ open class IngestionClient {
      */
 
     open func deleteAuthenticationWithHTTPInfo(authenticationID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DeleteResponse> {
+        guard !authenticationID.isEmpty else {
+            throw AlgoliaError.invalidArgument("authenticationID", "deleteAuthentication")
+        }
+
         var resourcePath = "/1/authentications/{authenticationID}"
         let authenticationIDPreEscape = "\(APIHelper.mapValueToPathItem(authenticationID))"
         let authenticationIDPostEscape = authenticationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -455,6 +475,10 @@ open class IngestionClient {
      */
 
     open func deleteDestinationWithHTTPInfo(destinationID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DeleteResponse> {
+        guard !destinationID.isEmpty else {
+            throw AlgoliaError.invalidArgument("destinationID", "deleteDestination")
+        }
+
         var resourcePath = "/1/destinations/{destinationID}"
         let destinationIDPreEscape = "\(APIHelper.mapValueToPathItem(destinationID))"
         let destinationIDPostEscape = destinationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -502,6 +526,10 @@ open class IngestionClient {
      */
 
     open func deleteSourceWithHTTPInfo(sourceID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DeleteResponse> {
+        guard !sourceID.isEmpty else {
+            throw AlgoliaError.invalidArgument("sourceID", "deleteSource")
+        }
+
         var resourcePath = "/1/sources/{sourceID}"
         let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
         let sourceIDPostEscape = sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -544,6 +572,10 @@ open class IngestionClient {
      */
 
     open func deleteTaskWithHTTPInfo(taskID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DeleteResponse> {
+        guard !taskID.isEmpty else {
+            throw AlgoliaError.invalidArgument("taskID", "deleteTask")
+        }
+
         var resourcePath = "/1/tasks/{taskID}"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
         let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -591,6 +623,10 @@ open class IngestionClient {
      */
 
     open func disableTaskWithHTTPInfo(taskID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<TaskUpdateResponse> {
+        guard !taskID.isEmpty else {
+            throw AlgoliaError.invalidArgument("taskID", "disableTask")
+        }
+
         var resourcePath = "/1/tasks/{taskID}/disable"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
         let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -638,6 +674,10 @@ open class IngestionClient {
      */
 
     open func enableTaskWithHTTPInfo(taskID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<TaskUpdateResponse> {
+        guard !taskID.isEmpty else {
+            throw AlgoliaError.invalidArgument("taskID", "enableTask")
+        }
+
         var resourcePath = "/1/tasks/{taskID}/enable"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
         let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -685,6 +725,10 @@ open class IngestionClient {
      */
 
     open func getAuthenticationWithHTTPInfo(authenticationID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<Authentication> {
+        guard !authenticationID.isEmpty else {
+            throw AlgoliaError.invalidArgument("authenticationID", "getAuthentication")
+        }
+
         var resourcePath = "/1/authentications/{authenticationID}"
         let authenticationIDPreEscape = "\(APIHelper.mapValueToPathItem(authenticationID))"
         let authenticationIDPostEscape = authenticationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -793,6 +837,10 @@ open class IngestionClient {
      */
 
     open func getDestinationWithHTTPInfo(destinationID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<Destination> {
+        guard !destinationID.isEmpty else {
+            throw AlgoliaError.invalidArgument("destinationID", "getDestination")
+        }
+
         var resourcePath = "/1/destinations/{destinationID}"
         let destinationIDPreEscape = "\(APIHelper.mapValueToPathItem(destinationID))"
         let destinationIDPostEscape = destinationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -901,6 +949,10 @@ open class IngestionClient {
      */
 
     open func getDockerSourceStreamsWithHTTPInfo(sourceID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DockerSourceStreams> {
+        guard !sourceID.isEmpty else {
+            throw AlgoliaError.invalidArgument("sourceID", "getDockerSourceStreams")
+        }
+
         var resourcePath = "/1/sources/{sourceID}/discover"
         let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
         let sourceIDPostEscape = sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -950,6 +1002,14 @@ open class IngestionClient {
      */
 
     open func getEventWithHTTPInfo(runID: String, eventID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<Event> {
+        guard !runID.isEmpty else {
+            throw AlgoliaError.invalidArgument("runID", "getEvent")
+        }
+
+        guard !eventID.isEmpty else {
+            throw AlgoliaError.invalidArgument("eventID", "getEvent")
+        }
+
         var resourcePath = "/1/runs/{runID}/events/{eventID}"
         let runIDPreEscape = "\(APIHelper.mapValueToPathItem(runID))"
         let runIDPostEscape = runIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1016,6 +1076,10 @@ open class IngestionClient {
      */
 
     open func getEventsWithHTTPInfo(runID: String, itemsPerPage: Int? = nil, page: Int? = nil, status: [EventStatus]? = nil, type: [EventType]? = nil, sort: EventSortKeys? = nil, order: OrderKeys? = nil, startDate: String? = nil, endDate: String? = nil, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<ListEventsResponse> {
+        guard !runID.isEmpty else {
+            throw AlgoliaError.invalidArgument("runID", "getEvents")
+        }
+
         var resourcePath = "/1/runs/{runID}/events"
         let runIDPreEscape = "\(APIHelper.mapValueToPathItem(runID))"
         let runIDPostEscape = runIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1072,6 +1136,10 @@ open class IngestionClient {
      */
 
     open func getRunWithHTTPInfo(runID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<Run> {
+        guard !runID.isEmpty else {
+            throw AlgoliaError.invalidArgument("runID", "getRun")
+        }
+
         var resourcePath = "/1/runs/{runID}"
         let runIDPreEscape = "\(APIHelper.mapValueToPathItem(runID))"
         let runIDPostEscape = runIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1186,6 +1254,10 @@ open class IngestionClient {
      */
 
     open func getSourceWithHTTPInfo(sourceID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<Source> {
+        guard !sourceID.isEmpty else {
+            throw AlgoliaError.invalidArgument("sourceID", "getSource")
+        }
+
         var resourcePath = "/1/sources/{sourceID}"
         let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
         let sourceIDPostEscape = sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1294,6 +1366,10 @@ open class IngestionClient {
      */
 
     open func getTaskWithHTTPInfo(taskID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<Task> {
+        guard !taskID.isEmpty else {
+            throw AlgoliaError.invalidArgument("taskID", "getTask")
+        }
+
         var resourcePath = "/1/tasks/{taskID}"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
         let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1411,6 +1487,10 @@ open class IngestionClient {
      */
 
     open func runTaskWithHTTPInfo(taskID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<RunResponse> {
+        guard !taskID.isEmpty else {
+            throw AlgoliaError.invalidArgument("taskID", "runTask")
+        }
+
         var resourcePath = "/1/tasks/{taskID}/run"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
         let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1634,6 +1714,10 @@ open class IngestionClient {
      */
 
     open func triggerDockerSourceDiscoverWithHTTPInfo(sourceID: String, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DockerSourceDiscover> {
+        guard !sourceID.isEmpty else {
+            throw AlgoliaError.invalidArgument("sourceID", "triggerDockerSourceDiscover")
+        }
+
         var resourcePath = "/1/sources/{sourceID}/discover"
         let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
         let sourceIDPostEscape = sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1683,6 +1767,10 @@ open class IngestionClient {
      */
 
     open func updateAuthenticationWithHTTPInfo(authenticationID: String, authenticationUpdate: AuthenticationUpdate, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<AuthenticationUpdateResponse> {
+        guard !authenticationID.isEmpty else {
+            throw AlgoliaError.invalidArgument("authenticationID", "updateAuthentication")
+        }
+
         var resourcePath = "/1/authentications/{authenticationID}"
         let authenticationIDPreEscape = "\(APIHelper.mapValueToPathItem(authenticationID))"
         let authenticationIDPostEscape = authenticationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1732,6 +1820,10 @@ open class IngestionClient {
      */
 
     open func updateDestinationWithHTTPInfo(destinationID: String, destinationUpdate: DestinationUpdate, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<DestinationUpdateResponse> {
+        guard !destinationID.isEmpty else {
+            throw AlgoliaError.invalidArgument("destinationID", "updateDestination")
+        }
+
         var resourcePath = "/1/destinations/{destinationID}"
         let destinationIDPreEscape = "\(APIHelper.mapValueToPathItem(destinationID))"
         let destinationIDPostEscape = destinationIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1781,6 +1873,10 @@ open class IngestionClient {
      */
 
     open func updateSourceWithHTTPInfo(sourceID: String, sourceUpdate: SourceUpdate, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<SourceUpdateResponse> {
+        guard !sourceID.isEmpty else {
+            throw AlgoliaError.invalidArgument("sourceID", "updateSource")
+        }
+
         var resourcePath = "/1/sources/{sourceID}"
         let sourceIDPreEscape = "\(APIHelper.mapValueToPathItem(sourceID))"
         let sourceIDPostEscape = sourceIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
@@ -1825,6 +1921,10 @@ open class IngestionClient {
      */
 
     open func updateTaskWithHTTPInfo(taskID: String, taskUpdate: TaskUpdate, requestOptions userRequestOptions: RequestOptions? = nil) async throws -> Response<TaskUpdateResponse> {
+        guard !taskID.isEmpty else {
+            throw AlgoliaError.invalidArgument("taskID", "updateTask")
+        }
+
         var resourcePath = "/1/tasks/{taskID}"
         let taskIDPreEscape = "\(APIHelper.mapValueToPathItem(taskID))"
         let taskIDPostEscape = taskIDPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed) ?? ""
