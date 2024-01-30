@@ -1,6 +1,6 @@
 //
 //  UserIDSearchResponse.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 25/05/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct UserIDSearchResponse: Codable {
-
   /// List of UserIDResponse matching the query.
   public let hits: [UserIDResponse]
 
@@ -23,5 +22,4 @@ public struct UserIDSearchResponse: Codable {
 
   /// Timestamp of the last update of the index
   public let updatedAt: Date
-
 }

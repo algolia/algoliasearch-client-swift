@@ -1,6 +1,6 @@
 //
 //  FacetStatsStorage.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 14/04/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 struct FacetStatsStorage: Codable {
-
   var storage: [Attribute: FacetStats]
 
   public init(storage: [Attribute: FacetStats]) {
@@ -19,7 +18,7 @@ struct FacetStatsStorage: Codable {
     let container = try decoder.singleValueContainer()
     let rawFacetsForAttribute = try container.decode([String: FacetStats].self)
     let keyValues = rawFacetsForAttribute.map { (Attribute(rawValue: $0.key), $0.value) }
-    self.storage = .init(uniqueKeysWithValues: keyValues)
+    storage = .init(uniqueKeysWithValues: keyValues)
   }
 
   public func encode(to encoder: Encoder) throws {
@@ -28,5 +27,4 @@ struct FacetStatsStorage: Codable {
     var container = encoder.singleValueContainer()
     try container.encode(rawFacets)
   }
-
 }

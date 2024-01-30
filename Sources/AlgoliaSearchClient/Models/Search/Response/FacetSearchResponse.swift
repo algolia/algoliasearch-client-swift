@@ -8,7 +8,6 @@
 import Foundation
 
 public struct FacetSearchResponse: Codable {
-
   /// The list of Facet.
   public let facetHits: [Facet]
 
@@ -17,5 +16,4 @@ public struct FacetSearchResponse: Codable {
 
   /// Processing time.
   public let processingTimeMS: TimeInterval
-
 }

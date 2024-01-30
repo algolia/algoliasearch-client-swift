@@ -1,42 +1,58 @@
 //
 //  SettingsIntegrationTests.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 05/03/2020.
 //
 
 import Foundation
-
 import XCTest
+
 @testable import AlgoliaSearchClient
 
 class SettingsIntegrationTests: IntegrationTestCase {
-  
   override var indexNameSuffix: String? {
-    return "settings"
+    "settings"
   }
-  
+
   override var retryableTests: [() throws -> Void] {
     [settings]
   }
-  
+
   func settings() throws {
-    
     let indexInitialization = try index.saveObject(TestRecord(), autoGeneratingObjectID: true)
     try indexInitialization.wait()
-    
+
     let settings = Settings()
-      .set(\.searchableAttributes, to: ["attribute1", "attribute2", "attribute3", .unordered("attribute4"), .unordered("attribute5")])
-      .set(\.attributesForFaceting, to: [.default("attribute1"), .filterOnly("attribute2"), .searchable("attribute3")])
+      .set(
+        \.searchableAttributes,
+        to: [
+          "attribute1", "attribute2", "attribute3", .unordered("attribute4"),
+          .unordered("attribute5"),
+        ]
+      )
+      .set(
+        \.attributesForFaceting,
+        to: [.default("attribute1"), .filterOnly("attribute2"), .searchable("attribute3")]
+      )
       .set(\.unretrievableAttributes, to: ["attribute1", "attribute2"])
       .set(\.attributesToRetrieve, to: ["attribute3", "attribute4"])
-      .set(\.ranking, to: [.asc("attribute1"), .desc("attribute2"), .attribute, .custom, .exact, .filters, .geo, .proximity, .typo, .words])
+      .set(
+        \.ranking,
+        to: [
+          .asc("attribute1"), .desc("attribute2"), .attribute, .custom, .exact, .filters, .geo,
+          .proximity, .typo, .words,
+        ]
+      )
       .set(\.customRanking, to: [.asc("attribute1"), .desc("attribute1")])
       .set(\.replicas, to: ["\(index.name.rawValue)_replica1", "\(index.name.rawValue)_replica2"])
       .set(\.maxValuesPerFacet, to: 100)
       .set(\.sortFacetsBy, to: .count)
       .set(\.attributesToHighlight, to: ["attribute1", "attribute2"])
-      .set(\.attributesToSnippet, to: [.init(attribute: "attribute1", count: 10), .init(attribute: "attribute2", count: 8)])
+      .set(
+        \.attributesToSnippet,
+        to: [.init(attribute: "attribute1", count: 10), .init(attribute: "attribute2", count: 8)]
+      )
       .set(\.highlightPreTag, to: "<strong>")
       .set(\.highlightPostTag, to: "</string>")
       .set(\.snippetEllipsisText, to: " and so on.")
@@ -69,7 +85,10 @@ class SettingsIntegrationTests: IntegrationTestCase {
       .set(\.responseFields, to: [.hits, .hitsPerPage])
       .set(\.maxFacetHits, to: 100)
       .set(\.camelCaseAttributes, to: ["attribute1", "attribute2"])
-      .set(\.decompoundedAttributes, to: [.german: ["attribute1", "attribute2"], .finnish: ["attribute3"]])
+      .set(
+        \.decompoundedAttributes,
+        to: [.german: ["attribute1", "attribute2"], .finnish: ["attribute3"]]
+      )
       .set(\.keepDiacriticsOnCharacters, to: "øé")
       .set(\.queryLanguages, to: [.english, .french])
       .set(\.alternativesAsExact, to: [.ignorePlurals])
@@ -77,23 +96,38 @@ class SettingsIntegrationTests: IntegrationTestCase {
       .set(\.userData, to: ["customUserData": 42])
       .set(\.indexLanguages, to: [.japanese])
       .set(\.customNormalization, to: ["default": ["ä": "ae", "ö": "oe"]])
-    
-    
+
     try index.setSettings(settings).wait()
-    
+
     var fetchedSettings = try index.getSettings()
-    
-    XCTAssertEqual(fetchedSettings.searchableAttributes, ["attribute1", "attribute2", "attribute3", .unordered("attribute4"), .unordered("attribute5")])
-    XCTAssertEqual(fetchedSettings.attributesForFaceting, [.default("attribute1"), .filterOnly("attribute2"), .searchable("attribute3")])
+
+    XCTAssertEqual(
+      fetchedSettings.searchableAttributes,
+      [
+        "attribute1", "attribute2", "attribute3", .unordered("attribute4"),
+        .unordered("attribute5"),
+      ])
+    XCTAssertEqual(
+      fetchedSettings.attributesForFaceting,
+      [.default("attribute1"), .filterOnly("attribute2"), .searchable("attribute3")])
     XCTAssertEqual(fetchedSettings.unretrievableAttributes, ["attribute1", "attribute2"])
     XCTAssertEqual(fetchedSettings.attributesToRetrieve, ["attribute3", "attribute4"])
-    XCTAssertEqual(fetchedSettings.ranking, [.asc("attribute1"), .desc("attribute2"), .attribute, .custom, .exact, .filters, .geo, .proximity, .typo, .words])
+    XCTAssertEqual(
+      fetchedSettings.ranking,
+      [
+        .asc("attribute1"), .desc("attribute2"), .attribute, .custom, .exact, .filters, .geo,
+        .proximity, .typo, .words,
+      ])
     XCTAssertEqual(fetchedSettings.customRanking, [.asc("attribute1"), .desc("attribute1")])
-    XCTAssertEqual(fetchedSettings.replicas, ["\(index.name.rawValue)_replica1", "\(index.name.rawValue)_replica2"])
+    XCTAssertEqual(
+      fetchedSettings.replicas,
+      ["\(index.name.rawValue)_replica1", "\(index.name.rawValue)_replica2"])
     XCTAssertEqual(fetchedSettings.maxValuesPerFacet, 100)
     XCTAssertEqual(fetchedSettings.sortFacetsBy, .count)
     XCTAssertEqual(fetchedSettings.attributesToHighlight, ["attribute1", "attribute2"])
-    XCTAssertEqual(fetchedSettings.attributesToSnippet, [.init(attribute: "attribute1", count: 10), .init(attribute: "attribute2", count: 8)])
+    XCTAssertEqual(
+      fetchedSettings.attributesToSnippet,
+      [.init(attribute: "attribute1", count: 10), .init(attribute: "attribute2", count: 8)])
     XCTAssertEqual(fetchedSettings.highlightPreTag, "<strong>")
     XCTAssertEqual(fetchedSettings.highlightPostTag, "</string>")
     XCTAssertEqual(fetchedSettings.snippetEllipsisText, " and so on.")
@@ -117,7 +151,9 @@ class SettingsIntegrationTests: IntegrationTestCase {
     XCTAssertEqual(fetchedSettings.disableExactOnAttributes, ["attribute1", "attribute2"])
     XCTAssertEqual(fetchedSettings.exactOnSingleWordQuery, .word)
     XCTAssertEqual(fetchedSettings.enableRules, false)
-    XCTAssertEqual(fetchedSettings.numericAttributesForFiltering, [.default("attribute1"), .default("attribute2")])
+    XCTAssertEqual(
+      fetchedSettings.numericAttributesForFiltering,
+      [.default("attribute1"), .default("attribute2")])
     XCTAssertEqual(fetchedSettings.allowCompressionOfIntegerArray, true)
     XCTAssertEqual(fetchedSettings.attributeForDistinct, "attribute1")
     XCTAssertEqual(fetchedSettings.distinct, 2)
@@ -126,7 +162,9 @@ class SettingsIntegrationTests: IntegrationTestCase {
     XCTAssertEqual(fetchedSettings.responseFields, [.hits, .hitsPerPage])
     XCTAssertEqual(fetchedSettings.maxFacetHits, 100)
     XCTAssertEqual(fetchedSettings.camelCaseAttributes, ["attribute1", "attribute2"])
-    XCTAssertEqual(fetchedSettings.decompoundedAttributes, [.german: ["attribute1", "attribute2"], .finnish: ["attribute3"]])
+    XCTAssertEqual(
+      fetchedSettings.decompoundedAttributes,
+      [.german: ["attribute1", "attribute2"], .finnish: ["attribute3"]])
     XCTAssertEqual(fetchedSettings.keepDiacriticsOnCharacters, "øé")
     XCTAssertEqual(fetchedSettings.queryLanguages, [.english, .french])
     XCTAssertEqual(fetchedSettings.alternativesAsExact, [.ignorePlurals])
@@ -134,27 +172,44 @@ class SettingsIntegrationTests: IntegrationTestCase {
     XCTAssertEqual(fetchedSettings.userData, ["customUserData": 42])
     XCTAssertEqual(fetchedSettings.indexLanguages, [.japanese])
     XCTAssertEqual(fetchedSettings.customNormalization, ["default": ["ä": "ae", "ö": "oe"]])
-    
-    try index.setSettings(settings
-      .set(\.typoTolerance, to: .min)
-      .set(\.ignorePlurals, to: [.english, .french])
-      .set(\.removeStopWords, to: [.english, .french])
-      .set(\.distinct, to: true)
+
+    try index.setSettings(
+      settings
+        .set(\.typoTolerance, to: .min)
+        .set(\.ignorePlurals, to: [.english, .french])
+        .set(\.removeStopWords, to: [.english, .french])
+        .set(\.distinct, to: true)
     ).wait()
-    
+
     fetchedSettings = try index.getSettings()
-    
-    XCTAssertEqual(fetchedSettings.searchableAttributes, ["attribute1", "attribute2", "attribute3", .unordered("attribute4"), .unordered("attribute5")])
-    XCTAssertEqual(fetchedSettings.attributesForFaceting, [.default("attribute1"), .filterOnly("attribute2"), .searchable("attribute3")])
+
+    XCTAssertEqual(
+      fetchedSettings.searchableAttributes,
+      [
+        "attribute1", "attribute2", "attribute3", .unordered("attribute4"),
+        .unordered("attribute5"),
+      ])
+    XCTAssertEqual(
+      fetchedSettings.attributesForFaceting,
+      [.default("attribute1"), .filterOnly("attribute2"), .searchable("attribute3")])
     XCTAssertEqual(fetchedSettings.unretrievableAttributes, ["attribute1", "attribute2"])
     XCTAssertEqual(fetchedSettings.attributesToRetrieve, ["attribute3", "attribute4"])
-    XCTAssertEqual(fetchedSettings.ranking, [.asc("attribute1"), .desc("attribute2"), .attribute, .custom, .exact, .filters, .geo, .proximity, .typo, .words])
+    XCTAssertEqual(
+      fetchedSettings.ranking,
+      [
+        .asc("attribute1"), .desc("attribute2"), .attribute, .custom, .exact, .filters, .geo,
+        .proximity, .typo, .words,
+      ])
     XCTAssertEqual(fetchedSettings.customRanking, [.asc("attribute1"), .desc("attribute1")])
-    XCTAssertEqual(fetchedSettings.replicas, ["\(index.name.rawValue)_replica1", "\(index.name.rawValue)_replica2"])
+    XCTAssertEqual(
+      fetchedSettings.replicas,
+      ["\(index.name.rawValue)_replica1", "\(index.name.rawValue)_replica2"])
     XCTAssertEqual(fetchedSettings.maxValuesPerFacet, 100)
     XCTAssertEqual(fetchedSettings.sortFacetsBy, .count)
     XCTAssertEqual(fetchedSettings.attributesToHighlight, ["attribute1", "attribute2"])
-    XCTAssertEqual(fetchedSettings.attributesToSnippet, [.init(attribute: "attribute1", count: 10), .init(attribute: "attribute2", count: 8)])
+    XCTAssertEqual(
+      fetchedSettings.attributesToSnippet,
+      [.init(attribute: "attribute1", count: 10), .init(attribute: "attribute2", count: 8)])
     XCTAssertEqual(fetchedSettings.highlightPreTag, "<strong>")
     XCTAssertEqual(fetchedSettings.highlightPostTag, "</string>")
     XCTAssertEqual(fetchedSettings.snippetEllipsisText, " and so on.")
@@ -178,7 +233,9 @@ class SettingsIntegrationTests: IntegrationTestCase {
     XCTAssertEqual(fetchedSettings.disableExactOnAttributes, ["attribute1", "attribute2"])
     XCTAssertEqual(fetchedSettings.exactOnSingleWordQuery, .word)
     XCTAssertEqual(fetchedSettings.enableRules, false)
-    XCTAssertEqual(fetchedSettings.numericAttributesForFiltering, [.default("attribute1"), .default("attribute2")])
+    XCTAssertEqual(
+      fetchedSettings.numericAttributesForFiltering,
+      [.default("attribute1"), .default("attribute2")])
     XCTAssertEqual(fetchedSettings.allowCompressionOfIntegerArray, true)
     XCTAssertEqual(fetchedSettings.attributeForDistinct, "attribute1")
     XCTAssertEqual(fetchedSettings.distinct, true)
@@ -187,7 +244,9 @@ class SettingsIntegrationTests: IntegrationTestCase {
     XCTAssertEqual(fetchedSettings.responseFields, [.hits, .hitsPerPage])
     XCTAssertEqual(fetchedSettings.maxFacetHits, 100)
     XCTAssertEqual(fetchedSettings.camelCaseAttributes, ["attribute1", "attribute2"])
-    XCTAssertEqual(fetchedSettings.decompoundedAttributes, [.german: ["attribute1", "attribute2"], .finnish: ["attribute3"]])
+    XCTAssertEqual(
+      fetchedSettings.decompoundedAttributes,
+      [.german: ["attribute1", "attribute2"], .finnish: ["attribute3"]])
     XCTAssertEqual(fetchedSettings.keepDiacriticsOnCharacters, "øé")
     XCTAssertEqual(fetchedSettings.queryLanguages, [.english, .french])
     XCTAssertEqual(fetchedSettings.alternativesAsExact, [.ignorePlurals])
@@ -195,7 +254,5 @@ class SettingsIntegrationTests: IntegrationTestCase {
     XCTAssertEqual(fetchedSettings.userData, ["customUserData": 42])
     XCTAssertEqual(fetchedSettings.indexLanguages, [.japanese])
     XCTAssertEqual(fetchedSettings.customNormalization, ["default": ["ä": "ae", "ö": "oe"]])
-
   }
-
 }

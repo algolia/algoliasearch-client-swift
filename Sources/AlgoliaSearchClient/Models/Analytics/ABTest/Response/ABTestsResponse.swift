@@ -1,6 +1,6 @@
 //
 //  ABTestsResponse.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 28/05/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct ABTestsResponse: Codable {
-
   /// Number of ABTest returned.
   public let count: Int
 
@@ -23,5 +22,4 @@ public struct ABTestsResponse: Codable {
     case total
     case abTests = "abtests"
   }
-
 }

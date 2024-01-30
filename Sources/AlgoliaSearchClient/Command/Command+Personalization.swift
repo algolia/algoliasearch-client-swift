@@ -1,6 +1,6 @@
 //
 //  Command+Personalization.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 27/05/2020.
 //
@@ -8,11 +8,8 @@
 import Foundation
 
 extension Command {
-
   enum Personalization {
-
     struct Get: AlgoliaCommand {
-
       let method: HTTPMethod = .get
       let callType: CallType = .read
       let path = URL.strategies.appending(.personalization)
@@ -21,11 +18,9 @@ extension Command {
       init(requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
       }
-
     }
 
     struct Set: AlgoliaCommand {
-
       let method: HTTPMethod = .post
       let callType: CallType = .write
       let path = URL.strategies.appending(.personalization)
@@ -36,11 +31,8 @@ extension Command {
         var requestOptions = requestOptions.unwrapOrCreate()
         requestOptions.setHeader("application/json", forKey: .contentType)
         self.requestOptions = requestOptions
-        self.body = strategy.httpBody
+        body = strategy.httpBody
       }
-
     }
-
   }
-
 }

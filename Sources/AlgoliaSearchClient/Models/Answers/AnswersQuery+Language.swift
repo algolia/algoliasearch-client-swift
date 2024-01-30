@@ -1,6 +1,6 @@
 //
 //  AnswersQuery+Language.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 20/11/2020.
 //
@@ -9,9 +9,7 @@ import Foundation
 
 @available(*, deprecated, message: "Answers functionality is deprecated")
 extension AnswersQuery {
-
   public enum Language: RawRepresentable, Codable {
-
     case english
     case custom(String)
 
@@ -41,7 +39,5 @@ extension AnswersQuery {
     public func encode(to encoder: Encoder) throws {
       try rawValue.encode(to: encoder)
     }
-
   }
-
 }

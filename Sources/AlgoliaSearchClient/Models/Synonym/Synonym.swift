@@ -1,6 +1,6 @@
 //
 //  Synonym.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 11/05/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public enum Synonym {
-
   case oneWay(objectID: ObjectID, input: String, synonyms: [String])
   case multiWay(objectID: ObjectID, synonyms: [String])
   case alternativeCorrection(objectID: ObjectID, word: String, corrections: [String], typo: Typo)
@@ -17,13 +16,13 @@ public enum Synonym {
   /// Unique identifier for the synonym.
   public var objectID: ObjectID {
     switch self {
-    case .oneWay(objectID: let objectID, _, _):
+    case .oneWay(let objectID, _, _):
       return objectID
-    case .multiWay(objectID: let objectID, _):
+    case .multiWay(let objectID, _):
       return objectID
-    case .alternativeCorrection(objectID: let objectID, word: _, corrections: _, typo: _):
+    case .alternativeCorrection(let objectID, word: _, corrections: _, typo: _):
       return objectID
-    case .placeholder(objectID: let objectID, placeholder: _, replacements: _):
+    case .placeholder(let objectID, placeholder: _, replacements: _):
       return objectID
     }
   }
@@ -46,11 +45,9 @@ public enum Synonym {
   public enum Typo {
     case one, two
   }
-
 }
 
 extension Synonym: Codable {
-
   enum CodingKeys: String, CodingKey {
     case objectID
     case type
@@ -78,7 +75,8 @@ extension Synonym: Codable {
       let typo: Typo = type == .altCorrection1 ? .one : .two
       let word: String = try container.decode(forKey: .word)
       let corrections: [String] = try container.decode(forKey: .corrections)
-      self = .alternativeCorrection(objectID: objectID, word: word, corrections: corrections, typo: typo)
+      self = .alternativeCorrection(
+        objectID: objectID, word: word, corrections: corrections, typo: typo)
     case .placeholder:
       let placeholder: String = try container.decode(forKey: .placeholder)
       let replacements: [String] = try container.decode(forKey: .replacements)
@@ -104,5 +102,4 @@ extension Synonym: Codable {
       try container.encode(replacements, forKey: .replacements)
     }
   }
-
 }

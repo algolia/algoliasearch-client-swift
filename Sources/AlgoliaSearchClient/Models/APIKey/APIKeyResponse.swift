@@ -1,6 +1,6 @@
 //
 //  APIKeyResponse.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 09/04/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct APIKeyResponse {
-
   /// The APIKey value
   public let key: APIKey
 
@@ -38,11 +37,9 @@ public struct APIKeyResponse {
 
   /// The description of the APIKey
   public let description: String?
-
 }
 
 extension APIKeyResponse: Codable {
-
   enum CodingKeys: String, CodingKey {
     case key = "value"
     case createdAt
@@ -58,16 +55,16 @@ extension APIKeyResponse: Codable {
 
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.key = try container.decode(forKey: .key)
-    self.createdAt = try container.decode(forKey: .createdAt)
-    self.ACLs = try container.decode(forKey: .ACLs)
-    self.validity = try container.decode(forKey: .validity)
-    self.maxHitsPerQuery = try container.decodeIfPresent(forKey: .maxHitsPerQuery)
-    self.maxQueriesPerIPPerHour = try container.decodeIfPresent(forKey: .maxQueriesPerIPPerHour)
-    self.indices = try container.decodeIfPresent(forKey: .indices)
-    self.referers = try container.decodeIfPresent(forKey: .referers)
-    self.query = try container.decodeIfPresent(forKey: .query)
-    self.description = try container.decodeIfPresent(forKey: .description)
+    key = try container.decode(forKey: .key)
+    createdAt = try container.decode(forKey: .createdAt)
+    ACLs = try container.decode(forKey: .ACLs)
+    validity = try container.decode(forKey: .validity)
+    maxHitsPerQuery = try container.decodeIfPresent(forKey: .maxHitsPerQuery)
+    maxQueriesPerIPPerHour = try container.decodeIfPresent(forKey: .maxQueriesPerIPPerHour)
+    indices = try container.decodeIfPresent(forKey: .indices)
+    referers = try container.decodeIfPresent(forKey: .referers)
+    query = try container.decodeIfPresent(forKey: .query)
+    description = try container.decodeIfPresent(forKey: .description)
   }
 
   public func encode(to encoder: Encoder) throws {
@@ -83,5 +80,4 @@ extension APIKeyResponse: Codable {
     try container.encodeIfPresent(query, forKey: .query)
     try container.encodeIfPresent(description, forKey: .description)
   }
-
 }

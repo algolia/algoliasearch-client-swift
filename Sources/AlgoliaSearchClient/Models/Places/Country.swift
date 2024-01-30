@@ -1,6 +1,6 @@
 //
 //  Country.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 12/04/2020.
 //

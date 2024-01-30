@@ -1,16 +1,16 @@
 //
 //  RetryableHostTests.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 17/03/2020.
 //
 
 import Foundation
 import XCTest
+
 @testable import AlgoliaSearchClient
 
 class RetryableHostTests: XCTestCase {
-
   func testConstruction() {
     let host = RetryableHost(url: URL(string: "algolia.com")!, callType: .read)
     XCTAssertEqual(host.url.absoluteString, "algolia.com")
@@ -25,11 +25,11 @@ class RetryableHostTests: XCTestCase {
     sleep(1)
     host.hasFailed()
     XCTAssertFalse(host.isUp)
-    XCTAssertGreaterThan(host.lastUpdated.timeIntervalSince1970, previouslyUpdated.timeIntervalSince1970)
+    XCTAssertGreaterThan(
+      host.lastUpdated.timeIntervalSince1970, previouslyUpdated.timeIntervalSince1970)
   }
 
   func testTimeout() {
-
     var host = RetryableHost(url: URL(string: "algolia.com")!, callType: .read)
     var previouslyUpdated: Date
 
@@ -38,15 +38,16 @@ class RetryableHostTests: XCTestCase {
     host.hasTimedOut()
     XCTAssertTrue(host.isUp)
     XCTAssertEqual(host.retryCount, 1)
-    XCTAssertGreaterThan(host.lastUpdated.timeIntervalSince1970, previouslyUpdated.timeIntervalSince1970)
+    XCTAssertGreaterThan(
+      host.lastUpdated.timeIntervalSince1970, previouslyUpdated.timeIntervalSince1970)
 
     previouslyUpdated = host.lastUpdated
     sleep(1)
     host.hasTimedOut()
     XCTAssertTrue(host.isUp)
     XCTAssertEqual(host.retryCount, 2)
-    XCTAssertGreaterThan(host.lastUpdated.timeIntervalSince1970, previouslyUpdated.timeIntervalSince1970)
-
+    XCTAssertGreaterThan(
+      host.lastUpdated.timeIntervalSince1970, previouslyUpdated.timeIntervalSince1970)
   }
 
   func testReset() {
@@ -59,15 +60,17 @@ class RetryableHostTests: XCTestCase {
     host.hasFailed()
     XCTAssertFalse(host.isUp)
     XCTAssertEqual(host.retryCount, 1)
-    XCTAssertGreaterThan(host.lastUpdated.timeIntervalSince1970, previouslyUpdated.timeIntervalSince1970)
+    XCTAssertGreaterThan(
+      host.lastUpdated.timeIntervalSince1970, previouslyUpdated.timeIntervalSince1970)
 
     previouslyUpdated = host.lastUpdated
     sleep(1)
     host.reset()
     XCTAssertTrue(host.isUp)
     XCTAssertEqual(host.retryCount, 0)
-    XCTAssertGreaterThan(host.lastUpdated.timeIntervalSince1970, previouslyUpdated.timeIntervalSince1970)
+    XCTAssertGreaterThan(
+      host.lastUpdated.timeIntervalSince1970, previouslyUpdated.timeIntervalSince1970)
   }
 
-//
+  //
 }

@@ -1,6 +1,6 @@
 //
 //  ABTestCreation.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 28/05/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct ABTestCreation: IndexTask, IndexNameContainer, Codable {
-
   /// Generated ABTestID of the ABTest.
   public let abTestID: ABTestID
 
@@ -23,5 +22,4 @@ public struct ABTestCreation: IndexTask, IndexNameContainer, Codable {
     case taskID
     case indexName = "index"
   }
-
 }

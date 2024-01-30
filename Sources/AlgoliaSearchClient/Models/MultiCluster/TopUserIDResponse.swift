@@ -1,6 +1,6 @@
 //
 //  TopUserIDResponse.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 25/05/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct TopUserIDResponse: Codable {
-
   /// Mapping of ClusterName to top users.
   public let topUsers: [ClusterName: [UserIDResponse]]
 
@@ -20,7 +19,7 @@ public struct TopUserIDResponse: Codable {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     let rawTopUsers: [String: [UserIDResponse]] = try container.decode(forKey: .topUsers)
     let keyValuePairs = rawTopUsers.map { (ClusterName(rawValue: $0), $1) }
-    self.topUsers = Dictionary(uniqueKeysWithValues: keyValuePairs)
+    topUsers = Dictionary(uniqueKeysWithValues: keyValuePairs)
   }
 
   public func encode(to encoder: Encoder) throws {
@@ -29,5 +28,4 @@ public struct TopUserIDResponse: Codable {
     let rawTopUsers = Dictionary(uniqueKeysWithValues: keyValuePairs)
     try container.encode(rawTopUsers, forKey: .topUsers)
   }
-
 }

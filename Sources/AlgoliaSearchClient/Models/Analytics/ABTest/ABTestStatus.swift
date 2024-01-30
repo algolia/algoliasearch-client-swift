@@ -1,6 +1,6 @@
 //
 //  ABTestStatus.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 28/05/2020.
 //
@@ -9,7 +9,6 @@ import Foundation
 
 /// ABTest server-side status.
 public struct ABTestStatus: StringOption, ProvidingCustomOption, URLEncodable {
-
   public let rawValue: String
 
   public init(rawValue: String) {
@@ -27,5 +26,4 @@ public struct ABTestStatus: StringOption, ProvidingCustomOption, URLEncodable {
 
   /// The ABTest creation failed.
   public static var failed: Self { .init(rawValue: #function) }
-
 }

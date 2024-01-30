@@ -1,6 +1,6 @@
 //
 //  Place.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 12/04/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct Place {
-
   public let country: String?
   public let county: [String]?
   public let city: [String]?
@@ -30,31 +29,29 @@ public struct Place {
   public let isPopular: Bool?
 
   public init(_ place: MultiLanguagePlace, language: Language) {
-    self.country = place.country?[language]
-    self.county = place.county?[language]
-    self.city = place.city?[language]
-    self.localeNames = place.localeNames?[language]
-    self.administrative = place.administrative
-    self.countryCode = place.countryCode
-    self.postcode = place.postcode
-    self.population = place.population
-    self.importance = place.importance
-    self.tags = place.tags
-    self.adminLevel = place.adminLevel
-    self.district = place.district
-    self.suburb = place.suburb
-    self.village = place.village
-    self.isCountry = place.isCountry
-    self.isCity = place.isCity
-    self.isSuburb = place.isSuburb
-    self.isHighway = place.isHighway
-    self.isPopular = place.isPopular
+    country = place.country?[language]
+    county = place.county?[language]
+    city = place.city?[language]
+    localeNames = place.localeNames?[language]
+    administrative = place.administrative
+    countryCode = place.countryCode
+    postcode = place.postcode
+    population = place.population
+    importance = place.importance
+    tags = place.tags
+    adminLevel = place.adminLevel
+    district = place.district
+    suburb = place.suburb
+    village = place.village
+    isCountry = place.isCountry
+    isCity = place.isCity
+    isSuburb = place.isSuburb
+    isHighway = place.isHighway
+    isPopular = place.isPopular
   }
-
 }
 
 extension Place: Codable {
-
   typealias CodingKeys = PlaceCodingKeys
 
   public init(from decoder: Decoder) throws {
@@ -102,5 +99,4 @@ extension Place: Codable {
     try container.encodeIfPresent(isHighway, forKey: .isHighway)
     try container.encodeIfPresent(isPopular, forKey: .isPopular)
   }
-
 }

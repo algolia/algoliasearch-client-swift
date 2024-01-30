@@ -1,6 +1,6 @@
 //
 //  RuleQuery.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 04/05/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct RuleQuery {
-
   /// Full text query.
   /// - Engine default: ""
   public var query: String?
@@ -34,21 +33,17 @@ public struct RuleQuery {
   public var isEnabled: Bool?
 
   public init() {}
-
 }
 
 extension RuleQuery: ExpressibleByStringInterpolation {
-
   public init(stringLiteral value: String) {
-    self.query = value
+    query = value
   }
-
 }
 
 extension RuleQuery: Builder {}
 
 extension RuleQuery: Codable {
-
   enum CodingKeys: String, CodingKey {
     case query
     case anchoring
@@ -57,5 +52,4 @@ extension RuleQuery: Codable {
     case hitsPerPage
     case isEnabled = "enabled"
   }
-
 }

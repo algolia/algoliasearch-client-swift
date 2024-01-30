@@ -1,6 +1,6 @@
 //
 //  AlternativesAsExact.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 12.03.2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct AlternativesAsExact: StringOption, ProvidingCustomOption, URLEncodable {
-
   public let rawValue: String
 
   public init(rawValue: String) {
@@ -23,5 +22,4 @@ public struct AlternativesAsExact: StringOption, ProvidingCustomOption, URLEncod
 
   /// Multiple-words synonyms (example: “NY” = “New York”).
   public static var multiWordsSynonym: Self { .init(rawValue: #function) }
-
 }

@@ -1,6 +1,6 @@
 //
 //  ACL.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 08/04/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public enum ACL: String, Codable {
-
   /// Allows search.
   case search
 
@@ -47,5 +46,4 @@ public enum ACL: String, Codable {
 
   /// Disables the Settings.unretrievableAttributes feature for all operations returning records.
   case seeUnretrievableAttributes
-
 }

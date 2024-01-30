@@ -1,6 +1,6 @@
 //
 //  DecodingErrorPrettyPrinter.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 20/02/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 struct DecodingErrorPrettyPrinter: CustomStringConvertible, CustomDebugStringConvertible {
-
   let decodingError: DecodingError
 
   init(decodingError: DecodingError) {
@@ -26,16 +25,18 @@ struct DecodingErrorPrettyPrinter: CustomStringConvertible, CustomDebugStringCon
   }
 
   private func codingPathDescription(_ path: [CodingKey]) -> String {
-    return path.map(codingKeyDescription).joined(separator: " -> ")
+    path.map(codingKeyDescription).joined(separator: " -> ")
   }
 
-  private func additionalComponents(for error: DecodingError) -> [String] {
+  private func additionalComponents(for _: DecodingError) -> [String] {
     switch decodingError {
     case .valueNotFound(_, let context):
       return [codingPathDescription(context.codingPath), context.debugDescription]
 
     case .keyNotFound(let key, let context):
-      return [codingPathDescription(context.codingPath), "Key not found: \(codingKeyDescription(key))"]
+      return [
+        codingPathDescription(context.codingPath), "Key not found: \(codingKeyDescription(key))",
+      ]
 
     case .typeMismatch(let type, let context):
       return [codingPathDescription(context.codingPath), "Type mismatch. Expected: \(type)"]
@@ -46,23 +47,19 @@ struct DecodingErrorPrettyPrinter: CustomStringConvertible, CustomDebugStringCon
     @unknown default:
       return [decodingError.localizedDescription]
     }
-
   }
 
   var description: String {
-    return ([prefix] + additionalComponents(for: decodingError)).joined(separator: ": ")
+    ([prefix] + additionalComponents(for: decodingError)).joined(separator: ": ")
   }
 
   var debugDescription: String {
-    return description
+    description
   }
-
 }
 
-public extension DecodingError {
-
-  var prettyDescription: String {
-    return DecodingErrorPrettyPrinter(decodingError: self).description
+extension DecodingError {
+  public var prettyDescription: String {
+    DecodingErrorPrettyPrinter(decodingError: self).description
   }
-
 }

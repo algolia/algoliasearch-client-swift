@@ -1,6 +1,6 @@
 //
 //  SynonymQuery.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 11/05/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct SynonymQuery {
-
   /// Full text query.
   /// - Engine default: ""
   public var query: String?
@@ -26,21 +25,17 @@ public struct SynonymQuery {
   public var synonymTypes: [SynonymType]?
 
   public init() {}
-
 }
 
 extension SynonymQuery: ExpressibleByStringInterpolation {
-
   public init(stringLiteral value: String) {
-    self.query = value
+    query = value
   }
-
 }
 
 extension SynonymQuery: Builder {}
 
 extension SynonymQuery: Codable {
-
   enum CodingKeys: String, CodingKey {
     case query
     case page
@@ -50,11 +45,13 @@ extension SynonymQuery: Codable {
 
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.query = try container.decodeIfPresent(forKey: .query)
-    self.page = try container.decodeIfPresent(forKey: .page)
-    self.hitsPerPage = try container.decodeIfPresent(forKey: .hitsPerPage)
+    query = try container.decodeIfPresent(forKey: .query)
+    page = try container.decodeIfPresent(forKey: .page)
+    hitsPerPage = try container.decodeIfPresent(forKey: .hitsPerPage)
     let rawSynonymTypes: String? = try container.decodeIfPresent(forKey: .synonymTypes)
-    self.synonymTypes = rawSynonymTypes.flatMap { $0.split(separator: ",").map(String.init).compactMap(SynonymType.init) }
+    synonymTypes = rawSynonymTypes.flatMap {
+      $0.split(separator: ",").map(String.init).compactMap(SynonymType.init)
+    }
   }
 
   public func encode(to encoder: Encoder) throws {
@@ -62,8 +59,9 @@ extension SynonymQuery: Codable {
     try container.encodeIfPresent(query, forKey: .query)
     try container.encodeIfPresent(page, forKey: .page)
     try container.encodeIfPresent(hitsPerPage, forKey: .hitsPerPage)
-    let rawSynonymTypes: String? = synonymTypes.flatMap { $0.map(\.rawValue).joined(separator: ",") }
+    let rawSynonymTypes: String? = synonymTypes.flatMap {
+      $0.map(\.rawValue).joined(separator: ",")
+    }
     try container.encodeIfPresent(rawSynonymTypes, forKey: .synonymTypes)
   }
-
 }

@@ -1,6 +1,6 @@
 //
 //  SettingsParametersCodingKeys.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 20/11/2020.
 //

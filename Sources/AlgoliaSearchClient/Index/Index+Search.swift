@@ -1,319 +1,368 @@
 //
 //  Index+Search.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 03/03/2020.
 //
 
 import Foundation
 
-public extension Index {
-
+extension Index {
   // MARK: - Search
 
   /**
-   Method used for querying an index.
-   
-   - Note: The search query only allows for the retrieval of up to 1000 hits.
-   If you need to retrieve more than 1000 hits (e.g. for SEO), you can either leverage
-   the [Browse index](https://www.algolia.com/doc/api-reference/api-methods/browse/) method or increase
-   the [paginationLimitedTo](https://www.algolia.com/doc/api-reference/api-parameters/paginationLimitedTo/) parameter.
-   - Parameter query: The Query used to search.
-   - Parameter requestOptions: Configure request locally with RequestOptions.
-   - Parameter completion: Result completion
-   - Returns: Launched asynchronous operation
-   */
-  @discardableResult func search(query: Query,
-                                 requestOptions: RequestOptions? = nil,
-                                 completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
-    let command = Command.Search.Search(indexName: name, query: query, requestOptions: requestOptions)
+     Method used for querying an index.
+
+     - Note: The search query only allows for the retrieval of up to 1000 hits.
+     If you need to retrieve more than 1000 hits (e.g. for SEO), you can either leverage
+     the [Browse index](https://www.algolia.com/doc/api-reference/api-methods/browse/) method or increase
+     the [paginationLimitedTo](https://www.algolia.com/doc/api-reference/api-parameters/paginationLimitedTo/) parameter.
+     - Parameter query: The Query used to search.
+     - Parameter requestOptions: Configure request locally with RequestOptions.
+     - Parameter completion: Result completion
+     - Returns: Launched asynchronous operation
+     */
+  @discardableResult public func search(
+    query: Query,
+    requestOptions: RequestOptions? = nil,
+    completion: @escaping ResultCallback<SearchResponse>
+  ) -> Operation & TransportTask {
+    let command = Command.Search.Search(
+      indexName: name, query: query, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
 
   /**
-   Method used for querying an index.
-   
-   - Parameter query: The Query used to search.
-   - Parameter requestOptions: Configure request locally with RequestOptions.
-   - Parameter completion: Result completion
-   - Returns: SearchResponse object
-   */
-  @discardableResult func search(query: Query,
-                                 requestOptions: RequestOptions? = nil) throws -> SearchResponse {
-    let command = Command.Search.Search(indexName: name, query: query, requestOptions: requestOptions)
+     Method used for querying an index.
+
+     - Parameter query: The Query used to search.
+     - Parameter requestOptions: Configure request locally with RequestOptions.
+     - Parameter completion: Result completion
+     - Returns: SearchResponse object
+     */
+  @discardableResult public func search(
+    query: Query,
+    requestOptions: RequestOptions? = nil
+  ) throws -> SearchResponse {
+    let command = Command.Search.Search(
+      indexName: name, query: query, requestOptions: requestOptions)
     return try execute(command)
   }
 
   // MARK: - Multiple Queries
 
   /**
-   Method used for perform multiple searches at the same time, with one method call.
-   
-   - Parameter queries: The list of Query objects used to search.
-   - Parameter strategy: The MultipleQueriesStrategy of the query.
-   - Parameter requestOptions: Configure request locally with RequestOptions.
-   - Parameter completion: Result completion
-   - Returns: Launched asynchronous operation
-   */
-  @discardableResult func search(queries: [Query],
-                                 strategy: MultipleQueriesStrategy = .none,
-                                 requestOptions: RequestOptions? = nil,
-                                 completion: @escaping ResultCallback<SearchesResponse>) -> Operation & TransportTask {
-    let command = Command.MultipleIndex.Queries(indexName: name, queries: queries, strategy: strategy, requestOptions: requestOptions)
+     Method used for perform multiple searches at the same time, with one method call.
+
+     - Parameter queries: The list of Query objects used to search.
+     - Parameter strategy: The MultipleQueriesStrategy of the query.
+     - Parameter requestOptions: Configure request locally with RequestOptions.
+     - Parameter completion: Result completion
+     - Returns: Launched asynchronous operation
+     */
+  @discardableResult public func search(
+    queries: [Query],
+    strategy: MultipleQueriesStrategy = .none,
+    requestOptions: RequestOptions? = nil,
+    completion: @escaping ResultCallback<SearchesResponse>
+  ) -> Operation & TransportTask {
+    let command = Command.MultipleIndex.Queries(
+      indexName: name, queries: queries, strategy: strategy, requestOptions: requestOptions)
     return transport.execute(command, completion: completion)
   }
 
   /**
-   Method used for perform multiple searches at the same time, with one method call.
-   
-   - Parameter queries: The Query used to search.
-   - Parameter strategy: The MultipleQueriesStrategy of the query.
-   - Parameter requestOptions: Configure request locally with RequestOptions.
-   - Parameter completion: Result completion
-   - Returns: Launched asynchronous operation
-   */
-  @discardableResult func search(queries: [Query],
-                                 strategy: MultipleQueriesStrategy = .none,
-                                 requestOptions: RequestOptions? = nil) throws -> SearchesResponse {
-    let command = Command.MultipleIndex.Queries(indexName: name, queries: queries, strategy: strategy, requestOptions: requestOptions)
+     Method used for perform multiple searches at the same time, with one method call.
+
+     - Parameter queries: The Query used to search.
+     - Parameter strategy: The MultipleQueriesStrategy of the query.
+     - Parameter requestOptions: Configure request locally with RequestOptions.
+     - Parameter completion: Result completion
+     - Returns: Launched asynchronous operation
+     */
+  @discardableResult public func search(
+    queries: [Query],
+    strategy: MultipleQueriesStrategy = .none,
+    requestOptions: RequestOptions? = nil
+  ) throws -> SearchesResponse {
+    let command = Command.MultipleIndex.Queries(
+      indexName: name, queries: queries, strategy: strategy, requestOptions: requestOptions)
     return try transport.execute(command)
   }
 
   // MARK: - Disjunctive Faceting
 
   /**
-   Method used for perform search with disjunctive facets.
-   
-   - Parameter query: The Query used to search.
-   - Parameter refinements: Refinements to apply to the search in form of dictionary with
-     facet attribute as a key and a list of facet values for the designated attribute
-   - Parameter disjunctiveFacets: Set of facets attributes applied disjunctively (with OR operator)
-   - Parameter keepSelectedEmptyFacets: Whether the selected facet values might be preserved even
-     in case of their absence in the search response
-   - Parameter requestOptions: Configure request locally with RequestOptions.
-   - Returns: SearchesResponse object
-   */
-  func searchDisjunctiveFaceting(query: Query,
-                                 refinements: [Attribute: [String]],
-                                 disjunctiveFacets: Set<Attribute>,
-                                 keepSelectedEmptyFacets: Bool = true,
-                                 requestOptions: RequestOptions? = nil) throws -> SearchResponse {
-    let helper = DisjunctiveFacetingHelper(query: query,
-                                           refinements: refinements,
-                                           disjunctiveFacets: disjunctiveFacets)
+     Method used for perform search with disjunctive facets.
+
+     - Parameter query: The Query used to search.
+     - Parameter refinements: Refinements to apply to the search in form of dictionary with
+       facet attribute as a key and a list of facet values for the designated attribute
+     - Parameter disjunctiveFacets: Set of facets attributes applied disjunctively (with OR operator)
+     - Parameter keepSelectedEmptyFacets: Whether the selected facet values might be preserved even
+       in case of their absence in the search response
+     - Parameter requestOptions: Configure request locally with RequestOptions.
+     - Returns: SearchesResponse object
+     */
+  public func searchDisjunctiveFaceting(
+    query: Query,
+    refinements: [Attribute: [String]],
+    disjunctiveFacets: Set<Attribute>,
+    keepSelectedEmptyFacets: Bool = true,
+    requestOptions: RequestOptions? = nil
+  ) throws -> SearchResponse {
+    let helper = DisjunctiveFacetingHelper(
+      query: query,
+      refinements: refinements,
+      disjunctiveFacets: disjunctiveFacets)
     let queries = helper.makeQueries()
     let response = try search(queries: queries, requestOptions: requestOptions)
-    return try helper.mergeResponses(response.results,
-                                     keepSelectedEmptyFacets: keepSelectedEmptyFacets)
+    return try helper.mergeResponses(
+      response.results,
+      keepSelectedEmptyFacets: keepSelectedEmptyFacets)
   }
 
   /**
-   Method used for perform search with disjunctive facets.
-   
-   - Parameter query: The Query used to search.
-   - Parameter refinements: Refinements to apply to the search in form of dictionary with
-     facet attribute as a key and a list of facet values for the designated attribute
-   - Parameter disjunctiveFacets: Set of facets attributes applied disjunctively (with OR operator)
-   - Parameter keepSelectedEmptyFacets: Whether the selected facet values might be preserved even
-     in case of their absence in the search response
-   - Parameter requestOptions: Configure request locally with RequestOptions.
-   - Parameter completion: Result completion
-   - Returns: Launched asynchronous operation
-   */
-  func searchDisjunctiveFaceting(query: Query,
-                                 refinements: [Attribute: [String]],
-                                 disjunctiveFacets: Set<Attribute>,
-                                 keepSelectedEmptyFacets: Bool = true,
-                                 requestOptions: RequestOptions? = nil,
-                                 completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
-    let helper = DisjunctiveFacetingHelper(query: query,
-                                           refinements: refinements,
-                                           disjunctiveFacets: disjunctiveFacets)
+     Method used for perform search with disjunctive facets.
+
+     - Parameter query: The Query used to search.
+     - Parameter refinements: Refinements to apply to the search in form of dictionary with
+       facet attribute as a key and a list of facet values for the designated attribute
+     - Parameter disjunctiveFacets: Set of facets attributes applied disjunctively (with OR operator)
+     - Parameter keepSelectedEmptyFacets: Whether the selected facet values might be preserved even
+       in case of their absence in the search response
+     - Parameter requestOptions: Configure request locally with RequestOptions.
+     - Parameter completion: Result completion
+     - Returns: Launched asynchronous operation
+     */
+  public func searchDisjunctiveFaceting(
+    query: Query,
+    refinements: [Attribute: [String]],
+    disjunctiveFacets: Set<Attribute>,
+    keepSelectedEmptyFacets: Bool = true,
+    requestOptions: RequestOptions? = nil,
+    completion: @escaping ResultCallback<SearchResponse>
+  ) -> Operation & TransportTask {
+    let helper = DisjunctiveFacetingHelper(
+      query: query,
+      refinements: refinements,
+      disjunctiveFacets: disjunctiveFacets)
     let queries = helper.makeQueries()
     return search(queries: queries, requestOptions: requestOptions) { result in
-      completion(result.flatMap { response in
-        Result {
-          try helper.mergeResponses(response.results,
-                                    keepSelectedEmptyFacets: keepSelectedEmptyFacets)
-        }
-      })
+      completion(
+        result.flatMap { response in
+          Result {
+            try helper.mergeResponses(
+              response.results,
+              keepSelectedEmptyFacets: keepSelectedEmptyFacets)
+          }
+        })
     }
   }
 
   // MARK: - Browse
 
   /**
-   Get all index content without any record limit. Can be used for backups.
-   
-   - Note: The browse method is an alternative to the Search index method.
-   If you need to retrieve the full content of your index (for backup, SEO purposes or for running a script on it),
-   you should use this method instead.
-   Results are ranked by attributes and custom ranking.
-   But for performance reasons, there is no ranking based on:
-   - distinct
-   - typo-tolerance
-   - number of matched words
-   - proximity
-   - geo distance
-   
-   You shouldn’t use this method for building a search UI.
-   The analytics API does not collect data from browse method usage.
-   If you need to retrieve more than 1,000 results, you should look into the
-   [paginationLimitedTo](https://www.algolia.com/doc/api-reference/api-parameters/paginationLimitedTo/) parameter.
-   
-   If more records are available, SearchResponse.cursor will not be null.
-   
-   - Parameter query: The Query used to search.
-   - Parameter requestOptions: Configure request locally with RequestOptions.
-   - Parameter completion: Result completion
-   - Returns: SearchResponse object
-   */
-  @discardableResult func browse(query: Query = .init(),
-                                 requestOptions: RequestOptions? = nil,
-                                 completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
-    let command = Command.Search.Browse(indexName: name, query: query, requestOptions: requestOptions)
+     Get all index content without any record limit. Can be used for backups.
+
+     - Note: The browse method is an alternative to the Search index method.
+     If you need to retrieve the full content of your index (for backup, SEO purposes or for running a script on it),
+     you should use this method instead.
+     Results are ranked by attributes and custom ranking.
+     But for performance reasons, there is no ranking based on:
+     - distinct
+     - typo-tolerance
+     - number of matched words
+     - proximity
+     - geo distance
+
+     You shouldn’t use this method for building a search UI.
+     The analytics API does not collect data from browse method usage.
+     If you need to retrieve more than 1,000 results, you should look into the
+     [paginationLimitedTo](https://www.algolia.com/doc/api-reference/api-parameters/paginationLimitedTo/) parameter.
+
+     If more records are available, SearchResponse.cursor will not be null.
+
+     - Parameter query: The Query used to search.
+     - Parameter requestOptions: Configure request locally with RequestOptions.
+     - Parameter completion: Result completion
+     - Returns: SearchResponse object
+     */
+  @discardableResult public func browse(
+    query: Query = .init(),
+    requestOptions: RequestOptions? = nil,
+    completion: @escaping ResultCallback<SearchResponse>
+  ) -> Operation & TransportTask {
+    let command = Command.Search.Browse(
+      indexName: name, query: query, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
 
   /**
-   Get all index content without any record limit. Can be used for backups.
-   
-   - Parameter query: The Query used to search.
-   - Parameter requestOptions: Configure request locally with RequestOptions.
-   - Parameter completion: Result completion
-   - Returns: Launched asynchronous operation
-   */
-  @discardableResult func browse(query: Query = .init(),
-                                 requestOptions: RequestOptions? = nil) throws -> SearchResponse {
-    let command = Command.Search.Browse(indexName: name, query: query, requestOptions: requestOptions)
+     Get all index content without any record limit. Can be used for backups.
+
+     - Parameter query: The Query used to search.
+     - Parameter requestOptions: Configure request locally with RequestOptions.
+     - Parameter completion: Result completion
+     - Returns: Launched asynchronous operation
+     */
+  @discardableResult public func browse(
+    query: Query = .init(),
+    requestOptions: RequestOptions? = nil
+  ) throws -> SearchResponse {
+    let command = Command.Search.Browse(
+      indexName: name, query: query, requestOptions: requestOptions)
     return try execute(command)
   }
 
   /**
-   Get all index content without any record limit. Can be used for backups.
-   
-   - Parameter cursor: Cursor indicating the location to resume browsing from.
-   Must match the value returned by the previous call to browse SearchResponse.cursor
-   - Parameter requestOptions: Configure request locally with RequestOptions
-   - Parameter completion: Result completion
-   - Returns: Launched asynchronous operation
-   */
-  @discardableResult func browse(cursor: Cursor,
-                                 requestOptions: RequestOptions? = nil,
-                                 completion: @escaping ResultCallback<SearchResponse>) -> Operation & TransportTask {
-    let command = Command.Search.Browse(indexName: name, cursor: cursor, requestOptions: requestOptions)
+     Get all index content without any record limit. Can be used for backups.
+
+     - Parameter cursor: Cursor indicating the location to resume browsing from.
+     Must match the value returned by the previous call to browse SearchResponse.cursor
+     - Parameter requestOptions: Configure request locally with RequestOptions
+     - Parameter completion: Result completion
+     - Returns: Launched asynchronous operation
+     */
+  @discardableResult public func browse(
+    cursor: Cursor,
+    requestOptions: RequestOptions? = nil,
+    completion: @escaping ResultCallback<SearchResponse>
+  ) -> Operation & TransportTask {
+    let command = Command.Search.Browse(
+      indexName: name, cursor: cursor, requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
 
   /**
-   Get all index content without any record limit. Can be used for backups.
-   
-   - Parameter cursor: Cursor indicating the location to resume browsing from.
-   Must match the value returned by the previous call to browse SearchResponse.cursor.
-   - Parameter requestOptions: Configure request locally with RequestOptions.
-   - Returns: SearchResponse object
-   */
-  @discardableResult func browse(cursor: Cursor,
-                                 requestOptions: RequestOptions? = nil) throws -> SearchResponse {
-    let command = Command.Search.Browse(indexName: name, cursor: cursor, requestOptions: requestOptions)
+     Get all index content without any record limit. Can be used for backups.
+
+     - Parameter cursor: Cursor indicating the location to resume browsing from.
+     Must match the value returned by the previous call to browse SearchResponse.cursor.
+     - Parameter requestOptions: Configure request locally with RequestOptions.
+     - Returns: SearchResponse object
+     */
+  @discardableResult public func browse(
+    cursor: Cursor,
+    requestOptions: RequestOptions? = nil
+  ) throws -> SearchResponse {
+    let command = Command.Search.Browse(
+      indexName: name, cursor: cursor, requestOptions: requestOptions)
     return try execute(command)
   }
 
   // MARK: - Search for facets
 
   /**
-   Search for a set of values within a given facet attribute. Can be combined with a query. This
-   method enables you to search through the values of a facet attribute, selecting only a subset
-   of those values that meet a given criteria.
-   
-   - Parameter facetName: The Attribute to facet on.
-   - Parameter facetQuery: The facetQuery used to search for facets.
-   - Parameter searchQuery: The Query to filter results.
-   - Parameter requestOptions: Configure request locally with RequestOptions.
-   - Parameter completion: Result completion.
-   - Returns: Launched asynchronous operation.
-   */
-  @discardableResult func searchForFacetValues(of facetName: Attribute,
-                                               matching facetQuery: String,
-                                               applicableFor searchQuery: Query? = nil,
-                                               requestOptions: RequestOptions? = nil,
-                                               completion: @escaping ResultCallback<FacetSearchResponse>) -> Operation & TransportTask {
-    let command = Command.Search.SearchForFacets(indexName: name, attribute: facetName, facetQuery: facetQuery, query: searchQuery, requestOptions: requestOptions)
+     Search for a set of values within a given facet attribute. Can be combined with a query. This
+     method enables you to search through the values of a facet attribute, selecting only a subset
+     of those values that meet a given criteria.
+
+     - Parameter facetName: The Attribute to facet on.
+     - Parameter facetQuery: The facetQuery used to search for facets.
+     - Parameter searchQuery: The Query to filter results.
+     - Parameter requestOptions: Configure request locally with RequestOptions.
+     - Parameter completion: Result completion.
+     - Returns: Launched asynchronous operation.
+     */
+  @discardableResult public func searchForFacetValues(
+    of facetName: Attribute,
+    matching facetQuery: String,
+    applicableFor searchQuery: Query? = nil,
+    requestOptions: RequestOptions? = nil,
+    completion: @escaping ResultCallback<FacetSearchResponse>
+  ) -> Operation & TransportTask {
+    let command = Command.Search.SearchForFacets(
+      indexName: name, attribute: facetName, facetQuery: facetQuery, query: searchQuery,
+      requestOptions: requestOptions)
     return execute(command, completion: completion)
   }
 
   /**
-   Search for a set of values within a given facet attribute. Can be combined with a query. This
-   method enables you to search through the values of a facet attribute, selecting only a subset
-   of those values that meet a given criteria.
-   
-   - Parameter facetName: The Attribute to facet on.
-   - Parameter facetQuery: The facetQuery used to search for facets.
-   - Parameter searchQuery: The Query to filter results.
-   - Parameter requestOptions: Configure request locally with RequestOptions.
-   - Returns: FacetSearchResponse  object.
-   */
-  @discardableResult func searchForFacetValues(of facetName: Attribute,
-                                               matching facetQuery: String,
-                                               applicableFor searchQuery: Query? = nil,
-                                               requestOptions: RequestOptions? = nil) throws -> FacetSearchResponse {
-    let command = Command.Search.SearchForFacets(indexName: name, attribute: facetName, facetQuery: facetQuery, query: searchQuery, requestOptions: requestOptions)
+     Search for a set of values within a given facet attribute. Can be combined with a query. This
+     method enables you to search through the values of a facet attribute, selecting only a subset
+     of those values that meet a given criteria.
+
+     - Parameter facetName: The Attribute to facet on.
+     - Parameter facetQuery: The facetQuery used to search for facets.
+     - Parameter searchQuery: The Query to filter results.
+     - Parameter requestOptions: Configure request locally with RequestOptions.
+     - Returns: FacetSearchResponse  object.
+     */
+  @discardableResult public func searchForFacetValues(
+    of facetName: Attribute,
+    matching facetQuery: String,
+    applicableFor searchQuery: Query? = nil,
+    requestOptions: RequestOptions? = nil
+  ) throws -> FacetSearchResponse {
+    let command = Command.Search.SearchForFacets(
+      indexName: name, attribute: facetName, facetQuery: facetQuery, query: searchQuery,
+      requestOptions: requestOptions)
     return try execute(command)
   }
 
   // MARK: - Find object
 
   /**
-   Find object searches iteratively through the search response `Hits` field to find the first
-   response hit that would match against the given `predicate` function.
-   
-   - Note: If no object has been found within the first result set, the function will perform a new
-   search operation on the next page of results, if any, until a matching object is found or the
-   end of results, whichever happens first.
-   To prevent the iteration through pages of results, `paginate` parameter can be set to
-   false. This will stop the function at the end of the first page of search results even if no
-   object does match.
-   
-   - Parameter predicate: The predicate to match
-   - Parameter query: The search Query
-   - Parameter paginate: Should the method paginate or not
-   - Parameter requestOptions: Configure request locally with RequestOptions
-   - Parameter completion: Result completion
-   - Returns: Launched asynchronous operation
-   */
-  @discardableResult func findObject<T: Decodable>(matching predicate: @escaping (T) -> Bool,
-                                                   for query: Query = .init(),
-                                                   paginate: Bool = true,
-                                                   requestOptions: RequestOptions? = nil,
-                                                   completion: @escaping ResultCallback<HitWithPosition<T>?>) -> Operation {
+     Find object searches iteratively through the search response `Hits` field to find the first
+     response hit that would match against the given `predicate` function.
+
+     - Note: If no object has been found within the first result set, the function will perform a new
+     search operation on the next page of results, if any, until a matching object is found or the
+     end of results, whichever happens first.
+     To prevent the iteration through pages of results, `paginate` parameter can be set to
+     false. This will stop the function at the end of the first page of search results even if no
+     object does match.
+
+     - Parameter predicate: The predicate to match
+     - Parameter query: The search Query
+     - Parameter paginate: Should the method paginate or not
+     - Parameter requestOptions: Configure request locally with RequestOptions
+     - Parameter completion: Result completion
+     - Returns: Launched asynchronous operation
+     */
+  @discardableResult public func findObject<T: Decodable>(
+    matching predicate: @escaping (T) -> Bool,
+    for query: Query = .init(),
+    paginate: Bool = true,
+    requestOptions: RequestOptions? = nil,
+    completion: @escaping ResultCallback<HitWithPosition<T>?>
+  ) -> Operation {
     let operation = BlockOperation {
-      completion(.init { try self.findObject(matching: predicate, for: query, paginate: paginate, requestOptions: requestOptions) })
+      completion(
+        .init {
+          try self.findObject(
+            matching: predicate, for: query, paginate: paginate, requestOptions: requestOptions)
+        })
     }
     return launch(operation)
   }
 
   /**
-   Find object searches iteratively through the search response `Hits` field to find the first
-   response hit that would match against the given `predicate` function.
-   
-   - Parameter predicate: The predicate to match
-   - Parameter query: The search Query
-   - Parameter paginate: Should the method paginate or not
-   - Parameter requestOptions: Configure request locally with RequestOptions
-   - Returns: HitWithPosition  object
-   */
-  @discardableResult func findObject<T: Decodable>(matching predicate: (T) -> Bool,
-                                                   for query: Query = .init(),
-                                                   paginate: Bool = true,
-                                                   requestOptions: RequestOptions? = nil) throws -> HitWithPosition<T>? {
+     Find object searches iteratively through the search response `Hits` field to find the first
+     response hit that would match against the given `predicate` function.
 
+     - Parameter predicate: The predicate to match
+     - Parameter query: The search Query
+     - Parameter paginate: Should the method paginate or not
+     - Parameter requestOptions: Configure request locally with RequestOptions
+     - Returns: HitWithPosition  object
+     */
+  @discardableResult public func findObject<T: Decodable>(
+    matching predicate: (T) -> Bool,
+    for query: Query = .init(),
+    paginate: Bool = true,
+    requestOptions: RequestOptions? = nil
+  ) throws -> HitWithPosition<T>? {
     let results = try search(query: query)
     let hits: [T] = try results.extractHits()
 
-    if let found = hits
+    if let found =
+      hits
       .enumerated()
-      .first(where: {( _, object) in predicate(object)})
-      .flatMap({ HitWithPosition(hit: $0.element, page: query.page ?? 0, position: $0.offset) }) {
+      .first(where: { _, object in predicate(object) })
+      .flatMap({ HitWithPosition(hit: $0.element, page: query.page ?? 0, position: $0.offset) })
+    {
       return found
     }
 
@@ -326,5 +375,4 @@ public extension Index {
 
     return try findObject(matching: predicate, for: nextPageQuery, requestOptions: requestOptions)
   }
-
 }

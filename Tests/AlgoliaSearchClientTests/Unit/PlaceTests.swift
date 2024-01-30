@@ -1,16 +1,16 @@
 //
 //  PlaceTests.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 12/04/2020.
 //
 
 import Foundation
 import XCTest
+
 @testable import AlgoliaSearchClient
 
 class PlaceTests: XCTestCase {
-
   func testDecoding() throws {
     let place = try AssertDecode(jsonFilename: "Place.json", expected: Place.self)
     XCTAssertEqual(place.country, "Denmark")
@@ -20,7 +20,7 @@ class PlaceTests: XCTestCase {
     XCTAssertEqual(place.tags, ["city", "country/dk", "place/city", "source/geonames"])
     XCTAssertEqual(place.postcode, ["8000"])
     XCTAssertEqual(place.county, ["Aarhus Municipality"])
-    XCTAssertEqual(place.population, 256018)
+    XCTAssertEqual(place.population, 256_018)
     XCTAssertEqual(place.countryCode, .denmark)
     XCTAssertEqual(place.isCity, true)
     XCTAssertEqual(place.isPopular, true)
@@ -31,7 +31,6 @@ class PlaceTests: XCTestCase {
   }
 
   func testDecodingMultiLanguage() throws {
-//    try let place = AssertDecode(jsonFilename: "MultiLanguagePlace.json", expected: Place.self)
+    //    try let place = AssertDecode(jsonFilename: "MultiLanguagePlace.json", expected: Place.self)
   }
-
 }

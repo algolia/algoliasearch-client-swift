@@ -1,6 +1,6 @@
 //
 //  StopwordsDictionary.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 20/01/2021.
 //
@@ -8,15 +8,11 @@
 import Foundation
 
 public struct StopwordsDictionary: CustomDictionary {
-
   public static var name: DictionaryName = .stopwords
-
 }
 
 extension StopwordsDictionary {
-
   public struct Entry: DictionaryEntry, Codable, Equatable {
-
     public enum State: String, Codable {
       case enabled
       case disabled
@@ -37,7 +33,5 @@ extension StopwordsDictionary {
       self.word = word
       self.state = state
     }
-
   }
-
 }

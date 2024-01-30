@@ -1,6 +1,6 @@
 //
 //  CompoundsDictionary.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 20/01/2021.
 //
@@ -8,15 +8,11 @@
 import Foundation
 
 public struct CompoundsDictionary: CustomDictionary {
-
   public static var name: DictionaryName = .compounds
-
 }
 
-public extension CompoundsDictionary {
-
-  struct Entry: DictionaryEntry, Codable, Equatable {
-
+extension CompoundsDictionary {
+  public struct Entry: DictionaryEntry, Codable, Equatable {
     public let objectID: ObjectID
     public let language: Language
 
@@ -36,7 +32,5 @@ public extension CompoundsDictionary {
       self.word = word
       self.decomposition = decomposition
     }
-
   }
-
 }

@@ -1,6 +1,6 @@
 //
 //  RuleSearchResponse.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 04/05/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct RuleSearchResponse: Codable {
-
   /// A list of Hit.
   public let hits: [Hit]
 
@@ -20,5 +19,4 @@ public struct RuleSearchResponse: Codable {
 
   /// Total number of pages.
   public let nbPages: Int
-
 }

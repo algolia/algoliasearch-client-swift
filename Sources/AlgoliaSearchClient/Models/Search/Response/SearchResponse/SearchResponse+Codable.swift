@@ -1,6 +1,6 @@
 //
 //  SearchResponse+Codable.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 19/03/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 extension SearchResponse: Codable {
-
   enum CodingKeys: String, CodingKey {
     case hits
     case nbHits
@@ -49,42 +48,42 @@ extension SearchResponse: Codable {
 
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.hits = try container.decode(forKey: .hits)
-    self.nbHits = try container.decodeIfPresent(forKey: .nbHits)
-    self.page = try container.decodeIfPresent(forKey: .page)
-    self.hitsPerPage = try container.decodeIfPresent(forKey: .hitsPerPage)
-    self.offset = try container.decodeIfPresent(forKey: .offset)
-    self.length = try container.decodeIfPresent(forKey: .length)
-    self.userData = try container.decodeIfPresent(forKey: .userData)
-    self.nbPages = try container.decodeIfPresent(forKey: .nbPages)
-    self.processingTimeMS = try container.decodeIfPresent(forKey: .processingTimeMS)
-    self.exhaustiveNbHits = try container.decodeIfPresent(forKey: .exhaustiveNbHits)
-    self.exhaustiveFacetsCount = try container.decodeIfPresent(forKey: .exhaustiveFacetsCount)
-    self.query = try container.decodeIfPresent(forKey: .query)
-    self.queryAfterRemoval = try container.decodeIfPresent(forKey: .queryAfterRemoval)
-    self.params = try container.decodeIfPresent(forKey: .params)
-    self.message = try container.decodeIfPresent(forKey: .message)
-    self.aroundLatLng = try container.decodeIfPresent(forKey: .aroundLatLng)
+    hits = try container.decode(forKey: .hits)
+    nbHits = try container.decodeIfPresent(forKey: .nbHits)
+    page = try container.decodeIfPresent(forKey: .page)
+    hitsPerPage = try container.decodeIfPresent(forKey: .hitsPerPage)
+    offset = try container.decodeIfPresent(forKey: .offset)
+    length = try container.decodeIfPresent(forKey: .length)
+    userData = try container.decodeIfPresent(forKey: .userData)
+    nbPages = try container.decodeIfPresent(forKey: .nbPages)
+    processingTimeMS = try container.decodeIfPresent(forKey: .processingTimeMS)
+    exhaustiveNbHits = try container.decodeIfPresent(forKey: .exhaustiveNbHits)
+    exhaustiveFacetsCount = try container.decodeIfPresent(forKey: .exhaustiveFacetsCount)
+    query = try container.decodeIfPresent(forKey: .query)
+    queryAfterRemoval = try container.decodeIfPresent(forKey: .queryAfterRemoval)
+    params = try container.decodeIfPresent(forKey: .params)
+    message = try container.decodeIfPresent(forKey: .message)
+    aroundLatLng = try container.decodeIfPresent(forKey: .aroundLatLng)
     let legacyAutomaticRadius: String? = try container.decodeIfPresent(forKey: .automaticRadius)
-    self.automaticRadius = legacyAutomaticRadius.flatMap(Double.init)
-    self.serverUsed = try container.decodeIfPresent(forKey: .serverUsed)
-    self.indexUsed = try container.decodeIfPresent(forKey: .indexUsed)
-    self.abTestID = try container.decodeIfPresent(forKey: .abTestID)
-    self.abTestVariantID = try container.decodeIfPresent(forKey: .abTestVariantID)
-    self.parsedQuery = try container.decodeIfPresent(forKey: .parsedQuery)
-    self.facetsStorage = try container.decodeIfPresent(forKey: .facetsStorage)
-    self.disjunctiveFacetsStorage = try container.decodeIfPresent(forKey: .disjunctiveFacetsStorage)
-    self.facetStatsStorage = try container.decodeIfPresent(forKey: .facetStatsStorage)
-    self.cursor = try container.decodeIfPresent(forKey: .cursor)
-    self.indexName = try container.decodeIfPresent(forKey: .indexName)
-    self.processed = try container.decodeIfPresent(forKey: .processed)
-    self.queryID = try container.decodeIfPresent(forKey: .queryID)
-    self.hierarchicalFacetsStorage = try container.decodeIfPresent(forKey: .hierarchicalFacetsStorage)
-    self.explain = try container.decodeIfPresent(forKey: .explain)
-    self.appliedRules = try container.decodeIfPresent(forKey: .appliedRules)
-    self.renderingContent = try container.decodeIfPresent(forKey: .renderingContent)
-    self.appliedRelevancyStrictness = try container.decodeIfPresent(forKey: .appliedRelevancyStrictness)
-    self.nbSortedHits = try container.decodeIfPresent(forKey: .nbSortedHits)
+    automaticRadius = legacyAutomaticRadius.flatMap(Double.init)
+    serverUsed = try container.decodeIfPresent(forKey: .serverUsed)
+    indexUsed = try container.decodeIfPresent(forKey: .indexUsed)
+    abTestID = try container.decodeIfPresent(forKey: .abTestID)
+    abTestVariantID = try container.decodeIfPresent(forKey: .abTestVariantID)
+    parsedQuery = try container.decodeIfPresent(forKey: .parsedQuery)
+    facetsStorage = try container.decodeIfPresent(forKey: .facetsStorage)
+    disjunctiveFacetsStorage = try container.decodeIfPresent(forKey: .disjunctiveFacetsStorage)
+    facetStatsStorage = try container.decodeIfPresent(forKey: .facetStatsStorage)
+    cursor = try container.decodeIfPresent(forKey: .cursor)
+    indexName = try container.decodeIfPresent(forKey: .indexName)
+    processed = try container.decodeIfPresent(forKey: .processed)
+    queryID = try container.decodeIfPresent(forKey: .queryID)
+    hierarchicalFacetsStorage = try container.decodeIfPresent(forKey: .hierarchicalFacetsStorage)
+    explain = try container.decodeIfPresent(forKey: .explain)
+    appliedRules = try container.decodeIfPresent(forKey: .appliedRules)
+    renderingContent = try container.decodeIfPresent(forKey: .renderingContent)
+    appliedRelevancyStrictness = try container.decodeIfPresent(forKey: .appliedRelevancyStrictness)
+    nbSortedHits = try container.decodeIfPresent(forKey: .nbSortedHits)
   }
 
   public func encode(to encoder: Encoder) throws {
@@ -126,5 +125,4 @@ extension SearchResponse: Codable {
     try container.encodeIfPresent(appliedRelevancyStrictness, forKey: .appliedRelevancyStrictness)
     try container.encodeIfPresent(nbSortedHits, forKey: .nbSortedHits)
   }
-
 }

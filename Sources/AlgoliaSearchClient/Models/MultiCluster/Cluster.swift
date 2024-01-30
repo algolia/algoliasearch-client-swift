@@ -1,6 +1,6 @@
 //
 //  Cluster.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 25/05/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct Cluster: Codable {
-
   /// Name of the cluster.
   public let name: ClusterName
 
@@ -27,5 +26,4 @@ public struct Cluster: Codable {
     case nbUserIDs
     case dataSize
   }
-
 }

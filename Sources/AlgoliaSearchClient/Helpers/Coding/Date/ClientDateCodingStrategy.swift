@@ -1,6 +1,6 @@
 //
 //  ClientDateCodingStrategy.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 06/04/2020.
 //
@@ -8,10 +8,9 @@
 import Foundation
 
 struct ClientDateCodingStrategy {
-
   private static let acceptedFormats = [
     "yyyy-MM-dd'T'HH:mm:ssZ",
-    "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+    "yyyy-MM-dd'T'HH:mm:ss.SSSZ",
   ]
 
   static func decoding(decoder: Decoder) throws -> Date {
@@ -27,7 +26,8 @@ struct ClientDateCodingStrategy {
         return date
       }
     }
-    throw DecodingError.dataCorruptedError(in: container, debugDescription: "Date string doesnt conform to iso8601 standart")
+    throw DecodingError.dataCorruptedError(
+      in: container, debugDescription: "Date string doesnt conform to iso8601 standart")
   }
 
   static let encoding: (Date, Encoder) throws -> Void = { date, encoder in
@@ -37,15 +37,14 @@ struct ClientDateCodingStrategy {
     let dateString = formatter.string(from: date)
     try container.encode(dateString)
   }
-
 }
 
 extension JSONDecoder.DateDecodingStrategy {
-
-  static let swiftAPIClient = JSONDecoder.DateDecodingStrategy.custom(ClientDateCodingStrategy.decoding)
-
+  static let swiftAPIClient = JSONDecoder.DateDecodingStrategy.custom(
+    ClientDateCodingStrategy.decoding)
 }
 
 extension JSONEncoder.DateEncodingStrategy {
-  static let swiftAPIClient = JSONEncoder.DateEncodingStrategy.custom(ClientDateCodingStrategy.encoding)
+  static let swiftAPIClient = JSONEncoder.DateEncodingStrategy.custom(
+    ClientDateCodingStrategy.encoding)
 }

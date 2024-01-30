@@ -1,6 +1,6 @@
 //
 //  UserIDQuery.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 25/05/2020.
 //
@@ -9,7 +9,6 @@ import Foundation
 
 /// Query to use with Client.searchUserID.
 public struct UserIDQuery: Codable {
-
   /// Query to search. The search is a prefix search with typoTolerance. Use empty query to retrieve all users.
   /// - Engine default: ""
   public var query: String?
@@ -26,25 +25,24 @@ public struct UserIDQuery: Codable {
   /// Number of users to return by page.
   public var hitsPerPage: Int?
 
-  public init(query: String? = nil,
-              clusterName: ClusterName? = nil,
-              page: Int? = nil,
-              hitsPerPage: Int? = nil) {
+  public init(
+    query: String? = nil,
+    clusterName: ClusterName? = nil,
+    page: Int? = nil,
+    hitsPerPage: Int? = nil
+  ) {
     self.query = query
     self.clusterName = clusterName
     self.clusterName = clusterName
     self.page = page
     self.hitsPerPage = hitsPerPage
   }
-
 }
 
 extension UserIDQuery: Builder {}
 
 extension UserIDQuery: ExpressibleByStringInterpolation {
-
   public init(stringLiteral value: String) {
-    self.query = value
+    query = value
   }
-
 }

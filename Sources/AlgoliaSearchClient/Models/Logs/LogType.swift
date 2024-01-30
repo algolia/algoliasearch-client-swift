@@ -1,6 +1,6 @@
 //
 //  LogType.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 07/04/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct LogType: Codable {
-
   let rawValue: String
 
   /// Retrieve all the logs.
@@ -24,5 +23,4 @@ public struct LogType: Codable {
   public static var error: Self { .init(rawValue: #function) }
 
   public static func other(_ rawValue: String) -> Self { .init(rawValue: rawValue) }
-
 }

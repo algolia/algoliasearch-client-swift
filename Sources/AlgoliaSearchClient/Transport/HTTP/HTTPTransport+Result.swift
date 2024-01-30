@@ -1,20 +1,19 @@
 //
 //  HTTPTransport+Result.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 02/03/2020.
 //
 
 import Foundation
+
 #if canImport(FoundationNetworking)
-import FoundationNetworking
+  import FoundationNetworking
 #endif
 
-public extension Result where Success: Decodable, Failure == Error {
-
-  init(data: Data?, response: URLResponse?, error: Swift.Error?) {
-
-    if let error = error {
+extension Result where Success: Decodable, Failure == Error {
+  public init(data: Data?, response: URLResponse?, error: Swift.Error?) {
+    if let error {
       self = .failure(TransportError.requestError(error))
       return
     }
@@ -24,7 +23,7 @@ public extension Result where Success: Decodable, Failure == Error {
       return
     }
 
-    guard let data = data else {
+    guard let data else {
       self = .failure(TransportError.missingData)
       return
     }
@@ -34,10 +33,8 @@ public extension Result where Success: Decodable, Failure == Error {
       jsonDecoder.dateDecodingStrategy = .custom(ClientDateCodingStrategy.decoding)
       let object = try jsonDecoder.decode(Success.self, from: data)
       self = .success(object)
-    } catch let error {
+    } catch {
       self = .failure(TransportError.decodingFailure(error))
     }
-
   }
-
 }

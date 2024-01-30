@@ -1,17 +1,17 @@
 //
 //  AnswersTests.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 20/11/2020.
 //
 
 import Foundation
 import XCTest
+
 @testable import AlgoliaSearchClient
 
 @available(*, deprecated, message: "Answers functionality is deprecated")
 class AnswersQueryTests: XCTestCase {
-  
   @available(*, deprecated, message: "Answers functionality is deprecated")
   func testInvalidParametersAsserts() throws {
     expectingAssertionFailure(expectedMessage: "attributesToSnippet is not supported by answers") {
@@ -22,12 +22,14 @@ class AnswersQueryTests: XCTestCase {
       _ = AnswersQuery(query: "query", queryLanguages: [.english])
         .set(\.hitsPerPage, to: 20)
     }
-    expectingAssertionFailure(expectedMessage: "restrictSearchableAttributes is not supported by answers") {
+    expectingAssertionFailure(
+      expectedMessage: "restrictSearchableAttributes is not supported by answers"
+    ) {
       _ = AnswersQuery(query: "query", queryLanguages: [.english])
         .set(\.restrictSearchableAttributes, to: ["a"])
     }
   }
-  
+
   @available(*, deprecated, message: "Answers functionality is deprecated")
   func testSpecificParams() throws {
     let query = AnswersQuery(query: "query", queryLanguages: [.english])
@@ -39,11 +41,11 @@ class AnswersQueryTests: XCTestCase {
       "query": "query",
       "nbHits": 10,
       "attributesForPrediction": ["a1", "a2"],
-      "threshold": 20
+      "threshold": 20,
     ]
     try AssertEncodeDecode(query, expectedQueryJSON)
   }
-  
+
   @available(*, deprecated, message: "Answers functionality is deprecated")
   func testSearchParams() throws {
     let query = AnswersQuery(query: "query", queryLanguages: [.english])
@@ -57,5 +59,4 @@ class AnswersQueryTests: XCTestCase {
     ]
     try AssertEncodeDecode(query, expectedQueryJSON)
   }
-  
 }

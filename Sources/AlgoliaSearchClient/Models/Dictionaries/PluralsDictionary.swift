@@ -1,6 +1,6 @@
 //
 //  PluralsDictionary.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 20/01/2021.
 //
@@ -8,15 +8,11 @@
 import Foundation
 
 public struct PluralsDictionary: CustomDictionary {
-
   public static var name: DictionaryName = .plurals
-
 }
 
-public extension PluralsDictionary {
-
-  struct Entry: DictionaryEntry, Codable, Equatable {
-
+extension PluralsDictionary {
+  public struct Entry: DictionaryEntry, Codable, Equatable {
     public let objectID: ObjectID
     public let language: Language
 
@@ -28,7 +24,5 @@ public extension PluralsDictionary {
       self.language = language
       self.words = words
     }
-
   }
-
 }

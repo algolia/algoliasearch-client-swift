@@ -1,27 +1,29 @@
 //
 //  URLRequest+APIKey.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 20/07/2022.
 //
 
 import Foundation
+
 #if canImport(FoundationNetworking)
-import FoundationNetworking
+  import FoundationNetworking
 #endif
 
 extension URLRequest {
-
   static let maxHeaderAPIKeyLength = 500
 
-  internal mutating func setAPIKey(_ apiKey: APIKey?) throws {
-
-    guard let apiKeyValue = apiKey?.rawValue, apiKeyValue.count > URLRequest.maxHeaderAPIKeyLength else {
+  mutating func setAPIKey(_ apiKey: APIKey?) throws {
+    guard let apiKeyValue = apiKey?.rawValue, apiKeyValue.count > URLRequest.maxHeaderAPIKeyLength
+    else {
       self[header: .apiKey] = apiKey?.rawValue
       return
     }
 
-    Logger.warning("The API length is > \(URLRequest.maxHeaderAPIKeyLength). Attempt to insert it into request body.")
+    Logger.warning(
+      "The API length is > \(URLRequest.maxHeaderAPIKeyLength). Attempt to insert it into request body."
+    )
 
     guard let body = httpBody else {
       throw APIKeyBodyError.missingHTTPBody
@@ -51,12 +53,10 @@ extension URLRequest {
 
     httpBody = updatedBody
   }
-
 }
 
-public extension URLRequest {
-
-  enum APIKeyBodyError: Error, CustomStringConvertible {
+extension URLRequest {
+  public enum APIKeyBodyError: Error, CustomStringConvertible {
     case missingHTTPBody
     case bodyDecodingJSONError(Error)
     case bodyNonKeyValueJSON
@@ -75,5 +75,4 @@ public extension URLRequest {
       }
     }
   }
-
 }

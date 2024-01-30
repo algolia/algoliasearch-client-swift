@@ -1,6 +1,6 @@
 //
 //  CustomParametersCoder.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 23/04/2020.
 //
@@ -8,9 +8,10 @@
 import Foundation
 
 struct CustomParametersCoder {
-
-  static func decode<Keys: CaseIterable>(from decoder: Decoder, excludingKeys: Keys.Type) throws -> [String: JSON] where Keys.AllCases.Element: RawRepresentable, Keys.AllCases.Element.RawValue == String {
-    return try decode(from: decoder, excludingKeys: excludingKeys.allCases.map(\.rawValue))
+  static func decode<Keys: CaseIterable>(from decoder: Decoder, excludingKeys: Keys.Type) throws
+    -> [String: JSON]
+  where Keys.AllCases.Element: RawRepresentable, Keys.AllCases.Element.RawValue == String {
+    try decode(from: decoder, excludingKeys: excludingKeys.allCases.map(\.rawValue))
   }
 
   static func decode(from decoder: Decoder, excludingKeys: [String] = []) throws -> [String: JSON] {
@@ -28,5 +29,4 @@ struct CustomParametersCoder {
       try container.encode(value, forKey: DynamicKey(stringValue: key))
     }
   }
-
 }

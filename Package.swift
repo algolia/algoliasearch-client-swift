@@ -4,27 +4,27 @@
 import PackageDescription
 
 #if os(Linux)
-let macOSVersion: SupportedPlatform.MacOSVersion = .v10_15
+  let macOSVersion: SupportedPlatform.MacOSVersion = .v10_15
 #else
-let macOSVersion: SupportedPlatform.MacOSVersion = .v11
+  let macOSVersion: SupportedPlatform.MacOSVersion = .v11
 #endif
 
 #if os(Linux)
-let extraPackageDependencies: [Package.Dependency] = [
-  .package(url: "https://github.com/apple/swift-crypto.git", from: "1.1.2"),
-  .package(url: "https://github.com/apple/swift-log.git", from: "1.5.4")
-]
+  let extraPackageDependencies: [Package.Dependency] = [
+    .package(url: "https://github.com/apple/swift-crypto.git", from: "1.1.2"),
+    .package(url: "https://github.com/apple/swift-log.git", from: "1.5.4"),
+  ]
 #else
-let extraPackageDependencies: [Package.Dependency] = []
+  let extraPackageDependencies: [Package.Dependency] = []
 #endif
 
 #if os(Linux)
-let extraTargetDependencies: [Target.Dependency] = [
-  .product(name: "Crypto", package: "swift-crypto"),
-  .product(name: "Logging", package: "swift-log")
-]
+  let extraTargetDependencies: [Target.Dependency] = [
+    .product(name: "Crypto", package: "swift-crypto"),
+    .product(name: "Logging", package: "swift-log"),
+  ]
 #else
-let extraTargetDependencies: [Target.Dependency] = []
+  let extraTargetDependencies: [Target.Dependency] = []
 #endif
 
 let package = Package(
@@ -33,24 +33,25 @@ let package = Package(
     .iOS(.v14),
     .macOS(macOSVersion),
     .watchOS(.v7),
-    .tvOS(.v14)
+    .tvOS(.v14),
   ],
   products: [
     .library(
       name: "AlgoliaSearchClient",
-      targets: ["AlgoliaSearchClient"])
+      targets: ["AlgoliaSearchClient"]
+    )
   ],
-  dependencies: [
-  ] + extraPackageDependencies,
+  dependencies: [] + extraPackageDependencies,
   targets: [
     .target(
       name: "AlgoliaSearchClient",
-      dependencies: [
-      ] + extraTargetDependencies),
+      dependencies: [] + extraTargetDependencies
+    ),
     .testTarget(
       name: "AlgoliaSearchClientTests",
       dependencies: [
         .target(name: "AlgoliaSearchClient")
-      ] + extraTargetDependencies)
+      ] + extraTargetDependencies
+    ),
   ]
 )

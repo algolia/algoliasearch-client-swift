@@ -1,6 +1,6 @@
 //
 //  Rule.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 04/05/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct Rule {
-
   /// Unique identifier for the rule.
   public var objectID: ObjectID
 
@@ -33,13 +32,11 @@ public struct Rule {
   public init(objectID: ObjectID) {
     self.objectID = objectID
   }
-
 }
 
 extension Rule: Builder {}
 
 extension Rule: Codable {
-
   enum CodingKeys: String, CodingKey {
     case objectID
     case conditions
@@ -51,12 +48,12 @@ extension Rule: Codable {
 
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.objectID = try container.decode(forKey: .objectID)
-    self.conditions = try container.decodeIfPresent(forKey: .conditions)
-    self.consequence = try container.decodeIfPresent(forKey: .consequence)
-    self.isEnabled = try container.decodeIfPresent(forKey: .isEnabled)
-    self.validity = try container.decodeIfPresent(forKey: .validity)
-    self.description = try container.decodeIfPresent(forKey: .description)
+    objectID = try container.decode(forKey: .objectID)
+    conditions = try container.decodeIfPresent(forKey: .conditions)
+    consequence = try container.decodeIfPresent(forKey: .consequence)
+    isEnabled = try container.decodeIfPresent(forKey: .isEnabled)
+    validity = try container.decodeIfPresent(forKey: .validity)
+    description = try container.decodeIfPresent(forKey: .description)
   }
 
   public func encode(to encoder: Encoder) throws {
@@ -68,5 +65,4 @@ extension Rule: Codable {
     try container.encodeIfPresent(validity, forKey: .validity)
     try container.encodeIfPresent(description, forKey: .description)
   }
-
 }

@@ -1,34 +1,37 @@
 //
 //  URLRequest+SwitchHost.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 20/07/2022.
 //
 
 import Foundation
+
 #if canImport(FoundationNetworking)
-import FoundationNetworking
+  import FoundationNetworking
 #endif
 
 extension URLComponents: Builder {}
 
 extension URLRequest {
-
-  func switchingHost(by host: RetryableHost, withBaseTimeout baseTimeout: TimeInterval) throws -> URLRequest {
-    guard let url = url else { throw FormatError.missingURL }
-    guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else { throw FormatError.malformedURL(url.absoluteString) }
-    guard let updatedURL = components.set(\.host, to: host.url.absoluteString).url else { throw FormatError.badHost(host.url.absoluteString) }
+  func switchingHost(by host: RetryableHost, withBaseTimeout baseTimeout: TimeInterval) throws
+    -> URLRequest
+  {
+    guard let url else { throw FormatError.missingURL }
+    guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+      throw FormatError.malformedURL(url.absoluteString)
+    }
+    guard let updatedURL = components.set(\.host, to: host.url.absoluteString).url else {
+      throw FormatError.badHost(host.url.absoluteString)
+    }
     let updatedTimeout = TimeInterval(host.retryCount + 1) * baseTimeout
-    return self
-      .set(\.url, to: updatedURL)
+    return set(\.url, to: updatedURL)
       .set(\.timeoutInterval, to: updatedTimeout)
   }
-
 }
 
-public extension URLRequest {
-
-  enum FormatError: LocalizedError {
+extension URLRequest {
+  public enum FormatError: LocalizedError {
     case missingURL
     case malformedURL(String)
     case badHost(String)
@@ -48,5 +51,4 @@ public extension URLRequest {
       }
     }
   }
-
 }

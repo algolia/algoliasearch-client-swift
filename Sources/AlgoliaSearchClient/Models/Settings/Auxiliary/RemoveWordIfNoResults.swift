@@ -1,6 +1,6 @@
 //
 //  RemoveWordIfNoResults.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 12.03.2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public enum RemoveWordIfNoResults: String, Codable, URLEncodable {
-
   /// No specific processing is done when a query does not return any results (default behavior).
   case none
 
@@ -20,5 +19,4 @@ public enum RemoveWordIfNoResults: String, Codable, URLEncodable {
 
   /// When a query does not return any results, make a second attempt treating all words as optional. This is equivalent to transforming the implicit AND operator applied between query words to an OR.
   case allOptional
-
 }

@@ -1,16 +1,16 @@
 //
 //  QueryTests.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 09/04/2020.
 //
 
 import Foundation
 import XCTest
+
 @testable import AlgoliaSearchClient
 
 class QueryTests: XCTestCase {
-  
   let query = Query()
     .set(\.query, to: "testQuery")
     .set(\.similarQuery, to: "testSimilarQuery")
@@ -19,7 +19,9 @@ class QueryTests: XCTestCase {
     .set(\.explainModules, to: [.matchAlternatives])
     .set(\.attributesToRetrieve, to: ["attr1", "attr2", "attr3"])
     .set(\.restrictSearchableAttributes, to: ["rattr1", "rattr2"])
-    .set(\.filters, to: "(color:red OR color:yellow) AND on-sale AND 12+ AND (test:\"Hello & World\")")
+    .set(
+      \.filters, to: "(color:red OR color:yellow) AND on-sale AND 12+ AND (test:\"Hello & World\")"
+    )
     .set(\.facetFilters, to: [.or("color:red", "color:blue"), "size:M"])
     .set(\.optionalFilters, to: [.or("color:red", "color:yellow"), "on-sale"])
     .set(\.numericFilters, to: [.or("price>100", "length<1000"), "metrics>5"])
@@ -31,7 +33,10 @@ class QueryTests: XCTestCase {
     .set(\.sortFacetsBy, to: .count)
     .set(\.maxFacetHits, to: 100)
     .set(\.attributesToHighlight, to: ["hattr1", "hattr2", "hattr3"])
-    .set(\.attributesToSnippet, to: [Snippet(attribute: "sattr1", count: 10), Snippet(attribute: "sattr2")])
+    .set(
+      \.attributesToSnippet,
+      to: [Snippet(attribute: "sattr1", count: 10), Snippet(attribute: "sattr2")]
+    )
     .set(\.highlightPreTag, to: "<hl>")
     .set(\.highlightPostTag, to: "</hl>")
     .set(\.snippetEllipsisText, to: "read more")
@@ -48,10 +53,28 @@ class QueryTests: XCTestCase {
     .set(\.aroundLatLng, to: .init(latitude: 79.5, longitude: 10.5))
     .set(\.aroundLatLngViaIP, to: true)
     .set(\.aroundRadius, to: .meters(80))
-    .set(\.aroundPrecision, to: [.init(from: 0, value: 1000), .init(from: 0, value: 100000)])
+    .set(\.aroundPrecision, to: [.init(from: 0, value: 1000), .init(from: 0, value: 100_000)])
     .set(\.minimumAroundRadius, to: 40)
-    .set(\.insideBoundingBox, to: [.init(point1: .init(latitude: 0, longitude: 10), point2: .init(latitude: 20, longitude: 30)), .init(point1: .init(latitude: 40, longitude: 50), point2: .init(latitude: 60, longitude: 70))])
-    .set(\.insidePolygon, to: [.init(.init(latitude: 0, longitude: 10), .init(latitude: 20, longitude: 30), .init(latitude: 40, longitude: 50)), .init(.init(latitude: 10, longitude: 20), .init(latitude: 30, longitude: 40), .init(latitude: 50, longitude: 60))])
+    .set(
+      \.insideBoundingBox,
+      to: [
+        .init(
+          point1: .init(latitude: 0, longitude: 10), point2: .init(latitude: 20, longitude: 30)),
+        .init(
+          point1: .init(latitude: 40, longitude: 50), point2: .init(latitude: 60, longitude: 70)),
+      ]
+    )
+    .set(
+      \.insidePolygon,
+      to: [
+        .init(
+          .init(latitude: 0, longitude: 10), .init(latitude: 20, longitude: 30),
+          .init(latitude: 40, longitude: 50)),
+        .init(
+          .init(latitude: 10, longitude: 20), .init(latitude: 30, longitude: 40),
+          .init(latitude: 50, longitude: 60)),
+      ]
+    )
     .set(\.queryType, to: .prefixLast)
     .set(\.removeWordsIfNoResults, to: .lastWords)
     .set(\.advancedSyntax, to: false)
@@ -82,11 +105,9 @@ class QueryTests: XCTestCase {
     .set(\.customParameters, to: ["custom1": "val1", "custom2": 2])
     .set(\.enableReRanking, to: true)
 
-
   func testURLStringEncoding() {
-    
     let urlEncodedString = query.urlEncodedString
-    
+
     let expectedString = [
       "query=testQuery",
       "similarQuery=testSimilarQuery",
@@ -159,10 +180,10 @@ class QueryTests: XCTestCase {
       "custom1=val1",
       "custom2=2.0",
     ].joined(separator: "&")
-    
+
     XCTAssertEqual(urlEncodedString, expectedString)
   }
-  
+
   func testFacetsCoding() throws {
     let facets: Set<Attribute> = ["facet1", "facet2", "facet3"]
     let query = Query.empty.set(\.facets, to: ["facet1", "facet2", "facet3"])
@@ -179,79 +200,80 @@ class QueryTests: XCTestCase {
     XCTAssertEqual(dictionary.keys.first, "facets")
     XCTAssertEqual(dictionary.keys.count, 1)
   }
-  
+
   func testCoding() throws {
-    try AssertEncodeDecode(query.set(\.facets, to: nil), [
-      "query": "testQuery",
-      "similarQuery": "testSimilarQuery",
-      "distinct": 5,
-      "getRankingInfo": true,
-      "explainModules": ["match.alternatives"],
-      "attributesToRetrieve": ["attr1", "attr2", "attr3"],
-      "restrictSearchableAttributes": ["rattr1", "rattr2"],
-      "filters": "(color:red OR color:yellow) AND on-sale AND 12+ AND (test:\"Hello & World\")",
-      "facetFilters": [["color:red", "color:blue"], "size:M"],
-      "optionalFilters": [["color:red", "color:yellow"], "on-sale"],
-      "numericFilters": [["price>100", "length<1000"], "metrics>5"],
-      "tagFilters": [["tag1", "tag2"], "tag3"],
-      "sumOrFiltersScores": false,
-      "maxValuesPerFacet": 10,
-      "facetingAfterDistinct": true,
-      "sortFacetValuesBy": "count",
-      "maxFacetHits": 100,
-      "attributesToHighlight": ["hattr1", "hattr2", "hattr3"],
-      "attributesToSnippet": ["sattr1:10", "sattr2"],
-      "highlightPreTag": "<hl>",
-      "highlightPostTag": "</hl>",
-      "snippetEllipsisText": "read more",
-      "restrictHighlightAndSnippetArrays": true,
-      "page": 15,
-      "hitsPerPage": 30,
-      "offset": 100,
-      "length": 40,
-      "minWordSizefor1Typo": 2,
-      "minWordSizefor2Typos": 4,
-      "typoTolerance": "strict",
-      "allowTyposOnNumericTokens": false,
-      "disableTypoToleranceOnAttributes": ["dtattr1", "dtattr2"],
-      "aroundLatLng": "79.5,10.5",
-      "aroundLatLngViaIP": true,
-      "aroundRadius": "80",
-      "aroundPrecision": [["from": 0, "value": 1000], ["from": 0, "value": 100000]],
-      "minimumAroundRadius": 40,
-      "insideBoundingBox": [[0,10,20,30], [40,50,60,70]],
-      "insidePolygon": [[0,10,20,30,40,50], [10,20,30,40,50,60]],
-      "queryType": "prefixLast",
-      "removeWordsIfNoResults": "lastWords",
-      "advancedSyntax": false,
-      "advancedSyntaxFeatures": ["excludeWords", "exactPhrase"],
-      "optionalWords": ["optWord1", "optWord2"],
-      "removeStopWords": ["ar", "fr"],
-      "decompoundQuery": false,
-      "disableExactOnAttributes": ["deAttr1", "deAttr2"],
-      "exactOnSingleWordQuery": "word",
-      "alternativesAsExact": ["ignorePlurals", "singleWordSynonym"],
-      "ignorePlurals": false,
-      "queryLanguages": ["hi", "sq"],
-      "enableRules": true,
-      "ruleContexts": ["rc1", "rc2"],
-      "enablePersonalization": false,
-      "personalizationImpact": 5,
-      "userToken": "testUserToken",
-      "analytics": true,
-      "analyticsTags": ["at1", "at2", "at3"],
-      "enableABTest": false,
-      "clickAnalytics": true,
-      "synonyms": false,
-      "replaceSynonymsInHighlight": true,
-      "minProximity": 3,
-      "responseFields": ["facets_stats", "hits"],
-      "percentileComputation": false,
-      "naturalLanguages": ["mi", "ta"],
-      "custom1": "val1",
-      "custom2": 2,
-      "enableReRanking": true
-    ])
+    try AssertEncodeDecode(
+      query.set(\.facets, to: nil),
+      [
+        "query": "testQuery",
+        "similarQuery": "testSimilarQuery",
+        "distinct": 5,
+        "getRankingInfo": true,
+        "explainModules": ["match.alternatives"],
+        "attributesToRetrieve": ["attr1", "attr2", "attr3"],
+        "restrictSearchableAttributes": ["rattr1", "rattr2"],
+        "filters": "(color:red OR color:yellow) AND on-sale AND 12+ AND (test:\"Hello & World\")",
+        "facetFilters": [["color:red", "color:blue"], "size:M"],
+        "optionalFilters": [["color:red", "color:yellow"], "on-sale"],
+        "numericFilters": [["price>100", "length<1000"], "metrics>5"],
+        "tagFilters": [["tag1", "tag2"], "tag3"],
+        "sumOrFiltersScores": false,
+        "maxValuesPerFacet": 10,
+        "facetingAfterDistinct": true,
+        "sortFacetValuesBy": "count",
+        "maxFacetHits": 100,
+        "attributesToHighlight": ["hattr1", "hattr2", "hattr3"],
+        "attributesToSnippet": ["sattr1:10", "sattr2"],
+        "highlightPreTag": "<hl>",
+        "highlightPostTag": "</hl>",
+        "snippetEllipsisText": "read more",
+        "restrictHighlightAndSnippetArrays": true,
+        "page": 15,
+        "hitsPerPage": 30,
+        "offset": 100,
+        "length": 40,
+        "minWordSizefor1Typo": 2,
+        "minWordSizefor2Typos": 4,
+        "typoTolerance": "strict",
+        "allowTyposOnNumericTokens": false,
+        "disableTypoToleranceOnAttributes": ["dtattr1", "dtattr2"],
+        "aroundLatLng": "79.5,10.5",
+        "aroundLatLngViaIP": true,
+        "aroundRadius": "80",
+        "aroundPrecision": [["from": 0, "value": 1000], ["from": 0, "value": 100_000]],
+        "minimumAroundRadius": 40,
+        "insideBoundingBox": [[0, 10, 20, 30], [40, 50, 60, 70]],
+        "insidePolygon": [[0, 10, 20, 30, 40, 50], [10, 20, 30, 40, 50, 60]],
+        "queryType": "prefixLast",
+        "removeWordsIfNoResults": "lastWords",
+        "advancedSyntax": false,
+        "advancedSyntaxFeatures": ["excludeWords", "exactPhrase"],
+        "optionalWords": ["optWord1", "optWord2"],
+        "removeStopWords": ["ar", "fr"],
+        "decompoundQuery": false,
+        "disableExactOnAttributes": ["deAttr1", "deAttr2"],
+        "exactOnSingleWordQuery": "word",
+        "alternativesAsExact": ["ignorePlurals", "singleWordSynonym"],
+        "ignorePlurals": false,
+        "queryLanguages": ["hi", "sq"],
+        "enableRules": true,
+        "ruleContexts": ["rc1", "rc2"],
+        "enablePersonalization": false,
+        "personalizationImpact": 5,
+        "userToken": "testUserToken",
+        "analytics": true,
+        "analyticsTags": ["at1", "at2", "at3"],
+        "enableABTest": false,
+        "clickAnalytics": true,
+        "synonyms": false,
+        "replaceSynonymsInHighlight": true,
+        "minProximity": 3,
+        "responseFields": ["facets_stats", "hits"],
+        "percentileComputation": false,
+        "naturalLanguages": ["mi", "ta"],
+        "custom1": "val1",
+        "custom2": 2,
+        "enableReRanking": true,
+      ])
   }
-  
 }

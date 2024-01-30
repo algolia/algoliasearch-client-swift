@@ -1,33 +1,36 @@
 //
 //  TestCredentials.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 14/11/2020.
 //
 
 import Foundation
+
 @testable import AlgoliaSearchClient
 
 struct TestCredentials: Credentials {
-
   let applicationID: ApplicationID
   let apiKey: APIKey
-  
+
   init(applicationID: ApplicationID, apiKey: APIKey) {
     self.applicationID = applicationID
     self.apiKey = apiKey
   }
-  
+
   init(environment: Environment) throws {
     guard
       let appID = String(environmentVariable: environment.variables.appID),
-      let apiKey = String(environmentVariable: environment.variables.apiKey) else {
-      let missingEnvVariables = [environment.variables.appID, environment.variables.apiKey].filter { String(environmentVariable: $0) == nil }
-        throw EnvironmentError.missingEnvironmentVariables(missingEnvVariables)
+      let apiKey = String(environmentVariable: environment.variables.apiKey)
+    else {
+      let missingEnvVariables = [environment.variables.appID, environment.variables.apiKey].filter {
+        String(environmentVariable: $0) == nil
+      }
+      throw EnvironmentError.missingEnvironmentVariables(missingEnvVariables)
     }
     self.init(applicationID: ApplicationID(rawValue: appID), apiKey: APIKey(rawValue: apiKey))
   }
-  
+
   enum Environment {
     case primary
     case secondary
@@ -35,7 +38,7 @@ struct TestCredentials: Credentials {
     case answers
     case mcm
     case custom(appID: String, apiKey: String)
-    
+
     var variables: (appID: String, apiKey: String) {
       switch self {
       case .primary:
@@ -52,14 +55,12 @@ struct TestCredentials: Credentials {
         return (appID, apiKey)
       }
     }
-    
   }
-  
 }
 
 enum EnvironmentError: Error, CustomStringConvertible {
   case missingEnvironmentVariables([String])
-  
+
   var description: String {
     switch self {
     case .missingEnvironmentVariables(let variables):

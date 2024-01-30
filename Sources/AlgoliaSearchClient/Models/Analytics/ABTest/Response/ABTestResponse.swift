@@ -1,6 +1,6 @@
 //
 //  ABTestResponse.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 28/05/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct ABTestResponse {
-
   /// ABTestID of the ABTest test.
   public let abTestID: ABTestID
 
@@ -37,11 +36,9 @@ public struct ABTestResponse {
 
   /// The index ResponseVariant to test against.
   public let variantB: Variant
-
 }
 
 extension ABTestResponse: Codable {
-
   enum CodingKeys: String, CodingKey {
     case abTestID
     case clickSignificance
@@ -55,20 +52,20 @@ extension ABTestResponse: Codable {
 
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.abTestID = try container.decode(forKey: .abTestID)
-    self.clickSignificance = try container.decodeIfPresent(forKey: .clickSignificance)
-    self.conversionSignificance = try container.decodeIfPresent(forKey: .conversionSignificance)
-    self.createdAt = try container.decode(forKey: .createdAt)
+    abTestID = try container.decode(forKey: .abTestID)
+    clickSignificance = try container.decodeIfPresent(forKey: .clickSignificance)
+    conversionSignificance = try container.decodeIfPresent(forKey: .conversionSignificance)
+    createdAt = try container.decode(forKey: .createdAt)
     if let endAt: Date = try? container.decode(forKey: .endAt, dateFormat: ABTest.endDateFormat) {
       self.endAt = endAt
     } else {
-      self.endAt = try container.decode(forKey: .endAt)
+      endAt = try container.decode(forKey: .endAt)
     }
-    self.name = try container.decode(forKey: .name)
-    self.status = try container.decode(forKey: .status)
+    name = try container.decode(forKey: .name)
+    status = try container.decode(forKey: .status)
     let variants: [Variant] = try container.decode(forKey: .variants)
-    self.variantA = variants[0]
-    self.variantB = variants[1]
+    variantA = variants[0]
+    variantB = variants[1]
   }
 
   public func encode(to encoder: Encoder) throws {
@@ -82,5 +79,4 @@ extension ABTestResponse: Codable {
     try container.encode(status, forKey: .status)
     try container.encode([variantA, variantB], forKey: .variants)
   }
-
 }

@@ -1,6 +1,6 @@
 //
 //  ABTest+Variant.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 28/05/2020.
 //
@@ -8,10 +8,8 @@
 import Foundation
 
 extension ABTest {
-
   /// Variant of an ABTest
   public struct Variant: Codable {
-
     /// Index name.
     public let indexName: IndexName
 
@@ -25,10 +23,12 @@ extension ABTest {
     /// Description of the variant. This is useful when seeing the results in the dashboard or via the API.
     public let description: String?
 
-    public init(indexName: IndexName,
-                trafficPercentage: Int,
-                customSearchParameters: Query? = nil,
-                description: String? = nil) {
+    public init(
+      indexName: IndexName,
+      trafficPercentage: Int,
+      customSearchParameters: Query? = nil,
+      description: String? = nil
+    ) {
       self.indexName = indexName
       self.trafficPercentage = trafficPercentage
       self.customSearchParameters = customSearchParameters
@@ -41,7 +41,5 @@ extension ABTest {
       case customSearchParameters
       case description
     }
-
   }
-
 }

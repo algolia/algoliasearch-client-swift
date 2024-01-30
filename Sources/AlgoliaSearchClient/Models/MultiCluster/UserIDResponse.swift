@@ -1,6 +1,6 @@
 //
 //  UserIDResponse.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 25/05/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct UserIDResponse {
-
   /// UserID of the user.
   public let userID: UserID
 
@@ -26,11 +25,9 @@ public struct UserIDResponse {
 
   /// Highlighted attributes.
   public let highlightResult: TreeModel<HighlightResult>?
-
 }
 
 extension UserIDResponse: Codable {
-
   enum CodingKeys: String, CodingKey {
     case userID
     case nbRecords
@@ -39,5 +36,4 @@ extension UserIDResponse: Codable {
     case objectID
     case highlightResult = "_highlightResult"
   }
-
 }

@@ -1,6 +1,6 @@
 //
 //  IndexedQuery.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 04/04/2020.
 //
@@ -9,7 +9,6 @@ import Foundation
 
 /// The composition of search parameters with an associated index name
 public struct IndexedQuery {
-
   /// The name of the index to search in.
   public let indexName: IndexName
 
@@ -22,11 +21,9 @@ public struct IndexedQuery {
     self.indexName = indexName
     self.query = query
   }
-
 }
 
 extension IndexedQuery: Codable {
-
   enum CodingKeys: String, CodingKey {
     case indexName
     case query = "params"
@@ -43,5 +40,4 @@ extension IndexedQuery: Codable {
     try container.encode(indexName, forKey: .indexName)
     try container.encode(query.urlEncodedString, forKey: .query)
   }
-
 }

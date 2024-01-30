@@ -1,6 +1,6 @@
 //
 //  AnswersQuery.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 19/11/2020.
 //
@@ -9,7 +9,6 @@ import Foundation
 
 @available(*, deprecated, message: "Answers functionality is deprecated")
 public struct AnswersQuery: SearchParameters, Codable {
-
   /// The query for which to retrieve results.
   public var query: String
 
@@ -39,7 +38,7 @@ public struct AnswersQuery: SearchParameters, Codable {
   /// Not supported by Answers
   public var attributesToSnippet: [Snippet]? {
     get {
-      return nil
+      nil
     }
     // swiftlint:disable:next unused_setter_value
     set {
@@ -50,7 +49,7 @@ public struct AnswersQuery: SearchParameters, Codable {
   /// Not supported by Answers
   public var hitsPerPage: Int? {
     get {
-      return nil
+      nil
     }
     // swiftlint:disable:next unused_setter_value
     set {
@@ -61,7 +60,7 @@ public struct AnswersQuery: SearchParameters, Codable {
   /// Not supported by Answers
   public var restrictSearchableAttributes: [Attribute]? {
     get {
-      return nil
+      nil
     }
     // swiftlint:disable:next unused_setter_value
     set {
@@ -75,31 +74,26 @@ public struct AnswersQuery: SearchParameters, Codable {
     self.query = query
     self.queryLanguages = queryLanguages
   }
-
 }
 
 @available(*, deprecated, message: "Answers functionality is deprecated")
 extension AnswersQuery: ExpressibleByStringInterpolation {
-
   public init(stringLiteral value: String) {
     self.init(query: value, queryLanguages: [.english])
   }
-
 }
 
 @available(*, deprecated, message: "Answers functionality is deprecated")
 extension AnswersQuery: SearchParametersStorageContainer {
-
   var searchParametersStorage: SearchParametersStorage {
     get {
-      return params ?? .init()
+      params ?? .init()
     }
 
     set {
       params = newValue
     }
   }
-
 }
 
 @available(*, deprecated, message: "Answers functionality is deprecated")
