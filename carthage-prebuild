@@ -1,5 +1,4 @@
 packages=(
-  swift-log
   algoliasearch-client-swift
 )
 cd Carthage/Checkouts/
