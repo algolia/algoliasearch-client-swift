@@ -1,0 +1,29 @@
+name: Tests on Linux
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-latest # Use the latest version of Ubuntu
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Swift
+        uses: apple/swift@5.8
+        with:
+          version: ${{ matrix.swift_version }}
+
+      - name: Build and test
+        run: |
+          swift build
+          swift test --enable-test-discovery
+
+    strategy:
+      matrix:
+        swift_version:
+          - "5.8"
