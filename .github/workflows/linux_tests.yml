@@ -7,16 +7,15 @@ on:
   pull_request:
 jobs:
   build:
-    runs-on: ubuntu-latest # Use the latest version of Ubuntu
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Swift
-        uses: apple/swift@5.8
+      - uses: swift-actions/setup-swift@v1
         with:
-          version: ${{ matrix.swift_version }}
+          swift-version: ${{ matrix.swift_version }}
 
       - name: Build and test
         run: |
