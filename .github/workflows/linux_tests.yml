@@ -1,5 +1,4 @@
 name: Tests
-
 on:
   push:
     branches:
@@ -7,7 +6,12 @@ on:
   pull_request:
 jobs:
   build:
-    runs-on: [ubuntu-latest, macos-latest]
+    name: Swift ${{ matrix.swift }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        swift: ["5.8"]
 
     steps:
       - name: Checkout code
@@ -15,14 +19,9 @@ jobs:
 
       - uses: swift-actions/setup-swift@v1
         with:
-          swift-version: ${{ matrix.swift_version }}
+          swift-version: ${{ matrix.swift }}
 
       - name: Build and test
         run: |
           swift build
           swift test --enable-test-discovery
-
-    strategy:
-      matrix:
-        swift_version:
-          - "5.8"
