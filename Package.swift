@@ -6,7 +6,7 @@ import PackageDescription
 #if os(Linux)
 let macOSVersion: SupportedPlatform.MacOSVersion = .v10_15
 #else
-let macOSVersion: SupportedPlatform.MacOSVersion = .v10_13
+let macOSVersion: SupportedPlatform.MacOSVersion = .v11
 #endif
 
 #if os(Linux)

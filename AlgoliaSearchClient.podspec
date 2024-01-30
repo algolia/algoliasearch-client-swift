@@ -7,7 +7,7 @@ Pod::Spec.new do |spec|
   spec.license      = { :type => "MIT", :file => "LICENSE" }
   spec.author       = { 'Algolia' => 'contact@algolia.com'  }
   spec.documentation_url = "https://www.algolia.com/doc/api-client/getting-started/what-is-the-api-client/swift/"
-  spec.platforms = { :ios => "14.0", :osx => "13.0", :watchos => "7.0", :tvos => "14.0" }
+  spec.platforms = { :ios => "14.0", :osx => "11.0", :watchos => "7.0", :tvos => "14.0" }
   spec.swift_version = "5.1"
   spec.source = { :git => "https://github.com/algolia/algoliasearch-client-swift.git", :tag => spec.version }
   spec.source_files  = "Sources/AlgoliaSearchClient/**/*.swift"
