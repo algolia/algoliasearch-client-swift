@@ -1,6 +1,6 @@
 //
 //  IndexDeletion.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 05/03/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct IndexDeletion: IndexTask, Codable {
-
   /// Date at which the Task to delete the Index has been created.
   public let deletionDate: Date
 
@@ -19,5 +18,4 @@ public struct IndexDeletion: IndexTask, Codable {
     case deletionDate = "deletedAt"
     case taskID
   }
-
 }

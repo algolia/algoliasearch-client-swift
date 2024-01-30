@@ -1,6 +1,6 @@
 //
 //  Query+URLEncodable.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 21/04/2020.
 //
@@ -8,29 +8,35 @@
 import Foundation
 
 extension Query {
-
   struct URLEncoder<Key: RawRepresentable> where Key.RawValue == String {
-
     var queryItems: [URLQueryItem] = []
 
-    mutating func set<T: URLEncodable>(_ value: T?, for key: Key) {
-      guard let value = value else { return }
+    mutating func set(_ value: (some URLEncodable)?, for key: Key) {
+      guard let value else { return }
       queryItems.append(.init(name: key.rawValue, value: value.urlEncodedString))
     }
 
-    mutating func set<S: Sequence>(_ value: S?, for key: Key) where S.Element == String {
-      guard let value = value else { return }
-      queryItems.append(.init(name: key.rawValue, value: value.map(\.urlEncodedString).sorted().joined(separator: ",")))
+    mutating func set(_ value: (some Sequence<String>)?, for key: Key) {
+      guard let value else { return }
+      queryItems.append(
+        .init(
+          name: key.rawValue, value: value.map(\.urlEncodedString).sorted().joined(separator: ",")))
     }
 
-    mutating func set<S: Sequence>(_ value: S?, for key: Key) where S.Element: RawRepresentable, S.Element.RawValue == String {
-      guard let value = value else { return }
-      queryItems.append(.init(name: key.rawValue, value: value.map(\.rawValue).map(\.urlEncodedString).sorted().joined(separator: ",")))
+    mutating func set<S: Sequence>(_ value: S?, for key: Key)
+    where S.Element: RawRepresentable, S.Element.RawValue == String {
+      guard let value else { return }
+      queryItems.append(
+        .init(
+          name: key.rawValue,
+          value: value.map(\.rawValue).map(\.urlEncodedString).sorted().joined(separator: ",")))
     }
 
-    mutating func set<S: Sequence>(_ value: S?, for key: Key) where S.Element == [String] {
-      guard let value = value else { return }
-      let valueToSet = value.map { $0.map(\.urlEncodedString).sorted().joined(separator: ",").wrappedInBrackets() }.joined(separator: ",").wrappedInBrackets()
+    mutating func set(_ value: (some Sequence<[String]>)?, for key: Key) {
+      guard let value else { return }
+      let valueToSet = value.map {
+        $0.map(\.urlEncodedString).sorted().joined(separator: ",").wrappedInBrackets()
+      }.joined(separator: ",").wrappedInBrackets()
       queryItems.append(.init(name: key.rawValue, value: valueToSet))
     }
 
@@ -48,27 +54,26 @@ extension Query {
       queryItems.append(.init(name: key.rawValue, value: valueToSet))
     }
 
-    mutating func set<S: Sequence>(_ value: S?, for key: Key) where S.Element == BoundingBox {
-      guard let value = value else { return }
+    mutating func set(_ value: (some Sequence<BoundingBox>)?, for key: Key) {
+      guard let value else { return }
       let valueToSet = value.map(\.urlEncodedString).joined(separator: ",").wrappedInBrackets()
       queryItems.append(.init(name: key.rawValue, value: valueToSet))
     }
 
-    mutating func set<S: Sequence>(_ value: S?, for key: Key) where S.Element == AroundPrecision {
-      guard let value = value else { return }
+    mutating func set(_ value: (some Sequence<AroundPrecision>)?, for key: Key) {
+      guard let value else { return }
       let valueToSet = value.map(\.urlEncodedString).joined(separator: ",").wrappedInBrackets()
       queryItems.append(.init(name: key.rawValue, value: valueToSet))
     }
 
-    mutating func set<S: Sequence>(_ value: S?, for key: Key) where S.Element == Polygon {
-      guard let value = value else { return }
+    mutating func set(_ value: (some Sequence<Polygon>)?, for key: Key) {
+      guard let value else { return }
       let valueToSet = value.map(\.urlEncodedString).joined(separator: ",").wrappedInBrackets()
       queryItems.append(.init(name: key.rawValue, value: valueToSet))
     }
 
     mutating func set(_ value: [String: JSON]?) {
-
-      guard let value = value else { return }
+      guard let value else { return }
 
       func extract(_ value: JSON) -> String? {
         switch value {
@@ -97,23 +102,20 @@ extension Query {
           }
         }
       }
-
     }
 
     func encode() -> String? {
-      return queryItems
-        .map { "\($0.name.addingPercentEncoding(withAllowedCharacters: .urlParameterAllowed)!)=\($0.value?.addingPercentEncoding(withAllowedCharacters: .urlParameterAllowed) ?? "")" }
+      queryItems
+        .map {
+          "\($0.name.addingPercentEncoding(withAllowedCharacters: .urlParameterAllowed)!)=\($0.value?.addingPercentEncoding(withAllowedCharacters: .urlParameterAllowed) ?? "")"
+        }
         .joined(separator: "&")
     }
-
   }
-
 }
 
 extension Query: URLEncodable {
-
   public var urlEncodedString: String {
-
     var urlEncoder = URLEncoder<SearchParametersStorage.CodingKeys>()
 
     urlEncoder.set(query, for: .query)
@@ -189,5 +191,4 @@ extension Query: URLEncodable {
 
     return urlEncoder.encode()!
   }
-
 }

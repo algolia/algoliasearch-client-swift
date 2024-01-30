@@ -1,6 +1,6 @@
 //
 //  DisjunctiveFacetingHelper.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 19/10/2022.
 //
@@ -11,7 +11,6 @@ import Foundation
 /// and merging the multiple search responses into a single one with
 /// combined facets information
 struct DisjunctiveFacetingHelper {
-
   let query: Query
   let refinements: [Attribute: [String]]
   let disjunctiveFacets: Set<Attribute>
@@ -22,17 +21,19 @@ struct DisjunctiveFacetingHelper {
       refinements
         .sorted(by: { $0.key.rawValue < $1.key.rawValue })
         .filter { (name: Attribute, values: [String]) in
-        name != excludedAttribute && !values.isEmpty
-      }.map { (name: Attribute, values: [String]) in
-        let facetOperator = disjunctiveFacets.contains(name) ? " OR " : " AND "
-        let expression = values
-          .map { value in """
-          "\(name)":"\(value)"
-          """
-          }
-          .joined(separator: facetOperator)
-        return "(\(expression))"
-      }.joined(separator: " AND ")
+          name != excludedAttribute && !values.isEmpty
+        }.map { (name: Attribute, values: [String]) in
+          let facetOperator = disjunctiveFacets.contains(name) ? " OR " : " AND "
+          let expression =
+            values
+            .map { value in
+              """
+              "\(name)":"\(value)"
+              """
+            }
+            .joined(separator: facetOperator)
+          return "(\(expression))"
+        }.joined(separator: " AND ")
     )
   }
 
@@ -54,9 +55,7 @@ struct DisjunctiveFacetingHelper {
 
     queries.append(mainQuery)
 
-    disjunctiveFacets
-      .sorted(by: { $0.rawValue < $1.rawValue })
-      .forEach { disjunctiveFacet in
+    for disjunctiveFacet in disjunctiveFacets.sorted(by: { $0.rawValue < $1.rawValue }) {
       var disjunctiveQuery = query
       disjunctiveQuery.facets = [disjunctiveFacet]
       disjunctiveQuery.filters = buildFilters(excluding: disjunctiveFacet)
@@ -72,7 +71,9 @@ struct DisjunctiveFacetingHelper {
   }
 
   /// Merge received search responses into single one with combined facets information
-  func mergeResponses(_ responses: [SearchResponse], keepSelectedEmptyFacets: Bool = true) throws -> SearchResponse {
+  func mergeResponses(_ responses: [SearchResponse], keepSelectedEmptyFacets _: Bool = true) throws
+    -> SearchResponse
+  {
     guard var mainResponse = responses.first else {
       throw DisjunctiveFacetingError.emptyResponses
     }
@@ -112,18 +113,16 @@ struct DisjunctiveFacetingHelper {
 
     return mainResponse
   }
-
 }
 
 public enum DisjunctiveFacetingError: LocalizedError {
-
   case emptyResponses
 
   var localizedDescription: String {
     switch self {
     case .emptyResponses:
-      return "Unexpected empty search responses list. At least one search responses might be present."
+      return
+        "Unexpected empty search responses list. At least one search responses might be present."
     }
   }
-
 }

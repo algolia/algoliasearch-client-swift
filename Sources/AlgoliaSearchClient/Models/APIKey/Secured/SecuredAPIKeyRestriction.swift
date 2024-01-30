@@ -1,6 +1,6 @@
 //
 //  SecuredAPIKeyRestriction.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 01/06/2020.
 //
@@ -9,7 +9,6 @@ import Foundation
 
 /// Secured Api Key restrictions
 public struct SecuredAPIKeyRestriction {
-
   /// Search query parameters
   public var query: Query?
 
@@ -25,24 +24,24 @@ public struct SecuredAPIKeyRestriction {
   /// Specify a user identifier. This is often used with rate limits.
   public var userToken: UserToken?
 
-  public init(query: Query? = nil,
-              restrictIndices: [IndexName]? = nil,
-              restrictSources: [String]? = nil,
-              validUntil: TimeInterval? = nil,
-              userToken: UserToken? = nil) {
+  public init(
+    query: Query? = nil,
+    restrictIndices: [IndexName]? = nil,
+    restrictSources: [String]? = nil,
+    validUntil: TimeInterval? = nil,
+    userToken: UserToken? = nil
+  ) {
     self.query = query
     self.restrictIndices = restrictIndices
     self.restrictSources = restrictSources
     self.validUntil = validUntil
     self.userToken = userToken
   }
-
 }
 
 extension SecuredAPIKeyRestriction: Builder {}
 
 extension SecuredAPIKeyRestriction: URLEncodable {
-
   enum CodingKeys: String {
     case restrictIndices
     case restrictSources
@@ -55,7 +54,7 @@ extension SecuredAPIKeyRestriction: URLEncodable {
     urlEncoder.set(restrictIndices, for: .restrictIndices)
     urlEncoder.set(restrictSources, for: .restrictSources)
     urlEncoder.set(userToken, for: .userToken)
-    if let validUntil = validUntil {
+    if let validUntil {
       urlEncoder.set(Int(validUntil), for: .validUntil)
     }
     return [query?.urlEncodedString, urlEncoder.encode()]
@@ -63,5 +62,4 @@ extension SecuredAPIKeyRestriction: URLEncodable {
       .filter { !$0.isEmpty }
       .joined(separator: "&")
   }
-
 }

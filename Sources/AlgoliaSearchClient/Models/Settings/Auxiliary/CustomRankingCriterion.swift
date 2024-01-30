@@ -1,6 +1,6 @@
 //
 //  CustomRankingCriterion.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 11.03.2020.
 //
@@ -13,7 +13,6 @@ public enum CustomRankingCriterion: Codable, Equatable {
 }
 
 extension CustomRankingCriterion: RawRepresentable {
-
   private enum Prefix: String {
     case asc
     case desc
@@ -31,7 +30,8 @@ extension CustomRankingCriterion: RawRepresentable {
   public init?(rawValue: String) {
     guard
       let prefixedString = PrefixedString(rawValue: rawValue),
-      let prefix = Prefix(rawValue: prefixedString.prefix) else {
+      let prefix = Prefix(rawValue: prefixedString.prefix)
+    else {
       return nil
     }
     switch prefix {
@@ -41,5 +41,4 @@ extension CustomRankingCriterion: RawRepresentable {
       self = .desc(.init(rawValue: prefixedString.value))
     }
   }
-
 }

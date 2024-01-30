@@ -1,6 +1,6 @@
 //
 //  Hit.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 13.03.2020.
 //
@@ -10,7 +10,6 @@ import Foundation
 /// Wraps a generic hit object with its meta information
 
 public struct Hit<T: Codable> {
-
   public let objectID: ObjectID
   public let object: T
 
@@ -26,13 +25,11 @@ public struct Hit<T: Codable> {
 
   /// Answer information
   public let answer: Answer?
-
 }
 
 extension Hit: Equatable where T: Equatable {}
 
 extension Hit: Codable {
-
   enum CodingKeys: String, CodingKey {
     case objectID
     case snippetResult = "_snippetResult"
@@ -43,14 +40,16 @@ extension Hit: Codable {
   }
 
   public init(from decoder: Decoder) throws {
-    self.object = try T(from: decoder)
+    object = try T(from: decoder)
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.objectID = try container.decode(ObjectID.self, forKey: .objectID)
-    self.snippetResult = try container.decodeIfPresent(TreeModel<SnippetResult>.self, forKey: .snippetResult)
-    self.highlightResult = try container.decodeIfPresent(TreeModel<HighlightResult>.self, forKey: .highlightResult)
-    self.rankingInfo = try container.decodeIfPresent(RankingInfo.self, forKey: .rankingInfo)
-    self.geolocation = try? container.decodeIfPresent(SingleOrList<Point>.self, forKey: .geolocation)
-    self.answer = try container.decodeIfPresent(forKey: .answer)
+    objectID = try container.decode(ObjectID.self, forKey: .objectID)
+    snippetResult = try container.decodeIfPresent(
+      TreeModel<SnippetResult>.self, forKey: .snippetResult)
+    highlightResult = try container.decodeIfPresent(
+      TreeModel<HighlightResult>.self, forKey: .highlightResult)
+    rankingInfo = try container.decodeIfPresent(RankingInfo.self, forKey: .rankingInfo)
+    geolocation = try? container.decodeIfPresent(SingleOrList<Point>.self, forKey: .geolocation)
+    answer = try container.decodeIfPresent(forKey: .answer)
   }
 
   public func encode(to encoder: Encoder) throws {
@@ -64,5 +63,4 @@ extension Hit: Codable {
     try container.encodeIfPresent(answer, forKey: .answer)
     try object.encode(to: encoder)
   }
-
 }

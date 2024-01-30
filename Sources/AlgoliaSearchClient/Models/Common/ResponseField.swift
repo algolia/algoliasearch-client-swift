@@ -1,6 +1,6 @@
 //
 //  ResponseField.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 12.03.2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct ResponseField: StringOption, ProvidingCustomOption, URLEncodable {
-
   public let rawValue: String
 
   public init(rawValue: String) {
@@ -34,5 +33,4 @@ public struct ResponseField: StringOption, ProvidingCustomOption, URLEncodable {
   public static var query: Self { .init(rawValue: #function) }
   public static var queryAfterRemoval: Self { .init(rawValue: #function) }
   public static var userData: Self { .init(rawValue: #function) }
-
 }

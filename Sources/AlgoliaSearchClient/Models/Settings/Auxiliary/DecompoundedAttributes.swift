@@ -1,6 +1,6 @@
 //
 //  DecompoundedAttributes.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 12.03.2020.
 //
@@ -14,10 +14,9 @@ import Foundation
  An example is Baumhaus, which is a contraction of Baum and Haus.
  The goal of decompounding, regarding the previous example, is to index both Baum and Haus separately,
  instead of as a single word.
-*/
+ */
 
 public struct DecompoundedAttributes: Equatable {
-
   private let storage: [Language: [Attribute]]
 
   init(storage: [Language: [Attribute]]) {
@@ -25,13 +24,11 @@ public struct DecompoundedAttributes: Equatable {
   }
 
   public func attributes(for language: AllowedLanguage) -> [Attribute]? {
-    return storage[language.language]
+    storage[language.language]
   }
-
 }
 
 extension DecompoundedAttributes: ExpressibleByDictionaryLiteral {
-
   public init(dictionaryLiteral elements: (AllowedLanguage, [Attribute])...) {
     var storage: [Language: [Attribute]] = [:]
     for (language, attributes) in elements {
@@ -39,13 +36,10 @@ extension DecompoundedAttributes: ExpressibleByDictionaryLiteral {
     }
     self.init(storage: storage)
   }
-
 }
 
 extension DecompoundedAttributes {
-
   public enum AllowedLanguage {
-
     case german
     case finnish
     case dutch
@@ -57,13 +51,10 @@ extension DecompoundedAttributes {
       case .dutch: return .dutch
       }
     }
-
   }
-
 }
 
 extension DecompoundedAttributes: Codable {
-
   public init(from decoder: Decoder) throws {
     let container = try decoder.singleValueContainer()
     let rawStorage = try container.decode([String: [String]].self)
@@ -84,5 +75,4 @@ extension DecompoundedAttributes: Codable {
     }
     try container.encode(rawStorage)
   }
-
 }

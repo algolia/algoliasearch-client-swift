@@ -1,6 +1,6 @@
 //
 //  ObjectRequest.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 28/03/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct ObjectRequest: Codable {
-
   /// IndexName containing the object.
   public let indexName: IndexName
 
@@ -23,5 +22,4 @@ public struct ObjectRequest: Codable {
     self.objectID = objectID
     self.attributesToRetrieve = attributesToRetrieve
   }
-
 }

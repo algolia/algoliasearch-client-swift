@@ -1,6 +1,6 @@
 //
 //  Log.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 07/04/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct Log {
-
   /// Method timestamp
   public let timestamp: Date
 
@@ -56,19 +55,15 @@ public struct Log {
   public let exhaustiveFaceting: Bool?
 
   public let queryParams: String?
-
 }
 
 extension Log: CustomStringConvertible {
-
   public var description: String {
-    return "\(url) \(method) \(answerCode) \(timestamp)"
+    "\(url) \(method) \(answerCode) \(timestamp)"
   }
-
 }
 
 extension Log: Codable {
-
   enum CodingKeys: String, CodingKey {
     case timestamp
     case method
@@ -100,9 +95,12 @@ extension Log: Codable {
     ip = try container.decode(forKey: .ip)
     queryHeaders = try container.decode(forKey: .queryHeaders)
     sha1 = try container.decode(forKey: .sha1)
-    nbApiCalls = (try container.decodeIfPresent(StringNumberContainer.self, forKey: .nbAPICalls))?.intValue
-    processingTimeMS = (try container.decode(StringNumberContainer.self, forKey: .processingTimeMS)).intValue
-    queryNbHits = (try container.decodeIfPresent(StringNumberContainer.self, forKey: .queryNbHits))?.intValue
+    nbApiCalls =
+      (try container.decodeIfPresent(StringNumberContainer.self, forKey: .nbAPICalls))?.intValue
+    processingTimeMS =
+      (try container.decode(StringNumberContainer.self, forKey: .processingTimeMS)).intValue
+    queryNbHits =
+      (try container.decodeIfPresent(StringNumberContainer.self, forKey: .queryNbHits))?.intValue
     indexName = try container.decodeIfPresent(forKey: .indexName)
     exhaustiveNbHits = try container.decodeIfPresent(forKey: .exhaustiveNbHits)
     exhaustiveFaceting = try container.decodeIfPresent(forKey: .exhaustiveFaceting)
@@ -130,13 +128,10 @@ extension Log: Codable {
     try container.encodeIfPresent(queryParams, forKey: .queryParams)
     try container.encodeIfPresent(innerQueries, forKey: .innerQueries)
   }
-
 }
 
 extension Log {
-
   public struct InnerQuery: Codable {
-
     public let indexName: IndexName?
     public let queryID: QueryID?
     public let offset: Int?
@@ -148,7 +143,5 @@ extension Log {
       case offset
       case userToken = "user_token"
     }
-
   }
-
 }

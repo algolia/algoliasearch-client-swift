@@ -1,6 +1,6 @@
 //
 //  PrefixedString.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 11.03.2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 struct PrefixedString: CustomStringConvertible, Codable {
-
   let prefix: String
   let value: String
 
@@ -20,9 +19,9 @@ struct PrefixedString: CustomStringConvertible, Codable {
   init?(rawValue: String) {
     guard let leftIndex = rawValue.firstIndex(of: "(") else { return nil }
     guard let rightIndex = rawValue.lastIndex(of: ")") else { return nil }
-    self.prefix = String(rawValue.prefix(upTo: leftIndex))
+    prefix = String(rawValue.prefix(upTo: leftIndex))
     let valueStartIndex = rawValue.index(leftIndex, offsetBy: 1)
-    self.value = String(rawValue[valueStartIndex..<rightIndex])
+    value = String(rawValue[valueStartIndex..<rightIndex])
   }
 
   init(from decoder: Decoder) throws {
@@ -31,7 +30,10 @@ struct PrefixedString: CustomStringConvertible, Codable {
     if let prefixedString = PrefixedString(rawValue: rawValue) {
       self = prefixedString
     } else {
-      throw DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath, debugDescription: "\(rawValue) doesn't match the `prefix(value)` format"))
+      throw DecodingError.dataCorrupted(
+        .init(
+          codingPath: decoder.codingPath,
+          debugDescription: "\(rawValue) doesn't match the `prefix(value)` format"))
     }
   }
 
@@ -41,18 +43,16 @@ struct PrefixedString: CustomStringConvertible, Codable {
   }
 
   var description: String {
-    return "\(prefix)(\(value))"
+    "\(prefix)(\(value))"
   }
-
 }
 
 extension PrefixedString {
-
   static func matching(_ rawValue: String, prefix: String) -> String? {
-    guard let prefixedString = PrefixedString(rawValue: rawValue), prefixedString.prefix == prefix else {
+    guard let prefixedString = PrefixedString(rawValue: rawValue), prefixedString.prefix == prefix
+    else {
       return nil
     }
     return prefixedString.value
   }
-
 }

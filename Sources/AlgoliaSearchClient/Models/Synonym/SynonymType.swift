@@ -1,6 +1,6 @@
 //
 //  SynonymType.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 20/05/2020.
 //

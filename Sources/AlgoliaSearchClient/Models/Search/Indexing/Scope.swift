@@ -1,6 +1,6 @@
 //
 //  Scope.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 01/04/2020.
 //
@@ -9,7 +9,6 @@ import Foundation
 
 /// Possible Scope to copy for a copyIndex operation.
 public struct Scope: OptionSet {
-
   public let rawValue: Int
 
   public init(rawValue: Int) {
@@ -27,11 +26,9 @@ public struct Scope: OptionSet {
 
   /// Scope for rules
   public static let rules = Self(rawValue: 1 << 2)
-
 }
 
 extension Scope {
-
   var components: [ScopeComponent]? {
     guard !isEmpty else {
       return nil
@@ -48,11 +45,9 @@ extension Scope {
     }
     return output
   }
-
 }
 
 public struct ScopeComponent: StringOption, ProvidingCustomOption {
-
   public let rawValue: String
 
   public init(rawValue: String) {
@@ -64,5 +59,4 @@ public struct ScopeComponent: StringOption, ProvidingCustomOption {
   public static var synonyms: Self { .init(rawValue: #function) }
 
   public static var rules: Self { .init(rawValue: #function) }
-
 }

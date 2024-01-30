@@ -1,6 +1,6 @@
 //
 //  DictionarySearchResponse.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 21/01/2021.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct DictionarySearchResponse<E: DictionaryEntry> {
-
   public let hits: [E]
   public let nbHits: Int
   public let page: Int
@@ -20,7 +19,6 @@ public struct DictionarySearchResponse<E: DictionaryEntry> {
     self.page = page
     self.nbPages = nbPages
   }
-
 }
 
 extension DictionarySearchResponse: Encodable where E: Encodable {}

@@ -1,6 +1,6 @@
 //
 //  Rule+Consequence.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 04/05/2020.
 //
@@ -8,9 +8,7 @@
 import Foundation
 
 extension Rule {
-
   public struct Consequence {
-
     /// Names of facets to which automatic filtering must be applied; they must match the facet name of a facet value
     /// placeholder in the query pattern.
     /// - Example: facetName1, facetName2. You can specify a score: facetName1<score=5>, facetName2<score=1>.
@@ -44,17 +42,13 @@ extension Rule {
     public var userData: JSON?
 
     public init() {}
-
   }
-
 }
 
 extension Rule.Consequence: Builder {}
 
 extension Rule.Consequence {
-
   public enum QueryTextAlteration: Codable {
-
     /// Replacement for the entire query string.
     case replacement(String)
 
@@ -84,13 +78,10 @@ extension Rule.Consequence {
         try editsWrapper.encode(to: encoder)
       }
     }
-
   }
-
 }
 
 extension Rule.Consequence {
-
   struct Params: Builder, Codable {
     var query: Query?
     var queryTextAlteration: QueryTextAlteration?
@@ -108,11 +99,12 @@ extension Rule.Consequence {
     public init() {}
 
     public init(from decoder: Decoder) throws {
-      self.query = try Query(from: decoder)
+      query = try Query(from: decoder)
       let container = try decoder.container(keyedBy: CodingKeys.self)
       queryTextAlteration = try container.decodeIfPresent(forKey: .query)
       automaticFacetFilters = try container.decodeIfPresent(forKey: .automaticFacetFilters)
-      automaticOptionalFacetFilters = try container.decodeIfPresent(forKey: .automaticOptionalFacetFilters)
+      automaticOptionalFacetFilters = try container.decodeIfPresent(
+        forKey: .automaticOptionalFacetFilters)
       renderingContent = try container.decodeIfPresent(forKey: .renderingContent)
     }
 
@@ -121,16 +113,14 @@ extension Rule.Consequence {
       var container = encoder.container(keyedBy: CodingKeys.self)
       try container.encodeIfPresent(queryTextAlteration, forKey: .query)
       try container.encodeIfPresent(automaticFacetFilters, forKey: .automaticFacetFilters)
-      try container.encodeIfPresent(automaticOptionalFacetFilters, forKey: .automaticOptionalFacetFilters)
+      try container.encodeIfPresent(
+        automaticOptionalFacetFilters, forKey: .automaticOptionalFacetFilters)
       try container.encodeIfPresent(renderingContent, forKey: .renderingContent)
     }
-
   }
-
 }
 
 extension Rule.Consequence: Codable {
-
   enum CodingKeys: String, CodingKey {
     case promote
     case filterPromotes
@@ -140,17 +130,17 @@ extension Rule.Consequence: Codable {
 
   public init(from decoder: Decoder) throws {
     let params = try ParamsWrapper<Params>(from: decoder)
-    self.query = params.wrapped.query
-    self.queryTextAlteration = params.wrapped.queryTextAlteration
-    self.automaticFacetFilters = params.wrapped.automaticFacetFilters
-    self.automaticOptionalFacetFilters = params.wrapped.automaticOptionalFacetFilters
-    self.renderingContent = params.wrapped.renderingContent
+    query = params.wrapped.query
+    queryTextAlteration = params.wrapped.queryTextAlteration
+    automaticFacetFilters = params.wrapped.automaticFacetFilters
+    automaticOptionalFacetFilters = params.wrapped.automaticOptionalFacetFilters
+    renderingContent = params.wrapped.renderingContent
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    self.promote = try container.decodeIfPresent(forKey: .promote)
-    self.filterPromotes = try container.decodeIfPresent(forKey: .filterPromotes)
+    promote = try container.decodeIfPresent(forKey: .promote)
+    filterPromotes = try container.decodeIfPresent(forKey: .filterPromotes)
     let hideWrappers = try container.decodeIfPresent([ObjectIDWrapper].self, forKey: .hide)
-    self.hide = hideWrappers.flatMap { $0.map { $0.wrapped } }
-    self.userData = try container.decodeIfPresent(forKey: .userData)
+    hide = hideWrappers.flatMap { $0.map(\.wrapped) }
+    userData = try container.decodeIfPresent(forKey: .userData)
   }
 
   public func encode(to encoder: Encoder) throws {
@@ -168,5 +158,4 @@ extension Rule.Consequence: Codable {
     try container.encodeIfPresent(hideWrappers, forKey: .hide)
     try container.encodeIfPresent(userData, forKey: .userData)
   }
-
 }

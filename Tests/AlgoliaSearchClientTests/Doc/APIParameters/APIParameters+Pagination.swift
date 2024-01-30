@@ -1,22 +1,22 @@
 //
 //  APIParameters+Pagination.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 07/07/2020.
 //
 
-import Foundation
 import AlgoliaSearchClient
+import Foundation
 
 extension APIParameters {
-  //MARK: - Pagination
+  // MARK: - Pagination
+
   func pagination() {
-    
     func page() {
       /*
-       page = page_number
-      */
-      
+              page = page_number
+             */
+
       let query = Query("query")
         .set(\.page, to: 0)
 
@@ -25,25 +25,24 @@ extension APIParameters {
           print("Response: \(response)")
         }
       }
-
     }
-    
+
     func hitsPerPage() {
       /*
-       hitsPerPage = number_of_hits
-      */
-      
+              hitsPerPage = number_of_hits
+             */
+
       func set_default_hits_per_page() {
         let settings = Settings()
           .set(\.hitsPerPage, to: 20)
-        
+
         index.setSettings(settings) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
           }
         }
       }
-      
+
       func override_default_hits_per_page() {
         let query = Query("query")
           .set(\.hitsPerPage, to: 10)
@@ -54,14 +53,13 @@ extension APIParameters {
           }
         }
       }
-      
     }
-    
+
     func offset() {
       /*
-       offset = record_number
-      */
-      
+              offset = record_number
+             */
+
       let query = Query("query")
         .set(\.offset, to: 4)
 
@@ -71,12 +69,12 @@ extension APIParameters {
         }
       }
     }
-    
+
     func length() {
       /*
-       length = number_of_records
-      */
-      
+              length = number_of_records
+             */
+
       let query = Query("query")
         .set(\.length, to: 4)
 
@@ -86,14 +84,14 @@ extension APIParameters {
         }
       }
     }
-    
+
     func paginationLimitedTo() {
       /*
-       paginationLimitedTo: number_of_records
-       */
+             paginationLimitedTo: number_of_records
+             */
       let settings = Settings()
         .set(\.paginationLimitedTo, to: 1000)
-      
+
       index.setSettings(settings) { result in
         if case .success(let response) = result {
           print("Response: \(response)")

@@ -1,6 +1,6 @@
 //
 //  ObjectCreation.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 02/03/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct ObjectCreation: IndexTask, Codable {
-
   /// The date at which the record has been created.
   public let createdAt: Date
 
@@ -17,5 +16,4 @@ public struct ObjectCreation: IndexTask, Codable {
 
   /// The inserted record ObjectID
   public let objectID: ObjectID
-
 }

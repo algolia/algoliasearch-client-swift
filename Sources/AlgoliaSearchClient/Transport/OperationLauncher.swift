@@ -1,6 +1,6 @@
 //
 //  OperationLauncher.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 03/04/2020.
 //
@@ -8,15 +8,15 @@
 import Foundation
 
 class OperationLauncher {
-
   let queue: OperationQueue
 
   init(queue: OperationQueue) {
     self.queue = queue
-#if os(Linux)
-    self.queue.underlyingQueue = DispatchQueue
-      .global(qos: DispatchQoS.QoSClass.background)
-#endif
+    #if os(Linux)
+      self.queue.underlyingQueue =
+        DispatchQueue
+        .global(qos: DispatchQoS.QoSClass.background)
+    #endif
   }
 
   @discardableResult func launch<O: Operation>(_ operation: O) -> O {
@@ -48,5 +48,4 @@ public enum SyncOperationError: LocalizedError {
       return "Operation is in progress"
     }
   }
-
 }

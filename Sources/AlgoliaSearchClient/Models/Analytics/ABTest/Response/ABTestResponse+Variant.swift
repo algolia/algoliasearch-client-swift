@@ -1,6 +1,6 @@
 //
 //  ABTestReponse+Variant.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 28/05/2020.
 //
@@ -8,9 +8,7 @@
 import Foundation
 
 extension ABTestResponse {
-
   public struct Variant: Codable {
-
     public let indexName: IndexName
 
     public let trafficPercentage: Int
@@ -57,7 +55,5 @@ extension ABTestResponse {
       case clickThroughRate
       case customSearchParameters
     }
-
   }
-
 }

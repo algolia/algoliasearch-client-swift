@@ -1,6 +1,6 @@
 //
 //  MultiSearchResponse.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 21/07/2021.
 //
@@ -9,7 +9,6 @@ import Foundation
 
 /// Wraps the list of multi search results (either FacetSearchResponse or SearchResponse)
 public struct MultiSearchResponse: Codable {
-
   /// List of result in the order they were submitted, one element for each IndexedQuery.
   public var results: [Response]
 
@@ -17,14 +16,11 @@ public struct MultiSearchResponse: Codable {
   public init(results: [Response]) {
     self.results = results
   }
-
 }
 
-public extension MultiSearchResponse {
-
+extension MultiSearchResponse {
   /// Container for either FacetSearchResponse or SearchResponse
-  enum Response: Codable {
-
+  public enum Response: Codable {
     case facets(FacetSearchResponse)
     case hits(SearchResponse)
 
@@ -50,7 +46,7 @@ public extension MultiSearchResponse {
         let searchResponse = try SearchResponse(from: decoder)
         self = .hits(searchResponse)
         return
-      } catch let error {
+      } catch {
         searchResponseDecodingError = error
       }
 
@@ -59,14 +55,17 @@ public extension MultiSearchResponse {
         let facetSearchResponse = try FacetSearchResponse(from: decoder)
         self = .facets(facetSearchResponse)
         return
-      } catch let error {
+      } catch {
         facetSearchResponseDecodingError = error
       }
 
-      let compositeError = CompositeError.with(searchResponseDecodingError, facetSearchResponseDecodingError)
-      throw Swift.DecodingError.dataCorrupted(.init(codingPath: decoder.codingPath,
-                                                    debugDescription: "Failed to decode either SearchResponse or FacetSearchResponse value",
-                                                    underlyingError: compositeError))
+      let compositeError = CompositeError.with(
+        searchResponseDecodingError, facetSearchResponseDecodingError)
+      throw Swift.DecodingError.dataCorrupted(
+        .init(
+          codingPath: decoder.codingPath,
+          debugDescription: "Failed to decode either SearchResponse or FacetSearchResponse value",
+          underlyingError: compositeError))
     }
 
     public func encode(to encoder: Encoder) throws {
@@ -78,17 +77,17 @@ public extension MultiSearchResponse {
       }
     }
 
-    @available(*, deprecated, message: "Replaced by DecodingError.dataCorrupted with CompositeError as underlyingError error")
+    @available(
+      *, deprecated,
+      message:
+        "Replaced by DecodingError.dataCorrupted with CompositeError as underlyingError error"
+    )
     public struct DecodingError: Error {
-
       /// Error occured while search response decoding
       public let searchResponseDecodingError: Error
 
       /// Error occured while facets search response decoding
       public let facetSearchResponseDecodingError: Error
-
     }
-
   }
-
 }

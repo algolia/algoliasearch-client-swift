@@ -1,6 +1,6 @@
 //
 //  RetryStrategy.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 20/02/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 protocol RetryStrategy: AnyObject {
-
   /// Returns the iterator providing retryable hosts for a call type
   func retryableHosts(for callType: CallType) -> HostIterator
 
@@ -17,5 +16,4 @@ protocol RetryStrategy: AnyObject {
 
   /// Check if a request can be retried on another host in case of provided error
   func canRetry(inCaseOf error: Error) -> Bool
-
 }

@@ -1,6 +1,6 @@
 //
 //  RetryableHost.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 19/02/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct RetryableHost {
-
   /// The url to target.
   public let url: URL
 
@@ -23,10 +22,10 @@ public struct RetryableHost {
 
   init(url: URL, callType: CallTypeSupport = .universal) {
     self.url = url
-    self.supportedCallTypes = callType
-    self.isUp = true
-    self.lastUpdated = .init()
-    self.retryCount = 0
+    supportedCallTypes = callType
+    isUp = true
+    lastUpdated = .init()
+    retryCount = 0
   }
 
   public func supports(_ callType: CallType) -> Bool {
@@ -54,22 +53,18 @@ public struct RetryableHost {
     isUp = false
     lastUpdated = .init()
   }
-
 }
 
 extension RetryableHost {
-
   struct CallTypeSupport: OptionSet {
     let rawValue: Int
     static let read = CallTypeSupport(rawValue: 1 << 0)
     static let write = CallTypeSupport(rawValue: 1 << 1)
     static let universal: CallTypeSupport = [.read, .write]
   }
-
 }
 
 extension RetryableHost.CallTypeSupport: CustomDebugStringConvertible {
-
   var debugDescription: String {
     var components: [String] = []
     if contains(.read) {
@@ -80,21 +75,17 @@ extension RetryableHost.CallTypeSupport: CustomDebugStringConvertible {
     }
     return "[\(components.joined(separator: ", "))]"
   }
-
 }
 
 extension RetryableHost: CustomDebugStringConvertible {
-
   public var debugDescription: String {
-    return "Host \(supportedCallTypes.debugDescription) \(url) up: \(isUp) retry count: \(retryCount) updated: \(lastUpdated)"
+    "Host \(supportedCallTypes.debugDescription) \(url) up: \(isUp) retry count: \(retryCount) updated: \(lastUpdated)"
   }
-
 }
 
-extension Array where Element == RetryableHost {
-
+extension [RetryableHost] {
   /** Reset all hosts down for more than specified interval.
-  */
+     */
   public mutating func resetExpired(expirationDelay: TimeInterval) {
     var updatedHosts: [RetryableHost] = []
     for host in self {
@@ -119,5 +110,4 @@ extension Array where Element == RetryableHost {
     }
     self = updatedHosts
   }
-
 }

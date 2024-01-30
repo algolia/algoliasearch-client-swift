@@ -1,8 +1,8 @@
 import XCTest
+
 @testable import AlgoliaSearchClient
 
 final class AsyncOperationTests: XCTestCase {
-
   class TestOperation: AsyncOperation {
     override func main() {
       work()
@@ -67,7 +67,7 @@ final class AsyncOperationTests: XCTestCase {
     XCTAssertFalse(operation.isCancelled)
   }
 
-   // Behavior of standard Operation without subclassing.
+  // Behavior of standard Operation without subclassing.
   func testCancellation_ofBlockOperation_withoutQueue() {
     let operation = BlockOperation {
       Thread.sleep(forTimeInterval: 0.1)
@@ -129,5 +129,4 @@ final class AsyncOperationTests: XCTestCase {
     operation.cancel()
     XCTAssertFalse(operation.isCancelled)
   }
-
 }

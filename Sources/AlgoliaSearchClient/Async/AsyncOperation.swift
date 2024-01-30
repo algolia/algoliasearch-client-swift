@@ -1,6 +1,6 @@
 //
 //  AsyncOperation.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 02/03/2020.
 //
@@ -8,12 +8,11 @@
 import Foundation
 
 open class AsyncOperation: Operation {
-
   public enum State: String {
     case ready, executing, finished
 
     fileprivate var keyPath: String {
-      return "is" + rawValue.capitalized
+      "is" + rawValue.capitalized
     }
   }
 
@@ -30,19 +29,19 @@ open class AsyncOperation: Operation {
 
   // NSOperation Overrides
   override open var isReady: Bool {
-    return super.isReady && state == .ready
+    super.isReady && state == .ready
   }
 
   override open var isExecuting: Bool {
-    return state == .executing
+    state == .executing
   }
 
   override open var isFinished: Bool {
-    return state == .finished
+    state == .finished
   }
 
   override open var isAsynchronous: Bool {
-    return true
+    true
   }
 
   override open func start() {

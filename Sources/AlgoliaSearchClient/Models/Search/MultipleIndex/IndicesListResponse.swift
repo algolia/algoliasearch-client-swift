@@ -1,6 +1,6 @@
 //
 //  IndicesListResponse.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 04/04/2020.
 //
@@ -8,21 +8,17 @@
 import Foundation
 
 public struct IndicesListResponse: Codable {
-
   public let items: [Item]
 
   /**
-   The value is always 1.
-   There is currently no pagination for this method. Every index is returned on the first call.
-  */
+      The value is always 1.
+      There is currently no pagination for this method. Every index is returned on the first call.
+     */
   public let nbPages: Int
-
 }
 
 extension IndicesListResponse {
-
   public struct Item: Codable {
-
     /// Index name.
     public let name: IndexName
 
@@ -54,7 +50,5 @@ extension IndicesListResponse {
     public let primary: IndexName?
     public let sourceABTest: IndexName?
     public let abTest: ABTestShortResponse?
-
   }
-
 }

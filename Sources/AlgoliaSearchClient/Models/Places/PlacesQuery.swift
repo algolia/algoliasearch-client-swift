@@ -1,6 +1,6 @@
 //
 //  PlacesQuery.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 12/04/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct PlacesQuery {
-
   /// The query to match places by name.
   public var query: String?
 
@@ -48,21 +47,17 @@ public struct PlacesQuery {
   public init(_ query: String? = nil) {
     self.query = query
   }
-
 }
 
 extension PlacesQuery: Builder {}
 
 extension PlacesQuery: ExpressibleByStringInterpolation {
-
   public init(stringLiteral value: String) {
     self.init(value)
   }
-
 }
 
 extension PlacesQuery: Codable {
-
   enum CodingKeys: String, CodingKey {
     case query
     case type
@@ -100,5 +95,4 @@ extension PlacesQuery: Codable {
     try container.encodeIfPresent(hitsPerPage, forKey: .hitsPerPage)
     try container.encodeIfPresent(language, forKey: .language)
   }
-
 }

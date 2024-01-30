@@ -1,6 +1,6 @@
 //
 //  Rule+Anchoring.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 05/05/2020.
 //
@@ -8,9 +8,7 @@
 import Foundation
 
 extension Rule {
-
   public struct Anchoring: StringOption, ProvidingCustomOption {
-
     public let rawValue: String
 
     public init(rawValue: String) {
@@ -28,7 +26,5 @@ extension Rule {
 
     /// The Pattern is contained by the query.
     public static var contains: Self { .init(rawValue: #function) }
-
   }
-
 }

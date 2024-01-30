@@ -1,6 +1,6 @@
 //
 //  FiltersStorage.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 07/07/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct FiltersStorage: Equatable {
-
   public var units: [Unit]
 
   public init(units: [Unit]) {
@@ -23,11 +22,9 @@ public struct FiltersStorage: Equatable {
   public static func and(_ units: Unit...) -> Self {
     .init(units: units)
   }
-
 }
 
 extension FiltersStorage.Unit {
-
   public static func and(_ filters: String...) -> Self {
     .and(filters)
   }
@@ -35,11 +32,9 @@ extension FiltersStorage.Unit {
   public static func or(_ filters: String...) -> Self {
     .or(filters)
   }
-
 }
 
 extension FiltersStorage: RawRepresentable {
-
   public var rawValue: [SingleOrList<String>] {
     var output: [SingleOrList<String>] = []
     for unit in units {
@@ -65,11 +60,9 @@ extension FiltersStorage: RawRepresentable {
     }
     self.init(units: units)
   }
-
 }
 
 extension FiltersStorage: Codable {
-
   public init(from decoder: Decoder) throws {
     self.init(rawValue: try RawValue(from: decoder))
   }
@@ -77,21 +70,16 @@ extension FiltersStorage: Codable {
   public func encode(to encoder: Encoder) throws {
     try rawValue.encode(to: encoder)
   }
-
 }
 
 extension FiltersStorage.Unit: ExpressibleByStringInterpolation {
-
   public init(stringLiteral value: String) {
     self = .and([value])
   }
-
 }
 
 extension FiltersStorage: ExpressibleByArrayLiteral {
-
   public init(arrayLiteral elements: Unit...) {
     self.init(units: elements)
   }
-
 }

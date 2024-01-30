@@ -1,24 +1,25 @@
 //
 //  APIParameters+Advanced.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 06/07/2020.
 //
 
-import Foundation
 import AlgoliaSearchClient
+import Foundation
 
 extension APIParameters {
-  //MARK: - Advanced
+  // MARK: - Advanced
+
   func advanced() {
     func attributeForDistinct() {
       /*
-       attributeForDistinct = "attribute"
-       */
+             attributeForDistinct = "attribute"
+             */
       func set_attributes_for_distinct() {
         let settings = Settings()
           .set(\.attributeForDistinct, to: "url")
-        
+
         index.setSettings(settings) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -26,16 +27,16 @@ extension APIParameters {
         }
       }
     }
-    
+
     func distinct() {
       /*
-       distinct = 0|1|2|3
-       */
+             distinct = 0|1|2|3
+             */
       func set_distinct() {
         let settings = Settings()
           .set(\.distinct, to: 0)
-        //.set(\.distinct, to: 1)
-        //.set(\.distinct, to: 2)
+        // .set(\.distinct, to: 1)
+        // .set(\.distinct, to: 2)
 
         index.setSettings(settings) { result in
           if case .success(let response) = result {
@@ -46,9 +47,9 @@ extension APIParameters {
       func override_distinct() {
         let query = Query("query")
           .set(\.distinct, to: 1)
-          //.set(\.distinct, to: 0)
-          //.set(\.distinct, to: 2)
-        
+        // .set(\.distinct, to: 0)
+        // .set(\.distinct, to: 2)
+
         index.search(query: query) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -56,15 +57,15 @@ extension APIParameters {
         }
       }
     }
-    
+
     func getRankingInfo() {
       /*
-       getRankingInfo = true|false
-       */
+             getRankingInfo = true|false
+             */
       func get_ranking_info() {
         let query = Query("query")
           .set(\.getRankingInfo, to: true)
-        
+
         index.search(query: query) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -72,15 +73,15 @@ extension APIParameters {
         }
       }
     }
-    
+
     func clickAnalytics() {
       /*
-       clickAnalytics = true|false
-       */
+             clickAnalytics = true|false
+             */
       func disable_click_analytics() {
         let query = Query("query")
           .set(\.clickAnalytics, to: false)
-        
+
         index.search(query: query) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -90,7 +91,7 @@ extension APIParameters {
       func enable_click_analytics() {
         let query = Query("query")
           .set(\.clickAnalytics, to: true)
-        
+
         index.search(query: query) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -98,15 +99,15 @@ extension APIParameters {
         }
       }
     }
-    
+
     func analytics() {
       /*
-       analytics = true|false
-       */
+             analytics = true|false
+             */
       func disable_analytics() {
         let query = Query("query")
           .set(\.analytics, to: false)
-        
+
         index.search(query: query) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -120,13 +121,13 @@ extension APIParameters {
           applicationID: "YourApplicationID",
           apiKey: "YourSearchOnlyAPIKey"
         )
-          .set(\.defaultHeaders, to: ["X-Forwarded-For": "94.228.178.246"])
+        .set(\.defaultHeaders, to: ["X-Forwarded-For": "94.228.178.246"])
         let client = SearchClient(configuration: configuration)
         let index = client.index(withName: "index_name")
-        
+
         let query = Query("query")
           .set(\.analytics, to: true)
-        
+
         index.search(query: query) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -134,18 +135,18 @@ extension APIParameters {
         }
       }
     }
-    
+
     func analyticsTags() {
       /*
-       analyticsTags = [
-         "tag value",
-         ...
-       ]
-       */
+             analyticsTags = [
+               "tag value",
+               ...
+             ]
+             */
       func add_analytics_tags() {
         let query = Query("query")
           .set(\.analyticsTags, to: ["front_end", "website2"])
-        
+
         index.search(query: query) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -153,15 +154,15 @@ extension APIParameters {
         }
       }
     }
-    
+
     func synonyms() {
       /*
-       synonyms = true|false
-       */
+             synonyms = true|false
+             */
       func disable_synonyms() {
         let query = Query("query")
           .set(\.synonyms, to: false)
-        
+
         index.search(query: query) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -169,15 +170,15 @@ extension APIParameters {
         }
       }
     }
-    
+
     func replaceSynonymsInHighlight() {
       /*
-       replaceSynonymsInHighlight = true|false
-       */
+             replaceSynonymsInHighlight = true|false
+             */
       func set_replace_synonyms_in_highlights() {
         let settings = Settings()
           .set(\.replaceSynonymsInHighlight, to: false)
-        
+
         index.setSettings(settings) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -187,7 +188,7 @@ extension APIParameters {
       func override_replace_synonyms_in_highlights() {
         let query = Query("query")
           .set(\.replaceSynonymsInHighlight, to: true)
-        
+
         index.search(query: query) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -195,15 +196,15 @@ extension APIParameters {
         }
       }
     }
-    
+
     func minProximity() {
       /*
-       minProximity = integer // from 1 to 7
-       */
+             minProximity = integer // from 1 to 7
+             */
       func set_min_proximity() {
         let settings = Settings()
           .set(\.minProximity, to: 1)
-        
+
         index.setSettings(settings) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -213,7 +214,7 @@ extension APIParameters {
       func override_min_proximity() {
         let query = Query("query")
           .set(\.minProximity, to: 2)
-        
+
         index.search(query: query) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -221,23 +222,25 @@ extension APIParameters {
         }
       }
     }
-    
+
     func responseFields() {
       /*
-       responseFields = [
-         __ResponseField__,
-         ...
-       ]
-       */
+             responseFields = [
+               __ResponseField__,
+               ...
+             ]
+             */
       func set_default_field() {
         let settings = Settings()
-          .set(\.responseFields, to: [
-            .hits,
-            .hitsPerPage,
-            .nbPages,
-            .page
-          ])
-        
+          .set(
+            \.responseFields,
+            to: [
+              .hits,
+              .hitsPerPage,
+              .nbPages,
+              .page,
+            ])
+
         index.setSettings(settings) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -247,7 +250,7 @@ extension APIParameters {
       func override_default_field() {
         let query = Query("query")
           .set(\.responseFields, to: [.hits, .facets])
-        
+
         index.search(query: query) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -255,15 +258,15 @@ extension APIParameters {
         }
       }
     }
-    
+
     func maxFacetHits() {
       /*
-       maxFacetHits = number_of_facet_hits
-       */
+             maxFacetHits = number_of_facet_hits
+             */
       func set_max_facet_hits() {
         let settings = Settings()
           .set(\.maxFacetHits, to: 10)
-        
+
         index.setSettings(settings) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -273,7 +276,7 @@ extension APIParameters {
       func override_max_facet_hits() {
         let query = Query("query")
           .set(\.maxFacetHits, to: 5)
-        
+
         index.search(query: query) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -281,15 +284,15 @@ extension APIParameters {
         }
       }
     }
-    
+
     func percentileComputation() {
       /*
-       percentileComputation = true|false
-       */
+             percentileComputation = true|false
+             */
       func override_percentile_computation() {
         let query = Query("query")
           .set(\.percentileComputation, to: false)
-        
+
         index.search(query: query) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -297,15 +300,15 @@ extension APIParameters {
         }
       }
     }
-    
+
     func attributeCriteriaComputedByMinProximity() {
       /*
-       attributeCriteriaComputedByMinProximity = true|false
-       */
+             attributeCriteriaComputedByMinProximity = true|false
+             */
       func set_attribute_criteria_computed_by_min_proximity() {
         let settings = Settings()
           .set(\.attributeCriteriaComputedByMinProximity, to: true)
-        
+
         index.setSettings(settings) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -313,15 +316,17 @@ extension APIParameters {
         }
       }
     }
-    
+
     func userData() {
       /*
-       userData = __JSON__
-       */
+             userData = __JSON__
+             */
       func set_user_data() {
         let settings = Settings()
-          .set(\.userData, to: ["extraData": "This is the custom data you want to store in your index"])
-        
+          .set(
+            \.userData, to: ["extraData": "This is the custom data you want to store in your index"]
+          )
+
         index.setSettings(settings) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -329,15 +334,15 @@ extension APIParameters {
         }
       }
     }
-    
+
     func enableABTest() {
       /*
-       enableABTest = true|false
-       */
+             enableABTest = true|false
+             */
       func set_ab_test() {
         let query = Query("query")
           .set(\.enableABTest, to: false)
-        
+
         index.search(query: query) { result in
           if case .success(let response) = result {
             print("Response: \(response)")
@@ -345,6 +350,5 @@ extension APIParameters {
         }
       }
     }
-    
   }
 }

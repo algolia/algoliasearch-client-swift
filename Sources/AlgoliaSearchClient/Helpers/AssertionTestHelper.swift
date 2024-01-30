@@ -1,6 +1,6 @@
 //
 //  AssertionTestHelper.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 20/11/2020.
 //
@@ -11,7 +11,9 @@ import Foundation
 ///
 /// This will call Swift's `assertionFailure` by default (and terminate the program).
 /// But it can be changed at runtime to be tested instead of terminating.
-func assertionFailure(_ message: @autoclosure () -> String = String(), file: StaticString = #file, line: UInt = #line) {
+func assertionFailure(
+  _ message: @autoclosure () -> String = String(), file: StaticString = #file, line: UInt = #line
+) {
   assertionClosure(message(), file, line)
 }
 

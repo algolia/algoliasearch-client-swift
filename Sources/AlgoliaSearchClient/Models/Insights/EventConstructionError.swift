@@ -1,21 +1,19 @@
 //
 //  EventConstructionError.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 23/04/2020.
 //
 
 import Foundation
 
-public extension InsightsEvent {
-
-  enum Constraints {
+extension InsightsEvent {
+  public enum Constraints {
     public static let maxObjectIDsCount = 20
     public static let maxFiltersCount = 10
   }
 
-  enum ConstructionError: Error {
-
+  public enum ConstructionError: Error {
     case emptyEventName
     case objectIDsCountOverflow
     case filtersCountOverflow
@@ -39,13 +37,10 @@ public extension InsightsEvent {
         break
       }
     }
-
   }
-
 }
 
 extension InsightsEvent.ConstructionError: LocalizedError {
-
   public var errorDescription: String? {
     switch self {
     case .emptyEventName:
@@ -57,9 +52,8 @@ extension InsightsEvent.ConstructionError: LocalizedError {
     case .objectIDsCountOverflow:
       return "Max objects IDs count in event is \(InsightsEvent.Constraints.maxObjectIDsCount)"
 
-    case .objectsAndPositionsCountMismatch(objectIDsCount: let objectIDsCount, positionsCount: let positionsCount):
+    case .objectsAndPositionsCountMismatch(let objectIDsCount, let positionsCount):
       return "Object IDs count \(objectIDsCount) is not equal to positions count \(positionsCount)"
     }
   }
-
 }

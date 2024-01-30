@@ -1,15 +1,14 @@
 //
 //  ObjectIDChecker.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 28/04/2020.
 //
 
 import Foundation
 
-public struct ObjectIDChecker {
-
-  static func checkObjectID<T: Encodable>(_ object: T) throws {
+public enum ObjectIDChecker {
+  static func checkObjectID(_ object: some Encodable) throws {
     let data = try JSONEncoder().encode(object)
     do {
       _ = try JSONDecoder().decode(ObjectWrapper<Empty>.self, from: data)
@@ -18,10 +17,10 @@ public struct ObjectIDChecker {
     }
   }
 
-  static func assertObjectID<T: Encodable>(_ object: T) {
+  static func assertObjectID(_ object: some Encodable) {
     do {
       try checkObjectID(object)
-    } catch let error {
+    } catch {
       assertionFailure("\(error.localizedDescription)")
     }
   }
@@ -32,9 +31,9 @@ public struct ObjectIDChecker {
     var localizedDescription: String {
       switch self {
       case .missingObjectIDProperty:
-        return "Object must contain encoded `objectID` field if autoGenerationObjectID is set to false"
+        return
+          "Object must contain encoded `objectID` field if autoGenerationObjectID is set to false"
       }
     }
   }
-
 }

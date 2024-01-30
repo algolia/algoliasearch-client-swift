@@ -1,6 +1,6 @@
 //
 //  InsightsEvent+Resources.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 23/04/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 extension InsightsEvent {
-
   public enum Resources: Equatable {
     case objectIDs([ObjectID])
     case filters([String])
@@ -21,18 +20,15 @@ extension InsightsEvent {
       case (.filters(let lValue), .filters(let rValue)):
         return lValue == rValue
       case (.objectIDsWithPositions(let lValue), .objectIDsWithPositions(let rValue)):
-        return lValue.map { $0.0 } == rValue.map { $0.0 } && lValue.map { $0.1 } == rValue.map { $0.1 }
+        return lValue.map(\.0) == rValue.map(\.0) && lValue.map(\.1) == rValue.map(\.1)
       default:
         return false
       }
     }
-
   }
-
 }
 
 extension InsightsEvent.Resources: CustomStringConvertible {
-
   public var description: String {
     switch self {
     case .filters(let filters):
@@ -43,11 +39,9 @@ extension InsightsEvent.Resources: CustomStringConvertible {
       return "object IDs & positions: \(objectIDsPositions)"
     }
   }
-
 }
 
 extension InsightsEvent.Resources: Codable {
-
   enum CodingKeys: String, CodingKey {
     case objectIDs
     case filters
@@ -55,7 +49,6 @@ extension InsightsEvent.Resources: Codable {
   }
 
   public init(from decoder: Decoder) throws {
-
     let container = try decoder.container(keyedBy: CodingKeys.self)
 
     let objectIDsDecodingError: Error
@@ -69,7 +62,7 @@ extension InsightsEvent.Resources: Codable {
         self = .objectIDs(objectIDs)
       }
       return
-    } catch let error {
+    } catch {
       objectIDsDecodingError = error
     }
 
@@ -77,20 +70,21 @@ extension InsightsEvent.Resources: Codable {
       let filters = try container.decode([String].self, forKey: .filters)
       self = .filters(filters)
       return
-    } catch let error {
+    } catch {
       filtersDecodingError = error
     }
 
     let compositeError = CompositeError.with(objectIDsDecodingError, filtersDecodingError)
     typealias Keys = InsightsEvent.Resources.CodingKeys
-    let context = DecodingError.Context(codingPath: decoder.codingPath,
-                                        debugDescription: "Neither \(Keys.filters.rawValue), nor \(Keys.objectIDs.rawValue) key found on decoder",
-                                        underlyingError: compositeError)
+    let context = DecodingError.Context(
+      codingPath: decoder.codingPath,
+      debugDescription:
+        "Neither \(Keys.filters.rawValue), nor \(Keys.objectIDs.rawValue) key found on decoder",
+      underlyingError: compositeError)
     throw DecodingError.dataCorrupted(context)
   }
 
   public func encode(to encoder: Encoder) throws {
-
     var container = encoder.container(keyedBy: CodingKeys.self)
 
     switch self {
@@ -98,13 +92,11 @@ extension InsightsEvent.Resources: Codable {
       try container.encode(filters, forKey: .filters)
 
     case .objectIDsWithPositions(let objectIDswithPositions):
-      try container.encode(objectIDswithPositions.map { $0.0 }, forKey: .objectIDs)
-      try container.encode(objectIDswithPositions.map { $0.1 }, forKey: .positions)
+      try container.encode(objectIDswithPositions.map(\.0), forKey: .objectIDs)
+      try container.encode(objectIDswithPositions.map(\.1), forKey: .positions)
 
     case .objectIDs(let objectsIDs):
       try container.encode(objectsIDs, forKey: .objectIDs)
     }
-
   }
-
 }

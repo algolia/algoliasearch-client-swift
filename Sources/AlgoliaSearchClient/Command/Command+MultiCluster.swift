@@ -1,6 +1,6 @@
 //
 //  Command+MultiCluster.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 25/05/2020.
 //
@@ -8,11 +8,8 @@
 import Foundation
 
 extension Command {
-
   enum MultiCluster {
-
     struct ListClusters: AlgoliaCommand {
-
       let method: HTTPMethod = .get
       let callType: CallType = .read
       let path = URL.clustersV1
@@ -21,11 +18,9 @@ extension Command {
       init(requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
       }
-
     }
 
     struct HasPendingMapping: AlgoliaCommand {
-
       let method: HTTPMethod = .get
       let callType: CallType = .read
       let path: URL
@@ -33,24 +28,18 @@ extension Command {
 
       init(retrieveMapping: Bool, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions.updateOrCreate([.getClusters: String(retrieveMapping)])
-        self.path = URL
+        path = URL
           .clustersV1
           .appending(.mapping)
           .appending(.pending)
       }
-
     }
-
   }
-
 }
 
 extension Command.MultiCluster {
-
   enum User {
-
     struct Assign: AlgoliaCommand {
-
       let method: HTTPMethod = .post
       let callType: CallType = .write
       let path = URL.clustersV1.appending(.mapping)
@@ -61,13 +50,11 @@ extension Command.MultiCluster {
         var updatedRequestOptions = requestOptions ?? .init()
         updatedRequestOptions.setHeader(userID.rawValue, forKey: .algoliaUserID)
         self.requestOptions = updatedRequestOptions
-        self.body = ClusterWrapper(clusterName).httpBody
+        body = ClusterWrapper(clusterName).httpBody
       }
-
     }
 
     struct BatchAssign: AlgoliaCommand {
-
       let method: HTTPMethod = .post
       let callType: CallType = .write
       let path: URL = URL
@@ -79,13 +66,11 @@ extension Command.MultiCluster {
 
       init(userIDs: [UserID], clusterName: ClusterName, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.body = AssignUserIDRequest(clusterName: clusterName, userIDs: userIDs).httpBody
+        body = AssignUserIDRequest(clusterName: clusterName, userIDs: userIDs).httpBody
       }
-
     }
 
     struct Get: AlgoliaCommand {
-
       let method: HTTPMethod = .get
       let callType: CallType = .read
       let path: URL
@@ -93,16 +78,14 @@ extension Command.MultiCluster {
 
       init(userID: UserID, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.path = URL
+        path = URL
           .clustersV1
           .appending(.mapping)
           .appending(userID)
       }
-
     }
 
     struct GetTop: AlgoliaCommand {
-
       let method: HTTPMethod = .get
       let callType: CallType = .read
       let path = URL.clustersV1
@@ -113,11 +96,9 @@ extension Command.MultiCluster {
       init(requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
       }
-
     }
 
     struct GetList: AlgoliaCommand {
-
       let method: HTTPMethod = .get
       let callType: CallType = .read
       let path = URL.clustersV1
@@ -128,14 +109,12 @@ extension Command.MultiCluster {
         self.requestOptions = requestOptions.updateOrCreate(
           [
             .page: page.flatMap(String.init),
-            .hitsPerPage: hitsPerPage.flatMap(String.init)
+            .hitsPerPage: hitsPerPage.flatMap(String.init),
           ])
       }
-
     }
 
     struct Remove: AlgoliaCommand {
-
       let method: HTTPMethod = .delete
       let callType: CallType = .write
       let path: URL = URL
@@ -148,11 +127,9 @@ extension Command.MultiCluster {
         updatedRequestOptions.setHeader(userID.rawValue, forKey: .algoliaUserID)
         self.requestOptions = updatedRequestOptions
       }
-
     }
 
     struct Search: AlgoliaCommand {
-
       let method: HTTPMethod = .post
       let callType: CallType = .read
       let path = URL.clustersV1
@@ -163,17 +140,13 @@ extension Command.MultiCluster {
 
       init(userIDQuery: UserIDQuery, requestOptions: RequestOptions?) {
         self.requestOptions = requestOptions
-        self.body = userIDQuery.httpBody
+        body = userIDQuery.httpBody
       }
-
     }
-
   }
-
 }
 
 struct AssignUserIDRequest: Codable {
-
   let clusterName: ClusterName
   let userIDs: [UserID]
 
@@ -181,5 +154,4 @@ struct AssignUserIDRequest: Codable {
     case clusterName = "cluster"
     case userIDs = "users"
   }
-
 }

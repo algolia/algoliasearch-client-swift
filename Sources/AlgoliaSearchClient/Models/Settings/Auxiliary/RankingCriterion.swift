@@ -1,6 +1,6 @@
 //
 //  RankingCriterion.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 11.03.2020.
 //
@@ -9,7 +9,6 @@
 import Foundation
 
 public enum RankingCriterion: Codable, Equatable {
-
   case asc(Attribute)
   case desc(Attribute)
   case typo
@@ -20,11 +19,9 @@ public enum RankingCriterion: Codable, Equatable {
   case attribute
   case exact
   case custom
-
 }
 
 extension RankingCriterion: RawRepresentable {
-
   private enum Prefix: String {
     case asc
     case desc
@@ -93,6 +90,6 @@ extension RankingCriterion: RawRepresentable {
       return nil
     }
   }
-
 }
+
 // swiftlint:enable cyclomatic_complexity

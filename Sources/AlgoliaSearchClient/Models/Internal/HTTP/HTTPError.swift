@@ -1,22 +1,22 @@
 //
 //  HTTPError.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 02/03/2020.
 //
 
 import Foundation
+
 #if canImport(FoundationNetworking)
-import FoundationNetworking
+  import FoundationNetworking
 #endif
 
 public struct HTTPError: Error, CustomStringConvertible {
-
   public let statusCode: HTTPStatusСode
   public let message: ErrorMessage?
 
   public init?(response: HTTPURLResponse?, data: Data?) {
-    guard let response = response, !response.statusCode.belongs(to: .success) else {
+    guard let response, !response.statusCode.belongs(to: .success) else {
       return nil
     }
 
@@ -30,17 +30,14 @@ public struct HTTPError: Error, CustomStringConvertible {
   }
 
   public var description: String {
-    return "Status code: \(statusCode) Message: \(message.flatMap { $0.description } ?? "No message")"
+    "Status code: \(statusCode) Message: \(message.map(\.description) ?? "No message")"
   }
-
 }
 
 public struct ErrorMessage: Codable, CustomStringConvertible {
-
   enum CodingKeys: String, CodingKey {
     case description = "message"
   }
 
   public let description: String
-
 }

@@ -1,6 +1,6 @@
 //
 //  RankingInfo.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 19/03/2020.
 //
@@ -9,7 +9,6 @@ import Foundation
 
 /// Ranking info for a hit.
 public struct RankingInfo: Codable, Hashable {
-
   /// Number of typos encountered when matching the record.
   /// Corresponds to the `typos` ranking criterion in the ranking formula.
   public let typosCount: Int
@@ -57,5 +56,4 @@ public struct RankingInfo: Codable, Hashable {
     case words
     case filters
   }
-
 }

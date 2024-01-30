@@ -1,6 +1,6 @@
 //
 //  URL+Convenience.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 18/11/2021.
 //
@@ -8,13 +8,12 @@
 import Foundation
 
 extension URL {
-
   static var indexesV1 = Self(string: "/1/indexes")!
   static var settings = Self(string: "/settings")!
   static var clustersV1 = Self(string: "/1/clusters")!
   static var synonyms = Self(string: "/synonyms")!
   static var eventsV1 = Self(string: "/1/events")!
-  static var ABTestsV2 = Self(string: "/2/abtests")!
+  static var abtestsV2 = Self(string: "/2/abtests")!
   static var keysV1 = Self(string: "/1/keys")!
   static var logs = Self(string: "/1/logs")!
   static var strategies = Self(string: "/1/strategies")!
@@ -24,15 +23,18 @@ extension URL {
   static var task = Self(string: "/1/task")!
 
   func appending<R: RawRepresentable>(_ rawRepresentable: R) -> Self where R.RawValue == String {
-    return appendingPathComponent(rawRepresentable.rawValue.addingPercentEncoding(withAllowedCharacters: .urlPathComponentAllowed)!, isDirectory: false)
+    appendingPathComponent(
+      rawRepresentable.rawValue.addingPercentEncoding(
+        withAllowedCharacters: .urlPathComponentAllowed)!, isDirectory: false)
   }
 
   func appending(_ pathComponent: PathComponent) -> Self {
-    return appendingPathComponent(pathComponent.rawValue.addingPercentEncoding(withAllowedCharacters: .urlPathComponentAllowed)!, isDirectory: false)
+    appendingPathComponent(
+      pathComponent.rawValue.addingPercentEncoding(
+        withAllowedCharacters: .urlPathComponentAllowed)!, isDirectory: false)
   }
 
   enum PathComponent: String {
-
     case search
     case stop
     case clear
@@ -64,7 +66,5 @@ extension URL {
     case settings
 
     case asterisk = "*"
-
   }
-
 }

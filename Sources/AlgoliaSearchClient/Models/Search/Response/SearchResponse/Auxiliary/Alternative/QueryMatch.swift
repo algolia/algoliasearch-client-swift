@@ -1,6 +1,6 @@
 //
 //  QueryMatch.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 23/03/2020.
 //

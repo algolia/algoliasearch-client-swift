@@ -1,6 +1,6 @@
 //
 //  MultiLanguagePlace.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 12/04/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct MultiLanguagePlace {
-
   public var country: [Language: String]?
   public var county: [Language: [String]]?
   public var city: [Language: [String]]?
@@ -28,19 +27,25 @@ public struct MultiLanguagePlace {
   public let isSuburb: Bool?
   public let isHighway: Bool?
   public let isPopular: Bool?
-
 }
 
 extension MultiLanguagePlace: Codable {
-
   typealias CodingKeys = PlaceCodingKeys
 
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
-    country = (try container.decodeIfPresent(CustomKey<Language, String>.self, forKey: .country))?.wrappedValue
-    county = (try container.decodeIfPresent(CustomKey<Language, [String]>.self, forKey: .county))?.wrappedValue
-    city = (try container.decodeIfPresent(CustomKey<Language, [String]>.self, forKey: .city))?.wrappedValue
-    localeNames = (try container.decodeIfPresent(CustomKey<Language, [String]>.self, forKey: .localeNames))?.wrappedValue
+    country =
+      (try container.decodeIfPresent(CustomKey<Language, String>.self, forKey: .country))?
+      .wrappedValue
+    county =
+      (try container.decodeIfPresent(CustomKey<Language, [String]>.self, forKey: .county))?
+      .wrappedValue
+    city =
+      (try container.decodeIfPresent(CustomKey<Language, [String]>.self, forKey: .city))?
+      .wrappedValue
+    localeNames =
+      (try container.decodeIfPresent(CustomKey<Language, [String]>.self, forKey: .localeNames))?
+      .wrappedValue
     administrative = try container.decodeIfPresent(forKey: .administrative)
     countryCode = try container.decodeIfPresent(forKey: .countryCode)
     postcode = try container.decodeIfPresent(forKey: .postcode)
@@ -80,5 +85,4 @@ extension MultiLanguagePlace: Codable {
     try container.encodeIfPresent(isHighway, forKey: .isHighway)
     try container.encodeIfPresent(isPopular, forKey: .isPopular)
   }
-
 }

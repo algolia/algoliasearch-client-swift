@@ -1,6 +1,6 @@
 //
 //  UserAgent.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 14/04/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct UserAgent: Hashable {
-
   public let title: String
   public let version: String
 
@@ -16,11 +15,9 @@ public struct UserAgent: Hashable {
     self.title = title
     self.version = version
   }
-
 }
 
 extension UserAgent: CustomStringConvertible {
-
   public var description: String {
     let versionOutput: String
     if version.isEmpty {
@@ -30,34 +27,28 @@ extension UserAgent: CustomStringConvertible {
     }
     return [title, versionOutput].filter { !$0.isEmpty }.joined(separator: " ")
   }
-
 }
 
 extension UserAgent: UserAgentExtending {
-
   public var userAgentExtension: String {
-    return description
+    description
   }
-
 }
 
 extension UserAgent {
-
   static var library: UserAgent {
-    return UserAgent(title: "Algolia for Swift", version: Version.current.description)
+    UserAgent(title: "Algolia for Swift", version: Version.current.description)
   }
-
 }
 
 extension UserAgent {
-
   static var operatingSystem: UserAgent = {
     let osVersion = ProcessInfo.processInfo.operatingSystemVersion
     var osVersionString = "\(osVersion.majorVersion).\(osVersion.minorVersion)"
     if osVersion.patchVersion != 0 {
       osVersionString += ".\(osVersion.patchVersion)"
     }
-    if let osName = osName {
+    if let osName {
       return UserAgent(title: osName, version: osVersionString)
     } else {
       return UserAgent(title: ProcessInfo.processInfo.operatingSystemVersionString, version: "")
@@ -79,5 +70,4 @@ extension UserAgent {
       return nil
     #endif
   }
-
 }

@@ -1,6 +1,6 @@
 //
 //  TypoTolerance.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 12.03.2020.
 //
@@ -15,9 +15,7 @@ public enum TypoTolerance: String, Codable, URLEncodable {
 }
 
 extension TypoTolerance: ExpressibleByBooleanLiteral {
-
   public init(booleanLiteral value: Bool) {
     self = value ? .true : .false
   }
-
 }

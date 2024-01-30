@@ -1,6 +1,6 @@
 //
 //  HasPendingMappingResponse.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 25/05/2020.
 //
@@ -8,7 +8,6 @@
 import Foundation
 
 public struct HasPendingMappingResponse: Codable {
-
   public let isPending: Bool
   public let clusters: [ClusterName: [UserID]]?
 
@@ -21,11 +20,11 @@ public struct HasPendingMappingResponse: Codable {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     if let rawClusters: [String: [UserID]] = try container.decodeIfPresent(forKey: .clusters) {
       let keyValuePairs = rawClusters.map { (ClusterName(rawValue: $0), $1) }
-      self.clusters = Dictionary(uniqueKeysWithValues: keyValuePairs)
+      clusters = Dictionary(uniqueKeysWithValues: keyValuePairs)
     } else {
-      self.clusters = nil
+      clusters = nil
     }
-    self.isPending = try container.decode(forKey: .isPending)
+    isPending = try container.decode(forKey: .isPending)
   }
 
   public func encode(to encoder: Encoder) throws {
@@ -35,5 +34,4 @@ public struct HasPendingMappingResponse: Codable {
     try container.encodeIfPresent(rawClusters, forKey: .clusters)
     try container.encode(isPending, forKey: .isPending)
   }
-
 }

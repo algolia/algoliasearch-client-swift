@@ -1,6 +1,6 @@
 //
 //  SingleOrList.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 07/07/2020.
 //
@@ -13,7 +13,6 @@ public enum SingleOrList<T> {
 }
 
 extension SingleOrList: Equatable where T: Equatable {
-
   public static func == (lhs: SingleOrList<T>, rhs: SingleOrList<T>) -> Bool {
     switch (lhs, rhs) {
     case (.single(let left), .single(let right)):
@@ -24,11 +23,9 @@ extension SingleOrList: Equatable where T: Equatable {
       return false
     }
   }
-
 }
 
 extension SingleOrList: Encodable where T: Encodable {
-
   public func encode(to encoder: Encoder) throws {
     switch self {
     case .single(let value):
@@ -37,7 +34,6 @@ extension SingleOrList: Encodable where T: Encodable {
       try list.encode(to: encoder)
     }
   }
-
 }
 
 extension SingleOrList: Decodable where T: Decodable {
@@ -48,5 +44,4 @@ extension SingleOrList: Decodable where T: Decodable {
       self = .single(try T(from: decoder))
     }
   }
-
 }

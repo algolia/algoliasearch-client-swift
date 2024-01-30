@@ -1,19 +1,19 @@
 //
 //  URLRequest+Convenience.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 02/03/2020.
 //
 
 import Foundation
+
 #if canImport(FoundationNetworking)
-import FoundationNetworking
+  import FoundationNetworking
 #endif
 
 extension URLRequest: Builder {}
 
 extension CharacterSet {
-
   // Allowed characters taken from [RFC 3986](https://tools.ietf.org/html/rfc3986) (cf. §2 "Characters"):
   // - unreserved  = ALPHA / DIGIT / "-" / "." / "_" / "~"
   // - gen-delims  = ":" / "/" / "?" / "#" / "[" / "]" / "@"
@@ -24,7 +24,8 @@ extension CharacterSet {
   // - question mark ('?') and hash ('#') removed because they mark the beginning and the end of the query string.
   // - plus ('+') is removed because it is interpreted as a space by Algolia's servers.
   //
-  static let urlParameterAllowed: CharacterSet = .alphanumerics.union(.init(charactersIn: "-._~:/[]@!$'()*,;"))
+  static let urlParameterAllowed: CharacterSet = .alphanumerics.union(
+    .init(charactersIn: "-._~:/[]@!$'()*,;"))
 
   static let urlPathComponentAllowed: CharacterSet = {
     var characterSet = CharacterSet()
@@ -32,25 +33,20 @@ extension CharacterSet {
     characterSet.remove(charactersIn: "/")
     return characterSet
   }()
-
 }
 
 extension URLRequest {
-
   subscript(header key: HTTPHeaderKey) -> String? {
-
     get {
-      return allHTTPHeaderFields?[key.rawValue]
+      allHTTPHeaderFields?[key.rawValue]
     }
 
     set(newValue) {
       setValue(newValue, forHTTPHeaderField: key.rawValue)
     }
-
   }
 
   init(command: AlgoliaCommand) {
-
     var urlComponents = URLComponents()
     urlComponents.scheme = "https"
     urlComponents.percentEncodedPath = command.path.path
@@ -70,8 +66,7 @@ extension URLRequest {
     request.httpBody = command.body
 
     if let requestOptions = command.requestOptions {
-
-      requestOptions.headers.forEach { header in
+      for header in requestOptions.headers {
         let (value, field) = (header.value, header.key.rawValue)
         request.setValue(value, forHTTPHeaderField: field)
       }
@@ -81,28 +76,24 @@ extension URLRequest {
         let jsonEncodedBody = try? JSONSerialization.data(withJSONObject: body, options: [])
         request.httpBody = jsonEncodedBody
       }
-
     }
 
     request.httpBody = command.body
     self = request
   }
-
 }
 
 extension URLRequest {
-
   var credentials: Credentials? {
-
     get {
-      guard let appID = applicationID, let apiKey = apiKey else {
+      guard let appID = applicationID, let apiKey else {
         return nil
       }
       return AlgoliaCredentials(applicationID: appID, apiKey: apiKey)
     }
 
     set {
-      guard let newValue = newValue else {
+      guard let newValue else {
         applicationID = nil
         apiKey = nil
         return
@@ -110,13 +101,11 @@ extension URLRequest {
       applicationID = newValue.applicationID
       apiKey = newValue.apiKey
     }
-
   }
 
   var applicationID: ApplicationID? {
-
     get {
-      return self[header: .applicationID].flatMap(ApplicationID.init)
+      self[header: .applicationID].flatMap(ApplicationID.init)
     }
 
     set {
@@ -125,19 +114,16 @@ extension URLRequest {
   }
 
   var apiKey: APIKey? {
-
     get {
-      return self[header: .apiKey].flatMap(APIKey.init)
+      self[header: .apiKey].flatMap(APIKey.init)
     }
 
     set {
       do {
         try setAPIKey(newValue)
-      } catch let error {
+      } catch {
         Logger.error("Couldn't set API key in the request body due to error: \(error)")
       }
     }
-
   }
-
 }

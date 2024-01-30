@@ -1,6 +1,6 @@
 //
 //  Query+Codable.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 20/03/2020.
 //
@@ -9,12 +9,12 @@
 import Foundation
 
 extension SearchParametersStorage: Codable {
-
   public init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     query = try? container.decodeIfPresent(forKey: .query)
     attributesToRetrieve = try container.decodeIfPresent(forKey: .attributesToRetrieve)
-    restrictSearchableAttributes = try container.decodeIfPresent(forKey: .restrictSearchableAttributes)
+    restrictSearchableAttributes = try container.decodeIfPresent(
+      forKey: .restrictSearchableAttributes)
     filters = try container.decodeIfPresent(forKey: .filters)
     facetFilters = try container.decodeIfPresent(forKey: .facetFilters)
     optionalFilters = try container.decodeIfPresent(forKey: .optionalFilters)
@@ -30,7 +30,8 @@ extension SearchParametersStorage: Codable {
     highlightPreTag = try container.decodeIfPresent(forKey: .highlightPreTag)
     highlightPostTag = try container.decodeIfPresent(forKey: .highlightPostTag)
     snippetEllipsisText = try container.decodeIfPresent(forKey: .snippetEllipsisText)
-    restrictHighlightAndSnippetArrays = try container.decodeIfPresent(forKey: .restrictHighlightAndSnippetArrays)
+    restrictHighlightAndSnippetArrays = try container.decodeIfPresent(
+      forKey: .restrictHighlightAndSnippetArrays)
     page = try container.decodeIfPresent(forKey: .page)
     hitsPerPage = try container.decodeIfPresent(forKey: .hitsPerPage)
     offset = try container.decodeIfPresent(forKey: .offset)
@@ -39,7 +40,8 @@ extension SearchParametersStorage: Codable {
     minWordSizeFor2Typos = try container.decodeIfPresent(forKey: .minWordSizeFor2Typos)
     typoTolerance = try container.decodeIfPresent(forKey: .typoTolerance)
     allowTyposOnNumericTokens = try container.decodeIfPresent(forKey: .allowTyposOnNumericTokens)
-    disableTypoToleranceOnAttributes = try container.decodeIfPresent(forKey: .disableTypoToleranceOnAttributes)
+    disableTypoToleranceOnAttributes = try container.decodeIfPresent(
+      forKey: .disableTypoToleranceOnAttributes)
     aroundLatLng = try container.decodeIfPresent(forKey: .aroundLatLng)
     aroundLatLngViaIP = try container.decodeIfPresent(forKey: .aroundLatLngViaIP)
     aroundRadius = try container.decodeIfPresent(forKey: .aroundRadius)
@@ -87,7 +89,8 @@ extension SearchParametersStorage: Codable {
     var container = encoder.container(keyedBy: CodingKeys.self)
     try container.encodeIfPresent(query, forKey: .query)
     try container.encodeIfPresent(attributesToRetrieve, forKey: .attributesToRetrieve)
-    try container.encodeIfPresent(restrictSearchableAttributes, forKey: .restrictSearchableAttributes)
+    try container.encodeIfPresent(
+      restrictSearchableAttributes, forKey: .restrictSearchableAttributes)
     try container.encodeIfPresent(filters, forKey: .filters)
     try container.encodeIfPresent(facetFilters, forKey: .facetFilters)
     try container.encodeIfPresent(optionalFilters, forKey: .optionalFilters)
@@ -103,7 +106,8 @@ extension SearchParametersStorage: Codable {
     try container.encodeIfPresent(highlightPreTag, forKey: .highlightPreTag)
     try container.encodeIfPresent(highlightPostTag, forKey: .highlightPostTag)
     try container.encodeIfPresent(snippetEllipsisText, forKey: .snippetEllipsisText)
-    try container.encodeIfPresent(restrictHighlightAndSnippetArrays, forKey: .restrictHighlightAndSnippetArrays)
+    try container.encodeIfPresent(
+      restrictHighlightAndSnippetArrays, forKey: .restrictHighlightAndSnippetArrays)
     try container.encodeIfPresent(page, forKey: .page)
     try container.encodeIfPresent(hitsPerPage, forKey: .hitsPerPage)
     try container.encodeIfPresent(offset, forKey: .offset)
@@ -112,7 +116,8 @@ extension SearchParametersStorage: Codable {
     try container.encodeIfPresent(minWordSizeFor2Typos, forKey: .minWordSizeFor2Typos)
     try container.encodeIfPresent(typoTolerance, forKey: .typoTolerance)
     try container.encodeIfPresent(allowTyposOnNumericTokens, forKey: .allowTyposOnNumericTokens)
-    try container.encodeIfPresent(disableTypoToleranceOnAttributes, forKey: .disableTypoToleranceOnAttributes)
+    try container.encodeIfPresent(
+      disableTypoToleranceOnAttributes, forKey: .disableTypoToleranceOnAttributes)
     try container.encodeIfPresent(aroundLatLng, forKey: .aroundLatLng)
     try container.encodeIfPresent(aroundLatLngViaIP, forKey: .aroundLatLngViaIP)
     try container.encodeIfPresent(aroundRadius, forKey: .aroundRadius)
@@ -227,6 +232,6 @@ extension SearchParametersStorage: Codable {
     case relevancyStrictness
     case enableReRanking
   }
-
 }
+
 // swiftlint:enable function_body_length

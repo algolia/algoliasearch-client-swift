@@ -1,12 +1,12 @@
 //
 //  SnippetsCollection.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 28/06/2020.
 //
 
-import Foundation
 import AlgoliaSearchClient
+import Foundation
 
 protocol SnippetsCollection {
   var index: Index { get }
@@ -14,8 +14,6 @@ protocol SnippetsCollection {
 }
 
 extension SnippetsCollection {
-  
-  var index: Index { return client.index(withName: "") }
-  var client: SearchClient { return .init(appID: "", apiKey: "") }
-  
+  var index: Index { client.index(withName: "") }
+  var client: SearchClient { .init(appID: "", apiKey: "") }
 }

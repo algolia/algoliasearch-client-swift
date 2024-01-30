@@ -1,6 +1,6 @@
 //
 //  Rule+Edit.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 05/05/2020.
 //
@@ -8,21 +8,16 @@
 import Foundation
 
 extension Rule {
-
   public enum Edit: Equatable {
-
     /// Text or patterns to remove from the Query.query.
     case remove(String)
 
     /// Text that should be inserted in place of the removed text inside the Query.query.
     case replace(String, with: String)
-
   }
-
 }
 
 extension Rule.Edit: Codable {
-
   enum CodingKeys: String, CodingKey {
     case delete, insert, type
   }
@@ -56,5 +51,4 @@ extension Rule.Edit: Codable {
       try container.encode(insert, forKey: .insert)
     }
   }
-
 }

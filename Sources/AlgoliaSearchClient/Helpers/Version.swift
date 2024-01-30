@@ -6,7 +6,6 @@
 //
 
 public struct Version {
-
   public let major: Int
   public let minor: Int
   public let patch: Int
@@ -18,18 +17,15 @@ public struct Version {
     self.patch = patch
     self.prereleaseIdentifier = prereleaseIdentifier
   }
-
 }
 
 extension Version: CustomStringConvertible {
-
   public var description: String {
     let main = [major, minor, patch].map(String.init).joined(separator: ".")
-    if let prereleaseIdentifier = prereleaseIdentifier {
+    if let prereleaseIdentifier {
       return main + "-\(prereleaseIdentifier)"
     } else {
       return main
     }
   }
-
 }

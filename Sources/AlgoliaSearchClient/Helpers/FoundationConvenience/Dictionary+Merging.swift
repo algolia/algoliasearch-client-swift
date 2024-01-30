@@ -1,6 +1,6 @@
 //
 //  Dictionary+Merging.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 07/04/2020.
 //
@@ -19,17 +19,17 @@ enum DictionaryMergingStrategy {
       return secondValue
     }
   }
-
 }
 
 extension Dictionary {
-  func merging(_ other: [Key: Value], strategy: DictionaryMergingStrategy = .replaceWithNew) -> [Key: Value] {
-    return merging(other, uniquingKeysWith: strategy.apply)
+  func merging(_ other: [Key: Value], strategy: DictionaryMergingStrategy = .replaceWithNew)
+    -> [Key: Value]
+  {
+    merging(other, uniquingKeysWith: strategy.apply)
   }
 }
 
 extension Dictionary {
-
   func mapKeys<T>(_ transform: (Key) -> T) -> [T: Value] {
     var output: [T: Value] = [:]
     for key in keys {
@@ -38,5 +38,4 @@ extension Dictionary {
     }
     return output
   }
-
 }
