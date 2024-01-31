@@ -18,9 +18,7 @@ class QueryRulesIntegrationTests: IntegrationTestCase {
   }
   
   func queryRules() throws {
-    
-    Logger.minSeverityLevel = .warning
-    
+  
     let index = client.index(withName: "rules")
     
     let records: [JSON] = [

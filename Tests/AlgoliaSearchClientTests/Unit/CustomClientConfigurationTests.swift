@@ -12,10 +12,10 @@ import XCTest
 @testable import AlgoliaSearchClient
 
 class CustomClientConfigurationTests: XCTestCase {
-
+  
   func testCustomHeaders() throws {
     let configuration = SearchConfiguration(applicationID: "undefined", apiKey: "undefined")
-      .set(\.defaultHeaders, to: ["default-header": "default-header-value"])
+      .set(\.defaultHeaders, to: ["Default-Header": "default-header-value"])
 
     let requester = TestRequester()
     
@@ -26,8 +26,9 @@ class CustomClientConfigurationTests: XCTestCase {
     
     requester.onRequest = { request in
       let headers = request.allHTTPHeaderFields ?? [:]
-      XCTAssert(headers.contains(where: { $0.key == "default-header" && $0.value == "default-header-value" }))
-      XCTAssert((request.allHTTPHeaderFields ?? [:]).contains(where: { $0.key == "another-header" && $0.value == "another-value" }))
+      Logger.info("\(headers)")
+      XCTAssert(headers.contains(where: { $0.key == "Default-Header" && $0.value == "default-header-value" }))
+      XCTAssert((request.allHTTPHeaderFields ?? [:]).contains(where: { $0.key == "Another-Header" && $0.value == "another-value" }))
       exp.fulfill()
     }
     
@@ -35,7 +36,7 @@ class CustomClientConfigurationTests: XCTestCase {
       .hitsSearch(.init(indexName: "some-index", query: "search"))
     ]
     
-    let requestOptions = RequestOptions(headers: ["another-header": "another-value"])
+    let requestOptions = RequestOptions(headers: ["Another-Header": "another-value"])
     
     client.search(queries: queries, requestOptions: requestOptions) { _ in }
     

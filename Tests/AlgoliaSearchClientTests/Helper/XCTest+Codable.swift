@@ -81,3 +81,41 @@ func AssertEquallyEncoded<A: Encodable, B: Encodable>(_ l: A, _ r: B, file: Stat
   try XCTAssertEqual(decoder.decode(JSON.self, from: lData), decoder.decode(JSON.self, from: rData))
 }
 
+func AssertJSONEqual(_ data1: Data?,
+                     _ data2: Data?,
+                     message: String = "JSON objects are not equal",
+                     file: StaticString = #file,
+                     line: UInt = #line) {
+  guard let data1, let data2 else {
+    XCTAssertEqual(data1,
+                   data2,
+                   file: file,
+                   line: line)
+    return
+  }
+  
+  do {
+    let json1 = try JSONSerialization.jsonObject(with: data1, options: [])
+    let json2 = try JSONSerialization.jsonObject(with: data2, options: [])
+    
+    // Convert NSDictionary to [AnyHashable: Any]
+    if let dict1 = json1 as? [AnyHashable: Any], let dict2 = json2 as? [AnyHashable: Any] {
+      if NSDictionary(dictionary: dict1).isEqual(to: dict2) {
+        // JSON objects are equal
+      } else {
+        XCTFail(message, file: file, line: line)
+      }
+    } else if let array1 = json1 as? [Any], let array2 = json2 as? [Any] {
+      if NSArray(array: array1).isEqual(to: array2) {
+        // JSON objects (arrays) are equal
+      } else {
+          XCTFail(message, file: file, line: line)
+      }
+    } else {
+      XCTFail("JSON objects are not dictionaries", file: file, line: line)
+    }
+  } catch {
+    XCTFail("JSON conversion failed: \(error)", file: file, line: line)
+  }
+}
+

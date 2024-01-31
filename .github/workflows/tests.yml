@@ -1,27 +1,35 @@
 name: Tests
-
-on: [push]
-
+on:
+  push:
+    branches:
+      - master
+  pull_request:
 jobs:
-  test:
-    runs-on: macos-12
+  build:
+    name: Swift ${{ matrix.swift }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
     env:
       ALGOLIA_APPLICATION_ID_1: ${{ secrets.ALGOLIA_APPLICATION_ID_1 }}
       ALGOLIA_ADMIN_KEY_1: ${{ secrets.ALGOLIA_ADMIN_KEY_1 }}
       ALGOLIA_SEARCH_KEY_1: ${{ secrets.ALGOLIA_SEARCH_KEY_1 }}
       ALGOLIA_APPLICATION_ID_2: ${{ secrets.ALGOLIA_APPLICATION_ID_2 }}
       ALGOLIA_ADMIN_KEY_2: ${{ secrets.ALGOLIA_ADMIN_KEY_2 }}
-      ALGOLIA_PLACES_APPLICATION_ID: ${{ secrets.ALGOLIA_PLACES_APPLICATION_ID }}
-      ALGOLIA_PLACES_API_KEY: ${{ secrets.ALGOLIA_PLACES_API_KEY }}
       ALGOLIA_APPLICATION_ID_MCM: ${{ secrets.ALGOLIA_APPLICATION_ID_MCM }}
       ALGOLIA_ADMIN_KEY_MCM: ${{ secrets.ALGOLIA_ADMIN_KEY_MCM }}
-      ALGOLIA_ANSWERS_APPLICATION_ID: ${{ secrets.ALGOLIA_ANSWERS_APPLICATION_ID }}
-      ALGOLIA_ANSWERS_API_KEY: ${{ secrets.ALGOLIA_ANSWERS_API_KEY }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        swift: ["5.8"]
+
     steps:
-      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
-      - name: Select Xcode version
-        run: sudo xcode-select -s '/Applications/Xcode_13.4.app/Contents/Developer'
-      - name: Build project
-        run: swift build
-      - name: Run tests
-        run: swift test
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - uses: swift-actions/setup-swift@v1
+        with:
+          swift-version: ${{ matrix.swift }}
+
+      - name: Build and test
+        run: |
+          swift build
+          swift test --enable-test-discovery

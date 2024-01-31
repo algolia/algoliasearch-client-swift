@@ -1,11 +1,14 @@
-# You can set the Swift version to what you need for your app. 
-# Versions can be found here: https://hub.docker.com/_/swift
-FROM swift as builder
+# Use an official Swift runtime as a parent image
+FROM swift:latest
 
-WORKDIR /app
+# Set the working directory in the container
+WORKDIR /usr/src/app
 
-COPY ./Package.* ./
+# Copy the current directory contents into the container at /usr/src/app
+COPY . .
 
+# Download Swift package dependencies
 RUN swift package resolve
 
-COPY . .
+# Command to run tests
+CMD ["swift", "test", "--enable-test-discovery"]

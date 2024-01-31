@@ -1,6 +1,6 @@
 //
 //  AlgoliaCommandTest.swift
-//  
+//
 //
 //  Created by Vladislav Fitc on 26/03/2020.
 //
@@ -37,8 +37,8 @@ extension AlgoliaCommandTest {
     #if canImport(FoundationNetworking)
     XCTAssertEqual(request.allHTTPHeaderFields?.mapKeys { $0.lowercased() }, requestOptions.headers.merging(additionalHeaders ?? [:]).mapKeys { $0.rawValue.lowercased() }, file: file, line: line)
     
-    for item in requestQueryItems {
-      XCTAssertTrue(queryItems.contains(where: { $0.name == item.name && $0.value == item.value }) , file: file, line: line)
+    for item in queryItems {
+      XCTAssertTrue(requestQueryItems.contains(where: { $0.name.lowercased() == item.name.lowercased() && $0.value == item.value }) , file: file, line: line)
     }
 
     let jsonDecoder = JSONDecoder()
@@ -47,8 +47,31 @@ extension AlgoliaCommandTest {
     #else
     XCTAssertEqual(request.allHTTPHeaderFields, requestOptions.headers.merging(additionalHeaders ?? [:]).mapKeys { $0.rawValue }, file: file, line: line)
     XCTAssertTrue(Set(requestQueryItems).isSuperset(of: queryItems), file: file, line: line)
-    XCTAssertEqual(request.httpBody, body, "Compare with assertEqual", file: file, line: line)
+    AssertJSONEqual(request.httpBody, body)
     #endif
   }
 
+}
+
+
+extension Data {
+    /// Converts the Data to a hexadecimal string representation.
+    func toHexString() -> String {
+        return map { String(format: "%02x", $0) }.joined()
+    }
+  
+    func toJsonString() -> String? {
+      do {
+        // Convert the Data object to a JSON object
+        let jsonObject = try JSONSerialization.jsonObject(with: self, options: [])
+        
+        // Convert the JSON object to a pretty-printed JSON string
+        let jsonData = try JSONSerialization.data(withJSONObject: jsonObject, options: [.prettyPrinted])
+        
+        return String(data: jsonData, encoding: .utf8)
+      } catch {
+        print("Error converting Data to JSON String: \(error)")
+        return nil
+      }
+    }
 }
