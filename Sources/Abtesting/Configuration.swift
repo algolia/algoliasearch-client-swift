@@ -27,7 +27,8 @@ public struct Configuration: Core.Configuration, Credentials {
          writeTimeout: TimeInterval = DefaultConfiguration.default.writeTimeout,
          readTimeout: TimeInterval = DefaultConfiguration.default.readTimeout,
          logLevel: LogLevel = DefaultConfiguration.default.logLevel,
-         defaultHeaders: [String: String]? = DefaultConfiguration.default.defaultHeaders) throws
+         defaultHeaders: [String: String]? = DefaultConfiguration.default.defaultHeaders,
+         hosts: [RetryableHost]? = nil) throws
     {
         guard !appId.isEmpty else {
             throw AlgoliaError.invalidCredentials("appId")
@@ -48,30 +49,35 @@ public struct Configuration: Core.Configuration, Credentials {
             "Content-Type": "application/json",
         ].merging(defaultHeaders ?? [:]) { _, new in new }
 
-        guard region == nil || authorizedRegions.contains(region!) else {
-            throw AlgoliaError.runtimeError(
-                "`region` must be one of the following: \(authorizedRegions.map(\.rawValue).joined(separator: ", "))"
-            )
-        }
-
-        if let region = region {
-            guard let url = URL(string: "https://analytics.{region}.algolia.com".replacingOccurrences(of: "{region}", with: region.rawValue)) else {
-                throw AlgoliaError.runtimeError("Malformed URL")
-            }
-
-            hosts = [
-                .init(url: url),
-            ]
-        } else {
-            guard let url = URL(string: "https://analytics.algolia.com") else {
-                throw AlgoliaError.runtimeError("Malformed URL")
-            }
-
-            hosts = [
-                .init(url: url),
-            ]
-        }
-
         UserAgentController.append(UserAgent(title: "Abtesting", version: Version.current.description))
+
+        guard let hosts = hosts else {
+            guard region == nil || authorizedRegions.contains(region!) else {
+                throw AlgoliaError.runtimeError(
+                    "`region` must be one of the following: \(authorizedRegions.map(\.rawValue).joined(separator: ", "))"
+                )
+            }
+
+            if let region = region {
+                guard let url = URL(string: "https://analytics.{region}.algolia.com".replacingOccurrences(of: "{region}", with: region.rawValue)) else {
+                    throw AlgoliaError.runtimeError("Malformed URL")
+                }
+
+                self.hosts = [
+                    .init(url: url),
+                ]
+            } else {
+                guard let url = URL(string: "https://analytics.algolia.com") else {
+                    throw AlgoliaError.runtimeError("Malformed URL")
+                }
+
+                self.hosts = [
+                    .init(url: url),
+                ]
+            }
+            return
+        }
+
+        self.hosts = hosts
     }
 }

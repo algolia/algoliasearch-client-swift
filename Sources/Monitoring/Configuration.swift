@@ -22,7 +22,8 @@ public struct Configuration: Core.Configuration, Credentials {
          writeTimeout: TimeInterval = DefaultConfiguration.default.writeTimeout,
          readTimeout: TimeInterval = DefaultConfiguration.default.readTimeout,
          logLevel: LogLevel = DefaultConfiguration.default.logLevel,
-         defaultHeaders: [String: String]? = DefaultConfiguration.default.defaultHeaders) throws
+         defaultHeaders: [String: String]? = DefaultConfiguration.default.defaultHeaders,
+         hosts: [RetryableHost]? = nil) throws
     {
         guard !appId.isEmpty else {
             throw AlgoliaError.invalidCredentials("appId")
@@ -43,14 +44,19 @@ public struct Configuration: Core.Configuration, Credentials {
             "Content-Type": "application/json",
         ].merging(defaultHeaders ?? [:]) { _, new in new }
 
-        guard let url = URL(string: "https://status.algolia.com") else {
-            throw AlgoliaError.runtimeError("Malformed URL")
+        UserAgentController.append(UserAgent(title: "Monitoring", version: Version.current.description))
+
+        guard let hosts = hosts else {
+            guard let url = URL(string: "https://status.algolia.com") else {
+                throw AlgoliaError.runtimeError("Malformed URL")
+            }
+
+            self.hosts = [
+                .init(url: url),
+            ]
+            return
         }
 
-        hosts = [
-            .init(url: url),
-        ]
-
-        UserAgentController.append(UserAgent(title: "Monitoring", version: Version.current.description))
+        self.hosts = hosts
     }
 }

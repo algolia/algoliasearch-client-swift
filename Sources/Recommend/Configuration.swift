@@ -22,7 +22,8 @@ public struct Configuration: Core.Configuration, Credentials {
          writeTimeout: TimeInterval = DefaultConfiguration.default.writeTimeout,
          readTimeout: TimeInterval = DefaultConfiguration.default.readTimeout,
          logLevel: LogLevel = DefaultConfiguration.default.logLevel,
-         defaultHeaders: [String: String]? = DefaultConfiguration.default.defaultHeaders) throws
+         defaultHeaders: [String: String]? = DefaultConfiguration.default.defaultHeaders,
+         hosts: [RetryableHost]? = nil) throws
     {
         guard !appId.isEmpty else {
             throw AlgoliaError.invalidCredentials("appId")
@@ -43,29 +44,35 @@ public struct Configuration: Core.Configuration, Credentials {
             "Content-Type": "application/json",
         ].merging(defaultHeaders ?? [:]) { _, new in new }
 
-        func buildHost(_ components: (suffix: String, callType: RetryableHost.CallTypeSupport)) throws
-            -> RetryableHost
-        {
-            guard let url = URL(string: "https://\(appId)\(components.suffix)") else {
-                throw AlgoliaError.runtimeError("Malformed URL")
+        UserAgentController.append(UserAgent(title: "Recommend", version: Version.current.description))
+
+        guard let hosts = hosts else {
+            func buildHost(_ components: (suffix: String, callType: RetryableHost.CallTypeSupport)) throws
+                -> RetryableHost
+            {
+                guard let url = URL(string: "https://\(appId)\(components.suffix)") else {
+                    throw AlgoliaError.runtimeError("Malformed URL")
+                }
+
+                return RetryableHost(url: url, callType: components.callType)
             }
 
-            return RetryableHost(url: url, callType: components.callType)
+            let hosts = try [
+                ("-dsn.algolia.net", .read),
+                (".algolia.net", .write),
+            ].map(buildHost)
+
+            let commonHosts = try [
+                ("-1.algolianet.com", .universal),
+                ("-2.algolianet.com", .universal),
+                ("-3.algolianet.com", .universal),
+            ].map(buildHost).shuffled()
+
+            self.hosts = hosts + commonHosts
+
+            return
         }
 
-        let hosts = try [
-            ("-dsn.algolia.net", .read),
-            (".algolia.net", .write),
-        ].map(buildHost)
-
-        let commonHosts = try [
-            ("-1.algolianet.com", .universal),
-            ("-2.algolianet.com", .universal),
-            ("-3.algolianet.com", .universal),
-        ].map(buildHost).shuffled()
-
-        self.hosts = hosts + commonHosts
-
-        UserAgentController.append(UserAgent(title: "Recommend", version: Version.current.description))
+        self.hosts = hosts
     }
 }
