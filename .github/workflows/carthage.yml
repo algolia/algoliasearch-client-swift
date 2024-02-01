@@ -1,15 +1,15 @@
 name: Carthage
-on: 
+on:
   pull_request:
 jobs:
   check:
-    runs-on: macos-12
+    runs-on: macos-latest
     steps:
-     - name: Select Xcode version
-       run: sudo xcode-select -s '/Applications/Xcode_13.4.app/Contents/Developer'
-     - name: Initialize Cartfile
-       run: |
-        tee Cartfile <<<"github \"algolia/algoliasearch-client-swift\" \"${{ github.head_ref }}\""
-        carthage update --no-build
-        sh ./Carthage/Checkouts/algoliasearch-client-swift/carthage-prebuild
-        carthage build --use-xcframeworks --platform ios
+      - name: Select Xcode version
+        run: sudo xcode-select -s '/Applications/Xcode_15.2.app/Contents/Developer'
+      - name: Initialize Cartfile
+        run: |
+          tee Cartfile <<<"github \"algolia/algoliasearch-client-swift\" \"${{ github.head_ref }}\""
+          carthage update --no-build
+          sh ./Carthage/Checkouts/algoliasearch-client-swift/carthage-prebuild
+          carthage build --use-xcframeworks --platform ios
