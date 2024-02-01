@@ -9,18 +9,11 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - uses: swift-actions/setup-swift@v1
+      - name: Lint
+        uses: mtgto/swift-format-action@main
         with:
-          swift-version: 5.8
-
-      - name: Install Swift Format
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libssl-dev
-          swift package install swift-format --force
-
-      - name: Run Swift Format Check
-        run: |
-          swift-format lint ./Sources -srp
+          configuration_file: .swift-format
+          all_files: false
+          max_warnings: -1
