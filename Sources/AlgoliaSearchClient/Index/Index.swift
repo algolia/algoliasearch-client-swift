@@ -42,9 +42,7 @@ extension Index {
     transport.execute(command, transform: WaitableWrapper.wrap(with: self), completion: completion)
   }
 
-  func execute<Output: Codable & IndexTask>(_ command: some AlgoliaCommand) throws
-    -> WaitableWrapper<Output>
-  {
+  func execute<Output: Codable & IndexTask>(_ command: some AlgoliaCommand) throws -> WaitableWrapper<Output> {
     try transport.execute(command, transform: WaitableWrapper.wrap(with: self))
   }
 }

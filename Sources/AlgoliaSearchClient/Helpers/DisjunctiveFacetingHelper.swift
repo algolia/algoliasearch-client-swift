@@ -71,9 +71,7 @@ struct DisjunctiveFacetingHelper {
   }
 
   /// Merge received search responses into single one with combined facets information
-  func mergeResponses(_ responses: [SearchResponse], keepSelectedEmptyFacets _: Bool = true) throws
-    -> SearchResponse
-  {
+  func mergeResponses(_ responses: [SearchResponse], keepSelectedEmptyFacets _: Bool = true) throws -> SearchResponse {
     guard var mainResponse = responses.first else {
       throw DisjunctiveFacetingError.emptyResponses
     }

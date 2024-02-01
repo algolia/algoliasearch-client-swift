@@ -83,8 +83,7 @@ class HTTPRequest<ResponseType: Decodable, Output>: AsyncOperation, ResultContai
       let effectiveRequest = try request.switchingHost(by: host, withBaseTimeout: timeout)
       Logger.loggingService.log(level: .debug, message: description(for: effectiveRequest))
 
-      underlyingTask = requester.perform(request: effectiveRequest) {
-        [weak self] (result: IntermediateResult) in
+      underlyingTask = requester.perform(request: effectiveRequest) { [weak self] (result: IntermediateResult) in
         guard let httpRequest = self else { return }
 
         httpRequest.retryStrategy.notify(host: host, result: result)
@@ -117,7 +116,7 @@ class HTTPRequest<ResponseType: Decodable, Output>: AsyncOperation, ResultContai
       "Method: \(request.httpMethod ?? "nil")",
       "URL: \(request.url?.description ?? "nil")",
       "Headers: \(request.allHTTPHeaderFields?.description ?? "nil")",
-      "Body: \(request.httpBody.flatMap { $0.jsonString ?? $0.debugDescription } ?? "nil")",
+      "Body: \(request.httpBody.flatMap { $0.jsonString ?? $0.debugDescription } ?? "nil")"
     ].joined(separator: "\n")
   }
 }

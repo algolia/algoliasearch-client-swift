@@ -113,9 +113,7 @@ public struct TaggedString {
     return (output, mergeOverlapping(rangesToHighlight))
   }
 
-  private static func computeInvertedRanges(for string: String, with ranges: [Range<String.Index>])
-    -> [Range<String.Index>]
-  {
+  private static func computeInvertedRanges(for string: String, with ranges: [Range<String.Index>]) -> [Range<String.Index>] {
     if ranges.isEmpty {
       return ([string.startIndex..<string.endIndex])
     }

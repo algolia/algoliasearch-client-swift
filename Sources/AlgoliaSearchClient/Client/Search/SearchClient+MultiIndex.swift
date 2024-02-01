@@ -39,9 +39,7 @@ extension SearchClient {
      - Parameter requestOptions: Configure request locally with RequestOptions
      - Returns: IndicesListResponse  object
      */
-  @discardableResult public func listIndices(requestOptions: RequestOptions? = nil) throws
-    -> IndicesListResponse
-  {
+  @discardableResult public func listIndices(requestOptions: RequestOptions? = nil) throws -> IndicesListResponse {
     let command = Command.MultipleIndex.ListIndices(requestOptions: requestOptions)
     return try execute(command)
   }
@@ -69,9 +67,7 @@ extension SearchClient {
      - Parameter requestOptions: Configure request locally with RequestOptions
      - Returns: ListAPIKeyResponse  object
      */
-  @discardableResult public func listIndexAPIKeys(requestOptions: RequestOptions? = nil) throws
-    -> ListAPIKeysResponse
-  {
+  @discardableResult public func listIndexAPIKeys(requestOptions: RequestOptions? = nil) throws -> ListAPIKeysResponse {
     let command = Command.MultipleIndex.ListIndexAPIKeys(requestOptions: requestOptions)
     return try execute(command)
   }

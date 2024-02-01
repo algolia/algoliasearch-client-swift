@@ -39,9 +39,7 @@ extension AttributeForFaceting: RawRepresentable {
   }
 
   public init(rawValue: String) {
-    if let prefixedString = PrefixedString(rawValue: rawValue),
-      let prefix = Prefix(rawValue: prefixedString.prefix)
-    {
+    if let prefixedString = PrefixedString(rawValue: rawValue), let prefix = Prefix(rawValue: prefixedString.prefix) {
       switch prefix {
       case .filterOnly:
         self = .filterOnly(.init(rawValue: prefixedString.value))

@@ -75,7 +75,7 @@ extension Command {
         self.requestOptions = requestOptions.updateOrCreate(
           [
             .offset: offset.flatMap(String.init),
-            .limit: limit.flatMap(String.init),
+            .limit: limit.flatMap(String.init)
           ])
       }
     }

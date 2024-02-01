@@ -30,9 +30,7 @@ extension Index {
      - Parameter requestOptions: Configure request locally with RequestOptions.
      - Returns: DeletionIndex object
      */
-  @discardableResult public func delete(requestOptions: RequestOptions? = nil) throws
-    -> WaitableWrapper<IndexDeletion>
-  {
+  @discardableResult public func delete(requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexDeletion> {
     let command = Command.Index.DeleteIndex(indexName: name, requestOptions: requestOptions)
     return try execute(command)
   }
@@ -45,9 +43,7 @@ extension Index {
      - Parameter completion: Result completion
      - Returns: Launched asynchronous operation
      */
-  @discardableResult public func exists(completion: @escaping ResultCallback<Bool>) -> Operation
-    & TransportTask
-  {
+  @discardableResult public func exists(completion: @escaping ResultCallback<Bool>) -> Operation & TransportTask {
     let command = Command.Settings.GetSettings(indexName: name, requestOptions: nil)
     return execute(command) { (result: Result<Settings, Swift.Error>) in
       switch result {

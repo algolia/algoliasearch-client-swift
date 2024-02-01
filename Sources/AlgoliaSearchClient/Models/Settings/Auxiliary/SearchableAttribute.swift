@@ -36,9 +36,7 @@ extension SearchableAttribute: RawRepresentable {
   }
 
   public init(rawValue: String) {
-    if let prefixedString = PrefixedString(rawValue: rawValue),
-      prefixedString.prefix == Prefix.unordered.rawValue
-    {
+    if let prefixedString = PrefixedString(rawValue: rawValue), prefixedString.prefix == Prefix.unordered.rawValue {
       let attribute = Attribute(rawValue: prefixedString.value)
       self = .unordered(attribute)
     } else {

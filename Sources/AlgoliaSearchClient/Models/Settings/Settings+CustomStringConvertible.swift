@@ -12,9 +12,7 @@ extension Settings: CustomStringConvertible {
     let encoder = JSONEncoder()
     encoder.outputFormatting = .prettyPrinted
 
-    if let data = try? encoder.encode(self),
-      let string = String(data: data, encoding: .utf8)
-    {
+    if let data = try? encoder.encode(self), let string = String(data: data, encoding: .utf8) {
       return string
     } else {
       return "encoding error"

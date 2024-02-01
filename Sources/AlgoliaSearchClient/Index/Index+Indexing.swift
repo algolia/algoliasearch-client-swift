@@ -580,9 +580,7 @@ extension Index {
      - Parameter requestOptions: Configure request locally with RequestOptions.
      - Returns: RevisionIndex object
      */
-  @discardableResult public func clearObjects(requestOptions: RequestOptions? = nil) throws
-    -> WaitableWrapper<IndexRevision>
-  {
+  @discardableResult public func clearObjects(requestOptions: RequestOptions? = nil) throws -> WaitableWrapper<IndexRevision> {
     let command = Command.Indexing.ClearObjects(indexName: name, requestOptions: requestOptions)
     return try execute(command)
   }
@@ -633,7 +631,7 @@ extension Index {
                 let tasks: [IndexedTask] =
                   [
                     .init(indexName: sourceIndexName, taskID: copyTaskWrapper.task.taskID),
-                    .init(indexName: destinationIndexName, taskID: moveTaskWrapper.task.taskID),
+                    .init(indexName: destinationIndexName, taskID: moveTaskWrapper.task.taskID)
                   ] + batchTaskWrapper.wrapped.tasks
                 guard safe else {
                   completion(.success(tasks))
@@ -681,7 +679,7 @@ extension Index {
         indexName: name,
         taskID: try copy([.settings, .rules, .synonyms], to: destinationIndexName).task.taskID),
       .init(
-        indexName: destinationIndexName, taskID: try destinationIndex.move(to: name).task.taskID),
+        indexName: destinationIndexName, taskID: try destinationIndex.move(to: name).task.taskID)
     ] + moveTasks
   }
 }

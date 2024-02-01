@@ -122,9 +122,7 @@ extension RequestOptions? {
     self ?? RequestOptions()
   }
 
-  func updateOrCreate(_ parameters: @autoclosure () -> [HTTPParameterKey: String?])
-    -> RequestOptions?
-  {
+  func updateOrCreate(_ parameters: @autoclosure () -> [HTTPParameterKey: String?]) -> RequestOptions? {
     let parameters = parameters()
     guard !parameters.isEmpty else {
       return self

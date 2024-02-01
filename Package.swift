@@ -12,7 +12,7 @@ import PackageDescription
 #if os(Linux)
   let extraPackageDependencies: [Package.Dependency] = [
     .package(url: "https://github.com/apple/swift-crypto.git", from: "1.1.2"),
-    .package(url: "https://github.com/apple/swift-log.git", from: "1.5.4"),
+    .package(url: "https://github.com/apple/swift-log.git", from: "1.5.4")
   ]
 #else
   let extraPackageDependencies: [Package.Dependency] = []
@@ -21,7 +21,7 @@ import PackageDescription
 #if os(Linux)
   let extraTargetDependencies: [Target.Dependency] = [
     .product(name: "Crypto", package: "swift-crypto"),
-    .product(name: "Logging", package: "swift-log"),
+    .product(name: "Logging", package: "swift-log")
   ]
 #else
   let extraTargetDependencies: [Target.Dependency] = []
@@ -33,7 +33,7 @@ let package = Package(
     .iOS(.v14),
     .macOS(macOSVersion),
     .watchOS(.v7),
-    .tvOS(.v14),
+    .tvOS(.v14)
   ],
   products: [
     .library(
@@ -52,6 +52,6 @@ let package = Package(
       dependencies: [
         .target(name: "AlgoliaSearchClient")
       ] + extraTargetDependencies
-    ),
+    )
   ]
 )

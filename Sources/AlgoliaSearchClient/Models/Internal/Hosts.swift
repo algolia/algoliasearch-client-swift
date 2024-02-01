@@ -9,21 +9,19 @@ import Foundation
 
 public enum Hosts {
   public static func forApplicationID(_ appID: ApplicationID) -> [RetryableHost] {
-    func buildHost(_ components: (suffix: String, callType: RetryableHost.CallTypeSupport))
-      -> RetryableHost
-    {
+    func buildHost(_ components: (suffix: String, callType: RetryableHost.CallTypeSupport)) -> RetryableHost {
       let url = URL(string: "\(appID.rawValue)\(components.suffix)")!
       return RetryableHost(url: url, callType: components.callType)
     }
     let hosts = [
       ("-dsn.algolia.net", .read),
-      (".algolia.net", .write),
+      (".algolia.net", .write)
     ].map(buildHost)
 
     let commonHosts = [
       ("-1.algolianet.com", .universal),
       ("-2.algolianet.com", .universal),
-      ("-3.algolianet.com", .universal),
+      ("-3.algolianet.com", .universal)
     ].map(buildHost).shuffled()
 
     return hosts + commonHosts
@@ -53,6 +51,6 @@ public enum Hosts {
     .init(url: URL(string: "places-dsn.algolia.net")!),
     .init(url: URL(string: "places-1.algolianet.com")!),
     .init(url: URL(string: "places-2.algolianet.com")!),
-    .init(url: URL(string: "places-3.algolianet.com")!),
+    .init(url: URL(string: "places-3.algolianet.com")!)
   ]
 }

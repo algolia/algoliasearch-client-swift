@@ -126,9 +126,7 @@ extension PersonalizationClient {
      - Parameter requestOptions: Configure request locally with RequestOptions
      - Returns: PersonalizationStrategy  object
      */
-  @discardableResult public func getPersonalizationStrategy(requestOptions: RequestOptions? = nil)
-    throws -> PersonalizationStrategy
-  {
+  @discardableResult public func getPersonalizationStrategy(requestOptions: RequestOptions? = nil) throws -> PersonalizationStrategy {
     let command = Command.Personalization.Get(requestOptions: requestOptions)
     return try execute(command)
   }

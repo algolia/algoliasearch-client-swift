@@ -290,9 +290,7 @@ extension SearchClient {
      - Parameter requestOptions: Configure request locally with RequestOptions
      - Returns: Response object
      */
-  @discardableResult public func getDictionarySettings(requestOptions: RequestOptions? = nil) throws
-    -> DictionarySettings
-  {
+  @discardableResult public func getDictionarySettings(requestOptions: RequestOptions? = nil) throws -> DictionarySettings {
     let command = Command.Dictionaries.GetSettings(requestOptions: requestOptions)
     return try execute(command)
   }

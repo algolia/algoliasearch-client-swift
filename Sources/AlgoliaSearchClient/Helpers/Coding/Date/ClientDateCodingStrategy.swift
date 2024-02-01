@@ -10,7 +10,7 @@ import Foundation
 struct ClientDateCodingStrategy {
   private static let acceptedFormats = [
     "yyyy-MM-dd'T'HH:mm:ssZ",
-    "yyyy-MM-dd'T'HH:mm:ss.SSSZ",
+    "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
   ]
 
   static func decoding(decoder: Decoder) throws -> Date {

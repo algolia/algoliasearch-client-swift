@@ -92,9 +92,7 @@ extension PlacesClient {
      - Parameter requestOptions: Configure request locally with RequestOptions
      - Returns: PlacesResponse<MultiLanguagePlace>  object
      */
-  @discardableResult public func search(query: PlacesQuery, requestOptions: RequestOptions? = nil)
-    throws -> MultiLanguageResponse
-  {
+  @discardableResult public func search(query: PlacesQuery, requestOptions: RequestOptions? = nil) throws -> MultiLanguageResponse {
     let command = Command.Places.Search(query: query, requestOptions: requestOptions)
     return try execute(command)
   }

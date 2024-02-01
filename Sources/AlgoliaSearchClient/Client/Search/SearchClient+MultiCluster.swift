@@ -31,9 +31,7 @@ extension SearchClient {
      - Parameter requestOptions: Configure request locally with RequestOptions
      - Returns: ClustersListResponse  object
      */
-  @discardableResult public func listClusters(requestOptions: RequestOptions? = nil) throws
-    -> ClustersListResponse
-  {
+  @discardableResult public func listClusters(requestOptions: RequestOptions? = nil) throws -> ClustersListResponse {
     let command = Command.MultiCluster.ListClusters(requestOptions: requestOptions)
     return try execute(command)
   }
@@ -235,9 +233,7 @@ extension SearchClient {
      - Parameter requestOptions: Configure request locally with RequestOptions
      - Returns: TopUserIDResponse  object
      */
-  @discardableResult public func getTopUser(requestOptions: RequestOptions? = nil) throws
-    -> TopUserIDResponse
-  {
+  @discardableResult public func getTopUser(requestOptions: RequestOptions? = nil) throws -> TopUserIDResponse {
     let command = Command.MultiCluster.User.GetTop(requestOptions: requestOptions)
     return try execute(command)
   }

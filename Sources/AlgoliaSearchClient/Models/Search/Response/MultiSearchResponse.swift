@@ -79,8 +79,7 @@ extension MultiSearchResponse {
 
     @available(
       *, deprecated,
-      message:
-        "Replaced by DecodingError.dataCorrupted with CompositeError as underlyingError error"
+      message: "Replaced by DecodingError.dataCorrupted with CompositeError as underlyingError error"
     )
     public struct DecodingError: Error {
       /// Error occured while search response decoding

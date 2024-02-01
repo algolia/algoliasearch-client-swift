@@ -357,13 +357,8 @@ extension Index {
     let results = try search(query: query)
     let hits: [T] = try results.extractHits()
 
-    if let found =
-      hits
-      .enumerated()
-      .first(where: { _, object in predicate(object) })
-      .flatMap({ HitWithPosition(hit: $0.element, page: query.page ?? 0, position: $0.offset) })
-    {
-      return found
+    if let hitForPredicate = hits.enumerated().first(where: { _, object in predicate(object) }) {
+      return HitWithPosition(hit: hitForPredicate.element, page: query.page ?? 0, position: hitForPredicate.offset)
     }
 
     let currentPage = query.page ?? 0

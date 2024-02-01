@@ -22,9 +22,7 @@ enum DictionaryMergingStrategy {
 }
 
 extension Dictionary {
-  func merging(_ other: [Key: Value], strategy: DictionaryMergingStrategy = .replaceWithNew)
-    -> [Key: Value]
-  {
+  func merging(_ other: [Key: Value], strategy: DictionaryMergingStrategy = .replaceWithNew) -> [Key: Value] {
     merging(other, uniquingKeysWith: strategy.apply)
   }
 }

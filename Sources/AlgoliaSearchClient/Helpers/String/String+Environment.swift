@@ -9,9 +9,7 @@ import Foundation
 
 extension String {
   init?(environmentVariable: String) {
-    if let rawValue = getenv(environmentVariable),
-      let value = String(utf8String: rawValue)
-    {
+    if let rawValue = getenv(environmentVariable), let value = String(utf8String: rawValue) {
       self = value
     } else {
       return nil

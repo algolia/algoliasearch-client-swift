@@ -34,9 +34,7 @@ extension NumericAttributeFilter: RawRepresentable {
   }
 
   public init(rawValue: String) {
-    if let prefixedString = PrefixedString(rawValue: rawValue),
-      let prefix = Prefix(rawValue: prefixedString.prefix)
-    {
+    if let prefixedString = PrefixedString(rawValue: rawValue), let prefix = Prefix(rawValue: prefixedString.prefix) {
       switch prefix {
       case .equalOnly:
         self = .equalOnly(.init(rawValue: prefixedString.value))

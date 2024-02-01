@@ -51,7 +51,7 @@ extension Command {
         self.requestOptions = requestOptions.updateOrCreate([
           .aroundLatLng: geolocation.stringForm,
           .hitsPerPage: hitsPerPage.flatMap(String.init),
-          .language: language?.rawValue,
+          .language: language?.rawValue
         ])
         path = URL
           .places

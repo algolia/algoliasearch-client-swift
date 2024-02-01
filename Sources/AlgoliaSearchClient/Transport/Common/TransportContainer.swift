@@ -60,9 +60,7 @@ extension TransportContainer {
     execute(command, transform: { $0 }, completion: completion)
   }
 
-  @discardableResult func execute<Output: Decodable>(_ command: some AlgoliaCommand) throws
-    -> Output
-  {
+  @discardableResult func execute<Output: Decodable>(_ command: some AlgoliaCommand) throws -> Output {
     try execute(command, transform: { $0 })
   }
 }
@@ -76,9 +74,7 @@ extension TransportContainer where Self: Credentials {
       command, transform: WaitableWrapper.wrap(credentials: self), completion: completion)
   }
 
-  func execute<Output: Decodable & IndexTask & IndexNameContainer>(_ command: some AlgoliaCommand)
-    throws -> WaitableWrapper<Output>
-  {
+  func execute<Output: Decodable & IndexTask & IndexNameContainer>(_ command: some AlgoliaCommand) throws -> WaitableWrapper<Output> {
     try transport.execute(command, transform: WaitableWrapper.wrap(credentials: self))
   }
 }

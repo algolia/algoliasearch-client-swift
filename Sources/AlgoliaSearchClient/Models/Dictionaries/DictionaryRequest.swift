@@ -20,9 +20,7 @@ enum DictionaryRequest<Entry: DictionaryEntry> {
     .addEntry(entry)
   }
 
-  static func delete<D: CustomDictionary>(dictionary _: D.Type, objectID: ObjectID)
-    -> DictionaryRequest<D.Entry>
-  {
+  static func delete<D: CustomDictionary>(dictionary _: D.Type, objectID: ObjectID) -> DictionaryRequest<D.Entry> {
     .deleteEntry(withObjectID: objectID)
   }
 

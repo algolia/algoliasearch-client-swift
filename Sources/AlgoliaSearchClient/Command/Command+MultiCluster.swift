@@ -109,7 +109,7 @@ extension Command.MultiCluster {
         self.requestOptions = requestOptions.updateOrCreate(
           [
             .page: page.flatMap(String.init),
-            .hitsPerPage: hitsPerPage.flatMap(String.init),
+            .hitsPerPage: hitsPerPage.flatMap(String.init)
           ])
       }
     }

@@ -14,9 +14,7 @@ import Foundation
 extension URLComponents: Builder {}
 
 extension URLRequest {
-  func switchingHost(by host: RetryableHost, withBaseTimeout baseTimeout: TimeInterval) throws
-    -> URLRequest
-  {
+  func switchingHost(by host: RetryableHost, withBaseTimeout baseTimeout: TimeInterval) throws -> URLRequest {
     guard let url else { throw FormatError.missingURL }
     guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
       throw FormatError.malformedURL(url.absoluteString)

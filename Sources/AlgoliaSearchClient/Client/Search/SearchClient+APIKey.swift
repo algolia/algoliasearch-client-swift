@@ -175,9 +175,7 @@ extension SearchClient {
      - Parameter requestOptions: Configure request locally with RequestOptions
      - Returns: ListAPIKeyResponse  object
      */
-  @discardableResult public func listAPIKeys(requestOptions: RequestOptions? = nil) throws
-    -> ListAPIKeysResponse
-  {
+  @discardableResult public func listAPIKeys(requestOptions: RequestOptions? = nil) throws -> ListAPIKeysResponse {
     let command = Command.APIKey.List(requestOptions: requestOptions)
     return try execute(command)
   }

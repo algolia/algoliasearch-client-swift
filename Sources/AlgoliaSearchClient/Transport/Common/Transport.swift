@@ -18,11 +18,7 @@ protocol Transport: Credentials {
 }
 
 extension Transport {
-  func execute<T: Decodable>(
-    _ command: some AlgoliaCommand, completion: @escaping ResultCallback<T>
-  )
-    -> Operation & TransportTask
-  {
+  func execute<T: Decodable>(_ command: some AlgoliaCommand, completion: @escaping ResultCallback<T>) -> Operation & TransportTask {
     execute(command, transform: { $0 }, completion: completion)
   }
 

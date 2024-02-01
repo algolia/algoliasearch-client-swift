@@ -35,7 +35,7 @@ struct DecodingErrorPrettyPrinter: CustomStringConvertible, CustomDebugStringCon
 
     case .keyNotFound(let key, let context):
       return [
-        codingPathDescription(context.codingPath), "Key not found: \(codingKeyDescription(key))",
+        codingPathDescription(context.codingPath), "Key not found: \(codingKeyDescription(key))"
       ]
 
     case .typeMismatch(let type, let context):

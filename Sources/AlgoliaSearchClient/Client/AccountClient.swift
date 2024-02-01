@@ -88,7 +88,7 @@ public enum AccountClient {
       [
         waitSynonyms,
         waitRules,
-        waitSettings,
+        waitSettings
       ].map(\.task) + waitObjects.batchesResponse.tasks
 
     return WaitableWrapper(tasks: tasks, index: destination)
