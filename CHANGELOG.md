@@ -1,5 +1,12 @@
 # ChangeLog
 
+
+## [8.20.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.19.0...8.20.0) (2023-02-02)
+
+### Misc
+
+- chore: replace swift-log with oslog (#850)
+
 ## [8.19.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.18.2...8.19.0) (2023-12-07)
 
 ### Misc
@@ -294,5 +301,4 @@
 
 - Version 8.1.2 (#679) ([e028c43](https://github.com/algolia/algoliasearch-client-swift/commit/e028c43))
 - Version 8.1.2 ([eb1db8d](https://github.com/algolia/algoliasearch-client-swift/commit/eb1db8d))
-
 
