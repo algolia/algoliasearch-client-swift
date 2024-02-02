@@ -60,9 +60,9 @@ If you're a framework author and use Swift API Client as a dependency, update yo
 
 ```swift
 let package = Package(
-    // 8.19.0 ..< 9.0.0
+    // 8.20.0 ..< 9.0.0
     dependencies: [
-        .package(url: "https://github.com/algolia/algoliasearch-client-swift", from: "8.19.0")
+        .package(url: "https://github.com/algolia/algoliasearch-client-swift", from: "8.20.0")
     ],
     // ...
 )
@@ -77,7 +77,7 @@ Add `import AlgoliaSearchClient` to your source files.
 To install Algolia Swift Client, simply add the following line to your Podfile:
 
 ```ruby
-pod 'AlgoliaSearchClient', '~> 8.19'
+pod 'AlgoliaSearchClient', '~> 8.20'
 # pod 'InstantSearchClient', '~> 6.0' // Swift 4.2
 # pod 'InstantSearchClient', '~> 5.0' // Swift 4.1
 ```
@@ -94,7 +94,7 @@ $ pod update
 
 - To install InstantSearch, simply add the following line to your Cartfile:
 ```ruby
-github "algolia/algoliasearch-client-swift" ~> 8.19
+github "algolia/algoliasearch-client-swift" ~> 8.20
 # github "algolia/algoliasearch-client-swift" ~> 6.0.0 // Swift 4.2
 # github "algolia/algoliasearch-client-swift" ~> 5.0.0 // Swift 4.1
 ```
