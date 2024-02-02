@@ -1,3 +1,9 @@
+## [9.0.0-alpha.4](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-alpha.3...9.0.0-alpha.4)
+
+- [39c94cc67](https://github.com/algolia/api-clients-automation/commit/39c94cc67) fix(swift): retry strategy ([#2642](https://github.com/algolia/api-clients-automation/pull/2642)) by [@Fluf22](https://github.com/Fluf22/)
+- [4e245fe55](https://github.com/algolia/api-clients-automation/commit/4e245fe55) feat(swift): cts client ([#2610](https://github.com/algolia/api-clients-automation/pull/2610)) by [@Fluf22](https://github.com/Fluf22/)
+- [b3d61128a](https://github.com/algolia/api-clients-automation/commit/b3d61128a) docs(clients): add ACL section to code doc ([#2576](https://github.com/algolia/api-clients-automation/pull/2576)) by [@millotp](https://github.com/millotp/)
+
 ## [9.0.0-alpha.3](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-alpha.2...9.0.0-alpha.3)
 
 - [f9c527197](https://github.com/algolia/api-clients-automation/commit/f9c527197) chore(swift): use another formatter ([#2603](https://github.com/algolia/api-clients-automation/pull/2603)) by [@millotp](https://github.com/millotp/)
