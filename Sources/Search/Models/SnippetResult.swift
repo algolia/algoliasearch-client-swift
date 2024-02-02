@@ -8,12 +8,15 @@ import Foundation
 
 public enum SnippetResult: Codable, JSONEncodable, Hashable {
     case snippetResultOption(SnippetResultOption)
+    case arrayOfSnippetResultOption([SnippetResultOption])
     case dictionaryOfStringToSnippetResultOption([String: SnippetResultOption])
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
         case let .snippetResultOption(value):
+            try container.encode(value)
+        case let .arrayOfSnippetResultOption(value):
             try container.encode(value)
         case let .dictionaryOfStringToSnippetResultOption(value):
             try container.encode(value)
@@ -24,6 +27,8 @@ public enum SnippetResult: Codable, JSONEncodable, Hashable {
         let container = try decoder.singleValueContainer()
         if let value = try? container.decode(SnippetResultOption.self) {
             self = .snippetResultOption(value)
+        } else if let value = try? container.decode([SnippetResultOption].self) {
+            self = .arrayOfSnippetResultOption(value)
         } else if let value = try? container.decode([String: SnippetResultOption].self) {
             self = .dictionaryOfStringToSnippetResultOption(value)
         } else {

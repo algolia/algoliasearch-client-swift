@@ -8,12 +8,15 @@ import Foundation
 
 public enum HighlightResult: Codable, JSONEncodable, Hashable {
     case highlightResultOption(HighlightResultOption)
+    case arrayOfHighlightResultOption([HighlightResultOption])
     case dictionaryOfStringToHighlightResultOption([String: HighlightResultOption])
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
         case let .highlightResultOption(value):
+            try container.encode(value)
+        case let .arrayOfHighlightResultOption(value):
             try container.encode(value)
         case let .dictionaryOfStringToHighlightResultOption(value):
             try container.encode(value)
@@ -24,6 +27,8 @@ public enum HighlightResult: Codable, JSONEncodable, Hashable {
         let container = try decoder.singleValueContainer()
         if let value = try? container.decode(HighlightResultOption.self) {
             self = .highlightResultOption(value)
+        } else if let value = try? container.decode([HighlightResultOption].self) {
+            self = .arrayOfHighlightResultOption(value)
         } else if let value = try? container.decode([String: HighlightResultOption].self) {
             self = .dictionaryOfStringToHighlightResultOption(value)
         } else {
