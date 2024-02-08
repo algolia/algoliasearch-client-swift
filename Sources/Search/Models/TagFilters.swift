@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /** [Filter hits by tags](https://www.algolia.com/doc/api-reference/api-parameters/tagFilters/).  */
-public enum TagFilters: Codable, JSONEncodable, Hashable {
+public enum TagFilters: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case string(String)
     case arrayOfMixedSearchFilters([MixedSearchFilters])
 
@@ -29,6 +29,15 @@ public enum TagFilters: Codable, JSONEncodable, Hashable {
             self = .arrayOfMixedSearchFilters(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of TagFilters"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .string(value):
+            return value as String
+        case let .arrayOfMixedSearchFilters(value):
+            return value as [MixedSearchFilters]
         }
     }
 }

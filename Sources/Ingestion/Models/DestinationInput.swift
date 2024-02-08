@@ -6,7 +6,7 @@ import Foundation
     import AnyCodable
 #endif
 
-public enum DestinationInput: Codable, JSONEncodable, Hashable {
+public enum DestinationInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case destinationIndexName(DestinationIndexName)
     case destinationIndexPrefix(DestinationIndexPrefix)
 
@@ -28,6 +28,15 @@ public enum DestinationInput: Codable, JSONEncodable, Hashable {
             self = .destinationIndexPrefix(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of DestinationInput"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .destinationIndexName(value):
+            return value as DestinationIndexName
+        case let .destinationIndexPrefix(value):
+            return value as DestinationIndexPrefix
         }
     }
 }

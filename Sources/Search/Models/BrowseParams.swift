@@ -6,7 +6,7 @@ import Foundation
     import AnyCodable
 #endif
 
-public enum BrowseParams: Codable, JSONEncodable, Hashable {
+public enum BrowseParams: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case browseParamsObject(BrowseParamsObject)
     case searchParamsString(SearchParamsString)
 
@@ -28,6 +28,15 @@ public enum BrowseParams: Codable, JSONEncodable, Hashable {
             self = .searchParamsString(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of BrowseParams"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .browseParamsObject(value):
+            return value as BrowseParamsObject
+        case let .searchParamsString(value):
+            return value as SearchParamsString
         }
     }
 }

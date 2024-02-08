@@ -6,7 +6,7 @@ import Foundation
     import AnyCodable
 #endif
 
-public enum AuthInputPartial: Codable, JSONEncodable, Hashable {
+public enum AuthInputPartial: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case authAPIKeyPartial(AuthAPIKeyPartial)
     case authAlgoliaPartial(AuthAlgoliaPartial)
     case authBasicPartial(AuthBasicPartial)
@@ -43,6 +43,21 @@ public enum AuthInputPartial: Codable, JSONEncodable, Hashable {
             self = .authOAuthPartial(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of AuthInputPartial"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .authAPIKeyPartial(value):
+            return value as AuthAPIKeyPartial
+        case let .authAlgoliaPartial(value):
+            return value as AuthAlgoliaPartial
+        case let .authBasicPartial(value):
+            return value as AuthBasicPartial
+        case let .authGoogleServiceAccountPartial(value):
+            return value as AuthGoogleServiceAccountPartial
+        case let .authOAuthPartial(value):
+            return value as AuthOAuthPartial
         }
     }
 }

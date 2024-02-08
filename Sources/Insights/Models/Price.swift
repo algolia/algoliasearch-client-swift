@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /** The total price of a product, including any discounts, in units of &#x60;currency&#x60;.  */
-public enum Price: Codable, JSONEncodable, Hashable {
+public enum Price: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case double(Double)
     case string(String)
 
@@ -29,6 +29,15 @@ public enum Price: Codable, JSONEncodable, Hashable {
             self = .string(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of Price"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .double(value):
+            return value as Double
+        case let .string(value):
+            return value as String
         }
     }
 }

@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /** Controls whether [typo tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/) is enabled and how it is applied. */
-public enum TypoTolerance: Codable, JSONEncodable, Hashable {
+public enum TypoTolerance: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case bool(Bool)
     case typoToleranceEnum(TypoToleranceEnum)
 
@@ -29,6 +29,15 @@ public enum TypoTolerance: Codable, JSONEncodable, Hashable {
             self = .typoToleranceEnum(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of TypoTolerance"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .bool(value):
+            return value as Bool
+        case let .typoToleranceEnum(value):
+            return value as TypoToleranceEnum
         }
     }
 }

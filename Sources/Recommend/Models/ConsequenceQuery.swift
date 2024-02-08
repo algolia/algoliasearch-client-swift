@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /** When providing a string, it replaces the entire query string. When providing an object, it describes incremental edits to be made to the query string (but you can&#39;t do both). */
-public enum ConsequenceQuery: Codable, JSONEncodable, Hashable {
+public enum ConsequenceQuery: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case consequenceQueryObject(ConsequenceQueryObject)
     case string(String)
 
@@ -29,6 +29,15 @@ public enum ConsequenceQuery: Codable, JSONEncodable, Hashable {
             self = .string(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of ConsequenceQuery"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .consequenceQueryObject(value):
+            return value as ConsequenceQueryObject
+        case let .string(value):
+            return value as String
         }
     }
 }

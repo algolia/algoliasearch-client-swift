@@ -6,7 +6,7 @@ import Foundation
     import AnyCodable
 #endif
 
-public enum SourceUpdateInput: Codable, JSONEncodable, Hashable {
+public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case sourceBigQuery(SourceBigQuery)
     case sourceCSV(SourceCSV)
     case sourceJSON(SourceJSON)
@@ -43,6 +43,21 @@ public enum SourceUpdateInput: Codable, JSONEncodable, Hashable {
             self = .sourceUpdateDocker(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of SourceUpdateInput"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .sourceBigQuery(value):
+            return value as SourceBigQuery
+        case let .sourceCSV(value):
+            return value as SourceCSV
+        case let .sourceJSON(value):
+            return value as SourceJSON
+        case let .sourceUpdateCommercetools(value):
+            return value as SourceUpdateCommercetools
+        case let .sourceUpdateDocker(value):
+            return value as SourceUpdateDocker
         }
     }
 }

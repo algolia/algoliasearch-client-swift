@@ -6,7 +6,7 @@ import Foundation
     import AnyCodable
 #endif
 
-public enum EventsItems: Codable, JSONEncodable, Hashable {
+public enum EventsItems: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case addedToCartObjectIDs(AddedToCartObjectIDs)
     case addedToCartObjectIDsAfterSearch(AddedToCartObjectIDsAfterSearch)
     case clickedFilters(ClickedFilters)
@@ -78,6 +78,35 @@ public enum EventsItems: Codable, JSONEncodable, Hashable {
             self = .viewedObjectIDs(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of EventsItems"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .addedToCartObjectIDs(value):
+            return value as AddedToCartObjectIDs
+        case let .addedToCartObjectIDsAfterSearch(value):
+            return value as AddedToCartObjectIDsAfterSearch
+        case let .clickedFilters(value):
+            return value as ClickedFilters
+        case let .clickedObjectIDs(value):
+            return value as ClickedObjectIDs
+        case let .clickedObjectIDsAfterSearch(value):
+            return value as ClickedObjectIDsAfterSearch
+        case let .convertedFilters(value):
+            return value as ConvertedFilters
+        case let .convertedObjectIDs(value):
+            return value as ConvertedObjectIDs
+        case let .convertedObjectIDsAfterSearch(value):
+            return value as ConvertedObjectIDsAfterSearch
+        case let .purchasedObjectIDs(value):
+            return value as PurchasedObjectIDs
+        case let .purchasedObjectIDsAfterSearch(value):
+            return value as PurchasedObjectIDsAfterSearch
+        case let .viewedFilters(value):
+            return value as ViewedFilters
+        case let .viewedObjectIDs(value):
+            return value as ViewedObjectIDs
         }
     }
 }

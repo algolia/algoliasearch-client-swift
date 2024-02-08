@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /** Set the language for deduplicating singular and plural suggestions. If specified, only the more popular form is included.  */
-public enum Languages: Codable, JSONEncodable, Hashable {
+public enum Languages: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case bool(Bool)
     case arrayOfString([String])
 
@@ -29,6 +29,15 @@ public enum Languages: Codable, JSONEncodable, Hashable {
             self = .arrayOfString(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of Languages"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .bool(value):
+            return value as Bool
+        case let .arrayOfString(value):
+            return value as [String]
         }
     }
 }

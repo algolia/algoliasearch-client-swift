@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /** Precision of a geographical search (in meters), to [group results that are more or less the same distance from a central point](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/in-depth/geo-ranking-precision/). */
-public enum AroundPrecision: Codable, JSONEncodable, Hashable {
+public enum AroundPrecision: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case int(Int)
     case arrayOfAroundPrecisionFromValueInner([AroundPrecisionFromValueInner])
 
@@ -29,6 +29,15 @@ public enum AroundPrecision: Codable, JSONEncodable, Hashable {
             self = .arrayOfAroundPrecisionFromValueInner(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of AroundPrecision"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .int(value):
+            return value as Int
+        case let .arrayOfAroundPrecisionFromValueInner(value):
+            return value as [AroundPrecisionFromValueInner]
         }
     }
 }

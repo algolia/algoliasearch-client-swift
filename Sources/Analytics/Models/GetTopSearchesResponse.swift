@@ -6,7 +6,7 @@ import Foundation
     import AnyCodable
 #endif
 
-public enum GetTopSearchesResponse: Codable, JSONEncodable, Hashable {
+public enum GetTopSearchesResponse: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case topSearchesResponse(TopSearchesResponse)
     case topSearchesResponseWithAnalytics(TopSearchesResponseWithAnalytics)
 
@@ -28,6 +28,15 @@ public enum GetTopSearchesResponse: Codable, JSONEncodable, Hashable {
             self = .topSearchesResponseWithAnalytics(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of GetTopSearchesResponse"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .topSearchesResponse(value):
+            return value as TopSearchesResponse
+        case let .topSearchesResponseWithAnalytics(value):
+            return value as TopSearchesResponseWithAnalytics
         }
     }
 }

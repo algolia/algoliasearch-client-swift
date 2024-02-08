@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /** Create filters to boost or demote records.   Records that match the filter are ranked higher for positive and lower for negative optional filters. In contrast to regular filters, records that don&#39;t match the optional filter are still included in the results, only their ranking is affected.  */
-public enum OptionalFilters: Codable, JSONEncodable, Hashable {
+public enum OptionalFilters: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case string(String)
     case arrayOfMixedSearchFilters([MixedSearchFilters])
 
@@ -29,6 +29,15 @@ public enum OptionalFilters: Codable, JSONEncodable, Hashable {
             self = .arrayOfMixedSearchFilters(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of OptionalFilters"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .string(value):
+            return value as String
+        case let .arrayOfMixedSearchFilters(value):
+            return value as [MixedSearchFilters]
         }
     }
 }

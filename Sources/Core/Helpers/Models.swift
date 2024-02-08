@@ -108,3 +108,7 @@ open class Response<T> {
         httpResponse = response
     }
 }
+
+public protocol AbstractEncodable: JSONEncodable {
+    func GetActualInstance() -> Encodable
+}

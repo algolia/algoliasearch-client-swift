@@ -6,7 +6,7 @@ import Foundation
     import AnyCodable
 #endif
 
-public enum MixedSearchFilters: Codable, JSONEncodable, Hashable {
+public enum MixedSearchFilters: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case string(String)
     case arrayOfString([String])
 
@@ -28,6 +28,15 @@ public enum MixedSearchFilters: Codable, JSONEncodable, Hashable {
             self = .arrayOfString(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of MixedSearchFilters"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .string(value):
+            return value as String
+        case let .arrayOfString(value):
+            return value as [String]
         }
     }
 }

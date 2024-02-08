@@ -6,7 +6,7 @@ import Foundation
     import AnyCodable
 #endif
 
-public enum Trigger: Codable, JSONEncodable, Hashable {
+public enum Trigger: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case onDemandTrigger(OnDemandTrigger)
     case scheduleTrigger(ScheduleTrigger)
     case subscriptionTrigger(SubscriptionTrigger)
@@ -33,6 +33,17 @@ public enum Trigger: Codable, JSONEncodable, Hashable {
             self = .subscriptionTrigger(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of Trigger"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .onDemandTrigger(value):
+            return value as OnDemandTrigger
+        case let .scheduleTrigger(value):
+            return value as ScheduleTrigger
+        case let .subscriptionTrigger(value):
+            return value as SubscriptionTrigger
         }
     }
 }

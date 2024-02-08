@@ -6,7 +6,7 @@ import Foundation
     import AnyCodable
 #endif
 
-public enum TaskInput: Codable, JSONEncodable, Hashable {
+public enum TaskInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case onDemandDateUtilsInput(OnDemandDateUtilsInput)
     case scheduleDateUtilsInput(ScheduleDateUtilsInput)
 
@@ -28,6 +28,15 @@ public enum TaskInput: Codable, JSONEncodable, Hashable {
             self = .scheduleDateUtilsInput(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of TaskInput"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .onDemandDateUtilsInput(value):
+            return value as OnDemandDateUtilsInput
+        case let .scheduleDateUtilsInput(value):
+            return value as ScheduleDateUtilsInput
         }
     }
 }

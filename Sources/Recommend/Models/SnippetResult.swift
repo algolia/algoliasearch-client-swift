@@ -6,7 +6,7 @@ import Foundation
     import AnyCodable
 #endif
 
-public enum SnippetResult: Codable, JSONEncodable, Hashable {
+public enum SnippetResult: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case snippetResultOption(SnippetResultOption)
     case arrayOfSnippetResultOption([SnippetResultOption])
     case dictionaryOfStringToSnippetResultOption([String: SnippetResultOption])
@@ -33,6 +33,17 @@ public enum SnippetResult: Codable, JSONEncodable, Hashable {
             self = .dictionaryOfStringToSnippetResultOption(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of SnippetResult"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .snippetResultOption(value):
+            return value as SnippetResultOption
+        case let .arrayOfSnippetResultOption(value):
+            return value as [SnippetResultOption]
+        case let .dictionaryOfStringToSnippetResultOption(value):
+            return value as [String: SnippetResultOption]
         }
     }
 }

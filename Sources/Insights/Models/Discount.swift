@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /** The absolute value of the discount for this product, in units of &#x60;currency&#x60;.  */
-public enum Discount: Codable, JSONEncodable, Hashable {
+public enum Discount: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case double(Double)
     case string(String)
 
@@ -29,6 +29,15 @@ public enum Discount: Codable, JSONEncodable, Hashable {
             self = .string(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of Discount"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .double(value):
+            return value as Double
+        case let .string(value):
+            return value as String
         }
     }
 }

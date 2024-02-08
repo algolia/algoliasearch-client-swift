@@ -6,7 +6,7 @@ import Foundation
     import AnyCodable
 #endif
 
-public enum AuthInput: Codable, JSONEncodable, Hashable {
+public enum AuthInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case authAPIKey(AuthAPIKey)
     case authAlgolia(AuthAlgolia)
     case authBasic(AuthBasic)
@@ -43,6 +43,21 @@ public enum AuthInput: Codable, JSONEncodable, Hashable {
             self = .authOAuth(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of AuthInput"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .authAPIKey(value):
+            return value as AuthAPIKey
+        case let .authAlgolia(value):
+            return value as AuthAlgolia
+        case let .authBasic(value):
+            return value as AuthBasic
+        case let .authGoogleServiceAccount(value):
+            return value as AuthGoogleServiceAccount
+        case let .authOAuth(value):
+            return value as AuthOAuth
         }
     }
 }

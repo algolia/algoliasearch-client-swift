@@ -6,7 +6,7 @@ import Foundation
     import AnyCodable
 #endif
 
-public enum PlatformWithNone: Codable, JSONEncodable, Hashable {
+public enum PlatformWithNone: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case platform(Platform)
     case platformNone(PlatformNone)
 
@@ -28,6 +28,15 @@ public enum PlatformWithNone: Codable, JSONEncodable, Hashable {
             self = .platformNone(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of PlatformWithNone"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .platform(value):
+            return value as Platform
+        case let .platformNone(value):
+            return value as PlatformNone
         }
     }
 }

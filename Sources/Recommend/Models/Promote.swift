@@ -6,7 +6,7 @@ import Foundation
     import AnyCodable
 #endif
 
-public enum Promote: Codable, JSONEncodable, Hashable {
+public enum Promote: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case promoteObjectID(PromoteObjectID)
     case promoteObjectIDs(PromoteObjectIDs)
 
@@ -28,6 +28,15 @@ public enum Promote: Codable, JSONEncodable, Hashable {
             self = .promoteObjectIDs(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of Promote"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .promoteObjectID(value):
+            return value as PromoteObjectID
+        case let .promoteObjectIDs(value):
+            return value as PromoteObjectIDs
         }
     }
 }

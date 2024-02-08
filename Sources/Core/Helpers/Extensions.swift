@@ -88,13 +88,28 @@ extension Dictionary: JSONEncodable {
 
 extension Data: JSONEncodable {
     public func encodeToJSON() -> Any {
-        base64EncodedString(options: Data.Base64EncodingOptions())
+        guard let selfString = String(data: self, encoding: .utf8) else {
+            fatalError("Could not decode data string: \(self)")
+        }
+
+        let jsonData = "{\"data\":\(selfString)}".data(using: .utf8)
+        guard let jsonData = jsonData, let json = try? CodableHelper.jsonDecoder.decode([String: String].self, from: jsonData) else {
+            fatalError("Could not decode from data holder: \(jsonData)")
+        }
+
+        return json["data"]
     }
 }
 
 extension Date: JSONEncodable {
     public func encodeToJSON() -> Any {
         CodableHelper.dateFormatter.string(from: self)
+    }
+}
+
+public extension AbstractEncodable {
+    func encodeToJSON() -> Any {
+        encodeIfPossible(GetActualInstance())
     }
 }
 
@@ -245,24 +260,6 @@ extension HTTPURLResponse {
 
 extension URLRequest: Builder {}
 extension URLComponents: Builder {}
-
-extension URLRequest {
-    @discardableResult func switchingHost(
-        by host: RetryableHost, withBaseTimeout baseTimeout: TimeInterval
-    ) throws -> URLRequest {
-        guard let url = url else { throw FormatError.missingURL }
-        guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-            throw FormatError.malformedURL(url.absoluteString)
-        }
-        guard let updatedURL = components.set(\.host, to: host.url.absoluteString).url else {
-            throw FormatError.badHost(host.url.absoluteString)
-        }
-        let updatedTimeout = TimeInterval(host.retryCount + 1) * baseTimeout
-        return
-            set(\.url, to: updatedURL)
-                .set(\.timeoutInterval, to: updatedTimeout)
-    }
-}
 
 public extension URLRequest {
     enum FormatError: LocalizedError {

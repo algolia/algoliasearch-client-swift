@@ -6,7 +6,7 @@ import Foundation
     import AnyCodable
 #endif
 
-public enum TaskCreateTrigger: Codable, JSONEncodable, Hashable {
+public enum TaskCreateTrigger: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case onDemandTriggerInput(OnDemandTriggerInput)
     case scheduleTriggerInput(ScheduleTriggerInput)
     case subscriptionTrigger(SubscriptionTrigger)
@@ -33,6 +33,17 @@ public enum TaskCreateTrigger: Codable, JSONEncodable, Hashable {
             self = .subscriptionTrigger(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of TaskCreateTrigger"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .onDemandTriggerInput(value):
+            return value as OnDemandTriggerInput
+        case let .scheduleTriggerInput(value):
+            return value as ScheduleTriggerInput
+        case let .subscriptionTrigger(value):
+            return value as SubscriptionTrigger
         }
     }
 }

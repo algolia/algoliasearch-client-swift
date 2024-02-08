@@ -9,5 +9,5 @@ import Foundation
 
 public extension CharacterSet {
     static let urlPathAlgoliaAllowed: CharacterSet = .alphanumerics.union(
-        .init(charactersIn: "-._~!'()*"))
+        .init(charactersIn: "-._~"))
 }

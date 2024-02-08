@@ -6,7 +6,7 @@ import Foundation
     import AnyCodable
 #endif
 
-public enum RecommendationsRequest: Codable, JSONEncodable, Hashable {
+public enum RecommendationsRequest: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case recommendationsQuery(RecommendationsQuery)
     case recommendedForYouQuery(RecommendedForYouQuery)
     case trendingFacetsQuery(TrendingFacetsQuery)
@@ -38,6 +38,19 @@ public enum RecommendationsRequest: Codable, JSONEncodable, Hashable {
             self = .trendingItemsQuery(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of RecommendationsRequest"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .recommendationsQuery(value):
+            return value as RecommendationsQuery
+        case let .recommendedForYouQuery(value):
+            return value as RecommendedForYouQuery
+        case let .trendingFacetsQuery(value):
+            return value as TrendingFacetsQuery
+        case let .trendingItemsQuery(value):
+            return value as TrendingItemsQuery
         }
     }
 }

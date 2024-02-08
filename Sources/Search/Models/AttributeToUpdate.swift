@@ -6,7 +6,7 @@ import Foundation
     import AnyCodable
 #endif
 
-public enum AttributeToUpdate: Codable, JSONEncodable, Hashable {
+public enum AttributeToUpdate: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case builtInOperation(BuiltInOperation)
     case string(String)
 
@@ -28,6 +28,15 @@ public enum AttributeToUpdate: Codable, JSONEncodable, Hashable {
             self = .string(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of AttributeToUpdate"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .builtInOperation(value):
+            return value as BuiltInOperation
+        case let .string(value):
+            return value as String
         }
     }
 }

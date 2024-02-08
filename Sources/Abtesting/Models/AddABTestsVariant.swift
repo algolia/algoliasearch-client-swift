@@ -6,7 +6,7 @@ import Foundation
     import AnyCodable
 #endif
 
-public enum AddABTestsVariant: Codable, JSONEncodable, Hashable {
+public enum AddABTestsVariant: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case abTestsVariant(AbTestsVariant)
     case abTestsVariantSearchParams(AbTestsVariantSearchParams)
 
@@ -28,6 +28,15 @@ public enum AddABTestsVariant: Codable, JSONEncodable, Hashable {
             self = .abTestsVariantSearchParams(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of AddABTestsVariant"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .abTestsVariant(value):
+            return value as AbTestsVariant
+        case let .abTestsVariantSearchParams(value):
+            return value as AbTestsVariantSearchParams
         }
     }
 }

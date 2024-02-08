@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /** [Maximum radius](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#increase-the-search-radius) for a geographical search (in meters).  */
-public enum AroundRadius: Codable, JSONEncodable, Hashable {
+public enum AroundRadius: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case aroundRadiusAll(AroundRadiusAll)
     case int(Int)
 
@@ -29,6 +29,15 @@ public enum AroundRadius: Codable, JSONEncodable, Hashable {
             self = .int(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of AroundRadius"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .aroundRadiusAll(value):
+            return value as AroundRadiusAll
+        case let .int(value):
+            return value as Int
         }
     }
 }

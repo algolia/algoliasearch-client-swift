@@ -6,7 +6,7 @@ import Foundation
     import AnyCodable
 #endif
 
-public enum RecommendationsHit: Codable, JSONEncodable, Hashable {
+public enum RecommendationsHit: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case recommendHit(RecommendHit)
     case trendingFacetHit(TrendingFacetHit)
 
@@ -28,6 +28,15 @@ public enum RecommendationsHit: Codable, JSONEncodable, Hashable {
             self = .trendingFacetHit(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of RecommendationsHit"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .recommendHit(value):
+            return value as RecommendHit
+        case let .trendingFacetHit(value):
+            return value as TrendingFacetHit
         }
     }
 }

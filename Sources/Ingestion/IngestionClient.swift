@@ -231,7 +231,7 @@ open class IngestionClient {
 
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
-        let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        let pathPostEscape = path
         resourcePath = resourcePath.replacingOccurrences(of: "{path}", with: pathPostEscape, options: .literal, range: nil)
         let body: AnyCodable? = nil
         let queryItems = APIHelper.mapValuesToQueryItems(parameters)
@@ -279,7 +279,7 @@ open class IngestionClient {
 
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
-        let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        let pathPostEscape = path
         resourcePath = resourcePath.replacingOccurrences(of: "{path}", with: pathPostEscape, options: .literal, range: nil)
         let body: AnyCodable? = nil
         let queryItems = APIHelper.mapValuesToQueryItems(parameters)
@@ -329,7 +329,7 @@ open class IngestionClient {
 
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
-        let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        let pathPostEscape = path
         resourcePath = resourcePath.replacingOccurrences(of: "{path}", with: pathPostEscape, options: .literal, range: nil)
         let body = body
         let queryItems = APIHelper.mapValuesToQueryItems(parameters)
@@ -379,7 +379,7 @@ open class IngestionClient {
 
         var resourcePath = "/1{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
-        let pathPostEscape = pathPreEscape.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? ""
+        let pathPostEscape = path
         resourcePath = resourcePath.replacingOccurrences(of: "{path}", with: pathPostEscape, options: .literal, range: nil)
         let body = body
         let queryItems = APIHelper.mapValuesToQueryItems(parameters)

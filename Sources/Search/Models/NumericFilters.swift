@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /** [Filter on numeric attributes](https://www.algolia.com/doc/api-reference/api-parameters/numericFilters/).  */
-public enum NumericFilters: Codable, JSONEncodable, Hashable {
+public enum NumericFilters: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case string(String)
     case arrayOfMixedSearchFilters([MixedSearchFilters])
 
@@ -29,6 +29,15 @@ public enum NumericFilters: Codable, JSONEncodable, Hashable {
             self = .arrayOfMixedSearchFilters(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of NumericFilters"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .string(value):
+            return value as String
+        case let .arrayOfMixedSearchFilters(value):
+            return value as [MixedSearchFilters]
         }
     }
 }

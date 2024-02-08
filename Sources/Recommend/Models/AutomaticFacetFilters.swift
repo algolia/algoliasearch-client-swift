@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /** Names of facets to which automatic filtering must be applied; they must match the facet name of a facet value placeholder in the query pattern. */
-public enum AutomaticFacetFilters: Codable, JSONEncodable, Hashable {
+public enum AutomaticFacetFilters: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case arrayOfAutomaticFacetFilter([AutomaticFacetFilter])
     case arrayOfString([String])
 
@@ -29,6 +29,15 @@ public enum AutomaticFacetFilters: Codable, JSONEncodable, Hashable {
             self = .arrayOfString(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of AutomaticFacetFilters"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .arrayOfAutomaticFacetFilter(value):
+            return value as [AutomaticFacetFilter]
+        case let .arrayOfString(value):
+            return value as [String]
         }
     }
 }

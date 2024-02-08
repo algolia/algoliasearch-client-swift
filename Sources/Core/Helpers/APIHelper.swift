@@ -120,10 +120,18 @@ public enum APIHelper {
                     convertAnyToString(value)
                 }
                 result.append(
-                    URLQueryItem(name: item.key, value: collectionValues.joined(separator: ","))
+                    URLQueryItem(
+                        name: item.key,
+                        value: collectionValues.joined(separator: ",").addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed)
+                    )
                 )
             } else if let value = item.value {
-                result.append(URLQueryItem(name: item.key, value: convertAnyToString(value)))
+                result.append(
+                    URLQueryItem(
+                        name: item.key,
+                        value: convertAnyToString(value)?.addingPercentEncoding(withAllowedCharacters: .urlPathAlgoliaAllowed)
+                    )
+                )
             }
         }
 

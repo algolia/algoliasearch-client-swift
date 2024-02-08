@@ -6,7 +6,7 @@ import Foundation
     import AnyCodable
 #endif
 
-public enum HighlightResult: Codable, JSONEncodable, Hashable {
+public enum HighlightResult: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case highlightResultOption(HighlightResultOption)
     case arrayOfHighlightResultOption([HighlightResultOption])
     case dictionaryOfStringToHighlightResultOption([String: HighlightResultOption])
@@ -33,6 +33,17 @@ public enum HighlightResult: Codable, JSONEncodable, Hashable {
             self = .dictionaryOfStringToHighlightResultOption(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of HighlightResult"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .highlightResultOption(value):
+            return value as HighlightResultOption
+        case let .arrayOfHighlightResultOption(value):
+            return value as [HighlightResultOption]
+        case let .dictionaryOfStringToHighlightResultOption(value):
+            return value as [String: HighlightResultOption]
         }
     }
 }

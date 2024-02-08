@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /** Enables [deduplication or grouping of results (Algolia&#39;s _distinct_ feature](https://www.algolia.com/doc/guides/managing-results/refine-results/grouping/#introducing-algolias-distinct-feature)). */
-public enum Distinct: Codable, JSONEncodable, Hashable {
+public enum Distinct: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case bool(Bool)
     case int(Int)
 
@@ -29,6 +29,15 @@ public enum Distinct: Codable, JSONEncodable, Hashable {
             self = .int(value)
         } else {
             throw DecodingError.typeMismatch(Self.Type.self, .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of Distinct"))
+        }
+    }
+
+    public func GetActualInstance() -> Encodable {
+        switch self {
+        case let .bool(value):
+            return value as Bool
+        case let .int(value):
+            return value as Int
         }
     }
 }
