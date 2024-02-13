@@ -13,11 +13,11 @@ public struct ClickThroughRateEvent: Codable, JSONEncodable, Hashable {
     /** Number of click events. */
     public var clickCount: Int
     /** Number of tracked searches. This is the number of search requests where the `clickAnalytics` parameter is `true`. */
-    public var trackedSearchCount: Int
+    public var trackedSearchCount: Int?
     /** Date of the event in the format YYYY-MM-DD. */
     public var date: String
 
-    public init(rate: Double, clickCount: Int, trackedSearchCount: Int, date: String) {
+    public init(rate: Double, clickCount: Int, trackedSearchCount: Int?, date: String) {
         self.rate = rate
         self.clickCount = clickCount
         self.trackedSearchCount = trackedSearchCount

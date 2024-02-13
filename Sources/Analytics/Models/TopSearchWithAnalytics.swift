@@ -19,7 +19,7 @@ public struct TopSearchWithAnalytics: Codable, JSONEncodable, Hashable {
     /** [Conversion rate (CR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#conversion-rate).  */
     public var conversionRate: Double
     /** Number of tracked searches. This is the number of search requests where the `clickAnalytics` parameter is `true`. */
-    public var trackedSearchCount: Int
+    public var trackedSearchCount: Int?
     /** Number of click events. */
     public var clickCount: Int
     /** Number of converted clicks. */
@@ -27,7 +27,7 @@ public struct TopSearchWithAnalytics: Codable, JSONEncodable, Hashable {
     /** Number of hits the search query matched. */
     public var nbHits: Int
 
-    public init(search: String, count: Int, clickThroughRate: Double, averageClickPosition: Int, conversionRate: Double, trackedSearchCount: Int, clickCount: Int, conversionCount: Int, nbHits: Int) {
+    public init(search: String, count: Int, clickThroughRate: Double, averageClickPosition: Int, conversionRate: Double, trackedSearchCount: Int?, clickCount: Int, conversionCount: Int, nbHits: Int) {
         self.search = search
         self.count = count
         self.clickThroughRate = clickThroughRate

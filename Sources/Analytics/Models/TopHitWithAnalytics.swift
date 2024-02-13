@@ -17,13 +17,13 @@ public struct TopHitWithAnalytics: Codable, JSONEncodable, Hashable {
     /** [Conversion rate (CR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#conversion-rate).  */
     public var conversionRate: Double
     /** Number of tracked searches. This is the number of search requests where the `clickAnalytics` parameter is `true`. */
-    public var trackedSearchCount: Int
+    public var trackedSearchCount: Int?
     /** Number of click events. */
     public var clickCount: Int
     /** Number of converted clicks. */
     public var conversionCount: Int
 
-    public init(hit: String, count: Int, clickThroughRate: Double, conversionRate: Double, trackedSearchCount: Int, clickCount: Int, conversionCount: Int) {
+    public init(hit: String, count: Int, clickThroughRate: Double, conversionRate: Double, trackedSearchCount: Int?, clickCount: Int, conversionCount: Int) {
         self.hit = hit
         self.count = count
         self.clickThroughRate = clickThroughRate

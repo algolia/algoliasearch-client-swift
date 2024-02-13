@@ -11,13 +11,13 @@ public struct ConversionRateEvent: Codable, JSONEncodable, Hashable {
     /** [Click-through rate (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).  */
     public var rate: Double
     /** Number of tracked searches. This is the number of search requests where the `clickAnalytics` parameter is `true`. */
-    public var trackedSearchCount: Int
+    public var trackedSearchCount: Int?
     /** Number of converted clicks. */
     public var conversionCount: Int
     /** Date of the event in the format YYYY-MM-DD. */
     public var date: String
 
-    public init(rate: Double, trackedSearchCount: Int, conversionCount: Int, date: String) {
+    public init(rate: Double, trackedSearchCount: Int?, conversionCount: Int, date: String) {
         self.rate = rate
         self.trackedSearchCount = trackedSearchCount
         self.conversionCount = conversionCount
