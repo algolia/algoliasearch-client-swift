@@ -10,7 +10,15 @@ import Logging
 
 typealias SwiftLog = Logging.Logger
 
+// MARK: - Logger
+
 public struct Logger {
+    // MARK: Lifecycle
+
+    private init() {}
+
+    // MARK: Public
+
     public static var loggingService: Loggable = {
         var swiftLog = SwiftLog(label: "com.algolia.searchClientSwift")
         print(
@@ -30,49 +38,57 @@ public struct Logger {
         }
     }
 
-    private init() {}
+    // MARK: Internal
 
     static func trace(_ message: String) {
-        loggingService.log(level: .trace, message: message)
+        self.loggingService.log(level: .trace, message: message)
     }
 
     static func debug(_ message: String) {
-        loggingService.log(level: .debug, message: message)
+        self.loggingService.log(level: .debug, message: message)
     }
 
     static func info(_ message: String) {
-        loggingService.log(level: .info, message: message)
+        self.loggingService.log(level: .info, message: message)
     }
 
     static func notice(_ message: String) {
-        loggingService.log(level: .notice, message: message)
+        self.loggingService.log(level: .notice, message: message)
     }
 
     static func warning(_ message: String) {
-        loggingService.log(level: .warning, message: message)
+        self.loggingService.log(level: .warning, message: message)
     }
 
     static func error(_ message: String) {
-        loggingService.log(level: .error, message: message)
+        self.loggingService.log(level: .error, message: message)
     }
 
     static func critical(_ message: String) {
-        loggingService.log(level: .critical, message: message)
+        self.loggingService.log(level: .critical, message: message)
     }
 }
 
+// MARK: - LogLevel
+
 public enum LogLevel {
-    case trace, debug, info, notice, warning, error, critical
+    case trace
+    case debug
+    case info
+    case notice
+    case warning
+    case error
+    case critical
 }
 
 extension Logger {
     static func error(prefix: String = "", _ error: Error) {
-        let errorMessage: String
-        if let decodingError = error as? DecodingError {
-            errorMessage = decodingError.prettyDescription
-        } else {
-            errorMessage = "\(error)"
-        }
+        let errorMessage: String =
+            if let decodingError = error as? DecodingError {
+                decodingError.prettyDescription
+            } else {
+                "\(error)"
+            }
         self.error("\(prefix) \(errorMessage)")
     }
 }
@@ -92,22 +108,26 @@ extension LogLevel {
 
     var swiftLogLevel: SwiftLog.Level {
         switch self {
-        case .trace: return .trace
-        case .debug: return .debug
-        case .info: return .info
-        case .notice: return .notice
-        case .warning: return .warning
-        case .error: return .error
-        case .critical: return .critical
+        case .trace: .trace
+        case .debug: .debug
+        case .info: .info
+        case .notice: .notice
+        case .warning: .warning
+        case .error: .error
+        case .critical: .critical
         }
     }
 }
+
+// MARK: - Loggable
 
 public protocol Loggable {
     var minSeverityLevel: LogLevel { get set }
 
     func log(level: LogLevel, message: String)
 }
+
+// MARK: - SwiftLog + Loggable
 
 extension SwiftLog: Loggable {
     public var minSeverityLevel: LogLevel {
@@ -120,6 +140,6 @@ extension SwiftLog: Loggable {
     }
 
     public func log(level: LogLevel, message: String) {
-        log(level: level.swiftLogLevel, SwiftLog.Message(stringLiteral: message), metadata: .none)
+        self.log(level: level.swiftLogLevel, SwiftLog.Message(stringLiteral: message), metadata: .none)
     }
 }

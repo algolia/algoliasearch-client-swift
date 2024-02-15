@@ -11,49 +11,59 @@ import Foundation
     import FoundationNetworking
 #endif
 
+// MARK: - URLSessionRequestBuilder
+
 open class URLSessionRequestBuilder: RequestBuilder {
-    private(set) var sessionManager: URLSession
+    // MARK: Lifecycle
 
     public required init() {
         let sessionConfiguration: URLSessionConfiguration = .default
 
-        sessionManager = URLSession(configuration: sessionConfiguration)
+        self.sessionManager = URLSession(configuration: sessionConfiguration)
     }
 
     public init(
         sessionConfiguration: URLSessionConfiguration
     ) {
-        sessionManager = URLSession(configuration: sessionConfiguration)
+        self.sessionManager = URLSession(configuration: sessionConfiguration)
     }
+
+    // MARK: Open
 
     @discardableResult
     open func execute<T: Decodable>(urlRequest: URLRequest, timeout: TimeInterval) async throws
-        -> Response<T>
-    {
-        sessionManager.configuration.timeoutIntervalForResource = timeout
+    -> Response<T> {
+        self.sessionManager.configuration.timeoutIntervalForResource = timeout
 
         var (responseData, httpResponse): (Data?, URLResponse?) = (nil, nil)
         do {
             #if canImport(FoundationNetworking)
-                (responseData, httpResponse) = try await sessionManager.asyncData(for: urlRequest)
+                (responseData, httpResponse) = try await self.sessionManager.asyncData(for: urlRequest)
             #else
-                (responseData, httpResponse) = try await sessionManager.data(for: urlRequest)
+                (responseData, httpResponse) = try await self.sessionManager.data(for: urlRequest)
             #endif
         } catch {
             throw AlgoliaError.requestError(error)
         }
 
-        return try await processRequestResponse(
+        return try await self.processRequestResponse(
             urlRequest: urlRequest, data: responseData, response: httpResponse
         )
     }
+
+    // MARK: Internal
+
+    private(set) var sessionManager: URLSession
+
+    // MARK: Fileprivate
 
     fileprivate func processRequestResponse<T: Decodable>(
         urlRequest _: URLRequest, data: Data?, response: URLResponse?
     ) async throws -> Response<T> {
         guard let httpResponse = response as? HTTPURLResponse else {
             throw AlgoliaError.decodingFailure(
-                GenericError(description: "Unable to decode HTTPURLResponse"))
+                GenericError(description: "Unable to decode HTTPURLResponse")
+            )
         }
 
         // This initializer returns `nil` if the HTTP response status code is in the successful range
@@ -93,7 +103,9 @@ open class URLSessionRequestBuilder: RequestBuilder {
                 throw AlgoliaError.decodingFailure(
                     GenericError(
                         description: "Unable to decode response decodable object: "
-                            + error.localizedDescription))
+                            + error.localizedDescription
+                    )
+                )
             }
         }
     }

@@ -37,17 +37,19 @@ public extension URLSession {
                 }
 
                 dataTask = self.dataTask(with: urlRequest) { data, response, error in
-                    if let error = error {
+                    if let error {
                         continuation.resume(throwing: error)
                         return
                     }
                     guard let response = response as? HTTPURLResponse else {
                         continuation.resume(
                             throwing: AlgoliaError.decodingFailure(
-                                GenericError(description: "Unable to decode HTTPURLResponse")))
+                                GenericError(description: "Unable to decode HTTPURLResponse")
+                            )
+                        )
                         return
                     }
-                    guard let data = data else {
+                    guard let data else {
                         continuation.resume(throwing: AlgoliaError.missingData)
                         return
                     }

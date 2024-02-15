@@ -11,6 +11,8 @@ import Foundation
     import FoundationNetworking
 #endif
 
+// MARK: - RequestBuilder
+
 public protocol RequestBuilder {
     init()
 

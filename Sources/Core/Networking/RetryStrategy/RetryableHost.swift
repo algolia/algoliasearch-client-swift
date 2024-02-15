@@ -7,14 +7,10 @@
 
 import Foundation
 
-public struct RetryableHost {
-    /// The url to target.
-    public let url: URL
+// MARK: - RetryableHost
 
-    let supportedCallTypes: CallTypeSupport
-    var isUp: Bool
-    var lastUpdated: Date
-    var retryCount: Int
+public struct RetryableHost {
+    // MARK: Lifecycle
 
     public init(url: URL) {
         self.init(url: url, callType: .universal)
@@ -22,51 +18,72 @@ public struct RetryableHost {
 
     public init(url: URL, callType: CallTypeSupport = .universal) {
         self.url = url
-        supportedCallTypes = callType
-        isUp = true
-        lastUpdated = .init()
-        retryCount = 0
+        self.supportedCallTypes = callType
+        self.isUp = true
+        self.lastUpdated = .init()
+        self.retryCount = 0
     }
+
+    // MARK: Public
+
+    /// The url to target.
+    public let url: URL
 
     public func supports(_ callType: CallType) -> Bool {
         switch callType {
         case .read:
-            return supportedCallTypes.contains(.read)
+            self.supportedCallTypes.contains(.read)
         case .write:
-            return supportedCallTypes.contains(.write)
+            self.supportedCallTypes.contains(.write)
         }
     }
 
+    // MARK: Internal
+
+    let supportedCallTypes: CallTypeSupport
+    var isUp: Bool
+    var lastUpdated: Date
+    var retryCount: Int
+
     mutating func reset() {
-        lastUpdated = .init()
-        isUp = true
-        retryCount = 0
+        self.lastUpdated = .init()
+        self.isUp = true
+        self.retryCount = 0
     }
 
     mutating func hasTimedOut() {
-        isUp = true
-        lastUpdated = .init()
-        retryCount += 1
+        self.isUp = true
+        self.lastUpdated = .init()
+        self.retryCount += 1
     }
 
     mutating func hasFailed() {
-        isUp = false
-        lastUpdated = .init()
+        self.isUp = false
+        self.lastUpdated = .init()
     }
 }
 
+// MARK: RetryableHost.CallTypeSupport
+
 public extension RetryableHost {
     struct CallTypeSupport: OptionSet {
-        public let rawValue: Int
-        public static let read = CallTypeSupport(rawValue: 1 << 0)
-        public static let write = CallTypeSupport(rawValue: 1 << 1)
-        public static let universal: CallTypeSupport = [.read, .write]
+        // MARK: Lifecycle
 
         public init(rawValue: Int) {
             self.rawValue = rawValue
         }
+
+        // MARK: Public
+
+        public static let read = CallTypeSupport(rawValue: 1 << 0)
+        public static let write = CallTypeSupport(rawValue: 1 << 1)
+        public static let universal: CallTypeSupport = [.read, .write]
+
+        public let rawValue: Int
     }
 }
+
+// MARK: - RetryableHost.CallTypeSupport + CustomDebugStringConvertible
 
 extension RetryableHost.CallTypeSupport: CustomDebugStringConvertible {
     public var debugDescription: String {
@@ -81,15 +98,16 @@ extension RetryableHost.CallTypeSupport: CustomDebugStringConvertible {
     }
 }
 
+// MARK: - RetryableHost + CustomDebugStringConvertible
+
 extension RetryableHost: CustomDebugStringConvertible {
     public var debugDescription: String {
-        "Host \(supportedCallTypes.debugDescription) \(url) up: \(isUp) retry count: \(retryCount) updated: \(lastUpdated)"
+        "Host \(self.supportedCallTypes.debugDescription) \(self.url) up: \(self.isUp) retry count: \(self.retryCount) updated: \(self.lastUpdated)"
     }
 }
 
-public extension Array where Element == RetryableHost {
-    /** Reset all hosts down for more than specified interval.
-     */
+public extension [RetryableHost] {
+    /// Reset all hosts down for more than specified interval.
     mutating func resetExpired(expirationDelay: TimeInterval) {
         var updatedHosts: [RetryableHost] = []
         for host in self {

@@ -20,9 +20,11 @@ extension HTTPStatusСode {
     }
 
     var isError: Bool {
-        belongs(to: .clientError, .serverError)
+        self.belongs(to: .clientError, .serverError)
     }
 }
+
+// MARK: - HTTPStatusCategory
 
 enum HTTPStatusCategory {
     case informational
@@ -31,22 +33,24 @@ enum HTTPStatusCategory {
     case clientError
     case serverError
 
-    func contains(_ statusCode: HTTPStatusСode) -> Bool {
-        range.contains(statusCode)
-    }
+    // MARK: Internal
 
     var range: Range<Int> {
         switch self {
         case .informational:
-            return 100 ..< 200
+            100 ..< 200
         case .success:
-            return 200 ..< 300
+            200 ..< 300
         case .redirection:
-            return 300 ..< 400
+            300 ..< 400
         case .clientError:
-            return 400 ..< 500
+            400 ..< 500
         case .serverError:
-            return 500 ..< 600
+            500 ..< 600
         }
+    }
+
+    func contains(_ statusCode: HTTPStatusСode) -> Bool {
+        self.range.contains(statusCode)
     }
 }

@@ -9,10 +9,10 @@ import Foundation
     import FoundationNetworking
 #endif
 
+// MARK: - Transporter
+
 open class Transporter {
-    let configuration: Configuration
-    let retryStrategy: RetryStrategy
-    let requestBuilder: RequestBuilder
+    // MARK: Lifecycle
 
     public init(
         configuration: Configuration,
@@ -22,7 +22,7 @@ open class Transporter {
         self.configuration = configuration
         self.retryStrategy = retryStrategy ?? AlgoliaRetryStrategy(configuration: configuration)
 
-        guard let requestBuilder = requestBuilder else {
+        guard let requestBuilder else {
             let sessionConfiguration: URLSessionConfiguration = .default
 
             sessionConfiguration.timeoutIntervalForRequest = configuration.readTimeout
@@ -38,18 +38,20 @@ open class Transporter {
         self.requestBuilder = requestBuilder
     }
 
+    // MARK: Public
+
     public func send<T: Decodable>(
         method: String, path: String, data: Codable?, requestOptions: RequestOptions? = nil,
         useReadTransporter: Bool = false
     ) async throws -> Response<T> {
         let httpMethod = HTTPMethod(rawValue: method)
 
-        guard let httpMethod = httpMethod else {
+        guard let httpMethod else {
             throw AlgoliaError.requestError(GenericError(description: "Unknown HTTP method"))
         }
 
         let callType: CallType = useReadTransporter ? CallType.read : httpMethod.toCallType()
-        let hostIterator: HostIterator = retryStrategy.retryableHosts(for: callType)
+        let hostIterator: HostIterator = self.retryStrategy.retryableHosts(for: callType)
         let headers: [String: String] = requestOptions?.headers ?? [:]
         var body: Data? = nil
         var urlComponents = URLComponents()
@@ -57,7 +59,7 @@ open class Transporter {
 
         if let requestOptionsData = requestOptions?.body {
             body = try JSONSerialization.data(withJSONObject: requestOptionsData as Any, options: [])
-        } else if let data = data {
+        } else if let data {
             body = try CodableHelper.jsonEncoder.encode(data)
         }
 
@@ -67,12 +69,15 @@ open class Transporter {
             body = "{}".data(using: .utf8)
         }
 
-        urlComponents = urlComponents.set(\.path, to: path)
-        urlComponents = urlComponents.setIfNotNil(\.queryItems, to: requestOptions?.queryItems)
+        urlComponents.percentEncodedPath = path
+
+        if let percentEncodedQueryItems = APIHelper.mapValuesToQueryItems(requestOptions?.queryParameters) {
+            urlComponents.percentEncodedQueryItems = percentEncodedQueryItems
+        }
 
         while let host = hostIterator.next() {
             let rawTimeout =
-                requestOptions?.timeout(for: callType) ?? configuration.timeout(for: callType)
+                requestOptions?.timeout(for: callType) ?? self.configuration.timeout(for: callType)
             let timeout = TimeInterval(host.retryCount + 1) * rawTimeout
 
             guard let url = urlComponents.url(relativeTo: host.url) else {
@@ -81,10 +86,10 @@ open class Transporter {
 
             var request = URLRequest(url: url)
 
-            request = request.set(\.httpMethod, to: httpMethod.rawValue)
-            request = request.set(\.timeoutInterval, to: timeout)
+            request.httpMethod = httpMethod.rawValue
+            request.timeoutInterval = timeout
 
-            for (key, value) in configuration.defaultHeaders ?? [:] {
+            for (key, value) in self.configuration.defaultHeaders ?? [:] {
                 request.setValue(value, forHTTPHeaderField: key.capitalized)
             }
             request.setValue(
@@ -99,24 +104,25 @@ open class Transporter {
                       contentType.hasPrefix("application/json")
                 else {
                     throw AlgoliaError.requestError(
-                        GenericError(description: "Unsupported Content-Type"))
+                        GenericError(description: "Unsupported Content-Type")
+                    )
                 }
             }
 
-            request = request.set(\.httpBody, to: body)
+            request.httpBody = body
 
             do {
                 let response: Response<T> = try await requestBuilder.execute(
                     urlRequest: request, timeout: timeout
                 )
-                retryStrategy.notify(host: host, error: nil)
+                self.retryStrategy.notify(host: host, error: nil)
                 return response
             } catch let cancellationError as CancellationError {
                 throw cancellationError
             } catch {
-                retryStrategy.notify(host: host, error: error)
+                self.retryStrategy.notify(host: host, error: error)
 
-                guard retryStrategy.canRetry(inCaseOf: error) else {
+                guard self.retryStrategy.canRetry(inCaseOf: error) else {
                     throw AlgoliaError.requestError(error)
                 }
 
@@ -126,4 +132,10 @@ open class Transporter {
 
         throw AlgoliaError.noReachableHosts(intermediateErrors: intermediateErrors)
     }
+
+    // MARK: Internal
+
+    let configuration: Configuration
+    let retryStrategy: RetryStrategy
+    let requestBuilder: RequestBuilder
 }

@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - Configuration
+
 public protocol Configuration {
     /// The timeout for each request when performing write operations (POST, PUT ..).
     var writeTimeout: TimeInterval { get }
@@ -28,12 +30,14 @@ extension Configuration {
     func timeout(for callType: CallType) -> TimeInterval {
         switch callType {
         case .read:
-            return readTimeout
+            readTimeout
         case .write:
-            return writeTimeout
+            writeTimeout
         }
     }
 }
+
+// MARK: - DefaultConfiguration
 
 public struct DefaultConfiguration: Configuration {
     public static let `default`: Configuration = DefaultConfiguration()

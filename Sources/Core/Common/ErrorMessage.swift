@@ -7,18 +7,30 @@
 
 import Foundation
 
+// MARK: - GenericError
+
 public struct GenericError: Error, CustomStringConvertible {
-    public var description: String
+    // MARK: Lifecycle
 
     public init(description: String) {
         self.description = description
     }
+
+    // MARK: Public
+
+    public var description: String
 }
 
+// MARK: - ErrorMessage
+
 public struct ErrorMessage: Codable, CustomStringConvertible {
+    // MARK: Public
+
+    public let description: String
+
+    // MARK: Internal
+
     enum CodingKeys: String, CodingKey {
         case description = "message"
     }
-
-    public let description: String
 }

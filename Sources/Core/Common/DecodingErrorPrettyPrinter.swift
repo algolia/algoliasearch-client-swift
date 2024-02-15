@@ -7,54 +7,62 @@
 
 import Foundation
 
+// MARK: - DecodingErrorPrettyPrinter
+
 struct DecodingErrorPrettyPrinter: CustomStringConvertible, CustomDebugStringConvertible {
-    let decodingError: DecodingError
+    // MARK: Lifecycle
 
     init(decodingError: DecodingError) {
         self.decodingError = decodingError
     }
 
+    // MARK: Internal
+
+    let decodingError: DecodingError
+
+    var description: String {
+        ([self.prefix] + self.additionalComponents(for: self.decodingError)).joined(separator: ": ")
+    }
+
+    var debugDescription: String {
+        self.description
+    }
+
+    // MARK: Private
+
     private let prefix = "Decoding error"
 
     private func codingKeyDescription(_ key: CodingKey) -> String {
         if let index = key.intValue {
-            return "[\(index)]"
+            "[\(index)]"
         } else {
-            return "'\(key.stringValue)'"
+            "'\(key.stringValue)'"
         }
     }
 
     private func codingPathDescription(_ path: [CodingKey]) -> String {
-        path.map(codingKeyDescription).joined(separator: " -> ")
+        path.map(self.codingKeyDescription).joined(separator: " -> ")
     }
 
     private func additionalComponents(for _: DecodingError) -> [String] {
-        switch decodingError {
+        switch self.decodingError {
         case let .valueNotFound(_, context):
-            return [codingPathDescription(context.codingPath), context.debugDescription]
+            return [self.codingPathDescription(context.codingPath), context.debugDescription]
 
         case let .keyNotFound(key, context):
             return [
-                codingPathDescription(context.codingPath), "Key not found: \(codingKeyDescription(key))",
+                self.codingPathDescription(context.codingPath), "Key not found: \(self.codingKeyDescription(key))",
             ]
 
         case let .typeMismatch(type, context):
-            return [codingPathDescription(context.codingPath), "Type mismatch. Expected: \(type)"]
+            return [self.codingPathDescription(context.codingPath), "Type mismatch. Expected: \(type)"]
 
         case let .dataCorrupted(context):
-            return [codingPathDescription(context.codingPath), context.debugDescription]
+            return [self.codingPathDescription(context.codingPath), context.debugDescription]
 
         @unknown default:
-            return [decodingError.localizedDescription]
+            return [self.decodingError.localizedDescription]
         }
-    }
-
-    var description: String {
-        ([prefix] + additionalComponents(for: decodingError)).joined(separator: ": ")
-    }
-
-    var debugDescription: String {
-        description
     }
 }
 

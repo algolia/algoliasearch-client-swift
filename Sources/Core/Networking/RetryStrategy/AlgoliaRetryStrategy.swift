@@ -11,14 +11,12 @@ import Foundation
     import FoundationNetworking
 #endif
 
-/// Algolia's retry strategy in case of server error, timeouts...
+// MARK: - AlgoliaRetryStrategy
+
+// Algolia's retry strategy in case of server error, timeouts...
 
 class AlgoliaRetryStrategy: RetryStrategy {
-    private var hosts: [RetryableHost]
-    let hostsExpirationDelay: TimeInterval
-
-    /// Concurrent synchronization queue
-    private let queue = DispatchQueue(label: "AlgoliaRetryStrategySync.queue")
+    // MARK: Lifecycle
 
     init(hosts: [RetryableHost], hostsExpirationDelay: TimeInterval = .minutes(5)) {
         self.hosts = hosts
@@ -29,14 +27,18 @@ class AlgoliaRetryStrategy: RetryStrategy {
         self.init(hosts: configuration.hosts)
     }
 
+    // MARK: Internal
+
+    let hostsExpirationDelay: TimeInterval
+
     func retryableHosts(for callType: CallType) -> HostIterator {
-        queue.sync {
+        self.queue.sync {
             // Reset expired hosts
-            hosts.resetExpired(expirationDelay: hostsExpirationDelay)
+            self.hosts.resetExpired(expirationDelay: self.hostsExpirationDelay)
 
             // If all hosts of the required type are down, reset them all
-            if !hosts.contains(where: { $0.supports(callType) && $0.isUp }) {
-                hosts.resetAll(for: callType)
+            if !self.hosts.contains(where: { $0.supports(callType) && $0.isUp }) {
+                self.hosts.resetAll(for: callType)
             }
 
             return HostIterator { [weak self] in
@@ -51,24 +53,24 @@ class AlgoliaRetryStrategy: RetryStrategy {
     }
 
     func notify(host: RetryableHost, error: Error? = nil) {
-        queue.sync {
+        self.queue.sync {
             guard let hostIndex = hosts.firstIndex(where: { $0.url == host.url }) else {
                 assertionFailure("Attempt to notify a host which is not in the strategy list")
                 return
             }
 
-            guard let error = error else {
-                hosts[hostIndex].reset()
+            guard let error else {
+                self.hosts[hostIndex].reset()
                 return
             }
 
-            if isTimeout(error) {
-                hosts[hostIndex].hasTimedOut()
+            if self.isTimeout(error) {
+                self.hosts[hostIndex].hasTimedOut()
                 return
             }
 
-            if isRetryable(error) {
-                hosts[hostIndex].hasFailed()
+            if self.isRetryable(error) {
+                self.hosts[hostIndex].hasFailed()
                 return
             }
         }
@@ -77,40 +79,48 @@ class AlgoliaRetryStrategy: RetryStrategy {
     func isRetryable(_ error: Error) -> Bool {
         switch error {
         case let .requestError(error) as AlgoliaError where error is URLError:
-            return true
+            true
 
         case let .httpError(httpError) as AlgoliaError
             where !httpError.statusCode.belongs(to: .success, .clientError):
-            return true
+            true
 
         case .badHost as URLRequest.FormatError:
-            return true
+            true
 
         default:
-            return false
+            false
         }
     }
 
     func isTimeout(_ error: Error) -> Bool {
         switch error {
         case let .requestError(error as URLError) as AlgoliaError where error.code == .timedOut:
-            return true
+            true
 
         case let .httpError(error) as AlgoliaError where error.statusCode == .requestTimeout:
-            return true
+            true
 
         default:
-            return false
+            false
         }
     }
 
-    func canRetry<E: Error>(inCaseOf error: E) -> Bool {
-        isTimeout(error) || isRetryable(error)
+    func canRetry(inCaseOf error: some Error) -> Bool {
+        self.isTimeout(error) || self.isRetryable(error)
     }
+
+    // MARK: Private
+
+    private var hosts: [RetryableHost]
+    /// Concurrent synchronization queue
+    private let queue = DispatchQueue(label: "AlgoliaRetryStrategySync.queue")
 }
+
+// MARK: CustomDebugStringConvertible
 
 extension AlgoliaRetryStrategy: CustomDebugStringConvertible {
     public var debugDescription: String {
-        hosts.map(\.debugDescription).joined(separator: "\n")
+        self.hosts.map(\.debugDescription).joined(separator: "\n")
     }
 }

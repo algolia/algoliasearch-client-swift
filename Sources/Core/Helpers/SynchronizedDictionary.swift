@@ -6,6 +6,27 @@
 import Foundation
 
 struct SynchronizedDictionary<K: Hashable, V> {
+    // MARK: Internal
+
+    subscript(key: K) -> V? {
+        get {
+            var value: V?
+
+            self.queue.sync {
+                value = self.dictionary[key]
+            }
+
+            return value
+        }
+        set {
+            self.queue.sync(flags: DispatchWorkItemFlags.barrier) {
+                self.dictionary[key] = newValue
+            }
+        }
+    }
+
+    // MARK: Private
+
     private var dictionary = [K: V]()
     private let queue = DispatchQueue(
         label: "SynchronizedDictionary",
@@ -14,21 +35,4 @@ struct SynchronizedDictionary<K: Hashable, V> {
         autoreleaseFrequency: DispatchQueue.AutoreleaseFrequency.inherit,
         target: nil
     )
-
-    subscript(key: K) -> V? {
-        get {
-            var value: V?
-
-            queue.sync {
-                value = dictionary[key]
-            }
-
-            return value
-        }
-        set {
-            queue.sync(flags: DispatchWorkItemFlags.barrier) {
-                dictionary[key] = newValue
-            }
-        }
-    }
 }

@@ -9,13 +9,17 @@ import Foundation
     import FoundationNetworking
 #endif
 
+// MARK: - JSONEncodable
+
 public protocol JSONEncodable {
     func encodeToJSON() -> Any
 }
 
+// MARK: - CaseIterableDefaultsLast
+
 /// An enum where the last case value can be used as a default catch-all.
 protocol CaseIterableDefaultsLast: Decodable & CaseIterable & RawRepresentable
-    where RawValue: Decodable, AllCases: BidirectionalCollection {}
+where RawValue: Decodable, AllCases: BidirectionalCollection {}
 
 extension CaseIterableDefaultsLast {
     /// Initializes an enum such that if a known raw value is found, then it is decoded.
@@ -35,6 +39,8 @@ extension CaseIterableDefaultsLast {
     }
 }
 
+// MARK: - NullEncodable
+
 /// A flexible type that can be encoded (`.encodeNull` or `.encodeValue`)
 /// or not encoded (`.encodeNothing`). Intended for request payloads.
 public enum NullEncodable<Wrapped: Hashable>: Hashable {
@@ -42,6 +48,8 @@ public enum NullEncodable<Wrapped: Hashable>: Hashable {
     case encodeNull
     case encodeValue(Wrapped)
 }
+
+// MARK: Codable
 
 extension NullEncodable: Codable where Wrapped: Codable {
     public init(from decoder: Decoder) throws {
@@ -65,9 +73,13 @@ extension NullEncodable: Codable where Wrapped: Codable {
     }
 }
 
+// MARK: - ErrorResponse
+
 public enum ErrorResponse: Error {
     case error(Int, Data?, URLResponse?, Error)
 }
+
+// MARK: - DownloadException
 
 public enum DownloadException: Error {
     case responseDataMissing
@@ -77,6 +89,8 @@ public enum DownloadException: Error {
     case requestMissingURL
 }
 
+// MARK: - DecodableRequestBuilderError
+
 public enum DecodableRequestBuilderError: Error {
     case emptyDataResponse
     case nilHTTPResponse
@@ -85,12 +99,10 @@ public enum DecodableRequestBuilderError: Error {
     case generalError(Error)
 }
 
+// MARK: - Response
+
 open class Response<T> {
-    public let statusCode: Int
-    public let headers: [String: String]
-    public let body: T?
-    public let bodyData: Data?
-    public let httpResponse: HTTPURLResponse
+    // MARK: Lifecycle
 
     public init(response: HTTPURLResponse, body: T?, bodyData: Data?) {
         let rawHeader = response.allHeaderFields
@@ -101,13 +113,23 @@ open class Response<T> {
             }
         }
 
-        statusCode = response.statusCode
-        headers = responseHeaders
+        self.statusCode = response.statusCode
+        self.headers = responseHeaders
         self.body = body
         self.bodyData = bodyData
-        httpResponse = response
+        self.httpResponse = response
     }
+
+    // MARK: Public
+
+    public let statusCode: Int
+    public let headers: [String: String]
+    public let body: T?
+    public let bodyData: Data?
+    public let httpResponse: HTTPURLResponse
 }
+
+// MARK: - AbstractEncodable
 
 public protocol AbstractEncodable: JSONEncodable {
     func GetActualInstance() -> Encodable

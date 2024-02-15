@@ -7,6 +7,8 @@
 
 import Foundation
 
+// MARK: - StringOption
+
 public protocol StringOption: Codable, Equatable, RawRepresentable where RawValue == String {}
 
 public extension StringOption {
@@ -14,6 +16,8 @@ public extension StringOption {
         self.init(rawValue: rawValue)!
     }
 }
+
+// MARK: - ProvidingCustomOption
 
 public protocol ProvidingCustomOption {
     static func custom(_ value: String) -> Self

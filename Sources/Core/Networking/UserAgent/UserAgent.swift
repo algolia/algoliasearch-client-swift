@@ -7,31 +7,41 @@
 
 import Foundation
 
+// MARK: - UserAgent
+
 public struct UserAgent: Hashable {
-    public let title: String
-    public let version: String
+    // MARK: Lifecycle
 
     public init(title: String, version: String) {
         self.title = title
         self.version = version
     }
+
+    // MARK: Public
+
+    public let title: String
+    public let version: String
 }
+
+// MARK: CustomStringConvertible
 
 extension UserAgent: CustomStringConvertible {
     public var description: String {
-        let versionOutput: String
-        if version.isEmpty {
-            versionOutput = version
-        } else {
-            versionOutput = "(\(version))"
-        }
-        return [title, versionOutput].filter { !$0.isEmpty }.joined(separator: " ")
+        let versionOutput: String =
+            if self.version.isEmpty {
+                self.version
+            } else {
+                "(\(self.version))"
+            }
+        return [self.title, versionOutput].filter { !$0.isEmpty }.joined(separator: " ")
     }
 }
 
+// MARK: UserAgentExtending
+
 extension UserAgent: UserAgentExtending {
     public var userAgentExtension: String {
-        description
+        self.description
     }
 }
 
@@ -48,7 +58,7 @@ extension UserAgent {
         if osVersion.patchVersion != 0 {
             osVersionString += ".\(osVersion.patchVersion)"
         }
-        if let osName = osName {
+        if let osName {
             return UserAgent(title: osName, version: osVersionString)
         } else {
             return UserAgent(title: ProcessInfo.processInfo.operatingSystemVersionString, version: "")

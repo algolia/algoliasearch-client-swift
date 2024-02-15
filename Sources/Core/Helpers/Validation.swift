@@ -5,24 +5,28 @@
 
 import Foundation
 
+// MARK: - StringRule
+
 public struct StringRule {
-    public var minLength: Int?
-    public var maxLength: Int?
-    public var pattern: String?
+    // MARK: Lifecycle
 
     public init(minLength: Int? = nil, maxLength: Int? = nil, pattern: String? = nil) {
         self.minLength = minLength
         self.maxLength = maxLength
         self.pattern = pattern
     }
+
+    // MARK: Public
+
+    public var minLength: Int?
+    public var maxLength: Int?
+    public var pattern: String?
 }
 
+// MARK: - NumericRule
+
 public struct NumericRule<T: Comparable & Numeric> {
-    public var minimum: T?
-    public var exclusiveMinimum = false
-    public var maximum: T?
-    public var exclusiveMaximum = false
-    public var multipleOf: T?
+    // MARK: Lifecycle
 
     public init(
         minimum: T? = nil, exclusiveMinimum: Bool = false, maximum: T? = nil,
@@ -34,19 +38,39 @@ public struct NumericRule<T: Comparable & Numeric> {
         self.exclusiveMaximum = exclusiveMaximum
         self.multipleOf = multipleOf
     }
+
+    // MARK: Public
+
+    public var minimum: T?
+    public var exclusiveMinimum = false
+    public var maximum: T?
+    public var exclusiveMaximum = false
+    public var multipleOf: T?
 }
+
+// MARK: - StringValidationErrorKind
 
 public enum StringValidationErrorKind: Error {
-    case minLength, maxLength, pattern
+    case minLength
+    case maxLength
+    case pattern
 }
 
+// MARK: - NumericValidationErrorKind
+
 public enum NumericValidationErrorKind: Error {
-    case minimum, maximum, multipleOf
+    case minimum
+    case maximum
+    case multipleOf
 }
+
+// MARK: - ValidationError
 
 public struct ValidationError<T: Error & Hashable>: Error {
     public fileprivate(set) var kinds: Set<T>
 }
+
+// MARK: - Validator
 
 public enum Validator {
     /// Validate a string against a rule.

@@ -17,7 +17,7 @@ extension TimeInterval {
     static let hour: TimeInterval = minute * 60
 
     static func hours(_ hoursCount: Int) -> TimeInterval {
-        TimeInterval(hoursCount) * hour
+        TimeInterval(hoursCount) * self.hour
     }
 }
 
@@ -25,7 +25,7 @@ extension TimeInterval {
     static let minute: TimeInterval = 60
 
     static func minutes(_ minutesCount: Int) -> TimeInterval {
-        TimeInterval(minutesCount) * minute
+        TimeInterval(minutesCount) * self.minute
     }
 }
 
@@ -41,6 +41,6 @@ extension TimeInterval {
     static let day: TimeInterval = hour * 24
 
     static func days(_ daysCount: Int) -> TimeInterval {
-        TimeInterval(daysCount) * day
+        TimeInterval(daysCount) * self.day
     }
 }

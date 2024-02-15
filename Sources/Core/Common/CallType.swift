@@ -7,19 +7,24 @@
 
 import Foundation
 
+// MARK: - CallType
+
 /// Indicate whether the HTTP call performed is of type [read] (GET) or [write] (POST, PUT ..).
 /// Used to determine which timeout duration to use.
 public enum CallType {
-    case read, write
+    case read
+    case write
 }
+
+// MARK: CustomStringConvertible
 
 extension CallType: CustomStringConvertible {
     public var description: String {
         switch self {
         case .read:
-            return "read"
+            "read"
         case .write:
-            return "write"
+            "write"
         }
     }
 }

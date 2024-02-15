@@ -17,25 +17,26 @@ public enum AlgoliaError: Error, LocalizedError {
     case invalidCredentials(String)
     case invalidArgument(String, String)
 
+    // MARK: Public
+
     public var errorDescription: String? {
         switch self {
         case let .requestError(error):
-            return "Request failed: \(error.localizedDescription)"
+            "Request failed: \(error.localizedDescription)"
         case let .httpError(error):
-            return "HTTP error: \(error)"
+            "HTTP error: \(error)"
         case let .noReachableHosts(errors):
-            return
-                "All hosts are unreachable. Intermediate errors: \(errors.map(\.localizedDescription).joined(separator: ", "))"
+            "All hosts are unreachable. Intermediate errors: \(errors.map(\.localizedDescription).joined(separator: ", "))"
         case .missingData:
-            return "Missing response data"
+            "Missing response data"
         case .decodingFailure:
-            return "Response decoding failed"
+            "Response decoding failed"
         case let .runtimeError(error):
-            return "\(error)"
+            "\(error)"
         case let .invalidCredentials(credential):
-            return "`\(credential)` is missing."
+            "`\(credential)` is missing."
         case let .invalidArgument(argument, operationId):
-            return "Parameter `\(argument)` is required when calling `\(operationId)`."
+            "Parameter `\(argument)` is required when calling `\(operationId)`."
         }
     }
 }
