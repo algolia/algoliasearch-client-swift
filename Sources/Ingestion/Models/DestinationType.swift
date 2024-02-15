@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DestinationType
-
 /// Type of the Destination, defines in which Algolia product the data will be stored.
 public enum DestinationType: String, Codable, CaseIterable {
     case search

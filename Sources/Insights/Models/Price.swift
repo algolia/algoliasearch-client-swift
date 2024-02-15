@@ -7,14 +7,20 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Price
-
 /// The total price of a product, including any discounts, in units of &#x60;currency&#x60;.
 public enum Price: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case double(Double)
     case string(String)
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .double(value):
+            try container.encode(value)
+        case let .string(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -27,18 +33,6 @@ public enum Price: Codable, JSONEncodable, AbstractEncodable, Hashable {
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of Price")
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .double(value):
-            try container.encode(value)
-        case let .string(value):
-            try container.encode(value)
         }
     }
 

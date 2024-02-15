@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - OrderKeys
-
 /// Used to order a sorted request.
 public enum OrderKeys: String, Codable, CaseIterable {
     case asc

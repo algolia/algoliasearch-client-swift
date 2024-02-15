@@ -7,13 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - PlatformWithNone
-
 public enum PlatformWithNone: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case platform(Platform)
     case platformNone(PlatformNone)
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .platform(value):
+            try container.encode(value)
+        case let .platformNone(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -26,18 +32,6 @@ public enum PlatformWithNone: Codable, JSONEncodable, AbstractEncodable, Hashabl
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of PlatformWithNone")
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .platform(value):
-            try container.encode(value)
-        case let .platformNone(value):
-            try container.encode(value)
         }
     }
 

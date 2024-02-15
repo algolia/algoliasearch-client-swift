@@ -7,50 +7,7 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetApiKeyResponse
-
 public struct GetApiKeyResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(
-        value: String? = nil,
-        createdAt: Int64,
-        acl: [Acl],
-        description: String? = nil,
-        indexes: [String]? = nil,
-        maxHitsPerQuery: Int? = nil,
-        maxQueriesPerIPPerHour: Int? = nil,
-        queryParameters: String? = nil,
-        referers: [String]? = nil,
-        validity: Int? = nil
-    ) {
-        self.value = value
-        self.createdAt = createdAt
-        self.acl = acl
-        self.description = description
-        self.indexes = indexes
-        self.maxHitsPerQuery = maxHitsPerQuery
-        self.maxQueriesPerIPPerHour = maxQueriesPerIPPerHour
-        self.queryParameters = queryParameters
-        self.referers = referers
-        self.validity = validity
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case value
-        case createdAt
-        case acl
-        case description
-        case indexes
-        case maxHitsPerQuery
-        case maxQueriesPerIPPerHour
-        case queryParameters
-        case referers
-        case validity
-    }
-
     /// API key.
     public var value: String?
     /// Timestamp of creation in milliseconds in [Unix epoch time](https://wikipedia.org/wiki/Unix_time).
@@ -92,6 +49,43 @@ public struct GetApiKeyResponse: Codable, JSONEncodable, Hashable {
     /// So instead of encoding keys into your app as you would for a web app, you should dynamically fetch them from
     /// your mobile app's backend.
     public var validity: Int?
+
+    public init(
+        value: String? = nil,
+        createdAt: Int64,
+        acl: [Acl],
+        description: String? = nil,
+        indexes: [String]? = nil,
+        maxHitsPerQuery: Int? = nil,
+        maxQueriesPerIPPerHour: Int? = nil,
+        queryParameters: String? = nil,
+        referers: [String]? = nil,
+        validity: Int? = nil
+    ) {
+        self.value = value
+        self.createdAt = createdAt
+        self.acl = acl
+        self.description = description
+        self.indexes = indexes
+        self.maxHitsPerQuery = maxHitsPerQuery
+        self.maxQueriesPerIPPerHour = maxQueriesPerIPPerHour
+        self.queryParameters = queryParameters
+        self.referers = referers
+        self.validity = validity
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case value
+        case createdAt
+        case acl
+        case description
+        case indexes
+        case maxHitsPerQuery
+        case maxQueriesPerIPPerHour
+        case queryParameters
+        case referers
+        case validity
+    }
 
     // Encodable protocol methods
 

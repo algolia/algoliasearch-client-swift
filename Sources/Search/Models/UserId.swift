@@ -7,28 +7,9 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - UserId
-
 /// Unique user ID.
 public struct UserId: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(userID: String, clusterName: String, nbRecords: Int, dataSize: Int) {
-        self.userID = userID
-        self.clusterName = clusterName
-        self.nbRecords = nbRecords
-        self.dataSize = dataSize
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case userID
-        case clusterName
-        case nbRecords
-        case dataSize
-    }
-
+    static let userIDRule = StringRule(minLength: nil, maxLength: nil, pattern: "^[a-zA-Z0-9 \\-*.]+$")
     /// userID of the user.
     public var userID: String
     /// Cluster to which the user is assigned.
@@ -37,6 +18,20 @@ public struct UserId: Codable, JSONEncodable, Hashable {
     public var nbRecords: Int
     /// Data size used by the user.
     public var dataSize: Int
+
+    public init(userID: String, clusterName: String, nbRecords: Int, dataSize: Int) {
+        self.userID = userID
+        self.clusterName = clusterName
+        self.nbRecords = nbRecords
+        self.dataSize = dataSize
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case userID
+        case clusterName
+        case nbRecords
+        case dataSize
+    }
 
     // Encodable protocol methods
 
@@ -47,8 +42,4 @@ public struct UserId: Codable, JSONEncodable, Hashable {
         try container.encode(self.nbRecords, forKey: .nbRecords)
         try container.encode(self.dataSize, forKey: .dataSize)
     }
-
-    // MARK: Internal
-
-    static let userIDRule = StringRule(minLength: nil, maxLength: nil, pattern: "^[a-zA-Z0-9 \\-*.]+$")
 }

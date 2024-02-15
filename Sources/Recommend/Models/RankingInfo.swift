@@ -7,10 +7,32 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RankingInfo
-
 public struct RankingInfo: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// This field is reserved for advanced usage.
+    public var filters: Int
+    /// Position of the most important matched attribute in the attributes to index list.
+    public var firstMatchedWord: Int
+    /// Distance between the geo location in the search query and the best matching geo location in the record, divided
+    /// by the geo precision (in meters).
+    public var geoDistance: Int
+    /// Precision used when computing the geo distance, in meters.
+    public var geoPrecision: Int?
+    public var matchedGeoLocation: MatchedGeoLocation?
+    public var personalization: Personalization?
+    /// Number of exactly matched words.
+    public var nbExactWords: Int
+    /// Number of typos encountered when matching the record.
+    public var nbTypos: Int
+    /// Present and set to true if a Rule promoted the hit.
+    public var promoted: Bool
+    /// When the query contains more than one word, the sum of the distances between matched words (in meters).
+    public var proximityDistance: Int?
+    /// Custom ranking for the object, expressed as a single integer value.
+    public var userScore: Int
+    /// Number of matched words, including prefixes and typos.
+    public var words: Int
+    /// Wether the record are promoted by the re-ranking strategy.
+    public var promotedByReRanking: Bool?
 
     public init(
         filters: Int,
@@ -42,8 +64,6 @@ public struct RankingInfo: Codable, JSONEncodable, Hashable {
         self.promotedByReRanking = promotedByReRanking
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case filters
         case firstMatchedWord
@@ -59,32 +79,6 @@ public struct RankingInfo: Codable, JSONEncodable, Hashable {
         case words
         case promotedByReRanking
     }
-
-    /// This field is reserved for advanced usage.
-    public var filters: Int
-    /// Position of the most important matched attribute in the attributes to index list.
-    public var firstMatchedWord: Int
-    /// Distance between the geo location in the search query and the best matching geo location in the record, divided
-    /// by the geo precision (in meters).
-    public var geoDistance: Int
-    /// Precision used when computing the geo distance, in meters.
-    public var geoPrecision: Int?
-    public var matchedGeoLocation: MatchedGeoLocation?
-    public var personalization: Personalization?
-    /// Number of exactly matched words.
-    public var nbExactWords: Int
-    /// Number of typos encountered when matching the record.
-    public var nbTypos: Int
-    /// Present and set to true if a Rule promoted the hit.
-    public var promoted: Bool
-    /// When the query contains more than one word, the sum of the distances between matched words (in meters).
-    public var proximityDistance: Int?
-    /// Custom ranking for the object, expressed as a single integer value.
-    public var userScore: Int
-    /// Number of matched words, including prefixes and typos.
-    public var words: Int
-    /// Wether the record are promoted by the re-ranking strategy.
-    public var promotedByReRanking: Bool?
 
     // Encodable protocol methods
 

@@ -7,25 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BatchDictionaryEntriesRequest
-
 public struct BatchDictionaryEntriesRequest: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var action: DictionaryAction
+    public var body: DictionaryEntry
 
     public init(action: DictionaryAction, body: DictionaryEntry) {
         self.action = action
         self.body = body
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case action
         case body
     }
-
-    public var action: DictionaryAction
-    public var body: DictionaryEntry
 
     // Encodable protocol methods
 

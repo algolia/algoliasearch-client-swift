@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Mode
-
 /// Search mode the index will use to query for results.
 public enum Mode: String, Codable, CaseIterable {
     case neuralSearch

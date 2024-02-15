@@ -7,25 +7,14 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BaseRecommendRequest
-
 public struct BaseRecommendRequest: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(indexName: String, threshold: Int? = nil, maxRecommendations: Int? = nil) {
-        self.indexName = indexName
-        self.threshold = threshold
-        self.maxRecommendations = maxRecommendations
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case indexName
-        case threshold
-        case maxRecommendations
-    }
-
+    static let thresholdRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: 100,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     /// Algolia index name.
     public var indexName: String
     /// Recommendations with a confidence score lower than `threshold` won't appear in results. > **Note**: Each
@@ -35,6 +24,18 @@ public struct BaseRecommendRequest: Codable, JSONEncodable, Hashable {
     /// Maximum number of recommendations to retrieve. If 0, all recommendations will be returned.
     public var maxRecommendations: Int?
 
+    public init(indexName: String, threshold: Int? = nil, maxRecommendations: Int? = nil) {
+        self.indexName = indexName
+        self.threshold = threshold
+        self.maxRecommendations = maxRecommendations
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case indexName
+        case threshold
+        case maxRecommendations
+    }
+
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
@@ -43,14 +44,4 @@ public struct BaseRecommendRequest: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.threshold, forKey: .threshold)
         try container.encodeIfPresent(self.maxRecommendations, forKey: .maxRecommendations)
     }
-
-    // MARK: Internal
-
-    static let thresholdRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

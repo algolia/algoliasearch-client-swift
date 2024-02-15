@@ -7,11 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Rule
-
 /// Rule object.
 public struct Rule: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Unique identifier for a rule object.
+    public var objectID: String
+    /// [Conditions](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/#conditions) required to
+    /// activate a rule. You can use up to 25 conditions per rule.
+    public var conditions: [Condition]?
+    public var consequence: Consequence?
+    /// Description of the rule's purpose. This can be helpful for display in the Algolia dashboard.
+    public var description: String?
+    /// Indicates whether to enable the rule. If it isn't enabled, it isn't applied at query time.
+    public var enabled: Bool?
+    /// If you specify a validity period, the rule _only_ applies only during that period. If specified, the array must
+    /// not be empty.
+    public var validity: [TimeRange]?
 
     public init(
         objectID: String,
@@ -29,8 +39,6 @@ public struct Rule: Codable, JSONEncodable, Hashable {
         self.validity = validity
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case objectID
         case conditions
@@ -39,20 +47,6 @@ public struct Rule: Codable, JSONEncodable, Hashable {
         case enabled
         case validity
     }
-
-    /// Unique identifier for a rule object.
-    public var objectID: String
-    /// [Conditions](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/#conditions) required to
-    /// activate a rule. You can use up to 25 conditions per rule.
-    public var conditions: [Condition]?
-    public var consequence: Consequence?
-    /// Description of the rule's purpose. This can be helpful for display in the Algolia dashboard.
-    public var description: String?
-    /// Indicates whether to enable the rule. If it isn't enabled, it isn't applied at query time.
-    public var enabled: Bool?
-    /// If you specify a validity period, the rule _only_ applies only during that period. If specified, the array must
-    /// not be empty.
-    public var validity: [TimeRange]?
 
     // Encodable protocol methods
 

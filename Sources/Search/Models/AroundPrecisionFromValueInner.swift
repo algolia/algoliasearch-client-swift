@@ -7,25 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AroundPrecisionFromValueInner
-
 public struct AroundPrecisionFromValueInner: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var from: Int?
+    public var value: Int?
 
     public init(from: Int? = nil, value: Int? = nil) {
         self.from = from
         self.value = value
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case from
         case value
     }
-
-    public var from: Int?
-    public var value: Int?
 
     // Encodable protocol methods
 

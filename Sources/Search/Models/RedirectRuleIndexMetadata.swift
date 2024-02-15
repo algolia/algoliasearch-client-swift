@@ -7,29 +7,7 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RedirectRuleIndexMetadata
-
 public struct RedirectRuleIndexMetadata: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(source: String, dest: String, reason: String, succeed: Bool, data: RedirectRuleIndexMetadataData) {
-        self.source = source
-        self.dest = dest
-        self.reason = reason
-        self.succeed = succeed
-        self.data = data
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case source
-        case dest
-        case reason
-        case succeed
-        case data
-    }
-
     /// Source index for the redirect rule.
     public var source: String
     /// Destination index for the redirect rule.
@@ -39,6 +17,22 @@ public struct RedirectRuleIndexMetadata: Codable, JSONEncodable, Hashable {
     /// Redirect rule status.
     public var succeed: Bool
     public var data: RedirectRuleIndexMetadataData
+
+    public init(source: String, dest: String, reason: String, succeed: Bool, data: RedirectRuleIndexMetadataData) {
+        self.source = source
+        self.dest = dest
+        self.reason = reason
+        self.succeed = succeed
+        self.data = data
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case source
+        case dest
+        case reason
+        case succeed
+        case data
+    }
 
     // Encodable protocol methods
 

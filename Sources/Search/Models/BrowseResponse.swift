@@ -7,10 +7,91 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BrowseResponse
-
 public struct BrowseResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    static let abTestVariantIDRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let aroundLatLngRule = StringRule(
+        minLength: nil,
+        maxLength: nil,
+        pattern: "^(-?\\d+(\\.\\d+)?),\\s*(-?\\d+(\\.\\d+)?)$"
+    )
+    static let hitsPerPageRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: 1000,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// A/B test ID. This is only included in the response for indices that are part of an A/B test.
+    public var abTestID: Int?
+    /// Variant ID. This is only included in the response for indices that are part of an A/B test.
+    public var abTestVariantID: Int?
+    /// Computed geographical location.
+    public var aroundLatLng: String?
+    /// Automatically-computed radius.
+    public var automaticRadius: String?
+    public var exhaustive: Exhaustive?
+    /// See the `facetsCount` field of the `exhaustive` object in the response.
+    @available(*, deprecated, message: "This property is deprecated.")
+    public var exhaustiveFacetsCount: Bool?
+    /// See the `nbHits` field of the `exhaustive` object in the response.
+    @available(*, deprecated, message: "This property is deprecated.")
+    public var exhaustiveNbHits: Bool?
+    /// See the `typo` field of the `exhaustive` object in the response.
+    @available(*, deprecated, message: "This property is deprecated.")
+    public var exhaustiveTypo: Bool?
+    /// Mapping of each facet name to the corresponding facet counts.
+    public var facets: [String: [String: Int]]?
+    /// Statistics for numerical facets.
+    public var facetsStats: [String: FacetsStats]?
+    /// Number of hits per page.
+    public var hitsPerPage: Int
+    /// Index name used for the query.
+    public var index: String?
+    /// Index name used for the query. During A/B testing, the targeted index isn't always the index used by the query.
+    public var indexUsed: String?
+    /// Warnings about the query.
+    public var message: String?
+    /// Number of hits the search query matched.
+    public var nbHits: Int
+    /// Number of pages of results for the current query.
+    public var nbPages: Int
+    /// Number of hits selected and sorted by the relevant sort algorithm.
+    public var nbSortedHits: Int?
+    /// Page to retrieve (the first page is `0`, not `1`).
+    public var page: Int
+    /// Post-[normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/#what-does-normalization-mean)
+    /// query string that will be searched.
+    public var parsedQuery: String?
+    /// Time the server took to process the request, in milliseconds.
+    public var processingTimeMS: Int
+    /// Experimental. List of processing steps and their times, in milliseconds. You can use this list to investigate
+    /// performance issues.
+    public var processingTimingsMS: AnyCodable?
+    /// Markup text indicating which parts of the original query have been removed to retrieve a non-empty result set.
+    public var queryAfterRemoval: String?
+    public var redirect: Redirect?
+    public var renderingContent: RenderingContent?
+    /// Time the server took to process the request, in milliseconds.
+    public var serverTimeMS: Int?
+    /// Host name of the server that processed the request.
+    public var serverUsed: String?
+    /// Lets you store custom data in your indices.
+    public var userData: AnyCodable?
+    public var hits: [Hit]
+    /// Text to search for in an index.
+    public var query: String
+    /// URL-encoded string of all search parameters.
+    public var params: String
+    /// Cursor indicating the location to resume browsing from. Must match the value returned by the previous call. Pass
+    /// this value to the subsequent browse call to get the next page of results. When the end of the index has been
+    /// reached, `cursor` is absent from the response.
+    public var cursor: String?
 
     public init(
         abTestID: Int? = nil,
@@ -78,8 +159,6 @@ public struct BrowseResponse: Codable, JSONEncodable, Hashable {
         self.cursor = cursor
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case abTestID
         case abTestVariantID
@@ -113,72 +192,6 @@ public struct BrowseResponse: Codable, JSONEncodable, Hashable {
         case params
         case cursor
     }
-
-    /// A/B test ID. This is only included in the response for indices that are part of an A/B test.
-    public var abTestID: Int?
-    /// Variant ID. This is only included in the response for indices that are part of an A/B test.
-    public var abTestVariantID: Int?
-    /// Computed geographical location.
-    public var aroundLatLng: String?
-    /// Automatically-computed radius.
-    public var automaticRadius: String?
-    public var exhaustive: Exhaustive?
-    /// See the `facetsCount` field of the `exhaustive` object in the response.
-    @available(*, deprecated, message: "This property is deprecated.")
-    public var exhaustiveFacetsCount: Bool?
-    /// See the `nbHits` field of the `exhaustive` object in the response.
-    @available(*, deprecated, message: "This property is deprecated.")
-    public var exhaustiveNbHits: Bool?
-    /// See the `typo` field of the `exhaustive` object in the response.
-    @available(*, deprecated, message: "This property is deprecated.")
-    public var exhaustiveTypo: Bool?
-    /// Mapping of each facet name to the corresponding facet counts.
-    public var facets: [String: [String: Int]]?
-    /// Statistics for numerical facets.
-    public var facetsStats: [String: FacetsStats]?
-    /// Number of hits per page.
-    public var hitsPerPage: Int
-    /// Index name used for the query.
-    public var index: String?
-    /// Index name used for the query. During A/B testing, the targeted index isn't always the index used by the query.
-    public var indexUsed: String?
-    /// Warnings about the query.
-    public var message: String?
-    /// Number of hits the search query matched.
-    public var nbHits: Int
-    /// Number of pages of results for the current query.
-    public var nbPages: Int
-    /// Number of hits selected and sorted by the relevant sort algorithm.
-    public var nbSortedHits: Int?
-    /// Page to retrieve (the first page is `0`, not `1`).
-    public var page: Int
-    /// Post-[normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/#what-does-normalization-mean)
-    /// query string that will be searched.
-    public var parsedQuery: String?
-    /// Time the server took to process the request, in milliseconds.
-    public var processingTimeMS: Int
-    /// Experimental. List of processing steps and their times, in milliseconds. You can use this list to investigate
-    /// performance issues.
-    public var processingTimingsMS: AnyCodable?
-    /// Markup text indicating which parts of the original query have been removed to retrieve a non-empty result set.
-    public var queryAfterRemoval: String?
-    public var redirect: Redirect?
-    public var renderingContent: RenderingContent?
-    /// Time the server took to process the request, in milliseconds.
-    public var serverTimeMS: Int?
-    /// Host name of the server that processed the request.
-    public var serverUsed: String?
-    /// Lets you store custom data in your indices.
-    public var userData: AnyCodable?
-    public var hits: [Hit]
-    /// Text to search for in an index.
-    public var query: String
-    /// URL-encoded string of all search parameters.
-    public var params: String
-    /// Cursor indicating the location to resume browsing from. Must match the value returned by the previous call. Pass
-    /// this value to the subsequent browse call to get the next page of results. When the end of the index has been
-    /// reached, `cursor` is absent from the response.
-    public var cursor: String?
 
     // Encodable protocol methods
 
@@ -216,26 +229,4 @@ public struct BrowseResponse: Codable, JSONEncodable, Hashable {
         try container.encode(self.params, forKey: .params)
         try container.encodeIfPresent(self.cursor, forKey: .cursor)
     }
-
-    // MARK: Internal
-
-    static let abTestVariantIDRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let aroundLatLngRule = StringRule(
-        minLength: nil,
-        maxLength: nil,
-        pattern: "^(-?\\d+(\\.\\d+)?),\\s*(-?\\d+(\\.\\d+)?)$"
-    )
-    static let hitsPerPageRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

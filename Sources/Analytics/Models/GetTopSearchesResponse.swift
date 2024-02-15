@@ -7,13 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetTopSearchesResponse
-
 public enum GetTopSearchesResponse: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case topSearchesResponse(TopSearchesResponse)
     case topSearchesResponseWithAnalytics(TopSearchesResponseWithAnalytics)
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .topSearchesResponse(value):
+            try container.encode(value)
+        case let .topSearchesResponseWithAnalytics(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -29,18 +35,6 @@ public enum GetTopSearchesResponse: Codable, JSONEncodable, AbstractEncodable, H
                     debugDescription: "Unable to decode instance of GetTopSearchesResponse"
                 )
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .topSearchesResponse(value):
-            try container.encode(value)
-        case let .topSearchesResponseWithAnalytics(value):
-            try container.encode(value)
         }
     }
 

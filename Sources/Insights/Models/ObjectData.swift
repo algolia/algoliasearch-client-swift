@@ -7,10 +7,12 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ObjectData
-
 public struct ObjectData: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var price: Price?
+    /// The quantity of a product that has been purchased or added to the cart. The total value of a purchase is the sum
+    /// of `quantity` multiplied with the `price` for each purchased item.
+    public var quantity: Int?
+    public var discount: Discount?
 
     public init(price: Price? = nil, quantity: Int? = nil, discount: Discount? = nil) {
         self.price = price
@@ -18,19 +20,11 @@ public struct ObjectData: Codable, JSONEncodable, Hashable {
         self.discount = discount
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case price
         case quantity
         case discount
     }
-
-    public var price: Price?
-    /// The quantity of a product that has been purchased or added to the cart. The total value of a purchase is the sum
-    /// of `quantity` multiplied with the `price` for each purchased item.
-    public var quantity: Int?
-    public var discount: Discount?
 
     // Encodable protocol methods
 

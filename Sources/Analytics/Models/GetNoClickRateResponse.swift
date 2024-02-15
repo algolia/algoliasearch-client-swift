@@ -7,27 +7,14 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetNoClickRateResponse
-
 public struct GetNoClickRateResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(rate: Double, count: Int, noClickCount: Int, dates: [NoClickRateEvent]) {
-        self.rate = rate
-        self.count = count
-        self.noClickCount = noClickCount
-        self.dates = dates
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case rate
-        case count
-        case noClickCount
-        case dates
-    }
-
+    static let rateRule = NumericRule<Double>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: 1,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     /// [Click-through rate
     /// (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
     public var rate: Double
@@ -38,6 +25,20 @@ public struct GetNoClickRateResponse: Codable, JSONEncodable, Hashable {
     /// Overall count of searches without clicks plus a daily breakdown.
     public var dates: [NoClickRateEvent]
 
+    public init(rate: Double, count: Int, noClickCount: Int, dates: [NoClickRateEvent]) {
+        self.rate = rate
+        self.count = count
+        self.noClickCount = noClickCount
+        self.dates = dates
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case rate
+        case count
+        case noClickCount
+        case dates
+    }
+
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
@@ -47,14 +48,4 @@ public struct GetNoClickRateResponse: Codable, JSONEncodable, Hashable {
         try container.encode(self.noClickCount, forKey: .noClickCount)
         try container.encode(self.dates, forKey: .dates)
     }
-
-    // MARK: Internal
-
-    static let rateRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 1,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

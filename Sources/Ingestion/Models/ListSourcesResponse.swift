@@ -7,25 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ListSourcesResponse
-
 public struct ListSourcesResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var sources: [Source]
+    public var pagination: Pagination
 
     public init(sources: [Source], pagination: Pagination) {
         self.sources = sources
         self.pagination = pagination
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case sources
         case pagination
     }
-
-    public var sources: [Source]
-    public var pagination: Pagination
 
     // Encodable protocol methods
 

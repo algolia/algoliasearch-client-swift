@@ -7,10 +7,13 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SearchNoClickEvent
-
 public struct SearchNoClickEvent: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// User query.
+    public var search: String
+    /// Number of occurrences.
+    public var count: Int
+    /// Number of occurrences.
+    public var withFilterCount: Int
 
     public init(search: String, count: Int, withFilterCount: Int) {
         self.search = search
@@ -18,20 +21,11 @@ public struct SearchNoClickEvent: Codable, JSONEncodable, Hashable {
         self.withFilterCount = withFilterCount
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case search
         case count
         case withFilterCount
     }
-
-    /// User query.
-    public var search: String
-    /// Number of occurrences.
-    public var count: Int
-    /// Number of occurrences.
-    public var withFilterCount: Int
 
     // Encodable protocol methods
 

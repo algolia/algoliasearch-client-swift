@@ -7,10 +7,13 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SearchForFacetValuesResponse
-
 public struct SearchForFacetValuesResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var facetHits: [FacetHits]
+    /// See the `facetsCount` field of the `exhaustive` object in the response.
+    @available(*, deprecated, message: "This property is deprecated.")
+    public var exhaustiveFacetsCount: Bool
+    /// Time the server took to process the request, in milliseconds.
+    public var processingTimeMS: Int?
 
     public init(facetHits: [FacetHits], exhaustiveFacetsCount: Bool, processingTimeMS: Int? = nil) {
         self.facetHits = facetHits
@@ -18,20 +21,11 @@ public struct SearchForFacetValuesResponse: Codable, JSONEncodable, Hashable {
         self.processingTimeMS = processingTimeMS
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case facetHits
         case exhaustiveFacetsCount
         case processingTimeMS
     }
-
-    public var facetHits: [FacetHits]
-    /// See the `facetsCount` field of the `exhaustive` object in the response.
-    @available(*, deprecated, message: "This property is deprecated.")
-    public var exhaustiveFacetsCount: Bool
-    /// Time the server took to process the request, in milliseconds.
-    public var processingTimeMS: Int?
 
     // Encodable protocol methods
 

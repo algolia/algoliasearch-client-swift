@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - EventStatus
-
 public enum EventStatus: String, Codable, CaseIterable {
     case created
     case started

@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RunStatus
-
 public enum RunStatus: String, Codable, CaseIterable {
     case created
     case started

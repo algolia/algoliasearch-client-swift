@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RuleResponseMetadata
-
 public struct RuleResponseMetadata: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Timestamp of the last update in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
+    public var lastUpdate: String?
 
     public init(lastUpdate: String? = nil) {
         self.lastUpdate = lastUpdate
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case lastUpdate
     }
-
-    /// Timestamp of the last update in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
-    public var lastUpdate: String?
 
     // Encodable protocol methods
 

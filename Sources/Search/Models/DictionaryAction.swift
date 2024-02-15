@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DictionaryAction
-
 /// Actions to perform.
 public enum DictionaryAction: String, Codable, CaseIterable {
     case addEntry

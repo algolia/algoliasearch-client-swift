@@ -7,11 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Destination
-
 /// A destination describe how the data is indexed on the Algolia side.
 public struct Destination: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// The destination UUID.
+    public var destinationID: String
+    public var type: DestinationType
+    /// An human readable name describing the object.
+    public var name: String
+    public var input: DestinationInput
+    /// Date of creation (RFC3339 format).
+    public var createdAt: String
+    /// Date of last update (RFC3339 format).
+    public var updatedAt: String?
+    public var authenticationID: String?
 
     public init(
         destinationID: String,
@@ -31,8 +39,6 @@ public struct Destination: Codable, JSONEncodable, Hashable {
         self.authenticationID = authenticationID
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case destinationID
         case type
@@ -42,18 +48,6 @@ public struct Destination: Codable, JSONEncodable, Hashable {
         case updatedAt
         case authenticationID
     }
-
-    /// The destination UUID.
-    public var destinationID: String
-    public var type: DestinationType
-    /// An human readable name describing the object.
-    public var name: String
-    public var input: DestinationInput
-    /// Date of creation (RFC3339 format).
-    public var createdAt: String
-    /// Date of last update (RFC3339 format).
-    public var updatedAt: String?
-    public var authenticationID: String?
 
     // Encodable protocol methods
 

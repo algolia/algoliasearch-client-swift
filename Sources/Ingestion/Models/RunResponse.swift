@@ -7,28 +7,22 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RunResponse
-
 /// The response from the run task API, containing an Observability Run ID and the time it was created at.
 public struct RunResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// The run UUID.
+    public var runID: String
+    /// Date of creation (RFC3339 format).
+    public var createdAt: String
 
     public init(runID: String, createdAt: String) {
         self.runID = runID
         self.createdAt = createdAt
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case runID
         case createdAt
     }
-
-    /// The run UUID.
-    public var runID: String
-    /// Date of creation (RFC3339 format).
-    public var createdAt: String
 
     // Encodable protocol methods
 

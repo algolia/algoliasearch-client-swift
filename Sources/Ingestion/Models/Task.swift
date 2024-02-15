@@ -7,10 +7,31 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Task
-
 public struct Task: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    static let failureThresholdRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: 100,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// The task UUID.
+    public var taskID: String
+    /// The source UUID.
+    public var sourceID: String
+    /// The destination UUID.
+    public var destinationID: String
+    public var trigger: Trigger
+    public var input: TaskInput?
+    /// Whether the task is enabled or not.
+    public var enabled: Bool
+    /// A percentage representing the accepted failure threshold to determine if a `run` succeeded or not.
+    public var failureThreshold: Int?
+    public var action: ActionType
+    /// Date of creation (RFC3339 format).
+    public var createdAt: String
+    /// Date of last update (RFC3339 format).
+    public var updatedAt: String?
 
     public init(
         taskID: String,
@@ -36,8 +57,6 @@ public struct Task: Codable, JSONEncodable, Hashable {
         self.updatedAt = updatedAt
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case taskID
         case sourceID
@@ -50,24 +69,6 @@ public struct Task: Codable, JSONEncodable, Hashable {
         case createdAt
         case updatedAt
     }
-
-    /// The task UUID.
-    public var taskID: String
-    /// The source UUID.
-    public var sourceID: String
-    /// The destination UUID.
-    public var destinationID: String
-    public var trigger: Trigger
-    public var input: TaskInput?
-    /// Whether the task is enabled or not.
-    public var enabled: Bool
-    /// A percentage representing the accepted failure threshold to determine if a `run` succeeded or not.
-    public var failureThreshold: Int?
-    public var action: ActionType
-    /// Date of creation (RFC3339 format).
-    public var createdAt: String
-    /// Date of last update (RFC3339 format).
-    public var updatedAt: String?
 
     // Encodable protocol methods
 
@@ -84,14 +85,4 @@ public struct Task: Codable, JSONEncodable, Hashable {
         try container.encode(self.createdAt, forKey: .createdAt)
         try container.encodeIfPresent(self.updatedAt, forKey: .updatedAt)
     }
-
-    // MARK: Internal
-
-    static let failureThresholdRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

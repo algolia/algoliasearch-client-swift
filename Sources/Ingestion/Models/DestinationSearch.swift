@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DestinationSearch
-
 /// Payload to search for multiple destinations, based on the given &#x60;destinationIDs&#x60;.
 public struct DestinationSearch: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var destinationIDs: [String]
 
     public init(destinationIDs: [String]) {
         self.destinationIDs = destinationIDs
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case destinationIDs
     }
-
-    public var destinationIDs: [String]
 
     // Encodable protocol methods
 

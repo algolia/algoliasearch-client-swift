@@ -7,11 +7,23 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TaskUpdate
-
 /// The payload for a task update.
 public struct TaskUpdate: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    static let failureThresholdRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: 100,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// The destination UUID.
+    public var destinationID: String?
+    public var trigger: TriggerUpdateInput?
+    public var input: TaskInput?
+    /// Whether the task is enabled or not.
+    public var enabled: Bool?
+    /// A percentage representing the accepted failure threshold to determine if a `run` succeeded or not.
+    public var failureThreshold: Int?
 
     public init(
         destinationID: String? = nil,
@@ -27,8 +39,6 @@ public struct TaskUpdate: Codable, JSONEncodable, Hashable {
         self.failureThreshold = failureThreshold
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case destinationID
         case trigger
@@ -36,15 +46,6 @@ public struct TaskUpdate: Codable, JSONEncodable, Hashable {
         case enabled
         case failureThreshold
     }
-
-    /// The destination UUID.
-    public var destinationID: String?
-    public var trigger: TriggerUpdateInput?
-    public var input: TaskInput?
-    /// Whether the task is enabled or not.
-    public var enabled: Bool?
-    /// A percentage representing the accepted failure threshold to determine if a `run` succeeded or not.
-    public var failureThreshold: Int?
 
     // Encodable protocol methods
 
@@ -56,14 +57,4 @@ public struct TaskUpdate: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.enabled, forKey: .enabled)
         try container.encodeIfPresent(self.failureThreshold, forKey: .failureThreshold)
     }
-
-    // MARK: Internal
-
-    static let failureThresholdRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

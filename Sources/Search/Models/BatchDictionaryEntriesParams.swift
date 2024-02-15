@@ -7,28 +7,22 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BatchDictionaryEntriesParams
-
 /// &#x60;batchDictionaryEntries&#x60; parameters.
 public struct BatchDictionaryEntriesParams: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Incidates whether to replace all custom entries in the dictionary with the ones sent with this request.
+    public var clearExistingDictionaryEntries: Bool?
+    /// Operations to batch.
+    public var requests: [BatchDictionaryEntriesRequest]
 
     public init(clearExistingDictionaryEntries: Bool? = nil, requests: [BatchDictionaryEntriesRequest]) {
         self.clearExistingDictionaryEntries = clearExistingDictionaryEntries
         self.requests = requests
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case clearExistingDictionaryEntries
         case requests
     }
-
-    /// Incidates whether to replace all custom entries in the dictionary with the ones sent with this request.
-    public var clearExistingDictionaryEntries: Bool?
-    /// Operations to batch.
-    public var requests: [BatchDictionaryEntriesRequest]
 
     // Encodable protocol methods
 

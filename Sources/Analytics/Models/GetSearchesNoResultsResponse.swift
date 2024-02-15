@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetSearchesNoResultsResponse
-
 public struct GetSearchesNoResultsResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Searches with no results.
+    public var searches: [SearchNoResultEvent]
 
     public init(searches: [SearchNoResultEvent]) {
         self.searches = searches
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case searches
     }
-
-    /// Searches with no results.
-    public var searches: [SearchNoResultEvent]
 
     // Encodable protocol methods
 

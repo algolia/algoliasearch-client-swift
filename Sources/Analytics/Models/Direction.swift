@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Direction
-
 public enum Direction: String, Codable, CaseIterable {
     case asc
     case desc

@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Anchoring
-
 /// Whether the pattern parameter matches the beginning (&#x60;startsWith&#x60;) or end (&#x60;endsWith&#x60;) of the
 /// query string, is an exact match (&#x60;is&#x60;), or a partial match (&#x60;contains&#x60;).
 public enum Anchoring: String, Codable, CaseIterable {

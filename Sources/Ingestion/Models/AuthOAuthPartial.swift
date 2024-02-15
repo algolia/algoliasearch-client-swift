@@ -7,11 +7,14 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AuthOAuthPartial
-
 /// Authentication input for OAuth login.
 public struct AuthOAuthPartial: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// The OAuth endpoint URL.
+    public var url: String?
+    /// The clientID.
+    public var clientId: String?
+    /// The secret.
+    public var clientSecret: String?
 
     public init(url: String? = nil, clientId: String? = nil, clientSecret: String? = nil) {
         self.url = url
@@ -19,20 +22,11 @@ public struct AuthOAuthPartial: Codable, JSONEncodable, Hashable {
         self.clientSecret = clientSecret
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case url
         case clientId = "client_id"
         case clientSecret = "client_secret"
     }
-
-    /// The OAuth endpoint URL.
-    public var url: String?
-    /// The clientID.
-    public var clientId: String?
-    /// The secret.
-    public var clientSecret: String?
 
     // Encodable protocol methods
 

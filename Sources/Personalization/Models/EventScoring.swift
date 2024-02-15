@@ -7,10 +7,13 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - EventScoring
-
 public struct EventScoring: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// The score for the event.
+    public var score: Int
+    /// The name of the event.
+    public var eventName: String
+    /// The type of the event.
+    public var eventType: String
 
     public init(score: Int, eventName: String, eventType: String) {
         self.score = score
@@ -18,20 +21,11 @@ public struct EventScoring: Codable, JSONEncodable, Hashable {
         self.eventType = eventType
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case score
         case eventName
         case eventType
     }
-
-    /// The score for the event.
-    public var score: Int
-    /// The name of the event.
-    public var eventName: String
-    /// The type of the event.
-    public var eventType: String
 
     // Encodable protocol methods
 

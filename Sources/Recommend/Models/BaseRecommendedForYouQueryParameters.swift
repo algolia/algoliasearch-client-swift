@@ -7,24 +7,18 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BaseRecommendedForYouQueryParameters
-
 public struct BaseRecommendedForYouQueryParameters: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Associates a [user token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken/) with the
+    /// current search.
+    public var userToken: String
 
     public init(userToken: String) {
         self.userToken = userToken
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case userToken
     }
-
-    /// Associates a [user token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken/) with the
-    /// current search.
-    public var userToken: String
 
     // Encodable protocol methods
 

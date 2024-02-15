@@ -7,10 +7,26 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - QuerySuggestionsConfigurationResponse
-
 public struct QuerySuggestionsConfigurationResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Your Algolia application ID.
+    public var appId: String?
+    /// API key used to read from your source index.
+    public var sourceIndicesAPIKey: String?
+    /// API key used to write and configure your Query Suggestions index.
+    public var suggestionsIndicesAPIKey: String?
+    /// API key used to read from external Algolia indices.
+    public var externalIndicesAPIKey: String?
+    /// Query Suggestions index name.
+    public var indexName: String
+    /// Algolia indices from which to get the popular searches for query suggestions.
+    public var sourceIndices: [SourceIndex]
+    public var languages: Languages?
+    /// Patterns to exclude from query suggestions.
+    public var exclude: [String]?
+    /// Turn on personalized query suggestions.
+    public var enablePersonalization: Bool?
+    /// Allow suggestions with special characters.
+    public var allowSpecialCharacters: Bool?
 
     public init(
         appId: String? = nil,
@@ -36,8 +52,6 @@ public struct QuerySuggestionsConfigurationResponse: Codable, JSONEncodable, Has
         self.allowSpecialCharacters = allowSpecialCharacters
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case appId
         case sourceIndicesAPIKey
@@ -50,26 +64,6 @@ public struct QuerySuggestionsConfigurationResponse: Codable, JSONEncodable, Has
         case enablePersonalization
         case allowSpecialCharacters
     }
-
-    /// Your Algolia application ID.
-    public var appId: String?
-    /// API key used to read from your source index.
-    public var sourceIndicesAPIKey: String?
-    /// API key used to write and configure your Query Suggestions index.
-    public var suggestionsIndicesAPIKey: String?
-    /// API key used to read from external Algolia indices.
-    public var externalIndicesAPIKey: String?
-    /// Query Suggestions index name.
-    public var indexName: String
-    /// Algolia indices from which to get the popular searches for query suggestions.
-    public var sourceIndices: [SourceIndex]
-    public var languages: Languages?
-    /// Patterns to exclude from query suggestions.
-    public var exclude: [String]?
-    /// Turn on personalized query suggestions.
-    public var enablePersonalization: Bool?
-    /// Allow suggestions with special characters.
-    public var allowSpecialCharacters: Bool?
 
     // Encodable protocol methods
 

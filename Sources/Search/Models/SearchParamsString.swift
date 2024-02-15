@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SearchParamsString
-
 public struct SearchParamsString: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Search parameters as a URL-encoded query string.
+    public var params: String?
 
     public init(params: String? = nil) {
         self.params = params
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case params
     }
-
-    /// Search parameters as a URL-encoded query string.
-    public var params: String?
 
     // Encodable protocol methods
 

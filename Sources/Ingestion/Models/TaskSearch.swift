@@ -7,22 +7,16 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TaskSearch
-
 public struct TaskSearch: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var taskIDs: [String]
 
     public init(taskIDs: [String]) {
         self.taskIDs = taskIDs
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case taskIDs
     }
-
-    public var taskIDs: [String]
 
     // Encodable protocol methods
 

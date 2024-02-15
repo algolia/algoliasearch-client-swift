@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AuthenticationSearch
-
 /// Payload to search for multiple authentications, based on the given &#x60;authenticationIDs&#x60;.
 public struct AuthenticationSearch: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var authenticationIDs: [String]
 
     public init(authenticationIDs: [String]) {
         self.authenticationIDs = authenticationIDs
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case authenticationIDs
     }
-
-    public var authenticationIDs: [String]
 
     // Encodable protocol methods
 

@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AlternativesAsExact
-
 public enum AlternativesAsExact: String, Codable, CaseIterable {
     case ignorePlurals
     case singleWordSynonym

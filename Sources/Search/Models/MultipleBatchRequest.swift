@@ -7,10 +7,12 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - MultipleBatchRequest
-
 public struct MultipleBatchRequest: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var action: Action
+    /// Operation arguments (varies with specified `action`).
+    public var body: AnyCodable
+    /// Index to target for this operation.
+    public var indexName: String
 
     public init(action: Action, body: AnyCodable, indexName: String) {
         self.action = action
@@ -18,19 +20,11 @@ public struct MultipleBatchRequest: Codable, JSONEncodable, Hashable {
         self.indexName = indexName
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case action
         case body
         case indexName
     }
-
-    public var action: Action
-    /// Operation arguments (varies with specified `action`).
-    public var body: AnyCodable
-    /// Index to target for this operation.
-    public var indexName: String
 
     // Encodable protocol methods
 

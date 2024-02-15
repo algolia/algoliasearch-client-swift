@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DeleteResponse
-
 public struct DeleteResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Date of deletion (RFC3339 format).
+    public var deletedAt: String
 
     public init(deletedAt: String) {
         self.deletedAt = deletedAt
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case deletedAt
     }
-
-    /// Date of deletion (RFC3339 format).
-    public var deletedAt: String
 
     // Encodable protocol methods
 

@@ -7,25 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - UserHighlightResult
-
 public struct UserHighlightResult: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var userID: HighlightResult
+    public var clusterName: HighlightResult
 
     public init(userID: HighlightResult, clusterName: HighlightResult) {
         self.userID = userID
         self.clusterName = clusterName
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case userID
         case clusterName
     }
-
-    public var userID: HighlightResult
-    public var clusterName: HighlightResult
 
     // Encodable protocol methods
 

@@ -7,10 +7,29 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - FetchedIndex
-
 public struct FetchedIndex: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Index name.
+    public var name: String
+    /// Index creation date. An empty string means that the index has no records.
+    public var createdAt: String
+    /// Timestamp of the last update in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
+    public var updatedAt: String
+    /// Number of records contained in the index.
+    public var entries: Int
+    /// Number of bytes of the index in minified format.
+    public var dataSize: Int
+    /// Number of bytes of the index binary file.
+    public var fileSize: Int
+    /// Last build time.
+    public var lastBuildTimeS: Int
+    /// Number of pending indexing operations. This value is deprecated and should not be used.
+    public var numberOfPendingTasks: Int
+    /// A boolean which says whether the index has pending tasks. This value is deprecated and should not be used.
+    public var pendingTask: Bool
+    /// Only present if the index is a replica. Contains the name of the related primary index.
+    public var primary: String?
+    /// Only present if the index is a primary index with replicas. Contains the names of all linked replicas.
+    public var replicas: [String]?
 
     public init(
         name: String,
@@ -38,8 +57,6 @@ public struct FetchedIndex: Codable, JSONEncodable, Hashable {
         self.replicas = replicas
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case createdAt
@@ -53,29 +70,6 @@ public struct FetchedIndex: Codable, JSONEncodable, Hashable {
         case primary
         case replicas
     }
-
-    /// Index name.
-    public var name: String
-    /// Index creation date. An empty string means that the index has no records.
-    public var createdAt: String
-    /// Timestamp of the last update in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
-    public var updatedAt: String
-    /// Number of records contained in the index.
-    public var entries: Int
-    /// Number of bytes of the index in minified format.
-    public var dataSize: Int
-    /// Number of bytes of the index binary file.
-    public var fileSize: Int
-    /// Last build time.
-    public var lastBuildTimeS: Int
-    /// Number of pending indexing operations. This value is deprecated and should not be used.
-    public var numberOfPendingTasks: Int
-    /// A boolean which says whether the index has pending tasks. This value is deprecated and should not be used.
-    public var pendingTask: Bool
-    /// Only present if the index is a replica. Contains the name of the related primary index.
-    public var primary: String?
-    /// Only present if the index is a primary index with replicas. Contains the names of all linked replicas.
-    public var replicas: [String]?
 
     // Encodable protocol methods
 

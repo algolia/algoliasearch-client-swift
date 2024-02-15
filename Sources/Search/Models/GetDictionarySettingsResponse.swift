@@ -7,22 +7,16 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetDictionarySettingsResponse
-
 public struct GetDictionarySettingsResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var disableStandardEntries: StandardEntries
 
     public init(disableStandardEntries: StandardEntries) {
         self.disableStandardEntries = disableStandardEntries
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case disableStandardEntries
     }
-
-    public var disableStandardEntries: StandardEntries
 
     // Encodable protocol methods
 

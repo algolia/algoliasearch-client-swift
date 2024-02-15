@@ -7,11 +7,14 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AutomaticFacetFilter
-
 /// Automatic facet Filter.
 public struct AutomaticFacetFilter: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Attribute to filter on. This must match a facet placeholder in the Rule's pattern.
+    public var facet: String
+    /// Score for the filter. Typically used for optional or disjunctive filters.
+    public var score: Int?
+    /// Whether the filter is disjunctive (true) or conjunctive (false).
+    public var disjunctive: Bool?
 
     public init(facet: String, score: Int? = nil, disjunctive: Bool? = nil) {
         self.facet = facet
@@ -19,20 +22,11 @@ public struct AutomaticFacetFilter: Codable, JSONEncodable, Hashable {
         self.disjunctive = disjunctive
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case facet
         case score
         case disjunctive
     }
-
-    /// Attribute to filter on. This must match a facet placeholder in the Rule's pattern.
-    public var facet: String
-    /// Score for the filter. Typically used for optional or disjunctive filters.
-    public var score: Int?
-    /// Whether the filter is disjunctive (true) or conjunctive (false).
-    public var disjunctive: Bool?
 
     // Encodable protocol methods
 

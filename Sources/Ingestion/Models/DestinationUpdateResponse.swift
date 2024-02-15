@@ -7,11 +7,14 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DestinationUpdateResponse
-
 /// Response from the API when the Destination is successfully updated.
 public struct DestinationUpdateResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// The destination UUID.
+    public var destinationID: String
+    /// An human readable name describing the object.
+    public var name: String
+    /// Date of last update (RFC3339 format).
+    public var updatedAt: String
 
     public init(destinationID: String, name: String, updatedAt: String) {
         self.destinationID = destinationID
@@ -19,20 +22,11 @@ public struct DestinationUpdateResponse: Codable, JSONEncodable, Hashable {
         self.updatedAt = updatedAt
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case destinationID
         case name
         case updatedAt
     }
-
-    /// The destination UUID.
-    public var destinationID: String
-    /// An human readable name describing the object.
-    public var name: String
-    /// Date of last update (RFC3339 format).
-    public var updatedAt: String
 
     // Encodable protocol methods
 

@@ -7,14 +7,22 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Trigger
-
 public enum Trigger: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case onDemandTrigger(OnDemandTrigger)
     case scheduleTrigger(ScheduleTrigger)
     case subscriptionTrigger(SubscriptionTrigger)
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .onDemandTrigger(value):
+            try container.encode(value)
+        case let .scheduleTrigger(value):
+            try container.encode(value)
+        case let .subscriptionTrigger(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -29,20 +37,6 @@ public enum Trigger: Codable, JSONEncodable, AbstractEncodable, Hashable {
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of Trigger")
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .onDemandTrigger(value):
-            try container.encode(value)
-        case let .scheduleTrigger(value):
-            try container.encode(value)
-        case let .subscriptionTrigger(value):
-            try container.encode(value)
         }
     }
 

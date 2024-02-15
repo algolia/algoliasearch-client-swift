@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - OnDemandTrigger
-
 /// The trigger information of a task of type &#x60;onDemand&#x60;.
 public struct OnDemandTrigger: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var type: OnDemandTriggerType
+    /// The last time the scheduled task ran (RFC3339 format).
+    public var lastRun: String?
 
     public init(type: OnDemandTriggerType, lastRun: String? = nil) {
         self.type = type
         self.lastRun = lastRun
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case type
         case lastRun
     }
-
-    public var type: OnDemandTriggerType
-    /// The last time the scheduled task ran (RFC3339 format).
-    public var lastRun: String?
 
     // Encodable protocol methods
 

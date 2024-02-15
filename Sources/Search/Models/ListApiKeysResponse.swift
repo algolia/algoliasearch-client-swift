@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ListApiKeysResponse
-
 public struct ListApiKeysResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// API keys.
+    public var keys: [GetApiKeyResponse]
 
     public init(keys: [GetApiKeyResponse]) {
         self.keys = keys
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case keys
     }
-
-    /// API keys.
-    public var keys: [GetApiKeyResponse]
 
     // Encodable protocol methods
 

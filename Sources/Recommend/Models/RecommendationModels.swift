@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RecommendationModels
-
 /// Recommendation model.
 public enum RecommendationModels: String, Codable, CaseIterable {
     case relatedProducts = "related-products"

@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TrendingItemsModel
-
 /// Trending items model.
 public enum TrendingItemsModel: String, Codable, CaseIterable {
     case trendingItems = "trending-items"

@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TaskSortKeys
-
 /// Used to sort the Task list endpoint.
 public enum TaskSortKeys: String, Codable, CaseIterable {
     case enabled

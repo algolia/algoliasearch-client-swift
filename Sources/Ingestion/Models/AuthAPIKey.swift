@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AuthAPIKey
-
 /// Authentication input used for token credentials.
 public struct AuthAPIKey: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var key: String
 
     public init(key: String) {
         self.key = key
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case key
     }
-
-    public var key: String
 
     // Encodable protocol methods
 

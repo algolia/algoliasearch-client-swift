@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SynonymType
-
 /// Synonym type.
 public enum SynonymType: String, Codable, CaseIterable {
     case synonym

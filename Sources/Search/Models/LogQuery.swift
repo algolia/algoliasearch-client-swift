@@ -7,10 +7,13 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - LogQuery
-
 public struct LogQuery: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Index targeted by the query.
+    public var indexName: String?
+    /// User identifier.
+    public var userToken: String?
+    /// Unique query identifier.
+    public var queryId: String?
 
     public init(indexName: String? = nil, userToken: String? = nil, queryId: String? = nil) {
         self.indexName = indexName
@@ -18,20 +21,11 @@ public struct LogQuery: Codable, JSONEncodable, Hashable {
         self.queryId = queryId
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case indexName = "index_name"
         case userToken = "user_token"
         case queryId = "query_id"
     }
-
-    /// Index targeted by the query.
-    public var indexName: String?
-    /// User identifier.
-    public var userToken: String?
-    /// Unique query identifier.
-    public var queryId: String?
 
     // Encodable protocol methods
 

@@ -7,10 +7,13 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ListABTestsResponse
-
 public struct ListABTestsResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// A/B tests.
+    public var abtests: [ABTest]?
+    /// Number of A/B tests implemented.
+    public var count: Int
+    /// Number of retrievable A/B tests.
+    public var total: Int
 
     public init(abtests: [ABTest]?, count: Int, total: Int) {
         self.abtests = abtests
@@ -18,20 +21,11 @@ public struct ListABTestsResponse: Codable, JSONEncodable, Hashable {
         self.total = total
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case abtests
         case count
         case total
     }
-
-    /// A/B tests.
-    public var abtests: [ABTest]?
-    /// Number of A/B tests implemented.
-    public var count: Int
-    /// Number of retrievable A/B tests.
-    public var total: Int
 
     // Encodable protocol methods
 

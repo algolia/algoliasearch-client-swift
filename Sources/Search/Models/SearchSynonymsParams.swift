@@ -7,10 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SearchSynonymsParams
-
 public struct SearchSynonymsParams: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    static let hitsPerPageRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: 1000,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// Text to search for in an index.
+    public var query: String?
+    public var type: SynonymType?
+    /// Page to retrieve (the first page is `0`, not `1`).
+    public var page: Int?
+    /// Number of hits per page.
+    public var hitsPerPage: Int?
 
     public init(query: String? = nil, type: SynonymType? = nil, page: Int? = nil, hitsPerPage: Int? = nil) {
         self.query = query
@@ -19,22 +30,12 @@ public struct SearchSynonymsParams: Codable, JSONEncodable, Hashable {
         self.hitsPerPage = hitsPerPage
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case query
         case type
         case page
         case hitsPerPage
     }
-
-    /// Text to search for in an index.
-    public var query: String?
-    public var type: SynonymType?
-    /// Page to retrieve (the first page is `0`, not `1`).
-    public var page: Int?
-    /// Number of hits per page.
-    public var hitsPerPage: Int?
 
     // Encodable protocol methods
 
@@ -45,14 +46,4 @@ public struct SearchSynonymsParams: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.page, forKey: .page)
         try container.encodeIfPresent(self.hitsPerPage, forKey: .hitsPerPage)
     }
-
-    // MARK: Internal
-
-    static let hitsPerPageRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

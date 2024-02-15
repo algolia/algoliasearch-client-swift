@@ -7,10 +7,20 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Server
-
 public struct Server: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Server name.
+    public var name: String?
+    public var region: Region?
+    /// Included to support legacy applications. Do not rely on this attribute being present in the response. Use
+    /// `is_replica` instead.
+    @available(*, deprecated, message: "This property is deprecated.")
+    public var isSlave: Bool?
+    /// Indicates whether this server is a replica of another server.
+    public var isReplica: Bool?
+    /// Name of the cluster to which this server belongs.
+    public var cluster: String?
+    public var status: ServerStatus?
+    public var type: ModelType?
 
     public init(
         name: String? = nil,
@@ -30,8 +40,6 @@ public struct Server: Codable, JSONEncodable, Hashable {
         self.type = type
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case region
@@ -41,20 +49,6 @@ public struct Server: Codable, JSONEncodable, Hashable {
         case status
         case type
     }
-
-    /// Server name.
-    public var name: String?
-    public var region: Region?
-    /// Included to support legacy applications. Do not rely on this attribute being present in the response. Use
-    /// `is_replica` instead.
-    @available(*, deprecated, message: "This property is deprecated.")
-    public var isSlave: Bool?
-    /// Indicates whether this server is a replica of another server.
-    public var isReplica: Bool?
-    /// Name of the cluster to which this server belongs.
-    public var cluster: String?
-    public var status: ServerStatus?
-    public var type: ModelType?
 
     // Encodable protocol methods
 

@@ -9,10 +9,18 @@ import Foundation
 
 typealias InsightsClientConfiguration = Configuration
 
-// MARK: - Configuration
-
 public struct Configuration: Core.Configuration, Credentials {
-    // MARK: Lifecycle
+    private let authorizedRegions: [Region] = [
+        Region.de, Region.us,
+    ]
+
+    public let appID: String
+    public let apiKey: String
+    public var writeTimeout: TimeInterval
+    public var readTimeout: TimeInterval
+    public var logLevel: LogLevel
+    public var defaultHeaders: [String: String]?
+    public var hosts: [RetryableHost]
 
     init(
         appID: String,
@@ -77,20 +85,4 @@ public struct Configuration: Core.Configuration, Credentials {
 
         self.hosts = hosts
     }
-
-    // MARK: Public
-
-    public let appID: String
-    public let apiKey: String
-    public var writeTimeout: TimeInterval
-    public var readTimeout: TimeInterval
-    public var logLevel: LogLevel
-    public var defaultHeaders: [String: String]?
-    public var hosts: [RetryableHost]
-
-    // MARK: Private
-
-    private let authorizedRegions: [Region] = [
-        Region.de, Region.us,
-    ]
 }

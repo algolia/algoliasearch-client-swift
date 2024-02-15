@@ -7,25 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DictionaryLanguage
-
 /// Custom entries for a dictionary.
 public struct DictionaryLanguage: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// If `0`, the dictionary hasn't been customized and only contains standard entries provided by Algolia. If `null`,
+    /// that feature isn't available or isn't supported for that language.
+    public var nbCustomEntries: Int?
 
     public init(nbCustomEntries: Int? = nil) {
         self.nbCustomEntries = nbCustomEntries
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case nbCustomEntries
     }
-
-    /// If `0`, the dictionary hasn't been customized and only contains standard entries provided by Algolia. If `null`,
-    /// that feature isn't available or isn't supported for that language.
-    public var nbCustomEntries: Int?
 
     // Encodable protocol methods
 

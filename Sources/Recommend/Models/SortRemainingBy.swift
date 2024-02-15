@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SortRemainingBy
-
 /// How to display the remaining items:    - &#x60;count&#x60;: facet count (descending).   - &#x60;alpha&#x60;:
 /// alphabetical (ascending).   - &#x60;hidden&#x60;: show only pinned values.
 public enum SortRemainingBy: String, Codable, CaseIterable {

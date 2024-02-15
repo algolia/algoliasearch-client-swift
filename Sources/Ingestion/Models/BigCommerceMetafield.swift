@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BigCommerceMetafield
-
 public struct BigCommerceMetafield: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// The namespace of the metafield.
+    public var namespace: String
+    /// The key identifier of the metafield.
+    public var key: String
 
     public init(namespace: String, key: String) {
         self.namespace = namespace
         self.key = key
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case namespace
         case key
     }
-
-    /// The namespace of the metafield.
-    public var namespace: String
-    /// The key identifier of the metafield.
-    public var key: String
 
     // Encodable protocol methods
 

@@ -7,27 +7,14 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - NoResultsRateEvent
-
 public struct NoResultsRateEvent: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(date: String, noResultCount: Int, count: Int, rate: Double) {
-        self.date = date
-        self.noResultCount = noResultCount
-        self.count = count
-        self.rate = rate
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case date
-        case noResultCount
-        case count
-        case rate
-    }
-
+    static let rateRule = NumericRule<Double>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: 1,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     /// Date of the event in the format YYYY-MM-DD.
     public var date: String
     /// Number of occurences.
@@ -38,6 +25,20 @@ public struct NoResultsRateEvent: Codable, JSONEncodable, Hashable {
     /// (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
     public var rate: Double
 
+    public init(date: String, noResultCount: Int, count: Int, rate: Double) {
+        self.date = date
+        self.noResultCount = noResultCount
+        self.count = count
+        self.rate = rate
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case date
+        case noResultCount
+        case count
+        case rate
+    }
+
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
@@ -47,14 +48,4 @@ public struct NoResultsRateEvent: Codable, JSONEncodable, Hashable {
         try container.encode(self.count, forKey: .count)
         try container.encode(self.rate, forKey: .rate)
     }
-
-    // MARK: Internal
-
-    static let rateRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 1,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

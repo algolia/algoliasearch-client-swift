@@ -7,10 +7,25 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RecommendedForYouQuery
-
 public struct RecommendedForYouQuery: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    static let thresholdRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: 100,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// Algolia index name.
+    public var indexName: String
+    /// Recommendations with a confidence score lower than `threshold` won't appear in results. > **Note**: Each
+    /// recommendation has a confidence score of 0 to 100. The closer the score is to 100, the more relevant the
+    /// recommendations are.
+    public var threshold: Int?
+    /// Maximum number of recommendations to retrieve. If 0, all recommendations will be returned.
+    public var maxRecommendations: Int?
+    public var model: RecommendedForYouModel
+    public var queryParameters: RecommendedForYouQueryParameters?
+    public var fallbackParameters: RecommendedForYouQueryParameters?
 
     public init(
         indexName: String,
@@ -28,8 +43,6 @@ public struct RecommendedForYouQuery: Codable, JSONEncodable, Hashable {
         self.fallbackParameters = fallbackParameters
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case indexName
         case threshold
@@ -38,18 +51,6 @@ public struct RecommendedForYouQuery: Codable, JSONEncodable, Hashable {
         case queryParameters
         case fallbackParameters
     }
-
-    /// Algolia index name.
-    public var indexName: String
-    /// Recommendations with a confidence score lower than `threshold` won't appear in results. > **Note**: Each
-    /// recommendation has a confidence score of 0 to 100. The closer the score is to 100, the more relevant the
-    /// recommendations are.
-    public var threshold: Int?
-    /// Maximum number of recommendations to retrieve. If 0, all recommendations will be returned.
-    public var maxRecommendations: Int?
-    public var model: RecommendedForYouModel
-    public var queryParameters: RecommendedForYouQueryParameters?
-    public var fallbackParameters: RecommendedForYouQueryParameters?
 
     // Encodable protocol methods
 
@@ -62,14 +63,4 @@ public struct RecommendedForYouQuery: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.queryParameters, forKey: .queryParameters)
         try container.encodeIfPresent(self.fallbackParameters, forKey: .fallbackParameters)
     }
-
-    // MARK: Internal
-
-    static let thresholdRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

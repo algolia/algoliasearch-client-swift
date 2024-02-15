@@ -7,25 +7,7 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ABTestResponse
-
 public struct ABTestResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(index: String, abTestID: Int, taskID: Int64) {
-        self.index = index
-        self.abTestID = abTestID
-        self.taskID = taskID
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case index
-        case abTestID
-        case taskID
-    }
-
     /// A/B test index.
     public var index: String
     /// Unique A/B test ID.
@@ -33,6 +15,18 @@ public struct ABTestResponse: Codable, JSONEncodable, Hashable {
     /// Unique identifier of a task. A successful API response means that a task was added to a queue. It might not run
     /// immediately. You can check the task's progress with the `task` operation and this `taskID`.
     public var taskID: Int64
+
+    public init(index: String, abTestID: Int, taskID: Int64) {
+        self.index = index
+        self.abTestID = abTestID
+        self.taskID = taskID
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case index
+        case abTestID
+        case taskID
+    }
 
     // Encodable protocol methods
 

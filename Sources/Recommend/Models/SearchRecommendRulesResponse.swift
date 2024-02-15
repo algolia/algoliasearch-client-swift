@@ -7,27 +7,7 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SearchRecommendRulesResponse
-
 public struct SearchRecommendRulesResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(hits: [RuleResponse], nbHits: Int, page: Int, nbPages: Int) {
-        self.hits = hits
-        self.nbHits = nbHits
-        self.page = page
-        self.nbPages = nbPages
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case hits
-        case nbHits
-        case page
-        case nbPages
-    }
-
     /// Fetched rules.
     public var hits: [RuleResponse]
     /// Number of hits the search query matched.
@@ -36,6 +16,20 @@ public struct SearchRecommendRulesResponse: Codable, JSONEncodable, Hashable {
     public var page: Int
     /// Number of pages of results for the current query.
     public var nbPages: Int
+
+    public init(hits: [RuleResponse], nbHits: Int, page: Int, nbPages: Int) {
+        self.hits = hits
+        self.nbHits = nbHits
+        self.page = page
+        self.nbPages = nbPages
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case hits
+        case nbHits
+        case page
+        case nbPages
+    }
 
     // Encodable protocol methods
 

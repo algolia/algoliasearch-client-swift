@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetUsersCountResponse
-
 public struct GetUsersCountResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Number of occurrences.
+    public var count: Int
+    /// User count.
+    public var dates: [UserWithDate]
 
     public init(count: Int, dates: [UserWithDate]) {
         self.count = count
         self.dates = dates
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case count
         case dates
     }
-
-    /// Number of occurrences.
-    public var count: Int
-    /// User count.
-    public var dates: [UserWithDate]
 
     // Encodable protocol methods
 

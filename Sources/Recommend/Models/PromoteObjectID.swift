@@ -7,29 +7,23 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - PromoteObjectID
-
 /// Record to promote.
 public struct PromoteObjectID: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Unique identifier of the record to promote.
+    public var objectID: String
+    /// The position to promote the records to. If you pass objectIDs, the records are placed at this position as a
+    /// group. For example, if you pronmote four objectIDs to position 0, the records take the first four positions.
+    public var position: Int
 
     public init(objectID: String, position: Int) {
         self.objectID = objectID
         self.position = position
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case objectID
         case position
     }
-
-    /// Unique identifier of the record to promote.
-    public var objectID: String
-    /// The position to promote the records to. If you pass objectIDs, the records are placed at this position as a
-    /// group. For example, if you pronmote four objectIDs to position 0, the records take the first four positions.
-    public var position: Int
 
     // Encodable protocol methods
 

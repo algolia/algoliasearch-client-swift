@@ -7,11 +7,13 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AuthenticationUpdate
-
 /// Payload to partially update an Authentication.
 public struct AuthenticationUpdate: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var type: AuthenticationType?
+    /// An human readable name describing the object.
+    public var name: String?
+    public var platform: Platform?
+    public var input: AuthInputPartial?
 
     public init(
         type: AuthenticationType? = nil,
@@ -25,20 +27,12 @@ public struct AuthenticationUpdate: Codable, JSONEncodable, Hashable {
         self.input = input
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case type
         case name
         case platform
         case input
     }
-
-    public var type: AuthenticationType?
-    /// An human readable name describing the object.
-    public var name: String?
-    public var platform: Platform?
-    public var input: AuthInputPartial?
 
     // Encodable protocol methods
 

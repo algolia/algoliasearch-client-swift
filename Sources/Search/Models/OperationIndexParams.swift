@@ -7,10 +7,13 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - OperationIndexParams
-
 public struct OperationIndexParams: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var operation: OperationType
+    /// Algolia index name.
+    public var destination: String
+    /// **This only applies to the _copy_ operation.**  If you omit `scope`, the copy command copies all records,
+    /// settings, synonyms, and rules.  If you specify `scope`, only the specified scopes are copied.
+    public var scope: [ScopeType]?
 
     public init(operation: OperationType, destination: String, scope: [ScopeType]? = nil) {
         self.operation = operation
@@ -18,20 +21,11 @@ public struct OperationIndexParams: Codable, JSONEncodable, Hashable {
         self.scope = scope
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case operation
         case destination
         case scope
     }
-
-    public var operation: OperationType
-    /// Algolia index name.
-    public var destination: String
-    /// **This only applies to the _copy_ operation.**  If you omit `scope`, the copy command copies all records,
-    /// settings, synonyms, and rules.  If you specify `scope`, only the specified scopes are copied.
-    public var scope: [ScopeType]?
 
     // Encodable protocol methods
 

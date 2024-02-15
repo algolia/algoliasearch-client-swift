@@ -7,56 +7,7 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ABTest
-
 public struct ABTest: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(
-        abTestID: Int,
-        clickSignificance: Double?,
-        conversionSignificance: Double?,
-        addToCartSignificance: Double?,
-        purchaseSignificance: Double?,
-        revenueSignificance: [String: Double]?,
-        updatedAt: String,
-        createdAt: String,
-        endAt: String,
-        name: String,
-        status: String,
-        variants: [Variant]
-    ) {
-        self.abTestID = abTestID
-        self.clickSignificance = clickSignificance
-        self.conversionSignificance = conversionSignificance
-        self.addToCartSignificance = addToCartSignificance
-        self.purchaseSignificance = purchaseSignificance
-        self.revenueSignificance = revenueSignificance
-        self.updatedAt = updatedAt
-        self.createdAt = createdAt
-        self.endAt = endAt
-        self.name = name
-        self.status = status
-        self.variants = variants
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case abTestID
-        case clickSignificance
-        case conversionSignificance
-        case addToCartSignificance
-        case purchaseSignificance
-        case revenueSignificance
-        case updatedAt
-        case createdAt
-        case endAt
-        case name
-        case status
-        case variants
-    }
-
     /// Unique A/B test ID.
     public var abTestID: Int
     /// [A/B test significance](https://www.algolia.com/doc/guides/ab-testing/what-is-ab-testing/in-depth/how-ab-test-scores-are-calculated/#statistical-significance-or-chance)
@@ -86,6 +37,49 @@ public struct ABTest: Codable, JSONEncodable, Hashable {
     public var status: String
     /// A/B test variants.
     public var variants: [Variant]
+
+    public init(
+        abTestID: Int,
+        clickSignificance: Double?,
+        conversionSignificance: Double?,
+        addToCartSignificance: Double?,
+        purchaseSignificance: Double?,
+        revenueSignificance: [String: Double]?,
+        updatedAt: String,
+        createdAt: String,
+        endAt: String,
+        name: String,
+        status: String,
+        variants: [Variant]
+    ) {
+        self.abTestID = abTestID
+        self.clickSignificance = clickSignificance
+        self.conversionSignificance = conversionSignificance
+        self.addToCartSignificance = addToCartSignificance
+        self.purchaseSignificance = purchaseSignificance
+        self.revenueSignificance = revenueSignificance
+        self.updatedAt = updatedAt
+        self.createdAt = createdAt
+        self.endAt = endAt
+        self.name = name
+        self.status = status
+        self.variants = variants
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case abTestID
+        case clickSignificance
+        case conversionSignificance
+        case addToCartSignificance
+        case purchaseSignificance
+        case revenueSignificance
+        case updatedAt
+        case createdAt
+        case endAt
+        case name
+        case status
+        case variants
+    }
 
     // Encodable protocol methods
 

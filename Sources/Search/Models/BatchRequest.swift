@@ -7,26 +7,20 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BatchRequest
-
 public struct BatchRequest: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var action: Action
+    /// Operation arguments (varies with specified `action`).
+    public var body: AnyCodable
 
     public init(action: Action, body: AnyCodable) {
         self.action = action
         self.body = body
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case action
         case body
     }
-
-    public var action: Action
-    /// Operation arguments (varies with specified `action`).
-    public var body: AnyCodable
 
     // Encodable protocol methods
 

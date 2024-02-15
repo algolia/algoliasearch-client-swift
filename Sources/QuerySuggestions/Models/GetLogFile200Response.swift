@@ -7,10 +7,15 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetLogFile200Response
-
 public struct GetLogFile200Response: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Timestamp in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format.
+    public var timestamp: String?
+    public var level: ModelLogLevel?
+    /// Details about this log entry.
+    public var message: String?
+    /// Level indicating the position of a suggestion in a hierarchy of records.   For example, a `contextLevel` of 1
+    /// indicates that this suggestion belongs to a previous suggestion with `contextLevel` 0.
+    public var contextLevel: Int?
 
     public init(
         timestamp: String? = nil,
@@ -24,23 +29,12 @@ public struct GetLogFile200Response: Codable, JSONEncodable, Hashable {
         self.contextLevel = contextLevel
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case timestamp
         case level
         case message
         case contextLevel
     }
-
-    /// Timestamp in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format.
-    public var timestamp: String?
-    public var level: ModelLogLevel?
-    /// Details about this log entry.
-    public var message: String?
-    /// Level indicating the position of a suggestion in a hierarchy of records.   For example, a `contextLevel` of 1
-    /// indicates that this suggestion belongs to a previous suggestion with `contextLevel` 0.
-    public var contextLevel: Int?
 
     // Encodable protocol methods
 

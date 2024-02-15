@@ -7,27 +7,8 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ObjectDataAfterSearch
-
 public struct ObjectDataAfterSearch: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(queryID: String? = nil, price: Price? = nil, quantity: Int? = nil, discount: Discount? = nil) {
-        self.queryID = queryID
-        self.price = price
-        self.quantity = quantity
-        self.discount = discount
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case queryID
-        case price
-        case quantity
-        case discount
-    }
-
+    static let queryIDRule = StringRule(minLength: 32, maxLength: 32, pattern: "[0-9a-f]{32}")
     /// Unique identifier for a search query, used to track purchase events with multiple records that originate from
     /// different searches.
     public var queryID: String?
@@ -36,6 +17,20 @@ public struct ObjectDataAfterSearch: Codable, JSONEncodable, Hashable {
     /// of `quantity` multiplied with the `price` for each purchased item.
     public var quantity: Int?
     public var discount: Discount?
+
+    public init(queryID: String? = nil, price: Price? = nil, quantity: Int? = nil, discount: Discount? = nil) {
+        self.queryID = queryID
+        self.price = price
+        self.quantity = quantity
+        self.discount = discount
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case queryID
+        case price
+        case quantity
+        case discount
+    }
 
     // Encodable protocol methods
 
@@ -46,8 +41,4 @@ public struct ObjectDataAfterSearch: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.quantity, forKey: .quantity)
         try container.encodeIfPresent(self.discount, forKey: .discount)
     }
-
-    // MARK: Internal
-
-    static let queryIDRule = StringRule(minLength: 32, maxLength: 32, pattern: "[0-9a-f]{32}")
 }

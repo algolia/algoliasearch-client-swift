@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - EventType
-
 public enum EventType: String, Codable, CaseIterable {
     case fetch
     case record

@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Status
-
 /// Status of the cluster.
 public enum Status: String, Codable, CaseIterable {
     case operational

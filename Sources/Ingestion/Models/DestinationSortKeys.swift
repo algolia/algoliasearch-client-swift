@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DestinationSortKeys
-
 /// Used to sort the Destination list endpoint.
 public enum DestinationSortKeys: String, Codable, CaseIterable {
     case name

@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - OptionalFilters
-
 /// Create filters to boost or demote records.   Records that match the filter are ranked higher for positive and lower
 /// for negative optional filters. In contrast to regular filters, records that don&#39;t match the optional filter are
 /// still included in the results, only their ranking is affected.
@@ -16,7 +14,15 @@ public enum OptionalFilters: Codable, JSONEncodable, AbstractEncodable, Hashable
     case string(String)
     case arrayOfMixedSearchFilters([MixedSearchFilters])
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .string(value):
+            try container.encode(value)
+        case let .arrayOfMixedSearchFilters(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -29,18 +35,6 @@ public enum OptionalFilters: Codable, JSONEncodable, AbstractEncodable, Hashable
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of OptionalFilters")
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .string(value):
-            try container.encode(value)
-        case let .arrayOfMixedSearchFilters(value):
-            try container.encode(value)
         }
     }
 

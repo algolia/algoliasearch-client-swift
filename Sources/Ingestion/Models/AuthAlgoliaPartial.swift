@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AuthAlgoliaPartial
-
 public struct AuthAlgoliaPartial: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Algolia Application ID.
+    public var appID: String?
+    /// Algolia API Key, with the correct rights to push to an index and change settings.
+    public var apiKey: String?
 
     public init(appID: String? = nil, apiKey: String? = nil) {
         self.appID = appID
         self.apiKey = apiKey
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case appID
         case apiKey
     }
-
-    /// Algolia Application ID.
-    public var appID: String?
-    /// Algolia API Key, with the correct rights to push to an index and change settings.
-    public var apiKey: String?
 
     // Encodable protocol methods
 

@@ -7,24 +7,18 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ConsequenceHide
-
 /// Unique identifier of the record to hide.
 public struct ConsequenceHide: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Unique object identifier.
+    public var objectID: String
 
     public init(objectID: String) {
         self.objectID = objectID
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case objectID
     }
-
-    /// Unique object identifier.
-    public var objectID: String
 
     // Encodable protocol methods
 

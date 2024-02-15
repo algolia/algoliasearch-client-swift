@@ -7,24 +7,18 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AssignUserIdParams
-
 /// Assign userID parameters.
 public struct AssignUserIdParams: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Cluster name.
+    public var cluster: String
 
     public init(cluster: String) {
         self.cluster = cluster
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case cluster
     }
-
-    /// Cluster name.
-    public var cluster: String
 
     // Encodable protocol methods
 

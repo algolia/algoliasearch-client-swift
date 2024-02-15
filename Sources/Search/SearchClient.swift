@@ -9,10 +9,13 @@ import Foundation
 
 typealias Client = SearchClient
 
-// MARK: - SearchClient
-
 open class SearchClient {
-    // MARK: Lifecycle
+    private var configuration: Configuration
+    private var transporter: Transporter
+
+    var appID: String {
+        self.configuration.appID
+    }
 
     public init(configuration: Configuration, transporter: Transporter) {
         self.configuration = configuration
@@ -26,8 +29,6 @@ open class SearchClient {
     public convenience init(appID: String, apiKey: String) throws {
         try self.init(configuration: Configuration(appID: appID, apiKey: apiKey))
     }
-
-    // MARK: Open
 
     /// - parameter apiKey: (body)
     /// - returns: AddApiKeyResponse
@@ -3906,15 +3907,4 @@ open class SearchClient {
             requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
         )
     }
-
-    // MARK: Internal
-
-    var appID: String {
-        self.configuration.appID
-    }
-
-    // MARK: Private
-
-    private var configuration: Configuration
-    private var transporter: Transporter
 }

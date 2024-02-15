@@ -7,10 +7,18 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Source
-
 public struct Source: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// The source UUID.
+    public var sourceID: String
+    public var type: SourceType
+    public var name: String
+    public var input: SourceInput
+    /// The authentication UUID.
+    public var authenticationID: String?
+    /// Date of creation (RFC3339 format).
+    public var createdAt: String
+    /// Date of last update (RFC3339 format).
+    public var updatedAt: String?
 
     public init(
         sourceID: String,
@@ -30,8 +38,6 @@ public struct Source: Codable, JSONEncodable, Hashable {
         self.updatedAt = updatedAt
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case sourceID
         case type
@@ -41,18 +47,6 @@ public struct Source: Codable, JSONEncodable, Hashable {
         case createdAt
         case updatedAt
     }
-
-    /// The source UUID.
-    public var sourceID: String
-    public var type: SourceType
-    public var name: String
-    public var input: SourceInput
-    /// The authentication UUID.
-    public var authenticationID: String?
-    /// Date of creation (RFC3339 format).
-    public var createdAt: String
-    /// Date of last update (RFC3339 format).
-    public var updatedAt: String?
 
     // Encodable protocol methods
 

@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DeleteApiKeyResponse
-
 public struct DeleteApiKeyResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Timestamp of deletion in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
+    public var deletedAt: String
 
     public init(deletedAt: String) {
         self.deletedAt = deletedAt
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case deletedAt
     }
-
-    /// Timestamp of deletion in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
-    public var deletedAt: String
 
     // Encodable protocol methods
 

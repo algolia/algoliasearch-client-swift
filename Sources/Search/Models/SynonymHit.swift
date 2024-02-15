@@ -7,11 +7,24 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SynonymHit
-
 /// Synonym object.
 public struct SynonymHit: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Unique identifier of a synonym object.
+    public var objectID: String
+    public var type: SynonymType
+    /// Words or phrases considered equivalent.
+    public var synonyms: [String]?
+    /// Word or phrase to appear in query strings (for [`onewaysynonym`s](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/adding-synonyms/in-depth/one-way-synonyms/)).
+    public var input: String?
+    /// Word or phrase to appear in query strings (for [`altcorrection1` and `altcorrection2`](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/adding-synonyms/in-depth/synonyms-alternative-corrections/)).
+    public var word: String?
+    /// Words to be matched in records.
+    public var corrections: [String]?
+    /// [Placeholder token](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/adding-synonyms/in-depth/synonyms-placeholders/)
+    /// to be put inside records.
+    public var placeholder: String?
+    /// Query words that will match the [placeholder token](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/adding-synonyms/in-depth/synonyms-placeholders/).
+    public var replacements: [String]?
 
     public init(
         objectID: String,
@@ -33,8 +46,6 @@ public struct SynonymHit: Codable, JSONEncodable, Hashable {
         self.replacements = replacements
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case objectID
         case type
@@ -45,23 +56,6 @@ public struct SynonymHit: Codable, JSONEncodable, Hashable {
         case placeholder
         case replacements
     }
-
-    /// Unique identifier of a synonym object.
-    public var objectID: String
-    public var type: SynonymType
-    /// Words or phrases considered equivalent.
-    public var synonyms: [String]?
-    /// Word or phrase to appear in query strings (for [`onewaysynonym`s](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/adding-synonyms/in-depth/one-way-synonyms/)).
-    public var input: String?
-    /// Word or phrase to appear in query strings (for [`altcorrection1` and `altcorrection2`](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/adding-synonyms/in-depth/synonyms-alternative-corrections/)).
-    public var word: String?
-    /// Words to be matched in records.
-    public var corrections: [String]?
-    /// [Placeholder token](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/adding-synonyms/in-depth/synonyms-placeholders/)
-    /// to be put inside records.
-    public var placeholder: String?
-    /// Query words that will match the [placeholder token](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/adding-synonyms/in-depth/synonyms-placeholders/).
-    public var replacements: [String]?
 
     // Encodable protocol methods
 

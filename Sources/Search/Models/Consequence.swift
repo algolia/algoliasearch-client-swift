@@ -7,11 +7,20 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Consequence
-
 /// [Consequences](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/#consequences) of a rule.
 public struct Consequence: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var params: ConsequenceParams?
+    /// Records to promote.
+    public var promote: [Promote]?
+    /// Only use in combination with the `promote` consequence. When `true`, promoted results will be restricted to
+    /// match the filters of the current search. When `false`, the promoted results will show up regardless of the
+    /// filters.
+    public var filterPromotes: Bool?
+    /// Records to hide. By default, you can hide up to 50 records per rule.
+    public var hide: [ConsequenceHide]?
+    /// Custom JSON object that will be appended to the userData array in the response. This object isn't interpreted by
+    /// the API. It's limited to 1kB of minified JSON.
+    public var userData: AnyCodable?
 
     public init(
         params: ConsequenceParams? = nil,
@@ -27,8 +36,6 @@ public struct Consequence: Codable, JSONEncodable, Hashable {
         self.userData = userData
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case params
         case promote
@@ -36,19 +43,6 @@ public struct Consequence: Codable, JSONEncodable, Hashable {
         case hide
         case userData
     }
-
-    public var params: ConsequenceParams?
-    /// Records to promote.
-    public var promote: [Promote]?
-    /// Only use in combination with the `promote` consequence. When `true`, promoted results will be restricted to
-    /// match the filters of the current search. When `false`, the promoted results will show up regardless of the
-    /// filters.
-    public var filterPromotes: Bool?
-    /// Records to hide. By default, you can hide up to 50 records per rule.
-    public var hide: [ConsequenceHide]?
-    /// Custom JSON object that will be appended to the userData array in the response. This object isn't interpreted by
-    /// the API. It's limited to 1kB of minified JSON.
-    public var userData: AnyCodable?
 
     // Encodable protocol methods
 

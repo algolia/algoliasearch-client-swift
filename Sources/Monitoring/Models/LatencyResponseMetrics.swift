@@ -7,22 +7,16 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - LatencyResponseMetrics
-
 public struct LatencyResponseMetrics: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var latency: [String: [TimeInner]]?
 
     public init(latency: [String: [TimeInner]]? = nil) {
         self.latency = latency
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case latency
     }
-
-    public var latency: [String: [TimeInner]]?
 
     // Encodable protocol methods
 

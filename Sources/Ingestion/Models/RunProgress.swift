@@ -7,25 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RunProgress
-
 public struct RunProgress: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var expectedNbOfEvents: Int?
+    public var receivedNbOfEvents: Int?
 
     public init(expectedNbOfEvents: Int? = nil, receivedNbOfEvents: Int? = nil) {
         self.expectedNbOfEvents = expectedNbOfEvents
         self.receivedNbOfEvents = receivedNbOfEvents
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case expectedNbOfEvents
         case receivedNbOfEvents
     }
-
-    public var expectedNbOfEvents: Int?
-    public var receivedNbOfEvents: Int?
 
     // Encodable protocol methods
 

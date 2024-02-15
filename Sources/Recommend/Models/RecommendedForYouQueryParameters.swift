@@ -7,254 +7,42 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RecommendedForYouQueryParameters
-
 public struct RecommendedForYouQueryParameters: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(
-        query: String? = nil,
-        similarQuery: String? = nil,
-        filters: String? = nil,
-        facetFilters: FacetFilters? = nil,
-        optionalFilters: OptionalFilters? = nil,
-        numericFilters: NumericFilters? = nil,
-        tagFilters: TagFilters? = nil,
-        sumOrFiltersScores: Bool? = nil,
-        restrictSearchableAttributes: [String]? = nil,
-        facets: [String]? = nil,
-        facetingAfterDistinct: Bool? = nil,
-        page: Int? = nil,
-        offset: Int? = nil,
-        length: Int? = nil,
-        aroundLatLng: String? = nil,
-        aroundLatLngViaIP: Bool? = nil,
-        aroundRadius: AroundRadius? = nil,
-        aroundPrecision: AroundPrecision? = nil,
-        minimumAroundRadius: Int? = nil,
-        insideBoundingBox: [[Double]]? = nil,
-        insidePolygon: [[Double]]? = nil,
-        naturalLanguages: [String]? = nil,
-        ruleContexts: [String]? = nil,
-        personalizationImpact: Int? = nil,
-        userToken: String,
-        getRankingInfo: Bool? = nil,
-        explain: [String]? = nil,
-        synonyms: Bool? = nil,
-        clickAnalytics: Bool? = nil,
-        analytics: Bool? = nil,
-        analyticsTags: [String]? = nil,
-        percentileComputation: Bool? = nil,
-        enableABTest: Bool? = nil,
-        attributesForFaceting: [String]? = nil,
-        attributesToRetrieve: [String]? = nil,
-        ranking: [String]? = nil,
-        customRanking: [String]? = nil,
-        relevancyStrictness: Int? = nil,
-        attributesToHighlight: [String]? = nil,
-        attributesToSnippet: [String]? = nil,
-        highlightPreTag: String? = nil,
-        highlightPostTag: String? = nil,
-        snippetEllipsisText: String? = nil,
-        restrictHighlightAndSnippetArrays: Bool? = nil,
-        hitsPerPage: Int? = nil,
-        minWordSizefor1Typo: Int? = nil,
-        minWordSizefor2Typos: Int? = nil,
-        typoTolerance: TypoTolerance? = nil,
-        allowTyposOnNumericTokens: Bool? = nil,
-        disableTypoToleranceOnAttributes: [String]? = nil,
-        ignorePlurals: IgnorePlurals? = nil,
-        removeStopWords: RemoveStopWords? = nil,
-        keepDiacriticsOnCharacters: String? = nil,
-        queryLanguages: [String]? = nil,
-        decompoundQuery: Bool? = nil,
-        enableRules: Bool? = nil,
-        enablePersonalization: Bool? = nil,
-        queryType: QueryType? = nil,
-        removeWordsIfNoResults: RemoveWordsIfNoResults? = nil,
-        mode: Mode? = nil,
-        semanticSearch: SemanticSearch? = nil,
-        advancedSyntax: Bool? = nil,
-        optionalWords: [String]? = nil,
-        disableExactOnAttributes: [String]? = nil,
-        exactOnSingleWordQuery: ExactOnSingleWordQuery? = nil,
-        alternativesAsExact: [AlternativesAsExact]? = nil,
-        advancedSyntaxFeatures: [AdvancedSyntaxFeatures]? = nil,
-        distinct: Distinct? = nil,
-        replaceSynonymsInHighlight: Bool? = nil,
-        minProximity: Int? = nil,
-        responseFields: [String]? = nil,
-        maxFacetHits: Int? = nil,
-        maxValuesPerFacet: Int? = nil,
-        sortFacetValuesBy: String? = nil,
-        attributeCriteriaComputedByMinProximity: Bool? = nil,
-        renderingContent: RenderingContent? = nil,
-        enableReRanking: Bool? = nil,
-        reRankingApplyFilter: ReRankingApplyFilter? = nil
-    ) {
-        self.query = query
-        self.similarQuery = similarQuery
-        self.filters = filters
-        self.facetFilters = facetFilters
-        self.optionalFilters = optionalFilters
-        self.numericFilters = numericFilters
-        self.tagFilters = tagFilters
-        self.sumOrFiltersScores = sumOrFiltersScores
-        self.restrictSearchableAttributes = restrictSearchableAttributes
-        self.facets = facets
-        self.facetingAfterDistinct = facetingAfterDistinct
-        self.page = page
-        self.offset = offset
-        self.length = length
-        self.aroundLatLng = aroundLatLng
-        self.aroundLatLngViaIP = aroundLatLngViaIP
-        self.aroundRadius = aroundRadius
-        self.aroundPrecision = aroundPrecision
-        self.minimumAroundRadius = minimumAroundRadius
-        self.insideBoundingBox = insideBoundingBox
-        self.insidePolygon = insidePolygon
-        self.naturalLanguages = naturalLanguages
-        self.ruleContexts = ruleContexts
-        self.personalizationImpact = personalizationImpact
-        self.userToken = userToken
-        self.getRankingInfo = getRankingInfo
-        self.explain = explain
-        self.synonyms = synonyms
-        self.clickAnalytics = clickAnalytics
-        self.analytics = analytics
-        self.analyticsTags = analyticsTags
-        self.percentileComputation = percentileComputation
-        self.enableABTest = enableABTest
-        self.attributesForFaceting = attributesForFaceting
-        self.attributesToRetrieve = attributesToRetrieve
-        self.ranking = ranking
-        self.customRanking = customRanking
-        self.relevancyStrictness = relevancyStrictness
-        self.attributesToHighlight = attributesToHighlight
-        self.attributesToSnippet = attributesToSnippet
-        self.highlightPreTag = highlightPreTag
-        self.highlightPostTag = highlightPostTag
-        self.snippetEllipsisText = snippetEllipsisText
-        self.restrictHighlightAndSnippetArrays = restrictHighlightAndSnippetArrays
-        self.hitsPerPage = hitsPerPage
-        self.minWordSizefor1Typo = minWordSizefor1Typo
-        self.minWordSizefor2Typos = minWordSizefor2Typos
-        self.typoTolerance = typoTolerance
-        self.allowTyposOnNumericTokens = allowTyposOnNumericTokens
-        self.disableTypoToleranceOnAttributes = disableTypoToleranceOnAttributes
-        self.ignorePlurals = ignorePlurals
-        self.removeStopWords = removeStopWords
-        self.keepDiacriticsOnCharacters = keepDiacriticsOnCharacters
-        self.queryLanguages = queryLanguages
-        self.decompoundQuery = decompoundQuery
-        self.enableRules = enableRules
-        self.enablePersonalization = enablePersonalization
-        self.queryType = queryType
-        self.removeWordsIfNoResults = removeWordsIfNoResults
-        self.mode = mode
-        self.semanticSearch = semanticSearch
-        self.advancedSyntax = advancedSyntax
-        self.optionalWords = optionalWords
-        self.disableExactOnAttributes = disableExactOnAttributes
-        self.exactOnSingleWordQuery = exactOnSingleWordQuery
-        self.alternativesAsExact = alternativesAsExact
-        self.advancedSyntaxFeatures = advancedSyntaxFeatures
-        self.distinct = distinct
-        self.replaceSynonymsInHighlight = replaceSynonymsInHighlight
-        self.minProximity = minProximity
-        self.responseFields = responseFields
-        self.maxFacetHits = maxFacetHits
-        self.maxValuesPerFacet = maxValuesPerFacet
-        self.sortFacetValuesBy = sortFacetValuesBy
-        self.attributeCriteriaComputedByMinProximity = attributeCriteriaComputedByMinProximity
-        self.renderingContent = renderingContent
-        self.enableReRanking = enableReRanking
-        self.reRankingApplyFilter = reRankingApplyFilter
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case query
-        case similarQuery
-        case filters
-        case facetFilters
-        case optionalFilters
-        case numericFilters
-        case tagFilters
-        case sumOrFiltersScores
-        case restrictSearchableAttributes
-        case facets
-        case facetingAfterDistinct
-        case page
-        case offset
-        case length
-        case aroundLatLng
-        case aroundLatLngViaIP
-        case aroundRadius
-        case aroundPrecision
-        case minimumAroundRadius
-        case insideBoundingBox
-        case insidePolygon
-        case naturalLanguages
-        case ruleContexts
-        case personalizationImpact
-        case userToken
-        case getRankingInfo
-        case explain
-        case synonyms
-        case clickAnalytics
-        case analytics
-        case analyticsTags
-        case percentileComputation
-        case enableABTest
-        case attributesForFaceting
-        case attributesToRetrieve
-        case ranking
-        case customRanking
-        case relevancyStrictness
-        case attributesToHighlight
-        case attributesToSnippet
-        case highlightPreTag
-        case highlightPostTag
-        case snippetEllipsisText
-        case restrictHighlightAndSnippetArrays
-        case hitsPerPage
-        case minWordSizefor1Typo
-        case minWordSizefor2Typos
-        case typoTolerance
-        case allowTyposOnNumericTokens
-        case disableTypoToleranceOnAttributes
-        case ignorePlurals
-        case removeStopWords
-        case keepDiacriticsOnCharacters
-        case queryLanguages
-        case decompoundQuery
-        case enableRules
-        case enablePersonalization
-        case queryType
-        case removeWordsIfNoResults
-        case mode
-        case semanticSearch
-        case advancedSyntax
-        case optionalWords
-        case disableExactOnAttributes
-        case exactOnSingleWordQuery
-        case alternativesAsExact
-        case advancedSyntaxFeatures
-        case distinct
-        case replaceSynonymsInHighlight
-        case minProximity
-        case responseFields
-        case maxFacetHits
-        case maxValuesPerFacet
-        case sortFacetValuesBy
-        case attributeCriteriaComputedByMinProximity
-        case renderingContent
-        case enableReRanking
-        case reRankingApplyFilter
-    }
-
+    static let lengthRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: 1000,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let minimumAroundRadiusRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let hitsPerPageRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: 1000,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let minProximityRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: 7,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let maxFacetHitsRule = NumericRule<Int>(
+        minimum: nil,
+        exclusiveMinimum: false,
+        maximum: 100,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     /// Text to search for in an index.
     public var query: String?
     /// Overrides the query parameter and performs a more generic search.
@@ -440,6 +228,247 @@ public struct RecommendedForYouQueryParameters: Codable, JSONEncodable, Hashable
     public var enableReRanking: Bool?
     public var reRankingApplyFilter: ReRankingApplyFilter?
 
+    public init(
+        query: String? = nil,
+        similarQuery: String? = nil,
+        filters: String? = nil,
+        facetFilters: FacetFilters? = nil,
+        optionalFilters: OptionalFilters? = nil,
+        numericFilters: NumericFilters? = nil,
+        tagFilters: TagFilters? = nil,
+        sumOrFiltersScores: Bool? = nil,
+        restrictSearchableAttributes: [String]? = nil,
+        facets: [String]? = nil,
+        facetingAfterDistinct: Bool? = nil,
+        page: Int? = nil,
+        offset: Int? = nil,
+        length: Int? = nil,
+        aroundLatLng: String? = nil,
+        aroundLatLngViaIP: Bool? = nil,
+        aroundRadius: AroundRadius? = nil,
+        aroundPrecision: AroundPrecision? = nil,
+        minimumAroundRadius: Int? = nil,
+        insideBoundingBox: [[Double]]? = nil,
+        insidePolygon: [[Double]]? = nil,
+        naturalLanguages: [String]? = nil,
+        ruleContexts: [String]? = nil,
+        personalizationImpact: Int? = nil,
+        userToken: String,
+        getRankingInfo: Bool? = nil,
+        explain: [String]? = nil,
+        synonyms: Bool? = nil,
+        clickAnalytics: Bool? = nil,
+        analytics: Bool? = nil,
+        analyticsTags: [String]? = nil,
+        percentileComputation: Bool? = nil,
+        enableABTest: Bool? = nil,
+        attributesForFaceting: [String]? = nil,
+        attributesToRetrieve: [String]? = nil,
+        ranking: [String]? = nil,
+        customRanking: [String]? = nil,
+        relevancyStrictness: Int? = nil,
+        attributesToHighlight: [String]? = nil,
+        attributesToSnippet: [String]? = nil,
+        highlightPreTag: String? = nil,
+        highlightPostTag: String? = nil,
+        snippetEllipsisText: String? = nil,
+        restrictHighlightAndSnippetArrays: Bool? = nil,
+        hitsPerPage: Int? = nil,
+        minWordSizefor1Typo: Int? = nil,
+        minWordSizefor2Typos: Int? = nil,
+        typoTolerance: TypoTolerance? = nil,
+        allowTyposOnNumericTokens: Bool? = nil,
+        disableTypoToleranceOnAttributes: [String]? = nil,
+        ignorePlurals: IgnorePlurals? = nil,
+        removeStopWords: RemoveStopWords? = nil,
+        keepDiacriticsOnCharacters: String? = nil,
+        queryLanguages: [String]? = nil,
+        decompoundQuery: Bool? = nil,
+        enableRules: Bool? = nil,
+        enablePersonalization: Bool? = nil,
+        queryType: QueryType? = nil,
+        removeWordsIfNoResults: RemoveWordsIfNoResults? = nil,
+        mode: Mode? = nil,
+        semanticSearch: SemanticSearch? = nil,
+        advancedSyntax: Bool? = nil,
+        optionalWords: [String]? = nil,
+        disableExactOnAttributes: [String]? = nil,
+        exactOnSingleWordQuery: ExactOnSingleWordQuery? = nil,
+        alternativesAsExact: [AlternativesAsExact]? = nil,
+        advancedSyntaxFeatures: [AdvancedSyntaxFeatures]? = nil,
+        distinct: Distinct? = nil,
+        replaceSynonymsInHighlight: Bool? = nil,
+        minProximity: Int? = nil,
+        responseFields: [String]? = nil,
+        maxFacetHits: Int? = nil,
+        maxValuesPerFacet: Int? = nil,
+        sortFacetValuesBy: String? = nil,
+        attributeCriteriaComputedByMinProximity: Bool? = nil,
+        renderingContent: RenderingContent? = nil,
+        enableReRanking: Bool? = nil,
+        reRankingApplyFilter: ReRankingApplyFilter? = nil
+    ) {
+        self.query = query
+        self.similarQuery = similarQuery
+        self.filters = filters
+        self.facetFilters = facetFilters
+        self.optionalFilters = optionalFilters
+        self.numericFilters = numericFilters
+        self.tagFilters = tagFilters
+        self.sumOrFiltersScores = sumOrFiltersScores
+        self.restrictSearchableAttributes = restrictSearchableAttributes
+        self.facets = facets
+        self.facetingAfterDistinct = facetingAfterDistinct
+        self.page = page
+        self.offset = offset
+        self.length = length
+        self.aroundLatLng = aroundLatLng
+        self.aroundLatLngViaIP = aroundLatLngViaIP
+        self.aroundRadius = aroundRadius
+        self.aroundPrecision = aroundPrecision
+        self.minimumAroundRadius = minimumAroundRadius
+        self.insideBoundingBox = insideBoundingBox
+        self.insidePolygon = insidePolygon
+        self.naturalLanguages = naturalLanguages
+        self.ruleContexts = ruleContexts
+        self.personalizationImpact = personalizationImpact
+        self.userToken = userToken
+        self.getRankingInfo = getRankingInfo
+        self.explain = explain
+        self.synonyms = synonyms
+        self.clickAnalytics = clickAnalytics
+        self.analytics = analytics
+        self.analyticsTags = analyticsTags
+        self.percentileComputation = percentileComputation
+        self.enableABTest = enableABTest
+        self.attributesForFaceting = attributesForFaceting
+        self.attributesToRetrieve = attributesToRetrieve
+        self.ranking = ranking
+        self.customRanking = customRanking
+        self.relevancyStrictness = relevancyStrictness
+        self.attributesToHighlight = attributesToHighlight
+        self.attributesToSnippet = attributesToSnippet
+        self.highlightPreTag = highlightPreTag
+        self.highlightPostTag = highlightPostTag
+        self.snippetEllipsisText = snippetEllipsisText
+        self.restrictHighlightAndSnippetArrays = restrictHighlightAndSnippetArrays
+        self.hitsPerPage = hitsPerPage
+        self.minWordSizefor1Typo = minWordSizefor1Typo
+        self.minWordSizefor2Typos = minWordSizefor2Typos
+        self.typoTolerance = typoTolerance
+        self.allowTyposOnNumericTokens = allowTyposOnNumericTokens
+        self.disableTypoToleranceOnAttributes = disableTypoToleranceOnAttributes
+        self.ignorePlurals = ignorePlurals
+        self.removeStopWords = removeStopWords
+        self.keepDiacriticsOnCharacters = keepDiacriticsOnCharacters
+        self.queryLanguages = queryLanguages
+        self.decompoundQuery = decompoundQuery
+        self.enableRules = enableRules
+        self.enablePersonalization = enablePersonalization
+        self.queryType = queryType
+        self.removeWordsIfNoResults = removeWordsIfNoResults
+        self.mode = mode
+        self.semanticSearch = semanticSearch
+        self.advancedSyntax = advancedSyntax
+        self.optionalWords = optionalWords
+        self.disableExactOnAttributes = disableExactOnAttributes
+        self.exactOnSingleWordQuery = exactOnSingleWordQuery
+        self.alternativesAsExact = alternativesAsExact
+        self.advancedSyntaxFeatures = advancedSyntaxFeatures
+        self.distinct = distinct
+        self.replaceSynonymsInHighlight = replaceSynonymsInHighlight
+        self.minProximity = minProximity
+        self.responseFields = responseFields
+        self.maxFacetHits = maxFacetHits
+        self.maxValuesPerFacet = maxValuesPerFacet
+        self.sortFacetValuesBy = sortFacetValuesBy
+        self.attributeCriteriaComputedByMinProximity = attributeCriteriaComputedByMinProximity
+        self.renderingContent = renderingContent
+        self.enableReRanking = enableReRanking
+        self.reRankingApplyFilter = reRankingApplyFilter
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case query
+        case similarQuery
+        case filters
+        case facetFilters
+        case optionalFilters
+        case numericFilters
+        case tagFilters
+        case sumOrFiltersScores
+        case restrictSearchableAttributes
+        case facets
+        case facetingAfterDistinct
+        case page
+        case offset
+        case length
+        case aroundLatLng
+        case aroundLatLngViaIP
+        case aroundRadius
+        case aroundPrecision
+        case minimumAroundRadius
+        case insideBoundingBox
+        case insidePolygon
+        case naturalLanguages
+        case ruleContexts
+        case personalizationImpact
+        case userToken
+        case getRankingInfo
+        case explain
+        case synonyms
+        case clickAnalytics
+        case analytics
+        case analyticsTags
+        case percentileComputation
+        case enableABTest
+        case attributesForFaceting
+        case attributesToRetrieve
+        case ranking
+        case customRanking
+        case relevancyStrictness
+        case attributesToHighlight
+        case attributesToSnippet
+        case highlightPreTag
+        case highlightPostTag
+        case snippetEllipsisText
+        case restrictHighlightAndSnippetArrays
+        case hitsPerPage
+        case minWordSizefor1Typo
+        case minWordSizefor2Typos
+        case typoTolerance
+        case allowTyposOnNumericTokens
+        case disableTypoToleranceOnAttributes
+        case ignorePlurals
+        case removeStopWords
+        case keepDiacriticsOnCharacters
+        case queryLanguages
+        case decompoundQuery
+        case enableRules
+        case enablePersonalization
+        case queryType
+        case removeWordsIfNoResults
+        case mode
+        case semanticSearch
+        case advancedSyntax
+        case optionalWords
+        case disableExactOnAttributes
+        case exactOnSingleWordQuery
+        case alternativesAsExact
+        case advancedSyntaxFeatures
+        case distinct
+        case replaceSynonymsInHighlight
+        case minProximity
+        case responseFields
+        case maxFacetHits
+        case maxValuesPerFacet
+        case sortFacetValuesBy
+        case attributeCriteriaComputedByMinProximity
+        case renderingContent
+        case enableReRanking
+        case reRankingApplyFilter
+    }
+
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
@@ -529,42 +558,4 @@ public struct RecommendedForYouQueryParameters: Codable, JSONEncodable, Hashable
         try container.encodeIfPresent(self.enableReRanking, forKey: .enableReRanking)
         try container.encodeIfPresent(self.reRankingApplyFilter, forKey: .reRankingApplyFilter)
     }
-
-    // MARK: Internal
-
-    static let lengthRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let minimumAroundRadiusRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let hitsPerPageRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let minProximityRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 7,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let maxFacetHitsRule = NumericRule<Int>(
-        minimum: nil,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

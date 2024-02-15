@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AddApiKeyResponse
-
 public struct AddApiKeyResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// API key.
+    public var key: String
+    /// Timestamp of creation in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format.
+    public var createdAt: String
 
     public init(key: String, createdAt: String) {
         self.key = key
         self.createdAt = createdAt
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case key
         case createdAt
     }
-
-    /// API key.
-    public var key: String
-    /// Timestamp of creation in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format.
-    public var createdAt: String
 
     // Encodable protocol methods
 

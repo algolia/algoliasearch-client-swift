@@ -7,25 +7,7 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DestinationIndexName
-
 public struct DestinationIndexName: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(indexName: String, recordType: RecordType? = nil, attributesToExclude: [String]? = nil) {
-        self.indexName = indexName
-        self.recordType = recordType
-        self.attributesToExclude = attributesToExclude
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case indexName
-        case recordType
-        case attributesToExclude
-    }
-
     /// The index name to store data in.
     public var indexName: String
     public var recordType: RecordType?
@@ -34,6 +16,18 @@ public struct DestinationIndexName: Codable, JSONEncodable, Hashable {
     /// you can use the following:   - \"foo.[0].bar\": will only remove `bar` from the first element of `foo`.   -
     /// \"foo.[*].bar\": will remove `bar` from every elements of `foo`.
     public var attributesToExclude: [String]?
+
+    public init(indexName: String, recordType: RecordType? = nil, attributesToExclude: [String]? = nil) {
+        self.indexName = indexName
+        self.recordType = recordType
+        self.attributesToExclude = attributesToExclude
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case indexName
+        case recordType
+        case attributesToExclude
+    }
 
     // Encodable protocol methods
 

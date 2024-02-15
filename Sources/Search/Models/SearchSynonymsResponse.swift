@@ -7,14 +7,35 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SearchSynonymsResponse
-
 public struct SearchSynonymsResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Synonym objects.
+    public var hits: [SynonymHit]
+    /// Number of hits the search query matched.
+    public var nbHits: Int
 
     public init(hits: [SynonymHit], nbHits: Int) {
         self.hits = hits
         self.nbHits = nbHits
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case hits
+        case nbHits
+    }
+
+    public var additionalProperties: [String: AnyCodable] = [:]
+
+    public subscript(key: String) -> AnyCodable? {
+        get {
+            if let value = additionalProperties[key] {
+                return value
+            }
+            return nil
+        }
+
+        set {
+            self.additionalProperties[key] = newValue
+        }
     }
 
     public init(from dictionary: [String: AnyCodable]) throws {
@@ -36,6 +57,16 @@ public struct SearchSynonymsResponse: Codable, JSONEncodable, Hashable {
         }
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.hits, forKey: .hits)
+        try container.encode(self.nbHits, forKey: .nbHits)
+        var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
+        try additionalPropertiesContainer.encodeMap(self.additionalProperties)
+    }
+
     // Decodable protocol methods
 
     public init(from decoder: Decoder) throws {
@@ -51,42 +82,5 @@ public struct SearchSynonymsResponse: Codable, JSONEncodable, Hashable {
             AnyCodable.self,
             excludedKeys: nonAdditionalPropertyKeys
         )
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case hits
-        case nbHits
-    }
-
-    /// Synonym objects.
-    public var hits: [SynonymHit]
-    /// Number of hits the search query matched.
-    public var nbHits: Int
-
-    public var additionalProperties: [String: AnyCodable] = [:]
-
-    public subscript(key: String) -> AnyCodable? {
-        get {
-            if let value = additionalProperties[key] {
-                return value
-            }
-            return nil
-        }
-
-        set {
-            self.additionalProperties[key] = newValue
-        }
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.hits, forKey: .hits)
-        try container.encode(self.nbHits, forKey: .nbHits)
-        var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
-        try additionalPropertiesContainer.encodeMap(self.additionalProperties)
     }
 }

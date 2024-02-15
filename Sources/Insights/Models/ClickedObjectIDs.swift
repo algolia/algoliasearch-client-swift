@@ -7,44 +7,13 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ClickedObjectIDs
-
 /// Use this event to track when users click items unrelated to a previous Algolia request. For example, if you
 /// don&#39;t use Algolia to build your category pages, use this event.  To track click events related to Algolia
 /// requests, use the \&quot;Clicked object IDs after search\&quot; event.
 public struct ClickedObjectIDs: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(
-        eventName: String,
-        eventType: ClickEvent,
-        index: String,
-        objectIDs: [String],
-        userToken: String,
-        authenticatedUserToken: String? = nil,
-        timestamp: Int64? = nil
-    ) {
-        self.eventName = eventName
-        self.eventType = eventType
-        self.index = index
-        self.objectIDs = objectIDs
-        self.userToken = userToken
-        self.authenticatedUserToken = authenticatedUserToken
-        self.timestamp = timestamp
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case eventName
-        case eventType
-        case index
-        case objectIDs
-        case userToken
-        case authenticatedUserToken
-        case timestamp
-    }
-
+    static let eventNameRule = StringRule(minLength: 1, maxLength: 64, pattern: "[\\x20-\\x7E]{1,64}")
+    static let userTokenRule = StringRule(minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
+    static let authenticatedUserTokenRule = StringRule(minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
     /// The name of the event, up to 64 ASCII characters.  Consider naming events consistently—for example, by adopting
     /// Segment's [object-action](https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/#the-object-action-framework)
     /// framework.
@@ -64,6 +33,34 @@ public struct ClickedObjectIDs: Codable, JSONEncodable, Hashable {
     /// default, the Insights API uses the time it receives an event as its timestamp.
     public var timestamp: Int64?
 
+    public init(
+        eventName: String,
+        eventType: ClickEvent,
+        index: String,
+        objectIDs: [String],
+        userToken: String,
+        authenticatedUserToken: String? = nil,
+        timestamp: Int64? = nil
+    ) {
+        self.eventName = eventName
+        self.eventType = eventType
+        self.index = index
+        self.objectIDs = objectIDs
+        self.userToken = userToken
+        self.authenticatedUserToken = authenticatedUserToken
+        self.timestamp = timestamp
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case eventName
+        case eventType
+        case index
+        case objectIDs
+        case userToken
+        case authenticatedUserToken
+        case timestamp
+    }
+
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
@@ -76,10 +73,4 @@ public struct ClickedObjectIDs: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.authenticatedUserToken, forKey: .authenticatedUserToken)
         try container.encodeIfPresent(self.timestamp, forKey: .timestamp)
     }
-
-    // MARK: Internal
-
-    static let eventNameRule = StringRule(minLength: 1, maxLength: 64, pattern: "[\\x20-\\x7E]{1,64}")
-    static let userTokenRule = StringRule(minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
-    static let authenticatedUserTokenRule = StringRule(minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
 }

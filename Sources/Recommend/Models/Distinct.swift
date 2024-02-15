@@ -7,14 +7,20 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Distinct
-
 /// Enables [deduplication or grouping of results (Algolia&#39;s _distinct_ feature](https://www.algolia.com/doc/guides/managing-results/refine-results/grouping/#introducing-algolias-distinct-feature)).
 public enum Distinct: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case bool(Bool)
     case int(Int)
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .bool(value):
+            try container.encode(value)
+        case let .int(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -27,18 +33,6 @@ public enum Distinct: Codable, JSONEncodable, AbstractEncodable, Hashable {
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of Distinct")
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .bool(value):
-            try container.encode(value)
-        case let .int(value):
-            try container.encode(value)
         }
     }
 

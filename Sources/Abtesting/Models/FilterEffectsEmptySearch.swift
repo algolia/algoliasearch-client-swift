@@ -7,28 +7,22 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - FilterEffectsEmptySearch
-
 /// Empty searches removed from the A/B test as a result of configuration settings.
 public struct FilterEffectsEmptySearch: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Number of users removed from the A/B test.
+    public var usersCount: Int?
+    /// Number of tracked searches removed from the A/B test.
+    public var trackedSearchesCount: Int?
 
     public init(usersCount: Int? = nil, trackedSearchesCount: Int? = nil) {
         self.usersCount = usersCount
         self.trackedSearchesCount = trackedSearchesCount
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case usersCount
         case trackedSearchesCount
     }
-
-    /// Number of users removed from the A/B test.
-    public var usersCount: Int?
-    /// Number of tracked searches removed from the A/B test.
-    public var trackedSearchesCount: Int?
 
     // Encodable protocol methods
 

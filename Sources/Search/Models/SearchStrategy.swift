@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SearchStrategy
-
 /// - &#x60;none&#x60;: executes all queries. - &#x60;stopIfEnoughMatches&#x60;: executes queries one by one, stopping
 /// further query execution as soon as a query matches at least the &#x60;hitsPerPage&#x60; number of results.
 public enum SearchStrategy: String, Codable, CaseIterable {

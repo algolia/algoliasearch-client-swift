@@ -7,14 +7,22 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TaskCreateTrigger
-
 public enum TaskCreateTrigger: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case onDemandTriggerInput(OnDemandTriggerInput)
     case scheduleTriggerInput(ScheduleTriggerInput)
     case subscriptionTrigger(SubscriptionTrigger)
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .onDemandTriggerInput(value):
+            try container.encode(value)
+        case let .scheduleTriggerInput(value):
+            try container.encode(value)
+        case let .subscriptionTrigger(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -32,20 +40,6 @@ public enum TaskCreateTrigger: Codable, JSONEncodable, AbstractEncodable, Hashab
                     debugDescription: "Unable to decode instance of TaskCreateTrigger"
                 )
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .onDemandTriggerInput(value):
-            try container.encode(value)
-        case let .scheduleTriggerInput(value):
-            try container.encode(value)
-        case let .subscriptionTrigger(value):
-            try container.encode(value)
         }
     }
 

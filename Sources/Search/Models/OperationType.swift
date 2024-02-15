@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - OperationType
-
 /// Operation to perform (_move_ or _copy_).
 public enum OperationType: String, Codable, CaseIterable {
     case move

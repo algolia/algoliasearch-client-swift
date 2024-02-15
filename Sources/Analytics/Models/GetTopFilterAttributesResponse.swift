@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetTopFilterAttributesResponse
-
 public struct GetTopFilterAttributesResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Filterable attributes.
+    public var attributes: [GetTopFilterAttribute]
 
     public init(attributes: [GetTopFilterAttribute]) {
         self.attributes = attributes
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case attributes
     }
-
-    /// Filterable attributes.
-    public var attributes: [GetTopFilterAttribute]
 
     // Encodable protocol methods
 

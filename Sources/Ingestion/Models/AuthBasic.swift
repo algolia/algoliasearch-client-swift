@@ -7,26 +7,20 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AuthBasic
-
 /// Authentication input for Basic login with username and password.
 public struct AuthBasic: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var username: String
+    public var password: String
 
     public init(username: String, password: String) {
         self.username = username
         self.password = password
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case username
         case password
     }
-
-    public var username: String
-    public var password: String
 
     // Encodable protocol methods
 

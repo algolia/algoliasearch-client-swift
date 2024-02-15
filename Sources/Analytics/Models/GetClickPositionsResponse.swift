@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetClickPositionsResponse
-
 public struct GetClickPositionsResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Click positions.
+    public var positions: [ClickPosition]
 
     public init(positions: [ClickPosition]) {
         self.positions = positions
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case positions
     }
-
-    /// Click positions.
-    public var positions: [ClickPosition]
 
     // Encodable protocol methods
 

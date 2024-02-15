@@ -7,25 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - InsightsEvents
-
 public struct InsightsEvents: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// List of click and conversion events.  An event is an object representing a user interaction. Events have
+    /// attributes that describe the interaction, such as an event name, a type, or a user token.  **All** events must
+    /// be valid, otherwise the API returns an error.
+    public var events: [EventsItems]
 
     public init(events: [EventsItems]) {
         self.events = events
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case events
     }
-
-    /// List of click and conversion events.  An event is an object representing a user interaction. Events have
-    /// attributes that describe the interaction, such as an event name, a type, or a user token.  **All** events must
-    /// be valid, otherwise the API returns an error.
-    public var events: [EventsItems]
 
     // Encodable protocol methods
 

@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - EditType
-
 /// Type of edit.
 public enum EditType: String, Codable, CaseIterable {
     case remove

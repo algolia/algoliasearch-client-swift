@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ScheduleTriggerType
-
 /// A task which is triggered by a schedule (cron expression).
 public enum ScheduleTriggerType: String, Codable, CaseIterable {
     case schedule

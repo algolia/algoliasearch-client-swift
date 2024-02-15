@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BigQueryDataType
-
 public enum BigQueryDataType: String, Codable, CaseIterable {
     case ga4
     case ga360

@@ -7,10 +7,13 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TopSearch
-
 public struct TopSearch: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// User query.
+    public var search: String
+    /// Number of tracked _and_ untracked searches (where the `clickAnalytics` parameter isn't `true`).
+    public var count: Int
+    /// Number of hits the search query matched.
+    public var nbHits: Int
 
     public init(search: String, count: Int, nbHits: Int) {
         self.search = search
@@ -18,20 +21,11 @@ public struct TopSearch: Codable, JSONEncodable, Hashable {
         self.nbHits = nbHits
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case search
         case count
         case nbHits
     }
-
-    /// User query.
-    public var search: String
-    /// Number of tracked _and_ untracked searches (where the `clickAnalytics` parameter isn't `true`).
-    public var count: Int
-    /// Number of hits the search query matched.
-    public var nbHits: Int
 
     // Encodable protocol methods
 

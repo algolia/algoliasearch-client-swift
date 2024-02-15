@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TopSearchesResponseWithAnalytics
-
 public struct TopSearchesResponseWithAnalytics: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Top searches with their hits count and analytics.
+    public var searches: [TopSearchWithAnalytics]
 
     public init(searches: [TopSearchWithAnalytics]) {
         self.searches = searches
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case searches
     }
-
-    /// Top searches with their hits count and analytics.
-    public var searches: [TopSearchWithAnalytics]
 
     // Encodable protocol methods
 

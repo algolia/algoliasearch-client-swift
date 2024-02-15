@@ -7,22 +7,16 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetRecommendationsResponse
-
 public struct GetRecommendationsResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var results: [RecommendationsResults]?
 
     public init(results: [RecommendationsResults]? = nil) {
         self.results = results
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case results
     }
-
-    public var results: [RecommendationsResults]?
 
     // Encodable protocol methods
 

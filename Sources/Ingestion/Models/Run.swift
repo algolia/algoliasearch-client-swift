@@ -7,10 +7,34 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Run
-
 public struct Run: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    static let failureThresholdRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: 100,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// The run UUID.
+    public var runID: String
+    public var appID: String
+    /// The task UUID.
+    public var taskID: String
+    public var status: RunStatus
+    public var progress: RunProgress?
+    public var outcome: RunOutcome?
+    /// A percentage representing the accepted failure threshold to determine if a `run` succeeded or not.
+    public var failureThreshold: Int?
+    /// Explains the result of outcome.
+    public var reason: String?
+    public var reasonCode: RunReasonCode?
+    public var type: RunType
+    /// Date of creation (RFC3339 format).
+    public var createdAt: String
+    /// Date of start (RFC3339 format).
+    public var startedAt: String?
+    /// Date of finish (RFC3339 format).
+    public var finishedAt: String?
 
     public init(
         runID: String,
@@ -42,8 +66,6 @@ public struct Run: Codable, JSONEncodable, Hashable {
         self.finishedAt = finishedAt
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case runID
         case appID
@@ -59,27 +81,6 @@ public struct Run: Codable, JSONEncodable, Hashable {
         case startedAt
         case finishedAt
     }
-
-    /// The run UUID.
-    public var runID: String
-    public var appID: String
-    /// The task UUID.
-    public var taskID: String
-    public var status: RunStatus
-    public var progress: RunProgress?
-    public var outcome: RunOutcome?
-    /// A percentage representing the accepted failure threshold to determine if a `run` succeeded or not.
-    public var failureThreshold: Int?
-    /// Explains the result of outcome.
-    public var reason: String?
-    public var reasonCode: RunReasonCode?
-    public var type: RunType
-    /// Date of creation (RFC3339 format).
-    public var createdAt: String
-    /// Date of start (RFC3339 format).
-    public var startedAt: String?
-    /// Date of finish (RFC3339 format).
-    public var finishedAt: String?
 
     // Encodable protocol methods
 
@@ -99,14 +100,4 @@ public struct Run: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.startedAt, forKey: .startedAt)
         try container.encodeIfPresent(self.finishedAt, forKey: .finishedAt)
     }
-
-    // MARK: Internal
-
-    static let failureThresholdRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

@@ -7,10 +7,13 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AddABTestsRequest
-
 public struct AddABTestsRequest: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// A/B test name.
+    public var name: String
+    /// A/B test variants.
+    public var variants: [AddABTestsVariant]
+    /// End date timestamp in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format.
+    public var endAt: String
 
     public init(name: String, variants: [AddABTestsVariant], endAt: String) {
         self.name = name
@@ -18,20 +21,11 @@ public struct AddABTestsRequest: Codable, JSONEncodable, Hashable {
         self.endAt = endAt
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case variants
         case endAt
     }
-
-    /// A/B test name.
-    public var name: String
-    /// A/B test variants.
-    public var variants: [AddABTestsVariant]
-    /// End date timestamp in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format.
-    public var endAt: String
 
     // Encodable protocol methods
 

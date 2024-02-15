@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - OnDemandTriggerInput
-
 /// The trigger information of a task of type &#x60;onDemand&#x60;.
 public struct OnDemandTriggerInput: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var type: OnDemandTriggerType
 
     public init(type: OnDemandTriggerType) {
         self.type = type
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case type
     }
-
-    public var type: OnDemandTriggerType
 
     // Encodable protocol methods
 

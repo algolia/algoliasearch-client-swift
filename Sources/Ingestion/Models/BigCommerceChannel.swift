@@ -7,28 +7,22 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BigCommerceChannel
-
 public struct BigCommerceChannel: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// The ID of the bigcommerce channel.
+    public var id: Int
+    /// An array of currencies for the given channel `ID`, a currency is a trigram string that represents the currency
+    /// code.
+    public var currencies: [String]?
 
     public init(id: Int, currencies: [String]? = nil) {
         self.id = id
         self.currencies = currencies
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case id
         case currencies
     }
-
-    /// The ID of the bigcommerce channel.
-    public var id: Int
-    /// An array of currencies for the given channel `ID`, a currency is a trigram string that represents the currency
-    /// code.
-    public var currencies: [String]?
 
     // Encodable protocol methods
 

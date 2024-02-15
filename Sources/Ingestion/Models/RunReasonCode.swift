@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RunReasonCode
-
 /// An identifier that pairs with the outcome reason.
 public enum RunReasonCode: String, Codable, CaseIterable {
     case `internal`

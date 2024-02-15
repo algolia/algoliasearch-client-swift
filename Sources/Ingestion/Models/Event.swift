@@ -7,11 +7,28 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Event
-
 /// An event describe a step of the task execution flow..
 public struct Event: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    static let batchSizeRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: 1
+    )
+    /// The event UUID.
+    public var eventID: String
+    /// The run UUID.
+    public var runID: String
+    /// The parent event, the cause of this event.
+    public var parentID: String?
+    public var status: EventStatus
+    public var type: EventType
+    /// The extracted record batch size.
+    public var batchSize: Int
+    public var data: [String: AnyCodable]?
+    /// Date of publish (RFC3339 format).
+    public var publishedAt: String
 
     public init(
         eventID: String,
@@ -33,8 +50,6 @@ public struct Event: Codable, JSONEncodable, Hashable {
         self.publishedAt = publishedAt
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case eventID
         case runID
@@ -45,20 +60,6 @@ public struct Event: Codable, JSONEncodable, Hashable {
         case data
         case publishedAt
     }
-
-    /// The event UUID.
-    public var eventID: String
-    /// The run UUID.
-    public var runID: String
-    /// The parent event, the cause of this event.
-    public var parentID: String?
-    public var status: EventStatus
-    public var type: EventType
-    /// The extracted record batch size.
-    public var batchSize: Int
-    public var data: [String: AnyCodable]?
-    /// Date of publish (RFC3339 format).
-    public var publishedAt: String
 
     // Encodable protocol methods
 
@@ -73,14 +74,4 @@ public struct Event: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.data, forKey: .data)
         try container.encode(self.publishedAt, forKey: .publishedAt)
     }
-
-    // MARK: Internal
-
-    static let batchSizeRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: 1
-    )
 }

@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Period
-
 public enum Period: String, Codable, CaseIterable {
     case minute
     case hour

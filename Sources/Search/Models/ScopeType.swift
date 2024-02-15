@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ScopeType
-
 public enum ScopeType: String, Codable, CaseIterable {
     case settings
     case synonyms

@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AuthInputPartial
-
 public enum AuthInputPartial: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case authAPIKeyPartial(AuthAPIKeyPartial)
     case authAlgoliaPartial(AuthAlgoliaPartial)
@@ -16,7 +14,21 @@ public enum AuthInputPartial: Codable, JSONEncodable, AbstractEncodable, Hashabl
     case authGoogleServiceAccountPartial(AuthGoogleServiceAccountPartial)
     case authOAuthPartial(AuthOAuthPartial)
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .authAPIKeyPartial(value):
+            try container.encode(value)
+        case let .authAlgoliaPartial(value):
+            try container.encode(value)
+        case let .authBasicPartial(value):
+            try container.encode(value)
+        case let .authGoogleServiceAccountPartial(value):
+            try container.encode(value)
+        case let .authOAuthPartial(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -35,24 +47,6 @@ public enum AuthInputPartial: Codable, JSONEncodable, AbstractEncodable, Hashabl
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of AuthInputPartial")
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .authAPIKeyPartial(value):
-            try container.encode(value)
-        case let .authAlgoliaPartial(value):
-            try container.encode(value)
-        case let .authBasicPartial(value):
-            try container.encode(value)
-        case let .authGoogleServiceAccountPartial(value):
-            try container.encode(value)
-        case let .authOAuthPartial(value):
-            try container.encode(value)
         }
     }
 

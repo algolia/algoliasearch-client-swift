@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetTopCountriesResponse
-
 public struct GetTopCountriesResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Countries
+    public var countries: [TopCountry]
 
     public init(countries: [TopCountry]) {
         self.countries = countries
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case countries
     }
-
-    /// Countries
-    public var countries: [TopCountry]
 
     // Encodable protocol methods
 

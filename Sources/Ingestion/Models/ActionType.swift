@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ActionType
-
 /// The action to perform on the Algolia index.
 public enum ActionType: String, Codable, CaseIterable {
     case replace

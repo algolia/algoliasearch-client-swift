@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DestinationIndexPrefix
-
 public struct DestinationIndexPrefix: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// The prefix of the final index name.
+    public var indexPrefix: String
 
     public init(indexPrefix: String) {
         self.indexPrefix = indexPrefix
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case indexPrefix
     }
-
-    /// The prefix of the final index name.
-    public var indexPrefix: String
 
     // Encodable protocol methods
 

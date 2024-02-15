@@ -7,11 +7,13 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DestinationUpdate
-
 /// Payload to partially update a Destination.
 public struct DestinationUpdate: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var type: DestinationType?
+    /// An human readable name describing the object.
+    public var name: String?
+    public var input: DestinationInput?
+    public var authenticationID: String?
 
     public init(
         type: DestinationType? = nil,
@@ -25,20 +27,12 @@ public struct DestinationUpdate: Codable, JSONEncodable, Hashable {
         self.authenticationID = authenticationID
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case type
         case name
         case input
         case authenticationID
     }
-
-    public var type: DestinationType?
-    /// An human readable name describing the object.
-    public var name: String?
-    public var input: DestinationInput?
-    public var authenticationID: String?
 
     // Encodable protocol methods
 

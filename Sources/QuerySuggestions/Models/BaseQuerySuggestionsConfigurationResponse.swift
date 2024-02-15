@@ -7,10 +7,15 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BaseQuerySuggestionsConfigurationResponse
-
 public struct BaseQuerySuggestionsConfigurationResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Your Algolia application ID.
+    public var appId: String?
+    /// API key used to read from your source index.
+    public var sourceIndicesAPIKey: String?
+    /// API key used to write and configure your Query Suggestions index.
+    public var suggestionsIndicesAPIKey: String?
+    /// API key used to read from external Algolia indices.
+    public var externalIndicesAPIKey: String?
 
     public init(
         appId: String? = nil,
@@ -24,23 +29,12 @@ public struct BaseQuerySuggestionsConfigurationResponse: Codable, JSONEncodable,
         self.externalIndicesAPIKey = externalIndicesAPIKey
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case appId
         case sourceIndicesAPIKey
         case suggestionsIndicesAPIKey
         case externalIndicesAPIKey
     }
-
-    /// Your Algolia application ID.
-    public var appId: String?
-    /// API key used to read from your source index.
-    public var sourceIndicesAPIKey: String?
-    /// API key used to write and configure your Query Suggestions index.
-    public var suggestionsIndicesAPIKey: String?
-    /// API key used to read from external Algolia indices.
-    public var externalIndicesAPIKey: String?
 
     // Encodable protocol methods
 

@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - PurchaseEvent
-
 public enum PurchaseEvent: String, Codable, CaseIterable {
     case purchase
 }

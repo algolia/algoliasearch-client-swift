@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Acl
-
 /// API key permissions:  &#x60;addObject&#x60;: required to add or update records, copy or move an index.
 /// &#x60;analytics&#x60;: required to access the Analytics API. &#x60;browse&#x60;: required to view records
 /// &#x60;deleteIndex&#x60;: required to delete indices. &#x60;deleteObject&#x60;: required to delete records.

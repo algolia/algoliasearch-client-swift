@@ -7,13 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AddABTestsVariant
-
 public enum AddABTestsVariant: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case abTestsVariant(AbTestsVariant)
     case abTestsVariantSearchParams(AbTestsVariantSearchParams)
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .abTestsVariant(value):
+            try container.encode(value)
+        case let .abTestsVariantSearchParams(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -29,18 +35,6 @@ public enum AddABTestsVariant: Codable, JSONEncodable, AbstractEncodable, Hashab
                     debugDescription: "Unable to decode instance of AddABTestsVariant"
                 )
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .abTestsVariant(value):
-            try container.encode(value)
-        case let .abTestsVariantSearchParams(value):
-            try container.encode(value)
         }
     }
 

@@ -9,10 +9,13 @@ import Foundation
 
 typealias Client = RecommendClient
 
-// MARK: - RecommendClient
-
 open class RecommendClient {
-    // MARK: Lifecycle
+    private var configuration: Configuration
+    private var transporter: Transporter
+
+    var appID: String {
+        self.configuration.appID
+    }
 
     public init(configuration: Configuration, transporter: Transporter) {
         self.configuration = configuration
@@ -26,8 +29,6 @@ open class RecommendClient {
     public convenience init(appID: String, apiKey: String) throws {
         try self.init(configuration: Configuration(appID: appID, apiKey: apiKey))
     }
-
-    // MARK: Open
 
     /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
@@ -703,15 +704,4 @@ open class RecommendClient {
             useReadTransporter: true
         )
     }
-
-    // MARK: Internal
-
-    var appID: String {
-        self.configuration.appID
-    }
-
-    // MARK: Private
-
-    private var configuration: Configuration
-    private var transporter: Transporter
 }

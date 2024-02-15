@@ -7,28 +7,22 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BuiltInOperation
-
 /// To update an attribute without pushing the entire record, you can use these built-in operations.
 public struct BuiltInOperation: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var operation: BuiltInOperationType
+    /// Value that corresponds to the operation, for example an `Increment` or `Decrement` step, `Add` or `Remove`
+    /// value.
+    public var value: String
 
     public init(operation: BuiltInOperationType, value: String) {
         self.operation = operation
         self.value = value
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case operation = "_operation"
         case value
     }
-
-    public var operation: BuiltInOperationType
-    /// Value that corresponds to the operation, for example an `Increment` or `Decrement` step, `Add` or `Remove`
-    /// value.
-    public var value: String
 
     // Encodable protocol methods
 

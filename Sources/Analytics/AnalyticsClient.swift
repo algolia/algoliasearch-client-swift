@@ -9,10 +9,13 @@ import Foundation
 
 typealias Client = AnalyticsClient
 
-// MARK: - AnalyticsClient
-
 open class AnalyticsClient {
-    // MARK: Lifecycle
+    private var configuration: Configuration
+    private var transporter: Transporter
+
+    var appID: String {
+        self.configuration.appID
+    }
 
     public init(configuration: Configuration, transporter: Transporter) {
         self.configuration = configuration
@@ -26,8 +29,6 @@ open class AnalyticsClient {
     public convenience init(appID: String, apiKey: String, region: Region?) throws {
         try self.init(configuration: Configuration(appID: appID, apiKey: apiKey, region: region))
     }
-
-    // MARK: Open
 
     /// - parameter path: (path) Path of the endpoint, anything after \&quot;/1\&quot; must be specified.
     /// - parameter parameters: (query) Query parameters to apply to the current query. (optional)
@@ -1904,15 +1905,4 @@ open class AnalyticsClient {
             requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
         )
     }
-
-    // MARK: Internal
-
-    var appID: String {
-        self.configuration.appID
-    }
-
-    // MARK: Private
-
-    private var configuration: Configuration
-    private var transporter: Transporter
 }

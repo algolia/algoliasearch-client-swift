@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - UserWithDate
-
 public struct UserWithDate: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Date of the event in the format YYYY-MM-DD.
+    public var date: String
+    /// Number of occurrences.
+    public var count: Int
 
     public init(date: String, count: Int) {
         self.date = date
         self.count = count
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case date
         case count
     }
-
-    /// Date of the event in the format YYYY-MM-DD.
-    public var date: String
-    /// Number of occurrences.
-    public var count: Int
 
     // Encodable protocol methods
 

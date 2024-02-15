@@ -7,68 +7,7 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BaseIndexSettings
-
 public struct BaseIndexSettings: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(
-        replicas: [String]? = nil,
-        paginationLimitedTo: Int? = nil,
-        unretrievableAttributes: [String]? = nil,
-        disableTypoToleranceOnWords: [String]? = nil,
-        attributesToTransliterate: [String]? = nil,
-        camelCaseAttributes: [String]? = nil,
-        decompoundedAttributes: AnyCodable? = nil,
-        indexLanguages: [String]? = nil,
-        disablePrefixOnAttributes: [String]? = nil,
-        allowCompressionOfIntegerArray: Bool? = nil,
-        numericAttributesForFiltering: [String]? = nil,
-        separatorsToIndex: String? = nil,
-        searchableAttributes: [String]? = nil,
-        userData: AnyCodable? = nil,
-        customNormalization: [String: [String: String]]? = nil,
-        attributeForDistinct: String? = nil
-    ) {
-        self.replicas = replicas
-        self.paginationLimitedTo = paginationLimitedTo
-        self.unretrievableAttributes = unretrievableAttributes
-        self.disableTypoToleranceOnWords = disableTypoToleranceOnWords
-        self.attributesToTransliterate = attributesToTransliterate
-        self.camelCaseAttributes = camelCaseAttributes
-        self.decompoundedAttributes = decompoundedAttributes
-        self.indexLanguages = indexLanguages
-        self.disablePrefixOnAttributes = disablePrefixOnAttributes
-        self.allowCompressionOfIntegerArray = allowCompressionOfIntegerArray
-        self.numericAttributesForFiltering = numericAttributesForFiltering
-        self.separatorsToIndex = separatorsToIndex
-        self.searchableAttributes = searchableAttributes
-        self.userData = userData
-        self.customNormalization = customNormalization
-        self.attributeForDistinct = attributeForDistinct
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case replicas
-        case paginationLimitedTo
-        case unretrievableAttributes
-        case disableTypoToleranceOnWords
-        case attributesToTransliterate
-        case camelCaseAttributes
-        case decompoundedAttributes
-        case indexLanguages
-        case disablePrefixOnAttributes
-        case allowCompressionOfIntegerArray
-        case numericAttributesForFiltering
-        case separatorsToIndex
-        case searchableAttributes
-        case userData
-        case customNormalization
-        case attributeForDistinct
-    }
-
     /// Creates
     /// [replicas](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/), which
     /// are copies of a primary index with the same records but different settings.
@@ -111,6 +50,61 @@ public struct BaseIndexSettings: Codable, JSONEncodable, Hashable {
     public var customNormalization: [String: [String: String]]?
     /// Name of the deduplication attribute to be used with Algolia's [_distinct_ feature](https://www.algolia.com/doc/guides/managing-results/refine-results/grouping/#introducing-algolias-distinct-feature).
     public var attributeForDistinct: String?
+
+    public init(
+        replicas: [String]? = nil,
+        paginationLimitedTo: Int? = nil,
+        unretrievableAttributes: [String]? = nil,
+        disableTypoToleranceOnWords: [String]? = nil,
+        attributesToTransliterate: [String]? = nil,
+        camelCaseAttributes: [String]? = nil,
+        decompoundedAttributes: AnyCodable? = nil,
+        indexLanguages: [String]? = nil,
+        disablePrefixOnAttributes: [String]? = nil,
+        allowCompressionOfIntegerArray: Bool? = nil,
+        numericAttributesForFiltering: [String]? = nil,
+        separatorsToIndex: String? = nil,
+        searchableAttributes: [String]? = nil,
+        userData: AnyCodable? = nil,
+        customNormalization: [String: [String: String]]? = nil,
+        attributeForDistinct: String? = nil
+    ) {
+        self.replicas = replicas
+        self.paginationLimitedTo = paginationLimitedTo
+        self.unretrievableAttributes = unretrievableAttributes
+        self.disableTypoToleranceOnWords = disableTypoToleranceOnWords
+        self.attributesToTransliterate = attributesToTransliterate
+        self.camelCaseAttributes = camelCaseAttributes
+        self.decompoundedAttributes = decompoundedAttributes
+        self.indexLanguages = indexLanguages
+        self.disablePrefixOnAttributes = disablePrefixOnAttributes
+        self.allowCompressionOfIntegerArray = allowCompressionOfIntegerArray
+        self.numericAttributesForFiltering = numericAttributesForFiltering
+        self.separatorsToIndex = separatorsToIndex
+        self.searchableAttributes = searchableAttributes
+        self.userData = userData
+        self.customNormalization = customNormalization
+        self.attributeForDistinct = attributeForDistinct
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case replicas
+        case paginationLimitedTo
+        case unretrievableAttributes
+        case disableTypoToleranceOnWords
+        case attributesToTransliterate
+        case camelCaseAttributes
+        case decompoundedAttributes
+        case indexLanguages
+        case disablePrefixOnAttributes
+        case allowCompressionOfIntegerArray
+        case numericAttributesForFiltering
+        case separatorsToIndex
+        case searchableAttributes
+        case userData
+        case customNormalization
+        case attributeForDistinct
+    }
 
     // Encodable protocol methods
 

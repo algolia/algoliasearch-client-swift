@@ -7,15 +7,38 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SearchHits
-
 public struct SearchHits: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var hits: [Hit]
+    /// Text to search for in an index.
+    public var query: String
+    /// URL-encoded string of all search parameters.
+    public var params: String
 
     public init(hits: [Hit], query: String, params: String) {
         self.hits = hits
         self.query = query
         self.params = params
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case hits
+        case query
+        case params
+    }
+
+    public var additionalProperties: [String: AnyCodable] = [:]
+
+    public subscript(key: String) -> AnyCodable? {
+        get {
+            if let value = additionalProperties[key] {
+                return value
+            }
+            return nil
+        }
+
+        set {
+            self.additionalProperties[key] = newValue
+        }
     }
 
     public init(from dictionary: [String: AnyCodable]) throws {
@@ -41,6 +64,17 @@ public struct SearchHits: Codable, JSONEncodable, Hashable {
         }
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.hits, forKey: .hits)
+        try container.encode(self.query, forKey: .query)
+        try container.encode(self.params, forKey: .params)
+        var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
+        try additionalPropertiesContainer.encodeMap(self.additionalProperties)
+    }
+
     // Decodable protocol methods
 
     public init(from decoder: Decoder) throws {
@@ -58,45 +92,5 @@ public struct SearchHits: Codable, JSONEncodable, Hashable {
             AnyCodable.self,
             excludedKeys: nonAdditionalPropertyKeys
         )
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case hits
-        case query
-        case params
-    }
-
-    public var hits: [Hit]
-    /// Text to search for in an index.
-    public var query: String
-    /// URL-encoded string of all search parameters.
-    public var params: String
-
-    public var additionalProperties: [String: AnyCodable] = [:]
-
-    public subscript(key: String) -> AnyCodable? {
-        get {
-            if let value = additionalProperties[key] {
-                return value
-            }
-            return nil
-        }
-
-        set {
-            self.additionalProperties[key] = newValue
-        }
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.hits, forKey: .hits)
-        try container.encode(self.query, forKey: .query)
-        try container.encode(self.params, forKey: .params)
-        var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
-        try additionalPropertiesContainer.encodeMap(self.additionalProperties)
     }
 }

@@ -7,22 +7,16 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - IndexingTimeResponseMetrics
-
 public struct IndexingTimeResponseMetrics: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var indexing: [String: [TimeInner]]?
 
     public init(indexing: [String: [TimeInner]]? = nil) {
         self.indexing = indexing
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case indexing
     }
-
-    public var indexing: [String: [TimeInner]]?
 
     // Encodable protocol methods
 

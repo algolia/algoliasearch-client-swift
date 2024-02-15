@@ -7,10 +7,14 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SourceUpdateDocker
-
 public struct SourceUpdateDocker: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var registry: DockerRegistry?
+    /// The name of the image to pull.
+    public var image: String?
+    /// The version of the image, defaults to `latest`.
+    public var version: String?
+    /// The configuration of the spec.
+    public var configuration: AnyCodable
 
     public init(
         registry: DockerRegistry? = nil,
@@ -24,22 +28,12 @@ public struct SourceUpdateDocker: Codable, JSONEncodable, Hashable {
         self.configuration = configuration
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case registry
         case image
         case version
         case configuration
     }
-
-    public var registry: DockerRegistry?
-    /// The name of the image to pull.
-    public var image: String?
-    /// The version of the image, defaults to `latest`.
-    public var version: String?
-    /// The configuration of the spec.
-    public var configuration: AnyCodable
 
     // Encodable protocol methods
 

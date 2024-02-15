@@ -7,25 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetTopUserIdsResponse
-
 /// User IDs and clusters.
 public struct GetTopUserIdsResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Key-value pairs with cluster names as keys and lists of users with the highest number of records per cluster as
+    /// values.
+    public var topUsers: [[String: [UserId]]]
 
     public init(topUsers: [[String: [UserId]]]) {
         self.topUsers = topUsers
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case topUsers
     }
-
-    /// Key-value pairs with cluster names as keys and lists of users with the highest number of records per cluster as
-    /// values.
-    public var topUsers: [[String: [UserId]]]
 
     // Encodable protocol methods
 

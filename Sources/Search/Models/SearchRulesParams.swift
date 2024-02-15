@@ -7,11 +7,35 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SearchRulesParams
-
 /// Rules search parameters.
 public struct SearchRulesParams: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    static let pageRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let hitsPerPageRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: 1000,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// Rule object query.
+    public var query: String?
+    public var anchoring: Anchoring?
+    /// Restricts responses to the specified [contextual rule](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#creating-contextual-rules).
+    public var context: String?
+    /// Requested page (the first page is page 0).
+    public var page: Int?
+    /// Maximum number of hits per page.
+    public var hitsPerPage: Int?
+    /// Restricts responses to enabled rules. When not specified (default), _all_ rules are retrieved.
+    public var enabled: Bool?
+    /// Request options to send with the API call.
+    public var requestOptions: [AnyCodable]?
 
     public init(
         query: String? = nil,
@@ -31,8 +55,6 @@ public struct SearchRulesParams: Codable, JSONEncodable, Hashable {
         self.requestOptions = requestOptions
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case query
         case anchoring
@@ -42,20 +64,6 @@ public struct SearchRulesParams: Codable, JSONEncodable, Hashable {
         case enabled
         case requestOptions
     }
-
-    /// Rule object query.
-    public var query: String?
-    public var anchoring: Anchoring?
-    /// Restricts responses to the specified [contextual rule](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#creating-contextual-rules).
-    public var context: String?
-    /// Requested page (the first page is page 0).
-    public var page: Int?
-    /// Maximum number of hits per page.
-    public var hitsPerPage: Int?
-    /// Restricts responses to enabled rules. When not specified (default), _all_ rules are retrieved.
-    public var enabled: Bool?
-    /// Request options to send with the API call.
-    public var requestOptions: [AnyCodable]?
 
     // Encodable protocol methods
 
@@ -69,21 +77,4 @@ public struct SearchRulesParams: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.enabled, forKey: .enabled)
         try container.encodeIfPresent(self.requestOptions, forKey: .requestOptions)
     }
-
-    // MARK: Internal
-
-    static let pageRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let hitsPerPageRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

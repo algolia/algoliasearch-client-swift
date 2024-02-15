@@ -7,11 +7,15 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - HighlightResultOption
-
 /// Show highlighted section and words matched on a query.
 public struct HighlightResultOption: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Markup text with `facetQuery` matches highlighted.
+    public var value: String
+    public var matchLevel: MatchLevel
+    /// List of words from the query that matched the object.
+    public var matchedWords: [String]
+    /// Whether the entire attribute value is highlighted.
+    public var fullyHighlighted: Bool?
 
     public init(value: String, matchLevel: MatchLevel, matchedWords: [String], fullyHighlighted: Bool? = nil) {
         self.value = value
@@ -20,22 +24,12 @@ public struct HighlightResultOption: Codable, JSONEncodable, Hashable {
         self.fullyHighlighted = fullyHighlighted
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case value
         case matchLevel
         case matchedWords
         case fullyHighlighted
     }
-
-    /// Markup text with `facetQuery` matches highlighted.
-    public var value: String
-    public var matchLevel: MatchLevel
-    /// List of words from the query that matched the object.
-    public var matchedWords: [String]
-    /// Whether the entire attribute value is highlighted.
-    public var fullyHighlighted: Bool?
 
     // Encodable protocol methods
 

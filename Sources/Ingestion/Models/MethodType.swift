@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - MethodType
-
 public enum MethodType: String, Codable, CaseIterable {
     case `get` = "GET"
     case post = "POST"

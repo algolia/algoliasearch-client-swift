@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ListIndicesResponse
-
 public struct ListIndicesResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// All indices in your Algolia application.
+    public var items: [FetchedIndex]
+    /// Number of pages.
+    public var nbPages: Int?
 
     public init(items: [FetchedIndex], nbPages: Int? = nil) {
         self.items = items
         self.nbPages = nbPages
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case items
         case nbPages
     }
-
-    /// All indices in your Algolia application.
-    public var items: [FetchedIndex]
-    /// Number of pages.
-    public var nbPages: Int?
 
     // Encodable protocol methods
 

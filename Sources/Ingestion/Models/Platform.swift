@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Platform
-
 /// Describe which platform the Authentication is used for.
 public enum Platform: String, Codable, CaseIterable {
     case bigcommerce

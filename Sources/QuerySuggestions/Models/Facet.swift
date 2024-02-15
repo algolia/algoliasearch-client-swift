@@ -7,28 +7,22 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Facet
-
 /// Facet to use as category.
 public struct Facet: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Facet name.
+    public var attribute: String?
+    /// Number of suggestions.
+    public var amount: Int?
 
     public init(attribute: String? = nil, amount: Int? = nil) {
         self.attribute = attribute
         self.amount = amount
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case attribute
         case amount
     }
-
-    /// Facet name.
-    public var attribute: String?
-    /// Number of suggestions.
-    public var amount: Int?
 
     // Encodable protocol methods
 

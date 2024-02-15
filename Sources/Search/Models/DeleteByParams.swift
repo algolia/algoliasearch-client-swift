@@ -7,10 +7,23 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DeleteByParams
-
 public struct DeleteByParams: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var facetFilters: FacetFilters?
+    /// [Filter](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/) the query with numeric,
+    /// facet, or tag filters.
+    public var filters: String?
+    public var numericFilters: NumericFilters?
+    public var tagFilters: TagFilters?
+    /// Search for entries [around a central location](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#filter-around-a-central-point),
+    /// enabling a geographical search within a circular area.
+    public var aroundLatLng: String?
+    public var aroundRadius: AroundRadius?
+    /// Search inside a [rectangular area](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#filtering-inside-rectangular-or-polygonal-areas)
+    /// (in geographical coordinates).
+    public var insideBoundingBox: [[Double]]?
+    /// Search inside a [polygon](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#filtering-inside-rectangular-or-polygonal-areas)
+    /// (in geographical coordinates).
+    public var insidePolygon: [[Double]]?
 
     public init(
         facetFilters: FacetFilters? = nil,
@@ -32,8 +45,6 @@ public struct DeleteByParams: Codable, JSONEncodable, Hashable {
         self.insidePolygon = insidePolygon
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case facetFilters
         case filters
@@ -44,23 +55,6 @@ public struct DeleteByParams: Codable, JSONEncodable, Hashable {
         case insideBoundingBox
         case insidePolygon
     }
-
-    public var facetFilters: FacetFilters?
-    /// [Filter](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/) the query with numeric,
-    /// facet, or tag filters.
-    public var filters: String?
-    public var numericFilters: NumericFilters?
-    public var tagFilters: TagFilters?
-    /// Search for entries [around a central location](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#filter-around-a-central-point),
-    /// enabling a geographical search within a circular area.
-    public var aroundLatLng: String?
-    public var aroundRadius: AroundRadius?
-    /// Search inside a [rectangular area](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#filtering-inside-rectangular-or-polygonal-areas)
-    /// (in geographical coordinates).
-    public var insideBoundingBox: [[Double]]?
-    /// Search inside a [polygon](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#filtering-inside-rectangular-or-polygonal-areas)
-    /// (in geographical coordinates).
-    public var insidePolygon: [[Double]]?
 
     // Encodable protocol methods
 

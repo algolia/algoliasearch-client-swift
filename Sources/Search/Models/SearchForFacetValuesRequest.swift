@@ -7,25 +7,14 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SearchForFacetValuesRequest
-
 public struct SearchForFacetValuesRequest: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(params: String? = nil, facetQuery: String? = nil, maxFacetHits: Int? = nil) {
-        self.params = params
-        self.facetQuery = facetQuery
-        self.maxFacetHits = maxFacetHits
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case params
-        case facetQuery
-        case maxFacetHits
-    }
-
+    static let maxFacetHitsRule = NumericRule<Int>(
+        minimum: nil,
+        exclusiveMinimum: false,
+        maximum: 100,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     /// Search parameters as a URL-encoded query string.
     public var params: String?
     /// Text to search inside the facet's values.
@@ -33,6 +22,18 @@ public struct SearchForFacetValuesRequest: Codable, JSONEncodable, Hashable {
     /// Maximum number of facet hits to return when [searching for facet
     /// values](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#search-for-facet-values).
     public var maxFacetHits: Int?
+
+    public init(params: String? = nil, facetQuery: String? = nil, maxFacetHits: Int? = nil) {
+        self.params = params
+        self.facetQuery = facetQuery
+        self.maxFacetHits = maxFacetHits
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case params
+        case facetQuery
+        case maxFacetHits
+    }
 
     // Encodable protocol methods
 
@@ -42,14 +43,4 @@ public struct SearchForFacetValuesRequest: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.facetQuery, forKey: .facetQuery)
         try container.encodeIfPresent(self.maxFacetHits, forKey: .maxFacetHits)
     }
-
-    // MARK: Internal
-
-    static let maxFacetHitsRule = NumericRule<Int>(
-        minimum: nil,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AdvancedSyntaxFeatures
-
 public enum AdvancedSyntaxFeatures: String, Codable, CaseIterable {
     case exactPhrase
     case excludeWords

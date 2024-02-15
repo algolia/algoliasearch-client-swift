@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - EventsItems
-
 public enum EventsItems: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case addedToCartObjectIDs(AddedToCartObjectIDs)
     case addedToCartObjectIDsAfterSearch(AddedToCartObjectIDsAfterSearch)
@@ -23,7 +21,35 @@ public enum EventsItems: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case viewedFilters(ViewedFilters)
     case viewedObjectIDs(ViewedObjectIDs)
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .addedToCartObjectIDs(value):
+            try container.encode(value)
+        case let .addedToCartObjectIDsAfterSearch(value):
+            try container.encode(value)
+        case let .clickedFilters(value):
+            try container.encode(value)
+        case let .clickedObjectIDs(value):
+            try container.encode(value)
+        case let .clickedObjectIDsAfterSearch(value):
+            try container.encode(value)
+        case let .convertedFilters(value):
+            try container.encode(value)
+        case let .convertedObjectIDs(value):
+            try container.encode(value)
+        case let .convertedObjectIDsAfterSearch(value):
+            try container.encode(value)
+        case let .purchasedObjectIDs(value):
+            try container.encode(value)
+        case let .purchasedObjectIDsAfterSearch(value):
+            try container.encode(value)
+        case let .viewedFilters(value):
+            try container.encode(value)
+        case let .viewedObjectIDs(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -56,38 +82,6 @@ public enum EventsItems: Codable, JSONEncodable, AbstractEncodable, Hashable {
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of EventsItems")
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .addedToCartObjectIDs(value):
-            try container.encode(value)
-        case let .addedToCartObjectIDsAfterSearch(value):
-            try container.encode(value)
-        case let .clickedFilters(value):
-            try container.encode(value)
-        case let .clickedObjectIDs(value):
-            try container.encode(value)
-        case let .clickedObjectIDsAfterSearch(value):
-            try container.encode(value)
-        case let .convertedFilters(value):
-            try container.encode(value)
-        case let .convertedObjectIDs(value):
-            try container.encode(value)
-        case let .convertedObjectIDsAfterSearch(value):
-            try container.encode(value)
-        case let .purchasedObjectIDs(value):
-            try container.encode(value)
-        case let .purchasedObjectIDsAfterSearch(value):
-            try container.encode(value)
-        case let .viewedFilters(value):
-            try container.encode(value)
-        case let .viewedObjectIDs(value):
-            try container.encode(value)
         }
     }
 

@@ -7,22 +7,16 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetInventory403Response
-
 public struct GetInventory403Response: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var reason: String?
 
     public init(reason: String? = nil) {
         self.reason = reason
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case reason
     }
-
-    public var reason: String?
 
     // Encodable protocol methods
 

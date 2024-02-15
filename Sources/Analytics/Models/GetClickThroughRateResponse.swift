@@ -7,27 +7,14 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetClickThroughRateResponse
-
 public struct GetClickThroughRateResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(rate: Double, clickCount: Int, trackedSearchCount: Int?, dates: [ClickThroughRateEvent]) {
-        self.rate = rate
-        self.clickCount = clickCount
-        self.trackedSearchCount = trackedSearchCount
-        self.dates = dates
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case rate
-        case clickCount
-        case trackedSearchCount
-        case dates
-    }
-
+    static let rateRule = NumericRule<Double>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: 1,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     /// [Click-through rate
     /// (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
     public var rate: Double
@@ -39,6 +26,20 @@ public struct GetClickThroughRateResponse: Codable, JSONEncodable, Hashable {
     /// Click-through rate events.
     public var dates: [ClickThroughRateEvent]
 
+    public init(rate: Double, clickCount: Int, trackedSearchCount: Int?, dates: [ClickThroughRateEvent]) {
+        self.rate = rate
+        self.clickCount = clickCount
+        self.trackedSearchCount = trackedSearchCount
+        self.dates = dates
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case rate
+        case clickCount
+        case trackedSearchCount
+        case dates
+    }
+
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
@@ -48,14 +49,4 @@ public struct GetClickThroughRateResponse: Codable, JSONEncodable, Hashable {
         try container.encode(self.trackedSearchCount, forKey: .trackedSearchCount)
         try container.encode(self.dates, forKey: .dates)
     }
-
-    // MARK: Internal
-
-    static let rateRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 1,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

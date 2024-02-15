@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SourceSortKeys
-
 /// Used to sort the Source list endpoint.
 public enum SourceSortKeys: String, Codable, CaseIterable {
     case name

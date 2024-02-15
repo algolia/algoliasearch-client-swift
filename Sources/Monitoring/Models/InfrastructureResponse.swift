@@ -7,22 +7,16 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - InfrastructureResponse
-
 public struct InfrastructureResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var metrics: InfrastructureResponseMetrics?
 
     public init(metrics: InfrastructureResponseMetrics? = nil) {
         self.metrics = metrics
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case metrics
     }
-
-    public var metrics: InfrastructureResponseMetrics?
 
     // Encodable protocol methods
 

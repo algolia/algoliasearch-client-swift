@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DockerImageType
-
 /// The type of the image.
 public enum DockerImageType: String, Codable, CaseIterable {
     case singer

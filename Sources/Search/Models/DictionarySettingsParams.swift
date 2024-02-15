@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DictionarySettingsParams
-
 /// Enable or turn off the built-in Algolia stop words for a specific language.
 public struct DictionarySettingsParams: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var disableStandardEntries: StandardEntries
 
     public init(disableStandardEntries: StandardEntries) {
         self.disableStandardEntries = disableStandardEntries
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case disableStandardEntries
     }
-
-    public var disableStandardEntries: StandardEntries
 
     // Encodable protocol methods
 

@@ -7,15 +7,25 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RecommendationsRequest
-
 public enum RecommendationsRequest: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case recommendationsQuery(RecommendationsQuery)
     case recommendedForYouQuery(RecommendedForYouQuery)
     case trendingFacetsQuery(TrendingFacetsQuery)
     case trendingItemsQuery(TrendingItemsQuery)
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .recommendationsQuery(value):
+            try container.encode(value)
+        case let .recommendedForYouQuery(value):
+            try container.encode(value)
+        case let .trendingFacetsQuery(value):
+            try container.encode(value)
+        case let .trendingItemsQuery(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -35,22 +45,6 @@ public enum RecommendationsRequest: Codable, JSONEncodable, AbstractEncodable, H
                     debugDescription: "Unable to decode instance of RecommendationsRequest"
                 )
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .recommendationsQuery(value):
-            try container.encode(value)
-        case let .recommendedForYouQuery(value):
-            try container.encode(value)
-        case let .trendingFacetsQuery(value):
-            try container.encode(value)
-        case let .trendingItemsQuery(value):
-            try container.encode(value)
         }
     }
 

@@ -7,11 +7,12 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Params
-
 /// Additional search parameters.
 public struct Params: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var query: ConsequenceQuery?
+    public var automaticFacetFilters: AutomaticFacetFilters?
+    public var automaticOptionalFacetFilters: AutomaticFacetFilters?
+    public var renderingContent: RenderingContent?
 
     public init(
         query: ConsequenceQuery? = nil,
@@ -25,19 +26,12 @@ public struct Params: Codable, JSONEncodable, Hashable {
         self.renderingContent = renderingContent
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case query
         case automaticFacetFilters
         case automaticOptionalFacetFilters
         case renderingContent
     }
-
-    public var query: ConsequenceQuery?
-    public var automaticFacetFilters: AutomaticFacetFilters?
-    public var automaticOptionalFacetFilters: AutomaticFacetFilters?
-    public var renderingContent: RenderingContent?
 
     // Encodable protocol methods
 

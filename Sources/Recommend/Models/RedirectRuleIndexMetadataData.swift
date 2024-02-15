@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RedirectRuleIndexMetadataData
-
 /// Redirect rule data.
 public struct RedirectRuleIndexMetadataData: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var ruleObjectID: String
 
     public init(ruleObjectID: String) {
         self.ruleObjectID = ruleObjectID
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case ruleObjectID
     }
-
-    public var ruleObjectID: String
 
     // Encodable protocol methods
 

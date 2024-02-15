@@ -7,14 +7,22 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - HighlightResult
-
 public enum HighlightResult: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case highlightResultOption(HighlightResultOption)
     case arrayOfHighlightResultOption([HighlightResultOption])
     case dictionaryOfStringToHighlightResultOption([String: HighlightResultOption])
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .highlightResultOption(value):
+            try container.encode(value)
+        case let .arrayOfHighlightResultOption(value):
+            try container.encode(value)
+        case let .dictionaryOfStringToHighlightResultOption(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -29,20 +37,6 @@ public enum HighlightResult: Codable, JSONEncodable, AbstractEncodable, Hashable
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of HighlightResult")
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .highlightResultOption(value):
-            try container.encode(value)
-        case let .arrayOfHighlightResultOption(value):
-            try container.encode(value)
-        case let .dictionaryOfStringToHighlightResultOption(value):
-            try container.encode(value)
         }
     }
 

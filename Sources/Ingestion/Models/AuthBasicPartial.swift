@@ -7,26 +7,20 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AuthBasicPartial
-
 /// Authentication input for Basic login with username and password.
 public struct AuthBasicPartial: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var username: String?
+    public var password: String?
 
     public init(username: String? = nil, password: String? = nil) {
         self.username = username
         self.password = password
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case username
         case password
     }
-
-    public var username: String?
-    public var password: String?
 
     // Encodable protocol methods
 

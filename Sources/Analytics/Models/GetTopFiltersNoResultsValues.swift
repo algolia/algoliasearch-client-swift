@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetTopFiltersNoResultsValues
-
 public struct GetTopFiltersNoResultsValues: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Number of occurrences.
+    public var count: Int
+    /// Filters with no results.
+    public var values: [GetTopFiltersNoResultsValue]
 
     public init(count: Int, values: [GetTopFiltersNoResultsValue]) {
         self.count = count
         self.values = values
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case count
         case values
     }
-
-    /// Number of occurrences.
-    public var count: Int
-    /// Filters with no results.
-    public var values: [GetTopFiltersNoResultsValue]
 
     // Encodable protocol methods
 

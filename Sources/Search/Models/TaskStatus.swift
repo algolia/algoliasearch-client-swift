@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TaskStatus
-
 /// _published_ if the task has been processed, _notPublished_ otherwise.
 public enum TaskStatus: String, Codable, CaseIterable {
     case published

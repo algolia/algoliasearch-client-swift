@@ -7,25 +7,7 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SaveObjectResponse
-
 public struct SaveObjectResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(createdAt: String, taskID: Int64, objectID: String? = nil) {
-        self.createdAt = createdAt
-        self.taskID = taskID
-        self.objectID = objectID
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case createdAt
-        case taskID
-        case objectID
-    }
-
     /// Date of creation (ISO-8601 format).
     public var createdAt: String
     /// Unique identifier of a task. A successful API response means that a task was added to a queue. It might not run
@@ -33,6 +15,18 @@ public struct SaveObjectResponse: Codable, JSONEncodable, Hashable {
     public var taskID: Int64
     /// Unique object identifier.
     public var objectID: String?
+
+    public init(createdAt: String, taskID: Int64, objectID: String? = nil) {
+        self.createdAt = createdAt
+        self.taskID = taskID
+        self.objectID = objectID
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case createdAt
+        case taskID
+        case objectID
+    }
 
     // Encodable protocol methods
 

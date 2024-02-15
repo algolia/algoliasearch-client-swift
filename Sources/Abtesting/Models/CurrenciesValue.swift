@@ -7,10 +7,15 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - CurrenciesValue
-
 public struct CurrenciesValue: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Currency code.
+    public var currency: String?
+    /// Revenue for this currency.
+    public var revenue: Double?
+    /// Mean for this currency.
+    public var mean: Double?
+    /// Standard deviation for this currency.
+    public var standardDeviation: Double?
 
     public init(
         currency: String? = nil,
@@ -24,23 +29,12 @@ public struct CurrenciesValue: Codable, JSONEncodable, Hashable {
         self.standardDeviation = standardDeviation
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case currency
         case revenue
         case mean
         case standardDeviation
     }
-
-    /// Currency code.
-    public var currency: String?
-    /// Revenue for this currency.
-    public var revenue: Double?
-    /// Mean for this currency.
-    public var mean: Double?
-    /// Standard deviation for this currency.
-    public var standardDeviation: Double?
 
     // Encodable protocol methods
 

@@ -9,10 +9,13 @@ import Foundation
 
 typealias Client = QuerySuggestionsClient
 
-// MARK: - QuerySuggestionsClient
-
 open class QuerySuggestionsClient {
-    // MARK: Lifecycle
+    private var configuration: Configuration
+    private var transporter: Transporter
+
+    var appID: String {
+        self.configuration.appID
+    }
 
     public init(configuration: Configuration, transporter: Transporter) {
         self.configuration = configuration
@@ -26,8 +29,6 @@ open class QuerySuggestionsClient {
     public convenience init(appID: String, apiKey: String, region: Region) throws {
         try self.init(configuration: Configuration(appID: appID, apiKey: apiKey, region: region))
     }
-
-    // MARK: Open
 
     /// - parameter querySuggestionsConfigurationWithIndex: (body)
     /// - returns: BaseResponse
@@ -671,15 +672,4 @@ open class QuerySuggestionsClient {
             requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
         )
     }
-
-    // MARK: Internal
-
-    var appID: String {
-        self.configuration.appID
-    }
-
-    // MARK: Private
-
-    private var configuration: Configuration
-    private var transporter: Transporter
 }

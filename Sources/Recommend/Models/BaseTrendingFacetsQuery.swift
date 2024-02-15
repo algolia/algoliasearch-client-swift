@@ -7,26 +7,20 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BaseTrendingFacetsQuery
-
 public struct BaseTrendingFacetsQuery: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Facet name for trending models.
+    public var facetName: String
+    public var model: TrendingFacetsModel?
 
     public init(facetName: String, model: TrendingFacetsModel? = nil) {
         self.facetName = facetName
         self.model = model
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case facetName
         case model
     }
-
-    /// Facet name for trending models.
-    public var facetName: String
-    public var model: TrendingFacetsModel?
 
     // Encodable protocol methods
 

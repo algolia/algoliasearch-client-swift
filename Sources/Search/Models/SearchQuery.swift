@@ -7,13 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SearchQuery
-
 public enum SearchQuery: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case searchForFacets(SearchForFacets)
     case searchForHits(SearchForHits)
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .searchForFacets(value):
+            try container.encode(value)
+        case let .searchForHits(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -26,18 +32,6 @@ public enum SearchQuery: Codable, JSONEncodable, AbstractEncodable, Hashable {
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of SearchQuery")
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .searchForFacets(value):
-            try container.encode(value)
-        case let .searchForHits(value):
-            try container.encode(value)
         }
     }
 

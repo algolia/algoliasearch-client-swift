@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SnippetResultOption
-
 /// Snippeted attributes show parts of the matched attributes. Only returned when attributesToSnippet is non-empty.
 public struct SnippetResultOption: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Markup text with `facetQuery` matches highlighted.
+    public var value: String
+    public var matchLevel: MatchLevel
 
     public init(value: String, matchLevel: MatchLevel) {
         self.value = value
         self.matchLevel = matchLevel
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case value
         case matchLevel
     }
-
-    /// Markup text with `facetQuery` matches highlighted.
-    public var value: String
-    public var matchLevel: MatchLevel
 
     // Encodable protocol methods
 

@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DockerSourceDiscover
-
 public struct DockerSourceDiscover: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// The run UUID.
+    public var runID: String
+    /// Date of creation (RFC3339 format).
+    public var createdAt: String
 
     public init(runID: String, createdAt: String) {
         self.runID = runID
         self.createdAt = createdAt
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case runID
         case createdAt
     }
-
-    /// The run UUID.
-    public var runID: String
-    /// Date of creation (RFC3339 format).
-    public var createdAt: String
 
     // Encodable protocol methods
 

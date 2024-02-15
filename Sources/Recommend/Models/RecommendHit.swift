@@ -7,11 +7,25 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RecommendHit
-
 /// Recommend hit.
 public struct RecommendHit: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    static let scoreRule = NumericRule<Double>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: 100,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// Unique object identifier.
+    public var objectID: String
+    /// Show highlighted section and words matched on a query.
+    public var highlightResult: [String: HighlightResult]?
+    /// Snippeted attributes show parts of the matched attributes. Only returned when attributesToSnippet is non-empty.
+    public var snippetResult: [String: SnippetResult]?
+    public var rankingInfo: RankingInfo?
+    public var distinctSeqID: Int?
+    /// Recommendation score.
+    public var score: Double
 
     public init(
         objectID: String,
@@ -27,6 +41,30 @@ public struct RecommendHit: Codable, JSONEncodable, Hashable {
         self.rankingInfo = rankingInfo
         self.distinctSeqID = distinctSeqID
         self.score = score
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case objectID
+        case highlightResult = "_highlightResult"
+        case snippetResult = "_snippetResult"
+        case rankingInfo = "_rankingInfo"
+        case distinctSeqID = "_distinctSeqID"
+        case score = "_score"
+    }
+
+    public var additionalProperties: [String: AnyCodable] = [:]
+
+    public subscript(key: String) -> AnyCodable? {
+        get {
+            if let value = additionalProperties[key] {
+                return value
+            }
+            return nil
+        }
+
+        set {
+            self.additionalProperties[key] = newValue
+        }
     }
 
     public init(from dictionary: [String: AnyCodable]) throws {
@@ -56,6 +94,20 @@ public struct RecommendHit: Codable, JSONEncodable, Hashable {
         }
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.objectID, forKey: .objectID)
+        try container.encodeIfPresent(self.highlightResult, forKey: .highlightResult)
+        try container.encodeIfPresent(self.snippetResult, forKey: .snippetResult)
+        try container.encodeIfPresent(self.rankingInfo, forKey: .rankingInfo)
+        try container.encodeIfPresent(self.distinctSeqID, forKey: .distinctSeqID)
+        try container.encode(self.score, forKey: .score)
+        var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
+        try additionalPropertiesContainer.encodeMap(self.additionalProperties)
+    }
+
     // Decodable protocol methods
 
     public init(from decoder: Decoder) throws {
@@ -80,65 +132,4 @@ public struct RecommendHit: Codable, JSONEncodable, Hashable {
             excludedKeys: nonAdditionalPropertyKeys
         )
     }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case objectID
-        case highlightResult = "_highlightResult"
-        case snippetResult = "_snippetResult"
-        case rankingInfo = "_rankingInfo"
-        case distinctSeqID = "_distinctSeqID"
-        case score = "_score"
-    }
-
-    /// Unique object identifier.
-    public var objectID: String
-    /// Show highlighted section and words matched on a query.
-    public var highlightResult: [String: HighlightResult]?
-    /// Snippeted attributes show parts of the matched attributes. Only returned when attributesToSnippet is non-empty.
-    public var snippetResult: [String: SnippetResult]?
-    public var rankingInfo: RankingInfo?
-    public var distinctSeqID: Int?
-    /// Recommendation score.
-    public var score: Double
-
-    public var additionalProperties: [String: AnyCodable] = [:]
-
-    public subscript(key: String) -> AnyCodable? {
-        get {
-            if let value = additionalProperties[key] {
-                return value
-            }
-            return nil
-        }
-
-        set {
-            self.additionalProperties[key] = newValue
-        }
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.objectID, forKey: .objectID)
-        try container.encodeIfPresent(self.highlightResult, forKey: .highlightResult)
-        try container.encodeIfPresent(self.snippetResult, forKey: .snippetResult)
-        try container.encodeIfPresent(self.rankingInfo, forKey: .rankingInfo)
-        try container.encodeIfPresent(self.distinctSeqID, forKey: .distinctSeqID)
-        try container.encode(self.score, forKey: .score)
-        var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
-        try additionalPropertiesContainer.encodeMap(self.additionalProperties)
-    }
-
-    // MARK: Internal
-
-    static let scoreRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

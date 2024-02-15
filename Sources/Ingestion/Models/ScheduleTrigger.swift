@@ -7,11 +7,15 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ScheduleTrigger
-
 /// The trigger information for a task of type &#39;schedule&#39;.
 public struct ScheduleTrigger: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var type: ScheduleTriggerType
+    /// A cron expression that represent at which regularity the task should run.
+    public var cron: String
+    /// The last time the scheduled task ran (RFC3339 format).
+    public var lastRun: String?
+    /// The next scheduled run of the task (RFC3339 format).
+    public var nextRun: String
 
     public init(type: ScheduleTriggerType, cron: String, lastRun: String? = nil, nextRun: String) {
         self.type = type
@@ -20,22 +24,12 @@ public struct ScheduleTrigger: Codable, JSONEncodable, Hashable {
         self.nextRun = nextRun
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case type
         case cron
         case lastRun
         case nextRun
     }
-
-    public var type: ScheduleTriggerType
-    /// A cron expression that represent at which regularity the task should run.
-    public var cron: String
-    /// The last time the scheduled task ran (RFC3339 format).
-    public var lastRun: String?
-    /// The next scheduled run of the task (RFC3339 format).
-    public var nextRun: String
 
     // Encodable protocol methods
 

@@ -7,10 +7,12 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SourceUpdateResponse
-
 public struct SourceUpdateResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// The source UUID.
+    public var sourceID: String
+    public var name: String
+    /// Date of last update (RFC3339 format).
+    public var updatedAt: String
 
     public init(sourceID: String, name: String, updatedAt: String) {
         self.sourceID = sourceID
@@ -18,19 +20,11 @@ public struct SourceUpdateResponse: Codable, JSONEncodable, Hashable {
         self.updatedAt = updatedAt
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case sourceID
         case name
         case updatedAt
     }
-
-    /// The source UUID.
-    public var sourceID: String
-    public var name: String
-    /// Date of last update (RFC3339 format).
-    public var updatedAt: String
 
     // Encodable protocol methods
 

@@ -7,14 +7,22 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SnippetResult
-
 public enum SnippetResult: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case snippetResultOption(SnippetResultOption)
     case arrayOfSnippetResultOption([SnippetResultOption])
     case dictionaryOfStringToSnippetResultOption([String: SnippetResultOption])
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .snippetResultOption(value):
+            try container.encode(value)
+        case let .arrayOfSnippetResultOption(value):
+            try container.encode(value)
+        case let .dictionaryOfStringToSnippetResultOption(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -29,20 +37,6 @@ public enum SnippetResult: Codable, JSONEncodable, AbstractEncodable, Hashable {
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of SnippetResult")
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .snippetResultOption(value):
-            try container.encode(value)
-        case let .arrayOfSnippetResultOption(value):
-            try container.encode(value)
-        case let .dictionaryOfStringToSnippetResultOption(value):
-            try container.encode(value)
         }
     }
 

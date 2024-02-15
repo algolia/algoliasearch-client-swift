@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SetPersonalizationStrategyResponse
-
 public struct SetPersonalizationStrategyResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// A message confirming the strategy update.
+    public var message: String
 
     public init(message: String) {
         self.message = message
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case message
     }
-
-    /// A message confirming the strategy update.
-    public var message: String
 
     // Encodable protocol methods
 

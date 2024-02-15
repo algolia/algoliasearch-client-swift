@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AuthInput
-
 public enum AuthInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case authAPIKey(AuthAPIKey)
     case authAlgolia(AuthAlgolia)
@@ -16,7 +14,21 @@ public enum AuthInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case authGoogleServiceAccount(AuthGoogleServiceAccount)
     case authOAuth(AuthOAuth)
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .authAPIKey(value):
+            try container.encode(value)
+        case let .authAlgolia(value):
+            try container.encode(value)
+        case let .authBasic(value):
+            try container.encode(value)
+        case let .authGoogleServiceAccount(value):
+            try container.encode(value)
+        case let .authOAuth(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -35,24 +47,6 @@ public enum AuthInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of AuthInput")
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .authAPIKey(value):
-            try container.encode(value)
-        case let .authAlgolia(value):
-            try container.encode(value)
-        case let .authBasic(value):
-            try container.encode(value)
-        case let .authGoogleServiceAccount(value):
-            try container.encode(value)
-        case let .authOAuth(value):
-            try container.encode(value)
         }
     }
 

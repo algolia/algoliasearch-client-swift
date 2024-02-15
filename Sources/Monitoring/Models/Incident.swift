@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Incident
-
 /// Incident details.
 public struct Incident: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Description of the incident.
+    public var title: String?
+    public var status: Status?
 
     public init(title: String? = nil, status: Status? = nil) {
         self.title = title
         self.status = status
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case title
         case status
     }
-
-    /// Description of the incident.
-    public var title: String?
-    public var status: Status?
 
     // Encodable protocol methods
 

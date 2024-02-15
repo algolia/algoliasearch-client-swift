@@ -7,25 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SearchMethodParams
-
 public struct SearchMethodParams: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var requests: [SearchQuery]
+    public var strategy: SearchStrategy?
 
     public init(requests: [SearchQuery], strategy: SearchStrategy? = nil) {
         self.requests = requests
         self.strategy = strategy
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case requests
         case strategy
     }
-
-    public var requests: [SearchQuery]
-    public var strategy: SearchStrategy?
 
     // Encodable protocol methods
 

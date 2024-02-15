@@ -7,15 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Languages
-
 /// Set the language for deduplicating singular and plural suggestions. If specified, only the more popular form is
 /// included.
 public enum Languages: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case bool(Bool)
     case arrayOfString([String])
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .bool(value):
+            try container.encode(value)
+        case let .arrayOfString(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -28,18 +34,6 @@ public enum Languages: Codable, JSONEncodable, AbstractEncodable, Hashable {
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of Languages")
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .bool(value):
-            try container.encode(value)
-        case let .arrayOfString(value):
-            try container.encode(value)
         }
     }
 

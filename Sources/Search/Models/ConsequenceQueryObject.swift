@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ConsequenceQueryObject
-
 public struct ConsequenceQueryObject: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Words to remove.
+    public var remove: [String]?
+    /// Edits to apply.
+    public var edits: [Edit]?
 
     public init(remove: [String]? = nil, edits: [Edit]? = nil) {
         self.remove = remove
         self.edits = edits
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case remove
         case edits
     }
-
-    /// Words to remove.
-    public var remove: [String]?
-    /// Edits to apply.
-    public var edits: [Edit]?
 
     // Encodable protocol methods
 

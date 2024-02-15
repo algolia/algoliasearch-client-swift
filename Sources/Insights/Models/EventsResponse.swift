@@ -7,28 +7,22 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - EventsResponse
-
 /// The response of the Insights API.
 public struct EventsResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Details about the response, such as error messages.
+    public var message: String?
+    /// The HTTP status code of the response.
+    public var status: Int?
 
     public init(message: String? = nil, status: Int? = nil) {
         self.message = message
         self.status = status
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case message
         case status
     }
-
-    /// Details about the response, such as error messages.
-    public var message: String?
-    /// The HTTP status code of the response.
-    public var status: Int?
 
     // Encodable protocol methods
 

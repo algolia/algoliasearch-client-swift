@@ -7,11 +7,13 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AuthenticationCreate
-
 /// The payload when creating an authentication.
 public struct AuthenticationCreate: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var type: AuthenticationType
+    /// An human readable name describing the object.
+    public var name: String
+    public var platform: Platform?
+    public var input: AuthInput
 
     public init(type: AuthenticationType, name: String, platform: Platform? = nil, input: AuthInput) {
         self.type = type
@@ -20,20 +22,12 @@ public struct AuthenticationCreate: Codable, JSONEncodable, Hashable {
         self.input = input
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case type
         case name
         case platform
         case input
     }
-
-    public var type: AuthenticationType
-    /// An human readable name describing the object.
-    public var name: String
-    public var platform: Platform?
-    public var input: AuthInput
 
     // Encodable protocol methods
 

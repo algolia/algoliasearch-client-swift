@@ -7,13 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Promote
-
 public enum Promote: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case promoteObjectID(PromoteObjectID)
     case promoteObjectIDs(PromoteObjectIDs)
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .promoteObjectID(value):
+            try container.encode(value)
+        case let .promoteObjectIDs(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -26,18 +32,6 @@ public enum Promote: Codable, JSONEncodable, AbstractEncodable, Hashable {
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of Promote")
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .promoteObjectID(value):
-            try container.encode(value)
-        case let .promoteObjectIDs(value):
-            try container.encode(value)
         }
     }
 

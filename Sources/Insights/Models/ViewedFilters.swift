@@ -7,43 +7,12 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ViewedFilters
-
 /// Use this method to capture active filters. For example, when browsing a category page, users see content filtered on
 /// that specific category.
 public struct ViewedFilters: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(
-        eventName: String,
-        eventType: ViewEvent,
-        index: String,
-        filters: [String],
-        userToken: String,
-        authenticatedUserToken: String? = nil,
-        timestamp: Int64? = nil
-    ) {
-        self.eventName = eventName
-        self.eventType = eventType
-        self.index = index
-        self.filters = filters
-        self.userToken = userToken
-        self.authenticatedUserToken = authenticatedUserToken
-        self.timestamp = timestamp
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case eventName
-        case eventType
-        case index
-        case filters
-        case userToken
-        case authenticatedUserToken
-        case timestamp
-    }
-
+    static let eventNameRule = StringRule(minLength: 1, maxLength: 64, pattern: "[\\x20-\\x7E]{1,64}")
+    static let userTokenRule = StringRule(minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
+    static let authenticatedUserTokenRule = StringRule(minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
     /// The name of the event, up to 64 ASCII characters.  Consider naming events consistently—for example, by adopting
     /// Segment's [object-action](https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/#the-object-action-framework)
     /// framework.
@@ -63,6 +32,34 @@ public struct ViewedFilters: Codable, JSONEncodable, Hashable {
     /// default, the Insights API uses the time it receives an event as its timestamp.
     public var timestamp: Int64?
 
+    public init(
+        eventName: String,
+        eventType: ViewEvent,
+        index: String,
+        filters: [String],
+        userToken: String,
+        authenticatedUserToken: String? = nil,
+        timestamp: Int64? = nil
+    ) {
+        self.eventName = eventName
+        self.eventType = eventType
+        self.index = index
+        self.filters = filters
+        self.userToken = userToken
+        self.authenticatedUserToken = authenticatedUserToken
+        self.timestamp = timestamp
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case eventName
+        case eventType
+        case index
+        case filters
+        case userToken
+        case authenticatedUserToken
+        case timestamp
+    }
+
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
@@ -75,10 +72,4 @@ public struct ViewedFilters: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.authenticatedUserToken, forKey: .authenticatedUserToken)
         try container.encodeIfPresent(self.timestamp, forKey: .timestamp)
     }
-
-    // MARK: Internal
-
-    static let eventNameRule = StringRule(minLength: 1, maxLength: 64, pattern: "[\\x20-\\x7E]{1,64}")
-    static let userTokenRule = StringRule(minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
-    static let authenticatedUserTokenRule = StringRule(minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
 }

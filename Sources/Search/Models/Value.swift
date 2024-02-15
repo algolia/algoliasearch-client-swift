@@ -7,26 +7,20 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Value
-
 public struct Value: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Pinned order of facet lists.
+    public var order: [String]?
+    public var sortRemainingBy: SortRemainingBy?
 
     public init(order: [String]? = nil, sortRemainingBy: SortRemainingBy? = nil) {
         self.order = order
         self.sortRemainingBy = sortRemainingBy
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case order
         case sortRemainingBy
     }
-
-    /// Pinned order of facet lists.
-    public var order: [String]?
-    public var sortRemainingBy: SortRemainingBy?
 
     // Encodable protocol methods
 

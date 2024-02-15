@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SourceUpdateCommercetools
-
 public struct SourceUpdateCommercetools: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Unique and immutable key of the referenced Store.
+    public var storeKeys: [String]?
+    /// Array of locales that must match the following pattern: ^[a-z]{2}(-[A-Z]{2})?$. For example [\"fr-FR\", \"en\"].
+    public var locales: [String]?
 
     public init(storeKeys: [String]? = nil, locales: [String]? = nil) {
         self.storeKeys = storeKeys
         self.locales = locales
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case storeKeys
         case locales
     }
-
-    /// Unique and immutable key of the referenced Store.
-    public var storeKeys: [String]?
-    /// Array of locales that must match the following pattern: ^[a-z]{2}(-[A-Z]{2})?$. For example [\"fr-FR\", \"en\"].
-    public var locales: [String]?
 
     // Encodable protocol methods
 

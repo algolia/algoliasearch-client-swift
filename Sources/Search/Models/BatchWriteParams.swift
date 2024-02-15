@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BatchWriteParams
-
 /// Batch parameters.
 public struct BatchWriteParams: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var requests: [BatchRequest]
 
     public init(requests: [BatchRequest]) {
         self.requests = requests
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case requests
     }
-
-    public var requests: [BatchRequest]
 
     // Encodable protocol methods
 

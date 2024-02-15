@@ -7,10 +7,10 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BaseRecommendedForYouQuery
-
 public struct BaseRecommendedForYouQuery: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var model: RecommendedForYouModel
+    public var queryParameters: RecommendedForYouQueryParameters?
+    public var fallbackParameters: RecommendedForYouQueryParameters?
 
     public init(
         model: RecommendedForYouModel,
@@ -22,17 +22,11 @@ public struct BaseRecommendedForYouQuery: Codable, JSONEncodable, Hashable {
         self.fallbackParameters = fallbackParameters
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case model
         case queryParameters
         case fallbackParameters
     }
-
-    public var model: RecommendedForYouModel
-    public var queryParameters: RecommendedForYouQueryParameters?
-    public var fallbackParameters: RecommendedForYouQueryParameters?
 
     // Encodable protocol methods
 

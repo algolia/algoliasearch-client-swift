@@ -7,28 +7,22 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TaskUpdateResponse
-
 /// The response from the API after a task update.
 public struct TaskUpdateResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// The task UUID.
+    public var taskID: String
+    /// Date of last update (RFC3339 format).
+    public var updatedAt: String
 
     public init(taskID: String, updatedAt: String) {
         self.taskID = taskID
         self.updatedAt = updatedAt
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case taskID
         case updatedAt
     }
-
-    /// The task UUID.
-    public var taskID: String
-    /// Date of last update (RFC3339 format).
-    public var updatedAt: String
 
     // Encodable protocol methods
 

@@ -7,25 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Cursor
-
 public struct Cursor: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Cursor indicating the location to resume browsing from. Must match the value returned by the previous call. Pass
+    /// this value to the subsequent browse call to get the next page of results. When the end of the index has been
+    /// reached, `cursor` is absent from the response.
+    public var cursor: String?
 
     public init(cursor: String? = nil) {
         self.cursor = cursor
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case cursor
     }
-
-    /// Cursor indicating the location to resume browsing from. Must match the value returned by the previous call. Pass
-    /// this value to the subsequent browse call to get the next page of results. When the end of the index has been
-    /// reached, `cursor` is absent from the response.
-    public var cursor: String?
 
     // Encodable protocol methods
 

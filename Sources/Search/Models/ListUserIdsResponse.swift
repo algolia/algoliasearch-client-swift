@@ -7,24 +7,18 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ListUserIdsResponse
-
 /// User ID data.
 public struct ListUserIdsResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// User IDs.
+    public var userIDs: [UserId]
 
     public init(userIDs: [UserId]) {
         self.userIDs = userIDs
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case userIDs
     }
-
-    /// User IDs.
-    public var userIDs: [UserId]
 
     // Encodable protocol methods
 

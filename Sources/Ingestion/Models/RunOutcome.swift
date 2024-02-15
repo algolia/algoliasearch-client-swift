@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RunOutcome
-
 public enum RunOutcome: String, Codable, CaseIterable {
     case success
     case failure

@@ -7,28 +7,22 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TaskCreateResponse
-
 /// The response from the API after a task creation.
 public struct TaskCreateResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// The task UUID.
+    public var taskID: String
+    /// Date of creation (RFC3339 format).
+    public var createdAt: String
 
     public init(taskID: String, createdAt: String) {
         self.taskID = taskID
         self.createdAt = createdAt
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case taskID
         case createdAt
     }
-
-    /// The task UUID.
-    public var taskID: String
-    /// Date of creation (RFC3339 format).
-    public var createdAt: String
 
     // Encodable protocol methods
 

@@ -7,28 +7,22 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DeleteUserProfileResponse
-
 public struct DeleteUserProfileResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// userToken representing the user for which to fetch the Personalization profile.
+    public var userToken: String
+    /// A date until which the data can safely be considered as deleted for the given user. Any data received after the
+    /// `deletedUntil` date will start building a new user profile.
+    public var deletedUntil: String
 
     public init(userToken: String, deletedUntil: String) {
         self.userToken = userToken
         self.deletedUntil = deletedUntil
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case userToken
         case deletedUntil
     }
-
-    /// userToken representing the user for which to fetch the Personalization profile.
-    public var userToken: String
-    /// A date until which the data can safely be considered as deleted for the given user. Any data received after the
-    /// `deletedUntil` date will start building a new user profile.
-    public var deletedUntil: String
 
     // Encodable protocol methods
 

@@ -7,80 +7,7 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Variant
-
 public struct Variant: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(
-        addToCartCount: Int,
-        addToCartRate: Double?,
-        averageClickPosition: Int?,
-        clickCount: Int,
-        clickThroughRate: Double?,
-        conversionCount: Int,
-        conversionRate: Double?,
-        currencies: [String: CurrenciesValue]? = nil,
-        description: String,
-        estimatedSampleSize: Int? = nil,
-        filterEffects: FilterEffects? = nil,
-        index: String,
-        noResultCount: Int?,
-        purchaseCount: Int,
-        purchaseRate: Double?,
-        searchCount: Int?,
-        trackedSearchCount: Int?,
-        trafficPercentage: Int,
-        userCount: Int?,
-        trackedUserCount: Int?
-    ) {
-        self.addToCartCount = addToCartCount
-        self.addToCartRate = addToCartRate
-        self.averageClickPosition = averageClickPosition
-        self.clickCount = clickCount
-        self.clickThroughRate = clickThroughRate
-        self.conversionCount = conversionCount
-        self.conversionRate = conversionRate
-        self.currencies = currencies
-        self.description = description
-        self.estimatedSampleSize = estimatedSampleSize
-        self.filterEffects = filterEffects
-        self.index = index
-        self.noResultCount = noResultCount
-        self.purchaseCount = purchaseCount
-        self.purchaseRate = purchaseRate
-        self.searchCount = searchCount
-        self.trackedSearchCount = trackedSearchCount
-        self.trafficPercentage = trafficPercentage
-        self.userCount = userCount
-        self.trackedUserCount = trackedUserCount
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case addToCartCount
-        case addToCartRate
-        case averageClickPosition
-        case clickCount
-        case clickThroughRate
-        case conversionCount
-        case conversionRate
-        case currencies
-        case description
-        case estimatedSampleSize
-        case filterEffects
-        case index
-        case noResultCount
-        case purchaseCount
-        case purchaseRate
-        case searchCount
-        case trackedSearchCount
-        case trafficPercentage
-        case userCount
-        case trackedUserCount
-    }
-
     /// Number of add-to-cart events for this variant.
     public var addToCartCount: Int
     /// Variant's [add-to-cart
@@ -128,6 +55,73 @@ public struct Variant: Codable, JSONEncodable, Hashable {
     public var userCount: Int?
     /// Number of users that performed a tracked search during the A/B test.
     public var trackedUserCount: Int?
+
+    public init(
+        addToCartCount: Int,
+        addToCartRate: Double?,
+        averageClickPosition: Int?,
+        clickCount: Int,
+        clickThroughRate: Double?,
+        conversionCount: Int,
+        conversionRate: Double?,
+        currencies: [String: CurrenciesValue]? = nil,
+        description: String,
+        estimatedSampleSize: Int? = nil,
+        filterEffects: FilterEffects? = nil,
+        index: String,
+        noResultCount: Int?,
+        purchaseCount: Int,
+        purchaseRate: Double?,
+        searchCount: Int?,
+        trackedSearchCount: Int?,
+        trafficPercentage: Int,
+        userCount: Int?,
+        trackedUserCount: Int?
+    ) {
+        self.addToCartCount = addToCartCount
+        self.addToCartRate = addToCartRate
+        self.averageClickPosition = averageClickPosition
+        self.clickCount = clickCount
+        self.clickThroughRate = clickThroughRate
+        self.conversionCount = conversionCount
+        self.conversionRate = conversionRate
+        self.currencies = currencies
+        self.description = description
+        self.estimatedSampleSize = estimatedSampleSize
+        self.filterEffects = filterEffects
+        self.index = index
+        self.noResultCount = noResultCount
+        self.purchaseCount = purchaseCount
+        self.purchaseRate = purchaseRate
+        self.searchCount = searchCount
+        self.trackedSearchCount = trackedSearchCount
+        self.trafficPercentage = trafficPercentage
+        self.userCount = userCount
+        self.trackedUserCount = trackedUserCount
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case addToCartCount
+        case addToCartRate
+        case averageClickPosition
+        case clickCount
+        case clickThroughRate
+        case conversionCount
+        case conversionRate
+        case currencies
+        case description
+        case estimatedSampleSize
+        case filterEffects
+        case index
+        case noResultCount
+        case purchaseCount
+        case purchaseRate
+        case searchCount
+        case trackedSearchCount
+        case trafficPercentage
+        case userCount
+        case trackedUserCount
+    }
 
     // Encodable protocol methods
 

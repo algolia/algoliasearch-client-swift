@@ -7,10 +7,13 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetTopFiltersNoResultsValue
-
 public struct GetTopFiltersNoResultsValue: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Attribute name.
+    public var attribute: String
+    /// Operator.
+    public var `operator`: String
+    /// Attribute value.
+    public var value: String
 
     public init(attribute: String, `operator`: String, value: String) {
         self.attribute = attribute
@@ -18,20 +21,11 @@ public struct GetTopFiltersNoResultsValue: Codable, JSONEncodable, Hashable {
         self.value = value
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case attribute
         case `operator`
         case value
     }
-
-    /// Attribute name.
-    public var attribute: String
-    /// Operator.
-    public var `operator`: String
-    /// Attribute value.
-    public var value: String
 
     // Encodable protocol methods
 

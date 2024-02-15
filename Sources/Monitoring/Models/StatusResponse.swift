@@ -7,22 +7,16 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - StatusResponse
-
 public struct StatusResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var status: [String: Status]?
 
     public init(status: [String: Status]? = nil) {
         self.status = status
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case status
     }
-
-    public var status: [String: Status]?
 
     // Encodable protocol methods
 

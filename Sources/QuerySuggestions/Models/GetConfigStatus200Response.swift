@@ -7,10 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetConfigStatus200Response
-
 public struct GetConfigStatus200Response: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Query Suggestions index name.
+    public var indexName: String?
+    /// Indicates whether the creation or update of the Query Suggestions is in progress.
+    public var isRunning: Bool?
+    /// Timestamp in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format when the Query Suggestions index was last
+    /// built.
+    public var lastBuiltAt: String?
+    /// Timestamp in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format when the Query Suggestions index was last
+    /// updated successfully.
+    public var lastSuccessfulBuiltAt: String?
+    /// Duration of the last successful build in seconds.
+    public var lastSuccessfulBuildDuration: String?
 
     public init(
         indexName: String? = nil,
@@ -26,8 +35,6 @@ public struct GetConfigStatus200Response: Codable, JSONEncodable, Hashable {
         self.lastSuccessfulBuildDuration = lastSuccessfulBuildDuration
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case indexName
         case isRunning
@@ -35,19 +42,6 @@ public struct GetConfigStatus200Response: Codable, JSONEncodable, Hashable {
         case lastSuccessfulBuiltAt
         case lastSuccessfulBuildDuration
     }
-
-    /// Query Suggestions index name.
-    public var indexName: String?
-    /// Indicates whether the creation or update of the Query Suggestions is in progress.
-    public var isRunning: Bool?
-    /// Timestamp in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format when the Query Suggestions index was last
-    /// built.
-    public var lastBuiltAt: String?
-    /// Timestamp in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format when the Query Suggestions index was last
-    /// updated successfully.
-    public var lastSuccessfulBuiltAt: String?
-    /// Duration of the last successful build in seconds.
-    public var lastSuccessfulBuildDuration: String?
 
     // Encodable protocol methods
 

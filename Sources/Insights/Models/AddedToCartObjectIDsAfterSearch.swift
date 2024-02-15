@@ -7,58 +7,13 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AddedToCartObjectIDsAfterSearch
-
 /// Use this event to track when users add items to their shopping cart after a previous Algolia request. If you&#39;re
 /// building your category pages with Algolia, you&#39;ll also use this event.
 public struct AddedToCartObjectIDsAfterSearch: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(
-        eventName: String,
-        eventType: ConversionEvent,
-        eventSubtype: AddToCartEvent,
-        index: String,
-        queryID: String,
-        objectIDs: [String],
-        userToken: String,
-        authenticatedUserToken: String? = nil,
-        currency: String? = nil,
-        objectData: [ObjectDataAfterSearch]? = nil,
-        timestamp: Int64? = nil,
-        value: Value? = nil
-    ) {
-        self.eventName = eventName
-        self.eventType = eventType
-        self.eventSubtype = eventSubtype
-        self.index = index
-        self.queryID = queryID
-        self.objectIDs = objectIDs
-        self.userToken = userToken
-        self.authenticatedUserToken = authenticatedUserToken
-        self.currency = currency
-        self.objectData = objectData
-        self.timestamp = timestamp
-        self.value = value
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case eventName
-        case eventType
-        case eventSubtype
-        case index
-        case queryID
-        case objectIDs
-        case userToken
-        case authenticatedUserToken
-        case currency
-        case objectData
-        case timestamp
-        case value
-    }
-
+    static let eventNameRule = StringRule(minLength: 1, maxLength: 64, pattern: "[\\x20-\\x7E]{1,64}")
+    static let queryIDRule = StringRule(minLength: 32, maxLength: 32, pattern: "[0-9a-f]{32}")
+    static let userTokenRule = StringRule(minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
+    static let authenticatedUserTokenRule = StringRule(minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
     /// The name of the event, up to 64 ASCII characters.  Consider naming events consistently—for example, by adopting
     /// Segment's [object-action](https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/#the-object-action-framework)
     /// framework.
@@ -88,6 +43,49 @@ public struct AddedToCartObjectIDsAfterSearch: Codable, JSONEncodable, Hashable 
     public var timestamp: Int64?
     public var value: Value?
 
+    public init(
+        eventName: String,
+        eventType: ConversionEvent,
+        eventSubtype: AddToCartEvent,
+        index: String,
+        queryID: String,
+        objectIDs: [String],
+        userToken: String,
+        authenticatedUserToken: String? = nil,
+        currency: String? = nil,
+        objectData: [ObjectDataAfterSearch]? = nil,
+        timestamp: Int64? = nil,
+        value: Value? = nil
+    ) {
+        self.eventName = eventName
+        self.eventType = eventType
+        self.eventSubtype = eventSubtype
+        self.index = index
+        self.queryID = queryID
+        self.objectIDs = objectIDs
+        self.userToken = userToken
+        self.authenticatedUserToken = authenticatedUserToken
+        self.currency = currency
+        self.objectData = objectData
+        self.timestamp = timestamp
+        self.value = value
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case eventName
+        case eventType
+        case eventSubtype
+        case index
+        case queryID
+        case objectIDs
+        case userToken
+        case authenticatedUserToken
+        case currency
+        case objectData
+        case timestamp
+        case value
+    }
+
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
@@ -105,11 +103,4 @@ public struct AddedToCartObjectIDsAfterSearch: Codable, JSONEncodable, Hashable 
         try container.encodeIfPresent(self.timestamp, forKey: .timestamp)
         try container.encodeIfPresent(self.value, forKey: .value)
     }
-
-    // MARK: Internal
-
-    static let eventNameRule = StringRule(minLength: 1, maxLength: 64, pattern: "[\\x20-\\x7E]{1,64}")
-    static let queryIDRule = StringRule(minLength: 32, maxLength: 32, pattern: "[0-9a-f]{32}")
-    static let userTokenRule = StringRule(minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
-    static let authenticatedUserTokenRule = StringRule(minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
 }

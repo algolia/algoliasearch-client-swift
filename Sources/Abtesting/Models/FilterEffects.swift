@@ -7,26 +7,20 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - FilterEffects
-
 /// A/B test filter effects resulting from configuration settings.
 public struct FilterEffects: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var outliers: FilterEffectsOutliers?
+    public var emptySearch: FilterEffectsEmptySearch?
 
     public init(outliers: FilterEffectsOutliers? = nil, emptySearch: FilterEffectsEmptySearch? = nil) {
         self.outliers = outliers
         self.emptySearch = emptySearch
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case outliers
         case emptySearch
     }
-
-    public var outliers: FilterEffectsOutliers?
-    public var emptySearch: FilterEffectsEmptySearch?
 
     // Encodable protocol methods
 

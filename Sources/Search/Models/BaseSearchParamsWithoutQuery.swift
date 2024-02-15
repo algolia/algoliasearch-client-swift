@@ -7,116 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BaseSearchParamsWithoutQuery
-
 public struct BaseSearchParamsWithoutQuery: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(
-        similarQuery: String? = nil,
-        filters: String? = nil,
-        facetFilters: FacetFilters? = nil,
-        optionalFilters: OptionalFilters? = nil,
-        numericFilters: NumericFilters? = nil,
-        tagFilters: TagFilters? = nil,
-        sumOrFiltersScores: Bool? = nil,
-        restrictSearchableAttributes: [String]? = nil,
-        facets: [String]? = nil,
-        facetingAfterDistinct: Bool? = nil,
-        page: Int? = nil,
-        offset: Int? = nil,
-        length: Int? = nil,
-        aroundLatLng: String? = nil,
-        aroundLatLngViaIP: Bool? = nil,
-        aroundRadius: AroundRadius? = nil,
-        aroundPrecision: AroundPrecision? = nil,
-        minimumAroundRadius: Int? = nil,
-        insideBoundingBox: [[Double]]? = nil,
-        insidePolygon: [[Double]]? = nil,
-        naturalLanguages: [String]? = nil,
-        ruleContexts: [String]? = nil,
-        personalizationImpact: Int? = nil,
-        userToken: String? = nil,
-        getRankingInfo: Bool? = nil,
-        explain: [String]? = nil,
-        synonyms: Bool? = nil,
-        clickAnalytics: Bool? = nil,
-        analytics: Bool? = nil,
-        analyticsTags: [String]? = nil,
-        percentileComputation: Bool? = nil,
-        enableABTest: Bool? = nil
-    ) {
-        self.similarQuery = similarQuery
-        self.filters = filters
-        self.facetFilters = facetFilters
-        self.optionalFilters = optionalFilters
-        self.numericFilters = numericFilters
-        self.tagFilters = tagFilters
-        self.sumOrFiltersScores = sumOrFiltersScores
-        self.restrictSearchableAttributes = restrictSearchableAttributes
-        self.facets = facets
-        self.facetingAfterDistinct = facetingAfterDistinct
-        self.page = page
-        self.offset = offset
-        self.length = length
-        self.aroundLatLng = aroundLatLng
-        self.aroundLatLngViaIP = aroundLatLngViaIP
-        self.aroundRadius = aroundRadius
-        self.aroundPrecision = aroundPrecision
-        self.minimumAroundRadius = minimumAroundRadius
-        self.insideBoundingBox = insideBoundingBox
-        self.insidePolygon = insidePolygon
-        self.naturalLanguages = naturalLanguages
-        self.ruleContexts = ruleContexts
-        self.personalizationImpact = personalizationImpact
-        self.userToken = userToken
-        self.getRankingInfo = getRankingInfo
-        self.explain = explain
-        self.synonyms = synonyms
-        self.clickAnalytics = clickAnalytics
-        self.analytics = analytics
-        self.analyticsTags = analyticsTags
-        self.percentileComputation = percentileComputation
-        self.enableABTest = enableABTest
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case similarQuery
-        case filters
-        case facetFilters
-        case optionalFilters
-        case numericFilters
-        case tagFilters
-        case sumOrFiltersScores
-        case restrictSearchableAttributes
-        case facets
-        case facetingAfterDistinct
-        case page
-        case offset
-        case length
-        case aroundLatLng
-        case aroundLatLngViaIP
-        case aroundRadius
-        case aroundPrecision
-        case minimumAroundRadius
-        case insideBoundingBox
-        case insidePolygon
-        case naturalLanguages
-        case ruleContexts
-        case personalizationImpact
-        case userToken
-        case getRankingInfo
-        case explain
-        case synonyms
-        case clickAnalytics
-        case analytics
-        case analyticsTags
-        case percentileComputation
-        case enableABTest
-    }
-
+    static let lengthRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: 1000,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let minimumAroundRadiusRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     /// Overrides the query parameter and performs a more generic search.
     public var similarQuery: String?
     /// [Filter](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/) the query with numeric,
@@ -201,6 +106,109 @@ public struct BaseSearchParamsWithoutQuery: Codable, JSONEncodable, Hashable {
     /// Incidates whether this search will be considered in A/B testing.
     public var enableABTest: Bool?
 
+    public init(
+        similarQuery: String? = nil,
+        filters: String? = nil,
+        facetFilters: FacetFilters? = nil,
+        optionalFilters: OptionalFilters? = nil,
+        numericFilters: NumericFilters? = nil,
+        tagFilters: TagFilters? = nil,
+        sumOrFiltersScores: Bool? = nil,
+        restrictSearchableAttributes: [String]? = nil,
+        facets: [String]? = nil,
+        facetingAfterDistinct: Bool? = nil,
+        page: Int? = nil,
+        offset: Int? = nil,
+        length: Int? = nil,
+        aroundLatLng: String? = nil,
+        aroundLatLngViaIP: Bool? = nil,
+        aroundRadius: AroundRadius? = nil,
+        aroundPrecision: AroundPrecision? = nil,
+        minimumAroundRadius: Int? = nil,
+        insideBoundingBox: [[Double]]? = nil,
+        insidePolygon: [[Double]]? = nil,
+        naturalLanguages: [String]? = nil,
+        ruleContexts: [String]? = nil,
+        personalizationImpact: Int? = nil,
+        userToken: String? = nil,
+        getRankingInfo: Bool? = nil,
+        explain: [String]? = nil,
+        synonyms: Bool? = nil,
+        clickAnalytics: Bool? = nil,
+        analytics: Bool? = nil,
+        analyticsTags: [String]? = nil,
+        percentileComputation: Bool? = nil,
+        enableABTest: Bool? = nil
+    ) {
+        self.similarQuery = similarQuery
+        self.filters = filters
+        self.facetFilters = facetFilters
+        self.optionalFilters = optionalFilters
+        self.numericFilters = numericFilters
+        self.tagFilters = tagFilters
+        self.sumOrFiltersScores = sumOrFiltersScores
+        self.restrictSearchableAttributes = restrictSearchableAttributes
+        self.facets = facets
+        self.facetingAfterDistinct = facetingAfterDistinct
+        self.page = page
+        self.offset = offset
+        self.length = length
+        self.aroundLatLng = aroundLatLng
+        self.aroundLatLngViaIP = aroundLatLngViaIP
+        self.aroundRadius = aroundRadius
+        self.aroundPrecision = aroundPrecision
+        self.minimumAroundRadius = minimumAroundRadius
+        self.insideBoundingBox = insideBoundingBox
+        self.insidePolygon = insidePolygon
+        self.naturalLanguages = naturalLanguages
+        self.ruleContexts = ruleContexts
+        self.personalizationImpact = personalizationImpact
+        self.userToken = userToken
+        self.getRankingInfo = getRankingInfo
+        self.explain = explain
+        self.synonyms = synonyms
+        self.clickAnalytics = clickAnalytics
+        self.analytics = analytics
+        self.analyticsTags = analyticsTags
+        self.percentileComputation = percentileComputation
+        self.enableABTest = enableABTest
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case similarQuery
+        case filters
+        case facetFilters
+        case optionalFilters
+        case numericFilters
+        case tagFilters
+        case sumOrFiltersScores
+        case restrictSearchableAttributes
+        case facets
+        case facetingAfterDistinct
+        case page
+        case offset
+        case length
+        case aroundLatLng
+        case aroundLatLngViaIP
+        case aroundRadius
+        case aroundPrecision
+        case minimumAroundRadius
+        case insideBoundingBox
+        case insidePolygon
+        case naturalLanguages
+        case ruleContexts
+        case personalizationImpact
+        case userToken
+        case getRankingInfo
+        case explain
+        case synonyms
+        case clickAnalytics
+        case analytics
+        case analyticsTags
+        case percentileComputation
+        case enableABTest
+    }
+
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
@@ -238,21 +246,4 @@ public struct BaseSearchParamsWithoutQuery: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.percentileComputation, forKey: .percentileComputation)
         try container.encodeIfPresent(self.enableABTest, forKey: .enableABTest)
     }
-
-    // MARK: Internal
-
-    static let lengthRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let minimumAroundRadiusRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

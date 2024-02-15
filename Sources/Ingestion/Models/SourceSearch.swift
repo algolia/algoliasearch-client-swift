@@ -7,22 +7,16 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SourceSearch
-
 public struct SourceSearch: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var sourceIDs: [String]
 
     public init(sourceIDs: [String]) {
         self.sourceIDs = sourceIDs
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case sourceIDs
     }
-
-    public var sourceIDs: [String]
 
     // Encodable protocol methods
 

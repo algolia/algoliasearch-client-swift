@@ -7,28 +7,15 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SearchDictionaryEntriesParams
-
 /// &#x60;searchDictionaryEntries&#x60; parameters.
 public struct SearchDictionaryEntriesParams: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(query: String, page: Int? = nil, hitsPerPage: Int? = nil, language: String? = nil) {
-        self.query = query
-        self.page = page
-        self.hitsPerPage = hitsPerPage
-        self.language = language
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case query
-        case page
-        case hitsPerPage
-        case language
-    }
-
+    static let hitsPerPageRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: 1000,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     /// Text to search for in an index.
     public var query: String
     /// Page to retrieve (the first page is `0`, not `1`).
@@ -37,6 +24,20 @@ public struct SearchDictionaryEntriesParams: Codable, JSONEncodable, Hashable {
     public var hitsPerPage: Int?
     /// [Supported language ISO code](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/).
     public var language: String?
+
+    public init(query: String, page: Int? = nil, hitsPerPage: Int? = nil, language: String? = nil) {
+        self.query = query
+        self.page = page
+        self.hitsPerPage = hitsPerPage
+        self.language = language
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case query
+        case page
+        case hitsPerPage
+        case language
+    }
 
     // Encodable protocol methods
 
@@ -47,14 +48,4 @@ public struct SearchDictionaryEntriesParams: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.hitsPerPage, forKey: .hitsPerPage)
         try container.encodeIfPresent(self.language, forKey: .language)
     }
-
-    // MARK: Internal
-
-    static let hitsPerPageRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

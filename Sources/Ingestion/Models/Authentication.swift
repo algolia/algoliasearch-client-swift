@@ -7,11 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Authentication
-
 /// An authentication is used to login into a Source or a Destination.
 public struct Authentication: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// The authentication UUID.
+    public var authenticationID: String
+    public var type: AuthenticationType
+    /// An human readable name describing the object.
+    public var name: String
+    public var platform: Platform?
+    public var input: AuthInput
+    /// Date of creation (RFC3339 format).
+    public var createdAt: String
+    /// Date of last update (RFC3339 format).
+    public var updatedAt: String?
 
     public init(
         authenticationID: String,
@@ -31,8 +39,6 @@ public struct Authentication: Codable, JSONEncodable, Hashable {
         self.updatedAt = updatedAt
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case authenticationID
         case type
@@ -42,18 +48,6 @@ public struct Authentication: Codable, JSONEncodable, Hashable {
         case createdAt
         case updatedAt
     }
-
-    /// The authentication UUID.
-    public var authenticationID: String
-    public var type: AuthenticationType
-    /// An human readable name describing the object.
-    public var name: String
-    public var platform: Platform?
-    public var input: AuthInput
-    /// Date of creation (RFC3339 format).
-    public var createdAt: String
-    /// Date of last update (RFC3339 format).
-    public var updatedAt: String?
 
     // Encodable protocol methods
 

@@ -7,10 +7,87 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SearchResponse
-
 public struct SearchResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    static let abTestVariantIDRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let aroundLatLngRule = StringRule(
+        minLength: nil,
+        maxLength: nil,
+        pattern: "^(-?\\d+(\\.\\d+)?),\\s*(-?\\d+(\\.\\d+)?)$"
+    )
+    static let hitsPerPageRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: 1000,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// A/B test ID. This is only included in the response for indices that are part of an A/B test.
+    public var abTestID: Int?
+    /// Variant ID. This is only included in the response for indices that are part of an A/B test.
+    public var abTestVariantID: Int?
+    /// Computed geographical location.
+    public var aroundLatLng: String?
+    /// Automatically-computed radius.
+    public var automaticRadius: String?
+    public var exhaustive: Exhaustive?
+    /// See the `facetsCount` field of the `exhaustive` object in the response.
+    @available(*, deprecated, message: "This property is deprecated.")
+    public var exhaustiveFacetsCount: Bool?
+    /// See the `nbHits` field of the `exhaustive` object in the response.
+    @available(*, deprecated, message: "This property is deprecated.")
+    public var exhaustiveNbHits: Bool?
+    /// See the `typo` field of the `exhaustive` object in the response.
+    @available(*, deprecated, message: "This property is deprecated.")
+    public var exhaustiveTypo: Bool?
+    /// Mapping of each facet name to the corresponding facet counts.
+    public var facets: [String: [String: Int]]?
+    /// Statistics for numerical facets.
+    public var facetsStats: [String: FacetsStats]?
+    /// Number of hits per page.
+    public var hitsPerPage: Int
+    /// Index name used for the query.
+    public var index: String?
+    /// Index name used for the query. During A/B testing, the targeted index isn't always the index used by the query.
+    public var indexUsed: String?
+    /// Warnings about the query.
+    public var message: String?
+    /// Number of hits the search query matched.
+    public var nbHits: Int
+    /// Number of pages of results for the current query.
+    public var nbPages: Int
+    /// Number of hits selected and sorted by the relevant sort algorithm.
+    public var nbSortedHits: Int?
+    /// Page to retrieve (the first page is `0`, not `1`).
+    public var page: Int
+    /// Post-[normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/#what-does-normalization-mean)
+    /// query string that will be searched.
+    public var parsedQuery: String?
+    /// Time the server took to process the request, in milliseconds.
+    public var processingTimeMS: Int
+    /// Experimental. List of processing steps and their times, in milliseconds. You can use this list to investigate
+    /// performance issues.
+    public var processingTimingsMS: AnyCodable?
+    /// Markup text indicating which parts of the original query have been removed to retrieve a non-empty result set.
+    public var queryAfterRemoval: String?
+    public var redirect: Redirect?
+    public var renderingContent: RenderingContent?
+    /// Time the server took to process the request, in milliseconds.
+    public var serverTimeMS: Int?
+    /// Host name of the server that processed the request.
+    public var serverUsed: String?
+    /// Lets you store custom data in your indices.
+    public var userData: AnyCodable?
+    public var hits: [Hit]
+    /// Text to search for in an index.
+    public var query: String
+    /// URL-encoded string of all search parameters.
+    public var params: String
 
     public init(
         abTestID: Int? = nil,
@@ -74,6 +151,54 @@ public struct SearchResponse: Codable, JSONEncodable, Hashable {
         self.hits = hits
         self.query = query
         self.params = params
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case abTestID
+        case abTestVariantID
+        case aroundLatLng
+        case automaticRadius
+        case exhaustive
+        case exhaustiveFacetsCount
+        case exhaustiveNbHits
+        case exhaustiveTypo
+        case facets
+        case facetsStats = "facets_stats"
+        case hitsPerPage
+        case index
+        case indexUsed
+        case message
+        case nbHits
+        case nbPages
+        case nbSortedHits
+        case page
+        case parsedQuery
+        case processingTimeMS
+        case processingTimingsMS
+        case queryAfterRemoval
+        case redirect
+        case renderingContent
+        case serverTimeMS
+        case serverUsed
+        case userData
+        case hits
+        case query
+        case params
+    }
+
+    public var additionalProperties: [String: AnyCodable] = [:]
+
+    public subscript(key: String) -> AnyCodable? {
+        get {
+            if let value = additionalProperties[key] {
+                return value
+            }
+            return nil
+        }
+
+        set {
+            self.additionalProperties[key] = newValue
+        }
     }
 
     public init(from dictionary: [String: AnyCodable]) throws {
@@ -167,6 +292,44 @@ public struct SearchResponse: Codable, JSONEncodable, Hashable {
         }
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(self.abTestID, forKey: .abTestID)
+        try container.encodeIfPresent(self.abTestVariantID, forKey: .abTestVariantID)
+        try container.encodeIfPresent(self.aroundLatLng, forKey: .aroundLatLng)
+        try container.encodeIfPresent(self.automaticRadius, forKey: .automaticRadius)
+        try container.encodeIfPresent(self.exhaustive, forKey: .exhaustive)
+        try container.encodeIfPresent(self.exhaustiveFacetsCount, forKey: .exhaustiveFacetsCount)
+        try container.encodeIfPresent(self.exhaustiveNbHits, forKey: .exhaustiveNbHits)
+        try container.encodeIfPresent(self.exhaustiveTypo, forKey: .exhaustiveTypo)
+        try container.encodeIfPresent(self.facets, forKey: .facets)
+        try container.encodeIfPresent(self.facetsStats, forKey: .facetsStats)
+        try container.encode(self.hitsPerPage, forKey: .hitsPerPage)
+        try container.encodeIfPresent(self.index, forKey: .index)
+        try container.encodeIfPresent(self.indexUsed, forKey: .indexUsed)
+        try container.encodeIfPresent(self.message, forKey: .message)
+        try container.encode(self.nbHits, forKey: .nbHits)
+        try container.encode(self.nbPages, forKey: .nbPages)
+        try container.encodeIfPresent(self.nbSortedHits, forKey: .nbSortedHits)
+        try container.encode(self.page, forKey: .page)
+        try container.encodeIfPresent(self.parsedQuery, forKey: .parsedQuery)
+        try container.encode(self.processingTimeMS, forKey: .processingTimeMS)
+        try container.encodeIfPresent(self.processingTimingsMS, forKey: .processingTimingsMS)
+        try container.encodeIfPresent(self.queryAfterRemoval, forKey: .queryAfterRemoval)
+        try container.encodeIfPresent(self.redirect, forKey: .redirect)
+        try container.encodeIfPresent(self.renderingContent, forKey: .renderingContent)
+        try container.encodeIfPresent(self.serverTimeMS, forKey: .serverTimeMS)
+        try container.encodeIfPresent(self.serverUsed, forKey: .serverUsed)
+        try container.encodeIfPresent(self.userData, forKey: .userData)
+        try container.encode(self.hits, forKey: .hits)
+        try container.encode(self.query, forKey: .query)
+        try container.encode(self.params, forKey: .params)
+        var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
+        try additionalPropertiesContainer.encodeMap(self.additionalProperties)
+    }
+
     // Decodable protocol methods
 
     public init(from decoder: Decoder) throws {
@@ -239,176 +402,4 @@ public struct SearchResponse: Codable, JSONEncodable, Hashable {
             excludedKeys: nonAdditionalPropertyKeys
         )
     }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case abTestID
-        case abTestVariantID
-        case aroundLatLng
-        case automaticRadius
-        case exhaustive
-        case exhaustiveFacetsCount
-        case exhaustiveNbHits
-        case exhaustiveTypo
-        case facets
-        case facetsStats = "facets_stats"
-        case hitsPerPage
-        case index
-        case indexUsed
-        case message
-        case nbHits
-        case nbPages
-        case nbSortedHits
-        case page
-        case parsedQuery
-        case processingTimeMS
-        case processingTimingsMS
-        case queryAfterRemoval
-        case redirect
-        case renderingContent
-        case serverTimeMS
-        case serverUsed
-        case userData
-        case hits
-        case query
-        case params
-    }
-
-    /// A/B test ID. This is only included in the response for indices that are part of an A/B test.
-    public var abTestID: Int?
-    /// Variant ID. This is only included in the response for indices that are part of an A/B test.
-    public var abTestVariantID: Int?
-    /// Computed geographical location.
-    public var aroundLatLng: String?
-    /// Automatically-computed radius.
-    public var automaticRadius: String?
-    public var exhaustive: Exhaustive?
-    /// See the `facetsCount` field of the `exhaustive` object in the response.
-    @available(*, deprecated, message: "This property is deprecated.")
-    public var exhaustiveFacetsCount: Bool?
-    /// See the `nbHits` field of the `exhaustive` object in the response.
-    @available(*, deprecated, message: "This property is deprecated.")
-    public var exhaustiveNbHits: Bool?
-    /// See the `typo` field of the `exhaustive` object in the response.
-    @available(*, deprecated, message: "This property is deprecated.")
-    public var exhaustiveTypo: Bool?
-    /// Mapping of each facet name to the corresponding facet counts.
-    public var facets: [String: [String: Int]]?
-    /// Statistics for numerical facets.
-    public var facetsStats: [String: FacetsStats]?
-    /// Number of hits per page.
-    public var hitsPerPage: Int
-    /// Index name used for the query.
-    public var index: String?
-    /// Index name used for the query. During A/B testing, the targeted index isn't always the index used by the query.
-    public var indexUsed: String?
-    /// Warnings about the query.
-    public var message: String?
-    /// Number of hits the search query matched.
-    public var nbHits: Int
-    /// Number of pages of results for the current query.
-    public var nbPages: Int
-    /// Number of hits selected and sorted by the relevant sort algorithm.
-    public var nbSortedHits: Int?
-    /// Page to retrieve (the first page is `0`, not `1`).
-    public var page: Int
-    /// Post-[normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/#what-does-normalization-mean)
-    /// query string that will be searched.
-    public var parsedQuery: String?
-    /// Time the server took to process the request, in milliseconds.
-    public var processingTimeMS: Int
-    /// Experimental. List of processing steps and their times, in milliseconds. You can use this list to investigate
-    /// performance issues.
-    public var processingTimingsMS: AnyCodable?
-    /// Markup text indicating which parts of the original query have been removed to retrieve a non-empty result set.
-    public var queryAfterRemoval: String?
-    public var redirect: Redirect?
-    public var renderingContent: RenderingContent?
-    /// Time the server took to process the request, in milliseconds.
-    public var serverTimeMS: Int?
-    /// Host name of the server that processed the request.
-    public var serverUsed: String?
-    /// Lets you store custom data in your indices.
-    public var userData: AnyCodable?
-    public var hits: [Hit]
-    /// Text to search for in an index.
-    public var query: String
-    /// URL-encoded string of all search parameters.
-    public var params: String
-
-    public var additionalProperties: [String: AnyCodable] = [:]
-
-    public subscript(key: String) -> AnyCodable? {
-        get {
-            if let value = additionalProperties[key] {
-                return value
-            }
-            return nil
-        }
-
-        set {
-            self.additionalProperties[key] = newValue
-        }
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(self.abTestID, forKey: .abTestID)
-        try container.encodeIfPresent(self.abTestVariantID, forKey: .abTestVariantID)
-        try container.encodeIfPresent(self.aroundLatLng, forKey: .aroundLatLng)
-        try container.encodeIfPresent(self.automaticRadius, forKey: .automaticRadius)
-        try container.encodeIfPresent(self.exhaustive, forKey: .exhaustive)
-        try container.encodeIfPresent(self.exhaustiveFacetsCount, forKey: .exhaustiveFacetsCount)
-        try container.encodeIfPresent(self.exhaustiveNbHits, forKey: .exhaustiveNbHits)
-        try container.encodeIfPresent(self.exhaustiveTypo, forKey: .exhaustiveTypo)
-        try container.encodeIfPresent(self.facets, forKey: .facets)
-        try container.encodeIfPresent(self.facetsStats, forKey: .facetsStats)
-        try container.encode(self.hitsPerPage, forKey: .hitsPerPage)
-        try container.encodeIfPresent(self.index, forKey: .index)
-        try container.encodeIfPresent(self.indexUsed, forKey: .indexUsed)
-        try container.encodeIfPresent(self.message, forKey: .message)
-        try container.encode(self.nbHits, forKey: .nbHits)
-        try container.encode(self.nbPages, forKey: .nbPages)
-        try container.encodeIfPresent(self.nbSortedHits, forKey: .nbSortedHits)
-        try container.encode(self.page, forKey: .page)
-        try container.encodeIfPresent(self.parsedQuery, forKey: .parsedQuery)
-        try container.encode(self.processingTimeMS, forKey: .processingTimeMS)
-        try container.encodeIfPresent(self.processingTimingsMS, forKey: .processingTimingsMS)
-        try container.encodeIfPresent(self.queryAfterRemoval, forKey: .queryAfterRemoval)
-        try container.encodeIfPresent(self.redirect, forKey: .redirect)
-        try container.encodeIfPresent(self.renderingContent, forKey: .renderingContent)
-        try container.encodeIfPresent(self.serverTimeMS, forKey: .serverTimeMS)
-        try container.encodeIfPresent(self.serverUsed, forKey: .serverUsed)
-        try container.encodeIfPresent(self.userData, forKey: .userData)
-        try container.encode(self.hits, forKey: .hits)
-        try container.encode(self.query, forKey: .query)
-        try container.encode(self.params, forKey: .params)
-        var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
-        try additionalPropertiesContainer.encodeMap(self.additionalProperties)
-    }
-
-    // MARK: Internal
-
-    static let abTestVariantIDRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let aroundLatLngRule = StringRule(
-        minLength: nil,
-        maxLength: nil,
-        pattern: "^(-?\\d+(\\.\\d+)?),\\s*(-?\\d+(\\.\\d+)?)$"
-    )
-    static let hitsPerPageRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

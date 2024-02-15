@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - PlatformNone
-
 /// Used to filter Authentication without platform property.
 public enum PlatformNone: String, Codable, CaseIterable {
     case `none`

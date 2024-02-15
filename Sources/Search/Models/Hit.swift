@@ -7,11 +7,16 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Hit
-
 /// A single hit.
 public struct Hit: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Unique object identifier.
+    public var objectID: String
+    /// Show highlighted section and words matched on a query.
+    public var highlightResult: [String: HighlightResult]?
+    /// Snippeted attributes show parts of the matched attributes. Only returned when attributesToSnippet is non-empty.
+    public var snippetResult: [String: SnippetResult]?
+    public var rankingInfo: RankingInfo?
+    public var distinctSeqID: Int?
 
     public init(
         objectID: String,
@@ -25,6 +30,29 @@ public struct Hit: Codable, JSONEncodable, Hashable {
         self.snippetResult = snippetResult
         self.rankingInfo = rankingInfo
         self.distinctSeqID = distinctSeqID
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case objectID
+        case highlightResult = "_highlightResult"
+        case snippetResult = "_snippetResult"
+        case rankingInfo = "_rankingInfo"
+        case distinctSeqID = "_distinctSeqID"
+    }
+
+    public var additionalProperties: [String: AnyCodable] = [:]
+
+    public subscript(key: String) -> AnyCodable? {
+        get {
+            if let value = additionalProperties[key] {
+                return value
+            }
+            return nil
+        }
+
+        set {
+            self.additionalProperties[key] = newValue
+        }
     }
 
     public init(from dictionary: [String: AnyCodable]) throws {
@@ -50,6 +78,19 @@ public struct Hit: Codable, JSONEncodable, Hashable {
         }
     }
 
+    // Encodable protocol methods
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.objectID, forKey: .objectID)
+        try container.encodeIfPresent(self.highlightResult, forKey: .highlightResult)
+        try container.encodeIfPresent(self.snippetResult, forKey: .snippetResult)
+        try container.encodeIfPresent(self.rankingInfo, forKey: .rankingInfo)
+        try container.encodeIfPresent(self.distinctSeqID, forKey: .distinctSeqID)
+        var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
+        try additionalPropertiesContainer.encodeMap(self.additionalProperties)
+    }
+
     // Decodable protocol methods
 
     public init(from decoder: Decoder) throws {
@@ -71,52 +112,5 @@ public struct Hit: Codable, JSONEncodable, Hashable {
             AnyCodable.self,
             excludedKeys: nonAdditionalPropertyKeys
         )
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case objectID
-        case highlightResult = "_highlightResult"
-        case snippetResult = "_snippetResult"
-        case rankingInfo = "_rankingInfo"
-        case distinctSeqID = "_distinctSeqID"
-    }
-
-    /// Unique object identifier.
-    public var objectID: String
-    /// Show highlighted section and words matched on a query.
-    public var highlightResult: [String: HighlightResult]?
-    /// Snippeted attributes show parts of the matched attributes. Only returned when attributesToSnippet is non-empty.
-    public var snippetResult: [String: SnippetResult]?
-    public var rankingInfo: RankingInfo?
-    public var distinctSeqID: Int?
-
-    public var additionalProperties: [String: AnyCodable] = [:]
-
-    public subscript(key: String) -> AnyCodable? {
-        get {
-            if let value = additionalProperties[key] {
-                return value
-            }
-            return nil
-        }
-
-        set {
-            self.additionalProperties[key] = newValue
-        }
-    }
-
-    // Encodable protocol methods
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.objectID, forKey: .objectID)
-        try container.encodeIfPresent(self.highlightResult, forKey: .highlightResult)
-        try container.encodeIfPresent(self.snippetResult, forKey: .snippetResult)
-        try container.encodeIfPresent(self.rankingInfo, forKey: .rankingInfo)
-        try container.encodeIfPresent(self.distinctSeqID, forKey: .distinctSeqID)
-        var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
-        try additionalPropertiesContainer.encodeMap(self.additionalProperties)
     }
 }

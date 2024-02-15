@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TypoTolerance
-
 /// Controls whether [typo
 /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/) is enabled
 /// and how it is applied.
@@ -16,7 +14,15 @@ public enum TypoTolerance: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case bool(Bool)
     case typoToleranceEnum(TypoToleranceEnum)
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .bool(value):
+            try container.encode(value)
+        case let .typoToleranceEnum(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -29,18 +35,6 @@ public enum TypoTolerance: Codable, JSONEncodable, AbstractEncodable, Hashable {
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of TypoTolerance")
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .bool(value):
-            try container.encode(value)
-        case let .typoToleranceEnum(value):
-            try container.encode(value)
         }
     }
 

@@ -7,24 +7,18 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetRecommendationsParams
-
 /// Recommend parameters.
 public struct GetRecommendationsParams: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Request parameters depend on the model (recommendations or trending).
+    public var requests: [RecommendationsRequest]
 
     public init(requests: [RecommendationsRequest]) {
         self.requests = requests
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case requests
     }
-
-    /// Request parameters depend on the model (recommendations or trending).
-    public var requests: [RecommendationsRequest]
 
     // Encodable protocol methods
 

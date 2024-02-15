@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DockerRegistry
-
 /// The registry where the image is stored.
 public enum DockerRegistry: String, Codable, CaseIterable {
     case dockerhub

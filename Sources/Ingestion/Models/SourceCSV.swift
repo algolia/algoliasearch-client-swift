@@ -7,10 +7,18 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SourceCSV
-
 public struct SourceCSV: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    static let delimiterRule = StringRule(minLength: 1, maxLength: 1, pattern: nil)
+    /// The URL of the file.
+    public var url: String
+    /// The name of the column that contains the unique ID, used as `objectID` in Algolia.
+    public var uniqueIDColumn: String?
+    /// Mapping of type for every column. For example {\"myColumn\": \"boolean\", \"myOtherColumn\": \"json\"}.
+    public var mapping: [String: MappingTypeCSV]?
+    public var method: MethodType?
+    /// The character used to split the value on each line, default to a comma (\\r, \\n, 0xFFFD, and space are
+    /// forbidden).
+    public var delimiter: String?
 
     public init(
         url: String,
@@ -26,8 +34,6 @@ public struct SourceCSV: Codable, JSONEncodable, Hashable {
         self.delimiter = delimiter
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case url
         case uniqueIDColumn
@@ -35,17 +41,6 @@ public struct SourceCSV: Codable, JSONEncodable, Hashable {
         case method
         case delimiter
     }
-
-    /// The URL of the file.
-    public var url: String
-    /// The name of the column that contains the unique ID, used as `objectID` in Algolia.
-    public var uniqueIDColumn: String?
-    /// Mapping of type for every column. For example {\"myColumn\": \"boolean\", \"myOtherColumn\": \"json\"}.
-    public var mapping: [String: MappingTypeCSV]?
-    public var method: MethodType?
-    /// The character used to split the value on each line, default to a comma (\\r, \\n, 0xFFFD, and space are
-    /// forbidden).
-    public var delimiter: String?
 
     // Encodable protocol methods
 
@@ -57,8 +52,4 @@ public struct SourceCSV: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.method, forKey: .method)
         try container.encodeIfPresent(self.delimiter, forKey: .delimiter)
     }
-
-    // MARK: Internal
-
-    static let delimiterRule = StringRule(minLength: 1, maxLength: 1, pattern: nil)
 }

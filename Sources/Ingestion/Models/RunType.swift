@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RunType
-
 public enum RunType: String, Codable, CaseIterable {
     case reindex
     case update

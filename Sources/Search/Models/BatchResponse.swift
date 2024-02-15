@@ -7,28 +7,22 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BatchResponse
-
 public struct BatchResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Unique identifier of a task. A successful API response means that a task was added to a queue. It might not run
+    /// immediately. You can check the task's progress with the `task` operation and this `taskID`.
+    public var taskID: Int64
+    /// Unique object (record) identifiers.
+    public var objectIDs: [String]
 
     public init(taskID: Int64, objectIDs: [String]) {
         self.taskID = taskID
         self.objectIDs = objectIDs
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case taskID
         case objectIDs
     }
-
-    /// Unique identifier of a task. A successful API response means that a task was added to a queue. It might not run
-    /// immediately. You can check the task's progress with the `task` operation and this `taskID`.
-    public var taskID: Int64
-    /// Unique object (record) identifiers.
-    public var objectIDs: [String]
 
     // Encodable protocol methods
 

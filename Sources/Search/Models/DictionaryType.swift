@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DictionaryType
-
 public enum DictionaryType: String, Codable, CaseIterable {
     case plurals
     case stopwords

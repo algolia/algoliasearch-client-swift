@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Metric
-
 public enum Metric: String, Codable, CaseIterable {
     case avgBuildTime = "avg_build_time"
     case ssdUsage = "ssd_usage"

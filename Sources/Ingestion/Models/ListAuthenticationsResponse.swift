@@ -7,25 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ListAuthenticationsResponse
-
 public struct ListAuthenticationsResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var authentications: [Authentication]
+    public var pagination: Pagination
 
     public init(authentications: [Authentication], pagination: Pagination) {
         self.authentications = authentications
         self.pagination = pagination
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case authentications
         case pagination
     }
-
-    public var authentications: [Authentication]
-    public var pagination: Pagination
 
     // Encodable protocol methods
 

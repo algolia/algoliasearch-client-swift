@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ClickEvent
-
 public enum ClickEvent: String, Codable, CaseIterable {
     case click
 }

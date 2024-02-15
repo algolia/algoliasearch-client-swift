@@ -7,10 +7,12 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SourceJSON
-
 public struct SourceJSON: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// The URL of the file.
+    public var url: String
+    /// The name of the column that contains the unique ID, used as `objectID` in Algolia.
+    public var uniqueIDColumn: String?
+    public var method: MethodType?
 
     public init(url: String, uniqueIDColumn: String? = nil, method: MethodType? = nil) {
         self.url = url
@@ -18,19 +20,11 @@ public struct SourceJSON: Codable, JSONEncodable, Hashable {
         self.method = method
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case url
         case uniqueIDColumn
         case method
     }
-
-    /// The URL of the file.
-    public var url: String
-    /// The name of the column that contains the unique ID, used as `objectID` in Algolia.
-    public var uniqueIDColumn: String?
-    public var method: MethodType?
 
     // Encodable protocol methods
 

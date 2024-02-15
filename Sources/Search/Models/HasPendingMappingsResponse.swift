@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - HasPendingMappingsResponse
-
 public struct HasPendingMappingsResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Indicates whether there are clusters undergoing migration, creation, or deletion.
+    public var pending: Bool
+    /// Cluster pending mapping state: migrating, creating, deleting.
+    public var clusters: [String: [String]]?
 
     public init(pending: Bool, clusters: [String: [String]]? = nil) {
         self.pending = pending
         self.clusters = clusters
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case pending
         case clusters
     }
-
-    /// Indicates whether there are clusters undergoing migration, creation, or deletion.
-    public var pending: Bool
-    /// Cluster pending mapping state: migrating, creating, deleting.
-    public var clusters: [String: [String]]?
 
     // Encodable protocol methods
 

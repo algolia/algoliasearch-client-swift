@@ -7,11 +7,26 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TaskCreate
-
 /// The payload for a task creation.
 public struct TaskCreate: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    static let failureThresholdRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: 100,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// The source UUID.
+    public var sourceID: String
+    /// The destination UUID.
+    public var destinationID: String
+    public var trigger: TaskCreateTrigger
+    public var action: ActionType
+    /// Whether the task is enabled or not.
+    public var enabled: Bool?
+    /// A percentage representing the accepted failure threshold to determine if a `run` succeeded or not.
+    public var failureThreshold: Int?
+    public var input: TaskInput?
 
     public init(
         sourceID: String,
@@ -31,8 +46,6 @@ public struct TaskCreate: Codable, JSONEncodable, Hashable {
         self.input = input
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case sourceID
         case destinationID
@@ -42,18 +55,6 @@ public struct TaskCreate: Codable, JSONEncodable, Hashable {
         case failureThreshold
         case input
     }
-
-    /// The source UUID.
-    public var sourceID: String
-    /// The destination UUID.
-    public var destinationID: String
-    public var trigger: TaskCreateTrigger
-    public var action: ActionType
-    /// Whether the task is enabled or not.
-    public var enabled: Bool?
-    /// A percentage representing the accepted failure threshold to determine if a `run` succeeded or not.
-    public var failureThreshold: Int?
-    public var input: TaskInput?
 
     // Encodable protocol methods
 
@@ -67,14 +68,4 @@ public struct TaskCreate: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.failureThreshold, forKey: .failureThreshold)
         try container.encodeIfPresent(self.input, forKey: .input)
     }
-
-    // MARK: Internal
-
-    static let failureThresholdRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

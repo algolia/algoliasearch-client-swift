@@ -7,26 +7,20 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ListTasksResponse
-
 /// A list of tasks with pagination details.
 public struct ListTasksResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var tasks: [Task]
+    public var pagination: Pagination
 
     public init(tasks: [Task], pagination: Pagination) {
         self.tasks = tasks
         self.pagination = pagination
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case tasks
         case pagination
     }
-
-    public var tasks: [Task]
-    public var pagination: Pagination
 
     // Encodable protocol methods
 

@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - MatchLevel
-
 /// Indicates how well the attribute matched the search query.
 public enum MatchLevel: String, Codable, CaseIterable {
     case `none`

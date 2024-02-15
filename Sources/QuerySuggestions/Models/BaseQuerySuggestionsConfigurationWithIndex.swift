@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BaseQuerySuggestionsConfigurationWithIndex
-
 public struct BaseQuerySuggestionsConfigurationWithIndex: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Query Suggestions index name.
+    public var indexName: String
 
     public init(indexName: String) {
         self.indexName = indexName
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case indexName
     }
-
-    /// Query Suggestions index name.
-    public var indexName: String
 
     // Encodable protocol methods
 

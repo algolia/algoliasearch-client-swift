@@ -7,24 +7,18 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Facets
-
 /// Ordering of facets (widgets).
 public struct Facets: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Pinned order of facet lists.
+    public var order: [String]?
 
     public init(order: [String]? = nil) {
         self.order = order
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case order
     }
-
-    /// Pinned order of facet lists.
-    public var order: [String]?
 
     // Encodable protocol methods
 

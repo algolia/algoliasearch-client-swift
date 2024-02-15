@@ -7,28 +7,22 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AuthGoogleServiceAccount
-
 /// Authentication input to connect to a Google service (e.g. BigQuery).
 public struct AuthGoogleServiceAccount: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Email address of the Service Account.
+    public var clientEmail: String
+    /// Private key of the Service Account.
+    public var privateKey: String
 
     public init(clientEmail: String, privateKey: String) {
         self.clientEmail = clientEmail
         self.privateKey = privateKey
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case clientEmail
         case privateKey
     }
-
-    /// Email address of the Service Account.
-    public var clientEmail: String
-    /// Private key of the Service Account.
-    public var privateKey: String
 
     // Encodable protocol methods
 

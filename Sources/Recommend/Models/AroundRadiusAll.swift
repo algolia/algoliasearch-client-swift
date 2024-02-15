@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AroundRadiusAll
-
 public enum AroundRadiusAll: String, Codable, CaseIterable {
     case all
 }

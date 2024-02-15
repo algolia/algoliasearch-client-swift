@@ -7,22 +7,16 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DockerSourceStreams
-
 public struct DockerSourceStreams: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var streams: [AnyCodable]
 
     public init(streams: [AnyCodable]) {
         self.streams = streams
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case streams
     }
-
-    public var streams: [AnyCodable]
 
     // Encodable protocol methods
 

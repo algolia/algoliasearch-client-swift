@@ -7,45 +7,8 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ApiKey
-
 /// API key object.
 public struct ApiKey: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(
-        acl: [Acl],
-        description: String? = nil,
-        indexes: [String]? = nil,
-        maxHitsPerQuery: Int? = nil,
-        maxQueriesPerIPPerHour: Int? = nil,
-        queryParameters: String? = nil,
-        referers: [String]? = nil,
-        validity: Int? = nil
-    ) {
-        self.acl = acl
-        self.description = description
-        self.indexes = indexes
-        self.maxHitsPerQuery = maxHitsPerQuery
-        self.maxQueriesPerIPPerHour = maxQueriesPerIPPerHour
-        self.queryParameters = queryParameters
-        self.referers = referers
-        self.validity = validity
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case acl
-        case description
-        case indexes
-        case maxHitsPerQuery
-        case maxQueriesPerIPPerHour
-        case queryParameters
-        case referers
-        case validity
-    }
-
     /// [Permissions](https://www.algolia.com/doc/guides/security/api-keys/#access-control-list-acl) associated with the
     /// key.
     public var acl: [Acl]
@@ -83,6 +46,37 @@ public struct ApiKey: Codable, JSONEncodable, Hashable {
     /// So instead of encoding keys into your app as you would for a web app, you should dynamically fetch them from
     /// your mobile app's backend.
     public var validity: Int?
+
+    public init(
+        acl: [Acl],
+        description: String? = nil,
+        indexes: [String]? = nil,
+        maxHitsPerQuery: Int? = nil,
+        maxQueriesPerIPPerHour: Int? = nil,
+        queryParameters: String? = nil,
+        referers: [String]? = nil,
+        validity: Int? = nil
+    ) {
+        self.acl = acl
+        self.description = description
+        self.indexes = indexes
+        self.maxHitsPerQuery = maxHitsPerQuery
+        self.maxQueriesPerIPPerHour = maxQueriesPerIPPerHour
+        self.queryParameters = queryParameters
+        self.referers = referers
+        self.validity = validity
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case acl
+        case description
+        case indexes
+        case maxHitsPerQuery
+        case maxQueriesPerIPPerHour
+        case queryParameters
+        case referers
+        case validity
+    }
 
     // Encodable protocol methods
 

@@ -7,10 +7,20 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SourceBigQuery
-
 public struct SourceBigQuery: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Project ID of the BigQuery Source.
+    public var projectID: String
+    /// Dataset ID of the BigQuery Source.
+    public var datasetID: String
+    public var dataType: BigQueryDataType?
+    /// Table name (for default BQ).
+    public var table: String?
+    /// Table prefix (for Google Analytics).
+    public var tablePrefix: String?
+    /// Custom SQL request to extract data from the BigQuery table.
+    public var customSQLRequest: String?
+    /// The name of the column that contains the unique ID, used as `objectID` in Algolia.
+    public var uniqueIDColumn: String?
 
     public init(
         projectID: String,
@@ -30,8 +40,6 @@ public struct SourceBigQuery: Codable, JSONEncodable, Hashable {
         self.uniqueIDColumn = uniqueIDColumn
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case projectID
         case datasetID
@@ -41,20 +49,6 @@ public struct SourceBigQuery: Codable, JSONEncodable, Hashable {
         case customSQLRequest
         case uniqueIDColumn
     }
-
-    /// Project ID of the BigQuery Source.
-    public var projectID: String
-    /// Dataset ID of the BigQuery Source.
-    public var datasetID: String
-    public var dataType: BigQueryDataType?
-    /// Table name (for default BQ).
-    public var table: String?
-    /// Table prefix (for Google Analytics).
-    public var tablePrefix: String?
-    /// Custom SQL request to extract data from the BigQuery table.
-    public var customSQLRequest: String?
-    /// The name of the column that contains the unique ID, used as `objectID` in Algolia.
-    public var uniqueIDColumn: String?
 
     // Encodable protocol methods
 

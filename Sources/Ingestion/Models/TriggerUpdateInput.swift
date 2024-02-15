@@ -7,24 +7,18 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TriggerUpdateInput
-
 /// The trigger input for a task update.
 public struct TriggerUpdateInput: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// A cron expression that represent at which regularity the task should run.
+    public var cron: String
 
     public init(cron: String) {
         self.cron = cron
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case cron
     }
-
-    /// A cron expression that represent at which regularity the task should run.
-    public var cron: String
 
     // Encodable protocol methods
 

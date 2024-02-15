@@ -7,10 +7,12 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RecommendationsHits
-
 public struct RecommendationsHits: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var hits: [RecommendationsHit]
+    /// Text to search for in an index.
+    public var query: String?
+    /// URL-encoded string of all search parameters.
+    public var params: String?
 
     public init(hits: [RecommendationsHit], query: String? = nil, params: String? = nil) {
         self.hits = hits
@@ -18,19 +20,11 @@ public struct RecommendationsHits: Codable, JSONEncodable, Hashable {
         self.params = params
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case hits
         case query
         case params
     }
-
-    public var hits: [RecommendationsHit]
-    /// Text to search for in an index.
-    public var query: String?
-    /// URL-encoded string of all search parameters.
-    public var params: String?
 
     // Encodable protocol methods
 

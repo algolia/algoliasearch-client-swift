@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TriggerType
-
 /// The type of the task reflect how it can be used:   - onDemand: a task that runs manually   - schedule: a task that
 /// runs regularly, following a given cron expression   - subscription: a task that runs after a subscription event is
 /// received from an integration (e.g. Webhook).

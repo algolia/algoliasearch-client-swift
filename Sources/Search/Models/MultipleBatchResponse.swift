@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - MultipleBatchResponse
-
 public struct MultipleBatchResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// TaskIDs per index.
+    public var taskID: [String: Int64]
+    /// Unique object (record) identifiers.
+    public var objectIDs: [String]
 
     public init(taskID: [String: Int64], objectIDs: [String]) {
         self.taskID = taskID
         self.objectIDs = objectIDs
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case taskID
         case objectIDs
     }
-
-    /// TaskIDs per index.
-    public var taskID: [String: Int64]
-    /// Unique object (record) identifiers.
-    public var objectIDs: [String]
 
     // Encodable protocol methods
 

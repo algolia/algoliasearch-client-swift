@@ -7,10 +7,13 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetUserTokenResponse
-
 public struct GetUserTokenResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// userToken representing the user for which to fetch the Personalization profile.
+    public var userToken: String
+    /// Date of last event update. (ISO-8601 format).
+    public var lastEventAt: String
+    /// The userToken scores.
+    public var scores: AnyCodable
 
     public init(userToken: String, lastEventAt: String, scores: AnyCodable) {
         self.userToken = userToken
@@ -18,20 +21,11 @@ public struct GetUserTokenResponse: Codable, JSONEncodable, Hashable {
         self.scores = scores
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case userToken
         case lastEventAt
         case scores
     }
-
-    /// userToken representing the user for which to fetch the Personalization profile.
-    public var userToken: String
-    /// Date of last event update. (ISO-8601 format).
-    public var lastEventAt: String
-    /// The userToken scores.
-    public var scores: AnyCodable
 
     // Encodable protocol methods
 

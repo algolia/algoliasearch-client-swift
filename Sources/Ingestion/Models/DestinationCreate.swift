@@ -7,11 +7,14 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DestinationCreate
-
 /// The payload when creating a destination.
 public struct DestinationCreate: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var type: DestinationType
+    /// An human readable name describing the object.
+    public var name: String
+    public var input: DestinationInput
+    /// The authentication UUID.
+    public var authenticationID: String?
 
     public init(type: DestinationType, name: String, input: DestinationInput, authenticationID: String? = nil) {
         self.type = type
@@ -20,21 +23,12 @@ public struct DestinationCreate: Codable, JSONEncodable, Hashable {
         self.authenticationID = authenticationID
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case type
         case name
         case input
         case authenticationID
     }
-
-    public var type: DestinationType
-    /// An human readable name describing the object.
-    public var name: String
-    public var input: DestinationInput
-    /// The authentication UUID.
-    public var authenticationID: String?
 
     // Encodable protocol methods
 

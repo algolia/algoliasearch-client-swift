@@ -7,22 +7,16 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetTaskResponse
-
 public struct GetTaskResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var status: TaskStatus
 
     public init(status: TaskStatus) {
         self.status = status
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case status
     }
-
-    public var status: TaskStatus
 
     // Encodable protocol methods
 

@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ModelType
-
 public enum ModelType: String, Codable, CaseIterable {
     case cluster
 }

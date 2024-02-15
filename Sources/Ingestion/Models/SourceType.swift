@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SourceType
-
 public enum SourceType: String, Codable, CaseIterable {
     case bigcommerce
     case commercetools

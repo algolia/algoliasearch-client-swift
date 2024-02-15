@@ -7,10 +7,11 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Pagination
-
 public struct Pagination: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var nbPages: Int
+    public var page: Int
+    public var nbItems: Int
+    public var itemsPerPage: Int
 
     public init(nbPages: Int, page: Int, nbItems: Int, itemsPerPage: Int) {
         self.nbPages = nbPages
@@ -19,19 +20,12 @@ public struct Pagination: Codable, JSONEncodable, Hashable {
         self.itemsPerPage = itemsPerPage
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case nbPages
         case page
         case nbItems
         case itemsPerPage
     }
-
-    public var nbPages: Int
-    public var page: Int
-    public var nbItems: Int
-    public var itemsPerPage: Int
 
     // Encodable protocol methods
 

@@ -7,15 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AroundPrecision
-
 /// Precision of a geographical search (in meters), to [group results that are more or less the same distance from a
 /// central point](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/in-depth/geo-ranking-precision/).
 public enum AroundPrecision: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case int(Int)
     case arrayOfAroundPrecisionFromValueInner([AroundPrecisionFromValueInner])
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .int(value):
+            try container.encode(value)
+        case let .arrayOfAroundPrecisionFromValueInner(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -28,18 +34,6 @@ public enum AroundPrecision: Codable, JSONEncodable, AbstractEncodable, Hashable
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of AroundPrecision")
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .int(value):
-            try container.encode(value)
-        case let .arrayOfAroundPrecisionFromValueInner(value):
-            try container.encode(value)
         }
     }
 

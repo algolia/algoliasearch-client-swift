@@ -7,10 +7,15 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SourceCommercetools
-
 public struct SourceCommercetools: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var storeKeys: [String]?
+    /// Array of locales that must match the following pattern: ^[a-z]{2}(-[A-Z]{2})?$. For example [\"fr-FR\", \"en\"].
+    public var locales: [String]?
+    public var url: String
+    public var projectKey: String
+    /// Determines the value that will be stored in the Algolia record if there's no inventory information on the
+    /// product.
+    public var fallbackIsInStockValue: Bool?
 
     public init(
         storeKeys: [String]? = nil,
@@ -26,8 +31,6 @@ public struct SourceCommercetools: Codable, JSONEncodable, Hashable {
         self.fallbackIsInStockValue = fallbackIsInStockValue
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case storeKeys
         case locales
@@ -35,15 +38,6 @@ public struct SourceCommercetools: Codable, JSONEncodable, Hashable {
         case projectKey
         case fallbackIsInStockValue
     }
-
-    public var storeKeys: [String]?
-    /// Array of locales that must match the following pattern: ^[a-z]{2}(-[A-Z]{2})?$. For example [\"fr-FR\", \"en\"].
-    public var locales: [String]?
-    public var url: String
-    public var projectKey: String
-    /// Determines the value that will be stored in the Algolia record if there's no inventory information on the
-    /// product.
-    public var fallbackIsInStockValue: Bool?
 
     // Encodable protocol methods
 

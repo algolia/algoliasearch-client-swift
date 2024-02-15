@@ -7,10 +7,18 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - InfrastructureResponseMetrics
-
 public struct InfrastructureResponseMetrics: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// CPU idleness in %.
+    public var cpuUsage: [String: [ProbesMetric]]?
+    /// RAM used for indexing in MB.
+    public var ramIndexingUsage: [String: [ProbesMetric]]?
+    /// RAM used for search in MB.
+    public var ramSearchUsage: [String: [ProbesMetric]]?
+    /// Solid-state disk (SSD) usage expressed as % of RAM.  0% means no SSD usage. A value of 50% indicates 32&nbsp;GB
+    /// SSD usage for a machine with 64&nbsp;RAM.
+    public var ssdUsage: [String: [ProbesMetric]]?
+    /// Average build time of the indices in seconds.
+    public var avgBuildTime: [String: [ProbesMetric]]?
 
     public init(
         cpuUsage: [String: [ProbesMetric]]? = nil,
@@ -26,8 +34,6 @@ public struct InfrastructureResponseMetrics: Codable, JSONEncodable, Hashable {
         self.avgBuildTime = avgBuildTime
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case cpuUsage = "cpu_usage"
         case ramIndexingUsage = "ram_indexing_usage"
@@ -35,18 +41,6 @@ public struct InfrastructureResponseMetrics: Codable, JSONEncodable, Hashable {
         case ssdUsage = "ssd_usage"
         case avgBuildTime = "avg_build_time"
     }
-
-    /// CPU idleness in %.
-    public var cpuUsage: [String: [ProbesMetric]]?
-    /// RAM used for indexing in MB.
-    public var ramIndexingUsage: [String: [ProbesMetric]]?
-    /// RAM used for search in MB.
-    public var ramSearchUsage: [String: [ProbesMetric]]?
-    /// Solid-state disk (SSD) usage expressed as % of RAM.  0% means no SSD usage. A value of 50% indicates 32&nbsp;GB
-    /// SSD usage for a machine with 64&nbsp;RAM.
-    public var ssdUsage: [String: [ProbesMetric]]?
-    /// Average build time of the indices in seconds.
-    public var avgBuildTime: [String: [ProbesMetric]]?
 
     // Encodable protocol methods
 

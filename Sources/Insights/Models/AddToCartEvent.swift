@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AddToCartEvent
-
 public enum AddToCartEvent: String, Codable, CaseIterable {
     case addToCart
 }

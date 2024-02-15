@@ -7,11 +7,14 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetObjectsRequest
-
 /// Record retrieval operation.
 public struct GetObjectsRequest: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Attributes to retrieve. If not specified, all retrievable attributes are returned.
+    public var attributesToRetrieve: [String]?
+    /// Record's objectID.
+    public var objectID: String
+    /// Name of the index containing the required records.
+    public var indexName: String
 
     public init(attributesToRetrieve: [String]? = nil, objectID: String, indexName: String) {
         self.attributesToRetrieve = attributesToRetrieve
@@ -19,20 +22,11 @@ public struct GetObjectsRequest: Codable, JSONEncodable, Hashable {
         self.indexName = indexName
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case attributesToRetrieve
         case objectID
         case indexName
     }
-
-    /// Attributes to retrieve. If not specified, all retrievable attributes are returned.
-    public var attributesToRetrieve: [String]?
-    /// Record's objectID.
-    public var objectID: String
-    /// Name of the index containing the required records.
-    public var indexName: String
 
     // Encodable protocol methods
 

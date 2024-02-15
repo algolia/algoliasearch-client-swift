@@ -7,45 +7,22 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SourceIndex
-
 /// Configuration of an Algolia index for Query Suggestions.
 public struct SourceIndex: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(
-        indexName: String,
-        replicas: Bool? = nil,
-        analyticsTags: [String]? = nil,
-        facets: [Facet]? = nil,
-        minHits: Int? = nil,
-        minLetters: Int? = nil,
-        generate: [[String]]? = nil,
-        external: [String]? = nil
-    ) {
-        self.indexName = indexName
-        self.replicas = replicas
-        self.analyticsTags = analyticsTags
-        self.facets = facets
-        self.minHits = minHits
-        self.minLetters = minLetters
-        self.generate = generate
-        self.external = external
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case indexName
-        case replicas
-        case analyticsTags
-        case facets
-        case minHits
-        case minLetters
-        case generate
-        case external
-    }
-
+    static let minHitsRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let minLettersRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     /// Name of the Algolia index to use as source for query suggestions.
     public var indexName: String
     /// If true, Query Suggestions uses all replicas of the primary index to find popular searches. If false, only the
@@ -71,6 +48,37 @@ public struct SourceIndex: Codable, JSONEncodable, Hashable {
     /// to generate query suggestions until your Algolia analytics has collected enough data.
     public var external: [String]?
 
+    public init(
+        indexName: String,
+        replicas: Bool? = nil,
+        analyticsTags: [String]? = nil,
+        facets: [Facet]? = nil,
+        minHits: Int? = nil,
+        minLetters: Int? = nil,
+        generate: [[String]]? = nil,
+        external: [String]? = nil
+    ) {
+        self.indexName = indexName
+        self.replicas = replicas
+        self.analyticsTags = analyticsTags
+        self.facets = facets
+        self.minHits = minHits
+        self.minLetters = minLetters
+        self.generate = generate
+        self.external = external
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case indexName
+        case replicas
+        case analyticsTags
+        case facets
+        case minHits
+        case minLetters
+        case generate
+        case external
+    }
+
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
@@ -84,21 +92,4 @@ public struct SourceIndex: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.generate, forKey: .generate)
         try container.encodeIfPresent(self.external, forKey: .external)
     }
-
-    // MARK: Internal
-
-    static let minHitsRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let minLettersRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

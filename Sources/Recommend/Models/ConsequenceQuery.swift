@@ -7,15 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ConsequenceQuery
-
 /// When providing a string, it replaces the entire query string. When providing an object, it describes incremental
 /// edits to be made to the query string (but you can&#39;t do both).
 public enum ConsequenceQuery: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case consequenceQueryObject(ConsequenceQueryObject)
     case string(String)
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .consequenceQueryObject(value):
+            try container.encode(value)
+        case let .string(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -28,18 +34,6 @@ public enum ConsequenceQuery: Codable, JSONEncodable, AbstractEncodable, Hashabl
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of ConsequenceQuery")
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .consequenceQueryObject(value):
-            try container.encode(value)
-        case let .string(value):
-            try container.encode(value)
         }
     }
 

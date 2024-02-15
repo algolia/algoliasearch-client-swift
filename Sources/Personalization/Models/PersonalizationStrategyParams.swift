@@ -7,25 +7,7 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - PersonalizationStrategyParams
-
 public struct PersonalizationStrategyParams: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(eventScoring: [EventScoring], facetScoring: [FacetScoring], personalizationImpact: Int) {
-        self.eventScoring = eventScoring
-        self.facetScoring = facetScoring
-        self.personalizationImpact = personalizationImpact
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case eventScoring
-        case facetScoring
-        case personalizationImpact
-    }
-
     /// Scores associated with the events.
     public var eventScoring: [EventScoring]
     /// Scores associated with the facets.
@@ -33,6 +15,18 @@ public struct PersonalizationStrategyParams: Codable, JSONEncodable, Hashable {
     /// The impact that personalization has on search results: a number between 0 (personalization disabled) and 100
     /// (personalization fully enabled).
     public var personalizationImpact: Int
+
+    public init(eventScoring: [EventScoring], facetScoring: [FacetScoring], personalizationImpact: Int) {
+        self.eventScoring = eventScoring
+        self.facetScoring = facetScoring
+        self.personalizationImpact = personalizationImpact
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case eventScoring
+        case facetScoring
+        case personalizationImpact
+    }
 
     // Encodable protocol methods
 

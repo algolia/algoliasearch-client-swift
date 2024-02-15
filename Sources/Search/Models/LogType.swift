@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - LogType
-
 public enum LogType: String, Codable, CaseIterable {
     case all
     case query

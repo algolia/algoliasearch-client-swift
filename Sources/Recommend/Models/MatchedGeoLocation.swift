@@ -7,10 +7,13 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - MatchedGeoLocation
-
 public struct MatchedGeoLocation: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Latitude of the matched location.
+    public var lat: Double?
+    /// Longitude of the matched location.
+    public var lng: Double?
+    /// Distance between the matched location and the search location (in meters).
+    public var distance: Int?
 
     public init(lat: Double? = nil, lng: Double? = nil, distance: Int? = nil) {
         self.lat = lat
@@ -18,20 +21,11 @@ public struct MatchedGeoLocation: Codable, JSONEncodable, Hashable {
         self.distance = distance
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case lat
         case lng
         case distance
     }
-
-    /// Latitude of the matched location.
-    public var lat: Double?
-    /// Longitude of the matched location.
-    public var lng: Double?
-    /// Distance between the matched location and the search location (in meters).
-    public var distance: Int?
 
     // Encodable protocol methods
 

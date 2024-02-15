@@ -7,27 +7,14 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ConversionRateEvent
-
 public struct ConversionRateEvent: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(rate: Double, trackedSearchCount: Int?, conversionCount: Int, date: String) {
-        self.rate = rate
-        self.trackedSearchCount = trackedSearchCount
-        self.conversionCount = conversionCount
-        self.date = date
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case rate
-        case trackedSearchCount
-        case conversionCount
-        case date
-    }
-
+    static let rateRule = NumericRule<Double>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: 1,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     /// [Click-through rate
     /// (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
     public var rate: Double
@@ -39,6 +26,20 @@ public struct ConversionRateEvent: Codable, JSONEncodable, Hashable {
     /// Date of the event in the format YYYY-MM-DD.
     public var date: String
 
+    public init(rate: Double, trackedSearchCount: Int?, conversionCount: Int, date: String) {
+        self.rate = rate
+        self.trackedSearchCount = trackedSearchCount
+        self.conversionCount = conversionCount
+        self.date = date
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case rate
+        case trackedSearchCount
+        case conversionCount
+        case date
+    }
+
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
@@ -48,14 +49,4 @@ public struct ConversionRateEvent: Codable, JSONEncodable, Hashable {
         try container.encode(self.conversionCount, forKey: .conversionCount)
         try container.encode(self.date, forKey: .date)
     }
-
-    // MARK: Internal
-
-    static let rateRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 1,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

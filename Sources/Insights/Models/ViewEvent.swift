@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ViewEvent
-
 public enum ViewEvent: String, Codable, CaseIterable {
     case view
 }

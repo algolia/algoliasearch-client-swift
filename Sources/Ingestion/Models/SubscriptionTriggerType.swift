@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SubscriptionTriggerType
-
 /// A task which is triggered by an external subscription (e.g. Webhook).
 public enum SubscriptionTriggerType: String, Codable, CaseIterable {
     case subscription

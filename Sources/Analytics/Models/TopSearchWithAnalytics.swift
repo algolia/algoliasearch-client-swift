@@ -7,10 +7,35 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TopSearchWithAnalytics
-
 public struct TopSearchWithAnalytics: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    static let clickThroughRateRule = NumericRule<Double>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: 1,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// User query.
+    public var search: String
+    /// Number of tracked _and_ untracked searches (where the `clickAnalytics` parameter isn't `true`).
+    public var count: Int
+    /// [Click-through rate
+    /// (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
+    public var clickThroughRate: Double
+    /// Average [position](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-position) of
+    /// clicked search result.
+    public var averageClickPosition: Int
+    /// [Conversion rate (CR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#conversion-rate).
+    public var conversionRate: Double
+    /// Number of tracked searches. This is the number of search requests where the `clickAnalytics` parameter is
+    /// `true`.
+    public var trackedSearchCount: Int?
+    /// Number of click events.
+    public var clickCount: Int
+    /// Number of converted clicks.
+    public var conversionCount: Int
+    /// Number of hits the search query matched.
+    public var nbHits: Int
 
     public init(
         search: String,
@@ -34,8 +59,6 @@ public struct TopSearchWithAnalytics: Codable, JSONEncodable, Hashable {
         self.nbHits = nbHits
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case search
         case count
@@ -47,28 +70,6 @@ public struct TopSearchWithAnalytics: Codable, JSONEncodable, Hashable {
         case conversionCount
         case nbHits
     }
-
-    /// User query.
-    public var search: String
-    /// Number of tracked _and_ untracked searches (where the `clickAnalytics` parameter isn't `true`).
-    public var count: Int
-    /// [Click-through rate
-    /// (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
-    public var clickThroughRate: Double
-    /// Average [position](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-position) of
-    /// clicked search result.
-    public var averageClickPosition: Int
-    /// [Conversion rate (CR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#conversion-rate).
-    public var conversionRate: Double
-    /// Number of tracked searches. This is the number of search requests where the `clickAnalytics` parameter is
-    /// `true`.
-    public var trackedSearchCount: Int?
-    /// Number of click events.
-    public var clickCount: Int
-    /// Number of converted clicks.
-    public var conversionCount: Int
-    /// Number of hits the search query matched.
-    public var nbHits: Int
 
     // Encodable protocol methods
 
@@ -84,14 +85,4 @@ public struct TopSearchWithAnalytics: Codable, JSONEncodable, Hashable {
         try container.encode(self.conversionCount, forKey: .conversionCount)
         try container.encode(self.nbHits, forKey: .nbHits)
     }
-
-    // MARK: Internal
-
-    static let clickThroughRateRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 1,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

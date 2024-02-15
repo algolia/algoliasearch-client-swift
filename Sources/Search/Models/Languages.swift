@@ -7,11 +7,11 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Languages
-
 /// Dictionary language.
 public struct Languages: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var plurals: DictionaryLanguage?
+    public var stopwords: DictionaryLanguage?
+    public var compounds: DictionaryLanguage?
 
     public init(plurals: DictionaryLanguage?, stopwords: DictionaryLanguage?, compounds: DictionaryLanguage?) {
         self.plurals = plurals
@@ -19,17 +19,11 @@ public struct Languages: Codable, JSONEncodable, Hashable {
         self.compounds = compounds
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case plurals
         case stopwords
         case compounds
     }
-
-    public var plurals: DictionaryLanguage?
-    public var stopwords: DictionaryLanguage?
-    public var compounds: DictionaryLanguage?
 
     // Encodable protocol methods
 

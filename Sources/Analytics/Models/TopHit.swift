@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TopHit
-
 public struct TopHit: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Hit.
+    public var hit: String
+    /// Number of occurrences.
+    public var count: Int
 
     public init(hit: String, count: Int) {
         self.hit = hit
         self.count = count
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case hit
         case count
     }
-
-    /// Hit.
-    public var hit: String
-    /// Number of occurrences.
-    public var count: Int
 
     // Encodable protocol methods
 

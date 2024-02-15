@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetTopFilterAttribute
-
 public struct GetTopFilterAttribute: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Attribute name.
+    public var attribute: String
+    /// Number of occurrences.
+    public var count: Int
 
     public init(attribute: String, count: Int) {
         self.attribute = attribute
         self.count = count
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case attribute
         case count
     }
-
-    /// Attribute name.
-    public var attribute: String
-    /// Number of occurrences.
-    public var count: Int
 
     // Encodable protocol methods
 

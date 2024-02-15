@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RunSortKeys
-
 /// Used to sort the Run list endpoint.
 public enum RunSortKeys: String, Codable, CaseIterable {
     case status

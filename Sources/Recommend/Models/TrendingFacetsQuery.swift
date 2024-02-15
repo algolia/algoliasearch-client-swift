@@ -7,10 +7,25 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TrendingFacetsQuery
-
 public struct TrendingFacetsQuery: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    static let thresholdRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: 100,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// Algolia index name.
+    public var indexName: String
+    /// Recommendations with a confidence score lower than `threshold` won't appear in results. > **Note**: Each
+    /// recommendation has a confidence score of 0 to 100. The closer the score is to 100, the more relevant the
+    /// recommendations are.
+    public var threshold: Int?
+    /// Maximum number of recommendations to retrieve. If 0, all recommendations will be returned.
+    public var maxRecommendations: Int?
+    /// Facet name for trending models.
+    public var facetName: String
+    public var model: TrendingFacetsModel?
 
     public init(
         indexName: String,
@@ -26,8 +41,6 @@ public struct TrendingFacetsQuery: Codable, JSONEncodable, Hashable {
         self.model = model
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case indexName
         case threshold
@@ -35,18 +48,6 @@ public struct TrendingFacetsQuery: Codable, JSONEncodable, Hashable {
         case facetName
         case model
     }
-
-    /// Algolia index name.
-    public var indexName: String
-    /// Recommendations with a confidence score lower than `threshold` won't appear in results. > **Note**: Each
-    /// recommendation has a confidence score of 0 to 100. The closer the score is to 100, the more relevant the
-    /// recommendations are.
-    public var threshold: Int?
-    /// Maximum number of recommendations to retrieve. If 0, all recommendations will be returned.
-    public var maxRecommendations: Int?
-    /// Facet name for trending models.
-    public var facetName: String
-    public var model: TrendingFacetsModel?
 
     // Encodable protocol methods
 
@@ -58,14 +59,4 @@ public struct TrendingFacetsQuery: Codable, JSONEncodable, Hashable {
         try container.encode(self.facetName, forKey: .facetName)
         try container.encodeIfPresent(self.model, forKey: .model)
     }
-
-    // MARK: Internal
-
-    static let thresholdRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

@@ -7,27 +7,7 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - FacetsStats
-
 public struct FacetsStats: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(min: Double? = nil, max: Double? = nil, avg: Double? = nil, sum: Double? = nil) {
-        self.min = min
-        self.max = max
-        self.avg = avg
-        self.sum = sum
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case min
-        case max
-        case avg
-        case sum
-    }
-
     /// Minimum value in the results.
     public var min: Double?
     /// Maximum value in the results.
@@ -36,6 +16,20 @@ public struct FacetsStats: Codable, JSONEncodable, Hashable {
     public var avg: Double?
     /// Sum of all values in the results.
     public var sum: Double?
+
+    public init(min: Double? = nil, max: Double? = nil, avg: Double? = nil, sum: Double? = nil) {
+        self.min = min
+        self.max = max
+        self.avg = avg
+        self.sum = sum
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case min
+        case max
+        case avg
+        case sum
+    }
 
     // Encodable protocol methods
 

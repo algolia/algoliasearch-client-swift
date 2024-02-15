@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Region
-
 /// The region where the cluster is located.
 public enum Region: String, Codable, CaseIterable {
     case au

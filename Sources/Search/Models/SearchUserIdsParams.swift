@@ -7,28 +7,15 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SearchUserIdsParams
-
 /// OK
 public struct SearchUserIdsParams: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(query: String, clusterName: String? = nil, page: Int? = nil, hitsPerPage: Int? = nil) {
-        self.query = query
-        self.clusterName = clusterName
-        self.page = page
-        self.hitsPerPage = hitsPerPage
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case query
-        case clusterName
-        case page
-        case hitsPerPage
-    }
-
+    static let hitsPerPageRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: 1000,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     /// Query to search. The search is a prefix search with [typo
     /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/) enabled.
     /// An empty query will retrieve all users.
@@ -40,6 +27,20 @@ public struct SearchUserIdsParams: Codable, JSONEncodable, Hashable {
     /// Number of hits per page.
     public var hitsPerPage: Int?
 
+    public init(query: String, clusterName: String? = nil, page: Int? = nil, hitsPerPage: Int? = nil) {
+        self.query = query
+        self.clusterName = clusterName
+        self.page = page
+        self.hitsPerPage = hitsPerPage
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case query
+        case clusterName
+        case page
+        case hitsPerPage
+    }
+
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
@@ -49,14 +50,4 @@ public struct SearchUserIdsParams: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.page, forKey: .page)
         try container.encodeIfPresent(self.hitsPerPage, forKey: .hitsPerPage)
     }
-
-    // MARK: Internal
-
-    static let hitsPerPageRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

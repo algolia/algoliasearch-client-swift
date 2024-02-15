@@ -7,14 +7,20 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - FacetFilters
-
 /// [Filter hits by facet value](https://www.algolia.com/doc/api-reference/api-parameters/facetFilters/).
 public enum FacetFilters: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case string(String)
     case arrayOfMixedSearchFilters([MixedSearchFilters])
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .string(value):
+            try container.encode(value)
+        case let .arrayOfMixedSearchFilters(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -27,18 +33,6 @@ public enum FacetFilters: Codable, JSONEncodable, AbstractEncodable, Hashable {
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of FacetFilters")
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .string(value):
-            try container.encode(value)
-        case let .arrayOfMixedSearchFilters(value):
-            try container.encode(value)
         }
     }
 

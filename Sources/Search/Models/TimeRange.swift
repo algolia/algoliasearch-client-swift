@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TimeRange
-
 public struct TimeRange: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Lower bound of the time range (Unix timestamp).
+    public var from: Int
+    /// Upper bound of the time range (Unix timestamp).
+    public var until: Int
 
     public init(from: Int, until: Int) {
         self.from = from
         self.until = until
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case from
         case until
     }
-
-    /// Lower bound of the time range (Unix timestamp).
-    public var from: Int
-    /// Upper bound of the time range (Unix timestamp).
-    public var until: Int
 
     // Encodable protocol methods
 

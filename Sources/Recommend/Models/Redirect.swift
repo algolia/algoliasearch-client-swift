@@ -7,24 +7,18 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Redirect
-
 /// [Redirect results to a
 /// URL](https://www.algolia.com/doc/guides/managing-results/rules/merchandising-and-promoting/how-to/redirects/).
 public struct Redirect: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var index: [RedirectRuleIndexMetadata]?
 
     public init(index: [RedirectRuleIndexMetadata]? = nil) {
         self.index = index
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case index
     }
-
-    public var index: [RedirectRuleIndexMetadata]?
 
     // Encodable protocol methods
 

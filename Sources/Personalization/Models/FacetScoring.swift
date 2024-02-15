@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - FacetScoring
-
 public struct FacetScoring: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// The score for the event.
+    public var score: Int
+    /// The name of the facet.
+    public var facetName: String
 
     public init(score: Int, facetName: String) {
         self.score = score
         self.facetName = facetName
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case score
         case facetName
     }
-
-    /// The score for the event.
-    public var score: Int
-    /// The name of the facet.
-    public var facetName: String
 
     // Encodable protocol methods
 

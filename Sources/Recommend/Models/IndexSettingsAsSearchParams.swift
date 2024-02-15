@@ -7,155 +7,28 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - IndexSettingsAsSearchParams
-
 public struct IndexSettingsAsSearchParams: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(
-        attributesForFaceting: [String]? = nil,
-        attributesToRetrieve: [String]? = nil,
-        ranking: [String]? = nil,
-        customRanking: [String]? = nil,
-        relevancyStrictness: Int? = nil,
-        attributesToHighlight: [String]? = nil,
-        attributesToSnippet: [String]? = nil,
-        highlightPreTag: String? = nil,
-        highlightPostTag: String? = nil,
-        snippetEllipsisText: String? = nil,
-        restrictHighlightAndSnippetArrays: Bool? = nil,
-        hitsPerPage: Int? = nil,
-        minWordSizefor1Typo: Int? = nil,
-        minWordSizefor2Typos: Int? = nil,
-        typoTolerance: TypoTolerance? = nil,
-        allowTyposOnNumericTokens: Bool? = nil,
-        disableTypoToleranceOnAttributes: [String]? = nil,
-        ignorePlurals: IgnorePlurals? = nil,
-        removeStopWords: RemoveStopWords? = nil,
-        keepDiacriticsOnCharacters: String? = nil,
-        queryLanguages: [String]? = nil,
-        decompoundQuery: Bool? = nil,
-        enableRules: Bool? = nil,
-        enablePersonalization: Bool? = nil,
-        queryType: QueryType? = nil,
-        removeWordsIfNoResults: RemoveWordsIfNoResults? = nil,
-        mode: Mode? = nil,
-        semanticSearch: SemanticSearch? = nil,
-        advancedSyntax: Bool? = nil,
-        optionalWords: [String]? = nil,
-        disableExactOnAttributes: [String]? = nil,
-        exactOnSingleWordQuery: ExactOnSingleWordQuery? = nil,
-        alternativesAsExact: [AlternativesAsExact]? = nil,
-        advancedSyntaxFeatures: [AdvancedSyntaxFeatures]? = nil,
-        distinct: Distinct? = nil,
-        replaceSynonymsInHighlight: Bool? = nil,
-        minProximity: Int? = nil,
-        responseFields: [String]? = nil,
-        maxFacetHits: Int? = nil,
-        maxValuesPerFacet: Int? = nil,
-        sortFacetValuesBy: String? = nil,
-        attributeCriteriaComputedByMinProximity: Bool? = nil,
-        renderingContent: RenderingContent? = nil,
-        enableReRanking: Bool? = nil,
-        reRankingApplyFilter: ReRankingApplyFilter? = nil
-    ) {
-        self.attributesForFaceting = attributesForFaceting
-        self.attributesToRetrieve = attributesToRetrieve
-        self.ranking = ranking
-        self.customRanking = customRanking
-        self.relevancyStrictness = relevancyStrictness
-        self.attributesToHighlight = attributesToHighlight
-        self.attributesToSnippet = attributesToSnippet
-        self.highlightPreTag = highlightPreTag
-        self.highlightPostTag = highlightPostTag
-        self.snippetEllipsisText = snippetEllipsisText
-        self.restrictHighlightAndSnippetArrays = restrictHighlightAndSnippetArrays
-        self.hitsPerPage = hitsPerPage
-        self.minWordSizefor1Typo = minWordSizefor1Typo
-        self.minWordSizefor2Typos = minWordSizefor2Typos
-        self.typoTolerance = typoTolerance
-        self.allowTyposOnNumericTokens = allowTyposOnNumericTokens
-        self.disableTypoToleranceOnAttributes = disableTypoToleranceOnAttributes
-        self.ignorePlurals = ignorePlurals
-        self.removeStopWords = removeStopWords
-        self.keepDiacriticsOnCharacters = keepDiacriticsOnCharacters
-        self.queryLanguages = queryLanguages
-        self.decompoundQuery = decompoundQuery
-        self.enableRules = enableRules
-        self.enablePersonalization = enablePersonalization
-        self.queryType = queryType
-        self.removeWordsIfNoResults = removeWordsIfNoResults
-        self.mode = mode
-        self.semanticSearch = semanticSearch
-        self.advancedSyntax = advancedSyntax
-        self.optionalWords = optionalWords
-        self.disableExactOnAttributes = disableExactOnAttributes
-        self.exactOnSingleWordQuery = exactOnSingleWordQuery
-        self.alternativesAsExact = alternativesAsExact
-        self.advancedSyntaxFeatures = advancedSyntaxFeatures
-        self.distinct = distinct
-        self.replaceSynonymsInHighlight = replaceSynonymsInHighlight
-        self.minProximity = minProximity
-        self.responseFields = responseFields
-        self.maxFacetHits = maxFacetHits
-        self.maxValuesPerFacet = maxValuesPerFacet
-        self.sortFacetValuesBy = sortFacetValuesBy
-        self.attributeCriteriaComputedByMinProximity = attributeCriteriaComputedByMinProximity
-        self.renderingContent = renderingContent
-        self.enableReRanking = enableReRanking
-        self.reRankingApplyFilter = reRankingApplyFilter
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case attributesForFaceting
-        case attributesToRetrieve
-        case ranking
-        case customRanking
-        case relevancyStrictness
-        case attributesToHighlight
-        case attributesToSnippet
-        case highlightPreTag
-        case highlightPostTag
-        case snippetEllipsisText
-        case restrictHighlightAndSnippetArrays
-        case hitsPerPage
-        case minWordSizefor1Typo
-        case minWordSizefor2Typos
-        case typoTolerance
-        case allowTyposOnNumericTokens
-        case disableTypoToleranceOnAttributes
-        case ignorePlurals
-        case removeStopWords
-        case keepDiacriticsOnCharacters
-        case queryLanguages
-        case decompoundQuery
-        case enableRules
-        case enablePersonalization
-        case queryType
-        case removeWordsIfNoResults
-        case mode
-        case semanticSearch
-        case advancedSyntax
-        case optionalWords
-        case disableExactOnAttributes
-        case exactOnSingleWordQuery
-        case alternativesAsExact
-        case advancedSyntaxFeatures
-        case distinct
-        case replaceSynonymsInHighlight
-        case minProximity
-        case responseFields
-        case maxFacetHits
-        case maxValuesPerFacet
-        case sortFacetValuesBy
-        case attributeCriteriaComputedByMinProximity
-        case renderingContent
-        case enableReRanking
-        case reRankingApplyFilter
-    }
-
+    static let hitsPerPageRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: 1000,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let minProximityRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: 7,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let maxFacetHitsRule = NumericRule<Int>(
+        minimum: nil,
+        exclusiveMinimum: false,
+        maximum: 100,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     /// Attributes used for [faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/) and
     /// the [modifiers](https://www.algolia.com/doc/api-reference/api-parameters/attributesForFaceting/#modifiers) that
     /// can be applied: `filterOnly`, `searchable`, and `afterDistinct`.
@@ -256,6 +129,148 @@ public struct IndexSettingsAsSearchParams: Codable, JSONEncodable, Hashable {
     public var enableReRanking: Bool?
     public var reRankingApplyFilter: ReRankingApplyFilter?
 
+    public init(
+        attributesForFaceting: [String]? = nil,
+        attributesToRetrieve: [String]? = nil,
+        ranking: [String]? = nil,
+        customRanking: [String]? = nil,
+        relevancyStrictness: Int? = nil,
+        attributesToHighlight: [String]? = nil,
+        attributesToSnippet: [String]? = nil,
+        highlightPreTag: String? = nil,
+        highlightPostTag: String? = nil,
+        snippetEllipsisText: String? = nil,
+        restrictHighlightAndSnippetArrays: Bool? = nil,
+        hitsPerPage: Int? = nil,
+        minWordSizefor1Typo: Int? = nil,
+        minWordSizefor2Typos: Int? = nil,
+        typoTolerance: TypoTolerance? = nil,
+        allowTyposOnNumericTokens: Bool? = nil,
+        disableTypoToleranceOnAttributes: [String]? = nil,
+        ignorePlurals: IgnorePlurals? = nil,
+        removeStopWords: RemoveStopWords? = nil,
+        keepDiacriticsOnCharacters: String? = nil,
+        queryLanguages: [String]? = nil,
+        decompoundQuery: Bool? = nil,
+        enableRules: Bool? = nil,
+        enablePersonalization: Bool? = nil,
+        queryType: QueryType? = nil,
+        removeWordsIfNoResults: RemoveWordsIfNoResults? = nil,
+        mode: Mode? = nil,
+        semanticSearch: SemanticSearch? = nil,
+        advancedSyntax: Bool? = nil,
+        optionalWords: [String]? = nil,
+        disableExactOnAttributes: [String]? = nil,
+        exactOnSingleWordQuery: ExactOnSingleWordQuery? = nil,
+        alternativesAsExact: [AlternativesAsExact]? = nil,
+        advancedSyntaxFeatures: [AdvancedSyntaxFeatures]? = nil,
+        distinct: Distinct? = nil,
+        replaceSynonymsInHighlight: Bool? = nil,
+        minProximity: Int? = nil,
+        responseFields: [String]? = nil,
+        maxFacetHits: Int? = nil,
+        maxValuesPerFacet: Int? = nil,
+        sortFacetValuesBy: String? = nil,
+        attributeCriteriaComputedByMinProximity: Bool? = nil,
+        renderingContent: RenderingContent? = nil,
+        enableReRanking: Bool? = nil,
+        reRankingApplyFilter: ReRankingApplyFilter? = nil
+    ) {
+        self.attributesForFaceting = attributesForFaceting
+        self.attributesToRetrieve = attributesToRetrieve
+        self.ranking = ranking
+        self.customRanking = customRanking
+        self.relevancyStrictness = relevancyStrictness
+        self.attributesToHighlight = attributesToHighlight
+        self.attributesToSnippet = attributesToSnippet
+        self.highlightPreTag = highlightPreTag
+        self.highlightPostTag = highlightPostTag
+        self.snippetEllipsisText = snippetEllipsisText
+        self.restrictHighlightAndSnippetArrays = restrictHighlightAndSnippetArrays
+        self.hitsPerPage = hitsPerPage
+        self.minWordSizefor1Typo = minWordSizefor1Typo
+        self.minWordSizefor2Typos = minWordSizefor2Typos
+        self.typoTolerance = typoTolerance
+        self.allowTyposOnNumericTokens = allowTyposOnNumericTokens
+        self.disableTypoToleranceOnAttributes = disableTypoToleranceOnAttributes
+        self.ignorePlurals = ignorePlurals
+        self.removeStopWords = removeStopWords
+        self.keepDiacriticsOnCharacters = keepDiacriticsOnCharacters
+        self.queryLanguages = queryLanguages
+        self.decompoundQuery = decompoundQuery
+        self.enableRules = enableRules
+        self.enablePersonalization = enablePersonalization
+        self.queryType = queryType
+        self.removeWordsIfNoResults = removeWordsIfNoResults
+        self.mode = mode
+        self.semanticSearch = semanticSearch
+        self.advancedSyntax = advancedSyntax
+        self.optionalWords = optionalWords
+        self.disableExactOnAttributes = disableExactOnAttributes
+        self.exactOnSingleWordQuery = exactOnSingleWordQuery
+        self.alternativesAsExact = alternativesAsExact
+        self.advancedSyntaxFeatures = advancedSyntaxFeatures
+        self.distinct = distinct
+        self.replaceSynonymsInHighlight = replaceSynonymsInHighlight
+        self.minProximity = minProximity
+        self.responseFields = responseFields
+        self.maxFacetHits = maxFacetHits
+        self.maxValuesPerFacet = maxValuesPerFacet
+        self.sortFacetValuesBy = sortFacetValuesBy
+        self.attributeCriteriaComputedByMinProximity = attributeCriteriaComputedByMinProximity
+        self.renderingContent = renderingContent
+        self.enableReRanking = enableReRanking
+        self.reRankingApplyFilter = reRankingApplyFilter
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case attributesForFaceting
+        case attributesToRetrieve
+        case ranking
+        case customRanking
+        case relevancyStrictness
+        case attributesToHighlight
+        case attributesToSnippet
+        case highlightPreTag
+        case highlightPostTag
+        case snippetEllipsisText
+        case restrictHighlightAndSnippetArrays
+        case hitsPerPage
+        case minWordSizefor1Typo
+        case minWordSizefor2Typos
+        case typoTolerance
+        case allowTyposOnNumericTokens
+        case disableTypoToleranceOnAttributes
+        case ignorePlurals
+        case removeStopWords
+        case keepDiacriticsOnCharacters
+        case queryLanguages
+        case decompoundQuery
+        case enableRules
+        case enablePersonalization
+        case queryType
+        case removeWordsIfNoResults
+        case mode
+        case semanticSearch
+        case advancedSyntax
+        case optionalWords
+        case disableExactOnAttributes
+        case exactOnSingleWordQuery
+        case alternativesAsExact
+        case advancedSyntaxFeatures
+        case distinct
+        case replaceSynonymsInHighlight
+        case minProximity
+        case responseFields
+        case maxFacetHits
+        case maxValuesPerFacet
+        case sortFacetValuesBy
+        case attributeCriteriaComputedByMinProximity
+        case renderingContent
+        case enableReRanking
+        case reRankingApplyFilter
+    }
+
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
@@ -312,28 +327,4 @@ public struct IndexSettingsAsSearchParams: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.enableReRanking, forKey: .enableReRanking)
         try container.encodeIfPresent(self.reRankingApplyFilter, forKey: .reRankingApplyFilter)
     }
-
-    // MARK: Internal
-
-    static let hitsPerPageRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let minProximityRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 7,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let maxFacetHitsRule = NumericRule<Int>(
-        minimum: nil,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

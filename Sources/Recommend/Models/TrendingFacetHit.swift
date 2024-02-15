@@ -7,11 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TrendingFacetHit
-
 /// Trending facet hit.
 public struct TrendingFacetHit: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    static let scoreRule = NumericRule<Double>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: 100,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// Recommendation score.
+    public var score: Double
+    /// Facet name for trending models.
+    public var facetName: String
+    /// Facet value for trending models.
+    public var facetValue: String
 
     public init(score: Double, facetName: String, facetValue: String) {
         self.score = score
@@ -19,20 +29,11 @@ public struct TrendingFacetHit: Codable, JSONEncodable, Hashable {
         self.facetValue = facetValue
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case score = "_score"
         case facetName
         case facetValue
     }
-
-    /// Recommendation score.
-    public var score: Double
-    /// Facet name for trending models.
-    public var facetName: String
-    /// Facet value for trending models.
-    public var facetValue: String
 
     // Encodable protocol methods
 
@@ -42,14 +43,4 @@ public struct TrendingFacetHit: Codable, JSONEncodable, Hashable {
         try container.encode(self.facetName, forKey: .facetName)
         try container.encode(self.facetValue, forKey: .facetValue)
     }
-
-    // MARK: Internal
-
-    static let scoreRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

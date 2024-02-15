@@ -7,24 +7,18 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - CreatedAtResponse
-
 /// Response and creation timestamp.
 public struct CreatedAtResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Timestamp of creation in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format.
+    public var createdAt: String
 
     public init(createdAt: String) {
         self.createdAt = createdAt
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case createdAt
     }
-
-    /// Timestamp of creation in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format.
-    public var createdAt: String
 
     // Encodable protocol methods
 

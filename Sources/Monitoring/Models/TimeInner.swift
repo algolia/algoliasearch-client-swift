@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TimeInner
-
 public struct TimeInner: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Timestamp in [Unix epoch time](https://wikipedia.org/wiki/Unix_time) in milliseconds.
+    public var t: Int64?
+    /// Time in ms.
+    public var v: Int?
 
     public init(t: Int64? = nil, v: Int? = nil) {
         self.t = t
         self.v = v
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case t
         case v
     }
-
-    /// Timestamp in [Unix epoch time](https://wikipedia.org/wiki/Unix_time) in milliseconds.
-    public var t: Int64?
-    /// Time in ms.
-    public var v: Int?
 
     // Encodable protocol methods
 

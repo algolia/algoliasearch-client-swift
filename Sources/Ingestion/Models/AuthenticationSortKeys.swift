@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AuthenticationSortKeys
-
 /// Used to sort the Authentication list endpoint.
 public enum AuthenticationSortKeys: String, Codable, CaseIterable {
     case name

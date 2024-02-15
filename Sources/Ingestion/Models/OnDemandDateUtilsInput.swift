@@ -7,29 +7,23 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - OnDemandDateUtilsInput
-
 /// The input for an &#x60;onDemand&#x60; task whose source is of type &#x60;bigquery&#x60; and for which extracted data
 /// spans a given time range.
 public struct OnDemandDateUtilsInput: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// The start date of the extraction (RFC3339 format).
+    public var startDate: String
+    /// The end date of the extraction (RFC3339 format).
+    public var endDate: String
 
     public init(startDate: String, endDate: String) {
         self.startDate = startDate
         self.endDate = endDate
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case startDate
         case endDate
     }
-
-    /// The start date of the extraction (RFC3339 format).
-    public var startDate: String
-    /// The end date of the extraction (RFC3339 format).
-    public var endDate: String
 
     // Encodable protocol methods
 

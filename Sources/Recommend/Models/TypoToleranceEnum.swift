@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TypoToleranceEnum
-
 public enum TypoToleranceEnum: String, Codable, CaseIterable {
     case min
     case strict

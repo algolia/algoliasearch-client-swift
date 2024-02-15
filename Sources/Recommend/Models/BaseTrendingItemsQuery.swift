@@ -7,10 +7,14 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BaseTrendingItemsQuery
-
 public struct BaseTrendingItemsQuery: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Facet name for trending models.
+    public var facetName: String?
+    /// Facet value for trending models.
+    public var facetValue: String?
+    public var model: TrendingItemsModel?
+    public var queryParameters: SearchParamsObject?
+    public var fallbackParameters: SearchParamsObject?
 
     public init(
         facetName: String? = nil,
@@ -26,8 +30,6 @@ public struct BaseTrendingItemsQuery: Codable, JSONEncodable, Hashable {
         self.fallbackParameters = fallbackParameters
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case facetName
         case facetValue
@@ -35,14 +37,6 @@ public struct BaseTrendingItemsQuery: Codable, JSONEncodable, Hashable {
         case queryParameters
         case fallbackParameters
     }
-
-    /// Facet name for trending models.
-    public var facetName: String?
-    /// Facet value for trending models.
-    public var facetValue: String?
-    public var model: TrendingItemsModel?
-    public var queryParameters: SearchParamsObject?
-    public var fallbackParameters: SearchParamsObject?
 
     // Encodable protocol methods
 

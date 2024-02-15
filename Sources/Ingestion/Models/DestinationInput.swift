@@ -7,13 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DestinationInput
-
 public enum DestinationInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case destinationIndexName(DestinationIndexName)
     case destinationIndexPrefix(DestinationIndexPrefix)
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .destinationIndexName(value):
+            try container.encode(value)
+        case let .destinationIndexPrefix(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -26,18 +32,6 @@ public enum DestinationInput: Codable, JSONEncodable, AbstractEncodable, Hashabl
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of DestinationInput")
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .destinationIndexName(value):
-            try container.encode(value)
-        case let .destinationIndexPrefix(value):
-            try container.encode(value)
         }
     }
 

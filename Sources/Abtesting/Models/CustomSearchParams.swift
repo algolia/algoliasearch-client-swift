@@ -7,25 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - CustomSearchParams
-
 /// Applies search parameters from [a restricted set of
 /// options](https://www.algolia.com/doc/api-reference/api-methods/add-ab-test/#method-param-customsearchparameters).
 /// Only use this parameter if the two variants use the same index.
 public struct CustomSearchParams: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var customSearchParameters: AnyCodable
 
     public init(customSearchParameters: AnyCodable) {
         self.customSearchParameters = customSearchParameters
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case customSearchParameters
     }
-
-    public var customSearchParameters: AnyCodable
 
     // Encodable protocol methods
 

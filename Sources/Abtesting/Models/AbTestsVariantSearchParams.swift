@@ -7,10 +7,14 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AbTestsVariantSearchParams
-
 public struct AbTestsVariantSearchParams: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// A/B test index.
+    public var index: String
+    /// A/B test traffic percentage.
+    public var trafficPercentage: Int
+    /// A/B test description.
+    public var description: String?
+    public var customSearchParameters: AnyCodable
 
     public init(index: String, trafficPercentage: Int, description: String? = nil, customSearchParameters: AnyCodable) {
         self.index = index
@@ -19,22 +23,12 @@ public struct AbTestsVariantSearchParams: Codable, JSONEncodable, Hashable {
         self.customSearchParameters = customSearchParameters
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case index
         case trafficPercentage
         case description
         case customSearchParameters
     }
-
-    /// A/B test index.
-    public var index: String
-    /// A/B test traffic percentage.
-    public var trafficPercentage: Int
-    /// A/B test description.
-    public var description: String?
-    public var customSearchParameters: AnyCodable
 
     // Encodable protocol methods
 

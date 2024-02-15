@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RecordType
-
 /// Determines the indexing strategy to use for a given e-commerce source.
 public enum RecordType: String, Codable, CaseIterable {
     case product

@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - DictionaryEntryState
-
 /// Indicates whether a dictionary entry is active (&#x60;enabled&#x60;) or inactive (&#x60;disabled&#x60;).
 public enum DictionaryEntryState: String, Codable, CaseIterable {
     case enabled

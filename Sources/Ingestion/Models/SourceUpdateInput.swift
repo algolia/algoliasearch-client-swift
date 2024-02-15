@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SourceUpdateInput
-
 public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case sourceBigQuery(SourceBigQuery)
     case sourceCSV(SourceCSV)
@@ -16,7 +14,21 @@ public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable, Hashab
     case sourceUpdateCommercetools(SourceUpdateCommercetools)
     case sourceUpdateDocker(SourceUpdateDocker)
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .sourceBigQuery(value):
+            try container.encode(value)
+        case let .sourceCSV(value):
+            try container.encode(value)
+        case let .sourceJSON(value):
+            try container.encode(value)
+        case let .sourceUpdateCommercetools(value):
+            try container.encode(value)
+        case let .sourceUpdateDocker(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -38,24 +50,6 @@ public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable, Hashab
                     debugDescription: "Unable to decode instance of SourceUpdateInput"
                 )
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .sourceBigQuery(value):
-            try container.encode(value)
-        case let .sourceCSV(value):
-            try container.encode(value)
-        case let .sourceJSON(value):
-            try container.encode(value)
-        case let .sourceUpdateCommercetools(value):
-            try container.encode(value)
-        case let .sourceUpdateDocker(value):
-            try container.encode(value)
         }
     }
 

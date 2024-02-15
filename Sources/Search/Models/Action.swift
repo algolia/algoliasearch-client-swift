@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Action
-
 /// Type of batch operation.
 public enum Action: String, Codable, CaseIterable {
     case addObject

@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BuiltInOperationType
-
 /// Operation to apply to the attribute.
 public enum BuiltInOperationType: String, Codable, CaseIterable {
     case increment = "Increment"

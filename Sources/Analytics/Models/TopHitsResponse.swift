@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TopHitsResponse
-
 public struct TopHitsResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Top hits.
+    public var hits: [TopHit]
 
     public init(hits: [TopHit]) {
         self.hits = hits
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case hits
     }
-
-    /// Top hits.
-    public var hits: [TopHit]
 
     // Encodable protocol methods
 

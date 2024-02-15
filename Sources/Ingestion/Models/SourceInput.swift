@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SourceInput
-
 public enum SourceInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case sourceBigCommerce(SourceBigCommerce)
     case sourceBigQuery(SourceBigQuery)
@@ -17,7 +15,23 @@ public enum SourceInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case sourceDocker(SourceDocker)
     case sourceJSON(SourceJSON)
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .sourceBigCommerce(value):
+            try container.encode(value)
+        case let .sourceBigQuery(value):
+            try container.encode(value)
+        case let .sourceCSV(value):
+            try container.encode(value)
+        case let .sourceCommercetools(value):
+            try container.encode(value)
+        case let .sourceDocker(value):
+            try container.encode(value)
+        case let .sourceJSON(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -38,26 +52,6 @@ public enum SourceInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of SourceInput")
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .sourceBigCommerce(value):
-            try container.encode(value)
-        case let .sourceBigQuery(value):
-            try container.encode(value)
-        case let .sourceCSV(value):
-            try container.encode(value)
-        case let .sourceCommercetools(value):
-            try container.encode(value)
-        case let .sourceDocker(value):
-            try container.encode(value)
-        case let .sourceJSON(value):
-            try container.encode(value)
         }
     }
 

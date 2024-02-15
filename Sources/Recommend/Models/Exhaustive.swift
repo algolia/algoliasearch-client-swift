@@ -7,36 +7,8 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Exhaustive
-
 /// Whether certain properties of the search response are calculated exhaustive (exact) or approximated.
 public struct Exhaustive: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(
-        facetsCount: Bool? = nil,
-        facetValues: Bool? = nil,
-        nbHits: Bool? = nil,
-        rulesMatch: Bool? = nil,
-        typo: Bool? = nil
-    ) {
-        self.facetsCount = facetsCount
-        self.facetValues = facetValues
-        self.nbHits = nbHits
-        self.rulesMatch = rulesMatch
-        self.typo = typo
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case facetsCount
-        case facetValues
-        case nbHits
-        case rulesMatch
-        case typo
-    }
-
     /// Whether the facet count is exhaustive (`true`) or approximate (`false`). See the [related discussion](https://support.algolia.com/hc/en-us/articles/4406975248145-Why-are-my-facet-and-hit-counts-not-accurate-).
     public var facetsCount: Bool?
     /// The value is `false` if not all facet values are retrieved.
@@ -56,6 +28,28 @@ public struct Exhaustive: Codable, JSONEncodable, Hashable {
     /// when a lot of typo alternatives exist for the query). This field will not be included when typo-tolerance is
     /// entirely disabled.
     public var typo: Bool?
+
+    public init(
+        facetsCount: Bool? = nil,
+        facetValues: Bool? = nil,
+        nbHits: Bool? = nil,
+        rulesMatch: Bool? = nil,
+        typo: Bool? = nil
+    ) {
+        self.facetsCount = facetsCount
+        self.facetValues = facetValues
+        self.nbHits = nbHits
+        self.rulesMatch = rulesMatch
+        self.typo = typo
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case facetsCount
+        case facetValues
+        case nbHits
+        case rulesMatch
+        case typo
+    }
 
     // Encodable protocol methods
 

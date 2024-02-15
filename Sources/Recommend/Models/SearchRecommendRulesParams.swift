@@ -7,11 +7,32 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SearchRecommendRulesParams
-
 /// Recommend rules search parameters.
 public struct SearchRecommendRulesParams: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    static let pageRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let hitsPerPageRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: 1000,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// Full-text query.
+    public var query: String?
+    /// Restricts responses to the specified [contextual rule](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#creating-contextual-rules).
+    public var context: String?
+    /// Requested page (the first page is page 0).
+    public var page: Int?
+    /// Maximum number of hits per page.
+    public var hitsPerPage: Int?
+    /// Restricts responses to enabled rules. When absent (default), _all_ rules are retrieved.
+    public var enabled: Bool?
 
     public init(
         query: String? = nil,
@@ -27,8 +48,6 @@ public struct SearchRecommendRulesParams: Codable, JSONEncodable, Hashable {
         self.enabled = enabled
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case query
         case context
@@ -36,17 +55,6 @@ public struct SearchRecommendRulesParams: Codable, JSONEncodable, Hashable {
         case hitsPerPage
         case enabled
     }
-
-    /// Full-text query.
-    public var query: String?
-    /// Restricts responses to the specified [contextual rule](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#creating-contextual-rules).
-    public var context: String?
-    /// Requested page (the first page is page 0).
-    public var page: Int?
-    /// Maximum number of hits per page.
-    public var hitsPerPage: Int?
-    /// Restricts responses to enabled rules. When absent (default), _all_ rules are retrieved.
-    public var enabled: Bool?
 
     // Encodable protocol methods
 
@@ -58,21 +66,4 @@ public struct SearchRecommendRulesParams: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.hitsPerPage, forKey: .hitsPerPage)
         try container.encodeIfPresent(self.enabled, forKey: .enabled)
     }
-
-    // MARK: Internal
-
-    static let pageRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let hitsPerPageRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

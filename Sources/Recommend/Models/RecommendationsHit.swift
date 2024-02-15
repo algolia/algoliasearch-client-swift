@@ -7,13 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RecommendationsHit
-
 public enum RecommendationsHit: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case recommendHit(RecommendHit)
     case trendingFacetHit(TrendingFacetHit)
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .recommendHit(value):
+            try container.encode(value)
+        case let .trendingFacetHit(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -29,18 +35,6 @@ public enum RecommendationsHit: Codable, JSONEncodable, AbstractEncodable, Hasha
                     debugDescription: "Unable to decode instance of RecommendationsHit"
                 )
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .recommendHit(value):
-            try container.encode(value)
-        case let .trendingFacetHit(value):
-            try container.encode(value)
         }
     }
 

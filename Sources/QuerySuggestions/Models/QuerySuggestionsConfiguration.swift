@@ -7,11 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - QuerySuggestionsConfiguration
-
 /// Query Suggestions configuration.
 public struct QuerySuggestionsConfiguration: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Algolia indices from which to get the popular searches for query suggestions.
+    public var sourceIndices: [SourceIndex]
+    public var languages: Languages?
+    /// Patterns to exclude from query suggestions.
+    public var exclude: [String]?
+    /// Turn on personalized query suggestions.
+    public var enablePersonalization: Bool?
+    /// Allow suggestions with special characters.
+    public var allowSpecialCharacters: Bool?
 
     public init(
         sourceIndices: [SourceIndex],
@@ -27,8 +33,6 @@ public struct QuerySuggestionsConfiguration: Codable, JSONEncodable, Hashable {
         self.allowSpecialCharacters = allowSpecialCharacters
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case sourceIndices
         case languages
@@ -36,16 +40,6 @@ public struct QuerySuggestionsConfiguration: Codable, JSONEncodable, Hashable {
         case enablePersonalization
         case allowSpecialCharacters
     }
-
-    /// Algolia indices from which to get the popular searches for query suggestions.
-    public var sourceIndices: [SourceIndex]
-    public var languages: Languages?
-    /// Patterns to exclude from query suggestions.
-    public var exclude: [String]?
-    /// Turn on personalized query suggestions.
-    public var enablePersonalization: Bool?
-    /// Allow suggestions with special characters.
-    public var allowSpecialCharacters: Bool?
 
     // Encodable protocol methods
 

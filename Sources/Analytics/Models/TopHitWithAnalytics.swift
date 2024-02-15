@@ -7,10 +7,30 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TopHitWithAnalytics
-
 public struct TopHitWithAnalytics: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    static let clickThroughRateRule = NumericRule<Double>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: 1,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// Hit.
+    public var hit: String
+    /// Number of occurrences.
+    public var count: Int
+    /// [Click-through rate
+    /// (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
+    public var clickThroughRate: Double
+    /// [Conversion rate (CR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#conversion-rate).
+    public var conversionRate: Double
+    /// Number of tracked searches. This is the number of search requests where the `clickAnalytics` parameter is
+    /// `true`.
+    public var trackedSearchCount: Int?
+    /// Number of click events.
+    public var clickCount: Int
+    /// Number of converted clicks.
+    public var conversionCount: Int
 
     public init(
         hit: String,
@@ -30,8 +50,6 @@ public struct TopHitWithAnalytics: Codable, JSONEncodable, Hashable {
         self.conversionCount = conversionCount
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case hit
         case count
@@ -41,23 +59,6 @@ public struct TopHitWithAnalytics: Codable, JSONEncodable, Hashable {
         case clickCount
         case conversionCount
     }
-
-    /// Hit.
-    public var hit: String
-    /// Number of occurrences.
-    public var count: Int
-    /// [Click-through rate
-    /// (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
-    public var clickThroughRate: Double
-    /// [Conversion rate (CR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#conversion-rate).
-    public var conversionRate: Double
-    /// Number of tracked searches. This is the number of search requests where the `clickAnalytics` parameter is
-    /// `true`.
-    public var trackedSearchCount: Int?
-    /// Number of click events.
-    public var clickCount: Int
-    /// Number of converted clicks.
-    public var conversionCount: Int
 
     // Encodable protocol methods
 
@@ -71,14 +72,4 @@ public struct TopHitWithAnalytics: Codable, JSONEncodable, Hashable {
         try container.encode(self.clickCount, forKey: .clickCount)
         try container.encode(self.conversionCount, forKey: .conversionCount)
     }
-
-    // MARK: Internal
-
-    static let clickThroughRateRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 1,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

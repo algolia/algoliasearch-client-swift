@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ServerStatus
-
 public enum ServerStatus: String, Codable, CaseIterable {
     case production = "PRODUCTION"
 }

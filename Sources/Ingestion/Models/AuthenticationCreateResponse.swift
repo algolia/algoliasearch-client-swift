@@ -7,11 +7,14 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AuthenticationCreateResponse
-
 /// Response from the API when the Authentication is successfully created.
 public struct AuthenticationCreateResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// The authentication UUID.
+    public var authenticationID: String
+    /// An human readable name describing the object.
+    public var name: String
+    /// Date of creation (RFC3339 format).
+    public var createdAt: String
 
     public init(authenticationID: String, name: String, createdAt: String) {
         self.authenticationID = authenticationID
@@ -19,20 +22,11 @@ public struct AuthenticationCreateResponse: Codable, JSONEncodable, Hashable {
         self.createdAt = createdAt
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case authenticationID
         case name
         case createdAt
     }
-
-    /// The authentication UUID.
-    public var authenticationID: String
-    /// An human readable name describing the object.
-    public var name: String
-    /// Date of creation (RFC3339 format).
-    public var createdAt: String
 
     // Encodable protocol methods
 

@@ -7,10 +7,11 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SourceUpdate
-
 public struct SourceUpdate: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var name: String?
+    public var input: SourceUpdateInput?
+    /// The authentication UUID.
+    public var authenticationID: String?
 
     public init(name: String? = nil, input: SourceUpdateInput? = nil, authenticationID: String? = nil) {
         self.name = name
@@ -18,18 +19,11 @@ public struct SourceUpdate: Codable, JSONEncodable, Hashable {
         self.authenticationID = authenticationID
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case name
         case input
         case authenticationID
     }
-
-    public var name: String?
-    public var input: SourceUpdateInput?
-    /// The authentication UUID.
-    public var authenticationID: String?
 
     // Encodable protocol methods
 

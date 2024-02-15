@@ -7,15 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ReRankingApplyFilter
-
 /// When [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/) is enabled, only records that
 /// match these filters will be affected by Dynamic Re-Ranking.
 public enum ReRankingApplyFilter: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case string(String)
     case arrayOfMixedSearchFilters([MixedSearchFilters])
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .string(value):
+            try container.encode(value)
+        case let .arrayOfMixedSearchFilters(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -31,18 +37,6 @@ public enum ReRankingApplyFilter: Codable, JSONEncodable, AbstractEncodable, Has
                     debugDescription: "Unable to decode instance of ReRankingApplyFilter"
                 )
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .string(value):
-            try container.encode(value)
-        case let .arrayOfMixedSearchFilters(value):
-            try container.encode(value)
         }
     }
 

@@ -9,10 +9,13 @@ import Foundation
 
 typealias Client = IngestionClient
 
-// MARK: - IngestionClient
-
 open class IngestionClient {
-    // MARK: Lifecycle
+    private var configuration: Configuration
+    private var transporter: Transporter
+
+    var appID: String {
+        self.configuration.appID
+    }
 
     public init(configuration: Configuration, transporter: Transporter) {
         self.configuration = configuration
@@ -26,8 +29,6 @@ open class IngestionClient {
     public convenience init(appID: String, apiKey: String, region: Region) throws {
         try self.init(configuration: Configuration(appID: appID, apiKey: apiKey, region: region))
     }
-
-    // MARK: Open
 
     /// - parameter authenticationCreate: (body)
     /// - returns: AuthenticationCreateResponse
@@ -2410,15 +2411,4 @@ open class IngestionClient {
             requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
         )
     }
-
-    // MARK: Internal
-
-    var appID: String {
-        self.configuration.appID
-    }
-
-    // MARK: Private
-
-    private var configuration: Configuration
-    private var transporter: Transporter
 }

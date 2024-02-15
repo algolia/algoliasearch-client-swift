@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - TopCountry
-
 public struct TopCountry: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Country.
+    public var country: String
+    /// Number of occurrences.
+    public var count: Int
 
     public init(country: String, count: Int) {
         self.country = country
         self.count = count
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case country
         case count
     }
-
-    /// Country.
-    public var country: String
-    /// Number of occurrences.
-    public var count: Int
 
     // Encodable protocol methods
 

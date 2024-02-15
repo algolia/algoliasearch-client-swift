@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RemoveStopWords
-
 /// Removes stop (common) words from the query before executing it. &#x60;removeStopWords&#x60; is used in conjunction
 /// with the &#x60;queryLanguages&#x60; setting. _list_: language ISO codes for which stop words should be enabled. This
 /// list will override any values that you may have set in &#x60;queryLanguages&#x60;. _true_: enables the stop words
@@ -20,7 +18,15 @@ public enum RemoveStopWords: Codable, JSONEncodable, AbstractEncodable, Hashable
     case bool(Bool)
     case arrayOfString([String])
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .bool(value):
+            try container.encode(value)
+        case let .arrayOfString(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -33,18 +39,6 @@ public enum RemoveStopWords: Codable, JSONEncodable, AbstractEncodable, Hashable
                 Self.Type.self,
                 .init(codingPath: decoder.codingPath, debugDescription: "Unable to decode instance of RemoveStopWords")
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .bool(value):
-            try container.encode(value)
-        case let .arrayOfString(value):
-            try container.encode(value)
         }
     }
 

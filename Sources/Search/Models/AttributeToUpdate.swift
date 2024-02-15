@@ -7,13 +7,19 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AttributeToUpdate
-
 public enum AttributeToUpdate: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case builtInOperation(BuiltInOperation)
     case string(String)
 
-    // MARK: Lifecycle
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case let .builtInOperation(value):
+            try container.encode(value)
+        case let .string(value):
+            try container.encode(value)
+        }
+    }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -29,18 +35,6 @@ public enum AttributeToUpdate: Codable, JSONEncodable, AbstractEncodable, Hashab
                     debugDescription: "Unable to decode instance of AttributeToUpdate"
                 )
             )
-        }
-    }
-
-    // MARK: Public
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case let .builtInOperation(value):
-            try container.encode(value)
-        case let .string(value):
-            try container.encode(value)
         }
     }
 

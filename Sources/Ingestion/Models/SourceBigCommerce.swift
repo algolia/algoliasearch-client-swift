@@ -7,10 +7,13 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SourceBigCommerce
-
 public struct SourceBigCommerce: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// The store hash identifying the store the shopper is signing in to.
+    public var storeHash: String?
+    public var channel: BigCommerceChannel?
+    public var customFields: [String]?
+    public var productMetafields: [BigCommerceMetafield]?
+    public var variantMetafields: [BigCommerceMetafield]?
 
     public init(
         storeHash: String? = nil,
@@ -26,8 +29,6 @@ public struct SourceBigCommerce: Codable, JSONEncodable, Hashable {
         self.variantMetafields = variantMetafields
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case storeHash
         case channel
@@ -35,13 +36,6 @@ public struct SourceBigCommerce: Codable, JSONEncodable, Hashable {
         case productMetafields
         case variantMetafields
     }
-
-    /// The store hash identifying the store the shopper is signing in to.
-    public var storeHash: String?
-    public var channel: BigCommerceChannel?
-    public var customFields: [String]?
-    public var productMetafields: [BigCommerceMetafield]?
-    public var variantMetafields: [BigCommerceMetafield]?
 
     // Encodable protocol methods
 

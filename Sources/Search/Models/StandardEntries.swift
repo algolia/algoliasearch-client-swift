@@ -7,12 +7,15 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - StandardEntries
-
 /// Key-value pairs of [supported language ISO codes](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/)
 /// and boolean values.
 public struct StandardEntries: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Key-value pair of a language ISO code and a boolean value.
+    public var plurals: [String: Bool]?
+    /// Key-value pair of a language ISO code and a boolean value.
+    public var stopwords: [String: Bool]?
+    /// Key-value pair of a language ISO code and a boolean value.
+    public var compounds: [String: Bool]?
 
     public init(plurals: [String: Bool]? = nil, stopwords: [String: Bool]? = nil, compounds: [String: Bool]? = nil) {
         self.plurals = plurals
@@ -20,20 +23,11 @@ public struct StandardEntries: Codable, JSONEncodable, Hashable {
         self.compounds = compounds
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case plurals
         case stopwords
         case compounds
     }
-
-    /// Key-value pair of a language ISO code and a boolean value.
-    public var plurals: [String: Bool]?
-    /// Key-value pair of a language ISO code and a boolean value.
-    public var stopwords: [String: Bool]?
-    /// Key-value pair of a language ISO code and a boolean value.
-    public var compounds: [String: Bool]?
 
     // Encodable protocol methods
 

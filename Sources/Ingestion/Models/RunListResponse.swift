@@ -7,10 +7,10 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - RunListResponse
-
 public struct RunListResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var runs: [Run]
+    public var pagination: Pagination
+    public var window: Window
 
     public init(runs: [Run], pagination: Pagination, window: Window) {
         self.runs = runs
@@ -18,17 +18,11 @@ public struct RunListResponse: Codable, JSONEncodable, Hashable {
         self.window = window
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case runs
         case pagination
         case window
     }
-
-    public var runs: [Run]
-    public var pagination: Pagination
-    public var window: Window
 
     // Encodable protocol methods
 

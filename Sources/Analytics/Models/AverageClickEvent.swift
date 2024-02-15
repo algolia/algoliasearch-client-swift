@@ -7,10 +7,13 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AverageClickEvent
-
 public struct AverageClickEvent: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Average count of all click events.
+    public var average: Double
+    /// Number of click events.
+    public var clickCount: Int
+    /// Date of the event in the format YYYY-MM-DD.
+    public var date: String
 
     public init(average: Double, clickCount: Int, date: String) {
         self.average = average
@@ -18,20 +21,11 @@ public struct AverageClickEvent: Codable, JSONEncodable, Hashable {
         self.date = date
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case average
         case clickCount
         case date
     }
-
-    /// Average count of all click events.
-    public var average: Double
-    /// Number of click events.
-    public var clickCount: Int
-    /// Date of the event in the format YYYY-MM-DD.
-    public var date: String
 
     // Encodable protocol methods
 

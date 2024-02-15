@@ -7,28 +7,22 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - BatchAssignUserIdsParams
-
 /// Assign userID parameters.
 public struct BatchAssignUserIdsParams: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Cluster name.
+    public var cluster: String
+    /// User IDs to assign.
+    public var users: [String]
 
     public init(cluster: String, users: [String]) {
         self.cluster = cluster
         self.users = users
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case cluster
         case users
     }
-
-    /// Cluster name.
-    public var cluster: String
-    /// User IDs to assign.
-    public var users: [String]
 
     // Encodable protocol methods
 

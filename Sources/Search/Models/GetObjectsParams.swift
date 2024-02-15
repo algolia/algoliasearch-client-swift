@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetObjectsParams
-
 /// Request parameters.
 public struct GetObjectsParams: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var requests: [GetObjectsRequest]
 
     public init(requests: [GetObjectsRequest]) {
         self.requests = requests
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case requests
     }
-
-    public var requests: [GetObjectsRequest]
 
     // Encodable protocol methods
 

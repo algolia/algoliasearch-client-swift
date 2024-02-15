@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ConversionEvent
-
 public enum ConversionEvent: String, Codable, CaseIterable {
     case conversion
 }

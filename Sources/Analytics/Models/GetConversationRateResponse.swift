@@ -7,27 +7,14 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetConversationRateResponse
-
 public struct GetConversationRateResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(rate: Double, trackedSearchCount: Int?, conversionCount: Int, dates: [ConversionRateEvent]) {
-        self.rate = rate
-        self.trackedSearchCount = trackedSearchCount
-        self.conversionCount = conversionCount
-        self.dates = dates
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case rate
-        case trackedSearchCount
-        case conversionCount
-        case dates
-    }
-
+    static let rateRule = NumericRule<Double>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: 1,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     /// [Click-through rate
     /// (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
     public var rate: Double
@@ -39,6 +26,20 @@ public struct GetConversationRateResponse: Codable, JSONEncodable, Hashable {
     /// Conversion events.
     public var dates: [ConversionRateEvent]
 
+    public init(rate: Double, trackedSearchCount: Int?, conversionCount: Int, dates: [ConversionRateEvent]) {
+        self.rate = rate
+        self.trackedSearchCount = trackedSearchCount
+        self.conversionCount = conversionCount
+        self.dates = dates
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case rate
+        case trackedSearchCount
+        case conversionCount
+        case dates
+    }
+
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
@@ -48,14 +49,4 @@ public struct GetConversationRateResponse: Codable, JSONEncodable, Hashable {
         try container.encode(self.conversionCount, forKey: .conversionCount)
         try container.encode(self.dates, forKey: .dates)
     }
-
-    // MARK: Internal
-
-    static let rateRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 1,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
 }

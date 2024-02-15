@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - GetTopFiltersNoResultsResponse
-
 public struct GetTopFiltersNoResultsResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Filters with no results.
+    public var values: [GetTopFiltersNoResultsValues]
 
     public init(values: [GetTopFiltersNoResultsValues]) {
         self.values = values
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case values
     }
-
-    /// Filters with no results.
-    public var values: [GetTopFiltersNoResultsValues]
 
     // Encodable protocol methods
 

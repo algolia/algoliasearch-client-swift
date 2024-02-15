@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - AuthenticationType
-
 /// Type of the Authentication, defines what kind of object is stored in the input.
 public enum AuthenticationType: String, Codable, CaseIterable {
     case googleServiceAccount

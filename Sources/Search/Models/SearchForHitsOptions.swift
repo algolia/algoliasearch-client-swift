@@ -7,26 +7,20 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SearchForHitsOptions
-
 public struct SearchForHitsOptions: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// Algolia index name.
+    public var indexName: String
+    public var type: SearchTypeDefault?
 
     public init(indexName: String, type: SearchTypeDefault? = nil) {
         self.indexName = indexName
         self.type = type
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case indexName
         case type
     }
-
-    /// Algolia index name.
-    public var indexName: String
-    public var type: SearchTypeDefault?
 
     // Encodable protocol methods
 

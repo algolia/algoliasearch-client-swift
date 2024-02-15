@@ -7,23 +7,17 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SubscriptionTrigger
-
 /// The trigger input for a task of type &#39;subscription&#39;.
 public struct SubscriptionTrigger: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var type: SubscriptionTriggerType
 
     public init(type: SubscriptionTriggerType) {
         self.type = type
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case type
     }
-
-    public var type: SubscriptionTriggerType
 
     // Encodable protocol methods
 

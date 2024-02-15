@@ -7,10 +7,13 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Personalization
-
 public struct Personalization: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// The score of the filters.
+    public var filtersScore: Int?
+    /// The score of the ranking.
+    public var rankingScore: Int?
+    /// The score of the event.
+    public var score: Int?
 
     public init(filtersScore: Int? = nil, rankingScore: Int? = nil, score: Int? = nil) {
         self.filtersScore = filtersScore
@@ -18,20 +21,11 @@ public struct Personalization: Codable, JSONEncodable, Hashable {
         self.score = score
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case filtersScore
         case rankingScore
         case score
     }
-
-    /// The score of the filters.
-    public var filtersScore: Int?
-    /// The score of the ranking.
-    public var rankingScore: Int?
-    /// The score of the event.
-    public var score: Int?
 
     // Encodable protocol methods
 

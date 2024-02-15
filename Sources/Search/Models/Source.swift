@@ -7,28 +7,22 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Source
-
 /// Source.
 public struct Source: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    /// IP address range of the source.
+    public var source: String
+    /// Source description.
+    public var description: String?
 
     public init(source: String, description: String? = nil) {
         self.source = source
         self.description = description
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case source
         case description
     }
-
-    /// IP address range of the source.
-    public var source: String
-    /// Source description.
-    public var description: String?
 
     // Encodable protocol methods
 

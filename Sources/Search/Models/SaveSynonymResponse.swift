@@ -7,25 +7,7 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - SaveSynonymResponse
-
 public struct SaveSynonymResponse: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
-
-    public init(taskID: Int64, updatedAt: String, id: String) {
-        self.taskID = taskID
-        self.updatedAt = updatedAt
-        self.id = id
-    }
-
-    // MARK: Public
-
-    public enum CodingKeys: String, CodingKey, CaseIterable {
-        case taskID
-        case updatedAt
-        case id
-    }
-
     /// Unique identifier of a task. A successful API response means that a task was added to a queue. It might not run
     /// immediately. You can check the task's progress with the `task` operation and this `taskID`.
     public var taskID: Int64
@@ -33,6 +15,18 @@ public struct SaveSynonymResponse: Codable, JSONEncodable, Hashable {
     public var updatedAt: String
     /// Unique identifier of a synonym object.
     public var id: String
+
+    public init(taskID: Int64, updatedAt: String, id: String) {
+        self.taskID = taskID
+        self.updatedAt = updatedAt
+        self.id = id
+    }
+
+    public enum CodingKeys: String, CodingKey, CaseIterable {
+        case taskID
+        case updatedAt
+        case id
+    }
 
     // Encodable protocol methods
 

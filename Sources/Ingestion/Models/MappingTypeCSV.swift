@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - MappingTypeCSV
-
 public enum MappingTypeCSV: String, Codable, CaseIterable {
     case string
     case integer

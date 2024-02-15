@@ -7,27 +7,21 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - ScheduleTriggerInput
-
 /// The trigger input for a task of type &#39;schedule&#39;.
 public struct ScheduleTriggerInput: Codable, JSONEncodable, Hashable {
-    // MARK: Lifecycle
+    public var type: ScheduleTriggerType
+    /// A cron expression that represent at which regularity the task should run.
+    public var cron: String
 
     public init(type: ScheduleTriggerType, cron: String) {
         self.type = type
         self.cron = cron
     }
 
-    // MARK: Public
-
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case type
         case cron
     }
-
-    public var type: ScheduleTriggerType
-    /// A cron expression that represent at which regularity the task should run.
-    public var cron: String
 
     // Encodable protocol methods
 

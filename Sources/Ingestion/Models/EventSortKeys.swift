@@ -7,8 +7,6 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - EventSortKeys
-
 /// Used to sort the Event list endpoint.
 public enum EventSortKeys: String, Codable, CaseIterable {
     case status
