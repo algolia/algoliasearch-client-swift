@@ -5,29 +5,19 @@
 
 import Foundation
 
-// MARK: - StringRule
-
 public struct StringRule {
-    // MARK: Lifecycle
-
     public init(minLength: Int? = nil, maxLength: Int? = nil, pattern: String? = nil) {
         self.minLength = minLength
         self.maxLength = maxLength
         self.pattern = pattern
     }
 
-    // MARK: Public
-
     public var minLength: Int?
     public var maxLength: Int?
     public var pattern: String?
 }
 
-// MARK: - NumericRule
-
 public struct NumericRule<T: Comparable & Numeric> {
-    // MARK: Lifecycle
-
     public init(
         minimum: T? = nil, exclusiveMinimum: Bool = false, maximum: T? = nil,
         exclusiveMaximum: Bool = false, multipleOf: T? = nil
@@ -39,8 +29,6 @@ public struct NumericRule<T: Comparable & Numeric> {
         self.multipleOf = multipleOf
     }
 
-    // MARK: Public
-
     public var minimum: T?
     public var exclusiveMinimum = false
     public var maximum: T?
@@ -48,15 +36,11 @@ public struct NumericRule<T: Comparable & Numeric> {
     public var multipleOf: T?
 }
 
-// MARK: - StringValidationErrorKind
-
 public enum StringValidationErrorKind: Error {
     case minLength
     case maxLength
     case pattern
 }
-
-// MARK: - NumericValidationErrorKind
 
 public enum NumericValidationErrorKind: Error {
     case minimum
@@ -64,13 +48,9 @@ public enum NumericValidationErrorKind: Error {
     case multipleOf
 }
 
-// MARK: - ValidationError
-
 public struct ValidationError<T: Error & Hashable>: Error {
     public fileprivate(set) var kinds: Set<T>
 }
-
-// MARK: - Validator
 
 public enum Validator {
     /// Validate a string against a rule.

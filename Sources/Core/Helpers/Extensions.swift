@@ -12,61 +12,41 @@ import Foundation
     import AnyCodable
 #endif
 
-// MARK: - Bool + JSONEncodable
-
 extension Bool: JSONEncodable {
     public func encodeToJSON() -> Any { self }
 }
-
-// MARK: - Float + JSONEncodable
 
 extension Float: JSONEncodable {
     public func encodeToJSON() -> Any { self }
 }
 
-// MARK: - Int + JSONEncodable
-
 extension Int: JSONEncodable {
     public func encodeToJSON() -> Any { self }
 }
-
-// MARK: - Int32 + JSONEncodable
 
 extension Int32: JSONEncodable {
     public func encodeToJSON() -> Any { self }
 }
 
-// MARK: - Int64 + JSONEncodable
-
 extension Int64: JSONEncodable {
     public func encodeToJSON() -> Any { self }
 }
-
-// MARK: - Double + JSONEncodable
 
 extension Double: JSONEncodable {
     public func encodeToJSON() -> Any { self }
 }
 
-// MARK: - Decimal + JSONEncodable
-
 extension Decimal: JSONEncodable {
     public func encodeToJSON() -> Any { self }
 }
-
-// MARK: - String + JSONEncodable
 
 extension String: JSONEncodable {
     public func encodeToJSON() -> Any { self }
 }
 
-// MARK: - URL + JSONEncodable
-
 extension URL: JSONEncodable {
     public func encodeToJSON() -> Any { self }
 }
-
-// MARK: - UUID + JSONEncodable
 
 extension UUID: JSONEncodable {
     public func encodeToJSON() -> Any { self }
@@ -84,23 +64,17 @@ private func encodeIfPossible(_ object: some Any) -> Any {
     }
 }
 
-// MARK: - Array + JSONEncodable
-
 extension Array: JSONEncodable {
     public func encodeToJSON() -> Any {
         map(encodeIfPossible)
     }
 }
 
-// MARK: - Set + JSONEncodable
-
 extension Set: JSONEncodable {
     public func encodeToJSON() -> Any {
         Array(self).encodeToJSON()
     }
 }
-
-// MARK: - Dictionary + JSONEncodable
 
 extension Dictionary: JSONEncodable where Key == String {
     public func encodeToJSON() -> Any {
@@ -111,8 +85,6 @@ extension Dictionary: JSONEncodable where Key == String {
         return dictionary
     }
 }
-
-// MARK: - Data + JSONEncodable
 
 extension Data: JSONEncodable {
     public func encodeToJSON() -> Any {
@@ -129,8 +101,6 @@ extension Data: JSONEncodable {
         return json["data"] as Any
     }
 }
-
-// MARK: - Date + JSONEncodable
 
 extension Date: JSONEncodable {
     public func encodeToJSON() -> Any {
@@ -152,8 +122,6 @@ public extension JSONEncodable where Self: Encodable {
         return data.encodeToJSON()
     }
 }
-
-// MARK: - String + CodingKey
 
 extension String: CodingKey {
     public var stringValue: String {
@@ -284,8 +252,6 @@ extension HTTPURLResponse {
     }
 }
 
-// MARK: - URLRequest.FormatError
-
 public extension URLRequest {
     enum FormatError: LocalizedError {
         case missingURL
@@ -293,8 +259,6 @@ public extension URLRequest {
         case badHost(String)
         case invalidPath(String)
         case invalidQueryItems
-
-        // MARK: Public
 
         public var errorDescription: String? {
             let contactUs = "Please contact support@algolia.com if this problem occurs."

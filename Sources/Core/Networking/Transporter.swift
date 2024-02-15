@@ -12,7 +12,9 @@ import Foundation
 // MARK: - Transporter
 
 open class Transporter {
-    // MARK: Lifecycle
+    let configuration: Configuration
+    let retryStrategy: RetryStrategy
+    let requestBuilder: RequestBuilder
 
     public init(
         configuration: Configuration,
@@ -37,8 +39,6 @@ open class Transporter {
 
         self.requestBuilder = requestBuilder
     }
-
-    // MARK: Public
 
     public func send<T: Decodable>(
         method: String, path: String, data: Codable?, requestOptions: RequestOptions? = nil,
@@ -132,10 +132,4 @@ open class Transporter {
 
         throw AlgoliaError.noReachableHosts(intermediateErrors: intermediateErrors)
     }
-
-    // MARK: Internal
-
-    let configuration: Configuration
-    let retryStrategy: RetryStrategy
-    let requestBuilder: RequestBuilder
 }

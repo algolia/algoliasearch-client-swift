@@ -16,7 +16,11 @@ import Foundation
 // Algolia's retry strategy in case of server error, timeouts...
 
 class AlgoliaRetryStrategy: RetryStrategy {
-    // MARK: Lifecycle
+    private var hosts: [RetryableHost]
+    /// Concurrent synchronization queue
+    private let queue = DispatchQueue(label: "AlgoliaRetryStrategySync.queue")
+
+    let hostsExpirationDelay: TimeInterval
 
     init(hosts: [RetryableHost], hostsExpirationDelay: TimeInterval = .minutes(5)) {
         self.hosts = hosts
@@ -26,10 +30,6 @@ class AlgoliaRetryStrategy: RetryStrategy {
     convenience init(configuration: Configuration) {
         self.init(hosts: configuration.hosts)
     }
-
-    // MARK: Internal
-
-    let hostsExpirationDelay: TimeInterval
 
     func retryableHosts(for callType: CallType) -> HostIterator {
         self.queue.sync {
@@ -109,12 +109,6 @@ class AlgoliaRetryStrategy: RetryStrategy {
     func canRetry(inCaseOf error: some Error) -> Bool {
         self.isTimeout(error) || self.isRetryable(error)
     }
-
-    // MARK: Private
-
-    private var hosts: [RetryableHost]
-    /// Concurrent synchronization queue
-    private let queue = DispatchQueue(label: "AlgoliaRetryStrategySync.queue")
 }
 
 // MARK: CustomDebugStringConvertible

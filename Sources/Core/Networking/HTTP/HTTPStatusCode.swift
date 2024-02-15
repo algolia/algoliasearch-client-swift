@@ -33,8 +33,6 @@ enum HTTPStatusCategory {
     case clientError
     case serverError
 
-    // MARK: Internal
-
     var range: Range<Int> {
         switch self {
         case .informational:

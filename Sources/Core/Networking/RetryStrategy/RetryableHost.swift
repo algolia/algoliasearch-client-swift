@@ -10,7 +10,13 @@ import Foundation
 // MARK: - RetryableHost
 
 public struct RetryableHost {
-    // MARK: Lifecycle
+    /// The url to target.
+    public let url: URL
+
+    let supportedCallTypes: CallTypeSupport
+    var isUp: Bool
+    var lastUpdated: Date
+    var retryCount: Int
 
     public init(url: URL) {
         self.init(url: url, callType: .universal)
@@ -24,11 +30,6 @@ public struct RetryableHost {
         self.retryCount = 0
     }
 
-    // MARK: Public
-
-    /// The url to target.
-    public let url: URL
-
     public func supports(_ callType: CallType) -> Bool {
         switch callType {
         case .read:
@@ -37,13 +38,6 @@ public struct RetryableHost {
             self.supportedCallTypes.contains(.write)
         }
     }
-
-    // MARK: Internal
-
-    let supportedCallTypes: CallTypeSupport
-    var isUp: Bool
-    var lastUpdated: Date
-    var retryCount: Int
 
     mutating func reset() {
         self.lastUpdated = .init()
@@ -67,19 +61,15 @@ public struct RetryableHost {
 
 public extension RetryableHost {
     struct CallTypeSupport: OptionSet {
-        // MARK: Lifecycle
-
-        public init(rawValue: Int) {
-            self.rawValue = rawValue
-        }
-
-        // MARK: Public
-
         public static let read = CallTypeSupport(rawValue: 1 << 0)
         public static let write = CallTypeSupport(rawValue: 1 << 1)
         public static let universal: CallTypeSupport = [.read, .write]
 
         public let rawValue: Int
+
+        public init(rawValue: Int) {
+            self.rawValue = rawValue
+        }
     }
 }
 

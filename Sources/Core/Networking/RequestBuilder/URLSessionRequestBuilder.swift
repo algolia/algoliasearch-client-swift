@@ -14,7 +14,7 @@ import Foundation
 // MARK: - URLSessionRequestBuilder
 
 open class URLSessionRequestBuilder: RequestBuilder {
-    // MARK: Lifecycle
+    private(set) var sessionManager: URLSession
 
     public required init() {
         let sessionConfiguration: URLSessionConfiguration = .default
@@ -27,8 +27,6 @@ open class URLSessionRequestBuilder: RequestBuilder {
     ) {
         self.sessionManager = URLSession(configuration: sessionConfiguration)
     }
-
-    // MARK: Open
 
     @discardableResult
     open func execute<T: Decodable>(urlRequest: URLRequest, timeout: TimeInterval) async throws
@@ -50,12 +48,6 @@ open class URLSessionRequestBuilder: RequestBuilder {
             urlRequest: urlRequest, data: responseData, response: httpResponse
         )
     }
-
-    // MARK: Internal
-
-    private(set) var sessionManager: URLSession
-
-    // MARK: Fileprivate
 
     fileprivate func processRequestResponse<T: Decodable>(
         urlRequest _: URLRequest, data: Data?, response: URLResponse?

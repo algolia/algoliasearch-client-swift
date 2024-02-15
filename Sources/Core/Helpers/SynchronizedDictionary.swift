@@ -6,8 +6,6 @@
 import Foundation
 
 struct SynchronizedDictionary<K: Hashable, V> {
-    // MARK: Internal
-
     subscript(key: K) -> V? {
         get {
             var value: V?
@@ -24,8 +22,6 @@ struct SynchronizedDictionary<K: Hashable, V> {
             }
         }
     }
-
-    // MARK: Private
 
     private var dictionary = [K: V]()
     private let queue = DispatchQueue(

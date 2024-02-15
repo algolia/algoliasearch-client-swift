@@ -17,8 +17,6 @@ public enum AlgoliaError: Error, LocalizedError {
     case invalidCredentials(String)
     case invalidArgument(String, String)
 
-    // MARK: Public
-
     public var errorDescription: String? {
         switch self {
         case let .requestError(error):

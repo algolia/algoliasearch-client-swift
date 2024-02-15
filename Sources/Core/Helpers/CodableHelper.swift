@@ -7,8 +7,6 @@
 import Foundation
 
 open class CodableHelper {
-    // MARK: Open
-
     open class func decode<T>(_ type: T.Type, from data: Data) -> Swift.Result<T, Error>
     where T: Decodable {
         Swift.Result { try self.jsonDecoder.decode(type, from: data) }
@@ -17,8 +15,6 @@ open class CodableHelper {
     open class func encode(_ value: some Encodable) -> Swift.Result<Data, Error> {
         Swift.Result { try self.jsonEncoder.encode(value) }
     }
-
-    // MARK: Public
 
     public static var dateFormatter: DateFormatter {
         get { customDateFormatter ?? defaultDateFormatter }
@@ -34,8 +30,6 @@ open class CodableHelper {
         get { customJSONEncoder ?? defaultJSONEncoder }
         set { customJSONEncoder = newValue }
     }
-
-    // MARK: Private
 
     private static var customDateFormatter: DateFormatter?
     private static var defaultDateFormatter: DateFormatter = OpenISO8601DateFormatter()

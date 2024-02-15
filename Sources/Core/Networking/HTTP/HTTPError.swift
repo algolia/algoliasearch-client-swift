@@ -14,7 +14,12 @@ import Foundation
 // MARK: - HTTPError
 
 public struct HTTPError: Error, CustomStringConvertible {
-    // MARK: Lifecycle
+    public let statusCode: HTTPStatusСode
+    public let message: ErrorMessage?
+
+    public var description: String {
+        "Status code: \(self.statusCode) Message: \(self.message?.description ?? "No message")"
+    }
 
     public init?(response: HTTPURLResponse?, data: Data?) {
         guard let response, !response.statusCode.belongs(to: .success) else {
@@ -28,14 +33,5 @@ public struct HTTPError: Error, CustomStringConvertible {
     public init(statusCode: HTTPStatusСode, message: ErrorMessage?) {
         self.statusCode = statusCode
         self.message = message
-    }
-
-    // MARK: Public
-
-    public let statusCode: HTTPStatusСode
-    public let message: ErrorMessage?
-
-    public var description: String {
-        "Status code: \(self.statusCode) Message: \(self.message?.description ?? "No message")"
     }
 }

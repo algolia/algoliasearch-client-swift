@@ -8,13 +8,9 @@
 import Foundation
 
 public struct Region: StringOption, ProvidingCustomOption {
-    // MARK: Lifecycle
-
     public init(rawValue: String) {
         self.rawValue = rawValue
     }
-
-    // MARK: Public
 
     public static var us: Self { .init(rawValue: #function) }
 

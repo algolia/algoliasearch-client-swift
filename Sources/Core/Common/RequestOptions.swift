@@ -8,8 +8,6 @@
 import Foundation
 
 public class RequestOptions {
-    // MARK: Lifecycle
-
     public init(
         headers: [String: String]? = nil,
         queryParameters: [String: Any?]? = nil,
@@ -23,8 +21,6 @@ public class RequestOptions {
         self.writeTimeout = writeTimeout
         self.body = body
     }
-
-    // MARK: Public
 
     public static func +(lhs: RequestOptions, rhs: RequestOptions?) -> RequestOptions {
         guard let rhs else {
@@ -85,8 +81,6 @@ public class RequestOptions {
         }
         return self
     }
-
-    // MARK: Internal
 
     private(set) var headers: [String: String]?
     private(set) var queryParameters: [String: Any?]?

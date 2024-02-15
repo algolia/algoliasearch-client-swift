@@ -10,14 +10,8 @@ import Logging
 
 typealias SwiftLog = Logging.Logger
 
-// MARK: - Logger
-
 public struct Logger {
-    // MARK: Lifecycle
-
     private init() {}
-
-    // MARK: Public
 
     public static var loggingService: Loggable = {
         var swiftLog = SwiftLog(label: "com.algolia.searchClientSwift")
@@ -37,8 +31,6 @@ public struct Logger {
             loggingService.minSeverityLevel = newValue
         }
     }
-
-    // MARK: Internal
 
     static func trace(_ message: String) {
         self.loggingService.log(level: .trace, message: message)
@@ -68,8 +60,6 @@ public struct Logger {
         self.loggingService.log(level: .critical, message: message)
     }
 }
-
-// MARK: - LogLevel
 
 public enum LogLevel {
     case trace
@@ -119,15 +109,11 @@ extension LogLevel {
     }
 }
 
-// MARK: - Loggable
-
 public protocol Loggable {
     var minSeverityLevel: LogLevel { get set }
 
     func log(level: LogLevel, message: String)
 }
-
-// MARK: - SwiftLog + Loggable
 
 extension SwiftLog: Loggable {
     public var minSeverityLevel: LogLevel {

@@ -83,12 +83,10 @@
 --enable leadingDelimiters
 --enable linebreakAtEndOfFile
 --enable linebreaks
---enable markTypes
 --enable modifierOrder
 --enable noExplicitOwnership
 --enable numberFormatting
 --enable opaqueGenericParameters
---enable organizeDeclarations
 --enable preferKeyPath
 --enable redundantClosure
 --enable redundantExtensionACL
@@ -144,6 +142,8 @@
 --disable applicationMain
 --disable blankLinesBetweenImports
 --disable fileHeader
+--disable markTypes
+--disable organizeDeclarations
 --disable preferForLoop
 --disable redundantBackticks
 --disable redundantBreak

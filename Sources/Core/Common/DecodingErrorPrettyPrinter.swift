@@ -7,16 +7,10 @@
 
 import Foundation
 
-// MARK: - DecodingErrorPrettyPrinter
-
 struct DecodingErrorPrettyPrinter: CustomStringConvertible, CustomDebugStringConvertible {
-    // MARK: Lifecycle
-
     init(decodingError: DecodingError) {
         self.decodingError = decodingError
     }
-
-    // MARK: Internal
 
     let decodingError: DecodingError
 
@@ -27,8 +21,6 @@ struct DecodingErrorPrettyPrinter: CustomStringConvertible, CustomDebugStringCon
     var debugDescription: String {
         self.description
     }
-
-    // MARK: Private
 
     private let prefix = "Decoding error"
 

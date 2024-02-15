@@ -8,19 +8,13 @@
 import Foundation
 
 open class HostIterator: IteratorProtocol {
-    // MARK: Lifecycle
+    var getHost: () -> RetryableHost?
 
     init(getHost: @escaping () -> RetryableHost?) {
         self.getHost = getHost
     }
 
-    // MARK: Public
-
     public func next() -> RetryableHost? {
         self.getHost()
     }
-
-    // MARK: Internal
-
-    var getHost: () -> RetryableHost?
 }

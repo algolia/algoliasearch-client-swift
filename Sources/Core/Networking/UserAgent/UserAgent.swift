@@ -10,17 +10,13 @@ import Foundation
 // MARK: - UserAgent
 
 public struct UserAgent: Hashable {
-    // MARK: Lifecycle
+    public let title: String
+    public let version: String
 
     public init(title: String, version: String) {
         self.title = title
         self.version = version
     }
-
-    // MARK: Public
-
-    public let title: String
-    public let version: String
 }
 
 // MARK: CustomStringConvertible

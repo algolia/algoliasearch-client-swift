@@ -8,8 +8,6 @@ import Foundation
 
 /// https://stackoverflow.com/a/50281094/976628
 public class OpenISO8601DateFormatter: DateFormatter {
-    // MARK: Lifecycle
-
     override init() {
         super.init()
         self.setup()
@@ -20,8 +18,6 @@ public class OpenISO8601DateFormatter: DateFormatter {
         self.setup()
     }
 
-    // MARK: Public
-
     override public func date(from string: String) -> Date? {
         if let result = super.date(from: string) {
             return result
@@ -31,8 +27,6 @@ public class OpenISO8601DateFormatter: DateFormatter {
 
         return OpenISO8601DateFormatter.withoutTime.date(from: string)
     }
-
-    // MARK: Internal
 
     static let withoutSeconds: DateFormatter = {
         let formatter = DateFormatter()
@@ -51,8 +45,6 @@ public class OpenISO8601DateFormatter: DateFormatter {
         formatter.dateFormat = "yyyy-MM-dd"
         return formatter
     }()
-
-    // MARK: Private
 
     private func setup() {
         calendar = Calendar(identifier: .iso8601)
