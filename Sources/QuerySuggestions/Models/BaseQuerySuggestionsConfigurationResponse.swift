@@ -8,8 +8,6 @@ import Foundation
 #endif
 
 public struct BaseQuerySuggestionsConfigurationResponse: Codable, JSONEncodable, Hashable {
-    /// Your Algolia application ID.
-    public var appId: String?
     /// API key used to read from your source index.
     public var sourceIndicesAPIKey: String?
     /// API key used to write and configure your Query Suggestions index.
@@ -18,19 +16,16 @@ public struct BaseQuerySuggestionsConfigurationResponse: Codable, JSONEncodable,
     public var externalIndicesAPIKey: String?
 
     public init(
-        appId: String? = nil,
         sourceIndicesAPIKey: String? = nil,
         suggestionsIndicesAPIKey: String? = nil,
         externalIndicesAPIKey: String? = nil
     ) {
-        self.appId = appId
         self.sourceIndicesAPIKey = sourceIndicesAPIKey
         self.suggestionsIndicesAPIKey = suggestionsIndicesAPIKey
         self.externalIndicesAPIKey = externalIndicesAPIKey
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case appId
         case sourceIndicesAPIKey
         case suggestionsIndicesAPIKey
         case externalIndicesAPIKey
@@ -40,7 +35,6 @@ public struct BaseQuerySuggestionsConfigurationResponse: Codable, JSONEncodable,
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(self.appId, forKey: .appId)
         try container.encodeIfPresent(self.sourceIndicesAPIKey, forKey: .sourceIndicesAPIKey)
         try container.encodeIfPresent(self.suggestionsIndicesAPIKey, forKey: .suggestionsIndicesAPIKey)
         try container.encodeIfPresent(self.externalIndicesAPIKey, forKey: .externalIndicesAPIKey)

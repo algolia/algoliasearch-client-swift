@@ -8,8 +8,6 @@ import Foundation
 #endif
 
 public struct QuerySuggestionsConfigurationResponse: Codable, JSONEncodable, Hashable {
-    /// Your Algolia application ID.
-    public var appId: String?
     /// API key used to read from your source index.
     public var sourceIndicesAPIKey: String?
     /// API key used to write and configure your Query Suggestions index.
@@ -29,7 +27,6 @@ public struct QuerySuggestionsConfigurationResponse: Codable, JSONEncodable, Has
     public var allowSpecialCharacters: Bool?
 
     public init(
-        appId: String? = nil,
         sourceIndicesAPIKey: String? = nil,
         suggestionsIndicesAPIKey: String? = nil,
         externalIndicesAPIKey: String? = nil,
@@ -40,7 +37,6 @@ public struct QuerySuggestionsConfigurationResponse: Codable, JSONEncodable, Has
         enablePersonalization: Bool? = nil,
         allowSpecialCharacters: Bool? = nil
     ) {
-        self.appId = appId
         self.sourceIndicesAPIKey = sourceIndicesAPIKey
         self.suggestionsIndicesAPIKey = suggestionsIndicesAPIKey
         self.externalIndicesAPIKey = externalIndicesAPIKey
@@ -53,7 +49,6 @@ public struct QuerySuggestionsConfigurationResponse: Codable, JSONEncodable, Has
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case appId
         case sourceIndicesAPIKey
         case suggestionsIndicesAPIKey
         case externalIndicesAPIKey
@@ -69,7 +64,6 @@ public struct QuerySuggestionsConfigurationResponse: Codable, JSONEncodable, Has
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(self.appId, forKey: .appId)
         try container.encodeIfPresent(self.sourceIndicesAPIKey, forKey: .sourceIndicesAPIKey)
         try container.encodeIfPresent(self.suggestionsIndicesAPIKey, forKey: .suggestionsIndicesAPIKey)
         try container.encodeIfPresent(self.externalIndicesAPIKey, forKey: .externalIndicesAPIKey)
