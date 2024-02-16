@@ -1,3 +1,10 @@
+## [9.0.0-alpha.5](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-alpha.4...9.0.0-alpha.5)
+
+- [8c340a4c2](https://github.com/algolia/api-clients-automation/commit/8c340a4c2) fix(swift): QuerySuggestionsConfigurationResponse appID casing ([#2712](https://github.com/algolia/api-clients-automation/pull/2712)) by [@Fluf22](https://github.com/Fluf22/)
+- [2a38b8672](https://github.com/algolia/api-clients-automation/commit/2a38b8672) chore(swift): format config ([#2716](https://github.com/algolia/api-clients-automation/pull/2716)) by [@Fluf22](https://github.com/Fluf22/)
+- [785cd3d69](https://github.com/algolia/api-clients-automation/commit/785cd3d69) fix(swift): appID casing ([#2711](https://github.com/algolia/api-clients-automation/pull/2711)) by [@Fluf22](https://github.com/Fluf22/)
+- [f2840ec37](https://github.com/algolia/api-clients-automation/commit/f2840ec37) feat(swift): add snippets ([#2705](https://github.com/algolia/api-clients-automation/pull/2705)) by [@Fluf22](https://github.com/Fluf22/)
+
 ## [9.0.0-alpha.4](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-alpha.3...9.0.0-alpha.4)
 
 - [39c94cc67](https://github.com/algolia/api-clients-automation/commit/39c94cc67) fix(swift): retry strategy ([#2642](https://github.com/algolia/api-clients-automation/pull/2642)) by [@Fluf22](https://github.com/Fluf22/)
