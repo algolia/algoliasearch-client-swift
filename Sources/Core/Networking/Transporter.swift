@@ -4,6 +4,7 @@
 //
 
 import Foundation
+import Gzip
 
 #if canImport(FoundationNetworking)
     import FoundationNetworking
@@ -95,6 +96,15 @@ open class Transporter {
             request.setValue(
                 UserAgentController.httpHeaderValue, forHTTPHeaderField: "User-Agent".capitalized
             )
+            if self.configuration.compression == .gzip {
+                request.setValue("gzip", forHTTPHeaderField: "Accept-Encoding".capitalized)
+
+                if let bodyData = body {
+                    request.setValue("gzip", forHTTPHeaderField: "Content-Encoding".capitalized)
+
+                    body = try bodyData.gzipped()
+                }
+            }
             for (key, value) in headers {
                 request.setValue(value, forHTTPHeaderField: key.capitalized)
             }

@@ -24,6 +24,9 @@ public protocol Configuration {
 
     /// Default headers that should be applied to every request.
     var defaultHeaders: [String: String]? { get }
+
+    /// Compression type
+    var compression: CompressionAlgorithm { get }
 }
 
 extension Configuration {
@@ -47,4 +50,5 @@ public struct DefaultConfiguration: Configuration {
     public let logLevel: LogLevel = .info
     public let defaultHeaders: [String: String]? = [:]
     public var hosts: [RetryableHost] = []
+    public let compression: CompressionAlgorithm = .none
 }
