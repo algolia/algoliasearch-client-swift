@@ -1,3 +1,9 @@
+## [9.0.0-alpha.6](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-alpha.5...9.0.0-alpha.6)
+
+- [6624759e1](https://github.com/algolia/api-clients-automation/commit/6624759e1) feat(specs): add CustomFields to CT Source Input ([#2742](https://github.com/algolia/api-clients-automation/pull/2742)) by [@damcou](https://github.com/damcou/)
+- [0ad615ec5](https://github.com/algolia/api-clients-automation/commit/0ad615ec5) chore(swift): remove some flakiness ([#2738](https://github.com/algolia/api-clients-automation/pull/2738)) by [@Fluf22](https://github.com/Fluf22/)
+- [ef37e65b7](https://github.com/algolia/api-clients-automation/commit/ef37e65b7) fix(clients): add e2e tests for analytics API ([#2737](https://github.com/algolia/api-clients-automation/pull/2737)) by [@millotp](https://github.com/millotp/)
+
 ## [9.0.0-alpha.5](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-alpha.4...9.0.0-alpha.5)
 
 - [8c340a4c2](https://github.com/algolia/api-clients-automation/commit/8c340a4c2) fix(swift): QuerySuggestionsConfigurationResponse appID casing ([#2712](https://github.com/algolia/api-clients-automation/pull/2712)) by [@Fluf22](https://github.com/Fluf22/)
