@@ -17,6 +17,7 @@ public struct Destination: Codable, JSONEncodable, Hashable {
     public var createdAt: String
     /// Date of last update (RFC3339 format).
     public var updatedAt: String?
+    /// The authentication UUID.
     public var authenticationID: String?
 
     public init(

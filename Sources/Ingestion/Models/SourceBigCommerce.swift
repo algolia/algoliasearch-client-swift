@@ -7,14 +7,14 @@ import Foundation
 
 public struct SourceBigCommerce: Codable, JSONEncodable, Hashable {
     /// The store hash identifying the store the shopper is signing in to.
-    public var storeHash: String?
+    public var storeHash: String
     public var channel: BigCommerceChannel?
     public var customFields: [String]?
     public var productMetafields: [BigCommerceMetafield]?
     public var variantMetafields: [BigCommerceMetafield]?
 
     public init(
-        storeHash: String? = nil,
+        storeHash: String,
         channel: BigCommerceChannel? = nil,
         customFields: [String]? = nil,
         productMetafields: [BigCommerceMetafield]? = nil,
@@ -39,7 +39,7 @@ public struct SourceBigCommerce: Codable, JSONEncodable, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(self.storeHash, forKey: .storeHash)
+        try container.encode(self.storeHash, forKey: .storeHash)
         try container.encodeIfPresent(self.channel, forKey: .channel)
         try container.encodeIfPresent(self.customFields, forKey: .customFields)
         try container.encodeIfPresent(self.productMetafields, forKey: .productMetafields)

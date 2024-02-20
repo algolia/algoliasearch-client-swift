@@ -5,7 +5,7 @@ import AnyCodable
 import Core
 import Foundation
 
-/// An authentication is used to login into a Source or a Destination.
+/// An authentication is used to login into a Source or a Destination, with obfuscated input.
 public struct Authentication: Codable, JSONEncodable, Hashable {
     /// The authentication UUID.
     public var authenticationID: String
@@ -13,7 +13,7 @@ public struct Authentication: Codable, JSONEncodable, Hashable {
     /// An human readable name describing the object.
     public var name: String
     public var platform: Platform?
-    public var input: AuthInput
+    public var input: AuthInputPartial
     /// Date of creation (RFC3339 format).
     public var createdAt: String
     /// Date of last update (RFC3339 format).
@@ -24,7 +24,7 @@ public struct Authentication: Codable, JSONEncodable, Hashable {
         type: AuthenticationType,
         name: String,
         platform: Platform? = nil,
-        input: AuthInput,
+        input: AuthInputPartial,
         createdAt: String,
         updatedAt: String? = nil
     ) {

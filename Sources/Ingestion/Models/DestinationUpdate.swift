@@ -11,6 +11,7 @@ public struct DestinationUpdate: Codable, JSONEncodable, Hashable {
     /// An human readable name describing the object.
     public var name: String?
     public var input: DestinationInput?
+    /// The authentication UUID.
     public var authenticationID: String?
 
     public init(
