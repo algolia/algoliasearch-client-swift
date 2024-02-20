@@ -14,19 +14,22 @@ public struct SourceCommercetools: Codable, JSONEncodable, Hashable {
     /// Determines the value that will be stored in the Algolia record if there's no inventory information on the
     /// product.
     public var fallbackIsInStockValue: Bool?
+    public var customFields: CommercetoolsCustomFields?
 
     public init(
         storeKeys: [String]? = nil,
         locales: [String]? = nil,
         url: String,
         projectKey: String,
-        fallbackIsInStockValue: Bool? = nil
+        fallbackIsInStockValue: Bool? = nil,
+        customFields: CommercetoolsCustomFields? = nil
     ) {
         self.storeKeys = storeKeys
         self.locales = locales
         self.url = url
         self.projectKey = projectKey
         self.fallbackIsInStockValue = fallbackIsInStockValue
+        self.customFields = customFields
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -35,6 +38,7 @@ public struct SourceCommercetools: Codable, JSONEncodable, Hashable {
         case url
         case projectKey
         case fallbackIsInStockValue
+        case customFields
     }
 
     // Encodable protocol methods
@@ -46,5 +50,6 @@ public struct SourceCommercetools: Codable, JSONEncodable, Hashable {
         try container.encode(self.url, forKey: .url)
         try container.encode(self.projectKey, forKey: .projectKey)
         try container.encodeIfPresent(self.fallbackIsInStockValue, forKey: .fallbackIsInStockValue)
+        try container.encodeIfPresent(self.customFields, forKey: .customFields)
     }
 }
