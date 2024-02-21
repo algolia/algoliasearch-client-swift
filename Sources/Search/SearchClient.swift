@@ -3905,4 +3905,179 @@ open class SearchClient {
             requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
         )
     }
+
+    public enum ApiKeyOperation: String {
+        case add
+        case update
+        case delete
+    }
+
+    /// Wait for a task to complete
+    /// - parameter taskID: The id of the task to wait for
+    /// - parameter indexName: The name of the index to wait for
+    /// - parameter maxRetries: The maximum number of retries
+    /// - parameter initialDelay: The initial delay between retries
+    /// - parameter maxDelay: The maximum delay between retries
+    /// - returns: GetTaskResponse
+    open func waitForTask(
+        with taskID: Int64,
+        for indexName: String,
+        maxRetries: Int = 50,
+        timeout: (Int) -> TimeInterval = { count in
+            min(TimeInterval(count) * 0.2, 5)
+        },
+        requestOptions: RequestOptions? = nil
+    ) async throws -> GetTaskResponse {
+        var retryCount = 0
+
+        return try await createIterable(
+            execute: { _ in
+                try await self.getTask(indexName: indexName, taskID: taskID, requestOptions: requestOptions)
+            },
+            validate: { response in
+                response.status == TaskStatus.published
+            },
+            aggregator: { _ in
+                retryCount += 1
+            },
+            timeout: {
+                timeout(retryCount)
+            },
+            error: IterableError(
+                validate: { _ in
+                    retryCount >= maxRetries
+                },
+                message: { _ in
+                    "The maximum number of retries exceeded. (\(retryCount)/\(maxRetries))"
+                }
+            )
+        )
+    }
+
+    /// Wait for an API key to be available
+    /// - parameter key: The key to wait for
+    /// - parameter operation: The type of operation
+    /// - parameter apiKey: The original API key
+    /// - parameter maxRetries: The maximum number of retries
+    /// - parameter timeout: A closure that computes the timeout in seconds for the next retry
+    /// - parameter requestOptions: The request options
+    /// - returns: GetApiKeyResponse?
+    open func waitForApiKey(
+        with key: String,
+        operation: ApiKeyOperation,
+        apiKey: ApiKey? = nil,
+        maxRetries: Int = 50,
+        timeout: (Int) -> TimeInterval = { retryCount in
+            min(TimeInterval(retryCount) * 0.2, 5)
+        },
+        requestOptions: RequestOptions? = nil
+    ) async throws -> GetApiKeyResponse? {
+        var retryCount = 0
+
+        if operation == .update {
+            guard let apiKey else {
+                throw AlgoliaError.runtimeError("Missing API key optimistic value")
+            }
+
+            return try await createIterable(
+                execute: { _ in
+                    try await self.getApiKey(key: key, requestOptions: requestOptions)
+                },
+                validate: { response in
+                    if apiKey.description != response.description {
+                        return false
+                    }
+
+                    if apiKey.queryParameters != response.queryParameters {
+                        return false
+                    }
+
+                    if apiKey.maxHitsPerQuery != response.maxHitsPerQuery {
+                        return false
+                    }
+
+                    if apiKey.maxQueriesPerIPPerHour != response.maxQueriesPerIPPerHour {
+                        return false
+                    }
+
+                    if apiKey.validity != response.validity {
+                        return false
+                    }
+
+                    let expectedACLs = apiKey.acl.sorted { $0.rawValue > $1.rawValue }
+                    let responseACLs = response.acl.sorted { $0.rawValue > $1.rawValue }
+                    if expectedACLs != responseACLs {
+                        return false
+                    }
+
+                    let expectedIndexes = apiKey.indexes?.sorted { $0 > $1 }
+                    let responseIndexes = response.indexes?.sorted { $0 > $1 }
+                    if expectedIndexes != responseIndexes {
+                        return false
+                    }
+
+                    let expectedReferers = apiKey.referers?.sorted { $0 > $1 }
+                    let responseReferers = response.referers?.sorted { $0 > $1 }
+                    if expectedReferers != responseReferers {
+                        return false
+                    }
+
+                    return true
+                },
+                aggregator: { _ in
+                    retryCount += 1
+                },
+                timeout: {
+                    timeout(retryCount)
+                },
+                error: IterableError(
+                    validate: { _ in
+                        retryCount >= maxRetries
+                    },
+                    message: { _ in
+                        "The maximum number of retries exceeded. (\(retryCount)/\(maxRetries))"
+                    }
+                )
+            )
+        }
+
+        return try await createIterable(
+            execute: { _ in
+                let response = try await self.getApiKeyWithHTTPInfo(key: key, requestOptions: requestOptions)
+                if response.statusCode == 404 {
+                    return nil
+                }
+
+                return response.body
+            },
+            validate: { response in
+                switch operation {
+                case .add:
+                    guard let response else {
+                        return false
+                    }
+
+                    return response.createdAt > 0
+                case .delete:
+                    return response == nil
+                default:
+                    return false
+                }
+            },
+            aggregator: { _ in
+                retryCount += 1
+            },
+            timeout: {
+                timeout(retryCount)
+            },
+            error: IterableError(
+                validate: { _ in
+                    retryCount >= maxRetries
+                },
+                message: { _ in
+                    "The maximum number of retries exceeded. (\(retryCount)/\(maxRetries))"
+                }
+            )
+        )
+    }
 }
