@@ -23,15 +23,22 @@ extraTargetDependencies.append(contentsOf: [
     .product(name: "Logging", package: "swift-log"),
 ])
 
-targets.append(contentsOf: [
+targets.append(
     .target(
         name: "Core",
         dependencies: [
             .product(name: "Gzip", package: "GzipSwift"),
         ] + extraTargetDependencies,
         path: "Sources/Core"
-    ),
-])
+    )
+)
+
+products.append(
+    .library(
+        name: "Core",
+        targets: ["Core"]
+    )
+)
 
 [
     "Abtesting",

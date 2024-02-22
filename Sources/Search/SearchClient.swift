@@ -4080,4 +4080,163 @@ open class SearchClient {
             )
         )
     }
+
+    /// Allows to aggregate all the hits returned by the API calls
+    /// - parameter indexName: The name of the index to browse
+    /// - parameter browseParams: The browse request parameters
+    /// - parameter validate: A closure that validates the response
+    /// - parameter aggregator: A closure that aggregates the response
+    /// - parameter requestOptions: The request options
+    /// - returns: BrowseResponse
+    @discardableResult
+    open func browseObjects(
+        indexName: String,
+        browseParams: BrowseParamsObject,
+        validate: (BrowseResponse) -> Bool = { response in
+            response.cursor == nil
+        },
+        aggregator: @escaping (BrowseResponse) -> Void,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> BrowseResponse {
+        try await createIterable(
+            execute: { previousResponse in
+                var updatedBrowseParams = browseParams
+                if let previousResponse {
+                    updatedBrowseParams.cursor = previousResponse.cursor
+                }
+
+                return try await self.browse(
+                    indexName: indexName,
+                    browseParams: .browseParamsObject(updatedBrowseParams),
+                    requestOptions: requestOptions
+                )
+            },
+            validate: validate,
+            aggregator: aggregator
+        )
+    }
+
+    /// Allows to aggregate all the rules returned by the API calls
+    /// - parameter indexName: The name of the index to browse
+    /// - parameter searchRulesParams: The search rules request parameters
+    /// - parameter validate: A closure that validates the response
+    /// - parameter aggregator: A closure that aggregates the response
+    /// - parameter requestOptions: The request options
+    /// - returns: SearchRulesResponse
+    @discardableResult
+    open func browseRules(
+        indexName: String,
+        searchRulesParams: SearchRulesParams,
+        validate: ((SearchRulesResponse) -> Bool)? = nil,
+        aggregator: @escaping (SearchRulesResponse) -> Void,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SearchRulesResponse {
+        let hitsPerPage = searchRulesParams.hitsPerPage ?? 1000
+
+        return try await createIterable(
+            execute: { previousResponse in
+                var updatedSearchRulesParams = searchRulesParams
+
+                updatedSearchRulesParams.hitsPerPage = hitsPerPage
+
+                if let previousResponse {
+                    updatedSearchRulesParams.page = previousResponse.page + 1
+                }
+                if updatedSearchRulesParams.page == nil {
+                    updatedSearchRulesParams.page = 0
+                }
+
+                return try await self.searchRules(
+                    indexName: indexName,
+                    searchRulesParams: updatedSearchRulesParams,
+                    requestOptions: requestOptions
+                )
+            },
+            validate: validate ?? { response in
+                response.nbHits < hitsPerPage
+            },
+            aggregator: aggregator
+        )
+    }
+
+    /// Allows to aggregate all the synonyms returned by the API calls
+    /// - parameter indexName: The name of the index to browse
+    /// - parameter searchSynonymsParams: The search synonyms request parameters
+    /// - parameter validate: A closure that validates the response
+    /// - parameter aggregator: A closure that aggregates the response
+    /// - parameter requestOptions: The request options
+    /// - returns: SearchSynonymsResponse
+    @discardableResult
+    open func browseSynonyms(
+        indexName: String,
+        searchSynonymsParams: SearchSynonymsParams,
+        validate: ((SearchSynonymsResponse) -> Bool)? = nil,
+        aggregator: @escaping (SearchSynonymsResponse) -> Void,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> SearchSynonymsResponse {
+        let hitsPerPage = searchSynonymsParams.hitsPerPage ?? 1000
+
+        var updatedSearchSynonymsParams = searchSynonymsParams
+        if updatedSearchSynonymsParams.page == nil {
+            updatedSearchSynonymsParams.page = 0
+        }
+
+        return try await createIterable(
+            execute: { _ in
+                updatedSearchSynonymsParams.hitsPerPage = hitsPerPage
+
+                defer {
+                    updatedSearchSynonymsParams.page! += 1
+                }
+
+                return try await self.searchSynonyms(
+                    indexName: indexName,
+                    searchSynonymsParams: updatedSearchSynonymsParams,
+                    requestOptions: requestOptions
+                )
+            },
+            validate: validate ?? { response in
+                response.nbHits < hitsPerPage
+            },
+            aggregator: aggregator
+        )
+    }
+
+    /// Helper: calls the `search` method but with certainty that we will only request Algolia records (hits) and not
+    /// facets.
+    /// Disclaimer: We don't assert that the parameters you pass to this method only contains `hits` requests to prevent
+    /// impacting search performances, this helper is purely for typing purposes.
+    open func searchForHits(
+        searchMethodParams: SearchMethodParams,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> [SearchResponse] {
+        try await self.search(searchMethodParams: searchMethodParams, requestOptions: requestOptions).results
+            .reduce(into: [SearchResponse]()) { acc, cur in
+                switch cur {
+                case let .searchResponse(searchResponse):
+                    acc.append(searchResponse)
+                case .searchForFacetValuesResponse:
+                    break
+                }
+            }
+    }
+
+    /// Helper: calls the `search` method but with certainty that we will only request Algolia facets and not records
+    /// (hits).
+    /// Disclaimer: We don't assert that the parameters you pass to this method only contains `facets` requests to
+    /// prevent impacting search performances, this helper is purely for typing purposes.
+    open func searchForFacets(
+        searchMethodParams: SearchMethodParams,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> [SearchForFacetValuesResponse] {
+        try await self.search(searchMethodParams: searchMethodParams, requestOptions: requestOptions).results
+            .reduce(into: [SearchForFacetValuesResponse]()) { acc, cur in
+                switch cur {
+                case .searchResponse:
+                    break
+                case let .searchForFacetValuesResponse(searchForFacet):
+                    acc.append(searchForFacet)
+                }
+            }
+    }
 }
