@@ -10,17 +10,31 @@ public struct SourceUpdateCommercetools: Codable, JSONEncodable, Hashable {
     public var storeKeys: [String]?
     /// Array of locales that must match the following pattern: ^[a-z]{2}(-[A-Z]{2})?$. For example [\"fr-FR\", \"en\"].
     public var locales: [String]?
+    public var url: String?
+    /// Determines the value that will be stored in the Algolia record if there's no inventory information on the
+    /// product.
+    public var fallbackIsInStockValue: Bool?
     public var customFields: CommercetoolsCustomFields?
 
-    public init(storeKeys: [String]? = nil, locales: [String]? = nil, customFields: CommercetoolsCustomFields? = nil) {
+    public init(
+        storeKeys: [String]? = nil,
+        locales: [String]? = nil,
+        url: String? = nil,
+        fallbackIsInStockValue: Bool? = nil,
+        customFields: CommercetoolsCustomFields? = nil
+    ) {
         self.storeKeys = storeKeys
         self.locales = locales
+        self.url = url
+        self.fallbackIsInStockValue = fallbackIsInStockValue
         self.customFields = customFields
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case storeKeys
         case locales
+        case url
+        case fallbackIsInStockValue
         case customFields
     }
 
@@ -30,6 +44,8 @@ public struct SourceUpdateCommercetools: Codable, JSONEncodable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(self.storeKeys, forKey: .storeKeys)
         try container.encodeIfPresent(self.locales, forKey: .locales)
+        try container.encodeIfPresent(self.url, forKey: .url)
+        try container.encodeIfPresent(self.fallbackIsInStockValue, forKey: .fallbackIsInStockValue)
         try container.encodeIfPresent(self.customFields, forKey: .customFields)
     }
 }
