@@ -9,6 +9,7 @@ Sources/Search/Models/AdvancedSyntaxFeatures.swift
 Sources/Search/Models/AlternativesAsExact.swift
 Sources/Search/Models/Anchoring.swift
 Sources/Search/Models/ApiKey.swift
+Sources/Search/Models/ApiKeyOperation.swift
 Sources/Search/Models/AroundPrecision.swift
 Sources/Search/Models/AroundPrecisionFromValueInner.swift
 Sources/Search/Models/AroundRadius.swift
@@ -143,6 +144,7 @@ Sources/Search/Models/SearchTypeDefault.swift
 Sources/Search/Models/SearchTypeFacet.swift
 Sources/Search/Models/SearchUserIdsParams.swift
 Sources/Search/Models/SearchUserIdsResponse.swift
+Sources/Search/Models/SecuredAPIKeyRestrictions.swift
 Sources/Search/Models/SemanticSearch.swift
 Sources/Search/Models/SnippetResult.swift
 Sources/Search/Models/SnippetResultOption.swift
