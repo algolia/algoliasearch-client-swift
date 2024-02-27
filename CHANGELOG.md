@@ -1,3 +1,12 @@
+## [9.0.0-alpha.7](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-alpha.6...9.0.0-alpha.7)
+
+- [d48e2f624](https://github.com/algolia/api-clients-automation/commit/d48e2f624) fix(specs): add missing attributes for CT Source update ([#2792](https://github.com/algolia/api-clients-automation/pull/2792)) by [@damcou](https://github.com/damcou/)
+- [a5cbe7d3c](https://github.com/algolia/api-clients-automation/commit/a5cbe7d3c) feat(swift): last missing helpers ([#2764](https://github.com/algolia/api-clients-automation/pull/2764)) by [@Fluf22](https://github.com/Fluf22/)
+- [f3e894002](https://github.com/algolia/api-clients-automation/commit/f3e894002) fix(clients): replace all objects ([#2762](https://github.com/algolia/api-clients-automation/pull/2762)) by [@shortcuts](https://github.com/shortcuts/)
+- [fc4be5921](https://github.com/algolia/api-clients-automation/commit/fc4be5921) feat(swift): remaining helpers ([#2758](https://github.com/algolia/api-clients-automation/pull/2758)) by [@Fluf22](https://github.com/Fluf22/)
+- [92cd1c793](https://github.com/algolia/api-clients-automation/commit/92cd1c793) fix(clients): browse synonyms page not in response ([#2757](https://github.com/algolia/api-clients-automation/pull/2757)) by [@shortcuts](https://github.com/shortcuts/)
+- [585b13c61](https://github.com/algolia/api-clients-automation/commit/585b13c61) feat(swift): waitFor helpers ([#2752](https://github.com/algolia/api-clients-automation/pull/2752)) by [@Fluf22](https://github.com/Fluf22/)
+
 ## [9.0.0-alpha.6](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-alpha.5...9.0.0-alpha.6)
 
 - [6624759e1](https://github.com/algolia/api-clients-automation/commit/6624759e1) feat(specs): add CustomFields to CT Source Input ([#2742](https://github.com/algolia/api-clients-automation/pull/2742)) by [@damcou](https://github.com/damcou/)
