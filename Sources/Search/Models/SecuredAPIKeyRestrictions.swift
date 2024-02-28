@@ -13,7 +13,7 @@ public struct SecuredAPIKeyRestrictions: Codable, JSONEncodable, Hashable {
     /// groups:admin AND (groups:press OR groups:visitors).
     public var filters: String?
     /// Unix timestamp used to set the expiration date of the API key.
-    public var validUntil: Double?
+    public var validUntil: Int64?
     /// Index names that can be queried.
     public var restrictIndices: [String]?
     /// IPv4 network allowed to use the generated key. Use this to protect against API key leaking and reuse. You can
@@ -32,7 +32,7 @@ public struct SecuredAPIKeyRestrictions: Codable, JSONEncodable, Hashable {
     public init(
         searchParams: SearchParamsObject? = nil,
         filters: String? = nil,
-        validUntil: Double? = nil,
+        validUntil: Int64? = nil,
         restrictIndices: [String]? = nil,
         restrictSources: String? = nil,
         userToken: String? = nil

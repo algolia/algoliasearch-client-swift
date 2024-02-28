@@ -1,3 +1,4 @@
+.openapi-generator-ignore
 AlgoliaSearchClient.podspec
 Package.swift
 Sources/Core/Helpers/Version.swift
