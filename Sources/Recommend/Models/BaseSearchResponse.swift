@@ -81,6 +81,9 @@ public struct BaseSearchResponse: Codable, JSONEncodable, Hashable {
     public var serverUsed: String?
     /// Lets you store custom data in your indices.
     public var userData: AnyCodable?
+    /// Unique identifier for the query. This is used for [click
+    /// analytics](https://www.algolia.com/doc/guides/analytics/click-analytics/).
+    public var queryID: String?
 
     public init(
         abTestID: Int? = nil,
@@ -109,7 +112,8 @@ public struct BaseSearchResponse: Codable, JSONEncodable, Hashable {
         renderingContent: RenderingContent? = nil,
         serverTimeMS: Int? = nil,
         serverUsed: String? = nil,
-        userData: AnyCodable? = nil
+        userData: AnyCodable? = nil,
+        queryID: String? = nil
     ) {
         self.abTestID = abTestID
         self.abTestVariantID = abTestVariantID
@@ -138,6 +142,7 @@ public struct BaseSearchResponse: Codable, JSONEncodable, Hashable {
         self.serverTimeMS = serverTimeMS
         self.serverUsed = serverUsed
         self.userData = userData
+        self.queryID = queryID
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -168,6 +173,7 @@ public struct BaseSearchResponse: Codable, JSONEncodable, Hashable {
         case serverTimeMS
         case serverUsed
         case userData
+        case queryID
     }
 
     public var additionalProperties: [String: AnyCodable] = [:]
@@ -250,13 +256,15 @@ public struct BaseSearchResponse: Codable, JSONEncodable, Hashable {
 
         self.userData = dictionary["userData"]?.value as? AnyCodable
 
+        self.queryID = dictionary["queryID"]?.value as? String
+
         for (key, value) in dictionary {
             switch key {
             case "abTestID", "abTestVariantID", "aroundLatLng", "automaticRadius", "exhaustive",
                  "exhaustiveFacetsCount", "exhaustiveNbHits", "exhaustiveTypo", "facets", "facetsStats", "hitsPerPage",
                  "index", "indexUsed", "message", "nbHits", "nbPages", "nbSortedHits", "page", "parsedQuery",
                  "processingTimeMS", "processingTimingsMS", "queryAfterRemoval", "redirect", "renderingContent",
-                 "serverTimeMS", "serverUsed", "userData":
+                 "serverTimeMS", "serverUsed", "userData", "queryID":
                 continue
             default:
                 self.additionalProperties[key] = value
@@ -295,6 +303,7 @@ public struct BaseSearchResponse: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.serverTimeMS, forKey: .serverTimeMS)
         try container.encodeIfPresent(self.serverUsed, forKey: .serverUsed)
         try container.encodeIfPresent(self.userData, forKey: .userData)
+        try container.encodeIfPresent(self.queryID, forKey: .queryID)
         var additionalPropertiesContainer = encoder.container(keyedBy: String.self)
         try additionalPropertiesContainer.encodeMap(self.additionalProperties)
     }
@@ -331,6 +340,7 @@ public struct BaseSearchResponse: Codable, JSONEncodable, Hashable {
         self.serverTimeMS = try container.decodeIfPresent(Int.self, forKey: .serverTimeMS)
         self.serverUsed = try container.decodeIfPresent(String.self, forKey: .serverUsed)
         self.userData = try container.decodeIfPresent(AnyCodable.self, forKey: .userData)
+        self.queryID = try container.decodeIfPresent(String.self, forKey: .queryID)
         var nonAdditionalPropertyKeys = Set<String>()
         nonAdditionalPropertyKeys.insert("abTestID")
         nonAdditionalPropertyKeys.insert("abTestVariantID")
@@ -359,6 +369,7 @@ public struct BaseSearchResponse: Codable, JSONEncodable, Hashable {
         nonAdditionalPropertyKeys.insert("serverTimeMS")
         nonAdditionalPropertyKeys.insert("serverUsed")
         nonAdditionalPropertyKeys.insert("userData")
+        nonAdditionalPropertyKeys.insert("queryID")
         let additionalPropertiesContainer = try decoder.container(keyedBy: String.self)
         self.additionalProperties = try additionalPropertiesContainer.decodeMap(
             AnyCodable.self,

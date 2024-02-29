@@ -81,6 +81,9 @@ public struct RecommendationsResults: Codable, JSONEncodable, Hashable {
     public var serverUsed: String?
     /// Lets you store custom data in your indices.
     public var userData: AnyCodable?
+    /// Unique identifier for the query. This is used for [click
+    /// analytics](https://www.algolia.com/doc/guides/analytics/click-analytics/).
+    public var queryID: String?
     public var hits: [RecommendationsHit]
     /// Text to search for in an index.
     public var query: String?
@@ -115,6 +118,7 @@ public struct RecommendationsResults: Codable, JSONEncodable, Hashable {
         serverTimeMS: Int? = nil,
         serverUsed: String? = nil,
         userData: AnyCodable? = nil,
+        queryID: String? = nil,
         hits: [RecommendationsHit],
         query: String? = nil,
         params: String? = nil
@@ -146,6 +150,7 @@ public struct RecommendationsResults: Codable, JSONEncodable, Hashable {
         self.serverTimeMS = serverTimeMS
         self.serverUsed = serverUsed
         self.userData = userData
+        self.queryID = queryID
         self.hits = hits
         self.query = query
         self.params = params
@@ -179,6 +184,7 @@ public struct RecommendationsResults: Codable, JSONEncodable, Hashable {
         case serverTimeMS
         case serverUsed
         case userData
+        case queryID
         case hits
         case query
         case params
@@ -215,6 +221,7 @@ public struct RecommendationsResults: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.serverTimeMS, forKey: .serverTimeMS)
         try container.encodeIfPresent(self.serverUsed, forKey: .serverUsed)
         try container.encodeIfPresent(self.userData, forKey: .userData)
+        try container.encodeIfPresent(self.queryID, forKey: .queryID)
         try container.encode(self.hits, forKey: .hits)
         try container.encodeIfPresent(self.query, forKey: .query)
         try container.encodeIfPresent(self.params, forKey: .params)
