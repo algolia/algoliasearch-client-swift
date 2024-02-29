@@ -81,6 +81,9 @@ public struct SearchResponse: Codable, JSONEncodable, Hashable {
     public var serverUsed: String?
     /// Lets you store custom data in your indices.
     public var userData: AnyCodable?
+    /// Unique identifier for the query. This is used for [click
+    /// analytics](https://www.algolia.com/doc/guides/analytics/click-analytics/).
+    public var queryID: String?
     public var hits: [Hit]
     /// Text to search for in an index.
     public var query: String
@@ -115,6 +118,7 @@ public struct SearchResponse: Codable, JSONEncodable, Hashable {
         serverTimeMS: Int? = nil,
         serverUsed: String? = nil,
         userData: AnyCodable? = nil,
+        queryID: String? = nil,
         hits: [Hit],
         query: String,
         params: String
@@ -146,6 +150,7 @@ public struct SearchResponse: Codable, JSONEncodable, Hashable {
         self.serverTimeMS = serverTimeMS
         self.serverUsed = serverUsed
         self.userData = userData
+        self.queryID = queryID
         self.hits = hits
         self.query = query
         self.params = params
@@ -179,6 +184,7 @@ public struct SearchResponse: Codable, JSONEncodable, Hashable {
         case serverTimeMS
         case serverUsed
         case userData
+        case queryID
         case hits
         case query
         case params
@@ -264,6 +270,8 @@ public struct SearchResponse: Codable, JSONEncodable, Hashable {
 
         self.userData = dictionary["userData"]?.value as? AnyCodable
 
+        self.queryID = dictionary["queryID"]?.value as? String
+
         guard let hits = dictionary["hits"]?.value as? [Hit] else {
             throw GenericError(description: "Failed to cast")
         }
@@ -282,7 +290,7 @@ public struct SearchResponse: Codable, JSONEncodable, Hashable {
                  "exhaustiveFacetsCount", "exhaustiveNbHits", "exhaustiveTypo", "facets", "facetsStats", "hitsPerPage",
                  "index", "indexUsed", "message", "nbHits", "nbPages", "nbSortedHits", "page", "parsedQuery",
                  "processingTimeMS", "processingTimingsMS", "queryAfterRemoval", "redirect", "renderingContent",
-                 "serverTimeMS", "serverUsed", "userData", "hits", "query", "params":
+                 "serverTimeMS", "serverUsed", "userData", "queryID", "hits", "query", "params":
                 continue
             default:
                 self.additionalProperties[key] = value
@@ -321,6 +329,7 @@ public struct SearchResponse: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.serverTimeMS, forKey: .serverTimeMS)
         try container.encodeIfPresent(self.serverUsed, forKey: .serverUsed)
         try container.encodeIfPresent(self.userData, forKey: .userData)
+        try container.encodeIfPresent(self.queryID, forKey: .queryID)
         try container.encode(self.hits, forKey: .hits)
         try container.encode(self.query, forKey: .query)
         try container.encode(self.params, forKey: .params)
@@ -360,6 +369,7 @@ public struct SearchResponse: Codable, JSONEncodable, Hashable {
         self.serverTimeMS = try container.decodeIfPresent(Int.self, forKey: .serverTimeMS)
         self.serverUsed = try container.decodeIfPresent(String.self, forKey: .serverUsed)
         self.userData = try container.decodeIfPresent(AnyCodable.self, forKey: .userData)
+        self.queryID = try container.decodeIfPresent(String.self, forKey: .queryID)
         self.hits = try container.decode([Hit].self, forKey: .hits)
         self.query = try container.decode(String.self, forKey: .query)
         self.params = try container.decode(String.self, forKey: .params)
@@ -391,6 +401,7 @@ public struct SearchResponse: Codable, JSONEncodable, Hashable {
         nonAdditionalPropertyKeys.insert("serverTimeMS")
         nonAdditionalPropertyKeys.insert("serverUsed")
         nonAdditionalPropertyKeys.insert("userData")
+        nonAdditionalPropertyKeys.insert("queryID")
         nonAdditionalPropertyKeys.insert("hits")
         nonAdditionalPropertyKeys.insert("query")
         nonAdditionalPropertyKeys.insert("params")
