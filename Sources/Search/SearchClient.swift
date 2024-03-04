@@ -2581,7 +2581,7 @@ open class SearchClient {
     /// - parameter indexName: (path) Index on which to perform the request.
     /// - parameter objectID: (path) Unique record (object) identifier.
     /// - parameter attributesToUpdate: (body) Object with attributes to update.
-    /// - parameter createIfNotExists: (query) Indicates whether to create a new record if it doesn&#39;t exist yet. 
+    /// - parameter createIfNotExists: (query) Indicates whether to create a new record if it doesn&#39;t exist yet.
     /// (optional, default to true)
     /// - returns: UpdatedAtWithObjectIdResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -2619,7 +2619,7 @@ open class SearchClient {
     //
     // - parameter attributesToUpdate: (body) Object with attributes to update.
     //
-    // - parameter createIfNotExists: (query) Indicates whether to create a new record if it doesn&#39;t exist yet. 
+    // - parameter createIfNotExists: (query) Indicates whether to create a new record if it doesn&#39;t exist yet.
     // (optional, default to true)
     // - returns: RequestBuilder<UpdatedAtWithObjectIdResponse>
 

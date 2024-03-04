@@ -17,13 +17,16 @@ public struct ScheduleDateUtilsInput: Codable, JSONEncodable, Hashable {
     )
     /// The timeframe of the extraction, in number of days from today.
     public var timeframe: Int
+    public var mapping: MappingInput?
 
-    public init(timeframe: Int) {
+    public init(timeframe: Int, mapping: MappingInput? = nil) {
         self.timeframe = timeframe
+        self.mapping = mapping
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case timeframe
+        case mapping
     }
 
     // Encodable protocol methods
@@ -31,5 +34,6 @@ public struct ScheduleDateUtilsInput: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.timeframe, forKey: .timeframe)
+        try container.encodeIfPresent(self.mapping, forKey: .mapping)
     }
 }

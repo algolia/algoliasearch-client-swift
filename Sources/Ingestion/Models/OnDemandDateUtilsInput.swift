@@ -12,15 +12,18 @@ public struct OnDemandDateUtilsInput: Codable, JSONEncodable, Hashable {
     public var startDate: String
     /// The end date of the extraction (RFC3339 format).
     public var endDate: String
+    public var mapping: MappingInput?
 
-    public init(startDate: String, endDate: String) {
+    public init(startDate: String, endDate: String, mapping: MappingInput? = nil) {
         self.startDate = startDate
         self.endDate = endDate
+        self.mapping = mapping
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case startDate
         case endDate
+        case mapping
     }
 
     // Encodable protocol methods
@@ -29,5 +32,6 @@ public struct OnDemandDateUtilsInput: Codable, JSONEncodable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.startDate, forKey: .startDate)
         try container.encode(self.endDate, forKey: .endDate)
+        try container.encodeIfPresent(self.mapping, forKey: .mapping)
     }
 }
