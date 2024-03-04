@@ -60,9 +60,9 @@ If you're a framework author and use Swift API Client as a dependency, update yo
 
 ```swift
 let package = Package(
-    // 8.20.0 ..< 9.0.0
+    // 8.20.1 ..< 9.0.0
     dependencies: [
-        .package(url: "https://github.com/algolia/algoliasearch-client-swift", from: "8.20.0")
+        .package(url: "https://github.com/algolia/algoliasearch-client-swift", from: "8.20.1")
     ],
     // ...
 )
