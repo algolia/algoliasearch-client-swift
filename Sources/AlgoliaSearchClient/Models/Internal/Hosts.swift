@@ -45,9 +45,15 @@ public struct Hosts {
     return [.init(url: URL(string: "personalization\(regionComponent).algolia.com")!)]
   }
 
+  @available(*, deprecated, renamed: "analytics(forRegion:)")
   public static var analytics: [RetryableHost] = [
     .init(url: URL(string: "analytics.algolia.com")!)
   ]
+
+  public static func analytics(forRegion region: Region? = nil) -> [RetryableHost] {
+      let regionComponent = region.flatMap { ".\($0.rawValue)" } ?? ""
+      return [.init(url: URL(string: "analytics\(regionComponent).algolia.com")!)]
+  }
 
   public static var places: [RetryableHost] = [
     .init(url: URL(string: "places-dsn.algolia.net")!),

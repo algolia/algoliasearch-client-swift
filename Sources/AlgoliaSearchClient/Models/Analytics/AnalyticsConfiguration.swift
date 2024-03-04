@@ -38,7 +38,7 @@ public struct AnalyticsConfiguration: Configuration, Credentials {
     self.writeTimeout = writeTimeout
     self.readTimeout = readTimeout
     self.logLevel = logLevel
-    self.hosts = Hosts.analytics
+    self.hosts = Hosts.analytics(forRegion: region)
     self.defaultHeaders = defaultHeaders
     self.batchSize = batchSize
   }
