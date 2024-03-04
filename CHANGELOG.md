@@ -1,5 +1,10 @@
 # ChangeLog
 
+## [8.20.1](https://github.com/algolia/algoliasearch-client-swift/compare/8.20.0...8.20.1) (2024-03-04)
+
+### Fix
+
+- **analytics**: add region support (#856) ([94f90ebc](https://github.com/algolia/algoliasearch-client-swift/commit/94f90ebc))
 
 ## [8.20.0](https://github.com/algolia/algoliasearch-client-swift/compare/8.19.0...8.20.0) (2023-02-02)
 
