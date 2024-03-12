@@ -6,12 +6,13 @@ import Core
 import Foundation
 
 public struct SaveObjectResponse: Codable, JSONEncodable, Hashable {
-    /// Date of creation (ISO-8601 format).
+    /// Timestamp when the record was added, in ISO 8601 format.
     public var createdAt: String
-    /// Unique identifier of a task. A successful API response means that a task was added to a queue. It might not run
-    /// immediately. You can check the task's progress with the `task` operation and this `taskID`.
+    /// Unique identifier of a task.  A successful API response means that a task was added to a queue. It might not run
+    /// immediately. You can check the task's progress with the [`task` operation](#tag/Indices/operation/getTask) and
+    /// this `taskID`.
     public var taskID: Int64
-    /// Unique object identifier.
+    /// Unique record identifier.
     public var objectID: String?
 
     public init(createdAt: String, taskID: Int64, objectID: String? = nil) {

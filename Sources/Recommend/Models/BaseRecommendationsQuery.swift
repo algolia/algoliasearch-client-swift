@@ -7,7 +7,7 @@ import Foundation
 
 public struct BaseRecommendationsQuery: Codable, JSONEncodable, Hashable {
     public var model: RecommendationModels
-    /// Unique object identifier.
+    /// Unique record identifier.
     public var objectID: String
     public var queryParameters: SearchParamsObject?
     public var fallbackParameters: SearchParamsObject?

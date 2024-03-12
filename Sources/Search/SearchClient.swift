@@ -44,8 +44,7 @@ open class SearchClient {
         return body
     }
 
-    // Add a new API key with specific permissions and restrictions. The request must be authenticated with the admin
-    // API key. The response returns an API key string.
+    // Creates a new API key with specific permissions and restrictions.
     // Required API Key ACLs:
     //  - admin
     //
@@ -72,9 +71,11 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
-    /// - parameter objectID: (path) Unique record (object) identifier.
-    /// - parameter body: (body) Algolia record.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
+    /// - parameter objectID: (path) Unique record identifier.
+    /// - parameter body: (body) The record, a schemaless object with attributes that are useful in the context of
+    /// search
+    /// and discovery.
     /// - returns: UpdatedAtWithObjectIdResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func addOrUpdateObject(
@@ -97,18 +98,19 @@ open class SearchClient {
         return body
     }
 
-    // If you use an existing `objectID`, the existing record will be replaced with the new one.  To update only some
-    // attributes of an existing record, use the [`partial` operation](#tag/Records/operation/partialUpdateObject)
-    // instead.  To add multiple records to your index in a single API request, use the [`batch`
-    // operation](#tag/Records/operation/batch).
+    // If a record with the specified object ID exists, the existing record is replaced. Otherwise, a new record is
+    // added to the index.  To update _some_ attributes of an existing record, use the [`partial`
+    // operation](#tag/Records/operation/partialUpdateObject) instead. To add, update, or replace multiple records, use
+    // the [`batch` operation](#tag/Records/operation/batch).
     // Required API Key ACLs:
     //  - addObject
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
-    // - parameter objectID: (path) Unique record (object) identifier.
+    // - parameter objectID: (path) Unique record identifier.
     //
-    // - parameter body: (body) Algolia record.
+    // - parameter body: (body) The record, a schemaless object with attributes that are useful in the context of search
+    // and discovery.
     // - returns: RequestBuilder<UpdatedAtWithObjectIdResponse>
 
     open func addOrUpdateObjectWithHTTPInfo(
@@ -179,7 +181,7 @@ open class SearchClient {
         return body
     }
 
-    // Add a source to the list of allowed sources.
+    // Adds a source to the list of allowed sources.
     // Required API Key ACLs:
     //  - admin
     //
@@ -206,7 +208,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter xAlgoliaUserID: (header) userID to assign.
+    /// - parameter xAlgoliaUserID: (header) User ID to assign.
     /// - parameter assignUserIdParams: (body)
     /// - returns: CreatedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -228,12 +230,12 @@ open class SearchClient {
         return body
     }
 
-    // Assign or move a user ID to a cluster. The time it takes to move a user is proportional to the amount of data
+    // Assigns or moves a user ID to a cluster.  The time it takes to move a user is proportional to the amount of data
     // linked to the user ID.
     // Required API Key ACLs:
     //  - admin
     //
-    // - parameter xAlgoliaUserID: (header) userID to assign.
+    // - parameter xAlgoliaUserID: (header) User ID to assign.
     //
     // - parameter assignUserIdParams: (body)
     // - returns: RequestBuilder<CreatedAtResponse>
@@ -261,7 +263,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter batchWriteParams: (body)
     /// - returns: BatchResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -283,12 +285,12 @@ open class SearchClient {
         return body
     }
 
-    // To reduce the time spent on network round trips, you can perform several write actions in a single API call.
-    // Actions are applied in the order they are specified. The supported `action`s are equivalent to the individual
-    // operations of the same name.
+    // Adds, updates, or deletes records in one index with a single API request.  Batching index updates reduces latency
+    // and increases data integrity.  - Actions are applied in the order they're specified. - Actions are equivalent to
+    // the individual API requests of the same name.
     //
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter batchWriteParams: (body)
     // - returns: RequestBuilder<BatchResponse>
@@ -327,7 +329,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter xAlgoliaUserID: (header) userID to assign.
+    /// - parameter xAlgoliaUserID: (header) User ID to assign.
     /// - parameter batchAssignUserIdsParams: (body)
     /// - returns: CreatedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -349,11 +351,11 @@ open class SearchClient {
         return body
     }
 
-    // Assign multiple user IDs to a cluster. **You can't _move_ users with this operation.**.
+    // Assigns multiple user IDs to a cluster.  **You can't move users with this operation**.
     // Required API Key ACLs:
     //  - admin
     //
-    // - parameter xAlgoliaUserID: (header) userID to assign.
+    // - parameter xAlgoliaUserID: (header) User ID to assign.
     //
     // - parameter batchAssignUserIdsParams: (body)
     // - returns: RequestBuilder<CreatedAtResponse>
@@ -381,7 +383,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter dictionaryName: (path) Dictionary to search in.
+    /// - parameter dictionaryName: (path) Dictionary type in which to search.
     /// - parameter batchDictionaryEntriesParams: (body)
     /// - returns: UpdatedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -403,11 +405,11 @@ open class SearchClient {
         return body
     }
 
-    // Add or remove a batch of dictionary entries.
+    // Adds or deletes multiple entries from your plurals, segmentation, or stop word dictionaries.
     // Required API Key ACLs:
     //  - editSettings
     //
-    // - parameter dictionaryName: (path) Dictionary to search in.
+    // - parameter dictionaryName: (path) Dictionary type in which to search.
     //
     // - parameter batchDictionaryEntriesParams: (body)
     // - returns: RequestBuilder<UpdatedAtResponse>
@@ -442,7 +444,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter browseParams: (body)  (optional)
     /// - returns: BrowseResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -464,12 +466,15 @@ open class SearchClient {
         return body
     }
 
-    // Retrieve up to 1,000 records per call. Supports full-text search and filters. For better performance, it doesn't
-    // support: - The `distinct` query parameter - Sorting by typos, proximity, words, or geographical distance.
+    // Retrieves records from an index, up to 1,000 per request.  While searching retrieves _hits_ (records augmented
+    // with attributes for highlighting and ranking details), browsing _just_ returns matching records. This can be
+    // useful if you want to export your indices.  - The Analytics API doesn't collect data when using `browse`. -
+    // Records are ranked by attributes and custom ranking. - Deduplication (`distinct`) is turned off. - There's no
+    // ranking for: typo-tolerance, number of matched words, proximity, geo distance.
     // Required API Key ACLs:
     //  - browse
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter browseParams: (body)  (optional)
     // - returns: RequestBuilder<BrowseResponse>
@@ -508,7 +513,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - returns: UpdatedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func clearObjects(indexName: String, requestOptions: RequestOptions? = nil) async throws -> UpdatedAtResponse {
@@ -524,11 +529,11 @@ open class SearchClient {
         return body
     }
 
-    // Delete the records but leave settings and index-specific API keys untouched.
+    // Deletes only the records from an index while keeping settings, synonyms, and rules.
     // Required API Key ACLs:
     //  - deleteIndex
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     // - returns: RequestBuilder<UpdatedAtResponse>
 
     open func clearObjectsWithHTTPInfo(
@@ -564,9 +569,8 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
-    /// - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica
-    /// indices. (optional)
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
+    /// - parameter forwardToReplicas: (query) Whether changes are applied to replica indices. (optional)
     /// - returns: UpdatedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func clearRules(
@@ -587,14 +591,13 @@ open class SearchClient {
         return body
     }
 
-    // Delete all rules in the index.
+    // Deletes all rules from the index.
     // Required API Key ACLs:
     //  - editSettings
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
-    // - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica
-    // indices. (optional)
+    // - parameter forwardToReplicas: (query) Whether changes are applied to replica indices. (optional)
     // - returns: RequestBuilder<UpdatedAtResponse>
 
     open func clearRulesWithHTTPInfo(
@@ -633,9 +636,8 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
-    /// - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica
-    /// indices. (optional)
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
+    /// - parameter forwardToReplicas: (query) Whether changes are applied to replica indices. (optional)
     /// - returns: UpdatedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func clearSynonyms(
@@ -656,14 +658,13 @@ open class SearchClient {
         return body
     }
 
-    // Delete all synonyms in the index.
+    // Deletes all synonyms from the index.
     // Required API Key ACLs:
     //  - editSettings
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
-    // - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica
-    // indices. (optional)
+    // - parameter forwardToReplicas: (query) Whether changes are applied to replica indices. (optional)
     // - returns: RequestBuilder<UpdatedAtResponse>
 
     open func clearSynonymsWithHTTPInfo(
@@ -978,7 +979,7 @@ open class SearchClient {
         return body
     }
 
-    // Delete an existing API key. The request must be authenticated with the admin API key.
+    // Deletes the API key.
     // Required API Key ACLs:
     //  - admin
     //
@@ -1017,7 +1018,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter deleteByParams: (body)
     /// - returns: DeletedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1039,12 +1040,13 @@ open class SearchClient {
         return body
     }
 
-    // This operation doesn't support all the query options, only its filters (numeric, facet, or tag) and geo queries.
-    // It doesn't accept empty filters or queries.
+    // This operation doesn't accept empty queries or filters.  It's more efficient to get a list of object IDs with the
+    // [`browse` operation](#tag/Search/operation/browse), and then delete the records using the [`batch`
+    // operation](tag/Records/operation/batch).
     // Required API Key ACLs:
     //  - deleteIndex
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter deleteByParams: (body)
     // - returns: RequestBuilder<DeletedAtResponse>
@@ -1083,7 +1085,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - returns: DeletedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteIndex(indexName: String, requestOptions: RequestOptions? = nil) async throws -> DeletedAtResponse {
@@ -1099,11 +1101,16 @@ open class SearchClient {
         return body
     }
 
-    // Delete an existing index.
+    // Deletes an index and all its settings.  - Deleting an index doesn't delete its analytics data. - If you try to
+    // delete a non-existing index, the operation is ignored without warning. - If the index you want to delete has
+    // replica indices, the replicas become independent indices. - If the index you want to delete is a replica index,
+    // you must first unlink it from its primary index before you can delete it.   For more information, see [Delete
+    // replica
+    // indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/how-to/deleting-replicas/).
     // Required API Key ACLs:
     //  - deleteIndex
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     // - returns: RequestBuilder<DeletedAtResponse>
 
     open func deleteIndexWithHTTPInfo(
@@ -1139,8 +1146,8 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
-    /// - parameter objectID: (path) Unique record (object) identifier.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
+    /// - parameter objectID: (path) Unique record identifier.
     /// - returns: DeletedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteObject(
@@ -1161,14 +1168,15 @@ open class SearchClient {
         return body
     }
 
-    // To delete a set of records matching a query, use the [`deleteByQuery` operation](#tag/Records/operation/deleteBy)
-    // instead.
+    // Deletes a record by its object ID.  To delete more than one record, use the [`batch`
+    // operation](#tag/Records/operation/batch). To delete records matching a query, use the [`deleteByQuery`
+    // operation](#tag/Records/operation/deleteBy).
     // Required API Key ACLs:
     //  - deleteObject
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
-    // - parameter objectID: (path) Unique record (object) identifier.
+    // - parameter objectID: (path) Unique record identifier.
     // - returns: RequestBuilder<DeletedAtResponse>
 
     open func deleteObjectWithHTTPInfo(
@@ -1218,10 +1226,9 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter objectID: (path) Unique identifier of a rule object.
-    /// - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica
-    /// indices. (optional)
+    /// - parameter forwardToReplicas: (query) Whether changes are applied to replica indices. (optional)
     /// - returns: UpdatedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteRule(
@@ -1244,17 +1251,16 @@ open class SearchClient {
         return body
     }
 
-    // Delete a rule by its `objectID`. To find the `objectID` for rules, use the [`search`
+    // Deletes a rule by its ID. To find the object ID for rules, use the [`search`
     // operation](#tag/Rules/operation/searchRules).
     // Required API Key ACLs:
     //  - editSettings
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter objectID: (path) Unique identifier of a rule object.
     //
-    // - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica
-    // indices. (optional)
+    // - parameter forwardToReplicas: (query) Whether changes are applied to replica indices. (optional)
     // - returns: RequestBuilder<UpdatedAtResponse>
 
     open func deleteRuleWithHTTPInfo(
@@ -1323,7 +1329,7 @@ open class SearchClient {
         return body
     }
 
-    // Remove a source from the list of allowed sources.
+    // Deletes a source from the list of allowed sources.
     // Required API Key ACLs:
     //  - admin
     //
@@ -1363,10 +1369,9 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter objectID: (path) Unique identifier of a synonym object.
-    /// - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica
-    /// indices. (optional)
+    /// - parameter forwardToReplicas: (query) Whether changes are applied to replica indices. (optional)
     /// - returns: DeletedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteSynonym(
@@ -1389,17 +1394,16 @@ open class SearchClient {
         return body
     }
 
-    // Delete a synonym by its `objectID`. To find the object IDs of your synonyms, use the [`search`
+    // Deletes a synonym by its ID. To find the object IDs of your synonyms, use the [`search`
     // operation](#tag/Synonyms/operation/searchSynonyms).
     // Required API Key ACLs:
     //  - editSettings
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter objectID: (path) Unique identifier of a synonym object.
     //
-    // - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica
-    // indices. (optional)
+    // - parameter forwardToReplicas: (query) Whether changes are applied to replica indices. (optional)
     // - returns: RequestBuilder<DeletedAtResponse>
 
     open func deleteSynonymWithHTTPInfo(
@@ -1468,9 +1472,9 @@ open class SearchClient {
         return body
     }
 
-    // Get the permissions and restrictions of a specific API key. When authenticating with the admin API key, you can
-    // request information for any of your application's keys. When authenticating with other API keys, you can only
-    // retrieve information for that key.
+    // Gets the permissions and restrictions of an API key.  When authenticating with the admin API key, you can request
+    // information for any of your application's keys. When authenticating with other API keys, you can only retrieve
+    // information for that key.
     //
     //
     // - parameter key: (path) API key.
@@ -1521,11 +1525,7 @@ open class SearchClient {
         return body
     }
 
-    // Lists Algolia's [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/)
-    // and any customizations applied to each language's [stop word](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-stop-words/),
-    // [plural](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-plurals-and-other-declensions/),
-    // and [segmentation (compound)](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-segmentation/)
-    // features.
+    // Lists supported languages with their supported dictionary types and number of custom entries.
     // Required API Key ACLs:
     //  - settings
     //     - returns: RequestBuilder<[String: Languages]>
@@ -1562,7 +1562,7 @@ open class SearchClient {
         return body
     }
 
-    // Get the languages for which [stop words are turned off](#tag/Dictionaries/operation/setDictionarySettings).
+    // Retrieves the languages for which standard dictionary entries are turned off.
     // Required API Key ACLs:
     //  - settings
     //     - returns: RequestBuilder<GetDictionarySettingsResponse>
@@ -1585,12 +1585,12 @@ open class SearchClient {
         )
     }
 
-    /// - parameter offset: (query) First log entry to retrieve. Sorted by decreasing date with 0 being the most recent.
-    /// (optional, default to 0)
+    /// - parameter offset: (query) First log entry to retrieve. The most recent entries are listed first. (optional,
+    /// default to 0)
     /// - parameter length: (query) Maximum number of entries to retrieve. (optional, default to 10)
-    /// - parameter indexName: (query) Index for which log entries should be retrieved. When omitted, log entries are
-    /// retrieved for all indices. (optional)
-    /// - parameter type: (query) Type of log entries to retrieve. When omitted, all log entries are retrieved.
+    /// - parameter indexName: (query) Index for which to retrieve log entries. By default, log entries are retrieved
+    /// for all indices.  (optional)
+    /// - parameter type: (query) Type of log entries to retrieve. By default, all log entries are retrieved. 
     /// (optional)
     /// - returns: GetLogsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1617,26 +1617,23 @@ open class SearchClient {
     }
 
     // The request must be authenticated by an API key with the [`logs`
-    // ACL](https://www.algolia.com/doc/guides/security/api-keys/#access-control-list-acl). Logs are held for the last
-    // seven days. There's also a logging limit of 1,000 API calls per server. This request counts towards your
-    // [operations
+    // ACL](https://www.algolia.com/doc/guides/security/api-keys/#access-control-list-acl).  - Logs are held for the
+    // last
+    // seven days. - Up to 1,000 API requests per server are logged. - This request counts towards your [operations
     // quota](https://support.algolia.com/hc/en-us/articles/4406981829777-How-does-Algolia-count-records-and-operations-)
-    // but doesn't appear in the logs itself. > **Note**: To fetch the logs for a Distributed Search Network (DSN)
-    // cluster, target the [DSN's
-    // endpoint](https://www.algolia.com/doc/guides/scaling/distributed-search-network-dsn/#accessing-dsn-servers).
+    // but doesn't appear in the logs itself.
     // Required API Key ACLs:
     //  - logs
     //
-    // - parameter offset: (query) First log entry to retrieve. Sorted by decreasing date with 0 being the most recent.
-    // (optional, default to 0)
+    // - parameter offset: (query) First log entry to retrieve. The most recent entries are listed first. (optional,
+    // default to 0)
     //
     // - parameter length: (query) Maximum number of entries to retrieve. (optional, default to 10)
     //
-    // - parameter indexName: (query) Index for which log entries should be retrieved. When omitted, log entries are
-    // retrieved for all indices. (optional)
+    // - parameter indexName: (query) Index for which to retrieve log entries. By default, log entries are retrieved for
+    // all indices.  (optional)
     //
-    // - parameter type: (query) Type of log entries to retrieve. When omitted, all log entries are retrieved.
-    // (optional)
+    // - parameter type: (query) Type of log entries to retrieve. By default, all log entries are retrieved.  (optional)
     // - returns: RequestBuilder<GetLogsResponse>
 
     open func getLogsWithHTTPInfo(
@@ -1667,12 +1664,12 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
-    /// - parameter objectID: (path) Unique record (object) identifier.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
+    /// - parameter objectID: (path) Unique record identifier.
     /// - parameter attributesToRetrieve: (query) Attributes to include with the records in the response. This is useful
-    /// to reduce the size of the API response. By default, all retrievable attributes are returned.
-    /// &#x60;objectID&#x60; is always retrieved, even when not specified. [&#x60;unretrievableAttributes&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/unretrievableAttributes/)
-    /// won&#39;t be retrieved unless the request is authenticated with the admin API key.  (optional)
+    /// to reduce the size of the API response. By default, all retrievable attributes are returned. 
+    /// &#x60;objectID&#x60; is always retrieved.  Attributes included in &#x60;unretrievableAttributes&#x60; won&#39;t
+    /// be retrieved unless the request is authenticated with the admin API key.  (optional)
     /// - returns: [String: String]
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getObject(
@@ -1695,18 +1692,21 @@ open class SearchClient {
         return body
     }
 
-    // To get more than one record, use the [`objects` operation](#tag/Records/operation/getObjects).
+    // Retrieves one record by its object ID.  To retrieve more than one record, use the [`objects`
+    // operation](#tag/Records/operation/getObjects).
     // Required API Key ACLs:
     //  - search
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
-    // - parameter objectID: (path) Unique record (object) identifier.
+    // - parameter objectID: (path) Unique record identifier.
     //
     // - parameter attributesToRetrieve: (query) Attributes to include with the records in the response. This is useful
-    // to reduce the size of the API response. By default, all retrievable attributes are returned. &#x60;objectID&#x60;
-    // is always retrieved, even when not specified. [&#x60;unretrievableAttributes&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/unretrievableAttributes/)
-    // won&#39;t be retrieved unless the request is authenticated with the admin API key.  (optional)
+    // to reduce the size of the API response. By default, all retrievable attributes are returned. 
+    // &#x60;objectID&#x60;
+    // is always retrieved.  Attributes included in &#x60;unretrievableAttributes&#x60; won&#39;t be retrieved unless
+    // the
+    // request is authenticated with the admin API key.  (optional)
     // - returns: RequestBuilder<[String: String]>
 
     open func getObjectWithHTTPInfo(
@@ -1778,8 +1778,8 @@ open class SearchClient {
         return body
     }
 
-    // Retrieve one or more records, potentially from different indices, in a single API operation. Results will be
-    // received in the same order as the requests.
+    // Retrieves one or more records, potentially from different indices.  Records are returned in the same order as the
+    // requests.
     // Required API Key ACLs:
     //  - search
     //
@@ -1807,7 +1807,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter objectID: (path) Unique identifier of a rule object.
     /// - returns: Rule
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1825,12 +1825,12 @@ open class SearchClient {
         return body
     }
 
-    // Get a rule by its `objectID`. To find the `objectID` for rules, use the [`search`
+    // Retrieves a rule by its ID. To find the object ID of rules, use the [`search`
     // operation](#tag/Rules/operation/searchRules).
     // Required API Key ACLs:
     //  - settings
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter objectID: (path) Unique identifier of a rule object.
     // - returns: RequestBuilder<Rule>
@@ -1882,7 +1882,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - returns: IndexSettings
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getSettings(indexName: String, requestOptions: RequestOptions? = nil) async throws -> IndexSettings {
@@ -1898,12 +1898,11 @@ open class SearchClient {
         return body
     }
 
-    // Return an object containing an index's [configuration
-    // settings](https://www.algolia.com/doc/api-reference/settings-api-parameters/).
+    // Retrieves an object with non-null index settings.
     // Required API Key ACLs:
     //  - search
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     // - returns: RequestBuilder<IndexSettings>
 
     open func getSettingsWithHTTPInfo(
@@ -1951,7 +1950,7 @@ open class SearchClient {
         return body
     }
 
-    // Get all allowed sources (IP addresses).
+    // Retrieves all allowed IP addresses with access to your application.
     // Required API Key ACLs:
     //  - admin
     //     - returns: RequestBuilder<[Source]>
@@ -1974,7 +1973,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter objectID: (path) Unique identifier of a synonym object.
     /// - returns: SynonymHit
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -1996,12 +1995,12 @@ open class SearchClient {
         return body
     }
 
-    // Get a syonym by its `objectID`. To find the object IDs for your synonyms, use the [`search`
+    // Retrieves a syonym by its ID. To find the object IDs for your synonyms, use the [`search`
     // operation](#tag/Synonyms/operation/searchSynonyms).
     // Required API Key ACLs:
     //  - settings
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter objectID: (path) Unique identifier of a synonym object.
     // - returns: RequestBuilder<SynonymHit>
@@ -2053,7 +2052,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter taskID: (path) Unique task identifier.
     /// - returns: GetTaskResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -2075,12 +2074,13 @@ open class SearchClient {
         return body
     }
 
-    // Some operations, such as copying an index, will respond with a `taskID` value. Use this value here to check the
-    // status of that task.
+    // Checks the status of a given task.  Indexing tasks are asynchronous. When you add, update, or delete records or
+    // indices, a task is created on a queue and completed depending on the load on the server.  The indexing tasks'
+    // responses include a task ID that you can use to check the status.
     // Required API Key ACLs:
     //  - addObject
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter taskID: (path) Unique task identifier.
     // - returns: RequestBuilder<GetTaskResponse>
@@ -2141,8 +2141,8 @@ open class SearchClient {
         return body
     }
 
-    // Get the IDs of the 10 users with the highest number of records per cluster. Since it can take up to a few seconds
-    // to get the data from the different clusters, the response isn't real-time.
+    // Get the IDs of the 10 users with the highest number of records per cluster.  Since it can take a few seconds to
+    // get the data from the different clusters, the response isn't real-time.
     // Required API Key ACLs:
     //  - admin
     //     - returns: RequestBuilder<GetTopUserIdsResponse>
@@ -2165,7 +2165,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter userID: (path) userID to assign.
+    /// - parameter userID: (path) User ID to assign.
     /// - returns: UserId
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getUserId(userID: String, requestOptions: RequestOptions? = nil) async throws -> UserId {
@@ -2178,12 +2178,12 @@ open class SearchClient {
         return body
     }
 
-    // Returns the userID data stored in the mapping. Since it can take up to a few seconds to get the data from the
+    // Returns the user ID data stored in the mapping.  Since it can take a few seconds to get the data from the
     // different clusters, the response isn't real-time.
     // Required API Key ACLs:
     //  - admin
     //
-    // - parameter userID: (path) userID to assign.
+    // - parameter userID: (path) User ID to assign.
     // - returns: RequestBuilder<UserId>
 
     open func getUserIdWithHTTPInfo(
@@ -2219,8 +2219,8 @@ open class SearchClient {
         )
     }
 
-    /// - parameter getClusters: (query) Indicates whether to include the cluster&#39;s pending mapping state in the
-    /// response. (optional)
+    /// - parameter getClusters: (query) Whether to include the cluster&#39;s pending mapping state in the response.
+    /// (optional)
     /// - returns: HasPendingMappingsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func hasPendingMappings(
@@ -2244,8 +2244,8 @@ open class SearchClient {
     // Required API Key ACLs:
     //  - admin
     //
-    // - parameter getClusters: (query) Indicates whether to include the cluster&#39;s pending mapping state in the
-    // response. (optional)
+    // - parameter getClusters: (query) Whether to include the cluster&#39;s pending mapping state in the response.
+    // (optional)
     // - returns: RequestBuilder<HasPendingMappingsResponse>
 
     open func hasPendingMappingsWithHTTPInfo(
@@ -2282,7 +2282,7 @@ open class SearchClient {
         return body
     }
 
-    // List all API keys associated with your Algolia application, including their permissions and restrictions.
+    // Lists all API keys associated with your Algolia application, including their permissions and restrictions.
     // Required API Key ACLs:
     //  - admin
     //     - returns: RequestBuilder<ListApiKeysResponse>
@@ -2318,7 +2318,7 @@ open class SearchClient {
         return body
     }
 
-    // List the available clusters in a multi-cluster setup.
+    // Lists the available clusters in a multi-cluster setup.
     // Required API Key ACLs:
     //  - admin
     //     - returns: RequestBuilder<ListClustersResponse>
@@ -2341,10 +2341,9 @@ open class SearchClient {
         )
     }
 
-    /// - parameter page: (query) Returns the requested page number. The page size is determined by the
-    /// &#x60;hitsPerPage&#x60; parameter. You can see the number of available pages in the &#x60;nbPages&#x60; response
-    /// attribute. When &#x60;page&#x60; is null, the API response is not paginated.  (optional)
-    /// - parameter hitsPerPage: (query) Maximum number of hits per page. (optional, default to 100)
+    /// - parameter page: (query) Requested page of the API response. If &#x60;null&#x60;, the API response is not
+    /// paginated.  (optional)
+    /// - parameter hitsPerPage: (query) Number of hits per page. (optional, default to 100)
     /// - returns: ListIndicesResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func listIndices(
@@ -2365,15 +2364,15 @@ open class SearchClient {
         return body
     }
 
-    // List indices in an Algolia application.
+    // Lists all indices in the current Algolia application.  The request follows any index restrictions of the API key
+    // you use to make the request.
     // Required API Key ACLs:
     //  - listIndexes
     //
-    // - parameter page: (query) Returns the requested page number. The page size is determined by the
-    // &#x60;hitsPerPage&#x60; parameter. You can see the number of available pages in the &#x60;nbPages&#x60; response
-    // attribute. When &#x60;page&#x60; is null, the API response is not paginated.  (optional)
+    // - parameter page: (query) Requested page of the API response. If &#x60;null&#x60;, the API response is not
+    // paginated.  (optional)
     //
-    // - parameter hitsPerPage: (query) Maximum number of hits per page. (optional, default to 100)
+    // - parameter hitsPerPage: (query) Number of hits per page. (optional, default to 100)
     // - returns: RequestBuilder<ListIndicesResponse>
 
     open func listIndicesWithHTTPInfo(
@@ -2400,10 +2399,9 @@ open class SearchClient {
         )
     }
 
-    /// - parameter page: (query) Returns the requested page number. The page size is determined by the
-    /// &#x60;hitsPerPage&#x60; parameter. You can see the number of available pages in the &#x60;nbPages&#x60; response
-    /// attribute. When &#x60;page&#x60; is null, the API response is not paginated.  (optional)
-    /// - parameter hitsPerPage: (query) Maximum number of hits per page. (optional, default to 100)
+    /// - parameter page: (query) Requested page of the API response. If &#x60;null&#x60;, the API response is not
+    /// paginated.  (optional)
+    /// - parameter hitsPerPage: (query) Number of hits per page. (optional, default to 100)
     /// - returns: ListUserIdsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func listUserIds(
@@ -2424,16 +2422,15 @@ open class SearchClient {
         return body
     }
 
-    // List the userIDs assigned to a multi-cluster application. Since it can take up to a few seconds to get the data
-    // from the different clusters, the response isn't real-time.
+    // Lists the userIDs assigned to a multi-cluster application.  Since it can take a few seconds to get the data from
+    // the different clusters, the response isn't real-time.
     // Required API Key ACLs:
     //  - admin
     //
-    // - parameter page: (query) Returns the requested page number. The page size is determined by the
-    // &#x60;hitsPerPage&#x60; parameter. You can see the number of available pages in the &#x60;nbPages&#x60; response
-    // attribute. When &#x60;page&#x60; is null, the API response is not paginated.  (optional)
+    // - parameter page: (query) Requested page of the API response. If &#x60;null&#x60;, the API response is not
+    // paginated.  (optional)
     //
-    // - parameter hitsPerPage: (query) Maximum number of hits per page. (optional, default to 100)
+    // - parameter hitsPerPage: (query) Number of hits per page. (optional, default to 100)
     // - returns: RequestBuilder<ListUserIdsResponse>
 
     open func listUserIdsWithHTTPInfo(
@@ -2479,9 +2476,8 @@ open class SearchClient {
         return body
     }
 
-    // To reduce the time spent on network round trips, you can perform several write actions in a single request. It's
-    // a multi-index version of the [`batch` operation](#tag/Records/operation/batch). Actions are applied in the order
-    // they are specified. The supported actions are equivalent to the individual operations of the same name.
+    // Adds, updates, or deletes records in multiple indices with a single API request.  - Actions are applied in the
+    // order they are specified. - Actions are equivalent to the individual API requests of the same name.
     //
     //
     // - parameter batchParams: (body)
@@ -2507,7 +2503,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter operationIndexParams: (body)
     /// - returns: UpdatedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -2529,17 +2525,25 @@ open class SearchClient {
         return body
     }
 
-    // This `operation`, _copy_ or _move_, will copy or move a source index's (`IndexName`) records, settings, synonyms,
-    // and rules to a `destination` index. If the destination index exists, it will be replaced, except for
-    // index-specific API keys and analytics data. If the destination index doesn't exist, it will be created.  The
-    // choice between moving or copying an index depends on your needs. Choose:  - **Move** to rename an index. -
-    // **Copy** to create a new index with the same records and configuration as an existing one.  > **Note**: When
-    // considering copying or moving, be aware of the [rate limitations](https://www.algolia.com/doc/guides/scaling/algolia-service-limits/#application-record-and-index-limits)
-    // on these processes and the [impact on your analytics data](https://www.algolia.com/doc/guides/sending-and-managing-data/manage-indices-and-apps/manage-indices/concepts/indices-analytics/).
+    // Copies or moves (renames) an index within the same Algolia application.  - Existing destination indices are
+    // overwritten, except for index-specific API keys and analytics data. - If the destination index doesn't exist yet,
+    // it'll be created.  **Copy**  - Copying a source index that doesn't exist creates a new index with 0 records and
+    // default settings. - The API keys of the source index are merged with the existing keys in the destination index.
+    // -
+    // You can't copy the `enableReRanking`, `mode`, and `replicas` settings. - You can't copy to a destination index
+    // that already has replicas. - Be aware of the [size
+    // limits](https://www.algolia.com/doc/guides/scaling/algolia-service-limits/#application-record-and-index-limits).
+    // -
+    // Related guide: [Copy indices](https://www.algolia.com/doc/guides/sending-and-managing-data/manage-indices-and-apps/manage-indices/how-to/copy-indices/)
+    // **Move**  - Moving a source index that doesn't exist is ignored without returning an error. - When moving an
+    // index, the analytics data keep their original name and a new set of analytics data is started for the new name.  
+    // To access the original analytics in the dashboard, create an index with the original name. - If the destination
+    // index has replicas, moving will overwrite the existing index and copy the data to the replica indices. - Related
+    // guide: [Move indices](https://www.algolia.com/doc/guides/sending-and-managing-data/manage-indices-and-apps/manage-indices/how-to/move-indices/).
     // Required API Key ACLs:
     //  - addObject
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter operationIndexParams: (body)
     // - returns: RequestBuilder<UpdatedAtResponse>
@@ -2578,11 +2582,11 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
-    /// - parameter objectID: (path) Unique record (object) identifier.
-    /// - parameter attributesToUpdate: (body) Object with attributes to update.
-    /// - parameter createIfNotExists: (query) Indicates whether to create a new record if it doesn&#39;t exist yet. 
-    /// (optional, default to true)
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
+    /// - parameter objectID: (path) Unique record identifier.
+    /// - parameter attributesToUpdate: (body) Attributes with their values.
+    /// - parameter createIfNotExists: (query) Whether to create a new record if it doesn&#39;t exist. (optional,
+    /// default to true)
     /// - returns: UpdatedAtWithObjectIdResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func partialUpdateObject(
@@ -2607,20 +2611,21 @@ open class SearchClient {
         return body
     }
 
-    // Add new attributes or update current ones in an existing record. You can use any first-level attribute but not
-    // nested attributes. If you specify a [nested attribute](https://www.algolia.com/doc/guides/sending-and-managing-data/prepare-your-data/how-to/creating-and-using-nested-attributes/),
-    // the engine treats it as a replacement for its first-level ancestor.
+    // Adds new attributes to a record, or update existing ones.  - If a record with the specified object ID doesn't
+    // exist,   a new record is added to the index **if** `createIfNotExists` is true. - If the index doesn't exist yet,
+    // this method creates a new index. - You can use any first-level attribute but not nested attributes.   If you
+    // specify a nested attribute, the engine treats it as a replacement for its first-level ancestor.
     // Required API Key ACLs:
     //  - addObject
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
-    // - parameter objectID: (path) Unique record (object) identifier.
+    // - parameter objectID: (path) Unique record identifier.
     //
-    // - parameter attributesToUpdate: (body) Object with attributes to update.
+    // - parameter attributesToUpdate: (body) Attributes with their values.
     //
-    // - parameter createIfNotExists: (query) Indicates whether to create a new record if it doesn&#39;t exist yet. 
-    // (optional, default to true)
+    // - parameter createIfNotExists: (query) Whether to create a new record if it doesn&#39;t exist. (optional, default
+    // to true)
     // - returns: RequestBuilder<UpdatedAtWithObjectIdResponse>
 
     open func partialUpdateObjectWithHTTPInfo(
@@ -2674,7 +2679,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter userID: (path) userID to assign.
+    /// - parameter userID: (path) User ID to assign.
     /// - returns: RemoveUserIdResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func removeUserId(userID: String, requestOptions: RequestOptions? = nil) async throws -> RemoveUserIdResponse {
@@ -2690,11 +2695,11 @@ open class SearchClient {
         return body
     }
 
-    // Remove a userID and its associated data from the multi-clusters.
+    // Deletes a user ID and its associated data from the clusters.
     // Required API Key ACLs:
     //  - admin
     //
-    // - parameter userID: (path) userID to assign.
+    // - parameter userID: (path) User ID to assign.
     // - returns: RequestBuilder<RemoveUserIdResponse>
 
     open func removeUserIdWithHTTPInfo(
@@ -2749,7 +2754,7 @@ open class SearchClient {
         return body
     }
 
-    // Replace all allowed sources.
+    // Replaces the list of allowed sources.
     // Required API Key ACLs:
     //  - admin
     //
@@ -2792,8 +2797,8 @@ open class SearchClient {
         return body
     }
 
-    // Restore a deleted API key, along with its associated permissions. The request must be authenticated with the
-    // admin API key.
+    // Restores a deleted API key.  Restoring resets the `validity` attribute to `0`.  Algolia stores up to 1,000 API
+    // keys per application. If you create more, the oldest API keys are deleted and can't be restored.
     // Required API Key ACLs:
     //  - admin
     //
@@ -2832,8 +2837,10 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
-    /// - parameter body: (body) The Algolia record.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
+    /// - parameter body: (body) The record, a schemaless object with attributes that are useful in the context of
+    /// search
+    /// and discovery.
     /// - returns: SaveObjectResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func saveObject(
@@ -2854,17 +2861,20 @@ open class SearchClient {
         return body
     }
 
-    // Add a record (object) to an index or replace it. If the record doesn't contain an `objectID`, Algolia
-    // automatically adds it. If you use an existing `objectID`, the existing record is replaced with the new one. To
-    // add
-    // multiple records to your index in a single API request, use the [`batch`
-    // operation](#tag/Records/operation/batch).
+    // Adds a record to an index or replace it.  - If the record doesn't have an object ID, a new record with an
+    // auto-generated object ID is added to your index. - If a record with the specified object ID exists, the existing
+    // record is replaced. - If a record with the specified object ID doesn't exist, a new record is added to your
+    // index.
+    // - If you add a record to an index that doesn't exist yet, a new index is created.  To update _some_ attributes of
+    // a record, use the [`partial` operation](#tag/Records/operation/partial). To add, update, or replace multiple
+    // records, use the [`batch` operation](#tag/Records/operation/batch).
     // Required API Key ACLs:
     //  - addObject
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
-    // - parameter body: (body) The Algolia record.
+    // - parameter body: (body) The record, a schemaless object with attributes that are useful in the context of search
+    // and discovery.
     // - returns: RequestBuilder<SaveObjectResponse>
 
     open func saveObjectWithHTTPInfo(
@@ -2905,11 +2915,10 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter objectID: (path) Unique identifier of a rule object.
     /// - parameter rule: (body)
-    /// - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica
-    /// indices. (optional)
+    /// - parameter forwardToReplicas: (query) Whether changes are applied to replica indices. (optional)
     /// - returns: UpdatedRuleResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func saveRule(
@@ -2934,18 +2943,18 @@ open class SearchClient {
         return body
     }
 
-    // To create or update more than one rule, use the [`batch` operation](#tag/Rules/operation/saveRules).
+    // If a rule with the specified object ID doesn't exist, it's created. Otherwise, the existing rule is replaced.  To
+    // create or update more than one rule, use the [`batch` operation](#tag/Rules/operation/saveRules).
     // Required API Key ACLs:
     //  - editSettings
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter objectID: (path) Unique identifier of a rule object.
     //
     // - parameter rule: (body)
     //
-    // - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica
-    // indices. (optional)
+    // - parameter forwardToReplicas: (query) Whether changes are applied to replica indices. (optional)
     // - returns: RequestBuilder<UpdatedRuleResponse>
 
     open func saveRuleWithHTTPInfo(
@@ -2999,12 +3008,11 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter rules: (body)
-    /// - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica
-    /// indices. (optional)
-    /// - parameter clearExistingRules: (query) Indicates whether existing rules should be deleted before adding this
-    /// batch. (optional)
+    /// - parameter forwardToReplicas: (query) Whether changes are applied to replica indices. (optional)
+    /// - parameter clearExistingRules: (query) Whether existing rules should be deleted before adding this batch.
+    /// (optional)
     /// - returns: UpdatedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func saveRules(
@@ -3029,19 +3037,19 @@ open class SearchClient {
         return body
     }
 
-    // Create or update multiple rules.
+    // Create or update multiple rules.  If a rule with the specified object ID doesn't exist, Algolia creates a new
+    // one. Otherwise, existing rules are replaced.
     // Required API Key ACLs:
     //  - editSettings
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter rules: (body)
     //
-    // - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica
-    // indices. (optional)
+    // - parameter forwardToReplicas: (query) Whether changes are applied to replica indices. (optional)
     //
-    // - parameter clearExistingRules: (query) Indicates whether existing rules should be deleted before adding this
-    // batch. (optional)
+    // - parameter clearExistingRules: (query) Whether existing rules should be deleted before adding this batch.
+    // (optional)
     // - returns: RequestBuilder<UpdatedAtResponse>
 
     open func saveRulesWithHTTPInfo(
@@ -3083,11 +3091,10 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter objectID: (path) Unique identifier of a synonym object.
     /// - parameter synonymHit: (body)
-    /// - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica
-    /// indices. (optional)
+    /// - parameter forwardToReplicas: (query) Whether changes are applied to replica indices. (optional)
     /// - returns: SaveSynonymResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func saveSynonym(
@@ -3112,22 +3119,19 @@ open class SearchClient {
         return body
     }
 
-    // Add a [synonym](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/adding-synonyms/#the-different-types-of-synonyms)
-    // to an index or replace it. If the synonym `objectID` doesn't exist, Algolia adds a new one. If you use an
-    // existing
-    // synonym `objectID`, the existing synonym is replaced with the new one. To add multiple synonyms in a single API
-    // request, use the [`batch` operation](#tag/Synonyms/operation/saveSynonyms).
+    // If a synonym with the specified object ID doesn't exist, Algolia adds a new one. Otherwise, the existing synonym
+    // is replaced. To add multiple synonyms in a single API request, use the [`batch`
+    // operation](#tag/Synonyms/operation/saveSynonyms).
     // Required API Key ACLs:
     //  - editSettings
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter objectID: (path) Unique identifier of a synonym object.
     //
     // - parameter synonymHit: (body)
     //
-    // - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica
-    // indices. (optional)
+    // - parameter forwardToReplicas: (query) Whether changes are applied to replica indices. (optional)
     // - returns: RequestBuilder<SaveSynonymResponse>
 
     open func saveSynonymWithHTTPInfo(
@@ -3181,12 +3185,11 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter synonymHit: (body)
-    /// - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica
-    /// indices. (optional)
-    /// - parameter replaceExistingSynonyms: (query) Indicates whether to replace all synonyms in the index with the
-    /// ones sent with this request. (optional)
+    /// - parameter forwardToReplicas: (query) Whether changes are applied to replica indices. (optional)
+    /// - parameter replaceExistingSynonyms: (query) Whether to replace all synonyms in the index with the ones sent
+    /// with this request. (optional)
     /// - returns: UpdatedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func saveSynonyms(
@@ -3211,19 +3214,19 @@ open class SearchClient {
         return body
     }
 
-    // Create or update multiple synonyms.
+    // If a synonym with the `objectID` doesn't exist, Algolia adds a new one. Otherwise, existing synonyms are
+    // replaced.
     // Required API Key ACLs:
     //  - editSettings
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter synonymHit: (body)
     //
-    // - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica
-    // indices. (optional)
+    // - parameter forwardToReplicas: (query) Whether changes are applied to replica indices. (optional)
     //
-    // - parameter replaceExistingSynonyms: (query) Indicates whether to replace all synonyms in the index with the ones
-    // sent with this request. (optional)
+    // - parameter replaceExistingSynonyms: (query) Whether to replace all synonyms in the index with the ones sent with
+    // this request. (optional)
     // - returns: RequestBuilder<UpdatedAtResponse>
 
     open func saveSynonymsWithHTTPInfo(
@@ -3265,8 +3268,8 @@ open class SearchClient {
         )
     }
 
-    /// - parameter searchMethodParams: (body) Query requests and strategies. Results will be received in the same order
-    /// as the queries.
+    /// - parameter searchMethodParams: (body) Muli-search request body. Results are returned in the same order as the
+    /// requests.
     /// - returns: SearchResponses
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func search(
@@ -3285,12 +3288,15 @@ open class SearchClient {
         return body
     }
 
-    // Send multiple search queries to one or more indices.
+    // Sends multiple search request to one or more indices.  This can be useful in these cases:  - Different indices
+    // for different purposes, such as, one index for products, another one for marketing content. - Multiple searches
+    // to
+    // the same index—for example, with different filters.
     // Required API Key ACLs:
     //  - search
     //
-    // - parameter searchMethodParams: (body) Query requests and strategies. Results will be received in the same order
-    // as the queries.
+    // - parameter searchMethodParams: (body) Muli-search request body. Results are returned in the same order as the
+    // requests.
     // - returns: RequestBuilder<SearchResponses>
 
     open func searchWithHTTPInfo(
@@ -3314,16 +3320,16 @@ open class SearchClient {
         )
     }
 
-    /// - parameter dictionaryName: (path) Dictionary to search in.
+    /// - parameter dictionaryName: (path) Dictionary type in which to search.
     /// - parameter searchDictionaryEntriesParams: (body)
-    /// - returns: UpdatedAtResponse
+    /// - returns: SearchDictionaryEntriesResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func searchDictionaryEntries(
         dictionaryName: DictionaryType,
         searchDictionaryEntriesParams: SearchDictionaryEntriesParams,
         requestOptions: RequestOptions? = nil
-    ) async throws -> UpdatedAtResponse {
-        let response: Response<UpdatedAtResponse> = try await searchDictionaryEntriesWithHTTPInfo(
+    ) async throws -> SearchDictionaryEntriesResponse {
+        let response: Response<SearchDictionaryEntriesResponse> = try await searchDictionaryEntriesWithHTTPInfo(
             dictionaryName: dictionaryName,
             searchDictionaryEntriesParams: searchDictionaryEntriesParams,
             requestOptions: requestOptions
@@ -3336,24 +3342,20 @@ open class SearchClient {
         return body
     }
 
-    // Search for standard and [custom](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-stop-words/)
-    // entries in the [stop words](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-stop-words/),
-    // [plurals](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-plurals-and-other-declensions/),
-    // or [segmentation (compounds)](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-segmentation/)
-    // dictionaries.
+    // Searches for standard and custom dictionary entries.
     // Required API Key ACLs:
     //  - settings
     //
-    // - parameter dictionaryName: (path) Dictionary to search in.
+    // - parameter dictionaryName: (path) Dictionary type in which to search.
     //
     // - parameter searchDictionaryEntriesParams: (body)
-    // - returns: RequestBuilder<UpdatedAtResponse>
+    // - returns: RequestBuilder<SearchDictionaryEntriesResponse>
 
     open func searchDictionaryEntriesWithHTTPInfo(
         dictionaryName: DictionaryType,
         searchDictionaryEntriesParams: SearchDictionaryEntriesParams,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<UpdatedAtResponse> {
+    ) async throws -> Response<SearchDictionaryEntriesResponse> {
         var resourcePath = "/1/dictionaries/{dictionaryName}/search"
         let dictionaryNamePreEscape = "\(APIHelper.mapValueToPathItem(dictionaryName))"
         let dictionaryNamePostEscape = dictionaryNamePreEscape
@@ -3380,8 +3382,9 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
-    /// - parameter facetName: (path) Facet name.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
+    /// - parameter facetName: (path) Facet attribute in which to search for values.  This attribute must be included in
+    /// the &#x60;attributesForFaceting&#x60; index setting with the &#x60;searchable()&#x60; modifier.
     /// - parameter searchForFacetValuesRequest: (body)  (optional)
     /// - returns: SearchForFacetValuesResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -3405,16 +3408,16 @@ open class SearchClient {
         return body
     }
 
-    // [Search for a facet's
-    // values](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#search-for-facet-values),
-    // optionally restricting the returned values to those contained in records matching other search criteria. >
-    // **Note**: Pagination isn't supported (`page` and `hitsPerPage` are ignored). By default, the engine returns a maximum of 10 values but you can adjust this with `maxFacetHits`.
+    // Searches for values of a specified facet attribute.  - By default, facet values are sorted by decreasing count.  
+    // You can adjust this with the `sortFacetValueBy` parameter. - Searching for facet values doesn't work if you have
+    // **more than 65 searchable facets and searchable attributes combined**.
     // Required API Key ACLs:
     //  - search
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
-    // - parameter facetName: (path) Facet name.
+    // - parameter facetName: (path) Facet attribute in which to search for values.  This attribute must be included in
+    // the &#x60;attributesForFaceting&#x60; index setting with the &#x60;searchable()&#x60; modifier.
     //
     // - parameter searchForFacetValuesRequest: (body)  (optional)
     // - returns: RequestBuilder<SearchForFacetValuesResponse>
@@ -3468,7 +3471,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter searchRulesParams: (body)  (optional)
     /// - returns: SearchRulesResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -3490,12 +3493,11 @@ open class SearchClient {
         return body
     }
 
-    // Search for rules in your index. You can control the search with parameters. To list all rules, send an empty
-    // request body.
+    // Searches for rules in your index.
     // Required API Key ACLs:
     //  - settings
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter searchRulesParams: (body)  (optional)
     // - returns: RequestBuilder<SearchRulesResponse>
@@ -3535,7 +3537,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter searchParams: (body)  (optional)
     /// - returns: SearchResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -3557,11 +3559,13 @@ open class SearchClient {
         return body
     }
 
-    // Return records that match the query.
+    // Searches a single index and return matching search results (_hits_).  This method lets you retrieve up to 1,000
+    // hits. If you need more, use the [`browse` operation](#tag/Search/operation/browse) or increase the
+    // `paginatedLimitedTo` index setting.
     // Required API Key ACLs:
     //  - search
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter searchParams: (body)  (optional)
     // - returns: RequestBuilder<SearchResponse>
@@ -3601,7 +3605,7 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter searchSynonymsParams: (body) Body of the &#x60;searchSynonyms&#x60; operation. (optional)
     /// - returns: SearchSynonymsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -3623,12 +3627,11 @@ open class SearchClient {
         return body
     }
 
-    // Search for synonyms in your index. You can control and filter the search with parameters. To get all synonyms,
-    // send an empty request body.
+    // Searches for synonyms in your index.
     // Required API Key ACLs:
     //  - settings
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter searchSynonymsParams: (body) Body of the &#x60;searchSynonyms&#x60; operation. (optional)
     // - returns: RequestBuilder<SearchSynonymsResponse>
@@ -3687,11 +3690,12 @@ open class SearchClient {
         return body
     }
 
-    // Since it can take up to a few seconds to get the data from the different clusters, the response isn't real-time.
-    // To ensure rapid updates, the user IDs index isn't built at the same time as the mapping. Instead, it's built
-    // every
-    // 12 hours, at the same time as the update of user ID usage. For example, if you add or move a user ID, the search
-    // will show an old value until the next time the mapping is rebuilt (every 12 hours).
+    // Since it can take a few seconds to get the data from the different clusters, the response isn't real-time.  To
+    // ensure rapid updates, the user IDs index isn't built at the same time as the mapping. Instead, it's built every
+    // 12
+    // hours, at the same time as the update of user ID usage. For example, if you add or move a user ID, the search
+    // will
+    // show an old value until the next time the mapping is rebuilt (every 12 hours).
     // Required API Key ACLs:
     //  - admin
     //
@@ -3738,7 +3742,7 @@ open class SearchClient {
         return body
     }
 
-    // Set stop word settings for a specific language.
+    // Turns standard stop word dictionary entries on or off for a given language.
     // Required API Key ACLs:
     //  - editSettings
     //
@@ -3765,10 +3769,9 @@ open class SearchClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter indexSettings: (body)
-    /// - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica
-    /// indices. (optional)
+    /// - parameter forwardToReplicas: (query) Whether changes are applied to replica indices. (optional)
     /// - returns: UpdatedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func setSettings(
@@ -3791,17 +3794,17 @@ open class SearchClient {
         return body
     }
 
-    // Update the specified [index settings](https://www.algolia.com/doc/api-reference/settings-api-parameters/).
-    // Specifying null for a setting resets it to its default value.
+    // Update the specified index settings.  Index settings that you don't specify are left unchanged. Specify `null` to
+    // reset a setting to its default value.  For best performance, update the index settings before you add new records
+    // to your index.
     // Required API Key ACLs:
     //  - editSettings
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter indexSettings: (body)
     //
-    // - parameter forwardToReplicas: (query) Indicates whether changed index settings are forwarded to the replica
-    // indices. (optional)
+    // - parameter forwardToReplicas: (query) Whether changes are applied to replica indices. (optional)
     // - returns: RequestBuilder<UpdatedAtResponse>
 
     open func setSettingsWithHTTPInfo(
@@ -3863,8 +3866,8 @@ open class SearchClient {
         return body
     }
 
-    // Replace the permissions of an existing API key. Any unspecified parameter resets that permission to its default
-    // value. The request must be authenticated with the admin API key.
+    // Replaces the permissions of an existing API key.  Any unspecified attribute resets that attribute to its default
+    // value.
     // Required API Key ACLs:
     //  - admin
     //

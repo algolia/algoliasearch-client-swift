@@ -288,11 +288,9 @@ open class AnalyticsClient {
         )
     }
 
-    /// - parameter index: (query) Index name to target.
-    /// - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    /// analyze. (optional)
-    /// - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    /// (optional)
+    /// - parameter index: (query) Index name.
+    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter tags: (query) Filter analytics on the
     /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
     /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
@@ -327,13 +325,11 @@ open class AnalyticsClient {
     // Required API Key ACLs:
     //  - analytics
     //
-    // - parameter index: (query) Index name to target.
+    // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    // analyze. (optional)
+    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    // (optional)
+    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
     // - parameter tags: (query) Filter analytics on the
     // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
@@ -374,11 +370,9 @@ open class AnalyticsClient {
         )
     }
 
-    /// - parameter index: (query) Index name to target.
-    /// - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    /// analyze. (optional)
-    /// - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    /// (optional)
+    /// - parameter index: (query) Index name.
+    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter tags: (query) Filter analytics on the
     /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
     /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
@@ -413,13 +407,11 @@ open class AnalyticsClient {
     // Required API Key ACLs:
     //  - analytics
     //
-    // - parameter index: (query) Index name to target.
+    // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    // analyze. (optional)
+    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    // (optional)
+    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
     // - parameter tags: (query) Filter analytics on the
     // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
@@ -460,11 +452,9 @@ open class AnalyticsClient {
         )
     }
 
-    /// - parameter index: (query) Index name to target.
-    /// - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    /// analyze. (optional)
-    /// - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    /// (optional)
+    /// - parameter index: (query) Index name.
+    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter tags: (query) Filter analytics on the
     /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
     /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
@@ -498,13 +488,11 @@ open class AnalyticsClient {
     // Required API Key ACLs:
     //  - analytics
     //
-    // - parameter index: (query) Index name to target.
+    // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    // analyze. (optional)
+    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    // (optional)
+    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
     // - parameter tags: (query) Filter analytics on the
     // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
@@ -545,11 +533,9 @@ open class AnalyticsClient {
         )
     }
 
-    /// - parameter index: (query) Index name to target.
-    /// - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    /// analyze. (optional)
-    /// - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    /// (optional)
+    /// - parameter index: (query) Index name.
+    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter tags: (query) Filter analytics on the
     /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
     /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
@@ -583,13 +569,11 @@ open class AnalyticsClient {
     // Required API Key ACLs:
     //  - analytics
     //
-    // - parameter index: (query) Index name to target.
+    // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    // analyze. (optional)
+    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    // (optional)
+    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
     // - parameter tags: (query) Filter analytics on the
     // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
@@ -630,11 +614,9 @@ open class AnalyticsClient {
         )
     }
 
-    /// - parameter index: (query) Index name to target.
-    /// - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    /// analyze. (optional)
-    /// - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    /// (optional)
+    /// - parameter index: (query) Index name.
+    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter tags: (query) Filter analytics on the
     /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
     /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
@@ -668,13 +650,11 @@ open class AnalyticsClient {
     // Required API Key ACLs:
     //  - analytics
     //
-    // - parameter index: (query) Index name to target.
+    // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    // analyze. (optional)
+    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    // (optional)
+    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
     // - parameter tags: (query) Filter analytics on the
     // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
@@ -715,11 +695,9 @@ open class AnalyticsClient {
         )
     }
 
-    /// - parameter index: (query) Index name to target.
-    /// - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    /// analyze. (optional)
-    /// - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    /// (optional)
+    /// - parameter index: (query) Index name.
+    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter tags: (query) Filter analytics on the
     /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
     /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
@@ -752,13 +730,11 @@ open class AnalyticsClient {
     // Required API Key ACLs:
     //  - analytics
     //
-    // - parameter index: (query) Index name to target.
+    // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    // analyze. (optional)
+    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    // (optional)
+    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
     // - parameter tags: (query) Filter analytics on the
     // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
@@ -799,11 +775,9 @@ open class AnalyticsClient {
         )
     }
 
-    /// - parameter index: (query) Index name to target.
-    /// - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    /// analyze. (optional)
-    /// - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    /// (optional)
+    /// - parameter index: (query) Index name.
+    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter tags: (query) Filter analytics on the
     /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
     /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
@@ -836,13 +810,11 @@ open class AnalyticsClient {
     // Required API Key ACLs:
     //  - analytics
     //
-    // - parameter index: (query) Index name to target.
+    // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    // analyze. (optional)
+    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    // (optional)
+    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
     // - parameter tags: (query) Filter analytics on the
     // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
@@ -883,14 +855,11 @@ open class AnalyticsClient {
         )
     }
 
-    /// - parameter index: (query) Index name to target.
-    /// - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    /// analyze. (optional)
-    /// - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    /// (optional)
-    /// - parameter limit: (query) Number of records to return (page size). (optional, default to 10)
-    /// - parameter offset: (query) Position of the starting record. Used for paging. 0 is the first record. (optional,
-    /// default to 0)
+    /// - parameter index: (query) Index name.
+    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter limit: (query) Number of items to return. (optional, default to 10)
+    /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     /// - parameter tags: (query) Filter analytics on the
     /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
     /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
@@ -927,18 +896,15 @@ open class AnalyticsClient {
     // Required API Key ACLs:
     //  - analytics
     //
-    // - parameter index: (query) Index name to target.
+    // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    // analyze. (optional)
+    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    // (optional)
+    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter limit: (query) Number of records to return (page size). (optional, default to 10)
+    // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
-    // - parameter offset: (query) Position of the starting record. Used for paging. 0 is the first record. (optional,
-    // default to 0)
+    // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
     // - parameter tags: (query) Filter analytics on the
     // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
@@ -983,14 +949,11 @@ open class AnalyticsClient {
         )
     }
 
-    /// - parameter index: (query) Index name to target.
-    /// - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    /// analyze. (optional)
-    /// - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    /// (optional)
-    /// - parameter limit: (query) Number of records to return (page size). (optional, default to 10)
-    /// - parameter offset: (query) Position of the starting record. Used for paging. 0 is the first record. (optional,
-    /// default to 0)
+    /// - parameter index: (query) Index name.
+    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter limit: (query) Number of items to return. (optional, default to 10)
+    /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     /// - parameter tags: (query) Filter analytics on the
     /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
     /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
@@ -1027,18 +990,15 @@ open class AnalyticsClient {
     // Required API Key ACLs:
     //  - analytics
     //
-    // - parameter index: (query) Index name to target.
+    // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    // analyze. (optional)
+    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    // (optional)
+    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter limit: (query) Number of records to return (page size). (optional, default to 10)
+    // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
-    // - parameter offset: (query) Position of the starting record. Used for paging. 0 is the first record. (optional,
-    // default to 0)
+    // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
     // - parameter tags: (query) Filter analytics on the
     // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
@@ -1083,7 +1043,7 @@ open class AnalyticsClient {
         )
     }
 
-    /// - parameter index: (query) Index name to target.
+    /// - parameter index: (query) Index name.
     /// - returns: GetStatusResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getStatus(index: String, requestOptions: RequestOptions? = nil) async throws -> GetStatusResponse {
@@ -1105,7 +1065,7 @@ open class AnalyticsClient {
     // Required API Key ACLs:
     //  - analytics
     //
-    // - parameter index: (query) Index name to target.
+    // - parameter index: (query) Index name.
     // - returns: RequestBuilder<GetStatusResponse>
 
     open func getStatusWithHTTPInfo(
@@ -1134,14 +1094,11 @@ open class AnalyticsClient {
         )
     }
 
-    /// - parameter index: (query) Index name to target.
-    /// - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    /// analyze. (optional)
-    /// - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    /// (optional)
-    /// - parameter limit: (query) Number of records to return (page size). (optional, default to 10)
-    /// - parameter offset: (query) Position of the starting record. Used for paging. 0 is the first record. (optional,
-    /// default to 0)
+    /// - parameter index: (query) Index name.
+    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter limit: (query) Number of items to return. (optional, default to 10)
+    /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     /// - parameter tags: (query) Filter analytics on the
     /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
     /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
@@ -1178,18 +1135,15 @@ open class AnalyticsClient {
     // Required API Key ACLs:
     //  - analytics
     //
-    // - parameter index: (query) Index name to target.
+    // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    // analyze. (optional)
+    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    // (optional)
+    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter limit: (query) Number of records to return (page size). (optional, default to 10)
+    // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
-    // - parameter offset: (query) Position of the starting record. Used for paging. 0 is the first record. (optional,
-    // default to 0)
+    // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
     // - parameter tags: (query) Filter analytics on the
     // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
@@ -1234,15 +1188,12 @@ open class AnalyticsClient {
         )
     }
 
-    /// - parameter index: (query) Index name to target.
+    /// - parameter index: (query) Index name.
     /// - parameter search: (query) User query. (optional)
-    /// - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    /// analyze. (optional)
-    /// - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    /// (optional)
-    /// - parameter limit: (query) Number of records to return (page size). (optional, default to 10)
-    /// - parameter offset: (query) Position of the starting record. Used for paging. 0 is the first record. (optional,
-    /// default to 0)
+    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter limit: (query) Number of items to return. (optional, default to 10)
+    /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     /// - parameter tags: (query) Filter analytics on the
     /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
     /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
@@ -1283,20 +1234,17 @@ open class AnalyticsClient {
     // Required API Key ACLs:
     //  - analytics
     //
-    // - parameter index: (query) Index name to target.
+    // - parameter index: (query) Index name.
     //
     // - parameter search: (query) User query. (optional)
     //
-    // - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    // analyze. (optional)
+    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    // (optional)
+    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter limit: (query) Number of records to return (page size). (optional, default to 10)
+    // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
-    // - parameter offset: (query) Position of the starting record. Used for paging. 0 is the first record. (optional,
-    // default to 0)
+    // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
     // - parameter tags: (query) Filter analytics on the
     // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
@@ -1344,15 +1292,12 @@ open class AnalyticsClient {
     }
 
     /// - parameter attribute: (path) Attribute name.
-    /// - parameter index: (query) Index name to target.
+    /// - parameter index: (query) Index name.
     /// - parameter search: (query) User query. (optional)
-    /// - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    /// analyze. (optional)
-    /// - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    /// (optional)
-    /// - parameter limit: (query) Number of records to return (page size). (optional, default to 10)
-    /// - parameter offset: (query) Position of the starting record. Used for paging. 0 is the first record. (optional,
-    /// default to 0)
+    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter limit: (query) Number of items to return. (optional, default to 10)
+    /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     /// - parameter tags: (query) Filter analytics on the
     /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
     /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
@@ -1395,20 +1340,17 @@ open class AnalyticsClient {
     //
     // - parameter attribute: (path) Attribute name.
     //
-    // - parameter index: (query) Index name to target.
+    // - parameter index: (query) Index name.
     //
     // - parameter search: (query) User query. (optional)
     //
-    // - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    // analyze. (optional)
+    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    // (optional)
+    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter limit: (query) Number of records to return (page size). (optional, default to 10)
+    // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
-    // - parameter offset: (query) Position of the starting record. Used for paging. 0 is the first record. (optional,
-    // default to 0)
+    // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
     // - parameter tags: (query) Filter analytics on the
     // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
@@ -1469,15 +1411,12 @@ open class AnalyticsClient {
         )
     }
 
-    /// - parameter index: (query) Index name to target.
+    /// - parameter index: (query) Index name.
     /// - parameter search: (query) User query. (optional)
-    /// - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    /// analyze. (optional)
-    /// - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    /// (optional)
-    /// - parameter limit: (query) Number of records to return (page size). (optional, default to 10)
-    /// - parameter offset: (query) Position of the starting record. Used for paging. 0 is the first record. (optional,
-    /// default to 0)
+    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter limit: (query) Number of items to return. (optional, default to 10)
+    /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     /// - parameter tags: (query) Filter analytics on the
     /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
     /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
@@ -1517,20 +1456,17 @@ open class AnalyticsClient {
     // Required API Key ACLs:
     //  - analytics
     //
-    // - parameter index: (query) Index name to target.
+    // - parameter index: (query) Index name.
     //
     // - parameter search: (query) User query. (optional)
     //
-    // - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    // analyze. (optional)
+    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    // (optional)
+    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter limit: (query) Number of records to return (page size). (optional, default to 10)
+    // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
-    // - parameter offset: (query) Position of the starting record. Used for paging. 0 is the first record. (optional,
-    // default to 0)
+    // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
     // - parameter tags: (query) Filter analytics on the
     // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
@@ -1577,18 +1513,15 @@ open class AnalyticsClient {
         )
     }
 
-    /// - parameter index: (query) Index name to target.
+    /// - parameter index: (query) Index name.
     /// - parameter search: (query) User query. (optional)
     /// - parameter clickAnalytics: (query) Whether to include [click and
     /// conversion](https://www.algolia.com/doc/guides/sending-events/getting-started/) rates for a search. (optional,
     /// default to false)
-    /// - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    /// analyze. (optional)
-    /// - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    /// (optional)
-    /// - parameter limit: (query) Number of records to return (page size). (optional, default to 10)
-    /// - parameter offset: (query) Position of the starting record. Used for paging. 0 is the first record. (optional,
-    /// default to 0)
+    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter limit: (query) Number of items to return. (optional, default to 10)
+    /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     /// - parameter tags: (query) Filter analytics on the
     /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
     /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
@@ -1629,7 +1562,7 @@ open class AnalyticsClient {
     // Required API Key ACLs:
     //  - analytics
     //
-    // - parameter index: (query) Index name to target.
+    // - parameter index: (query) Index name.
     //
     // - parameter search: (query) User query. (optional)
     //
@@ -1637,16 +1570,13 @@ open class AnalyticsClient {
     // conversion](https://www.algolia.com/doc/guides/sending-events/getting-started/) rates for a search. (optional,
     // default to false)
     //
-    // - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    // analyze. (optional)
+    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    // (optional)
+    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter limit: (query) Number of records to return (page size). (optional, default to 10)
+    // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
-    // - parameter offset: (query) Position of the starting record. Used for paging. 0 is the first record. (optional,
-    // default to 0)
+    // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
     // - parameter tags: (query) Filter analytics on the
     // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
@@ -1695,19 +1625,16 @@ open class AnalyticsClient {
         )
     }
 
-    /// - parameter index: (query) Index name to target.
+    /// - parameter index: (query) Index name.
     /// - parameter clickAnalytics: (query) Whether to include [click and
     /// conversion](https://www.algolia.com/doc/guides/sending-events/getting-started/) rates for a search. (optional,
     /// default to false)
-    /// - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    /// analyze. (optional)
-    /// - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    /// (optional)
+    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter orderBy: (query) Reorder the results. (optional)
     /// - parameter direction: (query) Sorting direction of the results: ascending or descending.  (optional)
-    /// - parameter limit: (query) Number of records to return (page size). (optional, default to 10)
-    /// - parameter offset: (query) Position of the starting record. Used for paging. 0 is the first record. (optional,
-    /// default to 0)
+    /// - parameter limit: (query) Number of items to return. (optional, default to 10)
+    /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     /// - parameter tags: (query) Filter analytics on the
     /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
     /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
@@ -1750,26 +1677,23 @@ open class AnalyticsClient {
     // Required API Key ACLs:
     //  - analytics
     //
-    // - parameter index: (query) Index name to target.
+    // - parameter index: (query) Index name.
     //
     // - parameter clickAnalytics: (query) Whether to include [click and
     // conversion](https://www.algolia.com/doc/guides/sending-events/getting-started/) rates for a search. (optional,
     // default to false)
     //
-    // - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    // analyze. (optional)
+    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    // (optional)
+    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
     // - parameter orderBy: (query) Reorder the results. (optional)
     //
     // - parameter direction: (query) Sorting direction of the results: ascending or descending.  (optional)
     //
-    // - parameter limit: (query) Number of records to return (page size). (optional, default to 10)
+    // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
-    // - parameter offset: (query) Position of the starting record. Used for paging. 0 is the first record. (optional,
-    // default to 0)
+    // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
     // - parameter tags: (query) Filter analytics on the
     // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
@@ -1820,11 +1744,9 @@ open class AnalyticsClient {
         )
     }
 
-    /// - parameter index: (query) Index name to target.
-    /// - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    /// analyze. (optional)
-    /// - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    /// (optional)
+    /// - parameter index: (query) Index name.
+    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter tags: (query) Filter analytics on the
     /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
     /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
@@ -1857,13 +1779,11 @@ open class AnalyticsClient {
     // Required API Key ACLs:
     //  - analytics
     //
-    // - parameter index: (query) Index name to target.
+    // - parameter index: (query) Index name.
     //
-    // - parameter startDate: (query) Start date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to
-    // analyze. (optional)
+    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter endDate: (query) End date (a string in the format &#x60;YYYY-MM-DD&#x60;) of the period to analyze.
-    // (optional)
+    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
     // - parameter tags: (query) Filter analytics on the
     // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at

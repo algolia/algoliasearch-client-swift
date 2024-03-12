@@ -25,13 +25,20 @@ public struct BrowseResponse: Codable, JSONEncodable, Hashable {
         exclusiveMaximum: false,
         multipleOf: nil
     )
+    static let pageRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     /// A/B test ID. This is only included in the response for indices that are part of an A/B test.
     public var abTestID: Int?
     /// Variant ID. This is only included in the response for indices that are part of an A/B test.
     public var abTestVariantID: Int?
     /// Computed geographical location.
     public var aroundLatLng: String?
-    /// Automatically-computed radius.
+    /// Distance from a central coordinate provided by `aroundLatLng`.
     public var automaticRadius: String?
     public var exhaustive: Exhaustive?
     /// See the `facetsCount` field of the `exhaustive` object in the response.
@@ -43,7 +50,7 @@ public struct BrowseResponse: Codable, JSONEncodable, Hashable {
     /// See the `typo` field of the `exhaustive` object in the response.
     @available(*, deprecated, message: "This property is deprecated.")
     public var exhaustiveTypo: Bool?
-    /// Mapping of each facet name to the corresponding facet counts.
+    /// Facet counts.
     public var facets: [String: [String: Int]]?
     /// Statistics for numerical facets.
     public var facetsStats: [String: FacetsStats]?
@@ -55,13 +62,13 @@ public struct BrowseResponse: Codable, JSONEncodable, Hashable {
     public var indexUsed: String?
     /// Warnings about the query.
     public var message: String?
-    /// Number of hits the search query matched.
+    /// Number of results (hits).
     public var nbHits: Int
-    /// Number of pages of results for the current query.
+    /// Number of pages of results.
     public var nbPages: Int
     /// Number of hits selected and sorted by the relevant sort algorithm.
     public var nbSortedHits: Int?
-    /// Page to retrieve (the first page is `0`, not `1`).
+    /// Page of search results to retrieve.
     public var page: Int
     /// Post-[normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/#what-does-normalization-mean)
     /// query string that will be searched.
@@ -79,19 +86,20 @@ public struct BrowseResponse: Codable, JSONEncodable, Hashable {
     public var serverTimeMS: Int?
     /// Host name of the server that processed the request.
     public var serverUsed: String?
-    /// Lets you store custom data in your indices.
+    /// An object with custom data.  You can store up to 32&nbsp;kB as custom data.
     public var userData: AnyCodable?
     /// Unique identifier for the query. This is used for [click
     /// analytics](https://www.algolia.com/doc/guides/analytics/click-analytics/).
     public var queryID: String?
+    /// Search results (hits).  Hits are records from your index that match the search criteria, augmented with
+    /// additional attributes, such as, for highlighting.
     public var hits: [Hit]
-    /// Text to search for in an index.
+    /// Search query.
     public var query: String
     /// URL-encoded string of all search parameters.
     public var params: String
-    /// Cursor indicating the location to resume browsing from. Must match the value returned by the previous call. Pass
-    /// this value to the subsequent browse call to get the next page of results. When the end of the index has been
-    /// reached, `cursor` is absent from the response.
+    /// Cursor to get the next page of the response.  The parameter must match the value returned in the response of a
+    /// previous request. The last page of the response does not return a `cursor` attribute.
     public var cursor: String?
 
     public init(

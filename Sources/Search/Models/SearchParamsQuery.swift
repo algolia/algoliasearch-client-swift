@@ -6,7 +6,7 @@ import Core
 import Foundation
 
 public struct SearchParamsQuery: Codable, JSONEncodable, Hashable {
-    /// Text to search for in an index.
+    /// Search query.
     public var query: String?
 
     public init(query: String? = nil) {

@@ -6,6 +6,13 @@ import Core
 import Foundation
 
 public struct BaseSearchParamsWithoutQuery: Codable, JSONEncodable, Hashable {
+    static let pageRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     static let lengthRule = NumericRule<Int>(
         minimum: 1,
         exclusiveMinimum: false,
@@ -20,88 +27,106 @@ public struct BaseSearchParamsWithoutQuery: Codable, JSONEncodable, Hashable {
         exclusiveMaximum: false,
         multipleOf: nil
     )
-    /// Overrides the query parameter and performs a more generic search.
+    static let personalizationImpactRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: 100,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// Keywords to be used instead of the search query to conduct a more broader search.  Using the `similarQuery`
+    /// parameter changes other settings:  - `queryType` is set to `prefixNone`. - `removeStopWords` is set to true. -
+    /// `words` is set as the first ranking criterion. - All remaining words are treated as `optionalWords`.  Since the
+    /// `similarQuery` is supposed to do a broad search, they usually return many results. Combine it with `filters` to
+    /// narrow down the list of results.
     public var similarQuery: String?
-    /// [Filter](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/) the query with numeric,
-    /// facet, or tag filters.
+    /// Filter the search so that only records with matching values are included in the results.  These filters are
+    /// supported:  - **Numeric filters.** `<facet> <op> <number>`, where `<op>` is one of `<`, `<=`, `=`, `!=`, `>`,
+    /// `>=`. - **Ranges.** `<facet>:<lower> TO <upper>` where `<lower>` and `<upper>` are the lower and upper limits of
+    /// the range (inclusive). - **Facet filters.** `<facet>:<value>` where `<facet>` is a facet attribute
+    /// (case-sensitive) and `<value>` a facet value. - **Tag filters.** `_tags:<value>` or just `<value>`
+    /// (case-sensitive). - **Boolean filters.** `<facet>: true | false`.  You can combine filters with `AND`, `OR`, and
+    /// `NOT` operators with the following restrictions:  - You can only combine filters of the same type with `OR`.  
+    /// **Not supported:** `facet:value OR num > 3`. - You can't use `NOT` with combinations of filters.   **Not
+    /// supported:** `NOT(facet:value OR facet:value)` - You can't combine conjunctions (`AND`) with `OR`.   **Not
+    /// supported:** `facet:value OR (facet:value AND facet:value)`  Use quotes around your filters, if the facet
+    /// attribute name or facet value has spaces, keywords (`OR`, `AND`, `NOT`), or quotes. If a facet attribute is an
+    /// array, the filter matches if it matches at least one element of the array.  For more information, see
+    /// [Filters](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/).
     public var filters: String?
     public var facetFilters: FacetFilters?
     public var optionalFilters: OptionalFilters?
     public var numericFilters: NumericFilters?
     public var tagFilters: TagFilters?
-    /// Determines how to calculate [filter scores](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/in-depth/filter-scoring/#accumulating-scores-with-sumorfiltersscores).
-    /// If `false`, maximum score is kept. If `true`, score is summed.
+    /// Whether to sum all filter scores.  If true, all filter scores are summed. Otherwise, the maximum filter score is
+    /// kept. For more information, see [filter scores](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/in-depth/filter-scoring/#accumulating-scores-with-sumorfiltersscores).
     public var sumOrFiltersScores: Bool?
-    /// Restricts a query to only look at a subset of your [searchable
-    /// attributes](https://www.algolia.com/doc/guides/managing-results/must-do/searchable-attributes/).
+    /// Restricts a search to a subset of your searchable attributes.
     public var restrictSearchableAttributes: [String]?
-    /// Returns [facets](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#contextual-facet-values-and-counts),
-    /// their facet values, and the number of matching facet values.
+    /// Facets for which to retrieve facet values that match the search criteria and the number of matching facet
+    /// values.  To retrieve all facets, use the wildcard character `*`. For more information, see [facets](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#contextual-facet-values-and-counts).
     public var facets: [String]?
-    /// Forces faceting to be applied after
-    /// [de-duplication](https://www.algolia.com/doc/guides/managing-results/refine-results/grouping/) (with the
-    /// distinct feature). Alternatively, the `afterDistinct`
-    /// [modifier](https://www.algolia.com/doc/api-reference/api-parameters/attributesForFaceting/#modifiers) of
-    /// `attributesForFaceting` allows for more granular control.
+    /// Whether faceting should be applied after deduplication with `distinct`.  This leads to accurate facet counts
+    /// when using faceting in combination with `distinct`. It's usually better to use `afterDistinct` modifiers in the
+    /// `attributesForFaceting` setting, as `facetingAfterDistinct` only computes correct facet counts if all records
+    /// have the same facet values for the `attributeForDistinct`.
     public var facetingAfterDistinct: Bool?
-    /// Page to retrieve (the first page is `0`, not `1`).
+    /// Page of search results to retrieve.
     public var page: Int?
-    /// Specifies the offset of the first hit to return. > **Note**: Using `page` and `hitsPerPage` is the recommended
-    /// method for [paging
-    /// results](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/pagination/js/). However, you
-    /// can use `offset` and `length` to implement [an alternative approach to paging](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/pagination/js/#retrieving-a-subset-of-records-with-offset-and-length).
+    /// Position of the first hit to retrieve.
     public var offset: Int?
-    /// Sets the number of hits to retrieve (for use with `offset`). > **Note**: Using `page` and `hitsPerPage` is the
-    /// recommended method for [paging
-    /// results](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/pagination/js/). However, you
-    /// can use `offset` and `length` to implement [an alternative approach to paging](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/pagination/js/#retrieving-a-subset-of-records-with-offset-and-length).
+    /// Number of hits to retrieve (used in combination with `offset`).
     public var length: Int?
-    /// Search for entries [around a central location](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#filter-around-a-central-point),
-    /// enabling a geographical search within a circular area.
+    /// Coordinates for the center of a circle, expressed as a comma-separated string of latitude and longitude.  Only
+    /// records included within circle around this central location are included in the results. The radius of the
+    /// circle is determined by the `aroundRadius` and `minimumAroundRadius` settings. This parameter is ignored if you
+    /// also specify `insidePolygon` or `insideBoundingBox`.
     public var aroundLatLng: String?
-    /// Search for entries around a location. The location is automatically computed from the requester's IP address.
+    /// Whether to obtain the coordinates from the request's IP address.
     public var aroundLatLngViaIP: Bool?
     public var aroundRadius: AroundRadius?
     public var aroundPrecision: AroundPrecision?
-    /// Minimum radius (in meters) used for a geographical search when `aroundRadius` isn't set.
+    /// Minimum radius (in meters) for a search around a location when `aroundRadius` isn't set.
     public var minimumAroundRadius: Int?
-    /// Search inside a [rectangular area](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#filtering-inside-rectangular-or-polygonal-areas)
-    /// (in geographical coordinates).
+    /// Coordinates for a rectangular area in which to search.  Each bounding box is defined by the two opposite points
+    /// of its diagonal, and expressed as latitude and longitude pair: `[p1 lat, p1 long, p2 lat, p2 long]`. Provide
+    /// multiple bounding boxes as nested arrays. For more information, see [rectangular area](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#filtering-inside-rectangular-or-polygonal-areas).
     public var insideBoundingBox: [[Double]]?
-    /// Search inside a [polygon](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#filtering-inside-rectangular-or-polygonal-areas)
-    /// (in geographical coordinates).
+    /// Coordinates of a polygon in which to search.  Polygons are defined by 3 to 10,000 points. Each point is
+    /// represented by its latitude and longitude. Provide multiple polygons as nested arrays. For more information, see
+    /// [filtering inside polygons](https://www.algolia.com/doc/guides/managing-results/refine-results/geolocation/#filtering-inside-rectangular-or-polygonal-areas).
+    /// This parameter is ignored, if you also specify `insideBoundingBox`.
     public var insidePolygon: [[Double]]?
-    /// Changes the default values of parameters that work best for a natural language query, such as `ignorePlurals`,
-    /// `removeStopWords`, `removeWordsIfNoResults`, `analyticsTags`, and `ruleContexts`. These parameters work well
-    /// together when the query consists of fuller natural language strings instead of keywords, for example when
-    /// processing voice search queries.
+    /// ISO language codes that adjust settings that are useful for processing natural language queries (as opposed to
+    /// keyword searches):  - Sets `removeStopWords` and `ignorePlurals` to the list of provided languages. - Sets
+    /// `removeWordsIfNoResults` to `allOptional`. - Adds a `natural_language` attribute to `ruleContexts` and
+    /// `analyticsTags`.
     public var naturalLanguages: [String]?
-    /// Assigns [rule contexts](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#whats-a-context)
-    /// to search queries.
+    /// Assigns a rule context to the search query.  [Rule contexts](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#whats-a-context)
+    /// are strings that you can use to trigger matching rules.
     public var ruleContexts: [String]?
-    /// Defines how much [Personalization affects results](https://www.algolia.com/doc/guides/personalization/personalizing-results/in-depth/configuring-personalization/#understanding-personalization-impact).
+    /// Impact that Personalization should have on this search.  The higher this value is, the more Personalization
+    /// determines the ranking compared to other factors. For more information, see [Understanding Personalization impact](https://www.algolia.com/doc/guides/personalization/personalizing-results/in-depth/configuring-personalization/#understanding-personalization-impact).
     public var personalizationImpact: Int?
-    /// Associates a [user token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken/) with the
-    /// current search.
+    /// Unique pseudonymous or anonymous user identifier.  This helps with analytics and click and conversion events.
+    /// For more information, see [user token](https://www.algolia.com/doc/guides/sending-events/concepts/usertoken/).
     public var userToken: String?
-    /// Incidates whether the search response includes [detailed ranking information](https://www.algolia.com/doc/guides/building-search-ui/going-further/backend-search/in-depth/understanding-the-api-response/#ranking-information).
+    /// Whether the search response should include detailed ranking information.
     public var getRankingInfo: Bool?
-    /// Enriches the API's response with information about how the query was processed.
-    public var explain: [String]?
-    /// Whether to take into account an index's synonyms for a particular search.
+    /// Whether to take into account an index's synonyms for this search.
     public var synonyms: Bool?
-    /// Indicates whether a query ID parameter is included in the search response. This is required for [tracking click
-    /// and conversion events](https://www.algolia.com/doc/guides/sending-events/concepts/event-types/#events-related-to-algolia-requests).
+    /// Whether to include a `queryID` attribute in the response.  The query ID is a unique identifier for a search
+    /// query and is required for tracking [click and conversion
+    /// events](https://www.algolia.com/guides/sending-events/getting-started/).
     public var clickAnalytics: Bool?
-    /// Indicates whether this query will be included in
-    /// [analytics](https://www.algolia.com/doc/guides/search-analytics/guides/exclude-queries/).
+    /// Whether this search will be included in Analytics.
     public var analytics: Bool?
     /// Tags to apply to the query for [segmenting analytics
     /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).
     public var analyticsTags: [String]?
-    /// Whether to include or exclude a query from the processing-time percentile computation.
+    /// Whether to include this search when calculating processing-time percentiles.
     public var percentileComputation: Bool?
-    /// Incidates whether this search will be considered in A/B testing.
+    /// Whether to enable A/B testing for this search.
     public var enableABTest: Bool?
 
     public init(
@@ -130,7 +155,6 @@ public struct BaseSearchParamsWithoutQuery: Codable, JSONEncodable, Hashable {
         personalizationImpact: Int? = nil,
         userToken: String? = nil,
         getRankingInfo: Bool? = nil,
-        explain: [String]? = nil,
         synonyms: Bool? = nil,
         clickAnalytics: Bool? = nil,
         analytics: Bool? = nil,
@@ -163,7 +187,6 @@ public struct BaseSearchParamsWithoutQuery: Codable, JSONEncodable, Hashable {
         self.personalizationImpact = personalizationImpact
         self.userToken = userToken
         self.getRankingInfo = getRankingInfo
-        self.explain = explain
         self.synonyms = synonyms
         self.clickAnalytics = clickAnalytics
         self.analytics = analytics
@@ -198,7 +221,6 @@ public struct BaseSearchParamsWithoutQuery: Codable, JSONEncodable, Hashable {
         case personalizationImpact
         case userToken
         case getRankingInfo
-        case explain
         case synonyms
         case clickAnalytics
         case analytics
@@ -236,7 +258,6 @@ public struct BaseSearchParamsWithoutQuery: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.personalizationImpact, forKey: .personalizationImpact)
         try container.encodeIfPresent(self.userToken, forKey: .userToken)
         try container.encodeIfPresent(self.getRankingInfo, forKey: .getRankingInfo)
-        try container.encodeIfPresent(self.explain, forKey: .explain)
         try container.encodeIfPresent(self.synonyms, forKey: .synonyms)
         try container.encodeIfPresent(self.clickAnalytics, forKey: .clickAnalytics)
         try container.encodeIfPresent(self.analytics, forKey: .analytics)

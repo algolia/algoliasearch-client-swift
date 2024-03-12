@@ -5,9 +5,9 @@ import AnyCodable
 import Core
 import Foundation
 
-/// Snippeted attributes show parts of the matched attributes. Only returned when attributesToSnippet is non-empty.
+/// Snippets that show the context around a matching search query.
 public struct SnippetResultOption: Codable, JSONEncodable, Hashable {
-    /// Markup text with `facetQuery` matches highlighted.
+    /// Highlighted attribute value, including HTML tags.
     public var value: String
     public var matchLevel: MatchLevel
 

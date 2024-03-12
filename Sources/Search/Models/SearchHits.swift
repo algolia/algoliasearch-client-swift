@@ -6,8 +6,10 @@ import Core
 import Foundation
 
 public struct SearchHits: Codable, JSONEncodable, Hashable {
+    /// Search results (hits).  Hits are records from your index that match the search criteria, augmented with
+    /// additional attributes, such as, for highlighting.
     public var hits: [Hit]
-    /// Text to search for in an index.
+    /// Search query.
     public var query: String
     /// URL-encoded string of all search parameters.
     public var params: String

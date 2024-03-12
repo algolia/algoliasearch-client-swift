@@ -5,13 +5,16 @@ import AnyCodable
 import Core
 import Foundation
 
-/// Automatic facet Filter.
+/// Filter or optional filter to be applied to the search.
 public struct AutomaticFacetFilter: Codable, JSONEncodable, Hashable {
-    /// Attribute to filter on. This must match a facet placeholder in the Rule's pattern.
+    /// Facet name to be applied as filter. The name must match placeholders in the `pattern` parameter. For example,
+    /// with `pattern: {facet:genre}`, `automaticFacetFilters` must be `genre`.
     public var facet: String
-    /// Score for the filter. Typically used for optional or disjunctive filters.
+    /// Filter scores to give different weights to individual filters.
     public var score: Int?
-    /// Whether the filter is disjunctive (true) or conjunctive (false).
+    /// Whether the filter is disjunctive or conjunctive.  If true the filter has multiple matches, multiple occurences
+    /// are combined with the logical `OR` operation. If false, multiple occurences are combined with the logical `AND`
+    /// operation.
     public var disjunctive: Bool?
 
     public init(facet: String, score: Int? = nil, disjunctive: Bool? = nil) {

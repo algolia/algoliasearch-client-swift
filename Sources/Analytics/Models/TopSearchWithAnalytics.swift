@@ -32,7 +32,7 @@ public struct TopSearchWithAnalytics: Codable, JSONEncodable, Hashable {
     public var clickCount: Int
     /// Number of converted clicks.
     public var conversionCount: Int
-    /// Number of hits the search query matched.
+    /// Number of results (hits).
     public var nbHits: Int
 
     public init(

@@ -6,24 +6,36 @@ import Core
 import Foundation
 
 public struct Condition: Codable, JSONEncodable, Hashable {
-    /// Query pattern syntax.
+    static let contextRule = StringRule(minLength: nil, maxLength: nil, pattern: "[A-Za-z0-9_-]+")
+    /// Query pattern that triggers the rule.  You can use either a literal string, or a special pattern
+    /// `{facet:ATTRIBUTE}`, where `ATTRIBUTE` is a facet name. The rule is triggered if the query matches the literal
+    /// string or a value of the specified facet. For example, with `pattern: {facet:genre}`, the rule is triggered when
+    /// users search for a genre, such as \"comedy\".
     public var pattern: String?
     public var anchoring: Anchoring?
-    /// Whether the pattern matches on plurals, synonyms, and typos.
+    /// Whether the pattern should match plurals, synonyms, and typos.
     public var alternatives: Bool?
-    /// Rule context format: [A-Za-z0-9_-]+).
+    /// An additional restriction that only triggers the rule, when the search has the same value as `ruleContexts`
+    /// parameter. For example, if `context: mobile`, the rule is only triggered when the search request has a matching
+    /// `ruleContexts: mobile`. A rule context must only contain alphanumeric characters.
     public var context: String?
+    /// Filters that trigger the rule.  You can add add filters using the syntax `facet:value` so that the rule is
+    /// triggered, when the specific filter is selected. You can use `filters` on its own or combine it with the
+    /// `pattern` parameter.
+    public var filters: String?
 
     public init(
         pattern: String? = nil,
         anchoring: Anchoring? = nil,
         alternatives: Bool? = nil,
-        context: String? = nil
+        context: String? = nil,
+        filters: String? = nil
     ) {
         self.pattern = pattern
         self.anchoring = anchoring
         self.alternatives = alternatives
         self.context = context
+        self.filters = filters
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -31,6 +43,7 @@ public struct Condition: Codable, JSONEncodable, Hashable {
         case anchoring
         case alternatives
         case context
+        case filters
     }
 
     // Encodable protocol methods
@@ -41,5 +54,6 @@ public struct Condition: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.anchoring, forKey: .anchoring)
         try container.encodeIfPresent(self.alternatives, forKey: .alternatives)
         try container.encodeIfPresent(self.context, forKey: .context)
+        try container.encodeIfPresent(self.filters, forKey: .filters)
     }
 }

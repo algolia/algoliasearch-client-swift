@@ -7,18 +7,18 @@ import Foundation
 
 /// Rule object.
 public struct Rule: Codable, JSONEncodable, Hashable {
-    /// Unique identifier for a rule object.
+    /// Unique identifier of a rule object.
     public var objectID: String
-    /// [Conditions](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/#conditions) required to
-    /// activate a rule. You can use up to 25 conditions per rule.
+    /// Conditions that trigger a rule.  Some consequences require specific conditions or don't require any condition.
+    /// For more information, see
+    /// [Conditions](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/#conditions).
     public var conditions: [Condition]?
     public var consequence: Consequence?
-    /// Description of the rule's purpose. This can be helpful for display in the Algolia dashboard.
+    /// Description of the rule's purpose to help you distinguish between different rules.
     public var description: String?
-    /// Indicates whether to enable the rule. If it isn't enabled, it isn't applied at query time.
+    /// Whether the rule is active.
     public var enabled: Bool?
-    /// If you specify a validity period, the rule _only_ applies only during that period. If specified, the array must
-    /// not be empty.
+    /// Time periods when the rule is active.
     public var validity: [TimeRange]?
 
     public init(

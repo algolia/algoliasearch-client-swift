@@ -7,7 +7,7 @@ import Foundation
 
 public struct UserHit: Codable, JSONEncodable, Hashable {
     static let userIDRule = StringRule(minLength: nil, maxLength: nil, pattern: "^[a-zA-Z0-9 \\-*.]+$")
-    /// userID of the user.
+    /// User ID.
     public var userID: String
     /// Cluster name.
     public var clusterName: String

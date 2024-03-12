@@ -7,10 +7,9 @@ import Foundation
 
 /// Record to promote.
 public struct PromoteObjectID: Codable, JSONEncodable, Hashable {
-    /// Unique identifier of the record to promote.
+    /// Unique record identifier.
     public var objectID: String
-    /// The position to promote the records to. If you pass objectIDs, the records are placed at this position as a
-    /// group. For example, if you pronmote four objectIDs to position 0, the records take the first four positions.
+    /// Position in the search results where you want to show the promoted records.
     public var position: Int
 
     public init(objectID: String, position: Int) {

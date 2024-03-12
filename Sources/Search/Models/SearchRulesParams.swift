@@ -21,19 +21,18 @@ public struct SearchRulesParams: Codable, JSONEncodable, Hashable {
         exclusiveMaximum: false,
         multipleOf: nil
     )
-    /// Rule object query.
+    /// Search query for rules.
     public var query: String?
     public var anchoring: Anchoring?
-    /// Restricts responses to the specified [contextual rule](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#creating-contextual-rules).
+    /// Only return rules that match the context (exact match).
     public var context: String?
-    /// Requested page (the first page is page 0).
+    /// Requested page of the API response.
     public var page: Int?
     /// Maximum number of hits per page.
     public var hitsPerPage: Int?
-    /// Restricts responses to enabled rules. When not specified (default), _all_ rules are retrieved.
+    /// If `true`, return only enabled rules. If `false`, return only inactive rules. By default, _all_ rules are
+    /// returned.
     public var enabled: Bool?
-    /// Request options to send with the API call.
-    public var requestOptions: [AnyCodable]?
 
     public init(
         query: String? = nil,
@@ -41,8 +40,7 @@ public struct SearchRulesParams: Codable, JSONEncodable, Hashable {
         context: String? = nil,
         page: Int? = nil,
         hitsPerPage: Int? = nil,
-        enabled: Bool? = nil,
-        requestOptions: [AnyCodable]? = nil
+        enabled: Bool? = nil
     ) {
         self.query = query
         self.anchoring = anchoring
@@ -50,7 +48,6 @@ public struct SearchRulesParams: Codable, JSONEncodable, Hashable {
         self.page = page
         self.hitsPerPage = hitsPerPage
         self.enabled = enabled
-        self.requestOptions = requestOptions
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -60,7 +57,6 @@ public struct SearchRulesParams: Codable, JSONEncodable, Hashable {
         case page
         case hitsPerPage
         case enabled
-        case requestOptions
     }
 
     // Encodable protocol methods
@@ -73,6 +69,5 @@ public struct SearchRulesParams: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.page, forKey: .page)
         try container.encodeIfPresent(self.hitsPerPage, forKey: .hitsPerPage)
         try container.encodeIfPresent(self.enabled, forKey: .enabled)
-        try container.encodeIfPresent(self.requestOptions, forKey: .requestOptions)
     }
 }

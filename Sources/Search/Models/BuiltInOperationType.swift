@@ -5,7 +5,7 @@ import AnyCodable
 import Core
 import Foundation
 
-/// Operation to apply to the attribute.
+/// How to change the attribute.
 public enum BuiltInOperationType: String, Codable, CaseIterable {
     case increment = "Increment"
     case decrement = "Decrement"

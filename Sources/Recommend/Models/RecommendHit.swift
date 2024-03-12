@@ -14,11 +14,11 @@ public struct RecommendHit: Codable, JSONEncodable, Hashable {
         exclusiveMaximum: false,
         multipleOf: nil
     )
-    /// Unique object identifier.
+    /// Unique record identifier.
     public var objectID: String
-    /// Show highlighted section and words matched on a query.
+    /// Surround words that match the query with HTML tags for highlighting.
     public var highlightResult: [String: HighlightResult]?
-    /// Snippeted attributes show parts of the matched attributes. Only returned when attributesToSnippet is non-empty.
+    /// Snippets that show the context around a matching search query.
     public var snippetResult: [String: SnippetResult]?
     public var rankingInfo: RankingInfo?
     public var distinctSeqID: Int?

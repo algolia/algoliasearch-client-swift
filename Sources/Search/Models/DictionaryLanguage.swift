@@ -5,10 +5,9 @@ import AnyCodable
 import Core
 import Foundation
 
-/// Custom entries for a dictionary.
+/// Dictionary type. If &#x60;null&#x60;, this dictionary type isn&#39;t supported for the language.
 public struct DictionaryLanguage: Codable, JSONEncodable, Hashable {
-    /// If `0`, the dictionary hasn't been customized and only contains standard entries provided by Algolia. If `null`,
-    /// that feature isn't available or isn't supported for that language.
+    /// Number of custom dictionary entries.
     public var nbCustomEntries: Int?
 
     public init(nbCustomEntries: Int? = nil) {

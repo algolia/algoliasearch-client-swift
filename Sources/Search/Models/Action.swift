@@ -5,7 +5,7 @@ import AnyCodable
 import Core
 import Foundation
 
-/// Type of batch operation.
+/// Type of indexing operation.
 public enum Action: String, Codable, CaseIterable {
     case addObject
     case updateObject

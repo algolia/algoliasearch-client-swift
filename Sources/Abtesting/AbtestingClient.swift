@@ -425,9 +425,8 @@ open class AbtestingClient {
         )
     }
 
-    /// - parameter offset: (query) Position of the starting record. Used for paging. 0 is the first record. (optional,
-    /// default to 0)
-    /// - parameter limit: (query) Number of records to return (page size). (optional, default to 10)
+    /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
+    /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter indexPrefix: (query) Only return A/B tests for indices starting with this prefix. (optional)
     /// - parameter indexSuffix: (query) Only return A/B tests for indices ending with this suffix. (optional)
     /// - returns: ListABTestsResponse
@@ -458,10 +457,9 @@ open class AbtestingClient {
     // Required API Key ACLs:
     //  - analytics
     //
-    // - parameter offset: (query) Position of the starting record. Used for paging. 0 is the first record. (optional,
-    // default to 0)
+    // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
-    // - parameter limit: (query) Number of records to return (page size). (optional, default to 10)
+    // - parameter limit: (query) Number of items to return. (optional, default to 10)
     //
     // - parameter indexPrefix: (query) Only return A/B tests for indices starting with this prefix. (optional)
     //

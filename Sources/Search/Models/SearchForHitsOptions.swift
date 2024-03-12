@@ -6,7 +6,7 @@ import Core
 import Foundation
 
 public struct SearchForHitsOptions: Codable, JSONEncodable, Hashable {
-    /// Algolia index name.
+    /// Index name.
     public var indexName: String
     public var type: SearchTypeDefault?
 

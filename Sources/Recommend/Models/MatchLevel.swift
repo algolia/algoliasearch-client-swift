@@ -5,7 +5,7 @@ import AnyCodable
 import Core
 import Foundation
 
-/// Indicates how well the attribute matched the search query.
+/// Whether the whole query string matches or only a part.
 public enum MatchLevel: String, Codable, CaseIterable {
     case `none`
     case partial

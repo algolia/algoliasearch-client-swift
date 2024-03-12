@@ -6,9 +6,9 @@ import Core
 import Foundation
 
 public struct SearchRulesResponse: Codable, JSONEncodable, Hashable {
-    /// Fetched rules.
+    /// Rules that matched the search criteria.
     public var hits: [Rule]
-    /// Number of fetched rules.
+    /// Number of rules that matched the search criteria.
     public var nbHits: Int
     /// Current page.
     public var page: Int

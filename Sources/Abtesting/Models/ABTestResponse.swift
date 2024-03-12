@@ -10,8 +10,9 @@ public struct ABTestResponse: Codable, JSONEncodable, Hashable {
     public var index: String
     /// Unique A/B test ID.
     public var abTestID: Int
-    /// Unique identifier of a task. A successful API response means that a task was added to a queue. It might not run
-    /// immediately. You can check the task's progress with the `task` operation and this `taskID`.
+    /// Unique identifier of a task.  A successful API response means that a task was added to a queue. It might not run
+    /// immediately. You can check the task's progress with the [`task` operation](#tag/Indices/operation/getTask) and
+    /// this `taskID`.
     public var taskID: Int64
 
     public init(index: String, abTestID: Int, taskID: Int64) {

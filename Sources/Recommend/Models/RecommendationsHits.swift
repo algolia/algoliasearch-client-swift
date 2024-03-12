@@ -7,7 +7,7 @@ import Foundation
 
 public struct RecommendationsHits: Codable, JSONEncodable, Hashable {
     public var hits: [RecommendationsHit]
-    /// Text to search for in an index.
+    /// Search query.
     public var query: String?
     /// URL-encoded string of all search parameters.
     public var params: String?

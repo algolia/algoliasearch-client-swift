@@ -6,6 +6,13 @@ import Core
 import Foundation
 
 public struct SearchSynonymsParams: Codable, JSONEncodable, Hashable {
+    static let pageRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     static let hitsPerPageRule = NumericRule<Int>(
         minimum: 1,
         exclusiveMinimum: false,
@@ -13,10 +20,10 @@ public struct SearchSynonymsParams: Codable, JSONEncodable, Hashable {
         exclusiveMaximum: false,
         multipleOf: nil
     )
-    /// Text to search for in an index.
+    /// Search query.
     public var query: String?
     public var type: SynonymType?
-    /// Page to retrieve (the first page is `0`, not `1`).
+    /// Page of search results to retrieve.
     public var page: Int?
     /// Number of hits per page.
     public var hitsPerPage: Int?

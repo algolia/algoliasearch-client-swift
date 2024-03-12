@@ -5,8 +5,15 @@ import AnyCodable
 import Core
 import Foundation
 
-/// Algolia index settings.
+/// Index settings.
 public struct IndexSettings: Codable, JSONEncodable, Hashable {
+    static let paginationLimitedToRule = NumericRule<Int>(
+        minimum: nil,
+        exclusiveMinimum: false,
+        maximum: 20000,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     static let hitsPerPageRule = NumericRule<Int>(
         minimum: 1,
         exclusiveMinimum: false,
@@ -28,149 +35,273 @@ public struct IndexSettings: Codable, JSONEncodable, Hashable {
         exclusiveMaximum: false,
         multipleOf: nil
     )
-    /// Creates
-    /// [replicas](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/), which
-    /// are copies of a primary index with the same records but different settings.
+    static let maxValuesPerFacetRule = NumericRule<Int>(
+        minimum: nil,
+        exclusiveMinimum: false,
+        maximum: 1000,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// Attributes used for [faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/). 
+    /// Facets are ways to categorize search results based on attributes. Facets can be used to let user filter search
+    /// results. By default, no attribute is used for faceting.  **Modifiers**  <dl>
+    /// <dt><code>filterOnly(\"ATTRIBUTE\")</code></dt> <dd>Allows using this attribute as a filter, but doesn't evalue
+    /// the facet values.</dd> <dt><code>searchable(\"ATTRIBUTE\")</code></dt> <dd>Allows searching for facet
+    /// values.</dd> <dt><code>afterDistinct(\"ATTRIBUTE\")</code></dt> <dd>  Evaluates the facet count _after_
+    /// deduplication with `distinct`. This ensures accurate facet counts. You can apply this modifier to searchable
+    /// facets: `afterDistinct(searchable(ATTRIBUTE))`.  </dd> </dl>  Without modifiers, the attribute is used as a
+    /// regular facet.
+    public var attributesForFaceting: [String]?
+    /// Creates [replica
+    /// indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/). 
+    /// Replicas are copies of a primary index with the same records but different settings, synonyms, or rules. If you
+    /// want to offer a different ranking or sorting of your search results, you'll use replica indices. All index
+    /// operations on a primary index are automatically forwarded to its replicas. To add a replica index, you must
+    /// provide the complete set of replicas to this parameter. If you omit a replica from this list, the replica turns
+    /// into a regular, standalone index that will no longer by synced with the primary index.  **Modifier**  <dl>
+    /// <dt><code>virtual(\"REPLICA\")</code></dt> <dd>  Create a virtual replica, Virtual replicas don't increase the
+    /// number of records and are optimized for [Relevant
+    /// sorting](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/relevant-sort/). 
+    /// </dd> </dl>  Without modifier, a standard replica is created, which duplicates your record count and is used for
+    /// strict, or [exhaustive
+    /// sorting](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/exhaustive-sort/).
     public var replicas: [String]?
-    /// Maximum number of hits accessible through pagination.
+    /// Maximum number of search results that can be obtained through pagination.  Higher pagination limits might slow
+    /// down your search. For pagination limits above 1,000, the sorting of results beyond the 1,000th hit can't be
+    /// guaranteed.
     public var paginationLimitedTo: Int?
-    /// Attributes that can't be retrieved at query time.
+    /// Attributes that can't be retrieved at query time.  This can be useful if you want to use an attribute for
+    /// ranking or to [restrict
+    /// access](https://www.algolia.com/doc/guides/security/api-keys/how-to/user-restricted-access-to-data/), but don't
+    /// want to include it in the search results.
     public var unretrievableAttributes: [String]?
     /// Words for which you want to turn off [typo
-    /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/).
+    /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/). This
+    /// also turns off [word splitting and concatenation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/splitting-and-concatenation/)
+    /// for the specified words.
     public var disableTypoToleranceOnWords: [String]?
-    /// Attributes in your index to which [Japanese transliteration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/#japanese-transliteration-and-type-ahead)
-    /// applies. This will ensure that words indexed in Katakana or Kanji can also be searched in Hiragana.
+    /// Attributes, for which you want to support [Japanese transliteration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/#japanese-transliteration-and-type-ahead).
+    ///  Transliteration supports searching in any of the Japanese writing systems. To support transliteration, you must
+    /// set the indexing language to Japanese.
     public var attributesToTransliterate: [String]?
-    /// Attributes on which to split [camel case](https://wikipedia.org/wiki/Camel_case) words.
+    /// Attributes for which to split [camel case](https://wikipedia.org/wiki/Camel_case) words.
     public var camelCaseAttributes: [String]?
-    /// Attributes in your index to which [word segmentation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-segmentation/)
-    /// (decompounding) applies.
+    /// Searchable attributes to which Algolia should apply [word segmentation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/how-to/customize-segmentation/)
+    /// (decompounding).  Compound words are formed by combining two or more individual words, and are particularly
+    /// prevalent in Germanic languages—for example, \"firefighter\". With decompounding, the individual components are
+    /// indexed separately.  You can specify different lists for different languages. Decompounding is supported for
+    /// these languages: Dutch (`nl`), German (`de`), Finnish (`fi`), Danish (`da`), Swedish (`sv`), and Norwegian
+    /// (`no`).
     public var decompoundedAttributes: AnyCodable?
-    /// Set the languages of your index, for language-specific processing steps such as [tokenization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/tokenization/)
-    /// and [normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/).
+    /// [ISO code](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) for a language for language-specific
+    /// processing steps, such as word detection and dictionary settings.  **You should always specify an indexing
+    /// language.** If you don't specify an indexing language, the search engine uses all [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/),
+    /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
+    /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/).
     public var indexLanguages: [String]?
-    /// Attributes for which you want to turn off [prefix matching](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/#adjusting-prefix-search).
+    /// Searchable attributes for which you want to turn off [prefix matching](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/#adjusting-prefix-search).
     public var disablePrefixOnAttributes: [String]?
-    /// Incidates whether the engine compresses arrays with exclusively non-negative integers. When enabled, the
+    /// Whether arrays with exclusively non-negative integers should be compressed for better performance. If true, the
     /// compressed arrays may be reordered.
     public var allowCompressionOfIntegerArray: Bool?
     /// Numeric attributes that can be used as [numerical filters](https://www.algolia.com/doc/guides/managing-results/rules/detecting-intent/how-to/applying-a-custom-filter-for-a-specific-query/#numerical-filters).
+    ///  By default, all numeric attributes are available as numerical filters. For faster indexing, reduce the number
+    /// of numeric attributes.  If you want to turn off filtering for all numeric attributes, specifiy an attribute that
+    /// doesn't exist in your index, such as `NO_NUMERIC_FILTERING`.  **Modifier**  <dl>
+    /// <dt><code>equalOnly(\"ATTRIBUTE\")</code></dt> <dd>  Support only filtering based on equality comparisons `=`
+    /// and `!=`.  </dd> </dl>  Without modifier, all numeric comparisons are supported.
     public var numericAttributesForFiltering: [String]?
-    /// Controls which separators are added to an Algolia index as part of [normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/#what-does-normalization-mean).
-    /// Separators are all non-letter characters except spaces and currency characters, such as $€£¥.
+    /// Controls which separators are indexed.  Separators are all non-letter characters except spaces and currency
+    /// characters, such as $€£¥. By default, separator characters aren't indexed. With `separatorsToIndex`, Algolia
+    /// treats separator characters as separate words. For example, a search for `C#` would report two matches.
     public var separatorsToIndex: String?
-    /// [Attributes used for
-    /// searching](https://www.algolia.com/doc/guides/managing-results/must-do/searchable-attributes/), including
-    /// determining [if matches at the beginning of a word are important (ordered) or not (unordered)](https://www.algolia.com/doc/guides/managing-results/must-do/searchable-attributes/how-to/configuring-searchable-attributes-the-right-way/#understanding-word-position).
+    /// Attributes used for searching.  By default, all attributes are searchable and the [Attribute](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria/#attribute)
+    /// ranking criterion is turned off. With a non-empty list, Algolia only returns results with matches in the
+    /// selected attributes. In addition, the Attribute ranking criterion is turned on: matches in attributes that are
+    /// higher in the list of `searchableAttributes` rank first. To make matches in two attributes rank equally, include
+    /// them in a comma-separated string, such as `\"title,alternate_title\"`. Attributes with the same priority are
+    /// always unordered.  For more information, see [Searchable attributes](https://www.algolia.com/doc/guides/sending-and-managing-data/prepare-your-data/how-to/setting-searchable-attributes/).
+    ///  **Modifier**  <dl> <dt><code>unordered(\"ATTRIBUTE\")</code></dt> <dd> Ignore the position of a match within
+    /// the attribute. </dd> </dl>  Without modifier, matches at the beginning of an attribute rank higer than matches
+    /// at the end.
     public var searchableAttributes: [String]?
-    /// Lets you store custom data in your indices.
+    /// An object with custom data.  You can store up to 32&nbsp;kB as custom data.
     public var userData: AnyCodable?
-    /// A list of characters and their normalized replacements to override Algolia's default [normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/).
+    /// Characters and their normalized replacements. This overrides Algolia's default [normalization](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/).
     public var customNormalization: [String: [String: String]]?
-    /// Name of the deduplication attribute to be used with Algolia's [_distinct_ feature](https://www.algolia.com/doc/guides/managing-results/refine-results/grouping/#introducing-algolias-distinct-feature).
+    /// Attribute that should be used to establish groups of results.  All records with the same value for this
+    /// attribute are considered a group. You can combine `attributeForDistinct` with the `distinct` search parameter to
+    /// control how many items per group are included in the search results.  If you want to use the same attribute also
+    /// for faceting, use the `afterDistinct` modifier of the `attributesForFaceting` setting. This applies faceting
+    /// _after_ deduplication, which will result in accurate facet counts.
     public var attributeForDistinct: String?
-    /// Attributes used for [faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/) and
-    /// the [modifiers](https://www.algolia.com/doc/api-reference/api-parameters/attributesForFaceting/#modifiers) that
-    /// can be applied: `filterOnly`, `searchable`, and `afterDistinct`.
-    public var attributesForFaceting: [String]?
-    /// Attributes to include in the API response. To reduce the size of your response, you can retrieve only some of
-    /// the attributes. By default, the response includes all attributes.
+    /// Attributes to include in the API response.  To reduce the size of your response, you can retrieve only some of
+    /// the attributes.  - `*` retrieves all attributes, except attributes included in the `customRanking` and
+    /// `unretrievableAttributes` settings. - To retrieve all attributes except a specific one, prefix the attribute
+    /// with a dash and combine it with the `*`: `[\"*\", \"-ATTRIBUTE\"]`. - The `objectID` attribute is always
+    /// included.
     public var attributesToRetrieve: [String]?
-    /// Determines the order in which Algolia [returns your
-    /// results](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria/).
+    /// Determines the order in which Algolia returns your results.  By default, each entry corresponds to a [ranking
+    /// criteria](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria/).
+    /// The tie-breaking algorithm sequentially applies each criterion in the order they're specified. If you configure
+    /// a replica index for [sorting by an attribute](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/how-to/sort-by-attribute/),
+    /// you put the sorting attribute at the top of the list.  **Modifiers**  <dl>
+    /// <dt><code>asc(\"ATTRIBUTE\")</code></dt> <dd>Sort the index by the values of an attribute, in ascending
+    /// order.</dd> <dt><code>desc(\"ATTRIBUTE\")</code></dt> <dd>Sort the index by the values of an attribute, in
+    /// descending order.</dd> </dl>  Before you modify the default setting, you should test your changes in the
+    /// dashboard, and by [A/B testing](https://www.algolia.com/doc/guides/ab-testing/what-is-ab-testing/).
     public var ranking: [String]?
-    /// Specifies the [Custom ranking
-    /// criterion](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/). Use the `asc` and
-    /// `desc` modifiers to specify the ranking order: ascending or descending.
+    /// Attributes to use as [custom
+    /// ranking](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/).  The custom ranking
+    /// attributes decide which items are shown first if the other ranking criteria are equal.  Records with missing
+    /// values for your selected custom ranking attributes are always sorted last. Boolean attributes are sorted based
+    /// on their alphabetical order.  **Modifiers**  <dl> <dt><code>asc(\"ATTRIBUTE\")</code></dt> <dd>Sort the index by
+    /// the values of an attribute, in ascending order.</dd> <dt><code>desc(\"ATTRIBUTE\")</code></dt> <dd>Sort the
+    /// index by the values of an attribute, in descending order.</dd> </dl>  If you use two or more custom ranking
+    /// attributes, [reduce the precision](https://www.algolia.com/doc/guides/managing-results/must-do/custom-ranking/how-to/controlling-custom-ranking-metrics-precision/)
+    /// of your first attributes, or the other attributes will never be applied.
     public var customRanking: [String]?
-    /// Relevancy threshold below which less relevant results aren't included in the results.
+    /// Relevancy threshold below which less relevant results aren't included in the results.  You can only set
+    /// `relevancyStrictness` on [virtual replica indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/#what-are-virtual-replicas).
+    /// Use this setting to strike a balance between the relevance and number of returned results.
     public var relevancyStrictness: Int?
-    /// Attributes to highlight. Strings that match the search query in the attributes are highlighted by surrounding
-    /// them with HTML tags (`highlightPreTag` and `highlightPostTag`).
+    /// Attributes to highlight.  By default, all searchable attributes are highlighted. Use `*` to highlight all
+    /// attributes or use an empty array `[]` to turn off highlighting.  With highlighting, strings that match the
+    /// search query are surrounded by HTML tags defined by `highlightPreTag` and `highlightPostTag`. You can use this
+    /// to visually highlight matching parts of a search query in your UI.  For more information, see [Highlighting and snippeting](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/highlighting-snippeting/js/).
     public var attributesToHighlight: [String]?
-    /// Attributes to _snippet_. 'Snippeting' is shortening the attribute to a certain number of words. If not
-    /// specified, the attribute is shortened to the 10 words around the matching string but you can specify the number.
-    /// For example: `body:20`.
+    /// Attributes for which to enable snippets.  Snippets provide additional context to matched words. If you enable
+    /// snippets, they include 10 words, including the matched word. The matched word will also be wrapped by HTML tags
+    /// for highlighting. You can adjust the number of words with the following notation: `ATTRIBUTE:NUMBER`, where
+    /// `NUMBER` is the number of words to be extracted.
     public var attributesToSnippet: [String]?
-    /// HTML string to insert before the highlighted parts in all highlight and snippet results.
+    /// HTML tag to insert before the highlighted parts in all highlighted results and snippets.
     public var highlightPreTag: String?
-    /// HTML string to insert after the highlighted parts in all highlight and snippet results.
+    /// HTML tag to insert after the highlighted parts in all highlighted results and snippets.
     public var highlightPostTag: String?
     /// String used as an ellipsis indicator when a snippet is truncated.
     public var snippetEllipsisText: String?
-    /// Restrict highlighting and snippeting to items that matched the query.
+    /// Whether to restrict highlighting and snippeting to items that at least partially matched the search query. By
+    /// default, all items are highlighted and snippeted.
     public var restrictHighlightAndSnippetArrays: Bool?
     /// Number of hits per page.
     public var hitsPerPage: Int?
-    /// Minimum number of characters a word in the query string must contain to accept matches with [one typo](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#configuring-word-length-for-typos).
+    /// Minimum number of characters a word in the search query must contain to accept matches with [one typo](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#configuring-word-length-for-typos).
     public var minWordSizefor1Typo: Int?
-    /// Minimum number of characters a word in the query string must contain to accept matches with [two typos](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#configuring-word-length-for-typos).
+    /// Minimum number of characters a word in the search query must contain to accept matches with [two typos](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/in-depth/configuring-typo-tolerance/#configuring-word-length-for-typos).
     public var minWordSizefor2Typos: Int?
     public var typoTolerance: TypoTolerance?
-    /// Whether to allow typos on numbers (\"numeric tokens\") in the query string.
+    /// Whether to allow typos on numbers in the search query.  Turn off this setting to reduce the number of irrelevant
+    /// matches when searching in large sets of similar numbers.
     public var allowTyposOnNumericTokens: Bool?
     /// Attributes for which you want to turn off [typo
-    /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/).
+    /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/). 
+    /// Returning only exact matches can help when:  - [Searching in hyphenated attributes](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/how-to/how-to-search-in-hyphenated-attributes/).
+    /// - Reducing the number of matches when you have too many.   This can happen with attributes that are long blocks
+    /// of text, such as product descriptions.  Consider alternatives such as `disableTypoToleranceOnWords` or adding
+    /// synonyms if your attributes have intentional unusual spellings that might look like typos.
     public var disableTypoToleranceOnAttributes: [String]?
     public var ignorePlurals: IgnorePlurals?
     public var removeStopWords: RemoveStopWords?
-    /// Characters that the engine shouldn't automatically [normalize](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/).
+    /// Characters for which diacritics should be preserved.  By default, Algolia removes diacritics from letters. For
+    /// example, `é` becomes `e`. If this causes issues in your search, you can specify characters that should keep
+    /// their diacritics.
     public var keepDiacriticsOnCharacters: String?
-    /// Sets your user's search language. This adjusts language-specific settings and features such as `ignorePlurals`,
-    /// `removeStopWords`, and [CJK](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/#normalization-for-logogram-based-languages-cjk)
-    /// word detection.
+    /// [ISO code](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) for language-specific settings such as
+    /// plurals, stop words, and word-detection dictionaries.  This setting sets a default list of languages used by the
+    /// `removeStopWords` and `ignorePlurals` settings. This setting also sets a dictionary for word detection in the
+    /// logogram-based [CJK](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/#normalization-for-logogram-based-languages-cjk)
+    /// languages. To support this, you must place the CJK language **first**.   **You should always specify a query
+    /// language.** If you don't specify an indexing language, the search engine uses all [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/),
+    /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
+    /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/).
     public var queryLanguages: [String]?
-    /// [Splits compound words](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/#splitting-compound-words)
-    /// into their component word parts in the query.
+    /// Whether to split compound words into their building blocks.  For more information, see [Word segmentation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/#splitting-compound-words).
+    /// Word segmentation is supported for these languages: German, Dutch, Finnish, Swedish, and Norwegian.
     public var decompoundQuery: Bool?
-    /// Incidates whether [Rules](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/) are
-    /// enabled.
+    /// Whether to enable rules.
     public var enableRules: Bool?
-    /// Incidates whether [Personalization](https://www.algolia.com/doc/guides/personalization/what-is-personalization/)
-    /// is enabled.
+    /// Whether to enable Personalization.
     public var enablePersonalization: Bool?
     public var queryType: QueryType?
     public var removeWordsIfNoResults: RemoveWordsIfNoResults?
     public var mode: Mode?
     public var semanticSearch: SemanticSearch?
-    /// Enables the [advanced query syntax](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/#advanced-syntax).
+    /// Whether to support phrase matching and excluding words from search queries.  Use the `advancedSyntaxFeatures`
+    /// parameter to control which feature is supported.
     public var advancedSyntax: Bool?
-    /// Words which should be considered [optional](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/empty-or-insufficient-results/#creating-a-list-of-optional-words)
-    /// when found in a query.
+    /// Words that should be considered optional when found in the query.  By default, records must match all words in
+    /// the search query to be included in the search results. Adding optional words can help to increase the number of
+    /// search results by running an additional search query that doesn't include the optional words. For example, if
+    /// the search query is \"action video\" and \"video\" is an optional word, the search engine runs two queries. One
+    /// for \"action video\" and one for \"action\". Records that match all words are ranked higher.  For a search query
+    /// with 4 or more words **and** all its words are optional, the number of matched words required for a record to be
+    /// included in the search results increases for every 1,000 records:  - If `optionalWords` has less than 10 words,
+    /// the required number of matched words increases by 1:   results 1 to 1,000 require 1 matched word, results 1,001
+    /// to 2000 need 2 matched words. - If `optionalWords` has 10 or more words, the number of required matched words
+    /// increases by the number of optional words dividied by 5 (rounded down).   For example, with 18 optional words:
+    /// results 1 to 1,000 require 1 matched word, results 1,001 to 2000 need 4 matched words.  For more information,
+    /// see [Optional words](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/empty-or-insufficient-results/#creating-a-list-of-optional-words).
     public var optionalWords: [String]?
-    /// Attributes for which you want to [turn off the exact ranking criterion](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/in-depth/adjust-exact-settings/#turn-off-exact-for-some-attributes).
+    /// Searchable attributes for which you want to [turn off the Exact ranking criterion](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/in-depth/adjust-exact-settings/#turn-off-exact-for-some-attributes).
+    ///  This can be useful for attributes with long values, where the likelyhood of an exact match is high, such as
+    /// product descriptions. Turning off the Exact ranking criterion for these attributes favors exact matching on
+    /// other attributes. This reduces the impact of individual attributes with a lot of content on ranking.
     public var disableExactOnAttributes: [String]?
     public var exactOnSingleWordQuery: ExactOnSingleWordQuery?
-    /// Alternatives that should be considered an exact match by [the exact ranking criterion](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/in-depth/adjust-exact-settings/#turn-off-exact-for-some-attributes).
+    /// Alternatives of query words that should be considered as exact matches by the Exact ranking criterion.  <dl>
+    /// <dt><code>ignorePlurals</code></dt> <dd>  Plurals and similar declensions added by the `ignorePlurals` setting
+    /// are considered exact matches.  </dd> <dt><code>singleWordSynonym</code></dt> <dd> Single-word synonyms, such as
+    /// \"NY/NYC\" are considered exact matches. </dd> <dt><code>multiWordsSynonym</code></dt> <dd> Multi-word synonyms,
+    /// such as \"NY/New York\" are considered exact matches. </dd> </dl>.
     public var alternativesAsExact: [AlternativesAsExact]?
-    /// Allows you to specify which advanced syntax features are active when `advancedSyntax` is enabled.
+    /// Advanced search syntax features you want to support.  <dl> <dt><code>exactPhrase</code></dt> <dd>  Phrases in
+    /// quotes must match exactly. For example, `sparkly blue \"iPhone case\"` only returns records with the exact
+    /// string \"iPhone case\".  </dd> <dt><code>excludeWords</code></dt> <dd>  Query words prefixed with a `-` must not
+    /// occur in a record. For example, `search -engine` matches records that contain \"search\" but not \"engine\". 
+    /// </dd> </dl>  This setting only has an effect if `advancedSyntax` is true.
     public var advancedSyntaxFeatures: [AdvancedSyntaxFeatures]?
     public var distinct: Distinct?
-    /// Whether to highlight and snippet the original word that matches the synonym or the synonym itself.
+    /// Whether to replace a highlighted word with the matched synonym.  By default, the original words are highlighted
+    /// even if a synonym matches. For example, with `home` as a synonym for `house` and a search for `home`, records
+    /// matching either \"home\" or \"house\" are included in the search results, and either \"home\" or \"house\" are
+    /// highlighted.  With `replaceSynonymsInHighlight` set to `true`, a search for `home` still matches the same
+    /// records, but all occurences of \"house\" are replaced by \"home\" in the highlighted response.
     public var replaceSynonymsInHighlight: Bool?
-    /// Precision of the [proximity ranking criterion](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria/#proximity).
+    /// Minimum proximity score for two matching words.  This adjusts the [Proximity ranking criterion](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria/#proximity)
+    /// by equally scoring matches that are farther apart.  For example, if `minProximity` is 2, neighboring matches and
+    /// matches with one word between them would have the same score.
     public var minProximity: Int?
-    /// Attributes to include in the API response for search and browse queries.
+    /// Properties to include in the API response of `search` and `browse` requests.  By default, all response
+    /// properties are included. To reduce the response size, you can select, which attributes should be included.  You
+    /// can't exclude these properties: `message`, `warning`, `cursor`, `serverUsed`, `indexUsed`, `abTestVariantID`,
+    /// `parsedQuery`, or any property triggered by the `getRankingInfo` parameter.  Don't exclude properties that you
+    /// might need in your search UI.
     public var responseFields: [String]?
-    /// Maximum number of facet hits to return when [searching for facet
+    /// Maximum number of facet values to return when [searching for facet
     /// values](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#search-for-facet-values).
     public var maxFacetHits: Int?
     /// Maximum number of facet values to return for each facet.
     public var maxValuesPerFacet: Int?
-    /// Controls how facet values are fetched.
+    /// Order in which to retrieve facet values.  <dl> <dt><code>count</code></dt> <dd> Facet values are retrieved by
+    /// decreasing count. The count is the number of matching records containing this facet value. </dd>
+    /// <dt><code>alpha</code></dt> <dd>Retrieve facet values alphabetically.</dd> </dl>  This setting doesn't influence
+    /// how facet values are displayed in your UI (see `renderingContent`). For more information, see [facet value
+    /// display](https://www.algolia.com/doc/guides/building-search-ui/ui-and-ux-patterns/facet-display/js/).
     public var sortFacetValuesBy: String?
-    /// When the [Attribute criterion is ranked above Proximity](https://www.algolia.com/doc/guides/managing-results/relevance-overview/in-depth/ranking-criteria/#attribute-and-proximity-combinations)
-    /// in your ranking formula, Proximity is used to select which searchable attribute is matched in the Attribute
-    /// ranking stage.
+    /// Whether the best matching attribute should be determined by minimum proximity.  This setting only affects
+    /// ranking if the Attribute ranking criterion comes before Proximity in the `ranking` setting. If true, the best
+    /// matching attribute is selected based on the minimum proximity of multiple matches. Otherwise, the best matching
+    /// attribute is determined by the order in the `searchableAttributes` setting.
     public var attributeCriteriaComputedByMinProximity: Bool?
     public var renderingContent: RenderingContent?
-    /// Indicates whether this search will use [Dynamic
-    /// Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/).
+    /// Whether this search will use [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/). 
+    /// This setting only has an effect if you activated Dynamic Re-Ranking for this index in the Algolia dashboard.
     public var enableReRanking: Bool?
     public var reRankingApplyFilter: ReRankingApplyFilter?
 
     public init(
+        attributesForFaceting: [String]? = nil,
         replicas: [String]? = nil,
         paginationLimitedTo: Int? = nil,
         unretrievableAttributes: [String]? = nil,
@@ -187,7 +318,6 @@ public struct IndexSettings: Codable, JSONEncodable, Hashable {
         userData: AnyCodable? = nil,
         customNormalization: [String: [String: String]]? = nil,
         attributeForDistinct: String? = nil,
-        attributesForFaceting: [String]? = nil,
         attributesToRetrieve: [String]? = nil,
         ranking: [String]? = nil,
         customRanking: [String]? = nil,
@@ -233,6 +363,7 @@ public struct IndexSettings: Codable, JSONEncodable, Hashable {
         enableReRanking: Bool? = nil,
         reRankingApplyFilter: ReRankingApplyFilter? = nil
     ) {
+        self.attributesForFaceting = attributesForFaceting
         self.replicas = replicas
         self.paginationLimitedTo = paginationLimitedTo
         self.unretrievableAttributes = unretrievableAttributes
@@ -249,7 +380,6 @@ public struct IndexSettings: Codable, JSONEncodable, Hashable {
         self.userData = userData
         self.customNormalization = customNormalization
         self.attributeForDistinct = attributeForDistinct
-        self.attributesForFaceting = attributesForFaceting
         self.attributesToRetrieve = attributesToRetrieve
         self.ranking = ranking
         self.customRanking = customRanking
@@ -297,6 +427,7 @@ public struct IndexSettings: Codable, JSONEncodable, Hashable {
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
+        case attributesForFaceting
         case replicas
         case paginationLimitedTo
         case unretrievableAttributes
@@ -313,7 +444,6 @@ public struct IndexSettings: Codable, JSONEncodable, Hashable {
         case userData
         case customNormalization
         case attributeForDistinct
-        case attributesForFaceting
         case attributesToRetrieve
         case ranking
         case customRanking
@@ -364,6 +494,7 @@ public struct IndexSettings: Codable, JSONEncodable, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encodeIfPresent(self.attributesForFaceting, forKey: .attributesForFaceting)
         try container.encodeIfPresent(self.replicas, forKey: .replicas)
         try container.encodeIfPresent(self.paginationLimitedTo, forKey: .paginationLimitedTo)
         try container.encodeIfPresent(self.unretrievableAttributes, forKey: .unretrievableAttributes)
@@ -380,7 +511,6 @@ public struct IndexSettings: Codable, JSONEncodable, Hashable {
         try container.encodeIfPresent(self.userData, forKey: .userData)
         try container.encodeIfPresent(self.customNormalization, forKey: .customNormalization)
         try container.encodeIfPresent(self.attributeForDistinct, forKey: .attributeForDistinct)
-        try container.encodeIfPresent(self.attributesForFaceting, forKey: .attributesForFaceting)
         try container.encodeIfPresent(self.attributesToRetrieve, forKey: .attributesToRetrieve)
         try container.encodeIfPresent(self.ranking, forKey: .ranking)
         try container.encodeIfPresent(self.customRanking, forKey: .customRanking)

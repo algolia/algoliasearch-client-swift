@@ -15,11 +15,11 @@ public struct SearchForFacetsOptions: Codable, JSONEncodable, Hashable {
     )
     /// Facet name.
     public var facet: String
-    /// Algolia index name.
+    /// Index name.
     public var indexName: String
     /// Text to search inside the facet's values.
     public var facetQuery: String?
-    /// Maximum number of facet hits to return when [searching for facet
+    /// Maximum number of facet values to return when [searching for facet
     /// values](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#search-for-facet-values).
     public var maxFacetHits: Int?
     public var type: SearchTypeFacet

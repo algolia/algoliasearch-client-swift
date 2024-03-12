@@ -13,7 +13,7 @@ public struct RecommendedForYouQuery: Codable, JSONEncodable, Hashable {
         exclusiveMaximum: false,
         multipleOf: nil
     )
-    /// Algolia index name.
+    /// Index name.
     public var indexName: String
     /// Recommendations with a confidence score lower than `threshold` won't appear in results. > **Note**: Each
     /// recommendation has a confidence score of 0 to 100. The closer the score is to 100, the more relevant the

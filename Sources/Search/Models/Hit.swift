@@ -5,13 +5,14 @@ import AnyCodable
 import Core
 import Foundation
 
-/// A single hit.
+/// Search result.  A hit is a record from your index, augmented with special attributes for highlighting, snippeting,
+/// and ranking.
 public struct Hit: Codable, JSONEncodable, Hashable {
-    /// Unique object identifier.
+    /// Unique record identifier.
     public var objectID: String
-    /// Show highlighted section and words matched on a query.
+    /// Surround words that match the query with HTML tags for highlighting.
     public var highlightResult: [String: HighlightResult]?
-    /// Snippeted attributes show parts of the matched attributes. Only returned when attributesToSnippet is non-empty.
+    /// Snippets that show the context around a matching search query.
     public var snippetResult: [String: SnippetResult]?
     public var rankingInfo: RankingInfo?
     public var distinctSeqID: Int?

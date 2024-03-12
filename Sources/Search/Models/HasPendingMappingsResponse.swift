@@ -6,7 +6,7 @@ import Core
 import Foundation
 
 public struct HasPendingMappingsResponse: Codable, JSONEncodable, Hashable {
-    /// Indicates whether there are clusters undergoing migration, creation, or deletion.
+    /// Whether there are clusters undergoing migration, creation, or deletion.
     public var pending: Bool
     /// Cluster pending mapping state: migrating, creating, deleting.
     public var clusters: [String: [String]]?

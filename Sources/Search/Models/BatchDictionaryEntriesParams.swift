@@ -5,11 +5,11 @@ import AnyCodable
 import Core
 import Foundation
 
-/// &#x60;batchDictionaryEntries&#x60; parameters.
+/// Request body for updating dictionary entries.
 public struct BatchDictionaryEntriesParams: Codable, JSONEncodable, Hashable {
-    /// Incidates whether to replace all custom entries in the dictionary with the ones sent with this request.
+    /// Whether to replace all custom entries in the dictionary with the ones sent with this request.
     public var clearExistingDictionaryEntries: Bool?
-    /// Operations to batch.
+    /// List of additions and deletions to your dictionaries.
     public var requests: [BatchDictionaryEntriesRequest]
 
     public init(clearExistingDictionaryEntries: Bool? = nil, requests: [BatchDictionaryEntriesRequest]) {

@@ -5,7 +5,8 @@ import AnyCodable
 import Core
 import Foundation
 
-/// Additional search parameters.
+/// Parameters to apply to this search.  You can use all search parameters, plus special
+/// &#x60;automaticFacetFilters&#x60;, &#x60;automaticOptionalFacetFilters&#x60;, and &#x60;query&#x60;.
 public struct Params: Codable, JSONEncodable, Hashable {
     public var query: ConsequenceQuery?
     public var automaticFacetFilters: AutomaticFacetFilters?

@@ -5,8 +5,13 @@ import AnyCodable
 import Core
 import Foundation
 
+/// Range object with lower and upper values in meters to define custom ranges.
 public struct AroundPrecisionFromValueInner: Codable, JSONEncodable, Hashable {
+    /// Lower boundary of a range in meters. The Geo ranking criterion considers all records within the range to be
+    /// equal.
     public var from: Int?
+    /// Upper boundary of a range in meters. The Geo ranking criterion considers all records within the range to be
+    /// equal.
     public var value: Int?
 
     public init(from: Int? = nil, value: Int? = nil) {

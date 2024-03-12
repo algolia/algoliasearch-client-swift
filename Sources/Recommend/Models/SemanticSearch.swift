@@ -5,10 +5,10 @@ import AnyCodable
 import Core
 import Foundation
 
-/// Settings for the semantic search part of NeuralSearch. Only used when &#x60;mode&#x60; is _neuralSearch_.
+/// Settings for the semantic search part of NeuralSearch. Only used when &#x60;mode&#x60; is &#x60;neuralSearch&#x60;.
 public struct SemanticSearch: Codable, JSONEncodable, Hashable {
-    /// Indices from which to collect click and conversion events. If null, the current index and replica group will be
-    /// used as the event source.
+    /// Indices from which to collect click and conversion events.  If null, the current index and all its replicas are
+    /// used.
     public var eventSources: [String]?
 
     public init(eventSources: [String]? = nil) {

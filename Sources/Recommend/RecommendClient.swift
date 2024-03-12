@@ -288,10 +288,10 @@ open class RecommendClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter model: (path) [Recommend
     /// models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
-    /// - parameter objectID: (path) Unique record (object) identifier.
+    /// - parameter objectID: (path) Unique record identifier.
     /// - returns: DeletedAtResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteRecommendRule(
@@ -318,12 +318,12 @@ open class RecommendClient {
     // Required API Key ACLs:
     //  - editSettings
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter model: (path) [Recommend
     // models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
     //
-    // - parameter objectID: (path) Unique record (object) identifier.
+    // - parameter objectID: (path) Unique record identifier.
     // - returns: RequestBuilder<DeletedAtResponse>
 
     open func deleteRecommendRuleWithHTTPInfo(
@@ -382,10 +382,10 @@ open class RecommendClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter model: (path) [Recommend
     /// models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
-    /// - parameter objectID: (path) Unique record (object) identifier.
+    /// - parameter objectID: (path) Unique record identifier.
     /// - returns: RuleResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getRecommendRule(
@@ -412,12 +412,12 @@ open class RecommendClient {
     // Required API Key ACLs:
     //  - settings
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter model: (path) [Recommend
     // models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
     //
-    // - parameter objectID: (path) Unique record (object) identifier.
+    // - parameter objectID: (path) Unique record identifier.
     // - returns: RequestBuilder<RuleResponse>
 
     open func getRecommendRuleWithHTTPInfo(
@@ -476,7 +476,7 @@ open class RecommendClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter model: (path) [Recommend
     /// models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
     /// - parameter taskID: (path) Unique identifier of a task. Numeric value (up to 64bits).
@@ -507,7 +507,7 @@ open class RecommendClient {
     // Required API Key ACLs:
     //  - editSettings
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter model: (path) [Recommend
     // models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
@@ -621,7 +621,7 @@ open class RecommendClient {
         )
     }
 
-    /// - parameter indexName: (path) Index on which to perform the request.
+    /// - parameter indexName: (path) Name of the index on which to perform the operation.
     /// - parameter model: (path) [Recommend
     /// models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).
     /// - parameter searchRecommendRulesParams: (body)  (optional)
@@ -651,7 +651,7 @@ open class RecommendClient {
     // Required API Key ACLs:
     //  - settings
     //
-    // - parameter indexName: (path) Index on which to perform the request.
+    // - parameter indexName: (path) Name of the index on which to perform the operation.
     //
     // - parameter model: (path) [Recommend
     // models](https://www.algolia.com/doc/guides/algolia-recommend/overview/#recommend-models).

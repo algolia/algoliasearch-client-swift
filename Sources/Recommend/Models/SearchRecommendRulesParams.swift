@@ -21,11 +21,11 @@ public struct SearchRecommendRulesParams: Codable, JSONEncodable, Hashable {
         exclusiveMaximum: false,
         multipleOf: nil
     )
-    /// Full-text query.
+    /// Search query.
     public var query: String?
     /// Restricts responses to the specified [contextual rule](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#creating-contextual-rules).
     public var context: String?
-    /// Requested page (the first page is page 0).
+    /// Requested page of the API response.
     public var page: Int?
     /// Maximum number of hits per page.
     public var hitsPerPage: Int?

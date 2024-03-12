@@ -8,7 +8,7 @@ import Foundation
 public struct LogQuery: Codable, JSONEncodable, Hashable {
     /// Index targeted by the query.
     public var indexName: String?
-    /// User identifier.
+    /// A user identifier.
     public var userToken: String?
     /// Unique query identifier.
     public var queryId: String?

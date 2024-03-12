@@ -5,6 +5,7 @@ import AnyCodable
 import Core
 import Foundation
 
+/// Return all records with a valid &#x60;_geoloc&#x60; attribute. Don&#39;t filter by distance.
 public enum AroundRadiusAll: String, Codable, CaseIterable {
     case all
 }

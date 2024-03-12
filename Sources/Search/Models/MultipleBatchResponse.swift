@@ -6,9 +6,9 @@ import Core
 import Foundation
 
 public struct MultipleBatchResponse: Codable, JSONEncodable, Hashable {
-    /// TaskIDs per index.
+    /// Task IDs. One for each index.
     public var taskID: [String: Int64]
-    /// Unique object (record) identifiers.
+    /// Unique record identifiers.
     public var objectIDs: [String]
 
     public init(taskID: [String: Int64], objectIDs: [String]) {

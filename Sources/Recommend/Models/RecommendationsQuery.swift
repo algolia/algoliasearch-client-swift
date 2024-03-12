@@ -13,7 +13,7 @@ public struct RecommendationsQuery: Codable, JSONEncodable, Hashable {
         exclusiveMaximum: false,
         multipleOf: nil
     )
-    /// Algolia index name.
+    /// Index name.
     public var indexName: String
     /// Recommendations with a confidence score lower than `threshold` won't appear in results. > **Note**: Each
     /// recommendation has a confidence score of 0 to 100. The closer the score is to 100, the more relevant the
@@ -22,7 +22,7 @@ public struct RecommendationsQuery: Codable, JSONEncodable, Hashable {
     /// Maximum number of recommendations to retrieve. If 0, all recommendations will be returned.
     public var maxRecommendations: Int?
     public var model: RecommendationModels
-    /// Unique object identifier.
+    /// Unique record identifier.
     public var objectID: String
     public var queryParameters: SearchParamsObject?
     public var fallbackParameters: SearchParamsObject?

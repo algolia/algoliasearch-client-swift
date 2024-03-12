@@ -6,35 +6,37 @@ import Core
 import Foundation
 
 public struct Log: Codable, JSONEncodable, Hashable {
-    /// Timestamp in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
+    static let queryBodyRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
+    static let answerRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
+    /// Timestamp of the API request in ISO 8601 format.
     public var timestamp: String
-    /// HTTP method of the performed request.
+    /// HTTP method of the request.
     public var method: String
-    /// HTTP response code.
+    /// HTTP status code of the response.
     public var answerCode: String
-    /// Request body. Truncated after 1,000 characters.
+    /// Request body.
     public var queryBody: String
-    /// Answer body. Truncated after 1,000 characters.
+    /// Response body.
     public var answer: String
-    /// Request URL.
+    /// URL of the API endpoint.
     public var url: String
     /// IP address of the client that performed the request.
     public var ip: String
-    /// Request headers (API key is obfuscated).
+    /// Request headers (API keys are obfuscated).
     public var queryHeaders: String
     /// SHA1 signature of the log entry.
     public var sha1: String
-    /// Number of API calls.
+    /// Number of API requests.
     public var nbApiCalls: String
-    /// Processing time for the query. Doesn't include network time.
+    /// Processing time for the query in milliseconds. This doesn't include latency due to the network.
     public var processingTimeMs: String
     /// Index targeted by the query.
     public var index: String?
     /// Query parameters sent with the request.
     public var queryParams: String?
-    /// Number of hits returned for the query.
+    /// Number of search results (hits) returned for the query.
     public var queryNbHits: String?
-    /// Performed queries for the given request.
+    /// Queries performed for the given request.
     public var innerQueries: [LogQuery]?
 
     public init(

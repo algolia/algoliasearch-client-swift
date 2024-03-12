@@ -6,7 +6,8 @@ import Core
 import Foundation
 
 public struct Value: Codable, JSONEncodable, Hashable {
-    /// Pinned order of facet lists.
+    /// Explicit order of facets or facet values.  This setting lets you always show specific facets or facet values at
+    /// the top of the list.
     public var order: [String]?
     public var sortRemainingBy: SortRemainingBy?
 

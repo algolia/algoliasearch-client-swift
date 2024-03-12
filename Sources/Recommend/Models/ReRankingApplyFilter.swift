@@ -5,8 +5,8 @@ import AnyCodable
 import Core
 import Foundation
 
-/// When [Dynamic Re-Ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/) is enabled, only records that
-/// match these filters will be affected by Dynamic Re-Ranking.
+/// Restrict [Dynamic Re-ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/) to records that match these
+/// filters.
 public enum ReRankingApplyFilter: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case string(String)
     case arrayOfMixedSearchFilters([MixedSearchFilters])

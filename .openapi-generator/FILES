@@ -119,6 +119,7 @@ Sources/Search/Models/SaveObjectResponse.swift
 Sources/Search/Models/SaveSynonymResponse.swift
 Sources/Search/Models/ScopeType.swift
 Sources/Search/Models/SearchDictionaryEntriesParams.swift
+Sources/Search/Models/SearchDictionaryEntriesResponse.swift
 Sources/Search/Models/SearchForFacetValuesRequest.swift
 Sources/Search/Models/SearchForFacetValuesResponse.swift
 Sources/Search/Models/SearchForFacets.swift

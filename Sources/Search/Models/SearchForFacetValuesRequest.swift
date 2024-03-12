@@ -17,7 +17,7 @@ public struct SearchForFacetValuesRequest: Codable, JSONEncodable, Hashable {
     public var params: String?
     /// Text to search inside the facet's values.
     public var facetQuery: String?
-    /// Maximum number of facet hits to return when [searching for facet
+    /// Maximum number of facet values to return when [searching for facet
     /// values](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/#search-for-facet-values).
     public var maxFacetHits: Int?
 

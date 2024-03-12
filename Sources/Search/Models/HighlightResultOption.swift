@@ -5,12 +5,12 @@ import AnyCodable
 import Core
 import Foundation
 
-/// Show highlighted section and words matched on a query.
+/// Surround words that match the query with HTML tags for highlighting.
 public struct HighlightResultOption: Codable, JSONEncodable, Hashable {
-    /// Markup text with `facetQuery` matches highlighted.
+    /// Highlighted attribute value, including HTML tags.
     public var value: String
     public var matchLevel: MatchLevel
-    /// List of words from the query that matched the object.
+    /// List of matched words from the search query.
     public var matchedWords: [String]
     /// Whether the entire attribute value is highlighted.
     public var fullyHighlighted: Bool?

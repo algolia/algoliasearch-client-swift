@@ -5,9 +5,9 @@ import AnyCodable
 import Core
 import Foundation
 
-/// Unique identifier of the record to hide.
+/// Object ID of the record to hide.
 public struct ConsequenceHide: Codable, JSONEncodable, Hashable {
-    /// Unique object identifier.
+    /// Unique record identifier.
     public var objectID: String
 
     public init(objectID: String) {

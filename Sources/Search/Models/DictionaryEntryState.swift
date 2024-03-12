@@ -5,7 +5,7 @@ import AnyCodable
 import Core
 import Foundation
 
-/// Indicates whether a dictionary entry is active (&#x60;enabled&#x60;) or inactive (&#x60;disabled&#x60;).
+/// Whether a dictionary entry is active.
 public enum DictionaryEntryState: String, Codable, CaseIterable {
     case enabled
     case disabled

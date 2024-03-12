@@ -6,7 +6,7 @@ import Core
 import Foundation
 
 public struct GetObjectsResponse: Codable, JSONEncodable, Hashable {
-    /// Retrieved results.
+    /// Retrieved records.
     public var results: [AnyCodable]
 
     public init(results: [AnyCodable]) {

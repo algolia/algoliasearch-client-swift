@@ -7,7 +7,7 @@ import Foundation
 
 /// Response and creation timestamp.
 public struct CreatedAtResponse: Codable, JSONEncodable, Hashable {
-    /// Timestamp of creation in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format.
+    /// Timestamp of creation in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
     public var createdAt: String
 
     public init(createdAt: String) {

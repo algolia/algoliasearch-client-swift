@@ -5,7 +5,7 @@ import AnyCodable
 import Core
 import Foundation
 
-/// Operation to perform (_move_ or _copy_).
+/// Operation to perform on the index.
 public enum OperationType: String, Codable, CaseIterable {
     case move
     case copy

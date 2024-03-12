@@ -5,9 +5,11 @@ import AnyCodable
 import Core
 import Foundation
 
-/// Create filters to boost or demote records.   Records that match the filter are ranked higher for positive and lower
-/// for negative optional filters. In contrast to regular filters, records that don&#39;t match the optional filter are
-/// still included in the results, only their ranking is affected.
+/// Filters to promote or demote records in the search results.  Optional filters work like facet filters, but they
+/// don&#39;t exclude records from the search results. Records that match the optional filter rank before records that
+/// don&#39;t match. If you&#39;re using a negative filter &#x60;facet:-value&#x60;, matching records rank after records
+/// that don&#39;t match.  - Optional filters don&#39;t work on virtual replicas. - Optional filters are applied _after_
+/// sort-by attributes. - Optional filters don&#39;t work with numeric attributes.
 public enum OptionalFilters: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case string(String)
     case arrayOfMixedSearchFilters([MixedSearchFilters])

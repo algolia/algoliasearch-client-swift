@@ -7,6 +7,13 @@ import Foundation
 
 /// OK
 public struct SearchUserIdsParams: Codable, JSONEncodable, Hashable {
+    static let pageRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     static let hitsPerPageRule = NumericRule<Int>(
         minimum: 1,
         exclusiveMinimum: false,
@@ -20,7 +27,7 @@ public struct SearchUserIdsParams: Codable, JSONEncodable, Hashable {
     public var query: String
     /// Cluster name.
     public var clusterName: String?
-    /// Page to retrieve (the first page is `0`, not `1`).
+    /// Page of search results to retrieve.
     public var page: Int?
     /// Number of hits per page.
     public var hitsPerPage: Int?

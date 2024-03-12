@@ -5,8 +5,15 @@ import AnyCodable
 import Core
 import Foundation
 
-/// &#x60;searchDictionaryEntries&#x60; parameters.
+/// Search parameter.
 public struct SearchDictionaryEntriesParams: Codable, JSONEncodable, Hashable {
+    static let pageRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     static let hitsPerPageRule = NumericRule<Int>(
         minimum: 1,
         exclusiveMinimum: false,
@@ -14,13 +21,13 @@ public struct SearchDictionaryEntriesParams: Codable, JSONEncodable, Hashable {
         exclusiveMaximum: false,
         multipleOf: nil
     )
-    /// Text to search for in an index.
+    /// Search query.
     public var query: String
-    /// Page to retrieve (the first page is `0`, not `1`).
+    /// Page of search results to retrieve.
     public var page: Int?
     /// Number of hits per page.
     public var hitsPerPage: Int?
-    /// [Supported language ISO code](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/).
+    /// ISO code of a [supported language](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/).
     public var language: String?
 
     public init(query: String, page: Int? = nil, hitsPerPage: Int? = nil, language: String? = nil) {

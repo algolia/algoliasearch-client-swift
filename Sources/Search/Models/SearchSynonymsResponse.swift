@@ -6,9 +6,9 @@ import Core
 import Foundation
 
 public struct SearchSynonymsResponse: Codable, JSONEncodable, Hashable {
-    /// Synonym objects.
+    /// Matching synonyms.
     public var hits: [SynonymHit]
-    /// Number of hits the search query matched.
+    /// Number of results (hits).
     public var nbHits: Int
 
     public init(hits: [SynonymHit], nbHits: Int) {

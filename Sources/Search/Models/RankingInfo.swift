@@ -5,10 +5,67 @@ import AnyCodable
 import Core
 import Foundation
 
+/// Object with detailed information about the record&#39;s ranking.
 public struct RankingInfo: Codable, JSONEncodable, Hashable {
-    /// This field is reserved for advanced usage.
+    static let filtersRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let firstMatchedWordRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let geoDistanceRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let geoPrecisionRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let nbExactWordsRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let nbTyposRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let proximityDistanceRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let wordsRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// Whether a filter matched the query.
     public var filters: Int
-    /// Position of the most important matched attribute in the attributes to index list.
+    /// Position of the first matched word in the best matching attribute of the record.
     public var firstMatchedWord: Int
     /// Distance between the geo location in the search query and the best matching geo location in the record, divided
     /// by the geo precision (in meters).
@@ -21,15 +78,15 @@ public struct RankingInfo: Codable, JSONEncodable, Hashable {
     public var nbExactWords: Int
     /// Number of typos encountered when matching the record.
     public var nbTypos: Int
-    /// Present and set to true if a Rule promoted the hit.
+    /// Whether the record was promoted by a rule.
     public var promoted: Bool
-    /// When the query contains more than one word, the sum of the distances between matched words (in meters).
+    /// Number of words between multiple matches in the query plus 1. For single word queries, `proximityDistance` is 0.
     public var proximityDistance: Int?
-    /// Custom ranking for the object, expressed as a single integer value.
+    /// Overall ranking of the record, expressed as a single integer. This attribute is internal.
     public var userScore: Int
-    /// Number of matched words, including prefixes and typos.
+    /// Number of matched words.
     public var words: Int
-    /// Wether the record are promoted by the re-ranking strategy.
+    /// Whether the record is re-ranked.
     public var promotedByReRanking: Bool?
 
     public init(

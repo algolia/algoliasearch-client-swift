@@ -6,9 +6,9 @@ import Core
 import Foundation
 
 public struct TimeRange: Codable, JSONEncodable, Hashable {
-    /// Lower bound of the time range (Unix timestamp).
+    /// When the rule should start to be active, in Unix epoch time.
     public var from: Int
-    /// Upper bound of the time range (Unix timestamp).
+    /// When the rule should stop to be active, in Unix epoch time.
     public var until: Int
 
     public init(from: Int, until: Int) {

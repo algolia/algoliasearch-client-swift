@@ -5,8 +5,8 @@ import AnyCodable
 import Core
 import Foundation
 
-/// When providing a string, it replaces the entire query string. When providing an object, it describes incremental
-/// edits to be made to the query string (but you can&#39;t do both).
+/// Replace or edit the search query.  If &#x60;consequenceQuery&#x60; is a string, the entire search query is replaced
+/// with that string. If &#x60;consequenceQuery&#x60; is an object, it describes incremental edits made to the query.
 public enum ConsequenceQuery: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case consequenceQueryObject(ConsequenceQueryObject)
     case string(String)

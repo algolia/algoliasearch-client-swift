@@ -5,7 +5,8 @@ import AnyCodable
 import Core
 import Foundation
 
-/// Search mode the index will use to query for results.
+/// Search mode the index will use to query for results.  This setting only applies to indices, for which Algolia
+/// enabled NeuralSearch for you.
 public enum Mode: String, Codable, CaseIterable {
     case neuralSearch
     case keywordSearch

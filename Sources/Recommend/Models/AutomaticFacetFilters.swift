@@ -5,8 +5,9 @@ import AnyCodable
 import Core
 import Foundation
 
-/// Names of facets to which automatic filtering must be applied; they must match the facet name of a facet value
-/// placeholder in the query pattern.
+/// Filter to be applied to the search.  You can use this to respond to search queries that match a facet value. For
+/// example, if users search for \&quot;comedy\&quot;, which matches a facet value of the \&quot;genre\&quot; facet, you
+/// can filter the results to show the top-ranked comedy movies.
 public enum AutomaticFacetFilters: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case arrayOfAutomaticFacetFilter([AutomaticFacetFilter])
     case arrayOfString([String])

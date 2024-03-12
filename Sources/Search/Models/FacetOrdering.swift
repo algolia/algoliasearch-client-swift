@@ -5,10 +5,10 @@ import AnyCodable
 import Core
 import Foundation
 
-/// Defines the ordering of facets (widgets).
+/// Order of facet names and facet values in your UI.
 public struct FacetOrdering: Codable, JSONEncodable, Hashable {
     public var facets: Facets?
-    /// Ordering of facet values within an individual facet.
+    /// Order of facet values. One object for each facet.
     public var values: [String: Value]?
 
     public init(facets: Facets? = nil, values: [String: Value]? = nil) {

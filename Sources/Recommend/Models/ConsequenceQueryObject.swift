@@ -6,9 +6,9 @@ import Core
 import Foundation
 
 public struct ConsequenceQueryObject: Codable, JSONEncodable, Hashable {
-    /// Words to remove.
+    /// Words to remove from the search query.
     public var remove: [String]?
-    /// Edits to apply.
+    /// Changes to make to the search query.
     public var edits: [Edit]?
 
     public init(remove: [String]? = nil, edits: [Edit]? = nil) {

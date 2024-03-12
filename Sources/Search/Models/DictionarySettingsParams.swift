@@ -5,7 +5,7 @@ import AnyCodable
 import Core
 import Foundation
 
-/// Enable or turn off the built-in Algolia stop words for a specific language.
+/// Turn on or off the built-in Algolia stop words for a specific language.
 public struct DictionarySettingsParams: Codable, JSONEncodable, Hashable {
     public var disableStandardEntries: StandardEntries
 

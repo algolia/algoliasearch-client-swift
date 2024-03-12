@@ -5,13 +5,13 @@ import AnyCodable
 import Core
 import Foundation
 
-/// Record retrieval operation.
+/// Request body for retrieving records.
 public struct GetObjectsRequest: Codable, JSONEncodable, Hashable {
     /// Attributes to retrieve. If not specified, all retrievable attributes are returned.
     public var attributesToRetrieve: [String]?
-    /// Record's objectID.
+    /// Object ID for the record to retrieve.
     public var objectID: String
-    /// Name of the index containing the required records.
+    /// Index from which to retrieve the records.
     public var indexName: String
 
     public init(attributesToRetrieve: [String]? = nil, objectID: String, indexName: String) {

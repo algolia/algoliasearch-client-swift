@@ -6,6 +6,7 @@ import Core
 import Foundation
 
 public struct SearchForFacetValuesResponse: Codable, JSONEncodable, Hashable {
+    /// Matching facet values.
     public var facetHits: [FacetHits]
     /// See the `facetsCount` field of the `exhaustive` object in the response.
     @available(*, deprecated, message: "This property is deprecated.")

@@ -9,7 +9,7 @@ public struct Edit: Codable, JSONEncodable, Hashable {
     public var type: EditType?
     /// Text or patterns to remove from the query string.
     public var delete: String?
-    /// Text that should be inserted in place of the removed text inside the query string.
+    /// Text to be added in place of the deleted text inside the query string.
     public var insert: String?
 
     public init(type: EditType? = nil, delete: String? = nil, insert: String? = nil) {

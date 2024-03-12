@@ -5,7 +5,7 @@ import AnyCodable
 import Core
 import Foundation
 
-public struct SearchRecommendRulesResponse: Codable, JSONEncodable, Hashable {
+public struct SearchDictionaryEntriesResponse: Codable, JSONEncodable, Hashable {
     static let pageRule = NumericRule<Int>(
         minimum: 0,
         exclusiveMinimum: false,
@@ -13,26 +13,26 @@ public struct SearchRecommendRulesResponse: Codable, JSONEncodable, Hashable {
         exclusiveMaximum: false,
         multipleOf: nil
     )
-    /// Fetched rules.
-    public var hits: [RuleResponse]
+    /// Dictionary entries matching the search criteria.
+    public var hits: [DictionaryEntry]
+    /// Requested page of the API response.
+    public var page: Int
     /// Number of results (hits).
     public var nbHits: Int
-    /// Page of search results to retrieve.
-    public var page: Int
     /// Number of pages of results.
     public var nbPages: Int
 
-    public init(hits: [RuleResponse], nbHits: Int, page: Int, nbPages: Int) {
+    public init(hits: [DictionaryEntry], page: Int, nbHits: Int, nbPages: Int) {
         self.hits = hits
-        self.nbHits = nbHits
         self.page = page
+        self.nbHits = nbHits
         self.nbPages = nbPages
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case hits
-        case nbHits
         case page
+        case nbHits
         case nbPages
     }
 
@@ -41,8 +41,8 @@ public struct SearchRecommendRulesResponse: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.hits, forKey: .hits)
-        try container.encode(self.nbHits, forKey: .nbHits)
         try container.encode(self.page, forKey: .page)
+        try container.encode(self.nbHits, forKey: .nbHits)
         try container.encode(self.nbPages, forKey: .nbPages)
     }
 }

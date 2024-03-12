@@ -10,7 +10,7 @@ public struct TopSearch: Codable, JSONEncodable, Hashable {
     public var search: String
     /// Number of tracked _and_ untracked searches (where the `clickAnalytics` parameter isn't `true`).
     public var count: Int
-    /// Number of hits the search query matched.
+    /// Number of results (hits).
     public var nbHits: Int
 
     public init(search: String, count: Int, nbHits: Int) {

@@ -5,9 +5,10 @@ import AnyCodable
 import Core
 import Foundation
 
-/// Ordering of facets (widgets).
+/// Order of facet names.
 public struct Facets: Codable, JSONEncodable, Hashable {
-    /// Pinned order of facet lists.
+    /// Explicit order of facets or facet values.  This setting lets you always show specific facets or facet values at
+    /// the top of the list.
     public var order: [String]?
 
     public init(order: [String]? = nil) {
