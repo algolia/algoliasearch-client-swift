@@ -10,4 +10,5 @@ public enum ActionType: String, Codable, CaseIterable {
     case replace
     case save
     case partial
+    case append
 }

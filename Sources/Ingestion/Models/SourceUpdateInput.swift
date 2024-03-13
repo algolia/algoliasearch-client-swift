@@ -8,6 +8,7 @@ import Foundation
 public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case sourceBigQuery(SourceBigQuery)
     case sourceCSV(SourceCSV)
+    case sourceGA4BigQueryExport(SourceGA4BigQueryExport)
     case sourceJSON(SourceJSON)
     case sourceUpdateCommercetools(SourceUpdateCommercetools)
     case sourceUpdateDocker(SourceUpdateDocker)
@@ -18,6 +19,8 @@ public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable, Hashab
         case let .sourceBigQuery(value):
             try container.encode(value)
         case let .sourceCSV(value):
+            try container.encode(value)
+        case let .sourceGA4BigQueryExport(value):
             try container.encode(value)
         case let .sourceJSON(value):
             try container.encode(value)
@@ -34,6 +37,8 @@ public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable, Hashab
             self = .sourceBigQuery(value)
         } else if let value = try? container.decode(SourceCSV.self) {
             self = .sourceCSV(value)
+        } else if let value = try? container.decode(SourceGA4BigQueryExport.self) {
+            self = .sourceGA4BigQueryExport(value)
         } else if let value = try? container.decode(SourceJSON.self) {
             self = .sourceJSON(value)
         } else if let value = try? container.decode(SourceUpdateCommercetools.self) {
@@ -57,6 +62,8 @@ public enum SourceUpdateInput: Codable, JSONEncodable, AbstractEncodable, Hashab
             value as SourceBigQuery
         case let .sourceCSV(value):
             value as SourceCSV
+        case let .sourceGA4BigQueryExport(value):
+            value as SourceGA4BigQueryExport
         case let .sourceJSON(value):
             value as SourceJSON
         case let .sourceUpdateCommercetools(value):

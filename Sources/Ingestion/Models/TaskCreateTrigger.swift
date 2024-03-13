@@ -8,6 +8,7 @@ import Foundation
 public enum TaskCreateTrigger: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case onDemandTriggerInput(OnDemandTriggerInput)
     case scheduleTriggerInput(ScheduleTriggerInput)
+    case streamingTrigger(StreamingTrigger)
     case subscriptionTrigger(SubscriptionTrigger)
 
     public func encode(to encoder: Encoder) throws {
@@ -16,6 +17,8 @@ public enum TaskCreateTrigger: Codable, JSONEncodable, AbstractEncodable, Hashab
         case let .onDemandTriggerInput(value):
             try container.encode(value)
         case let .scheduleTriggerInput(value):
+            try container.encode(value)
+        case let .streamingTrigger(value):
             try container.encode(value)
         case let .subscriptionTrigger(value):
             try container.encode(value)
@@ -28,6 +31,8 @@ public enum TaskCreateTrigger: Codable, JSONEncodable, AbstractEncodable, Hashab
             self = .onDemandTriggerInput(value)
         } else if let value = try? container.decode(ScheduleTriggerInput.self) {
             self = .scheduleTriggerInput(value)
+        } else if let value = try? container.decode(StreamingTrigger.self) {
+            self = .streamingTrigger(value)
         } else if let value = try? container.decode(SubscriptionTrigger.self) {
             self = .subscriptionTrigger(value)
         } else {
@@ -47,6 +52,8 @@ public enum TaskCreateTrigger: Codable, JSONEncodable, AbstractEncodable, Hashab
             value as OnDemandTriggerInput
         case let .scheduleTriggerInput(value):
             value as ScheduleTriggerInput
+        case let .streamingTrigger(value):
+            value as StreamingTrigger
         case let .subscriptionTrigger(value):
             value as SubscriptionTrigger
         }

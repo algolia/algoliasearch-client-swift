@@ -8,6 +8,7 @@ import Foundation
 public enum TaskInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case onDemandDateUtilsInput(OnDemandDateUtilsInput)
     case scheduleDateUtilsInput(ScheduleDateUtilsInput)
+    case streamingUtilsInput(StreamingUtilsInput)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -15,6 +16,8 @@ public enum TaskInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
         case let .onDemandDateUtilsInput(value):
             try container.encode(value)
         case let .scheduleDateUtilsInput(value):
+            try container.encode(value)
+        case let .streamingUtilsInput(value):
             try container.encode(value)
         }
     }
@@ -25,6 +28,8 @@ public enum TaskInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
             self = .onDemandDateUtilsInput(value)
         } else if let value = try? container.decode(ScheduleDateUtilsInput.self) {
             self = .scheduleDateUtilsInput(value)
+        } else if let value = try? container.decode(StreamingUtilsInput.self) {
+            self = .streamingUtilsInput(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -39,6 +44,8 @@ public enum TaskInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
             value as OnDemandDateUtilsInput
         case let .scheduleDateUtilsInput(value):
             value as ScheduleDateUtilsInput
+        case let .streamingUtilsInput(value):
+            value as StreamingUtilsInput
         }
     }
 }

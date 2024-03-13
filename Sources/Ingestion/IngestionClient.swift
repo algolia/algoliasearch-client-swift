@@ -1735,8 +1735,8 @@ open class IngestionClient {
     /// - parameter page: (query) The page number to fetch, starting at 1. (optional)
     /// - parameter action: (query) The action of the tasks to retrieve. (optional)
     /// - parameter enabled: (query) Whether the task is enabled or not. (optional)
-    /// - parameter sourceID: (query) The sourceIDs of the tasks to retrive. (optional)
-    /// - parameter destinationID: (query) The destinationIDs of the tasks to retrive. (optional)
+    /// - parameter sourceID: (query) The sourceIDs of the tasks to retrieve. (optional)
+    /// - parameter destinationID: (query) The destinationIDs of the tasks to retrieve. (optional)
     /// - parameter triggerType: (query) The trigger type of the task. (optional)
     /// - parameter sort: (query) The key by which the list should be sorted. (optional)
     /// - parameter order: (query) The order of the returned list. (optional)
@@ -1788,9 +1788,9 @@ open class IngestionClient {
     //
     // - parameter enabled: (query) Whether the task is enabled or not. (optional)
     //
-    // - parameter sourceID: (query) The sourceIDs of the tasks to retrive. (optional)
+    // - parameter sourceID: (query) The sourceIDs of the tasks to retrieve. (optional)
     //
-    // - parameter destinationID: (query) The destinationIDs of the tasks to retrive. (optional)
+    // - parameter destinationID: (query) The destinationIDs of the tasks to retrieve. (optional)
     //
     // - parameter triggerType: (query) The trigger type of the task. (optional)
     //

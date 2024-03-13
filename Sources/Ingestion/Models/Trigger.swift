@@ -8,6 +8,7 @@ import Foundation
 public enum Trigger: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case onDemandTrigger(OnDemandTrigger)
     case scheduleTrigger(ScheduleTrigger)
+    case streamingTrigger(StreamingTrigger)
     case subscriptionTrigger(SubscriptionTrigger)
 
     public func encode(to encoder: Encoder) throws {
@@ -16,6 +17,8 @@ public enum Trigger: Codable, JSONEncodable, AbstractEncodable, Hashable {
         case let .onDemandTrigger(value):
             try container.encode(value)
         case let .scheduleTrigger(value):
+            try container.encode(value)
+        case let .streamingTrigger(value):
             try container.encode(value)
         case let .subscriptionTrigger(value):
             try container.encode(value)
@@ -28,6 +31,8 @@ public enum Trigger: Codable, JSONEncodable, AbstractEncodable, Hashable {
             self = .onDemandTrigger(value)
         } else if let value = try? container.decode(ScheduleTrigger.self) {
             self = .scheduleTrigger(value)
+        } else if let value = try? container.decode(StreamingTrigger.self) {
+            self = .streamingTrigger(value)
         } else if let value = try? container.decode(SubscriptionTrigger.self) {
             self = .subscriptionTrigger(value)
         } else {
@@ -44,6 +49,8 @@ public enum Trigger: Codable, JSONEncodable, AbstractEncodable, Hashable {
             value as OnDemandTrigger
         case let .scheduleTrigger(value):
             value as ScheduleTrigger
+        case let .streamingTrigger(value):
+            value as StreamingTrigger
         case let .subscriptionTrigger(value):
             value as SubscriptionTrigger
         }

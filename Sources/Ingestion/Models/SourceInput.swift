@@ -11,6 +11,7 @@ public enum SourceInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case sourceCSV(SourceCSV)
     case sourceCommercetools(SourceCommercetools)
     case sourceDocker(SourceDocker)
+    case sourceGA4BigQueryExport(SourceGA4BigQueryExport)
     case sourceJSON(SourceJSON)
 
     public func encode(to encoder: Encoder) throws {
@@ -25,6 +26,8 @@ public enum SourceInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
         case let .sourceCommercetools(value):
             try container.encode(value)
         case let .sourceDocker(value):
+            try container.encode(value)
+        case let .sourceGA4BigQueryExport(value):
             try container.encode(value)
         case let .sourceJSON(value):
             try container.encode(value)
@@ -43,6 +46,8 @@ public enum SourceInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
             self = .sourceCommercetools(value)
         } else if let value = try? container.decode(SourceDocker.self) {
             self = .sourceDocker(value)
+        } else if let value = try? container.decode(SourceGA4BigQueryExport.self) {
+            self = .sourceGA4BigQueryExport(value)
         } else if let value = try? container.decode(SourceJSON.self) {
             self = .sourceJSON(value)
         } else {
@@ -65,6 +70,8 @@ public enum SourceInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
             value as SourceCommercetools
         case let .sourceDocker(value):
             value as SourceDocker
+        case let .sourceGA4BigQueryExport(value):
+            value as SourceGA4BigQueryExport
         case let .sourceJSON(value):
             value as SourceJSON
         }

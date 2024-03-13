@@ -13,7 +13,7 @@ public struct BaseIndexSettings: Codable, JSONEncodable, Hashable {
         exclusiveMaximum: false,
         multipleOf: nil
     )
-    /// Attributes used for [faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/). 
+    /// Attributes used for [faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/).
     /// Facets are ways to categorize search results based on attributes. Facets can be used to let user filter search
     /// results. By default, no attribute is used for faceting.  **Modifiers**  <dl>
     /// <dt><code>filterOnly(\"ATTRIBUTE\")</code></dt> <dd>Allows using this attribute as a filter, but doesn't evalue
@@ -24,7 +24,7 @@ public struct BaseIndexSettings: Codable, JSONEncodable, Hashable {
     /// regular facet.
     public var attributesForFaceting: [String]?
     /// Creates [replica
-    /// indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/). 
+    /// indices](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/replicas/).
     /// Replicas are copies of a primary index with the same records but different settings, synonyms, or rules. If you
     /// want to offer a different ranking or sorting of your search results, you'll use replica indices. All index
     /// operations on a primary index are automatically forwarded to its replicas. To add a replica index, you must
@@ -32,7 +32,7 @@ public struct BaseIndexSettings: Codable, JSONEncodable, Hashable {
     /// into a regular, standalone index that will no longer by synced with the primary index.  **Modifier**  <dl>
     /// <dt><code>virtual(\"REPLICA\")</code></dt> <dd>  Create a virtual replica, Virtual replicas don't increase the
     /// number of records and are optimized for [Relevant
-    /// sorting](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/relevant-sort/). 
+    /// sorting](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/relevant-sort/).
     /// </dd> </dl>  Without modifier, a standard replica is created, which duplicates your record count and is used for
     /// strict, or [exhaustive
     /// sorting](https://www.algolia.com/doc/guides/managing-results/refine-results/sorting/in-depth/exhaustive-sort/).

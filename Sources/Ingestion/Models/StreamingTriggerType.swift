@@ -5,12 +5,7 @@ import AnyCodable
 import Core
 import Foundation
 
-public enum SourceType: String, Codable, CaseIterable {
-    case bigcommerce
-    case commercetools
-    case json
-    case csv
-    case bigquery
-    case docker
-    case ga4BigqueryExport
+/// A task that runs continuously.
+public enum StreamingTriggerType: String, Codable, CaseIterable {
+    case streaming
 }
