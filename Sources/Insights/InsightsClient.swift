@@ -288,19 +288,19 @@ open class InsightsClient {
         )
     }
 
-    /// - parameter userToken: (path) The user token for which to delete all associated events.
+    /// - parameter userToken: (path) User token for which to delete all associated events.
     /// - returns: Void
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func deleteUserToken(userToken: String, requestOptions: RequestOptions? = nil) async throws {
         try await self.deleteUserTokenWithHTTPInfo(userToken: userToken, requestOptions: requestOptions)
     }
 
-    /// Delete all events related to a certain user token from events metrics and analytics. To delete a personalization
-    /// user profile, see [Delete a user
-    /// profile](https://www.algolia.com/doc/rest-api/personalization/#delete-a-user-profile).
+    /// Deletes all events related to the specified user token from events metrics and analytics. To delete a
+    /// personalization user profile, see [Delete a user
+    /// profile](/specs/personalization#tag/profiles/operation/deleteUserProfile).
     ///
     ///
-    /// - parameter userToken: (path) The user token for which to delete all associated events.
+    /// - parameter userToken: (path) User token for which to delete all associated events.
     /// - returns: RequestBuilder<Void>
     @discardableResult
     open func deleteUserTokenWithHTTPInfo(
@@ -355,7 +355,7 @@ open class InsightsClient {
         return body
     }
 
-    // Send a list of events to the Insights API.  You can include up to 1,000 events in a single request, but the
+    // Sends a list of events to the Insights API.  You can include up to 1,000 events in a single request, but the
     // request body must be smaller than 2&nbsp;MB.
     //
     //
