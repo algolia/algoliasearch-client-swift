@@ -64,12 +64,12 @@ public struct BaseIndexSettings: Codable, JSONEncodable, Hashable {
     /// these languages: Dutch (`nl`), German (`de`), Finnish (`fi`), Danish (`da`), Swedish (`sv`), and Norwegian
     /// (`no`).
     public var decompoundedAttributes: AnyCodable?
-    /// [ISO code](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) for a language for language-specific
-    /// processing steps, such as word detection and dictionary settings.  **You should always specify an indexing
-    /// language.** If you don't specify an indexing language, the search engine uses all [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/),
+    /// Languages for language-specific processing steps, such as word detection and dictionary settings.  **You should
+    /// always specify an indexing language.** If you don't specify an indexing language, the search engine uses all
+    /// [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/),
     /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
     /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/).
-    public var indexLanguages: [String]?
+    public var indexLanguages: [SupportedLanguage]?
     /// Searchable attributes for which you want to turn off [prefix matching](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/#adjusting-prefix-search).
     public var disablePrefixOnAttributes: [String]?
     /// Whether arrays with exclusively non-negative integers should be compressed for better performance. If true, the
@@ -116,7 +116,7 @@ public struct BaseIndexSettings: Codable, JSONEncodable, Hashable {
         attributesToTransliterate: [String]? = nil,
         camelCaseAttributes: [String]? = nil,
         decompoundedAttributes: AnyCodable? = nil,
-        indexLanguages: [String]? = nil,
+        indexLanguages: [SupportedLanguage]? = nil,
         disablePrefixOnAttributes: [String]? = nil,
         allowCompressionOfIntegerArray: Bool? = nil,
         numericAttributesForFiltering: [String]? = nil,

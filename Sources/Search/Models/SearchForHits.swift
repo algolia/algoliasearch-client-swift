@@ -232,15 +232,14 @@ public struct SearchForHits: Codable, JSONEncodable, Hashable {
     /// example, `é` becomes `e`. If this causes issues in your search, you can specify characters that should keep
     /// their diacritics.
     public var keepDiacriticsOnCharacters: String?
-    /// [ISO code](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) for language-specific settings such as
-    /// plurals, stop words, and word-detection dictionaries.  This setting sets a default list of languages used by the
-    /// `removeStopWords` and `ignorePlurals` settings. This setting also sets a dictionary for word detection in the
-    /// logogram-based [CJK](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/#normalization-for-logogram-based-languages-cjk)
-    /// languages. To support this, you must place the CJK language **first**.   **You should always specify a query
+    /// Languages for language-specific query processing steps such as plurals, stop-word removal, and word-detection
+    /// dictionaries.  This setting sets a default list of languages used by the `removeStopWords` and `ignorePlurals`
+    /// settings. This setting also sets a dictionary for word detection in the logogram-based [CJK](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/normalization/#normalization-for-logogram-based-languages-cjk)
+    /// languages. To support this, you must place the CJK language **first**.  **You should always specify a query
     /// language.** If you don't specify an indexing language, the search engine uses all [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/),
     /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
     /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/).
-    public var queryLanguages: [String]?
+    public var queryLanguages: [SupportedLanguage]?
     /// Whether to split compound words into their building blocks.  For more information, see [Word segmentation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/#splitting-compound-words).
     /// Word segmentation is supported for these languages: German, Dutch, Finnish, Swedish, and Norwegian.
     public var decompoundQuery: Bool?
@@ -381,7 +380,7 @@ public struct SearchForHits: Codable, JSONEncodable, Hashable {
         ignorePlurals: IgnorePlurals? = nil,
         removeStopWords: RemoveStopWords? = nil,
         keepDiacriticsOnCharacters: String? = nil,
-        queryLanguages: [String]? = nil,
+        queryLanguages: [SupportedLanguage]? = nil,
         decompoundQuery: Bool? = nil,
         enableRules: Bool? = nil,
         enablePersonalization: Bool? = nil,

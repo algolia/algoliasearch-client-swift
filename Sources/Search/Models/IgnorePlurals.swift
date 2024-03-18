@@ -9,14 +9,14 @@ import Foundation
 /// languages used in your index.
 public enum IgnorePlurals: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case bool(Bool)
-    case arrayOfString([String])
+    case arrayOfSupportedLanguage([SupportedLanguage])
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
         case let .bool(value):
             try container.encode(value)
-        case let .arrayOfString(value):
+        case let .arrayOfSupportedLanguage(value):
             try container.encode(value)
         }
     }
@@ -25,8 +25,8 @@ public enum IgnorePlurals: Codable, JSONEncodable, AbstractEncodable, Hashable {
         let container = try decoder.singleValueContainer()
         if let value = try? container.decode(Bool.self) {
             self = .bool(value)
-        } else if let value = try? container.decode([String].self) {
-            self = .arrayOfString(value)
+        } else if let value = try? container.decode([SupportedLanguage].self) {
+            self = .arrayOfSupportedLanguage(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -39,8 +39,8 @@ public enum IgnorePlurals: Codable, JSONEncodable, AbstractEncodable, Hashable {
         switch self {
         case let .bool(value):
             value as Bool
-        case let .arrayOfString(value):
-            value as [String]
+        case let .arrayOfSupportedLanguage(value):
+            value as [SupportedLanguage]
         }
     }
 }

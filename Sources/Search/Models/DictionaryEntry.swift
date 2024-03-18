@@ -9,8 +9,7 @@ import Foundation
 public struct DictionaryEntry: Codable, JSONEncodable, Hashable {
     /// Unique identifier for the dictionary entry.
     public var objectID: String
-    /// ISO code of a [supported language](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/).
-    public var language: String
+    public var language: SupportedLanguage
     /// Matching dictionary word for `stopwords` and `compounds` dictionaries.
     public var word: String?
     /// Matching words in the `plurals` dictionary including declensions.
@@ -21,7 +20,7 @@ public struct DictionaryEntry: Codable, JSONEncodable, Hashable {
 
     public init(
         objectID: String,
-        language: String,
+        language: SupportedLanguage,
         word: String? = nil,
         words: [String]? = nil,
         decomposition: [String]? = nil,
@@ -64,7 +63,7 @@ public struct DictionaryEntry: Codable, JSONEncodable, Hashable {
             throw GenericError(description: "Failed to cast")
         }
         self.objectID = objectID
-        guard let language = dictionary["language"]?.value as? String else {
+        guard let language = dictionary["language"]?.value as? SupportedLanguage else {
             throw GenericError(description: "Failed to cast")
         }
         self.language = language
@@ -106,7 +105,7 @@ public struct DictionaryEntry: Codable, JSONEncodable, Hashable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
         self.objectID = try container.decode(String.self, forKey: .objectID)
-        self.language = try container.decode(String.self, forKey: .language)
+        self.language = try container.decode(SupportedLanguage.self, forKey: .language)
         self.word = try container.decodeIfPresent(String.self, forKey: .word)
         self.words = try container.decodeIfPresent([String].self, forKey: .words)
         self.decomposition = try container.decodeIfPresent([String].self, forKey: .decomposition)

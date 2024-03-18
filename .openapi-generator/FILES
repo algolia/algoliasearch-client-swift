@@ -152,6 +152,7 @@ Sources/Search/Models/SnippetResultOption.swift
 Sources/Search/Models/SortRemainingBy.swift
 Sources/Search/Models/Source.swift
 Sources/Search/Models/StandardEntries.swift
+Sources/Search/Models/SupportedLanguage.swift
 Sources/Search/Models/SynonymHit.swift
 Sources/Search/Models/SynonymType.swift
 Sources/Search/Models/TagFilters.swift

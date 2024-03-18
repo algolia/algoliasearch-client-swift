@@ -27,10 +27,9 @@ public struct SearchDictionaryEntriesParams: Codable, JSONEncodable, Hashable {
     public var page: Int?
     /// Number of hits per page.
     public var hitsPerPage: Int?
-    /// ISO code of a [supported language](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/).
-    public var language: String?
+    public var language: SupportedLanguage?
 
-    public init(query: String, page: Int? = nil, hitsPerPage: Int? = nil, language: String? = nil) {
+    public init(query: String, page: Int? = nil, hitsPerPage: Int? = nil, language: SupportedLanguage? = nil) {
         self.query = query
         self.page = page
         self.hitsPerPage = hitsPerPage
