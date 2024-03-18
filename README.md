@@ -71,7 +71,9 @@ let package = Package(
 Import the Core package and the required client package to your source code files:
 
 ```swift
-import Core
+#if canImport(Core)
+    import Core
+#endif
 import Search // or Ingestion, for example
 ```
 

@@ -10,28 +10,42 @@ var targets: [Target] = []
 var products: [Product] = []
 
 #if os(Linux)
-    extraPackageDependencies.append(
-        .package(url: "https://github.com/apple/swift-crypto.git", from: "3.2.0")
-    )
-    extraTargetDependencies.append(
-        .product(name: "Crypto", package: "swift-crypto")
-    )
+    let macOSVersion: SupportedPlatform.MacOSVersion = .v10_15
+#else
+    let macOSVersion: SupportedPlatform.MacOSVersion = .v11
 #endif
 
-extraTargetDependencies.append(contentsOf: [
-    .product(name: "AnyCodable", package: "AnyCodable"),
-    .product(name: "Logging", package: "swift-log"),
-])
+#if os(Linux)
+    extraPackageDependencies.append(contentsOf: [
+        .package(url: "https://github.com/apple/swift-crypto.git", from: "3.2.0"),
+        .package(url: "https://github.com/apple/swift-log.git", from: "1.5.4"),
+    ])
+    extraTargetDependencies.append(contentsOf: [
+        .product(name: "Crypto", package: "swift-crypto"),
+        .product(name: "Logging", package: "swift-log"),
+    ])
+#endif
 
-targets.append(
-    .target(
-        name: "Core",
-        dependencies: [
-            .product(name: "Gzip", package: "GzipSwift"),
-        ] + extraTargetDependencies,
-        path: "Sources/Core"
+#if os(Linux)
+    targets.append(contentsOf: [
+        .systemLibrary(name: "zlib", pkgConfig: "zlib", providers: [.apt(["zlib1g-dev"])]),
+        .target(
+            name: "Core",
+            dependencies: [
+                "zlib",
+            ] + extraTargetDependencies,
+            path: "Sources/Core"
+        ),
+    ])
+#else
+    targets.append(
+        .target(
+            name: "Core",
+            dependencies: extraTargetDependencies,
+            path: "Sources/Core"
+        )
     )
-)
+#endif
 
 products.append(
     .library(
@@ -72,16 +86,12 @@ products.append(
 let package = Package(
     name: "AlgoliaSearchClient",
     platforms: [
-        .iOS(.v13),
-        .macOS(.v10_15),
-        .tvOS(.v13),
-        .watchOS(.v6),
+        .iOS(.v14),
+        .macOS(macOSVersion),
+        .tvOS(.v14),
+        .watchOS(.v7),
     ],
     products: products,
-    dependencies: [
-        .package(url: "https://github.com/Flight-School/AnyCodable", from: "0.6.7"),
-        .package(url: "https://github.com/apple/swift-log.git", from: "1.5.4"),
-        .package(url: "https://github.com/1024jp/GzipSwift", from: "6.0.1"),
-    ] + extraPackageDependencies,
+    dependencies: extraPackageDependencies,
     targets: targets
 )

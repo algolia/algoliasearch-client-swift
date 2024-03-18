@@ -27,7 +27,7 @@ class AlgoliaRetryStrategy: RetryStrategy {
         self.hostsExpirationDelay = hostsExpirationDelay
     }
 
-    convenience init(configuration: Configuration) {
+    convenience init(configuration: BaseConfiguration) {
         self.init(hosts: configuration.hosts)
     }
 

@@ -1,4 +1,6 @@
-import Core
+#if canImport(Core)
+    import Core
+#endif
 import Foundation
 
 public extension SecuredAPIKeyRestrictions {
@@ -24,7 +26,7 @@ public extension SecuredAPIKeyRestrictions {
             queryDictionary["validUntil"] = Int(validUntil)
         }
         if let restrictIndices {
-            queryDictionary["restrictIndices"] = restrictIndices.joined(separator: ",")
+            queryDictionary["restrictIndices"] = restrictIndices
         }
         if let restrictSources {
             queryDictionary["restrictSources"] = restrictSources

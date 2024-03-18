@@ -8,7 +8,6 @@ import Foundation
 #if canImport(FoundationNetworking)
     import FoundationNetworking
 #endif
-import AnyCodable
 
 extension Bool: JSONEncodable {
     public func encodeToJSON() -> Any { self }

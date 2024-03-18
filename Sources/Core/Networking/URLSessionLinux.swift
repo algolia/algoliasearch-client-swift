@@ -27,11 +27,11 @@ public extension URLSession {
         }
 
         return try await withTaskCancellationHandler {
-            try Task.checkCancellation()
+            try BridgedTask.checkCancellation()
 
             return try await withCheckedThrowingContinuation { continuation in
 
-                guard !Task.isCancelled else {
+                guard !BridgedTask.isCancelled else {
                     continuation.resume(throwing: CancellationError())
                     return
                 }

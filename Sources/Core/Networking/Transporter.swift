@@ -4,7 +4,6 @@
 //
 
 import Foundation
-import Gzip
 
 #if canImport(FoundationNetworking)
     import FoundationNetworking
@@ -13,12 +12,12 @@ import Gzip
 // MARK: - Transporter
 
 open class Transporter {
-    let configuration: Configuration
+    let configuration: BaseConfiguration
     let retryStrategy: RetryStrategy
     let requestBuilder: RequestBuilder
 
     public init(
-        configuration: Configuration,
+        configuration: BaseConfiguration,
         retryStrategy: RetryStrategy? = nil,
         requestBuilder: RequestBuilder? = nil
     ) {
@@ -102,7 +101,7 @@ open class Transporter {
                 if let bodyData = body {
                     request.setValue("gzip", forHTTPHeaderField: "Content-Encoding".capitalized)
 
-                    body = try bodyData.gzipped()
+                    body = try bodyData.gzip()
                 }
             }
             for (key, value) in headers {

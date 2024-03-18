@@ -45,7 +45,7 @@ public func createIterable<T>(
             throw AlgoliaError.wait(errorMessage(response))
         }
 
-        try await Task.sleep(nanoseconds: UInt64(timeout()) * 1_000_000_000)
+        try await BridgedTask.sleep(nanoseconds: UInt64(timeout()) * 1_000_000_000)
 
         return try await executor(previousResponse: response)
     }
