@@ -1,0 +1,45 @@
+name: Release package
+
+on:
+  push:
+    branches:
+      - next
+
+jobs:
+  release:
+    name: Publish
+    runs-on: ubuntu-22.04
+    if: "startsWith(github.event.head_commit.message, 'chore: release')"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get versions
+        id: versions
+        shell: bash
+        run: |
+          echo "RELEASE_VERSION=$(grep "s.version = " AlgoliaSearchClient.podspec | cut -d "'" -f2)" >> $GITHUB_OUTPUT
+
+      - name: Install Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0.3
+          bundler-cache: true
+
+      - name: Install CocoaPods
+        run: gem install cocoapods
+
+      - name: Publish on CocoaPods
+        run: |
+          set -eo pipefail
+          pod trunk push --allow-warnings --verbose AlgoliaSearchClient.podspec
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+
+      - name: Publish release on Github
+        run: |
+          set -eo pipefail
+          gh release create ${{ steps.versions.outputs.RELEASE_VERSION }} --title ${{ steps.versions.outputs.RELEASE_VERSION }} -F CHANGELOG.md --target ${{ github.sha }}
+        env:
+          GH_TOKEN: ${{ github.token }}
