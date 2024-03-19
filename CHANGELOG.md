@@ -1,3 +1,8 @@
+## [9.0.0-alpha.11](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-alpha.10...9.0.0-alpha.11)
+
+- [b89aa0ff6](https://github.com/algolia/api-clients-automation/commit/b89aa0ff6) fix(swift): improve DX ([#2800](https://github.com/algolia/api-clients-automation/pull/2800)) by [@Fluf22](https://github.com/Fluf22/)
+- [7dc719cbe](https://github.com/algolia/api-clients-automation/commit/7dc719cbe) fix(specs): make languages an enum ([#2865](https://github.com/algolia/api-clients-automation/pull/2865)) by [@kai687](https://github.com/kai687/)
+
 ## [9.0.0-alpha.10](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-alpha.9...9.0.0-alpha.10)
 
 - [0f8d4432b](https://github.com/algolia/api-clients-automation/commit/0f8d4432b) feat(specs): insights api reference ([#2859](https://github.com/algolia/api-clients-automation/pull/2859)) by [@kai687](https://github.com/kai687/)
