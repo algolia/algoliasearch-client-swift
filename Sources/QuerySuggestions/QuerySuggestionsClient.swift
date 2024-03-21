@@ -112,7 +112,7 @@ open class QuerySuggestionsClient {
             throw AlgoliaError.invalidArgument("path", "customDelete")
         }
 
-        var resourcePath = "/1{path}"
+        var resourcePath = "/{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         resourcePath = resourcePath.replacingOccurrences(
             of: "{path}",
@@ -174,7 +174,7 @@ open class QuerySuggestionsClient {
             throw AlgoliaError.invalidArgument("path", "customGet")
         }
 
-        var resourcePath = "/1{path}"
+        var resourcePath = "/{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         resourcePath = resourcePath.replacingOccurrences(
             of: "{path}",
@@ -242,7 +242,7 @@ open class QuerySuggestionsClient {
             throw AlgoliaError.invalidArgument("path", "customPost")
         }
 
-        var resourcePath = "/1{path}"
+        var resourcePath = "/{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         resourcePath = resourcePath.replacingOccurrences(
             of: "{path}",
@@ -310,7 +310,7 @@ open class QuerySuggestionsClient {
             throw AlgoliaError.invalidArgument("path", "customPut")
         }
 
-        var resourcePath = "/1{path}"
+        var resourcePath = "/{path}"
         let pathPreEscape = "\(APIHelper.mapValueToPathItem(path))"
         resourcePath = resourcePath.replacingOccurrences(
             of: "{path}",
