@@ -7,10 +7,11 @@ import Foundation
 #endif
 
 public struct GetTopFiltersNoResultsResponse: Codable, JSONEncodable, Hashable {
-    /// Filters with no results.
-    public var values: [GetTopFiltersNoResultsValues]
+    /// Filters for searches without any results. If null, the search term specified with the `search` parameter is not
+    /// a search without results, or the `search` parameter is absent from the request.
+    public var values: [GetTopFiltersNoResultsValues]?
 
-    public init(values: [GetTopFiltersNoResultsValues]) {
+    public init(values: [GetTopFiltersNoResultsValues]?) {
         self.values = values
     }
 

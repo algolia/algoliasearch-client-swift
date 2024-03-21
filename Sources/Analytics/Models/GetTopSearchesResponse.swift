@@ -9,6 +9,7 @@ import Foundation
 public enum GetTopSearchesResponse: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case topSearchesResponse(TopSearchesResponse)
     case topSearchesResponseWithAnalytics(TopSearchesResponseWithAnalytics)
+    case topSearchesResponseWithRevenueAnalytics(TopSearchesResponseWithRevenueAnalytics)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -16,6 +17,8 @@ public enum GetTopSearchesResponse: Codable, JSONEncodable, AbstractEncodable, H
         case let .topSearchesResponse(value):
             try container.encode(value)
         case let .topSearchesResponseWithAnalytics(value):
+            try container.encode(value)
+        case let .topSearchesResponseWithRevenueAnalytics(value):
             try container.encode(value)
         }
     }
@@ -26,6 +29,8 @@ public enum GetTopSearchesResponse: Codable, JSONEncodable, AbstractEncodable, H
             self = .topSearchesResponse(value)
         } else if let value = try? container.decode(TopSearchesResponseWithAnalytics.self) {
             self = .topSearchesResponseWithAnalytics(value)
+        } else if let value = try? container.decode(TopSearchesResponseWithRevenueAnalytics.self) {
+            self = .topSearchesResponseWithRevenueAnalytics(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -43,6 +48,8 @@ public enum GetTopSearchesResponse: Codable, JSONEncodable, AbstractEncodable, H
             value as TopSearchesResponse
         case let .topSearchesResponseWithAnalytics(value):
             value as TopSearchesResponseWithAnalytics
+        case let .topSearchesResponseWithRevenueAnalytics(value):
+            value as TopSearchesResponseWithRevenueAnalytics
         }
     }
 }

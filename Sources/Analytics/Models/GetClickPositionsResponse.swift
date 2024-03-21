@@ -7,10 +7,10 @@ import Foundation
 #endif
 
 public struct GetClickPositionsResponse: Codable, JSONEncodable, Hashable {
-    /// Click positions.
-    public var positions: [ClickPosition]
+    /// List of positions in the search results and clicks associated with this search.
+    public var positions: [ClickPositionsInner]
 
-    public init(positions: [ClickPosition]) {
+    public init(positions: [ClickPositionsInner]) {
         self.positions = positions
     }
 

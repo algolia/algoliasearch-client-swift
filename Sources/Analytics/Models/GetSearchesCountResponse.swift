@@ -9,10 +9,10 @@ import Foundation
 public struct GetSearchesCountResponse: Codable, JSONEncodable, Hashable {
     /// Number of occurrences.
     public var count: Int
-    /// Search events with their associated dates and hit counts.
-    public var dates: [SearchEvent]
+    /// Daily number of searches.
+    public var dates: [DailySearches]
 
-    public init(count: Int, dates: [SearchEvent]) {
+    public init(count: Int, dates: [DailySearches]) {
         self.count = count
         self.dates = dates
     }

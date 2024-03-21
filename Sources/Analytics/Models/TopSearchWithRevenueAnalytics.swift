@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct TopSearchWithAnalytics: Codable, JSONEncodable, Hashable {
+public struct TopSearchWithRevenueAnalytics: Codable, JSONEncodable, Hashable {
     static let clickThroughRateRule = NumericRule<Double>(
         minimum: 0,
         exclusiveMinimum: false,
@@ -42,6 +42,27 @@ public struct TopSearchWithAnalytics: Codable, JSONEncodable, Hashable {
         exclusiveMaximum: false,
         multipleOf: nil
     )
+    static let addToCartRateRule = NumericRule<Double>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: 1,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let addToCartCountRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let purchaseRateRule = NumericRule<Double>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: 1,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     /// Search query.
     public var search: String
     /// Number of searches.
@@ -66,6 +87,19 @@ public struct TopSearchWithAnalytics: Codable, JSONEncodable, Hashable {
     public var conversionCount: Int
     /// Number of results (hits).
     public var nbHits: Int
+    /// Revenue associated with this search, broken-down by currencies.
+    public var currencies: [String: CurrenciesValue]
+    /// Add-to-cart rate, calculated as number of tracked searches with at least one add-to-cart event divided by the
+    /// number of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to
+    /// true.
+    public var addToCartRate: Double?
+    /// Number of add-to-cart events from this search.
+    public var addToCartCount: Int
+    /// Purchase rate, calculated as number of tracked searches with at least one purchase event divided by the number
+    /// of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to true.
+    public var purchaseRate: Double?
+    /// Number of purchase events from this search.
+    public var purchaseCount: Int
 
     public init(
         search: String,
@@ -77,7 +111,12 @@ public struct TopSearchWithAnalytics: Codable, JSONEncodable, Hashable {
         trackedSearchCount: Int,
         clickCount: Int,
         conversionCount: Int,
-        nbHits: Int
+        nbHits: Int,
+        currencies: [String: CurrenciesValue],
+        addToCartRate: Double?,
+        addToCartCount: Int,
+        purchaseRate: Double?,
+        purchaseCount: Int
     ) {
         self.search = search
         self.count = count
@@ -89,6 +128,11 @@ public struct TopSearchWithAnalytics: Codable, JSONEncodable, Hashable {
         self.clickCount = clickCount
         self.conversionCount = conversionCount
         self.nbHits = nbHits
+        self.currencies = currencies
+        self.addToCartRate = addToCartRate
+        self.addToCartCount = addToCartCount
+        self.purchaseRate = purchaseRate
+        self.purchaseCount = purchaseCount
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
@@ -102,6 +146,11 @@ public struct TopSearchWithAnalytics: Codable, JSONEncodable, Hashable {
         case clickCount
         case conversionCount
         case nbHits
+        case currencies
+        case addToCartRate
+        case addToCartCount
+        case purchaseRate
+        case purchaseCount
     }
 
     // Encodable protocol methods
@@ -118,5 +167,10 @@ public struct TopSearchWithAnalytics: Codable, JSONEncodable, Hashable {
         try container.encode(self.clickCount, forKey: .clickCount)
         try container.encode(self.conversionCount, forKey: .conversionCount)
         try container.encode(self.nbHits, forKey: .nbHits)
+        try container.encode(self.currencies, forKey: .currencies)
+        try container.encode(self.addToCartRate, forKey: .addToCartRate)
+        try container.encode(self.addToCartCount, forKey: .addToCartCount)
+        try container.encode(self.purchaseRate, forKey: .purchaseRate)
+        try container.encode(self.purchaseCount, forKey: .purchaseCount)
     }
 }

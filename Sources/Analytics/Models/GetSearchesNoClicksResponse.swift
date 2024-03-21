@@ -7,10 +7,10 @@ import Foundation
 #endif
 
 public struct GetSearchesNoClicksResponse: Codable, JSONEncodable, Hashable {
-    /// Searches with no clicks.
-    public var searches: [SearchNoClickEvent]
+    /// Searches without any clicks.
+    public var searches: [DailySearchesNoClicks]
 
-    public init(searches: [SearchNoClickEvent]) {
+    public init(searches: [DailySearchesNoClicks]) {
         self.searches = searches
     }
 

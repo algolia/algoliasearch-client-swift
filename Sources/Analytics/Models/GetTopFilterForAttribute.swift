@@ -9,14 +9,13 @@ import Foundation
 public struct GetTopFilterForAttribute: Codable, JSONEncodable, Hashable {
     /// Attribute name.
     public var attribute: String
-    /// Operator.
-    public var `operator`: String
+    public var `operator`: Operator
     /// Attribute value.
     public var value: String
     /// Number of occurrences.
     public var count: Int
 
-    public init(attribute: String, `operator`: String, value: String, count: Int) {
+    public init(attribute: String, `operator`: Operator, value: String, count: Int) {
         self.attribute = attribute
         self.`operator` = `operator`
         self.value = value

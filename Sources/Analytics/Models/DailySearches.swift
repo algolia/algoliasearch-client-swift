@@ -6,8 +6,8 @@ import Foundation
     import Core
 #endif
 
-public struct UserWithDate: Codable, JSONEncodable, Hashable {
-    /// Date of the event in the format YYYY-MM-DD.
+public struct DailySearches: Codable, JSONEncodable, Hashable {
+    /// Date in the format YYYY-MM-DD.
     public var date: String
     /// Number of occurrences.
     public var count: Int

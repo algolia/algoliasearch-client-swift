@@ -9,6 +9,7 @@ import Foundation
 public enum GetTopHitsResponse: Codable, JSONEncodable, AbstractEncodable, Hashable {
     case topHitsResponse(TopHitsResponse)
     case topHitsResponseWithAnalytics(TopHitsResponseWithAnalytics)
+    case topHitsResponseWithRevenueAnalytics(TopHitsResponseWithRevenueAnalytics)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
@@ -16,6 +17,8 @@ public enum GetTopHitsResponse: Codable, JSONEncodable, AbstractEncodable, Hasha
         case let .topHitsResponse(value):
             try container.encode(value)
         case let .topHitsResponseWithAnalytics(value):
+            try container.encode(value)
+        case let .topHitsResponseWithRevenueAnalytics(value):
             try container.encode(value)
         }
     }
@@ -26,6 +29,8 @@ public enum GetTopHitsResponse: Codable, JSONEncodable, AbstractEncodable, Hasha
             self = .topHitsResponse(value)
         } else if let value = try? container.decode(TopHitsResponseWithAnalytics.self) {
             self = .topHitsResponseWithAnalytics(value)
+        } else if let value = try? container.decode(TopHitsResponseWithRevenueAnalytics.self) {
+            self = .topHitsResponseWithRevenueAnalytics(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -43,6 +48,8 @@ public enum GetTopHitsResponse: Codable, JSONEncodable, AbstractEncodable, Hasha
             value as TopHitsResponse
         case let .topHitsResponseWithAnalytics(value):
             value as TopHitsResponseWithAnalytics
+        case let .topHitsResponseWithRevenueAnalytics(value):
+            value as TopHitsResponseWithRevenueAnalytics
         }
     }
 }

@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct GetTopCountriesResponse: Codable, JSONEncodable, Hashable {
-    /// Countries
+    /// Countries and number of searches.
     public var countries: [TopCountry]
 
     public init(countries: [TopCountry]) {

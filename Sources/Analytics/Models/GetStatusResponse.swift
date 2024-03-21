@@ -7,10 +7,11 @@ import Foundation
 #endif
 
 public struct GetStatusResponse: Codable, JSONEncodable, Hashable {
-    /// Timestamp of the last update in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
-    public var updatedAt: String
+    /// Timestamp of the last update in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format. If null, no update was
+    /// performed yet.
+    public var updatedAt: String?
 
-    public init(updatedAt: String) {
+    public init(updatedAt: String?) {
         self.updatedAt = updatedAt
     }
 

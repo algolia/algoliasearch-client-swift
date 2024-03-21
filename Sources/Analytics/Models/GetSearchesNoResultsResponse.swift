@@ -7,10 +7,10 @@ import Foundation
 #endif
 
 public struct GetSearchesNoResultsResponse: Codable, JSONEncodable, Hashable {
-    /// Searches with no results.
-    public var searches: [SearchNoResultEvent]
+    /// Searches without results.
+    public var searches: [DailySearchesNoResults]
 
-    public init(searches: [SearchNoResultEvent]) {
+    public init(searches: [DailySearchesNoResults]) {
         self.searches = searches
     }
 

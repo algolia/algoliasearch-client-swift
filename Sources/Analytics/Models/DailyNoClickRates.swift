@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct NoClickRateEvent: Codable, JSONEncodable, Hashable {
+public struct DailyNoClickRates: Codable, JSONEncodable, Hashable {
     static let rateRule = NumericRule<Double>(
         minimum: 0,
         exclusiveMinimum: false,
@@ -14,14 +14,21 @@ public struct NoClickRateEvent: Codable, JSONEncodable, Hashable {
         exclusiveMaximum: false,
         multipleOf: nil
     )
-    /// [Click-through rate
-    /// (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
+    static let noClickCountRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// No click rate, calculated as number of tracked searches without any click divided by the number of tracked
+    /// searches.
     public var rate: Double
-    /// Number of tracked _and_ untracked searches (where the `clickAnalytics` parameter isn't `true`).
+    /// Number of tracked searches. Tracked searches are search requests where the `clickAnalytics` parameter is true.
     public var count: Int
-    /// Number of click events.
+    /// Number of times this search was returned as a result without any click.
     public var noClickCount: Int
-    /// Date of the event in the format YYYY-MM-DD.
+    /// Date in the format YYYY-MM-DD.
     public var date: String
 
     public init(rate: Double, count: Int, noClickCount: Int, date: String) {

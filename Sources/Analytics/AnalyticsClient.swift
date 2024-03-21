@@ -290,10 +290,87 @@ open class AnalyticsClient {
     /// - parameter index: (query) Index name.
     /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter tags: (query) Filter analytics on the
-    /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
-    /// spaces or parentheses, it must be URL-encoded. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// - returns: GetAddToCartRateResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getAddToCartRate(
+        index: String,
+        startDate: String? = nil,
+        endDate: String? = nil,
+        tags: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> GetAddToCartRateResponse {
+        let response: Response<GetAddToCartRateResponse> = try await getAddToCartRateWithHTTPInfo(
+            index: index,
+            startDate: startDate,
+            endDate: endDate,
+            tags: tags,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Retrieves the add-to-cart rate for all of your searches with at least one add-to-cart event, including a daily
+    // breakdown.  By default, the analyzed period includes the last eight days including the current day.
+    // Required API Key ACLs:
+    //  - analytics
+    //
+    // - parameter index: (query) Index name.
+    //
+    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    //
+    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    //
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // - returns: RequestBuilder<GetAddToCartRateResponse>
+
+    open func getAddToCartRateWithHTTPInfo(
+        index: String,
+        startDate: String? = nil,
+        endDate: String? = nil,
+        tags: String? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<GetAddToCartRateResponse> {
+        guard !index.isEmpty else {
+            throw AlgoliaError.invalidArgument("index", "getAddToCartRate")
+        }
+
+        let resourcePath = "/2/conversions/addToCartRate"
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?] = [
+            "index": index.encodeToJSON(),
+            "startDate": startDate?.encodeToJSON(),
+            "endDate": endDate?.encodeToJSON(),
+            "tags": tags?.encodeToJSON(),
+        ]
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter index: (query) Index name.
+    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetAverageClickPositionResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getAverageClickPosition(
@@ -318,9 +395,10 @@ open class AnalyticsClient {
         return body
     }
 
-    // Return the average click position for the complete time range and for individual days. > **Note**: If all
-    // `positions` have a `clickCount` of `0` or `null`, it means Algolia didn't receive any click events for tracked
-    // searches. A _tracked_ search is a search request where the `clickAnalytics` parameter is `true`.
+    // Retrieves the average click position of your search results, including a daily breakdown.  The average click
+    // position is the average of all clicked search results' positions. For example, if users only ever click on the
+    // first result for any search, the average click position is 1. By default, the analyzed period includes the last
+    // eight days including the current day.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -330,11 +408,9 @@ open class AnalyticsClient {
     //
     // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter tags: (query) Filter analytics on the
-    // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    // search
-    // time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or
-    // parentheses, it must be URL-encoded. (optional)
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetAverageClickPositionResponse>
 
     open func getAverageClickPositionWithHTTPInfo(
@@ -372,10 +448,9 @@ open class AnalyticsClient {
     /// - parameter index: (query) Index name.
     /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter tags: (query) Filter analytics on the
-    /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
-    /// spaces or parentheses, it must be URL-encoded. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetClickPositionsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getClickPositions(
@@ -400,9 +475,8 @@ open class AnalyticsClient {
         return body
     }
 
-    // Show the number of clicks events and their associated position in the search results.  > **Note**: If all
-    // `positions` have a `clickCount` of `0` or `null`, it means Algolia didn't receive any click events for tracked
-    // searches. A _tracked_ search is a search request where the `clickAnalytics` parameter is `true`.
+    // Retrieves the positions in the search results and their associated number of clicks.  This lets you check how
+    // many clicks the first, second, or tenth search results receive.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -412,11 +486,9 @@ open class AnalyticsClient {
     //
     // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter tags: (query) Filter analytics on the
-    // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    // search
-    // time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or
-    // parentheses, it must be URL-encoded. (optional)
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetClickPositionsResponse>
 
     open func getClickPositionsWithHTTPInfo(
@@ -454,10 +526,9 @@ open class AnalyticsClient {
     /// - parameter index: (query) Index name.
     /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter tags: (query) Filter analytics on the
-    /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
-    /// spaces or parentheses, it must be URL-encoded. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetClickThroughRateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getClickThroughRate(
@@ -482,8 +553,8 @@ open class AnalyticsClient {
         return body
     }
 
-    // Returns a [click-through rate
-    // (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
+    // Retrieves the click-through rate for all of your searches with at least one click event, including a daily
+    // breakdown  By default, the analyzed period includes the last eight days including the current day.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -493,11 +564,9 @@ open class AnalyticsClient {
     //
     // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter tags: (query) Filter analytics on the
-    // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    // search
-    // time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or
-    // parentheses, it must be URL-encoded. (optional)
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetClickThroughRateResponse>
 
     open func getClickThroughRateWithHTTPInfo(
@@ -535,20 +604,19 @@ open class AnalyticsClient {
     /// - parameter index: (query) Index name.
     /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter tags: (query) Filter analytics on the
-    /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
-    /// spaces or parentheses, it must be URL-encoded. (optional)
-    /// - returns: GetConversationRateResponse
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// - returns: GetConversionRateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func getConversationRate(
+    open func getConversionRate(
         index: String,
         startDate: String? = nil,
         endDate: String? = nil,
         tags: String? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> GetConversationRateResponse {
-        let response: Response<GetConversationRateResponse> = try await getConversationRateWithHTTPInfo(
+    ) async throws -> GetConversionRateResponse {
+        let response: Response<GetConversionRateResponse> = try await getConversionRateWithHTTPInfo(
             index: index,
             startDate: startDate,
             endDate: endDate,
@@ -563,8 +631,8 @@ open class AnalyticsClient {
         return body
     }
 
-    // Return a [conversion
-    // rate](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#conversion-rate).
+    // Retrieves the conversion rate for all of your searches with at least one conversion event, including a daily
+    // breakdown.  By default, the analyzed period includes the last eight days including the current day.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -574,22 +642,20 @@ open class AnalyticsClient {
     //
     // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter tags: (query) Filter analytics on the
-    // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    // search
-    // time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or
-    // parentheses, it must be URL-encoded. (optional)
-    // - returns: RequestBuilder<GetConversationRateResponse>
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // - returns: RequestBuilder<GetConversionRateResponse>
 
-    open func getConversationRateWithHTTPInfo(
+    open func getConversionRateWithHTTPInfo(
         index: String,
         startDate: String? = nil,
         endDate: String? = nil,
         tags: String? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<GetConversationRateResponse> {
+    ) async throws -> Response<GetConversionRateResponse> {
         guard !index.isEmpty else {
-            throw AlgoliaError.invalidArgument("index", "getConversationRate")
+            throw AlgoliaError.invalidArgument("index", "getConversionRate")
         }
 
         let resourcePath = "/2/conversions/conversionRate"
@@ -616,10 +682,9 @@ open class AnalyticsClient {
     /// - parameter index: (query) Index name.
     /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter tags: (query) Filter analytics on the
-    /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
-    /// spaces or parentheses, it must be URL-encoded. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetNoClickRateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getNoClickRate(
@@ -644,8 +709,8 @@ open class AnalyticsClient {
         return body
     }
 
-    // Returns the rate at which searches don't lead to any clicks. The endpoint returns a value for the complete given
-    // time range, as well as a value per day. It also returns the count of searches and searches without clicks.
+    // Retrieves the fraction of searches that didn't lead to any click within a time range, including a daily
+    // breakdown.  By default, the analyzed period includes the last eight days including the current day.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -655,11 +720,9 @@ open class AnalyticsClient {
     //
     // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter tags: (query) Filter analytics on the
-    // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    // search
-    // time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or
-    // parentheses, it must be URL-encoded. (optional)
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetNoClickRateResponse>
 
     open func getNoClickRateWithHTTPInfo(
@@ -697,10 +760,9 @@ open class AnalyticsClient {
     /// - parameter index: (query) Index name.
     /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter tags: (query) Filter analytics on the
-    /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
-    /// spaces or parentheses, it must be URL-encoded. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetNoResultsRateResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getNoResultsRate(
@@ -725,7 +787,8 @@ open class AnalyticsClient {
         return body
     }
 
-    // Returns the rate at which searches didn't return any results.
+    // Retrieves the fraction of searches that didn't return any results within a time range, including a daily
+    // breakdown.  By default, the analyzed period includes the last eight days including the current day.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -735,11 +798,9 @@ open class AnalyticsClient {
     //
     // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter tags: (query) Filter analytics on the
-    // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    // search
-    // time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or
-    // parentheses, it must be URL-encoded. (optional)
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetNoResultsRateResponse>
 
     open func getNoResultsRateWithHTTPInfo(
@@ -777,10 +838,166 @@ open class AnalyticsClient {
     /// - parameter index: (query) Index name.
     /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter tags: (query) Filter analytics on the
-    /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
-    /// spaces or parentheses, it must be URL-encoded. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// - returns: GetPurchaseRateResponse
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getPurchaseRate(
+        index: String,
+        startDate: String? = nil,
+        endDate: String? = nil,
+        tags: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> GetPurchaseRateResponse {
+        let response: Response<GetPurchaseRateResponse> = try await getPurchaseRateWithHTTPInfo(
+            index: index,
+            startDate: startDate,
+            endDate: endDate,
+            tags: tags,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Retrieves the purchase rate for all of your searches with at least one purchase event, including a daily
+    // breakdown.  By default, the analyzed period includes the last eight days including the current day.
+    // Required API Key ACLs:
+    //  - analytics
+    //
+    // - parameter index: (query) Index name.
+    //
+    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    //
+    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    //
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // - returns: RequestBuilder<GetPurchaseRateResponse>
+
+    open func getPurchaseRateWithHTTPInfo(
+        index: String,
+        startDate: String? = nil,
+        endDate: String? = nil,
+        tags: String? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<GetPurchaseRateResponse> {
+        guard !index.isEmpty else {
+            throw AlgoliaError.invalidArgument("index", "getPurchaseRate")
+        }
+
+        let resourcePath = "/2/conversions/purchaseRate"
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?] = [
+            "index": index.encodeToJSON(),
+            "startDate": startDate?.encodeToJSON(),
+            "endDate": endDate?.encodeToJSON(),
+            "tags": tags?.encodeToJSON(),
+        ]
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter index: (query) Index name.
+    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    /// - returns: GetRevenue
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+    open func getRevenue(
+        index: String,
+        startDate: String? = nil,
+        endDate: String? = nil,
+        tags: String? = nil,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> GetRevenue {
+        let response: Response<GetRevenue> = try await getRevenueWithHTTPInfo(
+            index: index,
+            startDate: startDate,
+            endDate: endDate,
+            tags: tags,
+            requestOptions: requestOptions
+        )
+
+        guard let body = response.body else {
+            throw AlgoliaError.missingData
+        }
+
+        return body
+    }
+
+    // Retrieves revenue-related metrics, such as the total revenue or the average order value.  To retrieve
+    // revenue-related metrics, sent purchase events. By default, the analyzed period includes the last eight days
+    // including the current day.
+    // Required API Key ACLs:
+    //  - analytics
+    //
+    // - parameter index: (query) Index name.
+    //
+    // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    //
+    // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    //
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
+    // - returns: RequestBuilder<GetRevenue>
+
+    open func getRevenueWithHTTPInfo(
+        index: String,
+        startDate: String? = nil,
+        endDate: String? = nil,
+        tags: String? = nil,
+        requestOptions userRequestOptions: RequestOptions? = nil
+    ) async throws -> Response<GetRevenue> {
+        guard !index.isEmpty else {
+            throw AlgoliaError.invalidArgument("index", "getRevenue")
+        }
+
+        let resourcePath = "/2/conversions/revenue"
+        let body: AnyCodable? = nil
+        let queryParameters: [String: Any?] = [
+            "index": index.encodeToJSON(),
+            "startDate": startDate?.encodeToJSON(),
+            "endDate": endDate?.encodeToJSON(),
+            "tags": tags?.encodeToJSON(),
+        ]
+
+        let nillableHeaders: [String: Any?]? = nil
+
+        let headers = APIHelper.rejectNilHeaders(nillableHeaders)
+
+        return try await self.transporter.send(
+            method: "GET",
+            path: resourcePath,
+            data: body,
+            requestOptions: RequestOptions(headers: headers, queryParameters: queryParameters) + userRequestOptions
+        )
+    }
+
+    /// - parameter index: (query) Index name.
+    /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetSearchesCountResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getSearchesCount(
@@ -805,7 +1022,8 @@ open class AnalyticsClient {
         return body
     }
 
-    // Returns the number of searches within a time range.
+    // Retrieves the number of searches within a time range, including a daily breakdown.  By default, the analyzed
+    // period includes the last eight days including the current day.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -815,11 +1033,9 @@ open class AnalyticsClient {
     //
     // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter tags: (query) Filter analytics on the
-    // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    // search
-    // time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or
-    // parentheses, it must be URL-encoded. (optional)
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetSearchesCountResponse>
 
     open func getSearchesCountWithHTTPInfo(
@@ -859,10 +1075,9 @@ open class AnalyticsClient {
     /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
-    /// - parameter tags: (query) Filter analytics on the
-    /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
-    /// spaces or parentheses, it must be URL-encoded. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetSearchesNoClicksResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getSearchesNoClicks(
@@ -891,7 +1106,7 @@ open class AnalyticsClient {
         return body
     }
 
-    // Return the most popular of the last 1,000 searches that didn't lead to any clicks.
+    // Retrieves the most popular searches that didn't lead to any clicks, from the 1,000 most frequent searches.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -905,11 +1120,9 @@ open class AnalyticsClient {
     //
     // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
-    // - parameter tags: (query) Filter analytics on the
-    // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    // search
-    // time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or
-    // parentheses, it must be URL-encoded. (optional)
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetSearchesNoClicksResponse>
 
     open func getSearchesNoClicksWithHTTPInfo(
@@ -953,10 +1166,9 @@ open class AnalyticsClient {
     /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
-    /// - parameter tags: (query) Filter analytics on the
-    /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
-    /// spaces or parentheses, it must be URL-encoded. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetSearchesNoResultsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getSearchesNoResults(
@@ -985,7 +1197,7 @@ open class AnalyticsClient {
         return body
     }
 
-    // Returns the most popular of the latest 1,000 searches that didn't return any results.
+    // Retrieves the most popular searches that didn't return any results.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -999,11 +1211,9 @@ open class AnalyticsClient {
     //
     // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
-    // - parameter tags: (query) Filter analytics on the
-    // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    // search
-    // time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or
-    // parentheses, it must be URL-encoded. (optional)
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetSearchesNoResultsResponse>
 
     open func getSearchesNoResultsWithHTTPInfo(
@@ -1058,9 +1268,8 @@ open class AnalyticsClient {
         return body
     }
 
-    // Return the latest update time of the Analytics API for an index. If the index has been recently created or no
-    // search has been performed yet, `updatedAt` will be `null`. > **Note**: The Analytics API is updated every
-    // 5&nbsp;minutes.
+    // Retrieves the time when the Analytics data for the specified index was last updated.  The Analytics data is
+    // updated every 5 minutes.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -1098,10 +1307,9 @@ open class AnalyticsClient {
     /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
-    /// - parameter tags: (query) Filter analytics on the
-    /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
-    /// spaces or parentheses, it must be URL-encoded. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetTopCountriesResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getTopCountries(
@@ -1130,7 +1338,7 @@ open class AnalyticsClient {
         return body
     }
 
-    // Returns top countries. Limited to the 1,000 most frequent ones.
+    // Retrieves the countries with the most searches to your index.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -1144,11 +1352,9 @@ open class AnalyticsClient {
     //
     // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
-    // - parameter tags: (query) Filter analytics on the
-    // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    // search
-    // time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or
-    // parentheses, it must be URL-encoded. (optional)
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetTopCountriesResponse>
 
     open func getTopCountriesWithHTTPInfo(
@@ -1188,15 +1394,14 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter search: (query) User query. (optional)
+    /// - parameter search: (query) Search query. (optional)
     /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
-    /// - parameter tags: (query) Filter analytics on the
-    /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
-    /// spaces or parentheses, it must be URL-encoded. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetTopFilterAttributesResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getTopFilterAttributes(
@@ -1227,15 +1432,14 @@ open class AnalyticsClient {
         return body
     }
 
-    // Return the most popular [filterable
-    // attributes](https://www.algolia.com/doc/guides/managing-results/refine-results/filtering/) in the 1,000 most
-    // recently used filters.
+    // Retrieves the most frequently used filter attributes.  These are attributes of your records that you included in
+    // the `attributesForFaceting` setting.
     // Required API Key ACLs:
     //  - analytics
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter search: (query) User query. (optional)
+    // - parameter search: (query) Search query. (optional)
     //
     // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
@@ -1245,11 +1449,9 @@ open class AnalyticsClient {
     //
     // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
-    // - parameter tags: (query) Filter analytics on the
-    // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    // search
-    // time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or
-    // parentheses, it must be URL-encoded. (optional)
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetTopFilterAttributesResponse>
 
     open func getTopFilterAttributesWithHTTPInfo(
@@ -1292,15 +1494,14 @@ open class AnalyticsClient {
 
     /// - parameter attribute: (path) Attribute name.
     /// - parameter index: (query) Index name.
-    /// - parameter search: (query) User query. (optional)
+    /// - parameter search: (query) Search query. (optional)
     /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
-    /// - parameter tags: (query) Filter analytics on the
-    /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
-    /// spaces or parentheses, it must be URL-encoded. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetTopFilterForAttributeResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getTopFilterForAttribute(
@@ -1333,7 +1534,8 @@ open class AnalyticsClient {
         return body
     }
 
-    // Returns the most popular filter values for an attribute in the 1,000 most recently used filters.
+    // Retrieves the most frequent filter (facet) values for a filter attribute.  These are attributes of your records
+    // that you included in the `attributesForFaceting` setting.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -1341,7 +1543,7 @@ open class AnalyticsClient {
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter search: (query) User query. (optional)
+    // - parameter search: (query) Search query. (optional)
     //
     // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
@@ -1351,11 +1553,9 @@ open class AnalyticsClient {
     //
     // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
-    // - parameter tags: (query) Filter analytics on the
-    // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    // search
-    // time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or
-    // parentheses, it must be URL-encoded. (optional)
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetTopFilterForAttributeResponse>
 
     open func getTopFilterForAttributeWithHTTPInfo(
@@ -1411,15 +1611,14 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter search: (query) User query. (optional)
+    /// - parameter search: (query) Search query. (optional)
     /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
-    /// - parameter tags: (query) Filter analytics on the
-    /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
-    /// spaces or parentheses, it must be URL-encoded. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetTopFiltersNoResultsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getTopFiltersNoResults(
@@ -1450,14 +1649,15 @@ open class AnalyticsClient {
         return body
     }
 
-    // Returns top filters for filter-enabled searches that don't return results. Limited to the 1,000 most recently
-    // used filters.
+    // Retrieves the most frequently used filters for a search that didn't return any results.  To get the most frequent
+    // searches without results, use the [Retrieve searches without results](#tag/search/operation/getSearchesNoResults)
+    // operation.
     // Required API Key ACLs:
     //  - analytics
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter search: (query) User query. (optional)
+    // - parameter search: (query) Search query. (optional)
     //
     // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
@@ -1467,11 +1667,9 @@ open class AnalyticsClient {
     //
     // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
-    // - parameter tags: (query) Filter analytics on the
-    // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    // search
-    // time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or
-    // parentheses, it must be URL-encoded. (optional)
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetTopFiltersNoResultsResponse>
 
     open func getTopFiltersNoResultsWithHTTPInfo(
@@ -1513,24 +1711,25 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter search: (query) User query. (optional)
-    /// - parameter clickAnalytics: (query) Whether to include [click and
-    /// conversion](https://www.algolia.com/doc/guides/sending-events/getting-started/) rates for a search. (optional,
-    /// default to false)
+    /// - parameter search: (query) Search query. (optional)
+    /// - parameter clickAnalytics: (query) Whether to include metrics related to click and conversion events in the
+    /// response. (optional, default to false)
+    /// - parameter revenueAnalytics: (query) Whether to include revenue-related metrics in the response.  If true,
+    /// metrics related to click and conversion events are also included in the response.  (optional, default to false)
     /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
-    /// - parameter tags: (query) Filter analytics on the
-    /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
-    /// spaces or parentheses, it must be URL-encoded. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetTopHitsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getTopHits(
         index: String,
         search: String? = nil,
         clickAnalytics: Bool? = nil,
+        revenueAnalytics: Bool? = nil,
         startDate: String? = nil,
         endDate: String? = nil,
         limit: Int? = nil,
@@ -1542,6 +1741,7 @@ open class AnalyticsClient {
             index: index,
             search: search,
             clickAnalytics: clickAnalytics,
+            revenueAnalytics: revenueAnalytics,
             startDate: startDate,
             endDate: endDate,
             limit: limit,
@@ -1557,17 +1757,19 @@ open class AnalyticsClient {
         return body
     }
 
-    // Return the most popular clicked results in the last 1,000 searches.
+    // Retrieves the object IDs of the most frequent search results.
     // Required API Key ACLs:
     //  - analytics
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter search: (query) User query. (optional)
+    // - parameter search: (query) Search query. (optional)
     //
-    // - parameter clickAnalytics: (query) Whether to include [click and
-    // conversion](https://www.algolia.com/doc/guides/sending-events/getting-started/) rates for a search. (optional,
-    // default to false)
+    // - parameter clickAnalytics: (query) Whether to include metrics related to click and conversion events in the
+    // response. (optional, default to false)
+    //
+    // - parameter revenueAnalytics: (query) Whether to include revenue-related metrics in the response.  If true,
+    // metrics related to click and conversion events are also included in the response.  (optional, default to false)
     //
     // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
@@ -1577,17 +1779,16 @@ open class AnalyticsClient {
     //
     // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
-    // - parameter tags: (query) Filter analytics on the
-    // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    // search
-    // time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or
-    // parentheses, it must be URL-encoded. (optional)
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetTopHitsResponse>
 
     open func getTopHitsWithHTTPInfo(
         index: String,
         search: String? = nil,
         clickAnalytics: Bool? = nil,
+        revenueAnalytics: Bool? = nil,
         startDate: String? = nil,
         endDate: String? = nil,
         limit: Int? = nil,
@@ -1605,6 +1806,7 @@ open class AnalyticsClient {
             "index": index.encodeToJSON(),
             "search": search?.encodeToJSON(),
             "clickAnalytics": clickAnalytics?.encodeToJSON(),
+            "revenueAnalytics": revenueAnalytics?.encodeToJSON(),
             "startDate": startDate?.encodeToJSON(),
             "endDate": endDate?.encodeToJSON(),
             "limit": limit?.encodeToJSON(),
@@ -1625,24 +1827,26 @@ open class AnalyticsClient {
     }
 
     /// - parameter index: (query) Index name.
-    /// - parameter clickAnalytics: (query) Whether to include [click and
-    /// conversion](https://www.algolia.com/doc/guides/sending-events/getting-started/) rates for a search. (optional,
-    /// default to false)
+    /// - parameter clickAnalytics: (query) Whether to include metrics related to click and conversion events in the
+    /// response. (optional, default to false)
+    /// - parameter revenueAnalytics: (query) Whether to include revenue-related metrics in the response.  If true,
+    /// metrics related to click and conversion events are also included in the response.  (optional, default to false)
     /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter orderBy: (query) Reorder the results. (optional)
+    /// - parameter orderBy: (query) Attribute by which to order the response items.  If the &#x60;clickAnalytics&#x60;
+    /// parameter is false, only &#x60;searchCount&#x60; is available.  (optional)
     /// - parameter direction: (query) Sorting direction of the results: ascending or descending.  (optional)
     /// - parameter limit: (query) Number of items to return. (optional, default to 10)
     /// - parameter offset: (query) Position of the first item to return. (optional, default to 0)
-    /// - parameter tags: (query) Filter analytics on the
-    /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
-    /// spaces or parentheses, it must be URL-encoded. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetTopSearchesResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getTopSearches(
         index: String,
         clickAnalytics: Bool? = nil,
+        revenueAnalytics: Bool? = nil,
         startDate: String? = nil,
         endDate: String? = nil,
         orderBy: OrderBy? = nil,
@@ -1655,6 +1859,7 @@ open class AnalyticsClient {
         let response: Response<GetTopSearchesResponse> = try await getTopSearchesWithHTTPInfo(
             index: index,
             clickAnalytics: clickAnalytics,
+            revenueAnalytics: revenueAnalytics,
             startDate: startDate,
             endDate: endDate,
             orderBy: orderBy,
@@ -1672,21 +1877,24 @@ open class AnalyticsClient {
         return body
     }
 
-    // Returns the most popular of the latest 1,000 searches. For each search, also returns the number of hits.
+    // Returns the most popular search terms.
     // Required API Key ACLs:
     //  - analytics
     //
     // - parameter index: (query) Index name.
     //
-    // - parameter clickAnalytics: (query) Whether to include [click and
-    // conversion](https://www.algolia.com/doc/guides/sending-events/getting-started/) rates for a search. (optional,
-    // default to false)
+    // - parameter clickAnalytics: (query) Whether to include metrics related to click and conversion events in the
+    // response. (optional, default to false)
+    //
+    // - parameter revenueAnalytics: (query) Whether to include revenue-related metrics in the response.  If true,
+    // metrics related to click and conversion events are also included in the response.  (optional, default to false)
     //
     // - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
     // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter orderBy: (query) Reorder the results. (optional)
+    // - parameter orderBy: (query) Attribute by which to order the response items.  If the &#x60;clickAnalytics&#x60;
+    // parameter is false, only &#x60;searchCount&#x60; is available.  (optional)
     //
     // - parameter direction: (query) Sorting direction of the results: ascending or descending.  (optional)
     //
@@ -1694,16 +1902,15 @@ open class AnalyticsClient {
     //
     // - parameter offset: (query) Position of the first item to return. (optional, default to 0)
     //
-    // - parameter tags: (query) Filter analytics on the
-    // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    // search
-    // time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or
-    // parentheses, it must be URL-encoded. (optional)
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetTopSearchesResponse>
 
     open func getTopSearchesWithHTTPInfo(
         index: String,
         clickAnalytics: Bool? = nil,
+        revenueAnalytics: Bool? = nil,
         startDate: String? = nil,
         endDate: String? = nil,
         orderBy: OrderBy? = nil,
@@ -1722,6 +1929,7 @@ open class AnalyticsClient {
         let queryParameters: [String: Any?] = [
             "index": index.encodeToJSON(),
             "clickAnalytics": clickAnalytics?.encodeToJSON(),
+            "revenueAnalytics": revenueAnalytics?.encodeToJSON(),
             "startDate": startDate?.encodeToJSON(),
             "endDate": endDate?.encodeToJSON(),
             "orderBy": orderBy?.encodeToJSON(),
@@ -1746,10 +1954,9 @@ open class AnalyticsClient {
     /// - parameter index: (query) Index name.
     /// - parameter startDate: (query) Start date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     /// - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
-    /// - parameter tags: (query) Filter analytics on the
-    /// [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    /// search time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like
-    /// spaces or parentheses, it must be URL-encoded. (optional)
+    /// - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    /// &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    /// data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     /// - returns: GetUsersCountResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func getUsersCount(
@@ -1774,7 +1981,11 @@ open class AnalyticsClient {
         return body
     }
 
-    // Return the count of unique users.
+    // Retrieves the number of unique users within a time range, including a daily breakdown.  Since this endpoint
+    // returns the number of unique users, the sum of the daily values might be different from the total number.  By
+    // default, Algolia distinguishes search users by their IP address, _unless_ you include a pseudonymous user
+    // identifier in your search requests with the `userToken` API parameter or `x-algolia-usertoken` request header. By
+    // default, the analyzed period includes the last eight days including the current day.
     // Required API Key ACLs:
     //  - analytics
     //
@@ -1784,11 +1995,9 @@ open class AnalyticsClient {
     //
     // - parameter endDate: (query) End date (&#x60;YYYY-MM-DD&#x60;) of the period to analyze. (optional)
     //
-    // - parameter tags: (query) Filter analytics on the
-    // [&#x60;analyticsTags&#x60;](https://www.algolia.com/doc/api-reference/api-parameters/analyticsTags/) set at
-    // search
-    // time. Multiple tags can be combined with the operators OR and AND. If a tag contains characters like spaces or
-    // parentheses, it must be URL-encoded. (optional)
+    // - parameter tags: (query) Tags by which to segment the analytics.  You can combine multiple tags with
+    // &#x60;OR&#x60; and &#x60;AND&#x60;. Tags must be URL-encoded. For more information, see [Segment your analytics
+    // data](https://www.algolia.com/doc/guides/search-analytics/guides/segments/).  (optional)
     // - returns: RequestBuilder<GetUsersCountResponse>
 
     open func getUsersCountWithHTTPInfo(

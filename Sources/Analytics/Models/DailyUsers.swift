@@ -6,32 +6,27 @@ import Foundation
     import Core
 #endif
 
-public struct SearchNoResultEvent: Codable, JSONEncodable, Hashable {
-    /// User query.
-    public var search: String
-    /// Number of occurrences.
+public struct DailyUsers: Codable, JSONEncodable, Hashable {
+    /// Date in the format YYYY-MM-DD.
+    public var date: String
+    /// Number of unique users.
     public var count: Int
-    /// Number of results (hits).
-    public var nbHits: Int
 
-    public init(search: String, count: Int, nbHits: Int) {
-        self.search = search
+    public init(date: String, count: Int) {
+        self.date = date
         self.count = count
-        self.nbHits = nbHits
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case search
+        case date
         case count
-        case nbHits
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.search, forKey: .search)
+        try container.encode(self.date, forKey: .date)
         try container.encode(self.count, forKey: .count)
-        try container.encode(self.nbHits, forKey: .nbHits)
     }
 }

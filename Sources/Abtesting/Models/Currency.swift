@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct CurrenciesValue: Codable, JSONEncodable, Hashable {
+public struct Currency: Codable, JSONEncodable, Hashable {
     /// Currency code.
     public var currency: String?
     /// Revenue for this currency.

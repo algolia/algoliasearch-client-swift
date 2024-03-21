@@ -9,12 +9,11 @@ import Foundation
 public struct GetTopFiltersNoResultsValue: Codable, JSONEncodable, Hashable {
     /// Attribute name.
     public var attribute: String
-    /// Operator.
-    public var `operator`: String
+    public var `operator`: Operator
     /// Attribute value.
     public var value: String
 
-    public init(attribute: String, `operator`: String, value: String) {
+    public init(attribute: String, `operator`: Operator, value: String) {
         self.attribute = attribute
         self.`operator` = `operator`
         self.value = value

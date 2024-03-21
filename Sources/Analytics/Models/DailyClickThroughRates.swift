@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct ClickThroughRateEvent: Codable, JSONEncodable, Hashable {
+public struct DailyClickThroughRates: Codable, JSONEncodable, Hashable {
     static let rateRule = NumericRule<Double>(
         minimum: 0,
         exclusiveMinimum: false,
@@ -14,18 +14,24 @@ public struct ClickThroughRateEvent: Codable, JSONEncodable, Hashable {
         exclusiveMaximum: false,
         multipleOf: nil
     )
-    /// [Click-through rate
-    /// (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
-    public var rate: Double
-    /// Number of click events.
+    static let clickCountRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// Click-through rate, calculated as number of tracked searches with at least one click event divided by the number
+    /// of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to true.
+    public var rate: Double?
+    /// Number of clicks associated with this search.
     public var clickCount: Int
-    /// Number of tracked searches. This is the number of search requests where the `clickAnalytics` parameter is
-    /// `true`.
-    public var trackedSearchCount: Int?
-    /// Date of the event in the format YYYY-MM-DD.
+    /// Number of tracked searches. Tracked searches are search requests where the `clickAnalytics` parameter is true.
+    public var trackedSearchCount: Int
+    /// Date in the format YYYY-MM-DD.
     public var date: String
 
-    public init(rate: Double, clickCount: Int, trackedSearchCount: Int?, date: String) {
+    public init(rate: Double?, clickCount: Int, trackedSearchCount: Int, date: String) {
         self.rate = rate
         self.clickCount = clickCount
         self.trackedSearchCount = trackedSearchCount

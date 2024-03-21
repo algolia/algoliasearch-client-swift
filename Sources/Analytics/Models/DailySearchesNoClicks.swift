@@ -6,10 +6,17 @@ import Foundation
     import Core
 #endif
 
-public struct TopSearch: Codable, JSONEncodable, Hashable {
+public struct DailySearchesNoClicks: Codable, JSONEncodable, Hashable {
+    static let countRule = NumericRule<Int>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
     /// Search query.
     public var search: String
-    /// Number of searches.
+    /// Number of tracked searches.
     public var count: Int
     /// Number of results (hits).
     public var nbHits: Int

@@ -26,7 +26,7 @@ public struct Variant: Codable, JSONEncodable, Hashable {
     /// rate](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#conversion-rate).
     public var conversionRate: Double?
     /// A/B test currencies.
-    public var currencies: [String: CurrenciesValue]?
+    public var currencies: [String: Currency]?
     /// A/B test description.
     public var description: String
     /// The estimated number of searches that will need to be run to achieve the desired confidence level and
@@ -45,8 +45,7 @@ public struct Variant: Codable, JSONEncodable, Hashable {
     public var purchaseRate: Double?
     /// Number of searches carried out during the A/B test.
     public var searchCount: Int?
-    /// Number of tracked searches. This is the number of search requests where the `clickAnalytics` parameter is
-    /// `true`.
+    /// Number of tracked searches. Tracked searches are search requests where the `clickAnalytics` parameter is true.
     public var trackedSearchCount: Int?
     /// A/B test traffic percentage.
     public var trafficPercentage: Int
@@ -63,7 +62,7 @@ public struct Variant: Codable, JSONEncodable, Hashable {
         clickThroughRate: Double?,
         conversionCount: Int,
         conversionRate: Double?,
-        currencies: [String: CurrenciesValue]? = nil,
+        currencies: [String: Currency]? = nil,
         description: String,
         estimatedSampleSize: Int? = nil,
         filterEffects: FilterEffects? = nil,
@@ -72,7 +71,7 @@ public struct Variant: Codable, JSONEncodable, Hashable {
         purchaseCount: Int,
         purchaseRate: Double?,
         searchCount: Int?,
-        trackedSearchCount: Int?,
+        trackedSearchCount: Int? = nil,
         trafficPercentage: Int,
         userCount: Int?,
         trackedUserCount: Int?
@@ -142,7 +141,7 @@ public struct Variant: Codable, JSONEncodable, Hashable {
         try container.encode(self.purchaseCount, forKey: .purchaseCount)
         try container.encode(self.purchaseRate, forKey: .purchaseRate)
         try container.encode(self.searchCount, forKey: .searchCount)
-        try container.encode(self.trackedSearchCount, forKey: .trackedSearchCount)
+        try container.encodeIfPresent(self.trackedSearchCount, forKey: .trackedSearchCount)
         try container.encode(self.trafficPercentage, forKey: .trafficPercentage)
         try container.encode(self.userCount, forKey: .userCount)
         try container.encode(self.trackedUserCount, forKey: .trackedUserCount)

@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct TopSearchesResponseWithAnalytics: Codable, JSONEncodable, Hashable {
-    /// Top searches with their hits count and analytics.
+    /// Most popular searches and their associated click and conversion metrics.
     public var searches: [TopSearchWithAnalytics]
 
     public init(searches: [TopSearchWithAnalytics]) {

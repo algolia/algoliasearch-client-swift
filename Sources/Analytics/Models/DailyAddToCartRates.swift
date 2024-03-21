@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetClickThroughRateResponse: Codable, JSONEncodable, Hashable {
+public struct DailyAddToCartRates: Codable, JSONEncodable, Hashable {
     static let rateRule = NumericRule<Double>(
         minimum: 0,
         exclusiveMinimum: false,
@@ -14,35 +14,36 @@ public struct GetClickThroughRateResponse: Codable, JSONEncodable, Hashable {
         exclusiveMaximum: false,
         multipleOf: nil
     )
-    static let clickCountRule = NumericRule<Int>(
+    static let addToCartCountRule = NumericRule<Int>(
         minimum: 0,
         exclusiveMinimum: false,
         maximum: nil,
         exclusiveMaximum: false,
         multipleOf: nil
     )
-    /// Click-through rate, calculated as number of tracked searches with at least one click event divided by the number
-    /// of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to true.
+    /// Add-to-cart rate, calculated as number of tracked searches with at least one add-to-cart event divided by the
+    /// number of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to
+    /// true.
     public var rate: Double?
-    /// Number of clicks associated with this search.
-    public var clickCount: Int
     /// Number of tracked searches. Tracked searches are search requests where the `clickAnalytics` parameter is true.
     public var trackedSearchCount: Int
-    /// Daily click-through rates.
-    public var dates: [DailyClickThroughRates]
+    /// Number of add-to-cart events from this search.
+    public var addToCartCount: Int
+    /// Date in the format YYYY-MM-DD.
+    public var date: String
 
-    public init(rate: Double?, clickCount: Int, trackedSearchCount: Int, dates: [DailyClickThroughRates]) {
+    public init(rate: Double?, trackedSearchCount: Int, addToCartCount: Int, date: String) {
         self.rate = rate
-        self.clickCount = clickCount
         self.trackedSearchCount = trackedSearchCount
-        self.dates = dates
+        self.addToCartCount = addToCartCount
+        self.date = date
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case rate
-        case clickCount
         case trackedSearchCount
-        case dates
+        case addToCartCount
+        case date
     }
 
     // Encodable protocol methods
@@ -50,8 +51,8 @@ public struct GetClickThroughRateResponse: Codable, JSONEncodable, Hashable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.rate, forKey: .rate)
-        try container.encode(self.clickCount, forKey: .clickCount)
         try container.encode(self.trackedSearchCount, forKey: .trackedSearchCount)
-        try container.encode(self.dates, forKey: .dates)
+        try container.encode(self.addToCartCount, forKey: .addToCartCount)
+        try container.encode(self.date, forKey: .date)
     }
 }

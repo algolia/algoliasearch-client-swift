@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct TopHitsResponse: Codable, JSONEncodable, Hashable {
-    /// Top hits.
+    /// Most frequent search results.
     public var hits: [TopHit]
 
     public init(hits: [TopHit]) {

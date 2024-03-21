@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 public struct GetTopFilterAttributesResponse: Codable, JSONEncodable, Hashable {
-    /// Filterable attributes.
+    /// Most frequent filters.
     public var attributes: [GetTopFilterAttribute]
 
     public init(attributes: [GetTopFilterAttribute]) {

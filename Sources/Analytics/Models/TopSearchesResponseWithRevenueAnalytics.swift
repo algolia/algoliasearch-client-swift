@@ -6,27 +6,22 @@ import Foundation
     import Core
 #endif
 
-public struct TopCountry: Codable, JSONEncodable, Hashable {
-    /// Country code.
-    public var country: String
-    /// Number of occurrences.
-    public var count: Int
+public struct TopSearchesResponseWithRevenueAnalytics: Codable, JSONEncodable, Hashable {
+    /// Most popular searches, including their click and revenue metrics.
+    public var searches: [TopSearchWithRevenueAnalytics]
 
-    public init(country: String, count: Int) {
-        self.country = country
-        self.count = count
+    public init(searches: [TopSearchWithRevenueAnalytics]) {
+        self.searches = searches
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case country
-        case count
+        case searches
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.country, forKey: .country)
-        try container.encode(self.count, forKey: .count)
+        try container.encode(self.searches, forKey: .searches)
     }
 }

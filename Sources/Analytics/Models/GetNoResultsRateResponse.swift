@@ -14,17 +14,16 @@ public struct GetNoResultsRateResponse: Codable, JSONEncodable, Hashable {
         exclusiveMaximum: false,
         multipleOf: nil
     )
-    /// [Click-through rate
-    /// (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
+    /// No results rate, calculated as number of searches with zero results divided by the total number of searches.
     public var rate: Double
-    /// Number of occurrences.
+    /// Number of searches.
     public var count: Int
-    /// Number of occurrences.
+    /// Number of searches without any results.
     public var noResultCount: Int
-    /// Overall count of searches without results plus a daily breakdown.
-    public var dates: [NoResultsRateEvent]
+    /// Daily no results rates.
+    public var dates: [DailyNoResultsRates]
 
-    public init(rate: Double, count: Int, noResultCount: Int, dates: [NoResultsRateEvent]) {
+    public init(rate: Double, count: Int, noResultCount: Int, dates: [DailyNoResultsRates]) {
         self.rate = rate
         self.count = count
         self.noResultCount = noResultCount

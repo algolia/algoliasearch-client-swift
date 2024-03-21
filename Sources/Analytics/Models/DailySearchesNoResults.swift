@@ -6,12 +6,19 @@ import Foundation
     import Core
 #endif
 
-public struct SearchNoClickEvent: Codable, JSONEncodable, Hashable {
-    /// User query.
+public struct DailySearchesNoResults: Codable, JSONEncodable, Hashable {
+    static let withFilterCountRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// Search query.
     public var search: String
     /// Number of occurrences.
     public var count: Int
-    /// Number of occurrences.
+    /// Number of searches for this term with applied filters.
     public var withFilterCount: Int
 
     public init(search: String, count: Int, withFilterCount: Int) {

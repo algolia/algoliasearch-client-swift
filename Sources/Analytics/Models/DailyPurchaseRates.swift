@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct ConversionRateEvent: Codable, JSONEncodable, Hashable {
+public struct DailyPurchaseRates: Codable, JSONEncodable, Hashable {
     static let rateRule = NumericRule<Double>(
         minimum: 0,
         exclusiveMinimum: false,
@@ -14,28 +14,27 @@ public struct ConversionRateEvent: Codable, JSONEncodable, Hashable {
         exclusiveMaximum: false,
         multipleOf: nil
     )
-    /// [Click-through rate
-    /// (CTR)](https://www.algolia.com/doc/guides/search-analytics/concepts/metrics/#click-through-rate).
-    public var rate: Double
-    /// Number of tracked searches. This is the number of search requests where the `clickAnalytics` parameter is
-    /// `true`.
-    public var trackedSearchCount: Int?
-    /// Number of converted clicks.
-    public var conversionCount: Int
-    /// Date of the event in the format YYYY-MM-DD.
+    /// Purchase rate, calculated as number of tracked searches with at least one purchase event divided by the number
+    /// of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to true.
+    public var rate: Double?
+    /// Number of tracked searches. Tracked searches are search requests where the `clickAnalytics` parameter is true.
+    public var trackedSearchCount: Int
+    /// Number of purchase events from this search.
+    public var purchaseCount: Int
+    /// Date in the format YYYY-MM-DD.
     public var date: String
 
-    public init(rate: Double, trackedSearchCount: Int?, conversionCount: Int, date: String) {
+    public init(rate: Double?, trackedSearchCount: Int, purchaseCount: Int, date: String) {
         self.rate = rate
         self.trackedSearchCount = trackedSearchCount
-        self.conversionCount = conversionCount
+        self.purchaseCount = purchaseCount
         self.date = date
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
         case rate
         case trackedSearchCount
-        case conversionCount
+        case purchaseCount
         case date
     }
 
@@ -45,7 +44,7 @@ public struct ConversionRateEvent: Codable, JSONEncodable, Hashable {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.rate, forKey: .rate)
         try container.encode(self.trackedSearchCount, forKey: .trackedSearchCount)
-        try container.encode(self.conversionCount, forKey: .conversionCount)
+        try container.encode(self.purchaseCount, forKey: .purchaseCount)
         try container.encode(self.date, forKey: .date)
     }
 }

@@ -6,19 +6,19 @@ import Foundation
     import Core
 #endif
 
-public struct GetUsersCountResponse: Codable, JSONEncodable, Hashable {
-    /// Number of unique users.
-    public var count: Int
-    /// Daily number of unique users.
-    public var dates: [DailyUsers]
+public struct GetRevenue: Codable, JSONEncodable, Hashable {
+    /// Revenue associated with this search, broken-down by currencies.
+    public var currencies: [String: CurrenciesValue]
+    /// Daily revenue.
+    public var dates: [DailyRevenue]
 
-    public init(count: Int, dates: [DailyUsers]) {
-        self.count = count
+    public init(currencies: [String: CurrenciesValue], dates: [DailyRevenue]) {
+        self.currencies = currencies
         self.dates = dates
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case count
+        case currencies
         case dates
     }
 
@@ -26,7 +26,7 @@ public struct GetUsersCountResponse: Codable, JSONEncodable, Hashable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.count, forKey: .count)
+        try container.encode(self.currencies, forKey: .currencies)
         try container.encode(self.dates, forKey: .dates)
     }
 }

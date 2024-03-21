@@ -6,15 +6,30 @@ import Foundation
     import Core
 #endif
 
-public struct AverageClickEvent: Codable, JSONEncodable, Hashable {
-    /// Average count of all click events.
-    public var average: Double
-    /// Number of click events.
+public struct DailyAverageClicks: Codable, JSONEncodable, Hashable {
+    static let averageRule = NumericRule<Double>(
+        minimum: 1,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    static let clickCountRule = NumericRule<Int>(
+        minimum: 0,
+        exclusiveMinimum: false,
+        maximum: nil,
+        exclusiveMaximum: false,
+        multipleOf: nil
+    )
+    /// Average position of a clicked search result in the list of search results. If null, Algolia didn't receive any
+    /// search requests with `clickAnalytics` set to true.
+    public var average: Double?
+    /// Number of clicks associated with this search.
     public var clickCount: Int
-    /// Date of the event in the format YYYY-MM-DD.
+    /// Date in the format YYYY-MM-DD.
     public var date: String
 
-    public init(average: Double, clickCount: Int, date: String) {
+    public init(average: Double?, clickCount: Int, date: String) {
         self.average = average
         self.clickCount = clickCount
         self.date = date
