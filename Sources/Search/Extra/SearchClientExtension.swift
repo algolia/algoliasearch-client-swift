@@ -190,15 +190,15 @@ public extension SearchClient {
     /// - parameter requestOptions: The request options
     /// - returns: BrowseResponse
     @discardableResult
-    func browseObjects(
+    func browseObjects<T: Codable>(
         in indexName: String,
         browseParams: BrowseParamsObject,
-        validate: (BrowseResponse) -> Bool = { response in
+        validate: (BrowseResponse<T>) -> Bool = { response in
             response.cursor == nil
         },
-        aggregator: @escaping (BrowseResponse) -> Void,
+        aggregator: @escaping (BrowseResponse<T>) -> Void,
         requestOptions: RequestOptions? = nil
-    ) async throws -> BrowseResponse {
+    ) async throws -> BrowseResponse<T> {
         try await createIterable(
             execute: { previousResponse in
                 var updatedBrowseParams = browseParams
@@ -304,22 +304,47 @@ public extension SearchClient {
     }
 
     /// Helper: calls the `search` method but with certainty that we will only request Algolia records (hits) and not
-    /// facets.
+    /// facets. In the responses, the `hits` property is list of records casted as the provided generic type parameter. You can use `Hit` as a default.
     /// Disclaimer: We don't assert that the parameters you pass to this method only contains `hits` requests to prevent
     /// impacting search performances, this helper is purely for typing purposes.
-    func searchForHits(
+    func searchForHitsWithResponse<T: Codable>(
         searchMethodParams: SearchMethodParams,
         requestOptions: RequestOptions? = nil
-    ) async throws -> [SearchResponse] {
-        try await self.search(searchMethodParams: searchMethodParams, requestOptions: requestOptions).results
-            .reduce(into: [SearchResponse]()) { acc, cur in
-                switch cur {
-                case let .searchResponse(searchResponse):
-                    acc.append(searchResponse)
-                case .searchForFacetValuesResponse:
-                    break
-                }
+    ) async throws -> [SearchResponse<T>] {
+        let searchResponses: SearchResponses<T> = try await self.search(
+            searchMethodParams: searchMethodParams,
+            requestOptions: requestOptions
+        )
+        return searchResponses.results.reduce(into: [SearchResponse<T>]()) { acc, cur in
+            switch cur {
+            case let .searchResponse(searchResponse):
+                acc.append(searchResponse)
+            case .searchForFacetValuesResponse:
+                break
             }
+        }
+    }
+
+    /// Helper: calls the `search` method but with certainty that we will only request Algolia records (hits) and not
+    /// facets. It returns the records casted as the provided generic type parameter. You can use `Hit` as a default.
+    /// Disclaimer: We don't assert that the parameters you pass to this method only contains `hits` requests to prevent
+    /// impacting search performances, this helper is purely for typing purposes.
+    func searchForHits<T: Codable>(
+        searchMethodParams: SearchMethodParams,
+        requestOptions: RequestOptions? = nil
+    ) async throws -> [T] {
+        let searchResponses: SearchResponses<T> = try await self.search(
+            searchMethodParams: searchMethodParams,
+            requestOptions: requestOptions
+        )
+        return searchResponses.results.reduce(into: [T]()) { acc, cur in
+            switch cur {
+            case let .searchResponse(searchResponse):
+                acc.append(contentsOf: searchResponse.hits)
+            case .searchForFacetValuesResponse:
+                break
+            }
+        }
     }
 
     /// Helper: calls the `search` method but with certainty that we will only request Algolia facets and not records
@@ -330,15 +355,18 @@ public extension SearchClient {
         searchMethodParams: SearchMethodParams,
         requestOptions: RequestOptions? = nil
     ) async throws -> [SearchForFacetValuesResponse] {
-        try await self.search(searchMethodParams: searchMethodParams, requestOptions: requestOptions).results
-            .reduce(into: [SearchForFacetValuesResponse]()) { acc, cur in
-                switch cur {
-                case .searchResponse:
-                    break
-                case let .searchForFacetValuesResponse(searchForFacet):
-                    acc.append(searchForFacet)
-                }
+        let searchResponses: SearchResponses<Hit> = try await self.search(
+            searchMethodParams: searchMethodParams,
+            requestOptions: requestOptions
+        )
+        return searchResponses.results.reduce(into: [SearchForFacetValuesResponse]()) { acc, cur in
+            switch cur {
+            case .searchResponse:
+                break
+            case let .searchForFacetValuesResponse(searchForFacet):
+                acc.append(searchForFacet)
             }
+        }
     }
 
     /// Chunks the given `objects` list in subset of `batchSize` elements max in order to make it fit in `batch`
