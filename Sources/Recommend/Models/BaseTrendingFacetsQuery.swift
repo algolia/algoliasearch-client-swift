@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct BaseTrendingFacetsQuery: Codable, JSONEncodable, Hashable {
+public struct BaseTrendingFacetsQuery: Codable, JSONEncodable {
     /// Facet name for trending models.
     public var facetName: String
     public var model: TrendingFacetsModel?

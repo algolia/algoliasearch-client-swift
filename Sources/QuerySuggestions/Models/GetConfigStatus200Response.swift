@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetConfigStatus200Response: Codable, JSONEncodable, Hashable {
+public struct GetConfigStatus200Response: Codable, JSONEncodable {
     /// Query Suggestions index name.
     public var indexName: String?
     /// Indicates whether the creation or update of the Query Suggestions is in progress.

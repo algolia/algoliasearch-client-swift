@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Dictionary language.
-public struct SearchLanguages: Codable, JSONEncodable, Hashable {
+public struct SearchLanguages: Codable, JSONEncodable {
     public var plurals: DictionaryLanguage?
     public var stopwords: DictionaryLanguage?
     public var compounds: DictionaryLanguage?

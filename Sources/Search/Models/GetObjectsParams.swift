@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Request parameters.
-public struct GetObjectsParams: Codable, JSONEncodable, Hashable {
+public struct GetObjectsParams: Codable, JSONEncodable {
     public var requests: [GetObjectsRequest]
 
     public init(requests: [GetObjectsRequest]) {

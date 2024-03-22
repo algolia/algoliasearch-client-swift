@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct UpdatedRuleResponse: Codable, JSONEncodable, Hashable {
+public struct UpdatedRuleResponse: Codable, JSONEncodable {
     /// Unique identifier of a rule object.
     public var objectID: String
     /// Timestamp of the last update in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.

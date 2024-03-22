@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct TimeInner: Codable, JSONEncodable, Hashable {
+public struct TimeInner: Codable, JSONEncodable {
     /// Timestamp in [Unix epoch time](https://wikipedia.org/wiki/Unix_time) in milliseconds.
     public var t: Int64?
     /// Time in ms.

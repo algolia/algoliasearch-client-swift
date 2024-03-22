@@ -6,33 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SearchBaseSearchResponse: Codable, JSONEncodable, Hashable {
-    static let abTestVariantIDRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let aroundLatLngRule = StringRule(
-        minLength: nil,
-        maxLength: nil,
-        pattern: "^(-?\\d+(\\.\\d+)?),\\s*(-?\\d+(\\.\\d+)?)$"
-    )
-    static let hitsPerPageRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let pageRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct SearchBaseSearchResponse: Codable, JSONEncodable {
     /// A/B test ID. This is only included in the response for indices that are part of an A/B test.
     public var abTestID: Int?
     /// Variant ID. This is only included in the response for indices that are part of an A/B test.

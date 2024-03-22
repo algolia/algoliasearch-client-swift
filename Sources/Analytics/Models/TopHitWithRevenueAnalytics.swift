@@ -6,56 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct TopHitWithRevenueAnalytics: Codable, JSONEncodable, Hashable {
-    static let clickThroughRateRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 1,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let conversionRateRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 1,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let clickCountRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let conversionCountRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let addToCartRateRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 1,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let addToCartCountRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let purchaseRateRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 1,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct TopHitWithRevenueAnalytics: Codable, JSONEncodable {
     /// Object ID of a record that's returned as a search result.
     public var hit: String
     /// Number of occurrences.

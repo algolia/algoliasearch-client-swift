@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct IncidentsResponse: Codable, JSONEncodable, Hashable {
+public struct IncidentsResponse: Codable, JSONEncodable {
     public var incidents: [String: [IncidentsInner]]?
 
     public init(incidents: [String: [IncidentsInner]]? = nil) {

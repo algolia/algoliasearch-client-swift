@@ -7,8 +7,7 @@ import Foundation
 #endif
 
 /// Unique user ID.
-public struct UserId: Codable, JSONEncodable, Hashable {
-    static let userIDRule = StringRule(minLength: nil, maxLength: nil, pattern: "^[a-zA-Z0-9 \\-*.]+$")
+public struct UserId: Codable, JSONEncodable {
     /// User ID.
     public var userID: String
     /// Cluster to which the user is assigned.

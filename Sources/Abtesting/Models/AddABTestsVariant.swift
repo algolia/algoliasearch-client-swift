@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public enum AddABTestsVariant: Codable, JSONEncodable, AbstractEncodable, Hashable {
+public enum AddABTestsVariant: Codable, JSONEncodable, AbstractEncodable {
     case abTestsVariant(AbTestsVariant)
     case abTestsVariantSearchParams(AbTestsVariantSearchParams)
 

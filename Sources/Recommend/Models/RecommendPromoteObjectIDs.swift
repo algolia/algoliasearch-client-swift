@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Records to promote.
-public struct RecommendPromoteObjectIDs: Codable, JSONEncodable, Hashable {
+public struct RecommendPromoteObjectIDs: Codable, JSONEncodable {
     /// Object IDs of the records you want to promote.  The records are placed as a group at the `position`. For
     /// example, if you want to promote four records to position `0`, they will be the first four search results.
     public var objectIDs: [String]

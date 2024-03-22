@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SearchMethodParams: Codable, JSONEncodable, Hashable {
+public struct SearchMethodParams: Codable, JSONEncodable {
     public var requests: [SearchQuery]
     public var strategy: SearchStrategy?
 

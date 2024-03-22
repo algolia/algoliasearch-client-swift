@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// User ID data.
-public struct ListUserIdsResponse: Codable, JSONEncodable, Hashable {
+public struct ListUserIdsResponse: Codable, JSONEncodable {
     /// User IDs.
     public var userIDs: [UserId]
 

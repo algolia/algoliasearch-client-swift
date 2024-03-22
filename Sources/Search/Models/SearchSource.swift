@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Source.
-public struct SearchSource: Codable, JSONEncodable, Hashable {
+public struct SearchSource: Codable, JSONEncodable {
     /// IP address range of the source.
     public var source: String
     /// Source description.

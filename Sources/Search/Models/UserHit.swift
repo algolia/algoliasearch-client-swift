@@ -6,8 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct UserHit: Codable, JSONEncodable, Hashable {
-    static let userIDRule = StringRule(minLength: nil, maxLength: nil, pattern: "^[a-zA-Z0-9 \\-*.]+$")
+public struct UserHit: Codable, JSONEncodable {
     /// User ID.
     public var userID: String
     /// Cluster name.

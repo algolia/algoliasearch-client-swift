@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// A/B test filter effects resulting from configuration settings.
-public struct FilterEffects: Codable, JSONEncodable, Hashable {
+public struct FilterEffects: Codable, JSONEncodable {
     public var outliers: FilterEffectsOutliers?
     public var emptySearch: FilterEffectsEmptySearch?
 

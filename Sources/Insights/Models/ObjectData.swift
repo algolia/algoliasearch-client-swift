@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct ObjectData: Codable, JSONEncodable, Hashable {
+public struct ObjectData: Codable, JSONEncodable {
     public var price: Price?
     /// Quantity of a product that has been purchased or added to the cart. The total purchase value is the sum of
     /// `quantity` multiplied with the `price` for each purchased item.

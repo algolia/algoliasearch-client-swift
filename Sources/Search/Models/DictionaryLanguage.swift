@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Dictionary type. If &#x60;null&#x60;, this dictionary type isn&#39;t supported for the language.
-public struct DictionaryLanguage: Codable, JSONEncodable, Hashable {
+public struct DictionaryLanguage: Codable, JSONEncodable {
     /// Number of custom dictionary entries.
     public var nbCustomEntries: Int?
 

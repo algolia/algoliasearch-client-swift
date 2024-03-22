@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Record to promote.
-public struct RecommendPromoteObjectID: Codable, JSONEncodable, Hashable {
+public struct RecommendPromoteObjectID: Codable, JSONEncodable {
     /// Unique record identifier.
     public var objectID: String
     /// Position in the search results where you want to show the promoted records.

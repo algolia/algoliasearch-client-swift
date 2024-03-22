@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct MultipleBatchResponse: Codable, JSONEncodable, Hashable {
+public struct MultipleBatchResponse: Codable, JSONEncodable {
     /// Task IDs. One for each index.
     public var taskID: [String: Int64]
     /// Unique record identifiers.

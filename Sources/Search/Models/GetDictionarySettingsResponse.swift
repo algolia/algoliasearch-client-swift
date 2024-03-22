@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetDictionarySettingsResponse: Codable, JSONEncodable, Hashable {
+public struct GetDictionarySettingsResponse: Codable, JSONEncodable {
     public var disableStandardEntries: StandardEntries
 
     public init(disableStandardEntries: StandardEntries) {

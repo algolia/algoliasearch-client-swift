@@ -7,14 +7,7 @@ import Foundation
 #endif
 
 /// The payload for a task update.
-public struct TaskUpdate: Codable, JSONEncodable, Hashable {
-    static let failureThresholdRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct TaskUpdate: Codable, JSONEncodable {
     /// The destination UUID.
     public var destinationID: String?
     public var trigger: TriggerUpdateInput?

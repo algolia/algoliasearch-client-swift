@@ -6,26 +6,26 @@ import Foundation
     import Core
 #endif
 
-public enum RecommendMixedSearchFilters: Codable, JSONEncodable, AbstractEncodable, Hashable {
-    case string(String)
+public enum RecommendMixedSearchFilters: Codable, JSONEncodable, AbstractEncodable {
     case arrayOfString([String])
+    case string(String)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .string(value):
-            try container.encode(value)
         case let .arrayOfString(value):
+            try container.encode(value)
+        case let .string(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(String.self) {
-            self = .string(value)
-        } else if let value = try? container.decode([String].self) {
+        if let value = try? container.decode([String].self) {
             self = .arrayOfString(value)
+        } else if let value = try? container.decode(String.self) {
+            self = .string(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -39,10 +39,10 @@ public enum RecommendMixedSearchFilters: Codable, JSONEncodable, AbstractEncodab
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .string(value):
-            value as String
         case let .arrayOfString(value):
             value as [String]
+        case let .string(value):
+            value as String
         }
     }
 }

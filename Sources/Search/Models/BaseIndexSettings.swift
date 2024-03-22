@@ -6,14 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct BaseIndexSettings: Codable, JSONEncodable, Hashable {
-    static let paginationLimitedToRule = NumericRule<Int>(
-        minimum: nil,
-        exclusiveMinimum: false,
-        maximum: 20000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct BaseIndexSettings: Codable, JSONEncodable {
     /// Attributes used for [faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/). 
     /// Facets are ways to categorize search results based on attributes. Facets can be used to let user filter search
     /// results. By default, no attribute is used for faceting.  **Modifiers**  <dl>
@@ -70,7 +63,7 @@ public struct BaseIndexSettings: Codable, JSONEncodable, Hashable {
     /// [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/),
     /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
     /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/).
-    public var indexLanguages: [SupportedLanguage]?
+    public var indexLanguages: [SearchSupportedLanguage]?
     /// Searchable attributes for which you want to turn off [prefix matching](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/#adjusting-prefix-search).
     public var disablePrefixOnAttributes: [String]?
     /// Whether arrays with exclusively non-negative integers should be compressed for better performance. If true, the
@@ -117,7 +110,7 @@ public struct BaseIndexSettings: Codable, JSONEncodable, Hashable {
         attributesToTransliterate: [String]? = nil,
         camelCaseAttributes: [String]? = nil,
         decompoundedAttributes: AnyCodable? = nil,
-        indexLanguages: [SupportedLanguage]? = nil,
+        indexLanguages: [SearchSupportedLanguage]? = nil,
         disablePrefixOnAttributes: [String]? = nil,
         allowCompressionOfIntegerArray: Bool? = nil,
         numericAttributesForFiltering: [String]? = nil,

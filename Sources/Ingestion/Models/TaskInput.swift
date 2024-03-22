@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public enum TaskInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
+public enum TaskInput: Codable, JSONEncodable, AbstractEncodable {
     case onDemandDateUtilsInput(OnDemandDateUtilsInput)
     case scheduleDateUtilsInput(ScheduleDateUtilsInput)
     case streamingUtilsInput(StreamingUtilsInput)

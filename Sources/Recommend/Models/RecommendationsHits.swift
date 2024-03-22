@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct RecommendationsHits: Codable, JSONEncodable, Hashable {
+public struct RecommendationsHits: Codable, JSONEncodable {
     public var hits: [RecommendationsHit]
     /// Search query.
     public var query: String?

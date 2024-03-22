@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct BigCommerceChannel: Codable, JSONEncodable, Hashable {
+public struct BigCommerceChannel: Codable, JSONEncodable {
     /// The ID of the bigcommerce channel.
     public var id: Int
     /// An array of currencies for the given channel `ID`, a currency is a trigram string that represents the currency

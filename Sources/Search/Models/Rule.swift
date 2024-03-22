@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Rule object.
-public struct Rule: Codable, JSONEncodable, Hashable {
+public struct Rule: Codable, JSONEncodable {
     /// Unique identifier of a rule object.
     public var objectID: String
     /// Conditions that trigger a rule.  Some consequences require specific conditions or don't require any condition.

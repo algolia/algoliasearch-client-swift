@@ -8,7 +8,7 @@ import Foundation
 
 /// Key-value pairs of [supported language ISO codes](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/)
 /// and boolean values.
-public struct StandardEntries: Codable, JSONEncodable, Hashable {
+public struct StandardEntries: Codable, JSONEncodable {
     /// Key-value pair of a language ISO code and a boolean value.
     public var plurals: [String: Bool]?
     /// Key-value pair of a language ISO code and a boolean value.

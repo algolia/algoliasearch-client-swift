@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct Cursor: Codable, JSONEncodable, Hashable {
+public struct Cursor: Codable, JSONEncodable {
     /// Cursor to get the next page of the response.  The parameter must match the value returned in the response of a
     /// previous request. The last page of the response does not return a `cursor` attribute.
     public var cursor: String?

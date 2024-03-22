@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Response from the API when the Destination is successfully updated.
-public struct DestinationUpdateResponse: Codable, JSONEncodable, Hashable {
+public struct DestinationUpdateResponse: Codable, JSONEncodable {
     /// The destination UUID.
     public var destinationID: String
     /// An human readable name describing the object.

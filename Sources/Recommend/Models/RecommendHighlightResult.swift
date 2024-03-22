@@ -6,19 +6,19 @@ import Foundation
     import Core
 #endif
 
-public enum RecommendHighlightResult: Codable, JSONEncodable, AbstractEncodable, Hashable {
+public enum RecommendHighlightResult: Codable, JSONEncodable, AbstractEncodable {
     case recommendHighlightResultOption(RecommendHighlightResultOption)
-    case arrayOfRecommendHighlightResultOption([RecommendHighlightResultOption])
     case dictionaryOfStringToRecommendHighlightResultOption([String: RecommendHighlightResultOption])
+    case arrayOfRecommendHighlightResultOption([RecommendHighlightResultOption])
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
         case let .recommendHighlightResultOption(value):
             try container.encode(value)
-        case let .arrayOfRecommendHighlightResultOption(value):
-            try container.encode(value)
         case let .dictionaryOfStringToRecommendHighlightResultOption(value):
+            try container.encode(value)
+        case let .arrayOfRecommendHighlightResultOption(value):
             try container.encode(value)
         }
     }
@@ -27,10 +27,10 @@ public enum RecommendHighlightResult: Codable, JSONEncodable, AbstractEncodable,
         let container = try decoder.singleValueContainer()
         if let value = try? container.decode(RecommendHighlightResultOption.self) {
             self = .recommendHighlightResultOption(value)
-        } else if let value = try? container.decode([RecommendHighlightResultOption].self) {
-            self = .arrayOfRecommendHighlightResultOption(value)
         } else if let value = try? container.decode([String: RecommendHighlightResultOption].self) {
             self = .dictionaryOfStringToRecommendHighlightResultOption(value)
+        } else if let value = try? container.decode([RecommendHighlightResultOption].self) {
+            self = .arrayOfRecommendHighlightResultOption(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -46,10 +46,10 @@ public enum RecommendHighlightResult: Codable, JSONEncodable, AbstractEncodable,
         switch self {
         case let .recommendHighlightResultOption(value):
             value as RecommendHighlightResultOption
-        case let .arrayOfRecommendHighlightResultOption(value):
-            value as [RecommendHighlightResultOption]
         case let .dictionaryOfStringToRecommendHighlightResultOption(value):
             value as [String: RecommendHighlightResultOption]
+        case let .arrayOfRecommendHighlightResultOption(value):
+            value as [RecommendHighlightResultOption]
         }
     }
 }

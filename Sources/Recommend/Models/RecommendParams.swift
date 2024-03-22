@@ -8,7 +8,7 @@ import Foundation
 
 /// Parameters to apply to this search.  You can use all search parameters, plus special
 /// &#x60;automaticFacetFilters&#x60;, &#x60;automaticOptionalFacetFilters&#x60;, and &#x60;query&#x60;.
-public struct RecommendParams: Codable, JSONEncodable, Hashable {
+public struct RecommendParams: Codable, JSONEncodable {
     public var query: RecommendConsequenceQuery?
     public var automaticFacetFilters: RecommendAutomaticFacetFilters?
     public var automaticOptionalFacetFilters: RecommendAutomaticFacetFilters?

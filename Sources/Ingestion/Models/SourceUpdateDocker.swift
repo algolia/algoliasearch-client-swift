@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SourceUpdateDocker: Codable, JSONEncodable, Hashable {
+public struct SourceUpdateDocker: Codable, JSONEncodable {
     public var registry: DockerRegistry?
     /// The name of the image to pull.
     public var image: String?

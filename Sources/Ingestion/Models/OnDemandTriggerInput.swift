@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// The trigger information of a task of type &#x60;onDemand&#x60;.
-public struct OnDemandTriggerInput: Codable, JSONEncodable, Hashable {
+public struct OnDemandTriggerInput: Codable, JSONEncodable {
     public var type: OnDemandTriggerType
 
     public init(type: OnDemandTriggerType) {

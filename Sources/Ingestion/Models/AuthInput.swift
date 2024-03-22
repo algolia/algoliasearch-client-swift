@@ -6,41 +6,41 @@ import Foundation
     import Core
 #endif
 
-public enum AuthInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
-    case authAPIKey(AuthAPIKey)
-    case authAlgolia(AuthAlgolia)
-    case authBasic(AuthBasic)
+public enum AuthInput: Codable, JSONEncodable, AbstractEncodable {
     case authGoogleServiceAccount(AuthGoogleServiceAccount)
+    case authBasic(AuthBasic)
+    case authAPIKey(AuthAPIKey)
     case authOAuth(AuthOAuth)
+    case authAlgolia(AuthAlgolia)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .authAPIKey(value):
-            try container.encode(value)
-        case let .authAlgolia(value):
+        case let .authGoogleServiceAccount(value):
             try container.encode(value)
         case let .authBasic(value):
             try container.encode(value)
-        case let .authGoogleServiceAccount(value):
+        case let .authAPIKey(value):
             try container.encode(value)
         case let .authOAuth(value):
+            try container.encode(value)
+        case let .authAlgolia(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(AuthAPIKey.self) {
-            self = .authAPIKey(value)
-        } else if let value = try? container.decode(AuthAlgolia.self) {
-            self = .authAlgolia(value)
+        if let value = try? container.decode(AuthGoogleServiceAccount.self) {
+            self = .authGoogleServiceAccount(value)
         } else if let value = try? container.decode(AuthBasic.self) {
             self = .authBasic(value)
-        } else if let value = try? container.decode(AuthGoogleServiceAccount.self) {
-            self = .authGoogleServiceAccount(value)
+        } else if let value = try? container.decode(AuthAPIKey.self) {
+            self = .authAPIKey(value)
         } else if let value = try? container.decode(AuthOAuth.self) {
             self = .authOAuth(value)
+        } else if let value = try? container.decode(AuthAlgolia.self) {
+            self = .authAlgolia(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -51,16 +51,16 @@ public enum AuthInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .authAPIKey(value):
-            value as AuthAPIKey
-        case let .authAlgolia(value):
-            value as AuthAlgolia
-        case let .authBasic(value):
-            value as AuthBasic
         case let .authGoogleServiceAccount(value):
             value as AuthGoogleServiceAccount
+        case let .authBasic(value):
+            value as AuthBasic
+        case let .authAPIKey(value):
+            value as AuthAPIKey
         case let .authOAuth(value):
             value as AuthOAuth
+        case let .authAlgolia(value):
+            value as AuthAlgolia
         }
     }
 }

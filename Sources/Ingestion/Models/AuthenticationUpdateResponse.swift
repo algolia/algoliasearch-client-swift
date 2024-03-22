@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Response from the API when the Authentication is successfully updated.
-public struct AuthenticationUpdateResponse: Codable, JSONEncodable, Hashable {
+public struct AuthenticationUpdateResponse: Codable, JSONEncodable {
     /// The authentication UUID.
     public var authenticationID: String
     /// An human readable name describing the object.

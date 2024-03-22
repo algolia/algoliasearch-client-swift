@@ -8,7 +8,7 @@ import Foundation
 
 /// The input for an &#x60;onDemand&#x60; task whose source is of type &#x60;bigquery&#x60; and for which extracted data
 /// spans a given time range.
-public struct OnDemandDateUtilsInput: Codable, JSONEncodable, Hashable {
+public struct OnDemandDateUtilsInput: Codable, JSONEncodable {
     /// The start date of the extraction (RFC3339 format).
     public var startDate: String
     /// The end date of the extraction (RFC3339 format).

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct TopHit: Codable, JSONEncodable, Hashable {
+public struct TopHit: Codable, JSONEncodable {
     /// Object ID of a record that's returned as a search result.
     public var hit: String
     /// Number of occurrences.

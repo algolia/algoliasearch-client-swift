@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Response from the API when the Destination is successfully created.
-public struct DestinationCreateResponse: Codable, JSONEncodable, Hashable {
+public struct DestinationCreateResponse: Codable, JSONEncodable {
     /// The destination UUID.
     public var destinationID: String
     /// An human readable name describing the object.

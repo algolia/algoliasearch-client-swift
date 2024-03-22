@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct OperationIndexParams: Codable, JSONEncodable, Hashable {
+public struct OperationIndexParams: Codable, JSONEncodable {
     public var operation: OperationType
     /// Index name.
     public var destination: String

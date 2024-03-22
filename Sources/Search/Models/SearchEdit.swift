@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SearchEdit: Codable, JSONEncodable, Hashable {
+public struct SearchEdit: Codable, JSONEncodable {
     public var type: SearchEditType?
     /// Text or patterns to remove from the query string.
     public var delete: String?

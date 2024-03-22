@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Incident details.
-public struct Incident: Codable, JSONEncodable, Hashable {
+public struct Incident: Codable, JSONEncodable {
     /// Description of the incident.
     public var title: String?
     public var status: Status?

@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Request body for updating dictionary entries.
-public struct BatchDictionaryEntriesParams: Codable, JSONEncodable, Hashable {
+public struct BatchDictionaryEntriesParams: Codable, JSONEncodable {
     /// Whether to replace all custom entries in the dictionary with the ones sent with this request.
     public var clearExistingDictionaryEntries: Bool?
     /// List of additions and deletions to your dictionaries.

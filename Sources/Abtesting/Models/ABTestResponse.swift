@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct ABTestResponse: Codable, JSONEncodable, Hashable {
+public struct ABTestResponse: Codable, JSONEncodable {
     /// A/B test index.
     public var index: String
     /// Unique A/B test ID.

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct EventScoring: Codable, JSONEncodable, Hashable {
+public struct EventScoring: Codable, JSONEncodable {
     /// The score for the event.
     public var score: Int
     /// The name of the event.

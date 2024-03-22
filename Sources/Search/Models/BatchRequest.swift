@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct BatchRequest: Codable, JSONEncodable, Hashable {
+public struct BatchRequest: Codable, JSONEncodable {
     public var action: Action
     /// Operation arguments (varies with specified `action`).
     public var body: AnyCodable

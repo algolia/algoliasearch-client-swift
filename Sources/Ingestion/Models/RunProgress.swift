@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct RunProgress: Codable, JSONEncodable, Hashable {
+public struct RunProgress: Codable, JSONEncodable {
     public var expectedNbOfEvents: Int?
     public var receivedNbOfEvents: Int?
 

@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// API key object.
-public struct ApiKey: Codable, JSONEncodable, Hashable {
+public struct ApiKey: Codable, JSONEncodable {
     /// Permissions that determine the type of API requests this key can make. The required ACL is listed in each
     /// endpoint's reference. For more information, see [access control
     /// list](https://www.algolia.com/doc/guides/security/api-keys/#access-control-list-acl).

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct ListEventsResponse: Codable, JSONEncodable, Hashable {
+public struct ListEventsResponse: Codable, JSONEncodable {
     public var events: [Event]
     public var pagination: Pagination
     public var window: Window

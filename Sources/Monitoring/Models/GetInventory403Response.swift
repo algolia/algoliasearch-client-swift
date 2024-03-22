@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetInventory403Response: Codable, JSONEncodable, Hashable {
+public struct GetInventory403Response: Codable, JSONEncodable {
     public var reason: String?
 
     public init(reason: String? = nil) {

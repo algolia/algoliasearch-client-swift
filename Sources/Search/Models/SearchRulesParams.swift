@@ -7,21 +7,7 @@ import Foundation
 #endif
 
 /// Rules search parameters.
-public struct SearchRulesParams: Codable, JSONEncodable, Hashable {
-    static let pageRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let hitsPerPageRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct SearchRulesParams: Codable, JSONEncodable {
     /// Search query for rules.
     public var query: String?
     public var anchoring: SearchAnchoring?

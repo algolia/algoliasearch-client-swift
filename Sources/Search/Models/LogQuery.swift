@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct LogQuery: Codable, JSONEncodable, Hashable {
+public struct LogQuery: Codable, JSONEncodable {
     /// Index targeted by the query.
     public var indexName: String?
     /// A user identifier.

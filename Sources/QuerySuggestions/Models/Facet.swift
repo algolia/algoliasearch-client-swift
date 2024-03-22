@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Facet to use as category.
-public struct Facet: Codable, JSONEncodable, Hashable {
+public struct Facet: Codable, JSONEncodable {
     /// Facet name.
     public var attribute: String?
     /// Number of suggestions.

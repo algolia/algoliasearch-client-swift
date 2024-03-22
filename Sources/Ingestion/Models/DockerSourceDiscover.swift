@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct DockerSourceDiscover: Codable, JSONEncodable, Hashable {
+public struct DockerSourceDiscover: Codable, JSONEncodable {
     /// The run UUID.
     public var runID: String
     /// Date of creation (RFC3339 format).

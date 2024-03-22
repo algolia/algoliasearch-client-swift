@@ -8,26 +8,26 @@ import Foundation
 
 /// Restrict [Dynamic Re-ranking](https://www.algolia.com/doc/guides/algolia-ai/re-ranking/) to records that match these
 /// filters.
-public enum SearchReRankingApplyFilter: Codable, JSONEncodable, AbstractEncodable, Hashable {
-    case string(String)
+public enum SearchReRankingApplyFilter: Codable, JSONEncodable, AbstractEncodable {
     case arrayOfSearchMixedSearchFilters([SearchMixedSearchFilters])
+    case string(String)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .string(value):
-            try container.encode(value)
         case let .arrayOfSearchMixedSearchFilters(value):
+            try container.encode(value)
+        case let .string(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(String.self) {
-            self = .string(value)
-        } else if let value = try? container.decode([SearchMixedSearchFilters].self) {
+        if let value = try? container.decode([SearchMixedSearchFilters].self) {
             self = .arrayOfSearchMixedSearchFilters(value)
+        } else if let value = try? container.decode(String.self) {
+            self = .string(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -41,10 +41,10 @@ public enum SearchReRankingApplyFilter: Codable, JSONEncodable, AbstractEncodabl
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .string(value):
-            value as String
         case let .arrayOfSearchMixedSearchFilters(value):
             value as [SearchMixedSearchFilters]
+        case let .string(value):
+            value as String
         }
     }
 }

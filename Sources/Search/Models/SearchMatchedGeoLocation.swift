@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SearchMatchedGeoLocation: Codable, JSONEncodable, Hashable {
+public struct SearchMatchedGeoLocation: Codable, JSONEncodable {
     /// Latitude of the matched location.
     public var lat: Double?
     /// Longitude of the matched location.

@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Currency code.
-public struct CurrenciesValue: Codable, JSONEncodable, Hashable {
+public struct CurrenciesValue: Codable, JSONEncodable {
     /// Currency code.
     public var currency: String?
     /// Revenue associated with this search in this currency.

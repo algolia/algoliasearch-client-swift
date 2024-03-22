@@ -6,14 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SearchDictionaryEntriesResponse: Codable, JSONEncodable, Hashable {
-    static let pageRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct SearchDictionaryEntriesResponse: Codable, JSONEncodable {
     /// Dictionary entries matching the search criteria.
     public var hits: [DictionaryEntry]
     /// Requested page of the API response.

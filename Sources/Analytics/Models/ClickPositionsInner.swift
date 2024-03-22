@@ -7,14 +7,7 @@ import Foundation
 #endif
 
 /// Click position.
-public struct ClickPositionsInner: Codable, JSONEncodable, Hashable {
-    static let clickCountRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct ClickPositionsInner: Codable, JSONEncodable {
     /// Range of positions in the search results, using the pattern `[start,end]`.  For positions 11 and up, click
     /// events are summed over the specified range. `-1` indicates the end of the list of search results.
     public var position: [Int]?

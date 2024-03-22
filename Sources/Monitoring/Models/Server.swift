@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct Server: Codable, JSONEncodable, Hashable {
+public struct Server: Codable, JSONEncodable {
     /// Server name.
     public var name: String?
     public var region: MonitoringRegion?

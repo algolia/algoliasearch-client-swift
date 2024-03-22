@@ -9,26 +9,26 @@ import Foundation
 /// Removes stop words from the search query.  Stop words are common words like articles, conjunctions, prepositions, or
 /// pronouns that have little or no meaning on their own. In English, \&quot;the\&quot;, \&quot;a\&quot;, or
 /// \&quot;and\&quot; are stop words.  You should only use this feature for the languages used in your index.
-public enum SearchRemoveStopWords: Codable, JSONEncodable, AbstractEncodable, Hashable {
+public enum SearchRemoveStopWords: Codable, JSONEncodable, AbstractEncodable {
+    case arrayOfSearchSupportedLanguage([SearchSupportedLanguage])
     case bool(Bool)
-    case arrayOfSupportedLanguage([SupportedLanguage])
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .bool(value):
+        case let .arrayOfSearchSupportedLanguage(value):
             try container.encode(value)
-        case let .arrayOfSupportedLanguage(value):
+        case let .bool(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(Bool.self) {
+        if let value = try? container.decode([SearchSupportedLanguage].self) {
+            self = .arrayOfSearchSupportedLanguage(value)
+        } else if let value = try? container.decode(Bool.self) {
             self = .bool(value)
-        } else if let value = try? container.decode([SupportedLanguage].self) {
-            self = .arrayOfSupportedLanguage(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -42,10 +42,10 @@ public enum SearchRemoveStopWords: Codable, JSONEncodable, AbstractEncodable, Ha
 
     public func GetActualInstance() -> Encodable {
         switch self {
+        case let .arrayOfSearchSupportedLanguage(value):
+            value as [SearchSupportedLanguage]
         case let .bool(value):
             value as Bool
-        case let .arrayOfSupportedLanguage(value):
-            value as [SupportedLanguage]
         }
     }
 }

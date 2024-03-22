@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct AuthAlgolia: Codable, JSONEncodable, Hashable {
+public struct AuthAlgolia: Codable, JSONEncodable {
     /// Algolia Application ID.
     public var appID: String
     /// Algolia API Key, with the correct rights to push to an index and change settings.

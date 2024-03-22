@@ -8,10 +8,7 @@ import Foundation
 
 /// Use this method to capture active filters. For example, when browsing a category page, users see content filtered on
 /// that specific category.
-public struct ViewedFilters: Codable, JSONEncodable, Hashable {
-    static let eventNameRule = StringRule(minLength: 1, maxLength: 64, pattern: "[\\x20-\\x7E]{1,64}")
-    static let userTokenRule = StringRule(minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
-    static let authenticatedUserTokenRule = StringRule(minLength: 1, maxLength: 129, pattern: "[a-zA-Z0-9_=/+-]{1,129}")
+public struct ViewedFilters: Codable, JSONEncodable {
     /// Event name, up to 64 ASCII characters.  Consider naming events consistently—for example, by adopting Segment's [object-action](https://segment.com/academy/collecting-data/naming-conventions-for-clean-data/#the-object-action-framework)
     /// framework.
     public var eventName: String

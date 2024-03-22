@@ -12,26 +12,26 @@ import Foundation
 /// filter3]&#x60; is interpreted as &#x60;filter1 OR filter2 AND filter3&#x60;. - &#x60;facet:-value&#x60; is
 /// interpreted as &#x60;NOT facet:value&#x60;.  While it&#39;s best to avoid attributes that start with a
 /// &#x60;-&#x60;, you can still filter them by escaping with a backslash: &#x60;facet:\\-value&#x60;.
-public enum RecommendFacetFilters: Codable, JSONEncodable, AbstractEncodable, Hashable {
-    case string(String)
+public enum RecommendFacetFilters: Codable, JSONEncodable, AbstractEncodable {
     case arrayOfRecommendMixedSearchFilters([RecommendMixedSearchFilters])
+    case string(String)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .string(value):
-            try container.encode(value)
         case let .arrayOfRecommendMixedSearchFilters(value):
+            try container.encode(value)
+        case let .string(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(String.self) {
-            self = .string(value)
-        } else if let value = try? container.decode([RecommendMixedSearchFilters].self) {
+        if let value = try? container.decode([RecommendMixedSearchFilters].self) {
             self = .arrayOfRecommendMixedSearchFilters(value)
+        } else if let value = try? container.decode(String.self) {
+            self = .string(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -45,10 +45,10 @@ public enum RecommendFacetFilters: Codable, JSONEncodable, AbstractEncodable, Ha
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .string(value):
-            value as String
         case let .arrayOfRecommendMixedSearchFilters(value):
             value as [RecommendMixedSearchFilters]
+        case let .string(value):
+            value as String
         }
     }
 }

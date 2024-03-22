@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Recommend parameters.
-public struct GetRecommendationsParams: Codable, JSONEncodable, Hashable {
+public struct GetRecommendationsParams: Codable, JSONEncodable {
     /// Request parameters depend on the model (recommendations or trending).
     public var requests: [RecommendationsRequest]
 

@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Assign userID parameters.
-public struct AssignUserIdParams: Codable, JSONEncodable, Hashable {
+public struct AssignUserIdParams: Codable, JSONEncodable {
     /// Cluster name.
     public var cluster: String
 

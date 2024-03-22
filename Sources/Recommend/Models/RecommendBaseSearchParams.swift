@@ -6,35 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct RecommendBaseSearchParams: Codable, JSONEncodable, Hashable {
-    static let pageRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let lengthRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let minimumAroundRadiusRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let personalizationImpactRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct RecommendBaseSearchParams: Codable, JSONEncodable {
     /// Search query.
     public var query: String?
     /// Keywords to be used instead of the search query to conduct a more broader search.  Using the `similarQuery`

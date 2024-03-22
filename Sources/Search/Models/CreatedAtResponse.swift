@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Response and creation timestamp.
-public struct CreatedAtResponse: Codable, JSONEncodable, Hashable {
+public struct CreatedAtResponse: Codable, JSONEncodable {
     /// Timestamp of creation in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
     public var createdAt: String
 

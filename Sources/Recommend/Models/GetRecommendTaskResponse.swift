@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetRecommendTaskResponse: Codable, JSONEncodable, Hashable {
+public struct GetRecommendTaskResponse: Codable, JSONEncodable {
     public var status: RecommendTaskStatus
 
     public init(status: RecommendTaskStatus) {

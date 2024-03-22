@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Authentication input for Basic login with username and password.
-public struct AuthBasicPartial: Codable, JSONEncodable, Hashable {
+public struct AuthBasicPartial: Codable, JSONEncodable {
     public var username: String?
     public var password: String?
 

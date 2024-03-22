@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SearchRulesResponse: Codable, JSONEncodable, Hashable {
+public struct SearchRulesResponse: Codable, JSONEncodable {
     /// Rules that matched the search criteria.
     public var hits: [Rule]
     /// Number of rules that matched the search criteria.

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SearchParamsString: Codable, JSONEncodable, Hashable {
+public struct SearchParamsString: Codable, JSONEncodable {
     /// Search parameters as a URL-encoded query string.
     public var params: String?
 

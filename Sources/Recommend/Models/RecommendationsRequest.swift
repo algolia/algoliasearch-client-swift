@@ -6,36 +6,36 @@ import Foundation
     import Core
 #endif
 
-public enum RecommendationsRequest: Codable, JSONEncodable, AbstractEncodable, Hashable {
+public enum RecommendationsRequest: Codable, JSONEncodable, AbstractEncodable {
+    case trendingItemsQuery(TrendingItemsQuery)
+    case trendingFacetsQuery(TrendingFacetsQuery)
     case recommendationsQuery(RecommendationsQuery)
     case recommendedForYouQuery(RecommendedForYouQuery)
-    case trendingFacetsQuery(TrendingFacetsQuery)
-    case trendingItemsQuery(TrendingItemsQuery)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .recommendationsQuery(value):
-            try container.encode(value)
-        case let .recommendedForYouQuery(value):
+        case let .trendingItemsQuery(value):
             try container.encode(value)
         case let .trendingFacetsQuery(value):
             try container.encode(value)
-        case let .trendingItemsQuery(value):
+        case let .recommendationsQuery(value):
+            try container.encode(value)
+        case let .recommendedForYouQuery(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(RecommendationsQuery.self) {
+        if let value = try? container.decode(TrendingItemsQuery.self) {
+            self = .trendingItemsQuery(value)
+        } else if let value = try? container.decode(TrendingFacetsQuery.self) {
+            self = .trendingFacetsQuery(value)
+        } else if let value = try? container.decode(RecommendationsQuery.self) {
             self = .recommendationsQuery(value)
         } else if let value = try? container.decode(RecommendedForYouQuery.self) {
             self = .recommendedForYouQuery(value)
-        } else if let value = try? container.decode(TrendingFacetsQuery.self) {
-            self = .trendingFacetsQuery(value)
-        } else if let value = try? container.decode(TrendingItemsQuery.self) {
-            self = .trendingItemsQuery(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -49,14 +49,14 @@ public enum RecommendationsRequest: Codable, JSONEncodable, AbstractEncodable, H
 
     public func GetActualInstance() -> Encodable {
         switch self {
+        case let .trendingItemsQuery(value):
+            value as TrendingItemsQuery
+        case let .trendingFacetsQuery(value):
+            value as TrendingFacetsQuery
         case let .recommendationsQuery(value):
             value as RecommendationsQuery
         case let .recommendedForYouQuery(value):
             value as RecommendedForYouQuery
-        case let .trendingFacetsQuery(value):
-            value as TrendingFacetsQuery
-        case let .trendingItemsQuery(value):
-            value as TrendingItemsQuery
         }
     }
 }

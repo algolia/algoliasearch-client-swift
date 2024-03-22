@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct TopHitsResponseWithAnalytics: Codable, JSONEncodable, Hashable {
+public struct TopHitsResponseWithAnalytics: Codable, JSONEncodable {
     /// Most frequent search results with click and conversion metrics.
     public var hits: [TopHitWithAnalytics]
 

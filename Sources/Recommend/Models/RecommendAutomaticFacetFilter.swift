@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Filter or optional filter to be applied to the search.
-public struct RecommendAutomaticFacetFilter: Codable, JSONEncodable, Hashable {
+public struct RecommendAutomaticFacetFilter: Codable, JSONEncodable {
     /// Facet name to be applied as filter. The name must match placeholders in the `pattern` parameter. For example,
     /// with `pattern: {facet:genre}`, `automaticFacetFilters` must be `genre`.
     public var facet: String

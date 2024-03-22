@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetSearchesCountResponse: Codable, JSONEncodable, Hashable {
+public struct GetSearchesCountResponse: Codable, JSONEncodable {
     /// Number of occurrences.
     public var count: Int
     /// Daily number of searches.

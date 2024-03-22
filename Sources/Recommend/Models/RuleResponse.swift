@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Rule object.
-public struct RuleResponse: Codable, JSONEncodable, Hashable {
+public struct RuleResponse: Codable, JSONEncodable {
     public var metadata: RuleResponseMetadata?
     /// Unique identifier for a rule object.
     public var objectID: String

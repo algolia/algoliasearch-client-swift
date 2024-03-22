@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// The response from the API after a task creation.
-public struct TaskCreateResponse: Codable, JSONEncodable, Hashable {
+public struct TaskCreateResponse: Codable, JSONEncodable {
     /// The task UUID.
     public var taskID: String
     /// Date of creation (RFC3339 format).

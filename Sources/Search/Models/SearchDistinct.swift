@@ -10,7 +10,7 @@ import Foundation
 /// &#x60;attributeForDistinct&#x60; attribute are considered a group. The &#x60;distinct&#x60; setting controls how
 /// many members of the group are returned. This is useful for [deduplication and grouping](https://www.algolia.com/doc/guides/managing-results/refine-results/grouping/#introducing-algolias-distinct-feature).
 ///  The &#x60;distinct&#x60; setting is ignored if &#x60;attributeForDistinct&#x60; is not set.
-public enum SearchDistinct: Codable, JSONEncodable, AbstractEncodable, Hashable {
+public enum SearchDistinct: Codable, JSONEncodable, AbstractEncodable {
     case bool(Bool)
     case int(Int)
 

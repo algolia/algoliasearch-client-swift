@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct BaseRecommendationsQuery: Codable, JSONEncodable, Hashable {
+public struct BaseRecommendationsQuery: Codable, JSONEncodable {
     public var model: RecommendationModels
     /// Unique record identifier.
     public var objectID: String

@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// The payload when creating a destination.
-public struct DestinationCreate: Codable, JSONEncodable, Hashable {
+public struct DestinationCreate: Codable, JSONEncodable {
     public var type: DestinationType
     /// An human readable name describing the object.
     public var name: String

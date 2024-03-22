@@ -6,14 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct DailyNoResultsRates: Codable, JSONEncodable, Hashable {
-    static let rateRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 1,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct DailyNoResultsRates: Codable, JSONEncodable {
     /// Date in the format YYYY-MM-DD.
     public var date: String
     /// Number of searches without any results.

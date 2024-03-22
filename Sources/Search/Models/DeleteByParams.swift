@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct DeleteByParams: Codable, JSONEncodable, Hashable {
+public struct DeleteByParams: Codable, JSONEncodable {
     public var facetFilters: SearchFacetFilters?
     /// Filter the search so that only records with matching values are included in the results.  These filters are
     /// supported:  - **Numeric filters.** `<facet> <op> <number>`, where `<op>` is one of `<`, `<=`, `=`, `!=`, `>`,

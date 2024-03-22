@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetLogFile200Response: Codable, JSONEncodable, Hashable {
+public struct GetLogFile200Response: Codable, JSONEncodable {
     /// Timestamp in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format.
     public var timestamp: String?
     public var level: ModelLogLevel?

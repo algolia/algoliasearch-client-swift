@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Empty searches removed from the A/B test as a result of configuration settings.
-public struct FilterEffectsEmptySearch: Codable, JSONEncodable, Hashable {
+public struct FilterEffectsEmptySearch: Codable, JSONEncodable {
     /// Number of users removed from the A/B test.
     public var usersCount: Int?
     /// Number of tracked searches removed from the A/B test.

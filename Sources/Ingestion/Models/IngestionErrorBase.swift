@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Error.
-public struct IngestionErrorBase: Codable, JSONEncodable, Hashable {
+public struct IngestionErrorBase: Codable, JSONEncodable {
     public var message: String?
 
     public init(message: String? = nil) {

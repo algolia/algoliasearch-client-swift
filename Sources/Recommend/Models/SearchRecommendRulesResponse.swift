@@ -6,14 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SearchRecommendRulesResponse: Codable, JSONEncodable, Hashable {
-    static let pageRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct SearchRecommendRulesResponse: Codable, JSONEncodable {
     /// Fetched rules.
     public var hits: [RuleResponse]
     /// Number of results (hits).

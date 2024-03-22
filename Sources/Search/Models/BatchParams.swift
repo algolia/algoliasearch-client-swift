@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Batch parameters.
-public struct BatchParams: Codable, JSONEncodable, Hashable {
+public struct BatchParams: Codable, JSONEncodable {
     public var requests: [MultipleBatchRequest]
 
     public init(requests: [MultipleBatchRequest]) {

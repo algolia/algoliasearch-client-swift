@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetTopFiltersNoResultsValues: Codable, JSONEncodable, Hashable {
+public struct GetTopFiltersNoResultsValues: Codable, JSONEncodable {
     /// Number of occurrences.
     public var count: Int
     /// Filters with no results.

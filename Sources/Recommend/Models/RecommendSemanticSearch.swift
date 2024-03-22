@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Settings for the semantic search part of NeuralSearch. Only used when &#x60;mode&#x60; is &#x60;neuralSearch&#x60;.
-public struct RecommendSemanticSearch: Codable, JSONEncodable, Hashable {
+public struct RecommendSemanticSearch: Codable, JSONEncodable {
     /// Indices from which to collect click and conversion events.  If null, the current index and all its replicas are
     /// used.
     public var eventSources: [String]?

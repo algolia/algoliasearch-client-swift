@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct BatchDictionaryEntriesRequest: Codable, JSONEncodable, Hashable {
+public struct BatchDictionaryEntriesRequest: Codable, JSONEncodable {
     public var action: DictionaryAction
     public var body: DictionaryEntry
 

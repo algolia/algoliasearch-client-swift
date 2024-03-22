@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct ReplaceSourceResponse: Codable, JSONEncodable, Hashable {
+public struct ReplaceSourceResponse: Codable, JSONEncodable {
     /// Timestamp of the last update in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
     public var updatedAt: String
 

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct Pagination: Codable, JSONEncodable, Hashable {
+public struct Pagination: Codable, JSONEncodable {
     public var nbPages: Int
     public var page: Int
     public var nbItems: Int

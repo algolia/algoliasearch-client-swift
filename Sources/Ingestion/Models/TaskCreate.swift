@@ -7,14 +7,7 @@ import Foundation
 #endif
 
 /// The payload for a task creation.
-public struct TaskCreate: Codable, JSONEncodable, Hashable {
-    static let failureThresholdRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct TaskCreate: Codable, JSONEncodable {
     /// The source UUID.
     public var sourceID: String
     /// The destination UUID.

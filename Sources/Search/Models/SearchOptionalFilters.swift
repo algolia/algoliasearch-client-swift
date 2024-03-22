@@ -11,26 +11,26 @@ import Foundation
 /// don&#39;t match. If you&#39;re using a negative filter &#x60;facet:-value&#x60;, matching records rank after records
 /// that don&#39;t match.  - Optional filters don&#39;t work on virtual replicas. - Optional filters are applied _after_
 /// sort-by attributes. - Optional filters don&#39;t work with numeric attributes.
-public enum SearchOptionalFilters: Codable, JSONEncodable, AbstractEncodable, Hashable {
-    case string(String)
+public enum SearchOptionalFilters: Codable, JSONEncodable, AbstractEncodable {
     case arrayOfSearchMixedSearchFilters([SearchMixedSearchFilters])
+    case string(String)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .string(value):
-            try container.encode(value)
         case let .arrayOfSearchMixedSearchFilters(value):
+            try container.encode(value)
+        case let .string(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(String.self) {
-            self = .string(value)
-        } else if let value = try? container.decode([SearchMixedSearchFilters].self) {
+        if let value = try? container.decode([SearchMixedSearchFilters].self) {
             self = .arrayOfSearchMixedSearchFilters(value)
+        } else if let value = try? container.decode(String.self) {
+            self = .string(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -44,10 +44,10 @@ public enum SearchOptionalFilters: Codable, JSONEncodable, AbstractEncodable, Ha
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .string(value):
-            value as String
         case let .arrayOfSearchMixedSearchFilters(value):
             value as [SearchMixedSearchFilters]
+        case let .string(value):
+            value as String
         }
     }
 }

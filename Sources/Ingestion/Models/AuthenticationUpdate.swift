@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Payload to partially update an Authentication.
-public struct AuthenticationUpdate: Codable, JSONEncodable, Hashable {
+public struct AuthenticationUpdate: Codable, JSONEncodable {
     public var type: AuthenticationType?
     /// An human readable name describing the object.
     public var name: String?

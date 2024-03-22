@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct InfrastructureResponseMetrics: Codable, JSONEncodable, Hashable {
+public struct InfrastructureResponseMetrics: Codable, JSONEncodable {
     /// CPU idleness in %.
     public var cpuUsage: [String: [ProbesMetric]]?
     /// RAM used for indexing in MB.

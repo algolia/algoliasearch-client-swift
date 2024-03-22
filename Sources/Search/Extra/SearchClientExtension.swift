@@ -304,7 +304,8 @@ public extension SearchClient {
     }
 
     /// Helper: calls the `search` method but with certainty that we will only request Algolia records (hits) and not
-    /// facets. In the responses, the `hits` property is list of records casted as the provided generic type parameter. You can use `Hit` as a default.
+    /// facets. In the responses, the `hits` property is list of records casted as the provided generic type parameter.
+    /// You can use `Hit` as a default.
     /// Disclaimer: We don't assert that the parameters you pass to this method only contains `hits` requests to prevent
     /// impacting search performances, this helper is purely for typing purposes.
     func searchForHitsWithResponse<T: Codable>(

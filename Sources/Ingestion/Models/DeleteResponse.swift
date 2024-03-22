@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct DeleteResponse: Codable, JSONEncodable, Hashable {
+public struct DeleteResponse: Codable, JSONEncodable {
     /// Date of deletion (RFC3339 format).
     public var deletedAt: String
 

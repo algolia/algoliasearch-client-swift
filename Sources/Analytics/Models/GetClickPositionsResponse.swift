@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetClickPositionsResponse: Codable, JSONEncodable, Hashable {
+public struct GetClickPositionsResponse: Codable, JSONEncodable {
     /// List of positions in the search results and clicks associated with this search.
     public var positions: [ClickPositionsInner]
 

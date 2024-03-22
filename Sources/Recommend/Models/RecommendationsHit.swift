@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public enum RecommendationsHit: Codable, JSONEncodable, AbstractEncodable, Hashable {
+public enum RecommendationsHit: Codable, JSONEncodable, AbstractEncodable {
     case recommendHit(RecommendHit)
     case trendingFacetHit(TrendingFacetHit)
 

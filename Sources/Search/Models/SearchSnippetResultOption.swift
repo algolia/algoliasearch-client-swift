@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Snippets that show the context around a matching search query.
-public struct SearchSnippetResultOption: Codable, JSONEncodable, Hashable {
+public struct SearchSnippetResultOption: Codable, JSONEncodable {
     /// Highlighted attribute value, including HTML tags.
     public var value: String
     public var matchLevel: SearchMatchLevel

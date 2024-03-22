@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetUserTokenResponse: Codable, JSONEncodable, Hashable {
+public struct GetUserTokenResponse: Codable, JSONEncodable {
     /// userToken representing the user for which to fetch the Personalization profile.
     public var userToken: String
     /// Date of last event update. (ISO-8601 format).

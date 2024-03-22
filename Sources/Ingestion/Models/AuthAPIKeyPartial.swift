@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Authentication input used for token credentials.
-public struct AuthAPIKeyPartial: Codable, JSONEncodable, Hashable {
+public struct AuthAPIKeyPartial: Codable, JSONEncodable {
     public var key: String?
 
     public init(key: String? = nil) {

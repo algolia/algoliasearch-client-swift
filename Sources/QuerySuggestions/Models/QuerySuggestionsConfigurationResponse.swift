@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct QuerySuggestionsConfigurationResponse: Codable, JSONEncodable, Hashable {
+public struct QuerySuggestionsConfigurationResponse: Codable, JSONEncodable {
     /// API key used to read from your source index.
     public var sourceIndicesAPIKey: String?
     /// API key used to write and configure your Query Suggestions index.

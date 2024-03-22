@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SourceUpdate: Codable, JSONEncodable, Hashable {
+public struct SourceUpdate: Codable, JSONEncodable {
     public var name: String?
     public var input: SourceUpdateInput?
     /// The authentication UUID.

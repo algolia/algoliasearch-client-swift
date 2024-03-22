@@ -7,14 +7,7 @@ import Foundation
 #endif
 
 /// Trending facet hit.
-public struct TrendingFacetHit: Codable, JSONEncodable, Hashable {
-    static let scoreRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct TrendingFacetHit: Codable, JSONEncodable {
     /// Recommendation score.
     public var score: Double
     /// Facet name for trending models.

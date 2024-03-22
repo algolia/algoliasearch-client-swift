@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Range object with lower and upper values in meters to define custom ranges.
-public struct SearchAroundPrecisionFromValueInner: Codable, JSONEncodable, Hashable {
+public struct SearchAroundPrecisionFromValueInner: Codable, JSONEncodable {
     /// Lower boundary of a range in meters. The Geo ranking criterion considers all records within the range to be
     /// equal.
     public var from: Int?

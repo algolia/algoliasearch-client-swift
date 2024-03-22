@@ -6,21 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetAverageClickPositionResponse: Codable, JSONEncodable, Hashable {
-    static let averageRule = NumericRule<Double>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let clickCountRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct GetAverageClickPositionResponse: Codable, JSONEncodable {
     /// Average position of a clicked search result in the list of search results. If null, Algolia didn't receive any
     /// search requests with `clickAnalytics` set to true.
     public var average: Double?

@@ -7,21 +7,7 @@ import Foundation
 #endif
 
 /// Recommend rules search parameters.
-public struct SearchRecommendRulesParams: Codable, JSONEncodable, Hashable {
-    static let pageRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let hitsPerPageRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct SearchRecommendRulesParams: Codable, JSONEncodable {
     /// Search query.
     public var query: String?
     /// Restricts responses to the specified [contextual rule](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/how-to/customize-search-results-by-platform/#creating-contextual-rules).

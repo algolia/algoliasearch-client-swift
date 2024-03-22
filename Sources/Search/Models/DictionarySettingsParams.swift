@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Turn on or off the built-in Algolia stop words for a specific language.
-public struct DictionarySettingsParams: Codable, JSONEncodable, Hashable {
+public struct DictionarySettingsParams: Codable, JSONEncodable {
     public var disableStandardEntries: StandardEntries
 
     public init(disableStandardEntries: StandardEntries) {

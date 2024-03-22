@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetTopFilterAttribute: Codable, JSONEncodable, Hashable {
+public struct GetTopFilterAttribute: Codable, JSONEncodable {
     /// Attribute name.
     public var attribute: String
     /// Number of occurrences.

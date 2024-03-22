@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Response, taskID, and deletion timestamp.
-public struct SearchDeletedAtResponse: Codable, JSONEncodable, Hashable {
+public struct SearchDeletedAtResponse: Codable, JSONEncodable {
     /// Unique identifier of a task.  A successful API response means that a task was added to a queue. It might not run
     /// immediately. You can check the task's progress with the [`task` operation](#tag/Indices/operation/getTask) and
     /// this `taskID`.

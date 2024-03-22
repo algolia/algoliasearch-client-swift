@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// An authentication is used to login into a Source or a Destination, with obfuscated input.
-public struct Authentication: Codable, JSONEncodable, Hashable {
+public struct Authentication: Codable, JSONEncodable {
     /// The authentication UUID.
     public var authenticationID: String
     public var type: AuthenticationType

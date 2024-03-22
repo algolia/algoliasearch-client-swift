@@ -6,21 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct DailyConversionRates: Codable, JSONEncodable, Hashable {
-    static let rateRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 1,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let conversionCountRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct DailyConversionRates: Codable, JSONEncodable {
     /// Conversion rate, calculated as number of tracked searches with at least one conversion event divided by the
     /// number of tracked searches. If null, Algolia didn't receive any search requests with `clickAnalytics` set to
     /// true.

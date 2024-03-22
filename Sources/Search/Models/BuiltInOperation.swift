@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Update to perform on the attribute.
-public struct BuiltInOperation: Codable, JSONEncodable, Hashable {
+public struct BuiltInOperation: Codable, JSONEncodable {
     public var operation: BuiltInOperationType
     /// Value that corresponds to the operation, for example an `Increment` or `Decrement` step, or an `Add` or `Remove`
     /// value.

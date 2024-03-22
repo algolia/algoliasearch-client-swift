@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetTopFiltersNoResultsResponse: Codable, JSONEncodable, Hashable {
+public struct GetTopFiltersNoResultsResponse: Codable, JSONEncodable {
     /// Filters for searches without any results. If null, the search term specified with the `search` parameter is not
     /// a search without results, or the `search` parameter is absent from the request.
     public var values: [GetTopFiltersNoResultsValues]?

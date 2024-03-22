@@ -9,7 +9,7 @@ import Foundation
 /// Filter to be applied to the search.  You can use this to respond to search queries that match a facet value. For
 /// example, if users search for \&quot;comedy\&quot;, which matches a facet value of the \&quot;genre\&quot; facet, you
 /// can filter the results to show the top-ranked comedy movies.
-public enum SearchAutomaticFacetFilters: Codable, JSONEncodable, AbstractEncodable, Hashable {
+public enum SearchAutomaticFacetFilters: Codable, JSONEncodable, AbstractEncodable {
     case arrayOfSearchAutomaticFacetFilter([SearchAutomaticFacetFilter])
     case arrayOfString([String])
 

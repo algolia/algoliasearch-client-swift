@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct FacetScoring: Codable, JSONEncodable, Hashable {
+public struct FacetScoring: Codable, JSONEncodable {
     /// The score for the event.
     public var score: Int
     /// The name of the facet.

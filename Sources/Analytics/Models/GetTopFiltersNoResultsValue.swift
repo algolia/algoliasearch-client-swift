@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetTopFiltersNoResultsValue: Codable, JSONEncodable, Hashable {
+public struct GetTopFiltersNoResultsValue: Codable, JSONEncodable {
     /// Attribute name.
     public var attribute: String
     public var `operator`: Operator

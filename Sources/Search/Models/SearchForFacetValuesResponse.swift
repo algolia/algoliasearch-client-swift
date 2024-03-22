@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SearchForFacetValuesResponse: Codable, JSONEncodable, Hashable {
+public struct SearchForFacetValuesResponse: Codable, JSONEncodable {
     /// Matching facet values.
     public var facetHits: [FacetHits]
     /// See the `facetsCount` field of the `exhaustive` object in the response.

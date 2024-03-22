@@ -8,7 +8,7 @@ import Foundation
 
 /// [Redirect results to a
 /// URL](https://www.algolia.com/doc/guides/managing-results/rules/merchandising-and-promoting/how-to/redirects/).
-public struct RecommendRedirect: Codable, JSONEncodable, Hashable {
+public struct RecommendRedirect: Codable, JSONEncodable {
     public var index: [RecommendRedirectRuleIndexMetadata]?
 
     public init(index: [RecommendRedirectRuleIndexMetadata]? = nil) {

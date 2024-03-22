@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct Variant: Codable, JSONEncodable, Hashable {
+public struct Variant: Codable, JSONEncodable {
     /// Number of add-to-cart events for this variant.
     public var addToCartCount: Int
     /// Variant's [add-to-cart

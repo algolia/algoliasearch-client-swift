@@ -10,7 +10,7 @@ import Foundation
 /// &#x60;aroundLatLng&#x60; and &#x60;aroundLatLngViaIP&#x60; parameters. By default, the search radius is determined
 /// automatically from the density of hits around the central location. The search radius is small if there are many
 /// hits close to the central coordinates.
-public enum SearchAroundRadius: Codable, JSONEncodable, AbstractEncodable, Hashable {
+public enum SearchAroundRadius: Codable, JSONEncodable, AbstractEncodable {
     case int(Int)
     case searchAroundRadiusAll(SearchAroundRadiusAll)
 

@@ -6,14 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct Task: Codable, JSONEncodable, Hashable {
-    static let failureThresholdRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct Task: Codable, JSONEncodable {
     /// The task UUID.
     public var taskID: String
     /// The source UUID.

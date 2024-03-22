@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct ProbesMetric: Codable, JSONEncodable, Hashable {
+public struct ProbesMetric: Codable, JSONEncodable {
     /// Timestamp in [Unix epoch time](https://wikipedia.org/wiki/Unix_time) in milliseconds.
     public var t: Int64?
     /// Value of the metric.

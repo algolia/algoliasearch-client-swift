@@ -6,16 +6,16 @@ import Foundation
     import Core
 #endif
 
-public struct SearchHits: Codable, JSONEncodable, Hashable {
+public struct SearchHits<T: Codable>: Codable, JSONEncodable {
     /// Search results (hits).  Hits are records from your index that match the search criteria, augmented with
     /// additional attributes, such as, for highlighting.
-    public var hits: [Hit]
+    public var hits: [T]
     /// Search query.
     public var query: String
     /// URL-encoded string of all search parameters.
     public var params: String
 
-    public init(hits: [Hit], query: String, params: String) {
+    public init(hits: [T], query: String, params: String) {
         self.hits = hits
         self.query = query
         self.params = params
@@ -43,7 +43,7 @@ public struct SearchHits: Codable, JSONEncodable, Hashable {
     }
 
     public init(from dictionary: [String: AnyCodable]) throws {
-        guard let hits = dictionary["hits"]?.value as? [Hit] else {
+        guard let hits = dictionary["hits"]?.value as? [T] else {
             throw GenericError(description: "Failed to cast")
         }
         self.hits = hits
@@ -81,7 +81,7 @@ public struct SearchHits: Codable, JSONEncodable, Hashable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
 
-        self.hits = try container.decode([Hit].self, forKey: .hits)
+        self.hits = try container.decode([T].self, forKey: .hits)
         self.query = try container.decode(String.self, forKey: .query)
         self.params = try container.decode(String.self, forKey: .params)
         var nonAdditionalPropertyKeys = Set<String>()

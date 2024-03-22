@@ -7,30 +7,16 @@ import Foundation
 #endif
 
 /// Search parameter.
-public struct SearchDictionaryEntriesParams: Codable, JSONEncodable, Hashable {
-    static let pageRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let hitsPerPageRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct SearchDictionaryEntriesParams: Codable, JSONEncodable {
     /// Search query.
     public var query: String
     /// Page of search results to retrieve.
     public var page: Int?
     /// Number of hits per page.
     public var hitsPerPage: Int?
-    public var language: SupportedLanguage?
+    public var language: SearchSupportedLanguage?
 
-    public init(query: String, page: Int? = nil, hitsPerPage: Int? = nil, language: SupportedLanguage? = nil) {
+    public init(query: String, page: Int? = nil, hitsPerPage: Int? = nil, language: SearchSupportedLanguage? = nil) {
         self.query = query
         self.page = page
         self.hitsPerPage = hitsPerPage

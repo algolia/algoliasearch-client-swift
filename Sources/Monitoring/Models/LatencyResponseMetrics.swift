@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct LatencyResponseMetrics: Codable, JSONEncodable, Hashable {
+public struct LatencyResponseMetrics: Codable, JSONEncodable {
     public var latency: [String: [TimeInner]]?
 
     public init(latency: [String: [TimeInner]]? = nil) {

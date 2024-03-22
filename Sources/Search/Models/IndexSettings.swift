@@ -7,42 +7,7 @@ import Foundation
 #endif
 
 /// Index settings.
-public struct IndexSettings: Codable, JSONEncodable, Hashable {
-    static let paginationLimitedToRule = NumericRule<Int>(
-        minimum: nil,
-        exclusiveMinimum: false,
-        maximum: 20000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let hitsPerPageRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let minProximityRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 7,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let maxFacetHitsRule = NumericRule<Int>(
-        minimum: nil,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let maxValuesPerFacetRule = NumericRule<Int>(
-        minimum: nil,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct IndexSettings: Codable, JSONEncodable {
     /// Attributes used for [faceting](https://www.algolia.com/doc/guides/managing-results/refine-results/faceting/). 
     /// Facets are ways to categorize search results based on attributes. Facets can be used to let user filter search
     /// results. By default, no attribute is used for faceting.  **Modifiers**  <dl>
@@ -99,7 +64,7 @@ public struct IndexSettings: Codable, JSONEncodable, Hashable {
     /// [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/),
     /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
     /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/).
-    public var indexLanguages: [SupportedLanguage]?
+    public var indexLanguages: [SearchSupportedLanguage]?
     /// Searchable attributes for which you want to turn off [prefix matching](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/override-search-engine-defaults/#adjusting-prefix-search).
     public var disablePrefixOnAttributes: [String]?
     /// Whether arrays with exclusively non-negative integers should be compressed for better performance. If true, the
@@ -215,7 +180,7 @@ public struct IndexSettings: Codable, JSONEncodable, Hashable {
     /// language.** If you don't specify an indexing language, the search engine uses all [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/),
     /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
     /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/).
-    public var queryLanguages: [SupportedLanguage]?
+    public var queryLanguages: [SearchSupportedLanguage]?
     /// Whether to split compound words into their building blocks.  For more information, see [Word segmentation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/#splitting-compound-words).
     /// Word segmentation is supported for these languages: German, Dutch, Finnish, Swedish, and Norwegian.
     public var decompoundQuery: Bool?
@@ -309,7 +274,7 @@ public struct IndexSettings: Codable, JSONEncodable, Hashable {
         attributesToTransliterate: [String]? = nil,
         camelCaseAttributes: [String]? = nil,
         decompoundedAttributes: AnyCodable? = nil,
-        indexLanguages: [SupportedLanguage]? = nil,
+        indexLanguages: [SearchSupportedLanguage]? = nil,
         disablePrefixOnAttributes: [String]? = nil,
         allowCompressionOfIntegerArray: Bool? = nil,
         numericAttributesForFiltering: [String]? = nil,
@@ -337,7 +302,7 @@ public struct IndexSettings: Codable, JSONEncodable, Hashable {
         ignorePlurals: SearchIgnorePlurals? = nil,
         removeStopWords: SearchRemoveStopWords? = nil,
         keepDiacriticsOnCharacters: String? = nil,
-        queryLanguages: [SupportedLanguage]? = nil,
+        queryLanguages: [SearchSupportedLanguage]? = nil,
         decompoundQuery: Bool? = nil,
         enableRules: Bool? = nil,
         enablePersonalization: Bool? = nil,

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct ListSourcesResponse: Codable, JSONEncodable, Hashable {
+public struct ListSourcesResponse: Codable, JSONEncodable {
     public var sources: [IngestionSource]
     public var pagination: Pagination
 

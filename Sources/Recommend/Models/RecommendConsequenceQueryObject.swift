@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct RecommendConsequenceQueryObject: Codable, JSONEncodable, Hashable {
+public struct RecommendConsequenceQueryObject: Codable, JSONEncodable {
     /// Words to remove from the search query.
     public var remove: [String]?
     /// Changes to make to the search query.

@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Describes how a field should be resolved by applying a set of directives.
-public struct MappingFieldDirective: Codable, JSONEncodable, Hashable {
+public struct MappingFieldDirective: Codable, JSONEncodable {
     /// Destination field key.
     public var fieldKey: String
     /// How the destination field should be resolved from the source.

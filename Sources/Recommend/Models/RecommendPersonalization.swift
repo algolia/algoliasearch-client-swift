@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct RecommendPersonalization: Codable, JSONEncodable, Hashable {
+public struct RecommendPersonalization: Codable, JSONEncodable {
     /// The score of the filters.
     public var filtersScore: Int?
     /// The score of the ranking.

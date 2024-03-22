@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// The trigger input for a task of type &#39;streaming&#39;.
-public struct StreamingTrigger: Codable, JSONEncodable, Hashable {
+public struct StreamingTrigger: Codable, JSONEncodable {
     public var type: StreamingTriggerType
 
     public init(type: StreamingTriggerType) {

@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// The trigger information for a task of type &#39;schedule&#39;.
-public struct ScheduleTrigger: Codable, JSONEncodable, Hashable {
+public struct ScheduleTrigger: Codable, JSONEncodable {
     public var type: ScheduleTriggerType
     /// A cron expression that represent at which regularity the task should run.
     public var cron: String

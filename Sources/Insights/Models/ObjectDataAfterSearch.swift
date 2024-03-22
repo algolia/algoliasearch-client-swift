@@ -6,8 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct ObjectDataAfterSearch: Codable, JSONEncodable, Hashable {
-    static let queryIDRule = StringRule(minLength: 32, maxLength: 32, pattern: "[0-9a-f]{32}")
+public struct ObjectDataAfterSearch: Codable, JSONEncodable {
     /// Unique identifier for a search query, used to track purchase events with multiple records that originate from
     /// different searches.
     public var queryID: String?

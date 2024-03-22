@@ -7,21 +7,7 @@ import Foundation
 #endif
 
 /// OK
-public struct SearchUserIdsParams: Codable, JSONEncodable, Hashable {
-    static let pageRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let hitsPerPageRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct SearchUserIdsParams: Codable, JSONEncodable {
     /// Query to search. The search is a prefix search with [typo
     /// tolerance](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/typo-tolerance/) enabled.
     /// An empty query will retrieve all users.

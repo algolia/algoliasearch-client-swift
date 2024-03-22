@@ -6,76 +6,286 @@ import Foundation
     import Core
 #endif
 
-public enum EventsItems: Codable, JSONEncodable, AbstractEncodable, Hashable {
-    case addedToCartObjectIDs(AddedToCartObjectIDs)
-    case addedToCartObjectIDsAfterSearch(AddedToCartObjectIDsAfterSearch)
-    case clickedFilters(ClickedFilters)
-    case clickedObjectIDs(ClickedObjectIDs)
+public enum EventsItems: Codable, JSONEncodable, AbstractEncodable {
     case clickedObjectIDsAfterSearch(ClickedObjectIDsAfterSearch)
-    case convertedFilters(ConvertedFilters)
-    case convertedObjectIDs(ConvertedObjectIDs)
-    case convertedObjectIDsAfterSearch(ConvertedObjectIDsAfterSearch)
-    case purchasedObjectIDs(PurchasedObjectIDs)
+    case addedToCartObjectIDsAfterSearch(AddedToCartObjectIDsAfterSearch)
     case purchasedObjectIDsAfterSearch(PurchasedObjectIDsAfterSearch)
-    case viewedFilters(ViewedFilters)
+    case convertedObjectIDsAfterSearch(ConvertedObjectIDsAfterSearch)
+    case clickedObjectIDs(ClickedObjectIDs)
+    case purchasedObjectIDs(PurchasedObjectIDs)
+    case addedToCartObjectIDs(AddedToCartObjectIDs)
+    case convertedObjectIDs(ConvertedObjectIDs)
+    case clickedFilters(ClickedFilters)
+    case convertedFilters(ConvertedFilters)
     case viewedObjectIDs(ViewedObjectIDs)
+    case viewedFilters(ViewedFilters)
+
+    enum ClickedObjectIDsAfterSearchDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
+        case positions
+        case queryID
+        case eventType
+    }
+
+    enum AddedToCartObjectIDsAfterSearchDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
+        case eventType
+        case eventSubtype
+        case queryID
+        case objectIDs
+    }
+
+    enum PurchasedObjectIDsAfterSearchDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
+        case eventType
+        case eventSubtype
+        case objectIDs
+        case objectData
+    }
+
+    enum ConvertedObjectIDsAfterSearchDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
+        case queryID
+        case eventType
+    }
+
+    enum ClickedObjectIDsDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
+        case eventType
+        case objectIDs
+    }
+
+    enum PurchasedObjectIDsDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
+        case eventType
+        case eventSubtype
+        case objectIDs
+    }
+
+    enum AddedToCartObjectIDsDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
+        case eventType
+        case eventSubtype
+        case objectIDs
+    }
+
+    enum ConvertedObjectIDsDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
+        case eventType
+        case objectIDs
+    }
+
+    enum ClickedFiltersDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
+        case eventType
+        case filters
+    }
+
+    enum ConvertedFiltersDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
+        case eventType
+        case filters
+    }
+
+    enum ViewedObjectIDsDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
+        case eventType
+        case objectIDs
+    }
+
+    enum ViewedFiltersDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
+        case eventType
+        case filters
+    }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .addedToCartObjectIDs(value):
+        case let .clickedObjectIDsAfterSearch(value):
             try container.encode(value)
         case let .addedToCartObjectIDsAfterSearch(value):
             try container.encode(value)
-        case let .clickedFilters(value):
-            try container.encode(value)
-        case let .clickedObjectIDs(value):
-            try container.encode(value)
-        case let .clickedObjectIDsAfterSearch(value):
-            try container.encode(value)
-        case let .convertedFilters(value):
-            try container.encode(value)
-        case let .convertedObjectIDs(value):
+        case let .purchasedObjectIDsAfterSearch(value):
             try container.encode(value)
         case let .convertedObjectIDsAfterSearch(value):
             try container.encode(value)
+        case let .clickedObjectIDs(value):
+            try container.encode(value)
         case let .purchasedObjectIDs(value):
             try container.encode(value)
-        case let .purchasedObjectIDsAfterSearch(value):
+        case let .addedToCartObjectIDs(value):
             try container.encode(value)
-        case let .viewedFilters(value):
+        case let .convertedObjectIDs(value):
+            try container.encode(value)
+        case let .clickedFilters(value):
+            try container.encode(value)
+        case let .convertedFilters(value):
             try container.encode(value)
         case let .viewedObjectIDs(value):
+            try container.encode(value)
+        case let .viewedFilters(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
+        if let clickedObjectIDsAfterSearchDiscriminatorContainer = try? decoder
+            .container(keyedBy: ClickedObjectIDsAfterSearchDiscriminatorCodingKeys.self) {
+            if clickedObjectIDsAfterSearchDiscriminatorContainer.contains(.positions),
+               clickedObjectIDsAfterSearchDiscriminatorContainer.contains(.queryID),
+               clickedObjectIDsAfterSearchDiscriminatorContainer.contains(.eventType) {
+                if let value = try? EventsItems
+                    .clickedObjectIDsAfterSearch(ClickedObjectIDsAfterSearch(from: decoder)) {
+                    self = value
+                    return
+                }
+            }
+        }
+
+        if let addedToCartObjectIDsAfterSearchDiscriminatorContainer = try? decoder
+            .container(keyedBy: AddedToCartObjectIDsAfterSearchDiscriminatorCodingKeys.self) {
+            if addedToCartObjectIDsAfterSearchDiscriminatorContainer.contains(.eventType),
+               addedToCartObjectIDsAfterSearchDiscriminatorContainer.contains(.eventSubtype),
+               addedToCartObjectIDsAfterSearchDiscriminatorContainer.contains(.queryID),
+               addedToCartObjectIDsAfterSearchDiscriminatorContainer.contains(.objectIDs) {
+                if let value = try? EventsItems
+                    .addedToCartObjectIDsAfterSearch(AddedToCartObjectIDsAfterSearch(from: decoder)) {
+                    self = value
+                    return
+                }
+            }
+        }
+
+        if let purchasedObjectIDsAfterSearchDiscriminatorContainer = try? decoder
+            .container(keyedBy: PurchasedObjectIDsAfterSearchDiscriminatorCodingKeys.self) {
+            if purchasedObjectIDsAfterSearchDiscriminatorContainer.contains(.eventType),
+               purchasedObjectIDsAfterSearchDiscriminatorContainer.contains(.eventSubtype),
+               purchasedObjectIDsAfterSearchDiscriminatorContainer.contains(.objectIDs),
+               purchasedObjectIDsAfterSearchDiscriminatorContainer.contains(.objectData) {
+                if let value = try? EventsItems
+                    .purchasedObjectIDsAfterSearch(PurchasedObjectIDsAfterSearch(from: decoder)) {
+                    self = value
+                    return
+                }
+            }
+        }
+
+        if let convertedObjectIDsAfterSearchDiscriminatorContainer = try? decoder
+            .container(keyedBy: ConvertedObjectIDsAfterSearchDiscriminatorCodingKeys.self) {
+            if convertedObjectIDsAfterSearchDiscriminatorContainer.contains(.queryID),
+               convertedObjectIDsAfterSearchDiscriminatorContainer.contains(.eventType) {
+                if let value = try? EventsItems
+                    .convertedObjectIDsAfterSearch(ConvertedObjectIDsAfterSearch(from: decoder)) {
+                    self = value
+                    return
+                }
+            }
+        }
+
+        if let clickedObjectIDsDiscriminatorContainer = try? decoder
+            .container(keyedBy: ClickedObjectIDsDiscriminatorCodingKeys.self) {
+            if clickedObjectIDsDiscriminatorContainer.contains(.eventType),
+               clickedObjectIDsDiscriminatorContainer.contains(.objectIDs) {
+                if let value = try? EventsItems.clickedObjectIDs(ClickedObjectIDs(from: decoder)) {
+                    self = value
+                    return
+                }
+            }
+        }
+
+        if let purchasedObjectIDsDiscriminatorContainer = try? decoder
+            .container(keyedBy: PurchasedObjectIDsDiscriminatorCodingKeys.self) {
+            if purchasedObjectIDsDiscriminatorContainer.contains(.eventType),
+               purchasedObjectIDsDiscriminatorContainer.contains(.eventSubtype),
+               purchasedObjectIDsDiscriminatorContainer.contains(.objectIDs) {
+                if let value = try? EventsItems.purchasedObjectIDs(PurchasedObjectIDs(from: decoder)) {
+                    self = value
+                    return
+                }
+            }
+        }
+
+        if let addedToCartObjectIDsDiscriminatorContainer = try? decoder
+            .container(keyedBy: AddedToCartObjectIDsDiscriminatorCodingKeys.self) {
+            if addedToCartObjectIDsDiscriminatorContainer.contains(.eventType),
+               addedToCartObjectIDsDiscriminatorContainer.contains(.eventSubtype),
+               addedToCartObjectIDsDiscriminatorContainer.contains(.objectIDs) {
+                if let value = try? EventsItems.addedToCartObjectIDs(AddedToCartObjectIDs(from: decoder)) {
+                    self = value
+                    return
+                }
+            }
+        }
+
+        if let convertedObjectIDsDiscriminatorContainer = try? decoder
+            .container(keyedBy: ConvertedObjectIDsDiscriminatorCodingKeys.self) {
+            if convertedObjectIDsDiscriminatorContainer.contains(.eventType),
+               convertedObjectIDsDiscriminatorContainer.contains(.objectIDs) {
+                if let value = try? EventsItems.convertedObjectIDs(ConvertedObjectIDs(from: decoder)) {
+                    self = value
+                    return
+                }
+            }
+        }
+
+        if let clickedFiltersDiscriminatorContainer = try? decoder
+            .container(keyedBy: ClickedFiltersDiscriminatorCodingKeys.self) {
+            if clickedFiltersDiscriminatorContainer.contains(.eventType),
+               clickedFiltersDiscriminatorContainer.contains(.filters) {
+                if let value = try? EventsItems.clickedFilters(ClickedFilters(from: decoder)) {
+                    self = value
+                    return
+                }
+            }
+        }
+
+        if let convertedFiltersDiscriminatorContainer = try? decoder
+            .container(keyedBy: ConvertedFiltersDiscriminatorCodingKeys.self) {
+            if convertedFiltersDiscriminatorContainer.contains(.eventType),
+               convertedFiltersDiscriminatorContainer.contains(.filters) {
+                if let value = try? EventsItems.convertedFilters(ConvertedFilters(from: decoder)) {
+                    self = value
+                    return
+                }
+            }
+        }
+
+        if let viewedObjectIDsDiscriminatorContainer = try? decoder
+            .container(keyedBy: ViewedObjectIDsDiscriminatorCodingKeys.self) {
+            if viewedObjectIDsDiscriminatorContainer.contains(.eventType),
+               viewedObjectIDsDiscriminatorContainer.contains(.objectIDs) {
+                if let value = try? EventsItems.viewedObjectIDs(ViewedObjectIDs(from: decoder)) {
+                    self = value
+                    return
+                }
+            }
+        }
+
+        if let viewedFiltersDiscriminatorContainer = try? decoder
+            .container(keyedBy: ViewedFiltersDiscriminatorCodingKeys.self) {
+            if viewedFiltersDiscriminatorContainer.contains(.eventType),
+               viewedFiltersDiscriminatorContainer.contains(.filters) {
+                if let value = try? EventsItems.viewedFilters(ViewedFilters(from: decoder)) {
+                    self = value
+                    return
+                }
+            }
+        }
+
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(AddedToCartObjectIDs.self) {
-            self = .addedToCartObjectIDs(value)
+        if let value = try? container.decode(ClickedObjectIDsAfterSearch.self) {
+            self = .clickedObjectIDsAfterSearch(value)
         } else if let value = try? container.decode(AddedToCartObjectIDsAfterSearch.self) {
             self = .addedToCartObjectIDsAfterSearch(value)
-        } else if let value = try? container.decode(ClickedFilters.self) {
-            self = .clickedFilters(value)
-        } else if let value = try? container.decode(ClickedObjectIDs.self) {
-            self = .clickedObjectIDs(value)
-        } else if let value = try? container.decode(ClickedObjectIDsAfterSearch.self) {
-            self = .clickedObjectIDsAfterSearch(value)
-        } else if let value = try? container.decode(ConvertedFilters.self) {
-            self = .convertedFilters(value)
-        } else if let value = try? container.decode(ConvertedObjectIDs.self) {
-            self = .convertedObjectIDs(value)
-        } else if let value = try? container.decode(ConvertedObjectIDsAfterSearch.self) {
-            self = .convertedObjectIDsAfterSearch(value)
-        } else if let value = try? container.decode(PurchasedObjectIDs.self) {
-            self = .purchasedObjectIDs(value)
         } else if let value = try? container.decode(PurchasedObjectIDsAfterSearch.self) {
             self = .purchasedObjectIDsAfterSearch(value)
-        } else if let value = try? container.decode(ViewedFilters.self) {
-            self = .viewedFilters(value)
+        } else if let value = try? container.decode(ConvertedObjectIDsAfterSearch.self) {
+            self = .convertedObjectIDsAfterSearch(value)
+        } else if let value = try? container.decode(ClickedObjectIDs.self) {
+            self = .clickedObjectIDs(value)
+        } else if let value = try? container.decode(PurchasedObjectIDs.self) {
+            self = .purchasedObjectIDs(value)
+        } else if let value = try? container.decode(AddedToCartObjectIDs.self) {
+            self = .addedToCartObjectIDs(value)
+        } else if let value = try? container.decode(ConvertedObjectIDs.self) {
+            self = .convertedObjectIDs(value)
+        } else if let value = try? container.decode(ClickedFilters.self) {
+            self = .clickedFilters(value)
+        } else if let value = try? container.decode(ConvertedFilters.self) {
+            self = .convertedFilters(value)
         } else if let value = try? container.decode(ViewedObjectIDs.self) {
             self = .viewedObjectIDs(value)
+        } else if let value = try? container.decode(ViewedFilters.self) {
+            self = .viewedFilters(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -86,30 +296,30 @@ public enum EventsItems: Codable, JSONEncodable, AbstractEncodable, Hashable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .addedToCartObjectIDs(value):
-            value as AddedToCartObjectIDs
-        case let .addedToCartObjectIDsAfterSearch(value):
-            value as AddedToCartObjectIDsAfterSearch
-        case let .clickedFilters(value):
-            value as ClickedFilters
-        case let .clickedObjectIDs(value):
-            value as ClickedObjectIDs
         case let .clickedObjectIDsAfterSearch(value):
             value as ClickedObjectIDsAfterSearch
-        case let .convertedFilters(value):
-            value as ConvertedFilters
-        case let .convertedObjectIDs(value):
-            value as ConvertedObjectIDs
-        case let .convertedObjectIDsAfterSearch(value):
-            value as ConvertedObjectIDsAfterSearch
-        case let .purchasedObjectIDs(value):
-            value as PurchasedObjectIDs
+        case let .addedToCartObjectIDsAfterSearch(value):
+            value as AddedToCartObjectIDsAfterSearch
         case let .purchasedObjectIDsAfterSearch(value):
             value as PurchasedObjectIDsAfterSearch
-        case let .viewedFilters(value):
-            value as ViewedFilters
+        case let .convertedObjectIDsAfterSearch(value):
+            value as ConvertedObjectIDsAfterSearch
+        case let .clickedObjectIDs(value):
+            value as ClickedObjectIDs
+        case let .purchasedObjectIDs(value):
+            value as PurchasedObjectIDs
+        case let .addedToCartObjectIDs(value):
+            value as AddedToCartObjectIDs
+        case let .convertedObjectIDs(value):
+            value as ConvertedObjectIDs
+        case let .clickedFilters(value):
+            value as ClickedFilters
+        case let .convertedFilters(value):
+            value as ConvertedFilters
         case let .viewedObjectIDs(value):
             value as ViewedObjectIDs
+        case let .viewedFilters(value):
+            value as ViewedFilters
         }
     }
 }

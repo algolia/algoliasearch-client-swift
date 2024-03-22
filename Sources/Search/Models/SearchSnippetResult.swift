@@ -6,19 +6,19 @@ import Foundation
     import Core
 #endif
 
-public enum SearchSnippetResult: Codable, JSONEncodable, AbstractEncodable, Hashable {
+public enum SearchSnippetResult: Codable, JSONEncodable, AbstractEncodable {
     case searchSnippetResultOption(SearchSnippetResultOption)
-    case arrayOfSearchSnippetResultOption([SearchSnippetResultOption])
     case dictionaryOfStringToSearchSnippetResultOption([String: SearchSnippetResultOption])
+    case arrayOfSearchSnippetResultOption([SearchSnippetResultOption])
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
         case let .searchSnippetResultOption(value):
             try container.encode(value)
-        case let .arrayOfSearchSnippetResultOption(value):
-            try container.encode(value)
         case let .dictionaryOfStringToSearchSnippetResultOption(value):
+            try container.encode(value)
+        case let .arrayOfSearchSnippetResultOption(value):
             try container.encode(value)
         }
     }
@@ -27,10 +27,10 @@ public enum SearchSnippetResult: Codable, JSONEncodable, AbstractEncodable, Hash
         let container = try decoder.singleValueContainer()
         if let value = try? container.decode(SearchSnippetResultOption.self) {
             self = .searchSnippetResultOption(value)
-        } else if let value = try? container.decode([SearchSnippetResultOption].self) {
-            self = .arrayOfSearchSnippetResultOption(value)
         } else if let value = try? container.decode([String: SearchSnippetResultOption].self) {
             self = .dictionaryOfStringToSearchSnippetResultOption(value)
+        } else if let value = try? container.decode([SearchSnippetResultOption].self) {
+            self = .arrayOfSearchSnippetResultOption(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -46,10 +46,10 @@ public enum SearchSnippetResult: Codable, JSONEncodable, AbstractEncodable, Hash
         switch self {
         case let .searchSnippetResultOption(value):
             value as SearchSnippetResultOption
-        case let .arrayOfSearchSnippetResultOption(value):
-            value as [SearchSnippetResultOption]
         case let .dictionaryOfStringToSearchSnippetResultOption(value):
             value as [String: SearchSnippetResultOption]
+        case let .arrayOfSearchSnippetResultOption(value):
+            value as [SearchSnippetResultOption]
         }
     }
 }

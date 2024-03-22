@@ -6,26 +6,26 @@ import Foundation
     import Core
 #endif
 
-public enum DestinationInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
-    case destinationIndexName(DestinationIndexName)
+public enum DestinationInput: Codable, JSONEncodable, AbstractEncodable {
     case destinationIndexPrefix(DestinationIndexPrefix)
+    case destinationIndexName(DestinationIndexName)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .destinationIndexName(value):
-            try container.encode(value)
         case let .destinationIndexPrefix(value):
+            try container.encode(value)
+        case let .destinationIndexName(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(DestinationIndexName.self) {
-            self = .destinationIndexName(value)
-        } else if let value = try? container.decode(DestinationIndexPrefix.self) {
+        if let value = try? container.decode(DestinationIndexPrefix.self) {
             self = .destinationIndexPrefix(value)
+        } else if let value = try? container.decode(DestinationIndexName.self) {
+            self = .destinationIndexName(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -36,10 +36,10 @@ public enum DestinationInput: Codable, JSONEncodable, AbstractEncodable, Hashabl
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .destinationIndexName(value):
-            value as DestinationIndexName
         case let .destinationIndexPrefix(value):
             value as DestinationIndexPrefix
+        case let .destinationIndexName(value):
+            value as DestinationIndexName
         }
     }
 }

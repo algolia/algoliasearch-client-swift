@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SourceJSON: Codable, JSONEncodable, Hashable {
+public struct SourceJSON: Codable, JSONEncodable {
     /// The URL of the file.
     public var url: String
     /// The name of the column that contains the unique ID, used as `objectID` in Algolia.

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct BigCommerceMetafield: Codable, JSONEncodable, Hashable {
+public struct BigCommerceMetafield: Codable, JSONEncodable {
     /// The namespace of the metafield.
     public var namespace: String
     /// The key identifier of the metafield.

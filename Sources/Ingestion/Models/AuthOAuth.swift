@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Authentication input for OAuth login.
-public struct AuthOAuth: Codable, JSONEncodable, Hashable {
+public struct AuthOAuth: Codable, JSONEncodable {
     /// The OAuth endpoint URL.
     public var url: String
     /// The clientID.

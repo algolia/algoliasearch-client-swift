@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct DockerSourceStreams: Codable, JSONEncodable, Hashable {
+public struct DockerSourceStreams: Codable, JSONEncodable {
     public var streams: [AnyCodable]
 
     public init(streams: [AnyCodable]) {

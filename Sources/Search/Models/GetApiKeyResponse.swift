@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetApiKeyResponse: Codable, JSONEncodable, Hashable {
+public struct GetApiKeyResponse: Codable, JSONEncodable {
     /// API key.
     public var value: String?
     /// Timestamp of creation in milliseconds in [Unix epoch time](https://wikipedia.org/wiki/Unix_time).

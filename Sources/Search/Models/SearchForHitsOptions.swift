@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SearchForHitsOptions: Codable, JSONEncodable, Hashable {
+public struct SearchForHitsOptions: Codable, JSONEncodable {
     /// Index name.
     public var indexName: String
     public var type: SearchTypeDefault?

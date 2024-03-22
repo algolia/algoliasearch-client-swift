@@ -6,9 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct Log: Codable, JSONEncodable, Hashable {
-    static let queryBodyRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
-    static let answerRule = StringRule(minLength: nil, maxLength: 1000, pattern: nil)
+public struct Log: Codable, JSONEncodable {
     /// Timestamp of the API request in ISO 8601 format.
     public var timestamp: String
     /// HTTP method of the request.

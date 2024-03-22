@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct DestinationIndexPrefix: Codable, JSONEncodable, Hashable {
+public struct DestinationIndexPrefix: Codable, JSONEncodable {
     /// The prefix of the final index name.
     public var indexPrefix: String
 

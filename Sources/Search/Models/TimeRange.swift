@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct TimeRange: Codable, JSONEncodable, Hashable {
+public struct TimeRange: Codable, JSONEncodable {
     /// When the rule should start to be active, in Unix epoch time.
     public var from: Int
     /// When the rule should stop to be active, in Unix epoch time.

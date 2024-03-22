@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SourceSearch: Codable, JSONEncodable, Hashable {
+public struct SourceSearch: Codable, JSONEncodable {
     public var sourceIDs: [String]
 
     public init(sourceIDs: [String]) {

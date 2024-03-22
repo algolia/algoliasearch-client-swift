@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Clusters.
-public struct ListClustersResponse: Codable, JSONEncodable, Hashable {
+public struct ListClustersResponse: Codable, JSONEncodable {
     /// Key-value pairs with cluster names as keys and lists of users with the highest number of records per cluster as
     /// values.
     public var topUsers: [String]

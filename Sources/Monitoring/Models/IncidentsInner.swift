@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct IncidentsInner: Codable, JSONEncodable, Hashable {
+public struct IncidentsInner: Codable, JSONEncodable {
     /// Timestamp in [Unix epoch time](https://wikipedia.org/wiki/Unix_time) in milliseconds.
     public var t: Int64?
     public var v: Incident?

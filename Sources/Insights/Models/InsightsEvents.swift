@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct InsightsEvents: Codable, JSONEncodable, Hashable {
+public struct InsightsEvents: Codable, JSONEncodable {
     /// Click and conversion events.  **All** events must be valid, otherwise the API returns an error.
     public var events: [EventsItems]
 

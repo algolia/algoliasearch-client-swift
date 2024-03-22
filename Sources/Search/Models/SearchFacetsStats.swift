@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SearchFacetsStats: Codable, JSONEncodable, Hashable {
+public struct SearchFacetsStats: Codable, JSONEncodable {
     /// Minimum value in the results.
     public var min: Double?
     /// Maximum value in the results.

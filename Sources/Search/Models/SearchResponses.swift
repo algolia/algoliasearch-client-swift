@@ -6,10 +6,10 @@ import Foundation
     import Core
 #endif
 
-public struct SearchResponses: Codable, JSONEncodable, Hashable {
-    public var results: [SearchResult]
+public struct SearchResponses<T: Codable>: Codable, JSONEncodable {
+    public var results: [SearchResult<T>]
 
-    public init(results: [SearchResult]) {
+    public init(results: [SearchResult<T>]) {
         self.results = results
     }
 

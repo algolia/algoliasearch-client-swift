@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SecuredAPIKeyRestrictions: Codable, JSONEncodable, Hashable {
+public struct SecuredAPIKeyRestrictions: Codable, JSONEncodable {
     public var searchParams: SearchSearchParamsObject?
     /// Filters that apply to every search made with the secured API key. Extra filters added at search time will be
     /// combined with `AND`. For example, if you set `group:admin` as fixed filter on your generated API key, and add

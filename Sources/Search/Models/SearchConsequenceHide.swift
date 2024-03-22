@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Object ID of the record to hide.
-public struct SearchConsequenceHide: Codable, JSONEncodable, Hashable {
+public struct SearchConsequenceHide: Codable, JSONEncodable {
     /// Unique record identifier.
     public var objectID: String
 

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct IngestionSource: Codable, JSONEncodable, Hashable {
+public struct IngestionSource: Codable, JSONEncodable {
     /// The source UUID.
     public var sourceID: String
     public var type: SourceType

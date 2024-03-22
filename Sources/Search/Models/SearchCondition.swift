@@ -6,8 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SearchCondition: Codable, JSONEncodable, Hashable {
-    static let contextRule = StringRule(minLength: nil, maxLength: nil, pattern: "[A-Za-z0-9_-]+")
+public struct SearchCondition: Codable, JSONEncodable {
     /// Query pattern that triggers the rule.  You can use either a literal string, or a special pattern
     /// `{facet:ATTRIBUTE}`, where `ATTRIBUTE` is a facet name. The rule is triggered if the query matches the literal
     /// string or a value of the specified facet. For example, with `pattern: {facet:genre}`, the rule is triggered when

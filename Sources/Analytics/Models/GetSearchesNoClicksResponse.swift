@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetSearchesNoClicksResponse: Codable, JSONEncodable, Hashable {
+public struct GetSearchesNoClicksResponse: Codable, JSONEncodable {
     /// Searches without any clicks.
     public var searches: [DailySearchesNoClicks]
 

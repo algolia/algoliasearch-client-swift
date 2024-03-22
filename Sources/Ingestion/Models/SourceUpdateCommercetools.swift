@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SourceUpdateCommercetools: Codable, JSONEncodable, Hashable {
+public struct SourceUpdateCommercetools: Codable, JSONEncodable {
     /// Unique and immutable key of the referenced Store.
     public var storeKeys: [String]?
     /// Array of locales that must match the following pattern: ^[a-z]{2}(-[A-Z]{2})?$. For example [\"fr-FR\", \"en\"].

@@ -6,26 +6,26 @@ import Foundation
     import Core
 #endif
 
-public enum SearchPromote: Codable, JSONEncodable, AbstractEncodable, Hashable {
-    case searchPromoteObjectID(SearchPromoteObjectID)
+public enum SearchPromote: Codable, JSONEncodable, AbstractEncodable {
     case searchPromoteObjectIDs(SearchPromoteObjectIDs)
+    case searchPromoteObjectID(SearchPromoteObjectID)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .searchPromoteObjectID(value):
-            try container.encode(value)
         case let .searchPromoteObjectIDs(value):
+            try container.encode(value)
+        case let .searchPromoteObjectID(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(SearchPromoteObjectID.self) {
-            self = .searchPromoteObjectID(value)
-        } else if let value = try? container.decode(SearchPromoteObjectIDs.self) {
+        if let value = try? container.decode(SearchPromoteObjectIDs.self) {
             self = .searchPromoteObjectIDs(value)
+        } else if let value = try? container.decode(SearchPromoteObjectID.self) {
+            self = .searchPromoteObjectID(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -36,10 +36,10 @@ public enum SearchPromote: Codable, JSONEncodable, AbstractEncodable, Hashable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .searchPromoteObjectID(value):
-            value as SearchPromoteObjectID
         case let .searchPromoteObjectIDs(value):
             value as SearchPromoteObjectIDs
+        case let .searchPromoteObjectID(value):
+            value as SearchPromoteObjectID
         }
     }
 }

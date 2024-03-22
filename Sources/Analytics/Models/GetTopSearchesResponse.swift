@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public enum GetTopSearchesResponse: Codable, JSONEncodable, AbstractEncodable, Hashable {
+public enum GetTopSearchesResponse: Codable, JSONEncodable, AbstractEncodable {
     case topSearchesResponse(TopSearchesResponse)
     case topSearchesResponseWithAnalytics(TopSearchesResponseWithAnalytics)
     case topSearchesResponseWithRevenueAnalytics(TopSearchesResponseWithRevenueAnalytics)

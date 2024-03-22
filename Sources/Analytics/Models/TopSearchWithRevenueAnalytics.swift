@@ -6,63 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct TopSearchWithRevenueAnalytics: Codable, JSONEncodable, Hashable {
-    static let clickThroughRateRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 1,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let averageClickPositionRule = NumericRule<Double>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let conversionRateRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 1,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let clickCountRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let conversionCountRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let addToCartRateRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 1,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let addToCartCountRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let purchaseRateRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 1,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct TopSearchWithRevenueAnalytics: Codable, JSONEncodable {
     /// Search query.
     public var search: String
     /// Number of searches.

@@ -450,12 +450,12 @@ open class SearchClient {
     /// - parameter browseParams: (body)  (optional)
     /// - returns: BrowseResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func browse(
+    open func browse<T: Codable>(
         indexName: String,
         browseParams: BrowseParams? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> BrowseResponse {
-        let response: Response<BrowseResponse> = try await browseWithHTTPInfo(
+    ) async throws -> BrowseResponse<T> {
+        let response: Response<BrowseResponse<T>> = try await browseWithHTTPInfo(
             indexName: indexName,
             browseParams: browseParams,
             requestOptions: requestOptions
@@ -481,11 +481,11 @@ open class SearchClient {
     // - parameter browseParams: (body)  (optional)
     // - returns: RequestBuilder<BrowseResponse>
 
-    open func browseWithHTTPInfo(
+    open func browseWithHTTPInfo<T: Codable>(
         indexName: String,
         browseParams: BrowseParams? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<BrowseResponse> {
+    ) async throws -> Response<BrowseResponse<T>> {
         guard !indexName.isEmpty else {
             throw AlgoliaError.invalidArgument("indexName", "browse")
         }
@@ -1767,11 +1767,11 @@ open class SearchClient {
     /// - parameter getObjectsParams: (body) Request object.
     /// - returns: GetObjectsResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func getObjects(
+    open func getObjects<T: Codable>(
         getObjectsParams: GetObjectsParams,
         requestOptions: RequestOptions? = nil
-    ) async throws -> GetObjectsResponse {
-        let response: Response<GetObjectsResponse> = try await getObjectsWithHTTPInfo(
+    ) async throws -> GetObjectsResponse<T> {
+        let response: Response<GetObjectsResponse<T>> = try await getObjectsWithHTTPInfo(
             getObjectsParams: getObjectsParams,
             requestOptions: requestOptions
         )
@@ -1791,10 +1791,10 @@ open class SearchClient {
     // - parameter getObjectsParams: (body) Request object.
     // - returns: RequestBuilder<GetObjectsResponse>
 
-    open func getObjectsWithHTTPInfo(
+    open func getObjectsWithHTTPInfo<T: Codable>(
         getObjectsParams: GetObjectsParams,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<GetObjectsResponse> {
+    ) async throws -> Response<GetObjectsResponse<T>> {
         let resourcePath = "/1/indexes/*/objects"
         let body = getObjectsParams
         let queryParameters: [String: Any?]? = nil
@@ -3277,11 +3277,11 @@ open class SearchClient {
     /// requests.
     /// - returns: SearchResponses
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func search(
+    open func search<T: Codable>(
         searchMethodParams: SearchMethodParams,
         requestOptions: RequestOptions? = nil
-    ) async throws -> SearchResponses {
-        let response: Response<SearchResponses> = try await searchWithHTTPInfo(
+    ) async throws -> SearchResponses<T> {
+        let response: Response<SearchResponses<T>> = try await searchWithHTTPInfo(
             searchMethodParams: searchMethodParams,
             requestOptions: requestOptions
         )
@@ -3304,10 +3304,10 @@ open class SearchClient {
     // requests.
     // - returns: RequestBuilder<SearchResponses>
 
-    open func searchWithHTTPInfo(
+    open func searchWithHTTPInfo<T: Codable>(
         searchMethodParams: SearchMethodParams,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<SearchResponses> {
+    ) async throws -> Response<SearchResponses<T>> {
         let resourcePath = "/1/indexes/*/queries"
         let body = searchMethodParams
         let queryParameters: [String: Any?]? = nil
@@ -3546,12 +3546,12 @@ open class SearchClient {
     /// - parameter searchParams: (body)  (optional)
     /// - returns: SearchResponse
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-    open func searchSingleIndex(
+    open func searchSingleIndex<T: Codable>(
         indexName: String,
         searchParams: SearchSearchParams? = nil,
         requestOptions: RequestOptions? = nil
-    ) async throws -> SearchResponse {
-        let response: Response<SearchResponse> = try await searchSingleIndexWithHTTPInfo(
+    ) async throws -> SearchResponse<T> {
+        let response: Response<SearchResponse<T>> = try await searchSingleIndexWithHTTPInfo(
             indexName: indexName,
             searchParams: searchParams,
             requestOptions: requestOptions
@@ -3575,11 +3575,11 @@ open class SearchClient {
     // - parameter searchParams: (body)  (optional)
     // - returns: RequestBuilder<SearchResponse>
 
-    open func searchSingleIndexWithHTTPInfo(
+    open func searchSingleIndexWithHTTPInfo<T: Codable>(
         indexName: String,
         searchParams: SearchSearchParams? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
-    ) async throws -> Response<SearchResponse> {
+    ) async throws -> Response<SearchResponse<T>> {
         guard !indexName.isEmpty else {
             throw AlgoliaError.invalidArgument("indexName", "searchSingleIndex")
         }

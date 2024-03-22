@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SetPersonalizationStrategyResponse: Codable, JSONEncodable, Hashable {
+public struct SetPersonalizationStrategyResponse: Codable, JSONEncodable {
     /// A message confirming the strategy update.
     public var message: String
 

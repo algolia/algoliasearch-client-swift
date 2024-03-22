@@ -6,14 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct BaseRecommendRequest: Codable, JSONEncodable, Hashable {
-    static let thresholdRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct BaseRecommendRequest: Codable, JSONEncodable {
     /// Index name.
     public var indexName: String
     /// Recommendations with a confidence score lower than `threshold` won't appear in results. > **Note**: Each

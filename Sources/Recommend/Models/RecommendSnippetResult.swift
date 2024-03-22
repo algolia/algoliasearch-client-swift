@@ -6,19 +6,19 @@ import Foundation
     import Core
 #endif
 
-public enum RecommendSnippetResult: Codable, JSONEncodable, AbstractEncodable, Hashable {
+public enum RecommendSnippetResult: Codable, JSONEncodable, AbstractEncodable {
     case recommendSnippetResultOption(RecommendSnippetResultOption)
-    case arrayOfRecommendSnippetResultOption([RecommendSnippetResultOption])
     case dictionaryOfStringToRecommendSnippetResultOption([String: RecommendSnippetResultOption])
+    case arrayOfRecommendSnippetResultOption([RecommendSnippetResultOption])
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
         case let .recommendSnippetResultOption(value):
             try container.encode(value)
-        case let .arrayOfRecommendSnippetResultOption(value):
-            try container.encode(value)
         case let .dictionaryOfStringToRecommendSnippetResultOption(value):
+            try container.encode(value)
+        case let .arrayOfRecommendSnippetResultOption(value):
             try container.encode(value)
         }
     }
@@ -27,10 +27,10 @@ public enum RecommendSnippetResult: Codable, JSONEncodable, AbstractEncodable, H
         let container = try decoder.singleValueContainer()
         if let value = try? container.decode(RecommendSnippetResultOption.self) {
             self = .recommendSnippetResultOption(value)
-        } else if let value = try? container.decode([RecommendSnippetResultOption].self) {
-            self = .arrayOfRecommendSnippetResultOption(value)
         } else if let value = try? container.decode([String: RecommendSnippetResultOption].self) {
             self = .dictionaryOfStringToRecommendSnippetResultOption(value)
+        } else if let value = try? container.decode([RecommendSnippetResultOption].self) {
+            self = .arrayOfRecommendSnippetResultOption(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -46,10 +46,10 @@ public enum RecommendSnippetResult: Codable, JSONEncodable, AbstractEncodable, H
         switch self {
         case let .recommendSnippetResultOption(value):
             value as RecommendSnippetResultOption
-        case let .arrayOfRecommendSnippetResultOption(value):
-            value as [RecommendSnippetResultOption]
         case let .dictionaryOfStringToRecommendSnippetResultOption(value):
             value as [String: RecommendSnippetResultOption]
+        case let .arrayOfRecommendSnippetResultOption(value):
+            value as [RecommendSnippetResultOption]
         }
     }
 }

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct BaseResponse: Codable, JSONEncodable, Hashable {
+public struct BaseResponse: Codable, JSONEncodable {
     /// HTTP status code.
     public var status: Int?
     /// Details about the response, such as error messages.

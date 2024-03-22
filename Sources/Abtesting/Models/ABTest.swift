@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct ABTest: Codable, JSONEncodable, Hashable {
+public struct ABTest: Codable, JSONEncodable {
     /// Unique A/B test ID.
     public var abTestID: Int
     /// [A/B test significance](https://www.algolia.com/doc/guides/ab-testing/what-is-ab-testing/in-depth/how-ab-test-scores-are-calculated/#statistical-significance-or-chance)

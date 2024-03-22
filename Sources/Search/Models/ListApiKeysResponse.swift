@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct ListApiKeysResponse: Codable, JSONEncodable, Hashable {
+public struct ListApiKeysResponse: Codable, JSONEncodable {
     /// API keys.
     public var keys: [GetApiKeyResponse]
 

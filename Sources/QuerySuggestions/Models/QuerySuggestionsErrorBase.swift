@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Error.
-public struct QuerySuggestionsErrorBase: Codable, JSONEncodable, Hashable {
+public struct QuerySuggestionsErrorBase: Codable, JSONEncodable {
     public var message: String?
 
     public init(message: String? = nil) {

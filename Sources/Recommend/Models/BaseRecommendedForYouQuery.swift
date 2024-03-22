@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct BaseRecommendedForYouQuery: Codable, JSONEncodable, Hashable {
+public struct BaseRecommendedForYouQuery: Codable, JSONEncodable {
     public var model: RecommendedForYouModel
     public var queryParameters: RecommendedForYouQueryParameters?
     public var fallbackParameters: RecommendedForYouQueryParameters?

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct AbTestsVariant: Codable, JSONEncodable, Hashable {
+public struct AbTestsVariant: Codable, JSONEncodable {
     /// A/B test index.
     public var index: String
     /// A/B test traffic percentage.

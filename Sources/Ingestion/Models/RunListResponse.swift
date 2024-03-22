@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct RunListResponse: Codable, JSONEncodable, Hashable {
+public struct RunListResponse: Codable, JSONEncodable {
     public var runs: [Run]
     public var pagination: Pagination
     public var window: Window

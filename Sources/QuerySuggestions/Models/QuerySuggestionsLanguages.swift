@@ -8,26 +8,26 @@ import Foundation
 
 /// Set the language for deduplicating singular and plural suggestions. If specified, only the more popular form is
 /// included.
-public enum QuerySuggestionsLanguages: Codable, JSONEncodable, AbstractEncodable, Hashable {
-    case bool(Bool)
+public enum QuerySuggestionsLanguages: Codable, JSONEncodable, AbstractEncodable {
     case arrayOfString([String])
+    case bool(Bool)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .bool(value):
-            try container.encode(value)
         case let .arrayOfString(value):
+            try container.encode(value)
+        case let .bool(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(Bool.self) {
-            self = .bool(value)
-        } else if let value = try? container.decode([String].self) {
+        if let value = try? container.decode([String].self) {
             self = .arrayOfString(value)
+        } else if let value = try? container.decode(Bool.self) {
+            self = .bool(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -41,10 +41,10 @@ public enum QuerySuggestionsLanguages: Codable, JSONEncodable, AbstractEncodable
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .bool(value):
-            value as Bool
         case let .arrayOfString(value):
             value as [String]
+        case let .bool(value):
+            value as Bool
         }
     }
 }

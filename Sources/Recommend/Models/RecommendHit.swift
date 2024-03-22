@@ -7,14 +7,7 @@ import Foundation
 #endif
 
 /// Recommend hit.
-public struct RecommendHit: Codable, JSONEncodable, Hashable {
-    static let scoreRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct RecommendHit: Codable, JSONEncodable {
     /// Unique record identifier.
     public var objectID: String
     /// Surround words that match the query with HTML tags for highlighting.

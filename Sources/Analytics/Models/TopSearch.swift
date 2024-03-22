@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct TopSearch: Codable, JSONEncodable, Hashable {
+public struct TopSearch: Codable, JSONEncodable {
     /// Search query.
     public var search: String
     /// Number of searches.

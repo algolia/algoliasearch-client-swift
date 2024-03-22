@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SearchSynonymsResponse: Codable, JSONEncodable, Hashable {
+public struct SearchSynonymsResponse: Codable, JSONEncodable {
     /// Matching synonyms.
     public var hits: [SynonymHit]
     /// Number of results (hits).

@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Request body for retrieving records.
-public struct GetObjectsRequest: Codable, JSONEncodable, Hashable {
+public struct GetObjectsRequest: Codable, JSONEncodable {
     /// Attributes to retrieve. If not specified, all retrievable attributes are returned.
     public var attributesToRetrieve: [String]?
     /// Object ID for the record to retrieve.

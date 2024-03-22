@@ -6,14 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SearchForFacetsOptions: Codable, JSONEncodable, Hashable {
-    static let maxFacetHitsRule = NumericRule<Int>(
-        minimum: nil,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct SearchForFacetsOptions: Codable, JSONEncodable {
     /// Facet name.
     public var facet: String
     /// Index name.

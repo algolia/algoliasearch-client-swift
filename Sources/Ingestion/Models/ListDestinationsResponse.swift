@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct ListDestinationsResponse: Codable, JSONEncodable, Hashable {
+public struct ListDestinationsResponse: Codable, JSONEncodable {
     public var destinations: [Destination]
     public var pagination: Pagination
 

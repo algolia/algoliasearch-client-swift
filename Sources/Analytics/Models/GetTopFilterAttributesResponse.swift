@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetTopFilterAttributesResponse: Codable, JSONEncodable, Hashable {
+public struct GetTopFilterAttributesResponse: Codable, JSONEncodable {
     /// Most frequent filters.
     public var attributes: [GetTopFilterAttribute]
 

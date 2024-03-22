@@ -7,21 +7,7 @@ import Foundation
 #endif
 
 /// userIDs data.
-public struct SearchUserIdsResponse: Codable, JSONEncodable, Hashable {
-    static let pageRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let hitsPerPageRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct SearchUserIdsResponse: Codable, JSONEncodable {
     /// User objects that match the query.
     public var hits: [UserHit]
     /// Number of results (hits).

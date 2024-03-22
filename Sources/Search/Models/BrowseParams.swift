@@ -6,26 +6,40 @@ import Foundation
     import Core
 #endif
 
-public enum BrowseParams: Codable, JSONEncodable, AbstractEncodable, Hashable {
-    case browseParamsObject(BrowseParamsObject)
+public enum BrowseParams: Codable, JSONEncodable, AbstractEncodable {
     case searchParamsString(SearchParamsString)
+    case browseParamsObject(BrowseParamsObject)
+
+    enum SearchParamsStringDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
+        case params
+    }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .browseParamsObject(value):
-            try container.encode(value)
         case let .searchParamsString(value):
+            try container.encode(value)
+        case let .browseParamsObject(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
+        if let searchParamsStringDiscriminatorContainer = try? decoder
+            .container(keyedBy: SearchParamsStringDiscriminatorCodingKeys.self) {
+            if searchParamsStringDiscriminatorContainer.contains(.params) {
+                if let value = try? BrowseParams.searchParamsString(SearchParamsString(from: decoder)) {
+                    self = value
+                    return
+                }
+            }
+        }
+
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(BrowseParamsObject.self) {
-            self = .browseParamsObject(value)
-        } else if let value = try? container.decode(SearchParamsString.self) {
+        if let value = try? container.decode(SearchParamsString.self) {
             self = .searchParamsString(value)
+        } else if let value = try? container.decode(BrowseParamsObject.self) {
+            self = .browseParamsObject(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -36,10 +50,10 @@ public enum BrowseParams: Codable, JSONEncodable, AbstractEncodable, Hashable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .browseParamsObject(value):
-            value as BrowseParamsObject
         case let .searchParamsString(value):
             value as SearchParamsString
+        case let .browseParamsObject(value):
+            value as BrowseParamsObject
         }
     }
 }

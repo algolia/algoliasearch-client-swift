@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Synonym object.
-public struct SynonymHit: Codable, JSONEncodable, Hashable {
+public struct SynonymHit: Codable, JSONEncodable {
     /// Unique identifier of a synonym object.
     public var objectID: String
     public var type: SynonymType

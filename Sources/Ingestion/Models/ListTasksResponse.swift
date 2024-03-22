@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// A list of tasks with pagination details.
-public struct ListTasksResponse: Codable, JSONEncodable, Hashable {
+public struct ListTasksResponse: Codable, JSONEncodable {
     public var tasks: [Task]
     public var pagination: Pagination
 

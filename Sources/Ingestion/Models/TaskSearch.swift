@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct TaskSearch: Codable, JSONEncodable, Hashable {
+public struct TaskSearch: Codable, JSONEncodable {
     public var taskIDs: [String]
 
     public init(taskIDs: [String]) {

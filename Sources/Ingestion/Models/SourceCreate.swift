@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SourceCreate: Codable, JSONEncodable, Hashable {
+public struct SourceCreate: Codable, JSONEncodable {
     public var type: SourceType
     public var name: String
     public var input: SourceInput

@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// The payload when creating an authentication.
-public struct AuthenticationCreate: Codable, JSONEncodable, Hashable {
+public struct AuthenticationCreate: Codable, JSONEncodable {
     public var type: AuthenticationType
     /// An human readable name describing the object.
     public var name: String

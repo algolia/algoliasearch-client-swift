@@ -6,11 +6,11 @@ import Foundation
     import Core
 #endif
 
-public struct GetObjectsResponse: Codable, JSONEncodable, Hashable {
+public struct GetObjectsResponse<T: Codable>: Codable, JSONEncodable {
     /// Retrieved records.
-    public var results: [AnyCodable]
+    public var results: [T]
 
-    public init(results: [AnyCodable]) {
+    public init(results: [T]) {
         self.results = results
     }
 

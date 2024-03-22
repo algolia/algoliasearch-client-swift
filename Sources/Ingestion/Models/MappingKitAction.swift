@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Describes how a destination object should be resolved by means of applying a set of directives.
-public struct MappingKitAction: Codable, JSONEncodable, Hashable {
+public struct MappingKitAction: Codable, JSONEncodable {
     /// ID to uniquely identify this action.
     public var id: String?
     /// Whether this action has any effect.

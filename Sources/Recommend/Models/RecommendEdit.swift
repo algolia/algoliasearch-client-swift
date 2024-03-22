@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct RecommendEdit: Codable, JSONEncodable, Hashable {
+public struct RecommendEdit: Codable, JSONEncodable {
     public var type: RecommendEditType?
     /// Text or patterns to remove from the query string.
     public var delete: String?

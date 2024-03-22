@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Authentication input to connect to a Google service (e.g. BigQuery).
-public struct AuthGoogleServiceAccountPartial: Codable, JSONEncodable, Hashable {
+public struct AuthGoogleServiceAccountPartial: Codable, JSONEncodable {
     /// Email address of the Service Account.
     public var clientEmail: String?
     /// Private key of the Service Account.

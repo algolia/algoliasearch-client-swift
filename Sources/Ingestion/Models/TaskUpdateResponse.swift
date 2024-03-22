@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// The response from the API after a task update.
-public struct TaskUpdateResponse: Codable, JSONEncodable, Hashable {
+public struct TaskUpdateResponse: Codable, JSONEncodable {
     /// The task UUID.
     public var taskID: String
     /// Date of last update (RFC3339 format).

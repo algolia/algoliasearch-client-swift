@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct FetchedIndex: Codable, JSONEncodable, Hashable {
+public struct FetchedIndex: Codable, JSONEncodable {
     /// Index name.
     public var name: String
     /// Index creation date. An empty string means that the index has no records.

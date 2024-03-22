@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct TopCountry: Codable, JSONEncodable, Hashable {
+public struct TopCountry: Codable, JSONEncodable {
     /// Country code.
     public var country: String
     /// Number of occurrences.

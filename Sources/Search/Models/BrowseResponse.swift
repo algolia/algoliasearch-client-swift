@@ -6,33 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct BrowseResponse: Codable, JSONEncodable, Hashable {
-    static let abTestVariantIDRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let aroundLatLngRule = StringRule(
-        minLength: nil,
-        maxLength: nil,
-        pattern: "^(-?\\d+(\\.\\d+)?),\\s*(-?\\d+(\\.\\d+)?)$"
-    )
-    static let hitsPerPageRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let pageRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct BrowseResponse<T: Codable>: Codable, JSONEncodable {
     /// A/B test ID. This is only included in the response for indices that are part of an A/B test.
     public var abTestID: Int?
     /// Variant ID. This is only included in the response for indices that are part of an A/B test.
@@ -94,7 +68,7 @@ public struct BrowseResponse: Codable, JSONEncodable, Hashable {
     public var queryID: String?
     /// Search results (hits).  Hits are records from your index that match the search criteria, augmented with
     /// additional attributes, such as, for highlighting.
-    public var hits: [Hit]
+    public var hits: [T]
     /// Search query.
     public var query: String
     /// URL-encoded string of all search parameters.
@@ -132,7 +106,7 @@ public struct BrowseResponse: Codable, JSONEncodable, Hashable {
         serverUsed: String? = nil,
         userData: AnyCodable? = nil,
         queryID: String? = nil,
-        hits: [Hit],
+        hits: [T],
         query: String,
         params: String,
         cursor: String? = nil

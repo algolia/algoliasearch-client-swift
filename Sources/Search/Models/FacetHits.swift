@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct FacetHits: Codable, JSONEncodable, Hashable {
+public struct FacetHits: Codable, JSONEncodable {
     /// Facet value.
     public var value: String
     /// Highlighted attribute value, including HTML tags.

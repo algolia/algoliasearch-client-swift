@@ -6,35 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct RecommendBaseSearchParamsWithoutQuery: Codable, JSONEncodable, Hashable {
-    static let pageRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let lengthRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let minimumAroundRadiusRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let personalizationImpactRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct RecommendBaseSearchParamsWithoutQuery: Codable, JSONEncodable {
     /// Keywords to be used instead of the search query to conduct a more broader search.  Using the `similarQuery`
     /// parameter changes other settings:  - `queryType` is set to `prefixNone`. - `removeStopWords` is set to true. -
     /// `words` is set as the first ranking criterion. - All remaining words are treated as `optionalWords`.  Since the

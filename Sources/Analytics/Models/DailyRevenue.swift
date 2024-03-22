@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct DailyRevenue: Codable, JSONEncodable, Hashable {
+public struct DailyRevenue: Codable, JSONEncodable {
     /// Revenue associated with this search, broken-down by currencies.
     public var currencies: [String: CurrenciesValue]
     /// Date in the format YYYY-MM-DD.

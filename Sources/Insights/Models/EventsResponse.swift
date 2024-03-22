@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// The response of the Insights API.
-public struct EventsResponse: Codable, JSONEncodable, Hashable {
+public struct EventsResponse: Codable, JSONEncodable {
     /// Details about the response, such as error messages.
     public var message: String?
     /// The HTTP status code of the response.

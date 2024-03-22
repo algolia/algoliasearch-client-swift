@@ -6,51 +6,111 @@ import Foundation
     import Core
 #endif
 
-public enum SourceInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
+public enum SourceInput: Codable, JSONEncodable, AbstractEncodable {
+    case sourceCommercetools(SourceCommercetools)
     case sourceBigCommerce(SourceBigCommerce)
     case sourceBigQuery(SourceBigQuery)
-    case sourceCSV(SourceCSV)
-    case sourceCommercetools(SourceCommercetools)
-    case sourceDocker(SourceDocker)
     case sourceGA4BigQueryExport(SourceGA4BigQueryExport)
     case sourceJSON(SourceJSON)
+    case sourceCSV(SourceCSV)
+    case sourceDocker(SourceDocker)
+
+    enum SourceCommercetoolsDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
+        case projectKey
+    }
+
+    enum SourceBigCommerceDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
+        case storeHash
+    }
+
+    enum SourceBigQueryDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
+        case projectID
+    }
+
+    enum SourceGA4BigQueryExportDiscriminatorCodingKeys: String, CodingKey, CaseIterable {
+        case projectID
+        case datasetID
+        case tablePrefix
+    }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
+        case let .sourceCommercetools(value):
+            try container.encode(value)
         case let .sourceBigCommerce(value):
             try container.encode(value)
         case let .sourceBigQuery(value):
-            try container.encode(value)
-        case let .sourceCSV(value):
-            try container.encode(value)
-        case let .sourceCommercetools(value):
-            try container.encode(value)
-        case let .sourceDocker(value):
             try container.encode(value)
         case let .sourceGA4BigQueryExport(value):
             try container.encode(value)
         case let .sourceJSON(value):
             try container.encode(value)
+        case let .sourceCSV(value):
+            try container.encode(value)
+        case let .sourceDocker(value):
+            try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
+        if let sourceCommercetoolsDiscriminatorContainer = try? decoder
+            .container(keyedBy: SourceCommercetoolsDiscriminatorCodingKeys.self) {
+            if sourceCommercetoolsDiscriminatorContainer.contains(.projectKey) {
+                if let value = try? SourceInput.sourceCommercetools(SourceCommercetools(from: decoder)) {
+                    self = value
+                    return
+                }
+            }
+        }
+
+        if let sourceBigCommerceDiscriminatorContainer = try? decoder
+            .container(keyedBy: SourceBigCommerceDiscriminatorCodingKeys.self) {
+            if sourceBigCommerceDiscriminatorContainer.contains(.storeHash) {
+                if let value = try? SourceInput.sourceBigCommerce(SourceBigCommerce(from: decoder)) {
+                    self = value
+                    return
+                }
+            }
+        }
+
+        if let sourceBigQueryDiscriminatorContainer = try? decoder
+            .container(keyedBy: SourceBigQueryDiscriminatorCodingKeys.self) {
+            if sourceBigQueryDiscriminatorContainer.contains(.projectID) {
+                if let value = try? SourceInput.sourceBigQuery(SourceBigQuery(from: decoder)) {
+                    self = value
+                    return
+                }
+            }
+        }
+
+        if let sourceGA4BigQueryExportDiscriminatorContainer = try? decoder
+            .container(keyedBy: SourceGA4BigQueryExportDiscriminatorCodingKeys.self) {
+            if sourceGA4BigQueryExportDiscriminatorContainer.contains(.projectID),
+               sourceGA4BigQueryExportDiscriminatorContainer.contains(.datasetID),
+               sourceGA4BigQueryExportDiscriminatorContainer.contains(.tablePrefix) {
+                if let value = try? SourceInput.sourceGA4BigQueryExport(SourceGA4BigQueryExport(from: decoder)) {
+                    self = value
+                    return
+                }
+            }
+        }
+
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(SourceBigCommerce.self) {
+        if let value = try? container.decode(SourceCommercetools.self) {
+            self = .sourceCommercetools(value)
+        } else if let value = try? container.decode(SourceBigCommerce.self) {
             self = .sourceBigCommerce(value)
         } else if let value = try? container.decode(SourceBigQuery.self) {
             self = .sourceBigQuery(value)
-        } else if let value = try? container.decode(SourceCSV.self) {
-            self = .sourceCSV(value)
-        } else if let value = try? container.decode(SourceCommercetools.self) {
-            self = .sourceCommercetools(value)
-        } else if let value = try? container.decode(SourceDocker.self) {
-            self = .sourceDocker(value)
         } else if let value = try? container.decode(SourceGA4BigQueryExport.self) {
             self = .sourceGA4BigQueryExport(value)
         } else if let value = try? container.decode(SourceJSON.self) {
             self = .sourceJSON(value)
+        } else if let value = try? container.decode(SourceCSV.self) {
+            self = .sourceCSV(value)
+        } else if let value = try? container.decode(SourceDocker.self) {
+            self = .sourceDocker(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -61,20 +121,20 @@ public enum SourceInput: Codable, JSONEncodable, AbstractEncodable, Hashable {
 
     public func GetActualInstance() -> Encodable {
         switch self {
+        case let .sourceCommercetools(value):
+            value as SourceCommercetools
         case let .sourceBigCommerce(value):
             value as SourceBigCommerce
         case let .sourceBigQuery(value):
             value as SourceBigQuery
-        case let .sourceCSV(value):
-            value as SourceCSV
-        case let .sourceCommercetools(value):
-            value as SourceCommercetools
-        case let .sourceDocker(value):
-            value as SourceDocker
         case let .sourceGA4BigQueryExport(value):
             value as SourceGA4BigQueryExport
         case let .sourceJSON(value):
             value as SourceJSON
+        case let .sourceCSV(value):
+            value as SourceCSV
+        case let .sourceDocker(value):
+            value as SourceDocker
         }
     }
 }

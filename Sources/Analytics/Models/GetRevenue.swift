@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetRevenue: Codable, JSONEncodable, Hashable {
+public struct GetRevenue: Codable, JSONEncodable {
     /// Revenue associated with this search, broken-down by currencies.
     public var currencies: [String: CurrenciesValue]
     /// Daily revenue.

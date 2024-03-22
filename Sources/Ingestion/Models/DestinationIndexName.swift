@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct DestinationIndexName: Codable, JSONEncodable, Hashable {
+public struct DestinationIndexName: Codable, JSONEncodable {
     /// The index name to store data in.
     public var indexName: String
     public var recordType: RecordType?

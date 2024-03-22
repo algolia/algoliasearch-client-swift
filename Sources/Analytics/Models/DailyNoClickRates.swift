@@ -6,21 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct DailyNoClickRates: Codable, JSONEncodable, Hashable {
-    static let rateRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 1,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let noClickCountRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct DailyNoClickRates: Codable, JSONEncodable {
     /// No click rate, calculated as number of tracked searches without any click divided by the number of tracked
     /// searches.
     public var rate: Double

@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// A destination describe how the data is indexed on the Algolia side.
-public struct Destination: Codable, JSONEncodable, Hashable {
+public struct Destination: Codable, JSONEncodable {
     /// The destination UUID.
     public var destinationID: String
     public var type: DestinationType

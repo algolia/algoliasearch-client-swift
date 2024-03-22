@@ -8,7 +8,7 @@ import Foundation
 
 /// Custom fields from Commercetools to index in the records (see
 /// https://docs.commercetools.com/tutorials/custom-types).
-public struct CommercetoolsCustomFields: Codable, JSONEncodable, Hashable {
+public struct CommercetoolsCustomFields: Codable, JSONEncodable {
     /// Inventory custom fields.
     public var inventory: [String]?
     /// Price custom fields.

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct DeleteApiKeyResponse: Codable, JSONEncodable, Hashable {
+public struct DeleteApiKeyResponse: Codable, JSONEncodable {
     /// Timestamp of deletion in [ISO 8601](https://wikipedia.org/wiki/ISO_8601) format.
     public var deletedAt: String
 

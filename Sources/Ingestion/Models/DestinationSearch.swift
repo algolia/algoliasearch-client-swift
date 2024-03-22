@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Payload to search for multiple destinations, based on the given &#x60;destinationIDs&#x60;.
-public struct DestinationSearch: Codable, JSONEncodable, Hashable {
+public struct DestinationSearch: Codable, JSONEncodable {
     public var destinationIDs: [String]
 
     public init(destinationIDs: [String]) {

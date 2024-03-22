@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct UserHighlightResult: Codable, JSONEncodable, Hashable {
+public struct UserHighlightResult: Codable, JSONEncodable {
     public var userID: SearchHighlightResult
     public var clusterName: SearchHighlightResult
 

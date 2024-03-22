@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct RecommendRedirectRuleIndexMetadata: Codable, JSONEncodable, Hashable {
+public struct RecommendRedirectRuleIndexMetadata: Codable, JSONEncodable {
     /// Source index for the redirect rule.
     public var source: String
     /// Destination index for the redirect rule.

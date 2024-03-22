@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Order of facet names.
-public struct SearchFacets: Codable, JSONEncodable, Hashable {
+public struct SearchFacets: Codable, JSONEncodable {
     /// Explicit order of facets or facet values.  This setting lets you always show specific facets or facet values at
     /// the top of the list.
     public var order: [String]?

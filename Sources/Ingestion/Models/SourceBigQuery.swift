@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SourceBigQuery: Codable, JSONEncodable, Hashable {
+public struct SourceBigQuery: Codable, JSONEncodable {
     /// Project ID of the BigQuery Source.
     public var projectID: String
     /// Dataset ID of the BigQuery Source.

@@ -7,21 +7,7 @@ import Foundation
 #endif
 
 /// Configuration of an Algolia index for Query Suggestions.
-public struct SourceIndex: Codable, JSONEncodable, Hashable {
-    static let minHitsRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let minLettersRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct SourceIndex: Codable, JSONEncodable {
     /// Name of the Algolia index to use as source for query suggestions.
     public var indexName: String
     /// If true, Query Suggestions uses all replicas of the primary index to find popular searches. If false, only the

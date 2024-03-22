@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Surround words that match the query with HTML tags for highlighting.
-public struct RecommendHighlightResultOption: Codable, JSONEncodable, Hashable {
+public struct RecommendHighlightResultOption: Codable, JSONEncodable {
     /// Highlighted attribute value, including HTML tags.
     public var value: String
     public var matchLevel: RecommendMatchLevel

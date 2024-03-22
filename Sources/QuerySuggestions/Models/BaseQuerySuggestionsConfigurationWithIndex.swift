@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct BaseQuerySuggestionsConfigurationWithIndex: Codable, JSONEncodable, Hashable {
+public struct BaseQuerySuggestionsConfigurationWithIndex: Codable, JSONEncodable {
     /// Query Suggestions index name.
     public var indexName: String
 

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct PersonalizationStrategyParams: Codable, JSONEncodable, Hashable {
+public struct PersonalizationStrategyParams: Codable, JSONEncodable {
     /// Scores associated with the events.
     public var eventScoring: [EventScoring]
     /// Scores associated with the facets.

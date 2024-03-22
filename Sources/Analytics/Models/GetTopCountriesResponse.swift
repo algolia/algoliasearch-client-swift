@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetTopCountriesResponse: Codable, JSONEncodable, Hashable {
+public struct GetTopCountriesResponse: Codable, JSONEncodable {
     /// Countries and number of searches.
     public var countries: [TopCountry]
 

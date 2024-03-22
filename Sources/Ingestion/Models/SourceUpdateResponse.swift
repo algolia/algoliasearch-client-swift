@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SourceUpdateResponse: Codable, JSONEncodable, Hashable {
+public struct SourceUpdateResponse: Codable, JSONEncodable {
     /// The source UUID.
     public var sourceID: String
     public var name: String

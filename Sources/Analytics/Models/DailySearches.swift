@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct DailySearches: Codable, JSONEncodable, Hashable {
+public struct DailySearches: Codable, JSONEncodable {
     /// Date in the format YYYY-MM-DD.
     public var date: String
     /// Number of occurrences.

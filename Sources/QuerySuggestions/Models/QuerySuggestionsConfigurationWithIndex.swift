@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Query Suggestions configuration.
-public struct QuerySuggestionsConfigurationWithIndex: Codable, JSONEncodable, Hashable {
+public struct QuerySuggestionsConfigurationWithIndex: Codable, JSONEncodable {
     /// Query Suggestions index name.
     public var indexName: String
     /// Algolia indices from which to get the popular searches for query suggestions.

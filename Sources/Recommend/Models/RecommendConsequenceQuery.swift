@@ -8,7 +8,7 @@ import Foundation
 
 /// Replace or edit the search query.  If &#x60;consequenceQuery&#x60; is a string, the entire search query is replaced
 /// with that string. If &#x60;consequenceQuery&#x60; is an object, it describes incremental edits made to the query.
-public enum RecommendConsequenceQuery: Codable, JSONEncodable, AbstractEncodable, Hashable {
+public enum RecommendConsequenceQuery: Codable, JSONEncodable, AbstractEncodable {
     case recommendConsequenceQueryObject(RecommendConsequenceQueryObject)
     case string(String)
 

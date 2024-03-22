@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Payload to partially update a Destination.
-public struct DestinationUpdate: Codable, JSONEncodable, Hashable {
+public struct DestinationUpdate: Codable, JSONEncodable {
     public var type: DestinationType?
     /// An human readable name describing the object.
     public var name: String?

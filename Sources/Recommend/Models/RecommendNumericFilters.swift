@@ -12,26 +12,26 @@ import Foundation
 /// Comparsions are precise up to 3 decimals. You can also provide ranges: &#x60;facet:&lt;lower&gt; TO
 /// &lt;upper&gt;&#x60;. The range includes the lower and upper boundaries. The same combination rules apply as for
 /// &#x60;facetFilters&#x60;.
-public enum RecommendNumericFilters: Codable, JSONEncodable, AbstractEncodable, Hashable {
-    case string(String)
+public enum RecommendNumericFilters: Codable, JSONEncodable, AbstractEncodable {
     case arrayOfRecommendMixedSearchFilters([RecommendMixedSearchFilters])
+    case string(String)
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
-        case let .string(value):
-            try container.encode(value)
         case let .arrayOfRecommendMixedSearchFilters(value):
+            try container.encode(value)
+        case let .string(value):
             try container.encode(value)
         }
     }
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        if let value = try? container.decode(String.self) {
-            self = .string(value)
-        } else if let value = try? container.decode([RecommendMixedSearchFilters].self) {
+        if let value = try? container.decode([RecommendMixedSearchFilters].self) {
             self = .arrayOfRecommendMixedSearchFilters(value)
+        } else if let value = try? container.decode(String.self) {
+            self = .string(value)
         } else {
             throw DecodingError.typeMismatch(
                 Self.Type.self,
@@ -45,10 +45,10 @@ public enum RecommendNumericFilters: Codable, JSONEncodable, AbstractEncodable, 
 
     public func GetActualInstance() -> Encodable {
         switch self {
-        case let .string(value):
-            value as String
         case let .arrayOfRecommendMixedSearchFilters(value):
             value as [RecommendMixedSearchFilters]
+        case let .string(value):
+            value as String
         }
     }
 }

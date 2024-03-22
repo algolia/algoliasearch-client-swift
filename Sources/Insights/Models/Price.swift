@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Total price of a product, including any discounts, in units of &#x60;currency&#x60;.
-public enum Price: Codable, JSONEncodable, AbstractEncodable, Hashable {
+public enum Price: Codable, JSONEncodable, AbstractEncodable {
     case double(Double)
     case string(String)
 

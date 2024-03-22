@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Redirect rule data.
-public struct RecommendRedirectRuleIndexMetadataData: Codable, JSONEncodable, Hashable {
+public struct RecommendRedirectRuleIndexMetadataData: Codable, JSONEncodable {
     public var ruleObjectID: String
 
     public init(ruleObjectID: String) {

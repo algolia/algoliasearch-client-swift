@@ -8,7 +8,7 @@ import Foundation
 
 /// Effect of the rule.  For more information, see
 /// [Consequences](https://www.algolia.com/doc/guides/managing-results/rules/rules-overview/#consequences).
-public struct RecommendConsequence: Codable, JSONEncodable, Hashable {
+public struct RecommendConsequence: Codable, JSONEncodable {
     public var params: RecommendConsequenceParams?
     /// Records you want to pin to a specific position in the search results.  You can promote up to 300 records, either
     /// individually, or as groups of up to 100 records each.

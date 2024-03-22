@@ -6,21 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SearchSynonymsParams: Codable, JSONEncodable, Hashable {
-    static let pageRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let hitsPerPageRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct SearchSynonymsParams: Codable, JSONEncodable {
     /// Search query.
     public var query: String?
     public var type: SynonymType?

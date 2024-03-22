@@ -6,14 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct GetNoResultsRateResponse: Codable, JSONEncodable, Hashable {
-    static let rateRule = NumericRule<Double>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 1,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct GetNoResultsRateResponse: Codable, JSONEncodable {
     /// No results rate, calculated as number of searches with zero results divided by the total number of searches.
     public var rate: Double
     /// Number of searches.

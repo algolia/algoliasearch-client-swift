@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct AddABTestsRequest: Codable, JSONEncodable, Hashable {
+public struct AddABTestsRequest: Codable, JSONEncodable {
     /// A/B test name.
     public var name: String
     /// A/B test variants.

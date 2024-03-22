@@ -6,14 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SearchForFacetValuesRequest: Codable, JSONEncodable, Hashable {
-    static let maxFacetHitsRule = NumericRule<Int>(
-        minimum: nil,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct SearchForFacetValuesRequest: Codable, JSONEncodable {
     /// Search parameters as a URL-encoded query string.
     public var params: String?
     /// Text to search inside the facet's values.

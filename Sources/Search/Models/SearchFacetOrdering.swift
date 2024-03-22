@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Order of facet names and facet values in your UI.
-public struct SearchFacetOrdering: Codable, JSONEncodable, Hashable {
+public struct SearchFacetOrdering: Codable, JSONEncodable {
     public var facets: SearchFacets?
     /// Order of facet values. One object for each facet.
     public var values: [String: SearchValue]?

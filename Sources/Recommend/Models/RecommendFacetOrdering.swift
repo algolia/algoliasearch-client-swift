@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Order of facet names and facet values in your UI.
-public struct RecommendFacetOrdering: Codable, JSONEncodable, Hashable {
+public struct RecommendFacetOrdering: Codable, JSONEncodable {
     public var facets: RecommendFacets?
     /// Order of facet values. One object for each facet.
     public var values: [String: RecommendValue]?

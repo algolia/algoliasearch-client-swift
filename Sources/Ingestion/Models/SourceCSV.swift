@@ -6,8 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SourceCSV: Codable, JSONEncodable, Hashable {
-    static let delimiterRule = StringRule(minLength: 1, maxLength: 1, pattern: nil)
+public struct SourceCSV: Codable, JSONEncodable {
     /// The URL of the file.
     public var url: String
     /// The name of the column that contains the unique ID, used as `objectID` in Algolia.

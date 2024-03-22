@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct ListIndicesResponse: Codable, JSONEncodable, Hashable {
+public struct ListIndicesResponse: Codable, JSONEncodable {
     /// All indices in your Algolia application.
     public var items: [FetchedIndex]
     /// Number of pages.

@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// The trigger information of a task of type &#x60;onDemand&#x60;.
-public struct OnDemandTrigger: Codable, JSONEncodable, Hashable {
+public struct OnDemandTrigger: Codable, JSONEncodable {
     public var type: OnDemandTriggerType
     /// The last time the scheduled task ran (RFC3339 format).
     public var lastRun: String?

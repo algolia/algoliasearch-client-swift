@@ -7,7 +7,7 @@ import Foundation
 #endif
 
 /// Payload to search for multiple authentications, based on the given &#x60;authenticationIDs&#x60;.
-public struct AuthenticationSearch: Codable, JSONEncodable, Hashable {
+public struct AuthenticationSearch: Codable, JSONEncodable {
     public var authenticationIDs: [String]
 
     public init(authenticationIDs: [String]) {

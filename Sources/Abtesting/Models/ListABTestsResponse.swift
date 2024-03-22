@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct ListABTestsResponse: Codable, JSONEncodable, Hashable {
+public struct ListABTestsResponse: Codable, JSONEncodable {
     /// A/B tests.
     public var abtests: [ABTest]?
     /// Number of A/B tests implemented.

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct DeleteUserProfileResponse: Codable, JSONEncodable, Hashable {
+public struct DeleteUserProfileResponse: Codable, JSONEncodable {
     /// userToken representing the user for which to fetch the Personalization profile.
     public var userToken: String
     /// A date until which the data can safely be considered as deleted for the given user. Any data received after the

@@ -6,63 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct BrowseParamsObject: Codable, JSONEncodable, Hashable {
-    static let pageRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let lengthRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let minimumAroundRadiusRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let personalizationImpactRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let hitsPerPageRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let minProximityRule = NumericRule<Int>(
-        minimum: 1,
-        exclusiveMinimum: false,
-        maximum: 7,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let maxFacetHitsRule = NumericRule<Int>(
-        minimum: nil,
-        exclusiveMinimum: false,
-        maximum: 100,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
-    static let maxValuesPerFacetRule = NumericRule<Int>(
-        minimum: nil,
-        exclusiveMinimum: false,
-        maximum: 1000,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct BrowseParamsObject: Codable, JSONEncodable {
     /// Search query.
     public var query: String?
     /// Keywords to be used instead of the search query to conduct a more broader search.  Using the `similarQuery`
@@ -238,7 +182,7 @@ public struct BrowseParamsObject: Codable, JSONEncodable, Hashable {
     /// language.** If you don't specify an indexing language, the search engine uses all [supported languages](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/supported-languages/),
     /// or the languages you specified with the `ignorePlurals` or `removeStopWords` parameters. This can lead to
     /// unexpected search results. For more information, see [Language-specific configuration](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/).
-    public var queryLanguages: [SupportedLanguage]?
+    public var queryLanguages: [SearchSupportedLanguage]?
     /// Whether to split compound words into their building blocks.  For more information, see [Word segmentation](https://www.algolia.com/doc/guides/managing-results/optimize-search-results/handling-natural-languages-nlp/in-depth/language-specific-configurations/#splitting-compound-words).
     /// Word segmentation is supported for these languages: German, Dutch, Finnish, Swedish, and Norwegian.
     public var decompoundQuery: Bool?
@@ -378,7 +322,7 @@ public struct BrowseParamsObject: Codable, JSONEncodable, Hashable {
         ignorePlurals: SearchIgnorePlurals? = nil,
         removeStopWords: SearchRemoveStopWords? = nil,
         keepDiacriticsOnCharacters: String? = nil,
-        queryLanguages: [SupportedLanguage]? = nil,
+        queryLanguages: [SearchSupportedLanguage]? = nil,
         decompoundQuery: Bool? = nil,
         enableRules: Bool? = nil,
         enablePersonalization: Bool? = nil,

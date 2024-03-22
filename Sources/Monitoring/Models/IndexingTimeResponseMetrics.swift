@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct IndexingTimeResponseMetrics: Codable, JSONEncodable, Hashable {
+public struct IndexingTimeResponseMetrics: Codable, JSONEncodable {
     public var indexing: [String: [TimeInner]]?
 
     public init(indexing: [String: [TimeInner]]? = nil) {

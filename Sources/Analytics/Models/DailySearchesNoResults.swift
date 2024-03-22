@@ -6,14 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct DailySearchesNoResults: Codable, JSONEncodable, Hashable {
-    static let withFilterCountRule = NumericRule<Int>(
-        minimum: 0,
-        exclusiveMinimum: false,
-        maximum: nil,
-        exclusiveMaximum: false,
-        multipleOf: nil
-    )
+public struct DailySearchesNoResults: Codable, JSONEncodable {
     /// Search query.
     public var search: String
     /// Number of occurrences.

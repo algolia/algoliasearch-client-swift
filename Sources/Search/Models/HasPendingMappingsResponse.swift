@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct HasPendingMappingsResponse: Codable, JSONEncodable, Hashable {
+public struct HasPendingMappingsResponse: Codable, JSONEncodable {
     /// Whether there are clusters undergoing migration, creation, or deletion.
     public var pending: Bool
     /// Cluster pending mapping state: migrating, creating, deleting.

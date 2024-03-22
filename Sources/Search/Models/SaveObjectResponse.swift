@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SaveObjectResponse: Codable, JSONEncodable, Hashable {
+public struct SaveObjectResponse: Codable, JSONEncodable {
     /// Timestamp when the record was added, in ISO 8601 format.
     public var createdAt: String
     /// Unique identifier of a task.  A successful API response means that a task was added to a queue. It might not run

@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-public struct SourceBigCommerce: Codable, JSONEncodable, Hashable {
+public struct SourceBigCommerce: Codable, JSONEncodable {
     /// The store hash identifying the store the shopper is signing in to.
     public var storeHash: String
     public var channel: BigCommerceChannel?

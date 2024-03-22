@@ -8,7 +8,7 @@ import Foundation
 
 /// Search result.  A hit is a record from your index, augmented with special attributes for highlighting, snippeting,
 /// and ranking.
-public struct Hit: Codable, JSONEncodable, Hashable {
+public struct Hit: Codable, JSONEncodable {
     /// Unique record identifier.
     public var objectID: String
     /// Surround words that match the query with HTML tags for highlighting.
