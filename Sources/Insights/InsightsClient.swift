@@ -159,7 +159,7 @@ open class InsightsClient {
     open func customPost(
         path: String,
         parameters: [String: AnyCodable]? = nil,
-        body: [String: AnyCodable]? = nil,
+        body: Codable? = nil,
         requestOptions: RequestOptions? = nil
     ) async throws -> AnyCodable {
         let response: Response<AnyCodable> = try await customPostWithHTTPInfo(
@@ -189,7 +189,7 @@ open class InsightsClient {
     open func customPostWithHTTPInfo(
         path: String,
         parameters: [String: AnyCodable]? = nil,
-        body: [String: AnyCodable]? = nil,
+        body: Codable? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<AnyCodable> {
         guard !path.isEmpty else {
@@ -227,7 +227,7 @@ open class InsightsClient {
     open func customPut(
         path: String,
         parameters: [String: AnyCodable]? = nil,
-        body: [String: AnyCodable]? = nil,
+        body: Codable? = nil,
         requestOptions: RequestOptions? = nil
     ) async throws -> AnyCodable {
         let response: Response<AnyCodable> = try await customPutWithHTTPInfo(
@@ -257,7 +257,7 @@ open class InsightsClient {
     open func customPutWithHTTPInfo(
         path: String,
         parameters: [String: AnyCodable]? = nil,
-        body: [String: AnyCodable]? = nil,
+        body: Codable? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<AnyCodable> {
         guard !path.isEmpty else {

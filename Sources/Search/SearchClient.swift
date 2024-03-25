@@ -80,7 +80,7 @@ open class SearchClient {
     open func addOrUpdateObject(
         indexName: String,
         objectID: String,
-        body: [String: AnyCodable],
+        body: Codable,
         requestOptions: RequestOptions? = nil
     ) async throws -> UpdatedAtWithObjectIdResponse {
         let response: Response<UpdatedAtWithObjectIdResponse> = try await addOrUpdateObjectWithHTTPInfo(
@@ -115,7 +115,7 @@ open class SearchClient {
     open func addOrUpdateObjectWithHTTPInfo(
         indexName: String,
         objectID: String,
-        body: [String: AnyCodable],
+        body: Codable,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<UpdatedAtWithObjectIdResponse> {
         guard !indexName.isEmpty else {
@@ -126,7 +126,7 @@ open class SearchClient {
             throw AlgoliaError.invalidArgument("objectID", "addOrUpdateObject")
         }
 
-        guard !body.isEmpty else {
+        guard body != nil, let bodyDictionary = body as? [String: Codable], !bodyDictionary.isEmpty else {
             throw AlgoliaError.invalidArgument("body", "addOrUpdateObject")
         }
 
@@ -837,7 +837,7 @@ open class SearchClient {
     open func customPost(
         path: String,
         parameters: [String: AnyCodable]? = nil,
-        body: [String: AnyCodable]? = nil,
+        body: Codable? = nil,
         requestOptions: RequestOptions? = nil
     ) async throws -> AnyCodable {
         let response: Response<AnyCodable> = try await customPostWithHTTPInfo(
@@ -867,7 +867,7 @@ open class SearchClient {
     open func customPostWithHTTPInfo(
         path: String,
         parameters: [String: AnyCodable]? = nil,
-        body: [String: AnyCodable]? = nil,
+        body: Codable? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<AnyCodable> {
         guard !path.isEmpty else {
@@ -905,7 +905,7 @@ open class SearchClient {
     open func customPut(
         path: String,
         parameters: [String: AnyCodable]? = nil,
-        body: [String: AnyCodable]? = nil,
+        body: Codable? = nil,
         requestOptions: RequestOptions? = nil
     ) async throws -> AnyCodable {
         let response: Response<AnyCodable> = try await customPutWithHTTPInfo(
@@ -935,7 +935,7 @@ open class SearchClient {
     open func customPutWithHTTPInfo(
         path: String,
         parameters: [String: AnyCodable]? = nil,
-        body: [String: AnyCodable]? = nil,
+        body: Codable? = nil,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<AnyCodable> {
         guard !path.isEmpty else {
@@ -2850,7 +2850,7 @@ open class SearchClient {
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     open func saveObject(
         indexName: String,
-        body: [String: AnyCodable],
+        body: Codable,
         requestOptions: RequestOptions? = nil
     ) async throws -> SaveObjectResponse {
         let response: Response<SaveObjectResponse> = try await saveObjectWithHTTPInfo(
@@ -2884,14 +2884,14 @@ open class SearchClient {
 
     open func saveObjectWithHTTPInfo(
         indexName: String,
-        body: [String: AnyCodable],
+        body: Codable,
         requestOptions userRequestOptions: RequestOptions? = nil
     ) async throws -> Response<SaveObjectResponse> {
         guard !indexName.isEmpty else {
             throw AlgoliaError.invalidArgument("indexName", "saveObject")
         }
 
-        guard !body.isEmpty else {
+        guard body != nil, let bodyDictionary = body as? [String: Codable], !bodyDictionary.isEmpty else {
             throw AlgoliaError.invalidArgument("body", "saveObject")
         }
 
