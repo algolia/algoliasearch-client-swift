@@ -1,3 +1,11 @@
+## [9.0.0-alpha.1](https://github.com/algolia/algoliasearch-client-swift/compare/9.0.0-alpha.0...9.0.0-alpha.1)
+
+- [cdac5ffe8](https://github.com/algolia/api-clients-automation/commit/cdac5ffe8) fix(swift): have a codable body for improved ux ([#2902](https://github.com/algolia/api-clients-automation/pull/2902)) by [@Fluf22](https://github.com/Fluf22/)
+- [93bb56136](https://github.com/algolia/api-clients-automation/commit/93bb56136) fix(swift): better macOS CI ([#2901](https://github.com/algolia/api-clients-automation/pull/2901)) by [@Fluf22](https://github.com/Fluf22/)
+- [62e7c4afb](https://github.com/algolia/api-clients-automation/commit/62e7c4afb) fix(swift): harden macOS CI ([#2900](https://github.com/algolia/api-clients-automation/pull/2900)) by [@Fluf22](https://github.com/Fluf22/)
+- [dc92daa62](https://github.com/algolia/api-clients-automation/commit/dc92daa62) feat(swift): handle generics ([#2896](https://github.com/algolia/api-clients-automation/pull/2896)) by [@Fluf22](https://github.com/Fluf22/)
+- [10c9339c8](https://github.com/algolia/api-clients-automation/commit/10c9339c8) fix(specs): more flexible custom methods ([#2889](https://github.com/algolia/api-clients-automation/pull/2889)) by [@damcou](https://github.com/damcou/)
+
 ## [9.0.0-alpha.0](https://github.com/algolia/algoliasearch-client-swift/compare/next...9.0.0-alpha.0)
 
 - [c897a8f92](https://github.com/algolia/api-clients-automation/commit/c897a8f92) feat(swift): release process ([#2864](https://github.com/algolia/api-clients-automation/pull/2864)) by [@Fluf22](https://github.com/Fluf22/)
