@@ -10,11 +10,10 @@ public struct Server: Codable, JSONEncodable {
     /// Server name.
     public var name: String?
     public var region: MonitoringRegion?
-    /// Included to support legacy applications. Do not rely on this attribute being present in the response. Use
-    /// `is_replica` instead.
+    /// Included to support legacy applications. Use `is_replica` instead.
     @available(*, deprecated, message: "This property is deprecated.")
     public var isSlave: Bool?
-    /// Indicates whether this server is a replica of another server.
+    /// Whether this server is a replica of another server.
     public var isReplica: Bool?
     /// Name of the cluster to which this server belongs.
     public var cluster: String?

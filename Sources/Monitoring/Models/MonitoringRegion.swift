@@ -6,7 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// The region where the cluster is located.
+/// Region where the cluster is located.
 public enum MonitoringRegion: String, Codable, CaseIterable {
     case au
     case br
