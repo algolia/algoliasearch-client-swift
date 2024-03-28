@@ -12,7 +12,7 @@ public struct GetLogFile200Response: Codable, JSONEncodable {
     public var level: ModelLogLevel?
     /// Details about this log entry.
     public var message: String?
-    /// Level indicating the position of a suggestion in a hierarchy of records.   For example, a `contextLevel` of 1
+    /// Level indicating the position of a suggestion in a hierarchy of records.  For example, a `contextLevel` of 1
     /// indicates that this suggestion belongs to a previous suggestion with `contextLevel` 0.
     public var contextLevel: Int?
 

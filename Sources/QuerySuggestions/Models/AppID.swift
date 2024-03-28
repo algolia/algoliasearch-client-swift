@@ -6,22 +6,22 @@ import Foundation
     import Core
 #endif
 
-public struct BaseQuerySuggestionsConfigurationWithIndex: Codable, JSONEncodable {
-    /// Query Suggestions index name.
-    public var indexName: String
+public struct AppID: Codable, JSONEncodable {
+    /// Algolia application ID to which this Query Suggestions configuration belongs.
+    public var appID: String?
 
-    public init(indexName: String) {
-        self.indexName = indexName
+    public init(appID: String? = nil) {
+        self.appID = appID
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case indexName
+        case appID
     }
 
     // Encodable protocol methods
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(self.indexName, forKey: .indexName)
+        try container.encodeIfPresent(self.appID, forKey: .appID)
     }
 }

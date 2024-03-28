@@ -6,39 +6,31 @@ import Foundation
     import Core
 #endif
 
+/// API response for retrieving Query Suggestions configurations.
 public struct QuerySuggestionsConfigurationResponse: Codable, JSONEncodable {
-    /// API key used to read from your source index.
-    public var sourceIndicesAPIKey: String?
-    /// API key used to write and configure your Query Suggestions index.
-    public var suggestionsIndicesAPIKey: String?
-    /// API key used to read from external Algolia indices.
-    public var externalIndicesAPIKey: String?
-    /// Query Suggestions index name.
+    /// Algolia application ID to which this Query Suggestions configuration belongs.
+    public var appID: String
+    /// Name of the Query Suggestions index.
     public var indexName: String
     /// Algolia indices from which to get the popular searches for query suggestions.
     public var sourceIndices: [SourceIndex]
-    public var languages: QuerySuggestionsLanguages?
-    /// Patterns to exclude from query suggestions.
+    public var languages: QuerySuggestionsLanguages
     public var exclude: [String]?
-    /// Turn on personalized query suggestions.
-    public var enablePersonalization: Bool?
-    /// Allow suggestions with special characters.
-    public var allowSpecialCharacters: Bool?
+    /// Whether to turn on personalized query suggestions.
+    public var enablePersonalization: Bool
+    /// Whether to include suggestions with special characters.
+    public var allowSpecialCharacters: Bool
 
     public init(
-        sourceIndicesAPIKey: String? = nil,
-        suggestionsIndicesAPIKey: String? = nil,
-        externalIndicesAPIKey: String? = nil,
+        appID: String,
         indexName: String,
         sourceIndices: [SourceIndex],
-        languages: QuerySuggestionsLanguages? = nil,
-        exclude: [String]? = nil,
-        enablePersonalization: Bool? = nil,
-        allowSpecialCharacters: Bool? = nil
+        languages: QuerySuggestionsLanguages,
+        exclude: [String]?,
+        enablePersonalization: Bool,
+        allowSpecialCharacters: Bool
     ) {
-        self.sourceIndicesAPIKey = sourceIndicesAPIKey
-        self.suggestionsIndicesAPIKey = suggestionsIndicesAPIKey
-        self.externalIndicesAPIKey = externalIndicesAPIKey
+        self.appID = appID
         self.indexName = indexName
         self.sourceIndices = sourceIndices
         self.languages = languages
@@ -48,9 +40,7 @@ public struct QuerySuggestionsConfigurationResponse: Codable, JSONEncodable {
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
-        case sourceIndicesAPIKey
-        case suggestionsIndicesAPIKey
-        case externalIndicesAPIKey
+        case appID
         case indexName
         case sourceIndices
         case languages
@@ -63,14 +53,12 @@ public struct QuerySuggestionsConfigurationResponse: Codable, JSONEncodable {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encodeIfPresent(self.sourceIndicesAPIKey, forKey: .sourceIndicesAPIKey)
-        try container.encodeIfPresent(self.suggestionsIndicesAPIKey, forKey: .suggestionsIndicesAPIKey)
-        try container.encodeIfPresent(self.externalIndicesAPIKey, forKey: .externalIndicesAPIKey)
+        try container.encode(self.appID, forKey: .appID)
         try container.encode(self.indexName, forKey: .indexName)
         try container.encode(self.sourceIndices, forKey: .sourceIndices)
-        try container.encodeIfPresent(self.languages, forKey: .languages)
-        try container.encodeIfPresent(self.exclude, forKey: .exclude)
-        try container.encodeIfPresent(self.enablePersonalization, forKey: .enablePersonalization)
-        try container.encodeIfPresent(self.allowSpecialCharacters, forKey: .allowSpecialCharacters)
+        try container.encode(self.languages, forKey: .languages)
+        try container.encode(self.exclude, forKey: .exclude)
+        try container.encode(self.enablePersonalization, forKey: .enablePersonalization)
+        try container.encode(self.allowSpecialCharacters, forKey: .allowSpecialCharacters)
     }
 }

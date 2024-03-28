@@ -6,8 +6,7 @@ import Foundation
     import Core
 #endif
 
-/// Set the language for deduplicating singular and plural suggestions. If specified, only the more popular form is
-/// included.
+/// Languages for deduplicating singular and plural suggestions. If specified, only the more popular form is included.
 public enum QuerySuggestionsLanguages: Codable, JSONEncodable, AbstractEncodable {
     case arrayOfString([String])
     case bool(Bool)

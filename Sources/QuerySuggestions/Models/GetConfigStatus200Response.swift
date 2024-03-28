@@ -7,9 +7,9 @@ import Foundation
 #endif
 
 public struct GetConfigStatus200Response: Codable, JSONEncodable {
-    /// Query Suggestions index name.
+    /// Name of the Query Suggestions index.
     public var indexName: String?
-    /// Indicates whether the creation or update of the Query Suggestions is in progress.
+    /// Whether the creation or update of the Query Suggestions index is in progress.
     public var isRunning: Bool?
     /// Timestamp in [ISO-8601](https://wikipedia.org/wiki/ISO_8601) format when the Query Suggestions index was last
     /// built.

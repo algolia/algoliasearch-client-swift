@@ -11,11 +11,10 @@ public struct QuerySuggestionsConfiguration: Codable, JSONEncodable {
     /// Algolia indices from which to get the popular searches for query suggestions.
     public var sourceIndices: [SourceIndex]
     public var languages: QuerySuggestionsLanguages?
-    /// Patterns to exclude from query suggestions.
     public var exclude: [String]?
-    /// Turn on personalized query suggestions.
+    /// Whether to turn on personalized query suggestions.
     public var enablePersonalization: Bool?
-    /// Allow suggestions with special characters.
+    /// Whether to include suggestions with special characters.
     public var allowSpecialCharacters: Bool?
 
     public init(
